@@ -2,7 +2,7 @@
 
 ## 1. Search for Duplicates
 
-[Search the existing issues](https://github.com/Microsoft/BotBuilder/issues?utf8=%E2%9C%93&q=is%3Aissue) before logging a new one.
+[Search the existing issues](https://github.com/Microsoft/BotBuilder-Samples/issues) before logging a new one.
 
 ## 2. Do you have a question?
 
@@ -20,7 +20,7 @@ In general, things we find useful when reviewing suggestions are:
 ## 3. Did you find a bug?
 
 When logging a bug, please be sure to include the following:
- * What version of BotBuilder you're using
+ * Which sample and in what programming language
  * If at all possible, an *isolated* way to reproduce the behavior
  * The behavior you expect to see, and the actual behavior
 
@@ -32,7 +32,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 ## Contributing bug fixes and features
 
-BotBuilder is currently accepting contributions in the form of bug fixes and new features. Any submission must have an issue tracking it in the issue tracker that has been approved by the BotBuilder team. Your pull request should include a link to the bug that you are fixing. If you've submitted a PR for a bug, please post a comment in the bug to avoid duplication of effort.
+BotBuilder Samples is currently accepting contributions in the form of bug fixes and new features. Any submission must have an issue tracking it in the issue tracker that has been approved by the BotBuilder team. Your pull request should include a link to the bug that you are fixing. If you've submitted a PR for a bug, please post a comment in the bug to avoid duplication of effort.
 
 ## Legal
 
