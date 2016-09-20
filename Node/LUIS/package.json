@@ -1,0 +1,16 @@
+{
+  "name": "botbuilder-sample-luis",
+  "version": "1.0.0",
+  "description": "Bot Builder Sample - LUIS",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.1",
+    "botbuilder": "^3.2.3",
+    "restify": "^4.1.1"
+  }
+}

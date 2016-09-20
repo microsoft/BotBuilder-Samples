@@ -1,0 +1,15 @@
+{
+  "name": "botbuilder-sample-directline-bot",
+  "version": "1.0.0",
+  "description": "Bot Builder Sample - DirectLine Sample - Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "botbuilder": "^3.2.3",
+    "restify": "^4.1.1"
+  }
+}

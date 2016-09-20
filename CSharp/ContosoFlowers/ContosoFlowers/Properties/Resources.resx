@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BouquetsDialog_InvalidOption" xml:space="preserve">
+    <value>The bouquet "{0} is invalid. Please try again.</value>
+    <comment>{0} is bouquet name</comment>
+  </data>
+  <data name="BouquetsDialog_Prompt" xml:space="preserve">
+    <value>Please select a bouquet for "{0}" category:</value>
+    <comment>{0} is flower category</comment>
+  </data>
+  <data name="BouquetsDialog_Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="FlowerCategoriesDialog_InvalidOption" xml:space="preserve">
+    <value>The category "{0} is invalid. Please try again.</value>
+    <comment>{0} is flower category name</comment>
+  </data>
+  <data name="FlowerCategoriesDialog_Prompt" xml:space="preserve">
+    <value>Please select a category:</value>
+  </data>
+  <data name="FlowerCategoriesDialog_Select" xml:space="preserve">
+    <value>View bouquets</value>
+  </data>
+  <data name="Order_RecipientFirstName_Prompt" xml:space="preserve">
+    <value>What's the {&amp;}?</value>
+  </data>
+  <data name="RootDialog_BillingAddress_Prompt" xml:space="preserve">
+    <value>What's your billing address? Include apartment # if needed.</value>
+  </data>
+  <data name="RootDialog_BillingAddress_SelectSaved" xml:space="preserve">
+    <value>Please select your billing address</value>
+  </data>
+  <data name="RootDialog_BillingAddress_ShouldSave" xml:space="preserve">
+    <value>Would you like to save this address?</value>
+  </data>
+  <data name="RootDialog_Bouquet_Selected" xml:space="preserve">
+    <value>You have selected: {0}</value>
+    <comment>{0} bouquet name</comment>
+  </data>
+  <data name="RootDialog_Checkout_Cancel" xml:space="preserve">
+    <value>Changed my mind</value>
+  </data>
+  <data name="RootDialog_Checkout_Continue" xml:space="preserve">
+    <value>Add credit card</value>
+  </data>
+  <data name="RootDialog_Checkout_Error" xml:space="preserve">
+    <value>The order with ID '{0}' does not exists or is not confirmed. Please try to checkout again.</value>
+    <comment>{0} is order ID</comment>
+  </data>
+  <data name="RootDialog_Checkout_Prompt" xml:space="preserve">
+    <value>The final price is {0} (including delivery). Pay securely using our payment provider.</value>
+    <comment>{0} is bouquet price</comment>
+  </data>
+  <data name="RootDialog_DeliveryAddress_Prompt" xml:space="preserve">
+    <value>{0}, please enter the delivery address for these flowers. Include apartment # if needed.</value>
+    <comment>{0} is user name</comment>
+  </data>
+  <data name="RootDialog_DeliveryDate_Prompt" xml:space="preserve">
+    <value>When would you like these delivered?</value>
+  </data>
+  <data name="RootDialog_DeliveryDate_Selected" xml:space="preserve">
+    <value>Great choice "{0}"! Delivery on {1}</value>
+    <comment>{0} is bouquet name, {1} is delivery date</comment>
+  </data>
+  <data name="RootDialog_Menu_Cancel" xml:space="preserve">
+    <value>Keep going</value>
+  </data>
+  <data name="RootDialog_Menu_Prompt" xml:space="preserve">
+    <value>What are you looking to do?</value>
+  </data>
+  <data name="RootDialog_Menu_StartOver" xml:space="preserve">
+    <value>Start over</value>
+  </data>
+  <data name="RootDialog_Order_Cancelation" xml:space="preserve">
+    <value>You have canceled the operation. What would you like to do next?</value>
+  </data>
+  <data name="RootDialog_Order_Error" xml:space="preserve">
+    <value>Oops! Something went wrong :(. Technical Details: {0}</value>
+    <comment>{0} exception message</comment>
+  </data>
+  <data name="RootDialog_Receipt_OrderID" xml:space="preserve">
+    <value>Order ID</value>
+  </data>
+  <data name="RootDialog_Receipt_PaymentMethod" xml:space="preserve">
+    <value>Payment Method</value>
+  </data>
+  <data name="RootDialog_Receipt_Text" xml:space="preserve">
+    <value>**Your order {0} has been processed!**
+The **{1}** will be sent to **{2} {3}** with the following note:
+		"{4}".
+Thank you for using Contoso Flowers.
+Here is your receipt:</value>
+    <comment>{0} is order ID, {1} is bouquet name, {2}{3} is first and last name, {4} is note</comment>
+  </data>
+  <data name="RootDialog_Receipt_Title" xml:space="preserve">
+    <value>Contoso Flowers Receipt</value>
+  </data>
+  <data name="RootDialog_Support_Message" xml:space="preserve">
+    <value>Support will contact you shortly. Have a nice day :)</value>
+  </data>
+  <data name="RootDialog_TooManyAttempts" xml:space="preserve">
+    <value>Oops! Something went wrong after too many invalid attemps. Maybe you can start over again.</value>
+  </data>
+  <data name="RootDialog_Welcome_Error" xml:space="preserve">
+    <value>That is not a valid option. Please try again.</value>
+  </data>
+  <data name="RootDialog_Welcome_Message" xml:space="preserve">
+    <value>Welcome to Contoso Flowers. You can now order flowers or talk to support without leaving this bot.</value>
+  </data>
+  <data name="RootDialog_Welcome_Orders" xml:space="preserve">
+    <value>Order flowers</value>
+  </data>
+  <data name="RootDialog_Welcome_Subtitle" xml:space="preserve">
+    <value>These are the flowers you are looking for!</value>
+  </data>
+  <data name="RootDialog_Welcome_Support" xml:space="preserve">
+    <value>Talk to support</value>
+  </data>
+  <data name="RootDialog_Welcome_Title" xml:space="preserve">
+    <value>Welcome to the Contoso Flowers</value>
+  </data>
+  <data name="SettingsDialog_Address_Entered" xml:space="preserve">
+    <value>Thanks! Your {0} address was updated to {1}.</value>
+    <comment>{0} is address name, {1} is address</comment>
+  </data>
+  <data name="SettingsDialog_BillingAddress_Prompt" xml:space="preserve">
+    <value>What's your billing address? Include apartment # if needed.</value>
+  </data>
+  <data name="SettingsDialog_Edit_BillingAddress" xml:space="preserve">
+    <value>3. Edit addresses</value>
+  </data>
+  <data name="SettingsDialog_Edit_Email" xml:space="preserve">
+    <value>1. Edit email</value>
+  </data>
+  <data name="SettingsDialog_Edit_PhoneNumber" xml:space="preserve">
+    <value>2. Edit phone number</value>
+  </data>
+  <data name="SettingsDialog_Email_Entered" xml:space="preserve">
+    <value>Thanks! Your email was updated to {0}.</value>
+    <comment>{0} is email</comment>
+  </data>
+  <data name="SettingsDialog_PhoneNumber_Entered" xml:space="preserve">
+    <value>Thanks! Your phone was updated to {0}.</value>
+    <comment>{0} is phone number</comment>
+  </data>
+  <data name="SettingsDialog_PrompString" xml:space="preserve">
+    <value>Type your {0} or use (B)ack to return to the menu.</value>
+    <comment>{0} is ask</comment>
+  </data>
+  <data name="SettingsDialog_PrompString_CurrentValue" xml:space="preserve">
+    <value>This is your current {0}: {1}.
+Type a new {0} if you need to update, or use (B)ack to return to the menu.</value>
+    <comment>{0} is ask, {1} is current value</comment>
+  </data>
+  <data name="SettingsDialog_PrompString_Retry" xml:space="preserve">
+    <value>Something doesn't seem quite right with that {0}. Please try again.</value>
+    <comment>{0} is ask</comment>
+  </data>
+  <data name="SettingsDialog_Prompt" xml:space="preserve">
+    <value>Want to make changes to your personal info or addresses? You're in the right place.</value>
+  </data>
+  <data name="SettingsDialog_PromptAddress_Ask" xml:space="preserve">
+    <value>Which address do you wish to update?</value>
+  </data>
+</root>

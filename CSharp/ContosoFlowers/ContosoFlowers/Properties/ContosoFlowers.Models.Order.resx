@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="RecipientFirstName_description;VALUE" xml:space="preserve">
+    <value>recipient's first name</value>
+  </data>
+  <data name="RecipientLastName_description;VALUE" xml:space="preserve">
+    <value>Recipient's last name</value>
+  </data>
+  <data name="RecipientPhoneNumber_description;VALUE" xml:space="preserve">
+    <value>recipient's phone number</value>
+  </data>
+  <data name="Note_description;VALUE" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="UseSavedSenderInfo_description;VALUE" xml:space="preserve">
+    <value>Use Saved Sender Info</value>
+  </data>
+  <data name="UseSaveInfoResponse.Yes;VALUE" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="UseSaveInfoResponse.Edit;VALUE" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="SenderEmail_description;VALUE" xml:space="preserve">
+    <value>email</value>
+  </data>
+  <data name="SenderPhoneNumber_description;VALUE" xml:space="preserve">
+    <value>phone number</value>
+  </data>
+  <data name="SaveSenderInfo_description;VALUE" xml:space="preserve">
+    <value>Save Sender Info</value>
+  </data>
+  <data name="RecipientFirstName_terms;LIST" xml:space="preserve">
+    <value>recipients?;first;name;recipients? first;first name;recipients? first name</value>
+  </data>
+  <data name="RecipientFirstName_promptDefinition;LIST" xml:space="preserve">
+    <value>What's the {&amp;}?</value>
+  </data>
+  <data name="RecipientLastName_terms;LIST" xml:space="preserve">
+    <value>recipients?;last;name;recipients? last;last name;recipients? last name</value>
+  </data>
+  <data name="RecipientLastName_promptDefinition;LIST" xml:space="preserve">
+    <value>{&amp;}?</value>
+  </data>
+  <data name="RecipientPhoneNumber_terms;LIST" xml:space="preserve">
+    <value>recipients?;phones?;numbers?;recipients? phones?;phones? numbers?;recipients? phones? numbers?</value>
+  </data>
+  <data name="RecipientPhoneNumber_promptDefinition;LIST" xml:space="preserve">
+    <value>What's the {&amp;} in case we need to contact them about delivery?</value>
+  </data>
+  <data name="Note_terms;LIST" xml:space="preserve">
+    <value>notes?</value>
+  </data>
+  <data name="Note_promptDefinition;LIST" xml:space="preserve">
+    <value>What do you want the {&amp;} to say? (in 200 characters)</value>
+  </data>
+  <data name="UseSavedSenderInfo_terms;LIST" xml:space="preserve">
+    <value>uses?;saveds?;senders?;infos?;uses? saveds?;saveds? senders?;senders? infos?;uses? saveds? senders?;saveds? senders? infos?;use saved sender info</value>
+  </data>
+  <data name="UseSaveInfoResponse.Yes;LIST" xml:space="preserve">
+    <value>yes?</value>
+  </data>
+  <data name="UseSaveInfoResponse.Edit;LIST" xml:space="preserve">
+    <value>edits?</value>
+  </data>
+  <data name="UseSavedSenderInfo_promptDefinition;LIST" xml:space="preserve">
+    <value>Would you like to use this email '{SenderEmail}' and this phone number '{SenderPhoneNumber}' info? {||}</value>
+  </data>
+  <data name="SenderEmail_terms;LIST" xml:space="preserve">
+    <value>senders?;emails?;senders? emails?</value>
+  </data>
+  <data name="SenderEmail_promptDefinition;LIST" xml:space="preserve">
+    <value>What's your {&amp;}?</value>
+  </data>
+  <data name="SenderPhoneNumber_terms;LIST" xml:space="preserve">
+    <value>senders?;phones?;numbers?;senders? phones?;phones? numbers?;senders? phones? numbers?</value>
+  </data>
+  <data name="SenderPhoneNumber_promptDefinition;LIST" xml:space="preserve">
+    <value>What's your {&amp;}?</value>
+  </data>
+  <data name="SaveSenderInfo_terms;LIST" xml:space="preserve">
+    <value>saves?;senders?;infos?;saves? senders?;senders? infos?;saves? senders? infos?</value>
+  </data>
+  <data name="SaveSenderInfo_promptDefinition;LIST" xml:space="preserve">
+    <value>Would you like to save your info? {||}</value>
+  </data>
+  <data name="NotUnderstood;RecipientPhoneNumber;SenderPhoneNumber;TEMPLATE" xml:space="preserve">
+    <value>Oops, that doesn’t look like a valid number. Try again.</value>
+  </data>
+  <data name="NotUnderstood;Note;TEMPLATE" xml:space="preserve">
+    <value>Oops, the note is max 200 characters. Try again.</value>
+  </data>
+  <data name="NotUnderstood;SenderEmail;TEMPLATE" xml:space="preserve">
+    <value>Something is wrong with that email address. Please try again.</value>
+  </data>
+</root>

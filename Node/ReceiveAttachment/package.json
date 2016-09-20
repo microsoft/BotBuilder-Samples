@@ -1,0 +1,18 @@
+{
+  "name": "botbuilder-sample-receiveattachment",
+  "version": "1.0.0",
+  "description": "Bot Builder Sample - Receive an Attachment",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.1",
+    "botbuilder": "^3.2.3",
+    "request": "^2.74.0",
+    "request-promise": "^4.1.1",
+    "restify": "^4.1.1"
+  }
+}

@@ -1,0 +1,44 @@
+﻿@model ContosoFlowers.Services.Models.Order
+
+@{
+    ViewBag.Title = "Order Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Index", "CheckOut", FormMethod.Post)) { 
+
+    <fieldset>
+        <legend>Checkout &amp; Payment</legend>
+
+        <p>
+            <strong>
+                Total Price: @Model.Bouquet.Price.ToString("C")
+            </strong>
+        </p>
+
+        <p>
+            <label for="PaymentDetails_CreditCardNumber">
+                Credit card number:
+                @Html.TextBoxFor(m => m.PaymentDetails.CreditCardNumber, new { placeholder = "Any number will do" })
+            </label>
+        </p>
+
+        <p>
+            <label for="PaymentDetails_CreditCardHolder">
+                Full name:
+                @Html.TextBoxFor(m => m.PaymentDetails.CreditCardHolder, new { placeholder = "Your full name" })
+            </label>
+        </p>
+
+        <div>
+            @Html.Hidden("orderId", Model.OrderID)
+            @Html.Hidden("state", (string)ViewBag.State)
+        </div>
+
+        <p class="buttons">
+            <input type="submit" value="Checkout!" />
+        </p>
+
+    </fieldset>
+
+}
