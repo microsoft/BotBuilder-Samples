@@ -24,7 +24,6 @@ These examples emphasize the rich card support in Bot Framework.
 
 Sample | Description | C# | Node
 ------------ | ------------- | :-----------: | :-----------:
-<<<<<<< HEAD
 Rich Cards | A sample bot to renders several types of cards as attachments. | [View Sample](/CSharp/cards-RichCards)[![Deploy to Azure][Deploy Button]][Deploy CSharp/RichCards] | [View Sample](/Node/cards-RichCards)[![Deploy to Azure][Deploy Button]][Deploy Node/RichCards]
 Carousel of Cards | A sample bot that sends multiple rich card attachments in a single message using the Carousel layout. | [View Sample](/CSharp/cards-CarouselCards)[![Deploy to Azure][Deploy Button]][Deploy CSharp/CarouselCards] | [View Sample](/Node/cards-CarouselCards)[![Deploy to Azure][Deploy Button]][Deploy Node/CarouselCards]
 
@@ -34,7 +33,7 @@ Build bots with powerful algorithms leveraging intelligence APIs.
 Sample | Description | C# | Node
 ------------ | ------------- | :-----------: | :-----------:
 LUIS | A sample bot using LuisDialog to integrate with a LUIS.ai application. | [View Sample](/CSharp/intelligence-LUIS)[![Deploy to Azure][Deploy Button]][Deploy CSharp/LUIS] | [View Sample](/Node/intelligence-LUIS)[![Deploy to Azure][Deploy Button]][Deploy Node/LUIS]
-Image Caption | A sample bot that gets an image caption using Microsoft Cognitive Services Vision API. | [View Sample](/CSharp/ImageCaption)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ImageCaption] |
+Image Caption | A sample bot that gets an image caption using Microsoft Cognitive Services Vision API. | [View Sample](/CSharp/ImageCaption)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ImageCaption] | [View Sample](/Node/ImageCaption)[![Deploy to Azure][Deploy Button]][Deploy Node/ImageCaption]
 
 ## Demo
 These are bots designed to showcase end-to-end sample scenarios. They're great sources of code fragments if you're looking to have your bot lightup more complex features.
@@ -71,3 +70,4 @@ Azure Search | Two sample bots that help the user navigate large amounts of cont
 [Deploy CSharp/ContosoFlowers]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/demo-ContosoFlowers
 [Deploy Node/ContosoFlowers]: https://azuredeploy.net/?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/demo-ContosoFlowers
 [Deploy CSharp/ImageCaption]: https://azuredeploy.net?ptmpl=CSharp/ImageCaption/azuredeploy.json
+[Deploy Node/ImageCaption]: https://azuredeploy.net?ptmpl=Node/ImageCaption/azuredeploy.json
