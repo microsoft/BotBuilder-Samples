@@ -1,0 +1,12 @@
+{
+  "name": "botbuilder-sample-searchlibrary",
+  "version": "1.0.0",
+  "description": "Bot Builder Sample - BotBuilder Library for handling search flows",
+  "main": "index.js",
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "botbuilder": "^3.2.3",
+    "lodash": "^4.15.0"
+  }
+}

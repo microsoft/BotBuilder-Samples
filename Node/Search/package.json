@@ -1,0 +1,20 @@
+{
+  "name": "botbuilder-sample-searchbot",
+  "version": "1.0.0",
+  "description": "Bot Builder Sample - Powered Search Bots",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "botbuilder": "^3.2.3",
+    "lodash": "^4.15.0",
+    "lorem-ipsum": "^1.0.3",
+    "node-uuid": "^1.4.7",
+    "request": "^2.74.0",
+    "restify": "^4.1.1"
+  }
+}
