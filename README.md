@@ -18,6 +18,7 @@ State API | A stateless sample bot tracking context of a conversation. | [View S
 LUIS | A sample bot using LuisDialog to integrate with a LUIS.ai application. | [View Sample](/CSharp/LUIS)[![Deploy to Azure][Deploy Button]][Deploy CSharp/LUIS] | [View Sample](/Node/LUIS)[![Deploy to Azure][Deploy Button]][Deploy Node/LUIS]
 ChannelData | A sample bot sending native metadata to Facebook using ChannelData. | [View Sample](/CSharp/ChannelData)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ChannelData] | [View Sample](/Node/ChannelData)[![Deploy to Azure][Deploy Button]][Deploy Node/ChannelData]
 Contoso Flowers | A reference implementation using many features from BotFramework. | [View Sample](/CSharp/ContosoFlowers)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ContosoFlowers] | [View Sample](/Node/ContosoFlowers)[![Deploy to Azure][Deploy Button]][Deploy Node/ContosoFlowers]
+Azure Search | Two sample bots that help the user navigate large amounts of content. | [View Samples](/CSharp/Search) | [View Samples](/Node/Search)
 
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
 [Deploy CSharp/SendAttachment]: https://azuredeploy.net?ptmpl=CSharp/SendAttachment/azuredeploy.json

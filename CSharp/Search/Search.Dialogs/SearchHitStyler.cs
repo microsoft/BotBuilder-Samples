@@ -18,8 +18,8 @@
                 var cards = hits.Select(h => new ThumbnailCard
                 {
                     Title = h.Title,
-                    Images = new List<CardImage> { new CardImage(h.PictureUrl) },
-                    Tap = new CardAction { Type = ActionTypes.ImBack, Value = h.Key },
+                    Images = new[] { new CardImage(h.PictureUrl) },
+                    Buttons = new[] { new CardAction(ActionTypes.ImBack, "Pick this one", value: h.Key) },
                     Text = h.Description
                 });
 
