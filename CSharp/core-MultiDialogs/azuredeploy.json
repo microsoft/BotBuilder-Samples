@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "CSharp/MultiDialogs"
+      "defaultValue": "CSharp/core-MultiDialogs"
     },
     "MicrosoftAppId": {
       "type": "string"
