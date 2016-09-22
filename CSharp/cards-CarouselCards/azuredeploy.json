@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "CSharp/CarouselCards"
+      "defaultValue": "CSharp/cards-CarouselCards"
     },
     "MicrosoftAppId": {
       "type": "string"
