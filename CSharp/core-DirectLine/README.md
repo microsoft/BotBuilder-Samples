@@ -4,7 +4,7 @@ A sample bot and a custom client communicating to each other using the Direct Li
 
 [![Deploy to Azure][Deploy Button]][Deploy DirectLine/CSharp]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy DirectLine/CSharp]: https://azuredeploy.net?ptmpl=CSharp/DirectLine/azuredeploy.json
+[Deploy DirectLine/CSharp]: https://azuredeploy.net
 
 ### Prerequisites
 

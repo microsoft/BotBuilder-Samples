@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "CSharp/DirectLine/DirectLineBot"
+      "defaultValue": "CSharp/core-DirectLine/DirectLineBot"
     },
     "MicrosoftAppId": {
       "type": "string"
