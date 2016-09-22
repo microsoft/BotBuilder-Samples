@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "CSharp/CreateNewConversation"
+      "defaultValue": "CSharp/core-CreateNewConversation"
     },
     "MicrosoftAppId": {
       "type": "string"
