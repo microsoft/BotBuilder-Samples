@@ -7,7 +7,7 @@ You came across the Microsoft Bot Framework which support a great variety of cha
 
 [![Deploy to Azure][Deploy Button]][Deploy CSharp/ContosoFlowers]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy CSharp/ContosoFlowers]: https://azuredeploy.net?ptmpl=CSharp/ContosoFlowers/azuredeploy.json
+[Deploy CSharp/ContosoFlowers]: https://azuredeploy.net?ptmpl=CSharp/demo-ContosoFlowers/azuredeploy.json
 
 ### Prerequisites
 
