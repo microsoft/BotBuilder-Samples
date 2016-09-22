@@ -7,7 +7,7 @@ You came across the Microsoft Bot Framework which support a great variety of cha
 
 [![Deploy to Azure][Deploy Button]][Deploy ContosoFlowers/Node]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy ContosoFlowers/Node]: https://azuredeploy.net?ptmpl=Node/ContosoFlowers/azuredeploy.json
+[Deploy ContosoFlowers/Node]: https://azuredeploy.net
 
 ### Prerequisites
 
@@ -242,7 +242,7 @@ orderService.retrieveOrder(orderId).then((order) => {
 |----------|-------|----------|
 |![Rich Cards - Receipt Card](images/richcards-receiptcard-emulator.png)|![Rich Cards - Receipt Card](images/richcards-receiptcard-facebook.png)|![Rich Cards - Receipt Card](images/richcards-receiptcard-skype.png)|
 
-> You can also see a full sample explaining the different types of rich cards in the [Rich Cards Bot Sample](../RichCards).
+> You can also see a full sample explaining the different types of rich cards in the [Rich Cards Bot Sample](../cards-RichCards).
 
 #### Carousel of Cards
 
@@ -302,7 +302,7 @@ bot.dialog('/', [
 |----------|-------|----------|
 |![Carousel of Cards](images/carousel-cards-emulator.png)|![Carousel of Cards](images/carousel-cards-facebook.png)|![Carousel of Cards](images/carousel-cards-skype.png)|
 
-> You can also see a full sample bot sending multiple rich card attachments in a single message using the Carousel layout in the [Carousel of Cards Bot Sample](../CarouselCards).
+> You can also see a full sample bot sending multiple rich card attachments in a single message using the Carousel layout in the [Carousel of Cards Bot Sample](../cards-CarouselCards).
 
 #### Complex Forms
 
@@ -391,7 +391,7 @@ switch (option) {
 |----------|-------|----------|
 |![State SettingsDialog](images/state-settingsdialog-emulator.png)|![State SettingsDialog](images/state-settingsdialog-facebook.png)|![State SettingsDialog](images/state-settingsdialog-skype.png)|
 
-> You can also see a full sample bot tracking context of a conversation in the [State API Bot Sample](../State).
+> You can also see a full sample bot tracking context of a conversation in the [State API Bot Sample](../core-State).
 
 The [shop dialog](bot/dialogs/shop.js) on the other hand, shows how to use `dialogData` to store information about the order and details, within the dialog instance, and then use it in the last step to trigger the checkout process.
 
@@ -527,11 +527,11 @@ While not covered in this sample, it is important to highlight two features that
 
 If you want to be able to take advantage of special features or concepts for a channel we provide a way for you to send native metadata to that channel giving you much deeper control over how your bot interacts on a channel. The way you do this is to pass extra properties via the [sourceEvent method](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#sourceevent).
 
-> You can also see a full sample bot sending native metadata to Facebook using ChannelData in the [ChannelData Bot Sample](../ChannelData).
+> You can also see a full sample bot sending native metadata to Facebook using ChannelData in the [ChannelData Bot Sample](../core-ChannelData).
 
 One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. In the LUIS application, you will bundle together the intents and entities that are important to your task.
 
-> You can also see a full sample bot using LuisDialog to integrate with a LUIS.ai application in the [LUIS Bot Sample](../LUIS).
+> You can also see a full sample bot using LuisDialog to integrate with a LUIS.ai application in the [LUIS Bot Sample](../intelligence-LUIS).
 
 #### Localization
 

@@ -4,7 +4,7 @@ A sample bot using IntentDialog to integrate with a LUIS.ai application.
 
 [![Deploy to Azure][Deploy Button]][Deploy LUIS/Node]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy LUIS/Node]: https://azuredeploy.net?ptmpl=Node/LUIS/azuredeploy.json
+[Deploy LUIS/Node]: https://azuredeploy.net
 
 ### Prerequisites
 
