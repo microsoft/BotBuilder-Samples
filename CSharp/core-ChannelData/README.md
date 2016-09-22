@@ -5,7 +5,7 @@ A sample bot sending native metadata to Facebook using ChannelData.
 
 [![Deploy to Azure][Deploy Button]][Deploy ChannelData/CSharp]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy ChannelData/CSharp]: https://azuredeploy.net?ptmpl=CSharp/ChannelData/azuredeploy.json
+[Deploy ChannelData/CSharp]: https://azuredeploy.net
 
 ### Prerequisites
 

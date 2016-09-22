@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "CSharp/ChannelData"
+      "defaultValue": "CSharp/core-ChannelData"
     },
     "MicrosoftAppId": {
       "type": "string"
