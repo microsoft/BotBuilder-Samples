@@ -27,7 +27,7 @@ using (var scope = DialogModule.BeginLifetimeScope(this.scope, activity))
     var conversation = await client.Conversations.CreateDirectConversationAsync(activity.Recipient, activity.From);
 
     var cookie = scope.Resolve<ResumptionCookie>();
-    cookie.ConversationId = conversation.Id;
+    cookie.Address = new Address(cookie.Address.BotId, cookie.Address.ChannelId, cookie.Address.UserId, conversation.Id, cookie.Address.ServiceUrl);
 
     var postToBot = scope.Resolve<IPostToBot>();
     await postToBot.PostAsync(activity, token);
