@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "CSharp/RichCards"
+      "defaultValue": "CSharp/cards-RichCards"
     },
     "MicrosoftAppId": {
       "type": "string"
