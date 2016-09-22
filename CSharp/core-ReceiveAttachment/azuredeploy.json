@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "CSharp/ReceiveAttachment"
+      "defaultValue": "CSharp/core-ReceiveAttachment"
     },
     "MicrosoftAppId": {
       "type": "string"

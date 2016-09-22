@@ -4,7 +4,7 @@ A sample bot that receives attachments sent by the user and downloads them.
 
 [![Deploy to Azure][Deploy Button]][Deploy CSharp/ReceiveAttachment]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy CSharp/ReceiveAttachment]: https://azuredeploy.net?ptmpl=CSharp/ReceiveAttachment/azuredeploy.json
+[Deploy CSharp/ReceiveAttachment]: https://azuredeploy.net?ptmpl=CSharp/core-ReceiveAttachment/azuredeploy.json
 
 ### Prerequisites
 
