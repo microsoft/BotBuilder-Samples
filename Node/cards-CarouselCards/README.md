@@ -56,4 +56,4 @@ To get more information about how to get started in Bot Builder for Node and Att
 * [Message.attachments](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#attachments)
 * [Message.attachmentLayout](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#attachmentlayout)
 * [AttachmentLayout](https://docs.botframework.com/en-us/node/builder/chat-reference/modules/_botbuilder_d_.html#attachmentlayout)
-* [RichCards sample](../RichCards)
+* [RichCards sample](../cards-RichCards)
