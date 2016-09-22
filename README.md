@@ -5,7 +5,7 @@ Welcome to the BotBuilder samples repository. Here you will find task-focused sa
 ### Samples
 
 Name | Description | C# | Node
------------- | ------------- | :-----------: | :-----------:------------ | ------------- | :-----------: | :-----------:
+------------ | ------------- | :-----------: | :-----------:
 Send Attachment | A sample bot that passes simple media attachments (images) to a user activity. | [View Sample](/CSharp/core-SendAttachment)[![Deploy to Azure][Deploy Button]][Deploy CSharp/SendAttachment] | [View Sample](/Node/core-SendAttachment)[![Deploy to Azure][Deploy Button]][Deploy Node/SendAttachment]
 Receive Attachment | A sample bot that receives attachments sent by the user and downloads them. | [View Sample](/CSharp/core-ReceiveAttachment)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ReceiveAttachment] | [View Sample](/Node/core-ReceiveAttachment)[![Deploy to Azure][Deploy Button]][Deploy Node/ReceiveAttachment]
 Rich Cards | A sample bot to renders several types of cards as attachments. | [View Sample](/CSharp/cards-RichCards)[![Deploy to Azure][Deploy Button]][Deploy CSharp/RichCards] | [View Sample](/Node/cards-RichCards)[![Deploy to Azure][Deploy Button]][Deploy Node/RichCards]
