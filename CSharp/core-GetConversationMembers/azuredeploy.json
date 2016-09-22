@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "CSharp/GetConversationMembers"
+      "defaultValue": "CSharp/core-GetConversationMembers"
     },
     "MicrosoftAppId": {
       "type": "string"
