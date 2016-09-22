@@ -4,7 +4,7 @@ A sample bot showing different kind of dialogs.
 
 [![Deploy to Azure][Deploy Button]][Deploy MultiDialogs/Node]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy MultiDialogs/Node]: https://azuredeploy.net?ptmpl=Node/MultiDialogs/azuredeploy.json
+[Deploy MultiDialogs/Node]: https://azuredeploy.net
 
 ### Prerequisites
 

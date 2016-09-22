@@ -4,7 +4,7 @@ A sample bot that sends multiple rich card attachments in a single message using
 
 [![Deploy to Azure][Deploy Button]][Deploy CarouselCards/Node]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy CarouselCards/Node]: https://azuredeploy.net?ptmpl=Node/CarouselCards/azuredeploy.json
+[Deploy CarouselCards/Node]: https://azuredeploy.net
 
 ### Prerequisites
 
