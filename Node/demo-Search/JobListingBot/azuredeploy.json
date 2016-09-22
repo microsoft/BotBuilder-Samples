@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "Node/Search/JobListingBot"
+      "defaultValue": "Node/demo-Search/JobListingBot"
     },
     "WEBSITE_NODE_DEFAULT_VERSION": {
       "type": "string",

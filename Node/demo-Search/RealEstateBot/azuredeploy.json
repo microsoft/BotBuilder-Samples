@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "Node/Search/RealStateBot"
+      "defaultValue": "Node/demo-Search/RealEstateBot"
     },
     "WEBSITE_NODE_DEFAULT_VERSION": {
       "type": "string",
