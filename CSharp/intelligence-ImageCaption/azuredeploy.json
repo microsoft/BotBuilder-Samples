@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "CSharp/ImageCaption"
+      "defaultValue": "CSharp/intelligennce-ImageCaption"
     },
     "MicrosoftAppId": {
       "type": "string"
