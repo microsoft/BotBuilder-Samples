@@ -7,7 +7,7 @@ You came across the Microsoft Bot Framework which support a great variety of cha
 
 [![Deploy to Azure][Deploy Button]][Deploy CSharp/ContosoFlowers]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy CSharp/ContosoFlowers]: https://azuredeploy.net?ptmpl=CSharp/demo-ContosoFlowers/azuredeploy.json
+[Deploy CSharp/ContosoFlowers]: https://azuredeploy.net
 
 ### Prerequisites
 
@@ -80,7 +80,7 @@ private Attachment GetReceiptCard()
 |----------|-------|----------|
 |![Rich Cards - Receipt Card](images/richcards-receiptcard-emulator.png)|![Rich Cards - Receipt Card](images/richcards-receiptcard-facebook.png)|![Rich Cards - Receipt Card](images/richcards-receiptcard-skype.png)|
 
-> You can also see a full sample explaining the different types of rich cards in the [Rich Cards Bot Sample](../RichCards).
+> You can also see a full sample explaining the different types of rich cards in the [Rich Cards Bot Sample](../cards-RichCards).
 
 #### Carousel of Cards
 You can send multiple rich card attachments in a single message. On most channels they will be sent as a list of rich cards, but some channels (like Skype and Facebook) can render them as a carousel of rich cards.
@@ -114,13 +114,13 @@ protected async Task ShowProducts(IDialogContext context)
 |----------|-------|----------|
 |![Carousel of Cards](images/carousel-cards-emulator.png)|![Carousel of Cards](images/carousel-cards-facebook.png)|![Carousel of Cards](images/carousel-cards-skype.png)|
 
-> You can also see a full sample bot sending multiple rich card attachments in a single message using the Carousel layout in the [Carousel of Cards Bot Sample](../CarouselCards).
+> You can also see a full sample bot sending multiple rich card attachments in a single message using the Carousel layout in the [Carousel of Cards Bot Sample](../cards-CarouselCards).
 
 #### Multi-Dialogs Approach
 Dialogs can be composed with other dialogs to maximize reuse, and a dialog context maintains a stack of dialogs active in the conversation.
 In this sample, the main flow is implemented in the [`RootDialog` class](ContosoFlowers/Dialogs/RootDialog.cs) and it is composed of several other classes implementing [`IDialog`](https://docs.botframework.com/en-us/csharp/builder/sdkreference/dialogs.html).
 
-> You can also see a full sample bot showing different kind of dialogs in the [Multi-Dialog Bot Sample](../MultiDialogs).
+> You can also see a full sample bot showing different kind of dialogs in the [Multi-Dialog Bot Sample](../core-MultiDialogs).
 
 #### Creating Reusable Components
 As seen in the two examples above, you can reuse your dialogs in different segments of the bot's flow, or even different bots, and extract them into a library. An example of this is the [ContosoFlowers.BotAssets project](ContosoFlowers.BotAssets) which includes several reusable dialogs and extension methods.
@@ -240,7 +240,7 @@ In this sample, the `UserData` property is used to store and retrieve several us
 |----------|-------|----------|
 |![State SettingsDialog](images/state-settingsdialog-emulator.png)|![State SettingsDialog](images/state-settingsdialog-facebook.png)|![State SettingsDialog](images/state-settingsdialog-skype.png)|
 
-> You can also see a full sample bot tracking context of a conversation in the [State API Bot Sample](../State).
+> You can also see a full sample bot tracking context of a conversation in the [State API Bot Sample](../core-State).
 
 #### Globally Available Commands
 Additionally, you'll notice the `SettingsDialog` is globally available meaning that the user can type `settings` anytime and the settings dialog will be taken on top of the conversation's dialog stack.
@@ -321,11 +321,11 @@ While not covered in this sample, it is important to highlight two features that
 
 If you want to be able to take advantage of special features or concepts for a channel we provide a way for you to send native metadata to that channel giving you much deeper control over how your bot interacts on a channel. The way you do this is to pass extra properties via the [ChannelData](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html) property.
 
-> You can also see a full sample bot sending native metadata to Facebook using ChannelData in the [ChannelData Bot Sample](../ChannelData).
+> You can also see a full sample bot sending native metadata to Facebook using ChannelData in the [ChannelData Bot Sample](../core-ChannelData).
 
 One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. In the [LUIS](https://docs.botframework.com/en-us/node/builder/guides/understanding-natural-language/) application, you will bundle together the intents and entities that are important to your task.
 
-> You can also see a full sample bot using LuisDialog to integrate with a LUIS.ai application in the [LUIS Bot Sample](../LUIS).
+> You can also see a full sample bot using LuisDialog to integrate with a LUIS.ai application in the [LUIS Bot Sample](../intelligence-LUIS).
 
 ### More Information
 

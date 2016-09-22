@@ -4,7 +4,7 @@ A sample bot that retrieves the conversation's members list and detects when it 
 
 [![Deploy to Azure][Deploy Button]][Deploy CSharp/GetConversationMembers]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy CSharp/GetConversationMembers]: https://azuredeploy.net?ptmpl=CSharp/core-GetConversationMembers/azuredeploy.json
+[Deploy CSharp/GetConversationMembers]: https://azuredeploy.net
 
 ### Prerequisites
 

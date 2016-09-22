@@ -4,7 +4,7 @@ A sample bot that sends multiple rich card attachments in a single message using
 
 [![Deploy to Azure][Deploy Button]][Deploy CarouselCards/CSharp]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy CarouselCards/CSharp]: https://azuredeploy.net?ptmpl=cards-CarouselCards/CSharp/azuredeploy.json
+[Deploy CarouselCards/CSharp]: https://azuredeploy.net
 
 ### Prerequisites
 
@@ -55,4 +55,4 @@ To get more information about how to get started in Bot Builder for .NET and Att
 * [Bot Builder for .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
 * [Attachments Property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html#attachmentsproperty)
 * [Attachments, Cards and Actions](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html)
-* [RichCards sample](../RichCards)
+* [RichCards sample](../cards-RichCards)

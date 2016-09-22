@@ -4,7 +4,7 @@ A sample bot that passes simple media attachments (images) to a user activity.
 
 [![Deploy to Azure][Deploy Button]][Deploy CSharp/SendAttachment]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy CSharp/SendAttachment]: https://azuredeploy.net?ptmpl=CSharp/core-SendAttachment/azuredeploy.json
+[Deploy CSharp/SendAttachment]: https://azuredeploy.net
 
 ### Prerequisites
 

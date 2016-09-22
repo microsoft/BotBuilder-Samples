@@ -4,7 +4,7 @@ A sample bot that starts a new conversation using a previously stored user addre
 
 [![Deploy to Azure][Deploy Button]][Deploy CreateNewConversation/CSharp]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy CreateNewConversation/CSharp]: https://azuredeploy.net?ptmpl=CSharp/core-CreateNewConversation/azuredeploy.json
+[Deploy CreateNewConversation/CSharp]: https://azuredeploy.net
 
 ### Prerequisites
 
