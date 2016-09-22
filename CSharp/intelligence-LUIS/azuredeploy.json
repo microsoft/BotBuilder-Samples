@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "CSharp/LUIS"
+      "defaultValue": "CSharp/intelligence-LUIS"
     },
     "MicrosoftAppId": {
       "type": "string"
