@@ -4,7 +4,7 @@ A stateless sample bot tracking context of a conversation.
 
 [![Deploy to Azure][Deploy Button]][Deploy CSharp/State]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy CSharp/State]: https://azuredeploy.net?ptmpl=CSharp/State/azuredeploy.json
+[Deploy CSharp/State]: https://azuredeploy.net?ptmpl=CSharp/core-State/azuredeploy.json
 
 ### Prerequisites
 

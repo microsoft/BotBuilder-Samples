@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "CSharp/State"
+      "defaultValue": "CSharp/core-State"
     },
     "MicrosoftAppId": {
       "type": "string"
