@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "Node/RichCards"
+      "defaultValue": "Node/cards-RichCards"
     },
     "WEBSITE_NODE_DEFAULT_VERSION": {
       "type": "string",

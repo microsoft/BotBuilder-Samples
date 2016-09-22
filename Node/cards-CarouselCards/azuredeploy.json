@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "Node/CarouselCards"
+      "defaultValue": "Node/cards-CarouselCards"
     },
     "WEBSITE_NODE_DEFAULT_VERSION": {
       "type": "string",

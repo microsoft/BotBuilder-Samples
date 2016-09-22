@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "Node/ChannelData"
+      "defaultValue": "Node/core-ChannelData"
     },
     "WEBSITE_NODE_DEFAULT_VERSION": {
       "type": "string",

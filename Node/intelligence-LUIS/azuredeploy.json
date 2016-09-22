@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "Node/LUIS"
+      "defaultValue": "Node/intelligence-LUIS"
     },
     "WEBSITE_NODE_DEFAULT_VERSION": {
       "type": "string",

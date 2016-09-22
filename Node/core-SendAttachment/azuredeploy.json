@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "Node/SendAttachment"
+      "defaultValue": "Node/core-SendAttachment"
     },
     "WEBSITE_NODE_DEFAULT_VERSION": {
       "type": "string",

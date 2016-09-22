@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "Node/CreateNewConversation"
+      "defaultValue": "Node/core-CreateNewConversation"
     },
     "WEBSITE_NODE_DEFAULT_VERSION": {
       "type": "string",

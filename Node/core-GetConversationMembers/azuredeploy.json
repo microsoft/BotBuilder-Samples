@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "Node/GetConversationMembers"
+      "defaultValue": "Node/core-GetConversationMembers"
     },
     "WEBSITE_NODE_DEFAULT_VERSION": {
       "type": "string",
