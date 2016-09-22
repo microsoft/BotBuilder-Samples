@@ -17,7 +17,7 @@ The minimum prerequisites to run this sample are:
 Bot Builder uses dialogs to model a conversational process, the exchange of messages, between bot and user. Conversations are usually initiated by the user but sometimes it might be useful for the bot to proactively start a new dialog to interact with the user.
 In this sample starting a new dialog is a two steps process: First, creating the new conversation, and then, passing the control to the new dialog.
 
-Check out the use of the `ConnectorClient.CreateDirectConversationAsync()` method in the [MessagesController.cs](MessagesController.cs#L33-L44) class to create a new Bot-to-User conversation. This is then stored in the `ResumptionCookie` for later use.
+Check out the use of the `ConnectorClient.CreateDirectConversationAsync()` method in the [MessagesController.cs](Controllers/MessagesController.cs#L33-L44) class to create a new Bot-to-User conversation. This is then stored in the `ResumptionCookie` for later use.
 
 ````C#
 using (var scope = DialogModule.BeginLifetimeScope(this.scope, activity))
