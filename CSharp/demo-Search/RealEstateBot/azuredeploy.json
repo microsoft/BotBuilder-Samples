@@ -46,18 +46,6 @@
     },
     "MicrosoftAppPassword": {
       "type": "string"
-    },
-    "SearchDialogsServiceName": {
-      "type": "string",
-      "defaultValue": "realestate"
-    },
-    "SearchDialogsServiceKey": {
-      "type": "string",
-      "defaultValue": "82BCF03D2FC9AC7F4E9D7DE1DF3618A5"
-    },
-    "SearchDialogsIndexName": {
-      "type": "string",
-      "defaultValue": "listings"
     }
   },
   "resources": [
@@ -109,10 +97,6 @@
               {
                 "name": "MicrosoftAppPassword",
                 "value": "[parameters('MicrosoftAppPassword')]"
-              },
-              {
-                "name": "MicrosoftBingMapsKey",
-                "value": "[parameters('MicrosoftBingMapsKey')]"
               }
             ]
           }

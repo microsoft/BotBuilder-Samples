@@ -7,14 +7,9 @@ These samples illustrate how to approach dialogs that need to help the user navi
 
 Content is modeled as a catalog of items where each item has several attributes that may be used for navigation, keyword search or display.
 
-| Real Estate Sample | Job Listing Sample|
-|--------------------|-------------------|
-|[![Deploy to Azure][Deploy Button]][Deploy Node/Search/RealEstateBot]|[![Deploy to Azure][Deploy Button]][Deploy Node/Search/JobListingBot]|
-
-
+[![Deploy to Azure][Deploy Button]][Deploy Search/Node]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy Node/Search/RealEstateBot]: https://azuredeploy.net/?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/demo-Search/RealEstateBot
-[Deploy Node/Search/JobListingBot]: https://azuredeploy.net/?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/demo-Search/JobListingBot
+[Deploy Search/Node]: https://azuredeploy.net
 
 ### Prerequisites
 

@@ -34,18 +34,7 @@ bot.dialog('/', function (session) {
     var msg = session.message;
 
     // store user's address
-
-    // minimal information copied from the address of a previous message
-    // we should persist this object if we want to create a new conversation anytime later 
-    var address = {
-        channelId: msg.address.channelId,
-        serviceUrl: msg.address.serviceUrl,
-        user: msg.address.user,
-        bot: msg.address.bot,
-        useAuth: true
-    };
-
-    // store address
+    var address = msg.address;
     userStore.push(address);
 
     // end current dialog

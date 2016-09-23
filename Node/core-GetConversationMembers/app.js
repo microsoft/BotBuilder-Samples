@@ -27,57 +27,52 @@ var connectorApiClient = new Swagger(
 
 
 bot.on('conversationUpdate', function (message) {
-    if (message.address.conversation.isGroup) {
+    if (message.membersAdded && message.membersAdded.length > 0) {
+        var membersAdded = message.membersAdded
+            .map((m) => {
+                var isSelf = m.id === message.address.bot.id;
+                return (isSelf ? message.address.bot.name : m.name) || '' + ' (Id: ' + m.id + ')';
+            })
+            .join(', ');
 
-        if (message.membersAdded) {
-            var membersAdded = message.membersAdded
-                .map((m) => {
-                    var isSelf = m.id === message.address.bot.id;
-                    return (isSelf ? message.address.bot.name : m.name) + ' (Id: ' + m.id + ')';
-                })
-                .join(', ');
+        var reply = new builder.Message()
+            .address(message.address)
+            .text('Welcome ' + membersAdded);
+        bot.send(reply);
+    }
 
-            var reply = new builder.Message()
-                .address(message.address)
-                .text('Welcome ' + membersAdded);
-            bot.send(reply);
-        }
+    if (message.membersRemoved && message.membersRemoved.length > 0) {
+        var membersRemoved = message.membersRemoved
+            .map((m) => {
+                var isSelf = m.id === message.address.bot.id;
+                return (isSelf ? message.address.bot.name : m.name) || '' + ' (Id: ' + m.id + ')';
+            })
+            .join(', ');
 
-        if (message.membersRemoved) {
-            var membersRemoved = message.membersRemoved
-                .map((m) => {
-                    var isSelf = m.id === message.address.bot.id;
-                    return (isSelf ? message.address.bot.name : m.name) + ' (Id: ' + m.id + ')';
-                })
-                .join(', ');
-
-            var reply = new builder.Message()
-                .address(message.address)
-                .text('The following members ' + membersRemoved + ' were removed or left the conversation :(');
-            bot.send(reply);
-        }
+        var reply = new builder.Message()
+            .address(message.address)
+            .text('The following members ' + membersRemoved + ' were removed or left the conversation :(');
+        bot.send(reply);
     }
 });
 
 bot.dialog('/', function (session) {
     var message = session.message;
-    if (message.address.conversation.isGroup) {
-        var conversationId = message.address.conversation.id;
+    var conversationId = message.address.conversation.id;
 
-        // when a group conversation message is recieved,
-        // get the conversation members using the REST API and print it on the conversation.
+    // when a group conversation message is recieved,
+    // get the conversation members using the REST API and print it on the conversation.
 
-        // 1. inject the JWT from the connector to the client on every call
-        addTokenToClient(connector, connectorApiClient).then((client) => {
-            // 2. override API client host (api.botframework.com) with channel's serviceHost (e.g.: slack.botframework.com)
-            var serviceHost = url.parse(message.address.serviceUrl).host;
-            client.setHost(serviceHost);
-            // 3. GET /v3/conversations/{conversationId}/members
-            client.Conversations.Conversations_GetConversationMembers({ conversationId: conversationId })
-                .then((res) => printMembersInChannel(message.address, res.obj))
-                .catch((error) => console.log('Error retrieving conversation members: ' + error.statusText));
-        });
-    }
+    // 1. inject the JWT from the connector to the client on every call
+    addTokenToClient(connector, connectorApiClient).then((client) => {
+        // 2. override API client host (api.botframework.com) with channel's serviceHost (e.g.: slack.botframework.com)
+        var serviceHost = url.parse(message.address.serviceUrl).host;
+        client.setHost(serviceHost);
+        // 3. GET /v3/conversations/{conversationId}/members
+        client.Conversations.Conversations_GetConversationMembers({ conversationId: conversationId })
+            .then((res) => printMembersInChannel(message.address, res.obj))
+            .catch((error) => console.log('Error retrieving conversation members: ' + error.statusText));
+    });
 });
 
 // Helper methods
@@ -96,6 +91,8 @@ function addTokenToClient(connector, clientPromise) {
 
 // Create a message with the member list and send it to the conversationAddress
 function printMembersInChannel(conversationAddress, members) {
+    if(!members || members.length == 0) return;
+    
     var memberList = members.map((m) => '* ' + m.name + ' (Id: ' + m.id + ')')
         .join('\n ');
 
