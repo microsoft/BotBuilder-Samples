@@ -7,7 +7,7 @@ library.dialog('/', [
         // Ask for delivery address using 'address' library
         session.beginDialog('address:/',
             {
-                promptMessage: util.format('%s, please enter the delivery address for these flowers. Include apartment # if needed.', session.message.user.name)
+                promptMessage: util.format('%s, please enter the delivery address for these flowers. Include apartment # if needed.', session.message.user.name || "User")
             });
     },
     function (session, args) {

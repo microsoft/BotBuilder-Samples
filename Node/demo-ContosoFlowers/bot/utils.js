@@ -3,14 +3,6 @@ var algo = 'aes-256-ctr';
 var password = 'itsasecret!';
 
 function serializeAddress(address) {
-    var addressCore = {
-        channelId: address.channelId,
-        serviceUrl: address.serviceUrl,
-        user: address.user,
-        bot: address.bot,
-        useAuth: true
-    };
-
     return JSON.stringify(address);
 }
 

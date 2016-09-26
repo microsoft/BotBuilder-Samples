@@ -46,18 +46,6 @@
     },
     "MicrosoftAppPassword": {
       "type": "string"
-    },
-    "SearchDialogsServiceName": {
-      "type": "string",
-      "defaultValue": "azs-playground"
-    },
-    "SearchDialogsServiceKey": {
-      "type": "string",
-      "defaultValue": "512C4FBA9EED64A31A1052CFE3F7D3DB"
-    },
-    "SearchDialogsIndexName": {
-      "type": "string",
-      "defaultValue": "nycjobs"
     }
   },
   "resources": [
@@ -109,10 +97,6 @@
               {
                 "name": "MicrosoftAppPassword",
                 "value": "[parameters('MicrosoftAppPassword')]"
-              },
-              {
-                "name": "MicrosoftBingMapsKey",
-                "value": "[parameters('MicrosoftBingMapsKey')]"
               }
             ]
           }

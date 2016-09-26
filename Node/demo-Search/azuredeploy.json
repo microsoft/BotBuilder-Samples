@@ -39,7 +39,14 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "Node/demo-Search/RealEstateBot"
+      "defaultValue": "Node/demo-Search/"
+    },
+    "BOT": {
+      "type": "string",
+      "allowedValues": [
+        "RealEstateBot",
+        "JobListingBot"
+      ]
     },
     "WEBSITE_NODE_DEFAULT_VERSION": {
       "type": "string",
@@ -105,6 +112,10 @@
               {
                 "name": "MICROSOFT_APP_PASSWORD",
                 "value": "[parameters('MICROSOFT_APP_PASSWORD')]"
+              },
+              {
+                "name": "BOT",
+                "value": "[parameters('BOT')]"
               }
             ]
           }

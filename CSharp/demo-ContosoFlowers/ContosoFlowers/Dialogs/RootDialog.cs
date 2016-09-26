@@ -77,7 +77,7 @@
             if (message.Text == Resources.RootDialog_Welcome_Orders)
             {
                 this.order = new Models.Order();
-                var addressDialog = this.dialogFactory.Create<AddressDialog, string>(string.Format(CultureInfo.CurrentCulture, Resources.RootDialog_DeliveryAddress_Prompt, message.From.Name));
+                var addressDialog = this.dialogFactory.Create<AddressDialog, string>(string.Format(CultureInfo.CurrentCulture, Resources.RootDialog_DeliveryAddress_Prompt, message.From.Name ?? "User"));
                 context.Call(addressDialog, this.AfterDeliveryAddress);
             }
             else if (message.Text == Resources.RootDialog_Welcome_Support)

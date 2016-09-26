@@ -21,15 +21,8 @@ Any current conversation between the bot and user will be replaced with a new di
 Alternatively, [bot.send()](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot.html#send) can be used to send a message without starting a dialog. 
 
 ````JavaScript
-// minimal information copied from the address of a previous message
-// this is the obj we should persist if we want to create a new conversation anytime later 
-var address = {
-    channelId: msg.address.channelId,
-    serviceUrl: msg.address.serviceUrl,
-    user: msg.address.user,
-    bot: msg.address.bot,
-    useAuth: true
-};
+// this is the object we should persist if we want to create a new conversation anytime later 
+var address = session.message.address;
 
 // then... on another scope
 

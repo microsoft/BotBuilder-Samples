@@ -88,7 +88,10 @@ function printMessages(messages) {
 }
 
 function printMessage(message) {
-    console.log(message.text);
+    if(message.text) {
+        console.log(message.text);
+    }
+    
     if (message.channelData) {
         switch (message.channelData.contentType) {
             case "application/vnd.microsoft.card.hero":
