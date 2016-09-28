@@ -11,6 +11,7 @@
     "botbuilder": "^3.2.3",
     "dotenv-extended": "^1.0.3",
     "needle": "^1.1.2",
+    "request": "^2.75.0",
     "restify": "^4.1.1",
     "valid-url": "^1.0.9"
   }

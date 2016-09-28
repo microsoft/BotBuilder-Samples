@@ -39,15 +39,12 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "CSharp/intelligennce-ImageCaption"
+      "defaultValue": "CSharp/intelligence-ImageCaption"
     },
     "MicrosoftAppId": {
       "type": "string"
     },
     "MicrosoftAppPassword": {
-      "type": "string"
-    },
-    "MicrosoftVisionApiKey": {
       "type": "string"
     }
   },
@@ -100,10 +97,6 @@
               {
                 "name": "MicrosoftAppPassword",
                 "value": "[parameters('MicrosoftAppPassword')]"
-              },
-              {
-                "name": "MicrosoftVisionApiKey",
-                "value": "[parameters('MicrosoftVisionApiKey')]"
               }
             ]
           }

@@ -22,12 +22,6 @@
         private static readonly string ApiKey = WebConfigurationManager.AppSettings["MicrosoftVisionApiKey"];
 
         /// <summary>
-        /// Error message to be shown to developer if MicrosoftVisionApiKey is missing
-        /// </summary>
-        private const string MissingApiKeyMessage = "MicrosoftVisionApiKey is missing in web.config. " +
-            "You can obtain one from https://www.microsoft.com/cognitive-services/en-us/subscriptions?productId=/products/54d873dd5eefd00dc474a0f4";
-
-        /// <summary>
         /// The set of visual features we want from the Vision API.
         /// </summary>
         private static readonly VisualFeature[] VisualFeatures = { VisualFeature.Description };
@@ -43,13 +37,6 @@
         /// <returns>Description if caption found, null otherwise.</returns>
         public async Task<string> GetCaptionAsync(string url)
         {
-#if DEBUG
-            if (string.IsNullOrEmpty(ApiKey))
-            {
-                return MissingApiKeyMessage;
-            }
-#endif
-
             var client = new VisionServiceClient(ApiKey);
             var result = await client.AnalyzeImageAsync(url, VisualFeatures);
             return ProcessAnalysisResult(result);
@@ -66,13 +53,6 @@
         /// <returns>Description if caption found, null otherwise.</returns>
         public async Task<string> GetCaptionAsync(Stream stream)
         {
-#if DEBUG
-            if (string.IsNullOrEmpty(ApiKey))
-            {
-                return MissingApiKeyMessage;
-            }
-#endif
-
             var client = new VisionServiceClient(ApiKey);
             var result = await client.AnalyzeImageAsync(stream, VisualFeatures);
             return ProcessAnalysisResult(result);

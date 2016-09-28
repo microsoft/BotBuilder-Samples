@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "Node/intelligennce-ImageCaption"
+      "defaultValue": "Node/intelligence-ImageCaption"
     },
     "WEBSITE_NODE_DEFAULT_VERSION": {
       "type": "string",
@@ -49,9 +49,6 @@
       "type": "string"
     },
     "MicrosoftAppPassword": {
-      "type": "string"
-    },
-    "MicrosoftVisionApiKey": {
       "type": "string"
     }
   },
@@ -108,10 +105,6 @@
               {
                 "name": "MICROSOFT_APP_PASSWORD",
                 "value": "[parameters('MicrosoftAppPassword')]"
-              },
-              {
-                "name": "MICROSOFT_VISION_API_KEY",
-                "value": "[parameters('MicrosoftVisionApiKey')]"
               }
             ]
           }

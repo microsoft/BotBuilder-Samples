@@ -5,11 +5,6 @@ An image caption bot for the Microsoft Bot Framework.
 // This loads the environment variables from the .env file
 require('dotenv-extended').load();
 
-if (!process.env.MICROSOFT_VISION_API_KEY) {
-    console.error("Missing MICROSOFT_VISION_API_KEY. Please set it in the '.env' file. You can obtain one from https://www.microsoft.com/cognitive-services/en-us/subscriptions?productId=/products/54d873dd5eefd00dc474a0f4");
-    process.exit()
-}
-
 const builder = require('botbuilder'),
     captionService = require('./caption-service'),
     needle = require("needle"),
