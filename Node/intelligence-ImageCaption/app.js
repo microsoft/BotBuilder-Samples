@@ -9,6 +9,7 @@ const builder = require('botbuilder'),
     captionService = require('./caption-service'),
     needle = require("needle"),
     restify = require('restify'),
+    url = require('url');
     validUrl = require('valid-url');
 
 //=========================================================
@@ -17,7 +18,7 @@ const builder = require('botbuilder'),
 
 // Setup Restify Server
 const server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, () => {
+server.listen(process.env.port || process.env.PORT || 3979, () => {
     console.log('%s listening to %s', server.name, server.url);
 });
 
@@ -57,18 +58,17 @@ bot.on('conversationUpdate', message => {
 // Gets the caption by checking the type of the image (stream vs URL) and calling the appropriate caption service method.
 bot.dialog('/', session => {
     if (hasImageAttachment(session)) {
-        var stream = needle.get(session.message.attachments[0].contentUrl);        
+        var stream = getImageStreamFromUrl(session.message.attachments[0]);
         captionService
             .getCaptionFromStream(stream)
             .then(caption => handleSuccessResponse(session, caption))
             .catch(error => handleErrorResponse(session, error));
     }
-    else if (validUrl.isUri(session.message.text)) {
+    else if(imageUrl = (parseAnchorTag(session.message.text) || (validUrl.isUri(session.message.text)? session.message.text : null))) {
         captionService
-            .getCaptionFromUrl(session.message.text)
+            .getCaptionFromUrl(imageUrl)
             .then(caption => handleSuccessResponse(session, caption))
             .catch(error => handleErrorResponse(session, error));
-
     }
     else {
         session.send("Did you upload an image? I'm more of a visual person. Try sending me an image or an image URL");
@@ -80,6 +80,46 @@ bot.dialog('/', session => {
 //=========================================================
 const hasImageAttachment = session => {
     return ((session.message.attachments.length > 0) && (session.message.attachments[0].contentType.indexOf("image") !== -1));
+}
+
+const getImageStreamFromUrl = attachment => {
+    var headers = {};
+    if (isSkypeAttachment(attachment)) {
+        // The Skype attachment URLs are secured by JwtToken,
+        // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
+        // https://github.com/Microsoft/BotBuilder/issues/662
+        connector.getAccessToken((error, token) => {
+            var tok = token;
+            headers['Authorization'] = 'Bearer ' + token;
+            headers['Content-Type'] = 'application/octet-stream';
+
+            return needle.get(imageUrl, { headers: headers });
+        });
+    }
+
+    headers['Content-Type'] = attachment.contentType;
+    return needle.get(attachment.contentUrl, { headers: headers });
+}
+
+const isSkypeAttachment = attachment => {
+    if (url.parse(attachment.contentUrl).hostname.substr(-"skype.com".length) == "skype.com") {
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * Gets the href value in an anchor element.
+ * Skype transforms raw urls to html. Here we extract the href value from the url
+ */
+const parseAnchorTag = input => {
+    var match = input.match("^<a href=\"([^\"]*)\">[^<]*</a>$");
+    if(match && match[1]) {
+        return match[1];
+    }
+
+    return null;
 }
 
 //=========================================================
