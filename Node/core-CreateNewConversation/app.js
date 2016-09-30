@@ -24,8 +24,19 @@ setInterval(function () {
 
         console.log('Starting survey for address:', address);
 
-        // start survey dialog using stored address
-        bot.beginDialog(address, '/survey');
+        // new conversation address, copy without conversationId
+        var newConversationAddress = Object.assign({}, address);
+        delete newConversationAddress.conversation;
+
+        // start survey dialog
+        bot.beginDialog(newConversationAddress, '/survey', null, (err) => {
+            if(err) {
+                // error ocurred while starting new conversation. Channel not supported?
+                bot.send(new builder.Message()
+                    .text('This channel does not support this operation: ' + err.message)
+                    .address(address));
+            }
+        });
 
     });
 }, 5000);
