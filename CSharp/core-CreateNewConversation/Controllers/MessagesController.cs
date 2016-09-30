@@ -11,6 +11,7 @@
     using Microsoft.Bot.Builder.Dialogs.Internals;
     using Microsoft.Bot.Builder.Internals.Fibers;
     using Microsoft.Bot.Connector;
+    using Microsoft.Rest;
 
     [BotAuthentication]
     public class MessagesController : ApiController
@@ -34,7 +35,21 @@
                 {
                     ConnectorClient client = new ConnectorClient(new Uri(activity.ServiceUrl));
 
-                    var conversation = await client.Conversations.CreateDirectConversationAsync(activity.Recipient, activity.From);
+                    ResourceResponse conversation;
+
+                    try
+                    {
+                        conversation = await client.Conversations.CreateDirectConversationAsync(activity.Recipient, activity.From);
+                    }
+                    catch (HttpOperationException ex)
+                    {
+                        var reply = activity.CreateReply();
+                        reply.Text = ex.Message;
+
+                        await client.Conversations.SendToConversationAsync(reply);
+
+                        return new HttpResponseMessage(HttpStatusCode.Accepted);
+                    }
 
                     var cookie = scope.Resolve<ResumptionCookie>();
                     cookie.Address = new Address(cookie.Address.BotId, cookie.Address.ChannelId, cookie.Address.UserId, conversation.Id, cookie.Address.ServiceUrl);
