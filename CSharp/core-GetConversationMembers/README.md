@@ -91,3 +91,22 @@ To get more information about how to get started in Bot Builder for .NET and Act
 * [Activities](https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html)
 * [Conversation Update](https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html#conversationUpdate)
 * [ConversationExtensions](https://docs.botframework.com/en-us/csharp/builder/sdkreference/d7/d08/class_microsoft_1_1_bot_1_1_connector_1_1_conversations_extensions.html)
+
+> **Limitations**  
+> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html).
+> 
+> The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
+> 
+> The features used in this sample are fully supported in the following channels:
+> - Skype
+> - Facebook
+> - Slack
+> - DirectLine
+> - WebChat
+> - SMS
+> - Kik
+> - Email
+> - GroupMe
+> 
+> On the other hand, they are not supported and the sample won't work as expected in the following channel:
+> - Telegram

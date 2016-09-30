@@ -108,3 +108,24 @@ To get more information about how to get started in Bot Builder for .NET and Con
 * Other examples using LUIS
     * [Dialogs - Alarm Bot](https://docs.botframework.com/en-us/csharp/builder/sdkreference/dialogs.html#alarmBot)
     * [Weather Bot](https://docs.botframework.com/en-us/bot-intelligence/language/#example-weather-bot)
+
+> **Limitations**  
+> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html).
+> 
+> The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
+> 
+> The features used in this sample are fully supported in the following channels:
+> - Skype
+> - Facebook
+> - DirectLine
+> - WebChat
+> - Slack
+> - GroupMe
+> 
+> They are also supported, with some limitations, in the following channels:
+> - Kik
+> - Email
+> 
+> On the other hand, they are not supported and the sample won't work as expected in the following channels:
+> - Telegram
+> - SMS

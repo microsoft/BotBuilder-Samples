@@ -180,3 +180,22 @@ To get more information about how to get started in Bot Builder for .NET and Con
 * [IDialogContext Interface](https://docs.botframework.com/en-us/csharp/builder/sdkreference/d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html)
 * [FormFlow](https://docs.botframework.com/en-us/csharp/builder/sdkreference/forms.html)
 * [PromptDialog](https://docs.botframework.com/en-us/csharp/builder/sdkreference/d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html)
+
+> **Limitations**  
+> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html).
+> 
+> The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
+> 
+> The features used in this sample are fully supported in the following channels:
+> - Skype
+> - Facebook
+> - Slack
+> - DirectLine
+> - WebChat
+> - Kik
+> - Email
+> - GroupMe
+> 
+> They are also supported, with some limitations, in the following channels:
+> - Telegram
+> - SMS

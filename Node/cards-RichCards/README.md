@@ -138,3 +138,24 @@ To get more information about how to get started in Bot Builder for Node and Att
 * [SigninCard](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.signincard.html)
 * [Message.addAttachment](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#addattachment)
 * [Attachment](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html)
+
+> **Limitations**  
+> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [Message.sourceEvent](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#sourceevent) method.
+> 
+> The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
+> 
+> The features used in this sample are fully supported in the following channels:
+> - Skype
+> - Facebook
+> - Telegram
+> - DirectLine
+> - WebChat
+> - Slack
+> - Email
+> - GroupMe
+> 
+> They are also supported, with some limitations, in the following channel:
+> - Kik
+> 
+> On the other hand, they are not supported and the sample won't work as expected in the following channel:
+> - SMS

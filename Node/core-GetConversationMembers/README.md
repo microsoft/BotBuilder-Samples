@@ -23,35 +23,32 @@ Both properties contains a list of [`IIdentity`](https://docs.botframework.com/e
 
 ````JavaScript
 bot.on('conversationUpdate', function (message) {
-    if (message.address.conversation.isGroup) {
+    if (message.membersAdded) {
+        var membersAdded = message.membersAdded
+            .map((m) => {
+                var isSelf = m.id === message.address.bot.id;
+                return (isSelf ? message.address.bot.name : m.name) + ' (Id: ' + m.id + ')';
+            })
+            .join(', ');
 
-        if (message.membersAdded) {
-            var membersAdded = message.membersAdded
-                .map((m) => {
-                    var isSelf = m.id === message.address.bot.id;
-                    return (isSelf ? message.address.bot.name : m.name) + ' (Id: ' + m.id + ')';
-                })
-                .join(', ');
+        var reply = new builder.Message()
+            .address(message.address)
+            .text('Welcome ' + membersAdded);
+        bot.send(reply);
+    }
 
-            var reply = new builder.Message()
-                .address(message.address)
-                .text('Welcome ' + membersAdded);
-            bot.send(reply);
-        }
+    if (message.membersRemoved) {
+        var membersRemoved = message.membersRemoved
+            .map((m) => {
+                var isSelf = m.id === message.address.bot.id;
+                return (isSelf ? message.address.bot.name : m.name) + ' (Id: ' + m.id + ')';
+            })
+            .join(', ');
 
-        if (message.membersRemoved) {
-            var membersRemoved = message.membersRemoved
-                .map((m) => {
-                    var isSelf = m.id === message.address.bot.id;
-                    return (isSelf ? message.address.bot.name : m.name) + ' (Id: ' + m.id + ')';
-                })
-                .join(', ');
-
-            var reply = new builder.Message()
-                .address(message.address)
-                .text('The following members ' + membersRemoved + ' were removed or left the conversation :(');
-            bot.send(reply);
-        }
+        var reply = new builder.Message()
+            .address(message.address)
+            .text('The following members ' + membersRemoved + ' were removed or left the conversation :(');
+        bot.send(reply);
     }
 });
 ````
@@ -69,29 +66,27 @@ var connectorApiClient = new Swagger(
     });
 ````
 
-Once a message is received in a group conversation, we'll ask the API for its members. In order to call the REST API, we need to be authenticated using the bot's JWT token (see [app.js - addTokenToClient function](app.js#L85-L95)) and then override the API's hostname using the channel's serviceUrl (see [app.js - client.setHost](app.js#L72-L74)).
-Then we call Swagger generated client (`client.Conversations.Conversations_GetConversationMembers`) and pass the response to a helper function that will print the members list to the conversation ([app.js - printMembersInChannel function](app.js#L97-L106)).
+Once a message is received in a group conversation, we'll ask the API for its members. In order to call the REST API, we need to be authenticated using the bot's JWT token (see [app.js - addTokenToClient function](app.js#L80-L90)) and then override the API's hostname using the channel's serviceUrl (see [app.js - client.setHost](app.js#L68-L70)).
+Then we call Swagger generated client (`client.Conversations.Conversations_GetConversationMembers`) and pass the response to a helper function that will print the members list to the conversation ([app.js - printMembersInChannel function](app.js#L92-L103)).
 
 ````JavaScript
 bot.dialog('/', function (session) {
     var message = session.message;
-    if (message.address.conversation.isGroup) {
-        var conversationId = message.address.conversation.id;
+    var conversationId = message.address.conversation.id;
 
-        // when a group conversation message is recieved,
-        // get the conversation members using the REST API and print it on the conversation.
+    // when a group conversation message is recieved,
+    // get the conversation members using the REST API and print it on the conversation.
 
-        // 1. inject the JWT from the connector to the client on every call
-        addTokenToClient(connector, connectorApiClient).then((client) => {
-            // 2. override API client host (api.botframework.com) with channel's serviceHost (e.g.: slack.botframework.com)
-            var serviceHost = url.parse(message.address.serviceUrl).host;
-            client.setHost(serviceHost);
-            // 3. GET /v3/conversations/{conversationId}/members
-            client.Conversations.Conversations_GetConversationMembers({ conversationId: conversationId })
-                .then((res) => printMembersInChannel(message.address, res.obj))
-                .catch((error) => console.log('Error retrieving conversation members: ' + error.statusText));
-        });
-    }
+    // 1. inject the JWT from the connector to the client on every call
+    addTokenToClient(connector, connectorApiClient).then((client) => {
+        // 2. override API client host (api.botframework.com) with channel's serviceHost (e.g.: slack.botframework.com)
+        var serviceHost = url.parse(message.address.serviceUrl).host;
+        client.setHost(serviceHost);
+        // 3. GET /v3/conversations/{conversationId}/members
+        client.Conversations.Conversations_GetConversationMembers({ conversationId: conversationId })
+            .then((res) => printMembersInChannel(message.address, res.obj))
+            .catch((error) => console.log('Error retrieving conversation members: ' + error.statusText));
+    });
 });
 
 // Helper methods
@@ -142,3 +137,22 @@ To get more information about how to get started in Bot Builder for Node, Conver
 * [Bot Connector REST API - GetConversationMembers](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_GetConversationMembers)
 * [Bot Connector REST API - Swagger file](https://docs.botframework.com/en-us/restapi/connector/ConnectorAPI.json)
 * [Swagger-JS](https://github.com/swagger-api/swagger-js)
+
+> **Limitations**  
+> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [Message.sourceEvent](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#sourceevent) method.
+> 
+> The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
+> 
+> The features used in this sample are fully supported in the following channels:
+> - Skype
+> - Facebook
+> - Slack
+> - DirectLine
+> - WebChat
+> - Email
+> - GroupMe
+> 
+> On the other hand, they are not supported and the sample won't work as expected in the following channels:
+> - SMS
+> - Kik
+> - Telegram
