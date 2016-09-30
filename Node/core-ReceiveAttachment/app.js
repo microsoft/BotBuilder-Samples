@@ -1,7 +1,7 @@
 var builder = require('botbuilder');
 var restify = require('restify');
 var Promise = require('bluebird');
-var request = require('request-promise');
+var request = require('request-promise').defaults({ encoding: null });
 
 // Setup Restify Server
 var server = restify.createServer();
