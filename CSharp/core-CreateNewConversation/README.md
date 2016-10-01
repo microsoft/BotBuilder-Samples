@@ -17,14 +17,28 @@ The minimum prerequisites to run this sample are:
 Bot Builder uses dialogs to model a conversational process, the exchange of messages, between bot and user. Conversations are usually initiated by the user but sometimes it might be useful for the bot to proactively start a new dialog to interact with the user.
 In this sample starting a new dialog is a two steps process: First, creating the new conversation, and then, passing the control to the new dialog.
 
-Check out the use of the `ConnectorClient.CreateDirectConversationAsync()` method in the [MessagesController.cs](Controllers/MessagesController.cs#L33-L44) class to create a new Bot-to-User conversation. This is then stored in the `ResumptionCookie` for later use.
+Check out the use of the `ConnectorClient.CreateDirectConversationAsync()` method in the [MessagesController.cs](Controllers/MessagesController.cs#L34-L59) class to create a new Bot-to-User conversation. This is then stored in the `ResumptionCookie` for later use.
 
 ````C#
 using (var scope = DialogModule.BeginLifetimeScope(this.scope, activity))
 {
     ConnectorClient client = new ConnectorClient(new Uri(activity.ServiceUrl));
 
-    var conversation = await client.Conversations.CreateDirectConversationAsync(activity.Recipient, activity.From);
+    ResourceResponse conversation;
+
+    try
+    {
+        conversation = await client.Conversations.CreateDirectConversationAsync(activity.Recipient, activity.From);
+    }
+    catch (HttpOperationException ex)
+    {
+        var reply = activity.CreateReply();
+        reply.Text = ex.Message;
+
+        await client.Conversations.SendToConversationAsync(reply);
+
+        return new HttpResponseMessage(HttpStatusCode.Accepted);
+    }
 
     var cookie = scope.Resolve<ResumptionCookie>();
     cookie.Address = new Address(cookie.Address.BotId, cookie.Address.ChannelId, cookie.Address.UserId, conversation.Id, cookie.Address.ServiceUrl);
