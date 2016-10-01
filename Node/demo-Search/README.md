@@ -165,3 +165,24 @@ To get more information about how to get started in Bot Builder for Node please 
 * [Dialogs](https://docs.botframework.com/en-us/node/builder/chat/dialogs/)
 * [Dialog Stack](https://docs.botframework.com/en-us/node/builder/chat/session/#dialog-stack)
 * [BotBuilder Library](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library.html)
+
+> **Limitations**  
+> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [Message.sourceEvent](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#sourceevent) method.
+> 
+> The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
+> 
+> The features used in these samples are fully supported in the following channels:
+> - Skype
+> - Facebook
+> - Telegram
+> - DirectLine
+> - WebChat
+> - Slack
+> - GroupMe
+> 
+> They are also supported, with some limitations, in the following channel:
+> - Email
+> 
+> On the other hand, they are not supported and the sample won't work as expected in the following channels:
+> - SMS
+> - Kik
