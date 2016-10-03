@@ -253,3 +253,6 @@ paket-files/
 
 # Node
 /**/node_modules
+
+# Visual Studio Code
+.vscode/
