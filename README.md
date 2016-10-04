@@ -35,6 +35,7 @@ Sample | Description | C# | Node
 LUIS | A sample bot using LuisDialog to integrate with a LUIS.ai application. | [View Sample](/CSharp/intelligence-LUIS)[![Deploy to Azure][Deploy Button]][Deploy CSharp/LUIS] | [View Sample](/Node/intelligence-LUIS)[![Deploy to Azure][Deploy Button]][Deploy Node/LUIS]
 Image Caption | A sample bot that gets an image caption using Microsoft Cognitive Services Vision API. | [View Sample](/CSharp/intelligence-ImageCaption)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ImageCaption] | [View Sample](/Node/intelligence-ImageCaption)[![Deploy to Azure][Deploy Button]][Deploy Node/ImageCaption]
 Speech To Text | A sample bot that gets text from audio using Bing Speech API. | [View Sample](/CSharp/intelligence-SpeechToText)[![Deploy to Azure][Deploy Button]][Deploy CSharp/SpeechToText] | [View Sample](/Node/intelligence-SpeechToText)[![Deploy to Azure][Deploy Button]][Deploy Node/SpeechToText]
+Similar Products | A sample bot that finds visually similar products using Microsoft Bing Image Search API. | [View Sample](/CSharp/intelligence-SimilarProducts)[![Deploy to Azure][Deploy Button]][Deploy CSharp/SimilarProducts] | [View Sample](/Node/intelligence-SimilarProducts)[![Deploy to Azure][Deploy Button]][Deploy Node/SimilarProducts]
 
 ## Demo
 These are bots designed to showcase end-to-end sample scenarios. They're great sources of code fragments if you're looking to have your bot lightup more complex features.
@@ -74,3 +75,5 @@ Azure Search | Two sample bots that help the user navigate large amounts of cont
 [Deploy Node/ImageCaption]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/intelligence-ImageCaption
 [Deploy CSharp/SpeechToText]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/intelligence-SpeechToText
 [Deploy Node/SpeechToText]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/intelligence-SpeechToText
+[Deploy CSharp/SimilarProducts]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/intelligence-SimilarProducts
+[Deploy Node/SimilarProducts]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/intelligence-SimilarProducts
