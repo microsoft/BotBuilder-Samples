@@ -33,7 +33,7 @@ namespace SimilarProducts.Services
         /// Gets a list of visually similar products from an image URL.
         /// </summary>
         /// <param name="url">The URL of an image.</param>
-        /// <returns>List of visually similar images.</returns>
+        /// <returns>List of visually similar products' images.</returns>
         public async Task<IList<ImageResult>> GetSimilarProductImagesAsync(string url)
         {
             using (var httpClient = new HttpClient())

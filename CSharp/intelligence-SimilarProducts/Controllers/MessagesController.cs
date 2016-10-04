@@ -20,6 +20,11 @@
         private readonly IImageSearchService imageService = new BingImageSearchService();
 
         /// <summary>
+        /// Maximum number of hero cards to be returned in the carousel. If this number is greater than 5, skype throws an exception.
+        /// </summary>
+        private const int MaxCardCount = 5;
+
+        /// <summary>
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
         /// </summary>
@@ -40,7 +45,7 @@
                         Activity reply = activity.CreateReply("Here are some visually similar products I found");
                         reply.Type = ActivityTypes.Message;
                         reply.AttachmentLayout = "carousel";
-                        reply.Attachments = this.BuildImageAttachments(images.Take(10));
+                        reply.Attachments = this.BuildImageAttachments(images.Take(MaxCardCount));
                         await connector.Conversations.ReplyToActivityAsync(reply);
                         replied = true;
                     }
@@ -79,12 +84,12 @@
         }
 
         /// <summary>
-        /// Gets the caption asynchronously by checking the type of the image (stream vs URL)
-        /// and calling the appropriate caption service method.
+        /// Gets a list of visually similar products asynchronously by checking the type of the image (stream vs URL)
+        /// and calling the appropriate image service method.
         /// </summary>
         /// <param name="activity">The activity.</param>
         /// <param name="connector">The connector.</param>
-        /// <returns>The caption if found</returns>
+        /// <returns>List of visually similar products' images.</returns>
         /// <exception cref="ArgumentException">The activity doesn't contain a valid image attachment or an image URL.</exception>
         private async Task<IList<ImageResult>> GetSimilarImagesAsync(Activity activity, ConnectorClient connector)
         {
