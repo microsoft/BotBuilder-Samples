@@ -93,7 +93,7 @@ const getImageStreamFromUrl = attachment => {
             headers['Authorization'] = 'Bearer ' + token;
             headers['Content-Type'] = 'application/octet-stream';
 
-            return needle.get(imageUrl, { headers: headers });
+            return needle.get(attachment.contentUrl, { headers: headers });
         });
     }
 
