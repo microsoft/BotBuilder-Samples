@@ -1,6 +1,6 @@
 ﻿# Speech To Text Bot Sample
 
-A sample bot that illustrates how to use the Microsoft Cognitive Services Bing Speech API to analyze an audio file and return the text.
+A sample bot that illustrates how to use the Microsoft Cognitive Services Bing Speech API to analyze an audio file and convert the audio stream to text.
 
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net)
 
