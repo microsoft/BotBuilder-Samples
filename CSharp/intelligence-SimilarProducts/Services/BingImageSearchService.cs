@@ -27,7 +27,7 @@ namespace SimilarProducts.Services
         /// <summary>
         /// The bing API URL.
         /// </summary>
-        private static readonly string BingApiUrl = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?modulesRequested=SimilarProducts&mkt=en-us";
+        private static readonly string BingApiUrl = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?modulesRequested=SimilarProducts&mkt=en-us&form=BCSPRD";
 
         /// <summary>
         /// Gets a list of visually similar products from an image URL.

@@ -3,7 +3,7 @@
 // https://msdn.microsoft.com/en-us/library/dn760791.aspx
 const request = require('request').defaults({ encoding: null });
 
-const BING_API_URL = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?modulesRequested=SimilarProducts&mkt=en-us";
+const BING_API_URL = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?modulesRequested=SimilarProducts&mkt=en-us&form=BCSPRD";
 
 const BING_SEARCH_API_KEY = process.env.BING_SEARCH_API_KEY;
 
