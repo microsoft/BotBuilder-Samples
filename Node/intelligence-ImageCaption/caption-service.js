@@ -5,7 +5,7 @@
 
 const request = require('request').defaults({ encoding: null });
 
-const VISION_URL = "https://api.projectoxford.ai/vision/v1.0/analyze/?visualFeatures=Description&subscription-key=" + process.env.MICROSOFT_VISION_API_KEY;
+const VISION_URL = "https://api.projectoxford.ai/vision/v1.0/analyze/?visualFeatures=Description&form=BCSIMG&subscription-key=" + process.env.MICROSOFT_VISION_API_KEY;
 
 /** 
  *  Gets the caption of the image from an image stream

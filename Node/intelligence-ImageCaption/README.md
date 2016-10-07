@@ -81,6 +81,6 @@ You can also choose to upload an image directly to the bot:
 
 ### More Information
 
-To get more information about how to get started in Bot Builder for Node and and Microsoft Cognitive Services Computer Vision API please review the following resources:
+To get more information about how to get started in Bot Builder for Node and Microsoft Cognitive Services Computer Vision API please review the following resources:
 * [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
 * [Microsoft Cognitive Services Computer Vision API](https://www.microsoft.com/cognitive-services/en-us/computer-vision-api)

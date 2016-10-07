@@ -67,6 +67,7 @@ const streamToText = (stream, resolve, reject) => {
         "device.os=wp7",
         "version=3.0",
         "format=json",
+        "form=BCSSTT",
         "instanceid=0F8EBADC-3DE7-46FB-B11A-1B3C3C4309F5",
         "requestid=" + uuid.v4(),
         ].join("&");
