@@ -25,15 +25,10 @@
 
         public async Task StartAsync(IDialogContext context)
         {
-            IEnumerable<string> unusedRefiners = this.Refiners;
-            if (this.QueryBuilder != null)
+            if (this.Refiners.Any())
             {
-                unusedRefiners = unusedRefiners.Except(this.QueryBuilder.Refinements.Keys, StringComparer.OrdinalIgnoreCase);
-            }
-
-            if (unusedRefiners.Any())
-            {
-                var promptOptions = new CancelablePromptOptions<string>("What do you want to refine by?", cancelPrompt: "Type 'cancel' if you changed your mind.", options: unusedRefiners.ToList(), promptStyler: this.PromptStyler);
+                var promptOptions = new CancelablePromptOptions<string>("What do you want to refine by?", cancelPrompt: "Type 'cancel' if you changed your mind.", 
+                    options: this.Refiners.ToList(), promptStyler: this.PromptStyler);
                 CancelablePromptChoice<string>.Choice(context, this.ReturnSelection, promptOptions);
             }
             else

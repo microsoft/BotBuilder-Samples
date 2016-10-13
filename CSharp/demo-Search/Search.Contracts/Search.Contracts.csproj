@@ -40,8 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\FilterExpression.cs" />
     <Compile Include="Models\GenericFacet.cs" />
     <Compile Include="Models\GenericSearchResult.cs" />
+    <Compile Include="Models\SearchField.cs" />
     <Compile Include="Models\SearchHit.cs" />
     <Compile Include="Models\SearchQueryBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

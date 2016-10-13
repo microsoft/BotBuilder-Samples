@@ -10,6 +10,8 @@
     using Search.Models;
     using Search.Services;
 
+    public delegate string CanonicalizerDelegate(string propertyName);
+        
     [Serializable]
     public abstract class SearchDialog : IDialog<IList<SearchHit>>
     {
@@ -64,7 +66,7 @@
                     this.HitStyler.Apply(
                         ref message,
                         "Here are a few good options I found:",
-                        this.found);
+                        (IReadOnlyList<SearchHit>) this.found);
                     await context.PostAsync(message);
                     await context.PostAsync(
                         this.MultipleSelection ?
@@ -109,7 +111,7 @@
             }
             else
             {
-                this.HitStyler.Apply(ref message, "Here's what you've added to your list so far.", this.selected);
+                this.HitStyler.Apply(ref message, "Here's what you've added to your list so far.", (IReadOnlyList<SearchHit>) this.selected);
                 await context.PostAsync(message);
             }
         }
@@ -187,7 +189,7 @@
             }
         }
 
-        protected async Task ResumeFromRefine(IDialogContext context, IAwaitable<string> input)
+        protected async Task ResumeFromRefine(IDialogContext context, IAwaitable<FilterExpression> input)
         {
             await input; // refiner filter is already applied to the SearchQueryBuilder instance we passed in
             await this.Search(context, null);

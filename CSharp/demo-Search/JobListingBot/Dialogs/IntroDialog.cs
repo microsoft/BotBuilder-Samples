@@ -20,6 +20,47 @@
         public IntroDialog(ISearchClient searchClient)
         {
             SetField.NotNull(out this.searchClient, nameof(searchClient), searchClient);
+            var schema = searchClient.Schema;
+            // This is not needed is you supply the web.config SearchDialogsServiceAdminKey because it will come from the service itself
+            if (schema.Count() == 0)
+            {
+                schema.Add("business_title", new SearchField
+                {
+                    FilterPreference = PreferredFilter.None,
+                    IsFacetable = true,
+                    IsFilterable = true,
+                    IsKey = false,
+                    IsRetrievable = true,
+                    IsSearchable = true,
+                    IsSortable = true,
+                    Name = "business_title",
+                    Type = typeof(string)
+                });
+                schema.Add("agency", new SearchField
+                {
+                    FilterPreference = PreferredFilter.None,
+                    IsFacetable = true,
+                    IsFilterable = true,
+                    IsKey = false,
+                    IsRetrievable = true,
+                    IsSearchable = true,
+                    IsSortable = true,
+                    Name = "agency",
+                    Type = typeof(string)
+                });
+                schema.Add("work_location", new SearchField
+                {
+                    FilterPreference = PreferredFilter.None,
+                    IsFacetable = true,
+                    IsFilterable = true,
+                    IsKey = false,
+                    IsRetrievable = true,
+                    IsSearchable = true,
+                    IsSortable = true,
+                    Name = "work_location",
+                    Type = typeof(string)
+                });
+            }
         }
 
         public Task StartAsync(IDialogContext context)
@@ -40,11 +81,11 @@
             return Task.CompletedTask;
         }
 
-        public async Task StartSearchDialog(IDialogContext context, IAwaitable<string> input)
+        public async Task StartSearchDialog(IDialogContext context, IAwaitable<FilterExpression> input)
         {
-            string title = await input;
+            var title = await input;
 
-            if (string.IsNullOrEmpty(title))
+            if (title == null)
             {
                 context.Done<object>(null);
             }
