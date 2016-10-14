@@ -4,7 +4,6 @@ Bot Builder samples are organized into groups and designed to illustrate task-fo
 
     git clone https://github.com/Microsoft/BotBuilder-Samples.git
     cd BotBuilder-Samples
-
 ## Core
 These examples show the basic techniques needed to build a great bot.
 
@@ -14,8 +13,7 @@ Send Attachment | A sample bot that passes simple media attachments (images) to 
 Receive Attachment | A sample bot that receives attachments sent by the user and downloads them. | [View Sample](/CSharp/core-ReceiveAttachment)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ReceiveAttachment] | [View Sample](/Node/core-ReceiveAttachment)[![Deploy to Azure][Deploy Button]][Deploy Node/ReceiveAttachment]
 Create New Conversation | A sample bot that starts a new conversation using a previously stored user address. | [View Sample](/CSharp/core-CreateNewConversation)[![Deploy to Azure][Deploy Button]][Deploy CSharp/CreateNewConversation] | [View Sample](/Node/core-CreateNewConversation)[![Deploy to Azure][Deploy Button]][Deploy Node/CreateNewConversation]
 Get Members of a Conversation | A sample bot that retrieves the conversation's members list and detects when it changes. | [View Sample](/CSharp/core-GetConversationMembers)[![Deploy to Azure][Deploy Button]][Deploy CSharp/GetConversationMembers] | [View Sample](/Node/core-GetConversationMembers)[![Deploy to Azure][Deploy Button]][Deploy Node/GetConversationMembers]
-Direct Line | A sample bot and a custom client communicating to each other using the Direct Line API. | [View Sample](/CSharp/core-DirectLine)[![Deploy to Azure][Deploy Button]][Deploy CSharp/DirectLine] | [View Sample](/Node/core-DirectLine)[![Deploy to Azure][Deploy Button]][Deploy Node/DirectLine]
-Multi Dialogs | A sample bot showing different kind of dialogs. | [View Sample](/CSharp/core-MultiDialogs)[![Deploy to Azure][Deploy Button]][Deploy CSharp/MultiDialogs] | [View Sample](/Node/core-MultiDialogs)[![Deploy to Azure][Deploy Button]][Deploy Node/MultiDialogs]
+Direct Line | A sample bot and a custom client communicating to each other using the Direct Line API. | [View Sample](/CSharp/core-DirectLine)[![Deploy to Azure][Deploy Button]][Deploy CSharp/DirectLine] | [View Sample](/Node/core-DirectLine)[![Deploy to Azure][Deploy Button]][Deploy Node/DirectLine]Multi Dialogs | A sample bot showing different kind of dialogs. | [View Sample](/CSharp/core-MultiDialogs)[![Deploy to Azure][Deploy Button]][Deploy CSharp/MultiDialogs] | [View Sample](/Node/core-MultiDialogs)[![Deploy to Azure][Deploy Button]][Deploy Node/MultiDialogs]
 State API | A stateless sample bot tracking context of a conversation. | [View Sample](/CSharp/core-State)[![Deploy to Azure][Deploy Button]][Deploy CSharp/State] | [View Sample](/Node/core-State)[![Deploy to Azure][Deploy Button]][Deploy Node/State]
 ChannelData | A sample bot sending native metadata to Facebook using ChannelData. | [View Sample](/CSharp/core-ChannelData)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ChannelData] | [View Sample](/Node/core-ChannelData)[![Deploy to Azure][Deploy Button]][Deploy Node/ChannelData]
 
@@ -28,14 +26,14 @@ Rich Cards | A sample bot to renders several types of cards as attachments. | [V
 Carousel of Cards | A sample bot that sends multiple rich card attachments in a single message using the Carousel layout. | [View Sample](/CSharp/cards-CarouselCards)[![Deploy to Azure][Deploy Button]][Deploy CSharp/CarouselCards] | [View Sample](/Node/cards-CarouselCards)[![Deploy to Azure][Deploy Button]][Deploy Node/CarouselCards]
 
 ## Intelligence
-Build bots with powerful algorithms leveraging intelligence APIs.
+Build bots with powerful algorithms using Bing & Microsoft Cognitive Services APIs.
 
 Sample | Description | C# | Node
 ------------ | ------------- | :-----------: | :-----------:
 LUIS | A sample bot using LuisDialog to integrate with a LUIS.ai application. | [View Sample](/CSharp/intelligence-LUIS)[![Deploy to Azure][Deploy Button]][Deploy CSharp/LUIS] | [View Sample](/Node/intelligence-LUIS)[![Deploy to Azure][Deploy Button]][Deploy Node/LUIS]
 Image Caption | A sample bot that gets an image caption using Microsoft Cognitive Services Vision API. | [View Sample](/CSharp/intelligence-ImageCaption)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ImageCaption] | [View Sample](/Node/intelligence-ImageCaption)[![Deploy to Azure][Deploy Button]][Deploy Node/ImageCaption]
 Speech To Text | A sample bot that gets text from audio using Bing Speech API. | [View Sample](/CSharp/intelligence-SpeechToText)[![Deploy to Azure][Deploy Button]][Deploy CSharp/SpeechToText] | [View Sample](/Node/intelligence-SpeechToText)[![Deploy to Azure][Deploy Button]][Deploy Node/SpeechToText]
-Similar Products | A sample bot that finds visually similar products using Microsoft Bing Image Search API. | [View Sample](/CSharp/intelligence-SimilarProducts)[![Deploy to Azure][Deploy Button]][Deploy CSharp/SimilarProducts] | [View Sample](/Node/intelligence-SimilarProducts)[![Deploy to Azure][Deploy Button]][Deploy Node/SimilarProducts]
+Similar Products | A sample bot that finds visually similar products using Bing Image Search API. | [View Sample](/CSharp/intelligence-SimilarProducts)[![Deploy to Azure][Deploy Button]][Deploy CSharp/SimilarProducts] | [View Sample](/Node/intelligence-SimilarProducts)[![Deploy to Azure][Deploy Button]][Deploy Node/SimilarProducts]
 
 ## Demo
 These are bots designed to showcase end-to-end sample scenarios. They're great sources of code fragments if you're looking to have your bot lightup more complex features.
