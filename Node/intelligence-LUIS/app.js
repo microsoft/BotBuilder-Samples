@@ -1,6 +1,10 @@
+// This loads the environment variables from the .env file
+require('dotenv-extended').load();
+
 var builder = require('botbuilder');
 var restify = require('restify');
 var Store = require('./store');
+var spellService = require('./spell-service');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -92,6 +96,23 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     .onDefault((session) => {
         session.send('Sorry, I did not understand \'%s\'. Type \'help\' if you need assistance.', session.message.text);
     });
+
+if (process.env.IS_SPELL_CORRECTION_ENABLED == "true") {
+    bot.use({
+        botbuilder: function (session, next) {
+            spellService
+                .getCorrectedText(session.message.text)
+                .then(text => {
+                    session.message.text = text;
+                    next();
+                })
+                .catch((error) => {
+                    console.error(error);
+                    next();
+                });
+        }
+    })
+}
 
 bot.dialog('/', intents);
 
