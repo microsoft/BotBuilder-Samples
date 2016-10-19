@@ -135,9 +135,6 @@
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\SimilarProducts - Web Deploy.pubxml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="azuredeploy.json" />
   </ItemGroup>
   <PropertyGroup>

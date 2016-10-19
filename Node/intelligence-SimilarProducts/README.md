@@ -10,7 +10,7 @@ The minimum prerequisites to run this sample are:
 * Latest Node.js with NPM. Download it from [here](https://nodejs.org/en/download/).
 * The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
-* This sample currently uses a free trial Microsoft Bing Search API key with limited QPS. Please subscribe [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) to obtain your own key and update the `BING_SEARCH_API_KEY` key in [.env](.env) file to try it out further..
+* This sample currently uses a free trial Microsoft Bing Search API key with limited QPS. Please subscribe [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) to obtain your own key and update the `BING_SEARCH_API_KEY` key in [.env](.env) file to try it out further.
 
 
 ### Code Highlights
