@@ -31,21 +31,18 @@ The notable changes to the StateDialog bot which enable telemetry logging are th
 
 After configuring, running the bot (locally or in a deployed instance), and having a conversation with it [see the State bot sample for details on the conversation flow](../core-State) you will begin to see events hitting the Application Insights instance you configured within seconds. You can easily filter these events by turning **off** showing Dependency Events so that you're only looking at Custom telemetry (Events, Exceptions, Trace)
 
-The first time you run this sample it will display a welcome message and configure itself to issue search queries for the 'Seattle' city, storing this value in the ConversationData bag. It will also prompt you for your name and store it in the UserData bag and display a help message. Issuing the `change my city` command will allow you to change the search city for this conversation only and just for your user, storing the value in the PrivateConversationData bag.
+When you run the sample in Visual Studio, you'll see a button appear in your toolbar. Next to it will be the count of Telemetry Items that have been sent to your Application Insights instance by the current execution of the bot. From this button you can quickly & easily get to the Application Insights instance, as well.
 
 ![Sample Outcome](images/outcome-1.png)
 
-Subsequently, you can start a new conversation (In the Bot Framework Channel Emulator this can be done by using the 'ConversationNames - New' button) and this time the bot will remember you name but will forget the city override we executed in the previous conversation. Using the `change city` command this can be changed for all the users in the conversation.
+Clicking the button directly will open up a new pane in Visual Studio from which you can view, filter, and search your telemetry items. For viewing your custom-logged items we recommend unchecking `Dependency` and `Request` telemetry. However, note that these are useful in watching what, when, and how the bot framework's endpoints are used by your bot web application.
 
 ![Sample Outcome](images/outcome-2.png)
 
-When a another user arrives to the conversation (In the Bot Framework Emulator this is done by editing the 'User' field) the bot will remember its name (Or prompt for the user name depending on any previous conversation) and maintain the previous search city set.
+Clicking on any item in the table will open up another pane allowing you to view and filter the various properties of that telemetry event.
 
 ![Sample Outcome](images/outcome-3.png)
 
+For more information logged directly from the Bot Connector, be sure to put your instrumentation key in to your bot's listing in the Bot Directory.
 
-To get more information about how to get started in Bot Builder for .NET and Conversations please review the following resources:
-* [Bot Builder for .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
-* [Bot State Service](https://docs.botframework.com/en-us/csharp/builder/sdkreference/stateapi.html)
-* [Dialogs - Echo Bot with State](https://docs.botframework.com/en-us/csharp/builder/sdkreference/dialogs.html#echoBot)
-* [IDialogContext Interface](https://docs.botframework.com/en-us/csharp/builder/sdkreference/d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html)
+![Bot Directory Instrumentation Key field](images/botdirfield.png)
