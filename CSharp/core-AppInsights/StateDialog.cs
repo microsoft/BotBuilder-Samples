@@ -1,10 +1,12 @@
 ﻿namespace AppInsightsBot
 {
-    using System;
-    using System.Threading.Tasks;
-    using System.Web;
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Connector;
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using System.Web;
 
     [Serializable]
     public class StateDialog : IDialog<object>
@@ -14,15 +16,23 @@
 
         public async Task StartAsync(IDialogContext context)
         {
+            var telemetry = context.CreateTraceTelemetry(nameof(StartAsync),
+                new Dictionary<string, string> { { @"SetDefault", bool.FalseString } });
+
             string defaultCity;
 
             if (!context.ConversationData.TryGetValue(ContextConstants.CityKey, out defaultCity))
             {
                 defaultCity = "Seattle";
                 context.ConversationData.SetValue(ContextConstants.CityKey, defaultCity);
+
+                telemetry.Properties[@"SetDefault"] = bool.TrueString;
             }
 
             await context.PostAsync($"Welcome to the Search City bot. I'm currently configured to search for things in {defaultCity}");
+
+            WebApiApplication.Telemetry.TrackTrace(telemetry);
+
             context.Wait(this.MessageReceivedAsync);
         }
 
@@ -30,10 +40,19 @@
         {
             var message = await result;
 
+            WebApiApplication.Telemetry.TrackTrace(context.CreateTraceTelemetry(nameof(MessageReceivedAsync),
+                // Here's how we can serialize an entire object to an App Insights event
+                new Dictionary<string, string> { { "message", JsonConvert.SerializeObject(message) } }));
+
             string userName;
 
             if (!context.UserData.TryGetValue(ContextConstants.UserNameKey, out userName))
             {
+                var t = context.CreateEventTelemetry(@"new user");
+                t.Properties.Add("userName", userName); // You can add properties after-the-fact as well
+
+                WebApiApplication.Telemetry.TrackEvent(t);
+
                 PromptDialog.Text(context, this.ResumeAfterPrompt, "Before get started, please tell me your name?");
                 return;
             }
@@ -49,6 +68,8 @@
 
             if (message.Text.Equals("current city", StringComparison.InvariantCultureIgnoreCase))
             {
+                WebApiApplication.Telemetry.TrackEvent(context.CreateEventTelemetry(@"current city"));
+
                 string userCity;
 
                 var city = context.ConversationData.Get<string>(ContextConstants.CityKey);
@@ -61,9 +82,11 @@
                 {
                     await context.PostAsync($"Hey {userName}, I'm currently configured to search for things in {city}.");
                 }
-            } 
+            }
             else if (message.Text.StartsWith("change city to", StringComparison.InvariantCultureIgnoreCase))
             {
+                WebApiApplication.Telemetry.TrackEvent(context.CreateEventTelemetry(@"change city to"));
+
                 var newCity = message.Text.Substring("change city to".Length).Trim();
                 context.ConversationData.SetValue(ContextConstants.CityKey, newCity);
 
@@ -71,22 +94,43 @@
             }
             else if (message.Text.StartsWith("change my city to", StringComparison.InvariantCultureIgnoreCase))
             {
+                WebApiApplication.Telemetry.TrackEvent(context.CreateEventTelemetry(@"change my city to"));
+
                 var newCity = message.Text.Substring("change my city to".Length).Trim();
                 context.PrivateConversationData.SetValue(ContextConstants.CityKey, newCity);
 
                 await context.PostAsync($"All set {userName}. I have overridden the city to {newCity} just for you.");
-            } 
+            }
             else
             {
-                string city;
+                var measuredEvent = context.CreateEventTelemetry(@"search");
+                var timer = new System.Diagnostics.Stopwatch();
+                timer.Start();
 
-                if (!context.PrivateConversationData.TryGetValue(ContextConstants.CityKey, out city))
+                try
                 {
-                    city = context.ConversationData.Get<string>(ContextConstants.CityKey);
-                }
+                    string city;
 
-                await context.PostAsync($"{userName}, wait a few seconds. Searching for '{message.Text}' in '{city}'...");
-                await context.PostAsync($"https://www.bing.com/search?q={HttpUtility.UrlEncode(message.Text)}+in+{HttpUtility.UrlEncode(city)}");
+                    if (!context.PrivateConversationData.TryGetValue(ContextConstants.CityKey, out city))
+                    {
+                        city = context.ConversationData.Get<string>(ContextConstants.CityKey);
+                    }
+
+                    await context.PostAsync($"{userName}, wait a few seconds. Searching for '{message.Text}' in '{city}'...");
+                    await context.PostAsync($"https://www.bing.com/search?q={HttpUtility.UrlEncode(message.Text)}+in+{HttpUtility.UrlEncode(city)}");
+                }
+                catch (Exception exToLog)
+                {
+                    measuredEvent.Properties.Add("exception", exToLog.ToString());
+                    WebApiApplication.Telemetry.TrackException(context.CreateExceptionTelemetry(exToLog));
+                }
+                finally
+                {
+                    timer.Stop();
+                    measuredEvent.Metrics.Add(@"timeTakenMs", timer.ElapsedMilliseconds);
+
+                    WebApiApplication.Telemetry.TrackEvent(measuredEvent);
+                }
             }
 
             context.Wait(this.MessageReceivedAsync);
@@ -103,8 +147,15 @@
 
                 context.UserData.SetValue(ContextConstants.UserNameKey, userName);
             }
-            catch (TooManyAttemptsException)
+            catch (TooManyAttemptsException ex)
             {
+                WebApiApplication.Telemetry.TrackException(context.CreateExceptionTelemetry(ex));
+            }
+            finally
+            {
+                // It's a good idea to log telemetry in finally {} blocks so you don't end up with gaps of execution
+                // as you follow a conversation
+                WebApiApplication.Telemetry.TrackTrace(context.CreateTraceTelemetry(nameof(ResumeAfterPrompt)));
             }
 
             context.Wait(this.MessageReceivedAsync);
