@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "CSharp/core-State"
+      "defaultValue": "CSharp/core-AppInsights"
     },
     "MicrosoftAppId": {
       "type": "string"
