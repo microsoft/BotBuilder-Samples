@@ -18,7 +18,7 @@ namespace LuisBot.Services
         /// <summary>
         /// The Bing Spell Check Api Url.
         /// </summary>
-        private const string SpellCheckApiUrl = "https://api.cognitive.microsoft.com/bing/v5.0/spellcheck/";
+        private const string SpellCheckApiUrl = "https://api.cognitive.microsoft.com/bing/v5.0/spellcheck/?form=BCSSCK";
 
         /// <summary>
         /// Gets the correct spelling for the given text
