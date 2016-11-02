@@ -1,6 +1,6 @@
 ﻿# Similar Products Bot Sample
 
-A sample bot that illustrates how to use the [Bing Image Search API](https://www.microsoft.com/cognitive-services/en-us/bing-image-search-api) to find visually similar products from an image stream or a URL. [Here's]https://docs.botframework.com/en-us/bot-intelligence/search/#example-product-bot a demo of this bot in a web chat.
+A sample bot that illustrates how to use the [Bing Image Search API](https://www.microsoft.com/cognitive-services/en-us/bing-image-search-api) to find visually similar products from an image stream or a URL. [Here's](https://docs.botframework.com/en-us/bot-intelligence/search/#example-product-bot) a demo of this bot in a web chat.
 
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net)
 
@@ -15,7 +15,7 @@ The minimum prerequisites to run this sample are:
 
 ### Code Highlights
 
-Microsoft Bing Image Search API provides a number of modules that allows you to search by image. Check out the [reference](https://msdn.microsoft.com/en-us/library/dn760791.aspx) to know more about the modules available. In this sample we are using the 'SimilarProducts' module to get similar products of to an image, We set the 'modulesRequested' parameter set to 'SimilarProducts' `https://api.cognitive.microsoft.com/bing/v5.0/images/search?modulesRequested=SimilarProducts` 
+Microsoft Bing Image Search API provides a number of modules that allows you to search by image. Check out the [reference](https://msdn.microsoft.com/en-us/library/dn760791.aspx) to know more about the modules available. In this sample we are using the 'SimilarProducts' module to get similar products to an image. We set the 'modulesRequested' parameter to 'SimilarProducts' `https://api.cognitive.microsoft.com/bing/v5.0/images/search?modulesRequested=SimilarProducts` 
 
 The main components are:
 
