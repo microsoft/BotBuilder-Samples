@@ -128,6 +128,8 @@
     <Compile Include="Hotel.cs" />
     <Compile Include="HotelsQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BingSpellCheckResponse.cs" />
+    <Compile Include="Services\BingSpellCheckService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

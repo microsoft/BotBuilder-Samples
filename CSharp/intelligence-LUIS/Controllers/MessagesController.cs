@@ -1,16 +1,24 @@
 ﻿namespace LuisBot
 {
+    using System;
+    using System.Diagnostics;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using System.Web.Configuration;
     using System.Web.Http;
     using Dialogs;
+    using Services;
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Connector;
 
     [BotAuthentication]
     public class MessagesController : ApiController
     {
+        private readonly BingSpellCheckService spellService = new BingSpellCheckService();
+
+        private static readonly bool IsSpellCorrectionEnabled = Boolean.Parse(WebConfigurationManager.AppSettings["IsSpellCorrectionEnabled"]);
+
         /// <summary>
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
@@ -19,6 +27,18 @@
         {
             if (activity.Type == ActivityTypes.Message)
             {
+                if (IsSpellCorrectionEnabled)
+                {
+                    try
+                    {
+                        activity.Text = await this.spellService.GetCorrectedTextAsync(activity.Text);
+                    }
+                    catch(Exception ex)
+                    {
+                        Trace.TraceError(ex.ToString());
+                    }
+                }
+
                 await Conversation.SendAsync(activity, () => new RootLuisDialog());
             }
             else

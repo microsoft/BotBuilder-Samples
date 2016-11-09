@@ -46,6 +46,14 @@
     },
     "MicrosoftAppPassword": {
       "type": "string"
+    },
+    "EnableSpellCorrection": {
+      "type": "string",
+      "allowedValues": [
+        "true",
+        "false"
+      ],
+      "defaultValue": "false"
     }
   },
   "resources": [
@@ -97,6 +105,10 @@
               {
                 "name": "MicrosoftAppPassword",
                 "value": "[parameters('MicrosoftAppPassword')]"
+              },
+              {
+                "name": "IsSpellCorrectionEnabled",
+                "value": "[parameters('EnableSpellCorrection')]"
               }
             ]
           }

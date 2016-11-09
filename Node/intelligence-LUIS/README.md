@@ -148,6 +148,35 @@ intents.onDefault((session) => {
 
 > **NOTE:** you should avoid adding a matches() handler for LUIS’s “None” intent. Add a onDefault() handler instead. The reason for this is that a LUIS model will often return a very high score for the None intent if it doesn’t understand the users utterance. In the scenario where you’ve configured the IntentDialog with multiple recognizers that could cause the None intent to win out over a non-None intent from a different model that had a slightly lower score. Because of this the LuisRecognizer class suppresses the None intent all together. If you explicitly register a handler for “None” it will never be matched. The onDefault() handler, however can achieve the same effect because it essentially gets triggered when all of the models reported a top intent of “None”.
 
+### Spelling Correction
+
+IF you want to enable spelling correction, set the `IS_SPELL_CORRECTION_ENABLED` key to `true` in the [.env](.env) file.
+
+Microsoft Bing Spell Check API provides a module that allows you to to correct the spelling of the text. Check out the [reference](https://dev.cognitive.microsoft.com/docs/services/56e73033cf5ff80c2008c679/operations/56e73036cf5ff81048ee6727) to know more about the modules available. 
+
+[spell-service.js](spell-service.js) is the core component illustrating how to call the Bing Spell Check RESTful API.
+
+In this sample we added spell correction as a middleware. Check out the middleware in [app.js](app.js).
+
+````JavaScript
+if (process.env.IS_SPELL_CORRECTION_ENABLED == "true") {
+    bot.use({
+        botbuilder: function (session, next) {
+            spellService
+                .getCorrectedText(session.message.text)
+                .then(text => {
+                    session.message.text = text;
+                    next();
+                })
+                .catch((error) => {
+                    console.error(error);
+                    next();
+                });
+        }
+    })
+}
+````
+
 ### Outcome
 
 You will see the following in the Bot Framework Emulator when opening and running the sample solution.
@@ -164,6 +193,7 @@ To get more information about how to get started in Bot Builder for Node and LUI
 * [IntentDialog](https://docs.botframework.com/en-us/node/builder/chat/IntentDialog/)
 * [EntityRecognizer](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.entityrecognizer.html)
 * [Alarm Bot in Node](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/basics-naturalLanguage)
+* [Microsoft Bing Spell Check API](https://www.microsoft.com/cognitive-services/en-us/bing-spell-check-api)
 
 > **Limitations**  
 > The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [Message.sourceEvent](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#sourceevent) method.

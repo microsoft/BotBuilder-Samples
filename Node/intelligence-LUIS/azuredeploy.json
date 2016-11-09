@@ -54,6 +54,14 @@
     "LUIS_MODEL_URL": {
       "type": "string",
       "defaultValue": "https://api.projectoxford.ai/luis/v1/application?id=162bf6ee-379b-4ce4-a519-5f5af90086b5&subscription-key=11be6373fca44ded80fbe2afa8597c18"
+    },
+    "EnableSpellCorrection": {
+      "type": "string",
+      "allowedValues": [
+        "true",
+        "false"
+      ],
+      "defaultValue": "false"
     }
   },
   "resources": [
@@ -113,6 +121,10 @@
               {
                 "name": "LUIS_MODEL_URL",
                 "value": "[parameters('LUIS_MODEL_URL')]"
+              },
+              {
+                "name": "IS_SPELL_CORRECTION_ENABLED",
+                "value": "[parameters('EnableSpellCorrection')]"
               }
             ]
           }
