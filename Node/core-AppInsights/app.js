@@ -1,9 +1,10 @@
 var builder = require('botbuilder');
 var restify = require('restify');
 require('dotenv-extended').load();
+var telemetryModule = require('./telemetry-module.js');
 
 var appInsights = require("applicationinsights");
-appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATION_KEY).start();
+appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY).start();
 var appInsightsClient = appInsights.getClient();
 
 // Setup Restify Server
@@ -31,13 +32,19 @@ var CityKey = 'City';
 // Bot dialogs
 bot.dialog('/', function (session) {
 
+    var telemetry = telemetryModule.createTelemetry(session, { setDefault: false });
+
     // initialize default city
     if (!session.conversationData[CityKey]) {
         session.conversationData[CityKey] = 'Seattle';
-    }
+        
+        telemetry.setDefault = true;
+    } 
 
     var defaultCity = session.conversationData[CityKey];
     session.send('Welcome to the Search City bot. I\'m currently configured to search for things in %s', defaultCity);
+
+    appInsightsClient.trackTrace("start", telemetry);
 
     session.beginDialog('/search');
 });
@@ -51,10 +58,20 @@ bot.dialog('/search', new builder.IntentDialog()
             return;
         }
 
-        // has the user been welcomed to the conversation?
-        if (!session.privateConversationData[UserWelcomedKey]) {
-            session.privateConversationData[UserWelcomedKey] = true;
-            session.send('Welcome back %s! Remember the rules: %s', userName, HelpMessage);
+        try {
+            // has the user been welcomed to the conversation?
+            if (!session.privateConversationData[UserWelcomedKey]) {
+                session.privateConversationData[UserWelcomedKey] = true;
+                session.send('Welcome back %s! Remember the rules: %s', userName, HelpMessage);
+            }
+        } catch (error) {
+            var exceptionTelemetry = telemetryModule.createTelemetry(session);
+            exceptionTelemetry.exception = error.toString();
+            appInsightsClient.trackException(exceptionTelemetry);
+
+        } finally {
+            var resumeAfterPromptTelemetry = telemetryModule.createTelemetry(session);
+            appInsightsClient.trackTrace("resumeAfterPrompt", resumeAfterPromptTelemetry);
         }
 
         next();
@@ -73,6 +90,9 @@ bot.dialog('/search', new builder.IntentDialog()
             session.send('Hey %s, I\'m currently configured to search for things in %s.', userName, defaultCity);
         }
 
+        var telemetry = telemetryModule.createTelemetry(session);
+        appInsightsClient.trackEvent("current city", telemetry);
+
     }).matches(/^change city to (.*)/i, function (session, args) {
         // change default city
         var newCity = args.matched[1].trim();
@@ -80,12 +100,17 @@ bot.dialog('/search', new builder.IntentDialog()
         var userName = session.userData[UserNameKey];
         session.send('All set %s. From now on, all my searches will be for things in %s.', userName, newCity);
 
+        var telemetry = telemetryModule.createTelemetry(session);
+        appInsightsClient.trackEvent("change city to", telemetry);
+
     }).matches(/^change my city to (.*)/i, function (session, args) {
         // change user's city
         var newCity = args.matched[1].trim();
         session.privateConversationData[CityKey] = newCity;
         var userName = session.userData[UserNameKey];
         session.send('All set %s. I have overridden the city to %s just for you', userName, newCity);
+        var telemetry = telemetryModule.createTelemetry(session);
+        appInsightsClient.trackEvent("change my city to", telemetry);
 
     }).matches(/^reset/i, function (session, args) {
         // reset data
@@ -97,18 +122,26 @@ bot.dialog('/search', new builder.IntentDialog()
 
     }).onDefault(function (session) {
         // perform search
+        var measuredEventTelemetry = telemetryModule.createTelemetry(session);
+        var timerStart = process.hrtime();
+
         try {
             var city = session.privateConversationData[CityKey] || session.conversationData[CityKey];
             var userName = session.userData[UserNameKey];
             var messageText = session.message.text.trim();
             session.send('%s, wait a few seconds. Searching for \'%s\' in \'%s\'...', userName, messageText, city);
             session.send('https://www.bing.com/search?q=%s', encodeURIComponent(messageText + ' in ' + city));
-        } catch (error) {
-            
-        } finally {
 
-        }
-        
+        } catch (error) {
+            measuredEventTelemetry.exception = error.toString();
+            appInsightsClient.trackException("search", t)
+
+        } finally {
+            var timerEnd = process.hrtime(timerStart);
+            measuredEventTelemetry.metrics = (timerEnd[0], timerEnd[1]/1000000);
+            appInsightsClient.trackEvent("timeTaken", measuredEventTelemetry);
+
+        }        
     }));
 
 bot.dialog('/askUserName', new builder.SimpleDialog(function (session, results) {
@@ -116,6 +149,10 @@ bot.dialog('/askUserName', new builder.SimpleDialog(function (session, results) 
         session.userData[UserNameKey] = results.response;
         session.privateConversationData[UserWelcomedKey] = true;
         session.send('Welcome %s! %s', results.response, HelpMessage)
+
+        var telemetry = telemetryModule.createTelemetry(session);
+        telemetry.userName = results.response; // You can add properties after-the-fact as well
+        appInsightsClient.trackEvent("new user", telemetry);
 
         //  end the current dialog and replace it with  '/search' dialog
         session.replaceDialog('/search');
