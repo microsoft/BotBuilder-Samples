@@ -17,6 +17,7 @@ Direct Line | A sample bot and a custom client communicating to each other using
 Multi Dialogs | A sample bot showing different kind of dialogs. | [View Sample](/CSharp/core-MultiDialogs)[![Deploy to Azure][Deploy Button]][Deploy CSharp/MultiDialogs] | [View Sample](/Node/core-MultiDialogs)[![Deploy to Azure][Deploy Button]][Deploy Node/MultiDialogs]
 State API | A stateless sample bot tracking context of a conversation. | [View Sample](/CSharp/core-State)[![Deploy to Azure][Deploy Button]][Deploy CSharp/State] | [View Sample](/Node/core-State)[![Deploy to Azure][Deploy Button]][Deploy Node/State]
 ChannelData | A sample bot sending native metadata to Facebook using ChannelData. | [View Sample](/CSharp/core-ChannelData)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ChannelData] | [View Sample](/Node/core-ChannelData)[![Deploy to Azure][Deploy Button]][Deploy Node/ChannelData]
+AppInsights | A sample bot which logs telemetry to an Application Insights instance. | [View Sample](/CSharp/core-AppInsights)[![Deploy to Azure][Deploy Button]][Deploy CSharp/AppInsights] | [View Sample](/Node/core-AppInsights)[![Deploy to Azure][Deploy Button]][Deploy Node/AppInsights]
 
 ## Cards
 These examples emphasize the rich card support in Bot Framework.
@@ -76,3 +77,5 @@ Azure Search | Two sample bots that help the user navigate large amounts of cont
 [Deploy Node/SpeechToText]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/intelligence-SpeechToText
 [Deploy CSharp/SimilarProducts]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/intelligence-SimilarProducts
 [Deploy Node/SimilarProducts]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/intelligence-SimilarProducts
+[Deploy CSharp/AppInsights]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/core-AppInsights
+[Deploy Node/AppInsights]: https://azuredeploy.net/?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/core-AppInsights

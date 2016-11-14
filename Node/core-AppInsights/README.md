@@ -3,7 +3,7 @@ A sample bot which logs telemetry to an Application Insights instance.
 
 [![Deploy to Azure][Deploy Button]][Deploy Node/AppInsights]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy Node/AppInsights]: https://azuredeploy.net
+[Deploy Node/AppInsights]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/core-AppInsights
 
 ### Prerequisites
 
