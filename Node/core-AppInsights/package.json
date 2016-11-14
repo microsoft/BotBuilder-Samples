@@ -1,0 +1,17 @@
+{
+  "name": "botbuilder-sample-appinsights",
+  "version": "1.0.0",
+  "description": "Bot Builder Sample - Application Insights",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "applicationinsights": "^0.16.0",
+    "botbuilder": "^3.2.3",
+    "dotenv-extended": "^1.0.4",
+    "restify": "^4.1.1"
+  }
+}
