@@ -1,9 +1,9 @@
 # Application Insights integration Bot Sample
 A sample bot which logs telemetry to an Application Insights instance.
 
-[![Deploy to Azure][Deploy Button]][Deploy CSharp/State]
+[![Deploy to Azure][Deploy Button]][Deploy CSharp/AppInsights]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy CSharp/State]: https://azuredeploy.net
+[Deploy CSharp/AppInsights]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/core-AppInsights
 
 ### Prerequisites
 
