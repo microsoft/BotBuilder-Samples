@@ -33,8 +33,7 @@ if (hasImageAttachment(session)) {
             .getCaptionFromStream(stream)
             .then(caption => handleSuccessResponse(session, caption))
             .catch(error => handleErrorResponse(session, error));
-    }
-````
+    }````
 and here is the implementation of `captionService.getCaptionFromStream(stream)` in [caption-service.js](caption-service.js)
 ````JavaScript
 /** 
@@ -44,8 +43,7 @@ and here is the implementation of `captionService.getCaptionFromStream(stream)` 
  */
 exports.getCaptionFromStream = stream => {
     return new Promise(
-        (resolve, reject) => {
-            const requestData = {
+        (resolve, reject) => {            const requestData = {
                 url: VISION_URL,
                 encoding: 'binary',
                 headers: { 'content-type': 'application/octet-stream' }
@@ -89,5 +87,5 @@ To get more information about how to get started in Bot Builder for Node and Mic
 ### Developer Code of Conduct
 
 The image or text understanding capabilities this sample use Microsoft Cognitive Services. Microsoft will receive the images and other data that you upload (via this app) for service improvement purposes. To report abuse of the Microsoft Cognitive Services to Microsoft, please visit the Microsoft Cognitive Services website at https://www.microsoft.com/cognitive-services, and use the "Report Abuse" link at the bottom of the page to contact Microsoft. For more information about Microsoft privacy policies please see their privacy statement here: https://go.microsoft.com/fwlink/?LinkId=521839.
-96
+
 Developers using Cognitive Services, including this sample, are expected to follow the "Developer Code of Conduct for Microsoft Cognitive Services", found at http://go.microsoft.com/fwlink/?LinkId=698895.
