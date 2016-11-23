@@ -30,6 +30,7 @@ Microsoft Cognitive Services provides a Speech Recognition API to convert audio 
 The main components are:
 
 * [speech-service.js](speech-service.js): is the core component illustrating how to call the Bing Speech RESTful API.
+
 * [app.js](app.js): is the bot service listener receiving messages from the connector service and passing them down to speech-service.js and doing text processing on them.
 
 In this sample we are using the API to get the text and send it back to the user. Check out the use of the `speechService.getTextFromAudioStream(stream)` method in [app.js](app.js).
@@ -39,7 +40,8 @@ if (hasAudioAttachment(session)) {
         var stream = needle.get(session.message.attachments[0].contentUrl);
         speechService.getTextFromAudioStream(stream)
             .then(text => {
-                session.send(processText(session.message.text, text));
+
+session.send(processText(session.message.text, text));
             })
             .catch(error => {
                 session.send("Oops! Something went wrong. Try again later.");
@@ -87,3 +89,11 @@ Output:
 To get more information about how to get started in Bot Builder for Node and Microsoft Cognitive Services Bing Speech API please review the following resources:
 * [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
 * [Microsoft Cognitive Services Bing Speech API](https://www.microsoft.com/cognitive-services/en-us/speech-api)
+
+
+
+### Developer Code of Conduct
+
+The audio or text understanding capabilities this sample use Microsoft Cognitive Services. Microsoft will receive the audio and other data that you upload (via this app) for service improvement purposes. To report abuse of the Microsoft Cognitive Services to Microsoft, please visit the Microsoft Cognitive Services website at https://www.microsoft.com/cognitive-services, and use the "Report Abuse" link at the bottom of the page to contact Microsoft. For more information about Microsoft privacy policies please see their privacy statement here: https://go.microsoft.com/fwlink/?LinkId=521839.
+
+Developers using Cognitive Services, including this sample, are expected to follow the "Developer Code of Conduct for Microsoft Cognitive Services", found at http://go.microsoft.com/fwlink/?LinkId=698895.
