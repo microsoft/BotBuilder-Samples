@@ -26,7 +26,7 @@ Finally, edit the [RootLuisDialog.cs](Dialogs/RootLuisDialog.cs#L20) file and up
 
 
 ````C#
-define useSampleModel
+#define useSampleModel
 
     [Serializable]
 #if useSampleModel
