@@ -26,7 +26,7 @@ Finally, edit the [RootLuisDialog.cs](Dialogs/RootLuisDialog.cs#L20) file and up
 
 
 ````C#
-#define useSampleModel
+define useSampleModel
 
     [Serializable]
 #if useSampleModel
@@ -62,7 +62,7 @@ Check out the use of LuisIntent attributes decorating [RootLuisDialog](Dialogs/R
 public async Task Search(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult result)
 {
     ...
-f}
+}
 ````
 
 Each intent handler method accepts the `IDialogContext`, the original incoming `IMessageActivity` message and the `LuisResult` including the matching Intents and Entities for the LUIS query. In the sample below, the [RootLuisDialog](Dialogs/RootLuisDialog.cs#L52) class retrieves a city value from the processed [pre-built entity](https://www.luis.ai/Help/#PreBuiltEntities).
