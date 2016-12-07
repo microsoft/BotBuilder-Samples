@@ -47,7 +47,7 @@ On the other hand, you will see the following in Skype.
 
 ![Sample Outcome](images/outcome-skype.png)
 
-> Note: At the time of writing this sample, there is a limit on the amount of cards that can be stacked in a carousel. For Facebook, attachments carousel is mapped to the [Generic Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template) which has a limit of 10 elements. For Skype, there's a limit of 5 elements in the carousel.
+> Note: At the time of writing this sample, there is a limit on the amount of cards that can be stacked in a carousel. For Facebook, attachments carousel is mapped to the [Generic Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template) which has a limit of 10 elements. For Skype, there's also a limit of 10 elements in the carousel.
 
 ### More Information
 
