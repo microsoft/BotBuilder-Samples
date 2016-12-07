@@ -93,9 +93,9 @@ Another LUIS Model Feature used is Phrase List Features, for instance, the model
 
 ### Spelling Correction
 
-IF you want to enable spelling correction, set the `IsSpellCorrectionEnabled` key to `true` in the [web.config](web.config) file.
+If you want to enable spelling correction, set the `IsSpellCorrectionEnabled` key to `true` in the [web.config](web.config) file.
 
-Microsoft Bing Spell Check API provides a module that allows you to to correct the spelling of the text. Check out the [reference](https://dev.cognitive.microsoft.com/docs/services/56e73033cf5ff80c2008c679/operations/56e73036cf5ff81048ee6727) to know more about the modules available. 
+Bing Spell Check API provides a module that allows you to to correct the spelling of the text. Check out the [reference](https://dev.cognitive.microsoft.com/docs/services/56e73033cf5ff80c2008c679/operations/56e73036cf5ff81048ee6727) to know more about the modules available. 
 
 [BingSpellCheckService.cs](Services/BingSpellCheckService.cs) is the core component illustrating how to call the Bing Spell Check RESTful API.
 
@@ -134,7 +134,7 @@ To get more information about how to get started in Bot Builder for .NET and Con
 * Other examples using LUIS
     * [Dialogs - Alarm Bot](https://docs.botframework.com/en-us/csharp/builder/sdkreference/dialogs.html#alarmBot)
     * [Weather Bot](https://docs.botframework.com/en-us/bot-intelligence/language/#example-weather-bot)
-* [Microsoft Bing Spell Check API](https://www.microsoft.com/cognitive-services/en-us/bing-spell-check-api)
+* [Bing Spell Check API](https://www.microsoft.com/cognitive-services/en-us/bing-spell-check-api)
 
 > **Limitations**  
 > The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html).
