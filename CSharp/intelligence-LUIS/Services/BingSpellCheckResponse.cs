@@ -20,7 +20,7 @@
     public class Suggestion
     {
         public string suggestion { get; set; }
-        public int score { get; set; }
+        public double score { get; set; }
     }
 
     public class Error
