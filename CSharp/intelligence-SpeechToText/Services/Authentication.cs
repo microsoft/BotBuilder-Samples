@@ -1,17 +1,18 @@
 ﻿namespace SpeechToText.Services
 {
     using System;
-    using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading;
     using System.Web.Configuration;
-    using Newtonsoft.Json;
 
     public sealed class Authentication
     {
+        // The token has an expiry time of 10 minutes https://www.microsoft.com/cognitive-services/en-us/Speech-api/documentation/API-Reference-REST/BingVoiceRecognition
+        private const int TokenExpiryInSeconds = 600;
+
         private static readonly object LockObject;
         private static readonly string ApiKey;
-        private AccessTokenInfo token;
+        private string token;
         private Timer timer;
 
         static Authentication()
@@ -30,7 +31,7 @@
         /// Gets the current access token.
         /// </summary>
         /// <returns>Current access token</returns>
-        public AccessTokenInfo GetAccessToken()
+        public string GetAccessToken()
         {
             // Token will be null first time the function is called.
             if (this.token == null)
@@ -53,25 +54,15 @@
         /// </summary>
         /// This method couldn't be async because we are calling it inside of a lock.
         /// <returns>AccessToken</returns>
-        private static AccessTokenInfo GetNewToken()
+        private static string GetNewToken()
         {
             using (var client = new HttpClient())
             {
-                var values = new Dictionary<string, string>
-                {
-                    { "grant_type", "client_credentials" },
-                    { "client_id", ApiKey },
-                    { "client_secret", ApiKey },
-                    { "scope", "https://speech.platform.bing.com" }
-                };
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", ApiKey);
+                
+                var response = client.PostAsync("https://api.cognitive.microsoft.com/sts/v1.0/issueToken", null).Result;
 
-                var content = new FormUrlEncodedContent(values);
-
-                var response = client.PostAsync("https://oxford-speech.cloudapp.net/token/issueToken", content).Result;
-
-                var responseString = response.Content.ReadAsStringAsync().Result;
-
-                return JsonConvert.DeserializeObject<AccessTokenInfo>(responseString);
+                return response.Content.ReadAsStringAsync().Result;
             }
         }
 
@@ -86,7 +77,7 @@
             this.timer = new Timer(
                 x => this.RefreshToken(), 
                 null, 
-                TimeSpan.FromSeconds(this.token.expires_in).Subtract(TimeSpan.FromMinutes(1)), // Specifies the delay before RefreshToken is invoked.
+                TimeSpan.FromSeconds(TokenExpiryInSeconds).Subtract(TimeSpan.FromMinutes(1)), // Specifies the delay before RefreshToken is invoked.
                 TimeSpan.FromMilliseconds(-1)); // Indicates that this function will only run once
         }
     }

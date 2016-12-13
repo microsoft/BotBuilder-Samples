@@ -20,7 +20,7 @@
             using (var client = new HttpClient())
             {
                 var token = Authentication.Instance.GetAccessToken();
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token.access_token);
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
 
                 using (var binaryContent = new ByteArrayContent(StreamToBytes(audiostream)))
                 {
