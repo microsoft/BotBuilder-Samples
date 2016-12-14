@@ -4,6 +4,9 @@ const uuid = require("node-uuid"),
 
 const SPEECH_API_KEY = process.env.MICROSOFT_SPEECH_API_KEY;
 
+// The token has an expiry time of 10 minutes https://www.microsoft.com/cognitive-services/en-us/Speech-api/documentation/API-Reference-REST/BingVoiceRecognition
+const TOKEN_EXPIRY_IN_SECONDS = 600;
+
 var speechApiAccessToken = "";
 
 exports.getTextFromAudioStream = (stream) => {
@@ -28,30 +31,25 @@ exports.getTextFromAudioStream = (stream) => {
 
 const authenticate = (callback) => {
     const requestData = {
-        url: "https://oxford-speech.cloudapp.net/token/issueToken",
-        headers: { "content-type": "application/x-www-form-urlencoded" },
-        form: {
-            grant_type: "client_credentials",
-            client_id: SPEECH_API_KEY,
-            client_secret: SPEECH_API_KEY,
-            scope: "https://speech.platform.bing.com"
+        url: "https://api.cognitive.microsoft.com/sts/v1.0/issueToken",
+        headers: {
+            "content-type": "application/x-www-form-urlencoded",
+            "Ocp-Apim-Subscription-Key": SPEECH_API_KEY
         }
     }
 
-    request.post(requestData, (error, response, body) => {
+    request.post(requestData, (error, response, token) => {
         if (error) {
             console.error(error);
         }
         else if (response.statusCode != 200) {
-            console.error(body);
+            console.error(token);
         }
         else {
-            const token = JSON.parse(body);
-            speechApiAccessToken = "Bearer " + token.access_token;
-            const expires_in_seconds = token.expires_in;
+            speechApiAccessToken = "Bearer " + token;
 
             // We need to refresh the token before it expires.
-            setTimeout(authenticate, (expires_in_seconds - 60) * 1000);
+            setTimeout(authenticate, (TOKEN_EXPIRY_IN_SECONDS - 60) * 1000);
             if (callback) {
                 callback();
             }
@@ -70,7 +68,7 @@ const streamToText = (stream, resolve, reject) => {
         "form=BCSSTT",
         "instanceid=0F8EBADC-3DE7-46FB-B11A-1B3C3C4309F5",
         "requestid=" + uuid.v4(),
-        ].join("&");
+    ].join("&");
 
     const speechRequestData = {
         url: speechApiUrl,
