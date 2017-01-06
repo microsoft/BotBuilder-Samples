@@ -11,11 +11,11 @@ A sample bot sending native metadata to Facebook using ChannelData.
 
 The minimum prerequisites to run this sample are:
 * The latest update of Visual Studio 2015. You can download the community version [here](http://www.visualstudio.com) for free.
-* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
+* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 *  To fully test this sample you must:
     *  Register you bot in [Microsoft Bot Framework Portal](https://dev.botframework.com/bots). Please refer to [this](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#registering) for the instructions. Once you complete the registration, update the [Bot's Web.config](Web.config#L9-L11) file with the registered config values (Bot Id, MicrosoftAppId and MicrosoftAppPassword). 
     *  Enable the Facebook Messenger Channel. Refer to [this](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#channels) for more information on how to configure channels.
-    *  [Publish your bot, for example to Azure](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#publishing) or use [Ngrok to interact with your local bot in the cloud](https://docs.botframework.com/en-us/tools/bot-framework-emulator/#using-the-emulator-with-ngrok-to-interact-with-your-bot-in-the-cloud).
+    *  [Publish your bot, for example to Azure](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#publishing) or use [Ngrok to interact with your local bot in the cloud](https://blogs.msdn.microsoft.com/jamiedalton/2016/07/29/ms-bot-framework-ngrok/).
 
 ### Code Highlights
 
@@ -102,7 +102,7 @@ On the other hand, you will see the following in your Facebook Messenger.
 
 To get more information about how to get started in Bot Builder for .NET and ChannelData please review the following resources:
 
+* [Adding Channel Data](https://docs.botframework.com/en-us/core-concepts/channeldata)
 * [Custom Channel Capabilities](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html)
 * [Custom Facebook Messages](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html#customfacebookmessages)
 * [Facebook Messenger - Send API Reference](https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-checkin-template)
-* [Bot Framework Emulator](https://docs.botframework.com/en-us/tools/bot-framework-emulator/#using-the-emulator-with-ngrok-to-interact-with-your-bot-in-the-cloud)
