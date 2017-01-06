@@ -1,10 +1,10 @@
-﻿using Microsoft.ApplicationInsights.DataContracts;
-using Microsoft.Bot.Builder.Dialogs;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
-namespace AppInsightsBot
+﻿namespace AppInsightsBot
 {
+    using System.Collections.Generic;
+    using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.Bot.Builder.Dialogs;
+    using Newtonsoft.Json;
+
     public static class TelemetryExtensions
     {
         public static TraceTelemetry CreateTraceTelemetry(this IDialogContext ctx, string message = null, IDictionary<string, string> properties = null)

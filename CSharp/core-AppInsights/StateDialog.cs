@@ -1,12 +1,12 @@
 ﻿namespace AppInsightsBot
 {
-    using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Bot.Connector;
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Web;
+    using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Connector;
+    using Newtonsoft.Json;
 
     [Serializable]
     public class StateDialog : IDialog<object>
@@ -16,8 +16,7 @@
 
         public async Task StartAsync(IDialogContext context)
         {
-            var telemetry = context.CreateTraceTelemetry(nameof(StartAsync),
-                new Dictionary<string, string> { { @"SetDefault", bool.FalseString } });
+            var telemetry = context.CreateTraceTelemetry(nameof(StartAsync), new Dictionary<string, string> { { @"SetDefault", bool.FalseString } });
 
             string defaultCity;
 
@@ -40,8 +39,9 @@
         {
             var message = await result;
 
-            WebApiApplication.Telemetry.TrackTrace(context.CreateTraceTelemetry(nameof(MessageReceivedAsync),
-                // Here's how we can serialize an entire object to an App Insights event
+            // Here's how we can serialize an entire object to an App Insights event
+            WebApiApplication.Telemetry.TrackTrace(context.CreateTraceTelemetry(
+                nameof(MessageReceivedAsync), 
                 new Dictionary<string, string> { { "message", JsonConvert.SerializeObject(message) } }));
 
             string userName;
@@ -119,10 +119,10 @@
                     await context.PostAsync($"{userName}, wait a few seconds. Searching for '{message.Text}' in '{city}'...");
                     await context.PostAsync($"https://www.bing.com/search?q={HttpUtility.UrlEncode(message.Text)}+in+{HttpUtility.UrlEncode(city)}");
                 }
-                catch (Exception exToLog)
+                catch (Exception ex)
                 {
-                    measuredEvent.Properties.Add("exception", exToLog.ToString());
-                    WebApiApplication.Telemetry.TrackException(context.CreateExceptionTelemetry(exToLog));
+                    measuredEvent.Properties.Add("exception", ex.ToString());
+                    WebApiApplication.Telemetry.TrackException(context.CreateExceptionTelemetry(ex));
                 }
                 finally
                 {
