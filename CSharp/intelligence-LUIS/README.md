@@ -10,7 +10,7 @@ A sample bot using LuisDialog to integrate with a LUIS.ai application.
 
 The minimum prerequisites to run this sample are:
 * The latest update of Visual Studio 2015. You can download the community version [here](http://www.visualstudio.com) for free.
-* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
+* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 
 
 #### LUIS Application
@@ -42,11 +42,13 @@ Finally, edit the [RootLuisDialog.cs](Dialogs/RootLuisDialog.cs#L20) file and up
 You'll need these two values to configure the LuisDialog through the LuisModel attribute:
 
 1. Application ID
-    In the LUIS application's dashboard, select the App Settings option in the right side bar and copy the App ID field value.
+
+    In the LUIS application's dashboard, select the _App Settings_ option in the right side bar and copy the App ID field value.
     
     ![App Settings](images/prereqs-appid.png)
     
 2. Subscription Key
+
     In the [user's settings page](https://www.luis.ai/Home/UserSettings), select the _Subscription Keys_ option and copy the Programmatic API Key.
     
     ![Programmatic API Key](images/prereqs-apikey.png)
@@ -93,7 +95,7 @@ Another LUIS Model Feature used is Phrase List Features, for instance, the model
 
 ### Spelling Correction
 
-If you want to enable spelling correction, set the `IsSpellCorrectionEnabled` key to `true` in the [web.config](web.config) file.
+If you want to enable spelling correction, set the `IsSpellCorrectionEnabled` key to `true` in the [Web.config](Web.config) file.
 
 Bing Spell Check API provides a module that allows you to to correct the spelling of the text. Check out the [reference](https://dev.cognitive.microsoft.com/docs/services/56e73033cf5ff80c2008c679/operations/56e73036cf5ff81048ee6727) to know more about the modules available. 
 
