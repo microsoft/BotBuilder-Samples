@@ -1,9 +1,9 @@
-﻿using System.Web.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
-namespace SimilarProducts
+﻿namespace SimilarProducts
 {
+    using System.Web.Http;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
+
     public static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)

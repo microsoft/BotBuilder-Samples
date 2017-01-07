@@ -8,7 +8,7 @@ A sample bot that illustrates how to use the [Bing Image Search API](https://www
 
 The minimum prerequisites to run this sample are:
 * The latest update of Visual Studio 2015. You can download the community version [here](http://www.visualstudio.com) for free.
-* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
+* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 * This sample currently uses a free trial Microsoft Bing Search API key with limited QPS. Please subscribe [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) to obtain your own key and update the `BingSearchApiKey` key in [Web.config](Web.config) file to try it out further.
 
 ### Code Highlights
@@ -33,15 +33,13 @@ public async Task<IList<ImageResult>> GetSimilarProductImagesAsync(string url)
         var text = await httpClient.GetStringAsync(apiUrl);
         var response = JsonConvert.DeserializeObject<BingImageResponse>(text);
 
-        return response
-            ?.visuallySimilarProducts
-            ?.Select(i => new ImageResult
+        return response?.VisuallySimilarProducts?.Select(i => new ImageResult
             {
-                HostPageDisplayUrl = i.hostPageDisplayUrl,
-                HostPageUrl = i.hostPageUrl,
-                Name = i.name,
-                ThumbnailUrl = i.thumbnailUrl,
-                WebSearchUrl = i.webSearchUrl
+                HostPageDisplayUrl = i.HostPageDisplayUrl,
+                HostPageUrl = i.HostPageUrl,
+                Name = i.Name,
+                ThumbnailUrl = i.ThumbnailUrl,
+                WebSearchUrl = i.WebSearchUrl
             })
             .ToList();
     }
@@ -72,15 +70,13 @@ public async Task<IList<ImageResult>> GetSimilarProductImagesAsync(Stream stream
         var text = await postResponse.Content.ReadAsStringAsync();
         var response = JsonConvert.DeserializeObject<BingImageResponse>(text);
 
-        return response
-            ?.visuallySimilarProducts
-            ?.Select(i => new ImageResult
+        return response?.VisuallySimilarProducts?.Select(i => new ImageResult
             {
-                HostPageDisplayUrl = i.hostPageDisplayUrl,
-                HostPageUrl = i.hostPageUrl,
-                Name = i.name,
-                ThumbnailUrl = i.thumbnailUrl,
-                WebSearchUrl = i.webSearchUrl
+                HostPageDisplayUrl = i.HostPageDisplayUrl,
+                HostPageUrl = i.HostPageUrl,
+                Name = i.Name,
+                ThumbnailUrl = i.ThumbnailUrl,
+                WebSearchUrl = i.WebSearchUrl
             })
             .ToList();
     }

@@ -1,14 +1,12 @@
-﻿using System.Net.Http.Headers;
-using System.Web;
-
-namespace SimilarProducts.Services
+﻿namespace SimilarProducts.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Net.Http;
+    using System.Net.Http.Headers;
     using System.Threading.Tasks;
+    using System.Web;
     using System.Web.Configuration;
     using Newtonsoft.Json;
 
@@ -45,15 +43,13 @@ namespace SimilarProducts.Services
                 var text = await httpClient.GetStringAsync(apiUrl);
                 var response = JsonConvert.DeserializeObject<BingImageResponse>(text);
 
-                return response
-                    ?.visuallySimilarProducts
-                    ?.Select(i => new ImageResult
+                return response?.VisuallySimilarProducts?.Select(i => new ImageResult
                     {
-                        HostPageDisplayUrl = i.hostPageDisplayUrl,
-                        HostPageUrl = i.hostPageUrl,
-                        Name = i.name,
-                        ThumbnailUrl = i.thumbnailUrl,
-                        WebSearchUrl = i.webSearchUrl
+                        HostPageDisplayUrl = i.HostPageDisplayUrl,
+                        HostPageUrl = i.HostPageUrl,
+                        Name = i.Name,
+                        ThumbnailUrl = i.ThumbnailUrl,
+                        WebSearchUrl = i.WebSearchUrl
                     })
                     .ToList();
             }
@@ -80,15 +76,13 @@ namespace SimilarProducts.Services
                 var text = await postResponse.Content.ReadAsStringAsync();
                 var response = JsonConvert.DeserializeObject<BingImageResponse>(text);
 
-                return response
-                    ?.visuallySimilarProducts
-                    ?.Select(i => new ImageResult
+                return response?.VisuallySimilarProducts?.Select(i => new ImageResult
                     {
-                        HostPageDisplayUrl = i.hostPageDisplayUrl,
-                        HostPageUrl = i.hostPageUrl,
-                        Name = i.name,
-                        ThumbnailUrl = i.thumbnailUrl,
-                        WebSearchUrl = i.webSearchUrl
+                        HostPageDisplayUrl = i.HostPageDisplayUrl,
+                        HostPageUrl = i.HostPageUrl,
+                        Name = i.Name,
+                        ThumbnailUrl = i.ThumbnailUrl,
+                        WebSearchUrl = i.WebSearchUrl
                     })
                     .ToList();
             }
