@@ -28,8 +28,15 @@
 
                     var response = await client.PostAsync(requestUri, binaryContent);
                     var responseString = await response.Content.ReadAsStringAsync();
-                    dynamic data = JsonConvert.DeserializeObject(responseString);
-                    return data.header.name;
+                    try
+                    {
+                        dynamic data = JsonConvert.DeserializeObject(responseString);
+                        return data.header.name;
+                    }
+                    catch (JsonReaderException ex)
+                    {
+                        throw new Exception(responseString, ex);
+                    }
                 }
             }
         }
