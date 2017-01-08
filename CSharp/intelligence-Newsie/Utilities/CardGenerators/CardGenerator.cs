@@ -5,85 +5,72 @@ namespace Newsie.Utilities.CardGenerators
 {
     internal class CardGenerator
     {
-       // Hero Card with no action button
-        public static Attachment GetHeroCard(string title, string subtitle, string text)
+        public static Attachment GetThumbNailCard(string title = default(string), string subtitle = default(string), string text = default(string), CardImage cardImage = null, List<CardAction> cardActions = null, CardAction cardTap = null)
+        {
+            var thumbnailCard = new ThumbnailCard
+            {
+                Title = title
+            };
+
+            if (!string.IsNullOrEmpty(subtitle))
+            {
+                thumbnailCard.Subtitle = subtitle;
+            }
+
+            if (!string.IsNullOrEmpty(text))
+            {
+                thumbnailCard.Text = text;
+            }
+
+            if (cardImage != null)
+            {
+                thumbnailCard.Images = new List<CardImage> { cardImage };
+            }
+
+            if (cardActions != null)
+            {
+                thumbnailCard.Buttons = cardActions;
+            }
+
+            if (cardTap != null)
+            {
+                thumbnailCard.Tap = cardTap;
+            }
+
+            return thumbnailCard.ToAttachment();
+        }
+
+        public static Attachment GetHeroCard(string title = default(string), string subtitle = default(string), string text = default(string), CardImage cardImage = null, List<CardAction> cardActions = null, CardAction cardTap = null)
         {
             var heroCard = new HeroCard
             {
-                Title = title,
-                Subtitle = subtitle,
-                Text = text
+                Title = title
             };
 
-            return heroCard.ToAttachment();
-        }
-
-        public static Attachment GetHeroCard(List<CardAction> cardActions)
-        {
-            return new HeroCard
+            if (!string.IsNullOrEmpty(subtitle))
             {
-                Buttons = cardActions
-            }.ToAttachment();
-        }
+                heroCard.Subtitle = subtitle;
+            }
 
-        // Hero Card with no action button
-        public static Attachment GetHeroCard(string title, string subtitle, string text, CardImage cardImage)
-        {
-            var heroCard = new HeroCard
+            if (!string.IsNullOrEmpty(text))
             {
-                Title = title,
-                Subtitle = subtitle,
-                Text = text,
-                Images = new List<CardImage>
-                {
-                    cardImage 
-                }
-            };
+                heroCard.Text = text;
+            }
 
-            return heroCard.ToAttachment();
-        }
-
-        // Hero Card with one action button
-        public static Attachment GetHeroCard(string title, string subtitle, string text, CardImage cardImage, CardAction cardAction)
-        {
-            var heroCard = new HeroCard
+            if (cardImage != null)
             {
-                Title = title,
-                Subtitle = subtitle,
-                Text = text,
-                Images = new List<CardImage>() { cardImage },
-                Buttons = new List<CardAction>() { cardAction },
-            };
+                heroCard.Images = new List<CardImage> { cardImage };
+            }
 
-            return heroCard.ToAttachment();
-        }
-
-        // Hero Card with two action buttons
-        public static Attachment GetHeroCard(string title, string subtitle, string text, CardImage cardImage, CardAction cardAction, CardAction cardAction2)
-        {
-            var heroCard = new HeroCard
+            if (cardActions != null)
             {
-                Title = title,
-                Subtitle = subtitle,
-                Text = text,
-                Images = new List<CardImage>() { cardImage },
-                Buttons = new List<CardAction>() { cardAction, cardAction2 },
-            };
+                heroCard.Buttons = cardActions;
+            }
 
-            return heroCard.ToAttachment();
-        }
-
-        // Hero Card with three action buttons
-        public static Attachment GetHeroCard(string title, string subtitle, string text, CardImage cardImage, CardAction cardAction, CardAction cardAction2, CardAction cardAction3)
-        {
-            var heroCard = new HeroCard
+            if (cardTap != null)
             {
-                Title = title,
-                Subtitle = subtitle,
-                Text = text,
-                Images = new List<CardImage>() { cardImage },
-                Buttons = new List<CardAction>() { cardAction, cardAction2, cardAction3 },
-            };
+                heroCard.Tap = cardTap;
+            }
 
             return heroCard.ToAttachment();
         }

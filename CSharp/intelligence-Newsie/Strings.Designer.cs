@@ -70,20 +70,20 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hi {0}! If you need to get news {1} about any of the following categories, just let me know by clicking on of the following buttons.
+        ///   Looks up a localized string similar to Full Story.
         /// </summary>
-        internal static string GreetOnDemand {
+        internal static string FullStoryString {
             get {
-                return ResourceManager.GetString("GreetOnDemand", resourceCulture);
+                return ResourceManager.GetString("FullStoryString", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Or you can just type what you want and I&apos;ll do my best {0}.
+        ///   Looks up a localized string similar to Hi {0}! What would you like to read about? You can either pick a category below or just type the topic {1}. I&apos;ll do my best to fetch the latest and the most important stories from across the web {2}, powered by Bing News..
         /// </summary>
-        internal static string GreetOnDemandCont {
+        internal static string GreetOnDemand {
             get {
-                return ResourceManager.GetString("GreetOnDemandCont", resourceCulture);
+                return ResourceManager.GetString("GreetOnDemand", resourceCulture);
             }
         }
         
@@ -97,20 +97,11 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I&apos;ll pull in some news about {0} category!.
+        ///   Looks up a localized string similar to I&apos;ll pull in some news about {0} category {1}!.
         /// </summary>
         internal static string NewsCategoryTypeMessage {
             get {
                 return ResourceManager.GetString("NewsCategoryTypeMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Hmm... I could not retrieve the article&apos;s title.
-        /// </summary>
-        internal static string NewsHeadlineErrorMessage {
-            get {
-                return ResourceManager.GetString("NewsHeadlineErrorMessage", resourceCulture);
             }
         }
         
@@ -133,7 +124,7 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Let&apos;s get started {0}. Ask me to find news about anything..
+        ///   Looks up a localized string similar to Say &quot;Hi&quot; if you would like to get statred {0}..
         /// </summary>
         internal static string StartGreetingMessage {
             get {
@@ -142,11 +133,20 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hmm, I&apos;m sorry. I could not summarize the article {0} but I informed my creator so that I do a better job in the future!.
+        ///   Looks up a localized string similar to Hmm, I&apos;m sorry. I could not summarize the article {0}..
         /// </summary>
         internal static string SummaryErrorMessage {
             get {
                 return ResourceManager.GetString("SummaryErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SUMMARY.
+        /// </summary>
+        internal static string SummaryString {
+            get {
+                return ResourceManager.GetString("SummaryString", resourceCulture);
             }
         }
         

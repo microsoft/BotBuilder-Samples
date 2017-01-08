@@ -118,6 +118,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\binglogo.jpg" />
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
@@ -125,7 +126,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dialogs\MainDialog.cs" />
     <Compile Include="Handlers\HandlerFactory.cs" />
     <Compile Include="Handlers\IRegexHandler.cs" />
     <Compile Include="Handlers\NewCategoryScorable.cs" />
@@ -135,6 +135,7 @@
     <Compile Include="Services\IApiHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Services\ApiHandler.cs" />
+    <Compile Include="Dialogs\MainDialog.cs" />
     <Compile Include="Handlers\GreetingIntentHandler.cs" />
     <Compile Include="Handlers\IIntentHandler.cs" />
     <Compile Include="Handlers\NewsIntentHandler.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Services\IUrlShorteningService.cs" />
     <Compile Include="Utilities\CardGenerators\NewsCardGenerator.cs" />
     <Compile Include="Handlers\IHandlerFactory.cs" />
+    <Compile Include="Utilities\NewsCategoryParser.cs" />
     <Compile Include="Modules\MainModule.cs" />
     <Compile Include="Services\BingNewsService.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
@@ -168,11 +170,11 @@
     <Compile Include="Utilities\CacheManager.cs" />
     <Compile Include="Utilities\Emojis.cs" />
     <Compile Include="Utilities\ICacheManager.cs" />
-    <Compile Include="Utilities\NewsCategoryParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\newsieherobot.pubxml" />
+    <None Include="Properties\PublishProfiles\newsietutorial - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

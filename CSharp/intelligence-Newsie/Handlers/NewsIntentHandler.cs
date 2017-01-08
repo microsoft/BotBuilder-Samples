@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
@@ -20,9 +21,6 @@ namespace Newsie.Handlers
         private const int NewsMaxTitleChar = 200;
         private const int NewsMaxDescriptionChar = 500;
         private const int NewsMaxProviderChar = 100;
-        private const int NewsImageWidth = 382;
-        private const int NewsImageHeight = 200;
-
         private const int NewsMaxResults = 5;
 
         private readonly ICacheManager cache;
@@ -90,16 +88,16 @@ namespace Newsie.Handlers
             }
             else
             {
-                newsieResult.DatePublished =
-                    new DateTime(news.datePublished.Year, news.datePublished.Month, news.datePublished.Day).ToString("D");
+                newsieResult.DatePublished = new DateTime(news.datePublished.Year, news.datePublished.Month, news.datePublished.Day).ToString("D");
             }
 
-            newsieResult.ImageContentUrl = news.image?.thumbnail?.contentUrl;
-
-            if (!string.IsNullOrEmpty(newsieResult.ImageContentUrl))
+            if (!string.IsNullOrEmpty(news.image?.thumbnail?.contentUrl))
             {
-                newsieResult.ImageContentUrl += "&w=" + NewsImageWidth + "&h=" + NewsImageHeight;
+                newsieResult.ImageContentUrl = news.image.thumbnail.contentUrl;
+                newsieResult.ImageContentUrl += "&w=" + news.image.thumbnail.width + "&h=" + news.image.thumbnail.height;
             }
+
+            newsieResult.Url = news.url;
 
             return newsieResult;
         }
@@ -107,15 +105,15 @@ namespace Newsie.Handlers
         public async Task Respond(IMessageActivity activity, LuisResult result)
         {
             EntityRecommendation entityRecommendation;
-            Categories category;
+            NewsCategory newsCategory = NewsCategory.None;
             BingNews bingNews;
 
             if (result.TryFindEntity(NewsieStrings.NewsEntityCategory, out entityRecommendation) &&
-                LuisCategoryParser.TryParse(entityRecommendation.Entity, out category))
+                NewsCategoryParser.TryParse(entityRecommendation.Entity, out newsCategory))
             {
                 // If a category entity was found issue a category search request
-                await this.botToUser.PostAsync(string.Format(Strings.NewsCategoryTypeMessage, category.GetDislaplyName().ToLowerInvariant()));
-                bingNews = await this.bingNewsApiHandler.FindNewsByCategory(category.ToString());
+                await this.botToUser.PostAsync(string.Format(Strings.NewsCategoryTypeMessage, newsCategory.GetDislaplyName().ToLowerInvariant(), Emojis.Wink));
+                bingNews = await this.bingNewsApiHandler.FindNewsByCategory(newsCategory.ToString());
             }
             else if (result.TryFindEntity(NewsieStrings.NewsEntityTopic, out entityRecommendation))
             {
@@ -138,11 +136,24 @@ namespace Newsie.Handlers
             for (int i = 0; i < NewsMaxResults; i++)
             {
                 var newsieResult = await this.PrepareNewsieResult(bingNews.value[i]);
-                var attachment = NewsCardGenerator.GetNewsArticleCard(newsieResult);
+                var attachments = NewsCardGenerator.GetNewsArticleCard(newsieResult, activity.ChannelId);
 
-                reply.Attachments.Add(attachment);
+                foreach (var attachment in attachments)
+                {
+                    reply.Attachments.Add(attachment);
+                }
 
                 this.cache.Write(newsieResult.ShortenedUrl, bingNews.value[i]);
+            }
+
+            if (newsCategory != NewsCategory.None)
+            {
+                reply.Attachments.Add(CardGenerator.GetHeroCard(
+                    cardActions: new List<CardAction>
+                    {
+                        new CardAction(ActionTypes.OpenUrl, "Bing for more", value: $"https://www.bing.com/news?q={newsCategory.GetQueryName()}+news")
+                    },
+                    cardImage: new CardImage(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/Content/binglogo.jpg")));
             }
 
             await this.botToUser.PostAsync(reply);
@@ -152,8 +163,7 @@ namespace Newsie.Handlers
         {
             var newsieResult = new NewsieNewsResult
             {
-                ShortenedUrl = await this.urlShorteningService.GetShortenedUrl(news.url),
-                Url = news.url
+                ShortenedUrl = await this.urlShorteningService.GetShortenedUrl(news.url)
             };
 
             return PrepareNewsieResultHelper(news, newsieResult);

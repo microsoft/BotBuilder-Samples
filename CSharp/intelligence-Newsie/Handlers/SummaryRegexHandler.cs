@@ -42,25 +42,36 @@ namespace Newsie.Handlers
                     var newsieResult = new NewsieNewsResult();
 
                     // Return news headline and image 
-                    var newsHeadline = this.botToUser.MakeMessage();
+                    var newsFirstMessage = this.botToUser.MakeMessage();
+
+                    newsieResult.ShortenedUrl = articleUrl;
                     NewsIntentHandler.PrepareNewsieResultHelper(newsResult, newsieResult);
 
-                    newsHeadline.Attachments = new List<Attachment>
+                    newsFirstMessage.Attachments = new List<Attachment>
                     {
-                        NewsCardGenerator.GetNewsArticleHeadlineCard(newsieResult),
-                        NewsCardGenerator.GetNewsArticleHeadlineImage(newsieResult)
+                        NewsCardGenerator.GetNewsArticleHeadlineImageCard(newsieResult, activity.ChannelId)
                     };
 
-                    await this.botToUser.PostAsync(newsHeadline);
+                    await this.botToUser.PostAsync(newsFirstMessage);
                 }
 
                 var bingSummary = await this.summaryService.GetSummary(articleUrl);
 
                 if (bingSummary?.Data != null && bingSummary.Data.Length != 0)
                 {
+                    var newsSummaryMessage = this.botToUser.MakeMessage();
+
+                    newsSummaryMessage.Attachments.Add(CardGenerator.GetHeroCard(Strings.SummaryString));
+
+                    await this.botToUser.PostAsync(Strings.SummaryString);
+
                     foreach (var t in bingSummary.Data)
                     {
-                        await this.botToUser.PostAsync(t.Text);
+                        newsSummaryMessage = this.botToUser.MakeMessage();
+
+                        newsSummaryMessage.Attachments.Add(CardGenerator.GetHeroCard(text: t.Text));
+
+                        await this.botToUser.PostAsync(newsSummaryMessage);
                     }
                 }
                 else

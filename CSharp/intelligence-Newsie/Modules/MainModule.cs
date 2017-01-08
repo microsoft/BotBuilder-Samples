@@ -19,7 +19,7 @@ namespace Newsie.Modules
             builder.Register(c => new LuisModelAttribute("6ef53edb-ea47-48f1-92f9-7405e8a4dc46", "a6d628faa2404cd799f2a291245eb135")).AsSelf().AsImplementedInterfaces().SingleInstance();
 
             // Top Level Dialog
-            builder.RegisterType<MainLuisDialog>().As<IDialog<object>>().InstancePerDependency();
+            builder.RegisterType<MainDialog>().As<IDialog<object>>().InstancePerDependency();
 
             // Singlton services
             builder.RegisterType<LuisService>().Keyed<ILuisService>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().SingleInstance();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
@@ -24,14 +25,12 @@ namespace Newsie.Handlers
 
         public async Task Respond(IMessageActivity activity, LuisResult result)
         {
-            await this.botToUser.PostAsync(string.Format(Strings.GreetOnDemand, Emojis.WideSmile, Emojis.News));
-
             var reply = this.botToUser.MakeMessage();
             var cards = new List<CardAction>();
 
-            foreach (var @enum in Enum.GetValues(typeof(Categories)).Cast<Categories>())
+            foreach (var @enum in Enum.GetValues(typeof(NewsCategory)).Cast<NewsCategory>())
             {
-                if (@enum == Categories.None)
+                if (@enum == NewsCategory.None)
                 {
                     continue;
                 }
@@ -40,11 +39,15 @@ namespace Newsie.Handlers
                 cards.Add(cardAction);
             }
 
-            reply.Attachments.Add(CardGenerator.GetHeroCard(cards));
+            reply.Attachments.Add(CardGenerator.GetHeroCard(text: string.Format(Strings.GreetOnDemand, Emojis.WideSmile, Emojis.News, Emojis.Wink)));
+            reply.Attachments.Add(CardGenerator.GetHeroCard(cardActions: cards));
+            reply.Attachments.Add(CardGenerator.GetThumbNailCard(
+                    cardActions: new List<CardAction>
+                    {
+                        new CardAction(ActionTypes.OpenUrl, "Bing for more", value: "https://www.bing.com/news/search?q=bing+news")
+                    }));
 
             await this.botToUser.PostAsync(reply);
-
-            await this.botToUser.PostAsync(string.Format(Strings.GreetOnDemandCont, Emojis.Wink));
         }
     }
 }
