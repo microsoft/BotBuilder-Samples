@@ -64,7 +64,7 @@
                     this.HitStyler.Apply(
                         ref message,
                         "Here are a few good options I found:",
-                        this.found);
+                        this.found.ToList().AsReadOnly());
                     await context.PostAsync(message);
                     await context.PostAsync(
                         this.MultipleSelection ?
@@ -109,7 +109,7 @@
             }
             else
             {
-                this.HitStyler.Apply(ref message, "Here's what you've added to your list so far.", this.selected);
+                this.HitStyler.Apply(ref message, "Here's what you've added to your list so far.", this.selected.ToList().AsReadOnly());
                 await context.PostAsync(message);
             }
         }

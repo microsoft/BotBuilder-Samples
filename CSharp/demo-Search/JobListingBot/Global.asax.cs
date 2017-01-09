@@ -2,10 +2,10 @@
 {
     using System.Web.Http;
     using Autofac;
+    using JobListingBot.Dialogs;
     using Microsoft.Azure.Search.Models;
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Builder.Internals.Fibers;
-    using JobListingBot.Dialogs;
     using Search.Azure.Services;
     using Search.Models;
     using Search.Services;

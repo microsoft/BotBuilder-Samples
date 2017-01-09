@@ -51,10 +51,10 @@
             return base.TryParse(message, out result);
         }
 
-        protected override IMessageActivity MakePrompt(IDialogContext context, string prompt, IList<T> options = null)
+        protected override IMessageActivity MakePrompt(IDialogContext context, string prompt, IReadOnlyList<T> options = null, IReadOnlyList<string> descriptions = null)
         {
             prompt += Environment.NewLine + (this.PromptOptions.CancelPrompt ?? this.PromptOptions.DefaultCancelPrompt);
-            return base.MakePrompt(context, prompt, options);
+            return base.MakePrompt(context, prompt, options, descriptions);
         }
     }
 }

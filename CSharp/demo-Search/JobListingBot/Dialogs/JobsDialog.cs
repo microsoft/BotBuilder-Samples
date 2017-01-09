@@ -26,7 +26,7 @@
         [Serializable]
         public class JobStyler : PromptStyler
         {
-            public override void Apply<T>(ref IMessageActivity message, string prompt, IList<T> options)
+            public override void Apply<T>(ref IMessageActivity message, string prompt, IReadOnlyList<T> options, IReadOnlyList<string> descriptions = null)
             {
                 var hits = (IList<SearchHit>)options;
 
