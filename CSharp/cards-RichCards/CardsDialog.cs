@@ -63,6 +63,8 @@
                     return GetThumbnailCard();
                 case ReceiptCard:
                     return GetReceiptCard();
+                case SigninCard:
+                    return GetSigninCard();
                 case AnimationCard:
                     return GetAnimationCard();
                 case VideoCard:

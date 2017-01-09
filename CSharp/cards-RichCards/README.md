@@ -34,7 +34,7 @@ public async Task DisplaySelectedCard(IDialogContext context, IAwaitable<string>
 
 #### Hero Card
 
-The Hero card is a multipurpose card; it primarily hosts a single large image, a button, and a "tap action", along with text content to display on the card. Check out the `GetHeroCard` method in the [CardsDialog](CardsDialog.cs#L78-L90) class for a Hero Card sample.
+The Hero card is a multipurpose card; it primarily hosts a single large image, a button, and a "tap action", along with text content to display on the card. Check out the `GetHeroCard` method in the [CardsDialog](CardsDialog.cs#L80-L92) class for a Hero Card sample.
 
 ````C#
 private static Attachment GetHeroCard()
@@ -53,7 +53,7 @@ private static Attachment GetHeroCard()
 ````
 
 #### Thumbnail Card
-The Thumbnail card is a multipurpose card; it primarily hosts a single small image, a button, and a "tap action", along with text content to display on the card. Check out the `GetThumbnailCard` method in the [CardsDialog](CardsDialog.cs#L92-L104) class for a Thumbnail Card sample.
+The Thumbnail card is a multipurpose card; it primarily hosts a single small image, a button, and a "tap action", along with text content to display on the card. Check out the `GetThumbnailCard` method in the [CardsDialog](CardsDialog.cs#L94-L106) class for a Thumbnail Card sample.
 
 ````C#
 private static Attachment GetThumbnailCard()
@@ -72,7 +72,7 @@ private static Attachment GetThumbnailCard()
 ````
 
 #### Receipt Card
-The receipt card allows the Bot to present a receipt to the user. Check out the `GetReceiptCard` method in the [CardsDialog](CardsDialog.cs#L106-L130) class for a Receipt Card sample.
+The receipt card allows the Bot to present a receipt to the user. Check out the `GetReceiptCard` method in the [CardsDialog](CardsDialog.cs#L108-L132) class for a Receipt Card sample.
 
 ````C#
 private static Attachment GetReceiptCard()
@@ -103,7 +103,7 @@ private static Attachment GetReceiptCard()
 ````
 
 #### Sign-In Card
-The Sign-In card is a card representing a request to sign in the user. Check out the `GetSigninCard` method in the [CardsDialog](CardsDialog.cs#L132-L141) class for a Sign-In Card sample.
+The Sign-In card is a card representing a request to sign in the user. Check out the `GetSigninCard` method in the [CardsDialog](CardsDialog.cs#L134-L143) class for a Sign-In Card sample.
 
 > Note: The sign in card can be used to initiate an authentication flow which is beyond this sample. For a complete authentication flow sample take a look at [AuthBot](https://github.com/MicrosoftDX/AuthBot).
 
@@ -121,7 +121,7 @@ private static Attachment GetSigninCard()
 ````
 
 #### Animation Card
-The Animation card is a card that’s capable of playing animated GIFs or short videos. Check out the `GetAnimationCard` method in the [CardsDialog](CardsDialog.cs#L143-L163) class for an Animation Card sample.
+The Animation card is a card that’s capable of playing animated GIFs or short videos. Check out the `GetAnimationCard` method in the [CardsDialog](CardsDialog.cs#L145-L165) class for an Animation Card sample.
 
 ````C#
 private static Attachment GetAnimationCard()
@@ -150,7 +150,7 @@ private static Attachment GetAnimationCard()
 > Note: At the time of writing this sample, Skype requires the Animation card to have a Thumbnail Url.
 
 #### Video Card
-The Video card is a card that’s capable of playing videos. Check out the `GetVideoCard` method in the [CardsDialog](CardsDialog.cs#L165-L195) class for a Video Card sample.
+The Video card is a card that’s capable of playing videos. Check out the `GetVideoCard` method in the [CardsDialog](CardsDialog.cs#L167-L197) class for a Video Card sample.
 
 ````C#
 private static Attachment GetVideoCard()
@@ -189,7 +189,7 @@ private static Attachment GetVideoCard()
 > Note: At the time of writing this sample, Skype requires the Video card to have a Thumbnail Url.
 
 #### Audio Card
-The Audio card is a card that’s capable of playing an audio file. Check out the `GetAudioCard` method in the [CardsDialog](CardsDialog.cs#L197-L227) class for an Audio Card sample.
+The Audio card is a card that’s capable of playing an audio file. Check out the `GetAudioCard` method in the [CardsDialog](CardsDialog.cs#L199-L229) class for an Audio Card sample.
 
 ````C#
 private static Attachment GetAudioCard()
