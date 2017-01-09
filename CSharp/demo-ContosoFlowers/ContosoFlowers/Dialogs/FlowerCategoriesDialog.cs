@@ -56,7 +56,7 @@
             else
             {
                 await context.PostAsync(string.Format(CultureInfo.CurrentCulture, Resources.FlowerCategoriesDialog_InvalidOption, flowerCategoryName));
-                await base.ShowProducts(context);
+                await this.ShowProducts(context);
                 context.Wait(this.MessageReceivedAsync);
             }
         }

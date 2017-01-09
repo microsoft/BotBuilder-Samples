@@ -153,4 +153,7 @@
   <data name="SavedAddressDialog_NotThisTime" xml:space="preserve">
     <value>No, thanks!</value>
   </data>
+  <data name="Location_ConfirmationAsk" xml:space="preserve">
+    <value>OK, you want to use {0}. Is that correct? Enter 'yes' or 'no'.</value>
+  </data>
 </root>

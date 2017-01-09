@@ -10,6 +10,7 @@
     using BotAssets.Extensions;
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Builder.FormFlow;
+    using Microsoft.Bot.Builder.Location;
     using Microsoft.Bot.Connector;
     using Models;
     using Properties;
@@ -77,8 +78,17 @@
             if (message.Text == Resources.RootDialog_Welcome_Orders)
             {
                 this.order = new Models.Order();
-                var addressDialog = this.dialogFactory.Create<AddressDialog, string>(string.Format(CultureInfo.CurrentCulture, Resources.RootDialog_DeliveryAddress_Prompt, message.From.Name ?? "User"));
-                context.Call(addressDialog, this.AfterDeliveryAddress);
+
+                // BotBuilder's LocationDialog
+                // Leverage DI to inject other parameters
+                var locationDialog = this.dialogFactory.Create<LocationDialog>(
+                    new Dictionary<string, object>()
+                    {
+                        { "prompt", string.Format(CultureInfo.CurrentCulture, Resources.RootDialog_DeliveryAddress_Prompt, message.From.Name ?? "User") },
+                        { "channelId", context.Activity.ChannelId }
+                    });
+
+                context.Call(locationDialog, this.AfterDeliveryAddress);
             }
             else if (message.Text == Resources.RootDialog_Welcome_Support)
             {
@@ -90,11 +100,13 @@
             }
         }
 
-        private async Task AfterDeliveryAddress(IDialogContext context, IAwaitable<string> result)
+        private async Task AfterDeliveryAddress(IDialogContext context, IAwaitable<Place> result)
         {
             try
             {
-                this.order.DeliveryAddress = await result;
+                var place = await result;
+                var formattedAddress = place.GetPostalAddress().FormattedAddress;
+                this.order.DeliveryAddress = formattedAddress;
 
                 context.Call(this.dialogFactory.Create<FlowerCategoriesDialog>(), this.AfterFlowerCategorySelected);
             }
@@ -337,7 +349,8 @@
             var receiptCard = new ReceiptCard
             {
                 Title = Resources.RootDialog_Receipt_Title,
-                Facts = new List<Fact> {
+                Facts = new List<Fact>
+                {
                     new Fact(Resources.RootDialog_Receipt_OrderID, order.OrderID),
                     new Fact(Resources.RootDialog_Receipt_PaymentMethod, creditCardOffuscated)
                 },

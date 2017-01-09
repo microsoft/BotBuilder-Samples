@@ -2,11 +2,14 @@
 {
     using System.Configuration;
     using Autofac;
+    using BotAssets;
     using BotAssets.Dialogs;
     using Dialogs;
     using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Bot.Builder.Dialogs.Internals;
     using Microsoft.Bot.Builder.Internals.Fibers;
+    using Microsoft.Bot.Builder.Location;
+    using Microsoft.Bot.Builder.Scorables;
+    using Microsoft.Bot.Connector;
     using Services.Models;
 
     public class ContosoFlowersModule : Module
@@ -25,7 +28,7 @@
                 .InstancePerDependency();
 
             builder.RegisterType<SettingsScorable>()
-                .As<IScorable<double>>()
+                .As<IScorable<IActivity, double>>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<FlowerCategoriesDialog>()
@@ -34,14 +37,20 @@
             builder.RegisterType<BouquetsDialog>()
                 .InstancePerDependency();
 
-            builder.RegisterType<AddressDialog>()
-                .InstancePerDependency();
-
             builder.RegisterType<SavedAddressDialog>()
               .InstancePerDependency();
 
             builder.RegisterType<SettingsDialog>()
              .InstancePerDependency();
+
+            // Location Dialog
+            // ctor signature: LocationDialog(string apiKey, string channelId, string prompt, LocationOptions options = LocationOptions.None, LocationRequiredFields requiredFields = LocationRequiredFields.None, LocationResourceManager resourceManager = null);
+            builder.RegisterType<LocationDialog>()
+                .WithParameter("apiKey", ConfigurationManager.AppSettings["MicrosoftBingMapsKey"])
+                .WithParameter("options", LocationOptions.UseNativeControl | LocationOptions.ReverseGeocode)
+                .WithParameter("requiredFields", LocationRequiredFields.StreetAddress | LocationRequiredFields.Locality | LocationRequiredFields.Country)
+                .WithParameter("resourceManager", new ContosoLocationResourceManager())
+                .InstancePerDependency();
 
             // Service dependencies
             builder.RegisterType<Services.InMemoryOrdersService>()
@@ -56,12 +65,6 @@
 
             builder.RegisterType<Services.InMemoryFlowerCategoriesRepository>()
                 .Keyed<Services.IRepository<FlowerCategory>>(FiberModule.Key_DoNotSerialize)
-                .AsImplementedInterfaces()
-                .SingleInstance();
-
-            builder.RegisterType<Services.BingLocationService>()
-                .WithParameter("bingMapsKey", ConfigurationManager.AppSettings["MicrosoftBingMapsKey"])
-                .Keyed<Services.ILocationService>(FiberModule.Key_DoNotSerialize)
                 .AsImplementedInterfaces()
                 .SingleInstance();
         }

@@ -5,8 +5,9 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Builder.Location;
+    using Microsoft.Bot.Connector;
     using Properties;
-    using Services;
 
     [Serializable]
     public class SavedAddressDialog : IDialog<SavedAddressDialog.SavedAddressResult>
@@ -16,18 +17,16 @@
         private readonly string prompt;
         private readonly string useSavedAddressPrompt;
         private readonly string saveAddressPrompt;
-        private readonly ILocationService locationService;
         private readonly IDialogFactory dialogFactory;
 
         private string currentAddress;
 
         public SavedAddressDialog(
-            string prompt, 
-            string useSavedAddressPrompt, 
-            string saveAddressPrompt, 
-            IDictionary<string, string> savedAddresses, 
+            string prompt,
+            string useSavedAddressPrompt,
+            string saveAddressPrompt,
+            IDictionary<string, string> savedAddresses,
             IEnumerable<string> saveOptionNames,
-            ILocationService locationService,
             IDialogFactory dialogFactory)
         {
             this.savedAddresses = savedAddresses ?? new Dictionary<string, string>();
@@ -35,7 +34,6 @@
             this.prompt = prompt;
             this.useSavedAddressPrompt = useSavedAddressPrompt;
             this.saveAddressPrompt = saveAddressPrompt;
-            this.locationService = locationService;
             this.dialogFactory = dialogFactory;
         }
 
@@ -53,13 +51,22 @@
 
         private void AddressPrompt(IDialogContext context)
         {
-            var addressDialog = this.dialogFactory.Create<AddressDialog, string>(this.prompt);
-            context.Call(addressDialog, this.AfterAddressPrompt);
+            // BotBuilder's LocationDialog
+            // Leverage DI to inject other parameters
+            var locationDialog = this.dialogFactory.Create<LocationDialog>(
+                new Dictionary<string, object>()
+                {
+                        { "prompt", this.prompt },
+                        { "channelId", context.Activity.ChannelId }
+                });
+
+            context.Call(locationDialog, this.AfterAddressPrompt);
         }
 
-        private async Task AfterAddressPrompt(IDialogContext context, IAwaitable<string> result)
+        private async Task AfterAddressPrompt(IDialogContext context, IAwaitable<Place> result)
         {
-            this.currentAddress = await result;
+            var place = await result;
+            this.currentAddress = place.GetPostalAddress().FormattedAddress;
             PromptDialog.Choice(context, this.AfterSelectToSaveAddress, this.saveOptionNames.Concat(new[] { Resources.SavedAddressDialog_NotThisTime }), this.saveAddressPrompt);
         }
 

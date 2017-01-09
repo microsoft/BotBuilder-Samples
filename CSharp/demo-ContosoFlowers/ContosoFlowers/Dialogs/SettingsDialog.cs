@@ -9,6 +9,7 @@
     using BotAssets.Extensions;
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Builder.Internals.Fibers;
+    using Microsoft.Bot.Builder.Location;
     using Microsoft.Bot.Connector;
     using Models;
     using Properties;
@@ -121,8 +122,16 @@
             {
                 this.selectedAddressToUpdate = message.Text;
 
-                var addressDialog = this.dialogFactory.Create<AddressDialog, string>(Resources.SettingsDialog_BillingAddress_Prompt);
-                context.Call(addressDialog, this.ResumeAfterAddressEntered);
+                // BotBuilder's LocationDialog
+                // Leverage DI to inject other parameters
+                var locationDialog = this.dialogFactory.Create<LocationDialog>(
+                    new Dictionary<string, object>()
+                    {
+                        { "prompt", Resources.SettingsDialog_BillingAddress_Prompt },
+                        { "channelId", context.Activity.ChannelId }
+                    });
+
+                context.Call(locationDialog, this.ResumeAfterAddressEntered);
             }
             else if (message.Text.Equals("B", StringComparison.InvariantCultureIgnoreCase) || message.Text.Equals("Back", StringComparison.InvariantCultureIgnoreCase))
             {
@@ -134,20 +143,31 @@
             }
         }
 
-        private async Task ResumeAfterAddressEntered(IDialogContext context, IAwaitable<string> result)
+        private async Task ResumeAfterAddressEntered(IDialogContext context, IAwaitable<Place> result)
         {
-            var address = await result;
+            string reply;
 
-            context.UserData.UpdateValue<UserPreferences>(
-                    StringConstants.UserPreferencesKey,
-                    userPreferences =>
-                    {
-                        userPreferences.BillingAddresses = userPreferences.BillingAddresses ?? new Dictionary<string, string>();
-                        userPreferences.BillingAddresses[this.selectedAddressToUpdate.ToLower()] = address;
-                    });
+            var place = await result;
+            if (place == null)
+            {
+                reply = "No address was selected, returning to settings menu.";
+            }
+            else
+            {
+                var formattedAddress = place.GetPostalAddress().FormattedAddress;
 
-            await context.PostAsync(Resources.SettingsDialog_Address_Entered);
+                context.UserData.UpdateValue<UserPreferences>(
+                        StringConstants.UserPreferencesKey,
+                        userPreferences =>
+                        {
+                            userPreferences.BillingAddresses = userPreferences.BillingAddresses ?? new Dictionary<string, string>();
+                            userPreferences.BillingAddresses[this.selectedAddressToUpdate.ToLower()] = formattedAddress;
+                        });
 
+                reply = string.Format(CultureInfo.CurrentCulture, Resources.SettingsDialog_Address_Entered, this.selectedAddressToUpdate, formattedAddress);
+            }
+
+            await context.PostAsync(reply);
             await this.StartAsync(context);
         }
 

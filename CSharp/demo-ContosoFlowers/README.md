@@ -13,12 +13,12 @@ You came across the Microsoft Bot Framework which support a great variety of cha
 
 The minimum prerequisites to run this sample are:
 * The latest update of Visual Studio 2015. You can download the community version [here](http://www.visualstudio.com) for free.
-* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
+* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 
 #### Rich cards
 Many messaging channels provide the ability to attach richer objects. The Bot Framework has the ability to render rich cards as attachments.
 
-The bot will render a Welcome message upon the first message using a [HeroCard](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html#herocard) attachment within the [`RootDialog.WelcomeMessageAsync` method](ContosoFlowers/Dialogs/RootDialog.cs#L53-L71).
+The bot will render a Welcome message upon the first message using a [HeroCard](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html#herocard) attachment within the [`RootDialog.WelcomeMessageAsync` method](ContosoFlowers/Dialogs/RootDialog.cs#L54-L72).
 The sample also includes the [`HeroCardExtensions`](ContosoFlowers.BotAssets/Extensions/HeroCardExtensions.cs) class providing methods to ease the creation of rich cards.
 
 ````C#
@@ -47,7 +47,7 @@ private async Task WelcomeMessageAsync(IDialogContext context)
 |![Rich Cards - Hero Card](images/richcards-herocard-emulator.png)|![Rich Cards - Hero Card](images/richcards-herocard-facebook.png)|![Rich Cards - Hero Card](images/richcards-herocard-skype.png)|
 
 Another example of rich card, is the [ReceiptCard](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html#receiptcard) which renders differently depending on the messaging channel being supported.
-The receipt card is created in the [`RootDialog.GetReceiptCard` method](ContosoFlowers/Dialogs/RootDialog.cs#L333-L356) and is rendered once the bot's user checkouts an order.
+The receipt card is created in the [`RootDialog.GetReceiptCard` method](ContosoFlowers/Dialogs/RootDialog.cs#L345-L369) and is rendered once the bot's user checkouts an order.
  
 ````C#
 private Attachment GetReceiptCard()
@@ -125,14 +125,17 @@ In this sample, the main flow is implemented in the [`RootDialog` class](Contoso
 #### Creating Reusable Components
 As seen in the two examples above, you can reuse your dialogs in different segments of the bot's flow, or even different bots, and extract them into a library. An example of this is the [ContosoFlowers.BotAssets project](ContosoFlowers.BotAssets) which includes several reusable dialogs and extension methods.
 
-- Dialogs
-    - [AddressDialog](https://github.com/fuselabs/BotBuilder-samples/blob/master/ContosoFlowers/CSharp/ContosoFlowers.BotAssets/Dialogs/AddressDialog.cs)
-    - [PagedCarouselDialog](https://github.com/fuselabs/BotBuilder-samples/blob/master/ContosoFlowers/CSharp/ContosoFlowers.BotAssets/Dialogs/PagedCarouselDialog.cs)
-    - [PromptStringRegex](https://github.com/fuselabs/BotBuilder-samples/blob/master/ContosoFlowers/CSharp/ContosoFlowers.BotAssets/Dialogs/PromptStringRegex.cs)
-    - [SavedAddressDialog](https://github.com/fuselabs/BotBuilder-samples/blob/master/ContosoFlowers/CSharp/ContosoFlowers.BotAssets/Dialogs/SavedAddressDialog.cs)
+- Contoso Flowers' Dialogs
+    - [PagedCarouselDialog](ContosoFlowers.BotAssets/Dialogs/PagedCarouselDialog.cs)
+    - [PromptStringRegex](ContosoFlowers.BotAssets/Dialogs/PromptStringRegex.cs)
+    - [SavedAddressDialog](ContosoFlowers.BotAssets/Dialogs/SavedAddressDialog.cs)
 - Extensions
-    - [HeroCardExtensions](https://github.com/fuselabs/BotBuilder-samples/blob/master/ContosoFlowers/CSharp/ContosoFlowers.BotAssets/Extensions/HeroCardExtensions.cs)
-    - [IBotDataBagExtensions](https://github.com/fuselabs/BotBuilder-samples/blob/master/ContosoFlowers/CSharp/ContosoFlowers.BotAssets/Extensions/IBotDataBagExtensions.cs)
+    - [HeroCardExtensions](ContosoFlowers.BotAssets/Extensions/HeroCardExtensions.cs)
+    - [IBotDataBagExtensions](ContosoFlowers.BotAssets/Extensions/IBotDataBagExtensions.cs)
+
+Additionally, the [Bing Location Control](https://github.com/Microsoft/BotBuilder-Location) is being used to resolve and validate the shipping and billing addresses, backed by Bing Maps REST services.
+Take a look [here](ContosoFlowers/ContosoFlowersModule.cs#L46-L53) to see how to leverage DI to configure the control, and [here](ContosoFlowers/Dialogs/RootDialog.cs#L82-L91) to see how to use the DialogFactory to create an instance of the Control's Location Dialog.
+
 
 #### Complex Forms
 Handling a guided conversation like ordering a bouquet of flowers for your loved one can require a lot of effort. In order to simplify building guided conversations the Bot Framework provides a powerful dialog building block known as [FormFlow](https://docs.botframework.com/en-us/csharp/builder/sdkreference/forms.html). A FormFlow dialog guides the user through filling in the form; a collection of fields that you want to fill in through a conversation with the user.

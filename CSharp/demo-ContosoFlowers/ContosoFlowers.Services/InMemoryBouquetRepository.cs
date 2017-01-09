@@ -18,6 +18,7 @@
                     Name = $"Bouquet {i}\u2122",
                     ImageUrl = $"https://placeholdit.imgix.net/~text?txtsize=48&txt={HttpUtility.UrlEncode("Bouquet " + i)}&w=640&h=330",
                     Price = new Random(i).Next(10, 100) + .99,
+                    
                     // randomizing the flower category but ensuring at least 1 bouquet for each of it.
                     FlowerCategory = (i <= 5) ? $"Flower {i}" : "Flower " + new Random(i).Next(1, 5) 
                 });
