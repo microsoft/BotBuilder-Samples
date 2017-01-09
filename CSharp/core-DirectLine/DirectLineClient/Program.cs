@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.Bot.Connector.DirectLine;
-    using Microsoft.Bot.Connector.DirectLine.Models;
     using Models;
     using Newtonsoft.Json;
 
@@ -25,7 +24,7 @@
         {
             DirectLineClient client = new DirectLineClient(directLineSecret);
             
-            var conversation = await client.Conversations.NewConversationAsync();
+            var conversation = await client.Conversations.StartConversationAsync();
 
             new System.Threading.Thread(async () => await ReadBotMessagesAsync(client, conversation.ConversationId)).Start();
 
@@ -43,13 +42,14 @@
                 {
                     if (input.Length > 0)
                     {
-                        Message userMessage = new Message
+                        Activity userMessage = new Activity
                         {
-                            FromProperty = fromUser,
-                            Text = input
+                            From = new ChannelAccount(fromUser),
+                            Text = input,
+                            Type = ActivityTypes.Message
                         };
 
-                        await client.Conversations.PostMessageAsync(conversation.ConversationId, userMessage);
+                        await client.Conversations.PostActivityAsync(conversation.ConversationId, userMessage);
                     }
                 }
             }
@@ -61,33 +61,34 @@
             
             while (true)
             {
-                var messages = await client.Conversations.GetMessagesAsync(conversationId, watermark);
-                watermark = messages?.Watermark;
+                var activitySet = await client.Conversations.GetActivitiesAsync(conversationId, watermark);
+                watermark = activitySet?.Watermark;
 
-                var messagesFromBotText = from x in messages.Messages
-                                   where x.FromProperty == botId
-                                   select x;
+                var activities = from x in activitySet.Activities
+                                 where x.From.Id == botId
+                                 select x;
 
-                foreach (Message message in messagesFromBotText)
+                foreach (Activity activity in activities)
                 {
-                    Console.WriteLine(message.Text);
+                    Console.WriteLine(activity.Text);
 
-                    if (message.ChannelData != null)
+                    if (activity.Attachments != null)
                     {
-                        var channelData = JsonConvert.DeserializeObject<DirectLineChannelData>(message.ChannelData.ToString());
-
-                        switch (channelData.ContentType)
+                        foreach (Attachment attachment in activity.Attachments)
                         {
-                            case "application/vnd.microsoft.card.hero":
-                                RenderHeroCard(channelData);
-                                break;
+                            switch (attachment.ContentType)
+                            {
+                                case "application/vnd.microsoft.card.hero":
+                                    RenderHeroCard(attachment);
+                                    break;
 
-                            case "image/png":
-                                Console.WriteLine($"Opening the requested image '{channelData.ContentUrl}'");
+                                case "image/png":
+                                    Console.WriteLine($"Opening the requested image '{attachment.ContentUrl}'");
 
-                                Process.Start(channelData.ContentUrl);
-                                break;
-                        }  
+                                    Process.Start(attachment.ContentUrl);
+                                    break;
+                            }
+                        }
                     }
 
                     Console.Write("Command> ");
@@ -97,16 +98,21 @@
             }
         }
 
-        private static void RenderHeroCard(DirectLineChannelData channelData)
+        private static void RenderHeroCard(Attachment attachment)
         {
             const int Width = 70;
             Func<string, string> contentLine = (content) => string.Format($"{{0, -{Width}}}", string.Format("{0," + ((Width + content.Length) / 2).ToString() + "}", content));
 
-            Console.WriteLine("/{0}", new string('*', Width + 1));
-            Console.WriteLine("*{0}*", contentLine(channelData.Content.Title));
-            Console.WriteLine("*{0}*", new string(' ', Width));
-            Console.WriteLine("*{0}*", contentLine(channelData.Content.Text));
-            Console.WriteLine("{0}/", new string('*', Width + 1));
+            var heroCard = JsonConvert.DeserializeObject<HeroCard>(attachment.Content.ToString());
+
+            if (heroCard != null)
+            {
+                Console.WriteLine("/{0}", new string('*', Width + 1));
+                Console.WriteLine("*{0}*", contentLine(heroCard.Title));
+                Console.WriteLine("*{0}*", new string(' ', Width));
+                Console.WriteLine("*{0}*", contentLine(heroCard.Text));
+                Console.WriteLine("{0}/", new string('*', Width + 1));
+            }
         }
     }
 }
