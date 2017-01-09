@@ -10,7 +10,7 @@ A stateless sample bot tracking context of a conversation.
 
 The minimum prerequisites to run this sample are:
 * The latest update of Visual Studio 2015. You can download the community version [here](http://www.visualstudio.com) for free.
-* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
+* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 
 ### Code Highlights
 
@@ -105,13 +105,11 @@ Subsequently, you can start a new conversation (In the Bot Framework Channel Emu
 
 ![Sample Outcome](images/outcome-2.png)
 
-When a another user arrives to the conversation (In the Bot Framework Emulator this is done by editing the 'User' field) the bot will remember its name (Or prompt for the user name depending on any previous conversation) and maintain the previous search city set.
-
-![Sample Outcome](images/outcome-3.png)
-
+### More Information
 
 To get more information about how to get started in Bot Builder for .NET and Conversations please review the following resources:
 * [Bot Builder for .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
+* [Saving User State Data](https://docs.botframework.com/en-us/core-concepts/userdata)
 * [Bot State Service](https://docs.botframework.com/en-us/csharp/builder/sdkreference/stateapi.html)
 * [Dialogs - Echo Bot with State](https://docs.botframework.com/en-us/csharp/builder/sdkreference/dialogs.html#echoBot)
 * [IDialogContext Interface](https://docs.botframework.com/en-us/csharp/builder/sdkreference/d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html)
