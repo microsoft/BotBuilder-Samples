@@ -10,11 +10,11 @@ A sample bot to renders several types of cards as attachments.
 
 The minimum prerequisites to run this sample are:
 * The latest update of Visual Studio 2015. You can download the community version [here](http://www.visualstudio.com) for free.
-* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
+* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 
 ### Code Highlights
 
-Many messaging channels provide the ability to attach richer objects. The Bot Framework has the ability to render rich cards as attachments. There are several types of cards supported: Hero Card, Thumbnail Card, Receipt Card and Sign-In Card. Once the desired Card type is selected, it is mapped into an `Attachment` data structure. Check out the key code located in the [CardsDialog](CardsDialog.cs#L42-L47) class where the `message.Attachments` property of the message activity is populated with a card attachment.
+Many messaging channels provide the ability to attach richer objects. The Bot Framework has the ability to render rich cards as attachments. There are several types of cards supported: Hero Card, Thumbnail Card, Receipt Card, Sign-In Card, Animation Card, Video Card and Audio Card. Once the desired Card type is selected, it is mapped into an `Attachment` data structure. Check out the key code located in the [CardsDialog](CardsDialog.cs#L46-L51) class where the `message.Attachments` property of the message activity is populated with a card attachment.
 
 ````C#
 public async Task DisplaySelectedCard(IDialogContext context, IAwaitable<string> result)
@@ -34,7 +34,7 @@ public async Task DisplaySelectedCard(IDialogContext context, IAwaitable<string>
 
 #### Hero Card
 
-The Hero card is a multipurpose card; it primarily hosts a single large image, a button, and a "tap action", along with text content to display on the card. Check out the `GetHeroCard` method in the [CardsDialog](CardsDialog.cs#L70-L82) class for a Hero Card sample.
+The Hero card is a multipurpose card; it primarily hosts a single large image, a button, and a "tap action", along with text content to display on the card. Check out the `GetHeroCard` method in the [CardsDialog](CardsDialog.cs#L78-L90) class for a Hero Card sample.
 
 ````C#
 private static Attachment GetHeroCard()
@@ -53,7 +53,7 @@ private static Attachment GetHeroCard()
 ````
 
 #### Thumbnail Card
-The Thumbnail card is a multipurpose card; it primarily hosts a single small image, a button, and a "tap action", along with text content to display on the card. Check out the `GetThumbnailCard` method in the [CardsDialog](CardsDialog.cs#L84-L96) class for a Thumbnail Card sample.
+The Thumbnail card is a multipurpose card; it primarily hosts a single small image, a button, and a "tap action", along with text content to display on the card. Check out the `GetThumbnailCard` method in the [CardsDialog](CardsDialog.cs#L92-L104) class for a Thumbnail Card sample.
 
 ````C#
 private static Attachment GetThumbnailCard()
@@ -72,7 +72,7 @@ private static Attachment GetThumbnailCard()
 ````
 
 #### Receipt Card
-The receipt card allows the Bot to present a receipt to the user. Check out the `GetReceiptCard` method in the [CardsDialog](CardsDialog.cs#L98-L122) class for a Receipt Card sample.
+The receipt card allows the Bot to present a receipt to the user. Check out the `GetReceiptCard` method in the [CardsDialog](CardsDialog.cs#L106-L130) class for a Receipt Card sample.
 
 ````C#
 private static Attachment GetReceiptCard()
@@ -103,9 +103,9 @@ private static Attachment GetReceiptCard()
 ````
 
 #### Sign-In Card
-The Sign-In card is a card representing a request to sign in the user. Check out the `GetSigninCard` method in the [CardsDialog](CardsDialog.cs#L124-L133) class for a Sign-In Card sample.
+The Sign-In card is a card representing a request to sign in the user. Check out the `GetSigninCard` method in the [CardsDialog](CardsDialog.cs#L132-L141) class for a Sign-In Card sample.
 
-> Note: The sign in card can be used to initiate an authentication flow which is beyond this sample. For a complete authentication flow sample take a look to the [AuthBot](https://github.com/matvelloso/authbot).
+> Note: The sign in card can be used to initiate an authentication flow which is beyond this sample. For a complete authentication flow sample take a look at [AuthBot](https://github.com/MicrosoftDX/AuthBot).
 
 ````C#
 private static Attachment GetSigninCard()
@@ -119,6 +119,113 @@ private static Attachment GetSigninCard()
     return signinCard.ToAttachment();
 }
 ````
+
+#### Animation Card
+The Animation card is a card that’s capable of playing animated GIFs or short videos. Check out the `GetAnimationCard` method in the [CardsDialog](CardsDialog.cs#L143-L163) class for an Animation Card sample.
+
+````C#
+private static Attachment GetAnimationCard()
+{
+    var animationCard = new AnimationCard
+    {
+        Title = "Microsoft Bot Framework",
+        Subtitle = "Animation Card",
+        Image = new ThumbnailUrl
+        {
+            Url = "https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png"
+        },
+        Media = new List<MediaUrl>
+        {
+            new MediaUrl()
+            {
+                Url = "http://i.giphy.com/Ki55RUbOV5njy.gif"
+            }
+        }
+    };
+
+    return animationCard.ToAttachment();
+}
+````
+
+> Note: At the time of writing this sample, Skype requires the Animation card to have a Thumbnail Url.
+
+#### Video Card
+The Video card is a card that’s capable of playing videos. Check out the `GetVideoCard` method in the [CardsDialog](CardsDialog.cs#L165-L195) class for a Video Card sample.
+
+````C#
+private static Attachment GetVideoCard()
+{
+    var videoCard = new VideoCard
+    {
+        Title = "Big Buck Bunny",
+        Subtitle = "by the Blender Institute",
+        Text = "Big Buck Bunny (code-named Peach) is a short computer-animated comedy film by the Blender Institute, part of the Blender Foundation. Like the foundation's previous film Elephants Dream, the film was made using Blender, a free software application for animation made by the same foundation. It was released as an open-source film under Creative Commons License Attribution 3.0.",
+        Image = new ThumbnailUrl
+        {
+            Url = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Big_buck_bunny_poster_big.jpg/220px-Big_buck_bunny_poster_big.jpg"
+        },
+        Media = new List<MediaUrl>
+        {
+            new MediaUrl()
+            {
+                Url = "http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4"  
+            }
+        },
+        Buttons = new List<CardAction>
+        {
+            new CardAction()
+            {
+                Title = "Learn More",
+                Type = ActionTypes.OpenUrl,
+                Value = "https://peach.blender.org/"
+            }
+        }
+    };
+
+    return videoCard.ToAttachment();
+}
+````
+
+> Note: At the time of writing this sample, Skype requires the Video card to have a Thumbnail Url.
+
+#### Audio Card
+The Audio card is a card that’s capable of playing an audio file. Check out the `GetAudioCard` method in the [CardsDialog](CardsDialog.cs#L197-L227) class for an Audio Card sample.
+
+````C#
+private static Attachment GetAudioCard()
+{
+    var audioCard = new AudioCard
+    {
+        Title = "I am your father",
+        Subtitle = "Star Wars: Episode V - The Empire Strikes Back",
+        Text = "The Empire Strikes Back (also known as Star Wars: Episode V – The Empire Strikes Back) is a 1980 American epic space opera film directed by Irvin Kershner. Leigh Brackett and Lawrence Kasdan wrote the screenplay, with George Lucas writing the film's story and serving as executive producer. The second installment in the original Star Wars trilogy, it was produced by Gary Kurtz for Lucasfilm Ltd. and stars Mark Hamill, Harrison Ford, Carrie Fisher, Billy Dee Williams, Anthony Daniels, David Prowse, Kenny Baker, Peter Mayhew and Frank Oz.",
+        Image = new ThumbnailUrl
+        {
+            Url = "https://upload.wikimedia.org/wikipedia/en/3/3c/SW_-_Empire_Strikes_Back.jpg"
+        },
+        Media = new List<MediaUrl>
+        {
+            new MediaUrl()
+            {
+                Url = "http://www.wavlist.com/movies/004/father.wav"
+            }
+        },
+        Buttons = new List<CardAction>
+        {
+            new CardAction()
+            {
+                Title = "Read More",
+                Type = ActionTypes.OpenUrl,
+                Value = "https://en.wikipedia.org/wiki/The_Empire_Strikes_Back"
+            }
+        }
+    };
+
+    return audioCard.ToAttachment();
+}
+````
+
+> Note: At the time of writing this sample, Skype requires the Audio card to have a Thumbnail Url.
 
 ### Outcome
 
@@ -148,10 +255,30 @@ You will see the following in the Bot Framework Emulator, Facebook Messenger and
 |----------|-------|----------|
 |![Sample Outcome Sign-In Card](images/outcome-signin-emulator.png)|![Sample Outcome Sign-In Card](images/outcome-signin-facebook.png)|![Sample Outcome Sign-In Card](images/outcome-signin-skype.png)|
 
+#### Animation Card
+
+| Emulator | Facebook | Skype |
+|----------|-------|----------|
+|![Sample Outcome Animation Card](images/outcome-animation-emulator.png)|![Sample Outcome Animation Card](images/outcome-animation-facebook.png)|![Sample Outcome Animation Card](images/outcome-animation-skype.png)|
+
+#### Video Card
+
+| Emulator | Facebook | Skype |
+|----------|-------|----------|
+|![Sample Outcome Video Card](images/outcome-video-emulator.png)|![Sample Outcome Video Card](images/outcome-video-facebook.png)|![Sample Outcome Video Card](images/outcome-video-skype.png)|
+
+#### Audio Card
+
+| Emulator | Facebook | Skype |
+|----------|-------|----------|
+|![Sample Outcome Audio Card](images/outcome-audio-emulator.png)|![Sample Outcome Audio Card](images/outcome-audio-facebook.png)|![Sample Outcome Audio Card](images/outcome-audio-skype.png)|
+
+
 ### More Information
 
 To get more information about how to get started in Bot Builder for .NET and Attachments please review the following resources:
 * [Bot Builder for .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
+* [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments)
 * [Attachments Property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html#attachmentsproperty)
 * [Attachments, Cards and Actions](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html)
 
@@ -160,7 +287,7 @@ To get more information about how to get started in Bot Builder for .NET and Att
 > 
 > The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
 > 
-> The features used in this sample are fully supported in the following channels:
+> The Hero card, Thumbnail card, Receipt card and Sign-in card used in this sample are fully supported in the following channels:
 > - Skype
 > - Facebook
 > - Telegram
@@ -175,3 +302,7 @@ To get more information about how to get started in Bot Builder for .NET and Att
 > 
 > On the other hand, they are not supported and the sample won't work as expected in the following channel:
 > - SMS
+>
+> The Animation card, Video card and Audio card used in this sample are fully supported in the following channels:
+> - Skype
+> - Facebook
