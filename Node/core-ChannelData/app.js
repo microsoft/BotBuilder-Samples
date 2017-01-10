@@ -20,7 +20,7 @@ var FacebookDataModels = require('./facebook-channeldata');
 // Root dialog
 bot.dialog('/', function (session) {
 
-    session.send('Looking into your upcoming flights to see if you check-in on any of those...');
+    session.send('Looking into your upcoming flights to see if you can check-in on any of those...');
 
     var now = new Date();
 
@@ -107,13 +107,13 @@ Date.prototype.addDays = function (days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
     return date;
-}
+};
 
 Date.prototype.addHours = function (hours) {
     var date = new Date(this.valueOf());
-    date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+    date.setTime(date.getTime() + hours * 60 * 60 * 1000);
     return date;
-}
+};
 
 function formatDate(date) {
     return date.toISOString().split('.')[0];

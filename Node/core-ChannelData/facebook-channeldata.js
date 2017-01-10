@@ -30,7 +30,7 @@ AirlineCheckin.prototype.toString = function () {
         this.payload.pnr_number,
         this.payload.flight_info.map((info) => info.toString()).join('; '),
         this.payload.checkin_url);
-}
+};
 
 // FlightInfo
 function FlightInfo(flight_number, departure_airport, arrival_airport, flight_schedule) {
@@ -64,7 +64,7 @@ FlightInfo.prototype.toString = function () {
         this.arrival_airport.terminal,
         this.flight_schedule.boarding_time
     );
-}
+};
 
 // Airport
 function Airport(airport_code, city, terminal, gate) {
