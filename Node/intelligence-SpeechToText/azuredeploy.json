@@ -50,6 +50,10 @@
     },
     "MicrosoftAppPassword": {
       "type": "string"
+    },
+    "MicrosoftSpeechApiKey": {
+      "type": "string",
+      "defaultValue": "542821545e7a4584b136fbd140c772b3"
     }
   },
   "resources": [
@@ -105,6 +109,10 @@
               {
                 "name": "MICROSOFT_APP_PASSWORD",
                 "value": "[parameters('MicrosoftAppPassword')]"
+              },
+              {
+                "name": "MICROSOFT_SPEECH_API_KEY",
+                "value": "[parameters('MicrosoftSpeechApiKey')]"
               }
             ]
           }
