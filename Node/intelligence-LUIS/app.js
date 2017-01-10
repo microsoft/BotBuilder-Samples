@@ -22,15 +22,14 @@ server.post('/api/messages', connector.listen());
 
 // You can provide your own model by specifing the 'LUIS_MODEL_URL' environment variable
 // This Url can be obtained by uploading or creating your model from the LUIS portal: https://www.luis.ai/
-const LuisModelUrl = process.env.LUIS_MODEL_URL ||
-    'https://api.projectoxford.ai/luis/v1/application?id=162bf6ee-379b-4ce4-a519-5f5af90086b5&subscription-key=11be6373fca44ded80fbe2afa8597c18';
+const LuisModelUrl = process.env.LUIS_MODEL_URL;
 
 // Main dialog with LUIS
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
-var intents = new builder.IntentDialog({ recognizers: [recognizer] })
+bot.dialog('/', new builder.IntentDialog({ recognizers: [recognizer] })
     .matches('SearchHotels', [
         function (session, args, next) {
-            session.send('Welcome to the Hotels finder! we are analyzing your message: \'%s\'', session.message.text);
+            session.send('Welcome to the Hotels finder! We are analyzing your message: \'%s\'', session.message.text);
 
             // try extracting entities
             var cityEntity = builder.EntityRecognizer.findEntity(args.entities, 'builtin.geography.city');
@@ -88,16 +87,16 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
                     var message = new builder.Message()
                         .attachmentLayout(builder.AttachmentLayout.carousel)
                         .attachments(reviews.map(reviewAsAttachment));
-                    session.send(message)
+                    session.send(message);
                 });
         }
     })
     .matches('Help', builder.DialogAction.send('Hi! Try asking me things like \'search hotels in Seattle\', \'search hotels near LAX airport\' or \'show me the reviews of The Bot Resort\''))
     .onDefault((session) => {
         session.send('Sorry, I did not understand \'%s\'. Type \'help\' if you need assistance.', session.message.text);
-    });
+    }));
 
-if (process.env.IS_SPELL_CORRECTION_ENABLED == "true") {
+if (process.env.IS_SPELL_CORRECTION_ENABLED === 'true') {
     bot.use({
         botbuilder: function (session, next) {
             spellService
@@ -111,10 +110,8 @@ if (process.env.IS_SPELL_CORRECTION_ENABLED == "true") {
                     next();
                 });
         }
-    })
+    });
 }
-
-bot.dialog('/', intents);
 
 // Helpers
 function hotelAsAttachment(hotel) {
@@ -134,5 +131,5 @@ function reviewAsAttachment(review) {
     return new builder.ThumbnailCard()
         .title(review.title)
         .text(review.text)
-        .images([new builder.CardImage().url(review.image)])
+        .images([new builder.CardImage().url(review.image)]);
 }
