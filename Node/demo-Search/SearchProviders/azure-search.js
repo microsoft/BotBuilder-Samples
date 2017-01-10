@@ -47,7 +47,7 @@ function create(serviceName, serviceKey, index) {
                 });
             });
         }
-    }
+    };
 }
 
 // Helpers

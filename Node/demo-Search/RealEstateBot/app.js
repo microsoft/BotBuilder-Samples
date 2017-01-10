@@ -3,25 +3,28 @@ var _ = require('lodash');
 var builder = require('botbuilder');
 var restify = require('restify');
 
+/// <reference path="../SearchDialogLibrary/index.d.ts" />
+var SearchLibrary = require('../SearchDialogLibrary');
+var AzureSearch = require('../SearchProviders/azure-search');
+
 // Setup Restify Server
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log('%s listening to %s', server.name, server.url);
 });
 
-// Create chat bot
+// Create chat bot and listen for messages
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
-var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
-// Root dialog, triggers search and process its results
-bot.dialog('/', [
+// Bot with main dialog that triggers search and display its results
+var bot = new builder.UniversalBot(connector, [
     function (session) {
         // Trigger Search
-        session.beginDialog('realstate:/');
+        SearchLibrary.begin(session);
     },
     function (session, args) {
         // Process selected search results
@@ -31,16 +34,12 @@ bot.dialog('/', [
     }
 ]);
 
-// Azure Search provider
-var AzureSearch = require('../SearchProviders/azure-search');
+// Azure Search
 var azureSearchClient = AzureSearch.create('realestate', '82BCF03D2FC9AC7F4E9D7DE1DF3618A5', 'listings');
+var realStateResultsMapper = SearchLibrary.defaultResultsMapper(realstateToSearchHit);
 
-/// <reference path="../SearchDialogLibrary/index.d.ts" />
-var SearchDialogLibrary = require('../SearchDialogLibrary');
-
-// RealState Search
-var realStateResultsMapper = SearchDialogLibrary.defaultResultsMapper(realstateToSearchHit);
-var realstate = SearchDialogLibrary.create('realstate', {
+// Register Search Dialogs Library with bot
+bot.library(SearchLibrary.create({
     multipleSelection: true,
     search: (query) => azureSearchClient.search(query).then(realStateResultsMapper),
     refiners: ['region', 'city', 'type'],
@@ -48,9 +47,7 @@ var realstate = SearchDialogLibrary.create('realstate', {
         _.zipObject(
             refiners.map(r => 'By ' + _.capitalize(r)),
             refiners)
-});
-
-bot.library(realstate);
+}));
 
 // Maps the AzureSearch RealState Document into a SearchHit that the Search Library can use
 function realstateToSearchHit(realstate) {
