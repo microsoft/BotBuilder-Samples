@@ -101,7 +101,7 @@ The first time you run this sample it will display a welcome message and configu
 
 ![Sample Outcome](images/outcome-1.png)
 
-Subsequently, you can start a new conversation (In the Bot Framework Channel Emulator this can be done by using the 'ConversationNames - New' button) and this time the bot will remember you name but will forget the city override we executed in the previous conversation. Using the `change city` command this can be changed for all the users in the conversation.
+Subsequently, you can start a new conversation (In the Bot Framework Emulator this can be done by using the 'New Conversation' option under the Settings menu) and this time the bot will remember you name but will forget the city override we executed in the previous conversation. Using the `change city` command this can be changed for all the users in the conversation.
 
 ![Sample Outcome](images/outcome-2.png)
 
