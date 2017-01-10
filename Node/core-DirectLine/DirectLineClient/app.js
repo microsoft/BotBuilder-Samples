@@ -1,26 +1,32 @@
 var Swagger = require('swagger-client');
 var open = require('open');
-var directLineSpec = require('./directline-swagger.json');
+var rp = require('request-promise');
 
 // config items
 var pollInterval = 1000;
-var directLineClientName = 'DirectLineClient';
 var directLineSecret = 'DIRECTLINE_SECRET';
+var directLineClientName = 'DirectLineClient';
+var directLineSpecUrl = 'https://docs.botframework.com/en-us/restapi/directline3/swagger.json';
 
-var directLineClient = new Swagger(
-    {
-        spec: directLineSpec,
-        usePromise: true,
-    }).then((client) => {
-        // add authorization header
-        client.clientAuthorizations.add('AuthorizationBotConnector', new Swagger.ApiKeyAuthorization('Authorization', 'BotConnector ' + directLineSecret, 'header'));
+var directLineClient = rp(directLineSpecUrl)
+    .then((spec) =>
+        // client
+        new Swagger(
+            {
+                spec: JSON.parse(spec.trim()),
+                usePromise: true
+            }))
+    .then((client) => {
+        // add authorization header to client
+        client.clientAuthorizations.add('AuthorizationBotConnector', new Swagger.ApiKeyAuthorization('Authorization', 'Bearer ' + directLineSecret, 'header'));
         return client;
-    }).catch((err) =>
+    })
+    .catch((err) =>
         console.error('Error initializing DirectLine client', err));
 
 // once the client is ready, create a new conversation 
 directLineClient.then((client) => {
-    client.Conversations.Conversations_NewConversation()                            // create conversation
+    client.Conversations.Conversations_StartConversation()                          // create conversation
         .then((response) => response.obj.conversationId)                            // obtain id
         .then((conversationId) => {
             sendMessagesFromConsole(client, conversationId);                        // start watching console input for sending new messages to bot
@@ -41,14 +47,19 @@ function sendMessagesFromConsole(client, conversationId) {
             }
 
             // send message
-            client.Conversations.Conversations_PostMessage(
-            {
-                conversationId: conversationId,
-                message: {
-                    from: directLineClientName,
-                    text: input
-                }
-            }).catch((err) => console.error('Error sending message:', err));
+            client.Conversations.Conversations_PostActivity(
+                {
+                    conversationId: conversationId,
+                    activity: {
+                        textFormat: 'plain',
+                        text: input,
+                        type: 'message',
+                        from: {
+                            id: directLineClientName,
+                            name: directLineClientName
+                        }
+                    }
+                }).catch((err) => console.error('Error sending message:', err));
 
             process.stdout.write('Command> ');
         }
@@ -60,53 +71,55 @@ function pollMessages(client, conversationId) {
     console.log('Starting polling message for conversationId: ' + conversationId);
     var watermark = null;
     setInterval(() => {
-        client.Conversations.Conversations_GetMessages({ conversationId: conversationId, watermark: watermark })
+        client.Conversations.Conversations_GetActivities({ conversationId: conversationId, watermark: watermark })
             .then((response) => {
                 watermark = response.obj.watermark;                                 // use watermark so subsequent requests skip old messages 
-                return response.obj.messages;
+                return response.obj.activities;
             })
-            .then((messages) => printMessages(messages))
+            .then((activities) => printMessages(activities));
     }, pollInterval);
 }
 
 // Helpers methods
-function printMessages(messages) {
-    if (messages && messages.length) {
+function printMessages(activities) {
+    if (activities && activities.length) {
         // ignore own messages
-        messages = messages.filter((m) => m.from !== directLineClientName);
+        activities = activities.filter((m) => m.from.id !== directLineClientName);
 
-        if (messages.length) {
+        if (activities.length) {
             process.stdout.clearLine();
             process.stdout.cursorTo(0);
 
             // print other messages
-            messages.forEach(printMessage);
+            activities.forEach(printMessage);
 
             process.stdout.write('Command> ');
         }
-    };
-}
-
-function printMessage(message) {
-    if(message.text) {
-        console.log(message.text);
-    }
-    
-    if (message.channelData) {
-        switch (message.channelData.contentType) {
-            case "application/vnd.microsoft.card.hero":
-                renderHeroCard(message.channelData);
-                break;
-
-            case "image/png":
-                console.log('Opening the requested image ' + message.channelData.contentUrl);
-                open(message.channelData.contentUrl);
-                break;
-        }
     }
 }
 
-function renderHeroCard(channelData) {
+function printMessage(activity) {
+    if (activity.text) {
+        console.log(activity.text);
+    }
+
+    if (activity.attachments) {
+        activity.attachments.forEach((attachment) => {
+            switch (attachment.contentType) {
+                case "application/vnd.microsoft.card.hero":
+                    renderHeroCard(attachment);
+                    break;
+
+                case "image/png":
+                    console.log('Opening the requested image ' + attachment.contentUrl);
+                    open(attachment.contentUrl);
+                    break;
+            }
+        });
+    }
+}
+
+function renderHeroCard(attachment) {
     var width = 70;
     var contentLine = (content) =>
         ' '.repeat((width - content.length) / 2) +
@@ -114,8 +127,8 @@ function renderHeroCard(channelData) {
         ' '.repeat((width - content.length) / 2);
 
     console.log('/' + '*'.repeat(width + 1));
-    console.log('*' + contentLine(channelData.content.title) + '*');
+    console.log('*' + contentLine(attachment.content.title) + '*');
     console.log('*' + ' '.repeat(width) + '*');
-    console.log('*' + contentLine(channelData.content.text) + '*');
+    console.log('*' + contentLine(attachment.content.text) + '*');
     console.log('*'.repeat(width + 1) + '/');
 }
