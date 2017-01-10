@@ -67,7 +67,7 @@ namespace Newsie.Dialogs
         [ScorableGroup(1)]
         public async Task FallbackIntentHandlerAsync(IDialogContext context, IMessageActivity activity)
         {
-            await context.PostAsync(string.Format(Strings.FallbackIntentMessage, Emojis.Flushed));
+            await context.PostAsync(string.Format(Strings.FallbackIntentMessage));
             context.Wait(this.ActivityReceivedAsync);
         }
 

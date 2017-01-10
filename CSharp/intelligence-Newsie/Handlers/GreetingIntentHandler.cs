@@ -39,12 +39,12 @@ namespace Newsie.Handlers
                 cards.Add(cardAction);
             }
 
-            reply.Attachments.Add(CardGenerator.GetHeroCard(text: string.Format(Strings.GreetOnDemand, Emojis.WideSmile, Emojis.News, Emojis.Wink)));
+            reply.Attachments.Add(CardGenerator.GetHeroCard(text: string.Format(Strings.GreetOnDemand)));
             reply.Attachments.Add(CardGenerator.GetHeroCard(cardActions: cards));
             reply.Attachments.Add(CardGenerator.GetThumbNailCard(
                     cardActions: new List<CardAction>
                     {
-                        new CardAction(ActionTypes.OpenUrl, "Bing for more", value: "https://www.bing.com/news/search?q=bing+news")
+                        new CardAction(ActionTypes.OpenUrl, Strings.BingForMore, value: "https://www.bing.com/news/search?q=bing+news")
                     }));
 
             await this.botToUser.PostAsync(reply);

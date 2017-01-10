@@ -77,12 +77,12 @@ namespace Newsie.Handlers
                 // If published less than 1 hour, use minute(s) suffix
                 if (now.Hour - news.datePublished.Hour == 0)
                 {
-                    timeSuffix = (now.Minute - news.datePublished.Minute <= 1) ? "min ago" : "mins ago";
+                    timeSuffix = (now.Minute - news.datePublished.Minute <= 1) ? Strings.SingleMinAgo : Strings.PluralMinAgo;
                     newsieResult.DatePublished = (now.Minute - news.datePublished.Minute) + " " + timeSuffix;
                 }
                 else
                 {
-                    timeSuffix = (now.Hour - news.datePublished.Hour) <= 1 ? "hour ago" : "hours ago";
+                    timeSuffix = (now.Hour - news.datePublished.Hour) <= 1 ? Strings.SingleHourAgo : Strings.PluralHourAgo;
                     newsieResult.DatePublished = (now.Hour - news.datePublished.Hour) + " " + timeSuffix;
                 }
             }
@@ -112,19 +112,19 @@ namespace Newsie.Handlers
                 NewsCategoryParser.TryParse(entityRecommendation.Entity, out newsCategory))
             {
                 // If a category entity was found issue a category search request
-                await this.botToUser.PostAsync(string.Format(Strings.NewsCategoryTypeMessage, newsCategory.GetDislaplyName().ToLowerInvariant(), Emojis.Wink));
+                await this.botToUser.PostAsync(string.Format(Strings.NewsCategoryTypeMessage, newsCategory.GetDislaplyName().ToLowerInvariant()));
                 bingNews = await this.bingNewsApiHandler.FindNewsByCategory(newsCategory.ToString());
             }
             else if (result.TryFindEntity(NewsieStrings.NewsEntityTopic, out entityRecommendation))
             {
                 // Else if it no category found try to search for a topic and issue a news search request by topic
-                await this.botToUser.PostAsync(string.Format(Strings.NewsTopicTypeMessage, Emojis.Wink));
+                await this.botToUser.PostAsync(string.Format(Strings.NewsTopicTypeMessage));
                 bingNews = await this.bingNewsApiHandler.FindNewsByQuery(entityRecommendation.Entity);
             }
             else
             {
                 // Otherwise use the whole user message as a query for Bing news search
-                await this.botToUser.PostAsync(string.Format(Strings.NewsTopicTypeMessage, Emojis.Wink));
+                await this.botToUser.PostAsync(string.Format(Strings.NewsTopicTypeMessage));
                 bingNews = await this.bingNewsApiHandler.FindNewsByQuery(result.Query);
             }
 
@@ -151,7 +151,7 @@ namespace Newsie.Handlers
                 reply.Attachments.Add(CardGenerator.GetHeroCard(
                     cardActions: new List<CardAction>
                     {
-                        new CardAction(ActionTypes.OpenUrl, "Bing for more", value: $"https://www.bing.com/news?q={newsCategory.GetQueryName()}+news")
+                        new CardAction(ActionTypes.OpenUrl, Strings.BingForMore, value: $"https://www.bing.com/news?q={newsCategory.GetQueryName()}+news")
                     },
                     cardImage: new CardImage(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/Content/binglogo.jpg")));
             }

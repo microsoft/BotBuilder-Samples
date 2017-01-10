@@ -166,7 +166,6 @@
     </Compile>
     <Compile Include="Utilities\CardGenerators\CardGenerator.cs" />
     <Compile Include="Utilities\CacheManager.cs" />
-    <Compile Include="Utilities\Emojis.cs" />
     <Compile Include="Utilities\ICacheManager.cs" />
     <Compile Include="Utilities\NewsCategoryParser.cs" />
   </ItemGroup>

@@ -61,7 +61,16 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hmm... I did not understand that {0}. Rephrase your message and try again..
+        ///   Looks up a localized string similar to Bing for more.
+        /// </summary>
+        internal static string BingForMore {
+            get {
+                return ResourceManager.GetString("BingForMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hmm... I did not understand that. Rephrase your message and try again..
         /// </summary>
         internal static string FallbackIntentMessage {
             get {
@@ -79,7 +88,7 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hi {0}! What would you like to read about? You can either pick a category below or just type the topic {1}. I&apos;ll do my best to fetch the latest and the most important stories from across the web {2}, powered by Bing News..
+        ///   Looks up a localized string similar to Hi! What would you like to read about? You can either pick a category below or just type the topic. I&apos;ll do my best to fetch the latest and the most important stories from across the web, powered by Bing News..
         /// </summary>
         internal static string GreetOnDemand {
             get {
@@ -88,7 +97,7 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hi {0}! I&apos;m Newsie. I&apos;m here to super-charge the way you read the daily news {1} by generating on-demand smart summaries of any article you&apos;re interested in..
+        ///   Looks up a localized string similar to Hi! I&apos;m Newsie. I&apos;m here to super-charge the way you read the daily news by generating on-demand smart summaries of any article you&apos;re interested in..
         /// </summary>
         internal static string GreetWithHiMessage {
             get {
@@ -97,7 +106,7 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I&apos;ll pull in some news about {0} category {1}!.
+        ///   Looks up a localized string similar to I&apos;ll pull in some news about category!.
         /// </summary>
         internal static string NewsCategoryTypeMessage {
             get {
@@ -106,7 +115,7 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hmm... I&apos;m having trouble finding news for this term {0}. Rephrase your message and try again..
+        ///   Looks up a localized string similar to Hmm... I&apos;m having trouble finding news for this term. Rephrase your message and try again..
         /// </summary>
         internal static string NewsSearchErrorMessage {
             get {
@@ -115,7 +124,7 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Here you go {0}.
+        ///   Looks up a localized string similar to Here you go..
         /// </summary>
         internal static string NewsTopicTypeMessage {
             get {
@@ -124,7 +133,43 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Say &quot;Hi&quot; if you would like to get statred {0}..
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string PluralHourAgo {
+            get {
+                return ResourceManager.GetString("PluralHourAgo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mins ago.
+        /// </summary>
+        internal static string PluralMinAgo {
+            get {
+                return ResourceManager.GetString("PluralMinAgo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to hour ago.
+        /// </summary>
+        internal static string SingleHourAgo {
+            get {
+                return ResourceManager.GetString("SingleHourAgo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to min ago.
+        /// </summary>
+        internal static string SingleMinAgo {
+            get {
+                return ResourceManager.GetString("SingleMinAgo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Say &quot;Hi&quot; if you would like to get statred..
         /// </summary>
         internal static string StartGreetingMessage {
             get {
@@ -133,7 +178,7 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hmm, I&apos;m sorry. I could not summarize the article {0}..
+        ///   Looks up a localized string similar to Hmm, I&apos;m sorry. I could not summarize the article..
         /// </summary>
         internal static string SummaryErrorMessage {
             get {
@@ -151,7 +196,7 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hold on! I&apos;ll be back in a jiffy {0}!.
+        ///   Looks up a localized string similar to Hold on! I&apos;ll be back in a jiffy!.
         /// </summary>
         internal static string SummaryWaitMessage {
             get {

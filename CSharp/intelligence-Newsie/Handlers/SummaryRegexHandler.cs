@@ -32,7 +32,7 @@ namespace Newsie.Handlers
 
             if (!string.IsNullOrEmpty(articleUrl))
             {
-                await this.botToUser.PostAsync(string.Format(Strings.SummaryWaitMessage, Emojis.Rocket));
+                await this.botToUser.PostAsync(string.Format(Strings.SummaryWaitMessage));
                 
                 Value newsResult;
                 var hasNewsResult = this.cache.TryRead(articleUrl, out newsResult);
@@ -76,12 +76,12 @@ namespace Newsie.Handlers
                 }
                 else
                 {
-                    await this.botToUser.PostAsync(string.Format(Strings.SummaryErrorMessage, Emojis.Flushed));
+                    await this.botToUser.PostAsync(string.Format(Strings.SummaryErrorMessage));
                 }
             }
             else
             {
-                await this.botToUser.PostAsync(string.Format(Strings.SummaryErrorMessage, Emojis.Flushed));
+                await this.botToUser.PostAsync(string.Format(Strings.SummaryErrorMessage));
             }
         }
 

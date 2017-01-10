@@ -117,37 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BingForMore" xml:space="preserve">
+    <value>Bing for more</value>
+  </data>
   <data name="FallbackIntentMessage" xml:space="preserve">
-    <value>Hmm... I did not understand that {0}. Rephrase your message and try again.</value>
+    <value>Hmm... I did not understand that. Rephrase your message and try again.</value>
   </data>
   <data name="FullStoryString" xml:space="preserve">
     <value>Full Story</value>
   </data>
   <data name="GreetOnDemand" xml:space="preserve">
-    <value>Hi {0}! What would you like to read about? You can either pick a category below or just type the topic {1}. I'll do my best to fetch the latest and the most important stories from across the web {2}, powered by Bing News.</value>
+    <value>Hi! What would you like to read about? You can either pick a category below or just type the topic. I'll do my best to fetch the latest and the most important stories from across the web, powered by Bing News.</value>
   </data>
   <data name="GreetWithHiMessage" xml:space="preserve">
-    <value>Hi {0}! I'm Newsie. I'm here to super-charge the way you read the daily news {1} by generating on-demand smart summaries of any article you're interested in.</value>
+    <value>Hi! I'm Newsie. I'm here to super-charge the way you read the daily news by generating on-demand smart summaries of any article you're interested in.</value>
   </data>
   <data name="NewsCategoryTypeMessage" xml:space="preserve">
-    <value>I'll pull in some news about {0} category {1}!</value>
+    <value>I'll pull in some news about category!</value>
   </data>
   <data name="NewsSearchErrorMessage" xml:space="preserve">
-    <value>Hmm... I'm having trouble finding news for this term {0}. Rephrase your message and try again.</value>
+    <value>Hmm... I'm having trouble finding news for this term. Rephrase your message and try again.</value>
   </data>
   <data name="NewsTopicTypeMessage" xml:space="preserve">
-    <value>Here you go {0}</value>
+    <value>Here you go.</value>
+  </data>
+  <data name="PluralHourAgo" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PluralMinAgo" xml:space="preserve">
+    <value>mins ago</value>
+  </data>
+  <data name="SingleHourAgo" xml:space="preserve">
+    <value>hour ago</value>
+  </data>
+  <data name="SingleMinAgo" xml:space="preserve">
+    <value>min ago</value>
   </data>
   <data name="StartGreetingMessage" xml:space="preserve">
-    <value>Say "Hi" if you would like to get statred {0}.</value>
+    <value>Say "Hi" if you would like to get statred.</value>
   </data>
   <data name="SummaryErrorMessage" xml:space="preserve">
-    <value>Hmm, I'm sorry. I could not summarize the article {0}.</value>
+    <value>Hmm, I'm sorry. I could not summarize the article.</value>
   </data>
   <data name="SummaryString" xml:space="preserve">
     <value>SUMMARY</value>
   </data>
   <data name="SummaryWaitMessage" xml:space="preserve">
-    <value>Hold on! I'll be back in a jiffy {0}!</value>
+    <value>Hold on! I'll be back in a jiffy!</value>
   </data>
 </root>
