@@ -1,108 +1,114 @@
 var util = require('util');
 var builder = require('botbuilder');
 var validators = require('../validators');
+var utils = require('../utils');
 var addressLibrary = require('./address');
 
 const SettingChoice = {
-    Email: 'Edit your email',
-    Phone: 'Edit phone number',
-    Addresses: 'Edit your addresses',
-    Cancel: 'Go back'
+    Email: 'edit_email',
+    Phone: 'edit_phone',
+    Addresses: 'edit_addresses',
+    Cancel: 'cancel'
 };
 
-var library = new builder.Library('settings');
-library.dialog('/', [
+var lib = new builder.Library('settings');
+lib.dialog('/', [
     // Display options
     function (session) {
-        builder.Prompts.choice(
-            session,
-            'Want to make changes to your personal info or addresses? You\'re in the right place.',
-            [SettingChoice.Email, SettingChoice.Phone, SettingChoice.Addresses, SettingChoice.Cancel]);
+        builder.Prompts.choice(session, 'settings_intro', [
+            session.gettext(SettingChoice.Email),
+            session.gettext(SettingChoice.Phone),
+            session.gettext(SettingChoice.Addresses),
+            session.gettext(SettingChoice.Cancel)
+        ]);
     },
     // Trigger option edit
     function (session, args, next) {
         args = args || {};
         var response = args.response || {};
         var option = response.entity;
+        var promptMessage;
         switch (option) {
-            case SettingChoice.Email:
-                var promptMessage = 'Type your email or use (B)ack to return to the menu.';
+            case session.gettext(SettingChoice.Email):
+                promptMessage = 'type_email_or_return';
                 if (session.userData.sender && session.userData.sender.email) {
-                    promptMessage = 'This is your current email: ' + session.userData.sender.email + '.\n\nType a new email if you need to update, or use (B)ack to return to the menu.';
+                    promptMessage = session.gettext('your_current_email', session.userData.sender.email);
                 }
                 session.send(promptMessage);
-                return session.beginDialog('/email');
+                return session.beginDialog('email');
 
-            case SettingChoice.Phone:
-                var promptMessage = 'Type your phone number or use (B)ack to return to the menu.';
+            case session.gettext(SettingChoice.Phone):
+                promptMessage = 'type_phone_or_return';
                 if (session.userData.sender && session.userData.sender.phoneNumber) {
-                    promptMessage = 'This is your current phone number: ' + session.userData.sender.phoneNumber + '.\n\nType a new number if you need to update, or use (B)ack to return to the menu.';
+                    promptMessage = session.gettext('your_current_phone', session.userData.sender.phoneNumber);
                 }
                 session.send(promptMessage);
-                return session.beginDialog('/phone');
+                return session.beginDialog('phone');
 
-            case SettingChoice.Addresses:
-                return session.beginDialog('/addresses');
+            case session.gettext(SettingChoice.Addresses):
+                return session.beginDialog('addresses');
 
-            case SettingChoice.Cancel:
+            case session.gettext(SettingChoice.Cancel):
                 return session.endDialog();
         }
     },
     // Setting updated/cancelled
     function (session, args) {
         args = args || {};
-        var text = !!args.updated ? 'Thanks! Your setting was updated!' : 'No setting was updated.';
-        session.send(text); 
+        var text = args.updated ? 'setting_updated' : 'setting_not_updated';
+        session.send(text);
         session.replaceDialog('/');
     }
 ]).reloadAction('restart', null, { matches: /^back|b/i });                               // restart menu options when 'B' or 'Back' is received
-  
-
 
 // Email edit
-library.dialog('/email', editOptionDialog(
+lib.dialog('email', editOptionDialog(
     (input) => validators.EmailRegex.test(input),
-    'Something is wrong with that email address. Please try again.',
+    'invalid_email_address',
     (session, email) => saveSenderSetting(session, 'email', email)));
 
 // Phone Number edit
-library.dialog('/phone', editOptionDialog(
+lib.dialog('phone', editOptionDialog(
     (input) => validators.PhoneRegex.test(input),
-    'Oops, that doesn\'t look like a valid number. Try again.',
+    'invalid_phone_number',
     (session, phone) => saveSenderSetting(session, 'phoneNumber', phone)));
 
 // Addresses
 const UseSavedInfoChoices = addressLibrary.UseSavedInfoChoices;
-library.dialog('/addresses', [
-    function(session, args, next) {
-        
+lib.dialog('addresses', [
+    function (session, args, next) {
+
         // Check if an option was selected
         var selection = session.message.text;
-        if(selection === UseSavedInfoChoices.Home || selection === UseSavedInfoChoices.Work) {
+        if (selection.toLowerCase() === session.gettext(UseSavedInfoChoices.Home).toLowerCase() ||
+            selection.toLowerCase() === session.gettext(UseSavedInfoChoices.Work).toLowerCase()) {
             session.dialogData.selection = selection;
             return next();
         }
 
         // Show saved addresses
-        session.send('Which address do you wish to update?');
+        session.send('choose_address_to_update');
         var saved = session.userData.billingAddresses = session.userData.billingAddresses || {};
         var message = new builder.Message(session)
             .attachmentLayout(builder.AttachmentLayout.carousel);
         var homeAddress = saved[UseSavedInfoChoices.Home];
         var workAddress = saved[UseSavedInfoChoices.Work];
-        message.addAttachment(createAddressCard(session, UseSavedInfoChoices.Home, homeAddress || 'Not set'));
-        message.addAttachment(createAddressCard(session, UseSavedInfoChoices.Work, workAddress || 'Not set'));
+        var notSet = session.gettext('not_set');
+        message.addAttachment(createAddressCard(session, session.gettext(UseSavedInfoChoices.Home), homeAddress || notSet));
+        message.addAttachment(createAddressCard(session, session.gettext(UseSavedInfoChoices.Work), workAddress || notSet));
         message.addAttachment(new builder.HeroCard(session)
-            .title('Not this time')
-            .subtitle('Do not change any addresses')
+            .title('not_this_time')
+            .subtitle('do_not_change_addresses')
             .buttons([
-                builder.CardAction.imBack(session, 'Back', '(B)ack')
+                builder.CardAction.imBack(session, session.gettext('back'), session.gettext('back_label'))
             ]));
         session.send(message);
     },
     function (session, args, next) {
         // Trigger address request dialog
-        session.beginDialog('address:/', { promptMessage: util.format('Please specify your new %s.', session.dialogData.selection) });
+        session.beginDialog('address:/', {
+            promptMessage: session.gettext('specify_new_address', session.dialogData.selection)
+        });
     },
     function (session, args, next) {
         // Save new address
@@ -128,7 +134,7 @@ function editOptionDialog(validationFunc, invalidMessage, saveFunc) {
             return;
         }
 
-        if(!validationFunc(session.message.text)) {
+        if (!validationFunc(session.message.text)) {
             // invalid
             session.send(invalidMessage);
         } else {
@@ -148,4 +154,7 @@ function createAddressCard(session, buttonTitle, address) {
         ]);
 }
 
-module.exports = library;
+// Export createLibrary() function
+module.exports.createLibrary = function () {
+    return lib.clone();
+};

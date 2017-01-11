@@ -22,7 +22,7 @@ router.get('/', function (req, res, next) {
     // Check order if order is already processed
     if (order.payed) {
       // Dispatch completion dialog
-      bot.beginDialog(address, 'checkout:/completed', { orderId: orderId });
+      bot.beginDialog(address, 'checkout:completed', { orderId: orderId });
 
       // Show completion
       return res.render('checkout/completed', {
@@ -61,7 +61,7 @@ router.post('/', function (req, res, next) {
   orderService.confirmOrder(orderId, paymentDetails).then((processedOrder) => {
 
     // Dispatch completion dialog
-    bot.beginDialog(address, 'checkout:/completed', { orderId: orderId });
+    bot.beginDialog(address, 'checkout:completed', { orderId: orderId });
 
     // Show completion
     return res.render('checkout/completed', {

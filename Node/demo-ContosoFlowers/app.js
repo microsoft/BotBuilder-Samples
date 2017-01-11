@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 
 // Web app
 var app = express();
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, 'views'));

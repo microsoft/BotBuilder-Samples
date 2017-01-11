@@ -5,62 +5,74 @@ var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
-var bot = new builder.UniversalBot(connector, { persistUserData: true });
 
 // Welcome Dialog
 const MainOptions = {
-    Shop: 'Order flowers',
-    Support: 'Talk to support'
+    Shop: 'main_options_order_flowers',
+    Support: 'main_options_talk_to_support'
 };
-bot.dialog('/', (session) => {
-    if(session.message.text.trim().toUpperCase() === MainOptions.Shop.toUpperCase()) {
+
+var bot = new builder.UniversalBot(connector, (session) => {
+
+    if (localizedRegex(session, [MainOptions.Shop]).test(session.message.text)) {
         // Order Flowers
         return session.beginDialog('shop:/');
     }
 
     var welcomeCard = new builder.HeroCard(session)
-        .title('Welcome to the Contoso Flowers')
-        .subtitle('These are the flowers you are looking for!')
+        .title('welcome_title')
+        .subtitle('welcome_subtitle')
         .images([
             new builder.CardImage(session)
                 .url('https://placeholdit.imgix.net/~text?txtsize=56&txt=Contoso%20Flowers&w=640&h=330')
-                .alt('Contoso Flowers')
+                .alt('contoso_flowers')
         ])
         .buttons([
-            builder.CardAction.imBack(session, MainOptions.Shop, MainOptions.Shop),
-            builder.CardAction.imBack(session, MainOptions.Support, MainOptions.Support)
+            builder.CardAction.imBack(session, session.gettext(MainOptions.Shop), MainOptions.Shop),
+            builder.CardAction.imBack(session, session.gettext(MainOptions.Support), MainOptions.Support)
         ]);
 
     session.send(new builder.Message(session)
         .addAttachment(welcomeCard));
 });
 
+// Enable Conversation Data persistence
+bot.set('persistConversationData', true);
+
+// Set default locale
+bot.set('localizerSettings', {
+    botLocalePath: './bot/locale',
+    defaultLocale: 'en'
+});
+
 // Sub-Dialogs
-bot.library(require('./dialogs/shop'));
-bot.library(require('./dialogs/address'));
-bot.library(require('./dialogs/product-selection'));
-bot.library(require('./dialogs/delivery'));
-bot.library(require('./dialogs/details'));
-bot.library(require('./dialogs/checkout'));
-bot.library(require('./dialogs/settings'));
-bot.library(require('./dialogs/help'));
+bot.library(require('./dialogs/shop').createLibrary());
+bot.library(require('./dialogs/address').createLibrary());
+bot.library(require('./dialogs/product-selection').createLibrary());
+bot.library(require('./dialogs/delivery').createLibrary());
+bot.library(require('./dialogs/details').createLibrary());
+bot.library(require('./dialogs/checkout').createLibrary());
+bot.library(require('./dialogs/settings').createLibrary());
+bot.library(require('./dialogs/help').createLibrary());
 
 // Validators
-bot.library(require('./validators'));
+bot.library(require('./validators').createLibrary());
 
 // Trigger secondary dialogs when 'settings' or 'support' is called
-const settingsRegex = /^settings/i;
-const supportRegex = new RegExp('^(' + MainOptions.Support + '|help)', 'i');
 bot.use({
     botbuilder: (session, next) => {
         var text = session.message.text;
+
+        var settingsRegex = localizedRegex(session, ['main_options_settings']);
+        var supportRegex = localizedRegex(session, ['main_options_talk_to_support', 'help']);
+
         if (settingsRegex.test(text)) {
             // interrupt and trigger 'settings' dialog 
             return session.beginDialog('settings:/');
         } else if (supportRegex.test(text)) {
             // interrupt and trigger 'help' dialog
             return session.beginDialog('help:/');
-        }   
+        }
 
         // continue normal flow
         next();
@@ -78,6 +90,21 @@ bot.on('conversationUpdate', (message) => {
     }
 });
 
+// Cache of localized regex to match selection from main options
+const LocalizedRegexCache = {};
+function localizedRegex(session, localeKeys) {
+    var locale = session.preferredLocale();
+    var cacheKey = locale + ":" + localeKeys.join('|');
+    if (LocalizedRegexCache.hasOwnProperty(cacheKey)) {
+        return LocalizedRegexCache[cacheKey];
+    }
+
+    var localizedStrings = localeKeys.map(key => session.localizer.gettext(locale, key));
+    var regex = new RegExp('^(' + localizedStrings.join('|') + ')', 'i');
+    LocalizedRegexCache[cacheKey] = regex;
+    return regex;
+}
+
 // Connector listener wrapper to capture site url
 var connectorListener = connector.listen();
 function listen() {
@@ -92,7 +119,7 @@ function listen() {
 
 // Other wrapper functions
 function beginDialog(address, dialogId, dialogArgs) {
-    bot.beginDialog(address, dialogId, dialogArgs)
+    bot.beginDialog(address, dialogId, dialogArgs);
 }
 
 function sendMessage(message) {
