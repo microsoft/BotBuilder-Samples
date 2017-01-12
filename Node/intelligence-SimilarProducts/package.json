@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node app.js"
   },
-  "auhor": "",
+  "author": "Microsoft Corp.",
   "license": "MIT",
   "dependencies": {
     "botbuilder": "^3.5.1",
