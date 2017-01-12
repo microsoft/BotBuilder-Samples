@@ -114,7 +114,6 @@
   <ItemGroup>
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
-    <Content Include="images\botframework.gif" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

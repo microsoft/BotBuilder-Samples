@@ -14,9 +14,9 @@ The minimum prerequisites to run this sample are:
 
 ### Code Highlights
 
-Many messaging channels provide the ability to attach richer objects. Once you send a simple media attachment (image/audio/video/file) to the messaging channel, it will mapped to an attachment data structure in the Attachments property of the activity. The Attachments property is an array of Attachment objects which allow you to send and receive images and other content. Check out the key code located in the [ReceiveAttachmentDialog](ReceiveAttachmentDialog.cs#L24-L42) class where the `message.Attachments` property of the message activity is read to get the first attachment and download it.
+Many messaging channels provide the ability to attach richer objects. Once you send a simple media attachment (image/audio/video/file) to the messaging channel, it will mapped to an attachment data structure in the Attachments property of the activity. The Attachments property is an array of Attachment objects which allow you to send and receive images and other content. Check out the key code located in the [ReceiveAttachmentDialog](ReceiveAttachmentDialog.cs#L24-L43) class where the `message.Attachments` property of the message activity is read to get the first attachment and download it.
 
-> Note: The Skype attachment URLs are secured by JwtToken; you should set the JwtToken of your bot as the authorization header for the HTTP GET request your bot initiates to fetch content. Below is the sample code that temporarily works around this issue and set the JwtToken on the HTTP request. You should be careful when you send the bot's JwtToken to a third party server and should always make sure to send it to trusted parties.
+> Note: The Skype and Microsoft Teams attachment URLs are secured by JwtToken; you should set the JwtToken of your bot as the authorization header for the HTTP GET request your bot initiates to fetch content. Below is the sample code that temporarily works around this issue and set the JwtToken on the HTTP request. You should be careful when you send the bot's JwtToken to a third party server and should always make sure to send it to trusted parties.
 
 ````C#
 public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
@@ -28,8 +28,9 @@ public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitabl
         var attachment = message.Attachments.First();
         using (HttpClient httpClient = new HttpClient())
         {
-            // Skype attachment URLs are secured by a JwtToken, so we need to pass the token from our bot.
-            if (message.ChannelId.Equals("skype", StringComparison.InvariantCultureIgnoreCase) && new Uri(attachment.ContentUrl).Host.EndsWith("skype.com"))
+            // Skype & MS Teams attachment URLs are secured by a JwtToken, so we need to pass the token from our bot.
+            if ((message.ChannelId.Equals("skype", StringComparison.InvariantCultureIgnoreCase) || message.ChannelId.Equals("msteams", StringComparison.InvariantCultureIgnoreCase)) 
+                && new Uri(attachment.ContentUrl).Host.EndsWith("skype.com"))
             {
                 var token = await new MicrosoftAppCredentials().GetTokenAsync();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);

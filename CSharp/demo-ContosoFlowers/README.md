@@ -360,6 +360,7 @@ To get more information about how to get started in Bot Builder for .NET please 
 > - GroupMe
 > 
 > They are also supported, with some limitations, in the following channels:
+> - Microsoft Teams (Receipt card not supported)
 > - Slack
 > - Email
 > 

@@ -86,6 +86,7 @@ To get more information about how to get started in Bot Builder for .NET please 
 > The features used in these samples are fully supported in the following channels:
 > - Skype
 > - Facebook
+> - Microsoft Teams
 > - Telegram
 > - DirectLine
 > - WebChat

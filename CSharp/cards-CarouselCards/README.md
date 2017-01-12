@@ -56,6 +56,7 @@ To get more information about how to get started in Bot Builder for .NET and Att
 * [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments)
 * [Attachments Property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html#attachmentsproperty)
 * [Attachments, Cards and Actions](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html)
+* [Carousel Layout in Microsoft Teams](https://msdn.microsoft.com/en-us/microsoft-teams/bots#carousel-layout)
 * [RichCards sample](../cards-RichCards)
 
 > **Limitations**  
@@ -66,6 +67,7 @@ To get more information about how to get started in Bot Builder for .NET and Att
 > The features used in this sample are fully supported in the following channels:
 > - Skype
 > - Facebook
+> - Microsoft Teams
 > 
 > They are also supported, with some limitations, in the following channels:
 > - Telegram

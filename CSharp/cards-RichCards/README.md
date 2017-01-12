@@ -281,13 +281,14 @@ To get more information about how to get started in Bot Builder for .NET and Att
 * [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments)
 * [Attachments Property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html#attachmentsproperty)
 * [Attachments, Cards and Actions](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html)
+* [Cards and buttons on Microsoft Teams](https://msdn.microsoft.com/en-us/microsoft-teams/bots#cards-and-buttons)
 
 > **Limitations**  
 > The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html).
 > 
 > The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
 > 
-> The Hero card, Thumbnail card, Receipt card and Sign-in card used in this sample are fully supported in the following channels:
+> The Hero card and Thumbnail card used in this sample are fully supported in the following channels:
 > - Skype
 > - Facebook
 > - Telegram
@@ -303,6 +304,27 @@ To get more information about how to get started in Bot Builder for .NET and Att
 > On the other hand, they are not supported and the sample won't work as expected in the following channel:
 > - SMS
 >
+> The Receipt card and Sign-in card used in this sample are fully supported in the following channels:
+> - Skype
+> - Facebook
+> - Telegram
+> - DirectLine
+> - WebChat
+> - Slack
+> - Email
+> - GroupMe
+> 
+> They are also supported, with some limitations, in the following channel:
+> - Kik
+> 
+> On the other hand, they are not supported and the sample won't work as expected in the following channel:
+> - SMS
+> - Microsoft Teams
+>
 > The Animation card, Video card and Audio card used in this sample are fully supported in the following channels:
 > - Skype
 > - Facebook
+> 
+> On the other hand, they are not supported and the sample won't work as expected in the following channel:
+> - Microsoft Teams
+>
