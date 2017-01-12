@@ -324,7 +324,16 @@ To get more information about how to get started in Bot Builder for .NET and Att
 > The Animation card, Video card and Audio card used in this sample are fully supported in the following channels:
 > - Skype
 > - Facebook
-> 
+> - WebChat
+>
+> They are also supported, with some limitations, in the following channel:
+> - Slack (Only Animation card is supported)
+> - GroupMe
+> - Telegram (Only Animation and Audio cards are supported)
+> - Email
+>
 > On the other hand, they are not supported and the sample won't work as expected in the following channel:
 > - Microsoft Teams
+> - Kik
+> - SMS
 >
