@@ -133,7 +133,7 @@
     <value>Hi! I'm Newsie. I'm here to super-charge the way you read the daily news by generating on-demand smart summaries of any article you're interested in.</value>
   </data>
   <data name="NewsCategoryTypeMessage" xml:space="preserve">
-    <value>I'll pull in some news about category!</value>
+    <value>I'll pull in some news about {0} category!</value>
   </data>
   <data name="NewsSearchErrorMessage" xml:space="preserve">
     <value>Hmm... I'm having trouble finding news for this term. Rephrase your message and try again.</value>
@@ -142,7 +142,7 @@
     <value>Here you go.</value>
   </data>
   <data name="PluralHourAgo" xml:space="preserve">
-    <value />
+    <value>hours ago</value>
   </data>
   <data name="PluralMinAgo" xml:space="preserve">
     <value>mins ago</value>

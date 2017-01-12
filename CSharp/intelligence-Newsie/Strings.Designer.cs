@@ -106,7 +106,7 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I&apos;ll pull in some news about category!.
+        ///   Looks up a localized string similar to I&apos;ll pull in some news about {0} category!.
         /// </summary>
         internal static string NewsCategoryTypeMessage {
             get {
@@ -133,7 +133,7 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to hours ago.
         /// </summary>
         internal static string PluralHourAgo {
             get {
