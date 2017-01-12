@@ -57,6 +57,7 @@ To get more information about how to get started in Bot Builder for Node and Att
 * [Message.attachmentLayout](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#attachmentlayout)
 * [AttachmentLayout](https://docs.botframework.com/en-us/node/builder/chat-reference/modules/_botbuilder_d_.html#attachmentlayout)
 * [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments)
+* [Carousel Layout in Microsoft Teams](https://msdn.microsoft.com/en-us/microsoft-teams/bots#carousel-layout)
 * [RichCards sample](../cards-RichCards)
 
 > **Limitations**  
@@ -67,6 +68,7 @@ To get more information about how to get started in Bot Builder for Node and Att
 > The features used in this sample are fully supported in the following channels:
 > - Skype
 > - Facebook
+> - Microsoft Teams
 > 
 > They are also supported, with some limitations, in the following channels:
 > - Telegram

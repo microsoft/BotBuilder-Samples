@@ -229,6 +229,7 @@ To get more information about how to get started in Bot Builder for Node and Dia
 > The features used in this sample are fully supported in the following channels:
 > - Skype
 > - Facebook
+> - Microsoft Teams
 > - Slack
 > - DirectLine
 > - WebChat

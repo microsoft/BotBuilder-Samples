@@ -143,13 +143,16 @@ To get more information about how to get started in Bot Builder for Node, Conver
 > 
 > The features used in this sample are fully supported in the following channels:
 > - Skype
-> - Facebook
 > - Slack
 > - DirectLine
 > - WebChat
 > - Email
 > - GroupMe
-> 
+>
+> They are also supported, with some limitations, in the following channels:
+> - Facebook
+> - Microsoft Teams
+>
 > On the other hand, they are not supported and the sample won't work as expected in the following channels:
 > - SMS
 > - Kik

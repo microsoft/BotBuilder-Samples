@@ -68,6 +68,7 @@ To get more information about how to get started in Bot Builder for Node and Dia
 > 
 > On the other hand, they are not supported and the sample won't work as expected in the following channels:
 > - Facebook
+> - Microsoft Teams
 > - DirectLine
 > - WebChat
 > - Kik

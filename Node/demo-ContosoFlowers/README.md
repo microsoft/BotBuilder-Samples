@@ -668,6 +668,7 @@ To get more information about how to get started in Bot Builder for Node review 
 > - GroupMe
 > 
 > They are also supported, with some limitations, in the following channel:
+> - Microsoft Teams (Receipt card not supported)
 > - Email
 > 
 > On the other hand, they are not supported and the sample won't work as expected in the following channels:

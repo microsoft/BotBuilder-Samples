@@ -24,9 +24,9 @@ var bot = new builder.UniversalBot(connector, function (session) {
     if (msg.attachments.length) {
 
         // Message with attachment, proceed to download it.
-        // Skype attachment URLs are secured by a JwtToken, so we need to pass the token from our bot.
+        // Skype & MS Teams attachment URLs are secured by a JwtToken, so we need to pass the token from our bot.
         var attachment = msg.attachments[0];
-        var fileDownload = isSkypeMessage(msg)
+        var fileDownload = checkRequiresToken(msg)
             ? requestWithToken(attachment.contentUrl)
             : request(attachment.contentUrl);
 
@@ -68,6 +68,6 @@ var requestWithToken = function (url) {
 // Promise for obtaining JWT Token (requested once)
 var obtainToken = Promise.promisify(connector.getAccessToken.bind(connector));
 
-var isSkypeMessage = function (message) {
-    return message.source === 'skype';
+var checkRequiresToken = function (message) {
+    return message.source === 'skype' || message.source === 'msteams';
 };
