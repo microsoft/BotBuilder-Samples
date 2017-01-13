@@ -53,7 +53,7 @@
     },
     "MicrosoftVisionApiKey": {
       "type": "string",
-      "defaultValue": "da64bb75525b430bb8ebd695b5684b71"
+      "defaultValue": "c84d0e1aaaff482b9014a570927bdbf2"
     }
   },
   "resources": [

@@ -50,6 +50,10 @@
     },
     "MicrosoftAppPassword": {
       "type": "string"
+    },
+    "BingSearchApiKey": {
+      "type": "string",
+      "defaultValue": "ee4e28574f514ce7b687236b01a07432"
     }
   },
   "resources": [
@@ -105,6 +109,10 @@
               {
                 "name": "MICROSOFT_APP_PASSWORD",
                 "value": "[parameters('MicrosoftAppPassword')]"
+              },
+              {
+                "name": "BING_SEARCH_API_KEY",
+                "value": "[parameters('BingSearchApiKey')]"
               }
             ]
           }
