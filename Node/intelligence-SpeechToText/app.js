@@ -57,8 +57,7 @@ bot.dialog('/', session => {
 //=========================================================
 const hasAudioAttachment = session => {
     return session.message.attachments.length > 0 &&
-        (session.message.attachments[0].contentType.indexOf('audio') === 0 ||
-         session.message.attachments[0].contentType === 'video/mp4' || // FB sends audio streams as MP4
+        (session.message.attachments[0].contentType === 'audio/wav' ||
          session.message.attachments[0].contentType === 'application/octet-stream');
 };
 
@@ -94,17 +93,17 @@ const processText = (text) => {
 
     if (text && text.length > 0) {
         const wordCount = text.split(' ').filter(x => x).length;
-        result += '\r\n Word Count: ' + wordCount;
+        result += '\n\nWord Count: ' + wordCount;
 
         const characterCount = text.replace(/ /g, '').length;
-        result += '\r\n Character Count: ' + characterCount;
+        result += '\n\nCharacter Count: ' + characterCount;
 
         const spaceCount = text.split(' ').length - 1;
-        result += '\r\n Space Count: ' + spaceCount;
+        result += '\n\nSpace Count: ' + spaceCount;
 
         const m = text.match(/[aeiou]/gi);
         const vowelCount = m === null ? 0 : m.length;
-        result += '\r\n Vowel Count: ' + vowelCount;
+        result += '\n\nVowel Count: ' + vowelCount;
     }
 
     return result;
