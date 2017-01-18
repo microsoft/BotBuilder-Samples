@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -47,12 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BingMaps\BingMapsService.cs" />
-    <Compile Include="BingMaps\DataContracts.cs" />
-    <Compile Include="ILocationService.cs" />
     <Compile Include="InMemoryBouquetRepository.cs" />
     <Compile Include="InMemoryFlowerCategoriesRepository.cs" />
-    <Compile Include="BingLocationService.cs" />
     <Compile Include="InMemoryOrdersService.cs" />
     <Compile Include="InMemoryRepositoryBase.cs" />
     <Compile Include="IOrdersService.cs" />

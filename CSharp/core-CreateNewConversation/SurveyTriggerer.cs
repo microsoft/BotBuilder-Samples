@@ -7,6 +7,7 @@
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Builder.Dialogs.Internals;
     using Microsoft.Bot.Connector;
+    using Microsoft.Rest;
 
     public static class SurveyTriggerer
     {
@@ -16,6 +17,23 @@
 
             // the ResumptionCookie has the "key" necessary to resume the conversation
             var message = cookie.GetMessage();
+
+            ConnectorClient client = new ConnectorClient(new Uri(message.ServiceUrl));
+
+            try
+            {
+                var conversation = await client.Conversations.CreateDirectConversationAsync(message.Recipient, message.From);
+                message.Conversation.Id = conversation.Id;
+            }
+            catch (HttpOperationException ex)
+            {
+                var reply = message.CreateReply();
+                reply.Text = ex.Message;
+
+                await client.Conversations.SendToConversationAsync(reply);
+
+                return;
+            }
 
             // we instantiate our dependencies based on an IMessageActivity implementation
             using (var scope = DialogModule.BeginLifetimeScope(container, message))

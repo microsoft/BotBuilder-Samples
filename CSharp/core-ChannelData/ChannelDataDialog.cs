@@ -18,7 +18,7 @@
         {
             var message = await result;
 
-            await context.PostAsync("Looking into your upcoming flights to see if you check-in on any of those...");
+            await context.PostAsync("Looking into your upcoming flights to see if you can check-in on any of those...");
 
             var flightAttachment = GetFlightAttachment();
 

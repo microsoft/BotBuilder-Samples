@@ -8,11 +8,11 @@ A sample bot that illustrates how to use the [Microsoft Cognitive Services Compu
 
 The minimum prerequisites to run this sample are:
 * The latest update of Visual Studio 2015. You can download the community version [here](http://www.visualstudio.com) for free.
-* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
+* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 * This sample currently uses a free trial Microsoft Cognitive service key with limited QPS. Please subscribe to Vision API services [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) and update the `MicrosoftVisionApiKey` key in [Web.config](Web.config) file to try it out further.
 
 ### Code Highlights
-Microsoft Computer Vision API provides a number of methods that allows you to analyze an image. Check out [IVisionServiceClient.cs](https://github.com/Microsoft/ProjectOxford-ClientSDK/blob/master/Vision/Windows/ClientLibrary/IVisionServiceClient.cs) for a complete reference of the methods available. In this sample we are using `AnalyzeImageAsync(string url, ...)` and `AnalyzeImageAsync(Stream imageStream, ...)` to analyze an image from a URL and stream respectively. The `AnalyzeImageAsync` method returns [AnalysisResult.cs](https://github.com/Microsoft/ProjectOxford-ClientSDK/blob/master/Vision/Windows/ClientLibrary/Contract/AnalysisResult.cs) class which contains rich information about the image:
+Microsoft Computer Vision API provides a number of methods that allows you to analyze an image. Check out [IVisionServiceClient.cs](https://github.com/Microsoft/Cognitive-Vision-Windows/blob/master/ClientLibrary/IVisionServiceClient.cs) for a complete reference of the methods available. In this sample we are using `AnalyzeImageAsync(string url, ...)` and `AnalyzeImageAsync(Stream imageStream, ...)` to analyze an image from a URL and stream respectively. The `AnalyzeImageAsync` method returns [AnalysisResult.cs](https://github.com/Microsoft/Cognitive-Vision-Windows/blob/master/ClientLibrary/Contract/AnalysisResult.cs) class which contains rich information about the image:
 
 ```C#
 namespace Microsoft.ProjectOxford.Vision.Contract
@@ -88,4 +88,5 @@ You can also choose to upload an image directly to the bot:
 
 To get more information about how to get started in Bot Builder for .NET and Microsoft Cognitive Services Computer Vision API please review the following resources:
 * [Bot Builder for .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
+* [Microsoft Cognitive Services Computer Vision API](https://www.microsoft.com/cognitive-services/en-us/computer-vision-api)
 * [Microsoft Cognitive Services Computer Vision API Windows Client Library](https://github.com/Microsoft/Cognitive-vision-windows)

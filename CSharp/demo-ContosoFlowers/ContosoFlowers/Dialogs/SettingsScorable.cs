@@ -6,9 +6,10 @@
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Builder.Dialogs.Internals;
     using Microsoft.Bot.Builder.Internals.Fibers;
+    using Microsoft.Bot.Builder.Scorables;
     using Microsoft.Bot.Connector;
 
-    public class SettingsScorable : IScorable<double>
+    public class SettingsScorable : IScorable<IActivity, double>
     {
         private readonly IDialogStack stack;
         private readonly IContosoFlowersDialogFactory dialogFactory;
@@ -19,7 +20,7 @@
             SetField.NotNull(out this.dialogFactory, nameof(dialogFactory), dialogFactory);
         }
 
-        public async Task<object> PrepareAsync<Item>(Item item, CancellationToken token)
+        public async Task<object> PrepareAsync(IActivity item, CancellationToken token)
         {
             var message = item as IMessageActivity;
 
@@ -34,14 +35,19 @@
             return null;
         }
 
-        public bool TryScore(object state, out double score)
+        public bool HasScore(IActivity item, object state)
         {
-            bool matched = state != null;
-            score = matched ? 1.0 : double.NaN;
-            return matched;
+            return state != null;
         }
 
-        public async Task PostAsync<Item>(Item item, object state, CancellationToken token)
+        public double GetScore(IActivity item, object state)
+        {
+            bool matched = state != null;
+            var score = matched ? 1.0 : double.NaN;
+            return score;
+        }
+
+        public async Task PostAsync(IActivity item, object state, CancellationToken token)
         {
             var message = item as IMessageActivity;
 
@@ -52,13 +58,18 @@
                 // wrap it with an additional dialog that will restart the wait for
                 // messages from the user once the child dialog has finished
                 var interruption = settingsDialog.Void<object, IMessageActivity>();
-                
+
                 // put the interrupting dialog on the stack
                 this.stack.Call(interruption, null);
 
                 // start running the interrupting dialog
                 await this.stack.PollAsync(token);
             }
+        }
+
+        public Task DoneAsync(IActivity item, object state, CancellationToken token)
+        {
+            return Task.CompletedTask;
         }
     }
 }

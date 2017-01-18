@@ -9,7 +9,7 @@ A sample bot which logs telemetry to an Application Insights instance.
 
 The minimum prerequisites to run this sample are:
 * The latest update of Visual Studio 2015. You can download the community version [here](http://www.visualstudio.com) for free.
-* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
+* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 * An Application Insights instance in Azure. The Instrumentation Key for which must be put in [ApplicationInsights.config](ApplicationInsights.config#L87)
 
 ### Code Highlights
@@ -17,13 +17,15 @@ The minimum prerequisites to run this sample are:
 This bot is based off the StateDialog bot, but adds in the ability to log custom telemetry events to an Application Insights instance in Azure.
 
 The notable changes to the StateDialog bot which enable telemetry logging are threefold:
+
 1. Addition of a `TelemetryClient` object in the Application Global namespace:
-````C#
+
+   ````C#
     public class WebApiApplication : System.Web.HttpApplication
     {
         public static Microsoft.ApplicationInsights.TelemetryClient Telemetry { get; } = new Microsoft.ApplicationInsights.TelemetryClient();
-...
-````
+    ...
+   ````
 2. [Extension methods](TelemetryExtensions.cs) to enable creation of Telemetry objects that will be pre-populated with conversation and user data to enable quick filter/pivoting in the Application Insights dashboard.
 3. Usage of these methods throughout the bot's code (eg: here, here, and here)
 

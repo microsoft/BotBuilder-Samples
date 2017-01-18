@@ -8,19 +8,13 @@ A sample bot that illustrates how to use the Microsoft Cognitive Services Bing S
 
 The minimum prerequisites to run this sample are:
 * The latest update of Visual Studio 2015. You can download the community version [here](http://www.visualstudio.com) for free.
-* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
+* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
 * This sample currently uses a free trial Microsoft Cognitive service key with limited QPS. Please subscribe to Bing Speech Api services [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) and update the `MicrosoftSpeechApiKey` key in key in [Web.config](Web.config) file to try it out further.
 
 ### Usage
 
-Attach an audio file (wav format) and send an optional command as text. 
-Supported Commands:
-* `WORD` - Counts the number of words.
-* `CHARACTER` - Counts the number of characters excluding spaces.
-* `SPACE` - Counts the number of spaces.
-* `VOWEL` - Counts the number of vowels.
-* Any other word will count the occurrences of that word in the transcribed text
+Attach an audio file (wav format).
 
 ### Code Highlights
 
@@ -62,8 +56,15 @@ public async Task<string> GetTextFromAudioAsync(Stream audiostream)
 
             var response = await client.PostAsync(requestUri, binaryContent);
             var responseString = await response.Content.ReadAsStringAsync();
-            dynamic data = JsonConvert.DeserializeObject(responseString);
-            return data.header.name;
+            try
+            {
+                dynamic data = JsonConvert.DeserializeObject(responseString);
+                return data.header.name;
+            }
+            catch (JsonReaderException ex)
+            {
+                throw new Exception(responseString, ex);
+            }
         }
     }
 }

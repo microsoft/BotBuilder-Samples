@@ -8,16 +8,16 @@
     using System.Web.Configuration;
     using System.Web.Http;
     using Dialogs;
-    using Services;
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Connector;
+    using Services;
 
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        private readonly BingSpellCheckService spellService = new BingSpellCheckService();
+        private static readonly bool IsSpellCorrectionEnabled = bool.Parse(WebConfigurationManager.AppSettings["IsSpellCorrectionEnabled"]);
 
-        private static readonly bool IsSpellCorrectionEnabled = Boolean.Parse(WebConfigurationManager.AppSettings["IsSpellCorrectionEnabled"]);
+        private readonly BingSpellCheckService spellService = new BingSpellCheckService();
 
         /// <summary>
         /// POST: api/Messages
@@ -33,7 +33,7 @@
                     {
                         activity.Text = await this.spellService.GetCorrectedTextAsync(activity.Text);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Trace.TraceError(ex.ToString());
                     }

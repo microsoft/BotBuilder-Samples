@@ -55,12 +55,12 @@
 
         private static string GetTitleForItem(SearchResult result)
         {
-            return string.Format(
-                "{0} at {1}, {2:C0} to {3:C0}",
-                result.Document["business_title"],
-                result.Document["agency"],
-                result.Document["salary_range_from"],
-                result.Document["salary_range_to"]);
+            var businessTitle = result.Document["business_title"];
+            var agency = result.Document["agency"];
+            var salaryRangeFrom = result.Document["salary_range_from"];
+            var salaryRangeTo = result.Document["salary_range_to"];
+
+            return $"{businessTitle} at {agency}, {salaryRangeFrom:C0} to {salaryRangeTo:C0}";
         }
     }
 }

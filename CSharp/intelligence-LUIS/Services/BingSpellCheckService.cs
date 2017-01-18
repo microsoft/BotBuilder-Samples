@@ -1,24 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Configuration;
-using Newtonsoft.Json;
-
-namespace LuisBot.Services
+﻿namespace LuisBot.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Web.Configuration;
+    using Newtonsoft.Json;
+
     public class BingSpellCheckService
     {
-        /// <summary>
-        /// Microsoft Bing Spell Check Api Key.
-        /// </summary>
-        private static readonly string ApiKey = WebConfigurationManager.AppSettings["BingSpellCheckApiKey"];
-
         /// <summary>
         /// The Bing Spell Check Api Url.
         /// </summary>
         private const string SpellCheckApiUrl = "https://api.cognitive.microsoft.com/bing/v5.0/spellcheck/?form=BCSSCK";
+
+        /// <summary>
+        /// Microsoft Bing Spell Check Api Key.
+        /// </summary>
+        private static readonly string ApiKey = WebConfigurationManager.AppSettings["BingSpellCheckApiKey"];
 
         /// <summary>
         /// Gets the correct spelling for the given text
@@ -51,16 +51,16 @@ namespace LuisBot.Services
                 StringBuilder sb = new StringBuilder();
                 int previousOffset = 0;
 
-                foreach (var flaggedToken in spellCheckResponse.flaggedTokens)
+                foreach (var flaggedToken in spellCheckResponse.FlaggedTokens)
                 {
                     // Append the text from the previous offset to the current misspelled word offset
-                    sb.Append(text.Substring(previousOffset, flaggedToken.offset - previousOffset));
+                    sb.Append(text.Substring(previousOffset, flaggedToken.Offset - previousOffset));
 
                     // Append the corrected word instead of the misspelled word
-                    sb.Append(flaggedToken.suggestions.First().suggestion);
+                    sb.Append(flaggedToken.Suggestions.First().Suggestion);
 
                     // Increment the offset by the length of the misspelled word
-                    previousOffset = flaggedToken.offset + flaggedToken.token.Length;
+                    previousOffset = flaggedToken.Offset + flaggedToken.Token.Length;
                 }
 
                 // Append the text after the last misspelled word.

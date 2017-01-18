@@ -10,7 +10,7 @@
     [Serializable]
     public class SearchHitStyler : PromptStyler
     {
-        public override void Apply<T>(ref IMessageActivity message, string prompt, IList<T> options)
+        public override void Apply<T>(ref IMessageActivity message, string prompt, IReadOnlyList<T> options, IReadOnlyList<string> descriptions = null)
         {
             var hits = options as IList<SearchHit>;
             if (hits != null)
@@ -29,7 +29,7 @@
             }
             else
             {
-                base.Apply<T>(ref message, prompt, options);
+                base.Apply<T>(ref message, prompt, options, descriptions);
             }
         }
     }

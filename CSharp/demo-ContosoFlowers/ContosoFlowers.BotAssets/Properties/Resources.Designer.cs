@@ -115,6 +115,15 @@ namespace ContosoFlowers.BotAssets.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OK, you want to use {0}. Is that correct? Enter &apos;yes&apos; or &apos;no&apos;..
+        /// </summary>
+        internal static string Location_ConfirmationAsk {
+            get {
+                return ResourceManager.GetString("Location_ConfirmationAsk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select an item.
         /// </summary>
         internal static string PagedCarouselDialog_DefaultPrompt {

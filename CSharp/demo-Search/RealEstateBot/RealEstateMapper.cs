@@ -39,12 +39,12 @@
 
         private static string GetTitleForItem(SearchResult result)
         {
-            return string.Format(
-                "{0} bedroom, {1} bath in {2}, ${3:#,0}",
-                result.Document["beds"],
-                result.Document["baths"],
-                result.Document["city"],
-                result.Document["price"]);
+            var beds = result.Document["beds"];
+            var baths = result.Document["baths"];
+            var city = result.Document["city"];
+            var price = result.Document["price"];
+
+            return $"{beds} bedroom, {baths} bath in {city}, ${price:#,0}";
         }
     }
 }

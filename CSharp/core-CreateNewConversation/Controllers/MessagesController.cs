@@ -33,27 +33,6 @@
             {
                 using (var scope = DialogModule.BeginLifetimeScope(this.scope, activity))
                 {
-                    ConnectorClient client = new ConnectorClient(new Uri(activity.ServiceUrl));
-
-                    ResourceResponse conversation;
-
-                    try
-                    {
-                        conversation = await client.Conversations.CreateDirectConversationAsync(activity.Recipient, activity.From);
-                    }
-                    catch (HttpOperationException ex)
-                    {
-                        var reply = activity.CreateReply();
-                        reply.Text = ex.Message;
-
-                        await client.Conversations.SendToConversationAsync(reply);
-
-                        return new HttpResponseMessage(HttpStatusCode.Accepted);
-                    }
-
-                    var cookie = scope.Resolve<ResumptionCookie>();
-                    cookie.Address = new Address(cookie.Address.BotId, cookie.Address.ChannelId, cookie.Address.UserId, conversation.Id, cookie.Address.ServiceUrl);
-
                     var postToBot = scope.Resolve<IPostToBot>();
                     await postToBot.PostAsync(activity, token);
                 }

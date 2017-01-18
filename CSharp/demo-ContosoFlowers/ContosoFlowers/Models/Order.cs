@@ -17,25 +17,25 @@
 
         public string OrderID { get; set; }
 
-        [Prompt()]
+        [Prompt]
         public string RecipientFirstName { get; set; }
 
         [Prompt(FieldCase = CaseNormalization.None)]
         public string RecipientLastName { get; set; }
 
-        [Prompt()]
+        [Prompt]
         [Pattern(RegexConstants.Phone)]
         public string RecipientPhoneNumber { get; set; }
 
-        [Prompt()]
+        [Prompt]
         [Pattern(@"^.{1,200}$")]
         public string Note { get; set; }
 
-        [Prompt()]
+        [Prompt]
         [Pattern(RegexConstants.Email)]
         public string SenderEmail { get; set; }
 
-        [Prompt()]
+        [Prompt]
         [Pattern(RegexConstants.Phone)]
         public string SenderPhoneNumber { get; set; }
 
@@ -45,10 +45,10 @@
 
         public bool AskToUseSavedSenderInfo { get; set; }
 
-        [Prompt()]
+        [Prompt]
         public UseSaveInfoResponse? UseSavedSenderInfo { get; set; }
 
-        [Prompt()]
+        [Prompt]
         public bool SaveSenderInfo { get; set; }
 
         public string DeliveryAddress { get; set; }

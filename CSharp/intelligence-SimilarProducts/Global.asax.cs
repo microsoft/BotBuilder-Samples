@@ -1,7 +1,7 @@
-using System.Web.Http;
-
 namespace SimilarProducts
 {
+    using System.Web.Http;
+
     public class WebApiApplication : System.Web.HttpApplication
     {
         protected void Application_Start()

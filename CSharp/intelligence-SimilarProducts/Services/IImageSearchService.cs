@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-
-namespace SimilarProducts.Services
+﻿namespace SimilarProducts.Services
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// An interface that defines the contract with the image search service.
     /// </summary>

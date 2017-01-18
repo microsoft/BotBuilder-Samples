@@ -1,6 +1,7 @@
 ﻿namespace DirectLineBot
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Connector;
@@ -17,11 +18,12 @@
         {
             var message = await result;
             var reply = context.MakeMessage();
+            reply.Attachments = new List<Attachment>();
 
             switch (message.Text.ToLower())
             {
                 case "show me a hero card":
-                    reply.Text = $"Sample message with ChannelData using the BotBuilder Hero's card";
+                    reply.Text = $"Sample message with a HeroCard attachment";
 
                     var heroCardAttachment = new HeroCard
                     {
@@ -29,13 +31,11 @@
                         Text = "Displayed in the DirectLine client"
                     }.ToAttachment();
 
-                    // Not using a anonymous object due to #998 (https://github.com/Microsoft/BotBuilder/issues/998)
-                    reply.ChannelData = heroCardAttachment;
-
+                    reply.Attachments.Add(heroCardAttachment);
                     break;
                 case "send me a botframework image":
                     
-                    reply.Text = $"Sample message with ChannelData using the BotBuilder Attachment structure";
+                    reply.Text = $"Sample message with an Image attachment";
 
                     var imageAttachment = new Attachment()
                     {
@@ -43,8 +43,7 @@
                         ContentUrl = "https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png",
                     };
 
-                    // Not using a anonymous object due to #998 (https://github.com/Microsoft/BotBuilder/issues/998)
-                    reply.ChannelData = imageAttachment;
+                    reply.Attachments.Add(imageAttachment);
 
                     break;
                 default:

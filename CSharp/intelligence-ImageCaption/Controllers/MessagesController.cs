@@ -59,6 +59,54 @@
             return response;
         }
 
+        private static async Task<Stream> GetImageStream(ConnectorClient connector, Attachment imageAttachment)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                // The Skype attachment URLs are secured by JwtToken,
+                // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
+                // https://github.com/Microsoft/BotBuilder/issues/662
+                var uri = new Uri(imageAttachment.ContentUrl);
+                if (uri.Host.EndsWith("skype.com") && uri.Scheme == "https")
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetTokenAsync(connector));
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/octet-stream"));
+                }
+
+                return await httpClient.GetStreamAsync(uri);
+            }
+        }
+
+        /// <summary>
+        /// Gets the href value in an anchor element.
+        /// </summary>
+        ///  Skype transforms raw urls to html. Here we extract the href value from the url
+        /// <param name="text">Anchor tag html.</param>
+        /// <param name="url">Url if valid anchor tag, null otherwise</param>
+        /// <returns>True if valid anchor element</returns>
+        private static bool TryParseAnchorTag(string text, out string url)
+        {
+            var regex = new Regex("^<a href=\"(?<href>[^\"]*)\">[^<]*</a>$", RegexOptions.IgnoreCase);
+            url = regex.Matches(text).OfType<Match>().Select(m => m.Groups["href"].Value).FirstOrDefault();
+            return url != null;
+        }
+
+        /// <summary>
+        /// Gets the JwT token of the bot. 
+        /// </summary>
+        /// <param name="connector"></param>
+        /// <returns>JwT token of the bot</returns>
+        private static async Task<string> GetTokenAsync(ConnectorClient connector)
+        {
+            var credentials = connector.Credentials as MicrosoftAppCredentials;
+            if (credentials != null)
+            {
+                return await credentials.GetTokenAsync();
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Gets the caption asynchronously by checking the type of the image (stream vs URL)
         /// and calling the appropriate caption service method.
@@ -93,59 +141,6 @@
             throw new ArgumentException("The activity doesn't contain a valid image attachment or an image URL.");
         }
 
-        private static async Task<Stream> GetImageStream(ConnectorClient connector, Attachment imageAttachment)
-        {
-            using (var httpClient = new HttpClient())
-            {
-                // The Skype attachment URLs are secured by JwtToken,
-                // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
-                // https://github.com/Microsoft/BotBuilder/issues/662
-                var uri = new Uri(imageAttachment.ContentUrl);
-                if (uri.Host.EndsWith("skype.com") && uri.Scheme == "https")
-                {
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetTokenAsync(connector));
-                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/octet-stream"));
-                }
-                else
-                {
-                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(imageAttachment.ContentType));
-                }
-
-                return await httpClient.GetStreamAsync(uri);
-            }
-        }
-
-        /// <summary>
-        /// Gets the href value in an anchor element.
-        /// </summary>
-        ///  Skype transforms raw urls to html. Here we extract the href value from the url
-        /// <param name="text">Anchor tag html.</param>
-        /// <param name="url">Url if valid anchor tag, null otherwise</param>
-        /// <returns>True if valid anchor element</returns>
-        private static bool TryParseAnchorTag(string text, out string url)
-        {
-            var regex = new Regex("^<a href=\"(?<href>[^\"]*)\">[^<]*</a>$", RegexOptions.IgnoreCase);
-            url = regex.Matches(text).OfType<Match>().Select(m => m.Groups["href"].Value).FirstOrDefault();
-            return url != null;
-        }
-
-
-        /// <summary>
-        /// Gets the JwT token of the bot. 
-        /// </summary>
-        /// <param name="connector"></param>
-        /// <returns>JwT token of the bot</returns>
-        private static async Task<string> GetTokenAsync(ConnectorClient connector)
-        {
-            var credentials = connector.Credentials as MicrosoftAppCredentials;
-            if (credentials != null)
-            {
-                return await credentials.GetTokenAsync();
-            }
-
-            return null;
-        }
-
         /// <summary>
         /// Handles the system activity.
         /// </summary>
@@ -171,6 +166,7 @@
 
                         await connector.Conversations.ReplyToActivityAsync(response);
                     }
+
                     break;
                 case ActivityTypes.ContactRelationUpdate:
                     // Handle add/remove from contact lists

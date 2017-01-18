@@ -17,12 +17,12 @@
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        private readonly IImageSearchService imageService = new BingImageSearchService();
-
         /// <summary>
         /// Maximum number of hero cards to be returned in the carousel. If this number is greater than 5, skype throws an exception.
         /// </summary>
         private const int MaxCardCount = 5;
+
+        private readonly IImageSearchService imageService = new BingImageSearchService();
 
         /// <summary>
         /// POST: api/Messages
@@ -84,6 +84,60 @@
         }
 
         /// <summary>
+        /// Gets the image stream.
+        /// </summary>
+        /// <param name="connector">The connector.</param>
+        /// <param name="imageAttachment">The image attachment.</param>
+        /// <returns></returns>
+        private static async Task<Stream> GetImageStream(ConnectorClient connector, Attachment imageAttachment)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                // The Skype attachment URLs are secured by JwtToken,
+                // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
+                // https://github.com/Microsoft/BotBuilder/issues/662
+                var uri = new Uri(imageAttachment.ContentUrl);
+                if (uri.Host.EndsWith("skype.com") && uri.Scheme == "https")
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetTokenAsync(connector));
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/octet-stream"));
+                }
+
+                return await httpClient.GetStreamAsync(uri);
+            }
+        }
+
+        /// <summary>
+        /// Gets the href value in an anchor element.
+        /// </summary>
+        ///  Skype transforms raw urls to html. Here we extract the href value from the url
+        /// <param name="text">Anchor tag html.</param>
+        /// <param name="url">Url if valid anchor tag, null otherwise</param>
+        /// <returns>True if valid anchor element</returns>
+        private static bool TryParseAnchorTag(string text, out string url)
+        {
+            var regex = new Regex("^<a href=\"(?<href>[^\"]*)\">[^<]*</a>$", RegexOptions.IgnoreCase);
+            url = regex.Matches(text).OfType<Match>().Select(m => m.Groups["href"].Value).FirstOrDefault();
+            return url != null;
+        }
+
+        /// <summary>
+        /// Gets the JwT token of the bot. 
+        /// </summary>
+        /// <param name="connector"></param>
+        /// <returns>JwT token of the bot</returns>
+        private static async Task<string> GetTokenAsync(ConnectorClient connector)
+        {
+            var credentials = connector.Credentials as MicrosoftAppCredentials;
+            if (credentials != null)
+            {
+                return await credentials.GetTokenAsync();
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Gets a list of visually similar products asynchronously by checking the type of the image (stream vs URL)
         /// and calling the appropriate image service method.
         /// </summary>
@@ -123,102 +177,40 @@
 
             foreach (var image in images)
             {
-                var plAttachment = new Attachment { ContentType = "application/vnd.microsoft.card.hero" };
-
-                //Construct Card
-                var plCard = new HeroCard
+                // Construct Card
+                var heroCard = new HeroCard
                 {
                     Title = image.Name,
                     Subtitle = image.HostPageDisplayUrl,
                     Images = new List<CardImage>()
                 };
 
-                //Add Card Image
+                // Add Card Image
                 var img = new CardImage { Url = image.ThumbnailUrl };
-                plCard.Images.Add(img);
+                heroCard.Images.Add(img);
 
-                //Add Card Buttons
-                plCard.Buttons = new List<CardAction>();
-                var plButtonBuy = new CardAction();
-                var plButtonSearch = new CardAction();
+                // Add Card Buttons
+                heroCard.Buttons = new List<CardAction>();
+                var buyButton = new CardAction();
+                var searchButton = new CardAction();
 
-                //Buy Button
-                plButtonBuy.Title = "Buy from merchant";
-                plButtonBuy.Type = "openUrl";
-                plButtonBuy.Value = image.HostPageUrl;
+                // Buy Button
+                buyButton.Title = "Buy from merchant";
+                buyButton.Type = "openUrl";
+                buyButton.Value = image.HostPageUrl;
 
-                //Search More button 
-                plButtonSearch.Title = "Find more in Bing";
-                plButtonSearch.Type = "openUrl";
-                plButtonSearch.Value = image.WebSearchUrl;
+                // Search More button 
+                searchButton.Title = "Find more in Bing";
+                searchButton.Type = "openUrl";
+                searchButton.Value = image.WebSearchUrl;
 
-                plCard.Buttons.Add(plButtonBuy);
-                plCard.Buttons.Add(plButtonSearch);
-                plAttachment.Content = plCard;
+                heroCard.Buttons.Add(buyButton);
+                heroCard.Buttons.Add(searchButton);
 
-                attachments.Add(plAttachment);
+                attachments.Add(heroCard.ToAttachment());
             }
 
             return attachments;
-        }
-
-        /// <summary>
-        /// Gets the image stream.
-        /// </summary>
-        /// <param name="connector">The connector.</param>
-        /// <param name="imageAttachment">The image attachment.</param>
-        /// <returns></returns>
-        private static async Task<Stream> GetImageStream(ConnectorClient connector, Attachment imageAttachment)
-        {
-            using (var httpClient = new HttpClient())
-            {
-                // The Skype attachment URLs are secured by JwtToken,
-                // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
-                // https://github.com/Microsoft/BotBuilder/issues/662
-                var uri = new Uri(imageAttachment.ContentUrl);
-                if (uri.Host.EndsWith("skype.com") && uri.Scheme == "https")
-                {
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetTokenAsync(connector));
-                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/octet-stream"));
-                }
-                else
-                {
-                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(imageAttachment.ContentType));
-                }
-
-                return await httpClient.GetStreamAsync(uri);
-            }
-        }
-
-        /// <summary>
-        /// Gets the href value in an anchor element.
-        /// </summary>
-        ///  Skype transforms raw urls to html. Here we extract the href value from the url
-        /// <param name="text">Anchor tag html.</param>
-        /// <param name="url">Url if valid anchor tag, null otherwise</param>
-        /// <returns>True if valid anchor element</returns>
-        private static bool TryParseAnchorTag(string text, out string url)
-        {
-            var regex = new Regex("^<a href=\"(?<href>[^\"]*)\">[^<]*</a>$", RegexOptions.IgnoreCase);
-            url = regex.Matches(text).OfType<Match>().Select(m => m.Groups["href"].Value).FirstOrDefault();
-            return url != null;
-        }
-
-
-        /// <summary>
-        /// Gets the JwT token of the bot. 
-        /// </summary>
-        /// <param name="connector"></param>
-        /// <returns>JwT token of the bot</returns>
-        private static async Task<string> GetTokenAsync(ConnectorClient connector)
-        {
-            var credentials = connector.Credentials as MicrosoftAppCredentials;
-            if (credentials != null)
-            {
-                return await credentials.GetTokenAsync();
-            }
-
-            return null;
         }
 
         /// <summary>
@@ -241,11 +233,12 @@
                         var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
 
                         var response = activity.CreateReply();
-                        response.Text = "Hi! I am SimilarProducts Bot. I can find you similar products" +
+                        response.Text = "Hi! I am SimilarProducts Bot. I can find you similar products." +
                                         " Try sending me an image or an image URL.";
 
                         await connector.Conversations.ReplyToActivityAsync(response);
                     }
+
                     break;
                 case ActivityTypes.ContactRelationUpdate:
                     // Handle add/remove from contact lists

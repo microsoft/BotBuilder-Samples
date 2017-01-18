@@ -33,9 +33,9 @@
                     var audioAttachment = activity.Attachments?.FirstOrDefault(a => a.ContentType.Equals("audio/wav") || a.ContentType.Equals("application/octet-stream"));
                     if (audioAttachment != null)
                     {
-                        var stream = await GetImageStream(connector, audioAttachment);
+                        var stream = await GetAudioStream(connector, audioAttachment);
                         var text = await this.speechService.GetTextFromAudioAsync(stream);
-                        message = ProcessText(activity.Text, text);
+                        message = ProcessText(text);
                     }
                     else
                     {
@@ -61,44 +61,60 @@
             return response;
         }
 
-        private static string ProcessText(string input, string text)
+        private static string ProcessText(string text)
         {
             string message = "You said : " + text + ".";
 
-            input = input?.Trim();
-
-            if (!string.IsNullOrEmpty(input))
+            if (!string.IsNullOrEmpty(text))
             {
-                var normalizedInput = input.ToUpper();
+                var wordCount = text.Split(' ').Count(x => !string.IsNullOrEmpty(x));
+                message += "\n\nWord Count: " + wordCount;
 
-                if (normalizedInput.Equals("WORD"))
-                {
-                    var wordCount = text.Split(' ').Count(x => !string.IsNullOrEmpty(x));
-                    message += " Word Count: " + wordCount;
-                }
-                else if (normalizedInput.Equals("CHARACTER"))
-                {
-                    var characterCount = text.Count(c => c != ' ');
-                    message += " Character Count: " + characterCount;
-                }
-                else if (normalizedInput.Equals("SPACE"))
-                {
-                    var spaceCount = text.Count(c => c == ' ');
-                    message += " Space Count: " + spaceCount;
-                }
-                else if (normalizedInput.Equals("VOWEL"))
-                {
-                    var vowelCount = text.ToUpper().Count("AEIOU".Contains);
-                    message += " Vowel Count: " + vowelCount;
-                }
-                else
-                {
-                    var keywordCount = text.ToUpper().Split(' ').Count(w => w == normalizedInput);
-                    message += " Keyword " + input + " found " + keywordCount + " times.";
-                }
+                var characterCount = text.Count(c => c != ' ');
+                message += "\n\nCharacter Count: " + characterCount;
+
+                var spaceCount = text.Count(c => c == ' ');
+                message += "\n\nSpace Count: " + spaceCount;
+
+                var vowelCount = text.ToUpper().Count("AEIOU".Contains);
+                message += "\n\nVowel Count: " + vowelCount;
             }
 
             return message;
+        }
+
+        private static async Task<Stream> GetAudioStream(ConnectorClient connector, Attachment audioAttachment)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                // The Skype attachment URLs are secured by JwtToken,
+                // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
+                // https://github.com/Microsoft/BotBuilder/issues/662
+                var uri = new Uri(audioAttachment.ContentUrl);
+                if (uri.Host.EndsWith("skype.com") && uri.Scheme == "https")
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetTokenAsync(connector));
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/octet-stream"));
+                }
+
+                return await httpClient.GetStreamAsync(uri);
+            }
+        }
+
+        /// <summary>
+        /// Gets the JwT token of the bot. 
+        /// </summary>
+        /// <param name="connector"></param>
+        /// <returns>JwT token of the bot</returns>
+        private static async Task<string> GetTokenAsync(ConnectorClient connector)
+        {
+            var credentials = connector.Credentials as MicrosoftAppCredentials;
+            if (credentials != null)
+            {
+                return await credentials.GetTokenAsync();
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -139,44 +155,5 @@
 
             return null;
         }
-
-        private static async Task<Stream> GetImageStream(ConnectorClient connector, Attachment imageAttachment)
-        {
-            using (var httpClient = new HttpClient())
-            {
-                // The Skype attachment URLs are secured by JwtToken,
-                // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
-                // https://github.com/Microsoft/BotBuilder/issues/662
-                var uri = new Uri(imageAttachment.ContentUrl);
-                if (uri.Host.EndsWith("skype.com") && uri.Scheme == "https")
-                {
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetTokenAsync(connector));
-                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/octet-stream"));
-                }
-                else
-                {
-                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(imageAttachment.ContentType));
-                }
-
-                return await httpClient.GetStreamAsync(uri);
-            }
-        }
-
-        /// <summary>
-        /// Gets the JwT token of the bot. 
-        /// </summary>
-        /// <param name="connector"></param>
-        /// <returns>JwT token of the bot</returns>
-        private static async Task<string> GetTokenAsync(ConnectorClient connector)
-        {
-            var credentials = connector.Credentials as MicrosoftAppCredentials;
-            if (credentials != null)
-            {
-                return await credentials.GetTokenAsync();
-            }
-
-            return null;
-        }
-
     }
 }

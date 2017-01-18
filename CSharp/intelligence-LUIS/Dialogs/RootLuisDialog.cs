@@ -43,9 +43,8 @@ namespace LuisBot.Dialogs
         [LuisIntent("SearchHotels")]
         public async Task Search(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult result)
         {
-
             var message = await activity;
-            await context.PostAsync($"Welcome to the Hotels finder! we are analyzing your message: '{message.Text}'...");
+            await context.PostAsync($"Welcome to the Hotels finder! We are analyzing your message: '{message.Text}'...");
 
             var hotelsQuery = new HotelsQuery();
 
