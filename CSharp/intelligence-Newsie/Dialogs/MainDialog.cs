@@ -7,10 +7,10 @@ using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Builder.Scorables;
 using Microsoft.Bot.Connector;
-using Newsie.Handlers;
-using Newsie.Utilities;
+using NewsieBot.Handlers;
+using NewsieBot.Utilities;
 
-namespace Newsie.Dialogs
+namespace NewsieBot.Dialogs
 {
     /// <summary>
     /// The top-level natural language dialog for sample.

@@ -8,11 +8,11 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
-using Newsie.Extensions;
-using Newsie.Utilities;
-using Newsie.Utilities.CardGenerators;
+using NewsieBot.Extensions;
+using NewsieBot.Utilities;
+using NewsieBot.Utilities.CardGenerators;
 
-namespace Newsie.Handlers
+namespace NewsieBot.Handlers
 {
     internal sealed class GreetingIntentHandler : IIntentHandler
     {

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
-namespace Newsie.Handlers
+namespace NewsieBot.Handlers
 {
     public interface IRegexHandler
     {

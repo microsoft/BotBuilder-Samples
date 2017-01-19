@@ -3,9 +3,9 @@ using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Microsoft.Bot.Builder.Dialogs.Internals;
-using Newsie.Modules;
+using NewsieBot.Modules;
 
-namespace Newsie
+namespace NewsieBot
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

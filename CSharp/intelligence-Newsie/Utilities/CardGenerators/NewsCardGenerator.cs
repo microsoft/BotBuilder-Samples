@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Bot.Connector;
-using Newsie.Models.News;
+using NewsieBot.Models.News;
 
 namespace NewsieBot.Utilities.CardGenerators
 {

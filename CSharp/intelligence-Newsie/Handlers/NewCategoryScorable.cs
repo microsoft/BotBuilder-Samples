@@ -6,9 +6,9 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.Bot.Connector;
-using Newsie.Utilities;
+using NewsieBot.Utilities;
 
-namespace Newsie.Handlers
+namespace NewsieBot.Handlers
 {
     [Serializable]
     internal sealed class NewsCategoryScorable : ScorableBase<IActivity, LuisResult, double>

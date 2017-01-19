@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Newsie.Models.Summarize
+namespace NewsieBot.Models.Summarize
 {
     public class BingSummarize
     {

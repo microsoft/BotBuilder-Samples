@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Newsie.Services
+namespace NewsieBot.Services
 {
     public interface IUrlShorteningService
     {

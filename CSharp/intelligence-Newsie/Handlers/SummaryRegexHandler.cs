@@ -6,12 +6,12 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
-using Newsie.Models.News;
-using Newsie.Services;
-using Newsie.Utilities;
-using Newsie.Utilities.CardGenerators;
+using NewsieBot.Models.News;
+using NewsieBot.Services;
+using NewsieBot.Utilities;
+using NewsieBot.Utilities.CardGenerators;
 
-namespace Newsie.Handlers
+namespace NewsieBot.Handlers
 {
     internal sealed class SummaryRegexHandler : IRegexHandler
     {

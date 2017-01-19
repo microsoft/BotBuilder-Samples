@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Newsie.Services
+namespace NewsieBot.Services
 {
     public interface IApiHandler
     {

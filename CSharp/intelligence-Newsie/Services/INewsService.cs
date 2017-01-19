@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Newsie.Models.News;
+using NewsieBot.Models.News;
 
-namespace Newsie.Services
+namespace NewsieBot.Services
 {
     public interface INewsService
     {

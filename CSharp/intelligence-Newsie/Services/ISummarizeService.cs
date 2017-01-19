@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Newsie.Models.Summarize;
+using NewsieBot.Models.Summarize;
 
-namespace Newsie.Services
+namespace NewsieBot.Services
 {
     public interface ISummarizeService
     {

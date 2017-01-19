@@ -8,10 +8,9 @@ using Autofac;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
-﻿using Newsie.Utilities;
 
 
-namespace Newsie.Controllers
+namespace NewsieBot.Controllers
 {
     [BotAuthentication]
     public class MessagesController : ApiController

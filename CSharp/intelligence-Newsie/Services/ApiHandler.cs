@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Newsie.Services
+namespace NewsieBot.Services
 {
     /// <summary>
     /// Responsible for constructing and issuing Http GET requests for certain API

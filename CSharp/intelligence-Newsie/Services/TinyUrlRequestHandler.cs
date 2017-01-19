@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.Bot.Builder.Internals.Fibers;
 
-namespace Newsie.Services
+namespace NewsieBot.Services
 {
     internal sealed class TinyUrlRequestHandler : IUrlShorteningService
     {

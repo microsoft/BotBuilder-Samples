@@ -3,12 +3,12 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Luis;
-using Newsie.Dialogs;
-using Newsie.Handlers;
-using Newsie.Services;
-using Newsie.Utilities;
+using NewsieBot.Dialogs;
+using NewsieBot.Handlers;
+using NewsieBot.Services;
+using NewsieBot.Utilities;
 
-namespace Newsie.Modules
+namespace NewsieBot.Modules
 {
     internal sealed class MainModule : Module
     {

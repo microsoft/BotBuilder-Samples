@@ -3,9 +3,9 @@ using System.Configuration;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Newsie.Models.Summarize;
+using NewsieBot.Models.Summarize;
 
-namespace Newsie.Services
+namespace NewsieBot.Services
 {
     /// <summary>
     /// Responsible for calling Bing Summarizer API

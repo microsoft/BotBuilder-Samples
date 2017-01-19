@@ -2,9 +2,9 @@
 using System.Configuration;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Newsie.Models.News;
+using NewsieBot.Models.News;
 
-namespace Newsie.Services
+namespace NewsieBot.Services
 {
     /// <summary>
     /// Responsible for calling Bing News Search API

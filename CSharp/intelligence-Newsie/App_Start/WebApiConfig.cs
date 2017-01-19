@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Newsie
+namespace NewsieBot
 {
     public static class WebApiConfig
     {

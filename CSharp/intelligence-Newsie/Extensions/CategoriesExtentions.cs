@@ -1,6 +1,6 @@
-﻿using Newsie.Utilities;
+﻿using NewsieBot.Utilities;
 
-namespace Newsie.Extensions
+namespace NewsieBot.Extensions
 {
     internal static class CategoriesExtentions
     {

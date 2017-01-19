@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Microsoft.Bot.Builder.Internals.Fibers;
 
-namespace Newsie.Handlers
+namespace NewsieBot.Handlers
 {
     internal sealed class HandlerFactory : IHandlerFactory
     {

@@ -1,4 +1,4 @@
-﻿namespace Newsie.Handlers
+﻿namespace NewsieBot.Handlers
 {
     internal class NewsieStrings
     {

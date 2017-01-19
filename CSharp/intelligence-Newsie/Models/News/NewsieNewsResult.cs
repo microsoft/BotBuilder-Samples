@@ -1,4 +1,4 @@
-﻿namespace Newsie.Models.News
+﻿namespace NewsieBot.Models.News
 {
     public class NewsieNewsResult
     {
