@@ -28,15 +28,15 @@ namespace Newsie.Handlers
             {
                 var text = message.Text;
 
-                Categories category;
+                NewsCategory newsCategory;
 
-                if (LuisCategoryParser.TryParse(text, out category))
+                if (NewsCategoryParser.TryParse(text, out newsCategory))
                 {
                     return new LuisResult(
                         text,
                         new List<EntityRecommendation>
                         {
-                            new EntityRecommendation(type: NewsieStrings.NewsEntityCategory, entity: category.ToString())
+                            new EntityRecommendation(type: NewsieStrings.NewsEntityCategory, entity: newsCategory.ToString())
                         },
                         new IntentRecommendation(NewsieStrings.NewsIntentName, 1));
                 }
@@ -68,9 +68,9 @@ namespace Newsie.Handlers
             {
                 var text = message.Text;
 
-                Categories category;
+                NewsCategory newsCategory;
 
-                return LuisCategoryParser.TryParse(text, out category);
+                return NewsCategoryParser.TryParse(text, out newsCategory);
             }
 
             return false;

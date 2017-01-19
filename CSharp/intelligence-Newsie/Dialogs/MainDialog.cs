@@ -17,12 +17,12 @@ namespace Newsie.Dialogs
     /// </summary>
     [Serializable]
     [LuisModel("", "")]
-    internal sealed class MainLuisDialog : DispatchDialog
+    internal sealed class MainDialog : DispatchDialog
     {
         private readonly IHandlerFactory handlerFactory;
         private readonly ILuisService luis;
         
-        public MainLuisDialog(ILuisService luis, IHandlerFactory handlerFactory)
+        public MainDialog(ILuisService luis, IHandlerFactory handlerFactory)
         {
             SetField.NotNull(out this.handlerFactory, nameof(handlerFactory), handlerFactory);
             SetField.NotNull(out this.luis, nameof(luis), luis);
@@ -67,7 +67,7 @@ namespace Newsie.Dialogs
         [ScorableGroup(1)]
         public async Task FallbackIntentHandlerAsync(IDialogContext context, IMessageActivity activity)
         {
-            await context.PostAsync(string.Format(Strings.FallbackIntentMessage, Emojis.Flushed));
+            await context.PostAsync(string.Format(Strings.FallbackIntentMessage));
             context.Wait(this.ActivityReceivedAsync);
         }
 

@@ -62,10 +62,10 @@ namespace Newsie.Controllers
                         {
                             var response = activity.CreateReply();
 
-                            response.Text = string.Format(Strings.GreetWithHiMessage, Emojis.WideSmile, Emojis.News);
+                            response.Text = string.Format(Strings.GreetWithHiMessage);
                             await client.Conversations.ReplyToActivityAsync(response);
 
-                            response.Text = string.Format(Strings.StartGreetingMessage, Emojis.Rocket);
+                            response.Text = string.Format(Strings.StartGreetingMessage);
                             await client.Conversations.ReplyToActivityAsync(response);
                         }
                     }

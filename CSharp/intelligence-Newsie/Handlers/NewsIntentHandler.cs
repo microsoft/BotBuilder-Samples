@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
@@ -20,9 +21,6 @@ namespace Newsie.Handlers
         private const int NewsMaxTitleChar = 200;
         private const int NewsMaxDescriptionChar = 500;
         private const int NewsMaxProviderChar = 100;
-        private const int NewsImageWidth = 382;
-        private const int NewsImageHeight = 200;
-
         private const int NewsMaxResults = 5;
 
         private readonly ICacheManager cache;
@@ -79,27 +77,27 @@ namespace Newsie.Handlers
                 // If published less than 1 hour, use minute(s) suffix
                 if (now.Hour - news.datePublished.Hour == 0)
                 {
-                    timeSuffix = (now.Minute - news.datePublished.Minute <= 1) ? "min ago" : "mins ago";
+                    timeSuffix = (now.Minute - news.datePublished.Minute <= 1) ? Strings.SingleMinAgo : Strings.PluralMinAgo;
                     newsieResult.DatePublished = (now.Minute - news.datePublished.Minute) + " " + timeSuffix;
                 }
                 else
                 {
-                    timeSuffix = (now.Hour - news.datePublished.Hour) <= 1 ? "hour ago" : "hours ago";
+                    timeSuffix = (now.Hour - news.datePublished.Hour) <= 1 ? Strings.SingleHourAgo : Strings.PluralHourAgo;
                     newsieResult.DatePublished = (now.Hour - news.datePublished.Hour) + " " + timeSuffix;
                 }
             }
             else
             {
-                newsieResult.DatePublished =
-                    new DateTime(news.datePublished.Year, news.datePublished.Month, news.datePublished.Day).ToString("D");
+                newsieResult.DatePublished = new DateTime(news.datePublished.Year, news.datePublished.Month, news.datePublished.Day).ToString("D");
             }
 
-            newsieResult.ImageContentUrl = news.image?.thumbnail?.contentUrl;
-
-            if (!string.IsNullOrEmpty(newsieResult.ImageContentUrl))
+            if (!string.IsNullOrEmpty(news.image?.thumbnail?.contentUrl))
             {
-                newsieResult.ImageContentUrl += "&w=" + NewsImageWidth + "&h=" + NewsImageHeight;
+                newsieResult.ImageContentUrl = news.image.thumbnail.contentUrl;
+                newsieResult.ImageContentUrl += "&w=" + news.image.thumbnail.width + "&h=" + news.image.thumbnail.height;
             }
+
+            newsieResult.Url = news.url;
 
             return newsieResult;
         }
@@ -107,26 +105,26 @@ namespace Newsie.Handlers
         public async Task Respond(IMessageActivity activity, LuisResult result)
         {
             EntityRecommendation entityRecommendation;
-            Categories category;
+            NewsCategory newsCategory = NewsCategory.None;
             BingNews bingNews;
 
             if (result.TryFindEntity(NewsieStrings.NewsEntityCategory, out entityRecommendation) &&
-                LuisCategoryParser.TryParse(entityRecommendation.Entity, out category))
+                NewsCategoryParser.TryParse(entityRecommendation.Entity, out newsCategory))
             {
                 // If a category entity was found issue a category search request
-                await this.botToUser.PostAsync(string.Format(Strings.NewsCategoryTypeMessage, category.GetDislaplyName().ToLowerInvariant()));
-                bingNews = await this.bingNewsApiHandler.FindNewsByCategory(category.ToString());
+                await this.botToUser.PostAsync(string.Format(Strings.NewsCategoryTypeMessage, newsCategory.GetDislaplyName().ToLowerInvariant()));
+                bingNews = await this.bingNewsApiHandler.FindNewsByCategory(newsCategory.ToString());
             }
             else if (result.TryFindEntity(NewsieStrings.NewsEntityTopic, out entityRecommendation))
             {
                 // Else if it no category found try to search for a topic and issue a news search request by topic
-                await this.botToUser.PostAsync(string.Format(Strings.NewsTopicTypeMessage, Emojis.Wink));
+                await this.botToUser.PostAsync(string.Format(Strings.NewsTopicTypeMessage));
                 bingNews = await this.bingNewsApiHandler.FindNewsByQuery(entityRecommendation.Entity);
             }
             else
             {
                 // Otherwise use the whole user message as a query for Bing news search
-                await this.botToUser.PostAsync(string.Format(Strings.NewsTopicTypeMessage, Emojis.Wink));
+                await this.botToUser.PostAsync(string.Format(Strings.NewsTopicTypeMessage));
                 bingNews = await this.bingNewsApiHandler.FindNewsByQuery(result.Query);
             }
 
@@ -138,11 +136,24 @@ namespace Newsie.Handlers
             for (int i = 0; i < NewsMaxResults; i++)
             {
                 var newsieResult = await this.PrepareNewsieResult(bingNews.value[i]);
-                var attachment = NewsCardGenerator.GetNewsArticleCard(newsieResult);
+                var attachments = NewsCardGenerator.GetNewsArticleCard(newsieResult, activity.ChannelId);
 
-                reply.Attachments.Add(attachment);
+                foreach (var attachment in attachments)
+                {
+                    reply.Attachments.Add(attachment);
+                }
 
                 this.cache.Write(newsieResult.ShortenedUrl, bingNews.value[i]);
+            }
+
+            if (newsCategory != NewsCategory.None)
+            {
+                reply.Attachments.Add(CardGenerator.GetHeroCard(
+                    cardActions: new List<CardAction>
+                    {
+                        new CardAction(ActionTypes.OpenUrl, Strings.BingForMore, value: $"https://www.bing.com/news?q={newsCategory.GetQueryName()}+news")
+                    },
+                    cardImage: new CardImage(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/Content/binglogo.jpg")));
             }
 
             await this.botToUser.PostAsync(reply);
@@ -152,8 +163,7 @@ namespace Newsie.Handlers
         {
             var newsieResult = new NewsieNewsResult
             {
-                ShortenedUrl = await this.urlShorteningService.GetShortenedUrl(news.url),
-                Url = news.url
+                ShortenedUrl = await this.urlShorteningService.GetShortenedUrl(news.url)
             };
 
             return PrepareNewsieResultHelper(news, newsieResult);

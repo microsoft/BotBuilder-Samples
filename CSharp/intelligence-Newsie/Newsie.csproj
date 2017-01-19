@@ -73,7 +73,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.WindowsAzure.ConfigurationManager.3.1.0\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+      <HintPath>packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.1\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -118,6 +118,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\binglogo.jpg" />
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
@@ -134,7 +135,7 @@
     <Compile Include="Services\IApiHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Services\ApiHandler.cs" />
-    <Compile Include="Dialogs\MainLuisDialog.cs" />
+    <Compile Include="Dialogs\MainDialog.cs" />
     <Compile Include="Handlers\GreetingIntentHandler.cs" />
     <Compile Include="Handlers\IIntentHandler.cs" />
     <Compile Include="Handlers\NewsIntentHandler.cs" />
@@ -145,7 +146,7 @@
     <Compile Include="Services\IUrlShorteningService.cs" />
     <Compile Include="Utilities\CardGenerators\NewsCardGenerator.cs" />
     <Compile Include="Handlers\IHandlerFactory.cs" />
-    <Compile Include="Utilities\LuisCategoryParser.cs" />
+    <Compile Include="Utilities\NewsCategoryParser.cs" />
     <Compile Include="Modules\MainModule.cs" />
     <Compile Include="Services\BingNewsService.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
@@ -167,18 +168,11 @@
     </Compile>
     <Compile Include="Utilities\CardGenerators\CardGenerator.cs" />
     <Compile Include="Utilities\CacheManager.cs" />
-    <Compile Include="Utilities\Emojis.cs" />
     <Compile Include="Utilities\ICacheManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="Properties\PublishProfiles\newsieherobot.pubxml" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
+    <Content Include="azuredeploy.json" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Strings.resx">
