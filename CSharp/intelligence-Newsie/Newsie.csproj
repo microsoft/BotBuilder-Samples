@@ -173,8 +173,6 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="azuredeploy.json" />
-    <None Include="Properties\PublishProfiles\newsieherobot.pubxml" />
-    <None Include="Properties\PublishProfiles\newsietutorial - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Strings.resx">
