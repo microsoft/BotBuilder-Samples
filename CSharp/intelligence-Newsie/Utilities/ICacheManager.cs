@@ -1,4 +1,4 @@
-﻿namespace Newsie.Utilities
+﻿namespace NewsieBot.Utilities
 {
     public interface ICacheManager
     {

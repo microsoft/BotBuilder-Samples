@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Caching;
 
-namespace Newsie.Utilities
+namespace NewsieBot.Utilities
 {
     /// <summary>
     /// This is a simple cache manager

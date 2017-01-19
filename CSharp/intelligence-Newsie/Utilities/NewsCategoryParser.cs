@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Newsie.Utilities
+namespace NewsieBot.Utilities
 {
     public enum NewsCategory
     {

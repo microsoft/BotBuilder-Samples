@@ -2,7 +2,7 @@
 using Microsoft.Bot.Connector;
 using Newsie.Models.News;
 
-namespace Newsie.Utilities.CardGenerators
+namespace NewsieBot.Utilities.CardGenerators
 {
     internal class NewsCardGenerator
     {

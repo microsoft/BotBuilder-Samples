@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Bot.Connector;
 
-namespace Newsie.Utilities.CardGenerators
+namespace NewsieBot.Utilities.CardGenerators
 {
     internal class CardGenerator
     {
