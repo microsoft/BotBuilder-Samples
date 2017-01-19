@@ -36,7 +36,7 @@ LUIS | A sample bot using LuisDialog to integrate with a LUIS.ai application. | 
 Image Caption | A sample bot that gets an image caption using Microsoft Cognitive Services Vision API. | [View Sample](/CSharp/intelligence-ImageCaption)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ImageCaption] | [View Sample](/Node/intelligence-ImageCaption)[![Deploy to Azure][Deploy Button]][Deploy Node/ImageCaption]
 Speech To Text | A sample bot that gets text from audio using Bing Speech API. | [View Sample](/CSharp/intelligence-SpeechToText)[![Deploy to Azure][Deploy Button]][Deploy CSharp/SpeechToText] | [View Sample](/Node/intelligence-SpeechToText)[![Deploy to Azure][Deploy Button]][Deploy Node/SpeechToText]
 Similar Products | A sample bot that finds visually similar products using Bing Image Search API. | [View Sample](/CSharp/intelligence-SimilarProducts)[![Deploy to Azure][Deploy Button]][Deploy CSharp/SimilarProducts] | [View Sample](/Node/intelligence-SimilarProducts)[![Deploy to Azure][Deploy Button]][Deploy Node/SimilarProducts]
-Newsie | A sample bot that get news using Bing News Search API and summarize news articles using Bing Summarizer API. | [View Sample](/CSharp/intelligence-Newsie)[![Deploy to Azure][Deploy Button]][Deploy CSharp/Newsie]
+Newsie | A sample bot that finds news using Bing News Search API and summarize news articles using Bing Summarizer API. | [View Sample](/CSharp/intelligence-Newsie)[![Deploy to Azure][Deploy Button]][Deploy CSharp/Newsie]
 
 ## Demo
 These are bots designed to showcase end-to-end sample scenarios. They're great sources of code fragments if you're looking to have your bot lightup more complex features.
