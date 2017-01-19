@@ -168,19 +168,13 @@
     </Compile>
     <Compile Include="Utilities\CardGenerators\CardGenerator.cs" />
     <Compile Include="Utilities\CacheManager.cs" />
-    <Compile Include="Utilities\Emojis.cs" />
     <Compile Include="Utilities\ICacheManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="azuredeploy.json" />
     <None Include="Properties\PublishProfiles\newsieherobot.pubxml" />
     <None Include="Properties\PublishProfiles\newsietutorial - Web Deploy.pubxml" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Strings.resx">
