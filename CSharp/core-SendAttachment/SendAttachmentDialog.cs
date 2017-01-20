@@ -11,12 +11,12 @@
     [Serializable]
     internal class SendAttachmentDialog : IDialog<object>
     {
-        private const string ShowEmbeddedAttachment = "(1) Show embedded attachment";
+        private const string ShowInlineAttachment = "(1) Show inline attachment";
         private const string ShowUploadedAttachment = "(2) Show uploaded attachment";
         private const string ShowInternetAttachment = "(3) Show internet attachment";
 
         private readonly IDictionary<string, string> options = new Dictionary<string, string> {
-            { "1", ShowEmbeddedAttachment },
+            { "1", ShowInlineAttachment },
             { "2", ShowUploadedAttachment },
             { "3", ShowInternetAttachment }
         };
@@ -63,7 +63,7 @@
             {
                 case "1":
                     {
-                        attachmentInfo = this.GetEmbeddedAttachmentInfo();
+                        attachmentInfo = this.GetInlineAttachmentInfo();
                         break;
                     }
                 case "2":
@@ -94,7 +94,7 @@
             await this.DisplayOptionsAsync(context, null);
         }
 
-        private KeyValuePair<string, string> GetEmbeddedAttachmentInfo()
+        private KeyValuePair<string, string> GetInlineAttachmentInfo()
         {
             var imagePath = HttpContext.Current.Server.MapPath("~/images/small-image.png");
 
