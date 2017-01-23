@@ -15,7 +15,8 @@
         private const string ShowUploadedAttachment = "(2) Show uploaded attachment";
         private const string ShowInternetAttachment = "(3) Show Internet attachment";
 
-        private readonly IDictionary<string, string> options = new Dictionary<string, string> {
+        private readonly IDictionary<string, string> options = new Dictionary<string, string>
+        {
             { "1", ShowInlineAttachment },
             { "2", ShowUploadedAttachment },
             { "3", ShowInternetAttachment }
@@ -25,6 +26,7 @@
         {
             context.Wait(this.MessageReceivedAsync);
         }
+
         public async virtual Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
@@ -59,23 +61,18 @@
             var replyMessage = context.MakeMessage();
     
             var attachmentInfo = default(KeyValuePair<string, string>);
-            switch(message)
+
+            switch (message)
             {
                 case "1":
-                    {
                         attachmentInfo = this.GetInlineAttachmentInfo();
                         break;
-                    }
                 case "2":
-                    {
                         attachmentInfo = await this.GetUploadedAttachmentInfoAsync(replyMessage.ServiceUrl, replyMessage.Conversation.Id);
                         break;
-                    }
                 case "3":
-                    {
                         attachmentInfo = this.GetInternetAttachmentInfo();
                         break;
-                    }
             }
 
             // The Attachments property allows you to send and receive images and other content
@@ -123,8 +120,8 @@
 
                 var attachmentUri = attachments.GetAttachmentUri(response.Id);
 
-                // Typo bug in current assembly version '.Replace("{vieWId}", Uri.EscapeDataString(viewId))'
-                // TODO: remove this line when replacement Bug is fixed on future releases
+                // Typo bug in current assembly version '.Replace("{vieWId}", Uri.EscapeDataString(viewId))'.
+                // TODO: remove this line when replacement Bug is fixed on future releases. PR: https://github.com/Microsoft/BotBuilder/pull/2079
                 attachmentUri = attachmentUri.Replace("{viewId}", "original");
 
                 return new KeyValuePair<string, string>(
