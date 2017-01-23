@@ -18,6 +18,7 @@
                 "NODE_ENV": "development",
                 "MICROSOFT_APP_ID": "",
                 "MICROSOFT_APP_PASSWORD": ""
+                "BOT": "RealEstateBot"
             },
             "externalConsole": false,
             "sourceMaps": false,

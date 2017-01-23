@@ -6,15 +6,14 @@ A Similar Products bot for the Microsoft Bot Framework.
 require('dotenv-extended').load();
 
 const builder = require('botbuilder'),
-    fs = require("fs"),
     imageService = require('./image-service'),
     restify = require('restify'),
     request = require('request').defaults({ encoding: null }),
     url = require('url'),
     validUrl = require('valid-url');
 
-// Maximum number of hero cards to be returned in the carousel. If this number is greater than 5, skype throws an exception.
-const MAX_CARD_COUNT = 5;
+// Maximum number of hero cards to be returned in the carousel. If this number is greater than 10, skype throws an exception.
+const MAX_CARD_COUNT = 10;
 
 //=========================================================
 // Bot Setup
@@ -22,7 +21,7 @@ const MAX_CARD_COUNT = 5;
 
 // Setup Restify Server
 const server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3979, () => {
+server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log('%s listening to %s', server.name, server.url);
 });
 
@@ -32,9 +31,9 @@ const connector = new builder.ChatConnector({
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 
-const bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
+const bot = new builder.UniversalBot(connector);
 
 //=========================================================
 // Bots Events
@@ -47,7 +46,7 @@ bot.on('conversationUpdate', message => {
             if (identity.id === message.address.bot.id) {
                 const reply = new builder.Message()
                     .address(message.address)
-                    .text("Hi! I am SimilarProducts Bot. I can find you similar products. Try sending me an image or an image URL.");
+                    .text('Hi! I am SimilarProducts Bot. I can find you similar products. Try sending me an image or an image URL.');
                 bot.send(reply);
             }
         });
@@ -67,15 +66,16 @@ bot.dialog('/', session => {
             .getSimilarProductsFromStream(stream)
             .then(visuallySimilarProducts => handleApiResponse(session, visuallySimilarProducts))
             .catch(error => handleErrorResponse(session, error));
-    }
-    else if (imageUrl = (parseAnchorTag(session.message.text) || (validUrl.isUri(session.message.text) ? session.message.text : null))) {
-        imageService
-            .getSimilarProductsFromUrl(imageUrl)
-            .then(visuallySimilarProducts => handleApiResponse(session, visuallySimilarProducts))
-            .catch(error => handleErrorResponse(session, error));
-    }
-    else {
-        session.send("Did you upload an image? I'm more of a visual person. Try sending me an image or an image URL");
+    } else {
+        var imageUrl = parseAnchorTag(session.message.text) || (validUrl.isUri(session.message.text) ? session.message.text : null);
+        if (imageUrl) {
+            imageService
+                .getSimilarProductsFromUrl(imageUrl)
+                .then(visuallySimilarProducts => handleApiResponse(session, visuallySimilarProducts))
+                .catch(error => handleErrorResponse(session, error));
+        } else {
+            session.send('Did you upload an image? I\'m more of a visual person. Try sending me an image or an image URL');
+        }
     }
 });
 
@@ -84,9 +84,9 @@ bot.dialog('/', session => {
 //=========================================================
 
 const hasImageAttachment = session => {
-    return ((session.message.attachments.length > 0) && (session.message.attachments[0].contentType.indexOf("image") !== -1));
-}
-
+    return session.message.attachments.length > 0 &&
+        session.message.attachments[0].contentType.indexOf('image') !== -1;
+};
 const getImageStreamFromAttachment = attachment => {
     var headers = {};
     if (isSkypeAttachment(attachment)) {
@@ -104,19 +104,21 @@ const getImageStreamFromAttachment = attachment => {
 
     headers['Content-Type'] = attachment.contentType;
     return request.get({ url: attachment.contentUrl, headers: headers });
-}
+};
 
 const isSkypeAttachment = attachment => {
-    if (url.parse(attachment.contentUrl).hostname.substr(-"skype.com".length) == "skype.com") {
+    if (url.parse(attachment.contentUrl).hostname.substr(-'skype.com'.length) === 'skype.com') {
         return true;
     }
 
     return false;
-}
+};
 
 /**
  * Gets the href value in an anchor element.
  * Skype transforms raw urls to html. Here we extract the href value from the url
+ * @param {string} input Anchor Tag
+ * @return {string} Url matched or null
  */
 const parseAnchorTag = input => {
     var match = input.match("^<a href=\"([^\"]*)\">[^<]*</a>$");
@@ -125,7 +127,7 @@ const parseAnchorTag = input => {
     }
 
     return null;
-}
+};
 
 //=========================================================
 // Response Handling
@@ -143,16 +145,14 @@ const handleApiResponse = (session, images) => {
 
         // create reply with Carousel AttachmentLayout
         var reply = new builder.Message(session)
-            .text("Here are some visually similar products I found")
+            .text('Here are some visually similar products I found')
             .attachmentLayout(builder.AttachmentLayout.carousel)
             .attachments(cards);
         session.send(reply);
+    } else {
+        session.send('Couldn\'t find similar products images for this one');
     }
-    else {
-        session.send("Couldn't find similar products images for this one");
-    }
-
-}
+};
 
 const constructCard = (session, image) => {
     return new builder.HeroCard(session)
@@ -162,12 +162,12 @@ const constructCard = (session, image) => {
             builder.CardImage.create(session, image.thumbnailUrl)
         ])
         .buttons([
-            builder.CardAction.openUrl(session, image.hostPageUrl, "Buy from merchant"),
-            builder.CardAction.openUrl(session, image.webSearchUrl, "Find more in Bing")
-        ])
-}
+            builder.CardAction.openUrl(session, image.hostPageUrl, 'Buy from merchant'),
+            builder.CardAction.openUrl(session, image.webSearchUrl, 'Find more in Bing')
+        ]);
+};
 
 const handleErrorResponse = (session, error) => {
-    session.send("Oops! Something went wrong. Try again later.");
+    session.send('Oops! Something went wrong. Try again later.');
     console.error(error);
-}
+};

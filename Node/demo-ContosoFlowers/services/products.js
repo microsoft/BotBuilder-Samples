@@ -11,7 +11,7 @@ const allProducts = _.times(17)
     .map((i) => ({
         name: 'Bouquet ' + (i + 1) + '\u2122',
         imageUrl: 'https://placeholdit.imgix.net/~text?txtsize=48&txt=Bouquet%20' + (i + 1) + '&w=640&h=330',
-        price: (Math.floor(Math.random() * 100) + 10) + .99
+        price: Math.floor(Math.random() * 100) + 10 + .99
     }));
 
 const productsService = {
@@ -36,7 +36,7 @@ const productsService = {
         var product = _.find(allProducts, ['name', productName]);
         return Promise.resolve(product);
     }
-}
+};
 
 // helpers
 function pageItems(pageNumber, pageSize, items) {

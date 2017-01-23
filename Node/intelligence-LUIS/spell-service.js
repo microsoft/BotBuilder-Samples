@@ -3,8 +3,8 @@
 // https://dev.cognitive.microsoft.com/docs/services/56e73033cf5ff80c2008c679/operations/56e73036cf5ff81048ee6727
 const request = require('request');
 
-const SPELL_CHECK_API_URL = "https://api.cognitive.microsoft.com/bing/v5.0/spellcheck/?form=BCSSCK",
-    SPELL_CHECK_API_KEY = process.env.BING_Spell_Check_API_KEY;
+const SPELL_CHECK_API_URL = 'https://api.cognitive.microsoft.com/bing/v5.0/spellcheck/?form=BCSSCK',
+      SPELL_CHECK_API_KEY = process.env.BING_SPELL_CHECK_API_KEY;
 
 /**
  * Gets the correct spelling for the given text
@@ -35,7 +35,7 @@ exports.getCorrectedText = text => {
                     }
                     else {
                         var previousOffset = 0;
-                        var result = "";
+                        var result = '';
 
                         for (var i = 0; i < body.flaggedTokens.length; i++) {
                             var element = body.flaggedTokens[i];

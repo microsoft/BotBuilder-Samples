@@ -3,34 +3,38 @@ var _ = require('lodash');
 var builder = require('botbuilder');
 var restify = require('restify');
 
+/// <reference path="../SearchDialogLibrary/index.d.ts" />
+var SearchLibrary = require('../SearchDialogLibrary');
+var AzureSearch = require('../SearchProviders/azure-search');
+
 // Setup Restify Server
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log('%s listening to %s', server.name, server.url);
 });
 
-// Create chat bot
+// Create chat bot and listen for messages
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
-var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
-// Root dialog, triggers search and process its results
-bot.dialog('/', [
-    function(session) {
+// Bot with main dialog that triggers search and display its results
+var bot = new builder.UniversalBot(connector, [
+    function (session) {
         // Trigger the refine dialog with 'business_title' facet.
         // Then continue the dialog waterfall with the selected refiner/filter
-        session.beginDialog('jobs:/refine', {
-            refiner: 'business_title',
-            prompt: 'Hi! To get started, what kind of position are you looking for?'
-        });
+        SearchLibrary.refine(session,
+            {
+                refiner: 'business_title',
+                prompt: 'Hi! To get started, what kind of position are you looking for?'
+            });
     },
-    function(session, args) {
+    function (session, args) {
         // trigger Search dialog root, using the generated Query created by /refine
         var query = args.query;
-        session.beginDialog('jobs:/', { query });
+        SearchLibrary.begin(session, { query });
     },
     function (session, args) {
         // Process selected search results
@@ -41,21 +45,15 @@ bot.dialog('/', [
 ]);
 
 // Azure Search provider
-var AzureSearch = require('../SearchProviders/azure-search');
 var azureSearchClient = AzureSearch.create('azs-playground', '512C4FBA9EED64A31A1052CFE3F7D3DB', 'nycjobs');
+var jobsResultsMapper = SearchLibrary.defaultResultsMapper(jobToSearchHit);
 
-/// <reference path="../SearchDialogLibrary/index.d.ts" />
-var SearchDialogLibrary = require('../SearchDialogLibrary');
-
-// Jobs Listing Search
-var jobsResultsMapper = SearchDialogLibrary.defaultResultsMapper(jobToSearchHit);
-var realstate = SearchDialogLibrary.create('jobs', {
+// Register Search Dialogs Library with bot
+bot.library(SearchLibrary.create({
     multipleSelection: true,
     search: (query) => azureSearchClient.search(query).then(jobsResultsMapper),
     refiners: ['business_title', 'agency', 'work_location']
-});
-
-bot.library(realstate);
+}));
 
 // Maps the AzureSearch Job Document into a SearchHit that the Search Library can use
 function jobToSearchHit(job) {

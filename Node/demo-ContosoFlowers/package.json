@@ -2,21 +2,34 @@
   "name": "botbuilder-sample-contosoflowers",
   "version": "1.0.0",
   "description": "Bot Builder Sample - Contoso Flowers",
-  "main": "index.js",
   "scripts": {
     "start": "node app.js"
   },
-  "author": "",
+  "author": "Microsoft Corp.",
   "license": "MIT",
+  "keywords": [
+    "botbuilder",
+    "bots",
+    "chatbots",
+    "botbuilder-samples"
+  ],
+  "bugs": {
+    "url": "https://github.com/Microsoft/BotBuilder-Samples/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
+  },
   "dependencies": {
-    "bluebird": "^3.4.5",
+    "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
-    "botbuilder": "^3.2.3",
+    "botbuilder": "^3.5.1",
+    "botbuilder-location": "^1.0.2",
     "express": "^4.14.0",
     "geobing": "^0.1.3",
-    "lodash": "^4.15.0",
+    "lodash": "^4.17.4",
     "pug": "^2.0.0-beta6",
-    "serve-favicon": "^2.3.0",
-    "uuid": "^2.0.2"
+    "serve-favicon": "^2.3.2",
+    "uuid": "^3.0.1"
   }
 }

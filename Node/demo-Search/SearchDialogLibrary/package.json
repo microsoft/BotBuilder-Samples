@@ -2,11 +2,26 @@
   "name": "botbuilder-sample-searchlibrary",
   "version": "1.0.0",
   "description": "Bot Builder Sample - BotBuilder Library for handling search flows",
-  "main": "index.js",
-  "author": "",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Microsoft Corp.",
   "license": "MIT",
+  "keywords": [
+    "botbuilder",
+    "bots",
+    "chatbots",
+    "botbuilder-samples"
+  ],
+  "bugs": {
+    "url": "https://github.com/Microsoft/BotBuilder-Samples/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
+  },
   "dependencies": {
-    "botbuilder": "^3.2.3",
-    "lodash": "^4.15.0"
+    "botbuilder": "^3.5.1",
+    "lodash": "^4.17.4"
   }
 }

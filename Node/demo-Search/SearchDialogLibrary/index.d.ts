@@ -1,53 +1,55 @@
-import { Library } from "botbuilder";
+import { Library, Session } from "botbuilder";
 
-// Exported functions
-export function create(libraryId: string, settings: SearchDialogSettings): Library;
+// exported functions
+export function create(settings: ISearchDialogSettings): Library;
+export function begin(session: Session, args?: any): void;
+export function refine(session: Session, args?: any): void;
 export function defaultResultsMapper(itemMap: ItemMapper): SearchResultsMapper;
 
-declare type ItemMapper = (input: any) => SearchHit;
-declare type SearchResultsMapper = (providerResults: SearchResults) => SearchResults;
+declare type ItemMapper = (input: any) => ISearchHit;
+declare type SearchResultsMapper = (providerResults: ISearchResults) => ISearchResults;
 declare type RefineFormatter = (refiners: Array<string>) => any;
 
-// Entities
-export interface SearchDialogSettings {
-  search: (query: Query) => PromiseLike<SearchResults>;
+// entities
+export interface ISearchDialogSettings {
+  search: (query: IQuery) => PromiseLike<ISearchResults>;
   pageSize?: number;
   multipleSelection?: boolean;
   refiners?: Array<string>;
   refineFormatter?: RefineFormatter;
 }
 
-export interface Query {
+export interface IQuery {
   searchText: string;
   pageSize: number;
   pageNumber: number;
-  filters: Array<FacetFilter>;
+  filters: Array<IFacetFilter>;
   facets: Array<string>;
 }
 
-export interface SearchResults {
-  facets: Array<Facet>;
-  results: Array<SearchHit>
+export interface ISearchResults {
+  facets: Array<IFacet>;
+  results: Array<ISearchHit>;
 }
 
-export interface SearchHit {
+export interface ISearchHit {
   key: string;
   title: string;
   description: string;
-  imageUrl?: string
+  imageUrl?: string;
 }
 
-export interface FacetFilter {
+export interface IFacetFilter {
   key: string;
   value: any;
 }
 
-export interface Facet {
+export interface IFacet {
   key: string;
-  options: Array<FacetValue>;
+  options: Array<IFacetValue>;
 }
 
-export interface FacetValue {
+export interface IFacetValue {
   value: string;
   count: number;
 }

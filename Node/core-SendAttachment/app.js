@@ -12,12 +12,12 @@ var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
-var bot = new builder.UniversalBot(connector);
+
+// Listen for messages
 server.post('/api/messages', connector.listen());
 
-// Bot dialog
-bot.dialog('/', function (session) {
-
+var bot = new builder.UniversalBot(connector, function (session) {
+    
     // Create and send attachment
     var attachment = {
         contentUrl: 'https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png',

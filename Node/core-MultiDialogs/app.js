@@ -7,13 +7,13 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log('%s listening to %s', server.name, server.url);
 });
 
-// Create chat bot
+// Create chat bot and listen to messages
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
-var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
+var bot = new builder.UniversalBot(connector);
 
 // Dialogs
 var Hotels = require('./hotels');
@@ -21,15 +21,15 @@ var Flights = require('./flights');
 var Support = require('./support');
 
 // Setup dialogs
-bot.dialog('/flights', Flights.Dialog);
-bot.dialog('/hotels', Hotels.Dialog);
-bot.dialog('/support', Support.Dialog);
+bot.dialog('flights', Flights.Dialog);
+bot.dialog('hotels', Hotels.Dialog);
+bot.dialog('support', Support.Dialog);
 
 // Root dialog
 bot.dialog('/', new builder.IntentDialog()
     .matchesAny([/help/i, /support/i, /problem/i], [
         function (session) {
-            session.beginDialog('/support');
+            session.beginDialog('support');
         },
         function (session, result) {
             var tickerNumber = result.response;
@@ -66,9 +66,10 @@ bot.dialog('/', new builder.IntentDialog()
             var selection = result.response.entity;
             switch (selection) {
                 case Flights.Label:
-                    return session.beginDialog('/flights')
+                    return session.beginDialog('flights');
                 case Hotels.Label:
-                    return session.beginDialog('/hotels')
+                    return session.beginDialog('hotels');
             }
         }
     ]));
+

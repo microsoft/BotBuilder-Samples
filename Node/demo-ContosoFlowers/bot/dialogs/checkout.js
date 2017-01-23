@@ -4,14 +4,14 @@ var botUtils = require('../utils');
 var siteUrl = require('../site-url');
 var orderService = require('../../services/orders');
 
-const library = new builder.Library('checkout');
+const lib = new builder.Library('checkout');
 
 // Checkout flow
-const RestartMessage = 'Changed my mind'
-const StartOver = 'Start over';
-const KeepGoing = 'Keep going';
-const Help = 'Talk to support';
-library.dialog('/', [
+const RestartMessage = 'restart';
+const StartOver = 'start_over';
+const KeepGoing = 'continue';
+const Help = 'help';
+lib.dialog('/', [
     function (session, args, next) {
         args = args || {};
         var order = args.order;
@@ -34,12 +34,12 @@ library.dialog('/', [
                 encodeURIComponent(order.id),
                 encodeURIComponent(addressSerialized));
 
-            var messageText = util.format('The final price is $%d (including delivery). Pay securely using our payment provider.', order.selection.price);
+            var messageText = session.gettext('final_price', order.selection.price);
             var card = new builder.HeroCard(session)
                 .text(messageText)
                 .buttons([
-                    builder.CardAction.openUrl(session, checkoutUrl, 'Add credit card'),
-                    builder.CardAction.imBack(session, RestartMessage, RestartMessage)
+                    builder.CardAction.openUrl(session, checkoutUrl, 'add_credit_card'),
+                    builder.CardAction.imBack(session, session.gettext(RestartMessage), RestartMessage)
                 ]);
 
             session.send(new builder.Message(session)
@@ -47,7 +47,11 @@ library.dialog('/', [
         });
     },
     function (session, args) {
-        builder.Prompts.choice(session, 'What are you looking to do?', [StartOver, KeepGoing, Help]);
+        builder.Prompts.choice(session, 'select_how_to_continue', [
+            session.gettext(StartOver), 
+            session.gettext(KeepGoing),
+            session.gettext(Help)
+        ]);
     },
     function (session, args) {
         switch (args.response.entity) {
@@ -62,22 +66,18 @@ library.dialog('/', [
 ]);
 
 // Checkout completed (initiated from web application. See /checkout.js in the root folder)
-library.dialog('/completed', function (session, args, next) {
+lib.dialog('completed', function (session, args, next) {
     args = args || {};
     var orderId = args.orderId;
 
     // Retrieve order and create ReceiptCard
     orderService.retrieveOrder(orderId).then((order) => {
         if (!order) {
-            throw new Error('Order Id not found');
+            throw new Error(session.gettext('order_not_found'));
         }
 
-        var messageText = util.format(
-            '**Your order %s has been processed!**\n\n'
-            + 'The **%s** will be sent to **%s %s** with the following note:\n\n'
-            + '**"%s"**\n\n'
-            + 'Thank you for using Contoso Flowers.\n\n'
-            + 'Here is your receipt:',
+        var messageText = session.gettext(
+            'order_details',
             order.id,
             order.selection.name,
             order.details.recipient.firstName,
@@ -87,25 +87,25 @@ library.dialog('/completed', function (session, args, next) {
         var receiptCard = new builder.ReceiptCard(session)
             .title(order.paymentDetails.creditcardHolder)
             .facts([
-                builder.Fact.create(session, order.id, 'Order Number'),
-                builder.Fact.create(session, offuscateNumber(order.paymentDetails.creditcardNumber), 'Payment Method'),
+                builder.Fact.create(session, order.id, 'order_number'),
+                builder.Fact.create(session, offuscateNumber(order.paymentDetails.creditcardNumber), 'payment_method')
             ])
             .items([
                 builder.ReceiptItem.create(session, order.selection.price, order.selection.name)
-                    .image(builder.CardImage.create(session, order.selection.imageUrl)),
+                    .image(builder.CardImage.create(session, order.selection.imageUrl))
             ])
             .total(order.selection.price)
             .buttons([
-                builder.CardAction.openUrl(session, 'https://dev.botframework.com/', 'More Information')
+                builder.CardAction.openUrl(session, 'https://dev.botframework.com/', 'more_information')
             ]);
 
         var message = new builder.Message(session)
             .text(messageText)
-            .addAttachment(receiptCard)
+            .addAttachment(receiptCard);
 
         session.endDialog(message);
     }).catch((err) => {
-        session.endDialog(util.format('An error has ocurred: %s', err.message))
+        session.endDialog(session.gettext('error_ocurred', err.message));
     });
 });
 
@@ -114,4 +114,7 @@ function offuscateNumber(cardNumber) {
     return cardNumber.substring(0, 4) + ' ****';
 }
 
-module.exports = library;
+// Export createLibrary() function
+module.exports.createLibrary = function () {
+    return lib.clone();
+};

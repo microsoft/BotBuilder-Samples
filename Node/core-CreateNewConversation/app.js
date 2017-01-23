@@ -7,15 +7,22 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log('%s listening to %s', server.name, server.url);
 });
 
-// Create chat bot
+// Create chat bot and listen for messages
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
-var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
 var userStore = [];
+var bot = new builder.UniversalBot(connector, function (session) {
+    // store user's address
+    var address = session.message.address;
+    userStore.push(address);
+
+    // end current dialog
+    session.endDialog('You\'ve been invited to a survey! It will start in a few seconds...');
+});
 
 // Every 5 seconds, check for new registered users and start a new dialog
 setInterval(function () {
@@ -29,8 +36,8 @@ setInterval(function () {
         delete newConversationAddress.conversation;
 
         // start survey dialog
-        bot.beginDialog(newConversationAddress, '/survey', null, (err) => {
-            if(err) {
+        bot.beginDialog(newConversationAddress, 'survey', null, (err) => {
+            if (err) {
                 // error ocurred while starting new conversation. Channel not supported?
                 bot.send(new builder.Message()
                     .text('This channel does not support this operation: ' + err.message)
@@ -41,18 +48,7 @@ setInterval(function () {
     });
 }, 5000);
 
-bot.dialog('/', function (session) {
-    var msg = session.message;
-
-    // store user's address
-    var address = msg.address;
-    userStore.push(address);
-
-    // end current dialog
-    session.endDialog('You\'ve been invited to a survey! It will start in a few seconds...');
-});
-
-bot.dialog('/survey', [
+bot.dialog('survey', [
     function (session) {
         builder.Prompts.text(session, 'Hello... What\'s your name?');
     },

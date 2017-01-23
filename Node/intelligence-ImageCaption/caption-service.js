@@ -5,12 +5,12 @@
 
 const request = require('request').defaults({ encoding: null });
 
-const VISION_URL = "https://api.projectoxford.ai/vision/v1.0/analyze/?visualFeatures=Description&form=BCSIMG&subscription-key=" + process.env.MICROSOFT_VISION_API_KEY;
+const VISION_URL = 'https://api.projectoxford.ai/vision/v1.0/analyze/?visualFeatures=Description&form=BCSIMG&subscription-key=' + process.env.MICROSOFT_VISION_API_KEY;
 
 /** 
  *  Gets the caption of the image from an image stream
  * @param {stream} stream The stream to an image.
- * @return (Promise) Promise with caption string if succeeded, error otherwise
+ * @return {Promise} Promise with caption string if succeeded, error otherwise
  */
 exports.getCaptionFromStream = stream => {
     return new Promise(
@@ -25,7 +25,7 @@ exports.getCaptionFromStream = stream => {
                 if (error) {
                     reject(error);
                 }
-                else if (response.statusCode != 200) {
+                else if (response.statusCode !== 200) {
                     reject(body);
                 }
                 else {
@@ -34,26 +34,26 @@ exports.getCaptionFromStream = stream => {
             }));
         }
     );
-}
+};
 
 /** 
  * Gets the caption of the image from an image URL
  * @param {string} url The URL to an image.
- * @return (Promise) Promise with caption string if succeeded, error otherwise
+ * @return {Promise} Promise with caption string if succeeded, error otherwise
  */
 exports.getCaptionFromUrl = url => {
     return new Promise(
         (resolve, reject) => {
             const requestData = {
                 url: VISION_URL,
-                json: { "url": url }
+                json: { 'url': url }
             };
 
             request.post(requestData, (error, response, body) => {
                 if (error) {
                     reject(error);
                 }
-                else if (response.statusCode != 200) {
+                else if (response.statusCode !== 200) {
                     reject(body);
                 }
                 else {
@@ -62,7 +62,7 @@ exports.getCaptionFromUrl = url => {
             });
         }
     );
-}
+};
 
 /**
  * Extracts the caption description from the response of the Vision API
@@ -71,8 +71,8 @@ exports.getCaptionFromUrl = url => {
  */
 const extractCaption = body => {
     if (body && body.description && body.description.captions && body.description.captions.length) {
-        return body.description.captions[0].text
+        return body.description.captions[0].text;
     }
 
     return null;
-}
+};

@@ -2,19 +2,31 @@
   "name": "botbuilder-sample-searchbot",
   "version": "1.0.0",
   "description": "Bot Builder Sample - Powered Search Bots",
-  "main": "index.js",
   "scripts": {
     "start": "node app.js"
   },
-  "author": "",
+  "author": "Microsoft Corp.",
   "license": "MIT",
+  "keywords": [
+    "botbuilder",
+    "bots",
+    "chatbots",
+    "botbuilder-samples"
+  ],
+  "bugs": {
+    "url": "https://github.com/Microsoft/BotBuilder-Samples/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
+  },
   "dependencies": {
-    "bluebird": "^3.4.6",
-    "botbuilder": "^3.2.3",
-    "lodash": "^4.15.0",
+    "bluebird": "^3.4.7",
+    "botbuilder": "^3.5.1",
+    "lodash": "^4.17.4",
     "lorem-ipsum": "^1.0.3",
     "node-uuid": "^1.4.7",
-    "request": "^2.74.0",
-    "restify": "^4.1.1"
+    "request": "^2.79.0",
+    "restify": "^4.3.0"
   }
 }

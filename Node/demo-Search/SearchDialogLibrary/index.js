@@ -12,21 +12,17 @@ const defaultSettings = {
 const CancelOption = 'Cancel';
 
 // Create the BotBuilder library for Search with the specified Id
-function create(libraryId, settings) {
-    if (typeof (libraryId) !== 'string' || libraryId.length === 0) {
-        throw new Error('libraryId is required');
-    }
-
+function create(settings) {
     settings = Object.assign({}, defaultSettings, settings);
-    if (typeof (settings.search) !== 'function') {
+    if (typeof settings.search !== 'function') {
         throw new Error('options.search is required');
     }
 
-    if (settings.refineFormatter && typeof (settings.refineFormatter) !== 'function') {
+    if (settings.refineFormatter && typeof settings.refineFormatter !== 'function') {
         throw new Error('options.refineFormatter should be a function');
     }
 
-    const library = new builder.Library(libraryId);
+    const library = new builder.Library('search');
 
     // Entry point. Closure that handlers these states
     // - A. Completing after search result selection without multipleSelection
@@ -65,7 +61,7 @@ function create(libraryId, settings) {
             }
 
             var input = args.response;
-            var hasInput = typeof (input) === 'string';
+            var hasInput = typeof input === 'string';
             if (hasInput) {
                 // Process input
                 if (settings.multipleSelection && input.trim().toLowerCase() === 'list') {
@@ -84,7 +80,7 @@ function create(libraryId, settings) {
         }));
 
     // Handle display results & selection
-    library.dialog('/results',
+    library.dialog('results',
         new builder.IntentDialog()
             .onBegin((session, args) => {
                 // Save previous state
@@ -93,7 +89,7 @@ function create(libraryId, settings) {
                 session.dialogData.query = args.query;
 
                 // Display results
-                var results = args.searchResponse.results
+                var results = args.searchResponse.results;
                 var reply = new builder.Message(session)
                     .text('Here are a few good options I found:')
                     .attachmentLayout(builder.AttachmentLayout.carousel)
@@ -117,7 +113,7 @@ function create(libraryId, settings) {
             })
             .matches(/refine/i, (session) => {
                 // Refine
-                session.beginDialog('/refine', {
+                session.beginDialog('refine', {
                     query: session.dialogData.query,
                     selection: session.dialogData.selection
                 });
@@ -143,7 +139,7 @@ function create(libraryId, settings) {
                     if (settings.multipleSelection) {
                         // Multi-select -> Continue?
                         session.send('%s was added to your list!', hit.title);
-                        session.beginDialog('/confirm-continue', { selection: selection, query: query });
+                        session.beginDialog('confirm-continue', { selection: selection, query: query });
                     } else {
                         // Single-select -> done!
                         session.endDialogWithResult({ selection: selection, query: query });
@@ -152,7 +148,7 @@ function create(libraryId, settings) {
             }));
 
     // Handle refine search
-    library.dialog('/refine', [
+    library.dialog('refine', [
         (session, args, next) => {
             // args: query, selection, refiner(optional), prompt(optional)
             var query = args.query || emptyQuery();
@@ -244,7 +240,7 @@ function create(libraryId, settings) {
     ]);
 
     // Helpers
-    library.dialog('/confirm-continue', new builder.SimpleDialog((session, args) => {
+    library.dialog('confirm-continue', new builder.SimpleDialog((session, args) => {
         args = args || {};
         if (args.response === undefined) {
             session.dialogData.selection = args.selection;
@@ -263,14 +259,14 @@ function create(libraryId, settings) {
         settings.search(query).then((response) => {
             if (response.results.length === 0) {
                 // No Results - Prompt retry
-                session.beginDialog('/confirm-continue', {
+                session.beginDialog('confirm-continue', {
                     message: 'Sorry, I didn\'t find any matches. Do you want to retry your search?',
                     selection: selection,
                     query: query
                 });
             } else {
                 // Handle results selection
-                session.beginDialog('/results', {
+                session.beginDialog('results', {
                     searchResponse: response,
                     selection: selection,
                     query: query
@@ -293,7 +289,7 @@ function create(libraryId, settings) {
         }
 
         if (searchHit.imageUrl) {
-            card.images([new builder.CardImage().url(searchHit.imageUrl)])
+            card.images([new builder.CardImage().url(searchHit.imageUrl)]);
         }
 
         return card;
@@ -315,7 +311,7 @@ function create(libraryId, settings) {
 
     function searchPrompt(session) {
         var prompt = 'What would you like to search for?';
-        if (!!session.dialogData.firstTimeDone) {
+        if (session.dialogData.firstTimeDone) {
             prompt = 'What else would you like to search for?';
             if (settings.multipleSelection) {
                 prompt += ' You can also *list* all items you\'ve added so far.';
@@ -344,7 +340,15 @@ function create(libraryId, settings) {
         return { pageNumber: 1, pageSize: settings.pageSize, filters: [] };
     }
 
-    return library;
+    return library.clone();
+}
+
+function begin(session, args) {
+    session.beginDialog('search:/', args);
+}
+
+function refine(session, args) {
+    session.beginDialog('search:refine', args);
 }
 
 // This helper transforms each of the AzureSearch result items using the mapping function provided (itemMap) 
@@ -360,5 +364,7 @@ function defaultResultsMapper(itemMap) {
 // Exports
 module.exports = {
     create: create,
+    begin: begin,
+    refine: refine,
     defaultResultsMapper: defaultResultsMapper
 };

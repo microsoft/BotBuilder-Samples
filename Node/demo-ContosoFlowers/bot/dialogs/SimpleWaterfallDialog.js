@@ -1,6 +1,8 @@
 var util = require('util');
 var builder = require('botbuilder');
 
+// This Dialog works as a waterfall dialogs, with the option to control flow within each step.
+// Each step is reponsible for calling next() in order to advance. Flow is returned to parent dialog when next() is invoked from the last steps closure. You can pass an optional argument to the last step that will be returned to the parent dialog.
 function SimpleWaterfallDialog(dialogSteps) {
     function fn(session, args) {
         if (session.dialogData.step === undefined) {
@@ -20,7 +22,7 @@ function SimpleWaterfallDialog(dialogSteps) {
             } else {
                 dialogStep(session, args, next);
             }
-        }
+        };
 
         // run step
         dialogSteps[session.dialogData.step](session, args, next);

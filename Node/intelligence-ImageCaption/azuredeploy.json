@@ -50,6 +50,10 @@
     },
     "MicrosoftAppPassword": {
       "type": "string"
+    },
+    "MicrosoftVisionApiKey": {
+      "type": "string",
+      "defaultValue": "c84d0e1aaaff482b9014a570927bdbf2"
     }
   },
   "resources": [
@@ -105,6 +109,10 @@
               {
                 "name": "MICROSOFT_APP_PASSWORD",
                 "value": "[parameters('MicrosoftAppPassword')]"
+              },
+              {
+                "name": "MICROSOFT_VISION_API_KEY",
+                "value": "[parameters('MicrosoftVisionApiKey')]"
               }
             ]
           }

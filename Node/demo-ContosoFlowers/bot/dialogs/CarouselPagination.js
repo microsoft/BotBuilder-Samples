@@ -1,38 +1,38 @@
 var builder = require('botbuilder');
 
 const defaultSettings = {
-    showMoreTitle: 'There are more items',
-    showMoreValue: 'Next Page',
-    selectTemplate: 'Select: ',
+    showMoreTitle: 'title_show_more',
+    showMoreValue: 'show_more',
+    selectTemplate: 'select',
     pageSize: 10,
-    unknownOption: 'I couldn\'t understand your selection. Please try again.'
+    unknownOption: 'unknown_option'
 };
 
 module.exports = {
     create: function (getPageFunc, getItemFunc, itemToCardFunc, settings) {
         // parameter validation
         settings = Object.assign({}, defaultSettings, settings);
-        if (typeof (getPageFunc) !== 'function') {
+        if (typeof getPageFunc !== 'function') {
             throw new Error('getPageFunc must be a function');
         }
 
-        if (typeof (getItemFunc) !== 'function') {
+        if (typeof getItemFunc !== 'function') {
             throw new Error('getItemFunc must be a function');
         }
 
-        if (typeof (itemToCardFunc) !== 'function') {
+        if (typeof itemToCardFunc !== 'function') {
             throw new Error('itemToCardFunc must be a function');
         }
 
         // map item info into HeroCard
-        var asCard = function (cardInfo) {
+        var asCard = function (session, cardInfo) {
             var card = new builder.HeroCard()
                 .title(cardInfo.title)
                 .buttons([
                     new builder.CardAction()
                         .type('imBack')
-                        .value(settings.selectTemplate + cardInfo.title)
-                        .title(cardInfo.buttonLabel)
+                        .value(session.gettext(settings.selectTemplate) + cardInfo.title)
+                        .title(session.gettext(cardInfo.buttonLabel))
                 ]);
 
             if (cardInfo.subtitle) {
@@ -40,7 +40,7 @@ module.exports = {
             }
 
             if (cardInfo.imageUrl) {
-                card = card.images([new builder.CardImage().url(cardInfo.imageUrl).alt(cardInfo.title)])
+                card = card.images([new builder.CardImage().url(cardInfo.imageUrl).alt(cardInfo.title)]);
             }
 
             return card;
@@ -50,12 +50,13 @@ module.exports = {
         return function (session, args, next) {
             var pageNumber = session.dialogData.pageNumber || 1;
             var input = session.message.text;
-            if (!!input && input.toLowerCase() === settings.showMoreValue.toLowerCase()) {
+            var selectPrefix = session.gettext(settings.selectTemplate);
+            if (input && input.toLowerCase() === session.gettext(settings.showMoreValue).toLowerCase()) {
                 // next page
                 pageNumber++;
-            } else if (!!input && isSelection(input, settings.selectTemplate)) {
+            } else if (input && isSelection(input, selectPrefix)) {
                 // Validate selection
-                var selectedName = input.substring(settings.selectTemplate.length);
+                var selectedName = input.substring(selectPrefix.length);
                 getItemFunc(selectedName).then((selectedItem) => {
                     if (!selectedItem) {
                         return session.send(settings.unknownOption);
@@ -79,7 +80,7 @@ module.exports = {
                 // items carousel
                 var cards = pageResult.items
                     .map(itemToCardFunc)
-                    .map(asCard);
+                    .map((cardData) => asCard(session, cardData));
                 var message = new builder.Message(session)
                     .attachmentLayout(builder.AttachmentLayout.carousel)
                     .attachments(cards);
@@ -90,15 +91,15 @@ module.exports = {
                     var moreCard = new builder.HeroCard(session)
                         .title(settings.showMoreTitle)
                         .buttons([
-                            builder.CardAction.imBack(session, settings.showMoreValue, settings.showMoreValue)
+                            builder.CardAction.imBack(session, session.gettext(settings.showMoreValue), settings.showMoreValue)
                         ]);
                     session.send(new builder.Message(session).addAttachment(moreCard));
                 }
             });
-        }
+        };
     }
 };
 
-function isSelection(input, selectTemplate) {
-    return input.toLowerCase().indexOf(selectTemplate.toLowerCase()) === 0;
+function isSelection(input, selectPrefix) {
+    return input.toLowerCase().indexOf(selectPrefix.toLowerCase()) === 0;
 }

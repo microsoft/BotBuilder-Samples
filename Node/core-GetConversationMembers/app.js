@@ -4,6 +4,13 @@ var Promise = require('bluebird');
 var url = require('url');
 var Swagger = require('swagger-client');
 
+// Swagger client for Bot Connector API
+var connectorApiClient = new Swagger(
+    {
+        url: 'https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json',
+        usePromise: true
+    });
+
 // Setup Restify Server
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
@@ -15,48 +22,12 @@ var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
-var bot = new builder.UniversalBot(connector);
+
+// Listen for messages
 server.post('/api/messages', connector.listen());
 
-// Swagger client for Bot Connector API
-var connectorApiClient = new Swagger(
-    {
-        url: 'https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json',
-        usePromise: true
-    });
-
-
-bot.on('conversationUpdate', function (message) {
-    if (message.membersAdded && message.membersAdded.length > 0) {
-        var membersAdded = message.membersAdded
-            .map((m) => {
-                var isSelf = m.id === message.address.bot.id;
-                return (isSelf ? message.address.bot.name : m.name) || '' + ' (Id: ' + m.id + ')';
-            })
-            .join(', ');
-
-        var reply = new builder.Message()
-            .address(message.address)
-            .text('Welcome ' + membersAdded);
-        bot.send(reply);
-    }
-
-    if (message.membersRemoved && message.membersRemoved.length > 0) {
-        var membersRemoved = message.membersRemoved
-            .map((m) => {
-                var isSelf = m.id === message.address.bot.id;
-                return (isSelf ? message.address.bot.name : m.name) || '' + ' (Id: ' + m.id + ')';
-            })
-            .join(', ');
-
-        var reply = new builder.Message()
-            .address(message.address)
-            .text('The following members ' + membersRemoved + ' were removed or left the conversation :(');
-        bot.send(reply);
-    }
-});
-
-bot.dialog('/', function (session) {
+// Bot setup
+var bot = new builder.UniversalBot(connector, function (session) {
     var message = session.message;
     var conversationId = message.address.conversation.id;
 
@@ -75,6 +46,34 @@ bot.dialog('/', function (session) {
     });
 });
 
+bot.on('conversationUpdate', function (message) {
+    if (message.membersAdded && message.membersAdded.length > 0) {
+        var membersAdded = message.membersAdded
+            .map((m) => {
+                var isSelf = m.id === message.address.bot.id;
+                return (isSelf ? message.address.bot.name : m.name) || '' + ' (Id: ' + m.id + ')';
+            })
+            .join(', ');
+
+        bot.send(new builder.Message()
+            .address(message.address)
+            .text('Welcome ' + membersAdded));
+    }
+
+    if (message.membersRemoved && message.membersRemoved.length > 0) {
+        var membersRemoved = message.membersRemoved
+            .map((m) => {
+                var isSelf = m.id === message.address.bot.id;
+                return (isSelf ? message.address.bot.name : m.name) || '' + ' (Id: ' + m.id + ')';
+            })
+            .join(', ');
+
+        bot.send(new builder.Message()
+            .address(message.address)
+            .text('The following members ' + membersRemoved + ' were removed or left the conversation :('));
+    }
+});
+
 // Helper methods
 
 // Inject the conenctor's JWT token into to the Swagger client
@@ -91,8 +90,8 @@ function addTokenToClient(connector, clientPromise) {
 
 // Create a message with the member list and send it to the conversationAddress
 function printMembersInChannel(conversationAddress, members) {
-    if(!members || members.length == 0) return;
-    
+    if (!members || members.length === 0) return;
+
     var memberList = members.map((m) => '* ' + m.name + ' (Id: ' + m.id + ')')
         .join('\n ');
 

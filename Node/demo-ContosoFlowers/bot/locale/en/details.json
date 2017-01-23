@@ -1,0 +1,15 @@
+{
+    "ask_recipient_first_name": "What's the recipient's first name?",
+    "ask_recipient_last_name": "What's the recipient's last name?",
+    "ask_recipient_phone_number": "What's the recipient's phone number?",
+    "invalid_phone_number": "Oops, that doesn't look like a valid number. Try again.",
+    "ask_note": "What do you want the note to say? (in 200 characters)",
+    "invalid_note": "Oops, the note is max 200 characters. Try again.",
+    "yes": "Yes",
+    "edit": "Edit",
+    "use_this_email_and_phone_number": "Would you like to use this email %s and this phone number '%s' info?",
+    "ask_email": "What's your email?",
+    "invalid_email": "Something is wrong with that email address. Please try again.",
+    "ask_phone_number": "What's your phone number?",
+    "ask_save_info": "Would you like to save your info?"
+}

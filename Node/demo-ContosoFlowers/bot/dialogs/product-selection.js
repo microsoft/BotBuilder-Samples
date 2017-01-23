@@ -5,22 +5,22 @@ var SimpleWaterfallDialog = require('./SimpleWaterfallDialog');
 var CarouselPagination = require('./CarouselPagination');
 
 var carouselOptions = {
-    showMoreTitle: 'Want more options?',
-    showMoreValue: 'Show me',
-    selectTemplate: 'Select: ',
+    showMoreTitle: 'title_show_more',
+    showMoreValue: 'show_more',
+    selectTemplate: 'select',
     pageSize: 5,
-    unknownOption: 'I couldn\'t understand your selection. Please try again.'
+    unknownOption: 'unknown_option'
 };
 
-const library = new builder.Library('product-selection');
+const lib = new builder.Library('product-selection');
 
 // These steps are defined as a waterfall dialog,
 // but the control is done manually by calling the next func argument.
-library.dialog('/',
+lib.dialog('/',
     new SimpleWaterfallDialog([
         // First message
         function (session, args, next) {
-            session.send('Please select a category:');
+            session.send('choose_category');
             next();
         },
         // Show Categories
@@ -28,7 +28,7 @@ library.dialog('/',
         // Category selected
         function (session, args, next) {
             var category = args.selected;
-            session.send('Please select a bouquet for "%s" category:', category.name);
+            session.send('choose_bouquet_from_category', category.name);
             session.dialogData.category = category;
             session.message.text = null;            // remove message so next step does not take it as input
             next();
@@ -54,7 +54,7 @@ function categoryMapping(category) {
     return {
         title: category.name,
         imageUrl: category.imageUrl,
-        buttonLabel: 'View bouquets'
+        buttonLabel: 'view_bouquets'
     };
 }
 
@@ -63,10 +63,11 @@ function productMapping(product) {
         title: product.name,
         subtitle: '$ ' + product.price.toFixed(2),
         imageUrl: product.imageUrl,
-        buttonLabel: 'Select'
+        buttonLabel: 'choose_this'
     };
 }
 
-
-
-module.exports = library;
+// Export createLibrary() function
+module.exports.createLibrary = function () {
+    return lib.clone();
+};

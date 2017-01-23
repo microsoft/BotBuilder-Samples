@@ -55,7 +55,11 @@
       "type": "string",
       "defaultValue": "https://api.projectoxford.ai/luis/v1/application?id=162bf6ee-379b-4ce4-a519-5f5af90086b5&subscription-key=11be6373fca44ded80fbe2afa8597c18"
     },
-    "EnableSpellCorrection": {
+    "BING_SPELL_CHECK_API_KEY": {
+      "type": "string",
+      "defaultValue": "8ae90e80bc4346d59c0f07529dadaa4e"
+    },
+    "IS_SPELL_CORRECTION_ENABLED": {
       "type": "string",
       "allowedValues": [
         "true",
@@ -123,8 +127,12 @@
                 "value": "[parameters('LUIS_MODEL_URL')]"
               },
               {
+                "name": "BING_SPELL_CHECK_API_KEY",
+                "value": "[parameters('BING_SPELL_CHECK_API_KEY')]"
+              },
+              {
                 "name": "IS_SPELL_CORRECTION_ENABLED",
-                "value": "[parameters('EnableSpellCorrection')]"
+                "value": "[parameters('IS_SPELL_CORRECTION_ENABLED')]"
               }
             ]
           }

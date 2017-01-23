@@ -8,10 +8,10 @@ A sample bot that illustrates how to use the Microsoft Cognitive Services Comput
 
 The minimum prerequisites to run this sample are:
 * Latest Node.js with NPM. Download it from [here](https://nodejs.org/en/download/).
-* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
+* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 * Computer Vision App ID. You can obtain one from [Microsoft Cognitive Services Subscriptions Page](https://www.microsoft.com/cognitive-services/en-us/subscriptions?productId=/products/54d873dd5eefd00dc474a0f4).
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
-* This sample currently uses a free trial Microsoft Cognitive service key with limited QPS. Please subscribe to Vision API services [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) and update the `MicrosoftVisionApiKey` key in [.env](.env) file to try it out further.
+* This sample currently uses a free trial Microsoft Cognitive service key with limited QPS. Please subscribe to Vision API services [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) and update the `MICROSOFT_VISION_API_KEY` key in [.env](.env) file to try it out further.
 
 
 ### Code Highlights
@@ -23,7 +23,7 @@ The main components are:
 * [caption-service.js](caption-service.js): is the core component illustrating how to call the Computer Vision RESTful API.
 * [app.js](app.js): is the bot service listener receiving messages from the connector service and passing them down to caption-service.js.
 
-In this sample we are using the API to get the image description and send it back to the user. Check out the use of the `captionService.getCaptionFromStream(stream)` method in [app.js](app.js).
+In this sample we are using the API to get the image description and send it back to the user. Check out the use of the `captionService.getCaptionFromStream(stream)` method in [app.js](app.js#L63).
 
 ````JavaScript
 if (hasImageAttachment(session)) {
@@ -34,12 +34,14 @@ if (hasImageAttachment(session)) {
             .catch(error => handleErrorResponse(session, error));
     }
 ````
-and here is the implementation of `captionService.getCaptionFromStream(stream)` in [caption-service.js](caption-service.js)
+
+And here is the implementation of `captionService.getCaptionFromStream(stream)` in [caption-service.js](caption-service.js#L15).
+
 ````JavaScript
 /** 
  *  Gets the caption of the image from an image stream
  * @param {stream} stream The stream to an image.
- * @return (Promise) Promise with caption string if succeeded, error otherwise
+ * @return {Promise} Promise with caption string if succeeded, error otherwise
  */
 exports.getCaptionFromStream = stream => {
     return new Promise(
@@ -54,13 +56,16 @@ exports.getCaptionFromStream = stream => {
                 if (error) {
                     reject(error);
                 }
+                else if (response.statusCode !== 200) {
+                    reject(body);
+                }
                 else {
                     resolve(extractCaption(JSON.parse(body)));
                 }
             }));
         }
     );
-}
+};
 ````
 
 ### Outcome

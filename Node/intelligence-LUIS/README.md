@@ -10,7 +10,7 @@ A sample bot using IntentDialog to integrate with a LUIS.ai application.
 
 The minimum prerequisites to run this sample are:
 * Latest Node.js with NPM. Download it from [here](https://nodejs.org/en/download/).
-* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
+* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
 
 #### LUIS Application
@@ -22,7 +22,7 @@ In the case you choose to import the application, the first step to using LUIS i
 
 Once you imported the application you'll need to "train" the model ([Training](https://www.luis.ai/Help#Training)) before you can "Publish" the model in an HTTP endpoint. For more information, take a look at [Publishing a Model](https://www.luis.ai/Help#PublishingModel).
 
-Finally, edit [app.js](app.js#L21-L22) file and update the `LuisModelUrl` variable, or if you are using Visual Studio Code to run the sample edit [launch.json](.vscode/launch.json#L21) and update the `LUIS_MODEL_URL` environment variable.
+Finally, edit the [.env](.env#L5) file and update the `LUIS_MODEL_URL` variable with your's Model URL.
 
 #### Where to find the Model URL
 
@@ -36,7 +36,7 @@ One of the key problems in human-computer interactions is the ability of the com
 
 The IntentDialog class lets you listen for the user to say a specific keyword or phrase. We call this intent detection because you are attempting to determine what the user is intending to do. IntentDialogs are useful for building more open ended bots that support natural language style understanding.
 
-The IntentDialog class can be configured to use cloud based intent recognition services like [LUIS](http://luis.ai/) through an extensible set of recognizer plugins. Out of the box, Bot Builder comes with a [LuisRecognizer](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer) that can be used to call a machine learning model you have trained via their web site. You can create a LuisRecognizer that is pointed at your model and then pass that recognizer into your IntentDialog at creation time using the [options](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentdialogoptions) structure. Check out how [app.js initializes the IntentDialog](app.js#L21-L26):
+The IntentDialog class can be configured to use cloud based intent recognition services like [LUIS](http://luis.ai/) through an extensible set of recognizer plugins. Out of the box, Bot Builder comes with a [LuisRecognizer](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer) that can be used to call a machine learning model you have trained via their web site. You can create a LuisRecognizer that is pointed at your model and then pass that recognizer into your IntentDialog at creation time using the [options](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentdialogoptions) structure. Check out how [app.js initializes the IntentDialog](app.js#L27-L29):
 
 ````JavaScript
 const LuisModelUrl = 'https://api.projectoxford.ai/luis/v1/application?id=...&subscription-key=...';
@@ -44,11 +44,13 @@ const LuisModelUrl = 'https://api.projectoxford.ai/luis/v1/application?id=...&su
 // Main dialog with LUIS
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 var intents = new builder.IntentDialog({ recognizers: [recognizer] });
+
+bot.dialog('/', intents);
 ````
 
 #### Intent Recognizers
 
-Intent recognizers return matches as named intents. To match against an intent from a recognizer you pass the name of the intent you want to handle to [IntentDialog.matches()](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog#matches) as a string instead of a RegExp. This lets you mix in the matching of regular expressions alongside your cloud based recognition model. See how the bot matches the [`SearchHotels`](app.js#L27), [`ShowHotelsReviews`](app.js#L77) and [`Help`](app.js#L91) intents.
+Intent recognizers return matches as named intents. To match against an intent from a recognizer you pass the name of the intent you want to handle to [IntentDialog.matches()](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog#matches) as a string instead of a RegExp. This lets you mix in the matching of regular expressions alongside your cloud based recognition model. See how the bot matches the [`SearchHotels`](app.js#L30), [`ShowHotelsReviews`](app.js#L80) and [`Help`](app.js#L94) intents.
 
 ````JavaScript
 intents.matches('SearchHotels', [ ...waterfall dialog handler... ]);
@@ -60,7 +62,7 @@ intents.matches('Help', builder.DialogAction.send('Hi! Try asking me things like
 
 LUIS can not only identify a users intention given an utterance, it can extract entities from their utterance as well. Any entities recognized in the users utterance will be passed to the intent handler via its [`args`](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizerresult) parameter.
 
-Bot Builder includes an [`EntityRecognizer`](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.entityrecognizer.html) class to simplify working with these entities. You can use [`EntityRecognizer.findEntity()`](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.entityrecognizer.html#findentity) and [`EntityRecognizer.findAllEntities()`](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.entityrecognizer.html#findallentities) to search for entities of a specific type by name. Check out how [city and airport entities are extracted](app.js#L32-L33).
+Bot Builder includes an [`EntityRecognizer`](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.entityrecognizer.html) class to simplify working with these entities. You can use [`EntityRecognizer.findEntity()`](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.entityrecognizer.html#findentity) and [`EntityRecognizer.findAllEntities()`](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.entityrecognizer.html#findallentities) to search for entities of a specific type by name. Check out how [city and airport entities are extracted](app.js#L34-L36).
 
 ````JavaScript
 var cityEntity = builder.EntityRecognizer.findEntity(args.entities, 'builtin.geography.city');
@@ -79,7 +81,7 @@ Another LUIS Model Feature used is Phrase List Features, for instance, the model
 
 In our sample, we are using a [waterfall dialog](https://docs.botframework.com/en-us/node/builder/chat/dialogs/#waterfall) for the hotel search. This is a common pattern that you'll likely use for most of your intent handlers. The way waterfalls work in Bot Builder is the very first step of the waterfall is called when a dialog (or in this case intent handler) is triggered. The step then does some work and continues execution of the waterfall by either calling another dialog (like a built-in prompt) or calling the optional `next()` function passed in. When a dialog is called in a step, any result returned from the dialog will be passed as input to the results parameter for the next step. 
 
-Our bot tries to check if an entity of city or airport type were [matched and forwards it](app.js#L31-L45) to the next step. If that's not the case, the user is [prompted with a destination](app.js#L44). The [next step](app.js#L47-L49) will receive the destination or airport code in the `results` argument.
+Our bot tries to check if an entity of city or airport type were [matched and forwards it](app.js#L37-L44) to the next step. If that's not the case, the user is [prompted with a destination](app.js#L47). The [next step](app.js#L50) will receive the destination or airport code in the `results` argument.
 
 ````JavaScript
 intents.matches('SearchHotels', [
@@ -119,7 +121,7 @@ intents.matches('SearchHotels', [
     }]);
 ````
 
-Similarly, the [`ShowHotelsReviews`](app.js#L77) uses a single closure to search for hotel reviews.
+Similarly, the [`ShowHotelsReviews`](app.js#L80) uses a single closure to search for hotel reviews.
 
 ````
 intents.matches('ShowHotelsReviews', (session, args) => {
@@ -132,7 +134,7 @@ intents.matches('ShowHotelsReviews', (session, args) => {
                 var message = new builder.Message()
                     .attachmentLayout(builder.AttachmentLayout.carousel)
                     .attachments(reviews.map(reviewAsAttachment));
-                session.send(message)
+                session.send(message);
             });
     }
 });
@@ -150,16 +152,16 @@ intents.onDefault((session) => {
 
 ### Spelling Correction
 
-IF you want to enable spelling correction, set the `IS_SPELL_CORRECTION_ENABLED` key to `true` in the [.env](.env) file.
+If you want to enable spelling correction, set the `IS_SPELL_CORRECTION_ENABLED` key to `true` in the [.env](.env) file.
 
 Microsoft Bing Spell Check API provides a module that allows you to to correct the spelling of the text. Check out the [reference](https://dev.cognitive.microsoft.com/docs/services/56e73033cf5ff80c2008c679/operations/56e73036cf5ff81048ee6727) to know more about the modules available. 
 
 [spell-service.js](spell-service.js) is the core component illustrating how to call the Bing Spell Check RESTful API.
 
-In this sample we added spell correction as a middleware. Check out the middleware in [app.js](app.js).
+In this sample we added spell correction as a middleware. Check out the middleware in [app.js](app.js#L99-L114).
 
 ````JavaScript
-if (process.env.IS_SPELL_CORRECTION_ENABLED == "true") {
+if (process.env.IS_SPELL_CORRECTION_ENABLED === "true") {
     bot.use({
         botbuilder: function (session, next) {
             spellService
@@ -203,6 +205,7 @@ To get more information about how to get started in Bot Builder for Node and LUI
 > The features used in this sample are fully supported in the following channels:
 > - Skype
 > - Facebook
+> - Microsoft Teams
 > - DirectLine
 > - WebChat
 > - Slack

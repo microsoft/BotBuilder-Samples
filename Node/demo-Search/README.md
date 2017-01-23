@@ -15,7 +15,7 @@ Content is modeled as a catalog of items where each item has several attributes 
 
 The minimum prerequisites to run this sample are:
 * Latest Node.js with NPM. Download it from [here](https://nodejs.org/en/download/).
-* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
+* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
 
 ### Azure Search
@@ -28,9 +28,9 @@ The samples use [Azure Search](https://azure.microsoft.com/en-us/services/search
 
 The samples include a bot library that contains a few different dialogs that are ready to use and can be customized as needed. The library is defined as the [SearchDialogLibrary](SearchDialogLibrary/index.js) module and it includes two main dialogs that can be used directly:
 
-* [Root dialog](SearchDialogLibrary/index.js#L39) offers a complete keyword search + refine experience over a search index, and uses the other search dialogs as building blocks. Users can explore the catalog by refining (using facets) and by using keyword search. They can also select items and review their selection. At the end of this dialog a list of one or more selected items is returned.
+* [Root dialog](SearchDialogLibrary/index.js#L35) offers a complete keyword search + refine experience over a search index, and uses the other search dialogs as building blocks. Users can explore the catalog by refining (using facets) and by using keyword search. They can also select items and review their selection. At the end of this dialog a list of one or more selected items is returned.
 
-* [Refine dialog](SearchDialogLibrary/index.js#L155) helps users pick a refiner (facet). It's a simple wrapper around a "choice" prompt dialog to ensure you don't prompt users for a field you already refined on.
+* [Refine dialog](SearchDialogLibrary/index.js#L151) helps users pick a refiner (facet). It's a simple wrapper around a "choice" prompt dialog to ensure you don't prompt users for a field you already refined on.
 
 ### Samples
 
@@ -68,11 +68,11 @@ We included two samples here:
 
 ### Usage
 
-In order to use the library you need to create an instance of it using the module's `create()` function and specify a few parameters that provides the search implementation and some level of customization for the search experience. Then, you register the returned library object with [`bot.use()`](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot.html#use) and trigger the dialogs with `session.beginDialog()`.
+In order to use the library you need to create an instance of it using the module's `create()` function and specify parameters that provides the search implementation and some level of customization for the search experience. Then, you register the returned library object with [`bot.use()`](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot.html#use) and trigger the dialogs with `SearchModule.begin(session)` or `SearchModule.refine(session, arguments)`.
 
 ````JavaScript
-var SearchDialogLibrary = require('./SearchDialogLibrary');
-var mySearchLibrary = SearchDialogLibrary.create('my-search', {
+var SearchLibrary = require('./SearchDialogLibrary');
+var mySearchLibrary = SearchLibrary.create({
     multipleSelection: true,
     search: (query) => { return mySearchClient.search(query).then(mapResultSetFunction); },
     refiners: ['type', 'region']
@@ -84,7 +84,7 @@ bot.use(mySearchLibrary);
 bot.dialog('/', [
     function (session) {
         // Triger search dialog
-        session.beginDialog('my-search:/');
+        SearchLibrary.begin(session);
     },
     function (session, args) {
         // Display selected results
@@ -97,11 +97,10 @@ bot.dialog('/', [
 
 #### Parameters and Settings
 
-> SearchDialogLibrary.create(libraryId:string, settings):Library
+> SearchDialogLibrary.create(settings):Library
 
-* `libraryId` is required, defines the library name and the prefix you'll need to use when calling `session.beginDialog('libraryId:/')`;
-* `settings` is also required. The only detail really needed is the `search` function.
-    * `search` is a required function. Accepts a `query` object and must return a Promise with a [`SearchResults`](SearchDialogLibrary/index.d.ts#L28-L31) object (See [Implementing a new Search Provider](#implementing-a-new-search-provider) below).
+* `settings` is required. The only detail really needed is the `search` function.
+    * `search` is a required function. Accepts a `query` object and must return a Promise with a [`ISearchResults`](SearchDialogLibrary/index.d.ts#L30-L33) object (See [Implementing a new Search Provider](#implementing-a-new-search-provider) below).
     * `multipleSelection` (optional - default=true). Boolean value indicating if multiple selection should be allowed. When `false`, the dialog will end as soon as an item is selected.
     * `pageSize` (optional - default=5). Page size parameter passed to the search function.
     * `refiners`. (optional). Array of strings containing the facets/refiners allowed to use.
@@ -119,7 +118,7 @@ In order to integrate the Search Dialog library with a new search engine, you ne
 function search: (query: Query) => PromiseLike<SearchResults>
 ````
 
-Input [`query`](SearchDialogLibrary/index.d.ts#L20-L26) object with the following fields:
+Input [`query`](SearchDialogLibrary/index.d.ts#L22-L28) object with the following fields:
 
 * `searchText`: string
 
@@ -141,7 +140,7 @@ Input [`query`](SearchDialogLibrary/index.d.ts#L20-L26) object with the followin
 
   An array containing the facets you want to obtain possible values for. The search function should take this into account and proceed to *search* or *retrieve sub-categories* for the current search string.
 
-The `search` must return a `Promise`, that once fulfilled, should resolve to a [`SearchResults`](SearchDialogLibrary/index.d.ts#L28-L31) object. This object must have the following fields:
+The `search` must return a `Promise`, that once fulfilled, should resolve to a [`ISearchResults`](SearchDialogLibrary/index.d.ts#L30-L33) object. This object must have the following fields:
 
 * `facets`: Array of `Facet`. Each Facet object contains a `key` field with the name of the facet and an `options` field with an array of possible values. Each value is a tuple of `key` representing a possible facet value, and a `count` field with the total items for that facet.
 
@@ -174,6 +173,7 @@ To get more information about how to get started in Bot Builder for Node please 
 > The features used in these samples are fully supported in the following channels:
 > - Skype
 > - Facebook
+> - Microsoft Teams
 > - Telegram
 > - DirectLine
 > - WebChat

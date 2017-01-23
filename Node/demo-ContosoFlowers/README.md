@@ -13,7 +13,7 @@ You came across the Microsoft Bot Framework which support a great variety of cha
 
 The minimum prerequisites to run this sample are:
 * Latest Node.js with NPM. Download it from [here](https://nodejs.org/en/download/).
-* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
+* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
 
 #### Integration with Express.js
@@ -26,7 +26,7 @@ server.post('/api/messages', connector.listen());
 
 In Contoso Flowers, we are wrapping the Connector's `listen()` method in order to capture the web application's url. We'll use this url later to create a link to the ckeckout form.
 
-See [bot/index.js](bot/index.js#L81-L91) for capturing the url and [app.js](app.js#L23-L25) for registering the hook.
+Checkout [bot/index.js](bot/index.js#L108-L118) to see how to capture the url and [app.js](app.js#L23-L25) to see how to register the hook.
 
 ````JavaScript
 // /bot/index.js
@@ -51,7 +51,7 @@ app.post('/api/messages', bot.listen());
 
 #### Welcome Message
 
-Some platforms provide a way to detect when a new conversation with the bot is created. We can use this to provide a welcome message  before the user starts typing. This can be achived using the [`conversationUpdate`](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iconversationupdate.html) event. Checkout [bot/index.js](bot/index.js#L70-L79) for details on how the root dialog is triggered.
+Some platforms provide a way to detect when a new conversation with the bot is created. We can use this to provide a welcome message  before the user starts typing. This can be achived using the [`conversationUpdate`](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iconversationupdate.html) event. Checkout [bot/index.js](bot/index.js#L82-L91) for details on how the root dialog is triggered.
 
 ````JavaScript
 // Send welcome when conversation with bot is started, by initiating the root dialog
@@ -82,7 +82,7 @@ These are the more important ones related to the shopping experience:
 
 * [**Address Dialogs**](bot/dialogs/address.js)
 
-  Asks for address and validates it using Bing Maps GeoCode service. It also contains the dialog for asking and saving the billing addresses.
+  Asks for address using [BotBuilder's Location picker control](https://github.com/Microsoft/BotBuilder-Location). It also contains the dialog for asking and saving the billing addresses.
 
 * [**Details Dialogs**](bot/dialogs/details.js)
 
@@ -110,13 +110,13 @@ E.g.: To start the shopping's experience root dialog we use `session.beginDialog
 
 ````JavaScript
 // /bot/dialogs/shop.js
-const library = new builder.Library('shop');
-library.dialog('/', [
+const lib = new builder.Library('shop');
+lib.dialog('/', [
     function (session) {
         // Ask for delivery address using 'address' library
         session.beginDialog('address:/',
             {
-                promptMessage: util.format('%s, please enter the delivery address for these flowers. Include apartment # if needed.', session.message.user.name)
+                promptMessage: session.gettext('provide_delivery_address', session.message.user.name || session.gettext('default_user_name'))
             });
     },
     function (session, args) {
@@ -137,7 +137,7 @@ const EmailRegex = new RegExp(/[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+
 
 const library = new builder.Library('validators');
 
-library.dialog('/email',
+library.dialog('email',
     builder.DialogAction.validatedPrompt(builder.PromptType.text, (response) =>
         EmailRegex.test(response)));
 
@@ -150,7 +150,7 @@ And this is how you can call the validator from your existing code:
 // Waterfall Dialog
 [
     function (session) {
-        session.beginDialog('validators:/email', {
+        session.beginDialog('validators:email', {
             prompt: 'What\'s your email?',
             retryPrompt: 'Something is wrong with that email address. Please try again.'
         });
@@ -165,24 +165,56 @@ And this is how you can call the validator from your existing code:
 
 > It is worth noting that calling other dialogs within your library don't need to be prefixed with the library's id. It is only when crossing from one library context to another that you need to include the library name prefix on your `session.beginDialog()` calls.
 
+Another example of a reusable library is the [BotBuilder's Location picker control](https://github.com/Microsoft/BotBuilder-Location). Once the module is added to your project dependencies, you can register it with your bot and start using it.
+Checkout the [address dialog](bot/dialogs/address.js#L6-L29) to see its usage within Contoso Flowers.
+
+````JavaScript
+const lib = new builder.Library('address');
+
+// Register BotBuilder-Location dialog
+lib.library(locationDialog.createLibrary(process.env.BING_MAPS_KEY));
+
+// Main request address dialog, invokes BotBuilder-Location
+lib.dialog('/', [
+    function (session, args) {
+        // Use botbuilder-location dialog for address request
+        var options = {
+            prompt: 'What is your address?',
+            useNativeControl: true,
+            reverseGeocode: true,
+            requiredFields:
+                locationDialog.LocationRequiredFields.streetAddress |
+                locationDialog.LocationRequiredFields.locality |
+                locationDialog.LocationRequiredFields.country
+        };
+
+        locationDialog.getLocation(session, options);
+    },
+    // ...
+````
+
+| Emulator | Facebook | Skype |
+|----------|-------|----------|
+|![Bing Location Control](images/bing-location-emulator.png)|![Bing Location Control](images/bing-location-facebook.png)|![Bing Location Control](images/bing-location-skype.png)|
+
 #### Rich Cards 
 
 Many messaging channels provide the ability to attach richer objects. The Bot Framework has the ability to render rich cards as attachments.
 
-The bot will render a Welcome message upon the first message or conversation start using a [HeroCard](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.herocard) attachment within the [bot's root dialog](bot/index.js#L21-L35).
+The bot will render a Welcome message upon the first message or conversation start using a [HeroCard](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.herocard) attachment within the [bot's root dialog](bot/index.js#L22-L36).
 
 ````JavaScript
 var welcomeCard = new builder.HeroCard(session)
-    .title('Welcome to the Contoso Flowers')
-    .subtitle('These are the flowers you are looking for!')
+    .title('welcome_title')
+    .subtitle('welcome_subtitle')
     .images([
         new builder.CardImage(session)
             .url('https://placeholdit.imgix.net/~text?txtsize=56&txt=Contoso%20Flowers&w=640&h=330')
-            .alt('Contoso Flowers')
+            .alt('contoso_flowers')
     ])
     .buttons([
-        builder.CardAction.imBack(session, MainOptions.Shop, MainOptions.Shop),
-        builder.CardAction.imBack(session, MainOptions.Support, MainOptions.Support)
+        builder.CardAction.imBack(session, session.gettext(MainOptions.Shop), MainOptions.Shop),
+        builder.CardAction.imBack(session, session.gettext(MainOptions.Support), MainOptions.Support)
     ]);
 
 session.send(new builder.Message(session)
@@ -194,21 +226,17 @@ session.send(new builder.Message(session)
 |![Rich Cards - Hero Card](images/richcards-herocard-emulator.png)|![Rich Cards - Hero Card](images/richcards-herocard-facebook.png)|![Rich Cards - Hero Card](images/richcards-herocard-skype.png)|
 
 
-Another example of rich card, is the ReceiptCard which renders differently depending on the messaging channel being supported. The receipt card is created in the [checkout's `completed` dialog](bot/dialogs.js#L87-L104) and is sent once the user completed the order payment.
+Another example of rich card, is the ReceiptCard which renders differently depending on the messaging channel being supported. The receipt card is created in the [checkout's `completed` dialog](bot/dialogs/checkout.js#L73-L107) and is sent once the user completed the order payment.
 
 ````JavaScript
 // Retrieve order and create ReceiptCard
 orderService.retrieveOrder(orderId).then((order) => {
     if (!order) {
-        throw new Error('Order Id not found');
+        throw new Error(session.gettext('order_not_found'));
     }
 
-    var messageText = util.format(
-        '**Your order %s has been processed!**\n\n'
-        + 'The **%s** will be sent to **%s %s** with the following note:\n\n'
-        + '**"%s"**\n\n'
-        + 'Thank you for using Contoso Flowers.\n\n'
-        + 'Here is your receipt:',
+    var messageText = session.gettext(
+        'order_details',
         order.id,
         order.selection.name,
         order.details.recipient.firstName,
@@ -218,21 +246,21 @@ orderService.retrieveOrder(orderId).then((order) => {
     var receiptCard = new builder.ReceiptCard(session)
         .title(order.paymentDetails.creditcardHolder)
         .facts([
-            builder.Fact.create(session, order.id, 'Order Number'),
-            builder.Fact.create(session, offuscateNumber(order.paymentDetails.creditcardNumber), 'Payment Method'),
+            builder.Fact.create(session, order.id, 'order_number'),
+            builder.Fact.create(session, offuscateNumber(order.paymentDetails.creditcardNumber), 'payment_method')
         ])
         .items([
             builder.ReceiptItem.create(session, order.selection.price, order.selection.name)
-                .image(builder.CardImage.create(session, order.selection.imageUrl)),
+                .image(builder.CardImage.create(session, order.selection.imageUrl))
         ])
         .total(order.selection.price)
         .buttons([
-            builder.CardAction.openUrl(session, 'https://dev.botframework.com/', 'More Information')
+            builder.CardAction.openUrl(session, 'https://dev.botframework.com/', 'more_information')
         ]);
 
     var message = new builder.Message(session)
         .text(messageText)
-        .addAttachment(receiptCard)
+        .addAttachment(receiptCard);
 
     session.endDialog(message);
 });
@@ -321,7 +349,7 @@ library.dialog('/', [
     },
     function (session, args) {
         session.dialogData.recipientLastName = args.response;
-        session.beginDialog('validators:/phonenumber', {
+        session.beginDialog('validators:phonenumber', {
             prompt: 'What\'s the recipient\'s phone number?',
             retryPrompt: 'Oops, that doesn\'t look like a valid number. Try again.',
             maxRetries: Number.MAX_VALUE
@@ -329,7 +357,7 @@ library.dialog('/', [
     },
     function (session, args) {
         session.dialogData.recipientPhoneNumber = args.response;
-        session.beginDialog('validators:/notes', {
+        session.beginDialog('validators:notes', {
             prompt: 'What do you want the note to say? (in 200 characters)',
             retryPrompt: 'Oops, the note is max 200 characters. Try again.',
             maxRetries: Number.MAX_VALUE
@@ -361,7 +389,7 @@ conversationData | Stores information globally for a single conversation. This d
 privateConversationData | Stores information globally for a single conversation but its private data for the current user. This data spans all dialogs so it's useful for storing temporary state that you want cleaned up when the conversation ends.
 dialogData | Persists information for a single dialog instance. This is essential for storing temporary information in between the steps of a waterfall.
 
-> If you are planning to use `conversationData`, remember to instantiate the bot using the [`persistConversationData`](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iuniversalbotsettings.html#persistconversationdata) setting flag.
+> If you are planning to use `conversationData`, remember to enable conversation data persistence by using the [`persistConversationData`](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iuniversalbotsettings.html#persistconversationdata) setting flag.
 
 In this sample, the `userData` is used to store and retrieve several user settings, and `dialogData` for saving information between steps of a waterfall dialog.
 
@@ -375,7 +403,7 @@ switch (option) {
             promptMessage = 'This is your current email: ' + session.userData.sender.email + '.\n\nType a new email if you need to update, or use (B)ack to return to the menu.';
         }
         session.send(promptMessage);
-        return session.beginDialog('/email');
+        return session.beginDialog('email');
 
     case SettingChoice.Phone:
         var promptMessage = 'Type your phone number or use (B)ack to return to the menu.';
@@ -383,7 +411,7 @@ switch (option) {
             promptMessage = 'This is your current phone number: ' + session.userData.sender.phoneNumber + '.\n\nType a new number if you need to update, or use (B)ack to return to the menu.';
         }
         session.send(promptMessage);
-        return session.beginDialog('/phone');
+        return session.beginDialog('phone');
     // ...
 }
 ````
@@ -409,7 +437,7 @@ library.dialog('/', [
     function (session, args) {
         // Retrieve selection, continue to delivery date
         session.dialogData.selection = args.selection;
-        session.beginDialog('delivery:/date');
+        session.beginDialog('delivery:date');
     },
     //...
     function (session, args) {
@@ -434,12 +462,12 @@ library.dialog('/', [
 
 #### Globally Available Commands
 
-Additionally, you'll notice the Settings dialog is globally available, meaning that the user can type `settings` anytime and the settings dialog will be taken on top of the conversation's dialog stack. A piece of [middleware](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imiddlewaremap.html) inspects every incoming message to see if it contains a specified word and gives the opportunity to manipulate the conversation stack, interrupting the normal dialog flow. Checkout the [middleware](bot/index.js#L51-L68) used to do this.
+Additionally, you'll notice the Settings dialog is globally available, meaning that the user can type `settings` anytime and the settings dialog will be taken on top of the conversation's dialog stack. A piece of [middleware](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imiddlewaremap.html) inspects every incoming message to see if it contains a specified word and gives the opportunity to manipulate the conversation stack, interrupting the normal dialog flow. Checkout the [middleware](bot/index.js#L61-L80) used to do this.
 
 ````JavaScript
 // Trigger secondary dialogs when 'settings' or 'support' is called
 const settingsRegex = /^settings/i;
-const supportRegex = new RegExp('^(' + MainOptions.Support + '|help)', 'i');
+const supportRegex = new RegExp('^(talk to support|help)', 'i');
 bot.use({
     botbuilder: (session, next) => {
         var text = session.message.text;
@@ -465,7 +493,7 @@ bot.use({
 
 The exchange of messages between bot and user through a channel (e.g. Facebook Messenger, Skype, Slack) is the primary means of interaction. However, in some scenarios the bot is waiting for an event that occurs in an external component. For example, the passing of time, an external authentication provider (e.g. OAuth scenarios) or an external payment service. In such cases, an [Address](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iaddress.html) object has the information necessary to resume the conversation.
 
-In this sample, the user proceeds to checkout the order by browsing to an url provided by the bot. This url includes an encoded version of the Address object generated in the [checkout's root dialog](bot/dialogs/checkout.js#L25) using the included [serializeAddress()](bot/utils.js#L5-L15) helper function.
+In this sample, the user proceeds to checkout the order by browsing to an url provided by the bot. This url includes an encoded version of the Address object generated in the [checkout's root dialog](bot/dialogs/checkout.js#L25) using the included [serializeAddress()](bot/utils.js#L28) helper function.
 
 ````JavaScript
 // Serialize user address
@@ -485,7 +513,7 @@ orderService.placePendingOrder(order).then((order) => {
 });
 ````
 
-Once the user browses to the checkout page and process the payment, the `Address` included in the url is then decoded (using the [deserializeAddress](bot/utils.js#L17) function) and used to resume the conversation with the bot. You can check [express.js Checkout route](checkout.js) calling the [bot.beginDialog()](checkout.js#L64) function.
+Once the user browses to the checkout page and process the payment, the `Address` included in the url is then decoded (using the [deserializeAddress](bot/utils.js#L29) function) and used to resume the conversation with the bot. You can check [express.js Checkout route](checkout.js) calling the [bot.beginDialog()](checkout.js#L64) function.
 
 > These [helpers methods](bot/utils.js) serialize the address into JSON and then encrypts the string using AES256-CTR to avoid tampering. The inverse process occurs while deserializing the address.
 
@@ -506,7 +534,7 @@ router.post('/', function (req, res, next) {
   orderService.confirmOrder(orderId, paymentDetails).then((processedOrder) => {
 
     // Dispatch completion dialog
-    bot.beginDialog(address, 'checkout:/completed', { orderId: orderId });
+    bot.beginDialog(address, 'checkout:completed', { orderId: orderId });
 
     // Show completion
     return res.render('checkout/completed', {
@@ -531,11 +559,84 @@ If you want to be able to take advantage of special features or concepts for a c
 
 One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. In the LUIS application, you will bundle together the intents and entities that are important to your task.
 
-> You can also see a full sample bot using LuisDialog to integrate with a LUIS.ai application in the [LUIS Bot Sample](../intelligence-LUIS).
+> You can also see a full sample bot using Luis Dialog to integrate with a LUIS.ai application in the [LUIS Bot Sample](../intelligence-LUIS).
 
 #### Localization
 
-At time of this writting, the [latest NPM package](https://www.npmjs.com/package/botbuilder) (botbuilder@3.2.3) does not support localization.
+Bot Builder includes a [rich localization system](https://docs.botframework.com/en-us/node/builder/chat/localization/#navtitle) for building bots that can communicate with the user in multiple languages. All of your bots prompts can be localized using JSON files stored in your bots directory structure and if you're using a system like [LUIS](https://luis.ai/) to perform natural language processing you can configure your [LuisRecognizer](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer) with a separate model for each language your bot supports and the SDK will automatically select the model matching the users preferred locale.
+
+The SDK provides a [session.preferredLocale()](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#preferredlocale) method to both save and retrieve this preference on a per user basis. The SDK also provides a way to configure the default bot's locale:
+
+````JavaScript
+// Set default locale
+bot.set('localizerSettings', {
+    botLocalePath: './bot/locale',
+    defaultLocale: 'en'
+});
+````
+
+The default localization system for Bot Builder is file based and lets a bot support multiple languages using JSON files stored on disk. By default, the localization system will search for the bots prompts in the ./locale/[IETF TAG]/index.json file where [IETF TAG] is a valid [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag) representing the preferred locale to use the prompts for. 
+
+You can see in the previous code snippet that we are providing a locale path to inform the SDK where to look for language files. Each file in [the locale folder](bot/locale/en) corresponds to a another file in the [bot's dialogs folder](bot/dialogs). They contain the resource strings used by each dialog. E.g.:
+
+````JavaScript
+// bot/locale/en/index.js
+{
+    "welcome_title": "Welcome to the Contoso Flowers",
+    "welcome_subtitle": "These are the flowers you are looking for!",
+    "contoso_flowers": "Contoso Flowers",
+    "main_options_order_flowers": "Order flowers",
+    "main_options_talk_to_support": "Talk to support",
+    "main_options_settings": "Settings",
+    "help": "Help",
+    "thank_you": "Support will contact you shortly. Have a nice day :)"
+}
+````
+
+##### Leveraging the SDK to localize text automatically
+
+Send text:
+
+````JavaScript
+bot.dialog("/", function (session) {
+    session.send('welcome_title');              // Will print "Welcome to the Contoso Flowers"
+    session.send('welcome_subtitle');           // Will print "These are the flowers you are looking for!"
+});
+````
+
+Send a card:
+
+````JavaScript
+var welcomeCard = new builder.HeroCard(session)
+    .title('welcome_title')
+    .subtitle('welcome_subtitle')
+    .images([
+        new builder.CardImage(session)
+            .url('https://placeholdit.imgix.net/~text?txtsize=56&txt=Contoso%20Flowers&w=640&h=330')
+            .alt('contoso_flowers')
+    ]);
+
+session.send(new builder.Message(session)
+    .addAttachment(welcomeCard));
+````
+
+Internally, the SDK will call `session.preferredLocale()` to get the users preferred locale and will then use that in a call to `session.localizer.gettext()` to map the message ID to its localized text string. There are times where you may need to manually call the localizer.
+
+##### Using the SDK to manually localize text
+
+You can also localize content by using [session.gettext() method](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#gettext) which returns a localized string using the session's preferred locale. This same method also supports template strings, where placeholders are replaced with the other arguments passed to the method. E.g:
+
+````JavaScript
+// bot/locale/en/checkout.json
+{
+    "final_price": "The final price is $%d (including delivery). Pay securely using our payment provider.",
+}
+
+// bot/dialogs/checout.js#L37
+var messageText = session.gettext('final_price', order.selection.price);
+var card = new builder.HeroCard(session)
+    .text(messageText);
+````
 
 ### More Information
 
@@ -547,6 +648,8 @@ To get more information about how to get started in Bot Builder for Node review 
 * [Adding Dialogs and Memory](https://docs.botframework.com/en-us/node/builder/guides/core-concepts/#adding-dialogs-and-memory)
 * [Collecting Input](https://docs.botframework.com/en-us/node/builder/guides/core-concepts/#collecting-input)
 * [Attachments, Cards and Actions](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html)
+* [Bot Libraries](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library)
+* [Localization](https://docs.botframework.com/en-us/node/builder/chat/localization/#navtitle)
 * [Custom Channel Capabilities](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html)
 * [LUIS](https://docs.botframework.com/en-us/node/builder/guides/understanding-natural-language/)
 
@@ -565,6 +668,7 @@ To get more information about how to get started in Bot Builder for Node review 
 > - GroupMe
 > 
 > They are also supported, with some limitations, in the following channel:
+> - Microsoft Teams (Receipt card not supported)
 > - Email
 > 
 > On the other hand, they are not supported and the sample won't work as expected in the following channels:

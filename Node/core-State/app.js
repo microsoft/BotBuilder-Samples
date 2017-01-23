@@ -12,10 +12,7 @@ var connector = new builder.ChatConnector({
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 
-// Create Bot with `persistConversationData` flag 
-var bot = new builder.UniversalBot(connector, {
-    persistConversationData: true
-});
+// Listen for messages
 server.post('/api/messages', connector.listen());
 
 var HelpMessage = '\n * If you want to know which city I\'m using for my searches type \'current city\'. \n * Want to change the current city? Type \'change city to cityName\'. \n * Want to change it just for your searches? Type \'change my city to cityName\'';
@@ -23,10 +20,10 @@ var UserNameKey = 'UserName';
 var UserWelcomedKey = 'UserWelcomed';
 var CityKey = 'City';
 
-// Bot dialogs
-bot.dialog('/', function (session) {
+// Setup bot with default dialog
+var bot = new builder.UniversalBot(connector, function (session) {
 
-    // initialize default city
+    // initialize with default city
     if (!session.conversationData[CityKey]) {
         session.conversationData[CityKey] = 'Seattle';
     }
@@ -34,15 +31,19 @@ bot.dialog('/', function (session) {
     var defaultCity = session.conversationData[CityKey];
     session.send('Welcome to the Search City bot. I\'m currently configured to search for things in %s', defaultCity);
 
-    session.beginDialog('/search');
+    session.beginDialog('search');
 });
 
-bot.dialog('/search', new builder.IntentDialog()
+// Enable Conversation Data persistence
+bot.set('persistConversationData', true);
+
+// Main dialog
+bot.dialog('search', new builder.IntentDialog()
     .onBegin(function (session, args, next) {
         // is user's name set? 
         var userName = session.userData[UserNameKey];
         if (!userName) {
-            session.beginDialog('/askUserName');
+            session.beginDialog('greet');
             return;
         }
 
@@ -53,13 +54,13 @@ bot.dialog('/search', new builder.IntentDialog()
         }
 
         next();
-        
+
     }).matches(/^current city/i, function (session) {
         // print city settings
         var userName = session.userData[UserNameKey];
         var defaultCity = session.conversationData[CityKey];
-        var userCity = session.privateConversationData[CityKey]
-        if (!!userCity) {
+        var userCity = session.privateConversationData[CityKey];
+        if (userCity) {
             session.send(
                 '%s, you have overridden the city. Your searches are for things in %s. The default conversation city is %s.',
                 userName, userCity, defaultCity);
@@ -99,13 +100,14 @@ bot.dialog('/search', new builder.IntentDialog()
         session.send('https://www.bing.com/search?q=%s', encodeURIComponent(messageText + ' in ' + city));
     }));
 
-bot.dialog('/askUserName', new builder.SimpleDialog(function (session, results) {
+// Greet dialog
+bot.dialog('greet', new builder.SimpleDialog(function (session, results) {
     if (results && results.response) {
         session.userData[UserNameKey] = results.response;
         session.privateConversationData[UserWelcomedKey] = true;
-        session.send('Welcome %s! %s', results.response, HelpMessage)
+        session.send('Welcome %s! %s', results.response, HelpMessage);
         //  end the current dialog and replace it with  '/search' dialog
-        session.replaceDialog('/search');
+        session.replaceDialog('search');
         return;
     }
 

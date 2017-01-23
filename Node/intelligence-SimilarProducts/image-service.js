@@ -3,14 +3,14 @@
 // https://msdn.microsoft.com/en-us/library/dn760791.aspx
 const request = require('request').defaults({ encoding: null });
 
-const BING_API_URL = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?modulesRequested=SimilarProducts&mkt=en-us&form=BCSPRD";
+const BING_API_URL = 'https://api.cognitive.microsoft.com/bing/v5.0/images/search?modulesRequested=SimilarProducts&mkt=en-us&form=BCSPRD';
 
 const BING_SEARCH_API_KEY = process.env.BING_SEARCH_API_KEY;
 
 /** 
  *  Gets the similar products of the image from an image stream
  * @param {stream} stream The stream to an image.
- * @return (Promise) Promise with visuallySimilarProducts array if succeeded, error otherwise
+ * @return {Promise} Promise with visuallySimilarProducts array if succeeded, error otherwise
  */
 exports.getSimilarProductsFromStream = stream => {
     return new Promise(
@@ -22,7 +22,7 @@ exports.getSimilarProductsFromStream = stream => {
                     file: stream
                 },
                 headers: {
-                    "Ocp-Apim-Subscription-Key": BING_SEARCH_API_KEY
+                    'Ocp-Apim-Subscription-Key': BING_SEARCH_API_KEY
                 }
             };
 
@@ -30,7 +30,7 @@ exports.getSimilarProductsFromStream = stream => {
                 if (error) {
                     reject(error);
                 }
-                else if (response.statusCode != 200) {
+                else if (response.statusCode !== 200) {
                     reject(body);
                 }
                 else {
@@ -39,20 +39,20 @@ exports.getSimilarProductsFromStream = stream => {
             });
         }
     );
-}
+};
 
 /** 
  * Gets the similar products of the image from an image URL
  * @param {string} url The URL to an image.
- * @return (Promise) Promise with visuallySimilarProducts array if succeeded, error otherwise
+ * @return {Promise} Promise with visuallySimilarProducts array if succeeded, error otherwise
  */
 exports.getSimilarProductsFromUrl = url => {
     return new Promise(
         (resolve, reject) => {
             const requestData = {
-                url: BING_API_URL + "&imgurl=" + url,
+                url: BING_API_URL + '&imgurl=' + url,
                 headers: {
-                    "Ocp-Apim-Subscription-Key": BING_SEARCH_API_KEY
+                    'Ocp-Apim-Subscription-Key': BING_SEARCH_API_KEY
                 },
                 json: true
             };
@@ -61,7 +61,7 @@ exports.getSimilarProductsFromUrl = url => {
                 if (error) {
                     reject(error);
                 }
-                else if (response.statusCode != 200) {
+                else if (response.statusCode !== 200) {
                     reject(body);
                 }
                 else {
@@ -70,4 +70,4 @@ exports.getSimilarProductsFromUrl = url => {
             });
         }
     );
-}
+};

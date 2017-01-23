@@ -1,36 +1,36 @@
 var util = require('util');
 var builder = require('botbuilder');
 
-const library = new builder.Library('details');
+const lib = new builder.Library('details');
 
 // Recipient & Sender details
-library.dialog('/', [
+lib.dialog('/', [
     function (session) {
-        builder.Prompts.text(session, 'What\'s the recipient\'s first name?');
+        builder.Prompts.text(session, 'ask_recipient_first_name');
     },
     function (session, args) {
         session.dialogData.recipientFirstName = args.response;
-        builder.Prompts.text(session, 'What\'s the recipient\'s last name?');
+        builder.Prompts.text(session, 'ask_recipient_last_name');
     },
     function (session, args) {
         session.dialogData.recipientLastName = args.response;
-        session.beginDialog('validators:/phonenumber', {
-            prompt: 'What\'s the recipient\'s phone number?',
-            retryPrompt: 'Oops, that doesn\'t look like a valid number. Try again.',
+        session.beginDialog('validators:phonenumber', {
+            prompt: session.gettext('ask_recipient_phone_number'),
+            retryPrompt: session.gettext('invalid_phone_number'),
             maxRetries: Number.MAX_VALUE
         });
     },
     function (session, args) {
         session.dialogData.recipientPhoneNumber = args.response;
-        session.beginDialog('validators:/notes', {
-            prompt: 'What do you want the note to say? (in 200 characters)',
-            retryPrompt: 'Oops, the note is max 200 characters. Try again.',
+        session.beginDialog('validators:notes', {
+            prompt: session.gettext('ask_note'),
+            retryPrompt: session.gettext('invalid_note'),
             maxRetries: Number.MAX_VALUE
         });
     },
     function (session, args) {
         session.dialogData.note = args.response;
-        session.beginDialog('/sender');
+        session.beginDialog('sender');
     },
     function (session, args) {
         session.dialogData.sender = args.sender;
@@ -49,24 +49,27 @@ library.dialog('/', [
 
 // Sender details
 const UseSavedInfoChoices = {
-    Yes: 'Yes',
-    No: 'Edit'
+    Yes: 'yes',
+    No: 'edit'
 };
 
-library.dialog('/sender', [
+lib.dialog('sender', [
     function (session, args, next) {
         var sender = session.userData.sender;
-        if (!!sender) {
+        if (sender) {
             // sender data previously saved
-            var promptMessage = util.format('Would you like to use this email %s and this phone number \'%s\' info?', sender.email, sender.phoneNumber);
-            builder.Prompts.choice(session, promptMessage, [UseSavedInfoChoices.Yes, UseSavedInfoChoices.No]);
+            var promptMessage = session.gettext('use_this_email_and_phone_number', sender.email, sender.phoneNumber);
+            builder.Prompts.choice(session, promptMessage, [
+                session.gettext(UseSavedInfoChoices.Yes),
+                session.gettext(UseSavedInfoChoices.No)
+            ]);
         } else {
             // no data
             next();
         }
     },
     function (session, args, next) {
-        if (args.response && args.response.entity === UseSavedInfoChoices.Yes && session.userData.sender) {
+        if (args.response && args.response.entity === session.gettext(UseSavedInfoChoices.Yes) && session.userData.sender) {
             // Use previously saved data, store it in dialogData
             // Next steps will skip if present
             session.dialogData.useSaved = true;
@@ -79,9 +82,9 @@ library.dialog('/sender', [
         if (session.dialogData.useSaved) {
             return next();
         }
-        session.beginDialog('validators:/email', {
-            prompt: 'What\'s your email?',
-            retryPrompt: 'Something is wrong with that email address. Please try again.',
+        session.beginDialog('validators:email', {
+            prompt: session.gettext('ask_email'),
+            retryPrompt: session.gettext('invalid_email'),
             maxRetries: Number.MAX_VALUE
         });
     },
@@ -90,9 +93,9 @@ library.dialog('/sender', [
             return next();
         }
         session.dialogData.email = args.response;
-        session.beginDialog('validators:/phonenumber', {
-            prompt: 'What\'s your phone number?',
-            retryPrompt: 'Oops, that doesn\'t look like a valid number. Try again.',
+        session.beginDialog('validators:phonenumber', {
+            prompt: session.gettext('ask_phone_number'),
+            retryPrompt: session.gettext('invalid_phone_number'),
             maxRetries: Number.MAX_VALUE
         });
     },
@@ -101,7 +104,7 @@ library.dialog('/sender', [
             return next();
         }
         session.dialogData.phoneNumber = args.response;
-        builder.Prompts.confirm(session, 'Would you like to save your info?');
+        builder.Prompts.confirm(session, 'ask_save_info');
     },
     function (session, args) {
         var sender = {
@@ -120,4 +123,7 @@ library.dialog('/sender', [
     }
 ]);
 
-module.exports = library;
+// Export createLibrary() function
+module.exports.createLibrary = function () {
+    return lib.clone();
+};

@@ -2,16 +2,28 @@
   "name": "botbuilder-sample-getconversationmembers",
   "version": "1.0.0",
   "description": "Bot Builder Sample - Get Conversation Members",
-  "main": "index.js",
   "scripts": {
     "start": "node app.js"
   },
-  "author": "",
+  "author": "Microsoft Corp.",
   "license": "MIT",
+  "keywords": [
+    "botbuilder",
+    "bots",
+    "chatbots",
+    "botbuilder-samples"
+  ],
+  "bugs": {
+    "url": "https://github.com/Microsoft/BotBuilder-Samples/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
+  },
   "dependencies": {
-    "bluebird": "^3.4.1",
-    "botbuilder": "^3.2.3",
-    "restify": "^4.1.1",
-    "swagger-client": "^2.1.18"
+    "bluebird": "^3.4.7",
+    "botbuilder": "^3.5.1",
+    "restify": "^4.3.0",
+    "swagger-client": "^2.1.26"
   }
 }
