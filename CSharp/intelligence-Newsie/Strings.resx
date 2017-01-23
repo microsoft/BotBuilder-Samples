@@ -129,14 +129,8 @@
   <data name="GreetOnDemand" xml:space="preserve">
     <value>Hi! What would you like to read about? You can either pick a category below or just type the topic. I'll do my best to fetch the latest and the most important stories from across the web, powered by Bing News.</value>
   </data>
-  <data name="GreetWithHiMessage" xml:space="preserve">
-    <value>Hi! I'm Newsie. I'm here to super-charge the way you read the daily news by generating on-demand smart summaries of any article you're interested in.</value>
-  </data>
   <data name="NewsCategoryTypeMessage" xml:space="preserve">
     <value>I'll pull in some news about {0} category!</value>
-  </data>
-  <data name="NewsSearchErrorMessage" xml:space="preserve">
-    <value>Hmm... I'm having trouble finding news for this term. Rephrase your message and try again.</value>
   </data>
   <data name="NewsTopicTypeMessage" xml:space="preserve">
     <value>Here you go.</value>
@@ -147,14 +141,14 @@
   <data name="PluralMinAgo" xml:space="preserve">
     <value>mins ago</value>
   </data>
+  <data name="ReadSummary" xml:space="preserve">
+    <value>Read summary</value>
+  </data>
   <data name="SingleHourAgo" xml:space="preserve">
     <value>hour ago</value>
   </data>
   <data name="SingleMinAgo" xml:space="preserve">
     <value>min ago</value>
-  </data>
-  <data name="StartGreetingMessage" xml:space="preserve">
-    <value>Say "Hi" if you would like to get statred.</value>
   </data>
   <data name="SummaryErrorMessage" xml:space="preserve">
     <value>Hmm, I'm sorry. I could not summarize the article.</value>
@@ -164,5 +158,8 @@
   </data>
   <data name="SummaryWaitMessage" xml:space="preserve">
     <value>Hold on! I'll be back in a jiffy!</value>
+  </data>
+  <data name="ViewOnWeb" xml:space="preserve">
+    <value>View on web</value>
   </data>
 </root>

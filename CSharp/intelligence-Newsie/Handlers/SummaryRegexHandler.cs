@@ -28,10 +28,10 @@ namespace Newsie.Handlers
 
         public async Task Respond(IMessageActivity activity, Match result)
         {
-            string articleUrl = TryParseSummaryUrl(activity.Text);
-
-            if (!string.IsNullOrEmpty(articleUrl))
+            if (result != null && result.Groups.Count == 3 && !string.IsNullOrEmpty(result.Groups[2].Value))
             {
+                string articleUrl = TryParseSummaryUrl(result.Groups[2].Value);
+
                 await this.botToUser.PostAsync(string.Format(Strings.SummaryWaitMessage));
                 
                 Value newsResult;
@@ -59,15 +59,11 @@ namespace Newsie.Handlers
 
                 if (bingSummary?.Data != null && bingSummary.Data.Length != 0)
                 {
-                    var newsSummaryMessage = this.botToUser.MakeMessage();
-
-                    newsSummaryMessage.Attachments.Add(CardGenerator.GetHeroCard(Strings.SummaryString));
-
                     await this.botToUser.PostAsync(Strings.SummaryString);
 
                     foreach (var t in bingSummary.Data)
                     {
-                        newsSummaryMessage = this.botToUser.MakeMessage();
+                        var newsSummaryMessage = this.botToUser.MakeMessage();
 
                         newsSummaryMessage.Attachments.Add(CardGenerator.GetHeroCard(text: t.Text));
 
@@ -88,7 +84,7 @@ namespace Newsie.Handlers
         private static string TryParseSummaryUrl(string text)
         {
             Uri uriResult;
-            bool result = Uri.TryCreate(text.Substring("summary".Length), UriKind.Absolute, out uriResult)
+            bool result = Uri.TryCreate(text, UriKind.Absolute, out uriResult)
                 && uriResult.Scheme == Uri.UriSchemeHttp;
 
             if (result && uriResult.IsAbsoluteUri)

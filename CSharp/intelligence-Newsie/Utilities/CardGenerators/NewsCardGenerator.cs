@@ -6,36 +6,37 @@ namespace Newsie.Utilities.CardGenerators
 {
     internal class NewsCardGenerator
     {
-        public static IList<Attachment> GetNewsArticleCard(NewsieNewsResult news, string channelId)
+        public static Attachment GetNewsArticleCard(NewsieNewsResult news, string channelId)
         {
-            var attachments = new List<Attachment>();
+            Attachment attachment;
 
             var name = news.Name;
             var publisher = news.ProviderShortenedName.ToUpper() + " (" + news.DatePublished + ")";
             var image = new CardImage(news.ImageContentUrl);
+            var tap = new CardAction(ActionTypes.OpenUrl, Strings.ViewOnWeb, value: news.Url);
 
-            var tap = new CardAction(ActionTypes.OpenUrl, "View on Web", value: news.Url);
             var actions = new List<CardAction>
             {
-                new CardAction(ActionTypes.ImBack, "Read Summary", value: "summary " + (string.IsNullOrEmpty(news.ShortenedUrl) ? news.Url : news.ShortenedUrl))
+                new CardAction(ActionTypes.ImBack, Strings.ReadSummary, value: "summary " + (string.IsNullOrEmpty(news.ShortenedUrl) ? news.Url : news.ShortenedUrl))
             };
 
             switch (channelId)
             {
                 case "slack":
-                    attachments.Add(CardGenerator.GetThumbNailCard(publisher, name, news.ShortenedDescription, image, actions));
+                    attachment = CardGenerator.GetThumbNailCard(publisher, name, news.ShortenedDescription, image, actions);
                     break;
                 default:
-                    attachments.Add(CardGenerator.GetThumbNailCard(name, publisher, news.ShortenedDescription, image, actions, tap));
+                    attachment = CardGenerator.GetThumbNailCard(name, publisher, news.ShortenedDescription, image, actions, tap);
                     break;
             }
 
-            return attachments;
+            return attachment;
         }
 
         public static Attachment GetNewsArticleHeadlineImageCard(NewsieNewsResult news, string channelId)
         {
             Attachment attachment;
+
             var name = news.Name;
             var publisher = news.ProviderShortenedName.ToUpper() + " (" + news.DatePublished + ")";
             var image = new CardImage(news.ImageContentUrl);

@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using System.Configuration;
 using System.Threading.Tasks;
-using System.Web;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Newsie.Models.Summarize;
+using System.Configuration;
 
 namespace Newsie.Services
 {
@@ -30,7 +29,7 @@ namespace Newsie.Services
         {
             var requestParameters = new Dictionary<string, string>
             {
-                { "url", HttpUtility.UrlEncode(url) }
+                { "url", url }
             };
 
             return await this.apiHandler.GetJsonAsync<BingSummarize>(BingSummarizeEndpoint, requestParameters, Headers);

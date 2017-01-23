@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using Newtonsoft.Json;
 
 namespace Newsie.Services
@@ -35,15 +36,8 @@ namespace Newsie.Services
 
                 foreach (var elem in requestParameters)
                 {
-                    if (!first)
-                    {
-                        requestParams += $"&{elem.Key}={elem.Value}";
-                    }
-                    else
-                    {
-                        first = false;
-                        requestParams += $"{elem.Key}={elem.Value}";
-                    }
+                    requestParams += $"{elem.Key}={HttpUtility.UrlEncode(elem.Value)}" + (first == false ? "&" : string.Empty);
+                    first = false;
                 }
 
                 fullUrl += requestParams;

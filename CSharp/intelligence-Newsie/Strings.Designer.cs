@@ -97,29 +97,11 @@ namespace Newsie {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hi! I&apos;m Newsie. I&apos;m here to super-charge the way you read the daily news by generating on-demand smart summaries of any article you&apos;re interested in..
-        /// </summary>
-        internal static string GreetWithHiMessage {
-            get {
-                return ResourceManager.GetString("GreetWithHiMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to I&apos;ll pull in some news about {0} category!.
         /// </summary>
         internal static string NewsCategoryTypeMessage {
             get {
                 return ResourceManager.GetString("NewsCategoryTypeMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Hmm... I&apos;m having trouble finding news for this term. Rephrase your message and try again..
-        /// </summary>
-        internal static string NewsSearchErrorMessage {
-            get {
-                return ResourceManager.GetString("NewsSearchErrorMessage", resourceCulture);
             }
         }
         
@@ -151,6 +133,15 @@ namespace Newsie {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Read summary.
+        /// </summary>
+        internal static string ReadSummary {
+            get {
+                return ResourceManager.GetString("ReadSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to hour ago.
         /// </summary>
         internal static string SingleHourAgo {
@@ -165,15 +156,6 @@ namespace Newsie {
         internal static string SingleMinAgo {
             get {
                 return ResourceManager.GetString("SingleMinAgo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Say &quot;Hi&quot; if you would like to get statred..
-        /// </summary>
-        internal static string StartGreetingMessage {
-            get {
-                return ResourceManager.GetString("StartGreetingMessage", resourceCulture);
             }
         }
         
@@ -201,6 +183,15 @@ namespace Newsie {
         internal static string SummaryWaitMessage {
             get {
                 return ResourceManager.GetString("SummaryWaitMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View on web.
+        /// </summary>
+        internal static string ViewOnWeb {
+            get {
+                return ResourceManager.GetString("ViewOnWeb", resourceCulture);
             }
         }
     }

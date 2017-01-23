@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,20 +52,6 @@ namespace Newsie.Controllers
                 }
                 else if (activity.Type == ActivityTypes.ConversationUpdate)
                 {
-                    if (activity.MembersAdded.Any(m => m.Id == activity.Recipient.Id))
-                    {
-                        using (var beginLifetimeScope = DialogModule.BeginLifetimeScope(this.scope, activity))
-                        using (var client = beginLifetimeScope.Resolve<IConnectorClient>())
-                        {
-                            var response = activity.CreateReply();
-
-                            response.Text = string.Format(Strings.GreetWithHiMessage);
-                            await client.Conversations.ReplyToActivityAsync(response);
-
-                            response.Text = string.Format(Strings.StartGreetingMessage);
-                            await client.Conversations.ReplyToActivityAsync(response);
-                        }
-                    }
                 }
                 else if (activity.Type == ActivityTypes.ContactRelationUpdate)
                 {

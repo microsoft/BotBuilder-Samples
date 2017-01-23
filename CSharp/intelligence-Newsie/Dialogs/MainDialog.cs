@@ -8,7 +8,6 @@ using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Builder.Scorables;
 using Microsoft.Bot.Connector;
 using Newsie.Handlers;
-using Newsie.Utilities;
 
 namespace Newsie.Dialogs
 {
@@ -38,7 +37,7 @@ namespace Newsie.Dialogs
         /// <param name="activity">Message activity containing the message information such as text</param>
         /// <param name="result">The regex Match with the Regex pattern</param>
         /// <returns>Async Task</returns>
-        [RegexPattern("^summary.*")]
+        [RegexPattern("(^summary )(.*)")]
         [ScorableGroup(0)]
         public async Task SummarizationRegexHandlerAsync(IDialogContext context, IMessageActivity activity, Match result)
         {
