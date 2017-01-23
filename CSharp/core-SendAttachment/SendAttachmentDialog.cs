@@ -15,7 +15,8 @@
         private const string ShowUploadedAttachment = "(2) Show uploaded attachment";
         private const string ShowInternetAttachment = "(3) Show Internet attachment";
 
-        private readonly IDictionary<string, string> options = new Dictionary<string, string> {
+        private readonly IDictionary<string, string> options = new Dictionary<string, string>
+        {
             { "1", ShowInlineAttachment },
             { "2", ShowUploadedAttachment },
             { "3", ShowInternetAttachment }
@@ -25,6 +26,7 @@
         {
             context.Wait(this.MessageReceivedAsync);
         }
+
         public async virtual Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
@@ -57,55 +59,45 @@
             var message = await argument;
 
             var replyMessage = context.MakeMessage();
-    
-            var attachmentInfo = default(KeyValuePair<string, string>);
-            switch(message)
+
+            Attachment attachment = null;
+
+            switch (message)
             {
                 case "1":
-                    {
-                        attachmentInfo = this.GetInlineAttachmentInfo();
-                        break;
-                    }
+                    attachment = GetInlineAttachment();
+                    break;
                 case "2":
-                    {
-                        attachmentInfo = await this.GetUploadedAttachmentInfoAsync(replyMessage.ServiceUrl, replyMessage.Conversation.Id);
-                        break;
-                    }
+                    attachment = await GetUploadedAttachmentAsync(replyMessage.ServiceUrl, replyMessage.Conversation.Id);
+                    break;
                 case "3":
-                    {
-                        attachmentInfo = this.GetInternetAttachmentInfo();
-                        break;
-                    }
+                    attachment = GetInternetAttachment();
+                    break;
             }
 
             // The Attachments property allows you to send and receive images and other content
-            replyMessage.Attachments = new List<Attachment>()
-            {
-                new Attachment()
-                {
-                    ContentUrl = attachmentInfo.Value,
-                    ContentType = "image/png",
-                    Name = attachmentInfo.Key
-                }
-            };
+            replyMessage.Attachments = new List<Attachment> { attachment };
 
             await context.PostAsync(replyMessage);
 
             await this.DisplayOptionsAsync(context, null);
         }
 
-        private KeyValuePair<string, string> GetInlineAttachmentInfo()
+        private static Attachment GetInlineAttachment()
         {
             var imagePath = HttpContext.Current.Server.MapPath("~/images/small-image.png");
 
             var imageData = Convert.ToBase64String(File.ReadAllBytes(imagePath));
 
-            return new KeyValuePair<string, string>(
-                "small-image.png",
-                $"data:image/png;base64,{imageData}");
+            return new Attachment
+            {
+                Name = "small-image.png",
+                ContentType = "image/png",
+                ContentUrl = $"data:image/png;base64,{imageData}"
+            };
         }
 
-        private async Task<KeyValuePair<string, string>> GetUploadedAttachmentInfoAsync(string serviceUrl, string conversationId)
+        private static async Task<Attachment> GetUploadedAttachmentAsync(string serviceUrl, string conversationId)
         {
             var imagePath = HttpContext.Current.Server.MapPath("~/images/big-image.png");
 
@@ -123,21 +115,27 @@
 
                 var attachmentUri = attachments.GetAttachmentUri(response.Id);
 
-                // Typo bug in current assembly version '.Replace("{vieWId}", Uri.EscapeDataString(viewId))'
-                // TODO: remove this line when replacement Bug is fixed on future releases
+                // Typo bug in current assembly version '.Replace("{vieWId}", Uri.EscapeDataString(viewId))'.
+                // TODO: remove this line when replacement Bug is fixed on future releases. PR: https://github.com/Microsoft/BotBuilder/pull/2079
                 attachmentUri = attachmentUri.Replace("{viewId}", "original");
 
-                return new KeyValuePair<string, string>(
-                    "big-image.png",
-                    attachmentUri);
+                return new Attachment
+                {
+                    Name = "big-image.png",
+                    ContentType = "image/png",
+                    ContentUrl = attachmentUri
+                };
             }
         }
 
-        private KeyValuePair<string, string> GetInternetAttachmentInfo()
+        private static Attachment GetInternetAttachment()
         {
-            return new KeyValuePair<string, string>(
-                "BotFrameworkOverview.png", 
-                "https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png");
+            return new Attachment
+            {
+                Name = "BotFrameworkOverview.png",
+                ContentType = "image/png",
+                ContentUrl = "https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png"
+            };
         }
     }
 }
