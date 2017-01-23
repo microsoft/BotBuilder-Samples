@@ -62,7 +62,7 @@ You'll need to encode file's content, then set the attachment's `contentUrl` as 
 data:image/png;base64,iVBORw0KGgo…
 ````
 
-Checkout [GetInlineAttachmentInfo](SendAttachmentDialog.cs#L86-L98) to see how to convert a file read from filesystem and return the required information to create the message attachment in the key method shown above (ProcessSelectedOptionAsync).
+Checkout [GetInlineAttachmentInfo](SendAttachmentDialog.cs#L86-L98) to see how to convert a file read from filesystem and return the attachment instance to add to the attachments collection in the key method shown above (ProcessSelectedOptionAsync).
 
 ````C#
 private static Attachment GetInlineAttachment()
@@ -84,7 +84,7 @@ private static Attachment GetInlineAttachment()
 
 This option should be used when the file to send is less than 256Kb in size when encoded to base64. A good scenario are images generated based on user input.
 
-Checkout [GetUploadedAttachmentInfoAsync](SendAttachmentDialog.cs#L100-L129) to see how to get the required information to create the message attachment in the key method shown above (ProcessSelectedOptionAsync).
+Checkout [GetUploadedAttachmentInfoAsync](SendAttachmentDialog.cs#L100-L129) to see how to get the required information to create the attachment instance to add to the attachments collection in the key method shown above (ProcessSelectedOptionAsync).
 
 It does require a few more steps than the other methods, but leverages the channels store to store the file:
 
@@ -132,7 +132,7 @@ private static async Task<Attachment> GetUploadedAttachmentAsync(string serviceU
 This option is the simplest but requires the image to be already on the Internet and be publicly accesible.
 You could also provide an Url pointing to your own site.
 
-Checkout [GetInternetAttachmentInfo](SendAttachmentDialog.cs#L131-L139) to see how to get the required information to create the message attachment in the key method shown above (ProcessSelectedOptionAsync).
+Checkout [GetInternetAttachmentInfo](SendAttachmentDialog.cs#L131-L139) to see how to get the required information to create the attachment instance to add to the attachments collection in the key method shown above (ProcessSelectedOptionAsync).
 
 ````C#
 private static Attachment GetInternetAttachment()
