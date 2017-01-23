@@ -13,7 +13,7 @@
     {
         private const string ShowInlineAttachment = "(1) Show inline attachment";
         private const string ShowUploadedAttachment = "(2) Show uploaded attachment";
-        private const string ShowInternetAttachment = "(3) Show internet attachment";
+        private const string ShowInternetAttachment = "(3) Show Internet attachment";
 
         private readonly IDictionary<string, string> options = new Dictionary<string, string> {
             { "1", ShowInlineAttachment },
