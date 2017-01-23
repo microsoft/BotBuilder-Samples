@@ -15,7 +15,7 @@ The minimum prerequisites to run this sample are:
 ### Code Highlights
 
 Many messaging channels provide the ability to attach richer objects. To pass a simple media attachment (image/audio/video/file) to an activity you add a simple attachment data structure with a link to the content, setting the ContentType, ContentUrl and Name properties.
-The Attachments property is an array of Attachment objects which allow you to send and receive images and other content. Check out the key code located in the [SendAttachmentDialog](SendAttachmentDialog.cs#L82-L90) class where the `replyMessage.Attachments` property of the message activity is populated with an image attachment.
+The Attachments property is an array of Attachment objects which allow you to send and receive images and other content. Check out the key code located in the [SendAttachmentDialog](SendAttachmentDialog.cs#L57-L84) class where the `replyMessage.Attachments` property of the message activity is populated with an image attachment.
 
 ````C#
 public async Task ProcessSelectedOptionAsync(IDialogContext context, IAwaitable<string> argument)
@@ -24,36 +24,23 @@ public async Task ProcessSelectedOptionAsync(IDialogContext context, IAwaitable<
 
     var replyMessage = context.MakeMessage();
 
-    var attachmentInfo = default(KeyValuePair<string, string>);
-    switch(message)
+    Attachment attachment = null;
+
+    switch (message)
     {
         case "1":
-            {
-                attachmentInfo = this.GetInlineAttachmentInfo();
-                break;
-            }
+            attachment = GetInlineAttachment();
+            break;
         case "2":
-            {
-                attachmentInfo = await this.GetUploadedAttachmentInfoAsync(replyMessage.ServiceUrl, replyMessage.Conversation.Id);
-                break;
-            }
+            attachment = await GetUploadedAttachmentAsync(replyMessage.ServiceUrl, replyMessage.Conversation.Id);
+            break;
         case "3":
-            {
-                attachmentInfo = this.GetInternetAttachmentInfo();
-                break;
-            }
+            attachment = GetInternetAttachment();
+            break;
     }
 
     // The Attachments property allows you to send and receive images and other content
-    replyMessage.Attachments = new List<Attachment>()
-    {
-        new Attachment()
-        {
-            ContentUrl = attachmentInfo.Value,
-            ContentType = "image/png",
-            Name = attachmentInfo.Key
-        }
-    };
+    replyMessage.Attachments = new List<Attachment> { attachment };
 
     await context.PostAsync(replyMessage);
 
@@ -75,18 +62,21 @@ You'll need to encode file's content, then set the attachment's `contentUrl` as 
 data:image/png;base64,iVBORw0KGgo…
 ````
 
-Checkout [GetInlineAttachmentInfo](SendAttachmentDialog.cs#L97-L106) to see how to convert a file read from filesystem and return the required information to create the message attachment in the key method shown above (ProcessSelectedOptionAsync).
+Checkout [GetInlineAttachmentInfo](SendAttachmentDialog.cs#L86-L98) to see how to convert a file read from filesystem and return the required information to create the message attachment in the key method shown above (ProcessSelectedOptionAsync).
 
 ````C#
-private KeyValuePair<string, string> GetInlineAttachmentInfo()
+private static Attachment GetInlineAttachment()
 {
     var imagePath = HttpContext.Current.Server.MapPath("~/images/small-image.png");
 
     var imageData = Convert.ToBase64String(File.ReadAllBytes(imagePath));
 
-    return new KeyValuePair<string, string>(
-        "small-image.png",
-        $"data:image/png;base64,{imageData}");
+    return new Attachment
+    {
+        Name = "small-image.png",
+        ContentType = "image/png",
+        ContentUrl = $"data:image/png;base64,{imageData}"
+    };
 }
 ````
 
@@ -94,18 +84,18 @@ private KeyValuePair<string, string> GetInlineAttachmentInfo()
 
 This option should be used when the file to send is less than 256Kb in size when encoded to base64. A good scenario are images generated based on user input.
 
-Checkout [GetUploadedAttachmentInfoAsync](SendAttachmentDialog.cs#L108-L134) to see how to get the required information to create the message attachment in the key method shown above (ProcessSelectedOptionAsync).
+Checkout [GetUploadedAttachmentInfoAsync](SendAttachmentDialog.cs#L100-L129) to see how to get the required information to create the message attachment in the key method shown above (ProcessSelectedOptionAsync).
 
 It does require a few more steps than the other methods, but leverages the channels store to store the file:
 
-0. Get an instance to the Connector API which will handle communication with channel storage ([relevant code](SendAttachmentDialog.cs#L112))
-1. Create a new attachments set providing the Connector API instance as argument ([relevant code](SendAttachmentDialog.cs#L114))
-2. Read (or generate) the content file and store it in a Byte array to use it as argument within the AttachmentData members ([relevant code](SendAttachmentDialog.cs#L120))
-3. Perform the attachment upload to the channel ([relevant code](SendAttachmentDialog.cs#L115))
-4. Get the attachment Uri (using the uploaded Id) where the channel stored the uploaded image ([relevant code](SendAttachmentDialog.cs#L124))
+0. Get an instance to the Connector API which will handle communication with channel storage ([relevant code](SendAttachmentDialog.cs#L104))
+1. Create a new attachments set providing the Connector API instance as argument ([relevant code](SendAttachmentDialog.cs#L106))
+2. Read (or generate) the content file and store it in a Byte array to use it as argument within the AttachmentData members ([relevant code](SendAttachmentDialog.cs#L112))
+3. Perform the attachment upload to the channel ([relevant code](SendAttachmentDialog.cs#L107))
+4. Get the attachment Uri (using the uploaded Id) where the channel stored the uploaded image ([relevant code](SendAttachmentDialog.cs#L116))
 
 ````C#
-private async Task<KeyValuePair<string, string>> GetUploadedAttachmentInfoAsync(string serviceUrl, string conversationId)
+private static async Task<Attachment> GetUploadedAttachmentAsync(string serviceUrl, string conversationId)
 {
     var imagePath = HttpContext.Current.Server.MapPath("~/images/big-image.png");
 
@@ -123,13 +113,16 @@ private async Task<KeyValuePair<string, string>> GetUploadedAttachmentInfoAsync(
 
         var attachmentUri = attachments.GetAttachmentUri(response.Id);
 
-        // Typo bug in current assembly version '.Replace("{vieWId}", Uri.EscapeDataString(viewId))'
-        // TODO: remove this line when replacement Bug is fixed on future releases
+        // Typo bug in current assembly version '.Replace("{vieWId}", Uri.EscapeDataString(viewId))'.
+        // TODO: remove this line when replacement Bug is fixed on future releases. PR: https://github.com/Microsoft/BotBuilder/pull/2079
         attachmentUri = attachmentUri.Replace("{viewId}", "original");
 
-        return new KeyValuePair<string, string>(
-            "big-image.png",
-            attachmentUri);
+        return new Attachment
+        {
+            Name = "big-image.png",
+            ContentType = "image/png",
+            ContentUrl = attachmentUri
+        };
     }
 }
 ````
@@ -139,14 +132,17 @@ private async Task<KeyValuePair<string, string>> GetUploadedAttachmentInfoAsync(
 This option is the simplest but requires the image to be already on the Internet and be publicly accesible.
 You could also provide an Url pointing to your own site.
 
-Checkout [GetInternetAttachmentInfo](SendAttachmentDialog.cs#L136-L141) to see how to get the required information to create the message attachment in the key method shown above (ProcessSelectedOptionAsync).
+Checkout [GetInternetAttachmentInfo](SendAttachmentDialog.cs#L131-L139) to see how to get the required information to create the message attachment in the key method shown above (ProcessSelectedOptionAsync).
 
 ````C#
-private KeyValuePair<string, string> GetInternetAttachmentInfo()
+private static Attachment GetInternetAttachment()
 {
-    return new KeyValuePair<string, string>(
-        "BotFrameworkOverview.png", 
-        "https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png");
+    return new Attachment
+    {
+        Name = "BotFrameworkOverview.png",
+        ContentType = "image/png",
+        ContentUrl = "https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png"
+    };
 }
 ````
 
