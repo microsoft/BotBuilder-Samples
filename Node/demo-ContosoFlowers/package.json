@@ -24,7 +24,7 @@
     "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
     "botbuilder": "^3.5.1",
-    "botbuilder-location": "^1.0.2",
+    "botbuilder-location": "^1.0.3",
     "express": "^4.14.0",
     "geobing": "^0.1.3",
     "lodash": "^4.17.4",
