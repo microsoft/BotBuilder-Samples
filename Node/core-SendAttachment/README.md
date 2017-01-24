@@ -19,34 +19,115 @@ Many messaging channels provide the ability to attach richer objects. Bot Builde
 * **Media and Files**: Basic files can be sent by setting [contentType](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html#contenttype) to the MIME type of the file and then passing a link to the file in [contentUrl](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html#contenturl).
 * **Cards and Keyboards**: A rich set of visual cards and custom keyboards can by setting [contentType](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html#contenttype) to the cards type and then passing the JSON for the card in [content](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html#content). If you use one of the rich card builder classes like [HeroCard](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.herocard.html) the attachment will automatically filled in for you.
 
+As a developer, you have three ways to send the attachment. The attachment can be:
+ - An inline file, by encoding the file as base64 and use it in the contentUrl
+ - A file uploaded to the channel's store via the Connection API, then using the attachmentId to create the contentUrl
+ - An externally hosted file, by just specifying the Url of the file (it should be publicly accessible)
+
+#### Attaching the image inline
+
+It consists on sending the file contents, encoded in base64, along with the message payload. This option works for small files, like icon size images. 
+You'll need to encode file's content, then set the attachment's `contentUrl` as follows:
+
+````
+data:image/png;base64,iVBORw0KGgo…
+````
+
+Checkout [app.js](./app.js#L64-L73) to see how to convert a file read using `fs.readFile()` and then create the message attachment.
+
 ````JavaScript
-function (session) {
-    
-    // Create and send attachment
-    var attachment = {
-        contentUrl: "https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png",
-        contentType: "image/png",
-        name: "BotFrameworkOverview.png"
-    };
+fs.readFile('./images/small-image.png', (err, data) => {
+    var contentType = 'image/png';
+    var base64 = Buffer.from(data).toString('base64');
 
     var msg = new builder.Message(session)
-        .addAttachment(attachment);
+        .addAttachment({
+            contentUrl: util.format('data:%s;base64,%s', contentType, base64),
+            contentType: contentType,
+            name: 'BotFrameworkLogo.png'
+        });
 
     session.send(msg);
-}
+});
+````
+
+#### Uploading the file via the Connector API
+
+This option should be used when the file to send is less than 256Kb in size when encoded to base64. A good scenario are images generated based on user input.
+It does require a few more steps than the other methods, but leverages the channels store to store the file:
+
+0. Read (or generate) the content file and store it in a Buffer for encoding to base64 ([relevant code](./app.js#L127))
+1. Create a client to the Connector API ([relevant code](./app.js#L9-L14))
+2. Inject the Bot Connector's token into the Connector API client ([relevant code](./app.js#L147))
+3. Set the Connector API client service url to the Connector's ([relevant code](./app.js#L148-L151))
+4. Upload the base64 encoded payload to the conversations/attachments endpoint ([relevant code](./app.js#L153-L163))
+5. Use the returned attachmentId to generate the contentUrl ([relevant code](./app.js#L165-L169))
+
+This sample provides a [helper method](./app.js#L124-L172) you can use that encapsulates most of the previous steps.
+
+````JavaScript
+// read file content and upload
+fs.readFile('./images/big-image.png', (err, data) => {
+    if (err) {
+        return session.send('Oops. Error reading file.');
+    }
+
+    // Upload file data using helper function
+    uploadAttachment(
+        data,
+        'image/png',
+        'BotFrameworkImage.png',
+        connector,
+        connectorApiClient,
+        session.message.address.serviceUrl,
+        session.message.address.conversation.id)
+        .then(attachmentUrl => {
+            // Send Message with Attachment obj using returned Url
+            var msg = new builder.Message(session)
+                .addAttachment({
+                    contentUrl: attachmentUrl,
+                    contentType: 'image/png',
+                    name: 'BotFrameworkLogo.png'
+                });
+
+            session.send(msg);
+        })
+        .catch(err => {
+            console.log('Error uploading file', err);
+            session.send('Oops. Error uploading file. ' + err.message);
+        });
+});
+````
+
+#### Using an externally hosted file
+
+This option is the simplest but requires the image to be already on the Internet and be publicly accesible.
+You could also provide an Url pointing to your own site.
+
+Checkout [app.js](./app.js#L114-L121) to see how to create a message with a single image attachment.
+
+````JavaScript
+var msg = new builder.Message(session)
+    .addAttachment({
+        contentUrl: 'https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png',
+        contentType: 'image/png',
+        name: 'BotFrameworkOverview.png'
+    });
+
+session.send(msg);
 ````
 
 ### Outcome
 
-You will see the following in the Bot Framework Emulator when opening and running the sample solution.
+You will see the following in the Bot Framework Emulator when selecting the inline attachment. See how the image is encoded in the `contentUrl` of the attachment.
 
 ![Sample Outcome](images/outcome-emulator.png)
 
-You will see the following in your Facebook Messenger.
+You will see the following in your Facebook Messenger when selecting to upload the attachment.
 
 ![Sample Outcome](images/outcome-facebook.png)
 
-On the other hand, you will see the following in Skype.
+On the other hand, you will see the following in Skype when selecting an Internet attachment.
 
 ![Sample Outcome](images/outcome-skype.png)
 
@@ -57,3 +138,4 @@ To get more information about how to get started in Bot Builder for Node and Att
 * [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments)
 * [Attachments](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html)
 * [Message.addAttachment method](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#addattachment)
+* [Connector API - UploadAttachment](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_UploadAttachment)

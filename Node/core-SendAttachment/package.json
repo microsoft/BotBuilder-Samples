@@ -21,7 +21,9 @@
     "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
   },
   "dependencies": {
+    "bluebird": "^3.4.7",
     "botbuilder": "^3.5.1",
-    "restify": "^4.3.0"
+    "restify": "^4.3.0",
+    "swagger-client": "^2.1.32"
   }
 }
