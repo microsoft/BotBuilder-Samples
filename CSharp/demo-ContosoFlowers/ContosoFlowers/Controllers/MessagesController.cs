@@ -1,6 +1,7 @@
 ﻿namespace ContosoFlowers
 {
     using System;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -57,11 +58,14 @@
             }
             else if (message.Type == ActivityTypes.ConversationUpdate)
             {
-                var reply = message.CreateReply(Resources.RootDialog_Welcome_Message);
+                if (message.MembersAdded.Any(o => o.Id == message.Recipient.Id))
+                {
+                    var reply = message.CreateReply(Resources.RootDialog_Welcome_Message);
 
-                ConnectorClient connector = new ConnectorClient(new Uri(message.ServiceUrl));
+                    ConnectorClient connector = new ConnectorClient(new Uri(message.ServiceUrl));
 
-                await connector.Conversations.ReplyToActivityAsync(reply);
+                    await connector.Conversations.ReplyToActivityAsync(reply);
+                }
             }
             else if (message.Type == ActivityTypes.ContactRelationUpdate)
             {
