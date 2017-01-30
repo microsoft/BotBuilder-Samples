@@ -22,6 +22,8 @@
   },
   "dependencies": {
     "open": "0.0.5",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1",
     "swagger-client": "^2.1.18"
   }
 }

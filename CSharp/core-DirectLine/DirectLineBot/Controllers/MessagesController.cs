@@ -1,6 +1,7 @@
 ﻿namespace DirectLineBot
 {
     using System;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -39,13 +40,16 @@
             }
             else if (message.Type == ActivityTypes.ConversationUpdate)
             {
-                ConnectorClient client = new ConnectorClient(new Uri(message.ServiceUrl));
+                if (message.MembersAdded.Any(o => o.Id == message.Recipient.Id))
+                {
+                    ConnectorClient client = new ConnectorClient(new Uri(message.ServiceUrl));
 
-                var reply = message.CreateReply();
+                    var reply = message.CreateReply();
 
-                reply.Text = "Welcome to the Bot to showcase the DirectLine API. Send 'Show me a hero card' or 'Send me a BotFramework image' to see how the DirectLine client supports custom channel data. Any other message will be echoed.";
+                    reply.Text = "Welcome to the Bot to showcase the DirectLine API. Send 'Show me a hero card' or 'Send me a BotFramework image' to see how the DirectLine client supports custom channel data. Any other message will be echoed.";
 
-                await client.Conversations.ReplyToActivityAsync(reply);
+                    await client.Conversations.ReplyToActivityAsync(reply);
+                }
             }
             else if (message.Type == ActivityTypes.ContactRelationUpdate)
             {
