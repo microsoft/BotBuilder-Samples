@@ -47,7 +47,7 @@ const LuisModelUrl = process.env.LUIS_MODEL_URL ||
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     .matches('Greeting', [
-        function(session) {
+        (session) => {
             var message = new builder.Message()
                 .attachments([
                     new builder.HeroCard().text(newsieStrings.GreetOnDemand),
@@ -62,6 +62,39 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
                 ]);
 
             session.send(message).endDialog();
+        }
+    ])
+    .matches('News', [
+        (session, args) => {
+            var entityRecognized;
+            var category = newsieUtils.newsCategories.NONE;
+            var promise;
+
+            if ((entityRecognized = builder.EntityRecognizer.findEntity(args.entities, 'NewsCategory')) && (category = newsieUtils.newsCategories.parseNewsCategory(entityRecognized.entity))) {
+                promise = bingNewsService.findNewsByCategory(category.name).then((bingNews) => {
+                    session.send(util.format(newsieStrings.NewsCategoryTypeMessage, category.name.toLowerCase()));
+                    return createNewsMessage(bingNews, category, session.message.address.channelId);
+                });
+            }
+            else if ((entityRecognized = builder.EntityRecognizer.findEntity(args.entities, 'NewsTopic'))) {
+                promise = bingNewsService.findNewsByQuery(entityRecognized.entity).then((bingNews) => {
+                    session.send(newsieStrings.NewsTopicTypeMessage);
+                    return createNewsMessage(bingNews, category, session.message.address.channelId);
+                });
+            }
+            else {
+                promise = bingNewsService.findNewsByQuery(session.message.text).then((bingNews) => {
+                    session.send(newsieStrings.NewsTopicTypeMessage);
+                    return createNewsMessage(bingNews, category, session.message.address.channelId);
+                    
+                });
+            }
+
+            promise.then((message) => {
+                session.send(message).endDialog();
+            }).catch(() => {
+                session.endDialog();
+            });
         }
     ])
     .matches(new RegExp('(^summary )(.*)', 'i'), [
@@ -98,39 +131,6 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
             } else {
                 session.send(newsieStrings.SummaryErrorMessage).endDialog();
             }
-        }
-    ])
-    .matches('News', [
-        (session, args) => {
-            var entityRecognized;
-            var category = newsieUtils.newsCategories.NONE;
-            var promise;
-
-            if ((entityRecognized = builder.EntityRecognizer.findEntity(args.entities, 'NewsCategory')) && (category = newsieUtils.newsCategories.parseNewsCategory(entityRecognized.entity))) {
-                promise = bingNewsService.findNewsByCategory(category.name).then((bingNews) => {
-                    session.send(util.format(newsieStrings.NewsCategoryTypeMessage, category.name.toLowerCase()));
-                    return createNewsMessage(bingNews, category, session.message.address.channelId);
-                });
-            }
-            else if ((entityRecognized = builder.EntityRecognizer.findEntity(args.entities, 'NewsTopic'))) {
-                promise = bingNewsService.findNewsByQuery(entityRecognized.entity).then((bingNews) => {
-                    session.send(newsieStrings.NewsTopicTypeMessage);
-                    return createNewsMessage(bingNews, category, session.message.address.channelId);
-                });
-            }
-            else {
-                promise = bingNewsService.findNewsByQuery(session.message.text).then((bingNews) => {
-                    session.send(newsieStrings.NewsTopicTypeMessage);
-                    return createNewsMessage(bingNews, category, session.message.address.channelId);
-                    
-                });
-            }
-
-            promise.then((message) => {
-                session.send(message).endDialog();
-            }).catch(() => {
-                session.endDialog();
-            });
         }
     ])
     .onDefault((session) => {
