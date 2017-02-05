@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web;
 using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Newsie.Services
@@ -20,7 +19,7 @@ namespace Newsie.Services
         {
             var requestParameters = new Dictionary<string, string>
             {
-                { "url", HttpUtility.UrlEncode(url) }
+                { "url", url }
             };
 
             return await this.apiHandler.GetStringAsync(TinyUrlEndpoint, requestParameters);

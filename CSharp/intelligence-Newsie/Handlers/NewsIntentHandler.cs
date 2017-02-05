@@ -58,7 +58,7 @@ namespace Newsie.Handlers
 
             if (news.provider[0].name.Length > NewsMaxProviderChar)
             {
-                newsieResult.ProviderShortenedName = news.description.Substring(0, NewsMaxProviderChar) + "...";
+                newsieResult.ProviderShortenedName = news.provider[0].name.Substring(0, NewsMaxProviderChar) + "...";
             }
             else
             {
@@ -66,7 +66,7 @@ namespace Newsie.Handlers
             }
 
             // Format date 
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
 
             // If the article is published today, use 'x hours ago' format 
             if (news.datePublished.Year == now.Year && news.datePublished.Month == now.Month &&
@@ -136,12 +136,7 @@ namespace Newsie.Handlers
             for (int i = 0; i < NewsMaxResults; i++)
             {
                 var newsieResult = await this.PrepareNewsieResult(bingNews.value[i]);
-                var attachments = NewsCardGenerator.GetNewsArticleCard(newsieResult, activity.ChannelId);
-
-                foreach (var attachment in attachments)
-                {
-                    reply.Attachments.Add(attachment);
-                }
+                reply.Attachments.Add(NewsCardGenerator.GetNewsArticleCard(newsieResult, activity.ChannelId));
 
                 this.cache.Write(newsieResult.ShortenedUrl, bingNews.value[i]);
             }
@@ -161,9 +156,21 @@ namespace Newsie.Handlers
 
         private async Task<NewsieNewsResult> PrepareNewsieResult(Value news)
         {
+            string url;
+            var myUri = new Uri(news.url);
+
+            if (myUri.Host == "www.bing.com" && myUri.AbsolutePath == "/cr")
+            {
+                url = HttpUtility.ParseQueryString(myUri.Query).Get("r");
+            }
+            else
+            {
+                url = news.url;
+            }
+
             var newsieResult = new NewsieNewsResult
             {
-                ShortenedUrl = await this.urlShorteningService.GetShortenedUrl(news.url)
+                ShortenedUrl = await this.urlShorteningService.GetShortenedUrl(url)
             };
 
             return PrepareNewsieResultHelper(news, newsieResult);
