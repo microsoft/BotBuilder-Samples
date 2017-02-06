@@ -7,6 +7,6 @@ namespace Zummer.Handlers
 {
     public interface IIntentHandler
     {
-        Task Respond(IMessageActivity activity, LuisResult result);
+        Task Respond(IAwaitable<IMessageActivity> activity, LuisResult result);
     }
 }

@@ -7,7 +7,7 @@ using Zummer.Models.Search;
 namespace Zummer.Services
 {
     /// <summary>
-    /// Responsible for calling Bing News Search API
+    /// Responsible for calling Bing Web Search API
     /// </summary>
     internal sealed class BingSearchService : ISearchService
     {

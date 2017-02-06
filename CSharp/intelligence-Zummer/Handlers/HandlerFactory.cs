@@ -16,10 +16,5 @@ namespace Zummer.Handlers
         {
             return this.scope.ResolveNamed<IIntentHandler>(key);
         }
-
-        public IRegexHandler CreateRegexHandler(string key)
-        {
-            return this.scope.ResolveNamed<IRegexHandler>(key);
-        }
     }
 }

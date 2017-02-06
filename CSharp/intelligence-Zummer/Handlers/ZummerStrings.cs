@@ -2,13 +2,11 @@
 {
     internal class ZummerStrings
     {
-        public const string ArticlesIntentName = "News";
-        public const string ArticlesEntityTopic = "NewsTopic";
+        public const string SearchIntentName = "Search";
+        public const string ArticlesEntityTopic = "ArticleTopic";
 
         public const string GreetingIntentName = "Greeting";
 
         public const string NoneIntentName = "None";
-
-        public const string SummarizeActionName = "Summarize";
     }
 }

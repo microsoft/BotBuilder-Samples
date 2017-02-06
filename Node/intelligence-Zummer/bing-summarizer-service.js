@@ -5,7 +5,7 @@ const BING_SUMMARIZER_API_URL = "http://bing-blink.azurewebsites.net/api/blink/s
 
 module.exports = {
     getSummary: (url) => {
-        return  apiHandler.getResponse(BING_SUMMARIZER_API_URL, { "url": url }, { "Ocp-Apim-Subscription-Key": BING_SUMMARIZER_API_KEY  })
-            .then(result => { return JSON.parse(result); }, err => { return err } );
+        return apiHandler.getResponse(BING_SUMMARIZER_API_URL, { "url": url }, { "Ocp-Apim-Subscription-Key": BING_SUMMARIZER_API_KEY })
+            .then(result => { return JSON.parse(result); }, err => { return err });
     }
 }

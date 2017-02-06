@@ -1,7 +1,7 @@
 {
-  "name": "botbuilder-sample-newsie",
+  "name": "botbuilder-sample-zummer",
   "version": "1.0.0",
-  "description": "Bot Builder Sample - Newsie",
+  "description": "Bot Builder Sample - Zummer",
   "scripts": {
     "start": "node app.js"
   },

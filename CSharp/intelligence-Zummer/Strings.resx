@@ -117,20 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BingForMore" xml:space="preserve">
-    <value>Bing for more</value>
+  <data name="PowerBy" xml:space="preserve">
+    <value>Powered by {0}</value>
   </data>
   <data name="FallbackIntentMessage" xml:space="preserve">
     <value>Hmm... I did not understand that. Rephrase your message and try again.</value>
   </data>
   <data name="FullArticleString" xml:space="preserve">
-    <value>Full Article</value>
+    <value>Read Full Article</value>
   </data>
   <data name="GreetOnDemand" xml:space="preserve">
-    <value>Hi! What would you like to read about? You can just type the topic and I'll do my best to fetch best Wikipedia results for you to read, powered by Bing Search.</value>
-  </data>
-  <data name="ReadSummary" xml:space="preserve">
-    <value>Read summary</value>
+    <value>Hi! What would you like to read about? I can fetch you the best Wikipedia results on any subject.</value>
   </data>
   <data name="SearchTopicTypeMessage" xml:space="preserve">
     <value>Here you go.</value>
@@ -139,12 +136,9 @@
     <value>Hmm, I'm sorry. I could not summarize the article.</value>
   </data>
   <data name="SummaryString" xml:space="preserve">
-    <value>SUMMARY</value>
+    <value>Summary</value>
   </data>
-  <data name="SummaryWaitMessage" xml:space="preserve">
-    <value>Hold on! I'll be back in a jiffy!</value>
-  </data>
-  <data name="ViewOnWeb" xml:space="preserve">
-    <value>View on web</value>
+  <data name="MoreOnBing" xml:space="preserve">
+    <value>More on Bing</value>
   </data>
 </root>

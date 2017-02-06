@@ -117,7 +117,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\binglogo.jpg" />
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
@@ -126,7 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Handlers\HandlerFactory.cs" />
-    <Compile Include="Handlers\IRegexHandler.cs" />
     <Compile Include="Handlers\ZummerStrings.cs" />
     <Compile Include="Models\Search\BingSearch.cs" />
     <Compile Include="Models\Search\ZummerSearchResult.cs" />
@@ -137,11 +135,14 @@
     <Compile Include="Dialogs\MainDialog.cs" />
     <Compile Include="Handlers\GreetingIntentHandler.cs" />
     <Compile Include="Handlers\IIntentHandler.cs" />
-    <Compile Include="Handlers\ArticlesIntentHandler.cs" />
-    <Compile Include="Handlers\SummaryRegexHandler.cs" />
+    <Compile Include="Handlers\SearchIntentHandler.cs" />
     <Compile Include="Services\ISearchService.cs" />
     <Compile Include="Services\ISummarizeService.cs" />
-    <Compile Include="Utilities\CardGenerators\ArticleCardGenerator.cs" />
+    <Compile Include="Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Handlers\IHandlerFactory.cs" />
     <Compile Include="Modules\MainModule.cs" />
     <Compile Include="Services\BingSearchService.cs" />
@@ -153,12 +154,6 @@
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Strings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Utilities\CardGenerators\CardGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -171,7 +166,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

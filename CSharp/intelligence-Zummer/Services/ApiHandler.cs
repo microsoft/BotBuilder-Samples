@@ -27,6 +27,8 @@ namespace Zummer.Services
 
         private async Task<string> SendRequestAsync(string url, IDictionary<string, string> requestParameters, IDictionary<string, string> headers)
         {
+            this.client.DefaultRequestHeaders.Clear();
+            
             string fullUrl = url;
 
             if (requestParameters != null)
@@ -42,6 +44,7 @@ namespace Zummer.Services
 
                 fullUrl += requestParams;
             }
+
 
             if (headers != null)
             {

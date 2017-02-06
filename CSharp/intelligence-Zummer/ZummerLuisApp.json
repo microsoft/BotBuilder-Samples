@@ -1,0 +1,96 @@
+{
+  "luis_schema_version": "1.3.1",
+  "versionId": "0.1",
+  "name": "ZummerLuisApp",
+  "desc": "",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "Greeting"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "Search"
+    }
+  ],
+  "entities": [
+    {
+      "name": "ArticleTopic"
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "bing_entities": [],
+  "actions": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "hi",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hello",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "who is barack obama",
+      "intent": "Search",
+      "entities": [
+        {
+          "entity": "ArticleTopic",
+          "startPos": 2,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "what is eiffel tower",
+      "intent": "Search",
+      "entities": [
+        {
+          "entity": "ArticleTopic",
+          "startPos": 2,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "want to know more about paris",
+      "intent": "Search",
+      "entities": [
+        {
+          "entity": "ArticleTopic",
+          "startPos": 5,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "tom hanks",
+      "intent": "Search",
+      "entities": [
+        {
+          "entity": "ArticleTopic",
+          "startPos": 0,
+          "endPos": 1
+        }
+      ]
+    },
+    {
+      "text": "read more about pyramids",
+      "intent": "Search",
+      "entities": [
+        {
+          "entity": "ArticleTopic",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    }
+  ]
+}

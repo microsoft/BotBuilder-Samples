@@ -3,16 +3,16 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <Name>Newsie</Name>
+    <Name>Zummer</Name>
     <RootNamespace>Newsie</RootNamespace>
-    <NameOfLastUsedPublishProfile>newsietutorialnode - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>e6f0eb92-8103-48f5-af64-fe9e8ef2b55f</ProjectGuid>
-    <ProjectHome>.</ProjectHome>
+    <ProjectHome>
+    </ProjectHome>
     <StartupFile>app.js</StartupFile>
     <SearchPath>
     </SearchPath>
@@ -40,20 +40,23 @@
     <Content Include="bin\setup_web.cmd" />
     <Content Include="bin\node.cmd" />
     <Compile Include="api-handler-service.js" />
-    <Compile Include="bing-news-service.js" />
+    <Compile Include="bing-search-service.js" />
     <Compile Include="bing-summarizer-service.js" />
-    <Compile Include="newsie-strings.js" />
-    <Compile Include="newsie-utils.js" />
-    <Compile Include="shortening-url-service.js" />
+    <Compile Include="zummer-strings.js" />
     <Content Include=".env" />
     <Content Include="azuredeploy.json" />
-    <Content Include="content\binglogo.jpg" />
     <Content Include="package.json" />
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
-    <Folder Include="content\" />
+    <Folder Include="typings\" />
+    <Folder Include="typings\globals\" />
+    <Folder Include="typings\globals\node\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
+    <TypeScriptCompile Include="typings\index.d.ts" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />

@@ -61,15 +61,6 @@ namespace Zummer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bing for more.
-        /// </summary>
-        internal static string BingForMore {
-            get {
-                return ResourceManager.GetString("BingForMore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Hmm... I did not understand that. Rephrase your message and try again..
         /// </summary>
         internal static string FallbackIntentMessage {
@@ -79,7 +70,7 @@ namespace Zummer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Full Article.
+        ///   Looks up a localized string similar to Read Full Article.
         /// </summary>
         internal static string FullArticleString {
             get {
@@ -88,7 +79,7 @@ namespace Zummer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hi! What would you like to read about? You can just type the topic and I&apos;ll do my best to fetch best Wikipedia results for you to read, powered by Bing Search..
+        ///   Looks up a localized string similar to Hi! What would you like to read about? I can fetch you the best Wikipedia results on any subject..
         /// </summary>
         internal static string GreetOnDemand {
             get {
@@ -97,11 +88,20 @@ namespace Zummer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Read summary.
+        ///   Looks up a localized string similar to More on Bing.
         /// </summary>
-        internal static string ReadSummary {
+        internal static string MoreOnBing {
             get {
-                return ResourceManager.GetString("ReadSummary", resourceCulture);
+                return ResourceManager.GetString("MoreOnBing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Powered by {0}.
+        /// </summary>
+        internal static string PowerBy {
+            get {
+                return ResourceManager.GetString("PowerBy", resourceCulture);
             }
         }
         
@@ -124,29 +124,11 @@ namespace Zummer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SUMMARY.
+        ///   Looks up a localized string similar to Summary.
         /// </summary>
         internal static string SummaryString {
             get {
                 return ResourceManager.GetString("SummaryString", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Hold on! I&apos;ll be back in a jiffy!.
-        /// </summary>
-        internal static string SummaryWaitMessage {
-            get {
-                return ResourceManager.GetString("SummaryWaitMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to View on web.
-        /// </summary>
-        internal static string ViewOnWeb {
-            get {
-                return ResourceManager.GetString("ViewOnWeb", resourceCulture);
             }
         }
     }

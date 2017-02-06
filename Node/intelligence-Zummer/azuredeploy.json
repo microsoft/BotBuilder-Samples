@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "Node/intelligence-Newsie"
+      "defaultValue": "Node/intelligence-Zummer"
     },
     "WEBSITE_NODE_DEFAULT_VERSION": {
       "type": "string",
