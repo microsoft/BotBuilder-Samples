@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
@@ -27,7 +28,19 @@ namespace Zummer.Handlers
             {
                 string articleUrl = TryParseSummaryUrl(result.Groups[2].Value);
 
-                await this.botToUser.PostAsync(string.Format(Strings.SummaryWaitMessage));
+                var fullArticleMessage = this.botToUser.MakeMessage();
+
+                fullArticleMessage.Attachments.Add(CardGenerator.GetHeroCard(Strings.SummaryWaitMessage, cardActions: new List<CardAction>
+                {
+                    new CardAction
+                    {
+                        Title = Strings.FullArticleString,
+                        Type = ActionTypes.OpenUrl,
+                        Value = articleUrl
+                    }
+                }));
+
+                await this.botToUser.PostAsync(fullArticleMessage);
                 
                 var bingSummary = await this.summaryService.GetSummary(articleUrl);
 
@@ -58,8 +71,7 @@ namespace Zummer.Handlers
         private static string TryParseSummaryUrl(string text)
         {
             Uri uriResult;
-            bool result = Uri.TryCreate(text, UriKind.Absolute, out uriResult)
-                && uriResult.Scheme == Uri.UriSchemeHttp;
+            bool result = Uri.TryCreate(text, UriKind.Absolute, out uriResult);
 
             if (result && uriResult.IsAbsoluteUri)
             {

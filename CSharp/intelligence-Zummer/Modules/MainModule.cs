@@ -22,7 +22,6 @@ namespace Zummer.Modules
 
             // Singlton services
             builder.RegisterType<LuisService>().Keyed<ILuisService>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().SingleInstance();
-            builder.RegisterType<TinyUrlRequestHandler>().Keyed<IUrlShorteningService>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<BingSearchService>().Keyed<ISearchService>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<BingSummarizeService>().Keyed<ISummarizeService>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<ApiHandler>().Keyed<IApiHandler>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().SingleInstance();

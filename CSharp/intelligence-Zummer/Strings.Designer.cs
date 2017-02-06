@@ -79,11 +79,11 @@ namespace Zummer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Full Story.
+        ///   Looks up a localized string similar to Full Article.
         /// </summary>
-        internal static string FullStoryString {
+        internal static string FullArticleString {
             get {
-                return ResourceManager.GetString("FullStoryString", resourceCulture);
+                return ResourceManager.GetString("FullArticleString", resourceCulture);
             }
         }
         

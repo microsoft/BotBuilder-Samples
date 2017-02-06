@@ -18,13 +18,11 @@ namespace Zummer.Handlers
     {
         private const int ArticlesMaxResults = 5;
 
-        private readonly IUrlShorteningService urlShorteningService;
         private readonly ISearchService bingSearchApiHandler;
         private readonly IBotToUser botToUser;
 
-        public ArticlesIntentHandler(IBotToUser botToUser, IUrlShorteningService urlShorteningService, ISearchService bingSearchApiHandler)
+        public ArticlesIntentHandler(IBotToUser botToUser, ISearchService bingSearchApiHandler)
         {
-            SetField.NotNull(out this.urlShorteningService, nameof(urlShorteningService), urlShorteningService);
             SetField.NotNull(out this.bingSearchApiHandler, nameof(bingSearchApiHandler), bingSearchApiHandler);
             SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
         }
@@ -55,7 +53,7 @@ namespace Zummer.Handlers
 
             for (int i = 0; i < ArticlesMaxResults; i++)
             {
-                var zummerResult = await this.PrepareZummerResult(bingSearch.webPages.value[i]);
+                var zummerResult = this.PrepareZummerResult(bingSearch.webPages.value[i]);
                 reply.Attachments.Add(ArticleCardGenerator.GetArticleCard(zummerResult, activity.ChannelId));
             }
 
@@ -69,7 +67,7 @@ namespace Zummer.Handlers
             await this.botToUser.PostAsync(reply);
         }
 
-        private async Task<ZummerSearchResult> PrepareZummerResult(Value pages)
+        private ZummerSearchResult PrepareZummerResult(Value pages)
         {
             string url;
             var myUri = new Uri(pages.url);
@@ -87,8 +85,7 @@ namespace Zummer.Handlers
             {
                 Name = pages.name,
                 Snippet = pages.snippet,
-                Url = pages.url,
-                ShortenedUrl = await this.urlShorteningService.GetShortenedUrl(url),
+                Url = url
             };
 
             return zummerResult;

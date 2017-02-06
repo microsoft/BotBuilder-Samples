@@ -24,7 +24,7 @@ namespace Zummer.Utilities.CardGenerators
 
             var actions = new List<CardAction>
             {
-                new CardAction(ActionTypes.ImBack, Strings.ReadSummary, value: "summary " + (string.IsNullOrEmpty(result.ShortenedUrl) ? result.Url : result.ShortenedUrl))
+                new CardAction(ActionTypes.ImBack, Strings.ReadSummary, value: "summary " + result.Url)
             };
 
             switch (channelId)
