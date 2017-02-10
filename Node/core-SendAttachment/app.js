@@ -9,7 +9,7 @@ var util = require('util');
 // Swagger client for Bot Connector API
 var connectorApiClient = new Swagger(
     {
-        url: 'https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json',
+        url: 'https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/ConnectorAPI.json',
         usePromise: true
     });
 
