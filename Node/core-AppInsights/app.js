@@ -131,7 +131,7 @@ bot.dialog('search', new builder.IntentDialog()
             var userName = session.userData[UserNameKey];
             var messageText = session.message.text.trim();
             session.send('%s, wait a few seconds. Searching for \'%s\' in \'%s\'...', userName, messageText, city);
-            session.send('https://www.bing.comsearch?q=%s', encodeURIComponent(messageText + ' in ' + city));
+            session.send('https://www.bing.com/search?q=%s', encodeURIComponent(messageText + ' in ' + city));
 
         } catch (error) {
             measuredEventTelemetry.exception = error.toString();
