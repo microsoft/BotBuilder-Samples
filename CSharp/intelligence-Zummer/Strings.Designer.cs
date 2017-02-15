@@ -70,15 +70,6 @@ namespace Zummer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Read Full Article.
-        /// </summary>
-        internal static string FullArticleString {
-            get {
-                return ResourceManager.GetString("FullArticleString", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Hi! What would you like to read about? I can fetch you the best Wikipedia results on any subject..
         /// </summary>
         internal static string GreetOnDemand {
@@ -111,24 +102,6 @@ namespace Zummer {
         internal static string SearchTopicTypeMessage {
             get {
                 return ResourceManager.GetString("SearchTopicTypeMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Hmm, I&apos;m sorry. I could not summarize the article..
-        /// </summary>
-        internal static string SummaryErrorMessage {
-            get {
-                return ResourceManager.GetString("SummaryErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Summary.
-        /// </summary>
-        internal static string SummaryString {
-            get {
-                return ResourceManager.GetString("SummaryString", resourceCulture);
             }
         }
     }

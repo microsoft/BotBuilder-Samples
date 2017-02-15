@@ -1,15 +1,15 @@
-Building a MS Teams bot using Microsoft AI (C\#)
-================================================
+Zummer Bot (C\#)
+================
 
 In this tutorial we will cover how to build a Search and Summary Bot - Zummer
 using Microsoft Cognitive Services - [Bing Web Search
-API](https://www.microsoft.com/cognitive-services/en-us/bing-web-search-apihttps://www.microsoft.com/cognitive-services/en-us/bing-news-search-api),
+API](https://www.microsoft.com/cognitive-services/en-us/bing-web-search-api),
 [Language Understanding Intelligent Services
 (LUIS)](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis)
-and [Bing Summarizer
-API](https://www.microsoft.com/cognitive-services/en-us/labs).
 
-<https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/intelligence-Zummer>
+[![Deploy to Azure][Deploy Button]][Deploy CSharp/Zummer]
+[Deploy Button]: https://azuredeploy.net/deploybutton.png
+[Deploy CSharp/Zummer]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/intelligence-Zummer
 
 Bot Recipe/Prerequisites:
 -------------------------
@@ -22,14 +22,7 @@ Bot Recipe/Prerequisites:
 -   **Bing Web Search API** to fetch most relevant Wikipedia article on any
     given topic.
 
--   **Bing Summarizer API** to summarize the Wikipedia article
-
 -   **Luis.ai** to understand client’s query intent
-
--   **Azure Account** you can create a free account
-    [here](https://azure.microsoft.com/en-gb/free/)
-
--   **Microsoft Teams Account**
 
  
 
@@ -37,7 +30,7 @@ Let's get started, Shall we?
 ----------------------------
 
 This tutorial would help you understand how to string together various Cognitive
-APIs -  Bing Web Search, Bing Summarizer and LUIS to build a productivity bot
+APIs -  Bing Web Search and LUIS to build a productivity bot
 
 Here is a simple flowchart of what the Zummer bot logic will be:
 
@@ -205,141 +198,77 @@ Fetching Wikipedia articles on a topic using Bing Web Search API
 
     1.  Calling *“*FindArticles” methods to receive the BingSearch response
 
-    2.  Fetching first result and extracting from it the needed information to
-        be used afterwards in the summarization logic by "PrepareZummerResult"
-        method
+    2.  Fetching first result and extracting information needed
+        using"PrepareZummerResult" method, then sending a
+        [formatted](https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html#message)
+        response to the user
 
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c#
-    public async Task Respond(IAwaitable<IMessageActivity> activity, LuisResult result) 
-    { 
-        EntityRecommendation entityRecommendation; 
+    public async Task Respond(IAwaitable<IMessageActivity> activity, LuisResult result)
+    {
+        EntityRecommendation entityRecommendation;
 
-        var query = result.TryFindEntity(ZummerStrings.ArticlesEntityTopic, out entityRecommendation) 
-            ? entityRecommendation.Entity 
-            : result.Query; 
+        var query = result.TryFindEntity(ZummerStrings.ArticlesEntityTopic, out entityRecommendation)
+            ? entityRecommendation.Entity
+            : result.Query;
 
-        await this.botToUser.PostAsync(string.Format(Strings.SearchTopicTypeMessage)); 
+        await this.botToUser.PostAsync(string.Format(Strings.SearchTopicTypeMessage));
 
-        var bingSearch = await this.bingSearchService.FindArticles(query); 
+        var bingSearch = await this.bingSearchService.FindArticles(query);
 
-        var zummerResult = this.PrepareZummerResult(query, bingSearch.webPages.value[0]); 
+        var zummerResult = this.PrepareZummerResult(query, bingSearch.webPages.value[0]);
 
-       ... 
+        var summaryText =  $"### [{zummerResult.Tile}]({zummerResult.Url})\n{zummerResult.Snippet}\n\n" ;
+
+        summaryText +=
+            $"*{string.Format(Strings.PowerBy, $"[Bing™](https://www.bing.com/search/?q={zummerResult.Query} site:wikipedia.org)")}*";
+
+        await this.botToUser.PostAsync(summaryText);
     }
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c#
-    private ZummerSearchResult PrepareZummerResult(string query, Value page) 
-        { 
-            string url; 
-            var myUri = new Uri(page.url); 
-     
-            if (myUri.Host == "www.bing.com" && myUri.AbsolutePath == "/cr") 
-            { 
-                url = HttpUtility.ParseQueryString(myUri.Query).Get("r"); 
-            } 
-            else 
-            { 
-                url = page.url; 
-            } 
-     
-            var zummerResult = new ZummerSearchResult 
-            { 
-                Url = url, 
-                Query = query, 
-                Tile = page.name 
-            }; 
-     
-            return zummerResult; 
-        }
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    private ZummerSearchResult PrepareZummerResult(string query, Value page)
+    {
+        string url;
+        var myUri = new Uri(page.url);
 
- 
+        if (myUri.Host == "www.bing.com" && myUri.AbsolutePath == "/cr")
+        {
+            url = HttpUtility.ParseQueryString(myUri.Query).Get("r");
+        }
+        else
+        {
+            url = page.url;
+        }
 
-Summarizing the Wikipedia article
----------------------------------
+        var zummerResult = new ZummerSearchResult
+        {
+            Url = url,
+            Query = query,
+            Tile = page.name,
+            Snippet = page.snippet
+        };
 
-1.  Create “Key” that will be used for calling the Bing Summarizer APIs on
-    [Microsoft Cognitive Service
-    subscriptions](https://www.microsoft.com/cognitive-services/en-US/subscriptions)
-    using the labs tab** *** *
-
-2.  The model classes that represent the [Bing Summarizer
-    API](https://cognitivegarage.portal.azure-api.net/docs/services/582ba037f1038311cc8b8ce8/operations/582ba057f1038311cc8b8ce9)
-    JSON response can be found in the folder “Models\\Summarize”
-
-3.  Bing Summarizer API is still being worked upon and hence is available in the
-    [Microsoft Cognitive
-    Labs](https://www.microsoft.com/cognitive-services/en-us/labs). In this
-    tutorial summarization functionality is exposed in the bot code through
-    “GetSummary” function in BingSummarizeService.cs
-
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c#
-    namespace Newsie.Services 
-    { 
-        /// <summary> 
-        /// Responsible for calling Bing Summarizer API 
-        /// </summary> 
-        internal sealed class BingSummarizeService : ISummarizeService 
-        { 
-            private const string BingSummarizeEndpoint = "https://cognitivegarage.azure-api.net/bingSummarizer/summary"; 
-     
-            private static readonly Dictionary<string, string> Headers = new Diction-ary<string, string> 
-            { 
-                { "Ocp-Apim-Subscription-Key", ConfigurationManag-er.AppSettings["BingSummarizeSerivceKey"] } 
-            }; 
-     
-            private readonly IApiHandler apiHandler; 
-     
-            public BingSummarizeService(IApiHandler apiHandler) 
-            { 
-                SetField.NotNull(out this.apiHandler, nameof(apiHandler), apiHandler); 
-            } 
-     
-            public async Task<BingSummarize> GetSummary(string url) 
-            { 
-                var requestParameters = new Dictionary<string, string> 
-                { 
-                    { "url", url } 
-                }; 
-     
-                return await this.apiHandler.GetJsonAsync<BingSummarize>(BingSummarizeEndpoint, requestParameters, Headers); 
-            } 
-        } 
-    } 
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-4.  Add to the  SearchIntentHandler.cs “Respond” method the following logic:
-
-    1.  Invoke the “GetSummary” method to receive the BingSummarize response.
-
-    2.  [Format](https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html#message)
-        the summary and text response that will be sent to the client and send
-        the response
-
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c#
-    public async Task Respond(IAwaitable<IMessageActivity> activity, LuisResult result) 
-    { 
-         ... 
-     
-         var bingSummary = await this.bingSummarizeService.GetSummary(zummerResult.Url); 
-         if (bingSummary?.Data != null && bingSummary.Data.Length != 0) 
-         { 
-             var summaryText = bingSummary.Data.Aggregate( 
-                 $"### [{zummerResult.Tile}]({zummerResult.Url})" 
-                 + "\n" + 
-                 $"**{Strings.SummaryString}**" 
-                 + "\n\n", 
-                 (current, datum) => current + (datum.Text + "\n\n")); 
-
-             summaryText += 
-                 $"*{string.Format(Strings.PowerBy, "[Bing™](https://www.bing.com/search/?q={zummerResult.Query} site:wikipedia.org)")}*"; 
-     
-             await this.botToUser.PostAsync(summaryText); 
-         } 
-         else 
-         { 
-             await this.botToUser.PostAsync(Strings.SummaryErrorMessage); 
-         } 
+        return zummerResult;
     }
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Outcome
+-------
+
+You will see the following when connecting the Bot to the Emulator:
+
+![](images/6.PNG)
+
+More Information
+----------------
+
+To get more information about how to get started in Bot Builder for .NET and
+Microsoft Cognitive Services Bing Web Search API and LUIS please review the
+following resources: \* [Bot Builder for
+.NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
+\* [Bing Web Search
+API](https://www.microsoft.com/cognitive-services/en-us/bing-web-search-api) \*
+[Language Understanding Intelligent Services
+(LUIS)](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis)

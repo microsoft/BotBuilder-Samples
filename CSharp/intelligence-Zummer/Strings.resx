@@ -123,20 +123,11 @@
   <data name="FallbackIntentMessage" xml:space="preserve">
     <value>Hmm... I did not understand that. Rephrase your message and try again.</value>
   </data>
-  <data name="FullArticleString" xml:space="preserve">
-    <value>Read Full Article</value>
-  </data>
   <data name="GreetOnDemand" xml:space="preserve">
     <value>Hi! What would you like to read about? I can fetch you the best Wikipedia results on any subject.</value>
   </data>
   <data name="SearchTopicTypeMessage" xml:space="preserve">
     <value>Here you go.</value>
-  </data>
-  <data name="SummaryErrorMessage" xml:space="preserve">
-    <value>Hmm, I'm sorry. I could not summarize the article.</value>
-  </data>
-  <data name="SummaryString" xml:space="preserve">
-    <value>Summary</value>
   </data>
   <data name="MoreOnBing" xml:space="preserve">
     <value>More on Bing</value>

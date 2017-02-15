@@ -16,13 +16,11 @@ namespace Zummer.Handlers
     internal sealed class SearchIntentHandler : IIntentHandler
     {
         private readonly ISearchService bingSearchService;
-        private readonly ISummarizeService bingSummarizeService;
         private readonly IBotToUser botToUser;
 
-        public SearchIntentHandler(IBotToUser botToUser, ISearchService bingSearchService, ISummarizeService bingSummarizeService)
+        public SearchIntentHandler(IBotToUser botToUser, ISearchService bingSearchService)
         {
             SetField.NotNull(out this.bingSearchService, nameof(bingSearchService), bingSearchService);
-            SetField.NotNull(out this.bingSummarizeService, nameof(bingSummarizeService), bingSummarizeService);
             SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
         }
 
@@ -40,26 +38,12 @@ namespace Zummer.Handlers
 
             var zummerResult = this.PrepareZummerResult(query, bingSearch.webPages.value[0]);
 
-            var bingSummary = await this.bingSummarizeService.GetSummary(zummerResult.Url);
+            var summaryText =  $"### [{zummerResult.Tile}]({zummerResult.Url})\n{zummerResult.Snippet}\n\n" ;
 
-            if (bingSummary?.Data != null && bingSummary.Data.Length != 0)
-            {
-                var summaryText = bingSummary.Data.Aggregate(
-                    $"### [{zummerResult.Tile}]({zummerResult.Url})"
-                    + "\n" +
-                    $"**{Strings.SummaryString}**"
-                    + "\n\n",
-                    (current, datum) => current + (datum.Text + "\n\n"));
+            summaryText +=
+                $"*{string.Format(Strings.PowerBy, $"[Bing™](https://www.bing.com/search/?q={zummerResult.Query} site:wikipedia.org)")}*";
 
-                summaryText +=
-                    $"*{string.Format(Strings.PowerBy, $"[Bing™](https://www.bing.com/search/?q={zummerResult.Query} site:wikipedia.org)")}*";
-
-                await this.botToUser.PostAsync(summaryText);
-            }
-            else
-            {
-                await this.botToUser.PostAsync(Strings.SummaryErrorMessage);
-            }
+            await this.botToUser.PostAsync(summaryText);
         }
 
         private ZummerSearchResult PrepareZummerResult(string query, Value page)
@@ -80,7 +64,8 @@ namespace Zummer.Handlers
             {
                 Url = url,
                 Query = query,
-                Tile = page.name
+                Tile = page.name,
+                Snippet = page.snippet
             };
 
             return zummerResult;

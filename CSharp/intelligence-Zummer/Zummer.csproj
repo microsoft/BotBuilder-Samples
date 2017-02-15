@@ -128,7 +128,6 @@
     <Compile Include="Handlers\ZummerStrings.cs" />
     <Compile Include="Models\Search\BingSearch.cs" />
     <Compile Include="Models\Search\ZummerSearchResult.cs" />
-    <Compile Include="Services\BingSummarizeService.cs" />
     <Compile Include="Services\IApiHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Services\ApiHandler.cs" />
@@ -137,7 +136,6 @@
     <Compile Include="Handlers\IIntentHandler.cs" />
     <Compile Include="Handlers\SearchIntentHandler.cs" />
     <Compile Include="Services\ISearchService.cs" />
-    <Compile Include="Services\ISummarizeService.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -149,9 +147,6 @@
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Summarize\BingSummarize.cs">
-      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

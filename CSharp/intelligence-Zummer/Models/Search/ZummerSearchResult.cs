@@ -7,5 +7,7 @@
         public string Url { get; set; }
 
         public string Query { get; set; }
+
+        public string Snippet { get; set; }
     }
 }

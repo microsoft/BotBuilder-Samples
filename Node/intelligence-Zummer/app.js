@@ -6,7 +6,6 @@ var restify = require('restify');
 var util = require('util');
 var zummerStrings = require('./zummer-strings.js');
 var bingSearchService = require('./bing-search-service.js');
-var bingSummarizerService = require('./bing-summarizer-service.js');
 var urlObj = require('url');
 
 // Setup Restify Server
@@ -60,24 +59,11 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 
                 var zummerResult = prepareZummerResult(query, bingSearch.webPages.value[0]);
 
-                bingSummarizerService.getSummary(zummerResult.url).then((bingSummary) => {
-                    if (bingSummary && bingSummary.Data && bingSummary.Data.lenght != 0) {
+                var summaryText = util.format("### [%s](%s)\n%s\n\n", zummerResult.title, zummerResult.url, zummerResult.snippet);
 
-                        var summaryText = util.format("### [%s](%s)\n**%s**\n\n", zummerResult.title, zummerResult.url, zummerStrings.SummaryString);
+                summaryText += util.format("*%s*", util.format(zummerStrings.PoweredBy, util.format("[Bing™](https://www.bing.com/search/?q=%s site:wikipedia.org)", zummerResult.query)));
 
-                        bingSummary.Data.forEach((datum) => {
-                            summaryText += datum.Text + "\n\n";
-                        });
-
-                        summaryText += util.format("*%s*", util.format(zummerStrings.PoweredBy, util.format("[Bing™](https://www.bing.com/search/?q=%s site:wikipedia.org)", zummerResult.query)));
-
-                        session.send(summaryText).endDialog();
-                    } else {
-                        session.send(zummerStrings.SummaryErrorMessage).endDialog();
-                    }
-                }).catch(() => { session.send(zummerStrings.SummaryErrorMessage).endDialog(); });
-            }).catch(() => {
-                session.endDialog();
+                session.send(summaryText).endDialog();
             });
         }
     ])
@@ -100,6 +86,7 @@ function prepareZummerResult(query, bingSearchResult) {
 
     zummerResult.title = bingSearchResult.name;
     zummerResult.query = query;
+    zummerResult.snippet = bingSearchResult.snippet;
 
     return zummerResult;
 }

@@ -41,7 +41,6 @@
     <Content Include="bin\node.cmd" />
     <Compile Include="api-handler-service.js" />
     <Compile Include="bing-search-service.js" />
-    <Compile Include="bing-summarizer-service.js" />
     <Compile Include="zummer-strings.js" />
     <Content Include=".env" />
     <Content Include="azuredeploy.json" />
