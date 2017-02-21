@@ -18,7 +18,7 @@ validUrl = require('valid-url');
 
 // Setup Restify Server
 const server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, () => {
+server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log('%s listening to %s', server.name, server.url);
 });
 
@@ -30,35 +30,10 @@ const connector = new builder.ChatConnector({
 
 server.post('/api/messages', connector.listen());
 
-const bot = new builder.UniversalBot(connector);
-
-//=========================================================
-// Bots Events
-//=========================================================
-
-//Sends greeting message when the bot is first added to a conversation
-bot.on('conversationUpdate', message => {
-    if (message.membersAdded) {
-        message.membersAdded.forEach(identity => {
-            if (identity.id === message.address.bot.id) {
-                const reply = new builder.Message()
-                    .address(message.address)
-                    .text('Hi! I am ImageCaption Bot. I can understand the content of any image and try to describe it as well as any human. Try sending me an image or an image URL.');
-                bot.send(reply);
-            }
-        });
-    }
-});
-
-
-//=========================================================
-// Bots Dialogs
-//=========================================================
-
 // Gets the caption by checking the type of the image (stream vs URL) and calling the appropriate caption service method.
-bot.dialog('/', session => {
+const bot = new builder.UniversalBot(connector, function (session) {
     if (hasImageAttachment(session)) {
-        var stream = getImageStreamFromUrl(session.message.attachments[0]);
+        var stream = getImageStreamFromMessage(session.message);
         captionService
             .getCaptionFromStream(stream)
             .then(caption => handleSuccessResponse(session, caption))
@@ -77,6 +52,25 @@ bot.dialog('/', session => {
 });
 
 //=========================================================
+// Bots Events
+//=========================================================
+
+//Sends greeting message when the bot is first added to a conversation
+bot.on('conversationUpdate', function (message) {
+    if (message.membersAdded) {
+        message.membersAdded.forEach(function (identity) {
+            if (identity.id === message.address.bot.id) {
+                const reply = new builder.Message()
+                    .address(message.address)
+                    .text('Hi! I am ImageCaption Bot. I can understand the content of any image and try to describe it as well as any human. Try sending me an image or an image URL.');
+                bot.send(reply);
+            }
+        });
+    }
+});
+
+
+//=========================================================
 // Utilities
 //=========================================================
 const hasImageAttachment = session => {
@@ -84,9 +78,10 @@ const hasImageAttachment = session => {
         session.message.attachments[0].contentType.indexOf('image') !== -1;
 };
 
-const getImageStreamFromUrl = attachment => {
+const getImageStreamFromMessage = message => {
     var headers = {};
-    if (isSkypeAttachment(attachment)) {
+    var attachment = message.attachments[0];
+    if (checkRequiresToken(message)) {
         // The Skype attachment URLs are secured by JwtToken,
         // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
         // https://github.com/Microsoft/BotBuilder/issues/662
@@ -103,9 +98,9 @@ const getImageStreamFromUrl = attachment => {
     return needle.get(attachment.contentUrl, { headers: headers });
 };
 
-const isSkypeAttachment = attachment => {
-    return url.parse(attachment.contentUrl).hostname.substr(-'skype.com'.length) === 'skype.com';
-};
+function checkRequiresToken(message) {
+    return message.source === 'skype' || message.source === 'msteams';
+}
 
 /**
  * Gets the href value in an anchor element.
