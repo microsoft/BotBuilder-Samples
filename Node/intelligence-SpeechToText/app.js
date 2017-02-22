@@ -29,16 +29,11 @@ const connector = new builder.ChatConnector({
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 
-const bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
-//=========================================================
-// Bots Dialogs
-//=========================================================
-
-bot.dialog('/', session => {
+const bot = new builder.UniversalBot(connector, function (session) {
     if (hasAudioAttachment(session)) {
-        var stream = getAudioStreamFromAttachment(session.message.attachments[0]);
+        var stream = getAudioStreamFromMessage(session.message);
         speechService.getTextFromAudioStream(stream)
             .then(text => {
                 session.send(processText(text));
@@ -58,12 +53,13 @@ bot.dialog('/', session => {
 const hasAudioAttachment = session => {
     return session.message.attachments.length > 0 &&
         (session.message.attachments[0].contentType === 'audio/wav' ||
-         session.message.attachments[0].contentType === 'application/octet-stream');
+            session.message.attachments[0].contentType === 'application/octet-stream');
 };
 
-const getAudioStreamFromAttachment = attachment => {
+const getAudioStreamFromMessage = message => {
     var headers = {};
-    if (isSkypeAttachment(attachment)) {
+    var attachment = message.attachments[0];
+    if (checkRequiresToken(message)) {
         // The Skype attachment URLs are secured by JwtToken,
         // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
         // https://github.com/Microsoft/BotBuilder/issues/662
@@ -80,13 +76,9 @@ const getAudioStreamFromAttachment = attachment => {
     return needle.get(attachment.contentUrl, { headers: headers });
 };
 
-const isSkypeAttachment = attachment => {
-    if (url.parse(attachment.contentUrl).hostname.substr(-'skype.com'.length) === 'skype.com') {
-        return true;
-    }
-
-    return false;
-};
+function checkRequiresToken(message) {
+    return message.source === 'skype' || message.source === 'msteams';
+}
 
 const processText = (text) => {
     var result = 'You said: ' + text + '.';
