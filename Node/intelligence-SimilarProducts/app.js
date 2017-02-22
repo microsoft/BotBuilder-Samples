@@ -33,7 +33,26 @@ const connector = new builder.ChatConnector({
 
 server.post('/api/messages', connector.listen());
 
-const bot = new builder.UniversalBot(connector);
+// Gets the similar images by checking the type of the image (stream vs URL) and calling the appropriate image service method.
+const bot = new builder.UniversalBot(connector, function (session) {
+    if (hasImageAttachment(session)) {
+        var stream = getImageStreamFromMessage(session.message);
+        imageService
+            .getSimilarProductsFromStream(stream)
+            .then(visuallySimilarProducts => handleApiResponse(session, visuallySimilarProducts))
+            .catch(error => handleErrorResponse(session, error));
+    } else {
+        var imageUrl = parseAnchorTag(session.message.text) || (validUrl.isUri(session.message.text) ? session.message.text : null);
+        if (imageUrl) {
+            imageService
+                .getSimilarProductsFromUrl(imageUrl)
+                .then(visuallySimilarProducts => handleApiResponse(session, visuallySimilarProducts))
+                .catch(error => handleErrorResponse(session, error));
+        } else {
+            session.send('Did you upload an image? I\'m more of a visual person. Try sending me an image or an image URL');
+        }
+    }
+});
 
 //=========================================================
 // Bots Events
@@ -53,32 +72,6 @@ bot.on('conversationUpdate', message => {
     }
 });
 
-
-//=========================================================
-// Bots Dialogs
-//=========================================================
-
-// Gets the similar images by checking the type of the image (stream vs URL) and calling the appropriate image service method.
-bot.dialog('/', session => {
-    if (hasImageAttachment(session)) {
-        var stream = getImageStreamFromAttachment(session.message.attachments[0]);
-        imageService
-            .getSimilarProductsFromStream(stream)
-            .then(visuallySimilarProducts => handleApiResponse(session, visuallySimilarProducts))
-            .catch(error => handleErrorResponse(session, error));
-    } else {
-        var imageUrl = parseAnchorTag(session.message.text) || (validUrl.isUri(session.message.text) ? session.message.text : null);
-        if (imageUrl) {
-            imageService
-                .getSimilarProductsFromUrl(imageUrl)
-                .then(visuallySimilarProducts => handleApiResponse(session, visuallySimilarProducts))
-                .catch(error => handleErrorResponse(session, error));
-        } else {
-            session.send('Did you upload an image? I\'m more of a visual person. Try sending me an image or an image URL');
-        }
-    }
-});
-
 //=========================================================
 // Utilities
 //=========================================================
@@ -87,9 +80,10 @@ const hasImageAttachment = session => {
     return session.message.attachments.length > 0 &&
         session.message.attachments[0].contentType.indexOf('image') !== -1;
 };
-const getImageStreamFromAttachment = attachment => {
+const getImageStreamFromMessage = message => {
     var headers = {};
-    if (isSkypeAttachment(attachment)) {
+    var attachment = message.attachments[0];
+    if (checkRequiresToken(message)) {
         // The Skype attachment URLs are secured by JwtToken,
         // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
         // https://github.com/Microsoft/BotBuilder/issues/662
@@ -106,13 +100,10 @@ const getImageStreamFromAttachment = attachment => {
     return request.get({ url: attachment.contentUrl, headers: headers });
 };
 
-const isSkypeAttachment = attachment => {
-    if (url.parse(attachment.contentUrl).hostname.substr(-'skype.com'.length) === 'skype.com') {
-        return true;
-    }
+function checkRequiresToken(message) {
+    return message.source === 'skype' || message.source === 'msteams';
+}
 
-    return false;
-};
 
 /**
  * Gets the href value in an anchor element.
