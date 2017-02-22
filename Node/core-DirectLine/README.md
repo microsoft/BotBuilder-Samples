@@ -23,7 +23,7 @@ Refer to [this](https://docs.botframework.com/en-us/csharp/builder/sdkreference/
 
 #### Publish
 Also, in order to be able to run and test this sample you must [publish your bot, for example to Azure](https://docs.botframework.com/en-us/node/builder/guides/deploying-to-azure/). Alternatively, you can [Debug locally using ngrok](https://docs.botframework.com/en-us/node/builder/guides/core-concepts/#debugging-locally-using-ngrok).
-Remember to update the environment variables with the `MICROSOFT_APP_ID` and `MICROSOFT_APP_PASSWORD`. If you are running the sample using Visual Studio Code, remember to update [launch.json](DirectLineBot/.vscode/launch.json#L19-L20) with the environment variables.
+Remember to update the environment variables with the `MICROSOFT_APP_ID` and `MICROSOFT_APP_PASSWORD` on the [.env](./DirectLineBot/.env) file.
 
 ### Code Highlights
 

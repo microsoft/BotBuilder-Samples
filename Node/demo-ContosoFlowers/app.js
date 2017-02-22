@@ -1,3 +1,6 @@
+// This loads the environment variables from the .env file
+require('dotenv-extended').load();
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');

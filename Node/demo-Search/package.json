@@ -27,6 +27,7 @@
     "lorem-ipsum": "^1.0.3",
     "node-uuid": "^1.4.7",
     "request": "^2.79.0",
-    "restify": "^4.3.0"
+    "restify": "^4.3.0",
+    "dotenv-extended": "^1.0.4"
   }
 }
