@@ -73,11 +73,12 @@ bot.dialog('reset', function (session) {
 
 // print current city dialog
 bot.dialog('printCurrentCity', function (session) {
-    // print city settings
     var userName = session.userData[UserNameKey];
     var defaultCity = session.conversationData[CityKey];
     var userCity = session.privateConversationData[CityKey];
-    if (userCity) {
+    if (!defaultCity) {
+        session.endDialog('I don\'t have a search city configured yet.');
+    } else if (userCity) {
         session.endDialog(
             '%s, you have overridden the city. Your searches are for things in %s. The default conversation city is %s.',
             userName, userCity, defaultCity);

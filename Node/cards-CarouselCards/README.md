@@ -15,7 +15,7 @@ The minimum prerequisites to run this sample are:
 
 ### Code Highlights
 
-You can send multiple rich card attachments in a single message. On most channels they will be sent as a list of rich cards, but some channels (like Skype and Facebook) can render them as a carousel of rich cards. The `Message.attachmentLayout()` method allows you to control how the rich cards will be rendered. Check out the key code located in [app.js](app.js#L23) class where the attachments layout is changed to the Carousel mode.
+You can send multiple rich card attachments in a single message. On most channels they will be sent as a list of rich cards, but some channels (like Skype and Facebook) can render them as a carousel of rich cards. The `Message.attachmentLayout()` method allows you to control how the rich cards will be rendered. Check out the key code located in [app.js](app.js#L26) class where the attachments layout is changed to the Carousel mode.
 
 
 > Note: Only the [Hero](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.herocard.html) and [Thumbnail](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.thumbnailcard.html) Cards are supported for the Carousel AttachmentLayout mode.

@@ -23,16 +23,16 @@ The main components are:
 * [caption-service.js](caption-service.js): is the core component illustrating how to call the Computer Vision RESTful API.
 * [app.js](app.js): is the bot service listener receiving messages from the connector service and passing them down to caption-service.js.
 
-In this sample we are using the API to get the image description and send it back to the user. Check out the use of the `captionService.getCaptionFromStream(stream)` method in [app.js](app.js#L63).
+In this sample we are using the API to get the image description and send it back to the user. Check out the use of the `captionService.getCaptionFromStream(stream)` method in [app.js](app.js#L35-L40).
 
 ````JavaScript
 if (hasImageAttachment(session)) {
-        var stream = needle.get(session.message.attachments[0].contentUrl);        
-        captionService
-            .getCaptionFromStream(stream)
-            .then(caption => handleSuccessResponse(session, caption))
-            .catch(error => handleErrorResponse(session, error));
-    }
+    var stream = needle.get(session.message.attachments[0].contentUrl);        
+    captionService
+        .getCaptionFromStream(stream)
+        .then(caption => handleSuccessResponse(session, caption))
+        .catch(error => handleErrorResponse(session, error));
+}
 ````
 
 And here is the implementation of `captionService.getCaptionFromStream(stream)` in [caption-service.js](caption-service.js#L15).

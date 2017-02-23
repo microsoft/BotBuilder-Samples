@@ -13,7 +13,7 @@ The minimum prerequisites to run this sample are:
 * The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
 *  To fully test this sample you must:
-    *  Register you bot in [Microsoft Bot Framework Portal](https://dev.botframework.com/bots). Please refer to [this](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#registering) for the instructions. Once you complete the registration, update the [Bot's Web.config](Web.config#L9-L11) file with the registered config values (Bot Id, MicrosoftAppId and MicrosoftAppPassword). 
+    *  Register you bot in [Microsoft Bot Framework Portal](https://dev.botframework.com/bots). Please refer to [this](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#registering) for the instructions. Once you complete the registration, update the [Bot's .env file](.env) file with the registered config values (MICROSOFT_APP_ID and MICROSOFT_APP_PASSWORD). 
     *  Enable the Facebook Messenger Channel. Refer to [this](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#channels) for more information on how to configure channels.
     *  [Publish your bot, for example to Azure](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#publishing) or use [Ngrok to interact with your local bot in the cloud](https://blogs.msdn.microsoft.com/jamiedalton/2016/07/29/ms-bot-framework-ngrok/).
 
@@ -26,7 +26,7 @@ If you want to be able to take advantage of special features or concepts for a c
 > NOTE: You do not need to use this feature unless you feel the need to access functionality not provided by the normal Activity.
 
 The Facebook adapter supports sending full attachments via the [sourceEvent](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#sourceevent) method. This allows you to do anything natively that Facebook supports via the attachment schema, such as Send a check-in reminder message.
-Check out [app.js](app.js#L27-L53) where a new [`AirlineCheckin`](facebook-channeldata.js#L4-L24) instance is send to the Facebook API using the channel's native construct.
+Check out [app.js](app.js#L28-L54) where a new [`AirlineCheckin`](facebook-channeldata.js#L4-L24) instance is send to the Facebook API using the channel's native construct.
 
 ````JavaScript
 var checkin = new FacebookDataModels.AirlineCheckin(

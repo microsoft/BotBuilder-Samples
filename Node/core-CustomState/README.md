@@ -10,7 +10,7 @@ A stateless sample bot tracking context of a conversation using a custom storage
 
 The minimum prerequisites to run this sample are:
 * Latest Node.js with NPM. Download it from [here](https://nodejs.org/en/download/).
-* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
+* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 * The Azure DocumentDB Emulator. To install the Azure DocumentDB Emulator, download it from [here](https://aka.ms/documentdb-emulator). Please refer to [this documentation article](https://docs.microsoft.com/en-us/azure/documentdb/documentdb-nosql-local-emulator) to know more about the Azure DocumentDB Emulator.
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
 
@@ -27,7 +27,7 @@ There might be times when a custom storage wants to be used. Reasons for wanting
 
 This bot is based on the [State bot](../core-State), with the addition that it uses a custom storage for tracking the context of a conversation. In this case, we are storing the bot state in DocumentDB by using the [`AzureBotStorage`](https://github.com/Microsoft/BotBuilder-Azure/blob/master/Node/src/AzureBotStorage.ts) along with a [`DocumentDbClient`](https://github.com/Microsoft/BotBuilder-Azure/blob/master/Node/src/DocumentDbClient.ts) instance, both provided by the [BotBuilder Azure Extensions for Node.js](https://www.npmjs.com/package/botbuilder-azure) package.
 
-Check out the creation of the `AzureBotStorage` and `DocumentDbClient` instances in the [app.js](./app.js#L40-L47). Also, see [how to configure the bot](./app.js#L50) to use this new custom storage:
+Check out the creation of the `AzureBotStorage` and `DocumentDbClient` instances in the [app.js](./app.js#L51-L58). Also, see [how to configure the bot](./app.js#L61) to use this new custom storage:
 
 ````JavaScript
 // Azure DocumentDb State Store
@@ -43,7 +43,7 @@ var botStorage = new azure.AzureBotStorage({ gzipData: false }, docDbClient);
 bot.set('storage', botStorage);
 ````
 
-The `DocumentDbClient` requires a few settings that can be obtained when you [create a DocumentDB account](https://docs.microsoft.com/en-us/azure/documentdb/documentdb-create-account). The sample looks for these settings in the Environment variables and, by default, is configured to use the [DocumentDB Emulator](https://docs.microsoft.com/en-us/azure/documentdb/documentdb-nosql-local-emulator). Checkout the [.env](./.env#L5-L9) file for the emulator configuration.
+The `DocumentDbClient` requires a few settings that can be obtained when you [create a DocumentDB account](https://docs.microsoft.com/en-us/azure/documentdb/documentdb-create-account). The sample looks for these settings in the Environment variables and, by default, is configured to use the [DocumentDB Emulator](https://docs.microsoft.com/en-us/azure/documentdb/documentdb-nosql-local-emulator). Checkout the [.env](.env#L5-L9) file for the emulator configuration.
 
 ### Outcome
 

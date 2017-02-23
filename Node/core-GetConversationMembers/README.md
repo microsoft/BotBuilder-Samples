@@ -59,13 +59,13 @@ To do this will use the Swagger Spec file and the Swagger JS client to create a 
 ````JavaScript
 var connectorApiClient = new Swagger(
     {
-        url: 'https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json',
+        url: 'https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/ConnectorAPI.json',
         usePromise: true
     });
 ````
 
-Once a message is received in a group conversation, we'll ask the API for its members. In order to call the REST API, we need to be authenticated using the bot's JWT token (see [app.js - addTokenToClient function](app.js#L79-89)) and then override the API's hostname using the channel's serviceUrl (see [app.js - client.setHost](app.js#L39-L41)).
-Then we call Swagger generated client (`client.Conversations.Conversations_GetConversationMembers`) and pass the response to a helper function that will print the members list to the conversation ([app.js - printMembersInChannel function](app.js#L91-L102)).
+Once a message is received in a group conversation, we'll ask the API for its members. In order to call the REST API, we need to be authenticated using the bot's JWT token (see [app.js - addTokenToClient function](app.js#L82-92)) and then override the API's hostname using the channel's serviceUrl (see [app.js - client.setHost](app.js#L42-L44)).
+Then we call Swagger generated client (`client.Conversations.Conversations_GetConversationMembers`) and pass the response to a helper function that will print the members list to the conversation ([app.js - printMembersInChannel function](app.js#L94-L105)).
 
 ````JavaScript
 var bot = new builder.UniversalBot(connector, function (session) {
@@ -133,7 +133,7 @@ To get more information about how to get started in Bot Builder for Node, Conver
 * [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
 * [ConversationUpdate event](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iconversationupdate.html)
 * [Bot Connector REST API - GetConversationMembers](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_GetConversationMembers)
-* [Bot Connector REST API - Swagger file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json)
+* [Bot Connector REST API - Swagger file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/ConnectorAPI.json)
 * [Swagger-JS](https://github.com/swagger-api/swagger-js)
 
 > **Limitations**  

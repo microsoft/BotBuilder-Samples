@@ -112,6 +112,7 @@ function uploadFileAndSend(session, filePath, contentType, attachmentFileName) {
             });
     });
 }
+
 // Sends attachment using an Internet url
 function sendInternetUrl(session, url, contentType, attachmentFileName) {
     var msg = new builder.Message(session)

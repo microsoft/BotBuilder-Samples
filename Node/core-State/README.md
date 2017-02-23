@@ -25,46 +25,40 @@ conversationData | Stores information globally for a single conversation. This d
 privateConversationData | Stores information globally for a single conversation but its private data for the current user. This data spans all dialogs so it’s useful for storing temporary state that you want cleaned up when the conversation ends.
 dialogData | Persists information for a single dialog instance. This is essential for storing temporary information in between the steps of a waterfall.
 
-**NOTE:** If you are planning to use `conversationData`, remember to enable conversation data persistence by using the [`persistConversationData`](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iuniversalbotsettings.html#persistconversationdata) setting flag. Check out [app.js](app.js#L38) as a reference:
+**NOTE:** If you are planning to use `conversationData`, remember to enable conversation data persistence by using the [`persistConversationData`](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iuniversalbotsettings.html#persistconversationdata) setting flag. Check out [app.js](app.js#L51) as a reference:
 
 ````JavaScript
 bot.set('persistConversationData', true);
 ````
 
-Check out the use of `session.conversationData` in the [`root dialog`](app.js#L24-L35) to store a default search city. The conversationData object is shared for all users within a conversation.
+Check out the use of `session.conversationData` in the [`main dialog`](app.js#L29-L33) to store a default search city. The conversationData object is shared for all users within a conversation.
 
 ````JavaScript
-function (session) {
-
-  // initialize with default city
-  if (!session.conversationData['City']) {
-    session.conversationData['City'] = 'Seattle';
-  }
-
-  var defaultCity = session.conversationData['City'];
-  session.send('Welcome to the Search City bot. I\'m currently configured to search for things in %s', defaultCity);
-
-  session.beginDialog('search');
+// initialize with default city
+if (!session.conversationData[CityKey]) {
+    session.conversationData[CityKey] = 'Seattle';
+    session.send('Welcome to the Search City bot. I\'m currently configured to search for things in %s', session.conversationData[CityKey]);
 }
 ````
 
-Also, check out the use of `session.privateConversationData` in the [`search IntentDialog` matching `current city`](app.js#L59-L70). Logic is included to override data stored in the `conversationData` object. `privateConversationData` is private to a specific user within a conversation.
+Also, check out the use of `session.privateConversationData` in the [`printCurrentCity` dialog](app.js#L75-L88). Logic is included to override data stored in the `conversationData` object. `privateConversationData` is private to a specific user within a conversation.
 
 ````JavaScript
 var userName = session.userData[UserNameKey];
 var defaultCity = session.conversationData[CityKey];
 var userCity = session.privateConversationData[CityKey];
-if (userCity) {
-    session.send(
+if (!defaultCity) {
+    session.endDialog('I don\'t have a search city configured yet.');
+} else if (userCity) {
+    session.endDialog(
         '%s, you have overridden the city. Your searches are for things in %s. The default conversation city is %s.',
         userName, userCity, defaultCity);
-    return;
 } else {
-    session.send('Hey %s, I\'m currently configured to search for things in %s.', userName, defaultCity);
+    session.endDialog('Hey %s, I\'m currently configured to search for things in %s.', userName, defaultCity);
 }
 ````
 
-In contrast, check out the use of `session.userData` in the [`greet dialog`](app.js#L103-L115) to remember the user's name. `userData` is shared across all channels and conversations for this user.
+In contrast, check out the use of `session.userData` in the [`greet` dialog](app.js#L109-L117) to remember the user's name. `userData` is shared across all channels and conversations for this user.
 
 ````JavaScript
 bot.dialog('greet', new builder.SimpleDialog(function (session, results) {

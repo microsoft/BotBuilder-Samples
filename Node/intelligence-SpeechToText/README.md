@@ -26,11 +26,11 @@ The main components are:
 * [speech-service.js](speech-service.js): is the core component illustrating how to call the Bing Speech RESTful API.
 * [app.js](app.js): is the bot service listener receiving messages from the connector service and passing them down to speech-service.js and doing text processing on them.
 
-In this sample we are using the API to get the text and send it back to the user. Check out the use of the `speechService.getTextFromAudioStream(stream)` method in [app.js](app.js#L42).
+In this sample we are using the API to get the text and send it back to the user. Check out the use of the `speechService.getTextFromAudioStream(stream)` method in [app.js](app.js#L35-L44).
 
 ````JavaScript
 if (hasAudioAttachment(session)) {
-    var stream = getAudioStreamFromAttachment(session.message.attachments[0]);
+    var stream = getAudioStreamFromMessage(session.message);
     speechService.getTextFromAudioStream(stream)
         .then(text => {
             session.send(processText(text));

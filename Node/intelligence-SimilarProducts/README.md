@@ -22,11 +22,11 @@ The main components are:
 * [image-service.js](image-service.js): is the core component illustrating how to call the  Bing Image Search RESTful API.
 * [app.js](app.js): is the bot service listener receiving messages from the connector service and passing them down to image-service.js and constructing the response.
 
-In this sample we are using the API to get the similar products and send it back to the user. Check out the use of the `imageService.getSimilarProductsFromStream(stream)` method in [app.js](app.js#L66).
+In this sample we are using the API to get the similar products and send it back to the user. Check out the use of the `imageService.getSimilarProductsFromStream(stream)` method in [app.js](app.js#L38-L43).
 
 ````JavaScript
 if (hasImageAttachment(session)) {
-    var stream = getImageStreamFromAttachment(session.message.attachments[0]);
+    var stream = getImageStreamFromMessage(session.message);
     imageService
         .getSimilarProductsFromStream(stream)
         .then(visuallySimilarProducts => handleApiResponse(session, visuallySimilarProducts))
