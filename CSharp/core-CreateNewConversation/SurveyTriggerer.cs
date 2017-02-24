@@ -42,8 +42,8 @@
                 var botData = scope.Resolve<IBotData>();
                 await botData.LoadAsync(token);
 
-                // resolve the dialog stack
-                IDialogStack stack = stack = scope.Resolve<IDialogStack>();
+                // resolve the dialog task
+                IDialogTask task = scope.Resolve<IDialogTask>();
 
                 // make a dialog to push on the top of the stack
                 var child = scope.Resolve<SurveyDialog>();
@@ -55,10 +55,10 @@
                 try
                 {
                     // put the interrupting dialog on the stack
-                    stack.Call(interruption, null);
+                    task.Call(interruption, null);
 
                     // start running the interrupting dialog
-                    await stack.PollAsync(token);
+                    await task.PollAsync(token);
                 }
                 finally
                 {
