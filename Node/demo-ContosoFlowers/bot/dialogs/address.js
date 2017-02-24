@@ -68,8 +68,8 @@ lib.dialog('billing', [
 
                 var message = new builder.Message(session)
                     .attachmentLayout(builder.AttachmentLayout.carousel);
-                var homeAddress = saved[UseSavedInfoChoices.Home];
-                var workAddress = saved[UseSavedInfoChoices.Work];
+                var homeAddress = saved[session.gettext(UseSavedInfoChoices.Home)];
+                var workAddress = saved[session.gettext(UseSavedInfoChoices.Work)];
                 if (homeAddress) message.addAttachment(createAddressCard(session, session.gettext(UseSavedInfoChoices.Home), homeAddress));
                 if (workAddress) message.addAttachment(createAddressCard(session, session.gettext(UseSavedInfoChoices.Work), workAddress));
                 message.addAttachment(createAddressCard(session, session.gettext(UseSavedInfoChoices.NotThisTime), 'add_new_address'));
