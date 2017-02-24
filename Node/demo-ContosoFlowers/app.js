@@ -16,8 +16,9 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Register your web app routes here
-app.get('/', (req, res, next) =>
-  res.render('index', { title: 'Contoso Flowers' }));
+app.get('/', function (req, res, next) {
+  res.render('index', { title: 'Contoso Flowers' });
+});
 
 // Register Checkout page
 var checkout = require('./checkout');

@@ -9,26 +9,29 @@ var directLineClientName = 'DirectLineClient';
 var directLineSpecUrl = 'https://docs.botframework.com/en-us/restapi/directline3/swagger.json';
 
 var directLineClient = rp(directLineSpecUrl)
-    .then((spec) =>
+    .then(function (spec) {
         // client
-        new Swagger(
-            {
-                spec: JSON.parse(spec.trim()),
-                usePromise: true
-            }))
-    .then((client) => {
+        return new Swagger({
+            spec: JSON.parse(spec.trim()),
+            usePromise: true
+        });
+    })
+    .then(function (client) {
         // add authorization header to client
         client.clientAuthorizations.add('AuthorizationBotConnector', new Swagger.ApiKeyAuthorization('Authorization', 'Bearer ' + directLineSecret, 'header'));
         return client;
     })
-    .catch((err) =>
-        console.error('Error initializing DirectLine client', err));
+    .catch(function (err) {
+        console.error('Error initializing DirectLine client', err);
+    });
 
 // once the client is ready, create a new conversation 
-directLineClient.then((client) => {
+directLineClient.then(function (client) {
     client.Conversations.Conversations_StartConversation()                          // create conversation
-        .then((response) => response.obj.conversationId)                            // obtain id
-        .then((conversationId) => {
+        .then(function (response) {
+            return response.obj.conversationId;
+        })                            // obtain id
+        .then(function (conversationId) {
             sendMessagesFromConsole(client, conversationId);                        // start watching console input for sending new messages to bot
             pollMessages(client, conversationId);                                   // start polling messages from bot
         });
@@ -59,7 +62,9 @@ function sendMessagesFromConsole(client, conversationId) {
                             name: directLineClientName
                         }
                     }
-                }).catch((err) => console.error('Error sending message:', err));
+                }).catch(function (err) {
+                    console.error('Error sending message:', err);
+                });
 
             process.stdout.write('Command> ');
         }
@@ -70,13 +75,13 @@ function sendMessagesFromConsole(client, conversationId) {
 function pollMessages(client, conversationId) {
     console.log('Starting polling message for conversationId: ' + conversationId);
     var watermark = null;
-    setInterval(() => {
+    setInterval(function () {
         client.Conversations.Conversations_GetActivities({ conversationId: conversationId, watermark: watermark })
-            .then((response) => {
+            .then(function (response) {
                 watermark = response.obj.watermark;                                 // use watermark so subsequent requests skip old messages 
                 return response.obj.activities;
             })
-            .then((activities) => printMessages(activities));
+            .then(printMessages);
     }, pollInterval);
 }
 
@@ -84,7 +89,7 @@ function pollMessages(client, conversationId) {
 function printMessages(activities) {
     if (activities && activities.length) {
         // ignore own messages
-        activities = activities.filter((m) => m.from.id !== directLineClientName);
+        activities = activities.filter(function (m) { return m.from.id !== directLineClientName });
 
         if (activities.length) {
             process.stdout.clearLine();
@@ -104,7 +109,7 @@ function printMessage(activity) {
     }
 
     if (activity.attachments) {
-        activity.attachments.forEach((attachment) => {
+        activity.attachments.forEach(function (attachment) {
             switch (attachment.contentType) {
                 case "application/vnd.microsoft.card.hero":
                     renderHeroCard(attachment);
@@ -121,10 +126,11 @@ function printMessage(activity) {
 
 function renderHeroCard(attachment) {
     var width = 70;
-    var contentLine = (content) =>
-        ' '.repeat((width - content.length) / 2) +
-        content +
-        ' '.repeat((width - content.length) / 2);
+    var contentLine = function (content) {
+        return ' '.repeat((width - content.length) / 2) +
+            content +
+            ' '.repeat((width - content.length) / 2);
+    }
 
     console.log('/' + '*'.repeat(width + 1));
     console.log('*' + contentLine(attachment.content.title) + '*');

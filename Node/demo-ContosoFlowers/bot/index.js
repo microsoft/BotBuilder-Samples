@@ -7,12 +7,12 @@ var connector = new builder.ChatConnector({
 });
 
 // Welcome Dialog
-const MainOptions = {
+var MainOptions = {
     Shop: 'main_options_order_flowers',
     Support: 'main_options_talk_to_support'
 };
 
-var bot = new builder.UniversalBot(connector, (session) => {
+var bot = new builder.UniversalBot(connector, function (session) {
 
     if (localizedRegex(session, [MainOptions.Shop]).test(session.message.text)) {
         // Order Flowers
@@ -60,7 +60,7 @@ bot.library(require('./validators').createLibrary());
 
 // Trigger secondary dialogs when 'settings' or 'support' is called
 bot.use({
-    botbuilder: (session, next) => {
+    botbuilder: function (session, next) {
         var text = session.message.text;
 
         var settingsRegex = localizedRegex(session, ['main_options_settings']);
@@ -80,9 +80,9 @@ bot.use({
 });
 
 // Send welcome when conversation with bot is started, by initiating the root dialog
-bot.on('conversationUpdate', (message) => {
+bot.on('conversationUpdate', function (message) {
     if (message.membersAdded) {
-        message.membersAdded.forEach((identity) => {
+        message.membersAdded.forEach(function (identity) {
             if (identity.id === message.address.bot.id) {
                 bot.beginDialog(message.address, '/');
             }
@@ -91,7 +91,7 @@ bot.on('conversationUpdate', (message) => {
 });
 
 // Cache of localized regex to match selection from main options
-const LocalizedRegexCache = {};
+var LocalizedRegexCache = {};
 function localizedRegex(session, localeKeys) {
     var locale = session.preferredLocale();
     var cacheKey = locale + ":" + localeKeys.join('|');
@@ -99,7 +99,7 @@ function localizedRegex(session, localeKeys) {
         return LocalizedRegexCache[cacheKey];
     }
 
-    var localizedStrings = localeKeys.map(key => session.localizer.gettext(locale, key));
+    var localizedStrings = localeKeys.map(function (key) { return session.localizer.gettext(locale, key); });
     var regex = new RegExp('^(' + localizedStrings.join('|') + ')', 'i');
     LocalizedRegexCache[cacheKey] = regex;
     return regex;

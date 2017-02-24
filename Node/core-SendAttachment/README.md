@@ -36,7 +36,7 @@ data:image/png;base64,iVBORw0KGgo…
 Checkout [app.js](./app.js#L60-L78) to see how to convert a file read using `fs.readFile()` and then create the message attachment.
 
 ````JavaScript
-fs.readFile('./images/small-image.png', (err, data) => {
+fs.readFile('./images/small-image.png', function (err, data) {
     var contentType = 'image/png';
     var base64 = Buffer.from(data).toString('base64');
 
@@ -67,7 +67,7 @@ This sample provides a [helper method](./app.js#L128-L176) you can use that enca
 
 ````JavaScript
 // read file content and upload
-fs.readFile('./images/big-image.png', (err, data) => {
+fs.readFile('./images/big-image.png', function (err, data) {
     if (err) {
         return session.send('Oops. Error reading file.');
     }
@@ -81,7 +81,7 @@ fs.readFile('./images/big-image.png', (err, data) => {
         connectorApiClient,
         session.message.address.serviceUrl,
         session.message.address.conversation.id)
-        .then(attachmentUrl => {
+        .then(function (attachmentUrl) {
             // Send Message with Attachment obj using returned Url
             var msg = new builder.Message(session)
                 .addAttachment({
@@ -92,7 +92,7 @@ fs.readFile('./images/big-image.png', (err, data) => {
 
             session.send(msg);
         })
-        .catch(err => {
+        .catch(function (err) {
             console.log('Error uploading file', err);
             session.send('Oops. Error uploading file. ' + err.message);
         });

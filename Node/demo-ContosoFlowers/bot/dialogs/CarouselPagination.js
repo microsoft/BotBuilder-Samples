@@ -1,6 +1,6 @@
 var builder = require('botbuilder');
 
-const defaultSettings = {
+var defaultSettings = {
     showMoreTitle: 'title_show_more',
     showMoreValue: 'show_more',
     selectTemplate: 'select',
@@ -57,7 +57,7 @@ module.exports = {
             } else if (input && isSelection(input, selectPrefix)) {
                 // Validate selection
                 var selectedName = input.substring(selectPrefix.length);
-                getItemFunc(selectedName).then((selectedItem) => {
+                getItemFunc(selectedName).then(function (selectedItem) {
                     if (!selectedItem) {
                         return session.send(settings.unknownOption);
                     }
@@ -73,14 +73,14 @@ module.exports = {
             }
 
             // retrieve from service and send items
-            getPageFunc(pageNumber, settings.pageSize).then((pageResult) => {
+            getPageFunc(pageNumber, settings.pageSize).then(function (pageResult) {
                 // save current page number
                 session.dialogData.pageNumber = pageNumber;
 
                 // items carousel
                 var cards = pageResult.items
                     .map(itemToCardFunc)
-                    .map((cardData) => asCard(session, cardData));
+                    .map(function (cardData) { return asCard(session, cardData); });
                 var message = new builder.Message(session)
                     .attachmentLayout(builder.AttachmentLayout.carousel)
                     .attachments(cards);

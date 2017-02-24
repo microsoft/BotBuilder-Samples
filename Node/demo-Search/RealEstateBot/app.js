@@ -30,7 +30,7 @@ var bot = new builder.UniversalBot(connector, [
         // Process selected search results
         session.send(
             'Done! For future reference, you selected these properties: %s',
-            args.selection.map(i => i.key).join(', '));
+            args.selection.map(function (i) { return i.key; }).join(', '));
     }
 ]);
 
@@ -41,12 +41,13 @@ var realStateResultsMapper = SearchLibrary.defaultResultsMapper(realstateToSearc
 // Register Search Dialogs Library with bot
 bot.library(SearchLibrary.create({
     multipleSelection: true,
-    search: (query) => azureSearchClient.search(query).then(realStateResultsMapper),
+    search: function (query) { return azureSearchClient.search(query).then(realStateResultsMapper); },
     refiners: ['region', 'city', 'type'],
-    refineFormatter: (refiners) =>
-        _.zipObject(
-            refiners.map(r => 'By ' + _.capitalize(r)),
-            refiners)
+    refineFormatter: function (refiners) {
+        return _.zipObject(
+            refiners.map(function (r) { return 'By ' + _.capitalize(r); }),
+            refiners);
+    }
 }));
 
 // Maps the AzureSearch RealState Document into a SearchHit that the Search Library can use

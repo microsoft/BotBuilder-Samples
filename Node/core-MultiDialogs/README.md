@@ -100,7 +100,7 @@ The last step ends performing an async call to a simulated store, printing the r
         // Async search
         Store
             .searchHotels(destination, checkIn, checkOut)
-            .then((hotels) => {
+            .then(function (hotels) {
                 // Results
                 session.send('I found in total %d hotels for your dates:', hotels.length);
 
@@ -168,7 +168,7 @@ Check out [hotels.js](hotels.js#L46-L61) where we are calling an asynchronous me
 // Async search
 Store
     .searchHotels(destination, checkIn, checkOut)
-    .then((hotels) => {
+    .then(function (hotels) {
         // Results
         session.send('I found in total %d hotels for your dates:', hotels.length);
 

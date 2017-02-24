@@ -32,10 +32,10 @@ In this sample we are using the API to get the text and send it back to the user
 if (hasAudioAttachment(session)) {
     var stream = getAudioStreamFromMessage(session.message);
     speechService.getTextFromAudioStream(stream)
-        .then(text => {
+        .then(function (text) {
             session.send(processText(text));
         })
-        .catch(error => {
+        .catch(function (error) {
             session.send('Oops! Something went wrong. Try again later.');
             console.error(error);
         });
@@ -45,12 +45,12 @@ if (hasAudioAttachment(session)) {
 And here is the implementation of `speechService.getTextFromAudioStream(stream)` in [speech-service.js](speech-service.js)
 
 ````JavaScript
-exports.getTextFromAudioStream = (stream) => {
+exports.getTextFromAudioStream = function (stream) {
     return new Promise(
-        (resolve, reject) => {
+        function (resolve, reject) {
             if (!speechApiAccessToken) {
                 try {
-                    authenticate(() => {
+                    authenticate(function () {
                         streamToText(stream, resolve, reject);
                     });
                 } catch (exception) {

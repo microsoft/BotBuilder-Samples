@@ -27,11 +27,11 @@ In this sample we are using the API to get the image description and send it bac
 
 ````JavaScript
 if (hasImageAttachment(session)) {
-    var stream = needle.get(session.message.attachments[0].contentUrl);        
+    var stream = getImageStreamFromMessage(session.message);
     captionService
         .getCaptionFromStream(stream)
-        .then(caption => handleSuccessResponse(session, caption))
-        .catch(error => handleErrorResponse(session, error));
+        .then(function (caption) { handleSuccessResponse(session, caption); })
+        .catch(function (error) { handleErrorResponse(session, error); });
 }
 ````
 
@@ -43,16 +43,16 @@ And here is the implementation of `captionService.getCaptionFromStream(stream)` 
  * @param {stream} stream The stream to an image.
  * @return {Promise} Promise with caption string if succeeded, error otherwise
  */
-exports.getCaptionFromStream = stream => {
+exports.getCaptionFromStream = function (stream) {
     return new Promise(
-        (resolve, reject) => {
-            const requestData = {
+        function (resolve, reject) {
+            var requestData = {
                 url: VISION_URL,
                 encoding: 'binary',
                 headers: { 'content-type': 'application/octet-stream' }
             };
 
-            stream.pipe(request.post(requestData, (error, response, body) => {
+            stream.pipe(request.post(requestData, function (error, response, body) {
                 if (error) {
                     reject(error);
                 }

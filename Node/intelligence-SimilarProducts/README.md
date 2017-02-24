@@ -29,8 +29,8 @@ if (hasImageAttachment(session)) {
     var stream = getImageStreamFromMessage(session.message);
     imageService
         .getSimilarProductsFromStream(stream)
-        .then(visuallySimilarProducts => handleApiResponse(session, visuallySimilarProducts))
-        .catch(error => handleErrorResponse(session, error));
+        .then(function (visuallySimilarProducts) { handleApiResponse(session, visuallySimilarProducts); })
+        .catch(function (error) { handleErrorResponse(session, error); });
 }
 ````
 
@@ -42,10 +42,10 @@ And here is the implementation of `imageService.getSimilarProductsFromStream(str
  * @param {stream} stream The stream to an image.
  * @return {Promise} Promise with visuallySimilarProducts array if succeeded, error otherwise
  */
-exports.getSimilarProductsFromStream = stream => {
+exports.getSimilarProductsFromStream = function (stream) {
     return new Promise(
-        (resolve, reject) => {       
-            const requestData = {
+        function (resolve, reject) {
+            var requestData = {
                 url: BING_API_URL,
                 encoding: 'binary',
                 formData: {
@@ -56,7 +56,7 @@ exports.getSimilarProductsFromStream = stream => {
                 }
             };
 
-            request.post(requestData, (error, response, body) => {
+            request.post(requestData, function (error, response, body) {
                 if (error) {
                     reject(error);
                 }

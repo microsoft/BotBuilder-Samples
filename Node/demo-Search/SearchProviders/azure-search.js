@@ -12,7 +12,7 @@ function create(serviceName, serviceKey, index) {
 
     return {
         search: function (query) {
-            return new Promise((resolve, reject) => {
+            return new Promise(function (resolve, reject) {
                 console.log('AzureSearch.inputQuery:', query);
 
                 // create request & azure query
@@ -35,7 +35,7 @@ function create(serviceName, serviceKey, index) {
                 };
 
                 console.log('AzureSearch.query:', options.body);
-                request.post(options, (err, httpResponse, azureResponse) => {
+                request.post(options, function (err, httpResponse, azureResponse) {
                     if (err) {
                         return reject(err);
                     }
@@ -58,8 +58,8 @@ function getFacets(azureResponse) {
     }
 
     var facets = _.toPairs(rawFacets)
-        .filter(p => _.isArray(p[1]))
-        .map(p => ({ key: p[0], options: p[1] }));
+        .filter(function (p) { return _.isArray(p[1]); })
+        .map(function (p) { return { key: p[0], options: p[1] }; });
 
     return facets;
 }
@@ -69,8 +69,9 @@ function createFilterParams(filters) {
         return '';
     }
 
-    return filters.map((f) => util.format('%s eq \'%s\'', f.key, escapeFilterString(f.value)))
-        .join(' and ');
+    return filters.map(function (f) {
+        return util.format('%s eq \'%s\'', f.key, escapeFilterString(f.value));
+    }).join(' and ');
 }
 
 function escapeFilterString(string) {

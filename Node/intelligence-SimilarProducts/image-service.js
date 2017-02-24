@@ -1,21 +1,21 @@
 // The exported functions in this module makes a call to Bing Image Search API returns similar products description if found.
 // Note: you can do more functionalities like recognizing entities. For more info checkout the API reference:
 // https://msdn.microsoft.com/en-us/library/dn760791.aspx
-const request = require('request').defaults({ encoding: null });
+var request = require('request').defaults({ encoding: null });
 
-const BING_API_URL = 'https://api.cognitive.microsoft.com/bing/v5.0/images/search?modulesRequested=SimilarProducts&mkt=en-us&form=BCSPRD';
+var BING_API_URL = 'https://api.cognitive.microsoft.com/bing/v5.0/images/search?modulesRequested=SimilarProducts&mkt=en-us&form=BCSPRD';
 
-const BING_SEARCH_API_KEY = process.env.BING_SEARCH_API_KEY;
+var BING_SEARCH_API_KEY = process.env.BING_SEARCH_API_KEY;
 
 /** 
  *  Gets the similar products of the image from an image stream
  * @param {stream} stream The stream to an image.
  * @return {Promise} Promise with visuallySimilarProducts array if succeeded, error otherwise
  */
-exports.getSimilarProductsFromStream = stream => {
+exports.getSimilarProductsFromStream = function (stream) {
     return new Promise(
-        (resolve, reject) => {       
-            const requestData = {
+        function (resolve, reject) {
+            var requestData = {
                 url: BING_API_URL,
                 encoding: 'binary',
                 formData: {
@@ -26,7 +26,7 @@ exports.getSimilarProductsFromStream = stream => {
                 }
             };
 
-            request.post(requestData, (error, response, body) => {
+            request.post(requestData, function (error, response, body) {
                 if (error) {
                     reject(error);
                 }
@@ -46,10 +46,10 @@ exports.getSimilarProductsFromStream = stream => {
  * @param {string} url The URL to an image.
  * @return {Promise} Promise with visuallySimilarProducts array if succeeded, error otherwise
  */
-exports.getSimilarProductsFromUrl = url => {
+exports.getSimilarProductsFromUrl = function (url) {
     return new Promise(
-        (resolve, reject) => {
-            const requestData = {
+        function (resolve, reject) {
+            var requestData = {
                 url: BING_API_URL + '&imgurl=' + url,
                 headers: {
                     'Ocp-Apim-Subscription-Key': BING_SEARCH_API_KEY
@@ -57,7 +57,7 @@ exports.getSimilarProductsFromUrl = url => {
                 json: true
             };
 
-            request.get(requestData, (error, response, body) => {
+            request.get(requestData, function (error, response, body) {
                 if (error) {
                     reject(error);
                 }

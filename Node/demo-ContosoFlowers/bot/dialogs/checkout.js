@@ -4,13 +4,13 @@ var botUtils = require('../utils');
 var siteUrl = require('../site-url');
 var orderService = require('../../services/orders');
 
-const lib = new builder.Library('checkout');
-
 // Checkout flow
-const RestartMessage = 'restart';
-const StartOver = 'start_over';
-const KeepGoing = 'continue';
-const Help = 'help';
+var RestartMessage = 'restart';
+var StartOver = 'start_over';
+var KeepGoing = 'continue';
+var Help = 'help';
+
+var lib = new builder.Library('checkout');
 lib.dialog('/', [
     function (session, args, next) {
         args = args || {};
@@ -25,7 +25,7 @@ lib.dialog('/', [
         var addressSerialized = botUtils.serializeAddress(session.message.address);
 
         // Create order (with no payment - pending)
-        orderService.placePendingOrder(order).then((order) => {
+        orderService.placePendingOrder(order).then(function (order) {
 
             // Build Checkout url using previously stored Site url
             var checkoutUrl = util.format(
@@ -48,7 +48,7 @@ lib.dialog('/', [
     },
     function (session, args) {
         builder.Prompts.choice(session, 'select_how_to_continue', [
-            session.gettext(StartOver), 
+            session.gettext(StartOver),
             session.gettext(KeepGoing),
             session.gettext(Help)
         ]);
@@ -71,7 +71,7 @@ lib.dialog('completed', function (session, args, next) {
     var orderId = args.orderId;
 
     // Retrieve order and create ReceiptCard
-    orderService.retrieveOrder(orderId).then((order) => {
+    orderService.retrieveOrder(orderId).then(function (order) {
         if (!order) {
             throw new Error(session.gettext('order_not_found'));
         }
@@ -104,7 +104,7 @@ lib.dialog('completed', function (session, args, next) {
             .addAttachment(receiptCard);
 
         session.endDialog(message);
-    }).catch((err) => {
+    }).catch(function (err) {
         session.endDialog(session.gettext('error_ocurred', err.message));
     });
 });

@@ -62,7 +62,7 @@ bot.dialog('SearchHotels', [
         // Async search
         Store
             .searchHotels(destination)
-            .then((hotels) => {
+            .then(function (hotels) {
                 // args
                 session.send('I found %d hotels:', hotels.length);
 
@@ -89,7 +89,7 @@ bot.dialog('ShowHotelsReviews', function (session, args) {
     if (hotelEntity) {
         session.send('Looking for reviews of \'%s\'...', hotelEntity.entity);
         Store.searchHotelReviews(hotelEntity.entity)
-            .then((reviews) => {
+            .then(function (reviews) {
                 var message = new builder.Message()
                     .attachmentLayout(builder.AttachmentLayout.carousel)
                     .attachments(reviews.map(reviewAsAttachment));
@@ -112,11 +112,11 @@ if (process.env.IS_SPELL_CORRECTION_ENABLED === 'true') {
         botbuilder: function (session, next) {
             spellService
                 .getCorrectedText(session.message.text)
-                .then(text => {
+                .then(function (text) {
                     session.message.text = text;
                     next();
                 })
-                .catch((error) => {
+                .catch(function (error) {
                     console.error(error);
                     next();
                 });

@@ -26,7 +26,7 @@ server.post('/api/messages', connector.listen());
 
 In Contoso Flowers, we are wrapping the Connector's `listen()` method in order to capture the web application's url. We'll use this url later to create a link to the ckeckout form.
 
-Checkout [bot/index.js](bot/index.js#L108-L118) to see how to capture the url and [app.js](app.js#L23-L25) to see how to register the hook.
+Checkout [bot/index.js](bot/index.js#L108-L118) to see how to capture the url and [app.js](app.js#L27-L29) to see how to register the hook.
 
 ````JavaScript
 // /bot/index.js
@@ -55,9 +55,9 @@ Some platforms provide a way to detect when a new conversation with the bot is c
 
 ````JavaScript
 // Send welcome when conversation with bot is started, by initiating the root dialog
-bot.on('conversationUpdate', (message) => {
+bot.on('conversationUpdate', function (message) {
     if (message.membersAdded) {
-        message.membersAdded.forEach((identity) => {
+        message.membersAdded.forEach(function (identity) {
             if (identity.id === message.address.bot.id) {
                 bot.beginDialog(message.address, '/');
             }
@@ -110,7 +110,7 @@ E.g.: To start the shopping's experience root dialog we use `session.beginDialog
 
 ````JavaScript
 // /bot/dialogs/shop.js
-const lib = new builder.Library('shop');
+var lib = new builder.Library('shop');
 lib.dialog('/', [
     function (session) {
         // Ask for delivery address using 'address' library
@@ -133,15 +133,19 @@ Another more common approach for this feature is encapsulating a re-usable dialo
 This is how you could package an email validation:
 
 ````JavaScript
-const EmailRegex = new RegExp(/[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/);
+var EmailRegex = new RegExp(/[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/);
 
-const library = new builder.Library('validators');
+var lib = new builder.Library('validators');
 
-library.dialog('email',
-    builder.DialogAction.validatedPrompt(builder.PromptType.text, (response) =>
-        EmailRegex.test(response)));
+lib.dialog('email',
+    builder.DialogAction.validatedPrompt(builder.PromptType.text, function (response) {
+        return EmailRegex.test(response);
+    }));
 
-module.exports = library;
+// Export createLibrary() function
+module.exports.createLibrary = function () {
+    return lib.clone();
+};
 ```` 
 
 And this is how you can call the validator from your existing code:
@@ -169,7 +173,7 @@ Another example of a reusable library is the [BotBuilder's Location picker contr
 Checkout the [address dialog](bot/dialogs/address.js#L6-L29) to see its usage within Contoso Flowers.
 
 ````JavaScript
-const lib = new builder.Library('address');
+var lib = new builder.Library('address');
 
 // Register BotBuilder-Location dialog
 lib.library(locationDialog.createLibrary(process.env.BING_MAPS_KEY));
@@ -230,7 +234,7 @@ Another example of rich card, is the ReceiptCard which renders differently depen
 
 ````JavaScript
 // Retrieve order and create ReceiptCard
-orderService.retrieveOrder(orderId).then((order) => {
+orderService.retrieveOrder(orderId).then(function (order) {
     if (!order) {
         throw new Error(session.gettext('order_not_found'));
     }
@@ -292,15 +296,17 @@ bot.dialog('/', [
         // Create dialog function 
         var displayProducts = CarouselPagination.create(
             // getPageFunc(pageNumber: number, pageSize: number):Promise<PagingResult>
-            (pageNumber, pageSize) => Products.getProducts(DefaultCategory, pageNumber, pageSize),
+            function (pageNumber, pageSize) { return Products.getProducts(DefaultCategory, pageNumber, pageSize); },
             // getItemFunc(title: string):Promise<object>
             Products.getProduct,
             // itemToCardFunc(product: object):object
-            (product) => ({
-                title: product.name,
-                subtitle: '$ ' + product.price.toFixed(2),
-                imageUrl: product.imageUrl,
-                buttonLabel: 'Choose'
+            function (product) {
+                return {
+                    title: product.name,
+                    subtitle: '$ ' + product.price.toFixed(2),
+                    imageUrl: product.imageUrl,
+                    buttonLabel: 'Choose'
+                };
             }),
             // settings
             {
@@ -466,10 +472,10 @@ Additionally, you'll notice the Settings dialog is globally available, meaning t
 
 ````JavaScript
 // Trigger secondary dialogs when 'settings' or 'support' is called
-const settingsRegex = /^settings/i;
-const supportRegex = new RegExp('^(talk to support|help)', 'i');
+var settingsRegex = /^settings/i;
+var supportRegex = new RegExp('^(talk to support|help)', 'i');
 bot.use({
-    botbuilder: (session, next) => {
+    botbuilder: function (session, next) {
         var text = session.message.text;
         if (settingsRegex.test(text)) {
             // interrupt and trigger 'settings' dialog 
@@ -500,7 +506,7 @@ In this sample, the user proceeds to checkout the order by browsing to an url pr
 var addressSerialized = botUtils.serializeAddress(session.message.address);
 
 // Create order (with no payment - pending)
-orderService.placePendingOrder(order).then((order) => {
+orderService.placePendingOrder(order).then(function (order) {
 
     // Build Checkout url using previously stored Site url
     var checkoutUrl = util.format(
@@ -513,7 +519,7 @@ orderService.placePendingOrder(order).then((order) => {
 });
 ````
 
-Once the user browses to the checkout page and process the payment, the `Address` included in the url is then decoded (using the [deserializeAddress](bot/utils.js#L29) function) and used to resume the conversation with the bot. You can check [express.js Checkout route](checkout.js) calling the [bot.beginDialog()](checkout.js#L64) function.
+Once the user browses to the checkout page and process the payment, the `Address` included in the url is then decoded (using the [deserializeAddress](bot/utils.js#L28-L30) function) and used to resume the conversation with the bot. You can check [express.js Checkout route](checkout.js) calling the [bot.beginDialog()](checkout.js#L64) function.
 
 > These [helpers methods](bot/utils.js) serialize the address into JSON and then encrypts the string using AES256-CTR to avoid tampering. The inverse process occurs while deserializing the address.
 
@@ -531,7 +537,7 @@ router.post('/', function (req, res, next) {
   };
 
   // Complete order
-  orderService.confirmOrder(orderId, paymentDetails).then((processedOrder) => {
+  orderService.confirmOrder(orderId, paymentDetails).then(function (processedOrder) {
 
     // Dispatch completion dialog
     bot.beginDialog(address, 'checkout:completed', { orderId: orderId });
@@ -598,7 +604,7 @@ You can see in the previous code snippet that we are providing a locale path to 
 Send text:
 
 ````JavaScript
-bot.dialog("/", function (session) {
+bot.dialog('/', function (session) {
     session.send('welcome_title');              // Will print "Welcome to the Contoso Flowers"
     session.send('welcome_subtitle');           // Will print "These are the flowers you are looking for!"
 });
@@ -632,7 +638,7 @@ You can also localize content by using [session.gettext() method](https://docs.b
     "final_price": "The final price is $%d (including delivery). Pay securely using our payment provider.",
 }
 
-// bot/dialogs/checout.js#L37
+// bot/dialogs/checkout.js#L37
 var messageText = session.gettext('final_price', order.selection.price);
 var card = new builder.HeroCard(session)
     .text(messageText);

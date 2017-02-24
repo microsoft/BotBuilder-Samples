@@ -74,7 +74,7 @@ In order to use the library you need to create an instance of it using the modul
 var SearchLibrary = require('./SearchDialogLibrary');
 var mySearchLibrary = SearchLibrary.create({
     multipleSelection: true,
-    search: (query) => { return mySearchClient.search(query).then(mapResultSetFunction); },
+    search: function (query) { return mySearchClient.search(query).then(mapResultSetFunction); },
     refiners: ['type', 'region']
 });
 
@@ -90,7 +90,7 @@ bot.dialog('/', [
         // Display selected results
         session.send(
             'Done! You selected these items: %s',
-            args.selection.map(i => i.title).join(', '));
+            args.selection.map(function (i) { return i.title; }).join(', '));
     }
 ]);
 ````

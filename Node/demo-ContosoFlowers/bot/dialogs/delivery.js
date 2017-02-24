@@ -1,9 +1,9 @@
 var builder = require('botbuilder');
 
-const Today = 'today';
-const Tomorrow = 'tomorrow';
+var Today = 'today';
+var Tomorrow = 'tomorrow';
 
-const lib = new builder.Library('delivery');
+var lib = new builder.Library('delivery');
 lib.dialog('date', [
     function (session, args, next) {
         builder.Prompts.choice(session, 'choose_delivery_date', [

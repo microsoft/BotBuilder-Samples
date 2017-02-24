@@ -13,7 +13,7 @@ router.get('/', function (req, res, next) {
   var address = botUtils.deserializeAddress(req.query.address);
   console.log('user address is', address);
 
-  orderService.retrieveOrder(orderId).then((order) => {
+  orderService.retrieveOrder(orderId).then(function (order) {
     // Check order exists
     if (!order) {
       throw new Error('Order ID not found');
@@ -38,7 +38,7 @@ router.get('/', function (req, res, next) {
       order: order
     });
 
-  }).catch((err) => {
+  }).catch(function (err) {
     next(err);
   });
 
@@ -58,7 +58,7 @@ router.post('/', function (req, res, next) {
   };
 
   // Complete order
-  orderService.confirmOrder(orderId, paymentDetails).then((processedOrder) => {
+  orderService.confirmOrder(orderId, paymentDetails).then(function (processedOrder) {
 
     // Dispatch completion dialog
     bot.beginDialog(address, 'checkout:completed', { orderId: orderId });
@@ -69,7 +69,7 @@ router.post('/', function (req, res, next) {
       order: processedOrder
     });
 
-  }).catch((err) => {
+  }).catch(function (err) {
     next(err);
   });
 });

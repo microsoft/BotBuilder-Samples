@@ -56,7 +56,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
 bot.on('conversationUpdate', function (activity) {
     // when user joins conversation, send instructions
     if (activity.membersAdded) {
-        activity.membersAdded.forEach((identity) => {
+        activity.membersAdded.forEach(function (identity) {
             if (identity.id === activity.address.bot.id) {
                 var reply = new builder.Message()
                     .address(activity.address)

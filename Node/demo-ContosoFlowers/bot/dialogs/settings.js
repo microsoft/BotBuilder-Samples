@@ -4,7 +4,7 @@ var validators = require('../validators');
 var utils = require('../utils');
 var addressLibrary = require('./address');
 
-const SettingChoice = {
+var SettingChoice = {
     Email: 'edit_email',
     Phone: 'edit_phone',
     Addresses: 'edit_addresses',
@@ -63,18 +63,18 @@ lib.dialog('/', [
 
 // Email edit
 lib.dialog('email', editOptionDialog(
-    (input) => validators.EmailRegex.test(input),
+    function (input) { return validators.EmailRegex.test(input); },
     'invalid_email_address',
-    (session, email) => saveSenderSetting(session, 'email', email)));
+    function (session, email) { saveSenderSetting(session, 'email', email); }));
 
 // Phone Number edit
 lib.dialog('phone', editOptionDialog(
-    (input) => validators.PhoneRegex.test(input),
+    function (input) { return validators.PhoneRegex.test(input); },
     'invalid_phone_number',
-    (session, phone) => saveSenderSetting(session, 'phoneNumber', phone)));
+    function (session, phone) { saveSenderSetting(session, 'phoneNumber', phone); }));
 
 // Addresses
-const UseSavedInfoChoices = addressLibrary.UseSavedInfoChoices;
+var UseSavedInfoChoices = addressLibrary.UseSavedInfoChoices;
 lib.dialog('addresses', [
     function (session, args, next) {
 

@@ -52,14 +52,14 @@ var bot = new builder.UniversalBot(connector, [
         }
     }]);
 
-const Inline = 'Show inline attachment';
-const Upload = 'Show uploaded attachment';
-const External = 'Show Internet attachment';
-const Options = [Inline, Upload, External];
+var Inline = 'Show inline attachment';
+var Upload = 'Show uploaded attachment';
+var External = 'Show Internet attachment';
+var Options = [Inline, Upload, External];
 
 // Sends attachment inline in base64
 function sendInline(session, filePath, contentType, attachmentFileName) {
-    fs.readFile(filePath, (err, data) => {
+    fs.readFile(filePath, function (err, data) {
         if (err) {
             return session.send('Oops. Error reading file.');
         }
@@ -81,7 +81,7 @@ function sendInline(session, filePath, contentType, attachmentFileName) {
 function uploadFileAndSend(session, filePath, contentType, attachmentFileName) {
 
     // read file content and upload
-    fs.readFile(filePath, (err, data) => {
+    fs.readFile(filePath, function (err, data) {
         if (err) {
             return session.send('Oops. Error reading file.');
         }
@@ -95,7 +95,7 @@ function uploadFileAndSend(session, filePath, contentType, attachmentFileName) {
             connectorApiClient,
             session.message.address.serviceUrl,
             session.message.address.conversation.id)
-            .then(attachmentUrl => {
+            .then(function (attachmentUrl) {
                 // Send Message with Attachment obj using returned Url
                 var msg = new builder.Message(session)
                     .addAttachment({
@@ -106,7 +106,7 @@ function uploadFileAndSend(session, filePath, contentType, attachmentFileName) {
 
                 session.send(msg);
             })
-            .catch(err => {
+            .catch(function (err) {
                 console.log('Error uploading file', err);
                 session.send('Oops. Error uploading file. ' + err.message);
             });
@@ -135,7 +135,7 @@ function uploadAttachment(fileData, contentType, fileName, connector, connectorA
         // ask the connector for the token. If it expired, a new token will be requested to the API
         var obtainToken = Promise.promisify(connector.addAccessToken.bind(connector));
         var options = {};
-        return Promise.all([clientPromise, obtainToken(options)]).then((values) => {
+        return Promise.all([clientPromise, obtainToken(options)]).then(function (values) {
             var client = values[0];
             var hasToken = !!options.headers.Authorization;
             if (hasToken) {
@@ -148,7 +148,7 @@ function uploadAttachment(fileData, contentType, fileName, connector, connectorA
     }
 
     // 1. inject the JWT from the connector to the client on every call
-    return addTokenToClient(connector, connectorApiClient).then((client) => {
+    return addTokenToClient(connector, connectorApiClient).then(function (client) {
         // 2. override API client host (api.botframework.com) with channel's serviceHost (e.g.: slack.botframework.com)
         var serviceUrl = url.parse(baseServiceUrl);
         var serviceHost = serviceUrl.host;
@@ -165,7 +165,7 @@ function uploadAttachment(fileData, contentType, fileName, connector, connectorA
         };
 
         return client.Conversations.Conversations_UploadAttachment(uploadParameters)
-            .then((res) => {
+            .then(function (res) {
                 var attachmentId = res.obj.id;
                 var attachmentUrl = serviceUrl;
 

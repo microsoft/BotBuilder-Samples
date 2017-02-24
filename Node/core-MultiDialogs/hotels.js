@@ -46,7 +46,7 @@ module.exports = [
         // Async search
         Store
             .searchHotels(destination, checkIn, checkOut)
-            .then((hotels) => {
+            .then(function (hotels) {
                 // Results
                 session.send('I found in total %d hotels for your dates:', hotels.length);
 

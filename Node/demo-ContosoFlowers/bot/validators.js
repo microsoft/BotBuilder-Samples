@@ -1,21 +1,24 @@
 var builder = require('botbuilder');
 
-const PhoneRegex = new RegExp(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/);
-const EmailRegex = new RegExp(/[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/);
+var PhoneRegex = new RegExp(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/);
+var EmailRegex = new RegExp(/[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/);
 
-const lib = new builder.Library('validators');
+var lib = new builder.Library('validators');
 
 lib.dialog('notes',
-    builder.DialogAction.validatedPrompt(builder.PromptType.text, (response) =>
-        response && response.length <= 200));
+    builder.DialogAction.validatedPrompt(builder.PromptType.text, function (response) {
+        return response && response.length <= 200;
+    }));
 
 lib.dialog('phonenumber',
-    builder.DialogAction.validatedPrompt(builder.PromptType.text, (response) =>
-        PhoneRegex.test(response)));
+    builder.DialogAction.validatedPrompt(builder.PromptType.text, function (response) {
+        return PhoneRegex.test(response);
+    }));
 
 lib.dialog('email',
-    builder.DialogAction.validatedPrompt(builder.PromptType.text, (response) =>
-        EmailRegex.test(response)));
+    builder.DialogAction.validatedPrompt(builder.PromptType.text, function (response) {
+        return EmailRegex.test(response);
+    }));
 
 // Export createLibrary() function
 module.exports.createLibrary = function () {

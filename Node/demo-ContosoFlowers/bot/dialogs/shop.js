@@ -1,7 +1,7 @@
 var util = require('util');
 var builder = require('botbuilder');
 
-const lib = new builder.Library('shop');
+var lib = new builder.Library('shop');
 lib.dialog('/', [
     function (session) {
         // Ask for delivery address using 'address' library
