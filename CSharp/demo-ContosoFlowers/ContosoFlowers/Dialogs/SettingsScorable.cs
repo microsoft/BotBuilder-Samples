@@ -11,12 +11,12 @@
 
     public class SettingsScorable : IScorable<IActivity, double>
     {
-        private readonly IDialogStack stack;
+        private readonly IDialogTask task;
         private readonly IContosoFlowersDialogFactory dialogFactory;
 
-        public SettingsScorable(IDialogStack stack, IContosoFlowersDialogFactory dialogFactory)
+        public SettingsScorable(IDialogTask task, IContosoFlowersDialogFactory dialogFactory)
         {
-            SetField.NotNull(out this.stack, nameof(stack), stack);
+            SetField.NotNull(out this.task, nameof(task), task);
             SetField.NotNull(out this.dialogFactory, nameof(dialogFactory), dialogFactory);
         }
 
@@ -60,10 +60,10 @@
                 var interruption = settingsDialog.Void<object, IMessageActivity>();
 
                 // put the interrupting dialog on the stack
-                this.stack.Call(interruption, null);
+                this.task.Call(interruption, null);
 
                 // start running the interrupting dialog
-                await this.stack.PollAsync(token);
+                await this.task.PollAsync(token);
             }
         }
 
