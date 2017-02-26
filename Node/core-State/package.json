@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "botbuilder": "^3.6.0",
-    "restify": "^4.3.0"
+    "restify": "^4.3.0",
+    "dotenv-extended": "^1.0.4"
   }
 }

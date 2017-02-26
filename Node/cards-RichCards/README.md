@@ -15,7 +15,7 @@ The minimum prerequisites to run this sample are:
 
 ### Code Highlights
 
-Many messaging channels provide the ability to attach richer objects. The Bot Framework has the ability to render rich cards as attachments. There are several types of cards supported: Hero Card, Thumbnail Card, Receipt Card, Sign-In Card, Animation Card, Video Card and Audio Card. Once the desired Card type is selected, it is mapped into an `Attachment` data structure. Check out the key code located in [app.js](app.js#L26-L32) where a card is attached to the constructed message.
+Many messaging channels provide the ability to attach richer objects. The Bot Framework has the ability to render rich cards as attachments. There are several types of cards supported: Hero Card, Thumbnail Card, Receipt Card, Sign-In Card, Animation Card, Video Card and Audio Card. Once the desired Card type is selected, it is mapped into an `Attachment` data structure. Check out the key code located in [app.js](app.js#L29-L35) where a card is attached to the constructed message.
 
 ````JavaScript
 function (session, results) {
@@ -32,7 +32,7 @@ function (session, results) {
 
 #### Hero Card
 
-The Hero card is a multipurpose card; it primarily hosts a single large image, a button, and a "tap action", along with text content to display on the card. Check out the `createHeroCard` function in [app.js](app.js#L66-L77) for a Hero Card sample.
+The Hero card is a multipurpose card; it primarily hosts a single large image, a button, and a "tap action", along with text content to display on the card. Check out the `createHeroCard` function in [app.js](app.js#L69-L80) for a Hero Card sample.
 
 ````JavaScript
 function createHeroCard(session) {
@@ -50,7 +50,7 @@ function createHeroCard(session) {
 ````
 
 #### Thumbnail Card
-The Thumbnail card is a multipurpose card; it primarily hosts a single small image, a button, and a "tap action", along with text content to display on the card. Check out the `createThumbnailCard` function in [app.js](app.js#L79-L90) for a Thumbnail Card sample.
+The Thumbnail card is a multipurpose card; it primarily hosts a single small image, a button, and a "tap action", along with text content to display on the card. Check out the `createThumbnailCard` function in [app.js](app.js#L82-L93) for a Thumbnail Card sample.
 
 ```JavaScript
 function createThumbnailCard(session) {
@@ -68,7 +68,7 @@ function createThumbnailCard(session) {
 ````
 
 #### Receipt Card
-The receipt card allows the Bot to present a receipt to the user. Check out the `createReceiptCard` function in [app.js](app.js#L93-L114) for a Receipt Card sample.
+The receipt card allows the Bot to present a receipt to the user. Check out the `createReceiptCard` function in [app.js](app.js#L96-L117) for a Receipt Card sample.
 
 ````JavaScript
 function createReceiptCard(session) {
@@ -96,7 +96,7 @@ function createReceiptCard(session) {
 ````
 
 #### Sign-In Card
-The Sign-In card is a card representing a request to sign in the user. Check out the `createSigninCard` function in [app.js](app.js#L116-L120) for a Sign-In Card sample.
+The Sign-In card is a card representing a request to sign in the user. Check out the `createSigninCard` function in [app.js](app.js#L119-L123) for a Sign-In Card sample.
 
 > Note: The sign in card can be used to initiate an authentication flow which is beyond this sample. For a complete authentication flow sample take a look at [AuthBot](https://github.com/MicrosoftDX/AuthBot) (Please, notice the samples are currently in C# only).
 
@@ -109,7 +109,7 @@ function createSigninCard(session) {
 ````
 
 #### Animation Card
-The Animation card is a card that’s capable of playing animated GIFs or short videos. Check out the `createAnimationCard` method in [app.js](app.js#L122-L130) for an Animation Card sample.
+The Animation card is a card that’s capable of playing animated GIFs or short videos. Check out the `createAnimationCard` method in [app.js](app.js#L125-L133) for an Animation Card sample.
 
 ````JavaScript
 function createAnimationCard(session) {
@@ -126,7 +126,7 @@ function createAnimationCard(session) {
 > Note: At the time of writing this sample, Skype requires the Animation card to have a Thumbnail Url.
 
 #### Video Card
-The Video card is a card that’s capable of playing videos. Check out the `createVideoCard` method in [app.js](app.js#L132-L144) for a Video Card sample.
+The Video card is a card that’s capable of playing videos. Check out the `createVideoCard` method in [app.js](app.js#L135-L147) for a Video Card sample.
 
 ````JavaScript
 function createVideoCard(session) {
@@ -147,7 +147,7 @@ function createVideoCard(session) {
 > Note: At the time of writing this sample, Skype requires the Video card to have a Thumbnail Url.
 
 #### Audio Card
-The Audio card is a card that’s capable of playing an audio file. Check out the `createAudioCard` method in [app.js](app.js#L146-L158) for an Audio Card sample.
+The Audio card is a card that’s capable of playing an audio file. Check out the `createAudioCard` method in [app.js](app.js#L149-L161) for an Audio Card sample.
 
 ````JavaScript
 function createAudioCard(session) {

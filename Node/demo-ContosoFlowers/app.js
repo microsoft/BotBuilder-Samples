@@ -1,3 +1,6 @@
+// This loads the environment variables from the .env file
+require('dotenv-extended').load();
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -13,8 +16,9 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Register your web app routes here
-app.get('/', (req, res, next) =>
-  res.render('index', { title: 'Contoso Flowers' }));
+app.get('/', function (req, res, next) {
+  res.render('index', { title: 'Contoso Flowers' });
+});
 
 // Register Checkout page
 var checkout = require('./checkout');

@@ -1,3 +1,6 @@
+// This loads the environment variables from the .env file
+require('dotenv-extended').load();
+
 var builder = require('botbuilder');
 var restify = require('restify');
 
@@ -33,14 +36,14 @@ var bot = new builder.UniversalBot(connector, [
     }
 ]);
 
-const HeroCardName = 'Hero card';
-const ThumbnailCardName = 'Thumbnail card';
-const ReceiptCardName = 'Receipt card';
-const SigninCardName = 'Sign-in card';
-const AnimationCardName = "Animation card";
-const VideoCardName = "Video card";
-const AudioCardName = "Audio card";
-const CardNames = [HeroCardName, ThumbnailCardName, ReceiptCardName, SigninCardName, AnimationCardName, VideoCardName, AudioCardName];
+var HeroCardName = 'Hero card';
+var ThumbnailCardName = 'Thumbnail card';
+var ReceiptCardName = 'Receipt card';
+var SigninCardName = 'Sign-in card';
+var AnimationCardName = "Animation card";
+var VideoCardName = "Video card";
+var AudioCardName = "Audio card";
+var CardNames = [HeroCardName, ThumbnailCardName, ReceiptCardName, SigninCardName, AnimationCardName, VideoCardName, AudioCardName];
 
 function createCard(selectedCardName, session) {
     switch (selectedCardName) {

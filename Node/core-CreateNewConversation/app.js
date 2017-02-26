@@ -1,3 +1,6 @@
+// This loads the environment variables from the .env file
+require('dotenv-extended').load();
+
 var builder = require('botbuilder');
 var restify = require('restify');
 
@@ -36,7 +39,7 @@ setInterval(function () {
         delete newConversationAddress.conversation;
 
         // start survey dialog
-        bot.beginDialog(newConversationAddress, 'survey', null, (err) => {
+        bot.beginDialog(newConversationAddress, 'survey', null, function (err) {
             if (err) {
                 // error ocurred while starting new conversation. Channel not supported?
                 bot.send(new builder.Message()

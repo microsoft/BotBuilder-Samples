@@ -1,6 +1,6 @@
 var Promise = require('bluebird');
 
-const ReviewsOptions = [
+var ReviewsOptions = [
     '“Very stylish, great stay, great staff”',
     '“good hotel awful meals”',
     '“Need more attention to little things”',
@@ -25,10 +25,10 @@ module.exports = {
                 });
             }
 
-            hotels.sort((a, b) => a.priceStarting - b.priceStarting);
+            hotels.sort(function (a, b) { return a.priceStarting - b.priceStarting; });
 
             // complete promise with a timer to simulate async response
-            setTimeout(() => resolve(hotels), 1000);
+            setTimeout(function () { resolve(hotels); }, 1000);
         });
     },
 
@@ -46,7 +46,7 @@ module.exports = {
             }
 
             // complete promise with a timer to simulate async response
-            setTimeout(() => resolve(reviews), 1000);
+            setTimeout(function () { resolve(reviews); }, 1000);
         });
     }
 };

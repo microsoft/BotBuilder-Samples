@@ -1,6 +1,6 @@
 var builder = require('botbuilder');
 
-const lib = new builder.Library('help');
+var lib = new builder.Library('help');
 lib.dialog('/', builder.DialogAction.endDialog('thank_you'));
 
 // Export createLibrary() function

@@ -23,16 +23,16 @@ The main components are:
 * [caption-service.js](caption-service.js): is the core component illustrating how to call the Computer Vision RESTful API.
 * [app.js](app.js): is the bot service listener receiving messages from the connector service and passing them down to caption-service.js.
 
-In this sample we are using the API to get the image description and send it back to the user. Check out the use of the `captionService.getCaptionFromStream(stream)` method in [app.js](app.js#L63).
+In this sample we are using the API to get the image description and send it back to the user. Check out the use of the `captionService.getCaptionFromStream(stream)` method in [app.js](app.js#L35-L40).
 
 ````JavaScript
 if (hasImageAttachment(session)) {
-        var stream = needle.get(session.message.attachments[0].contentUrl);        
-        captionService
-            .getCaptionFromStream(stream)
-            .then(caption => handleSuccessResponse(session, caption))
-            .catch(error => handleErrorResponse(session, error));
-    }
+    var stream = getImageStreamFromMessage(session.message);
+    captionService
+        .getCaptionFromStream(stream)
+        .then(function (caption) { handleSuccessResponse(session, caption); })
+        .catch(function (error) { handleErrorResponse(session, error); });
+}
 ````
 
 And here is the implementation of `captionService.getCaptionFromStream(stream)` in [caption-service.js](caption-service.js#L15).
@@ -43,16 +43,16 @@ And here is the implementation of `captionService.getCaptionFromStream(stream)` 
  * @param {stream} stream The stream to an image.
  * @return {Promise} Promise with caption string if succeeded, error otherwise
  */
-exports.getCaptionFromStream = stream => {
+exports.getCaptionFromStream = function (stream) {
     return new Promise(
-        (resolve, reject) => {
-            const requestData = {
+        function (resolve, reject) {
+            var requestData = {
                 url: VISION_URL,
                 encoding: 'binary',
                 headers: { 'content-type': 'application/octet-stream' }
             };
 
-            stream.pipe(request.post(requestData, (error, response, body) => {
+            stream.pipe(request.post(requestData, function (error, response, body) {
                 if (error) {
                     reject(error);
                 }

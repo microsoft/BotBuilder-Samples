@@ -33,10 +33,10 @@ You'll need to encode file's content, then set the attachment's `contentUrl` as 
 data:image/png;base64,iVBORw0KGgo…
 ````
 
-Checkout [app.js](./app.js#L64-L73) to see how to convert a file read using `fs.readFile()` and then create the message attachment.
+Checkout [app.js](./app.js#L60-L78) to see how to convert a file read using `fs.readFile()` and then create the message attachment.
 
 ````JavaScript
-fs.readFile('./images/small-image.png', (err, data) => {
+fs.readFile('./images/small-image.png', function (err, data) {
     var contentType = 'image/png';
     var base64 = Buffer.from(data).toString('base64');
 
@@ -56,18 +56,18 @@ fs.readFile('./images/small-image.png', (err, data) => {
 This option should be used when the file to send is less than 256Kb in size when encoded to base64. A good scenario are images generated based on user input.
 It does require a few more steps than the other methods, but leverages the channels store to store the file:
 
-0. Read (or generate) the content file and store it in a Buffer for encoding to base64 ([relevant code](./app.js#L127))
-1. Create a client to the Connector API ([relevant code](./app.js#L9-L14))
-2. Inject the Bot Connector's token into the Connector API client ([relevant code](./app.js#L147))
-3. Set the Connector API client service url to the Connector's ([relevant code](./app.js#L148-L151))
-4. Upload the base64 encoded payload to the conversations/attachments endpoint ([relevant code](./app.js#L153-L163))
-5. Use the returned attachmentId to generate the contentUrl ([relevant code](./app.js#L165-L169))
+0. Read (or generate) the content file and store it in a Buffer for encoding to base64 ([relevant code](./app.js#L131))
+1. Create a client to the Connector API ([relevant code](./app.js#L12-L17))
+2. Inject the Bot Connector's token into the Connector API client ([relevant code](./app.js#L151))
+3. Set the Connector API client service url to the Connector's ([relevant code](./app.js#L152-L155))
+4. Upload the base64 encoded payload to the conversations/attachments endpoint ([relevant code](./app.js#L157-L167))
+5. Use the returned attachmentId to generate the contentUrl ([relevant code](./app.js#L169-L173))
 
-This sample provides a [helper method](./app.js#L124-L172) you can use that encapsulates most of the previous steps.
+This sample provides a [helper method](./app.js#L128-L176) you can use that encapsulates most of the previous steps.
 
 ````JavaScript
 // read file content and upload
-fs.readFile('./images/big-image.png', (err, data) => {
+fs.readFile('./images/big-image.png', function (err, data) {
     if (err) {
         return session.send('Oops. Error reading file.');
     }
@@ -81,7 +81,7 @@ fs.readFile('./images/big-image.png', (err, data) => {
         connectorApiClient,
         session.message.address.serviceUrl,
         session.message.address.conversation.id)
-        .then(attachmentUrl => {
+        .then(function (attachmentUrl) {
             // Send Message with Attachment obj using returned Url
             var msg = new builder.Message(session)
                 .addAttachment({
@@ -92,7 +92,7 @@ fs.readFile('./images/big-image.png', (err, data) => {
 
             session.send(msg);
         })
-        .catch(err => {
+        .catch(function (err) {
             console.log('Error uploading file', err);
             session.send('Oops. Error uploading file. ' + err.message);
         });
@@ -104,7 +104,7 @@ fs.readFile('./images/big-image.png', (err, data) => {
 This option is the simplest but requires the image to be already on the Internet and be publicly accesible.
 You could also provide an Url pointing to your own site.
 
-Checkout [app.js](./app.js#L114-L121) to see how to create a message with a single image attachment.
+Checkout [app.js](./app.js#L118-L125) to see how to create a message with a single image attachment.
 
 ````JavaScript
 var msg = new builder.Message(session)

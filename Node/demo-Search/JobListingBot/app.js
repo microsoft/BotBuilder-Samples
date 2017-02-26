@@ -34,13 +34,13 @@ var bot = new builder.UniversalBot(connector, [
     function (session, args) {
         // trigger Search dialog root, using the generated Query created by /refine
         var query = args.query;
-        SearchLibrary.begin(session, { query });
+        SearchLibrary.begin(session, { query: query });
     },
     function (session, args) {
         // Process selected search results
         session.send(
             'Done! For future reference, you selected these job listings: %s',
-            args.selection.map(i => i.key).join(', '));
+            args.selection.map(function (i) { return i.key; }).join(', '));
     }
 ]);
 
@@ -51,7 +51,7 @@ var jobsResultsMapper = SearchLibrary.defaultResultsMapper(jobToSearchHit);
 // Register Search Dialogs Library with bot
 bot.library(SearchLibrary.create({
     multipleSelection: true,
-    search: (query) => azureSearchClient.search(query).then(jobsResultsMapper),
+    search: function (query) { return azureSearchClient.search(query).then(jobsResultsMapper); },
     refiners: ['business_title', 'agency', 'work_location']
 }));
 

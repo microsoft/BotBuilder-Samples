@@ -1,3 +1,6 @@
+// This loads the environment variables from the .env file
+require('dotenv-extended').load();
+
 var builder = require('botbuilder');
 var restify = require('restify');
 
@@ -13,63 +16,57 @@ var connector = new builder.ChatConnector({
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 server.post('/api/messages', connector.listen());
-var bot = new builder.UniversalBot(connector);
 
-// Dialogs
-var Hotels = require('./hotels');
-var Flights = require('./flights');
-var Support = require('./support');
+var DialogLabels = {
+    Hotels: 'Hotels',
+    Flights: 'Flights',
+    Support: 'Support'
+};
 
-// Setup dialogs
-bot.dialog('flights', Flights.Dialog);
-bot.dialog('hotels', Hotels.Dialog);
-bot.dialog('support', Support.Dialog);
-
-// Root dialog
-bot.dialog('/', new builder.IntentDialog()
-    .matchesAny([/help/i, /support/i, /problem/i], [
-        function (session) {
-            session.beginDialog('support');
-        },
-        function (session, result) {
-            var tickerNumber = result.response;
-            session.send('Thanks for contacting our support team. Your ticket number is %s.', tickerNumber);
-            session.endDialog();
-        }
-    ])
-    .onDefault([
-        function (session) {
-            // prompt for search option
-            builder.Prompts.choice(
-                session,
-                'Are you looking for a flight or a hotel?',
-                [Flights.Label, Hotels.Label],
-                {
-                    maxRetries: 3,
-                    retryPrompt: 'Not a valid option'
-                });
-        },
-        function (session, result) {
-            if (!result.response) {
-                // exhausted attemps and no selection, start over
-                session.send('Ooops! Too many attemps :( But don\'t worry, I\'m handling that exception and you can try again!');
-                return session.endDialog();
-            }
-
-            // on error, start over
-            session.on('error', function (err) {
-                session.send('Failed with message: %s', err.message);
-                session.endDialog();
+var bot = new builder.UniversalBot(connector, [
+    function (session) {
+        // prompt for search option
+        builder.Prompts.choice(
+            session,
+            'Are you looking for a flight or a hotel?',
+            [DialogLabels.Flights, DialogLabels.Hotels],
+            {
+                maxRetries: 3,
+                retryPrompt: 'Not a valid option'
             });
-
-            // continue on proper dialog
-            var selection = result.response.entity;
-            switch (selection) {
-                case Flights.Label:
-                    return session.beginDialog('flights');
-                case Hotels.Label:
-                    return session.beginDialog('hotels');
-            }
+    },
+    function (session, result) {
+        if (!result.response) {
+            // exhausted attemps and no selection, start over
+            session.send('Ooops! Too many attemps :( But don\'t worry, I\'m handling that exception and you can try again!');
+            return session.endDialog();
         }
-    ]));
 
+        // on error, start over
+        session.on('error', function (err) {
+            session.send('Failed with message: %s', err.message);
+            session.endDialog();
+        });
+
+        // continue on proper dialog
+        var selection = result.response.entity;
+        switch (selection) {
+            case DialogLabels.Flights:
+                return session.beginDialog('flights');
+            case DialogLabels.Hotels:
+                return session.beginDialog('hotels');
+        }
+    }
+]);
+
+bot.dialog('flights', require('./flights'));
+bot.dialog('hotels', require('./hotels'));
+bot.dialog('support', require('./support'))
+    .triggerAction({
+        matches: [/help/i, /support/i, /problem/i]
+    });
+
+// log any bot errors into the console
+bot.on('error', function (e) {
+    console.log('And error ocurred', e);
+});

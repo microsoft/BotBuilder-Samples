@@ -1,7 +1,7 @@
 var util = require('util');
 var builder = require('botbuilder');
 
-const lib = new builder.Library('details');
+var lib = new builder.Library('details');
 
 // Recipient & Sender details
 lib.dialog('/', [
@@ -48,7 +48,7 @@ lib.dialog('/', [
 ]);
 
 // Sender details
-const UseSavedInfoChoices = {
+var UseSavedInfoChoices = {
     Yes: 'yes',
     No: 'edit'
 };

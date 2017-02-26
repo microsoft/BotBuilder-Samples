@@ -25,7 +25,7 @@ Both properties contains a list of [`IIdentity`](https://docs.botframework.com/e
 bot.on('conversationUpdate', function (message) {
     if (message.membersAdded && message.membersAdded.length > 0) {
         var membersAdded = message.membersAdded
-            .map((m) => {
+            .map(function (m) {
                 var isSelf = m.id === message.address.bot.id;
                 return (isSelf ? message.address.bot.name : m.name) || '' + ' (Id: ' + m.id + ')';
             })
@@ -38,7 +38,7 @@ bot.on('conversationUpdate', function (message) {
 
     if (message.membersRemoved && message.membersRemoved.length > 0) {
         var membersRemoved = message.membersRemoved
-            .map((m) => {
+            .map(function (m) {
                 var isSelf = m.id === message.address.bot.id;
                 return (isSelf ? message.address.bot.name : m.name) || '' + ' (Id: ' + m.id + ')';
             })
@@ -57,43 +57,23 @@ Currently, the Node SDK does not expose a method to retrieve the current list of
 To do this will use the Swagger Spec file and the Swagger JS client to create a client with almost no effort:  
 
 ````JavaScript
-var connectorApiClient = new Swagger(
-    {
-        url: 'https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json',
-        usePromise: true
-    });
+var connectorApiClient = new Swagger({
+    url: 'https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/ConnectorAPI.json',
+    usePromise: true
+});
 ````
 
-Once a message is received in a group conversation, we'll ask the API for its members. In order to call the REST API, we need to be authenticated using the bot's JWT token (see [app.js - addTokenToClient function](app.js#L79-89)) and then override the API's hostname using the channel's serviceUrl (see [app.js - client.setHost](app.js#L39-L41)).
-Then we call Swagger generated client (`client.Conversations.Conversations_GetConversationMembers`) and pass the response to a helper function that will print the members list to the conversation ([app.js - printMembersInChannel function](app.js#L91-L102)).
+Once a message is received in a group conversation, we'll ask the API for its members. In order to call the REST API, we need to be authenticated using the bot's JWT token (see [app.js - addTokenToClient function](app.js#L85-95)) and then override the API's hostname using the channel's serviceUrl (see [app.js - client.setHost](app.js#L41-L43)).
+Then we call Swagger generated client (`client.Conversations.Conversations_GetConversationMembers`) and pass the response to a helper function that will print the members list to the conversation ([app.js - printMembersInChannel function](app.js#L97-L108)).
 
 ````JavaScript
-var bot = new builder.UniversalBot(connector, function (session) {
-    var message = session.message;
-    var conversationId = message.address.conversation.id;
-
-    // when a group conversation message is recieved,
-    // get the conversation members using the REST API and print it on the conversation.
-
-    // 1. inject the JWT from the connector to the client on every call
-    addTokenToClient(connector, connectorApiClient).then((client) => {
-        // 2. override API client host (api.botframework.com) with channel's serviceHost (e.g.: slack.botframework.com)
-        var serviceHost = url.parse(message.address.serviceUrl).host;
-        client.setHost(serviceHost);
-        // 3. GET /v3/conversations/{conversationId}/members
-        client.Conversations.Conversations_GetConversationMembers({ conversationId: conversationId })
-            .then((res) => printMembersInChannel(message.address, res.obj))
-            .catch((error) => console.log('Error retrieving conversation members: ' + error.statusText));
-    });
-});
-
 // Helper methods
 
 // Inject the conenctor's JWT token into to the Swagger client
 function addTokenToClient(connector, clientPromise) {
     // ask the connector for the token. If it expired, a new token will be requested to the API
     var obtainToken = Promise.promisify(connector.getAccessToken.bind(connector));
-    return Promise.all([obtainToken(), clientPromise]).then((values) => {
+    return Promise.all([obtainToken(), clientPromise]).then(function (values) {
         var token = values[0];
         var client = values[1];
         client.clientAuthorizations.add('AuthorizationBearer', new Swagger.ApiKeyAuthorization('Authorization', 'Bearer ' + token, 'header'));
@@ -103,7 +83,9 @@ function addTokenToClient(connector, clientPromise) {
 
 // Create a message with the member list and send it to the conversationAddress
 function printMembersInChannel(conversationAddress, members) {
-    var memberList = members.map((m) => '* ' + m.name + ' (Id: ' + m.id + ')')
+    if (!members || members.length === 0) return;
+
+    var memberList = members.map(function (m) { return '* ' + m.name + ' (Id: ' + m.id + ')'; })
         .join('\n ');
 
     var reply = new builder.Message()
@@ -133,7 +115,7 @@ To get more information about how to get started in Bot Builder for Node, Conver
 * [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
 * [ConversationUpdate event](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iconversationupdate.html)
 * [Bot Connector REST API - GetConversationMembers](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_GetConversationMembers)
-* [Bot Connector REST API - Swagger file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json)
+* [Bot Connector REST API - Swagger file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/ConnectorAPI.json)
 * [Swagger-JS](https://github.com/swagger-api/swagger-js)
 
 > **Limitations**  

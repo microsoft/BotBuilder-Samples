@@ -12,7 +12,7 @@ var carouselOptions = {
     unknownOption: 'unknown_option'
 };
 
-const lib = new builder.Library('product-selection');
+var lib = new builder.Library('product-selection');
 
 // These steps are defined as a waterfall dialog,
 // but the control is done manually by calling the next func argument.
@@ -37,7 +37,7 @@ lib.dialog('/',
         function (session, args, next) {
             var categoryName = session.dialogData.category.name;
             CarouselPagination.create(
-                (pageNumber, pageSize) => products.getProducts(categoryName, pageNumber, pageSize),
+                function (pageNumber, pageSize) { return products.getProducts(categoryName, pageNumber, pageSize); },
                 products.getProduct,
                 productMapping,
                 carouselOptions

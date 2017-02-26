@@ -30,6 +30,7 @@
     "lodash": "^4.17.4",
     "pug": "^2.0.0-beta6",
     "serve-favicon": "^2.3.2",
-    "uuid": "^3.0.1"
+    "uuid": "^3.0.1",
+    "dotenv-extended": "^1.0.4"
   }
 }

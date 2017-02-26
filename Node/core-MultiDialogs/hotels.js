@@ -1,69 +1,66 @@
 var builder = require('botbuilder');
 var Store = require('./store');
 
-module.exports = {
-    Label: 'Hotels',
-    Dialog: [
-        // Destination
-        function (session) {
-            session.send('Welcome to the Hotels finder!');
-            builder.Prompts.text(session, 'Please enter your destination');
-        },
-        function (session, results, next) {
-            session.dialogData.destination = results.response;
-            session.send('Looking for hotels in %s', results.response);
-            next();
-        },
+module.exports = [
+    // Destination
+    function (session) {
+        session.send('Welcome to the Hotels finder!');
+        builder.Prompts.text(session, 'Please enter your destination');
+    },
+    function (session, results, next) {
+        session.dialogData.destination = results.response;
+        session.send('Looking for hotels in %s', results.response);
+        next();
+    },
 
-        // Check-in
-        function (session) {
-            builder.Prompts.time(session, 'When do you want to check in?');
-        },
-        function (session, results, next) {
-            session.dialogData.checkIn = results.response.resolution.start;
-            next();
-        },
+    // Check-in
+    function (session) {
+        builder.Prompts.time(session, 'When do you want to check in?');
+    },
+    function (session, results, next) {
+        session.dialogData.checkIn = results.response.resolution.start;
+        next();
+    },
 
-        // Nights
-        function (session) {
-            builder.Prompts.number(session, 'How many nights do you want to stay?');
-        },
-        function (session, results, next) {
-            session.dialogData.nights = results.response;
-            next();
-        },
+    // Nights
+    function (session) {
+        builder.Prompts.number(session, 'How many nights do you want to stay?');
+    },
+    function (session, results, next) {
+        session.dialogData.nights = results.response;
+        next();
+    },
 
-        // Search...
-        function (session) {
-            var destination = session.dialogData.destination;
-            var checkIn = new Date(session.dialogData.checkIn);
-            var checkOut = checkIn.addDays(session.dialogData.nights);
+    // Search...
+    function (session) {
+        var destination = session.dialogData.destination;
+        var checkIn = new Date(session.dialogData.checkIn);
+        var checkOut = checkIn.addDays(session.dialogData.nights);
 
-            session.send(
-                'Ok. Searching for Hotels in %s from %d/%d to %d/%d...',
-                destination,
-                checkIn.getMonth() + 1, checkIn.getDate(),
-                checkOut.getMonth() + 1, checkOut.getDate());
+        session.send(
+            'Ok. Searching for Hotels in %s from %d/%d to %d/%d...',
+            destination,
+            checkIn.getMonth() + 1, checkIn.getDate(),
+            checkOut.getMonth() + 1, checkOut.getDate());
 
-            // Async search
-            Store
-                .searchHotels(destination, checkIn, checkOut)
-                .then((hotels) => {
-                    // Results
-                    session.send('I found in total %d hotels for your dates:', hotels.length);
+        // Async search
+        Store
+            .searchHotels(destination, checkIn, checkOut)
+            .then(function (hotels) {
+                // Results
+                session.send('I found in total %d hotels for your dates:', hotels.length);
 
-                    var message = new builder.Message()
-                        .attachmentLayout(builder.AttachmentLayout.carousel)
-                        .attachments(hotels.map(hotelAsAttachment));
+                var message = new builder.Message()
+                    .attachmentLayout(builder.AttachmentLayout.carousel)
+                    .attachments(hotels.map(hotelAsAttachment));
 
-                    session.send(message);
+                session.send(message);
 
-                    // End
-                    session.endDialog();
-                });
-        }
-    ]
-};
+                // End
+                session.endDialog();
+            });
+    }
+];
 
 // Helpers
 function hotelAsAttachment(hotel) {

@@ -10,7 +10,7 @@ function AirlineCheckin(intro_message, locale, pnr_number, checkin_url, flight_i
     checkParam(flight_info, 'flight_info');
 
     checkType(flight_info, Array, 'flight_info');
-    flight_info.forEach((info, ix) => checkType(info, FlightInfo, 'flight_info[' + ix + ']'));
+    flight_info.forEach(function (info, ix) { checkType(info, FlightInfo, 'flight_info[' + ix + ']'); });
 
     this.type = 'template';
     this.payload = {
@@ -28,7 +28,7 @@ AirlineCheckin.prototype.toString = function () {
         '%s. Confirmation Number: %s. %s. Check in @ %s',
         this.payload.intro_message,
         this.payload.pnr_number,
-        this.payload.flight_info.map((info) => info.toString()).join('; '),
+        this.payload.flight_info.map(function (info) { return info.toString(); }).join('; '),
         this.payload.checkin_url);
 };
 

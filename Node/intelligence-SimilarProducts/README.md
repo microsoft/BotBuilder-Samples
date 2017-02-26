@@ -22,15 +22,15 @@ The main components are:
 * [image-service.js](image-service.js): is the core component illustrating how to call the  Bing Image Search RESTful API.
 * [app.js](app.js): is the bot service listener receiving messages from the connector service and passing them down to image-service.js and constructing the response.
 
-In this sample we are using the API to get the similar products and send it back to the user. Check out the use of the `imageService.getSimilarProductsFromStream(stream)` method in [app.js](app.js#L66).
+In this sample we are using the API to get the similar products and send it back to the user. Check out the use of the `imageService.getSimilarProductsFromStream(stream)` method in [app.js](app.js#L38-L43).
 
 ````JavaScript
 if (hasImageAttachment(session)) {
-    var stream = getImageStreamFromAttachment(session.message.attachments[0]);
+    var stream = getImageStreamFromMessage(session.message);
     imageService
         .getSimilarProductsFromStream(stream)
-        .then(visuallySimilarProducts => handleApiResponse(session, visuallySimilarProducts))
-        .catch(error => handleErrorResponse(session, error));
+        .then(function (visuallySimilarProducts) { handleApiResponse(session, visuallySimilarProducts); })
+        .catch(function (error) { handleErrorResponse(session, error); });
 }
 ````
 
@@ -42,10 +42,10 @@ And here is the implementation of `imageService.getSimilarProductsFromStream(str
  * @param {stream} stream The stream to an image.
  * @return {Promise} Promise with visuallySimilarProducts array if succeeded, error otherwise
  */
-exports.getSimilarProductsFromStream = stream => {
+exports.getSimilarProductsFromStream = function (stream) {
     return new Promise(
-        (resolve, reject) => {       
-            const requestData = {
+        function (resolve, reject) {
+            var requestData = {
                 url: BING_API_URL,
                 encoding: 'binary',
                 formData: {
@@ -56,7 +56,7 @@ exports.getSimilarProductsFromStream = stream => {
                 }
             };
 
-            request.post(requestData, (error, response, body) => {
+            request.post(requestData, function (error, response, body) {
                 if (error) {
                     reject(error);
                 }

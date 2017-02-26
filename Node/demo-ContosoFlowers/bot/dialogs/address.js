@@ -1,7 +1,7 @@
 var builder = require('botbuilder');
 var locationDialog = require('botbuilder-location');
 
-const lib = new builder.Library('address');
+var lib = new builder.Library('address');
 
 // Register BotBuilder-Location dialog
 lib.library(locationDialog.createLibrary(process.env.BING_MAPS_KEY));
@@ -43,11 +43,12 @@ lib.dialog('/', [
 
 // Request Billing Address
 // Prompt/Save selected address. Uses previous dialog to request and validate address. 
-const UseSavedInfoChoices = {
+var UseSavedInfoChoices = {
     Home: 'home_address',
     Work: 'work_address',
     NotThisTime: 'not_this_time'
 };
+
 lib.dialog('billing', [
     function (session, args, next) {
         var selection = session.message.text;
@@ -68,8 +69,8 @@ lib.dialog('billing', [
 
                 var message = new builder.Message(session)
                     .attachmentLayout(builder.AttachmentLayout.carousel);
-                var homeAddress = saved[UseSavedInfoChoices.Home];
-                var workAddress = saved[UseSavedInfoChoices.Work];
+                var homeAddress = saved[session.gettext(UseSavedInfoChoices.Home)];
+                var workAddress = saved[session.gettext(UseSavedInfoChoices.Work)];
                 if (homeAddress) message.addAttachment(createAddressCard(session, session.gettext(UseSavedInfoChoices.Home), homeAddress));
                 if (workAddress) message.addAttachment(createAddressCard(session, session.gettext(UseSavedInfoChoices.Work), workAddress));
                 message.addAttachment(createAddressCard(session, session.gettext(UseSavedInfoChoices.NotThisTime), 'add_new_address'));

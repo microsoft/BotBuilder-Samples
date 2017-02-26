@@ -17,10 +17,10 @@ module.exports = {
                 });
             }
 
-            hotels.sort((a, b) => a.priceStarting - b.priceStarting);
+            hotels.sort(function (a, b) { return a.priceStarting - b.priceStarting; });
 
             // complete promise with a timer to simulate async response
-            setTimeout(() => resolve(hotels), 1000);
+            setTimeout(function () { resolve(hotels); }, 1000);
         });
     }
 };

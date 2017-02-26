@@ -1,3 +1,6 @@
+// This loads the environment variables from the .env file
+require('dotenv-extended').load();
+
 var builder = require('botbuilder');
 var restify = require('restify');
 
@@ -7,30 +10,16 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log('%s listening to %s', server.name, server.url);
 });
 
-// Create chat bot
+// Create connector and listen for messages
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
-var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
 var instructions = 'Welcome to the Bot to showcase the DirectLine API. Send \'Show me a hero card\' or \'Send me a BotFramework image\' to see how the DirectLine client supports custom channel data. Any other message will be echoed.';
 
-bot.on('conversationUpdate', function (activity) {
-    if (activity.membersAdded) {
-        activity.membersAdded.forEach((identity) => {
-            if (identity.id === activity.address.bot.id) {
-                var reply = new builder.Message()
-                    .address(activity.address)
-                    .text(instructions);
-                bot.send(reply);
-            }
-        });
-    }
-});
-
-bot.dialog('/', function (session) {
+var bot = new builder.UniversalBot(connector, function (session) {
 
     var reply = new builder.Message()
         .address(session.message.address);
@@ -61,4 +50,19 @@ bot.dialog('/', function (session) {
 
     session.send(reply);
 
+});
+
+
+bot.on('conversationUpdate', function (activity) {
+    // when user joins conversation, send instructions
+    if (activity.membersAdded) {
+        activity.membersAdded.forEach(function (identity) {
+            if (identity.id === activity.address.bot.id) {
+                var reply = new builder.Message()
+                    .address(activity.address)
+                    .text(instructions);
+                bot.send(reply);
+            }
+        });
+    }
 });

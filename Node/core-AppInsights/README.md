@@ -11,7 +11,7 @@ The minimum prerequisites to run this sample are:
 * Latest Node.js with NPM. Download it from [here](https://nodejs.org/en/download/).
 * The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
-* An Application Insights instance in Azure. The Instrumentation Key for which must be put in the `APPINSIGHTS_INSTRUMENTATIONKEY` key in [.env](.env) file to try it out further.
+* An Application Insights instance in Azure. The Instrumentation Key for which must be put in the `APPINSIGHTS_INSTRUMENTATION_KEY` key in the [.env](.env) file to try it out further.
 
 ### Code Highlights
 
@@ -22,7 +22,7 @@ The notable changes to the State API bot which enable telemetry logging are thre
 
     ````javascript
     var appInsights = require('applicationinsights');
-    appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY).start();
+    appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATION_KEY).start();
     var appInsightsClient = appInsights.getClient();
     ...
     ````

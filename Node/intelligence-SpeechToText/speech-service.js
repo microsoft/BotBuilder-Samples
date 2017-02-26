@@ -1,20 +1,19 @@
-
-const uuid = require('node-uuid'),
+var uuid = require('node-uuid'),
     request = require('request');
 
-const SPEECH_API_KEY = process.env.MICROSOFT_SPEECH_API_KEY;
+var SPEECH_API_KEY = process.env.MICROSOFT_SPEECH_API_KEY;
 
 // The token has an expiry time of 10 minutes https://www.microsoft.com/cognitive-services/en-us/Speech-api/documentation/API-Reference-REST/BingVoiceRecognition
-const TOKEN_EXPIRY_IN_SECONDS = 600;
+var TOKEN_EXPIRY_IN_SECONDS = 600;
 
 var speechApiAccessToken = '';
 
-exports.getTextFromAudioStream = (stream) => {
+exports.getTextFromAudioStream = function (stream) {
     return new Promise(
-        (resolve, reject) => {
+        function (resolve, reject) {
             if (!speechApiAccessToken) {
                 try {
-                    authenticate(() => {
+                    authenticate(function () {
                         streamToText(stream, resolve, reject);
                     });
                 } catch (exception) {
@@ -27,8 +26,8 @@ exports.getTextFromAudioStream = (stream) => {
     );
 };
 
-const authenticate = (callback) => {
-    const requestData = {
+function authenticate(callback) {
+    var requestData = {
         url: 'https://api.cognitive.microsoft.com/sts/v1.0/issueToken',
         headers: {
             'content-type': 'application/x-www-form-urlencoded',
@@ -36,7 +35,7 @@ const authenticate = (callback) => {
         }
     };
 
-    request.post(requestData, (error, response, token) => {
+    request.post(requestData, function (error, response, token) {
         if (error) {
             console.error(error);
         } else if (response.statusCode !== 200) {
@@ -51,10 +50,10 @@ const authenticate = (callback) => {
             }
         }
     });
-};
+}
 
-const streamToText = (stream, resolve, reject) => {
-    const speechApiUrl = [
+function streamToText(stream, resolve, reject) {
+    var speechApiUrl = [
         'https://speech.platform.bing.com/recognize?scenarios=smd',
         'appid=D4D52672-91D7-4C74-8AD8-42B1D98141A5',
         'locale=en-US',
@@ -66,7 +65,7 @@ const streamToText = (stream, resolve, reject) => {
         'requestid=' + uuid.v4()
     ].join('&');
 
-    const speechRequestData = {
+    var speechRequestData = {
         url: speechApiUrl,
         headers: {
             'Authorization': speechApiAccessToken,
@@ -74,7 +73,7 @@ const streamToText = (stream, resolve, reject) => {
         }
     };
 
-    stream.pipe(request.post(speechRequestData, (error, response, body) => {
+    stream.pipe(request.post(speechRequestData, function (error, response, body) {
         if (error) {
             reject(error);
         } else if (response.statusCode !== 200) {
@@ -83,4 +82,4 @@ const streamToText = (stream, resolve, reject) => {
             resolve(JSON.parse(body).header.name);
         }
     }));
-};
+}

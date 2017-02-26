@@ -5,46 +5,65 @@ A Similar Products bot for the Microsoft Bot Framework.
 // This loads the environment variables from the .env file
 require('dotenv-extended').load();
 
-const builder = require('botbuilder'),
-    imageService = require('./image-service'),
+var builder = require('botbuilder'),
     restify = require('restify'),
     request = require('request').defaults({ encoding: null }),
     url = require('url'),
-    validUrl = require('valid-url');
+    validUrl = require('valid-url'),
+    imageService = require('./image-service');
 
 // Maximum number of hero cards to be returned in the carousel. If this number is greater than 10, skype throws an exception.
-const MAX_CARD_COUNT = 10;
+var MAX_CARD_COUNT = 10;
 
 //=========================================================
 // Bot Setup
 //=========================================================
 
 // Setup Restify Server
-const server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, () => {
+var server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log('%s listening to %s', server.name, server.url);
 });
 
 // Create chat bot
-const connector = new builder.ChatConnector({
+var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 
 server.post('/api/messages', connector.listen());
 
-const bot = new builder.UniversalBot(connector);
+// Gets the similar images by checking the type of the image (stream vs URL) and calling the appropriate image service method.
+var bot = new builder.UniversalBot(connector, function (session) {
+    if (hasImageAttachment(session)) {
+        var stream = getImageStreamFromMessage(session.message);
+        imageService
+            .getSimilarProductsFromStream(stream)
+            .then(function (visuallySimilarProducts) { handleApiResponse(session, visuallySimilarProducts); })
+            .catch(function (error) { handleErrorResponse(session, error); });
+    } else {
+        var imageUrl = parseAnchorTag(session.message.text) || (validUrl.isUri(session.message.text) ? session.message.text : null);
+        if (imageUrl) {
+            imageService
+                .getSimilarProductsFromUrl(imageUrl)
+                .then(function (visuallySimilarProducts) { handleApiResponse(session, visuallySimilarProducts); })
+                .catch(function (error) { handleErrorResponse(session, error); });
+        } else {
+            session.send('Did you upload an image? I\'m more of a visual person. Try sending me an image or an image URL');
+        }
+    }
+});
 
 //=========================================================
 // Bots Events
 //=========================================================
 
 //Sends greeting message when the bot is first added to a conversation
-bot.on('conversationUpdate', message => {
+bot.on('conversationUpdate', function (message) {
     if (message.membersAdded) {
-        message.membersAdded.forEach(identity => {
+        message.membersAdded.forEach(function (identity) {
             if (identity.id === message.address.bot.id) {
-                const reply = new builder.Message()
+                var reply = new builder.Message()
                     .address(message.address)
                     .text('Hi! I am SimilarProducts Bot. I can find you similar products. Try sending me an image or an image URL.');
                 bot.send(reply);
@@ -53,47 +72,23 @@ bot.on('conversationUpdate', message => {
     }
 });
 
-
-//=========================================================
-// Bots Dialogs
-//=========================================================
-
-// Gets the similar images by checking the type of the image (stream vs URL) and calling the appropriate image service method.
-bot.dialog('/', session => {
-    if (hasImageAttachment(session)) {
-        var stream = getImageStreamFromAttachment(session.message.attachments[0]);
-        imageService
-            .getSimilarProductsFromStream(stream)
-            .then(visuallySimilarProducts => handleApiResponse(session, visuallySimilarProducts))
-            .catch(error => handleErrorResponse(session, error));
-    } else {
-        var imageUrl = parseAnchorTag(session.message.text) || (validUrl.isUri(session.message.text) ? session.message.text : null);
-        if (imageUrl) {
-            imageService
-                .getSimilarProductsFromUrl(imageUrl)
-                .then(visuallySimilarProducts => handleApiResponse(session, visuallySimilarProducts))
-                .catch(error => handleErrorResponse(session, error));
-        } else {
-            session.send('Did you upload an image? I\'m more of a visual person. Try sending me an image or an image URL');
-        }
-    }
-});
-
 //=========================================================
 // Utilities
 //=========================================================
 
-const hasImageAttachment = session => {
+function hasImageAttachment(session) {
     return session.message.attachments.length > 0 &&
         session.message.attachments[0].contentType.indexOf('image') !== -1;
-};
-const getImageStreamFromAttachment = attachment => {
+}
+
+function getImageStreamFromMessage(message) {
     var headers = {};
-    if (isSkypeAttachment(attachment)) {
+    var attachment = message.attachments[0];
+    if (checkRequiresToken(message)) {
         // The Skype attachment URLs are secured by JwtToken,
         // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
         // https://github.com/Microsoft/BotBuilder/issues/662
-        connector.getAccessToken((error, token) => {
+        connector.getAccessToken(function (error, token) {
             var tok = token;
             headers['Authorization'] = 'Bearer ' + token;
             headers['Content-Type'] = 'application/octet-stream';
@@ -104,15 +99,11 @@ const getImageStreamFromAttachment = attachment => {
 
     headers['Content-Type'] = attachment.contentType;
     return request.get({ url: attachment.contentUrl, headers: headers });
-};
+}
 
-const isSkypeAttachment = attachment => {
-    if (url.parse(attachment.contentUrl).hostname.substr(-'skype.com'.length) === 'skype.com') {
-        return true;
-    }
-
-    return false;
-};
+function checkRequiresToken(message) {
+    return message.source === 'skype' || message.source === 'msteams';
+}
 
 /**
  * Gets the href value in an anchor element.
@@ -120,20 +111,20 @@ const isSkypeAttachment = attachment => {
  * @param {string} input Anchor Tag
  * @return {string} Url matched or null
  */
-const parseAnchorTag = input => {
+function parseAnchorTag(input) {
     var match = input.match("^<a href=\"([^\"]*)\">[^<]*</a>$");
     if (match && match[1]) {
         return match[1];
     }
 
     return null;
-};
+}
 
 //=========================================================
 // Response Handling
 //=========================================================
 
-const handleApiResponse = (session, images) => {
+function handleApiResponse(session, images) {
     if (images && images.constructor === Array && images.length > 0) {
 
         var productCount = Math.min(MAX_CARD_COUNT, images.length);
@@ -152,9 +143,9 @@ const handleApiResponse = (session, images) => {
     } else {
         session.send('Couldn\'t find similar products images for this one');
     }
-};
+}
 
-const constructCard = (session, image) => {
+function constructCard(session, image) {
     return new builder.HeroCard(session)
         .title(image.name)
         .subtitle(image.hostPageDisplayUrl)
@@ -165,9 +156,9 @@ const constructCard = (session, image) => {
             builder.CardAction.openUrl(session, image.hostPageUrl, 'Buy from merchant'),
             builder.CardAction.openUrl(session, image.webSearchUrl, 'Find more in Bing')
         ]);
-};
+}
 
-const handleErrorResponse = (session, error) => {
+function handleErrorResponse(session, error) {
     session.send('Oops! Something went wrong. Try again later.');
     console.error(error);
-};
+}

@@ -3,25 +3,25 @@
 // the confidence score of the caption. For more info checkout the API documentation:
 // https://www.microsoft.com/cognitive-services/en-us/Computer-Vision-API/documentation/AnalyzeImage
 
-const request = require('request').defaults({ encoding: null });
+var request = require('request').defaults({ encoding: null });
 
-const VISION_URL = 'https://api.projectoxford.ai/vision/v1.0/analyze/?visualFeatures=Description&form=BCSIMG&subscription-key=' + process.env.MICROSOFT_VISION_API_KEY;
+var VISION_URL = 'https://api.projectoxford.ai/vision/v1.0/analyze/?visualFeatures=Description&form=BCSIMG&subscription-key=' + process.env.MICROSOFT_VISION_API_KEY;
 
 /** 
  *  Gets the caption of the image from an image stream
  * @param {stream} stream The stream to an image.
  * @return {Promise} Promise with caption string if succeeded, error otherwise
  */
-exports.getCaptionFromStream = stream => {
+exports.getCaptionFromStream = function (stream) {
     return new Promise(
-        (resolve, reject) => {
-            const requestData = {
+        function (resolve, reject) {
+            var requestData = {
                 url: VISION_URL,
                 encoding: 'binary',
                 headers: { 'content-type': 'application/octet-stream' }
             };
 
-            stream.pipe(request.post(requestData, (error, response, body) => {
+            stream.pipe(request.post(requestData, function (error, response, body) {
                 if (error) {
                     reject(error);
                 }
@@ -41,15 +41,15 @@ exports.getCaptionFromStream = stream => {
  * @param {string} url The URL to an image.
  * @return {Promise} Promise with caption string if succeeded, error otherwise
  */
-exports.getCaptionFromUrl = url => {
+exports.getCaptionFromUrl = function (url) {
     return new Promise(
-        (resolve, reject) => {
-            const requestData = {
+        function (resolve, reject) {
+            var requestData = {
                 url: VISION_URL,
                 json: { 'url': url }
             };
 
-            request.post(requestData, (error, response, body) => {
+            request.post(requestData, function (error, response, body) {
                 if (error) {
                     reject(error);
                 }
@@ -69,10 +69,10 @@ exports.getCaptionFromUrl = url => {
  * @param {Object} body Response of the Vision API
  * @return {string} Description if caption found, null otherwise.
  */
-const extractCaption = body => {
+function extractCaption(body) {
     if (body && body.description && body.description.captions && body.description.captions.length) {
         return body.description.captions[0].text;
     }
 
     return null;
-};
+}

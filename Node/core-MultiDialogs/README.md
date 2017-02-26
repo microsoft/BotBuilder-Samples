@@ -38,34 +38,35 @@ A bots dialogs can be expressed using a variety of forms:
 
 Bot Builder uses dialogs to manage a bot's conversations with a user. To understand dialogs it's easiest to think of them as the equivalent of routes for a website. All bots will have at least one root ‘/' dialog just like all websites typically have at least one root ‘/' route. When the framework receives a message from the user it will be routed to this root ‘/' dialog for processing. For many bots this single root ‘/' dialog is all that's needed but just like websites often have multiple routes, bots will often have multiple dialogs.
 
-Check out how app.js uses `bot.dialog()` to register each of the dialogs: [`flights, hotels, support` and `root`](app.js#L23-L29).
+Check out how app.js uses the [UniversalBot constructor](app.js#L26) to register the main waterfall dialog and then `bot.dialog()` to register each of the child dialogs: [`flights, hotels and support`](app.js#L62-L64).
 Each dialog has its own route path. We also placed each dialog handler in a separate file for maintainability.
 
 ````JavaScript
 // hotels.js
-module.exports = {
-    Label: 'Hotels',
-    Dialog: [
-        // Destination
-        function (session) {
-            session.send('Welcome to the Hotels finder!');
-            builder.Prompts.text(session, 'Please enter your destination');
-        },
-        function (session, results, next) {
-            session.dialogData.destination = results.response;
-            session.send('Looking for hotels in %s', results.response); 
-            next();
-        },
-        ...
-    ]
-};
+module.exports = [
+    // Destination
+    function (session) {
+        session.send('Welcome to the Hotels finder!');
+        builder.Prompts.text(session, 'Please enter your destination');
+    },
+    function (session, results, next) {
+        session.dialogData.destination = results.response;
+        session.send('Looking for hotels in %s', results.response); 
+        next();
+    },
+    ...
+];
 
 // app.js
-var Hotels = require('./hotels');
-bot.dialog('hotels', Hotels.Dialog);
+var bot = new builder.UniversalBot(connector, [
+    function (session) {
+        // ...
+    },
+    // ...
+]);
 
-// Root dialog
-bot.dialog('/', ...);
+bot.dialog('hotels', require('./hotels'));
+bot.dialog('flights', require('./flights'));
 ````
 
 #### Waterfall dialogs
@@ -99,7 +100,7 @@ The last step ends performing an async call to a simulated store, printing the r
         // Async search
         Store
             .searchHotels(destination, checkIn, checkOut)
-            .then((hotels) => {
+            .then(function (hotels) {
                 // Results
                 session.send('I found in total %d hotels for your dates:', hotels.length);
 
@@ -118,45 +119,24 @@ The last step ends performing an async call to a simulated store, printing the r
 
 #### Calling new dialogs
 
-New dialogs can be triggered using [`session.beginDialog(id)`](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#begindialog). The new dialog is added to the top of the stack and control is transfered to it. In [app.js](app.js#L65-L72) we show how to trigger a dialog based on a user selection.
+New dialogs can be triggered using [`session.beginDialog(id)`](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#begindialog). The new dialog is added to the top of the stack and control is transfered to it. In [app.js](app.js#L51-L58) we show how to trigger a dialog based on a user selection.
 Control is returned from the child dialog back to the caller (popping of the stack) using [`session.endDialog`](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#enddialog) or [`session.endDialogWithResult`](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#enddialogwithresult).
 
-#### IntentDialog for listening to specific keywords
+#### Listening to specific keywords to trigger dialogs
 
-Our root dialog handler is created using an [IntentDialog](https://docs.botframework.com/en-us/node/builder/chat/IntentDialog/) to handle any message including specific keywords. When a match is found the Support dialog is initiated using `session.beginDialog('support')`. Check out [app.js root dialog handler](app.js#L30-L33) to see its usage.
-The IntentDialog also has an [onDefault](https://docs.botframework.com/en-us/node/builder/chat/IntentDialog/#onbegin--ondefault-handlers) handler that will be notified if it fails to match one of the registered keywords. [In our sample](app.js#L40-L51) we are using it to request a `Prompts.choice` so the user can decide how to continue.
+The Support dialog is triggered when a specific set of words is send by the user. This can be achieved by using the dialog's [triggerAction](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.dialog.html#triggeraction) method.
+Check out how to configure a dialog to [listen to specific words or Regular Expressions](app.js#L65-L67):
 
 ````JavaScript
-bot.dialog('/', new builder.IntentDialog()
-    .matchesAny([/help/i, /support/i, /problem/i], [
-        function (session) {
-            session.beginDialog('support');
-        },
-        function (session, result) { ... }
-    ])
-    .onDefault([
-        function (session) {
-            // prompt for search option
-            builder.Prompts.choice(
-                session,
-                'Are you looking for a flight or a hotel?',
-                [Flights.Label, Hotels.Label],
-                {
-                    maxRetries: 3,
-                    retryPrompt: 'Not a valid option'
-                });
-        }
-    ...]);
+bot.dialog('support', require('./support'))
+    .triggerAction({
+        matches: [/help/i, /support/i, /problem/i]
+    });
 ````
-
-#### Returning a result to the parent dialog
-
-In our [Support dialog](support.js#L3-L12) we are generating a support ticket and the returning control to the root dialog using `session.endDialogWithResult(result)` and passing the ticket number as a `result` object.
-Control is returned to the [second step](app.js#L34-38) of the waterfall defined when creating our `IntentDialog`. In it we print the ticket number and call `session.endDialog()` to end the dialog.
 
 #### Handling dialog errors
 
-Errors can be signaled from child dialogs using [session.error](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#error). This will signal the error via an on('error', err) event, for both the bot object and the session object. In [flights.js](flights.js#L4) we are signalling an error which the parent dialog handles using session.on('error'), as shown in [app.js](app.js#L59-L63):
+Errors can be signaled from child dialogs using [session.error](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#error). This will signal the error via an on('error', err) event, for both the bot object and the session object. In [flights.js](flights.js#L2) we are signalling an error which the parent dialog handles using session.on('error'), as shown in [app.js](app.js#L45-L49):
 
 ````JavaScript
 session.on('error', function (err) {
@@ -165,21 +145,30 @@ session.on('error', function (err) {
 });
 ````
 
+You can also listen for errors triggered on any level by subscribing to the `error` event exposed by the UniversalBot. Check out [how to log bot errors globally](app.js#L69-L72):
+
+````JavaScript
+// log any bot errors into the console
+bot.on('error', function (e) {
+    console.log('And error ocurred', e);
+});
+````
+
 #### Asynchronous operations
 
-Inevitably you're going to want to make some asynchronous network call to retrieve data and then send those results to the user using the session object. This is completely fine but there are a few best practices you'll want to follow.
+Inevitably, you're going to want to make some asynchronous network call to retrieve data and then send those results to the user using the session object. This is completely fine but there are a few best practices you'll want to follow.
 
 * Use session.send within your callback or event handler.
 * Do not call session.endDialog() immediately after starting the asynchronous call;
 * Instead call session.endDialog() from within your callback or event handler. 
 
-Check out [hotels.js](hotels.js#L48-L63) where we are calling an asynchronous method that returns a Promise. Our fulfill method calls `session.send()` and is also responsible for calling `session.endDialog()`.
+Check out [hotels.js](hotels.js#L46-L61) where we are calling an asynchronous method that returns a Promise. Our fulfill method calls `session.send()` and is also responsible for calling `session.endDialog()`.
 
 ````JavaScript
 // Async search
 Store
     .searchHotels(destination, checkIn, checkOut)
-    .then((hotels) => {
+    .then(function (hotels) {
         // Results
         session.send('I found in total %d hotels for your dates:', hotels.length);
 
@@ -215,7 +204,6 @@ To get more information about how to get started in Bot Builder for Node and Dia
 * [Dialogs](https://docs.botframework.com/en-us/node/builder/chat/dialogs/)
 * [Dialog Stack](https://docs.botframework.com/en-us/node/builder/chat/session/#dialog-stack)
 * [Prompts](https://docs.botframework.com/en-us/node/builder/chat/prompts/)
-* [IntentDialog](https://docs.botframework.com/en-us/node/builder/chat/IntentDialog/)
 * [session.beginDialog](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#begindialog)
 * [session.endDialog](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#enddialog)
 * [session.endDialogWithResult](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#enddialogwithresult)

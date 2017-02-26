@@ -1,3 +1,6 @@
+// This loads the environment variables from the .env file
+require('dotenv-extended').load();
+
 var builder = require('botbuilder');
 var restify = require('restify');
 
@@ -7,18 +10,16 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log('%s listening to %s', server.name, server.url);
 });
 
-// Create chat bot
+// Create connector and listen for messages
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
-var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
 var FacebookDataModels = require('./facebook-channeldata');
 
-// Root dialog
-bot.dialog('/', function (session) {
+var bot = new builder.UniversalBot(connector, function (session) {
 
     session.send('Looking into your upcoming flights to see if you can check-in on any of those...');
 
@@ -53,7 +54,7 @@ bot.dialog('/', function (session) {
         ]);
 
     // The previous object construct will be serialized to JSON when passed as an attachment.
-    // The same result can be achieved using the following JSON notation:
+    // The same result can be achieved using the following in JSON notation:
     // var checkin = {
     //     "type": "template",
     //     "payload": {

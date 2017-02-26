@@ -23,11 +23,11 @@ Refer to [this](https://docs.botframework.com/en-us/csharp/builder/sdkreference/
 
 #### Publish
 Also, in order to be able to run and test this sample you must [publish your bot, for example to Azure](https://docs.botframework.com/en-us/node/builder/guides/deploying-to-azure/). Alternatively, you can [Debug locally using ngrok](https://docs.botframework.com/en-us/node/builder/guides/core-concepts/#debugging-locally-using-ngrok).
-Remember to update the environment variables with the `MICROSOFT_APP_ID` and `MICROSOFT_APP_PASSWORD`. If you are running the sample using Visual Studio Code, remember to update [launch.json](DirectLineBot/.vscode/launch.json#L19-L20) with the environment variables.
+Remember to update the environment variables with the `MICROSOFT_APP_ID` and `MICROSOFT_APP_PASSWORD` on the [.env](./DirectLineBot/.env) file.
 
 ### Code Highlights
 
-The Direct Line API is a simple REST API for connecting directly to a single bot. This API is intended for developers writing their own client applications, web chat controls, or mobile apps that will talk to their bot. In this sample, we are using the [Direct Line Swagger file](https://docs.botframework.com/en-us/restapi/directline3/swagger.json) and [Swagger JS](https://github.com/swagger-api/swagger-js) to create a client for Node that will simplify access to the underlying REST API. Check out the client's [app.js](DirectLineClient/app.js#L7-L25) to see the client initialization.
+The Direct Line API is a simple REST API for connecting directly to a single bot. This API is intended for developers writing their own client applications, web chat controls, or mobile apps that will talk to their bot. In this sample, we are using the [Direct Line Swagger file](https://docs.botframework.com/en-us/restapi/directline3/swagger.json) and [Swagger JS](https://github.com/swagger-api/swagger-js) to create a client for Node that will simplify access to the underlying REST API. Check out the client's [app.js](DirectLineClient/app.js#L7-L26) to see the client initialization.
 
 ````JavaScript
 var directLineSecret = 'DIRECTLINE_SECRET';
@@ -35,41 +35,34 @@ var directLineClientName = 'DirectLineClient';
 var directLineSpecUrl = 'https://docs.botframework.com/en-us/restapi/directline3/swagger.json';
 
 var directLineClient = rp(directLineSpecUrl)
-    .then((spec) =>
+    .then(function (spec) {
         // client
-        new Swagger(
-            {
-                spec: JSON.parse(spec.trim()),
-                usePromise: true
-            }))
-    .then((client) => {
+        return new Swagger({
+            spec: JSON.parse(spec.trim()),
+            usePromise: true
+        });
+    })
+    .then(function (client) {
         // add authorization header to client
         client.clientAuthorizations.add('AuthorizationBotConnector', new Swagger.ApiKeyAuthorization('Authorization', 'Bearer ' + directLineSecret, 'header'));
         return client;
     })
-    .catch((err) =>
-        console.error('Error initializing DirectLine client', err));
-
-// once the client is ready, create a new conversation 
-directLineClient.then((client) => {
-    client.Conversations.Conversations_StartConversation()                          // create conversation
-        .then((response) => response.obj.conversationId)                            // obtain id
-        .then((conversationId) => {
-            sendMessagesFromConsole(client, conversationId);                        // start watching console input for sending new messages to bot
-            pollMessages(client, conversationId);                                   // start polling messages from bot
-        });
-});
+    .catch(function (err) {
+        console.error('Error initializing DirectLine client', err);
+    });
 ````
 
 Each conversation on the Direct Line channel must be explicitly started using the `client.Conversations.Conversations_StartConversation()` function.
-Check out the client's [app.js createConversation](DirectLineClient/app.js#L27-L35) function which creates a new conversation.
+Check out the client's [app.js createConversation](DirectLineClient/app.js#L28-L38) function which creates a new conversation.
 
 ````JavaScript
 // once the client is ready, create a new conversation 
-directLineClient.then((client) => {
+directLineClient.then(function (client) {
     client.Conversations.Conversations_StartConversation()                          // create conversation
-        .then((response) => response.obj.conversationId)                            // obtain id
-        .then((conversationId) => {
+        .then(function (response) {
+            return response.obj.conversationId;
+        })                            // obtain id
+        .then(function (conversationId) {
             sendMessagesFromConsole(client, conversationId);                        // start watching console input for sending new messages to bot
             pollMessages(client, conversationId);                                   // start polling messages from bot
         });
@@ -93,25 +86,27 @@ client.Conversations.Conversations_PostActivity(
                 name: directLineClientName
             }
         }
-    }).catch((err) => console.error('Error sending message:', err));
+    }).catch(function (err) {
+        console.error('Error sending message:', err);
+    });
 ````
 
-Messages from the Bot are continually polled from the API using an interval. Check out the client's [app.js](DirectLineClient/app.js#L69-L81) usage of `client.Conversations.Conversations_GetActivities` function which retrieves conversation messages newer than the stored watermark. Messages are then filtered from anyone but our own client using the [`printMessages`](DirectLineClient/app.js#L83-L99) function.
+Messages from the Bot are continually polled from the API using an interval. Check out the client's [app.js](DirectLineClient/app.js#L77-L85) usage of `client.Conversations.Conversations_GetActivities` function which retrieves conversation messages newer than the stored watermark. Messages are then filtered from anyone but our own client using the [`printMessages`](DirectLineClient/app.js#L89-L104) function.
 
 ````JavaScript
 var watermark = null;
-setInterval(() => {
+setInterval(function () {
     client.Conversations.Conversations_GetActivities({ conversationId: conversationId, watermark: watermark })
-        .then((response) => {
+        .then(function (response) {
             watermark = response.obj.watermark;                                 // use watermark so subsequent requests skip old messages 
             return response.obj.activities;
         })
-        .then((activities) => printMessages(activities));
+        .then(printMessages);
 }, pollInterval);
 ````
 
 DirectLine v3.0 (unlike version 1.1) has supports for Attachments (see [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments) for more information about attachments). 
-Check out the [`printMessage`](DirectLineClient/app.js#L101-L120) function to see how the Attachments are retrieved and rendered appropriately based on their type.
+Check out the [`printMessage`](DirectLineClient/app.js#L106-L125) function to see how the Attachments are retrieved and rendered appropriately based on their type.
 
 ````JavaScript
 function printMessage(activity) {
@@ -120,7 +115,7 @@ function printMessage(activity) {
     }
 
     if (activity.attachments) {
-        activity.attachments.forEach((attachment) => {
+        activity.attachments.forEach(function (attachment) {
             switch (attachment.contentType) {
                 case "application/vnd.microsoft.card.hero":
                     renderHeroCard(attachment);

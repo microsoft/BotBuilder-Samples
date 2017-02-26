@@ -2,11 +2,11 @@ var _ = require('lodash');
 var uuid = require('node-uuid');
 var loremIpsum = require('lorem-ipsum');
 
-const Refiners = ['region', 'type'];
+var Refiners = ['region', 'type'];
 
 function refineFormatter(refiners) {
     return _.zipObject(
-        refiners.map(r => 'By ' + _.capitalize(r)),
+        refiners.map(function (r) { return 'By ' + _.capitalize(r); }),
         refiners);
 }
 

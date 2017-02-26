@@ -25,6 +25,10 @@ function descrypt(cryptedInput) {
 }
 
 module.exports = {
-    serializeAddress: (address) => encrypt(serializeAddress(address)),
-    deserializeAddress: (input) => deserializeAddress(descrypt(input))
+    serializeAddress: function (address) {
+        return encrypt(serializeAddress(address));
+    },
+    deserializeAddress: function (input) {
+        return deserializeAddress(descrypt(input));
+    }
 };

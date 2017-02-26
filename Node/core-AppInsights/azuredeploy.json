@@ -51,7 +51,7 @@
     "MICROSOFT_APP_PASSWORD": {
       "type": "string"
     },
-    "APPINSIGHTS_INSTRUMENTATIONKEY": {
+    "APPINSIGHTS_INSTRUMENTATION_KEY": {
       "type": "string"
     }
   },
@@ -112,10 +112,6 @@
               {
                 "name": "APPINSIGHTS_INSTRUMENTATION_KEY",
                 "value": "[parameters('APPINSIGHTS_INSTRUMENTATION_KEY')]"
-              },
-              {
-                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                "value": "[parameters('APPINSIGHTS_INSTRUMENTATIONKEY')]"
               }
             ]
           }

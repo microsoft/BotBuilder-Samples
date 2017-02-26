@@ -3,7 +3,7 @@ var fs = require('fs');
 var _ = require('lodash');
 var Promise = require('bluebird');
 
-const OrderService = {
+var OrderService = {
     placePendingOrder: function (order) {
         order.id = uuid.v1();
         order.payed = false;
