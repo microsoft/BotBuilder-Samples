@@ -38,7 +38,7 @@ namespace Zummer.Services
 
                 foreach (var elem in requestParameters)
                 {
-                    requestParams += $"{elem.Key}={HttpUtility.UrlEncode(elem.Value)}" + (first == false ? "&" : string.Empty);
+                    requestParams += (first == false ? "&" : string.Empty) + $"{elem.Key}={HttpUtility.UrlEncode(elem.Value)}";
                     first = false;
                 }
 
