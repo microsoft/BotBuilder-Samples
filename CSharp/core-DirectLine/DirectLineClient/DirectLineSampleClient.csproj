@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bot.Connector.DirectLine, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bot.Connector.DirectLine.3.0.0-beta\lib\net45\Microsoft.Bot.Connector.DirectLine.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Bot.Connector.DirectLine.3.0.0\lib\net45\Microsoft.Bot.Connector.DirectLine.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
