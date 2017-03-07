@@ -130,7 +130,7 @@ function uploadAttachment(fileData, contentType, fileName, connector, connectorA
 
     var base64 = Buffer.from(fileData).toString('base64');
 
-    // Inject the conenctor's JWT token into to the Swagger client
+    // Inject the connector's JWT token into to the Swagger client
     function addTokenToClient(connector, clientPromise) {
         // ask the connector for the token. If it expired, a new token will be requested to the API
         var obtainToken = Promise.promisify(connector.addAccessToken.bind(connector));
@@ -149,10 +149,11 @@ function uploadAttachment(fileData, contentType, fileName, connector, connectorA
 
     // 1. inject the JWT from the connector to the client on every call
     return addTokenToClient(connector, connectorApiClient).then(function (client) {
-        // 2. override API client host (api.botframework.com) with channel's serviceHost (e.g.: slack.botframework.com)
+        // 2. override API client host and schema (https://api.botframework.com) with channel's serviceHost (e.g.: https://slack.botframework.com or http://localhost:NNNN)
         var serviceUrl = url.parse(baseServiceUrl);
-        var serviceHost = serviceUrl.host;
-        client.setHost(serviceHost);
+        var serviceScheme = serviceUrl.protocol.split(':')[0];
+        client.setSchemes([serviceScheme]);
+        client.setHost(serviceUrl.host);
 
         // 3. POST /v3/conversations/{conversationId}/attachments
         var uploadParameters = {
