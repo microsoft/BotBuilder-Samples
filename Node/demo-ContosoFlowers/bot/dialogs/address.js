@@ -19,6 +19,7 @@ lib.dialog('/', [
             prompt: promptMessage,
             useNativeControl: true,
             reverseGeocode: true,
+            skipConfirmationAsk: true,
             requiredFields:
                 locationDialog.LocationRequiredFields.streetAddress |
                 locationDialog.LocationRequiredFields.locality |

@@ -38,17 +38,18 @@ var bot = new builder.UniversalBot(connector, function (session) {
 
     // 1. inject the JWT from the connector to the client on every call
     addTokenToClient(connector, connectorApiClient).then(function (client) {
-        // 2. override API client host (api.botframework.com) with channel's serviceHost (e.g.: slack.botframework.com)
-        var serviceHost = url.parse(message.address.serviceUrl).host;
-        client.setHost(serviceHost);
+        // 2. override API client host and schema (https://api.botframework.com) with channel's serviceHost (e.g.: https://slack.botframework.com or http://localhost:NNNN)
+        var serviceUrl = url.parse(message.address.serviceUrl);
+        var serviceScheme = serviceUrl.protocol.split(':')[0];
+        client.setSchemes([serviceScheme]);
+        client.setHost(serviceUrl.host);
         // 3. GET /v3/conversations/{conversationId}/members
-        client.Conversations.Conversations_GetConversationMembers({ conversationId: conversationId })
+        return client.Conversations.Conversations_GetConversationMembers({ conversationId: conversationId })
             .then(function (res) {
                 printMembersInChannel(message.address, res.obj);
-            })
-            .catch(function (error) {
-                console.log('Error retrieving conversation members: ' + error.statusText);
             });
+    }).catch(function (error) {
+        console.log('Error retrieving conversation members', error);
     });
 });
 
@@ -82,7 +83,7 @@ bot.on('conversationUpdate', function (message) {
 
 // Helper methods
 
-// Inject the conenctor's JWT token into to the Swagger client
+// Inject the connector's JWT token into to the Swagger client
 function addTokenToClient(connector, clientPromise) {
     // ask the connector for the token. If it expired, a new token will be requested to the API
     var obtainToken = Promise.promisify(connector.getAccessToken.bind(connector));

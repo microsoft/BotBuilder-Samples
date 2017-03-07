@@ -59,11 +59,11 @@ It does require a few more steps than the other methods, but leverages the chann
 0. Read (or generate) the content file and store it in a Buffer for encoding to base64 ([relevant code](./app.js#L131))
 1. Create a client to the Connector API ([relevant code](./app.js#L12-L17))
 2. Inject the Bot Connector's token into the Connector API client ([relevant code](./app.js#L151))
-3. Set the Connector API client service url to the Connector's ([relevant code](./app.js#L152-L155))
-4. Upload the base64 encoded payload to the conversations/attachments endpoint ([relevant code](./app.js#L157-L167))
-5. Use the returned attachmentId to generate the contentUrl ([relevant code](./app.js#L169-L173))
+3. Set the Connector API client service url to the Connector's ([relevant code](./app.js#L152-L156))
+4. Upload the base64 encoded payload to the conversations/attachments endpoint ([relevant code](./app.js#L158-L168))
+5. Use the returned attachmentId to generate the contentUrl ([relevant code](./app.js#L170-L174))
 
-This sample provides a [helper method](./app.js#L128-L176) you can use that encapsulates most of the previous steps.
+This sample provides a [helper method](./app.js#L128-L177) you can use that encapsulates most of the previous steps.
 
 ````JavaScript
 // read file content and upload
