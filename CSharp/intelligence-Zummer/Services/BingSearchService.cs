@@ -29,7 +29,8 @@ namespace Zummer.Services
         {
             var requestParameters = new Dictionary<string, string>
             {
-                { "q", $"{query} site:wikipedia.org" }
+                { "q", $"{query} site:wikipedia.org" },
+                { "form", "BTCSWR" }
             };
 
             return await this.apiHandler.GetJsonAsync<BingSearch>(BingSearchEndpoint, requestParameters, Headers);

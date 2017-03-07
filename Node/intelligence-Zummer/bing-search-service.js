@@ -7,7 +7,7 @@ var headers = { "Ocp-Apim-Subscription-Key": BING_SEARCH_API_KEY }
 
 module.exports = {
     findArticles: (query) => {
-        return apiHandler.getResponse(BING_SEARCH_API_URL, { "q": query + " site:wikipedia.org" }, headers)
+        return apiHandler.getResponse(BING_SEARCH_API_URL, { "q": query + " site:wikipedia.org", "form": "BTCSWR" }, headers)
             .then(result => { return JSON.parse(result); }, err => { return err });
     }
 }
