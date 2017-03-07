@@ -170,7 +170,7 @@ And this is how you can call the validator from your existing code:
 > It is worth noting that calling other dialogs within your library don't need to be prefixed with the library's id. It is only when crossing from one library context to another that you need to include the library name prefix on your `session.beginDialog()` calls.
 
 Another example of a reusable library is the [BotBuilder's Location picker control](https://github.com/Microsoft/BotBuilder-Location). Once the module is added to your project dependencies, you can register it with your bot and start using it.
-Checkout the [address dialog](bot/dialogs/address.js#L6-L29) to see its usage within Contoso Flowers.
+Checkout the [address dialog](bot/dialogs/address.js#L6-L30) to see its usage within Contoso Flowers.
 
 ````JavaScript
 var lib = new builder.Library('address');
@@ -186,6 +186,7 @@ lib.dialog('/', [
             prompt: 'What is your address?',
             useNativeControl: true,
             reverseGeocode: true,
+            skipConfirmationAsk: true,
             requiredFields:
                 locationDialog.LocationRequiredFields.streetAddress |
                 locationDialog.LocationRequiredFields.locality |

@@ -63,13 +63,13 @@ var connectorApiClient = new Swagger({
 });
 ````
 
-Once a message is received in a group conversation, we'll ask the API for its members. In order to call the REST API, we need to be authenticated using the bot's JWT token (see [app.js - addTokenToClient function](app.js#L85-95)) and then override the API's hostname using the channel's serviceUrl (see [app.js - client.setHost](app.js#L41-L43)).
-Then we call Swagger generated client (`client.Conversations.Conversations_GetConversationMembers`) and pass the response to a helper function that will print the members list to the conversation ([app.js - printMembersInChannel function](app.js#L97-L108)).
+Once a message is received in a group conversation, we'll ask the API for its members. In order to call the REST API, we need to be authenticated using the bot's JWT token (see [app.js - addTokenToClient function](app.js#L86-96)) and then override the API's hostname using the channel's serviceUrl (see [app.js - client.setHost](app.js#L41-L45)).
+Then we call Swagger generated client (`client.Conversations.Conversations_GetConversationMembers`) and pass the response to a helper function that will print the members list to the conversation ([app.js - printMembersInChannel function](app.js#L98-L109)).
 
 ````JavaScript
 // Helper methods
 
-// Inject the conenctor's JWT token into to the Swagger client
+// Inject the connector's JWT token into to the Swagger client
 function addTokenToClient(connector, clientPromise) {
     // ask the connector for the token. If it expired, a new token will be requested to the API
     var obtainToken = Promise.promisify(connector.getAccessToken.bind(connector));
