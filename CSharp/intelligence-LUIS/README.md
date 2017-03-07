@@ -66,7 +66,7 @@ public async Task Search(IDialogContext context, IAwaitable<IMessageActivity> ac
 }
 ````
 
-Each intent handler method accepts the `IDialogContext`, the original incoming `IMessageActivity` message and the `LuisResult` including the matching Intents and Entities for the LUIS query. In the sample below, the [RootLuisDialog](Dialogs/RootLuisDialog.cs#L46) class retrieves a city value from the processed [pre-built entity](https://www.luis.ai/Help/#PreBuiltEntities).
+Each intent handler method accepts the `IDialogContext`, the original incoming `IMessageActivity` message and the `LuisResult` including the matching Intents and Entities for the LUIS query. In the sample below, the [RootLuisDialog](Dialogs/RootLuisDialog.cs#L46) class retrieves a city value from the processed [pre-built entity](https://github.com/Microsoft/Cognitive-Documentation/blob/master/Content/en-us/LUIS/Pre-builtEntities.md).
 
 ````C#
 EntityRecommendation cityEntityRecommendation;
