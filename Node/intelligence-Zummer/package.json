@@ -1,0 +1,16 @@
+{
+  "name": "botbuilder-sample-zummer",
+  "version": "1.0.0",
+  "description": "Bot Builder Sample - Zummer",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "mmoussa",
+  "dependencies": {
+    "botbuilder": "^3.5.3",
+    "dotenv-extended": "^1.0.4",
+    "memory-cache": "^0.1.6",
+    "restify": "^4.3.0",
+    "url": "^0.11.0"
+  }
+}

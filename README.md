@@ -36,6 +36,7 @@ LUIS | A sample bot using LuisDialog to integrate with a LUIS.ai application. | 
 Image Caption | A sample bot that gets an image caption using Microsoft Cognitive Services Vision API. | [View Sample](/CSharp/intelligence-ImageCaption)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ImageCaption] | [View Sample](/Node/intelligence-ImageCaption)[![Deploy to Azure][Deploy Button]][Deploy Node/ImageCaption]
 Speech To Text | A sample bot that gets text from audio using Bing Speech API. | [View Sample](/CSharp/intelligence-SpeechToText)[![Deploy to Azure][Deploy Button]][Deploy CSharp/SpeechToText] | [View Sample](/Node/intelligence-SpeechToText)[![Deploy to Azure][Deploy Button]][Deploy Node/SpeechToText]
 Similar Products | A sample bot that finds visually similar products using Bing Image Search API. | [View Sample](/CSharp/intelligence-SimilarProducts)[![Deploy to Azure][Deploy Button]][Deploy CSharp/SimilarProducts] | [View Sample](/Node/intelligence-SimilarProducts)[![Deploy to Azure][Deploy Button]][Deploy Node/SimilarProducts]
+Zummer | A sample bot that finds wikipedia articles using Bing Search API and summarize them using Bing Summarizer API. | [View Sample](/CSharp/intelligence-Zummer)[![Deploy to Azure][Deploy Button]][Deploy CSharp/Zummer] | [View Sample](/Node/intelligence-Zummer)[![Deploy to Azure][Deploy Button]][Deploy Node/Zummer]
 
 ## Demo
 These are bots designed to showcase end-to-end sample scenarios. They're great sources of code fragments if you're looking to have your bot lightup more complex features.
@@ -79,3 +80,5 @@ Azure Search | Two sample bots that help the user navigate large amounts of cont
 [Deploy Node/SimilarProducts]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/intelligence-SimilarProducts
 [Deploy CSharp/AppInsights]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/core-AppInsights
 [Deploy Node/AppInsights]: https://azuredeploy.net/?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/core-AppInsights
+[Deploy CSharp/Zummer]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/intelligence-Zummer
+[Deploy Node/Zummer]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/intelligence-Zummer
