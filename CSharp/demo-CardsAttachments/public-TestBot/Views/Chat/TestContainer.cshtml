@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Chat";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Bot Chat</title>
+    <link href="https://unpkg.com/botframework-webchat@0.6.5/botchat.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+        #chat-iframe { 
+            border: 2px solid #3A96DD;
+            float: left;
+        }
+
+        #chat-options {
+            float: left;
+            padding: 20px;
+        }
+
+        #chat-options button {
+            display: block;
+            padding: 10px 20px;
+            width: 200px;
+            margin-bottom: 20px
+        }
+    </style>
+</head>
+
+<body>
+
+    <iframe src="/Chat" frameborder="0" width="600" height="800" id="chat-iframe"></iframe>
+
+    <div id="chat-options">
+        <button onclick="showCard('hero', 'json', 'C#')">Hero Card<br /><small>(with JSON and C# Source)</small></button>
+        <button onclick="showCard('carousel')">Carousel Card</button>
+        <button onclick="showCard('animation', 'node')">Animation Card<br /><small>(with Node Source)</small></button>
+        <button onclick="showCard('video', 'json')">Video Card<br /><small>(with JSON)</small></button>
+        <button onclick="showCard('audio')">Audio Card</button>
+        <button onclick="showCard('receipt', 'json', 'C#')">Receipt Card<br /><small>(with JSON and C# Source)</small></button>
+        <button onclick="showCard('signin', 'node')">Signin Card<br /><small>(with Node Source)</small></button>
+    </div>
+
+    <script type="text/javascript">
+        function showCard() {
+            var args = Array.prototype.slice.call(arguments);
+            var sendMessages = document.getElementById('chat-iframe').contentWindow.sendMessages;
+            if (typeof sendMessages === 'function') {
+                sendMessages(args)
+            }
+        }
+    </script>
+
+</body>
+</html>
