@@ -1,9 +1,9 @@
 Zummer Bot (C\#)
 ================
 
-In this tutorial we will cover how to build a Search and Summary Bot - Zummer
-using Microsoft Cognitive Services - [Bing Web Search
-API](https://www.microsoft.com/cognitive-services/en-us/bing-web-search-api),
+In this tutorial we will cover how to build an information search bot - Zummer
+using - [Bing Web Search
+API](https://www.microsoft.com/cognitive-services/en-us/bing-web-search-api) and 
 [Language Understanding Intelligent Services
 (LUIS)](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis)
 
@@ -19,20 +19,17 @@ Bot Recipe/Prerequisites:
     [here](https://aka.ms/bf-bc-emulator). More details in [this documentation
     article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html) 
 
--   **Bing Web Search API** to fetch most relevant Wikipedia article on any
+-   **Bing Web Search API** to fetch the most relevant Wikipedia article on any
     given topic.
 
--   **Luis.ai** to understand client’s query intent
+-   **Luis.ai** to understand the query intent
 
  
 
-Let's get started, Shall we?
+Let's get started, shall we?
 ----------------------------
 
-This tutorial would help you understand how to string together various Cognitive
-APIs -  Bing Web Search and LUIS to build a productivity bot
-
-Here is a simple flowchart of what the Zummer bot logic will be:
+Here is a simple flowchart of what the Zummer bot logic is:
 
  
 
@@ -51,7 +48,7 @@ Zummer bot is trained to understand the following intents:
 
 1.  **Sign in and Create an application** on [www.luis.ai](http://www.luis.ai/)  
     **Note:** You can either import the LUIS application JSON file
-    “ZummerLuisApp.json” found in the sample folder
+    “ZummerLuisApp.json” found in the [sample folder](https://github.com/Microsoft/BotBuilder-Samples/blob/master/CSharp/intelligence-Zummer/ZummerLuisApp.json)
 
     ![](images/1.PNG)
 
@@ -75,8 +72,7 @@ Zummer bot is trained to understand the following intents:
 
 4.  **Publish your application**
 
-5.  **Save your published endpoint URL** to be used when creating your bot using
-    the bot framework
+5.  **Save your published endpoint URL** which would be used when creating your bot on bot framework
 
     ![](images/5.PNG)
 
@@ -116,7 +112,7 @@ Zummer bot is trained to understand the following intents:
 
 3.  Create methods in this dialog to handle your LUIS intents. In this tutorial
     a factory is created that returns the needed object that is responsible
-    handling certain intent and  responding to the user
+    handling certain intents and  responding to the user
 
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c#
     [LuisIntent(ZummerStrings.GreetingIntentName)]
@@ -142,17 +138,17 @@ Fetching Wikipedia articles on a topic using Bing Web Search API
 1.  The model classes that represent the Bing Web Search API JSON response can
     be found in folder “Models\\Search*”*
 
-2.  Create “Key” that will be used for calling the Bing APIs on [Microsoft
+2.  Create a free tier “Key” that will be used for calling the Bing APIs on [Microsoft
     Cognitive Service
     subscriptions](https://www.microsoft.com/cognitive-services/en-US/subscriptions)
-    using the free tier
+    
 
 3.  Bing Web Search API request format details could be found at [Bing Web
     Search API
     reference](https://dev.cognitive.microsoft.com/docs/services/56b43eeccf5ff8098cef3807/operations/56b4447dcf5ff8098cef380d)
     page  
     This tutorial implements communication with Bing Web Search API service and
-    manipulating the user's query to get response with only Wikipedia
+    manipulating the user's query to get a response with only Wikipedia
     articles through “FindArticles”  in BingSearchServices.cs
 
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c#
@@ -264,8 +260,8 @@ You will see the following when connecting the Bot to the Emulator:
 More Information
 ----------------
 
-To get more information about how to get started in Bot Builder for .NET and
-Microsoft Cognitive Services Bing Web Search API and LUIS please review the
+To get more information about how to get started in Bot Builder for .NET, 
+ Bing Web Search API and LUIS please review the
 following resources: \* [Bot Builder for
 .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
 \* [Bing Web Search
