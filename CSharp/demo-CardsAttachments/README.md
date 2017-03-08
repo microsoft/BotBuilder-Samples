@@ -1,4 +1,4 @@
-# Test Bot Sample
+# Cards as Attachments Sample Bot
 
 A sample bot to renders several types of cards as attachments, while also showing the generated JSON for each one of these cards at the message's payload, and the C# and NodeJs code required to build them.
 
@@ -453,9 +453,9 @@ To get more information about how to get started in Bot Builder for .NET and Att
 
 > **Limitations**  
 > The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html).
-> 
+>
 > The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
-> 
+>
 > The Hero card and Thumbnail card used in this sample are fully supported in the following channels:
 > - Skype
 > - Facebook
@@ -465,10 +465,10 @@ To get more information about how to get started in Bot Builder for .NET and Att
 > - Slack
 > - Email
 > - GroupMe
-> 
+>
 > They are also supported, with some limitations, in the following channel:
 > - Kik
-> 
+>
 > On the other hand, they are not supported and the sample won't work as expected in the following channel:
 > - SMS
 >
@@ -481,10 +481,10 @@ To get more information about how to get started in Bot Builder for .NET and Att
 > - Slack
 > - Email
 > - GroupMe
-> 
+>
 > They are also supported, with some limitations, in the following channel:
 > - Kik
-> 
+>
 > On the other hand, they are not supported and the sample won't work as expected in the following channel:
 > - SMS
 > - Microsoft Teams
