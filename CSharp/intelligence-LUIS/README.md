@@ -20,7 +20,7 @@ The first step to using LUIS is to create or import an application. Go to the ho
 
 ![Import an Existing Application](images/prereqs-import.png)
 
-Once you imported the application you'll need to "train" the model ([Training](https://github.com/Microsoft/Cognitive-Documentation/blob/master/Content/en-us/LUIS/Train-Test.md)) before you can "Publish" the model in an HTTP endpoint. For more information, take a look at [Publishing a Model](https://github.com/Microsoft/Cognitive-Documentation/blob/master/Content/en-us/LUIS/PublishApp.md).
+Once you imported the application you'll need to "train" the model ([Training](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/Train-Test)) before you can "Publish" the model in an HTTP endpoint. For more information, take a look at [Publishing a Model](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/PublishApp).
 
 Finally, edit the [RootLuisDialog.cs](Dialogs/RootLuisDialog.cs#L14) file and update the LuisModel attribute placeholders with the values corresponding to your Subscription and Application.
 
@@ -55,7 +55,7 @@ You'll need these two values to configure the LuisDialog through the LuisModel a
 
 ### Code Highlights
 
-One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. In the LUIS application, you will bundle together the intents and entities that are important to your task. Read more about [Planning an Application](https://github.com/Microsoft/Cognitive-Documentation/blob/master/Content/en-us/LUIS/Plan-your-app.md) in the LUIS Help Docs.
+One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. In the LUIS application, you will bundle together the intents and entities that are important to your task. Read more about [Planning an Application](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/Plan-your-app) in the LUIS Help Docs.
 Check out the use of LuisIntent attributes decorating [RootLuisDialog](Dialogs/RootLuisDialog.cs#L36) methods to handle LUIS Intents, for instance `[LuisIntent("SearchHotels")]`.
 
 ````C#
@@ -66,7 +66,7 @@ public async Task Search(IDialogContext context, IAwaitable<IMessageActivity> ac
 }
 ````
 
-Each intent handler method accepts the `IDialogContext`, the original incoming `IMessageActivity` message and the `LuisResult` including the matching Intents and Entities for the LUIS query. In the sample below, the [RootLuisDialog](Dialogs/RootLuisDialog.cs#L46) class retrieves a city value from the processed [pre-built entity](https://github.com/Microsoft/Cognitive-Documentation/blob/master/Content/en-us/LUIS/Pre-builtEntities.md).
+Each intent handler method accepts the `IDialogContext`, the original incoming `IMessageActivity` message and the `LuisResult` including the matching Intents and Entities for the LUIS query. In the sample below, the [RootLuisDialog](Dialogs/RootLuisDialog.cs#L46) class retrieves a city value from the processed [pre-built entity](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/Pre-builtEntities).
 
 ````C#
 EntityRecommendation cityEntityRecommendation;
@@ -83,7 +83,7 @@ You might notice the use of `EntityRecommendation.Type = "Destination"` in the c
 var hotelsFormDialog = new FormDialog<HotelsQuery>(hotelsQuery, this.BuildHotelsForm, FormOptions.PromptInStart, result.Entities);
 ````
 
-In addition, the `AirportCode` entity makes use of the LUIS Pattern Features which helps LUIS infer entities based on an Regular Expression match, for instance, Airport Codes consist of three consecutive alphabetic characters. You can read more about Pattern Features in the [Add Features](https://github.com/Microsoft/Cognitive-Documentation/blob/master/Content/en-us/LUIS/Add-Features.md#pattern-features) section of the LUIS Help Docs.
+In addition, the `AirportCode` entity makes use of the LUIS Pattern Features which helps LUIS infer entities based on an Regular Expression match, for instance, Airport Codes consist of three consecutive alphabetic characters. You can read more about Pattern Features in the [Add Features](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/Add-Features#pattern-features) section of the LUIS Help Docs.
 
 ![Edit Regex Feature](images/highlights-regex.png)
 
