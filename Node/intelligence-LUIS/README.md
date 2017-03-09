@@ -20,7 +20,7 @@ The first step to using LUIS is to create or import an application. Go to the ho
 
 ![Import an Existing Application](images/prereqs-import.png)
 
-Once you imported the application you'll need to "train" the model ([Training](https://github.com/Microsoft/Cognitive-Documentation/blob/master/Content/en-us/LUIS/Train-Test.md)) before you can "Publish" the model in an HTTP endpoint. For more information, take a look at [Publishing a Model](https://github.com/Microsoft/Cognitive-Documentation/blob/master/Content/en-us/LUIS/PublishApp.md).
+Once you imported the application you'll need to "train" the model ([Training](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/Train-Test)) before you can "Publish" the model in an HTTP endpoint. For more information, take a look at [Publishing a Model](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/PublishApp).
 
 Finally, edit the [.env](.env#L6) file and update the `LUIS_MODEL_URL` variable with your's Model URL.
 
@@ -32,7 +32,7 @@ In the LUIS application's dashboard, click the "Publish App" button in the right
 
 ### Code Highlights
 
-One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. In the LUIS application, you will bundle together the intents and entities that are important to your task. Read more about [Planning an Application](https://github.com/Microsoft/Cognitive-Documentation/blob/master/Content/en-us/LUIS/Plan-your-app.md) in the LUIS Help 
+One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. In the LUIS application, you will bundle together the intents and entities that are important to your task. Read more about [Planning an Application](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/Plan-your-app) in the LUIS Help 
 
 #### Intent Recognizers
 
@@ -80,7 +80,7 @@ var cityEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'buil
 var airportEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'AirportCode');
 ````
 
-The `AirportCode` entity makes use of the LUIS Pattern Features which helps LUIS infer entities based on an Regular Expression match, for instance, Airport Codes consist of three consecutive alphabetic characters. You can read more about Pattern Features in the [Add Features](https://github.com/Microsoft/Cognitive-Documentation/blob/master/Content/en-us/LUIS/Add-Features.md#pattern-features) section of the LUIS Help Docs.
+The `AirportCode` entity makes use of the LUIS Pattern Features which helps LUIS infer entities based on an Regular Expression match, for instance, Airport Codes consist of three consecutive alphabetic characters. You can read more about Pattern Features in the [Add Features](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/Add-Features#pattern-features) section of the LUIS Help Docs.
 
 ![Edit Regex Feature](images/highlights-regex.png)
 
