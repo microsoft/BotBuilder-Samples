@@ -1,0 +1,30 @@
+{
+  "name": "botbuilder-sample-directline-client",
+  "version": "1.0.0",
+  "description": "Bot Builder Sample - DirectLine Sample - Client",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Microsoft Corp.",
+  "license": "MIT",
+  "keywords": [
+    "botbuilder",
+    "bots",
+    "chatbots",
+    "botbuilder-samples"
+  ],
+  "bugs": {
+    "url": "https://github.com/Microsoft/BotBuilder-Samples/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
+  },
+  "dependencies": {
+    "open": "0.0.5",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1",
+    "swagger-client": "^2.1.18",
+    "websocket": "^1.0.24"
+  }
+}
