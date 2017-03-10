@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "Node/core-DirectLine/DirectLineBot"
+      "defaultValue": "Node/core-DirectLineWebSockets/DirectLineBot"
     },
     "WEBSITE_NODE_DEFAULT_VERSION": {
       "type": "string",
