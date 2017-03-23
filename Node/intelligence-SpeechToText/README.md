@@ -2,7 +2,10 @@
 
 A sample bot that illustrates how to use the Microsoft Cognitive Services Bing Speech API to analyze an audio file and return the text.
 
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net)
+[![Deploy to Azure][Deploy Button]][Deploy Node/SpeechToText]
+
+[Deploy Button]: https://azuredeploy.net/deploybutton.png
+[Deploy Node/SpeechToText]: https://azuredeploy.net
 
 ### Prerequisites
 

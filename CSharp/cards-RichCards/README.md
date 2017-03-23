@@ -3,6 +3,7 @@
 A sample bot to renders several types of cards as attachments.
 
 [![Deploy to Azure][Deploy Button]][Deploy CSharp/RichCards]
+
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
 [Deploy CSharp/RichCards]: https://azuredeploy.net
 

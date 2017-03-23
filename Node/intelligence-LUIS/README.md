@@ -2,9 +2,10 @@
 
 A sample bot integrated with a LUIS.ai application for undertanding natural language.
 
-[![Deploy to Azure][Deploy Button]][Deploy LUIS/Node]
+[![Deploy to Azure][Deploy Button]][Deploy Node/LUIS]
+
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy LUIS/Node]: https://azuredeploy.net
+[Deploy Node/LUIS]: https://azuredeploy.net
 
 ### Prerequisites
 
