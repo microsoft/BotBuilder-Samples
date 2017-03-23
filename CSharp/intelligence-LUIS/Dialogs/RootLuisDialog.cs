@@ -1,6 +1,4 @@
-﻿#define useSampleModel
-
-namespace LuisBot.Dialogs
+﻿namespace LuisBot.Dialogs
 {
     using System;
     using System.Collections.Generic;
@@ -13,12 +11,7 @@ namespace LuisBot.Dialogs
     using Microsoft.Bot.Builder.Luis.Models;
     using Microsoft.Bot.Connector;
 
-    [Serializable]
-#if useSampleModel
-    [LuisModel("162bf6ee-379b-4ce4-a519-5f5af90086b5", "11be6373fca44ded80fbe2afa8597c18")]
-#else
     [LuisModel("YourModelId", "YourSubscriptionKey")]
-#endif
     public class RootLuisDialog : LuisDialog<object>
     {
         private const string EntityGeographyCity = "builtin.geography.city";
