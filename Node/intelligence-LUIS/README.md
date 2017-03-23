@@ -14,25 +14,25 @@ The minimum prerequisites to run this sample are:
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
 
 #### LUIS Application
-You can test this sample as-is, using the hosted sample application, or you can import the pre-built [LuisBot.json](LuisBot.json) file to your own LUIS account.
+If you want to test this sample, you have to import the pre-build [LuisBot.json](LuisBot.json) file to your LUIS account.
 
-In the case you choose to import the application, the first step to using LUIS is to create or import an application. Go to the home page, www.luis.ai, and log in. After creating your LUIS account you'll be able to Import an Existing Application where can you can select a local copy of the LuisBot.json file an import it. For more information, take a look at [Importing and Exporting Applications](https://www.luis.ai/Help#ImportingApps)
+The first step to using LUIS is to create or import an application. Go to the home page, www.luis.ai, and log in. After creating your LUIS account you'll be able to Import an Existing Application where can you can select a local copy of the LuisBot.json file an import it.
 
 ![Import an Existing Application](images/prereqs-import.png)
 
-Once you imported the application you'll need to "train" the model ([Training](https://www.luis.ai/Help#Training)) before you can "Publish" the model in an HTTP endpoint. For more information, take a look at [Publishing a Model](https://www.luis.ai/Help#PublishingModel).
+Once you imported the application you'll need to "train" the model ([Training](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/Train-Test)) before you can "Publish" the model in an HTTP endpoint. For more information, take a look at [Publishing a Model](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/PublishApp).
 
 Finally, edit the [.env](.env#L6) file and update the `LUIS_MODEL_URL` variable with your's Model URL.
 
 #### Where to find the Model URL
 
-In the LUIS application's dashboard, click the "Publish" button in the upper left-hand corner, and then "Publish web service" in the resulting window. After a couple of moments, you will see a url that makes your models available as a web service.
+In the LUIS application's dashboard, click the "Publish App" button in the right side bar, select an Endpoint Key and then click the "Publish" button. After a couple of moments, you will see a url that makes your models available as a web service.
 
 ![Publishing a Model](images/prereqs-publish.png)
 
 ### Code Highlights
 
-One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. In the LUIS application, you will bundle together the intents and entities that are important to your task. Read more about [Creating an Application](https://www.luis.ai/Help#CreatingApplication) in the LUIS Help Docs. 
+One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. In the LUIS application, you will bundle together the intents and entities that are important to your task. Read more about [Planning an Application](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/Plan-your-app) in the LUIS Help 
 
 #### Intent Recognizers
 
@@ -47,7 +47,7 @@ var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
 bot.recognizer(recognizer);
 ````
 
-Intent recognizers return matches as named intents. To match against an intent from a recognizer you pass the name of the intent you want to handle to [IntentDialog.matches()](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog#matches) or use the dialog's [triggerAction()]() by specifing the intent name with [matches](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.itriggeractionoptions.html#matches) property. See how the bot matches the [`SearchHotels`](app.js#L80), [`ShowHotelsReviews`](app.js#L100) and [`Help`](app.js#L106) intents.
+Intent recognizers return matches as named intents. To match against an intent from a recognizer you pass the name of the intent you want to handle to [IntentDialog.matches()](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog#matches) or use the dialog's [triggerAction()](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html#triggeraction) by specifing the intent name with [matches](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.itriggeractionoptions.html#matches) property. See how the bot matches the [`SearchHotels`](app.js#L80), [`ShowHotelsReviews`](app.js#L100) and [`Help`](app.js#L106) intents.
 
 ````JavaScript
 bot.dialog('SearchHotels', [
@@ -80,7 +80,7 @@ var cityEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'buil
 var airportEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'AirportCode');
 ````
 
-The `AirportCode` entity makes use of the LUIS Regex Features which helps LUIS infer entities based on an Regular Expression match, for instance, Airport Codes consist of three consecutive alphabetic characters. You can read more about Regex Features in the [Improving Performance](https://www.luis.ai/Help/#Performance) section of the LUIS Help Docs.
+The `AirportCode` entity makes use of the LUIS Pattern Features which helps LUIS infer entities based on an Regular Expression match, for instance, Airport Codes consist of three consecutive alphabetic characters. You can read more about Pattern Features in the [Add Features](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/Add-Features#pattern-features) section of the LUIS Help Docs.
 
 ![Edit Regex Feature](images/highlights-regex.png)
 
@@ -215,7 +215,7 @@ You will see the following in the Bot Framework Emulator when opening and runnin
 To get more information about how to get started in Bot Builder for Node and LUIS please review the following resources:
 * [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
 * [Understanding Natural Language](https://docs.botframework.com/en-us/node/builder/guides/understanding-natural-language/)
-* [LUIS Help Docs](https://www.luis.ai/Help/)
+* [LUIS Help Docs](https://www.luis.ai/home/help)
 * [Cognitive Services Documentation](https://www.microsoft.com/cognitive-services/en-us/luis-api/documentation/home)
 * [IntentDialog](https://docs.botframework.com/en-us/node/builder/chat/IntentDialog/)
 * [EntityRecognizer](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.entityrecognizer.html)
