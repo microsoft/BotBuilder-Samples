@@ -2,9 +2,10 @@
 
 A sample bot that passes simple media attachments (images) to a message.
 
-[![Deploy to Azure][Deploy Button]][Deploy SendAttachment/Node]
+[![Deploy to Azure][Deploy Button]][Deploy Node/SendAttachment]
+
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy SendAttachment/Node]: https://azuredeploy.net
+[Deploy Node/SendAttachment]: https://azuredeploy.net
 
 ### Prerequisites
 

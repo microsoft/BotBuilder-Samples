@@ -2,9 +2,10 @@
 
 A sample bot that retrieves the conversation's members list and detects when it changes.
 
-[![Deploy to Azure][Deploy Button]][Deploy GetConversationMembers/Node]
+[![Deploy to Azure][Deploy Button]][Deploy Node/GetConversationMembers]
+
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy GetConversationMembers/Node]: https://azuredeploy.net
+[Deploy Node/GetConversationMembers]: https://azuredeploy.net
 
 ### Prerequisites
 

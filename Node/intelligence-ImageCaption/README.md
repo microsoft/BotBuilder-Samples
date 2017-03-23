@@ -2,7 +2,10 @@
 
 A sample bot that illustrates how to use the Microsoft Cognitive Services Computer Vision API to analyze an image from a stream or a URL and return to the user the image caption.
 
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net)
+[![Deploy to Azure][Deploy Button]][Deploy Node/ImageCaption]
+
+[Deploy Button]: https://azuredeploy.net/deploybutton.png
+[Deploy Node/ImageCaption]: https://azuredeploy.net
 
 ### Prerequisites
 
