@@ -7,9 +7,6 @@ API](https://www.microsoft.com/cognitive-services/en-us/bing-web-search-api),
 [Language Understanding Intelligent Services
 (LUIS)](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis)
 
-[![Deploy to Azure][Deploy Button]][Deploy Node/Zummer]
-[Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy Node/Zummer]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/intelligence-Zummer
 
 Bot Recipe/Prerequisites:
 -------------------------
