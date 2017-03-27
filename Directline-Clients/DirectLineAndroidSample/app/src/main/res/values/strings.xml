@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">DirectLineAndroidExample</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_msg">Your Message</string>
+    <string name="prompt_yourmsghistory">Your Chat history shows up here</string>
+    <string name="action_sendmsg">Send Message</string>
+    <string name="action_sendmsgShort">Sendmsg</string>
+</resources>
