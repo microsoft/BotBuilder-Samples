@@ -1,0 +1,35 @@
+{
+  "name": "azure_node_bot",
+  "version": "1.0.0",
+  "description": "Microsoft Bot Framework bot written in NodeJS to test issues.",
+  "main": "node_bot.js",
+  "dependencies": {
+    "botbuilder": "^3.7.0",
+    "express": "^4.14.1",
+    "request-promise": "^4.1.1",
+    "restify": "^4.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node node_bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fignewton5/AzureNodeBot.git"
+  },
+  "keywords": [
+    "Microsoft",
+    "Bot",
+    "Framework",
+    "Chatbot",
+    "Chat",
+    "Bot"
+  ],
+  "author": "Tony Anziano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fignewton5/AzureNodeBot/issues"
+  },
+  "homepage": "https://github.com/Fignewton5/AzureNodeBot#readme"
+}
