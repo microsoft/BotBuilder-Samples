@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "README", "README", "{A041A71E-2D8B-4CF3-9BD2-C66A91A53353}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Cognitive.LUIS.ActionBinding", "Microsoft.Cognitive.LUIS.ActionBinding\Microsoft.Cognitive.LUIS.ActionBinding.csproj", "{ABDF486D-CBF1-43A7-9044-CA46B5AB2A88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuisActions.Samples.Shared", "LuisActions.Samples.Shared\LuisActions.Samples.Shared.csproj", "{95992BB5-5338-4192-A86E-5710AB641E68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuisActions.Samples.Bot", "LuisActions.Samples.Bot\LuisActions.Samples.Bot.csproj", "{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuisActions.Samples.Console", "LuisActions.Samples.Console\LuisActions.Samples.Console.csproj", "{06A7319F-415A-4E5A-97DC-F4677CD12EF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuisActions.Samples.Web", "LuisActions.Samples.Web\LuisActions.Samples.Web.csproj", "{E3E90614-BE03-4CBF-8730-154EA3F5E7EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Cognitive.LUIS.ActionBinding.Nuget", "Microsoft.Cognitive.LUIS.ActionBinding.Nuget\Microsoft.Cognitive.LUIS.ActionBinding.Nuget.csproj", "{9F65C327-30FE-45C2-95DE-AB984B268B0B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ABDF486D-CBF1-43A7-9044-CA46B5AB2A88} = {ABDF486D-CBF1-43A7-9044-CA46B5AB2A88}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ABDF486D-CBF1-43A7-9044-CA46B5AB2A88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABDF486D-CBF1-43A7-9044-CA46B5AB2A88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABDF486D-CBF1-43A7-9044-CA46B5AB2A88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABDF486D-CBF1-43A7-9044-CA46B5AB2A88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95992BB5-5338-4192-A86E-5710AB641E68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95992BB5-5338-4192-A86E-5710AB641E68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95992BB5-5338-4192-A86E-5710AB641E68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95992BB5-5338-4192-A86E-5710AB641E68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06A7319F-415A-4E5A-97DC-F4677CD12EF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06A7319F-415A-4E5A-97DC-F4677CD12EF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06A7319F-415A-4E5A-97DC-F4677CD12EF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06A7319F-415A-4E5A-97DC-F4677CD12EF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3E90614-BE03-4CBF-8730-154EA3F5E7EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3E90614-BE03-4CBF-8730-154EA3F5E7EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3E90614-BE03-4CBF-8730-154EA3F5E7EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3E90614-BE03-4CBF-8730-154EA3F5E7EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F65C327-30FE-45C2-95DE-AB984B268B0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F65C327-30FE-45C2-95DE-AB984B268B0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F65C327-30FE-45C2-95DE-AB984B268B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F65C327-30FE-45C2-95DE-AB984B268B0B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,21 @@
+{
+  "name": "botbuilder-luis-actionbinding",
+  "version": "1.0.0",
+  "description": "Bot Builder LUIS Action Binding",
+  "author": "Microsoft Corp.",
+  "license": "MIT",
+  "main": "./index.js",
+  "keywords": [
+    "botbuilder",
+    "bots",
+    "chatbots",
+    "botbuilder-luis",
+    "luis-ai"
+  ],
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "botbuilder": "^3.7.0",
+    "lodash": "^4.17.4",
+    "schema-inspector": "^1.6.8"
+  }
+}
