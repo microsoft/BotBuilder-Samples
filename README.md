@@ -16,6 +16,7 @@ Get Members of a Conversation | A sample bot that retrieves the conversation's m
 Direct Line | A sample bot and a custom client communicating to each other using the Direct Line API. | [View Sample](/CSharp/core-DirectLine)[![Deploy to Azure][Deploy Button]][Deploy CSharp/DirectLine] | [View Sample](/Node/core-DirectLine)[![Deploy to Azure][Deploy Button]][Deploy Node/DirectLine]
 Multi Dialogs | A sample bot showing different kind of dialogs. | [View Sample](/CSharp/core-MultiDialogs)[![Deploy to Azure][Deploy Button]][Deploy CSharp/MultiDialogs] | [View Sample](/Node/core-MultiDialogs)[![Deploy to Azure][Deploy Button]][Deploy Node/MultiDialogs]
 State API | A stateless sample bot tracking context of a conversation. | [View Sample](/CSharp/core-State)[![Deploy to Azure][Deploy Button]][Deploy CSharp/State] | [View Sample](/Node/core-State)[![Deploy to Azure][Deploy Button]][Deploy Node/State]
+Custom State API | A stateless sample bot tracking context of a conversation using a custom storage provider. | [View Sample](/CSharp/core-CustomState)[![Deploy to Azure][Deploy Button]][Deploy CSharp/CustomState] | [View Sample](/Node/core-CustomState)[![Deploy to Azure][Deploy Button]][Deploy Node/CustomState]
 ChannelData | A sample bot sending native metadata to Facebook using ChannelData. | [View Sample](/CSharp/core-ChannelData)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ChannelData] | [View Sample](/Node/core-ChannelData)[![Deploy to Azure][Deploy Button]][Deploy Node/ChannelData]
 AppInsights | A sample bot which logs telemetry to an Application Insights instance. | [View Sample](/CSharp/core-AppInsights)[![Deploy to Azure][Deploy Button]][Deploy CSharp/AppInsights] | [View Sample](/Node/core-AppInsights)[![Deploy to Azure][Deploy Button]][Deploy Node/AppInsights]
 
@@ -66,6 +67,8 @@ Azure Search | Two sample bots that help the user navigate large amounts of cont
 [Deploy Node/MultiDialogs]: https://azuredeploy.net/?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/core-MultiDialogs
 [Deploy CSharp/State]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/core-State
 [Deploy Node/State]: https://azuredeploy.net/?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/core-State
+[Deploy CSharp/CustomState]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/core-CustomState
+[Deploy Node/CustomState]: https://azuredeploy.net/?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/core-CustomState
 [Deploy CSharp/LUIS]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/intelligence-LUIS
 [Deploy Node/LUIS]: https://azuredeploy.net/?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/intelligence-LUIS
 [Deploy CSharp/ChannelData]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/core-ChannelData

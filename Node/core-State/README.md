@@ -2,9 +2,10 @@
 
 A stateless sample bot tracking context of a conversation.
 
-[![Deploy to Azure][Deploy Button]][Deploy State/Node]
+[![Deploy to Azure][Deploy Button]][Deploy Node/State]
+
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy State/Node]: https://azuredeploy.net
+[Deploy Node/State]: https://azuredeploy.net
 
 ### Prerequisites
 

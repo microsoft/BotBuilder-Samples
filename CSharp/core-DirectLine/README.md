@@ -2,9 +2,10 @@
 
 A sample bot and a custom client communicating to each other using the Direct Line API.
 
-[![Deploy to Azure][Deploy Button]][Deploy DirectLine/CSharp]
+[![Deploy to Azure][Deploy Button]][Deploy CSharp/DirectLine]
+
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy DirectLine/CSharp]: https://azuredeploy.net
+[Deploy CSharp/DirectLine]: https://azuredeploy.net
 
 ### Prerequisites
 

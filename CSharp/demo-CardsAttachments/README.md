@@ -2,9 +2,10 @@
 
 A sample bot to renders several types of cards as attachments, while also showing the generated JSON for each one of these cards at the message's payload, and the C# and NodeJs code required to build them.
 
-[![Deploy to Azure][Deploy Button]][Deploy CSharp/TestBot]
+[![Deploy to Azure][Deploy Button]][Deploy CSharp/CardAttachments]
+
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy CSharp/TestBot]: https://azuredeploy.net
+[Deploy CSharp/CardAttachments]: https://azuredeploy.net
 
 ### Prerequisites
 

@@ -2,9 +2,10 @@
 
 A sample bot to renders several types of cards as attachments.
 
-[![Deploy to Azure][Deploy Button]][Deploy RichCards/Node]
+[![Deploy to Azure][Deploy Button]][Deploy Node/RichCards]
+
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy RichCards/Node]: https://azuredeploy.net
+[Deploy Node/RichCards]: https://azuredeploy.net
 
 ### Prerequisites
 

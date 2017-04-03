@@ -2,9 +2,10 @@
 
 A sample bot that sends multiple rich card attachments in a single message using the Carousel layout.
 
-[![Deploy to Azure][Deploy Button]][Deploy CarouselCards/Node]
+[![Deploy to Azure][Deploy Button]][Deploy Node/CarouselCards]
+
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy CarouselCards/Node]: https://azuredeploy.net
+[Deploy Node/CarouselCards]: https://azuredeploy.net
 
 ### Prerequisites
 

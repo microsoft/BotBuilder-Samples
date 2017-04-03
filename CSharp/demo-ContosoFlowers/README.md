@@ -6,6 +6,7 @@ Several chat bots already exists in these platforms using different tools and le
 You came across the Microsoft Bot Framework which support a great variety of channels (platforms), programming languages (C# and Node) and supports both state-of-the-art standard bot features and mechanisms to also take advantage of native features (via ChannelData).
 
 [![Deploy to Azure][Deploy Button]][Deploy CSharp/ContosoFlowers]
+
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
 [Deploy CSharp/ContosoFlowers]: https://azuredeploy.net
 

@@ -7,9 +7,10 @@ These samples illustrate how to approach dialogs that need to help the user navi
 
 Content is modeled as a catalog of items where each item has several attributes that may be used for navigation, keyword search or display.
 
-[![Deploy to Azure][Deploy Button]][Deploy Search/Node]
+[![Deploy to Azure][Deploy Button]][Deploy Node/Search]
+
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy Search/Node]: https://azuredeploy.net
+[Deploy Node/Search]: https://azuredeploy.net
 
 ### Prerequisites
 

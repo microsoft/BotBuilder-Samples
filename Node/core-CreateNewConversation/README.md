@@ -2,9 +2,10 @@
 
 A sample bot that starts a new conversation using a previously stored user address.
 
-[![Deploy to Azure][Deploy Button]][Deploy CreateNewConversation/Node]
+[![Deploy to Azure][Deploy Button]][Deploy Node/CreateNewConversation]
+
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy CreateNewConversation/Node]: https://azuredeploy.net
+[Deploy Node/CreateNewConversation]: https://azuredeploy.net
 
 ### Prerequisites
 

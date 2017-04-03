@@ -2,7 +2,10 @@
 
 A sample bot that illustrates how to use the [Bing Image Search API](https://www.microsoft.com/cognitive-services/en-us/bing-image-search-api) to find visually similar products from an image stream or a URL.[Here's](https://docs.botframework.com/en-us/bot-intelligence/search/#example-product-bot) a demo of this bot in a web chat.
 
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net)
+[![Deploy to Azure][Deploy Button]][Deploy CSharp/SimilarProducts]
+
+[Deploy Button]: https://azuredeploy.net/deploybutton.png
+[Deploy CSharp/SimilarProducts]: https://azuredeploy.net
 
 ### Prerequisites
 
