@@ -1,0 +1,4306 @@
+{
+  "luis_schema_version": "2.0.0",
+  "versionId": "0.1",
+  "name": "ActionBindingSamples",
+  "desc": "",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "FindAirportByCode"
+    },
+    {
+      "name": "FindHotels"
+    },
+    {
+      "name": "FindHotels-ChangeCheckin"
+    },
+    {
+      "name": "FindHotels-ChangeCheckout"
+    },
+    {
+      "name": "FindHotels-ChangeLocation"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "TimeInPlace"
+    },
+    {
+      "name": "WeatherInPlace"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Category"
+    },
+    {
+      "name": "Code"
+    },
+    {
+      "name": "RoomType"
+    }
+  ],
+  "composites": [
+    {
+      "name": "Checkin",
+      "children": [
+        "datetime"
+      ]
+    },
+    {
+      "name": "Checkout",
+      "children": [
+        "datetime"
+      ]
+    },
+    {
+      "name": "Place",
+      "children": [
+        "geography"
+      ]
+    }
+  ],
+  "closedLists": [],
+  "bing_entities": [
+    "datetime",
+    "geography"
+  ],
+  "actions": [],
+  "model_features": [],
+  "regex_features": [
+    {
+      "name": "Airport code",
+      "pattern": "[a-z]{3,3}",
+      "activated": true
+    }
+  ],
+  "utterances": [
+    {
+      "text": "gettimeinplaceaction",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "hello friend",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "seattle",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "hi",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "hello",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "hellou",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "exit",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "ok bye",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "miami",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "barcelona",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "ok",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "ls -la",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "mimai",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "asd",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "2017/03/10",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "2017/03/01",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "2017/01/01",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "2017/03/03",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Checkout",
+          "startPos": 0,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "alooo?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "fso",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "this is a test1",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "hello bot!",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "show me hotel in buenos aires from 05/02 to 10/02",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 17,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "show me luxury hotels in miami from 07-02 to 07-05",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 25,
+          "endPos": 29
+        },
+        {
+          "entity": "Category",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "hotels in buenos aires from 1st march to 3rd march",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 10,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "cheap hotels in buenos aires from 03/10 to 03/16",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 16,
+          "endPos": 27
+        },
+        {
+          "entity": "Category",
+          "startPos": 0,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "find an hotel in madrid, checkin 04.05, checkout 04.24",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 17,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "show hotels in madrid from 05/26 to 06/04",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "show me 4 stars hotels in buenos aires from 03/11 to 03/15",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 26,
+          "endPos": 37
+        },
+        {
+          "entity": "Category",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "show me deluxe rooms in madrid from 02/23 to 02/26",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "find hotels in barcelona with 3 stars, checkin 04/11, checkout 05/11",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 23
+        },
+        {
+          "entity": "Category",
+          "startPos": 30,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "show 4 stars hotels with suites in berlin from 06/11 to 06/16",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 25,
+          "endPos": 30
+        },
+        {
+          "entity": "Place",
+          "startPos": 35,
+          "endPos": 40
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 56,
+          "endPos": 60
+        },
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 11
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 47,
+          "endPos": 51
+        }
+      ]
+    },
+    {
+      "text": "find a hotel in vancouver from march 1st to march 7th",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 16,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "find hotel in san francisco from 04/05 to 04/11",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 14,
+          "endPos": 26
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 42,
+          "endPos": 46
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 33,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "find hotel in california from 04/05 to 04/11",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 14,
+          "endPos": 23
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 39,
+          "endPos": 43
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 30,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "hotel in madrid",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 9,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "hotel in madrid from 05/11 to 06/11",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 9,
+          "endPos": 14
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 30,
+          "endPos": 34
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 21,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "hotel in madrid from 05/11 to 06/11 having economic rooms",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 43,
+          "endPos": 50
+        },
+        {
+          "entity": "Place",
+          "startPos": 9,
+          "endPos": 14
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 30,
+          "endPos": 34
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 21,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "show me 5 stars hotels in california with suite rooms from 05/11 to 05/16",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 42,
+          "endPos": 46
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 68,
+          "endPos": 72
+        },
+        {
+          "entity": "Category",
+          "startPos": 8,
+          "endPos": 14
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 59,
+          "endPos": 63
+        }
+      ]
+    },
+    {
+      "text": "find cheap rooms in buenos aires",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 5,
+          "endPos": 9
+        },
+        {
+          "entity": "Place",
+          "startPos": 20,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "find 3 stars hotels in seattle",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 29
+        },
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "find 3 stars deluxe rooms in vienna from 03/15 to 03/17",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 13,
+          "endPos": 18
+        },
+        {
+          "entity": "Place",
+          "startPos": 29,
+          "endPos": 34
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 50,
+          "endPos": 54
+        },
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 11
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 41,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "find 2 stars hotel with standard room in barcelona from 03/11 to 03/17",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 24,
+          "endPos": 31
+        },
+        {
+          "entity": "Place",
+          "startPos": 41,
+          "endPos": 49
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 65,
+          "endPos": 69
+        },
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 11
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 56,
+          "endPos": 60
+        }
+      ]
+    },
+    {
+      "text": "show me deluxe rooms in 4 starts hotel in madrid area from 05/12 to 05/17",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 8,
+          "endPos": 13
+        },
+        {
+          "entity": "Place",
+          "startPos": 42,
+          "endPos": 47
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 68,
+          "endPos": 72
+        },
+        {
+          "entity": "Category",
+          "startPos": 24,
+          "endPos": 31
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 59,
+          "endPos": 63
+        }
+      ]
+    },
+    {
+      "text": "find hotel in california from 02/03 to 02/05",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 14,
+          "endPos": 23
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 39,
+          "endPos": 43
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 30,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "find hotel in madrid",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 14,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "find cheap room in barcelona",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 5,
+          "endPos": 9
+        },
+        {
+          "entity": "Place",
+          "startPos": 19,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "find hotel in barcelona from 02/22 to 02/25",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 14,
+          "endPos": 22
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 38,
+          "endPos": 42
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 29,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "find deluxe rooms in berlin",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 5,
+          "endPos": 10
+        },
+        {
+          "entity": "Place",
+          "startPos": 21,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "find deluxe rooms in madrid",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 5,
+          "endPos": 10
+        },
+        {
+          "entity": "Place",
+          "startPos": 21,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "find cheap rooms in barcelona",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 5,
+          "endPos": 9
+        },
+        {
+          "entity": "Place",
+          "startPos": 20,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "find hotel from 04-11 to 04-18",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Checkout",
+          "startPos": 25,
+          "endPos": 29
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 16,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "show me standard rooms in sydney to checkin 08/22 until 08/28",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 8,
+          "endPos": 15
+        },
+        {
+          "entity": "Place",
+          "startPos": 26,
+          "endPos": 31
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 56,
+          "endPos": 60
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 44,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "what are the cheapest rooms in claromeco to stay from 01/22 to 01/27?",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 13,
+          "endPos": 20
+        },
+        {
+          "entity": "Place",
+          "startPos": 31,
+          "endPos": 39
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 63,
+          "endPos": 67
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 54,
+          "endPos": 58
+        }
+      ]
+    },
+    {
+      "text": "show me deluxe rooms in 5 stars hotels at athens",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 8,
+          "endPos": 13
+        },
+        {
+          "entity": "Place",
+          "startPos": 42,
+          "endPos": 47
+        },
+        {
+          "entity": "Category",
+          "startPos": 24,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "find hotel in los angeles",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 14,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "find hotel in new york city from 02.22 to 02.27",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 14,
+          "endPos": 26
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 42,
+          "endPos": 46
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 33,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "show me hotels in dubai with 5 stars",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 18,
+          "endPos": 22
+        },
+        {
+          "entity": "Category",
+          "startPos": 29,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "hotel from 04/22 to 04/27 in caracas",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Checkout",
+          "startPos": 20,
+          "endPos": 24
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 11,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "show me hotels in merlo with 2 stars",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 18,
+          "endPos": 22
+        },
+        {
+          "entity": "Category",
+          "startPos": 29,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "find hotel in varadero",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 14,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "find hotels in buenos aires",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "find hotels",
+      "intent": "FindHotels",
+      "entities": []
+    },
+    {
+      "text": "find hotels in miami",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "show me hotels in miami",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 18,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "find hotel in madrid from 02/14 to 02/18",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 14,
+          "endPos": 19
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 35,
+          "endPos": 39
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 26,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "find hotels in miami from today till tomorrow",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 19
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 37,
+          "endPos": 44
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 26,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "find hotels in miami from today to tomorrow",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 19
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 35,
+          "endPos": 42
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 26,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "find hotels in miami, fl",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "find hotels in miami from tomorrow till monday next week",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Checkout",
+          "startPos": 40,
+          "endPos": 55
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 26,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "find hotels in miami from tomorrow till next week",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 19
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 40,
+          "endPos": 48
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 26,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "find hotels in miami from march 1st today to 1/2",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 19
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 45,
+          "endPos": 47
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 26,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "find hotels in miami from tomorrow till mondat next week",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 19
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 40,
+          "endPos": 55
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 26,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "find hotes in miami from today till tomorrow",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 14,
+          "endPos": 18
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 36,
+          "endPos": 43
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 25,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "find hotels in miami from today to next week",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Checkout",
+          "startPos": 35,
+          "endPos": 43
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 26,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "find hotels in miami from 1/1 to 1/2",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Checkout",
+          "startPos": 33,
+          "endPos": 35
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 26,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "find hotels in miami from march 1st to 1/2",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 19
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 39,
+          "endPos": 41
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 26,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "find 3 stars hotels in barcelona with deluxe rooms from today till tuesday next week",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 38,
+          "endPos": 43
+        },
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 31
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 67,
+          "endPos": 83
+        },
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 11
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 56,
+          "endPos": 60
+        }
+      ]
+    },
+    {
+      "text": "find hotels in barcelona",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "find hotels in madrid",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "search for hotels in miami from tomorrow to 2017/02/12",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 21,
+          "endPos": 25
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 44,
+          "endPos": 53
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 32,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "search for hotels in barcelona from tomorrow to 2017/03/03",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 21,
+          "endPos": 29
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 48,
+          "endPos": 57
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 36,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "search for hotels in barcelona from tomorrow till 2017/03/03",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 21,
+          "endPos": 29
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 50,
+          "endPos": 59
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 36,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "search for hotels in barcelona from tomorrow until 2017/03/03",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 21,
+          "endPos": 29
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 51,
+          "endPos": 60
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 36,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "show me hotels in barcelona",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 18,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "search me hotel in barcelona from tomorrow to 2017/03/03",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 19,
+          "endPos": 27
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 46,
+          "endPos": 55
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 34,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "find hotels in buenos aires from today till tomorrow",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 26
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 44,
+          "endPos": 51
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 33,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "search for hotel in miami from 2017/02/09 to 2017/02/15",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 20,
+          "endPos": 24
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 45,
+          "endPos": 54
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 31,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "search for hotels in barcelona from 2017/03/01 to 2017/03/03",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 21,
+          "endPos": 29
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 50,
+          "endPos": 59
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 36,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "find me hotel",
+      "intent": "FindHotels",
+      "entities": []
+    },
+    {
+      "text": "find me a hotel for tomorrow",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Checkin",
+          "startPos": 20,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "find me hotel from 02/15 to 04/16",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Checkout",
+          "startPos": 28,
+          "endPos": 32
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 19,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "search for 5 stars hotels in barcelona",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 29,
+          "endPos": 37
+        },
+        {
+          "entity": "Category",
+          "startPos": 11,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "find hotels in barcelona from today till tuesday next week",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 23
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 41,
+          "endPos": 57
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 30,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "find me a 3 stars hotel with deluxe rooms",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 29,
+          "endPos": 34
+        },
+        {
+          "entity": "Category",
+          "startPos": 10,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "find hotels in seattle",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "search for 5 stars hotels in seattle",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 29,
+          "endPos": 35
+        },
+        {
+          "entity": "Category",
+          "startPos": 11,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "find me hotel from today till tomorrow",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Checkout",
+          "startPos": 30,
+          "endPos": 37
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 19,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "find hotels in barcelona from 02/15 to 04/24",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 23
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 39,
+          "endPos": 43
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 30,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "show me deluxe rooms in 3 stars hotels in london from tomorrow till monday next week",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 8,
+          "endPos": 13
+        },
+        {
+          "entity": "Place",
+          "startPos": 42,
+          "endPos": 47
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 68,
+          "endPos": 83
+        },
+        {
+          "entity": "Category",
+          "startPos": 24,
+          "endPos": 30
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 54,
+          "endPos": 61
+        }
+      ]
+    },
+    {
+      "text": "hotel",
+      "intent": "FindHotels",
+      "entities": []
+    },
+    {
+      "text": "find me a 3 stars hotel from 02/15 to 02/23",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Checkout",
+          "startPos": 38,
+          "endPos": 42
+        },
+        {
+          "entity": "Category",
+          "startPos": 10,
+          "endPos": 16
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 29,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "find me a deluxe room in madrid from today till tomorrow",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 10,
+          "endPos": 15
+        },
+        {
+          "entity": "Place",
+          "startPos": 25,
+          "endPos": 30
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 48,
+          "endPos": 55
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 37,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "search for hotels in miami",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 21,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "hotel in paris with deluxe rooms",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 20,
+          "endPos": 25
+        },
+        {
+          "entity": "Place",
+          "startPos": 9,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "search for 3 stars hotels with standard rooms in madrid",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 31,
+          "endPos": 38
+        },
+        {
+          "entity": "Place",
+          "startPos": 49,
+          "endPos": 54
+        },
+        {
+          "entity": "Category",
+          "startPos": 11,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "find me a hotel",
+      "intent": "FindHotels",
+      "entities": []
+    },
+    {
+      "text": "hotel in barcelona",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 9,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "check for hotels in miami",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 20,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "search for hotels in buenos aires",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 21,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "search for hotels",
+      "intent": "FindHotels",
+      "entities": []
+    },
+    {
+      "text": "check for hotels in miam",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 20,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "search hotels",
+      "intent": "FindHotels",
+      "entities": []
+    },
+    {
+      "text": "find 3 stars standard rooms in buenos aires from 02/15 to 02/18",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 13,
+          "endPos": 20
+        },
+        {
+          "entity": "Place",
+          "startPos": 31,
+          "endPos": 42
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 58,
+          "endPos": 62
+        },
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 11
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 49,
+          "endPos": 53
+        }
+      ]
+    },
+    {
+      "text": "search hotels ]",
+      "intent": "FindHotels",
+      "entities": []
+    },
+    {
+      "text": "search for deluxe rools in miami, from 2013/03/01 to 2013/03/10",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 27,
+          "endPos": 31
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 53,
+          "endPos": 62
+        },
+        {
+          "entity": "Category",
+          "startPos": 11,
+          "endPos": 16
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 39,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "search for deluxe hotel in miami, from 2013/03/01 to 2013/03/10",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 11,
+          "endPos": 16
+        },
+        {
+          "entity": "Place",
+          "startPos": 27,
+          "endPos": 31
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 53,
+          "endPos": 62
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 39,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "search hotel in miami",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 16,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "search hotels in miami",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 17,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "search hotels?",
+      "intent": "FindHotels",
+      "entities": []
+    },
+    {
+      "text": "search for deluxe rooms in miami, from 2013/03/01 to 2013/03/10",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 11,
+          "endPos": 16
+        },
+        {
+          "entity": "Place",
+          "startPos": 27,
+          "endPos": 31
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 53,
+          "endPos": 62
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 39,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "search for deluxe rooms in miami, from 2013/03/01 to 2013/0/0",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 11,
+          "endPos": 16
+        },
+        {
+          "entity": "Place",
+          "startPos": 27,
+          "endPos": 31
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 53,
+          "endPos": 60
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 39,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "search hotel in madrid",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 16,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "search for hotels in miami, from tomorrow",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 21,
+          "endPos": 25
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 33,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "find 5 stars deluxe rooms in madrid from 02/14 to 02/16",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 13,
+          "endPos": 18
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 50,
+          "endPos": 54
+        },
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 11
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 41,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "search for deluxe hotel in miami, from 2013/03/01",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 11,
+          "endPos": 16
+        },
+        {
+          "entity": "Place",
+          "startPos": 27,
+          "endPos": 31
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 39,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "find standard rooms in madrid",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 5,
+          "endPos": 12
+        },
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "find hotels in vienna from 03/12 to 03/16",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 20
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 36,
+          "endPos": 40
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 27,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "search for 5 stars hotels with deluxe rooms in barcelona from tomorrow till monday next week",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 31,
+          "endPos": 36
+        },
+        {
+          "entity": "Place",
+          "startPos": 47,
+          "endPos": 55
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 76,
+          "endPos": 91
+        },
+        {
+          "entity": "Category",
+          "startPos": 11,
+          "endPos": 17
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 62,
+          "endPos": 69
+        }
+      ]
+    },
+    {
+      "text": "find hotels in vienna from 03/11 to 03/16",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 20
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 36,
+          "endPos": 40
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 27,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "find hotel in miami for today",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 14,
+          "endPos": 18
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 24,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "find 3 stars standard rooms in buenos aires from 02/24 to 02/26",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 13,
+          "endPos": 20
+        },
+        {
+          "entity": "Place",
+          "startPos": 31,
+          "endPos": 42
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 58,
+          "endPos": 62
+        },
+        {
+          "entity": "Category",
+          "startPos": 5,
+          "endPos": 11
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 49,
+          "endPos": 53
+        }
+      ]
+    },
+    {
+      "text": "find hotel",
+      "intent": "FindHotels",
+      "entities": []
+    },
+    {
+      "text": "find hotels in madrid from 02/12 to 02/15",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 15,
+          "endPos": 20
+        },
+        {
+          "entity": "Checkout",
+          "startPos": 36,
+          "endPos": 40
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 27,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "find hotel from today till tomorrow",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "Checkout",
+          "startPos": 27,
+          "endPos": 34
+        },
+        {
+          "entity": "Checkin",
+          "startPos": 16,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "find me a deluxe room in a 3 stars hotel in barcelona please",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 10,
+          "endPos": 15
+        },
+        {
+          "entity": "Place",
+          "startPos": 44,
+          "endPos": 52
+        },
+        {
+          "entity": "Category",
+          "startPos": 27,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "find a deluxe room in a 3 stars hotel in barcelona",
+      "intent": "FindHotels",
+      "entities": [
+        {
+          "entity": "RoomType",
+          "startPos": 7,
+          "endPos": 12
+        },
+        {
+          "entity": "Place",
+          "startPos": 41,
+          "endPos": 49
+        },
+        {
+          "entity": "Category",
+          "startPos": 24,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "what is the time in seattle?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 20,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "what time is it?",
+      "intent": "TimeInPlace",
+      "entities": []
+    },
+    {
+      "text": "what time is it in miami?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 19,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "what time is it in seattle?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 19,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "what is the time in miami?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 20,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "what is the time?",
+      "intent": "TimeInPlace",
+      "entities": []
+    },
+    {
+      "text": "what is the time in my house?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 20,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "what is the time in montevideo?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 20,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "what is the time in madrid?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 20,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "what time is it in montevideo right now?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 19,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "what time is it in argentina?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 19,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "tell me what is the time",
+      "intent": "TimeInPlace",
+      "entities": []
+    },
+    {
+      "text": "what is the time in new york?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 20,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "whats the time?",
+      "intent": "TimeInPlace",
+      "entities": []
+    },
+    {
+      "text": "time?",
+      "intent": "TimeInPlace",
+      "entities": []
+    },
+    {
+      "text": "whats is the time in buenos aires?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 21,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "what is the time in buenos aires?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 20,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "time",
+      "intent": "TimeInPlace",
+      "entities": []
+    },
+    {
+      "text": "what's the time?",
+      "intent": "TimeInPlace",
+      "entities": []
+    },
+    {
+      "text": "what is the time in argentina?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 20,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "what time is it in mimai?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 19,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "what is the time in paris?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 20,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "what time is in paris?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 16,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "what time is it miami?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 16,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "time in miami",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 8,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "what time is in miami?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 16,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "time in liberia",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "whats is the time in peru?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 21,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "time in buenos aires",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 8,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "what time si it?",
+      "intent": "TimeInPlace",
+      "entities": []
+    },
+    {
+      "text": "time in miami?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 8,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "time in eze?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 8,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "what's time?",
+      "intent": "TimeInPlace",
+      "entities": []
+    },
+    {
+      "text": "what time is it in miami/",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 19,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "what time is it ?",
+      "intent": "TimeInPlace",
+      "entities": []
+    },
+    {
+      "text": "time in barcelona",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 8,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "what time is it/",
+      "intent": "TimeInPlace",
+      "entities": []
+    },
+    {
+      "text": "what time is it in buenos aires?",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 19,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "time in caracas",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 8,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "what is the time in miami/",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 20,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "time in madrid",
+      "intent": "TimeInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "find time",
+      "intent": "TimeInPlace",
+      "entities": []
+    },
+    {
+      "text": "what is the weather in paris?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "tell me the weather in london",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "how is the weather in buenos aires now?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 22,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "weather in athens",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "weather in buenos aires",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "what is the weather in london?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "weather in london",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "weather in carilo",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "what is the weather in claromeco?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "weather in argentina",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "what is the weather in dubai?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "weather in new york",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "weather in amsterdam",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "weather in cairo",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "weather in claromeco",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "what is the weather in france?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "weather",
+      "intent": "WeatherInPlace",
+      "entities": []
+    },
+    {
+      "text": "how is the weather like in barcelona?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 27,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "how is the weather in madrid?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 22,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "weahter in london",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "weather in barcelona",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "weather in france",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "weather in france?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "weather in madrid",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "weather in mar del plata?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "weather?",
+      "intent": "WeatherInPlace",
+      "entities": []
+    },
+    {
+      "text": "tell me the weather in buenos aires",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "tell me the weather in paris",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "weather in moscow",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "weather in cancun",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "weather in lviv",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "how is the weather in barcelona?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 22,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "weather in miami",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "what is the weather in acapulco?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "weather in sydney",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "weather in acapulco",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "what is the weather?",
+      "intent": "WeatherInPlace",
+      "entities": []
+    },
+    {
+      "text": "tell me the weather in caracas",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "tell me the weather",
+      "intent": "WeatherInPlace",
+      "entities": []
+    },
+    {
+      "text": "tell me the weather in barcelona",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "tell me the weather in aruba",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "what is the weather in buenos aires?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "what is the weather in bahia blanca?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "what is the weather in new york?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "what is the weather in miami?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "what is the weather now?",
+      "intent": "WeatherInPlace",
+      "entities": []
+    },
+    {
+      "text": "tell me the weather in warsaw",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "whats the weather for miami?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 22,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "whats is the weather in miami?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 24,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "tell me the weather in paris now",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "weather in aisjj3o9f2",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "tell me the weather in atlanta",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "whats the weather in madrid?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 21,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "whats is the weather in buenos aires?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 24,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "whats the weather?",
+      "intent": "WeatherInPlace",
+      "entities": []
+    },
+    {
+      "text": "what is the weather in seattle",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "weather in 9je9j29hfewd",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 11,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "what is the weather in barcelona",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "what's the weather like?",
+      "intent": "WeatherInPlace",
+      "entities": []
+    },
+    {
+      "text": "whats the weather in buenos aires?",
+      "intent": "WeatherInPlace",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 21,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "where is located the airport with code eze?",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 39,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "find dxb airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "location of sfo airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 12,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "find airport for sea code",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 17,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "where is eze airport?",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 9,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "show me the location for sea airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 25,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "find dwc airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find airport code sfo",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 18,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "find airport eze",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 13,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "find airport code eze",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 18,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "find airport code hea",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 18,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "find sea airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find airport code aep",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 18,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "find airport with code und",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 23,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "find airport kvd",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 13,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "location of tri airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 12,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "where is psj airport located?",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 9,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "eze airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "lkj airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "find airport",
+      "intent": "FindAirportByCode",
+      "entities": []
+    },
+    {
+      "text": "find dmv airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find liv airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find dmb airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "where is located sfo airport?",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 17,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "sea airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "find sbg airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find eze airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "where is wbq airport?",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 9,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "where is raq airport?",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 9,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "find sfo airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find oal airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "where i can find sfo airport?",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 17,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "find mad airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find bcn airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find ret airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find dme airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find poe airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find vjd airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "atl airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "where is located bcn?",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 17,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "find gfi airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "bar airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "find dmo airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find gig airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find pmv airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "where if sfo airport?",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 9,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "find sho airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "please tell me where i can find sub airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 32,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "find airport sea",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 13,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "airport code pmv",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 13,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "find wsx airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find dmv aiport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find qwe airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "bcn airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "jfk airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "pca airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "find aep airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find bar airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find baj aiport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find pla airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find azz airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "find tri airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "mdq airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "find lwo airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "mkn airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "please tell me where is bcn airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 24,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "nqn airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "find airport with code sfo",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 23,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "find airport with lga code",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 18,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "search airport",
+      "intent": "FindAirportByCode",
+      "entities": []
+    },
+    {
+      "text": "locate airport",
+      "intent": "FindAirportByCode",
+      "entities": []
+    },
+    {
+      "text": "location of fso airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 12,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "what is the airport with ccs code?",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 25,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "what is the airport with css code?",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 25,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "location of eze airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 12,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "location of fso airport?",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 12,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "find airport dmv",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 13,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "location of sea airport",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 12,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "location of seatac airport",
+      "intent": "FindAirportByCode",
+      "entities": []
+    },
+    {
+      "text": "find airport kss",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 13,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "location of sfo airport?",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 12,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "airport eze",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 8,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "locate airport eze",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 15,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "find airport with code pmv",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 23,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "what is the airport with dme code?",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 25,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "find airport oww",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 13,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "location of airport?",
+      "intent": "FindAirportByCode",
+      "entities": []
+    },
+    {
+      "text": "find airport pmw",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 13,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "fint airport eze",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 13,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "find aiport eze",
+      "intent": "FindAirportByCode",
+      "entities": [
+        {
+          "entity": "Code",
+          "startPos": 12,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "change the location to london",
+      "intent": "FindHotels-ChangeLocation",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 23,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "change location to buenos aires",
+      "intent": "FindHotels-ChangeLocation",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 19,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "change the hotel location to miami",
+      "intent": "FindHotels-ChangeLocation",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 29,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "i wanna change the location to san francisco",
+      "intent": "FindHotels-ChangeLocation",
+      "entities": [
+        {
+          "entity": "Place",
+          "startPos": 31,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "change checkin to 02/26",
+      "intent": "FindHotels-ChangeCheckin",
+      "entities": [
+        {
+          "entity": "Checkin",
+          "startPos": 18,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "i want to change the hotel checkin",
+      "intent": "FindHotels-ChangeCheckin",
+      "entities": []
+    },
+    {
+      "text": "i want to change the checkin to today",
+      "intent": "FindHotels-ChangeCheckin",
+      "entities": [
+        {
+          "entity": "Checkin",
+          "startPos": 32,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "change hotel checkin to today",
+      "intent": "FindHotels-ChangeCheckin",
+      "entities": [
+        {
+          "entity": "Checkin",
+          "startPos": 24,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "change hotel checkin",
+      "intent": "FindHotels-ChangeCheckin",
+      "entities": []
+    },
+    {
+      "text": "change checkout to 02/23",
+      "intent": "FindHotels-ChangeCheckout",
+      "entities": [
+        {
+          "entity": "Checkout",
+          "startPos": 19,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "change hotel checkout",
+      "intent": "FindHotels-ChangeCheckout",
+      "entities": []
+    },
+    {
+      "text": "i want to change the checkout to 02/26",
+      "intent": "FindHotels-ChangeCheckout",
+      "entities": [
+        {
+          "entity": "Checkout",
+          "startPos": 33,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "change checkout to tomorrow",
+      "intent": "FindHotels-ChangeCheckout",
+      "entities": [
+        {
+          "entity": "Checkout",
+          "startPos": 19,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "change checkout date",
+      "intent": "FindHotels-ChangeCheckout",
+      "entities": []
+    }
+  ]
+}
