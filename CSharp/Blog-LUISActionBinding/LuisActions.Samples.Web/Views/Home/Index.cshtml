@@ -1,0 +1,43 @@
+﻿@model LuisActions.Samples.Web.Models.QueryViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@using (Html.BeginForm())
+{
+
+    <fieldset>
+        <legend>LUIS Action Binding PoC</legend>
+
+        <p>
+            @Html.LabelFor(m => m.Query):
+            @if (!Model.HasIntent)
+            {
+                @Html.TextBoxFor(m => m.Query)
+                @Html.ValidationMessageFor(m => m.Query)
+                <br />
+                <span>Samples:</span>
+                <ul>
+                    <li>What is the time in Miami?</li>
+                    <li>Search for 5 stars hotels in Barcelona</li>
+                    <li>How is the weather in Buenos Aires?</li>
+                </ul>
+            }
+            else
+            {
+                <strong>"@Model.Query"</strong>
+            }
+        </p>
+
+        @if (Model.HasIntent)
+        {
+            <p>Please provide the following information:</p>
+            @Html.Hidden("LuisActionType", Model.LuisActionType)
+            @Html.Action("ScaffoldAction", new { query = Model })
+        }
+
+        <input type="submit" value="Continue" />
+
+    </fieldset>
+
+}

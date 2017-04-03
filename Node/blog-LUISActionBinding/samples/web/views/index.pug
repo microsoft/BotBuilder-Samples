@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  fieldset
+    legend LUIS Action Binding
+
+    form(method="post")
+
+      p
+        label(for="query") Query:
+          input(type="text", name="query", id="query", value=query, readOnly=hasIntent)
+
+        input(type="hidden", name="actionModel", value=actionModelJson)
+
+      if hasIntent
+
+        p Please provide the following information:
+
+        each field in fields
+          p
+            label(for=field.fieldName)
+              span #{field.fieldName}: 
+              input(type="text", name=field.fieldName, value=field.fieldValue)
+              if field.fieldError
+                span(class="error")  * #{field.fieldError}
+
+      else 
+
+        p Samples:
+          ul
+            li What is the time in Miami?
+            li Search for 5 stars hotels in Barcelona
+            li Tell me the weather in Buenos Aires
+            li Find airport with code PMV
+
+
+      input(type="submit", value="Continue")
+      

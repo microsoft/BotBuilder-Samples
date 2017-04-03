@@ -1,0 +1,10 @@
+﻿@model LuisActions.Samples.Web.Models.ActionScaffoldViewModel
+
+@foreach(var field in Model.Fields)
+{
+    <p>
+        @Html.Label(field):
+        @Html.Editor(field)
+        @Html.ValidationMessage(field)
+    </p>
+}
