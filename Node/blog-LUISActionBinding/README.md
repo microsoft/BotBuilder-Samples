@@ -255,6 +255,8 @@ The input parameters are:
 
  - `modelUrl` is the LUIS.ai application url.
  - `actions` is an array of Action Binding definitions (see above for its [definition](#defining-a-luis-action-binding) and [samples](#sample-action-bindings)).
+ - `currentActionModel` is the `actionModel` returned from a previous call. The first time you invoke this method, it should be null.
+ - `userInput` is the current input string - typically submitted by the user.
  - `onContextCreationHandler` is an optional callback for re-hydrate the context when triggering contextual actions (this is part of [Scenario #3](#scenario-3--trigger-a-contextual-action-with-no-previous-context-ie-from-scratch)).
 
 The returned Promise resolves to an `IActionModel` (just `actionModel` from now on) that can be used to re-call the `evaluate` function and, in that way, keep the *context* of the conversation and the action binding state.
