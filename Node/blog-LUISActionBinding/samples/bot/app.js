@@ -52,12 +52,12 @@ function onContextCreationHandler(action, actionModel, next, session) {
 
     // NOTE: Remember to call next() to continue executing the action binding's logic
 
-    if(action.intentName === 'FindHotels') {
-        if(!actionModel.parameters.Checkin) {
+    if (action.intentName === 'FindHotels') {
+        if (!actionModel.parameters.Checkin) {
             actionModel.parameters.Checkin = new Date();
         }
 
-        if(!actionModel.parameters.Checkout) {
+        if (!actionModel.parameters.Checkout) {
             actionModel.parameters.Checkout = new Date();
             actionModel.parameters.Checkout.setDate(actionModel.parameters.Checkout.getDate() + 1);
         }

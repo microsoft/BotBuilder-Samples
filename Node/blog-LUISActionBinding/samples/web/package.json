@@ -4,9 +4,6 @@
   "description": "Bot Builder LUIS Action Binding - Web sample",
   "author": "Microsoft Corp.",
   "license": "MIT",
-  "scripts": {
-    "start": "node ./bin/www"
-  },
   "dependencies": {
     "body-parser": "~1.16.0",
     "cookie-parser": "~1.4.3",
