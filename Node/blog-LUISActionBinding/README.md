@@ -9,6 +9,23 @@ The minimum prerequisites to run this sample are:
 * The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
 
+#### LUIS Application
+If you want to test this sample, you have to import the pre-build [LUIS_MODEL.json](LUIS_MODEL.json) file to your LUIS account.
+
+The first step to using LUIS is to create or import an application. Go to the home page, www.luis.ai, and log in. After creating your LUIS account you'll be able to Import an Existing Application where can you can select a local copy of the LUIS_MODEL.json file an import it.
+
+![Import an Existing Application](images/prereqs-import.png)
+
+Once you imported the application you'll need to "train" the model ([Training](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/Train-Test)) before you can "Publish" the model in an HTTP endpoint. For more information, take a look at [Publishing a Model](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/PublishApp).
+
+Finally, edit the [samples/.env](samples/.env#L6) file and update the `LUIS_MODEL_URL` variable with your's Model URL.
+
+#### Where to find the Model URL
+
+In the LUIS application's dashboard, click the "Publish App" button in the right side bar, select an Endpoint Key and then click the "Publish" button. After a couple of moments, you will see a url that makes your models available as a web service.
+
+![Publishing a Model](images/prereqs-publish.png)
+
 ### What is LUIS Action Binding?
 
 There are times when you may want to link an intent to an action at client side (e.g.: in your Bot, or web app, or even a console app), with an easy binding logic for it, where you can also resolve complex things in order to fulfill an user's intent. In the same way that you can define an intent at LUIS UI for your app, you can also specify requirements for this action to be triggered when bound to an intent at client side. These requirements are known as action members, and will match recognizable entities for the intent that the action maps to.
@@ -255,6 +272,8 @@ The input parameters are:
 
  - `modelUrl` is the LUIS.ai application url.
  - `actions` is an array of Action Binding definitions (see above for its [definition](#defining-a-luis-action-binding) and [samples](#sample-action-bindings)).
+ - `currentActionModel` is the `actionModel` returned from a previous call. The first time you invoke this method, it should be null.
+ - `userInput` is the current input string - typically submitted by the user.
  - `onContextCreationHandler` is an optional callback for re-hydrate the context when triggering contextual actions (this is part of [Scenario #3](#scenario-3--trigger-a-contextual-action-with-no-previous-context-ie-from-scratch)).
 
 The returned Promise resolves to an `IActionModel` (just `actionModel` from now on) that can be used to re-call the `evaluate` function and, in that way, keep the *context* of the conversation and the action binding state.
@@ -296,10 +315,10 @@ var LuisModelUrl = process.env.LUIS_MODEL_URL;
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 var intentDialog = bot.dialog('/', new builder.IntentDialog({ recognizers: [recognizer] })
     .onDefault(function (session) {
-    session.endDialog(
-        'Sorry, I did not understand "%s". Use sentences like "What is the time in Miami?", "Search for 5 stars hotels in Barcelona", "Tell me the weather in Buenos Aires", "Location of SFO airport")',
-        session.message.text);
-}));
+        session.endDialog(
+            'Sorry, I did not understand "%s". Use sentences like "What is the time in Miami?", "Search for 5 stars hotels in Barcelona", "Tell me the weather in Buenos Aires", "Location of SFO airport")',
+            session.message.text);
+    }));
 
 // Import the Core stuff
 var LuisActions = require('../../core');
@@ -338,13 +357,11 @@ The Bot sample has a [custom handler](samples/bot/app.js#L35-L67) that re-hydrat
 
 In the [samples/web](samples/web) directory you can see how the Action samples are used within an Express web application.
 
-> NOTE: Use `npm start` to run the sample from the `web` directory. The web application will launch by default at [http://localhost:3000](http://localhost:3000).
-
 The most important parts are in the [main route](samples/web/routes/index.js) and its corresponding [view](samples/web/views/index.pug).
 
-The first visit to the web page will display a simple query input. This is handled by the [`GET /`](samples/web/routes/index.js#L15) route and returns the `index` view with an empty query model.
+The first visit to the web page will display a simple query input. This is handled by the [`GET /`](samples/web/routes/index.js#L14) route and returns the `index` view with an empty query model.
 
-Once the user fills in a query like `How is the weather in Seattle`, the form will POST to the same address. The request is then handled by the [`POST /`](samples/web/routes/index.js#L19) route:
+Once the user fills in a query like `How is the weather in Seattle`, the form will POST to the same address. The request is then handled by the [`POST /`](samples/web/routes/index.js#L18) route:
 
 1. On the first POST, the handler will call the tryEvaluate function, which acts as a wrapper for the [`LuisAction.evaluate`](core/index.js#L35) low-level function. The `evaluate` function returns a Promise that resolves to an `actionModel`. This object has a `status` field (see possible values in [Status definition](core/index.js#L9-L12)) and the execution that follows depends on this value:
 
@@ -354,13 +371,13 @@ Once the user fills in a query like `How is the weather in Seattle`, the form wi
 
     - `Status.MissingParameters`
 
-      An action was matched, but there are missing or invalid parameters. Proceed to display a form with input fields for each parameter. The input fields are built using the [`createFieldsViewModel`](samples/web/routes/index.js#L77-L87) helper function, along with the action (parameters) schema, the model parameter and its errors.
+      An action was matched, but there are missing or invalid parameters. Proceed to display a form with input fields for each parameter. The input fields are built using the [`createFieldsViewModel`](samples/web/routes/index.js#L76-L86) helper function, along with the action (parameters) schema, the model parameter and its errors.
 
     - `Status.Fulfilled`
 
       An action was matched, its parameters were validated and the action was fulfilled. The `actionModel` contains a `result` field with the action's result. Proceed to display the `fulfill` view that prints the result.
 
-The sample provides a basic scaffolding for handling LUIS Action Bindings. It can be easily extended to provide custom views for specific Intent or Actions when returning the [validation errors](samples/web/routes/index.js#L41) or the [fulfillment view](samples/web/routes/index.js#L53).
+The sample provides a basic scaffolding for handling LUIS Action Bindings. It can be easily extended to provide custom views for specific Intent or Actions when returning the [validation errors](samples/web/routes/index.js#L40) or the [fulfillment view](samples/web/routes/index.js#L52).
 
 > NOTE: Contextual Actions, described in [Scenario #3](#scenario-3--trigger-a-contextual-action-with-no-previous-context-ie-from-scratch), are not supported on this Web application sample.
 

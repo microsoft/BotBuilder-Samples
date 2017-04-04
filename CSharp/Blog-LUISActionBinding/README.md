@@ -8,6 +8,33 @@ The minimum prerequisites to run this sample are:
 * The latest update of Visual Studio 2015. You can download the community version [here](http://www.visualstudio.com) for free.
 * The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 
+#### LUIS Application
+If you want to test this sample, you have to import the pre-build [LUIS_MODEL.json](LUIS_MODEL.json) file to your LUIS account.
+
+The first step to using LUIS is to create or import an application. Go to the home page, www.luis.ai, and log in. After creating your LUIS account you'll be able to Import an Existing Application where can you can select a local copy of the LUIS_MODEL.json file an import it.
+
+![Import an Existing Application](images/prereqs-import.png)
+
+Once you imported the application you'll need to "train" the model ([Training](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/Train-Test)) before you can "Publish" the model in an HTTP endpoint. For more information, take a look at [Publishing a Model](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/PublishApp).
+
+Finally, edit the .config files for each sample ([Bot](LuisActions.Samples.Bot/Web.config), [Web](LuisActions.Samples.Web/Web.config), [Console](LuisActions.Samples.Console/App.config)) and update the `LUIS_SubscriptionKey` and `LUIS_ModelId` appSettings with the values corresponding to your Subscription and Application.
+
+#### Where to find the Application ID and Subscription Key
+
+You'll need these two values to configure the LuisDialog through the LuisModel attribute:
+
+1. Application ID
+
+    In the LUIS application's dashboard, you can copy the App ID from the address bar.
+    
+    ![App Settings](images/prereqs-appid.png)
+    
+2. Subscription Key
+
+    In the [My keys page](https://www.luis.ai/home/keys), copy the Programmatic API Key.
+    
+    ![Programmatic API Key](images/prereqs-apikey.png)
+
 ### What is LUIS Action Binding?
 
 There are times when you may want to link an intent to an action at client side (e.g.: in your Bot, or ASP.NET MVC, or even a console app), with an easy binding logic for it, where you can also resolve complex things in order to fulfill an user's intent. In the same way that you can define an intent at LUIS UI for your app, you can also specify requirements for this action to be triggered when bound to an intent at client side. These requirements are known as action members, and will match recognizable entities for the intent that the action maps to.
