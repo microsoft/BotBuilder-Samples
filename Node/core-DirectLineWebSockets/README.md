@@ -6,9 +6,11 @@ A sample bot and a custom client communicating to each other using the Direct Li
 >
 > If you're interested in writing your own client without using DirectLineJs, use this sample.
 
-[![Deploy to Azure][Deploy Button]][Deploy DirectLine/Node]
+[![Deploy to Azure][Deploy Button]][Deploy Node/DirectLineWebSockets]
+
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy DirectLine/Node]: https://azuredeploy.net
+[Deploy Node/DirectLineWebSockets]: https://azuredeploy.net
+
 ### Prerequisites
 
 The minimum prerequisites to run this sample are:
