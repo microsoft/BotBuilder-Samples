@@ -15,6 +15,12 @@
     {
         private static string directLineSecret = ConfigurationManager.AppSettings["DirectLineSecret"];
         private static string botId = ConfigurationManager.AppSettings["BotId"];
+
+        // fromUser is the field that identifies which user is sending activities to the Direct Line service.
+        // Because this value is created and sent within your Direct Line client, your bot should not
+        // trust the value for any security-sensitive operations. Instead, have the user log in and
+        // store any sign-in tokens against the Conversation or Private state fields. Those fields
+        // are secured by the conversation ID, which is protected with a signature.
         private static string fromUser = "DirectLineSampleClientUser";
 
         public static void Main(string[] args)
@@ -61,7 +67,7 @@
 
         private static void WebSocketClient_OnMessage(object sender, MessageEventArgs e)
         {
-            // avoid null reference exception when no data received
+            // Occasionally, the Direct Line service sends an empty message as a liveness ping. Ignore these messages.
             if (string.IsNullOrWhiteSpace(e.Data))
             {
                 return;
