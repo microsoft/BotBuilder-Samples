@@ -86,7 +86,7 @@ private static void WebSocketClient_OnMessage(object sender, MessageEventArgs e)
         select x;
 ````
 
-DirectLine v3.0 (unlike version 1.1) has support for Attachments (see [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments) for more information about attachments). Check out the `WebSocketClient_OnMessage` method in [Program.cs](DirectLineClient/Program.cs#L73-L90) to see how the Attachments are retrieved and rendered appropriately based on their type.
+Direct Line v3.0 (unlike version 1.1) has support for Attachments (see [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments) for more information about attachments). Check out the `WebSocketClient_OnMessage` method in [Program.cs](DirectLineClient/Program.cs#L73-L90) to see how the Attachments are retrieved and rendered appropriately based on their type.
 
 
 ````C#
