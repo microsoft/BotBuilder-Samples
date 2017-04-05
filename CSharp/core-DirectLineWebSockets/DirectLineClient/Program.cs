@@ -30,11 +30,14 @@
 
         private static async Task StartBotConversation()
         {
-            var directLineClient = new DirectLineClient(directLineSecret);
-            
+            // Obtain a token using the Direct Line secret
+            var tokenResponse = await new DirectLineClient(directLineSecret).Tokens.GenerateTokenForNewConversationAsync();
+
+            // Use token to create conversation
+            var directLineClient = new DirectLineClient(tokenResponse.Token);
             var conversation = await directLineClient.Conversations.StartConversationAsync();
 
-            using(var webSocketClient = new WebSocket(conversation.StreamUrl))
+            using (var webSocketClient = new WebSocket(conversation.StreamUrl))
             {
                 webSocketClient.OnMessage += WebSocketClient_OnMessage;
                 webSocketClient.Connect();
@@ -100,10 +103,11 @@
                         }
                     }
                 }
+
                 Console.Write("Command> ");
             }
         }
-        
+
         private static void RenderHeroCard(Attachment attachment)
         {
             const int Width = 70;
