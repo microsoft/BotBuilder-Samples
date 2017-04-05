@@ -2,10 +2,13 @@
 
 A sample bot and a custom client communicating to each other using the Direct Line API.
 
+> For many developers, the [DirectLineJs](https://github.com/Microsoft/BotFramework-DirectLineJs) project is an easy way to connect to the Direct Line in Node.js.
+>
+> If you're interested in writing your own client without using DirectLineJs, use this sample.
+
 [![Deploy to Azure][Deploy Button]][Deploy DirectLine/Node]
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
 [Deploy DirectLine/Node]: https://azuredeploy.net
-
 ### Prerequisites
 
 The minimum prerequisites to run this sample are:
@@ -16,7 +19,7 @@ The minimum prerequisites to run this sample are:
 
 #### Direct Line API
 Credentials for the Direct Line API must be obtained from the Bot Framework developer portal, and will only allow the caller to connect to the bot for which they were generated.
-In the Bot Framework developer portal, enable Direct Line in the channels list and then, configure the Direct Line secret and update its value in [DirectLineClient's app.js](DirectLineClient/app.js#L7) (`directLineSecret` variable). Make sure that the checkbox for version 3.0 [PREVIEW] is checked. 
+In the Bot Framework developer portal, enable Direct Line in the channels list and then, configure the Direct Line secret and update its value in [DirectLineClient's app.js](DirectLineClient/app.js#L6) (`directLineSecret` variable). Make sure that the checkbox for version 3.0 [PREVIEW] is checked. 
 Refer to [this](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#channels) for more information on how to configure channels.
 
 ![Configure Direct Line](images/outcome-configure.png)
@@ -27,9 +30,13 @@ Remember to update the environment variables with the `MICROSOFT_APP_ID` and `MI
 
 ### Code Highlights
 
-The Direct Line API is a simple REST API for connecting directly to a single bot. This API is intended for developers writing their own client applications, web chat controls, or mobile apps that will talk to their bot. In this sample, we are using the [Direct Line Swagger file](https://docs.botframework.com/en-us/restapi/directline3/swagger.json) and [Swagger JS](https://github.com/swagger-api/swagger-js) to create a client for Node that will simplify access to the underlying REST API. Check out the client's [app.js](DirectLineClient/app.js#L17-L32) to see the client setup & initialization.
+The Direct Line API is a simple REST API for connecting directly to a single bot. This API is intended for developers writing their own client applications, web chat controls, or mobile apps that will talk to their bot. In this sample, we are using the [Direct Line Swagger file](https://docs.botframework.com/en-us/restapi/directline3/swagger.json) and [Swagger JS](https://github.com/swagger-api/swagger-js) to create a client for Node that will simplify access to the underlying REST API. Check out the client's [app.js](DirectLineClient/app.js#L22-L46) to see the client setup & initialization.
+
+You'll see that we are using the Direct Line secret to [obtain a token](DirectLineClient/app.js#L32-L42). This step is optional, but prevents clients from accessing conversations they aren't participating in.
+After the token is obtained, the client's auth secret is replaced with this new token.
 
 ````JavaScript
+var directLineSpecUrl = 'https://docs.botframework.com/en-us/restapi/directline3/swagger.json';
 var directLineClient = rp(directLineSpecUrl)
     .then(function (spec) {
         // Client
@@ -39,9 +46,17 @@ var directLineClient = rp(directLineSpecUrl)
         });
     })
     .then(function (client) {
-        // Add authorization header to client
+        // Obtain a token using the Direct Line secret
+        // First, add the Direct Line Secret to the client's auth header
         client.clientAuthorizations.add('AuthorizationBotConnector', new Swagger.ApiKeyAuthorization('Authorization', 'Bearer ' + directLineSecret, 'header'));
-        return client;
+
+        // Second, request a token for a new conversation
+        return client.Tokens.Tokens_GenerateTokenForNewConversation().then(function (response) {
+            // Then, replace the client's auth secret with the new token
+            var token = response.obj.token;
+            client.clientAuthorizations.add('AuthorizationBotConnector', new Swagger.ApiKeyAuthorization('Authorization', 'Bearer ' + token, 'header'));
+            return client;
+        });
     })
     .catch(function (err) {
         console.error('Error initializing DirectLine client', err);
@@ -49,7 +64,7 @@ var directLineClient = rp(directLineSpecUrl)
 ````
 
 Each conversation on the Direct Line channel must be explicitly started using the `client.Conversations.Conversations_StartConversation()` function.
-Check out the client's following [function call](DirectLineClient/app.js#L35-L51) which creates a new conversation.
+Check out the client's following [function call](DirectLineClient/app.js#L49-L65) which creates a new conversation.
 
 ````JavaScript
 directLineClient.then(function (client) {
@@ -84,8 +99,8 @@ client.Conversations.Conversations_PostActivity(
             text: input,
             type: 'message',
             from: {
-                id: directLineClientName,
-                name: directLineClientName
+                id: directLineUserId,
+                name: directLineUserId
             }
         }
     }).catch(function (err) {
@@ -95,41 +110,41 @@ client.Conversations.Conversations_PostActivity(
 
 Messages from the Bot are being received using the WebSocket protocol (actually WSS). For this, after the conversation was created a `streamUrl` is also returned and it will be the target for the WebSocket connection.
 
-Check out the client's [startReceivingWebSocketClient](DirectLineClient/app.js#L86-L114) and [startReceivingW3CWebSocketClient](DirectLineClient/app.js#L116-L141) functions which create WebSocket clients hitting the `streamUrl` value returned when the conversation was created (one or other will be called dependening on the `w3c` optional flag when running the console app). Messages are then filtered from anyone but our own client using the [`printMessages`](DirectLineClient/app.js#L144-L159) function.
+Check out the client's [startReceivingWebSocketClient](DirectLineClient/app.js#L100-L128) and [startReceivingW3CWebSocketClient](DirectLineClient/app.js#L130-L155) functions which create WebSocket clients hitting the `streamUrl` value returned when the conversation was created (one or other will be called dependening on the `w3c` optional flag when running the console app). Messages are then filtered from anyone but our own client using the [`printMessages`](DirectLineClient/app.js#L160-L175    ) function.
 
 Each of these functions showcase the two ways you can connect to the `streamUrl` using WebSockets (first one using a custom Node.js implementation, while the second one uses W3C one). If you look closely they are very similar and within the `on message` event handler the bot's response is being parsed to JSON in order to print it.
 
-For `startReceivingWebSocketClient` we have the following [handler](DirectLineClient/app.js#L103-L110):
+For `startReceivingWebSocketClient` we have the following [handler](DirectLineClient/app.js#L117-L125):
 
 ````JavaScript
-connection.on('message', function(message) {
+connection.on('message', function (message) {
+    // Occasionally, the Direct Line service sends an empty message as a liveness ping
+    // Ignore these messages
     if (message.type === 'utf8' && message.utf8Data.length > 0) {
         var data = JSON.parse(message.utf8Data);
-
-        //watermark = data.watermark;
         printMessages(data.activities);
     }
 });
 ````
 
-And for `startReceivingW3CWebSocketClient` we have the following [handler](DirectLineClient/app.js#L133-L140):
+And for `startReceivingW3CWebSocketClient` we have the following [handler](DirectLineClient/app.js#L148-L156):
 
 ````JavaScript
-ws.onmessage = function(e) {
+ws.onmessage = function (e) {
+    // Occasionally, the Direct Line service sends an empty message as a liveness ping
+    // Ignore these messages
     if (typeof e.data === 'string' && e.data.length > 0) {
         var data = JSON.parse(e.data);
-
-        //watermark = data.watermark;
         printMessages(data.activities);
     }
-};  
+};
 ````
 
 > Clients should keep track of the `watermark` value from each `ActivitySet` so they can use it on reconnect. Note that a null or missing watermark should be ignored and should not overwrite a prior watermark in the client.
 
 DirectLine v3.0 (unlike version 1.1) has supports for Attachments (see [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments) for more information about attachments).
 
-Check out the [`printMessage`](DirectLineClient/app.js#L161-L180) function to see how the Attachments are retrieved and rendered appropriately based on their type.
+Check out the [`printMessage`](DirectLineClient/app.js#L177-L196) function to see how the Attachments are retrieved and rendered appropriately based on their type.
 
 ````JavaScript
 function printMessage(activity) {
@@ -175,6 +190,7 @@ To get more information about how to get started in Bot Builder for Node and Dir
 * [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
 * [Bot Framework FAQ](https://docs.botframework.com/en-us/faq/#i-have-a-communication-channel-id-like-to-be-configurable-with-bot-framework-can-i-work-with-microsoft-to-do-that)
 * [Direct Line API - v3.0](https://docs.botframework.com/en-us/restapi/directline3/)
+* [Direct Line API - v3.0 - Authentication](https://docs.botframework.com/en-us/restapi/directline3/#authentication-secrets-and-tokens)
 * [Direct Line Swagger file - v3.0](https://docs.botframework.com/en-us/restapi/directline3/swagger.json)
 * [Swagger-JS](https://github.com/swagger-api/swagger-js)
 * [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments)

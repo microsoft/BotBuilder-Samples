@@ -3,17 +3,23 @@ var open = require('open');
 var rp = require('request-promise');
 
 // Config settings
-var useW3CWebSocket = false;
 var directLineSecret = 'DIRECTLINE_SECRET';
-var directLineClientName = 'DirectLineClient';
-var directLineSpecUrl = 'https://docs.botframework.com/en-us/restapi/directline3/swagger.json';
 
+// directLineUserId is the field that identifies which user is sending activities to the Direct Line service.
+// Because this value is created and sent within your Direct Line client, your bot should not
+// trust the value for any security-sensitive operations. Instead, have the user log in and
+// store any sign-in tokens against the Conversation or Private state fields. Those fields
+// are secured by the conversation ID, which is protected with a signature.
+var directLineUserId = 'DirectLineClient';
+
+var useW3CWebSocket = false;
 process.argv.forEach(function (val, index, array) {
-  if (val === 'w3c') {
-    useW3CWebSocket = true;
-  }
+    if (val === 'w3c') {
+        useW3CWebSocket = true;
+    }
 });
 
+var directLineSpecUrl = 'https://docs.botframework.com/en-us/restapi/directline3/swagger.json';
 var directLineClient = rp(directLineSpecUrl)
     .then(function (spec) {
         // Client
@@ -23,9 +29,17 @@ var directLineClient = rp(directLineSpecUrl)
         });
     })
     .then(function (client) {
-        // Add authorization header to client
+        // Obtain a token using the Direct Line secret
+        // First, add the Direct Line Secret to the client's auth header
         client.clientAuthorizations.add('AuthorizationBotConnector', new Swagger.ApiKeyAuthorization('Authorization', 'Bearer ' + directLineSecret, 'header'));
-        return client;
+
+        // Second, request a token for a new conversation
+        return client.Tokens.Tokens_GenerateTokenForNewConversation().then(function (response) {
+            // Then, replace the client's auth secret with the new token
+            var token = response.obj.token;
+            client.clientAuthorizations.add('AuthorizationBotConnector', new Swagger.ApiKeyAuthorization('Authorization', 'Bearer ' + token, 'header'));
+            return client;
+        });
     })
     .catch(function (err) {
         console.error('Error initializing DirectLine client', err);
@@ -39,7 +53,7 @@ directLineClient.then(function (client) {
 
             // Start console input loop from stdin
             sendMessagesFromConsole(client, responseObj.conversationId);
-            
+
             if (useW3CWebSocket) {
                 // Start receiving messages from WS stream - using W3C client
                 startReceivingW3CWebSocketClient(responseObj.streamUrl, responseObj.conversationId);
@@ -70,8 +84,8 @@ function sendMessagesFromConsole(client, conversationId) {
                         text: input,
                         type: 'message',
                         from: {
-                            id: directLineClientName,
-                            name: directLineClientName
+                            id: directLineUserId,
+                            name: directLineUserId
                         }
                     }
                 }).catch(function (err) {
@@ -88,24 +102,25 @@ function startReceivingWebSocketClient(streamUrl, conversationId) {
 
     var ws = new (require('websocket').client)();
 
-    ws.on('connectFailed', function(error) {
+    ws.on('connectFailed', function (error) {
         console.log('Connect Error: ' + error.toString());
     });
-     
-    ws.on('connect', function(connection) {
+
+    ws.on('connect', function (connection) {
         console.log('WebSocket Client Connected');
-        connection.on('error', function(error) {
+        connection.on('error', function (error) {
             console.log("Connection Error: " + error.toString());
         });
-        connection.on('close', function() {
+        connection.on('close', function () {
             console.log('WebSocket Client Disconnected');
         });
-        connection.on('message', function(message) {
+        connection.on('message', function (message) {
+            // Occasionally, the Direct Line service sends an empty message as a liveness ping
+            // Ignore these messages
             if (message.type === 'utf8' && message.utf8Data.length > 0) {
                 var data = JSON.parse(message.utf8Data);
-
-                //watermark = data.watermark;
                 printMessages(data.activities);
+                // var watermark = data.watermark;
             }
         });
     });
@@ -117,34 +132,35 @@ function startReceivingW3CWebSocketClient(streamUrl, conversationId) {
     console.log('Starting W3C WebSocket Client for message streaming on conversationId: ' + conversationId);
 
     var ws = new (require('websocket').w3cwebsocket)(streamUrl);
-     
-    ws.onerror = function() {
+
+    ws.onerror = function () {
         console.log('Connection Error');
     };
-     
-    ws.onopen = function() {
+
+    ws.onopen = function () {
         console.log('W3C WebSocket Client Connected');
     };
-     
-    ws.onclose = function() {
+
+    ws.onclose = function () {
         console.log('W3C WebSocket Client Disconnected');
     };
-     
-    ws.onmessage = function(e) {
+
+    ws.onmessage = function (e) {
+        // Occasionally, the Direct Line service sends an empty message as a liveness ping
+        // Ignore these messages
         if (typeof e.data === 'string' && e.data.length > 0) {
             var data = JSON.parse(e.data);
-
-            //watermark = data.watermark;
             printMessages(data.activities);
+            // var watermark = data.watermark;
         }
-    };        
+    };
 }
 
 // Helpers methods
 function printMessages(activities) {
     if (activities && activities.length) {
         // Ignore own messages
-        activities = activities.filter(function (m) { return m.from.id !== directLineClientName });
+        activities = activities.filter(function (m) { return m.from.id !== directLineUserId });
 
         if (activities.length) {
             process.stdout.clearLine();
