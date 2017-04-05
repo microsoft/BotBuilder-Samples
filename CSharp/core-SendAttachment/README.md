@@ -85,7 +85,7 @@ private static Attachment GetInlineAttachment()
 
 This option should be used when the file to send is less than 256Kb in size when encoded to base64. A good scenario are images generated based on user input.
 
-Checkout [GetUploadedAttachmentAsync](SendAttachmentDialog.cs#L98-L127) to see how to get the required information to create the attachment instance to add to the attachments collection in the key method shown above (`ProcessSelectedOptionAsync`).
+Checkout [GetUploadedAttachmentAsync](SendAttachmentDialog.cs#L98-L123) to see how to get the required information to create the attachment instance to add to the attachments collection in the key method shown above (`ProcessSelectedOptionAsync`).
 
 It does require a few more steps than the other methods, but leverages the channels store to store the file:
 
@@ -114,10 +114,6 @@ private static async Task<Attachment> GetUploadedAttachmentAsync(string serviceU
 
         var attachmentUri = attachments.GetAttachmentUri(response.Id);
 
-        // Typo bug in current assembly version '.Replace("{vieWId}", Uri.EscapeDataString(viewId))'.
-        // TODO: remove this line when replacement Bug is fixed on future releases. PR: https://github.com/Microsoft/BotBuilder/pull/2079
-        attachmentUri = attachmentUri.Replace("{viewId}", "original");
-
         return new Attachment
         {
             Name = "big-image.png",
@@ -133,7 +129,7 @@ private static async Task<Attachment> GetUploadedAttachmentAsync(string serviceU
 This option is the simplest but requires the image to be already on the Internet and be publicly accesible.
 You could also provide an Url pointing to your own site.
 
-Checkout [GetInternetAttachment](SendAttachmentDialog.cs#L129-L137) to see how to get the required information to create the attachment instance to add to the attachments collection in the key method shown above (`ProcessSelectedOptionAsync`).
+Checkout [GetInternetAttachment](SendAttachmentDialog.cs#L125-L133) to see how to get the required information to create the attachment instance to add to the attachments collection in the key method shown above (`ProcessSelectedOptionAsync`).
 
 ````C#
 private static Attachment GetInternetAttachment()

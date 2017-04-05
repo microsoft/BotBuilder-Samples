@@ -113,10 +113,6 @@
 
                 var attachmentUri = attachments.GetAttachmentUri(response.Id);
 
-                // Typo bug in current assembly version '.Replace("{vieWId}", Uri.EscapeDataString(viewId))'.
-                // TODO: remove this line when replacement Bug is fixed on future releases. PR: https://github.com/Microsoft/BotBuilder/pull/2079
-                attachmentUri = attachmentUri.Replace("{viewId}", "original");
-
                 return new Attachment
                 {
                     Name = "big-image.png",
