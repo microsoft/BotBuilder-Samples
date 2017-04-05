@@ -27,13 +27,17 @@ Also, in order to be able to run and test this sample you must [publish your bot
 The Direct Line API is a simple REST API for connecting directly to a single bot. This API is intended for developers writing their own client applications, web chat controls, or mobile apps that will talk to their bot. The [Direct Line v3.0 Nuget package](https://www.nuget.org/packages/Microsoft.Bot.Connector.DirectLine/3.0.0-beta) simplifies access to the underlying REST API.
 
 Each conversation on the Direct Line channel must be explicitly started using the `DirectLineClient.Conversations.StartConversationAsync`.
-Check out the client's [Program.cs](DirectLineClient/Program.cs#L27-L29) class which creates a new `DirectLineClient` and starts a new conversation.
+Check out the client's [Program.cs](DirectLineClient/Program.cs#L33-L38) class which creates a new `DirectLineClient` and starts a new conversation.
 
+You'll see that we are using the Direct Line secret to [obtain a token](DirectLineClient/Program.cs#L34). This step is optional, but prevents clients from accessing conversations they aren't participating in.
 
 ````C#
-DirectLineClient client = new DirectLineClient(directLineSecret);
-            
-var conversation = await client.Conversations.StartConversationAsync();
+// Obtain a token using the Direct Line secret
+var tokenResponse = await new DirectLineClient(directLineSecret).Tokens.GenerateTokenForNewConversationAsync();
+
+// Use token to create conversation
+var directLineClient = new DirectLineClient(tokenResponse.Token);
+var conversation = await directLineClient.Conversations.StartConversationAsync();
 ````
 
 User messages are sent to the Bot using the Direct Line Client `Conversations.PostActivityAsync` method using the `ConversationId` generated in the previous step.
@@ -64,18 +68,18 @@ while (true)
 }
 ````
 
-Messages from the Bot are being received using WebSocket protocol. For this, after the conversation was created a `streamUrl` is also returned and it will be the target for the WebSocket connection. Check out the client's WebSocket initialization in [Program.cs](DirectLineClient/Program.cs#L31-L34). 
+Messages from the Bot are being received using WebSocket protocol. For this, after the conversation was created a `streamUrl` is also returned and it will be the target for the WebSocket connection. Check out the client's WebSocket initialization in [Program.cs](DirectLineClient/Program.cs#L40-L43). 
 
 > Note: In this project we use [websocket-sharp](https://github.com/sta/websocket-sharp) to implement the receiver client but as we have the WebSocket URL this functionality can be implemented according to the needs of the solution.
 
 ````C#
-using(var webSocketClient = new WebSocket(conversation.StreamUrl))
+using (var webSocketClient = new WebSocket(conversation.StreamUrl))
 {
     webSocketClient.OnMessage += WebSocketClient_OnMessage;
     webSocketClient.Connect();
 ````
 
-We use the [WebSocketClient_OnMessage](DirectLineClient/Program.cs#L62) method to handle the OnMessage event of the `webSocketClient` witch occurs when the WebSocket receives a message.
+We use the [WebSocketClient_OnMessage](DirectLineClient/Program.cs#L71) method to handle the OnMessage event of the `webSocketClient` witch occurs when the WebSocket receives a message.
 
 ````C#
 private static void WebSocketClient_OnMessage(object sender, MessageEventArgs e)
@@ -86,7 +90,7 @@ private static void WebSocketClient_OnMessage(object sender, MessageEventArgs e)
         select x;
 ````
 
-Direct Line v3.0 (unlike version 1.1) has support for Attachments (see [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments) for more information about attachments). Check out the `WebSocketClient_OnMessage` method in [Program.cs](DirectLineClient/Program.cs#L73-L90) to see how the Attachments are retrieved and rendered appropriately based on their type.
+Direct Line v3.0 (unlike version 1.1) has support for Attachments (see [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments) for more information about attachments). Check out the `WebSocketClient_OnMessage` method in [Program.cs](DirectLineClient/Program.cs#L88-L105) to see how the Attachments are retrieved and rendered appropriately based on their type.
 
 
 ````C#
