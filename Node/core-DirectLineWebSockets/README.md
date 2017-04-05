@@ -142,7 +142,7 @@ ws.onmessage = function (e) {
 
 > Clients should keep track of the `watermark` value from each `ActivitySet` so they can use it on reconnect. Note that a null or missing watermark should be ignored and should not overwrite a prior watermark in the client.
 
-DirectLine v3.0 (unlike version 1.1) has supports for Attachments (see [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments) for more information about attachments).
+Direct Line v3.0 (unlike version 1.1) has supports for Attachments (see [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments) for more information about attachments).
 
 Check out the [`printMessage`](DirectLineClient/app.js#L177-L196) function to see how the Attachments are retrieved and rendered appropriately based on their type.
 
