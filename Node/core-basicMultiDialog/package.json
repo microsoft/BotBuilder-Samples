@@ -1,0 +1,12 @@
+{
+    "name": "core-basicMultiDialog",
+    "dependencies": {
+        "botbuilder": "^3.7.0",
+        "dotenv": "^2.0.0",
+        "restify": "^4.3.0"
+    },
+    "devDependencies": {
+        "@types/node": "^6.0.52",
+        "@types/restify": "^2.0.35"
+    }
+}

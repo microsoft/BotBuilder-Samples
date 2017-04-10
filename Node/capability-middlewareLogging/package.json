@@ -1,0 +1,15 @@
+{
+  "name": "loggingexamplebot",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "A bot to demonstrate middleware and logging",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "botbuilder": "^3.7.0",
+    "restify": "^4.3.0"
+  }
+}
