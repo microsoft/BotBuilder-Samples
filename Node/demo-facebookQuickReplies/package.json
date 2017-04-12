@@ -1,0 +1,23 @@
+{
+  "name": "demo-facebookquickreplies",
+  "version": "1.0.0",
+  "description": "Bot Builder Sample - Facebook Quick Replies",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "botbuilder",
+    "bots",
+    "chatbots",
+    "botbuilder-samples",
+    "quickreplies",
+    "facebook"
+  ],
+  "author": "Microsoft Corp",
+  "license": "MIT",
+  "dependencies": {
+    "botbuilder": "^3.7.0",
+    "restify": "^4.3.0"
+  }
+}
