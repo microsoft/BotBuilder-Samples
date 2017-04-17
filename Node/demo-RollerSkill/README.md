@@ -5,7 +5,7 @@ A simple dice rolling skill/bot that's been optimized for speech enabled channel
 [![Deploy to Azure][Deploy Button]][Deploy Node/RollerSkill]
 
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy Node/SendRollerSkill]: https://azuredeploy.net
+[Deploy Node/RollerSkill]: https://azuredeploy.net
 
 ### Prerequisites
 
