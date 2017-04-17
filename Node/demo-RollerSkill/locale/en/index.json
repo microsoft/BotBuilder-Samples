@@ -1,0 +1,65 @@
+{
+    "choose_sides": "__Number of Sides__",
+    "choose_sides_ssml": [
+        "How many sides on the dice?",
+        "Pick your poison.",
+        "All the standard sizes are supported."
+    ],
+    "choose_count": "How many %d sided dice should I roll?",
+    "choose_count_ssml": [
+        "How many dice? Choose a number from 1 to a hundred.",
+        "How many dice? The more the merrier",
+        "How many dice?"
+    ],
+    "card_title": "I Rolled",
+    "card_subtitle_singular": "using a %(sides)d-sided die",
+    "card_subtitle_plural": "rolled %(count)d dice using a %(sides)d-sided die",
+    "start_custom_game_ssml": [
+        "Lets do this!",
+        "Here we go.",
+        "Are you ready for this?"
+    ],
+    "start_craps_game_ssml": [
+        "I love vegas.",
+        "Good luck."
+    ],
+    "craps_lose_roll_reaction_ssml": [
+        "You crapped out.",
+        "Oh no you lost."
+    ],
+    "craps_seven_roll_reaction_ssml": "You win with a lucky seven!",
+    "craps_eleven_roll_reaction_ssml": "Nice, an eleven you win!",
+    "craps_retry_roll_reaction_ssml": [
+        "Roll again.",
+        "Try again you want a seven or eleven.",
+        "Roll again and try not to get a 2, 3, or 12."
+    ],
+    "best_roll_reaction_ssml": [
+        "That was a perfect roll!",
+        "Awesome!",
+        "You can't get better than that."
+    ],
+    "good_roll_reaction_ssml": [
+        "That's pretty good.",
+        "There you go.",
+        "That should help."
+    ],
+    "normal_roll_reaction_ssml": [
+        "That's not too bad",
+        "It could have been worse.",
+        "That was a decent roll."
+    ],
+    "bad_roll_reaction_ssml": [
+        "ouch",
+        "I hope your luck improves.",
+        "I think I saw that coming.",
+        "That's not good."
+    ],
+    "worst_roll_reaction_ssml": [
+        "wow... just wow...",
+        "oh no. That was horrible.",
+        "You can't do better. Oh wait you can."
+    ],
+    "help_title": "Roller Options",
+    "help_ssml": "I'm roller, the dice rolling bot. You can say 'roll some dice' or play one of the games I know how to play."
+}

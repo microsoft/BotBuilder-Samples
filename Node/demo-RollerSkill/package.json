@@ -1,0 +1,15 @@
+{
+  "name": "rollerskill",
+  "version": "1.0.0",
+  "description": "Sample BotBuilder skill for speech enabled Bot Framework channels.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^3.8.0-beta2",
+    "restify": "^4.3.0"
+  }
+}
