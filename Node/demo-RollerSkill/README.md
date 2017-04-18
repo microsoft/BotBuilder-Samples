@@ -27,6 +27,6 @@ The sample showcases the use of new features designed specifically for speech:
 
 ### More Information
 
-To get more information about how to get started in Bot Builder for Node and Attachments please review the following resources:
+To get more information about how to get started in Bot Builder for Node please review the following resources:
 * [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
 * [SSML Language Reference](https://msdn.microsoft.com/en-us/library/hh378377(v=office.14).aspx)
