@@ -89,14 +89,14 @@ bot.dialog('CreateGameDialog', [
          * - We can use gettext() to format a string using a template stored in our
          *   localized prompts file.
          * - The number prompt lets us pass additional options to say we only want
-         *   intergers back and what's the min & max value that's allowed.
+         *   integers back and what's the min & max value that's allowed.
          */
         var prompt = session.gettext('choose_count', game.sides);
         builder.Prompts.number(session, prompt, {
             speak: speak(session, 'choose_count_ssml'),
             minValue: 1,
             maxValue: 100,
-            intergerOnly: true
+            integerOnly: true
         });
     },
     function (session, results) {
