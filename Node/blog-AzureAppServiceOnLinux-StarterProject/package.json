@@ -1,0 +1,30 @@
+{
+  "name": "botframework-slack-support-bot",
+  "author": "Nils Whitmont <nils.whitmont@gmail.com>",
+  "license": "MIT",
+  "version": "1.0.0",
+  "description": "slack bot for botframework",
+  "main": "botServer.js",
+  "engines": {
+    "node": "6.10.2",
+    "npm": "3.10.10"
+  },
+  "scripts": {
+    "start": "node botServer"
+  },
+  "keywords": [
+    "botframework",
+    "slack",
+    "slackbot",
+    "botbuilder",
+    "node"
+  ],
+  "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Microsoft/BotBuilder-Samples"
+  },
+  "dependencies": {
+    "botbuilder": "^3.7.0",
+    "restify": "^4.3.0"
+  }
+}
