@@ -1,0 +1,16 @@
+{
+  "name": "searchbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^3.7.0",
+    "request": "^2.78.0",
+    "restify": "^4.2.0"
+  }
+}
