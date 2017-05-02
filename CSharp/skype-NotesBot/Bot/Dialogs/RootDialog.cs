@@ -15,9 +15,6 @@ namespace Bot.Dialogs
     [Serializable]
     public sealed class RootDialog : IDialog
     {
-        [NonSerialized]
-        private IMongoDatabase _database;
-
         private readonly List<string> _commandWords = new List<string>
         {
             BotConstants.Note,
@@ -37,6 +34,8 @@ namespace Bot.Dialogs
             BotConstants.HelpDelete,
             BotConstants.HelpExport
         };
+
+        [NonSerialized] private IMongoDatabase _database;
 
         public RootDialog()
         {

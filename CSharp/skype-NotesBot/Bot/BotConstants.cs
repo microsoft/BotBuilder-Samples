@@ -8,12 +8,12 @@
         //  This section contains all constants that you need to fill,
         //  before you deploy your bot to production.
         //
-        public const string BotName = "<>";
-        public const string BotId = "<>";
-        public const string DbString = "<>";
+        public const string BotName = "<your bot name>";
+        public const string BotId = "<your bot id>";
+        public const string DbString = "<your mongo db connection string>";
         public const string WelcomeCardLink = "https://<>/Resources/welcome_card.png";
-        public const string BotEmailId = "<>";
-        public const string BotEmailPwd = "<>";
+        public const string BotEmailId = "<a valid O365 email id>";
+        public const string BotEmailPwd = "<email password>";
         //
         //  END OF KEY CONSTANTS SECTION
         //

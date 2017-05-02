@@ -19,8 +19,8 @@ namespace Bot.Controllers
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        private IMongoDatabase _database;
         private static IConnectorClient _connectorClient;
+        private IMongoDatabase _database;
 
         public MessagesController()
         {

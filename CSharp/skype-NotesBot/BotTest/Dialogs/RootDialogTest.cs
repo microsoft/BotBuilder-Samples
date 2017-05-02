@@ -92,7 +92,7 @@ namespace BotTest.Dialogs
 
             var collection = new Mock<IMongoCollection<User>>();
             collection.Object.InsertOneAsync(user);
-            collection.Setup(a => a.FindOneAndUpdateAsync<User>(
+            collection.Setup(a => a.FindOneAndUpdateAsync(
                     It.IsAny<FilterDefinition<User>>(),
                     It.IsAny<UpdateDefinition<User>>(),
                     It.IsAny<FindOneAndUpdateOptions<User>>(),
