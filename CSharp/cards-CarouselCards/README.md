@@ -18,7 +18,7 @@ The minimum prerequisites to run this sample are:
 You can send multiple rich card attachments in a single message. On most channels they will be sent as a list of rich cards, but some channels (like Skype and Facebook) can render them as a carousel of rich cards. The `IMessageActivity.AttachmentLayout` property allows you to control how the rich cards will be rendered. Check out the key code located in the [CarouselCardsDialog](CarouselCardsDialog.cs#L21) class where the attachments layout is changed to the Carousel mode.
 
 
-> Note: Only the [Hero](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html#herocard) and [Thumbnail](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html#thumbnailcard) Cards are supported for the Carousel AttachmentLayout mode.
+> Note: Only the [Hero](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-add-rich-card-attachments#add-a-hero-card) and [Thumbnail](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-add-rich-card-attachments#add-a-thumbnail-card-to-a-message) Cards are supported for the Carousel AttachmentLayout mode.
 
 ````C#
 public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
@@ -53,15 +53,15 @@ On the other hand, you will see the following in Skype.
 ### More Information
 
 To get more information about how to get started in Bot Builder for .NET and Attachments please review the following resources:
-* [Bot Builder for .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
-* [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments)
-* [Attachments Property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html#attachmentsproperty)
-* [Attachments, Cards and Actions](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html)
+* [Bot Builder for .NET](https://docs.microsoft.com/en-us/bot-framework/dotnet/)
+* [Message Attachments Property](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-create-messages#message-attachments)
+* [Add media attachments to messages](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-add-media-attachments)
+* [Add rich card attachments to messages](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-add-media-attachments)
 * [Carousel Layout in Microsoft Teams](https://msdn.microsoft.com/en-us/microsoft-teams/bots#carousel-layout)
 * [RichCards sample](../cards-RichCards)
 
 > **Limitations**  
-> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html).
+> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-channeldata).
 > 
 > The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
 > 
