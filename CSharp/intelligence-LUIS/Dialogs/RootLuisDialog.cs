@@ -12,6 +12,7 @@
     using Microsoft.Bot.Connector;
 
     [LuisModel("YourModelId", "YourSubscriptionKey")]
+    [Serializable]
     public class RootLuisDialog : LuisDialog<object>
     {
         private const string EntityGeographyCity = "builtin.geography.city";
