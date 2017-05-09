@@ -24,7 +24,7 @@
                 { "20", new List<string> { "twenty", "20 sided", "20 sides" } }
             };
 
-            var promptOptions = new PromptOptions<string>(
+            var promptOptions = new PromptOptionsWithSynonyms<string>(
                 Resources.ChooseSides,
                 choices: choices,
                 descriptions: descriptions,
@@ -48,9 +48,9 @@
                 var promptText = string.Format(Resources.ChooseCount, sides);
 
                 // TODO: When supported, update to pass Min and Max paramters
-                var promptOption = new PromptOptions<long>(promptText, choices: null, speak: SSMLHelper.Speak(Utils.RandomPick(Resources.ChooseCountSSML)));
+                var promptOption = new PromptOptions<long>(promptText, speak: SSMLHelper.Speak(Utils.RandomPick(Resources.ChooseCountSSML)));
 
-                var prompt = new PromptDialog.PromptInt64(promptOption);
+                var prompt = new PromptDialog.PromptInt64(promptOption, min: 1, max: 100);
                 context.Call<long>(prompt, this.DiceNumberReceivedAsync);
             }
         }
