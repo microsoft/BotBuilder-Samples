@@ -18,7 +18,7 @@ Bot Recipe/Prerequisites:
 -   **Microsoft Bot Framework** to host and publish to multiple platforms. You
     can download Bot Framework Emulator from
     [here](https://aka.ms/bf-bc-emulator). More details in [this documentation
-    article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html) 
+    article](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-quickstart) 
 
 -   **Bing Web Search API** to fetch the most relevant Wikipedia article on any
     given topic.
@@ -214,7 +214,7 @@ More Information
 To get more information about how to get started in Bot Builder for .NET, 
  Bing Web Search API and LUIS please review the
 following resources: \* [Bot Builder for
-Node.js](https://docs.botframework.com/en-us/node/builder/overview) \* [Bing Web
+Node.js](https://docs.microsoft.com/en-us/bot-framework/nodejs/) \* [Bing Web
 Search
 API](https://www.microsoft.com/cognitive-services/en-us/bing-web-search-api) \*
 [Language Understanding Intelligent Services

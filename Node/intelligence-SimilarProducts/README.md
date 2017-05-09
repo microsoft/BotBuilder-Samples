@@ -1,6 +1,6 @@
 ﻿# Similar Products Bot Sample
 
-A sample bot that illustrates how to use the [Bing Image Search API](https://www.microsoft.com/cognitive-services/en-us/bing-image-search-api) to find visually similar products from an image stream or a URL. [Here's](https://docs.botframework.com/en-us/bot-intelligence/search/#example-product-bot) a demo of this bot in a web chat.
+A sample bot that illustrates how to use the [Bing Image Search API](https://www.microsoft.com/cognitive-services/en-us/bing-image-search-api) to find visually similar products from an image stream or a URL. [Here's](https://docs.microsoft.com/en-us/bot-framework/cognitive-services-add-bot-search#product-bot-example) a demo of this bot in a web chat.
 
 [![Deploy to Azure][Deploy Button]][Deploy Node/SimilarProducts]
 
@@ -90,6 +90,6 @@ Output:
 ### More Information
 
 To get more information about how to get started in Bot Builder for Node and Microsoft Bing Images Search API please review the following resources:
-* [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
+* [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
 * [Microsoft Bing Image Search API](https://www.microsoft.com/cognitive-services/en-us/bing-image-search-api)
 * [Microsoft Bing Image Search API Reference](https://msdn.microsoft.com/en-us/library/dn760791.aspx)

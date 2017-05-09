@@ -85,9 +85,9 @@ Subsequently, you can start a new conversation (In the Bot Framework Channel Emu
 ### More Information
 
 To get more information about how to get started in Bot Builder for Node and Dialogs please review the following resources:
-* [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
+* [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
 * [Adding Dialogs and Memory](https://docs.botframework.com/en-us/node/builder/guides/core-concepts/#adding-dialogs-and-memory)
-* [Saving User State Data](https://docs.botframework.com/en-us/core-concepts/userdata)
+* [Save user data](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-save-user-data)
 * [session.userData](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#userdata)
 * [session.conversationData](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#conversationdata)
 * [session.privateConversationData](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#privateconversationdata)

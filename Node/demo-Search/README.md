@@ -160,10 +160,10 @@ The `search` must return a `Promise`, that once fulfilled, should resolve to a [
 ### More Information
 
 To get more information about how to get started in Bot Builder for Node please review the following resources:
-* [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
+* [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
 * [Azure Search](https://azure.microsoft.com/en-us/services/search/)
-* [Dialogs](https://docs.botframework.com/en-us/node/builder/chat/dialogs/)
-* [Dialog Stack](https://docs.botframework.com/en-us/node/builder/chat/session/#dialog-stack)
+* [Dialogs](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-dialog-manage-conversation)
+* [Dialog Stack](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-dialog-manage-conversation#dialog-stack)
 * [BotBuilder Library](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library.html)
 
 > **Limitations**  

@@ -65,10 +65,10 @@ Each of the documents contains the information related to the bot store type:
 ### More Information
 
 To get more information about how to get started in Bot Builder for .NET and State please review the following resources:
-* [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
+* [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
 * [Bot Builder SDK Azure Extensions](https://github.com/Microsoft/BotBuilder-Azure)
 * [Bot Builder Azure Extensions package](https://npmjs.com/package/botbuilder-azure)
-* [Saving User State Data](https://docs.botframework.com/en-us/core-concepts/userdata)
+* [Save user data](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-save-user-data)
 * [Adding Dialogs and Memory](https://docs.botframework.com/en-us/node/builder/guides/core-concepts/#adding-dialogs-and-memory)
 * [Bot State Service](https://docs.botframework.com/en-us/csharp/builder/sdkreference/stateapi.html)
 * [State sample](../core-State)
