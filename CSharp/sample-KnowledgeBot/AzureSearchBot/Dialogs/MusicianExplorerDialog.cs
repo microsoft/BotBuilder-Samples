@@ -36,6 +36,7 @@ namespace AzureSearchBot.Dialogs
             catch (Exception e)
             {
                 Debug.WriteLine($"Error when faceting by era: {e}");
+                context.Done <object>(null);
             }
         }
 
@@ -49,7 +50,7 @@ namespace AzureSearchBot.Dialogs
                 SearchResult searchResult = await searchService.SearchByEra(selectedEra);
                 if(searchResult.value.Length != 0)
                 {
-                    CardUtil.showHeroCard((IMessageActivity)context.Activity, searchResult);
+                    CardUtil.ShowHeroCard((IMessageActivity)context.Activity, searchResult);
                 }
                 else
                 {
