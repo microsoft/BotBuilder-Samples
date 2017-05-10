@@ -1,9 +1,9 @@
 ﻿namespace CreateNewConversationBot
 {
-    using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Connector;
 
     public interface ISurveyScheduler
     {
-       void Add(ResumptionCookie cookie);
+       void Add(ConversationReference conversationReference);
     }
 }
