@@ -7,7 +7,7 @@ namespace AzureSearchBot.Util
 {
     public static class CardUtil
     {
-        public static async void showHeroCard(IMessageActivity message, SearchResult searchResult)
+        public static async void ShowHeroCard(IMessageActivity message, SearchResult searchResult)
         {
             //Make reply activity and set layout
             Activity reply = ((Activity)message).CreateReply();

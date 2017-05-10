@@ -26,7 +26,7 @@
         [Serializable]
         public class JobStyler : PromptStyler
         {
-            public override void Apply<T>(ref IMessageActivity message, string prompt, IReadOnlyList<T> options, IReadOnlyList<string> descriptions = null)
+            public override void Apply<T>(ref IMessageActivity message, string prompt, IReadOnlyList<T> options, IReadOnlyList<string> descriptions = null, string speak = null)
             {
                 var hits = (IList<SearchHit>)options;
 
@@ -40,6 +40,7 @@
                 message.AttachmentLayout = AttachmentLayoutTypes.Carousel;
                 message.Attachments = cards.Select(c => c.ToAttachment()).ToList();
                 message.Text = prompt;
+                message.Speak = speak;
             }
         }
     }

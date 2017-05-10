@@ -11,12 +11,12 @@
 
     public static class SurveyTriggerer
     {
-        public static async Task StartSurvey(ResumptionCookie cookie, CancellationToken token)
+        public static async Task StartSurvey(ConversationReference conversationReference, CancellationToken token)
         {
             var container = WebApiApplication.FindContainer();
 
-            // the ResumptionCookie has the "key" necessary to resume the conversation
-            var message = cookie.GetMessage();
+            // the ConversationReference has the "key" necessary to resume the conversation
+            var message = conversationReference.GetPostToBotMessage();
 
             ConnectorClient client = new ConnectorClient(new Uri(message.ServiceUrl));
 
