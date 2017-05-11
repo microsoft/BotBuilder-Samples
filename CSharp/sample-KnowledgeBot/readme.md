@@ -1,5 +1,5 @@
 # Document for C# code
-If you are new for developing C# bot, please see [this document](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html) and try it.
+If you are new for developing C# bot, please see [this document](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-quickstart) and try it.
 
 In this document, we first describe how the code works. Then we explain how to try this sample.
 

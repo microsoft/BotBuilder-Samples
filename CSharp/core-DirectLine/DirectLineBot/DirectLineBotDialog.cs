@@ -40,7 +40,7 @@
                     var imageAttachment = new Attachment()
                     {
                         ContentType = "image/png",
-                        ContentUrl = "https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png",
+                        ContentUrl = "https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png",
                     };
 
                     reply.Attachments.Add(imageAttachment);

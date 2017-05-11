@@ -19,7 +19,7 @@ The minimum prerequisites to run this sample are:
 #### Rich cards
 Many messaging channels provide the ability to attach richer objects. The Bot Framework has the ability to render rich cards as attachments.
 
-The bot will render a Welcome message upon the first message using a [HeroCard](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html#herocard) attachment within the [`RootDialog.WelcomeMessageAsync` method](ContosoFlowers/Dialogs/RootDialog.cs#L54-L72).
+The bot will render a Welcome message upon the first message using a [HeroCard](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-add-rich-card-attachments#add-a-hero-card) attachment within the [`RootDialog.WelcomeMessageAsync` method](ContosoFlowers/Dialogs/RootDialog.cs#L54-L72).
 The sample also includes the [`HeroCardExtensions`](ContosoFlowers.BotAssets/Extensions/HeroCardExtensions.cs) class providing methods to ease the creation of rich cards.
 
 ````C#
@@ -47,7 +47,7 @@ private async Task WelcomeMessageAsync(IDialogContext context)
 |----------|-------|----------|
 |![Rich Cards - Hero Card](images/richcards-herocard-emulator.png)|![Rich Cards - Hero Card](images/richcards-herocard-facebook.png)|![Rich Cards - Hero Card](images/richcards-herocard-skype.png)|
 
-Another example of rich card, is the [ReceiptCard](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html#receiptcard) which renders differently depending on the messaging channel being supported.
+Another example of rich card, is the [ReceiptCard](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-add-rich-card-attachments#add-a-receipt-card-to-a-message) which renders differently depending on the messaging channel being supported.
 The receipt card is created in the [`RootDialog.GetReceiptCard` method](ContosoFlowers/Dialogs/RootDialog.cs#L345-L369) and is rendered once the bot's user checkouts an order.
  
 ````C#
@@ -119,7 +119,7 @@ protected async Task ShowProducts(IDialogContext context)
 
 #### Multi-Dialogs Approach
 Dialogs can be composed with other dialogs to maximize reuse, and a dialog context maintains a stack of dialogs active in the conversation.
-In this sample, the main flow is implemented in the [`RootDialog` class](ContosoFlowers/Dialogs/RootDialog.cs) and it is composed of several other classes implementing [`IDialog`](https://docs.botframework.com/en-us/csharp/builder/sdkreference/dialogs.html).
+In this sample, the main flow is implemented in the [`RootDialog` class](ContosoFlowers/Dialogs/RootDialog.cs) and it is composed of several other classes implementing [`IDialog`](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-dialogs).
 
 > You can also see a full sample bot showing different kind of dialogs in the [Multi-Dialog Bot Sample](../core-MultiDialogs).
 
@@ -142,7 +142,7 @@ Take a look [here](ContosoFlowers/ContosoFlowersModule.cs#L46-L53) to see how to
 |![Bing Location Control](images/bing-location-emulator.png)|![Bing Location Control](images/bing-location-facebook.png)|![Bing Location Control](images/bing-location-skype.png)|
 
 #### Complex Forms
-Handling a guided conversation like ordering a bouquet of flowers for your loved one can require a lot of effort. In order to simplify building guided conversations the Bot Framework provides a powerful dialog building block known as [FormFlow](https://docs.botframework.com/en-us/csharp/builder/sdkreference/forms.html). A FormFlow dialog guides the user through filling in the form; a collection of fields that you want to fill in through a conversation with the user.
+Handling a guided conversation like ordering a bouquet of flowers for your loved one can require a lot of effort. In order to simplify building guided conversations the Bot Framework provides a powerful dialog building block known as [FormFlow](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-formflow). A FormFlow dialog guides the user through filling in the form; a collection of fields that you want to fill in through a conversation with the user.
 
 In this sample, the [`Order` class](ContosoFlowers/Models/Order.cs) serves as the model that holds the Form values entered by the user. You can see several `Prompt` and `Pattern` attributes decorating properties which helps customizing the FormFlow behavior.
 Included in the class, there's a static [`BuildOrderForm` method](ContosoFlowers/Models/Order.cs#L68-L101) that uses a `FormBuilder` to build your form. Follow this approach for maximum flexibility which allow specifying each fields behavior as needed.
@@ -231,7 +231,7 @@ This sample includes the [ContosoFlowers.Models.Order.resx](ContosoFlowers/Prope
 
 #### State
 Bots built using Bot Framework are designed to be stateless so that they can easily be scaled to run across multiple compute nodes. 
-The conversation state (i.e. the stack of active dialogs and each dialog's state) is stored in the [Bot State Service](https://docs.botframework.com/en-us/csharp/builder/sdkreference/stateapi.html) provided by the Bot Connector service.
+The conversation state (i.e. the stack of active dialogs and each dialog's state) is stored in the [Bot State Service](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-state) provided by the Bot Connector service.
 
 The `IDialogContext` has several properties which are useful for tracking state.
 
@@ -326,11 +326,11 @@ public async Task<ActionResult> Index(string state, string orderId, PaymentDetai
 #### More Advanced Features
 While not covered in this sample, it is important to highlight two features that can help tailoring your bot the your specific needs.
 
-If you want to be able to take advantage of special features or concepts for a channel we provide a way for you to send native metadata to that channel giving you much deeper control over how your bot interacts on a channel. The way you do this is to pass extra properties via the [ChannelData](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html) property.
+If you want to be able to take advantage of special features or concepts for a channel we provide a way for you to send native metadata to that channel giving you much deeper control over how your bot interacts on a channel. The way you do this is to pass extra properties via the [ChannelData](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-channeldata) property.
 
 > You can also see a full sample bot sending native metadata to Facebook using ChannelData in the [ChannelData Bot Sample](../core-ChannelData).
 
-One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. In the [LUIS](https://docs.botframework.com/en-us/node/builder/guides/understanding-natural-language/) application, you will bundle together the intents and entities that are important to your task.
+One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. In the [LUIS](https://docs.microsoft.com/en-us/bot-framework/cognitive-services-add-bot-language) application, you will bundle together the intents and entities that are important to your task.
 
 > You can also see a full sample bot using LuisDialog to integrate with a LUIS.ai application in the [LUIS Bot Sample](../intelligence-LUIS).
 
@@ -338,18 +338,18 @@ One of the key problems in human-computer interactions is the ability of the com
 
 To get more information about how to get started in Bot Builder for .NET please review the following resources:
 
-* [Dialogs](https://docs.botframework.com/en-us/csharp/builder/sdkreference/dialogs.html)
-* [Attachments, Cards and Actions](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html)
-* [Custom Channel Capabilities](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html)
-* [Custom Facebook Messages](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html#customfacebookmessages)
-* [FormFlow](https://docs.botframework.com/en-us/csharp/builder/sdkreference/forms.html)
-* [Bot State Service](https://docs.botframework.com/en-us/csharp/builder/sdkreference/stateapi.html)
+* [Dialogs](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-dialogs)
+* [Add media attachments to messages](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-add-media-attachments)
+* [Add rich card attachments to messages](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-add-rich-card-attachments)
+* [Implement channel-specific functionality](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-channeldata)
+* [Create a Facebook notification](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-channeldata#create-a-facebook-notification)
+* [Guide conversations with FormFlow](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-formflow)
+* [Manage conversational state](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-state)
 * [Autofac](https://autofac.org/)
-* [ChannelData](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html)
-* [LUIS](https://docs.botframework.com/en-us/node/builder/guides/understanding-natural-language/)
+* [Add language understanding to a bot](https://docs.microsoft.com/en-us/bot-framework/cognitive-services-add-bot-language)
 
 > **Limitations**  
-> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html).
+> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-channeldata).
 > 
 > The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
 > 

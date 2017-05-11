@@ -6,7 +6,7 @@ A sample bot showing how to go beyond by becoming embedded into larger applicati
 The minimum prerequisites to run this sample are:
 * The latest update of Visual Studio 2015. You can download the community version [here](http://www.visualstudio.com) for free.
 * The Xamarin Platform. You can download it from [here](https://www.xamarin.com/platform) for free.
-* Register your bot with the Microsoft Bot Framework. Please refer to [this](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#registering) for the instructions.
+* Register your bot with the Microsoft Bot Framework. Please refer to [this](https://docs.microsoft.com/en-us/bot-framework/portal-register-bot) for the instructions.
 * Enable the Web Chat channel, edit the settings 
 
   ![ChatWidget Channel](images/chatwidget-channel.png) 
@@ -15,7 +15,7 @@ The minimum prerequisites to run this sample are:
 
    ![ChatWidget Token](images/chatwidget-token.PNG)
  
-  Refer to [this](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#channels) for more information on how to configure channels. 
+  Refer to [this](https://docs.microsoft.com/en-us/bot-framework/portal-configure-channels) for more information on how to configure channels. 
 
 * Update the `WebView`'s source of the [WebPage.cs](WorkingWithWebview/WebPage.cs#L11) file of the `WorkingWithWebview` project with the Web chat embed code. 
 

@@ -75,7 +75,7 @@ function createHeroCard(session) {
             builder.CardImage.create(session, 'https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg')
         ])
         .buttons([
-            builder.CardAction.openUrl(session, 'https://docs.botframework.com/en-us/', 'Get Started')
+            builder.CardAction.openUrl(session, 'https://docs.microsoft.com/bot-framework/', 'Get Started')
         ]);
 }
 
@@ -88,7 +88,7 @@ function createThumbnailCard(session) {
             builder.CardImage.create(session, 'https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg')
         ])
         .buttons([
-            builder.CardAction.openUrl(session, 'https://docs.botframework.com/en-us/', 'Get Started')
+            builder.CardAction.openUrl(session, 'https://docs.microsoft.com/bot-framework/', 'Get Started')
         ]);
 }
 
@@ -126,7 +126,7 @@ function createAnimationCard(session) {
     return new builder.AnimationCard(session)
         .title('Microsoft Bot Framework')
         .subtitle('Animation Card')
-        .image(builder.CardImage.create(session, 'https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png'))
+        .image(builder.CardImage.create(session, 'https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png'))
         .media([
             { url: 'http://i.giphy.com/Ki55RUbOV5njy.gif' }
         ]);

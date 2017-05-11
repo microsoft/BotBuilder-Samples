@@ -75,11 +75,11 @@ We included two samples here:
 
 To get more information about how to get started in Bot Builder for .NET please review the following resources:
 
-* [Dialogs](https://docs.botframework.com/en-us/csharp/builder/sdkreference/dialogs.html)
+* [Dialogs](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-dialogs)
 * [Azure Search](https://azure.microsoft.com/en-us/services/search/)
 
 > **Limitations**  
-> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html).
+> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-channeldata).
 > 
 > The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
 > 

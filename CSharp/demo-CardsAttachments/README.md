@@ -87,7 +87,7 @@ protected override IList<Attachment> GetCardAttachments()
             Subtitle = "Your bots — wherever your users are talking",
             Text = "Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.",
             Images = new List<CardImage> { new CardImage("https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg") },
-            Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.botframework.com/en-us/") }
+            Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.microsoft.com/bot-framework") }
         }.ToAttachment()
     };
 }
@@ -107,7 +107,7 @@ protected override IList<Attachment> GetCardAttachments()
             Subtitle = "Your bots — wherever your users are talking",
             Text = "Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.",
             Images = new List<CardImage> { new CardImage("https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg") },
-            Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.botframework.com/en-us/") }
+            Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.microsoft.com/bot-framework") }
         }.ToAttachment()
     };
 }
@@ -180,7 +180,7 @@ protected override IList<Attachment> GetCardAttachments()
             Subtitle = "Animation Card",
             Image = new ThumbnailUrl
             {
-                Url = "https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png"
+                Url = "https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png"
             },
             Media = new List<MediaUrl>
             {
@@ -291,7 +291,7 @@ protected override IList<Attachment> GetCardAttachments()
             Subtitle = "Your bots — wherever your users are talking",
             Text = "Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.",
             Images = new List<CardImage> { new CardImage("https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg") },
-            Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.botframework.com/en-us/") }
+            Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.microsoft.com/bot-framework") }
         }.ToAttachment(),
         new ThumbnailCard
         {
@@ -299,7 +299,7 @@ protected override IList<Attachment> GetCardAttachments()
             Subtitle = "Your bots — wherever your users are talking",
             Text = "Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.",
             Images = new List<CardImage> { new CardImage("https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg") },
-            Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.botframework.com/en-us/") }
+            Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.microsoft.com/bot-framework") }
         }.ToAttachment(),
         new AnimationCard
         {
@@ -307,7 +307,7 @@ protected override IList<Attachment> GetCardAttachments()
             Subtitle = "Animation Card",
             Image = new ThumbnailUrl
             {
-                Url = "https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png"
+                Url = "https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png"
             },
             Media = new List<MediaUrl>
             {
@@ -446,14 +446,14 @@ At that view you will see the following while interacting with the bot running d
 ### More Information
 
 To get more information about how to get started in Bot Builder for .NET and Attachments please review the following resources:
-* [Bot Builder for .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
-* [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments)
-* [Attachments Property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html#attachmentsproperty)
-* [Attachments, Cards and Actions](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html)
+* [Bot Builder for .NET](https://docs.microsoft.com/en-us/bot-framework/dotnet/)
+* [Message Attachments Property](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-create-messages#message-attachments)
+* [Add media attachments to messages](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-add-media-attachments)
+* [Add rich card attachments to messages](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-add-media-attachments)
 * [Cards and buttons on Microsoft Teams](https://msdn.microsoft.com/en-us/microsoft-teams/bots#cards-and-buttons)
 
 > **Limitations**  
-> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html).
+> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-channeldata).
 >
 > The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
 >

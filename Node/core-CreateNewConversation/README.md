@@ -46,10 +46,10 @@ On the other hand, you will see the following in Skype.
 ### More Information
 
 To get more information about how to get started in Bot Builder for Node and Dialogs please review the following resources:
-* [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
-* [Proactive Messaging](https://docs.botframework.com/en-us/node/builder/chat/UniversalBot/#proactive-messaging)
+* [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
+* [Send proactive messages](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-proactive-messages)
 * [Starting a Conversation](https://docs.botframework.com/en-us/core-concepts/conversation/)
-* [Dialogs](https://docs.botframework.com/en-us/node/builder/chat/dialogs/)
+* [Dialogs](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-dialog-manage-conversation)
 * [UniversalBot.beginDialog](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot.html#begindialog)
 * [UniversalBot.send](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot.html#send) & [IMessage interface](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html)
 

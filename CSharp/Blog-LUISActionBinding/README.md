@@ -930,11 +930,11 @@ User's request triggers the ‘FindHotelsAction_ChangeCheckin’ intent/action, 
 ### More Information
 
 To get more information about how to get started in Bot Builder for .NET and Conversations please review the following resources:
-* [Bot Builder for .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
-* [Understanding Natural Language](https://docs.botframework.com/en-us/node/builder/guides/understanding-natural-language/)
+* [Bot Builder for .NET](https://docs.microsoft.com/en-us/bot-framework/dotnet/)
+* [Enable language understanding with LUIS](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-luis-dialogs)
 * [LUIS Help Docs](https://www.luis.ai/Help/)
 * [Cognitive Services Documentation](https://www.microsoft.com/cognitive-services/en-us/luis-api/documentation/home)
-* [Passing in Initial Form State and Entities](https://docs.botframework.com/en-us/csharp/builder/sdkreference/forms.html#initialState)
+* [Specify initial form state and entities](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-formflow-advanced#specify-initial-form-state-and-entities)
 * Other examples using LUIS
-    * [Dialogs - Alarm Bot](https://docs.botframework.com/en-us/csharp/builder/sdkreference/dialogs.html#alarmBot)
-    * [Weather Bot](https://docs.botframework.com/en-us/bot-intelligence/language/#example-weather-bot)
+    * [Alarm Bot](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-luis-dialogs#alarm-bot-implementation)
+    * [Weather Bot](https://docs.microsoft.com/en-us/bot-framework/cognitive-services-add-bot-language#language-understanding-bot-example)
