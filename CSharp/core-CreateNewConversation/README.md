@@ -18,18 +18,18 @@ The minimum prerequisites to run this sample are:
 Bot Builder uses dialogs to model a conversational process, the exchange of messages, between bot and user. Conversations are usually initiated by the user but sometimes it might be useful for the bot to proactively start a new dialog to interact with the user.
 In this sample starting a new dialog is a two steps process: First, creating the new conversation, and then, passing the control to the new dialog.
 
-The `ResumptionCookie` contains information that can be used to resume a conversation with a user. In this case, we'll use the cookie to craft a new direct message to the user within a new  conversation.
+The `ConversationReference` contains information that can be used to resume a conversation with a user. In this case, we'll use the conversation reference to craft a new direct message to the user within a new  conversation.
 
 
-Check out the use of the `ConnectorClient.CreateDirectConversationAsync()` method in the [SurveyTriggerer.cs](SurveyTriggerer.cs#L14-L69) class to create a new Bot-to-User conversation and how the `cookie.GetMessage()` is used to find the proper dependencies to execute `stack.Call()` and initiate a new `SurveyDialog`.
+Check out the use of the `ConnectorClient.CreateDirectConversationAsync()` method in the [SurveyTriggerer.cs](SurveyTriggerer.cs#L14-L69) class to create a new Bot-to-User conversation and how the `conversationReference.GetPostToBotMessage()` is used to find the proper dependencies to execute `stack.Call()` and initiate a new `SurveyDialog`.
 
 ````C#
-public static async Task StartSurvey(ResumptionCookie cookie, CancellationToken token)
+public static async Task StartSurvey(ConversationReference conversationReference, CancellationToken token)
 {
     var container = WebApiApplication.FindContainer();
 
-    // the ResumptionCookie has the "key" necessary to resume the conversation
-    var message = cookie.GetMessage();
+    // the ConversationReference has the "key" necessary to resume the conversation
+    var message = conversationReference.GetPostToBotMessage();
 
     ConnectorClient client = new ConnectorClient(new Uri(message.ServiceUrl));
 
@@ -82,13 +82,13 @@ public static async Task StartSurvey(ResumptionCookie cookie, CancellationToken 
 }
 ````
 
-Additionally, the sample includes some "plumbing" components mainly intended to make the `ResumptionCookie` dependency available to initiate the survey dialog.
-For instance, check out the [SurveyService.cs](SurveyService.cs#L20-L23) which stores the `ResumptionCookie` in the [SurveyScheduler.cs](SurveyScheduler.cs).
+Additionally, the sample includes some "plumbing" components mainly intended to make the `ConversationReference` dependency available to initiate the survey dialog.
+For instance, check out the [SurveyService.cs](SurveyService.cs#L20-L23) which stores the `ConversationReference` in the [SurveyScheduler.cs](SurveyScheduler.cs).
 
 ````C#
 public async Task QueueSurveyAsync()
 {
-    this.surveyScheduler.Add(this.cookie);
+    this.surveyScheduler.Add(this.conversationReference);
 }
 ````
 
@@ -107,7 +107,7 @@ On the other hand, you will see the following in Skype.
 To get more information about how to get started in Bot Builder for .NET and Conversations please review the following resources:
 * [Bot Builder for .NET](https://docs.microsoft.com/en-us/bot-framework/dotnet/)
 * [Send proactive messages](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-proactive-messages)
-* [ResumptionCookie class](https://docs.botframework.com/en-us/csharp/builder/sdkreference/dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html)
+* [ConversationReference class](https://docs.botframework.com/en-us/csharp/builder/sdkreference/d2/d10/class_microsoft_1_1_bot_1_1_connector_1_1_conversation_reference.html)
 
 > **Limitations**  
 > The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-channeldata).

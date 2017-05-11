@@ -22,7 +22,7 @@
         public string Text { get; set; }
 
         [JsonProperty("buttons")]
-        public FacebookButton[] Buttons { get; set; }
+        public FacebookPostbackButton[] Buttons { get; set; }
 
         public override string ToString()
         {

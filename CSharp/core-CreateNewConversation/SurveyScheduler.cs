@@ -2,18 +2,15 @@
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
-    using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Hosting;
     using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Connector;
 
     [Serializable]
     public sealed class SurveyScheduler : ISurveyScheduler
     {
-        private readonly ConcurrentQueue<ResumptionCookie> surveyRequests = new ConcurrentQueue<ResumptionCookie>();
+        private readonly ConcurrentQueue<ConversationReference> surveyRequests = new ConcurrentQueue<ConversationReference>();
 
         public SurveyScheduler()
         {
@@ -25,7 +22,7 @@
 
                     while (surveyRequests.Count > 0)
                     {
-                        ResumptionCookie surveyRequest = null;
+                        ConversationReference surveyRequest = null;
 
                         if (surveyRequests.TryDequeue(out surveyRequest))
                         {
@@ -39,9 +36,9 @@
             });
         }
 
-        public void Add(ResumptionCookie cookie)
+        public void Add(ConversationReference conversationReference)
         {
-            this.surveyRequests.Enqueue(cookie);
+            this.surveyRequests.Enqueue(conversationReference);
         }
     }
 }

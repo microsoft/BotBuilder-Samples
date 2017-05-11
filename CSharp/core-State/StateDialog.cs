@@ -51,7 +51,7 @@
             {
                 string userCity;
 
-                var city = context.ConversationData.Get<string>(ContextConstants.CityKey);
+                var city = context.ConversationData.GetValue<string>(ContextConstants.CityKey);
 
                 if (context.PrivateConversationData.TryGetValue(ContextConstants.CityKey, out userCity))
                 {
@@ -82,7 +82,7 @@
 
                 if (!context.PrivateConversationData.TryGetValue(ContextConstants.CityKey, out city))
                 {
-                    city = context.ConversationData.Get<string>(ContextConstants.CityKey);
+                    city = context.ConversationData.GetValue<string>(ContextConstants.CityKey);
                 }
 
                 await context.PostAsync($"{userName}, wait a few seconds. Searching for '{message.Text}' in '{city}'...");
