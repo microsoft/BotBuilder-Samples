@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 var loremIpsum = require('lorem-ipsum');
 
 var Refiners = ['region', 'type'];
