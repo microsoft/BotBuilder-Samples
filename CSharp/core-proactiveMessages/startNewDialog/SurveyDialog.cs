@@ -1,21 +1,11 @@
-﻿using Autofac;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.Builder.Luis;
-using Microsoft.Bot.Builder.Luis.Models;
-using Microsoft.Bot.Connector;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
-using System.Web;
-using System.Xml.Linq;
-using System.Threading;
-using Newtonsoft.Json;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 
 namespace startNewDialog
 {
-  [Serializable]
+    [Serializable]
     public class SurveyDialog : IDialog<object>
     {
         public async Task StartAsync(IDialogContext context)
@@ -24,6 +14,7 @@ namespace startNewDialog
 
             context.Wait(this.MessageReceivedAsync);
         }
+
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             if ((await result).Text == "done")

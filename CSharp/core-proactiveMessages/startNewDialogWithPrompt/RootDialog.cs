@@ -1,16 +1,10 @@
-﻿using Autofac;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.Builder.Luis;
-using Microsoft.Bot.Builder.Luis.Models;
-using Microsoft.Bot.Connector;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using System.Xml.Linq;
-using System.Threading;
+using Microsoft.Bot.Builder.ConnectorEx;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 
 namespace startNewDialogWithPrompt
@@ -20,7 +14,6 @@ namespace startNewDialogWithPrompt
     {
         [NonSerialized]
         Timer t;
-
        
         public async Task StartAsync(IDialogContext context)
         {
@@ -30,7 +23,8 @@ namespace startNewDialogWithPrompt
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
-            ConversationStarter.resumptionCookie = new ResumptionCookie(message).GZipSerialize();
+            var conversationReference = message.ToConversationReference();
+            ConversationStarter.conversationReference = JsonConvert.SerializeObject(conversationReference);
 
             //Prepare the timer to simulate a background/asynchonous process
             t = new Timer(new TimerCallback(timerEvent));
@@ -48,7 +42,5 @@ namespace startNewDialogWithPrompt
             t.Dispose();
             ConversationStarter.Resume(); //We don't need to wait for this, just want to start the interruption here
         }
-
-
     }
 }
