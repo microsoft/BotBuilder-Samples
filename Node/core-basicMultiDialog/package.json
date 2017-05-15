@@ -1,5 +1,5 @@
 {
-    "name": "core-basicMultiDialog",
+    "name": "botbuilder-sample-basicmultidialog",
     "dependencies": {
         "botbuilder": "^3.8.1",
         "dotenv": "^2.0.0",
