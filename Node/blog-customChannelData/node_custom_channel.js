@@ -1,3 +1,6 @@
+//load environment variables from the .env file
+require('dotenv-extended').load();
+
 //loading modules
 var express = require("express");
 var restify = require("restify");
