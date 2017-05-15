@@ -50,7 +50,7 @@
     },
     "WEBSITE_NODE_DEFAULT_VERSION": {
       "type": "string",
-      "defaultValue": "5.9.1"
+      "defaultValue": "6.9.5"
     },
     "MICROSOFT_APP_ID": {
       "type": "string"
