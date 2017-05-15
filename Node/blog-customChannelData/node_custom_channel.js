@@ -10,8 +10,8 @@ const MSFT_APP_PW = process.env.MSFT_APP_PW;
 
 //create an express server
 var app = express();
-app.listen( process.env.PORT || 3000, function(){
-	console.log("Express app listening on port: " + process.env.PORT || 3000);
+app.listen(process.env.PORT || 3000, function () {
+    console.log("Express app listening on port: " + process.env.PORT || 3000);
 });
 
 //create a chat connector for the bot
@@ -27,28 +27,28 @@ var bot = new botbuilder.UniversalBot(connector);
 app.post("/messages/receive", connector.listen());
 
 //root dialog
-bot.dialog("/", function(session){
+bot.dialog("/", function (session) {
 
     console.log("-------------------------------------------------");
     console.log("Bot Received Message at '/' dialogue endpoint: ");
 
     //detect Facebook Messenger message here
-    if(session.message.address.channelId == "facebook"){
+    if (session.message.address.channelId == "facebook") {
         session.send("Facebook message recognized!");
-	session.beginDialog("/send_share_button");
+        session.beginDialog("/send_share_button");
     } else session.send("Channel other than Facebook recognized.");
 
 });
 
 //where we create a facebook share button using sourceEvent
-bot.dialog("/send_share_button", function(session){
+bot.dialog("/send_share_button", function (session) {
     //construct a new message with the current session context
     var msg = new botbuilder.Message(session).sourceEvent({
         //specify the channel
         facebook: {
-             //format according to channel's requirements
-             //(in our case, the above JSON required by Facebook)
-             attachment: {
+            //format according to channel's requirements
+            //(in our case, the above JSON required by Facebook)
+            attachment: {
                 type: "template",
                 payload: {
                     template_type: "generic",
