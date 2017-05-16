@@ -101,6 +101,6 @@ Output:
 ### More Information
 
 To get more information about how to get started in Bot Builder for .NET and Microsoft Bing Images Search API please review the following resources:
-* [Bot Builder for .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
+* [Bot Builder for .NET](https://docs.microsoft.com/en-us/bot-framework/dotnet/)
 * [Microsoft Bing Image Search API](https://www.microsoft.com/cognitive-services/en-us/bing-image-search-api)
 * [Microsoft Bing Image Search API Reference](https://msdn.microsoft.com/en-us/library/dn760791.aspx)

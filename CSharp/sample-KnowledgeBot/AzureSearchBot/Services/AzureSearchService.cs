@@ -16,8 +16,8 @@ namespace AzureSearchBot.Services
         {
             using (var httpClient = new HttpClient())
             {
-                string nameQuey = $"{QueryString}search={name}";
-                string response = await httpClient.GetStringAsync(nameQuey);
+                string nameQuery = $"{QueryString}search={name}";
+                string response = await httpClient.GetStringAsync(nameQuery);
                 return JsonConvert.DeserializeObject<SearchResult>(response);
             }
         }
@@ -26,8 +26,8 @@ namespace AzureSearchBot.Services
         {
             using (var httpClient = new HttpClient())
             {
-                string facetQuey = $"{QueryString}facet=Era";
-                string response = await httpClient.GetStringAsync(facetQuey);
+                string facetQuery = $"{QueryString}facet=Era";
+                string response = await httpClient.GetStringAsync(facetQuery);
                 return JsonConvert.DeserializeObject<FacetResult>(response);
             }
         }
@@ -36,8 +36,8 @@ namespace AzureSearchBot.Services
         {
             using (var httpClient = new HttpClient())
             {
-                string nameQuey = $"{QueryString}$filter=Era eq '{era}'";
-                string response = await httpClient.GetStringAsync(nameQuey);
+                string nameQuery = $"{QueryString}$filter=Era eq '{era}'";
+                string response = await httpClient.GetStringAsync(nameQuery);
                 return JsonConvert.DeserializeObject<SearchResult>(response);
             }
         }

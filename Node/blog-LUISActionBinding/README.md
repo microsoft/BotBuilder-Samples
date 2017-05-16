@@ -495,7 +495,7 @@ User's request triggers the ‘FindHotelsAction_ChangeLocation’ intent/action,
 ### More Information
 
 To get more information about how to get started in Bot Builder for Node and LUIS please review the following resources:
-* [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
+* [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
 * [Understanding Natural Language](https://docs.botframework.com/en-us/node/builder/guides/understanding-natural-language/)
 * [LUIS Help Docs](https://www.luis.ai/Help/)
 * [Cognitive Services Documentation](https://www.microsoft.com/cognitive-services/en-us/luis-api/documentation/home)

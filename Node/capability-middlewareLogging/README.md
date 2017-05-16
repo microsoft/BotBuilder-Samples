@@ -35,3 +35,9 @@ The second parameter `next` is the same function called in the botbuilder hook.
 
 Misc:
 - Uncaught errors in middleware code will often cause a silent failure and execution of code falls through to the bot, even without calling `next`.
+
+### More Information
+
+To get more information about how to get started in Bot Builder for Node and Middleware please review the following resources:
+* [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
+* [Intercept messages](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-intercept-messages)

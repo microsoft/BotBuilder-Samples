@@ -27,7 +27,7 @@ namespace AzureSearchBot.Dialogs
                 SearchResult searchResult = await searchService.SearchByName(message.Text);
                 if(searchResult.value.Length != 0)
                 {
-                    CardUtil.showHeroCard(message, searchResult);
+                    CardUtil.ShowHeroCard(message, searchResult);
                 }
                 else{
                     await context.PostAsync($"No musicians by the name {message.Text} found");

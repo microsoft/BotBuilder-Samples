@@ -15,10 +15,10 @@ namespace AzureSearchBot.Dialogs
 
         public async Task StartAsync(IDialogContext context)
         {
-            context.Wait(this.MessageRecievedAsync);
+            context.Wait(this.MessageReceivedAsync);
         }
 
-        public virtual async Task MessageRecievedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
+        public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             //Show options whatever users chat
             PromptDialog.Choice(context, this.AfterMenuSelection, new List<string>() {ExplorerOption , SearchOption}, "How would you like to explore the classical music bot?");
@@ -41,10 +41,10 @@ namespace AzureSearchBot.Dialogs
         }
 
         //This function is called after each dialog process is done
-        private async Task ResumeAfterOptionDialog(IDialogContext context,IAwaitable<object> result)
+        private async Task ResumeAfterOptionDialog(IDialogContext context, IAwaitable<object> result)
         {
             //This means  MessageRecievedAsync function of this dialog (PromptButtonsDialog) will receive users' messeges
-            context.Wait(MessageRecievedAsync);
+            context.Wait(MessageReceivedAsync);
         }
     }
 }

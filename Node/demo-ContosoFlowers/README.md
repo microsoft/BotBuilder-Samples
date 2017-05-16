@@ -348,7 +348,7 @@ bot.dialog('/', [
 
 #### Complex Forms
 
-Handling a guided conversation like ordering a bouquet of flowers for your loved one can require a lot of effort. In order to simplify building guided conversations, the Bot Framework provides [Waterfall dialogs](https://docs.botframework.com/en-us/node/builder/chat/dialogs/#waterfall) that let you collect input from a user using a sequence of steps. A bot is always in a state of providing a user with information or asking a question and then waiting for input. In the Node version of Bot Builder its waterfalls that drive this back and forth flow.
+Handling a guided conversation like ordering a bouquet of flowers for your loved one can require a lot of effort. In order to simplify building guided conversations, the Bot Framework provides [Waterfall dialogs](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-dialog-waterfall) that let you collect input from a user using a sequence of steps. A bot is always in a state of providing a user with information or asking a question and then waiting for input. In the Node version of Bot Builder its waterfalls that drive this back and forth flow.
 
 Paired with the built-in Prompts you can easily prompt the user with a series of questions:
 
@@ -577,7 +577,7 @@ One of the key problems in human-computer interactions is the ability of the com
 
 #### Localization
 
-Bot Builder includes a [rich localization system](https://docs.botframework.com/en-us/node/builder/chat/localization/#navtitle) for building bots that can communicate with the user in multiple languages. All of your bots prompts can be localized using JSON files stored in your bots directory structure and if you're using a system like [LUIS](https://luis.ai/) to perform natural language processing you can configure your [LuisRecognizer](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer) with a separate model for each language your bot supports and the SDK will automatically select the model matching the users preferred locale.
+Bot Builder includes a [rich localization system](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-localization) for building bots that can communicate with the user in multiple languages. All of your bots prompts can be localized using JSON files stored in your bots directory structure and if you're using a system like [LUIS](https://luis.ai/) to perform natural language processing you can configure your [LuisRecognizer](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer) with a separate model for each language your bot supports and the SDK will automatically select the model matching the users preferred locale.
 
 The SDK provides a [session.preferredLocale()](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#preferredlocale) method to both save and retrieve this preference on a per user basis. The SDK also provides a way to configure the default bot's locale:
 
@@ -656,14 +656,14 @@ var card = new builder.HeroCard(session)
 
 To get more information about how to get started in Bot Builder for Node review the following resources:
 
-* [Dialogs](https://docs.botframework.com/en-us/node/builder/chat/dialogs/)
-* [Dialog Stack](https://docs.botframework.com/en-us/node/builder/chat/session/#dialog-stack)
-* [Prompts](https://docs.botframework.com/en-us/node/builder/chat/prompts/)
+* [Dialogs](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-dialog-manage-conversation)
+* [Dialog Stack](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-dialog-manage-conversation#dialog-stack)
+* [Prompt users for input](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-dialog-prompt)
 * [Adding Dialogs and Memory](https://docs.botframework.com/en-us/node/builder/guides/core-concepts/#adding-dialogs-and-memory)
 * [Collecting Input](https://docs.botframework.com/en-us/node/builder/guides/core-concepts/#collecting-input)
 * [Attachments, Cards and Actions](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html)
 * [Bot Libraries](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library)
-* [Localization](https://docs.botframework.com/en-us/node/builder/chat/localization/#navtitle)
+* [Localization](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-localization)
 * [Custom Channel Capabilities](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html)
 * [LUIS](https://docs.botframework.com/en-us/node/builder/guides/understanding-natural-language/)
 

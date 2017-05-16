@@ -81,6 +81,6 @@ You will see the following in the Bot Framework Emulator when opening and runnin
 ### More Information
 
 To get more information about how to get started in Bot Builder for Node and Attachments please review the following resources:
-* [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
+* [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
 * [Message.attachments](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#attachments)
 * [Attachment](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html)

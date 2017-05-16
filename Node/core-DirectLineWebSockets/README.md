@@ -16,18 +16,18 @@ A sample bot and a custom client communicating to each other using the Direct Li
 The minimum prerequisites to run this sample are:
 * Latest Node.js with NPM. Download it from [here](https://nodejs.org/en/download/).
 * The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
-* Register your bot with the Microsoft Bot Framework. Please refer to [this](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#registering) for the instructions. Once you complete the registration, update your bot configuration with the registered config values (See [Debugging locally using ngrok](https://docs.microsoft.com/en-us/bot-framework/debug-bots-emulator) or [Deploying to Azure](https://docs.botframework.com/en-us/node/builder/guides/deploying-to-azure/#navtitle))
+* Register your bot with the Microsoft Bot Framework. Please refer to [this](https://docs.microsoft.com/en-us/bot-framework/portal-register-bot) for the instructions. Once you complete the registration, update your bot configuration with the registered config values (See [Debugging locally using ngrok](https://docs.microsoft.com/en-us/bot-framework/debug-bots-emulator) or [Deploying to Azure](https://docs.microsoft.com/en-us/bot-framework/publish-bot-overview)
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
 
 #### Direct Line API
 Credentials for the Direct Line API must be obtained from the Bot Framework developer portal, and will only allow the caller to connect to the bot for which they were generated.
 In the Bot Framework developer portal, enable Direct Line in the channels list and then, configure the Direct Line secret and update its value in [DirectLineClient's app.js](DirectLineClient/app.js#L6) (`directLineSecret` variable). Make sure that the checkbox for version 3.0 [PREVIEW] is checked. 
-Refer to [this](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#channels) for more information on how to configure channels.
+Refer to [this](https://docs.microsoft.com/en-us/bot-framework/portal-configure-channels) for more information on how to configure channels.
 
 ![Configure Direct Line](images/outcome-configure.png)
 
 #### Publish
-Also, in order to be able to run and test this sample you must [publish your bot, for example to Azure](https://docs.botframework.com/en-us/node/builder/guides/deploying-to-azure/). Alternatively, you can [Debug locally using ngrok](https://docs.microsoft.com/en-us/bot-framework/debug-bots-emulator).
+Also, in order to be able to run and test this sample you must [publish your bot, for example to Azure](https://docs.microsoft.com/en-us/bot-framework/publish-bot-overview). Alternatively, you can [Debug locally using ngrok](https://docs.microsoft.com/en-us/bot-framework/debug-bots-emulator).
 Remember to update the environment variables with the `MICROSOFT_APP_ID` and `MICROSOFT_APP_PASSWORD` on the [.env](DirectLineBot/.env) file.
 
 ### Code Highlights
@@ -148,7 +148,7 @@ ws.onmessage = function (e) {
 
 > Clients should keep track of the `watermark` value from each `ActivitySet` so they can use it on reconnect. Note that a null or missing watermark should be ignored and should not overwrite a prior watermark in the client.
 
-Direct Line v3.0 (unlike version 1.1) has supports for Attachments (see [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments) for more information about attachments).
+Direct Line v3.0 (unlike version 1.1) has supports for Attachments (see [send and receive attachments](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-send-receive-attachments) for more information about attachments).
 
 Check out the [`printMessage`](DirectLineClient/app.js#L181-L200) function to see how the Attachments are retrieved and rendered appropriately based on their type.
 
@@ -193,11 +193,11 @@ To test the ChannelData custom messages type in the Client's console `show me a 
 ### More Information
 
 To get more information about how to get started in Bot Builder for Node and Direct Line API please review the following resources:
-* [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
+* [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
 * [Bot Framework FAQ](https://docs.botframework.com/en-us/faq/#i-have-a-communication-channel-id-like-to-be-configurable-with-bot-framework-can-i-work-with-microsoft-to-do-that)
 * [Direct Line API - v3.0](https://docs.botframework.com/en-us/restapi/directline3/)
 * [Direct Line API - v3.0 - Authentication](https://docs.botframework.com/en-us/restapi/directline3/#authentication-secrets-and-tokens)
 * [Direct Line Swagger file - v3.0](https://docs.botframework.com/en-us/restapi/directline3/swagger.json)
 * [Swagger-JS](https://github.com/swagger-api/swagger-js)
-* [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments)
+* [Send and receive attachments](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-send-receive-attachments)
 * [Debugging locally using ngrok](https://docs.microsoft.com/en-us/bot-framework/debug-bots-emulator)

@@ -113,7 +113,7 @@ On the other hand, you will see the following in Skype.
 ### More Information
 
 To get more information about how to get started in Bot Builder for Node, ConversationUpdates and Bot Connector REST API please review the following resources:
-* [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
+* [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
 * [ConversationUpdate event](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iconversationupdate.html)
 * [Bot Connector REST API - GetConversationMembers](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_GetConversationMembers)
 * [Bot Connector REST API - Swagger file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/ConnectorAPI.json)

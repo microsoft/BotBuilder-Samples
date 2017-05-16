@@ -135,8 +135,8 @@ On the other hand, you will see the following in Skype when selecting an Interne
 ### More Information
 
 To get more information about how to get started in Bot Builder for Node and Attachments please review the following resources:
-* [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
-* [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments)
+* [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
+* [Send and receive attachments](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-send-receive-attachments)
 * [Attachments](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html)
 * [Message.addAttachment method](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#addattachment)
 * [Connector API - UploadAttachment](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_UploadAttachment)

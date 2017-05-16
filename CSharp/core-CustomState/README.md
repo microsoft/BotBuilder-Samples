@@ -72,9 +72,8 @@ Each of the documents contains the information related to the bot store type:
 ### More Information
 
 To get more information about how to get started in Bot Builder for .NET and State please review the following resources:
-* [Bot Builder for .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
+* [Bot Builder for .NET](https://docs.microsoft.com/en-us/bot-framework/dotnet/)
 * [Bot Builder SDK Azure Extensions](https://github.com/Microsoft/BotBuilder-Azure)
-* [Saving User State Data](https://docs.botframework.com/en-us/core-concepts/userdata)
-* [Bot State Service](https://docs.botframework.com/en-us/csharp/builder/sdkreference/stateapi.html)
+* [Manage conversational state](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-state)
 * [State sample](../core-State)
 * [IDialogContext Interface](https://docs.botframework.com/en-us/csharp/builder/sdkreference/d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html)

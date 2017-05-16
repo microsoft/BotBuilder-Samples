@@ -36,7 +36,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
         case 'send me a botframework image':
             reply.text('Sample message with an Image attachment')
                 .addAttachment({
-                    contentUrl: 'https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png',
+                    contentUrl: 'https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png',
                     contentType: 'image/png',
                     name: 'BotFrameworkOverview.png'
                 });

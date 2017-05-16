@@ -1,12 +1,12 @@
 # Basic Multi-Dialog Sample
 
-A sample that shows how to use the [Dialog](https://docs.botframework.com/en-us/csharp/builder/sdkreference/dialogs.html) system in the [Bot Builder for .NET SDK](https://dev.botframework.com/)  to manage a bot's conversation with the user.
+A sample that shows how to use the [Dialog](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-dialogs) system in the [Bot Builder for .NET SDK](https://dev.botframework.com/)  to manage a bot's conversation with the user.
 
 In this sample, we'll use the Dialog system to ask the user their name and age, and reply with their reponses.
 
 ### Prerequisites
 
-To run this sample, install the prerequisites by following the steps in the [Getting Started in .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html) section of the documentation.
+To run this sample, install the prerequisites by following the steps in the [Create a bot with the Bot Builder SDK for .NET](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-quickstart) section of the documentation.
 
 ### Overview
 
@@ -25,7 +25,7 @@ Let's look at how these concepts are used to manage a simple conversation in a b
 
 When managing a conversation using the Dialog system, the conversation is rooted in a single dialog, often called the Root Dialog. The Root Dialog is the first dialog added to the dialog stack for the conversation. All other dialogs in the conversation are called from the Root Dialog, either directly or indirectly (in the case of a child dialog calling another dialog) and return to the Root Dialog (either directly or indirectly). The Root Dialog doesn't complete until your bot process ends.
 
-To create the [`RootDialog`](Dialogs/RootDialog.cs) class, create a class that is marked with the `[Serializable]` attribute (so the dialog can be [serialized to state](https://docs.botframework.com/en-us/csharp/builder/sdkreference/dialogs.html#Serialization)) and implement the `IDialog` interface. 
+To create the [`RootDialog`](Dialogs/RootDialog.cs) class, create a class that is marked with the `[Serializable]` attribute (so the dialog can be [serialized to state](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-dialogs#serialization)) and implement the `IDialog` interface. 
 
 To implement the `IDialog` interface, you implement the `StartAsync()` methond. `StartAsync()` is called when the dialog becomes active. The method is passed the `IDialogContext` object, used to manage the conversation.
 
@@ -185,7 +185,7 @@ private async Task AgeDialogResumeAfter(IDialogContext context, IAwaitable<int> 
 
 ### Outcome
 
-Here's what the conversation looks like in the [Bot Framework Emulator](https://docs.botframework.com/en-us/tools/bot-framework-emulator/#navtitle) when supplying a valid name and age.
+Here's what the conversation looks like in the [Bot Framework Emulator](https://docs.microsoft.com/en-us/bot-framework/debug-bots-emulator) when supplying a valid name and age.
 
 ![Done Outcome](images/doneoutcome.png)
 
@@ -196,7 +196,7 @@ And here's what the convesation looks like when providing invalid responses to t
 ### More Information
 
 For more information on managing the conversation using Dialogs, check out the following resources:
-* [Bot Builder for .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
-* [Dialogs](https://docs.botframework.com/en-us/csharp/builder/sdkreference/dialogs.html)
+* [Bot Builder for .NET](https://docs.microsoft.com/en-us/bot-framework/dotnet/)
+* [Dialogs](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-dialogs)
 * [IDialogContext Interface](https://docs.botframework.com/en-us/csharp/builder/sdkreference/d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html)
 

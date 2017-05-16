@@ -138,7 +138,7 @@ private static Attachment GetInternetAttachment()
     {
         Name = "BotFrameworkOverview.png",
         ContentType = "image/png",
-        ContentUrl = "https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png"
+        ContentUrl = "https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png"
     };
 }
 ````
@@ -160,7 +160,7 @@ On the other hand, you will see the following in Skype when selecting an Interne
 ### More Information
 
 To get more information about how to get started in Bot Builder for .NET and Attachments please review the following resources:
-* [Bot Builder for .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
-* [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments)
-* [Attachments Property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html#attachmentsproperty)
-* [Attachments, Cards and Actions](https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html)
+* [Bot Builder for .NET](https://docs.microsoft.com/en-us/bot-framework/dotnet/)
+* [Message Attachments Property](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-create-messages#message-attachments)
+* [Add media attachments to messages](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-add-media-attachments)
+* [Add rich card attachments to messages](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-add-media-attachments)

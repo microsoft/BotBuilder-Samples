@@ -18,7 +18,7 @@ Bot Recipe/Prerequisites:
 -   **Microsoft Bot Framework** to host and publish to multiple platforms. You
     can download Bot Framework Emulator from
     [here](https://aka.ms/bf-bc-emulator). More details in [this documentation
-    article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html) 
+    article](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-quickstart) 
 
 -   **Bing Web Search API** to fetch the most relevant Wikipedia article on any
     given topic.
@@ -197,7 +197,7 @@ Fetching Wikipedia articles on a topic using Bing Web Search API
 
     2.  Fetching first result and extracting information needed
         using"PrepareZummerResult" method, then sending a
-        [formatted](https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html#message)
+        [formatted](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-create-messages)
         response to the user
 
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c#
@@ -263,9 +263,11 @@ More Information
 
 To get more information about how to get started in Bot Builder for .NET, 
  Bing Web Search API and LUIS please review the
-following resources: \* [Bot Builder for
-.NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
-\* [Bing Web Search
-API](https://www.microsoft.com/cognitive-services/en-us/bing-web-search-api) \*
-[Language Understanding Intelligent Services
+following resources: 
+
+* [Bot Builder for
+.NET](https://docs.microsoft.com/en-us/bot-framework/dotnet/)
+* [Bing Web Search
+API](https://www.microsoft.com/cognitive-services/en-us/bing-web-search-api) 
+* [Language Understanding Intelligent Services
 (LUIS)](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis)

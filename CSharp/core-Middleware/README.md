@@ -50,6 +50,7 @@ From:ii845fc9l02209hh6 - To:default-user - Message:You sent Hello bot! which was
 
 To get more information about how to get started in Bot Builder for .NET and Conversational history please review the following resources:
 
-* [Bot Builder for .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
+* [Bot Builder for .NET](https://docs.microsoft.com/en-us/bot-framework/dotnet/)
+* [Intercept messages](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-middleware)
 * [Microsoft.Bot.Builder.History namespace](https://docs.botframework.com/en-us/csharp/builder/sdkreference/dc/dc6/namespace_microsoft_1_1_bot_1_1_builder_1_1_history.html)
 * [TableLogger (Activity logger using Azure Table Storage)](https://github.com/Microsoft/BotBuilder/blob/master/CSharp/Library/Microsoft.Bot.Builder.Azure/TableLogger.cs#L60)

@@ -45,7 +45,7 @@ function createHeroCard(session) {
             builder.CardImage.create(session, 'https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg')
         ])
         .buttons([
-            builder.CardAction.openUrl(session, 'https://docs.botframework.com/en-us/', 'Get Started')
+            builder.CardAction.openUrl(session, 'https://docs.microsoft.com/bot-framework', 'Get Started')
         ]);
 }
 ````
@@ -63,7 +63,7 @@ function createThumbnailCard(session) {
             builder.CardImage.create(session, 'https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg')
         ])
         .buttons([
-            builder.CardAction.openUrl(session, 'https://docs.botframework.com/en-us/', 'Get Started')
+            builder.CardAction.openUrl(session, 'https://docs.microsoft.com/bot-framework', 'Get Started')
         ]);
 }
 ````
@@ -117,7 +117,7 @@ function createAnimationCard(session) {
     return new builder.AnimationCard(session)
         .title('Microsoft Bot Framework')
         .subtitle('Animation Card')
-        .image(builder.CardImage.create(session, 'https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png'))
+        .image(builder.CardImage.create(session, 'https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png'))
         .media([
             { url: 'http://i.giphy.com/Ki55RUbOV5njy.gif' }
         ]);
@@ -217,8 +217,8 @@ You will see the following in the Bot Framework Emulator, Facebook Messenger and
 ### More Information
 
 To get more information about how to get started in Bot Builder for Node and Attachments please review the following resources:
-* [Bot Builder for Node.js Reference](https://docs.botframework.com/en-us/node/builder/overview/#navtitle)
-* [Adding Attachments to a Message](https://docs.botframework.com/en-us/core-concepts/attachments)
+* [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
+* [Send and receive attachments](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-send-receive-attachments)
 * [HeroCard](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.herocard.html)
 * [ThumbnailCard](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.thumbnailcard.html)
 * [ReceiptCard](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.receiptcard.html)

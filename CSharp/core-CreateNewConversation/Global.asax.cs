@@ -4,9 +4,8 @@
     using System.Web.Http;
     using Autofac;
     using Autofac.Integration.WebApi;
-    using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Builder.Dialogs.Internals;
-    using Microsoft.Bot.Builder.Internals.Fibers;
+    using Microsoft.Bot.Connector;
 
     public class WebApiApplication : System.Web.HttpApplication
     {
@@ -22,9 +21,6 @@
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
             var builder = new ContainerBuilder();
-
-            // temporary registration until change in DialogModule currently in Dev branch that registers ResumptionCookie is released
-            builder.RegisterType<ResumptionCookie>().AsSelf().InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
 
             builder.RegisterModule(new DialogModule());
 

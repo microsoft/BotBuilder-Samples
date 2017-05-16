@@ -88,13 +88,13 @@ On the other hand, you will see the following in Skype.
 ### More Information
 
 To get more information about how to get started in Bot Builder for .NET and Activities please review the following resources:
-* [Bot Builder for .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
-* [Activities](https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html)
-* [Conversation Update](https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html#conversationUpdate)
+* [Bot Builder for .NET](https://docs.microsoft.com/en-us/bot-framework/dotnet/)
+* [Activities](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-activities)
+* [Conversation Update](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-activities#conversationupdate)
 * [ConversationExtensions](https://docs.botframework.com/en-us/csharp/builder/sdkreference/d7/d08/class_microsoft_1_1_bot_1_1_connector_1_1_conversations_extensions.html)
 
 > **Limitations**  
-> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html).
+> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [ChannelData property](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-channeldata).
 > 
 > The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
 > 

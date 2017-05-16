@@ -8,7 +8,7 @@ This sample shows how to create global message handlers and illustrates two comm
 
 ### Prerequisites
 
-To run this sample, install the prerequisites by following the steps in the [Getting Started in .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html) section of the documentation.
+To run this sample, install the prerequisites by following the steps in the [Create a bot with the Bot Builder SDK for .NET](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-quickstart) section of the documentation.
 
 This sample is based on the Basic Multi-Dialog Sample, so be sure to review that sample before getting started with this one.
 
@@ -166,7 +166,7 @@ protected override async Task PostAsync(IActivity item, string state, Cancellati
 
 ### Outcome
 
-Here's what the conversation looks like in the [Bot Framework Emulator](https://docs.botframework.com/en-us/tools/bot-framework-emulator/#navtitle) when replying to the to any dialog with 'settings'. 
+Here's what the conversation looks like in the [Bot Framework Emulator](https://docs.microsoft.com/en-us/bot-framework/debug-bots-emulator) when replying to the to any dialog with 'settings'. 
 
 Note: When the `SettingsDialog` completes, the `NameDialog` is returned to the top of the dialog stack, so the next reply will be applied to the 'What is your name?' prompt.
 
@@ -181,6 +181,7 @@ Note: When `CancelScorable` is complete, the dialog returns to the [`RootDialog`
 ### More Information
 
 For more information on creating global message handlers using Scorables, check out the following resources:
+* [Implement global message handlers](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-global-handlers)
 * [AutoFac](https://autofac.org/) 
 * [AutoFac Quick Start Guide](http://autofac.readthedocs.io/en/latest/getting-started/index.html)
 * [IScorable](https://docs.botframework.com/en-us/csharp/builder/sdkreference/d2/dd9/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_i_scorable.html)
