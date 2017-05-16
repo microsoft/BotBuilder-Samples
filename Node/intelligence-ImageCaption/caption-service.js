@@ -5,7 +5,7 @@
 
 var request = require('request').defaults({ encoding: null });
 
-var VISION_URL = 'https://api.projectoxford.ai/vision/v1.0/analyze/?visualFeatures=Description&form=BCSIMG&subscription-key=' + process.env.MICROSOFT_VISION_API_KEY;
+var VISION_URL = 'https://westus.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=Description';
 
 /** 
  *  Gets the caption of the image from an image stream
@@ -18,17 +18,19 @@ exports.getCaptionFromStream = function (stream) {
             var requestData = {
                 url: VISION_URL,
                 encoding: 'binary',
-                headers: { 'content-type': 'application/octet-stream' }
+                json: true,
+                headers: {
+                    'Ocp-Apim-Subscription-Key': process.env.MICROSOFT_VISION_API_KEY,
+                    'content-type': 'application/octet-stream'
+                }
             };
 
             stream.pipe(request.post(requestData, function (error, response, body) {
                 if (error) {
                     reject(error);
-                }
-                else if (response.statusCode !== 200) {
+                } else if (response.statusCode !== 200) {
                     reject(body);
-                }
-                else {
+                } else {
                     resolve(extractCaption(JSON.parse(body)));
                 }
             }));
