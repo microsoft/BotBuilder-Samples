@@ -13,8 +13,9 @@ const MSFT_APP_PW = process.env.MSFT_APP_PW;
 
 //create an express server
 var app = express();
-app.listen(process.env.PORT || 3000, function () {
-    console.log("Express app listening on port: " + process.env.PORT || 3000);
+var port = process.env.PORT || 3978;
+app.listen(port, function () {
+    console.log("Express app listening on port: " + port);
 });
 
 //create a chat connector for the bot
@@ -27,7 +28,7 @@ var connector = new botbuilder.ChatConnector({
 var bot = new botbuilder.UniversalBot(connector);
 
 //hook up bot endpoint
-app.post("/messages/receive", connector.listen());
+app.post("/api/messages", connector.listen());
 
 //root dialog
 bot.dialog("/", function (session) {
