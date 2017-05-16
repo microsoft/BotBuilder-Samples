@@ -21,7 +21,7 @@
     "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
   },
   "dependencies": {
-    "botbuilder": "^3.5.1",
+    "botbuilder": "^3.8.2",
     "lodash": "^4.17.4"
   }
 }
