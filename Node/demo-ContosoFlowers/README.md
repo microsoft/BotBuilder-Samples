@@ -139,9 +139,15 @@ var EmailRegex = new RegExp(/[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/
 var lib = new builder.Library('validators');
 
 lib.dialog('email',
-    builder.DialogAction.validatedPrompt(builder.PromptType.text, function (response) {
-        return EmailRegex.test(response);
-    }));
+    new builder.IntentDialog()
+        .onBegin(function (session, args) {
+            session.dialogData.retryPrompt = args.retryPrompt;
+            session.send(args.prompt);
+        }).matches(EmailRegex, function (session) {
+            session.endDialogWithResult({ response: session.message.text });
+        }).onDefault(function (session) {
+            session.send(session.dialogData.retryPrompt);
+        }));
 
 // Export createLibrary() function
 module.exports.createLibrary = function () {
