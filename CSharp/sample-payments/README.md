@@ -66,7 +66,7 @@ private static Task<Attachment> BuildBuyCardAsync(string cartId, CatalogItem ite
 }
 ````
 
-In addition, if you take a look at the payload you can see it is actually a [`PaymentRequest`](PaymentsBot/Dialogs/RootDialog.cs#L61) created and set to the `CardAction` Value` by the [`BuildPaymentRequest`](PaymentsBot/Dialogs/RootDialog.cs#L147) method. All the values set there are used to set up the payment options within Microsoft Wallet services.
+In addition, if you take a look at the payload you can see it is actually a [`PaymentRequest`](PaymentsBot/Dialogs/RootDialog.cs#L61) created and set to the `CardAction` `Value` by the [`BuildPaymentRequest`](PaymentsBot/Dialogs/RootDialog.cs#L147) method. All the values set there are used to set up the payment options within Microsoft Wallet services.
 
 ````C#
 private static PaymentRequest BuildPaymentRequest(string cartId, CatalogItem item, MicrosoftPayMethodData methodData)
