@@ -148,10 +148,11 @@
                 }
             }
 
-            if (result.Details.ShippingOptions.Count(option => option.Selected.HasValue && option.Selected.Value) != 1)
-            {
-                throw new ArgumentException("Expected exactly zero or one selected shipping option.");
-            }
+            // do not require or check default selected option
+            //if (result.Details.ShippingOptions.Count(option => option.Selected.HasValue && option.Selected.Value) != 1)
+            //{
+            //    throw new ArgumentException("Expected exactly zero or one selected shipping option.");
+            //}
 
             // update payment details after shipping changed
             await this.shippingService.UpdatePaymentDetailsAsync(result.Details, paymentRequestUpdate.ShippingAddress, catalogItem);
