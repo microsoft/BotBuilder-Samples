@@ -32,7 +32,7 @@ Also, in order to be able to run and test this sample you must [publish your bot
 
 The Bot Framework provides ways of interacting with external actors (for example ecommerce sites as is shown within this sample) and resume the conversation after. For this purpose the Bot Framework uses a `ConversationReference` instance on the `Conversation` helper static methods. With this reference you can send a message to your Bot and continue the conversation at the point where you left it.
 
-The Bot-Ecommerce interaction starts at the [`WelcomeMessageAsync`](PaymentsBot/Dialogs/RootDialog.cs#L32-L59) method from the [`RootDialog`](PaymentsBot/Dialogs/RootDialog.cs) that starts the conversation with the user. If you take a look on that method, there is a internal call to [BuildBuyCardAsync](PaymentsBot/Dialogs/RootDialog.cs#L54) which builds a `HeroCard` and returns it as an attachment.
+The Bot-Ecommerce interaction starts at the [`WelcomeMessageAsync`](PaymentsBot/Dialogs/RootDialog.cs#L32-L59) method from the [`RootDialog`](PaymentsBot/Dialogs/RootDialog.cs) that starts the conversation with the user. If you take a look on that method, there is a internal call to [`BuildBuyCardAsync`](PaymentsBot/Dialogs/RootDialog.cs#L54) which builds a `HeroCard` and returns it as an attachment.
 
 The [`BuildBuyCardAsync`](PaymentsBot/Dialogs/RootDialog.cs#L127-L153) uses a [`CardAction`](PaymentsBot/Dialogs/RootDialog.cs#L143-L148) with a particular action type held at the following constant `PaymentRequest.PaymentActionType` within the referenced payment class. As you can see the `CardAction` contains a payment payload will all the information required to trigger a Microsoft Wallet payment.
 
