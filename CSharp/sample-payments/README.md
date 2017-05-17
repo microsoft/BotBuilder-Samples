@@ -326,6 +326,10 @@ You can use the webchat control in bot framework developer portal or the bot emu
 
 The sample is configured by default to run in `test` mode.
 
+When you run it in the Bot emulator you will have the following interaction flow:
+
+![Running in Bot Emulator](images/payments-flow-emulator.png)
+
 ### More Information
 
 To get more information about how to get started in Bot Builder for .NET and Conversations please review the following resources:
