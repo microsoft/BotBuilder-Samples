@@ -93,4 +93,4 @@ To get more information about how to get started in Bot Builder for .NET and Att
 * [Bot Builder for .NET](https://docs.microsoft.com/en-us/bot-framework/dotnet/)
 * [Build a speech-enabled bot with Cortana Skills](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-cortana-skill)
 * [The Cortana Skills Kit](https://docs.microsoft.com/en-us/cortana/getstarted)
-* [Creating a Skill from Scratch using Bot Framework](https://docs.microsoft.com/en-us/cortana/tutorials/bot-skills/add-bot-to-cortana-channel)()
+* [Creating a Skill from Scratch using Bot Framework](https://docs.microsoft.com/en-us/cortana/tutorials/bot-skills/add-bot-to-cortana-channel)
