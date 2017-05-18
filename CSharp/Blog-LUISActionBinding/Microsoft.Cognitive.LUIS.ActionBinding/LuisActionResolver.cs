@@ -348,8 +348,16 @@
 
                 try
                 {
-                    var value = Convert.ChangeType(paramValue, type);
-                    property.SetValue(action, value);
+                    if (type.IsEnum)
+                    {
+                        property.SetValue(action, Enum.Parse(type, (string)paramValue));
+                    }
+                    else
+                    {
+                        var value = Convert.ChangeType(paramValue, type);
+                        property.SetValue(action, value);
+                    }
+
                     return true;
                 }
                 catch (FormatException)
