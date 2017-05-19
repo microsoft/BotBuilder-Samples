@@ -3,6 +3,7 @@
     using System;
     using System.Net.Http;
     using System.Threading;
+    using System.Web;
     using System.Web.Configuration;
 
     public sealed class Authentication
@@ -59,8 +60,12 @@
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", ApiKey);
-                
+
                 var response = client.PostAsync("https://api.cognitive.microsoft.com/sts/v1.0/issueToken", null).Result;
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    throw new HttpException((int)response.StatusCode, $"({response.StatusCode}) {response.ReasonPhrase}");
+                }
 
                 return response.Content.ReadAsStringAsync().Result;
             }

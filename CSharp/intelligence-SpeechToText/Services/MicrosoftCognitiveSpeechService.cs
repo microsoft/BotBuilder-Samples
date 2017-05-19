@@ -4,6 +4,7 @@
     using System.IO;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using System.Web;
     using Newtonsoft.Json;
 
     public class MicrosoftCognitiveSpeechService
@@ -27,6 +28,11 @@
                     binaryContent.Headers.TryAddWithoutValidation("content-type", "audio/wav; codec=\"audio/pcm\"; samplerate=16000");
 
                     var response = await client.PostAsync(requestUri, binaryContent);
+                    if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    {
+                        throw new HttpException((int)response.StatusCode, $"({response.StatusCode}) {response.ReasonPhrase}");
+                    }
+
                     var responseString = await response.Content.ReadAsStringAsync();
                     try
                     {
