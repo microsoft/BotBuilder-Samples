@@ -1,6 +1,4 @@
-require('dotenv-extended').load({
-    path: '../.env'
-});
+require('dotenv-extended').load({ path: '../.env' });
 
 var builder = require('botbuilder');
 var restify = require('restify');
@@ -8,11 +6,6 @@ var restify = require('restify');
 var LuisActions = require('../../core');
 var SampleActions = require('../all');
 var LuisModelUrl = process.env.LUIS_MODEL_URL;
-var DefaultReplyHandler = function (session) {
-    session.endDialog(
-        'Sorry, I did not understand "%s". Use sentences like "What is the time in Miami?", "Search for 5 stars hotels in Barcelona", "Tell me the weather in Buenos Aires", "Location of SFO airport")',
-        session.message.text);
-};
 
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
@@ -30,7 +23,22 @@ var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 var intentDialog = bot.dialog('/', new builder.IntentDialog({ recognizers: [recognizer] })
     .onDefault(DefaultReplyHandler));
 
-LuisActions.bindToBotDialog(bot, intentDialog, LuisModelUrl, SampleActions, DefaultReplyHandler, onContextCreationHandler);
+LuisActions.bindToBotDialog(bot, intentDialog, LuisModelUrl, SampleActions, {
+    defaultReply: DefaultReplyHandler,
+    fulfillReply: FulfillReplyHandler,
+    onContextCreation: onContextCreationHandler
+});
+
+function DefaultReplyHandler(session) {
+    session.endDialog(
+        'Sorry, I did not understand "%s". Use sentences like "What is the time in Miami?", "Search for 5 stars hotels in Barcelona", "Tell me the weather in Buenos Aires", "Location of SFO airport")',
+        session.message.text);
+}
+
+function FulfillReplyHandler(session, actionModel) {
+    console.log('Action Binding "' + actionModel.intentName + '" completed:', actionModel);
+    session.endDialog(actionModel.result.toString());
+}
 
 function onContextCreationHandler(action, actionModel, next, session) {
 
