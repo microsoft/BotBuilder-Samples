@@ -4,6 +4,7 @@ Bot Builder samples are organized into groups and designed to illustrate task-fo
 
     git clone https://github.com/Microsoft/BotBuilder-Samples.git
     cd BotBuilder-Samples
+
 ## Core
 These examples show the basic techniques needed to build a great bot.
 
@@ -12,14 +13,21 @@ Sample | Description | C# | Node
 Send Attachment | A sample bot that passes simple media attachments (images) to a user activity. | [View Sample](/CSharp/core-SendAttachment)[![Deploy to Azure][Deploy Button]][Deploy CSharp/SendAttachment] | [View Sample](/Node/core-SendAttachment)[![Deploy to Azure][Deploy Button]][Deploy Node/SendAttachment]
 Receive Attachment | A sample bot that receives attachments sent by the user and downloads them. | [View Sample](/CSharp/core-ReceiveAttachment)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ReceiveAttachment] | [View Sample](/Node/core-ReceiveAttachment)[![Deploy to Azure][Deploy Button]][Deploy Node/ReceiveAttachment]
 Create New Conversation | A sample bot that starts a new conversation using a previously stored user address. | [View Sample](/CSharp/core-CreateNewConversation)[![Deploy to Azure][Deploy Button]][Deploy CSharp/CreateNewConversation] | [View Sample](/Node/core-CreateNewConversation)[![Deploy to Azure][Deploy Button]][Deploy Node/CreateNewConversation]
+Proactive Messages | Three sample bots that proactively send a message to the user. | | [View Sample](/Node/core-proactiveMessages)
 Get Members of a Conversation | A sample bot that retrieves the conversation's members list and detects when it changes. | [View Sample](/CSharp/core-GetConversationMembers)[![Deploy to Azure][Deploy Button]][Deploy CSharp/GetConversationMembers] | [View Sample](/Node/core-GetConversationMembers)[![Deploy to Azure][Deploy Button]][Deploy Node/GetConversationMembers]
 Direct Line | A sample bot and a custom client communicating to each other using the Direct Line API. | [View Sample](/CSharp/core-DirectLine)[![Deploy to Azure][Deploy Button]][Deploy CSharp/DirectLine] | [View Sample](/Node/core-DirectLine)[![Deploy to Azure][Deploy Button]][Deploy Node/DirectLine]
 Direct Line (WebSockets) | A sample bot and a custom client communicating to each other using the Direct Line API + WebSockets. | [View Sample](/CSharp/core-DirectLineWebSockets)[![Deploy to Azure][Deploy Button]][Deploy CSharp/DirectLineWebSockets] | [View Sample](/Node/core-DirectLineWebSockets)[![Deploy to Azure][Deploy Button]][Deploy Node/DirectLineWebSockets]
+Basic Multi Dialogs | A sample bot showing how to use the dialog stack. | | [View Sample](/Node/core-basicMultiDialog)
 Multi Dialogs | A sample bot showing different kind of dialogs. | [View Sample](/CSharp/core-MultiDialogs)[![Deploy to Azure][Deploy Button]][Deploy CSharp/MultiDialogs] | [View Sample](/Node/core-MultiDialogs)[![Deploy to Azure][Deploy Button]][Deploy Node/MultiDialogs]
+Global Message Handlers | A sample bot showing the usage of Global Message Handlers to handle global commands and manipulate the dialog stack. | | [View Sample](/Node/core-globalMessageHandlers)
+Simple Task Automation | A sample bot showing how to do simple task automation scenarios. | | [View Sample](/Node/capability-SimpleTaskAutomation)
+Progress Dialog | A sample bot that shows how to create a progress dialog that will periodically notify users of the status of a long running task. | | [View Sample](/Node/core-ProgressDialog)[![Deploy to Azure][Deploy Button]][Deploy Node/ProgressDialog]
 State API | A stateless sample bot tracking context of a conversation. | [View Sample](/CSharp/core-State)[![Deploy to Azure][Deploy Button]][Deploy CSharp/State] | [View Sample](/Node/core-State)[![Deploy to Azure][Deploy Button]][Deploy Node/State]
 Custom State API | A stateless sample bot tracking context of a conversation using a custom storage provider. | [View Sample](/CSharp/core-CustomState)[![Deploy to Azure][Deploy Button]][Deploy CSharp/CustomState] | [View Sample](/Node/core-CustomState)[![Deploy to Azure][Deploy Button]][Deploy Node/CustomState]
 ChannelData | A sample bot sending native metadata to Facebook using ChannelData. | [View Sample](/CSharp/core-ChannelData)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ChannelData] | [View Sample](/Node/core-ChannelData)[![Deploy to Azure][Deploy Button]][Deploy Node/ChannelData]
+ChannelData (Share Button) | A sample bot sending native metadata to Facebook to display a Share button. |  | [View Sample](/Node/blog-customChannelData)
 AppInsights | A sample bot which logs telemetry to an Application Insights instance. | [View Sample](/CSharp/core-AppInsights)[![Deploy to Azure][Deploy Button]][Deploy CSharp/AppInsights] | [View Sample](/Node/core-AppInsights)[![Deploy to Azure][Deploy Button]][Deploy Node/AppInsights]
+Middleware Logging | A basic bot that logs incoming and outgoing messages to the console. | | [View Sample](/Node/capability-middlewareLogging)
 
 ## Cards
 These examples emphasize the rich card support in Bot Framework.
@@ -46,8 +54,11 @@ These are bots designed to showcase end-to-end sample scenarios. They're great s
 Sample | Description | C# | Node
 ------------ | ------------- | :-----------: | :-----------:
 Contoso Flowers | A reference implementation using many features from BotFramework. | [View Sample](/CSharp/demo-ContosoFlowers)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ContosoFlowers] | [View Sample](/Node/demo-ContosoFlowers)[![Deploy to Azure][Deploy Button]][Deploy Node/ContosoFlowers]
-Azure Search | Two sample bots that help the user navigate large amounts of content. | [View Samples](/CSharp/demo-Search) | [View Samples](/Node/demo-Search)
-
+Azure Search | Two sample bots that help the user navigate large amounts of content. | [View Samples](/CSharp/demo-Search) | [View Samples](/Node/demo-Search)[![Deploy to Azure][Deploy Button]][Deploy Node/Search]
+Knowledge Bot | A sample that uses Azure Document DB and Azure Search that searches and filters over an underlying dataset. | | [View Sample](/Node/sample-knowledgeBot)
+Roller Skill | A simple dice rolling skill/bot that's been optimized for speech enabled channels, like Cortana | | [View Sample](/Node/demo-RollerSkill)[![Deploy to Azure][Deploy Button]][Deploy Node/RollerSkill]
+Payments | A sample bot showing how to integrate with Microsoft Seller Center for payment processing. | | [View Sample](/Node/sample-payments)
+LUIS Action Binding | A sample that contains a core implementation for doing LUIS Action Binding | | [View Sample](/Node/blog-LUISActionBinding)
 
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
 [Deploy CSharp/SendAttachment]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/core-SendAttachment
@@ -88,3 +99,6 @@ Azure Search | Two sample bots that help the user navigate large amounts of cont
 [Deploy Node/AppInsights]: https://azuredeploy.net/?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/core-AppInsights
 [Deploy CSharp/Zummer]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/intelligence-Zummer
 [Deploy Node/Zummer]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/intelligence-Zummer
+[Deploy Node/ProgressDialog]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/core-ProgressDialog
+[Deploy Node/RollerSkill]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/demo-RollerSkill
+[Deploy Node/Search]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/demo-Search
