@@ -42,7 +42,7 @@
                 }
                 catch (Exception e)
                 {
-                    message = "Oops! Something went wrong. Try again later.";
+                    message = "Oops! Something went wrong. Try again later (hint: also check your APIKEY at web.config).";
 
                     Trace.TraceError(e.ToString());
                 }
