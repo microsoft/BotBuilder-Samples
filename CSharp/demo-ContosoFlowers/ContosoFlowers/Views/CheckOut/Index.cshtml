@@ -31,8 +31,12 @@
         </p>
 
         <div>
+            @Html.Hidden("botId", Request.QueryString.Get("botId"))
+            @Html.Hidden("channelId", Request.QueryString.Get("channelId"))
+            @Html.Hidden("conversationId", Request.QueryString.Get("conversationId"))
+            @Html.Hidden("serviceUrl", Request.QueryString.Get("serviceUrl"))
+            @Html.Hidden("userId", Request.QueryString.Get("userId"))
             @Html.Hidden("orderId", Model.OrderID)
-            @Html.Hidden("state", (string)ViewBag.State)
         </div>
 
         <p class="buttons">

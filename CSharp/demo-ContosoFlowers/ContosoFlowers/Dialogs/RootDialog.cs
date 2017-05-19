@@ -8,6 +8,7 @@
     using AutoMapper;
     using BotAssets.Dialogs;
     using BotAssets.Extensions;
+    using Microsoft.Bot.Builder.ConnectorEx;
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Builder.FormFlow;
     using Microsoft.Bot.Builder.Location;
@@ -25,7 +26,7 @@
         private readonly IOrdersService ordersService;
 
         private Models.Order order;
-        private ResumptionCookie resumptionCookie;
+        private ConversationReference conversationReference;
         
         public RootDialog(string checkoutUriFormat, IContosoFlowersDialogFactory dialogFactory, IOrdersService ordersService)
         {
@@ -43,9 +44,9 @@
         {
             var message = await result;
 
-            if (this.resumptionCookie == null)
+            if (this.conversationReference == null)
             {
-                this.resumptionCookie = new ResumptionCookie(message);
+                this.conversationReference = message.ToConversationReference();
             }
 
             await this.WelcomeMessageAsync(context);
@@ -271,15 +272,19 @@
 
         private string BuildCheckoutUrl(string orderID)
         {
-            var encodedCookie = this.resumptionCookie.GZipSerialize();
             var uriBuilder = new UriBuilder(this.checkoutUriFormat);
-            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
 
-            query["state"] = encodedCookie;
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
             query["orderID"] = orderID;
+            query["botId"] = this.conversationReference.Bot.Id;
+            query["channelId"] = this.conversationReference.ChannelId;
+            query["conversationId"] = this.conversationReference.Conversation.Id;
+            query["serviceUrl"] = this.conversationReference.ServiceUrl;
+            query["userId"] = this.conversationReference.User.Id;
 
             uriBuilder.Query = query.ToString();
             var checkoutUrl = uriBuilder.Uri.ToString();
+
             return checkoutUrl;
         }
 
