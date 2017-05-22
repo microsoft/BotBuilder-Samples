@@ -25,7 +25,7 @@ Progress Dialog | A sample bot that shows how to create a progress dialog that w
 State API | A stateless sample bot tracking context of a conversation. | [View Sample](/CSharp/core-State)[![Deploy to Azure][Deploy Button]][Deploy CSharp/State] | [View Sample](/Node/core-State)[![Deploy to Azure][Deploy Button]][Deploy Node/State]
 Custom State API | A stateless sample bot tracking context of a conversation using a custom storage provider. | [View Sample](/CSharp/core-CustomState)[![Deploy to Azure][Deploy Button]][Deploy CSharp/CustomState] | [View Sample](/Node/core-CustomState)[![Deploy to Azure][Deploy Button]][Deploy Node/CustomState]
 ChannelData | A sample bot sending native metadata to Facebook using ChannelData. | [View Sample](/CSharp/core-ChannelData)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ChannelData] | [View Sample](/Node/core-ChannelData)[![Deploy to Azure][Deploy Button]][Deploy Node/ChannelData]
-ChannelData (Share Button) | A sample bot sending native metadata to Facebook to display a Share button. | [View Sample](/CSharp/Blog-CustomChannelData) | [View Sample](/Node/blog-customChannelData)
+ChannelData (Share Button) | A sample bot sending native metadata to Facebook to display a Share button. | [View Sample](/CSharp/Blog-CustomChannelData) | [View Sample](/Node/blog-customChannelData)[![Deploy to Azure][Deploy Button]][Deploy Node/BlogCustomChannelData]
 AppInsights | A sample bot which logs telemetry to an Application Insights instance. | [View Sample](/CSharp/core-AppInsights)[![Deploy to Azure][Deploy Button]][Deploy CSharp/AppInsights] | [View Sample](/Node/core-AppInsights)[![Deploy to Azure][Deploy Button]][Deploy Node/AppInsights]
 Middleware Logging | A basic bot that logs incoming and outgoing messages. | [View Sample](/CSharp/core-Middleware) | [View Sample](/Node/capability-middlewareLogging)
 Bot in Apps | A sample bot showing how to go beyond by becoming embedded into larger applications. | [View Sample](/CSharp/capability-BotInApps) |
@@ -90,6 +90,7 @@ Skype Calling | A sample bot showing how to use the Skype Bot Plaform for Callin
 [Deploy Node/LUIS]: https://azuredeploy.net/?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/intelligence-LUIS
 [Deploy CSharp/ChannelData]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/core-ChannelData
 [Deploy Node/ChannelData]: https://azuredeploy.net/?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/core-ChannelData
+[Deploy Node/BlogCustomChannelData]: https://azuredeploy.net/?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/blog-customChannelData
 [Deploy CSharp/ContosoFlowers]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/demo-ContosoFlowers
 [Deploy Node/ContosoFlowers]: https://azuredeploy.net/?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/demo-ContosoFlowers
 [Deploy CSharp/ImageCaption]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/intelligence-ImageCaption
