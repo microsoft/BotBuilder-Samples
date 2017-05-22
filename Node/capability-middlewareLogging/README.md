@@ -2,6 +2,11 @@
 
 This is a basic bot that logs incoming and outgoing messages to the console. If you are looking to add logging to your bot, replace `console.log` with a function that logs messages to your location of choice. There is also a regex match for the word ‘secret’ on incoming messages. This model is how you can build middleware that never causes the bot code to execute.
 
+[![Deploy to Azure][Deploy Button]][Deploy Node/MiddlewareLogging]
+
+[Deploy Button]: https://azuredeploy.net/deploybutton.png
+[Deploy Node/MiddlewareLogging]: https://azuredeploy.net
+
 ### Adding Middleware Using the BotBuilder Node SDK 
 In the Node SDK, middleware is installed using [UniversalBot.use](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot.html#use). There are three possible hooks: receive, botbuilder and send. The team that build this SDK created the receive hook to be used for middleware that works across multiple toolkits (i.e., BotBuilder & BotKit). If this is your specific use case, be aware that if you include middleware in botbuilder, receive will execute first, followed by botbuilder. Because this example (and most bots) do not fit this category, we will be using the botbuilder hook for incoming messages.
 

@@ -27,7 +27,7 @@ Custom State API | A stateless sample bot tracking context of a conversation usi
 ChannelData | A sample bot sending native metadata to Facebook using ChannelData. | [View Sample](/CSharp/core-ChannelData)[![Deploy to Azure][Deploy Button]][Deploy CSharp/ChannelData] | [View Sample](/Node/core-ChannelData)[![Deploy to Azure][Deploy Button]][Deploy Node/ChannelData]
 ChannelData (Share Button) | A sample bot sending native metadata to Facebook to display a Share button. | [View Sample](/CSharp/Blog-CustomChannelData) | [View Sample](/Node/blog-customChannelData)[![Deploy to Azure][Deploy Button]][Deploy Node/BlogCustomChannelData]
 AppInsights | A sample bot which logs telemetry to an Application Insights instance. | [View Sample](/CSharp/core-AppInsights)[![Deploy to Azure][Deploy Button]][Deploy CSharp/AppInsights] | [View Sample](/Node/core-AppInsights)[![Deploy to Azure][Deploy Button]][Deploy Node/AppInsights]
-Middleware Logging | A basic bot that logs incoming and outgoing messages. | [View Sample](/CSharp/core-Middleware) | [View Sample](/Node/capability-middlewareLogging)
+Middleware Logging | A basic bot that logs incoming and outgoing messages. | [View Sample](/CSharp/core-Middleware) | [View Sample](/Node/capability-middlewareLogging)[![Deploy to Azure][Deploy Button]][Deploy Node/MiddlewareLogging]
 Bot in Apps | A sample bot showing how to go beyond by becoming embedded into larger applications. | [View Sample](/CSharp/capability-BotInApps) |
 
 ## Cards
@@ -106,3 +106,4 @@ Skype Calling | A sample bot showing how to use the Skype Bot Plaform for Callin
 [Deploy Node/ProgressDialog]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/core-ProgressDialog
 [Deploy Node/RollerSkill]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/demo-RollerSkill
 [Deploy Node/Search]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/demo-Search
+[Deploy Node/MiddlewareLogging]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/capability-middlewareLogging
