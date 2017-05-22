@@ -2,6 +2,11 @@
 
 Communication with a user via a bot built with [Microsoft Bot Framework](https://dev.botframework.com) is managed via conversations, dialogs, waterfalls, and steps. As the user interacts with the bot, the bot will start, stop, and switch between various dialogs in response to the messages the user sends. Knowing how to manage dialogs in Bot Framework is one of the keys to successfully designing and creating a bot.
 
+[![Deploy to Azure][Deploy Button]][Deploy Node/GlobalMessageHandlers]
+
+[Deploy Button]: https://azuredeploy.net/deploybutton.png
+[Deploy Node/GlobalMessageHandlers]: https://azuredeploy.net
+
 ## Dialogs and conversations, defined
 
 At its most basic level, a **dialog** is a reusable module, a collection of methods, which performs an operation, such as completing an action on the user's behalf, or collecting information from the user. By creating dialogs you can add reuse to your bot, enable better communication with the user, and simplify what would otherwise be complex logic. Dialogs also contain state specific to the dialog in **dialogData**.
