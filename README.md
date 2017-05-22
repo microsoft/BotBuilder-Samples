@@ -20,7 +20,7 @@ Direct Line (WebSockets) | A sample bot and a custom client communicating to eac
 Basic Multi Dialogs | A sample bot showing how to use the dialog stack. | [View Sample](/CSharp/core-BasicMultiDialog) | [View Sample](/Node/core-basicMultiDialog)
 Multi Dialogs | A sample bot showing different kind of dialogs. | [View Sample](/CSharp/core-MultiDialogs)[![Deploy to Azure][Deploy Button]][Deploy CSharp/MultiDialogs] | [View Sample](/Node/core-MultiDialogs)[![Deploy to Azure][Deploy Button]][Deploy Node/MultiDialogs]
 Global Message Handlers | A sample bot showing the usage of Global Message Handlers to handle global commands and manipulate the dialog stack. | [View Sample](/CSharp/core-GlobalMessageHandlers) | [View Sample](/Node/core-globalMessageHandlers)
-Simple Task Automation | A sample bot showing how to do simple task automation scenarios. | [View Sample](/CSharp/capability-SimpleTaskAutomation) | [View Sample](/Node/capability-SimpleTaskAutomation)
+Simple Task Automation | A sample bot showing how to do simple task automation scenarios. | [View Sample](/CSharp/capability-SimpleTaskAutomation) | [View Sample](/Node/capability-SimpleTaskAutomation)[![Deploy to Azure][Deploy Button]][Deploy Node/SimpleTaskAutomation]
 Progress Dialog | A sample bot that shows how to create a progress dialog that will periodically notify users of the status of a long running task. | | [View Sample](/Node/core-ProgressDialog)[![Deploy to Azure][Deploy Button]][Deploy Node/ProgressDialog]
 State API | A stateless sample bot tracking context of a conversation. | [View Sample](/CSharp/core-State)[![Deploy to Azure][Deploy Button]][Deploy CSharp/State] | [View Sample](/Node/core-State)[![Deploy to Azure][Deploy Button]][Deploy Node/State]
 Custom State API | A stateless sample bot tracking context of a conversation using a custom storage provider. | [View Sample](/CSharp/core-CustomState)[![Deploy to Azure][Deploy Button]][Deploy CSharp/CustomState] | [View Sample](/Node/core-CustomState)[![Deploy to Azure][Deploy Button]][Deploy Node/CustomState]
@@ -107,3 +107,4 @@ Skype Calling | A sample bot showing how to use the Skype Bot Plaform for Callin
 [Deploy Node/RollerSkill]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/demo-RollerSkill
 [Deploy Node/Search]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/demo-Search
 [Deploy Node/MiddlewareLogging]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/capability-middlewareLogging
+[Deploy Node/SimpleTaskAutomation]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/capability-SimpleTaskAutomation
