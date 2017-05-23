@@ -59,7 +59,7 @@ Contoso Flowers | A reference implementation using many features from BotFramewo
 Azure Search | Two sample bots that help the user navigate large amounts of content. | [View Samples](/CSharp/demo-Search) | [View Samples](/Node/demo-Search)[![Deploy to Azure][Deploy Button]][Deploy Node/Search]
 Knowledge Bot | A sample that uses Azure Document DB and Azure Search that searches and filters over an underlying dataset. | [View Sample](/CSharp/sample-KnowledgeBot) | [View Sample](/Node/sample-knowledgeBot)[![Deploy to Azure][Deploy Button]][Deploy Node/KnownledgeBot]
 Roller Skill | A simple dice rolling skill/bot that's been optimized for speech enabled channels, like Cortana. | [View Sample](/CSharp/demo-RollerSkill) | [View Sample](/Node/demo-RollerSkill)[![Deploy to Azure][Deploy Button]][Deploy Node/RollerSkill]
-Payments | A sample bot showing how to integrate with Microsoft Seller Center for payment processing. | [View Sample](/CSharp/sample-payments) | [View Sample](/Node/sample-payments)
+Payments | A sample bot showing how to integrate with Microsoft Seller Center for payment processing. | [View Sample](/CSharp/sample-payments) | [View Sample](/Node/sample-payments)[![Deploy to Azure][Deploy Button]][Deploy Node/Payments]
 LUIS Action Binding | A sample that contains a core implementation for doing LUIS Action Binding. | [View Sample](/CSharp/Blog-LUISActionBinding) | [View Sample](/Node/blog-LUISActionBinding)
 Skype Calling | A sample bot showing how to use the Skype Bot Plaform for Calling API for receiving and handling Skype voice calls. | [View Sample](/CSharp/skype-CallingBot) |
 
@@ -111,3 +111,4 @@ Skype Calling | A sample bot showing how to use the Skype Bot Plaform for Callin
 [Deploy Node/BasicMultiDialog]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/core-basicMultiDialog
 [Deploy Node/GlobalMessageHandlers]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/core-globalMessageHandlers
 [Deploy Node/KnownledgeBot]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/sample-knowledgeBot
+[Deploy Node/Payments]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/Node/sample-payments

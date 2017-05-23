@@ -2,6 +2,11 @@
 
 A sample bot showing how to integrate with Microsoft Seller Center for payment processing.
 
+[![Deploy to Azure][Deploy Button]][Deploy Node/Payments]
+
+[Deploy Button]: https://azuredeploy.net/deploybutton.png
+[Deploy Node/Payments]: https://azuredeploy.net
+
 ### Prerequisites
 
 The minimum prerequisites to run this sample are:
