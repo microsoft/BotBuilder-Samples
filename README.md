@@ -61,7 +61,7 @@ Knowledge Bot | A sample that uses Azure Document DB and Azure Search that searc
 Roller Skill | A simple dice rolling skill/bot that's been optimized for speech enabled channels, like Cortana. | [View Sample](/CSharp/demo-RollerSkill)[![Deploy to Azure][Deploy Button]][Deploy CSharp/RollerSkill] | [View Sample](/Node/demo-RollerSkill)[![Deploy to Azure][Deploy Button]][Deploy Node/RollerSkill]
 Payments | A sample bot showing how to integrate with Microsoft Seller Center for payment processing. | [View Sample](/CSharp/sample-payments)[![Deploy to Azure][Deploy Button]][Deploy CSharp/Payments] | [View Sample](/Node/sample-payments)[![Deploy to Azure][Deploy Button]][Deploy Node/Payments]
 LUIS Action Binding | A sample that contains a core implementation for doing LUIS Action Binding. | [View Sample](/CSharp/Blog-LUISActionBinding)[![Deploy to Azure][Deploy Button]][Deploy CSharp/LUISActionBinding] | [View Sample](/Node/blog-LUISActionBinding)
-Skype Calling | A sample bot showing how to use the Skype Bot Plaform for Calling API for receiving and handling Skype voice calls. | [View Sample](/CSharp/skype-CallingBot) |
+Skype Calling | A sample bot showing how to use the Skype Bot Plaform for Calling API for receiving and handling Skype voice calls. | [View Sample](/CSharp/skype-CallingBot)[![Deploy to Azure][Deploy Button]][Deploy CSharp/SkypeCallingBot] |
 
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
 [Deploy CSharp/SendAttachment]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/core-SendAttachment
@@ -122,3 +122,4 @@ Skype Calling | A sample bot showing how to use the Skype Bot Plaform for Callin
 [Deploy CSharp/RollerSkill]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/demo-RollerSkill
 [Deploy CSharp/Payments]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/sample-payments
 [Deploy CSharp/LUISActionBinding]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/Blog-LUISActionBinding
+[Deploy CSharp/SkypeCallingBot]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/skype-CallingBot
