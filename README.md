@@ -60,7 +60,7 @@ Azure Search | Two sample bots that help the user navigate large amounts of cont
 Knowledge Bot | A sample that uses Azure Document DB and Azure Search that searches and filters over an underlying dataset. | [View Sample](/CSharp/sample-KnowledgeBot)[![Deploy to Azure][Deploy Button]][Deploy CSharp/KnowledgeBot] | [View Sample](/Node/sample-knowledgeBot)[![Deploy to Azure][Deploy Button]][Deploy Node/KnowledgeBot]
 Roller Skill | A simple dice rolling skill/bot that's been optimized for speech enabled channels, like Cortana. | [View Sample](/CSharp/demo-RollerSkill)[![Deploy to Azure][Deploy Button]][Deploy CSharp/RollerSkill] | [View Sample](/Node/demo-RollerSkill)[![Deploy to Azure][Deploy Button]][Deploy Node/RollerSkill]
 Payments | A sample bot showing how to integrate with Microsoft Seller Center for payment processing. | [View Sample](/CSharp/sample-payments)[![Deploy to Azure][Deploy Button]][Deploy CSharp/Payments] | [View Sample](/Node/sample-payments)[![Deploy to Azure][Deploy Button]][Deploy Node/Payments]
-LUIS Action Binding | A sample that contains a core implementation for doing LUIS Action Binding. | [View Sample](/CSharp/Blog-LUISActionBinding) | [View Sample](/Node/blog-LUISActionBinding)
+LUIS Action Binding | A sample that contains a core implementation for doing LUIS Action Binding. | [View Sample](/CSharp/Blog-LUISActionBinding)[![Deploy to Azure][Deploy Button]][Deploy CSharp/LUISActionBinding] | [View Sample](/Node/blog-LUISActionBinding)
 Skype Calling | A sample bot showing how to use the Skype Bot Plaform for Calling API for receiving and handling Skype voice calls. | [View Sample](/CSharp/skype-CallingBot) |
 
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
@@ -121,3 +121,4 @@ Skype Calling | A sample bot showing how to use the Skype Bot Plaform for Callin
 [Deploy CSharp/KnowledgeBot]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/sample-KnowledgeBot
 [Deploy CSharp/RollerSkill]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/demo-RollerSkill
 [Deploy CSharp/Payments]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/sample-payments
+[Deploy CSharp/LUISActionBinding]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/Blog-LUISActionBinding
