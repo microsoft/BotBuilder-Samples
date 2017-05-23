@@ -39,12 +39,15 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "CSharp/cards-RichCards"
+      "defaultValue": "CSharp/demo-CardsAttachments/public-TestBot"
     },
     "MicrosoftAppId": {
       "type": "string"
     },
     "MicrosoftAppPassword": {
+      "type": "string"
+    },
+    "DirectLineSecret": {
       "type": "string"
     }
   },
@@ -97,6 +100,10 @@
               {
                 "name": "MicrosoftAppPassword",
                 "value": "[parameters('MicrosoftAppPassword')]"
+              },
+              {
+                "name": "DirectLineSecret",
+                "value": "[parameters('DirectLineSecret')]"
               }
             ]
           }

@@ -37,7 +37,7 @@ Sample | Description | C# | Node
 ------------ | ------------- | :-----------: | :-----------:
 Rich Cards | A sample bot to renders several types of cards as attachments. | [View Sample](/CSharp/cards-RichCards)[![Deploy to Azure][Deploy Button]][Deploy CSharp/RichCards] | [View Sample](/Node/cards-RichCards)[![Deploy to Azure][Deploy Button]][Deploy Node/RichCards]
 Carousel of Cards | A sample bot that sends multiple rich card attachments in a single message using the Carousel layout. | [View Sample](/CSharp/cards-CarouselCards)[![Deploy to Azure][Deploy Button]][Deploy CSharp/CarouselCards] | [View Sample](/Node/cards-CarouselCards)[![Deploy to Azure][Deploy Button]][Deploy Node/CarouselCards]
-Cards as Attachments | A sample bot that renders several types of cards as attachments, while also showing the generated JSON for each one of these cards at the message's payload. | [View Sample](/CSharp/demo-CardsAttachments) | 
+Cards as Attachments | A sample bot that renders several types of cards as attachments, while also showing the generated JSON for each one of these cards at the message's payload. | [View Sample](/CSharp/demo-CardsAttachments)[![Deploy to Azure][Deploy Button]][Deploy CSharp/DemoCardAttachements] | 
 
 ## Intelligence
 Build bots with powerful algorithms using Bing & Microsoft Cognitive Services APIs.
@@ -117,3 +117,4 @@ Skype Calling | A sample bot showing how to use the Skype Bot Plaform for Callin
 [Deploy CSharp/SimpleTaskAutomation]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/capability-SimpleTaskAutomation
 [Deploy CSharp/BlogCustomChannelData]: https://azuredeploy.net/?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/Blog-CustomChannelData
 [Deploy CSharp/MiddlewareLogging]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/core-Middleware
+[Deploy CSharp/DemoCardAttachements]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/demo-CardsAttachments
