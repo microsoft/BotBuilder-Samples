@@ -330,7 +330,5 @@ When you run it in the Bot emulator you will have the following interaction flow
 ### More Information
 
 To get more information about how to get started in Bot Builder for .NET and Conversations please review the following resources:
-* [Bot Builder for .NET](https://docs.botframework.com/en-us/csharp/builder/sdkreference/index.html)
-* [Bot Framework FAQ](https://docs.botframework.com/en-us/faq/#i-have-a-communication-channel-id-like-to-be-configurable-with-bot-framework-can-i-work-with-microsoft-to-do-that)
-* [Bot Builder samples](https://github.com/microsoft/botbuilder-samples)
-* [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started)
+* [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
+* [Request Payment](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-request-payment)
