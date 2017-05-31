@@ -31,43 +31,40 @@
             {
                 // Got an Action Submit
                 dynamic value = message.Value;
-                if (value.Type == "HotelSearch")
+                switch(value.Type.ToString())
                 {
-                    // Hotel Search
-                    HotelsQuery query;
-                    try
-                    {
-                        query = HotelsQuery.Parse(value);
-                        List<ValidationResult> results = new List<ValidationResult>();
-                        bool valid = Validator.TryValidateObject(query, new ValidationContext(query, null, null), results, true);
-                        if (!valid)
+                    case "HotelSearch":
+                        HotelsQuery query;
+                        try
                         {
-                            // Some field in the Hotel Query are not valid
-                            var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
-                            var reply = context.MakeMessage();
-                            reply.Text = "Please complete all the search parameters:\n" + errors;
-                            await context.PostAsync(reply);
+                            query = HotelsQuery.Parse(value);
+                            List<ValidationResult> results = new List<ValidationResult>();
+                            bool valid = Validator.TryValidateObject(query, new ValidationContext(query, null, null), results, true);
+                            if (!valid)
+                            {
+                                // Some field in the Hotel Query are not valid
+                                var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
+                                await context.PostAsync("Please complete all the search parameters:\n" + errors);
+                                return;
+                            }
+                        }
+                        catch (InvalidCastException)
+                        {
+                            // Hotel Query could not be parsed
+                            await context.PostAsync("Please complete all the search parameters");
                             return;
                         }
-                    }
-                    catch (InvalidCastException)
-                    {
-                        // Hotel Query could not be parsed
-                        var reply = context.MakeMessage();
-                        reply.Text = "Please complete all the search parameters";
-                        await context.PostAsync(reply);
-                        return;
-                    }
 
-                    // Proceed with hotels search
-                    await context.Forward(new HotelsDialog(), this.ResumeAfterOptionDialog, message, CancellationToken.None);
-                }
-                else if (value.Type == "HotelSelection")
-                {
-                    // Hotel Selected
-                    await SendHotelSelectionAsync(context, (Hotel)JsonConvert.DeserializeObject<Hotel>(value.ToString()));
-                    context.Wait(MessageReceivedAsync);
-                    return;
+                        // Proceed with hotels search
+                        await context.Forward(new HotelsDialog(), this.ResumeAfterOptionDialog, message, CancellationToken.None);
+
+                        return;
+
+                    case "HotelSelection":
+                        await SendHotelSelectionAsync(context, (Hotel)JsonConvert.DeserializeObject<Hotel>(value.ToString()));
+                        context.Wait(MessageReceivedAsync);
+
+                        return;
                 }
             }
 
@@ -167,8 +164,7 @@
             };
 
             var reply = context.MakeMessage();
-            var attachments = reply.Attachments = new List<Attachment>();
-            attachments.Add(attachment);
+            reply.Attachments.Add(attachment);
 
             await context.PostAsync(reply, CancellationToken.None);
 
@@ -288,8 +284,7 @@
             };
 
             var reply = context.MakeMessage();
-            var attachments = reply.Attachments = new List<Attachment>();
-            attachments.Add(attachment);
+            reply.Attachments.Add(attachment);
 
             await context.PostAsync(reply, CancellationToken.None);
         }

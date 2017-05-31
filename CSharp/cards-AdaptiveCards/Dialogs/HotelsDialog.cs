@@ -26,8 +26,7 @@
             }
             catch (FormCanceledException ex)
             {
-                string reply = $"Oops! Something went wrong :( Technical Details: {ex.InnerException.Message}";
-                await context.PostAsync(reply);
+                await context.PostAsync($"Oops! Something went wrong :( Technical Details: {ex.InnerException.Message}");
             }
         }
 
@@ -66,8 +65,7 @@
             };
 
             var reply = context.MakeMessage();
-            var attachments = reply.Attachments = new List<Attachment>();
-            attachments.Add(attachment);
+            reply.Attachments.Add(attachment);
 
             await context.PostAsync(reply);
         }
