@@ -21,24 +21,9 @@ server.post('/api/messages', connector.listen());
 var bot = new builder.UniversalBot(connector, function (session) {
 
     if (session.message && session.message.value) {
-        // receiving a card submit action
-        var value = session.message.value;
-
-        // Search, vlaidate parameters
-        if (value.type === 'hotelSearch') {
-            if (validateHotelSearch(session.message.value)) {
-                // proceed to search
-                return session.beginDialog('hotels-search', session.message.value);
-            }
-        }
-
-        // Hotel selection
-        if (value.type === 'hotelSelection') {
-            return sendHotelSelection(session, session.message.value);
-        }
-
-        // A form data was recieved, invalid or incomplete since the previous validation did not pass
-        return session.send('Please complete all the search parameters');
+        // A Card's Submit Action obj was received
+        processSubmitAction(session, session.message.value);
+        return;
     }
 
     // Display Welcome card with Hotels and Flights search options
@@ -188,6 +173,30 @@ bot.dialog('support', require('./support'))
 bot.on('error', function (e) {
     console.log('And error ocurred', e);
 });
+
+function processSubmitAction(session, value) {
+    var defaultErrorMessage = 'Please complete all the search parameters';
+    switch (value.type) {
+        case 'hotelSearch':
+            // Search, validate parameters
+            if (validateHotelSearch(value)) {
+                // proceed to search
+                session.beginDialog('hotels-search', value);
+            } else {
+                session.send(defaultErrorMessage);
+            }
+            break;
+
+        case 'hotelSelection':
+            // Hotel selection
+            sendHotelSelection(session, value);
+            break;
+
+        default:
+            // A form data was received, invalid or incomplete since the previous validation did not pass
+            session.send(defaultErrorMessage);
+    }
+}
 
 function validateHotelSearch(hotelSearch) {
     if (!hotelSearch) {
