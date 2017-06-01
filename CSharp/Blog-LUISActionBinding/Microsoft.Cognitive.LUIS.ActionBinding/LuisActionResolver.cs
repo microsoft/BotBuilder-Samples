@@ -348,19 +348,22 @@
 
                 try
                 {
+                    object value;
+
                     if (type.IsArray)
                     {
-                        property.SetValue(action, BuildArrayOfValues(action, property, type.GetElementType(), paramValue));
+                        value = BuildArrayOfValues(action, property, type.GetElementType(), paramValue);
                     }
                     else if (type.IsEnum)
                     {
-                        property.SetValue(action, Enum.Parse(type, (string)paramValue));
+                        value = Enum.Parse(type, (string)paramValue);
                     }
                     else
                     {
-                        var value = Convert.ChangeType(paramValue, type);
-                        property.SetValue(action, value);
+                        value = Convert.ChangeType(paramValue, type);
                     }
+
+                    property.SetValue(action, value);
 
                     return true;
                 }
