@@ -9,6 +9,7 @@
     using Microsoft.Bot.Builder.Dialogs.Internals;
     using Microsoft.Bot.Builder.Luis;
     using Microsoft.Bot.Builder.Luis.Models;
+    using Newtonsoft.Json.Linq;
 
     [Serializable]
     public class LuisActionResolver
@@ -92,7 +93,7 @@
             {
                 var newIntentName = default(string);
                 var newAction = new LuisActionResolver(action.GetType().Assembly).ResolveActionFromLuisIntent(result, out newIntentName);
-                if (newAction != null)
+                if (newAction != null && !newAction.GetType().Equals(action.GetType()))
                 {
                     return new QueryValueResult(false)
                     {
@@ -359,7 +360,7 @@
                     }
                     else if (type.IsEnum)
                     {
-                        value = Enum.Parse(type, (string)paramValue);
+                        value = Enum.Parse(type, paramValue.ToString());
                     }
                     else
                     {
@@ -397,7 +398,7 @@
                 var result = Array.CreateInstance(elementType, values.Count());
                 foreach (var value in values)
                 {
-                    result.SetValue(elementType.IsEnum ? Enum.Parse(elementType, (string)value) : Convert.ChangeType(value, elementType), idx++);
+                    result.SetValue(elementType.IsEnum ? Enum.Parse(elementType, value.ToString()) : Convert.ChangeType(value, elementType), idx++);
                 }
 
                 return result;
@@ -413,9 +414,9 @@
             object result = value;
 
             // handle case where input is JArray returned from LUIS
-            if (value is Newtonsoft.Json.Linq.JArray)
+            if (value is JArray)
             {
-                var arrayOfValues = value as Newtonsoft.Json.Linq.JArray;
+                var arrayOfValues = value as JArray;
 
                 if (targetType.IsArray)
                 {
@@ -522,6 +523,22 @@
                         : matchingEntity.Entity;
 
                     result &= AssignValue(action, property, paramValue);
+                }
+                else if (matchingEntities.Count() > 0 
+                    && matchingEntities.Count(e => e.Resolution != null && e.Resolution.First().Value is JArray) == matchingEntities.Count())
+                {
+                    var paramValues = new JArray();
+                   
+                    foreach (var currentMatchingEntity in matchingEntities)
+                    {
+                        var values = currentMatchingEntity.Resolution.First().Value as JArray;
+                        foreach (var value in values)
+                        {
+                            paramValues.Add(value);
+                        }
+                    }
+
+                    result &= AssignValue(action, property, paramValues);
                 }
                 else
                 {
