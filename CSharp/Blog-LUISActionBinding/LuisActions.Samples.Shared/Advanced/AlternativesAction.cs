@@ -6,7 +6,7 @@
     using Microsoft.Cognitive.LUIS.ActionBinding;
     using Newtonsoft.Json;
 
-    // This sample were added to showcase support to Custom List Entities - default JSON model does not have it
+    // This sample were added to showcase support to Custom List Entities
 
     // Refer to 'List Entities' @ https://docs.microsoft.com/en-us/azure/cognitive-services/luis/add-entities
 
@@ -14,6 +14,8 @@
     // having a 'List Entity' called 'Alternatives' with the canonical forms defined by the
     // 'Alternative' enum - or just can simply create your custom list entity,
     // intent and update the intent binding here and custom name/type at fields
+
+    // Note: The provided LUIS app @ LUIS_MODEL.json does not have an intent related to it
 
     public enum Alternative
     {
