@@ -74,7 +74,7 @@ function asHotelItem(hotel) {
             'type': 'Action.Submit',
             'data': _.extend({ type: 'hotelSelection' }, hotel)
         }
-    }
+    };
 }
 
 Date.prototype.addDays = function (days) {

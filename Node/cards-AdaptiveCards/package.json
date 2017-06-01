@@ -11,7 +11,8 @@
     "botbuilder",
     "bots",
     "chatbots",
-    "botbuilder-samples"
+    "botbuilder-samples",
+    "adaptive-cards"
   ],
   "bugs": {
     "url": "https://github.com/Microsoft/BotBuilder-Samples/issues"
