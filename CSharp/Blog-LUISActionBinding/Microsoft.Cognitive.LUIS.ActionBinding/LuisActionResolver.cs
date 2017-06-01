@@ -350,6 +350,9 @@
                 {
                     object value;
 
+                    // handle LUIS JObjects
+                    paramValue = SanitizeInputValue(type, paramValue);
+
                     if (type.IsArray)
                     {
                         value = BuildArrayOfValues(action, property, type.GetElementType(), paramValue);
@@ -403,6 +406,33 @@
             {
                 return null;
             }
+        }
+
+        private static object SanitizeInputValue(Type targetType, object value)
+        {
+            object result = value;
+
+            // handle case where input is JArray returned from LUIS
+            if (value is Newtonsoft.Json.Linq.JArray)
+            {
+                var arrayOfValues = value as Newtonsoft.Json.Linq.JArray;
+
+                if (targetType.IsArray)
+                {
+                    result = arrayOfValues.AsEnumerable<object>();
+                }
+                else
+                {
+                    if (arrayOfValues.Count > 1)
+                    {
+                        throw new FormatException("Cannot assign multiple values to single field");
+                    }
+
+                    result = arrayOfValues[0];
+                }
+            }
+
+            return result;
         }
 
         private static bool AssignEntitiesToMembers(
