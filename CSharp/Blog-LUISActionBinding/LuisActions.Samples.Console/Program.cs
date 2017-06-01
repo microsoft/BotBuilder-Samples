@@ -94,7 +94,7 @@
                         {
                             Console.WriteLine($"Cannot execute action '{newActionDefinition.FriendlyName}' in the context of '{currentActionDefinition.FriendlyName}' - continuing with current action");
                         }
-                        else
+                        else if (!intentAction.GetType().Equals(queryResult.NewAction.GetType()))
                         {
                             var valid = LuisActionResolver.UpdateIfValidContextualAction(queryResult.NewAction, intentAction, out isContextual);
                             if (!valid && isContextual)
