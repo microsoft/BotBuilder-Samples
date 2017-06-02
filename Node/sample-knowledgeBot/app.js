@@ -1,4 +1,6 @@
- require('./config.js')();
+require('dotenv-extended').load();
+
+require('./config.js')();
 require('./connectorSetup.js')();
 require('./searchHelpers.js')();
 require('./dialogs/results.js')(); 

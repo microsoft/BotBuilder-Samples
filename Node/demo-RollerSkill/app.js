@@ -2,6 +2,7 @@
 Roller is a dice rolling skill that's been optimized for speech. 
 -----------------------------------------------------------------------------*/
 
+require('dotenv-extended').load();
 var restify = require('restify');
 var builder = require('botbuilder');
 var ssml = require('./ssml');
@@ -71,7 +72,7 @@ bot.dialog('CreateGameDialog', [
             { value: '8', action: { title: '8 Sides' }, synonyms: 'eight|8 sided|8 sides' },
             { value: '10', action: { title: '10 Sides' }, synonyms: 'ten|10 sided|10 sides' },
             { value: '12', action: { title: '12 Sides' }, synonyms: 'twelve|12 sided|12 sides' },
-            { value: '20', action: { title: '20 Sides' }, synonyms: 'twenty|20 sided|20 sides' },
+            { value: '20', action: { title: '20 Sides' }, synonyms: 'twenty|20 sided|20 sides' }
         ];
         builder.Prompts.choice(session, 'choose_sides', choices, { 
             speak: speak(session, 'choose_sides_ssml') 
@@ -171,9 +172,9 @@ bot.dialog('PlayGameDialog', function (session, args) {
         var min = game.count;
         var max = game.count * game.sides;
         var score = total/max;
-        if (score == 1.0) {
+        if (score === 1.0) {
             reaction = 'best';
-        } else if (score == 0) {
+        } else if (score === 0) {
             reaction = 'worst';
         } else if (score <= 0.3) {
             reaction = 'bad';
@@ -182,7 +183,7 @@ bot.dialog('PlayGameDialog', function (session, args) {
         }
         
         // Check for special craps rolls
-        if (game.type == 'craps') {
+        if (game.type === 'craps') {
             switch (total) {
                 case 2:
                 case 3:
@@ -203,7 +204,7 @@ bot.dialog('PlayGameDialog', function (session, args) {
 
         // Build up spoken response
         var spoken = '';
-        if (game.turn == 0) {
+        if (game.turn === 0) {
             spoken += session.gettext('start_' + game.type + '_game_ssml') + ' ';
         } 
         spoken += session.gettext(reaction + '_roll_reaction_ssml');
@@ -241,7 +242,7 @@ bot.customAction({
         // to make sure we end that task.
         session.clearDialogStack().beginDialog('PlayGameDialog', {
             game: { type: 'craps', sides: 6, count: 2, turn: 0 }
-        })
+        });
     }
 });
 

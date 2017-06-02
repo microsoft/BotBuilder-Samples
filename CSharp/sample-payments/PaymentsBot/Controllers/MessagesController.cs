@@ -148,7 +148,7 @@
                 }
             }
 
-            if (result.Details.ShippingOptions.Count(option => option.Selected.HasValue && option.Selected.Value) != 1)
+            if (result.Details.ShippingOptions.Count(option => option.Selected.HasValue && option.Selected.Value) > 1)
             {
                 throw new ArgumentException("Expected exactly zero or one selected shipping option.");
             }

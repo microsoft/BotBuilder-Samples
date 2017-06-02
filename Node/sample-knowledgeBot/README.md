@@ -2,6 +2,11 @@
 
 In this demo I'll demonstrate how to use Azure Document DB, Azure Search and the Microsoft Bot Framework to build a bot that searches and filters over an underlying dataset.
 
+[![Deploy to Azure][Deploy Button]][Deploy Node/KnowledgeBot]
+
+[Deploy Button]: https://azuredeploy.net/deploybutton.png
+[Deploy Node/KnowledgeBot]: https://azuredeploy.net
+
 ## Background
 More and more frequently we're seeing the value in bots that can reason over underlying data. These bots can help provide users with information about events, products, telemetry etc. Where it's certainly possible to connect a bot directly to a database and perform queries against it, we've found that using a search engine over our data is particularly helpful for two big things: 
 
@@ -134,7 +139,7 @@ sake of simplicity I'm going to use the Document DB Data Migration Tool (documen
         }
     ]);
     ```
-    In the promptButtons dialog we use the Prompts.choice method to prompt the user with our choices (in this case Musician Explorer and Musician Search) defined in the `choices` array. Once the user answers, we move into the next function which uses a switch statement to decide which dialog to route us to. Note that the musicianExplorer and musicianSearch dialogs each have their own .js file in the 'dialogs' folder and were included at the start of app.js.
+    In the promptButtons dialog we use the Prompts.choice method to prompt the user with our choices (in this case Musician Explorer and Musician Search) defined in the `choices` array. Once the user answers, we move into the next function which uses a switch statement to decide which dialog to route us to. Note that the musicianExplorer and musicianSearch dialogs each have their own .js file in the 'dialogs' folder and were included at the start of [app.js](./app.js).
 
     ```javascript
     bot.dialog('/promptButtons', [

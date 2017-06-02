@@ -1,6 +1,6 @@
 # Cards as Attachments Sample Bot
 
-A sample bot to renders several types of cards as attachments, while also showing the generated JSON for each one of these cards at the message's payload, and the C# and NodeJs code required to build them.
+A sample bot that renders several types of cards as attachments, while also showing the generated JSON for each one of these cards at the message's payload, and the C# and NodeJs code required to build them.
 
 [![Deploy to Azure][Deploy Button]][Deploy CSharp/CardAttachments]
 
