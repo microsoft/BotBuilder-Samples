@@ -31,13 +31,16 @@
             {
                 // Got an Action Submit
                 dynamic value = message.Value;
-                switch(value.Type.ToString())
+                string submitType = value.Type.ToString();
+                switch (submitType)
                 {
                     case "HotelSearch":
                         HotelsQuery query;
                         try
                         {
                             query = HotelsQuery.Parse(value);
+
+                            // Trigger validation using Data Annotations attributes from the HotelsQuery model
                             List<ValidationResult> results = new List<ValidationResult>();
                             bool valid = Validator.TryValidateObject(query, new ValidationContext(query, null, null), results, true);
                             if (!valid)
