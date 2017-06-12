@@ -1,6 +1,6 @@
 # LUIS Bot Sample
 
-A sample bot integrated with a LUIS.ai application for undertanding natural language.
+A sample bot integrated with a LUIS.ai application for understanding natural language.
 
 [![Deploy to Azure][Deploy Button]][Deploy Node/LUIS]
 
