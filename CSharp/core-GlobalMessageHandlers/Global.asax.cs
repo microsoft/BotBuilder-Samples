@@ -16,13 +16,11 @@
 
         private void RegisterBotModules()
         {
-            var builder = new ContainerBuilder();
-
-            builder.RegisterModule(new ReflectionSurrogateModule());
-
-            builder.RegisterModule<GlobalMessageHandlersBotModule>();
-
-            builder.Update(Conversation.Container);
+            Conversation.UpdateContainer(builder =>
+            {
+                builder.RegisterModule(new ReflectionSurrogateModule());
+                builder.RegisterModule<GlobalMessageHandlersBotModule>();
+            });
         }
     }
 }

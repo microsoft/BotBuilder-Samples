@@ -14,23 +14,22 @@
     {
         protected void Application_Start()
         {
-            ContainerBuilder builder = new ContainerBuilder();
+            Conversation.UpdateContainer(builder =>
+            {
+                builder.RegisterType<IntroDialog>()
+                  .As<IDialog<object>>()
+                  .InstancePerDependency();
 
-            builder.RegisterType<IntroDialog>()
-              .As<IDialog<object>>()
-              .InstancePerDependency();
+                builder.RegisterType<JobsMapper>()
+                    .Keyed<IMapper<DocumentSearchResult, GenericSearchResult>>(FiberModule.Key_DoNotSerialize)
+                    .AsImplementedInterfaces()
+                    .SingleInstance();
 
-            builder.RegisterType<JobsMapper>()
-                .Keyed<IMapper<DocumentSearchResult, GenericSearchResult>>(FiberModule.Key_DoNotSerialize)
-                .AsImplementedInterfaces()
-                .SingleInstance();
-
-            builder.RegisterType<AzureSearchClient>()
-                .Keyed<ISearchClient>(FiberModule.Key_DoNotSerialize)
-                .AsImplementedInterfaces()
-                .SingleInstance();
-
-            builder.Update(Conversation.Container);
+                builder.RegisterType<AzureSearchClient>()
+                    .Keyed<ISearchClient>(FiberModule.Key_DoNotSerialize)
+                    .AsImplementedInterfaces()
+                    .SingleInstance();
+            });
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
