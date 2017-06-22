@@ -87,8 +87,8 @@
             }
 
             var result = await service.QueryAsync(paramValue.ToString(), token);
-            var queryIntent = result.Intents.FirstOrDefault();
-            if (!Intents.None.Equals(queryIntent.Intent, StringComparison.InvariantCultureIgnoreCase))
+            var queryIntent = result.TopScoringIntent;
+            if (queryIntent != null && !Intents.None.Equals(queryIntent.Intent, StringComparison.InvariantCultureIgnoreCase))
             {
                 var newIntentName = default(string);
                 var newAction = new LuisActionResolver(action.GetType().Assembly).ResolveActionFromLuisIntent(result, out newIntentName);
