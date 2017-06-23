@@ -3,6 +3,7 @@
     using System;
     using System.Threading.Tasks;
     using System.Web.Mvc;
+    using Microsoft.Bot.Builder.ConnectorEx;
     using Microsoft.Bot.Builder.Dialogs;
     using Services;
     using Services.Models;
@@ -43,15 +44,25 @@
 
         [Route("")]
         [HttpPost]
-        public async Task<ActionResult> Index(string state, string orderId, PaymentDetails paymentDetails)
+        public async Task<ActionResult> Index(
+            string botId,
+            string channelId,
+            string conversationId,
+            string serviceUrl,
+            string userId,
+            string orderId,
+            PaymentDetails paymentDetails)
+
         {
             this.ordersService.ConfirmOrder(orderId, paymentDetails);
 
-            // Send Receipt
-            var resumptionCookie = ResumptionCookie.GZipDeserialize(state);
-            var message = resumptionCookie.GetMessage();
+            var address = new Address(botId, channelId, userId, conversationId, serviceUrl);
+            var conversationReference = address.ToConversationReference();
+            var message = conversationReference.GetPostToBotMessage();
+
             message.Text = orderId;
-            await Conversation.ResumeAsync(resumptionCookie, message);
+
+            await Conversation.ResumeAsync(conversationReference, message);
 
             return this.RedirectToAction("Completed", new { orderId = orderId });
         }
