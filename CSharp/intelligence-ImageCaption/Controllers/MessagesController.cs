@@ -11,6 +11,7 @@
     using System.Threading.Tasks;
     using System.Web.Http;
     using Microsoft.Bot.Connector;
+    using Microsoft.ProjectOxford.Vision;
     using Services;
 
     [BotAuthentication]
@@ -42,7 +43,11 @@
                 }
                 catch (Exception e)
                 {
-                    message = "Oops! Something went wrong. Try again later.";
+                    message = "Oops! Something went wrong. Try again later";
+                    if (e is ClientException && (e as ClientException).Error.Message.ToLowerInvariant().Contains("access denied"))
+                    {
+                        message += " (access denied - hint: check your APIKEY at web.config).";
+                    }
 
                     Trace.TraceError(e.ToString());
                 }

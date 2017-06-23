@@ -307,7 +307,7 @@ The Console sample has a [custom handler](samples/console/app.js#L93-L122) that 
 
 In the [samples/bot/app.js](samples/bot/app.js) you can see how the Action Bindings are used within a bot application.
 
-The key thing here is creating an `IntentDialog` with a `LuisRecognizer`, and bind the Actions array to the bot and dialog using the [`bindToBotDialog`](core/index.js#L181-L206) helper function. Here's a simplified version:
+The key thing here is creating an `IntentDialog` with a `LuisRecognizer`, and bind the Actions array to the bot and dialog using the [`bindToBotDialog`](core/index.js#L181-L208) helper function. Here's a simplified version:
 
 ````JavaScript
 var LuisModelUrl = process.env.LUIS_MODEL_URL;
@@ -330,28 +330,32 @@ var SampleActions = require('../all');
 LuisActions.bindToBotDialog(bot, intentDialog, LuisModelUrl, SampleActions);
 ````
 
-The [`bindToBotDialog`](core/index.js#L181-L206) function registers each Action Binding with the IntentDialog, using the action's `intentName`. Internally, it uses the dialog's [`matches()`](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html#matches) function.
+The [`bindToBotDialog`](core/index.js#L181-L208) function registers each Action Binding with the IntentDialog, using the action's `intentName`. Internally, it uses the dialog's [`matches()`](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html#matches) function.
 
-The function also registers with the bot a new BotBuilder library that contains a single dialog, named [`Evaluate`](core/index.js#L213).
-Then, it uses the internal [`createBotAction`](core/index.js#L317) function to route incomming messages with matching intents to the [`Evaluate`](core/index.js#L213) dialog.
+The function also registers with the bot a new BotBuilder library that contains a single dialog, named [`Evaluate`](core/index.js#L216).
+Then, it uses the internal [`createBotAction`](core/index.js#L320) function to route incomming messages with matching intents to the [`Evaluate`](core/index.js#L216) dialog.
 
 The `Evaluate` dialog extracts the entities from the [LUIS Result](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizerresult.html), maps them to parameters, validates the parameter values and, if possible, fulfills the action function, among other things.
 
-When validation does not pass, [prompt messages](core/index.js#L280-L290) are presented to the user to provide each of the missing or invalid parameters and continues until validation passes. Then the [fulfill function is invoked](core/index.js#L300-L304), passing all validated parameters.
+When validation does not pass, [prompt messages](core/index.js#L283-L293) are presented to the user to provide each of the missing or invalid parameters and continues until validation passes. Then the [fulfill function is invoked](core/index.js#L302-L307), passing all validated parameters.
 
-The [`bindToBotDialog`](core/index.js#L181-L206) function accepts an optional `defaultReplyHandler` parameter, defined as a function that accepts a `session` object. This function is invoked when an intent is detected but not mapped to an action and can be used to reply with a custom message or trigger custom logic. An example is the [DefaultReplyHandler function](samples/bot/app.js#L11-L15).
+The [`bindToBotDialog`](core/index.js#L181-L208) function accepts an optional set of arguments for customizing some of its behavior, as seen in the [bindToBotDialog call](samples/bot/app.js#L26-L30). The optional set of arguments are:
 
-The [`bindToBotDialog`](core/index.js#L181-L206) function also accepts another optional `onContextCreationHandler` parameter used to re-hydrate context for a contextual action, as seen in [Scenario #3](#scenario-3--trigger-a-contextual-action-with-no-previous-context-ie-from-scratch).
+- `defaultReply`: [Optional] Defined as a function that accepts a `session` object. This function is invoked when an intent is detected but not mapped to an action and can be used to reply with a custom message or trigger custom logic. An example is the [DefaultReplyHandler function](samples/bot/app.js#L32-L36).
+
+- `fulfillReply`: [Optional] Defined as a function that accepts a `session` object and the fulfilled `actionModel`. It can be used to send to the user a customized message with the actionModel's result (e.g.: the result wrapped on a RichCard or AdaptiveCard) or do any further processing (e.g.: telemetry). An example is the [FulfillReplyHandler function](samples/bot/app.js#L38-L41).
+
+- `onContextCreation`: [Optional] Function used to re-hydrate context for a contextual action, as seen in [Scenario #3](#scenario-3--trigger-a-contextual-action-with-no-previous-context-ie-from-scratch).
 The parameter is defined as a funcion with four parameters:
 
- - `action`: The Action Binding definition that triggered the context creation.
- - `actionModel`: The action model, which contains the `parameters` object you'll want to complete.
- - `next`: The method that must be called to continue the execution of the Action Binding. This is required to support asynchronous calls.
- - `session`: The BotBuilder session object. Can be used to retrieve the user's address id or even send messages.
+    - `action`: The Action Binding definition that triggered the context creation.
+    - `actionModel`: The action model, which contains the `parameters` object you'll want to complete.
+    - `next`: The method that must be called to continue the execution of the Action Binding. This is required to support asynchronous calls.
+    - `session`: The BotBuilder session object. Can be used to retrieve the user's address id or even send messages.
 
-The Bot sample has a [custom handler](samples/bot/app.js#L35-L67) that re-hydrates the FindHotels action context with default values.
+    The Bot sample has a [custom handler](samples/bot/app.js#L43-L75) that re-hydrates the FindHotels action context with default values.
  
-> NOTE: When defining the `onContextCreationHandler` function, remember to call `next()` to continue executing the action binding's logic.
+    > NOTE: When defining the `onContextCreationHandler` function, remember to call `next()` to continue executing the action binding's logic.
 
 #### Using LUIS Action Bindings within a Web Application
 

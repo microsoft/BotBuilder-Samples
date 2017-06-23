@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "bluebird": "^3.5.0",
-    "botbuilder": "^3.7.0",
+    "botbuilder": "^3.8.2",
     "lodash": "^4.17.4",
     "schema-inspector": "^1.6.8"
   }

@@ -19,7 +19,7 @@ The minimum prerequisites to run this sample are:
 
 ### Code Highlights
 
-Microsoft Computer Vision API provides a number of methods that allows you to analyze an image. Check out [Computer Vision API - v1.0](https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa) for a complete reference of the methods available. In this sample we are using the 'analyze' endpoint with the 'visualFeatures' parameter set to 'Description' `https://api.projectoxford.ai/vision/v1.0/analyze/?visualFeatures=Description` 
+Microsoft Computer Vision API provides a number of methods that allows you to analyze an image. Check out [Computer Vision API - v1.0](https://westus.dev.cognitive.microsoft.com/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa) for a complete reference of the methods available. In this sample we are using the 'analyze' endpoint with the 'visualFeatures' parameter set to 'Description' `https://westus.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=Description` 
 
 The main components are:
 

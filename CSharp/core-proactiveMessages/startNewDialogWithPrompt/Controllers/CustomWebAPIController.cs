@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 
 namespace startNewDialogWithPrompt.Controllers
@@ -19,7 +16,7 @@ namespace startNewDialogWithPrompt.Controllers
         {
             try
             {
-                if (!string.IsNullOrEmpty(ConversationStarter.resumptionCookie))
+                if (!string.IsNullOrEmpty(ConversationStarter.conversationReference))
                 {
                     await ConversationStarter.Resume(); //We don't need to wait for this, just want to start the interruption here
 

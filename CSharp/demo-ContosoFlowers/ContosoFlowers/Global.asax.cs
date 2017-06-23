@@ -24,15 +24,12 @@
 
         private void RegisterBotDependencies()
         {
-            var builder = new ContainerBuilder();
-
-            builder.RegisterModule(new ReflectionSurrogateModule());
-
-            builder.RegisterModule<ContosoFlowersModule>();
-
-            builder.RegisterControllers(typeof(WebApiApplication).Assembly);
-
-            builder.Update(Conversation.Container);
+            Conversation.UpdateContainer(builder =>
+            {
+                builder.RegisterModule(new ReflectionSurrogateModule());
+                builder.RegisterModule<ContosoFlowersModule>();
+                builder.RegisterControllers(typeof(WebApiApplication).Assembly);
+            });
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(Conversation.Container));
         }

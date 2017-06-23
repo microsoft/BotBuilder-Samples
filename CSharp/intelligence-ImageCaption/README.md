@@ -14,10 +14,16 @@ The minimum prerequisites to run this sample are:
 * The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 * This sample currently uses a free trial Microsoft Cognitive service key with limited QPS. Please subscribe to Vision API services [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) and update the `MicrosoftVisionApiKey` key in [Web.config](Web.config) file to try it out further.
 
+````XML
+  <appSettings>
+    <add key="MicrosoftVisionApiKey" value="PUT-YOUR-OWN-API-KEY-HERE" />
+  </appSettings>
+````
+
 ### Code Highlights
 Microsoft Computer Vision API provides a number of methods that allows you to analyze an image. Check out [IVisionServiceClient.cs](https://github.com/Microsoft/Cognitive-Vision-Windows/blob/master/ClientLibrary/IVisionServiceClient.cs) for a complete reference of the methods available. In this sample we are using `AnalyzeImageAsync(string url, ...)` and `AnalyzeImageAsync(Stream imageStream, ...)` to analyze an image from a URL and stream respectively. The `AnalyzeImageAsync` method returns [AnalysisResult.cs](https://github.com/Microsoft/Cognitive-Vision-Windows/blob/master/ClientLibrary/Contract/AnalysisResult.cs) class which contains rich information about the image:
 
-```C#
+````C#
 namespace Microsoft.ProjectOxford.Vision.Contract
 {
     public class AnalysisResult
@@ -35,7 +41,7 @@ namespace Microsoft.ProjectOxford.Vision.Contract
         public Tag[] Tags { get; set; }
     }
 }
-```
+````
 
 In this sample we are using the API to get the image description and send it back to the user. Check out the use of the `MicrosoftCognitiveCaptionService.GetCaptionAsync()` method in the [MicrosoftCognitiveCaptionService.cs](Services/MicrosoftCognitiveCaptionService.cs) class.
 

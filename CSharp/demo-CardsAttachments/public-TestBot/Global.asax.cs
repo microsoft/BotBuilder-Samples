@@ -21,23 +21,22 @@
 
         private void RegisterBotDependencies()
         {
-            var builder = new ContainerBuilder();
-
-            builder
-                .Register(c => new ActivityLogger(c.Resolve<IBotData>()))
-                .As<IActivityLogger>()
-                .InstancePerLifetimeScope();
-
-            foreach (var commandType in CommandsHelper.GetRegistrableTypes())
+            Conversation.UpdateContainer(builder =>
             {
                 builder
-                    .RegisterType(commandType)
-                    .Keyed(commandType.Name, commandType)
-                    .AsImplementedInterfaces()
-                    .InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
-            }
+                    .Register(c => new ActivityLogger(c.Resolve<IBotData>()))
+                    .As<IActivityLogger>()
+                    .InstancePerLifetimeScope();
 
-            builder.Update(Conversation.Container);
+                foreach (var commandType in CommandsHelper.GetRegistrableTypes())
+                {
+                    builder
+                        .RegisterType(commandType)
+                        .Keyed(commandType.Name, commandType)
+                        .AsImplementedInterfaces()
+                        .InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
+                }
+            });
         }
     }
 }

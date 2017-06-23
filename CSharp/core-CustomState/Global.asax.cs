@@ -17,17 +17,17 @@
             Uri docDbServiceEndpoint = new Uri(ConfigurationManager.AppSettings["DocumentDbServiceEndpoint"]);
             string docDbEmulatorKey = ConfigurationManager.AppSettings["DocumentDbAuthKey"];
 
-            var builder = new ContainerBuilder();
+            Conversation.UpdateContainer(builder =>
+            {
+                builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
 
-            builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
+                var store = new DocumentDbBotDataStore(docDbServiceEndpoint, docDbEmulatorKey);
+                builder.Register(c => store)
+                    .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
+                    .AsSelf()
+                    .SingleInstance();
 
-            var store = new DocumentDbBotDataStore(docDbServiceEndpoint, docDbEmulatorKey);
-            builder.Register(c => store)
-                .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
-                .AsSelf()
-                .SingleInstance();
-
-            builder.Update(Conversation.Container);
+            });
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
