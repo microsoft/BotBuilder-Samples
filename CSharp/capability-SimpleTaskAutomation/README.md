@@ -2,6 +2,11 @@
 
 A sample bot showing how to do simple task automation scenarios.
 
+[![Deploy to Azure][Deploy Button]][Deploy CSharp/SimpleTaskAutomation]
+
+[Deploy Button]: https://azuredeploy.net/deploybutton.png
+[Deploy CSharp/SimpleTaskAutomation]: https://azuredeploy.net
+
 ### Prerequisites
 
 The minimum prerequisites to run this sample are:

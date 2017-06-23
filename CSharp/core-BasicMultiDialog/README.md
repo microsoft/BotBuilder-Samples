@@ -2,7 +2,12 @@
 
 A sample that shows how to use the [Dialog](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-dialogs) system in the [Bot Builder for .NET SDK](https://dev.botframework.com/)  to manage a bot's conversation with the user.
 
-In this sample, we'll use the Dialog system to ask the user their name and age, and reply with their reponses.
+In this sample, we'll use the Dialog system to ask the user their name and age, and reply with their responses.
+
+[![Deploy to Azure][Deploy Button]][Deploy CSharp/BasicMultiDialog]
+
+[Deploy Button]: https://azuredeploy.net/deploybutton.png
+[Deploy CSharp/BasicMultiDialog]: https://azuredeploy.net
 
 ### Prerequisites
 
