@@ -57,11 +57,11 @@ Scenario shows the user changing its mind (context switching)
 
 ````
 Bot: What do you want to do?
-User: Find me a hotel in Madrid                         -- This would trigger a new `FindHotel` intent with Madrid as Location entity
+User: Find me a hotel in Madrid                         -- This would trigger a new `FindHotels` intent with Madrid as Location entity
 Bot: When do you want to check-in?
 User: Today
 Bot: When do you want to check-out?
-User: I changed my mind, find flights to Madrid         -- This would trigger a new `FindFlight` intent with Madrid as Location entity (`FindHotel` progress is discarded)
+User: I changed my mind, find flights to Madrid         -- This would trigger a new `FindFlights` intent with Madrid as Location entity (`FindHotels` progress is discarded)
 Bot: When do you want to flight?
 ````
 
@@ -75,11 +75,11 @@ Scenario shows an user changing one of the context parameters already answered
 
 ````
 Bot: What do you want to do?
-User: Find me a hotel in Madrid                     -- This would trigger a new `FindHotel` intent with Madrid as Location entity
+User: Find me a hotel in Madrid                     -- This would trigger a new `FindHotels` intent with Madrid as Location entity
 Bot: When do you want to check-in?
 User: Today
 Bot: When do you want to check-out?
-User: Sorry, change the checkin date to tomorrow    -- This would trigger a `ChangeHotelCheckin` intent with tomorrow as date (but will execute within the context of `FindHotel` and will update its check-in date previously set)
+User: Sorry, change the checkin date to tomorrow    -- This would trigger a `FindHotels-ChangeCheckin` intent with tomorrow as date (but will execute within the context of `FindHotels` and will update its check-in date previously set)
 Bot: Ok, I changed the check-in date to tomorrow
 Bot: When do you want to check-out?
 ````
@@ -94,7 +94,7 @@ Scenario shows an user changing a check-in date within its reservation (stored i
 
 ````
 User: Please change my check-in date to tomorrow
-Bot: Ok, I changed the check-in date to tomorrow                -- This triggered the `ChangeHotelCheckin` intent which should run in the context of the `HotelReservation` action (so main action also is instanced)
+Bot: Ok, I changed the check-in date to tomorrow                -- This triggered the `FindHotels-ChangeCheckin` intent which should run in the context of the `FindHotels` action (so main action also is instanced)
 Bot: I changed your reservation in Madrid from 03/25 to 03/27	-- The required parameters of the main context are iterated until it can call the action fulfillment
 ````
 
