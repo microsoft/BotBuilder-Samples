@@ -16,18 +16,25 @@ export function evaluate(
     userInput?: string,
     onContextCreationHandler?: onContextCreationHandler): PromiseLike<IActionModel>;
 
+declare type onContextCreationHandler = (action: IAction, actionModel: IActionModel, next: () => void) => void
+
 export function bindToBotDialog(
     bot: UniversalBot,
     intentDialog: IntentDialog,
     modelUrl: string,
     actions: Array<IAction>,
-    defaultReplyHandler?: replyHandler,
-    onContextCreationHandler?: onBotContextCreationHandler
+    options: IBindToDialogOptions
 )
 
-declare type onContextCreationHandler = (action: IAction, actionModel: IActionModel, next: () => void) => void
-declare type onBotContextCreationHandler = (action: IAction, actionModel: IActionModel, next: () => void, session: Session) => void
-declare type replyHandler = (session: Session) => void;
+declare type onDialogContextCreationHandler = (action: IAction, actionModel: IActionModel, next: () => void, session: Session) => void
+declare type replyHandler = (session: Session) => void
+declare type fulfillHandler = (session: Session, actionModel: IActionModel) => void
+
+export interface IBindToDialogOptions {
+    defaultReply: replyHandler,
+    fulfillReply: fulfillHandler,
+    onContextCreation: onDialogContextCreationHandler    
+}
 
 // TYPES
 export interface IAction {
