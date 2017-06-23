@@ -155,7 +155,7 @@ bot.dialog('SearchHotels', [
 
 Similarly, the [`ShowHotelsReviews`](app.js#L86) uses a single closure to search for hotel reviews.
 
-````
+````JavaScript
 bot.dialog('ShowHotelsReviews', function (session, args) {
     // retrieve hotel name from matched entities
     var hotelEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'Hotel');
