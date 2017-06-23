@@ -8,6 +8,7 @@
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
+    using System.Web;
     using System.Web.Http;
     using Microsoft.Bot.Connector;
     using Services;
@@ -44,7 +45,18 @@
                 }
                 catch (Exception e)
                 {
-                    message = "Oops! Something went wrong. Try again later.";
+                    message = "Oops! Something went wrong. Try again later";
+                    if (e is HttpException)
+                    {
+                        var httpCode = (e as HttpException).GetHttpCode();
+                        if (httpCode == 401 || httpCode == 403)
+                        {
+                            message += $" [{e.Message} - hint: check your API KEY at web.config]";
+                        } else if (httpCode == 408)
+                        {
+                            message += $" [{e.Message} - hint: try send an audio shorter than 15 segs]";
+                        }
+                    }
 
                     Trace.TraceError(e.ToString());
                 }

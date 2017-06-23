@@ -181,7 +181,7 @@ function evaluate(modelUrl, actions, currentActionModel, userInput, onContextCre
 /*
  * Bot Stuff
  */
-function bindToBotDialog(bot, intentDialog, modelUrl, actions, defaultReplyHandler, onContextCreationHandler) {
+function bindToBotDialog(bot, intentDialog, modelUrl, actions, options) {
     if (!bot) {
         throw new Error('bot is required');
     }
@@ -193,11 +193,13 @@ function bindToBotDialog(bot, intentDialog, modelUrl, actions, defaultReplyHandl
         throw new Error('ModelUrl is required');
     }
 
+    options = options || {};
+
     // enable bot persistence (used for storing actionModel in privateConversationData)
     bot.set('persistConversationData', true);
 
     // register dialog for handling input evaluation
-    bot.library(createBotLibrary(modelUrl, actions, defaultReplyHandler, onContextCreationHandler));
+    bot.library(createBotLibrary(modelUrl, actions, options));
 
     // Register each LuisActions with the intentDialog
     _.forEach(actions, function (action) {
@@ -205,9 +207,10 @@ function bindToBotDialog(bot, intentDialog, modelUrl, actions, defaultReplyHandl
     });
 }
 
-function createBotLibrary(modelUrl, actions, defaultReplyHandler, onContextCreationHandler) {
-    defaultReplyHandler = typeof defaultReplyHandler === 'function' ? defaultReplyHandler : function (session) { session.endDialog('Sorry, I couldn\'t understart that.'); };
-    onContextCreationHandler = validateContextCreationHandler(onContextCreationHandler);
+function createBotLibrary(modelUrl, actions, options) {
+    var defaultReplyHandler = typeof options.defaultReply === 'function' ? options.defaultReply : function (session) { session.endDialog('Sorry, I couldn\'t understart that.'); };
+    var fulfillReplyHandler = typeof options.fulfillReply === 'function' ? options.fulfillReply : function (session, actionModel) { session.endDialog(actionModel.result.toString()); };
+    var onContextCreationHandler = validateContextCreationHandler(options.onContextCreation);
 
     var lib = new builder.Library('LuisActions');
     lib.dialog('Evaluate', new builder.SimpleDialog(function (session, args) {
@@ -294,13 +297,13 @@ function createBotLibrary(modelUrl, actions, defaultReplyHandler, onContextCreat
                         var prompt = actionModel.contextSwitchPrompt;
                         session.privateConversationData['luisaction.model'] = actionModel;
                         builder.Prompts.confirm(session, prompt, { listStyle: builder.ListStyle.button });
-
                         break;
 
                     case Status.Fulfilled:
                         // Action fulfilled
+                        // TODO: Allow external handler
                         delete session.privateConversationData['luisaction.model'];
-                        session.endDialog(actionModel.result.toString());
+                        fulfillReplyHandler(session, actionModel);
                         break;
 
                 }

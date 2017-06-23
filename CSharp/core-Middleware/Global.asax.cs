@@ -8,9 +8,10 @@
     {
         protected void Application_Start()
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterType<DebugActivityLogger>().AsImplementedInterfaces().InstancePerDependency();
-            builder.Update(Conversation.Container);
+            Conversation.UpdateContainer(builder =>
+            {
+                builder.RegisterType<DebugActivityLogger>().AsImplementedInterfaces().InstancePerDependency();
+            });
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }

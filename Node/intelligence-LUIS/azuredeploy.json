@@ -43,7 +43,7 @@
     },
     "WEBSITE_NODE_DEFAULT_VERSION": {
       "type": "string",
-      "defaultValue": "5.9.1"
+      "defaultValue": "6.9.5"
     },
     "MICROSOFT_APP_ID": {
       "type": "string"
@@ -53,7 +53,6 @@
     },
     "LUIS_MODEL_URL": {
       "type": "string",
-      "defaultValue": "https://api.projectoxford.ai/luis/v1/application?id=162bf6ee-379b-4ce4-a519-5f5af90086b5&subscription-key=11be6373fca44ded80fbe2afa8597c18"
     },
     "BING_SPELL_CHECK_API_KEY": {
       "type": "string",

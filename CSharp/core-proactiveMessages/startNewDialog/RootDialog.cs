@@ -1,22 +1,14 @@
-﻿using Autofac;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.Builder.Luis;
-using Microsoft.Bot.Builder.Luis.Models;
-using Microsoft.Bot.Connector;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using System.Xml.Linq;
-using System.Threading;
+using Microsoft.Bot.Builder.ConnectorEx;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 
 namespace startNewDialog
 {
-
-
     [Serializable]
     public class RootDialog : IDialog<object>
     {
@@ -27,10 +19,12 @@ namespace startNewDialog
         {
             context.Wait(this.MessageReceivedAsync);
         }
+
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
-            ConversationStarter.resumptionCookie = new ResumptionCookie(message).GZipSerialize();
+            var conversationReference = message.ToConversationReference();
+            ConversationStarter.conversationReference = JsonConvert.SerializeObject(conversationReference);
 
             //We will start a timer to fake a background service that will trigger the proactive message
 
@@ -42,13 +36,11 @@ namespace startNewDialog
                     url.Scheme + "://" + url.Host + ":" + url.Port + "/api/CustomWebApi"); 
             context.Wait(MessageReceivedAsync);
         }
+
         public void timerEvent(object target)
         {
-            
             t.Dispose();
             ConversationStarter.Resume(); //We don't need to wait for this, just want to start the interruption here
         }
-
-
     }
 }

@@ -15,6 +15,12 @@ The minimum prerequisites to run this sample are:
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
 * This sample currently uses a free trial Microsoft Cognitive service key with limited QPS. Please subscribe to Bing Speech Api services [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) and update the `MicrosoftSpeechApiKey` key in key in [Web.config](Web.config) file to try it out further.
 
+````XML
+  <appSettings>
+    <add key="MicrosoftSpeechApiKey" value="PUT-YOUR-OWN-API-KEY-HERE" />
+  </appSettings>
+````
+
 ### Usage
 
 Attach an audio file (wav format).

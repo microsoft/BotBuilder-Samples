@@ -67,6 +67,8 @@ function progress(session, options, asyncFn) {
 }
 
 bot.dialog('progressDialog', function (session, args) {
+    if(!args) return;
+    
     var asyncFn = args.asyncFn;
     var options = args.options;
 

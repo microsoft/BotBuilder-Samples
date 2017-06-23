@@ -348,8 +348,20 @@
 
                 try
                 {
-                    var value = Convert.ChangeType(paramValue, type);
-                    property.SetValue(action, value);
+                    if (type.IsArray)
+                    {
+                        property.SetValue(action, BuildArrayOfValues(action, property, type.GetElementType(), paramValue));
+                    }
+                    else if (type.IsEnum)
+                    {
+                        property.SetValue(action, Enum.Parse(type, (string)paramValue));
+                    }
+                    else
+                    {
+                        var value = Convert.ChangeType(paramValue, type);
+                        property.SetValue(action, value);
+                    }
+
                     return true;
                 }
                 catch (FormatException)
@@ -359,6 +371,35 @@
             }
 
             return false;
+        }
+
+        private static Array BuildArrayOfValues(ILuisAction action, PropertyInfo property, Type elementType, object paramValue)
+        {
+            var values = default(IEnumerable<object>);
+            if (paramValue is IEnumerable<object>)
+            {
+                values = paramValue as IEnumerable<object>;
+            }
+            else
+            {
+                values = paramValue.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(v => v.Trim());
+            }
+
+            if (values.Count() > 0)
+            {
+                var idx = 0;
+                var result = Array.CreateInstance(elementType, values.Count());
+                foreach (var value in values)
+                {
+                    result.SetValue(elementType.IsEnum ? Enum.Parse(elementType, (string)value) : Convert.ChangeType(value, elementType), idx++);
+                }
+
+                return result;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private static bool AssignEntitiesToMembers(

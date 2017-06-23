@@ -38,5 +38,10 @@ function parseSignature(signatureString) {
 }
 
 module.exports = {
-    parse: parse
+    parse: parse,
+    tokenFormat: {
+        Invalid: 0,
+        Error: 1,
+        Stripe: 2
+    }
 };
