@@ -74,16 +74,16 @@ function processPayment(paymentRequest, paymentResponse) {
         var paymentToken = PaymentToken.parse(paymentResponse.details.paymentToken);
         checkParam(paymentToken, 'parsed paymentToken');
         checkParam(paymentToken.source, 'Payment token source is empty.');
-        if (paymentToken.header.Format !== 'Stripe') {
+        if (paymentToken.header.format !== PaymentToken.tokenFormat.Stripe) {
             throw new Error('Payment token format is not Stripe.');
         }
 
-        if (paymentToken.header.MerchantId !== process.env.PAYMENTS_MERCHANT_ID) {
+        if (paymentToken.header.merchantId !== process.env.PAYMENTS_MERCHANT_ID) {
             throw new Error('MerchantId is not supported.');
         }
 
-        if (paymentToken.header.Amount.currency !== paymentRequest.details.total.amount.currency ||
-            paymentToken.header.Amount.value !== paymentRequest.details.total.amount.value) {
+        if (paymentToken.header.amount.currency !== paymentRequest.details.total.amount.currency ||
+            paymentToken.header.amount.value !== paymentRequest.details.total.amount.value) {
             throw new Error('Payment token amount currency/amount mismatch.');
         }
 
