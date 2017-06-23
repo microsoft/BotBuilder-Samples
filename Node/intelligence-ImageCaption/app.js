@@ -131,6 +131,11 @@ function handleSuccessResponse(session, caption) {
 }
 
 function handleErrorResponse(session, error) {
-    session.send('Oops! Something went wrong. Try again later.');
+    var clientErrorMessage = 'Oops! Something went wrong. Try again later.';
+    if (error.message && error.message.indexOf('Access denied') > -1) {
+        clientErrorMessage += "\n" + error.message;
+    }
+
     console.error(error);
+    session.send(clientErrorMessage);
 }

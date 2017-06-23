@@ -16,16 +16,14 @@ lib.dialog('/', [
         session.dialogData.recipientLastName = args.response;
         session.beginDialog('validators:phonenumber', {
             prompt: session.gettext('ask_recipient_phone_number'),
-            retryPrompt: session.gettext('invalid_phone_number'),
-            maxRetries: Number.MAX_VALUE
+            retryPrompt: session.gettext('invalid_phone_number')
         });
     },
     function (session, args) {
         session.dialogData.recipientPhoneNumber = args.response;
         session.beginDialog('validators:notes', {
             prompt: session.gettext('ask_note'),
-            retryPrompt: session.gettext('invalid_note'),
-            maxRetries: Number.MAX_VALUE
+            retryPrompt: session.gettext('invalid_note')
         });
     },
     function (session, args) {
@@ -84,8 +82,7 @@ lib.dialog('sender', [
         }
         session.beginDialog('validators:email', {
             prompt: session.gettext('ask_email'),
-            retryPrompt: session.gettext('invalid_email'),
-            maxRetries: Number.MAX_VALUE
+            retryPrompt: session.gettext('invalid_email')
         });
     },
     function (session, args, next) {
@@ -95,8 +92,7 @@ lib.dialog('sender', [
         session.dialogData.email = args.response;
         session.beginDialog('validators:phonenumber', {
             prompt: session.gettext('ask_phone_number'),
-            retryPrompt: session.gettext('invalid_phone_number'),
-            maxRetries: Number.MAX_VALUE
+            retryPrompt: session.gettext('invalid_phone_number')
         });
     },
     function (session, args, next) {

@@ -30,19 +30,23 @@ var directLineClient = rp(directLineSpecUrl)
     })
     .then(function (client) {
         // Obtain a token using the Direct Line secret
-        // First, add the Direct Line Secret to the client's auth header
-        client.clientAuthorizations.add('AuthorizationBotConnector', new Swagger.ApiKeyAuthorization('Authorization', 'Bearer ' + directLineSecret, 'header'));
-
-        // Second, request a token for a new conversation
-        return client.Tokens.Tokens_GenerateTokenForNewConversation().then(function (response) {
+        return rp({
+            url: 'https://directline.botframework.com/v3/directline/tokens/generate',
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + directLineSecret
+            },
+            json: true            
+        }).then(function (response) {
             // Then, replace the client's auth secret with the new token
-            var token = response.obj.token;
+            var token = response.token;
             client.clientAuthorizations.add('AuthorizationBotConnector', new Swagger.ApiKeyAuthorization('Authorization', 'Bearer ' + token, 'header'));
-            return client;
+            return client;            
         });
     })
     .catch(function (err) {
         console.error('Error initializing DirectLine client', err);
+        throw err;
     });
 
 // Once the client is ready, create a new conversation 

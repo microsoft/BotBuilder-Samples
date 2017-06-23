@@ -5,7 +5,7 @@
   "author": "Microsoft Corp.",
   "license": "MIT",
   "dependencies": {
-    "botbuilder": "^3.7.0",
+    "botbuilder": "^3.8.2",
     "dotenv-extended": "^1.0.4",
     "jsonpath": "^0.2.10",
     "lodash": "^4.17.4",

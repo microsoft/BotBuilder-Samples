@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "applicationinsights": "^0.17.2",
-    "botbuilder": "^3.7.0",
+    "botbuilder": "^3.8.2",
     "dotenv-extended": "^1.0.4",
     "restify": "^4.3.0"
   }

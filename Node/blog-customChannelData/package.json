@@ -4,7 +4,8 @@
   "description": "Microsoft Bot Framework bot written in NodeJS to test issues.",
   "main": "node_bot.js",
   "dependencies": {
-    "botbuilder": "^3.7.0",
+    "botbuilder": "^3.8.2",
+    "dotenv-extended": "^2.0.0",
     "express": "^4.14.1",
     "request-promise": "^4.1.1",
     "restify": "^4.3.0"
