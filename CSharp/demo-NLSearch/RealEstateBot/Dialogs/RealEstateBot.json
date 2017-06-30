@@ -1,0 +1,1983 @@
+{
+  "Fragments": [],
+  "Fields": {
+    "listingId": {
+      "Name": "listingId",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": false,
+      "IsFilterable": false,
+      "IsKey": true,
+      "IsRetrievable": true,
+      "IsSearchable": false,
+      "IsSortable": false,
+      "FilterPreference": 0,
+      "NameSynonyms": {
+        "Canonical": "listingId",
+        "Alternatives": [
+          "listing Id"
+        ],
+        "Description": "listing Id"
+      },
+      "ValueSynonyms": []
+    },
+    "beds": {
+      "Name": "beds",
+      "Type": "System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": false,
+      "IsSortable": true,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "beds",
+        "Alternatives": [
+          "beds"
+        ],
+        "Description": "beds"
+      },
+      "ValueSynonyms": []
+    },
+    "baths": {
+      "Name": "baths",
+      "Type": "System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": false,
+      "IsSortable": true,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "baths",
+        "Alternatives": [
+          "baths"
+        ],
+        "Description": "baths"
+      },
+      "ValueSynonyms": []
+    },
+    "description": {
+      "Name": "description",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": false,
+      "IsFilterable": false,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": true,
+      "IsSortable": false,
+      "FilterPreference": 0,
+      "NameSynonyms": {
+        "Canonical": "description",
+        "Alternatives": [
+          "description"
+        ],
+        "Description": "description"
+      },
+      "ValueSynonyms": []
+    },
+    "sqft": {
+      "Name": "sqft",
+      "Type": "System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": false,
+      "IsSortable": true,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "sqft",
+        "Alternatives": [
+          "sqft"
+        ],
+        "Description": "sqft"
+      },
+      "ValueSynonyms": []
+    },
+    "daysOnMarket": {
+      "Name": "daysOnMarket",
+      "Type": "System.Int32, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": false,
+      "IsSortable": true,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "daysOnMarket",
+        "Alternatives": [
+          "days On Market"
+        ],
+        "Description": "days On Market"
+      },
+      "ValueSynonyms": []
+    },
+    "status": {
+      "Name": "status",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": true,
+      "IsSortable": false,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "status",
+        "Alternatives": [
+          "status"
+        ],
+        "Description": "status"
+      },
+      "ValueSynonyms": [
+        {
+          "Canonical": "active",
+          "Alternatives": [
+            "active"
+          ],
+          "Description": "active"
+        },
+        {
+          "Canonical": "pending",
+          "Alternatives": [
+            "pending"
+          ],
+          "Description": "pending"
+        },
+        {
+          "Canonical": "sold",
+          "Alternatives": [
+            "sold"
+          ],
+          "Description": "sold"
+        }
+      ]
+    },
+    "source": {
+      "Name": "source",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": true,
+      "IsSortable": false,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "source",
+        "Alternatives": [
+          "source"
+        ],
+        "Description": "source"
+      },
+      "ValueSynonyms": []
+    },
+    "number": {
+      "Name": "number",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": false,
+      "IsFilterable": false,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": false,
+      "IsSortable": false,
+      "FilterPreference": 0,
+      "NameSynonyms": {
+        "Canonical": "number",
+        "Alternatives": [
+          "number"
+        ],
+        "Description": "number"
+      },
+      "ValueSynonyms": []
+    },
+    "street": {
+      "Name": "street",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": true,
+      "IsSortable": false,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "street",
+        "Alternatives": [
+          "street"
+        ],
+        "Description": "street"
+      },
+      "ValueSynonyms": []
+    },
+    "unit": {
+      "Name": "unit",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": false,
+      "IsFilterable": false,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": false,
+      "IsSortable": false,
+      "FilterPreference": 0,
+      "NameSynonyms": {
+        "Canonical": "unit",
+        "Alternatives": [
+          "unit"
+        ],
+        "Description": "unit"
+      },
+      "ValueSynonyms": []
+    },
+    "type": {
+      "Name": "type",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": false,
+      "IsSortable": false,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "type",
+        "Alternatives": [
+          "type"
+        ],
+        "Description": "type"
+      },
+      "ValueSynonyms": [
+        {
+          "Canonical": "Apartment",
+          "Alternatives": [
+            "Apartment"
+          ],
+          "Description": "Apartment"
+        },
+        {
+          "Canonical": "House",
+          "Alternatives": [
+            "House"
+          ],
+          "Description": "House"
+        }
+      ]
+    },
+    "city": {
+      "Name": "city",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": true,
+      "IsSortable": true,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "city",
+        "Alternatives": [
+          "city"
+        ],
+        "Description": "city"
+      },
+      "ValueSynonyms": []
+    },
+    "cityPhonetic": {
+      "Name": "cityPhonetic",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": true,
+      "IsSortable": true,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "cityPhonetic",
+        "Alternatives": [
+          "city Phonetic"
+        ],
+        "Description": "city Phonetic"
+      },
+      "ValueSynonyms": []
+    },
+    "district": {
+      "Name": "district",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": false,
+      "IsSortable": true,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "district",
+        "Alternatives": [
+          "district"
+        ],
+        "Description": "district"
+      },
+      "ValueSynonyms": []
+    },
+    "region": {
+      "Name": "region",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": true,
+      "IsSortable": true,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "region",
+        "Alternatives": [
+          "region"
+        ],
+        "Description": "region"
+      },
+      "ValueSynonyms": [
+        {
+          "Canonical": "ak",
+          "Alternatives": [
+            "ak"
+          ],
+          "Description": "ak"
+        },
+        {
+          "Canonical": "al",
+          "Alternatives": [
+            "al"
+          ],
+          "Description": "al"
+        },
+        {
+          "Canonical": "ar",
+          "Alternatives": [
+            "ar"
+          ],
+          "Description": "ar"
+        },
+        {
+          "Canonical": "az",
+          "Alternatives": [
+            "az"
+          ],
+          "Description": "az"
+        },
+        {
+          "Canonical": "ca",
+          "Alternatives": [
+            "ca"
+          ],
+          "Description": "ca"
+        },
+        {
+          "Canonical": "co",
+          "Alternatives": [
+            "co"
+          ],
+          "Description": "co"
+        },
+        {
+          "Canonical": "ct",
+          "Alternatives": [
+            "ct"
+          ],
+          "Description": "ct"
+        },
+        {
+          "Canonical": "dc",
+          "Alternatives": [
+            "dc"
+          ],
+          "Description": "dc"
+        },
+        {
+          "Canonical": "de",
+          "Alternatives": [
+            "de"
+          ],
+          "Description": "de"
+        },
+        {
+          "Canonical": "fl",
+          "Alternatives": [
+            "fl"
+          ],
+          "Description": "fl"
+        },
+        {
+          "Canonical": "ga",
+          "Alternatives": [
+            "ga"
+          ],
+          "Description": "ga"
+        },
+        {
+          "Canonical": "ia",
+          "Alternatives": [
+            "ia"
+          ],
+          "Description": "ia"
+        },
+        {
+          "Canonical": "id",
+          "Alternatives": [
+            "id"
+          ],
+          "Description": "id"
+        },
+        {
+          "Canonical": "il",
+          "Alternatives": [
+            "il"
+          ],
+          "Description": "il"
+        },
+        {
+          "Canonical": "in",
+          "Alternatives": [
+            "in"
+          ],
+          "Description": "in"
+        },
+        {
+          "Canonical": "ks",
+          "Alternatives": [
+            "ks"
+          ],
+          "Description": "ks"
+        },
+        {
+          "Canonical": "ky",
+          "Alternatives": [
+            "ky"
+          ],
+          "Description": "ky"
+        },
+        {
+          "Canonical": "la",
+          "Alternatives": [
+            "la"
+          ],
+          "Description": "la"
+        },
+        {
+          "Canonical": "ma",
+          "Alternatives": [
+            "ma"
+          ],
+          "Description": "ma"
+        },
+        {
+          "Canonical": "md",
+          "Alternatives": [
+            "md"
+          ],
+          "Description": "md"
+        },
+        {
+          "Canonical": "me",
+          "Alternatives": [
+            "me"
+          ],
+          "Description": "me"
+        },
+        {
+          "Canonical": "mi",
+          "Alternatives": [
+            "mi"
+          ],
+          "Description": "mi"
+        },
+        {
+          "Canonical": "mn",
+          "Alternatives": [
+            "mn"
+          ],
+          "Description": "mn"
+        },
+        {
+          "Canonical": "mo",
+          "Alternatives": [
+            "mo"
+          ],
+          "Description": "mo"
+        },
+        {
+          "Canonical": "ms",
+          "Alternatives": [
+            "ms"
+          ],
+          "Description": "ms"
+        },
+        {
+          "Canonical": "mt",
+          "Alternatives": [
+            "mt"
+          ],
+          "Description": "mt"
+        },
+        {
+          "Canonical": "nc",
+          "Alternatives": [
+            "nc"
+          ],
+          "Description": "nc"
+        },
+        {
+          "Canonical": "nd",
+          "Alternatives": [
+            "nd"
+          ],
+          "Description": "nd"
+        },
+        {
+          "Canonical": "ne",
+          "Alternatives": [
+            "ne"
+          ],
+          "Description": "ne"
+        },
+        {
+          "Canonical": "nh",
+          "Alternatives": [
+            "nh"
+          ],
+          "Description": "nh"
+        },
+        {
+          "Canonical": "nj",
+          "Alternatives": [
+            "nj"
+          ],
+          "Description": "nj"
+        },
+        {
+          "Canonical": "nm",
+          "Alternatives": [
+            "nm"
+          ],
+          "Description": "nm"
+        },
+        {
+          "Canonical": "nv",
+          "Alternatives": [
+            "nv"
+          ],
+          "Description": "nv"
+        },
+        {
+          "Canonical": "ny",
+          "Alternatives": [
+            "ny"
+          ],
+          "Description": "ny"
+        },
+        {
+          "Canonical": "oh",
+          "Alternatives": [
+            "oh"
+          ],
+          "Description": "oh"
+        },
+        {
+          "Canonical": "ok",
+          "Alternatives": [
+            "ok"
+          ],
+          "Description": "ok"
+        },
+        {
+          "Canonical": "or",
+          "Alternatives": [
+            "or"
+          ],
+          "Description": "or"
+        },
+        {
+          "Canonical": "pa",
+          "Alternatives": [
+            "pa"
+          ],
+          "Description": "pa"
+        },
+        {
+          "Canonical": "pr",
+          "Alternatives": [
+            "pr"
+          ],
+          "Description": "pr"
+        },
+        {
+          "Canonical": "ri",
+          "Alternatives": [
+            "ri"
+          ],
+          "Description": "ri"
+        },
+        {
+          "Canonical": "sc",
+          "Alternatives": [
+            "sc"
+          ],
+          "Description": "sc"
+        },
+        {
+          "Canonical": "tn",
+          "Alternatives": [
+            "tn"
+          ],
+          "Description": "tn"
+        },
+        {
+          "Canonical": "tx",
+          "Alternatives": [
+            "tx"
+          ],
+          "Description": "tx"
+        },
+        {
+          "Canonical": "ut",
+          "Alternatives": [
+            "ut"
+          ],
+          "Description": "ut"
+        },
+        {
+          "Canonical": "va",
+          "Alternatives": [
+            "va"
+          ],
+          "Description": "va"
+        },
+        {
+          "Canonical": "vt",
+          "Alternatives": [
+            "vt"
+          ],
+          "Description": "vt"
+        },
+        {
+          "Canonical": "wa",
+          "Alternatives": [
+            "wa"
+          ],
+          "Description": "wa"
+        },
+        {
+          "Canonical": "wi",
+          "Alternatives": [
+            "wi"
+          ],
+          "Description": "wi"
+        },
+        {
+          "Canonical": "wv",
+          "Alternatives": [
+            "wv"
+          ],
+          "Description": "wv"
+        },
+        {
+          "Canonical": "wy",
+          "Alternatives": [
+            "wy"
+          ],
+          "Description": "wy"
+        }
+      ]
+    },
+    "zipcode": {
+      "Name": "zipcode",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": true,
+      "IsSortable": true,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "zipcode",
+        "Alternatives": [
+          "zipcode"
+        ],
+        "Description": "zipcode"
+      },
+      "ValueSynonyms": []
+    },
+    "countryCode": {
+      "Name": "countryCode",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": true,
+      "IsSortable": true,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "countryCode",
+        "Alternatives": [
+          "country Code"
+        ],
+        "Description": "country Code"
+      },
+      "ValueSynonyms": [
+        {
+          "Canonical": "us",
+          "Alternatives": [
+            "us"
+          ],
+          "Description": "us"
+        }
+      ]
+    },
+    "location": {
+      "Name": "location",
+      "Type": "Microsoft.Spatial.GeographyPoint, Microsoft.Spatial, Version=6.15.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
+      "IsFacetable": false,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": false,
+      "IsSortable": true,
+      "FilterPreference": 0,
+      "NameSynonyms": {
+        "Canonical": "location",
+        "Alternatives": [
+          "location"
+        ],
+        "Description": "location"
+      },
+      "ValueSynonyms": []
+    },
+    "price": {
+      "Name": "price",
+      "Type": "System.Int64, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": false,
+      "IsSortable": true,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "price",
+        "Alternatives": [
+          "price"
+        ],
+        "Description": "price"
+      },
+      "ValueSynonyms": []
+    },
+    "thumbnail": {
+      "Name": "thumbnail",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": false,
+      "IsFilterable": false,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": false,
+      "IsSortable": false,
+      "FilterPreference": 0,
+      "NameSynonyms": {
+        "Canonical": "thumbnail",
+        "Alternatives": [
+          "thumbnail"
+        ],
+        "Description": "thumbnail"
+      },
+      "ValueSynonyms": []
+    }
+  },
+  "DefaultCurrencyProperty": null,
+  "DefaultNumericProperty": null,
+  "DefaultGeoProperty": null
+}   "Alternatives": [
+            "98010"
+          ],
+          "Description": "98010"
+        },
+        {
+          "Canonical": "98011",
+          "Alternatives": [
+            "98011"
+          ],
+          "Description": "98011"
+        },
+        {
+          "Canonical": "98014",
+          "Alternatives": [
+            "98014"
+          ],
+          "Description": "98014"
+        },
+        {
+          "Canonical": "98019",
+          "Alternatives": [
+            "98019"
+          ],
+          "Description": "98019"
+        },
+        {
+          "Canonical": "98022",
+          "Alternatives": [
+            "98022"
+          ],
+          "Description": "98022"
+        },
+        {
+          "Canonical": "98023",
+          "Alternatives": [
+            "98023"
+          ],
+          "Description": "98023"
+        },
+        {
+          "Canonical": "98027",
+          "Alternatives": [
+            "98027"
+          ],
+          "Description": "98027"
+        },
+        {
+          "Canonical": "98028",
+          "Alternatives": [
+            "98028"
+          ],
+          "Description": "98028"
+        },
+        {
+          "Canonical": "98029",
+          "Alternatives": [
+            "98029"
+          ],
+          "Description": "98029"
+        },
+        {
+          "Canonical": "98030",
+          "Alternatives": [
+            "98030"
+          ],
+          "Description": "98030"
+        },
+        {
+          "Canonical": "98031",
+          "Alternatives": [
+            "98031"
+          ],
+          "Description": "98031"
+        },
+        {
+          "Canonical": "98032",
+          "Alternatives": [
+            "98032"
+          ],
+          "Description": "98032"
+        },
+        {
+          "Canonical": "98033",
+          "Alternatives": [
+            "98033"
+          ],
+          "Description": "98033"
+        },
+        {
+          "Canonical": "98034",
+          "Alternatives": [
+            "98034"
+          ],
+          "Description": "98034"
+        },
+        {
+          "Canonical": "98038",
+          "Alternatives": [
+            "98038"
+          ],
+          "Description": "98038"
+        },
+        {
+          "Canonical": "98039",
+          "Alternatives": [
+            "98039"
+          ],
+          "Description": "98039"
+        },
+        {
+          "Canonical": "98040",
+          "Alternatives": [
+            "98040"
+          ],
+          "Description": "98040"
+        },
+        {
+          "Canonical": "98042",
+          "Alternatives": [
+            "98042"
+          ],
+          "Description": "98042"
+        },
+        {
+          "Canonical": "98052",
+          "Alternatives": [
+            "98052"
+          ],
+          "Description": "98052"
+        },
+        {
+          "Canonical": "98055",
+          "Alternatives": [
+            "98055"
+          ],
+          "Description": "98055"
+        },
+        {
+          "Canonical": "98056",
+          "Alternatives": [
+            "98056"
+          ],
+          "Description": "98056"
+        },
+        {
+          "Canonical": "98057",
+          "Alternatives": [
+            "98057"
+          ],
+          "Description": "98057"
+        },
+        {
+          "Canonical": "98058",
+          "Alternatives": [
+            "98058"
+          ],
+          "Description": "98058"
+        },
+        {
+          "Canonical": "98059",
+          "Alternatives": [
+            "98059"
+          ],
+          "Description": "98059"
+        },
+        {
+          "Canonical": "98065",
+          "Alternatives": [
+            "98065"
+          ],
+          "Description": "98065"
+        },
+        {
+          "Canonical": "98072",
+          "Alternatives": [
+            "98072"
+          ],
+          "Description": "98072"
+        },
+        {
+          "Canonical": "98074",
+          "Alternatives": [
+            "98074"
+          ],
+          "Description": "98074"
+        },
+        {
+          "Canonical": "98075",
+          "Alternatives": [
+            "98075"
+          ],
+          "Description": "98075"
+        },
+        {
+          "Canonical": "98101",
+          "Alternatives": [
+            "98101"
+          ],
+          "Description": "98101"
+        },
+        {
+          "Canonical": "98102",
+          "Alternatives": [
+            "98102"
+          ],
+          "Description": "98102"
+        },
+        {
+          "Canonical": "98103",
+          "Alternatives": [
+            "98103"
+          ],
+          "Description": "98103"
+        },
+        {
+          "Canonical": "98104",
+          "Alternatives": [
+            "98104"
+          ],
+          "Description": "98104"
+        },
+        {
+          "Canonical": "98105",
+          "Alternatives": [
+            "98105"
+          ],
+          "Description": "98105"
+        },
+        {
+          "Canonical": "98106",
+          "Alternatives": [
+            "98106"
+          ],
+          "Description": "98106"
+        },
+        {
+          "Canonical": "98107",
+          "Alternatives": [
+            "98107"
+          ],
+          "Description": "98107"
+        },
+        {
+          "Canonical": "98108",
+          "Alternatives": [
+            "98108"
+          ],
+          "Description": "98108"
+        },
+        {
+          "Canonical": "98109",
+          "Alternatives": [
+            "98109"
+          ],
+          "Description": "98109"
+        },
+        {
+          "Canonical": "98112",
+          "Alternatives": [
+            "98112"
+          ],
+          "Description": "98112"
+        },
+        {
+          "Canonical": "98115",
+          "Alternatives": [
+            "98115"
+          ],
+          "Description": "98115"
+        },
+        {
+          "Canonical": "98116",
+          "Alternatives": [
+            "98116"
+          ],
+          "Description": "98116"
+        },
+        {
+          "Canonical": "98117",
+          "Alternatives": [
+            "98117"
+          ],
+          "Description": "98117"
+        },
+        {
+          "Canonical": "98118",
+          "Alternatives": [
+            "98118"
+          ],
+          "Description": "98118"
+        },
+        {
+          "Canonical": "98119",
+          "Alternatives": [
+            "98119"
+          ],
+          "Description": "98119"
+        },
+        {
+          "Canonical": "98121",
+          "Alternatives": [
+            "98121"
+          ],
+          "Description": "98121"
+        },
+        {
+          "Canonical": "98122",
+          "Alternatives": [
+            "98122"
+          ],
+          "Description": "98122"
+        },
+        {
+          "Canonical": "98125",
+          "Alternatives": [
+            "98125"
+          ],
+          "Description": "98125"
+        },
+        {
+          "Canonical": "98126",
+          "Alternatives": [
+            "98126"
+          ],
+          "Description": "98126"
+        },
+        {
+          "Canonical": "98133",
+          "Alternatives": [
+            "98133"
+          ],
+          "Description": "98133"
+        },
+        {
+          "Canonical": "98134",
+          "Alternatives": [
+            "98134"
+          ],
+          "Description": "98134"
+        },
+        {
+          "Canonical": "98136",
+          "Alternatives": [
+            "98136"
+          ],
+          "Description": "98136"
+        },
+        {
+          "Canonical": "98144",
+          "Alternatives": [
+            "98144"
+          ],
+          "Description": "98144"
+        },
+        {
+          "Canonical": "98146",
+          "Alternatives": [
+            "98146"
+          ],
+          "Description": "98146"
+        },
+        {
+          "Canonical": "98148",
+          "Alternatives": [
+            "98148"
+          ],
+          "Description": "98148"
+        },
+        {
+          "Canonical": "98155",
+          "Alternatives": [
+            "98155"
+          ],
+          "Description": "98155"
+        },
+        {
+          "Canonical": "98166",
+          "Alternatives": [
+            "98166"
+          ],
+          "Description": "98166"
+        },
+        {
+          "Canonical": "98168",
+          "Alternatives": [
+            "98168"
+          ],
+          "Description": "98168"
+        },
+        {
+          "Canonical": "98177",
+          "Alternatives": [
+            "98177"
+          ],
+          "Description": "98177"
+        },
+        {
+          "Canonical": "98178",
+          "Alternatives": [
+            "98178"
+          ],
+          "Description": "98178"
+        },
+        {
+          "Canonical": "98188",
+          "Alternatives": [
+            "98188"
+          ],
+          "Description": "98188"
+        },
+        {
+          "Canonical": "98195",
+          "Alternatives": [
+            "98195"
+          ],
+          "Description": "98195"
+        },
+        {
+          "Canonical": "98198",
+          "Alternatives": [
+            "98198"
+          ],
+          "Description": "98198"
+        },
+        {
+          "Canonical": "98199",
+          "Alternatives": [
+            "98199"
+          ],
+          "Description": "98199"
+        },
+        {
+          "Canonical": "98288",
+          "Alternatives": [
+            "98288"
+          ],
+          "Description": "98288"
+        }
+      ]
+    },
+    "location": {
+      "Name": "location",
+      "Type": "Microsoft.Spatial.GeographyPoint, Microsoft.Spatial, Version=6.15.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
+      "IsFacetable": false,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": false,
+      "IsSortable": true,
+      "FilterPreference": 0,
+      "NameSynonyms": {
+        "Canonical": "location",
+        "Alternatives": [
+          "location"
+        ],
+        "Description": "location"
+      },
+      "ValueSynonyms": []
+    },
+    "price": {
+      "Name": "price",
+      "Type": "System.Int64, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": false,
+      "IsSortable": true,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "price",
+        "Alternatives": [
+          "price"
+        ],
+        "Description": "price"
+      },
+      "ValueSynonyms": []
+    },
+    "thumbnail": {
+      "Name": "thumbnail",
+      "Type": "System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": false,
+      "IsFilterable": false,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": false,
+      "IsSortable": false,
+      "FilterPreference": 0,
+      "NameSynonyms": {
+        "Canonical": "thumbnail",
+        "Alternatives": [
+          "thumbnail"
+        ],
+        "Description": "thumbnail"
+      },
+      "ValueSynonyms": []
+    },
+    "tags": {
+      "Name": "tags",
+      "Type": "System.String[], System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+      "IsFacetable": true,
+      "IsFilterable": true,
+      "IsKey": false,
+      "IsRetrievable": true,
+      "IsSearchable": true,
+      "IsSortable": false,
+      "FilterPreference": 1,
+      "NameSynonyms": {
+        "Canonical": "tags",
+        "Alternatives": [
+          "tags"
+        ],
+        "Description": "tags"
+      },
+      "ValueSynonyms": [
+        {
+          "Canonical": "acreage of land",
+          "Alternatives": [
+            "acreage of land"
+          ],
+          "Description": "acreage of land"
+        },
+        {
+          "Canonical": "apartment residence",
+          "Alternatives": [
+            "apartment residence"
+          ],
+          "Description": "apartment residence"
+        },
+        {
+          "Canonical": "attached garage",
+          "Alternatives": [
+            "attached garage"
+          ],
+          "Description": "attached garage"
+        },
+        {
+          "Canonical": "bachelor apartment",
+          "Alternatives": [
+            "bachelor apartment"
+          ],
+          "Description": "bachelor apartment"
+        },
+        {
+          "Canonical": "beautiful bedroom floors",
+          "Alternatives": [
+            "beautiful bedroom floors"
+          ],
+          "Description": "beautiful bedroom floors"
+        },
+        {
+          "Canonical": "beautiful home",
+          "Alternatives": [
+            "beautiful home"
+          ],
+          "Description": "beautiful home"
+        },
+        {
+          "Canonical": "bosch appliances",
+          "Alternatives": [
+            "bosch appliances"
+          ],
+          "Description": "bosch appliances"
+        },
+        {
+          "Canonical": "brand new",
+          "Alternatives": [
+            "brand new"
+          ],
+          "Description": "brand new"
+        },
+        {
+          "Canonical": "bungalow",
+          "Alternatives": [
+            "bungalow"
+          ],
+          "Description": "bungalow"
+        },
+        {
+          "Canonical": "coastal views",
+          "Alternatives": [
+            "coastal views"
+          ],
+          "Description": "coastal views"
+        },
+        {
+          "Canonical": "condo",
+          "Alternatives": [
+            "condo"
+          ],
+          "Description": "condo"
+        },
+        {
+          "Canonical": "condominium",
+          "Alternatives": [
+            "condominium"
+          ],
+          "Description": "condominium"
+        },
+        {
+          "Canonical": "covered front porch",
+          "Alternatives": [
+            "covered front porch"
+          ],
+          "Description": "covered front porch"
+        },
+        {
+          "Canonical": "crown mouldings",
+          "Alternatives": [
+            "crown mouldings"
+          ],
+          "Description": "crown mouldings"
+        },
+        {
+          "Canonical": "cul-de-sac",
+          "Alternatives": [
+            "cul-de-sac"
+          ],
+          "Description": "cul-de-sac"
+        },
+        {
+          "Canonical": "culs-de-sac",
+          "Alternatives": [
+            "culs-de-sac"
+          ],
+          "Description": "culs-de-sac"
+        },
+        {
+          "Canonical": "cultisac",
+          "Alternatives": [
+            "cultisac"
+          ],
+          "Description": "cultisac"
+        },
+        {
+          "Canonical": "dead end road",
+          "Alternatives": [
+            "dead end road"
+          ],
+          "Description": "dead end road"
+        },
+        {
+          "Canonical": "dead end street",
+          "Alternatives": [
+            "dead end street"
+          ],
+          "Description": "dead end street"
+        },
+        {
+          "Canonical": "den",
+          "Alternatives": [
+            "den"
+          ],
+          "Description": "den"
+        },
+        {
+          "Canonical": "detached garage",
+          "Alternatives": [
+            "detached garage"
+          ],
+          "Description": "detached garage"
+        },
+        {
+          "Canonical": "dream home",
+          "Alternatives": [
+            "dream home"
+          ],
+          "Description": "dream home"
+        },
+        {
+          "Canonical": "duplex residence",
+          "Alternatives": [
+            "duplex residence"
+          ],
+          "Description": "duplex residence"
+        },
+        {
+          "Canonical": "entertaining",
+          "Alternatives": [
+            "entertaining"
+          ],
+          "Description": "entertaining"
+        },
+        {
+          "Canonical": "flat",
+          "Alternatives": [
+            "flat"
+          ],
+          "Description": "flat"
+        },
+        {
+          "Canonical": "flatlet",
+          "Alternatives": [
+            "flatlet"
+          ],
+          "Description": "flatlet"
+        },
+        {
+          "Canonical": "formal dining room",
+          "Alternatives": [
+            "formal dining room"
+          ],
+          "Description": "formal dining room"
+        },
+        {
+          "Canonical": "french doors throughout",
+          "Alternatives": [
+            "french doors throughout"
+          ],
+          "Description": "french doors throughout"
+        },
+        {
+          "Canonical": "freshly painted",
+          "Alternatives": [
+            "freshly painted"
+          ],
+          "Description": "freshly painted"
+        },
+        {
+          "Canonical": "garden",
+          "Alternatives": [
+            "garden"
+          ],
+          "Description": "garden"
+        },
+        {
+          "Canonical": "gas log fireplace",
+          "Alternatives": [
+            "gas log fireplace"
+          ],
+          "Description": "gas log fireplace"
+        },
+        {
+          "Canonical": "gated community",
+          "Alternatives": [
+            "gated community"
+          ],
+          "Description": "gated community"
+        },
+        {
+          "Canonical": "generous backyard",
+          "Alternatives": [
+            "generous backyard"
+          ],
+          "Description": "generous backyard"
+        },
+        {
+          "Canonical": "granite countertops",
+          "Alternatives": [
+            "granite countertops"
+          ],
+          "Description": "granite countertops"
+        },
+        {
+          "Canonical": "great starter home",
+          "Alternatives": [
+            "great starter home"
+          ],
+          "Description": "great starter home"
+        },
+        {
+          "Canonical": "great views",
+          "Alternatives": [
+            "great views"
+          ],
+          "Description": "great views"
+        },
+        {
+          "Canonical": "guest house",
+          "Alternatives": [
+            "guest house"
+          ],
+          "Description": "guest house"
+        },
+        {
+          "Canonical": "guest room",
+          "Alternatives": [
+            "guest room"
+          ],
+          "Description": "guest room"
+        },
+        {
+          "Canonical": "hardwood floors",
+          "Alternatives": [
+            "hardwood floors"
+          ],
+          "Description": "hardwood floors"
+        },
+        {
+          "Canonical": "heated pool",
+          "Alternatives": [
+            "heated pool"
+          ],
+          "Description": "heated pool"
+        },
+        {
+          "Canonical": "heated towel racks",
+          "Alternatives": [
+            "heated towel racks"
+          ],
+          "Description": "heated towel racks"
+        },
+        {
+          "Canonical": "high end kitchen appliances",
+          "Alternatives": [
+            "high end kitchen appliances"
+          ],
+          "Description": "high end kitchen appliances"
+        },
+        {
+          "Canonical": "home office",
+          "Alternatives": [
+            "home office"
+          ],
+          "Description": "home office"
+        },
+        {
+          "Canonical": "huge bonus room",
+          "Alternatives": [
+            "huge bonus room"
+          ],
+          "Description": "huge bonus room"
+        },
+        {
+          "Canonical": "lake access",
+          "Alternatives": [
+            "lake access"
+          ],
+          "Description": "lake access"
+        },
+        {
+          "Canonical": "lake front property",
+          "Alternatives": [
+            "lake front property"
+          ],
+          "Description": "lake front property"
+        },
+        {
+          "Canonical": "lakefront property",
+          "Alternatives": [
+            "lakefront property"
+          ],
+          "Description": "lakefront property"
+        },
+        {
+          "Canonical": "lap pool",
+          "Alternatives": [
+            "lap pool"
+          ],
+          "Description": "lap pool"
+        },
+        {
+          "Canonical": "large laundry room",
+          "Alternatives": [
+            "large laundry room"
+          ],
+          "Description": "large laundry room"
+        },
+        {
+          "Canonical": "large lot",
+          "Alternatives": [
+            "large lot"
+          ],
+          "Description": "large lot"
+        },
+        {
+          "Canonical": "large walk in closet",
+          "Alternatives": [
+            "large walk in closet"
+          ],
+          "Description": "large walk in closet"
+        },
+        {
+          "Canonical": "lots of storage",
+          "Alternatives": [
+            "lots of storage"
+          ],
+          "Description": "lots of storage"
+        },
+        {
+          "Canonical": "miele appliances",
+          "Alternatives": [
+            "miele appliances"
+          ],
+          "Description": "miele appliances"
+        },
+        {
+          "Canonical": "mountain views",
+          "Alternatives": [
+            "mountain views"
+          ],
+          "Description": "mountain views"
+        },
+        {
+          "Canonical": "mouse problem",
+          "Alternatives": [
+            "mouse problem"
+          ],
+          "Description": "mouse problem"
+        },
+        {
+          "Canonical": "move in condition",
+          "Alternatives": [
+            "move in condition"
+          ],
+          "Description": "move in condition"
+        },
+        {
+          "Canonical": "move-in ready",
+          "Alternatives": [
+            "move-in ready"
+          ],
+          "Description": "move-in ready"
+        },
+        {
+          "Canonical": "multi-storey house",
+          "Alternatives": [
+            "multi-storey house"
+          ],
+          "Description": "multi-storey house"
+        },
+        {
+          "Canonical": "multi-story residence",
+          "Alternatives": [
+            "multi-story residence"
+          ],
+          "Description": "multi-story residence"
+        },
+        {
+          "Canonical": "no outlet",
+          "Alternatives": [
+            "no outlet"
+          ],
+          "Description": "no outlet"
+        },
+        {
+          "Canonical": "no through road",
+          "Alternatives": [
+            "no through road"
+          ],
+          "Description": "no through road"
+        },
+        {
+          "Canonical": "ocean views",
+          "Alternatives": [
+            "ocean views"
+          ],
+          "Description": "ocean views"
+        },
+        {
+          "Canonical": "oceanfrontage",
+          "Alternatives": [
+            "oceanfrontage"
+          ],
+          "Description": "oceanfrontage"
+        },
+        {
+          "Canonical": "office",
+          "Alternatives": [
+            "office"
+          ],
+          "Description": "office"
+        },
+        {
+          "Canonical": "panoramic views",
+          "Alternatives": [
+            "panoramic views"
+          ],
+          "Description": "panoramic views"
+        },
+        {
+          "Canonical": "parks",
+          "Alternatives": [
+            "parks"
+          ],
+          "Description": "parks"
+        },
+        {
+          "Canonical": "priced to sell",
+          "Alternatives": [
+            "priced to sell"
+          ],
+          "Description": "priced to sell"
+        },
+        {
+          "Canonical": "ranch style house",
+          "Alternatives": [
+            "ranch style house"
+          ],
+          "Description": "ranch style house"
+        },
+        {
+          "Canonical": "river",
+          "Alternatives": [
+            "river"
+          ],
+          "Description": "river"
+        },
+        {
+          "Canonical": "sauna",
+          "Alternatives": [
+            "sauna"
+          ],
+          "Description": "sauna"
+        },
+        {
+          "Canonical": "schools",
+          "Alternatives": [
+            "schools"
+          ],
+          "Description": "schools"
+        },
+        {
+          "Canonical": "semi-detached house",
+          "Alternatives": [
+            "semi-detached house"
+          ],
+          "Description": "semi-detached house"
+        },
+        {
+          "Canonical": "shopping",
+          "Alternatives": [
+            "shopping"
+          ],
+          "Description": "shopping"
+        },
+        {
+          "Canonical": "short sale",
+          "Alternatives": [
+            "short sale"
+          ],
+          "Description": "short sale"
+        },
+        {
+          "Canonical": "small lake",
+          "Alternatives": [
+            "small lake"
+          ],
+          "Description": "small lake"
+        },
+        {
+          "Canonical": "stainless steel appliances",
+          "Alternatives": [
+            "stainless steel appliances"
+          ],
+          "Description": "stainless steel appliances"
+        },
+        {
+          "Canonical": "steam room",
+          "Alternatives": [
+            "steam room"
+          ],
+          "Description": "steam room"
+        },
+        {
+          "Canonical": "sub-zero appliances",
+          "Alternatives": [
+            "sub-zero appliances"
+          ],
+          "Description": "sub-zero appliances"
+        },
+        {
+          "Canonical": "swimming pool",
+          "Alternatives": [
+            "swimming pool"
+          ],
+          "Description": "swimming pool"
+        },
+        {
+          "Canonical": "tenement house",
+          "Alternatives": [
+            "tenement house"
+          ],
+          "Description": "tenement house"
+        },
+        {
+          "Canonical": "thermador appliances",
+          "Alternatives": [
+            "thermador appliances"
+          ],
+          "Description": "thermador appliances"
+        },
+        {
+          "Canonical": "top of the line appliances",
+          "Alternatives": [
+            "top of the line appliances"
+          ],
+          "Description": "top of the line appliances"
+        },
+        {
+          "Canonical": "townhouse",
+          "Alternatives": [
+            "townhouse"
+          ],
+          "Description": "townhouse"
+        },
+        {
+          "Canonical": "two master suites",
+          "Alternatives": [
+            "two master suites"
+          ],
+          "Description": "two master suites"
+        },
+        {
+          "Canonical": "two-story residence",
+          "Alternatives": [
+            "two-story residence"
+          ],
+          "Description": "two-story residence"
+        },
+        {
+          "Canonical": "vaulted ceilings",
+          "Alternatives": [
+            "vaulted ceilings"
+          ],
+          "Description": "vaulted ceilings"
+        },
+        {
+          "Canonical": "viking appliances",
+          "Alternatives": [
+            "viking appliances"
+          ],
+          "Description": "viking appliances"
+        },
+        {
+          "Canonical": "walking distance of beach",
+          "Alternatives": [
+            "walking distance of beach"
+          ],
+          "Description": "walking distance of beach"
+        },
+        {
+          "Canonical": "wall of windows",
+          "Alternatives": [
+            "wall of windows"
+          ],
+          "Description": "wall of windows"
+        },
+        {
+          "Canonical": "water frontage",
+          "Alternatives": [
+            "water frontage"
+          ],
+          "Description": "water frontage"
+        },
+        {
+          "Canonical": "well maintained",
+          "Alternatives": [
+            "well maintained"
+          ],
+          "Description": "well maintained"
+        },
+        {
+          "Canonical": "wet bar",
+          "Alternatives": [
+            "wet bar"
+          ],
+          "Description": "wet bar"
+        },
+        {
+          "Canonical": "wood burning fireplace",
+          "Alternatives": [
+            "wood burning fireplace"
+          ],
+          "Description": "wood burning fireplace"
+        },
+        {
+          "Canonical": "wood floors",
+          "Alternatives": [
+            "wood floors"
+          ],
+          "Description": "wood floors"
+        }
+      ]
+    }
+  },
+  "DefaultCurrencyProperty": null,
+  "DefaultNumericProperty": null,
+  "DefaultGeoProperty": null
+}

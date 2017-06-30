@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Search.Tools.Generate": {
+      "commandName": "Project",
+      "commandLineArgs": "..\\..\\RealEstateBot\\Dialogs\\RealEstate.json -o ..\\..\\RealEstateBot\\Dialogs\\RealEstateModel.json  -s 9e768bb58e0d4a91ab3c501b71c0e8ac {-d dialogice2.cloudapp.net -p \"DiceDev:15Af429A9781490eB8326dA22e4Ff727\" -l 1a8dc589b6894e2b9ca44deb237d6943} {-ut} -u"
+    }
+  }
+}

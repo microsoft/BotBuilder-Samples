@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Search.Tools.Extract": {
+      "commandName": "Project",
+      "commandLineArgs": "realestate-sample listings 5D990AEFD184FB9DD91B50C9F72CAA03 -g \\tmp\\histogram2.json -h \\tmp\\histogram2.json  {-af description -ak da8ffa26e92049078d15882b878a8da6} -j c:\\tmp\\RealEstateBotData-complete.json -o c:\\tmp\\RealEstate.json -a city,region,type,status,district -dc price -dn price -dk description "
+    }
+  }
+}

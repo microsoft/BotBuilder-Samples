@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <AssemblyName>Search.Tools.Extract</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>Search.Tools.Extract</PackageId>
+    <RuntimeIdentifiers>win10-x64;win8-x64;win81-x64;win7-x64;osx.10.10-x64;osx.10.11-x64;osx.10.12-x64;rhel.7.2-x64;ubuntu.16.10-x64;ubuntu.16.04-x64;ubuntu.15.10-x64;ubuntu.15.04-x64;debian.8-x64;fedora.23-x64;fedora.24-x64</RuntimeIdentifiers>
+    <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
+    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Search.Azure\Search.Azure.csproj" />
+    <ProjectReference Include="..\Search.Contracts\Search.Contracts.csproj" />
+    <ProjectReference Include="..\Search.Utilities\Search.Utilities.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">
+    <DefineConstants>$(DefineConstants);NETSTANDARD1_6</DefineConstants>
+  </PropertyGroup>
+
+</Project>
