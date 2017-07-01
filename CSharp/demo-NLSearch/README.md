@@ -1,42 +1,35 @@
-# Azure Search Samples
+# Natural Language over Azure Search Sample
+A common need in a Bot is to be able to use natural language to filter over a large database to select one more items.  
+This sample includes a generic bot control for achieving this over an Azure Search index. The bot control supports both freeform and guided dialogs in order to help learn what you can ask.  
+The bot control is demonstrated through a bot that allows picking multiple items out of a 5 million item real estate index with queries like "3+ bedroom house in seattle with a fireplace for less than $800k".  
+This query shows a mixture of meta-data comparisons ("3+ bedroom", "less than $800k"), attributes ("house", "seattle") and keywords ("fireplace").
 
-Depending on the nature of any given bot, sometimes you want to present structured dialogs that take users through tight paths, while in other cases you want to 
-help users navigate a large amount of content. In many cases you'll have a mix of dialogs of both kinds in a single bot.  
-
-These samples illustrate how to approach dialogs that need to help the user navigate large amounts of content, creating a data-driven exploration experience.
-
-Content is modeled as a catalog of items where each item has several attributes that may be used for navigation, keyword search or display.
-
-| Real Estate Sample | Job Listing Sample|
-|--------------------|-------------------|
-|[![Deploy to Azure][Deploy Button]][Deploy CSharp/Search/RealEstateBot]|[![Deploy to Azure][Deploy Button]][Deploy CSharp/Search/JobListingBot]|
-
+[![Deploy to Azure][Deploy Button]][Deploy CSharp/NLSearch/RealEstateBot]
 
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
-[Deploy CSharp/Search/RealEstateBot]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/demo-Search/RealEstateBot
-[Deploy CSharp/Search/JobListingBot]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/demo-Search/JobListingBot
+[Deploy CSharp/Search/RealEstateBot]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/master/CSharp/demo-NLSearch/RealEstateBot
 
-### Prerequisites
+## Prerequisites
 
 The minimum prerequisites to run this sample are:
-* The latest update of Visual Studio 2015. You can download the community version [here](http://www.visualstudio.com) for free.
-* The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
+* The latest update of Visual Studio 2017. You can download the community version [here](http://www.visualstudio.com) for free.
+* The Bot Framework Emulator to run locally. To install the Bot Framework Emulator, download it from [here](https://aka.ms/bf-bc-emulator). Please refer to [this documentation article](https://docs.botframework.com/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator) to know more about the Bot Framework Emulator.
 
-### Azure Search
+## Azure Search
 
-The samples use [Azure Search](https://azure.microsoft.com/en-us/services/search/) as the backend for these dialogs. This is an Azure service that offers most of the needed pieces of functionality, including keyword search, built-in linguistics, custom scoring, faceted navigation and more. Azure Search can also index content from various sources (Azure SQL DB, DocumentDB, Blob Storage, Table Storage), supports "push" indexing for other sources of data, and can crack open PDFs, Office documents and other formats containing unstructured data. The content catalog goes into an Azure Search index, which we can then query from dialogs.
+The sample uses [Azure Search](https://azure.microsoft.com/en-us/services/search/) as the backend. This is an Azure service that offers most of the needed pieces of functionality, including keyword search, built-in linguistics, custom scoring, faceted navigation and more. 
+Azure Search can also index content from various sources (Azure SQL DB, DocumentDB, Blob Storage, Table Storage), supports "push" indexing for other sources of data, and can crack open PDFs, Office documents and other formats containing unstructured data. 
+The content catalog goes into an Azure Search index, which we can then query from a bot control dialog.
 
 > As a good practice, all the Azure Search specific components are implemented in the [Search.Azure](Search.Azure/) project while implementation agnostic interfaces and models can be found in the [Search.Contracts](Search.Contracts/)  project.
 
-### Dialogs
-
-The samples include a few different dialogs that are ready to use directly, or can be subtyped to override various pieces of functionality as needed:
-* [SearchSelectRefinerDialog](Search.Dialogs/SearchSelectRefinerDialog.cs) helps users pick a refiner (facet). It's a simple wrapper around a "choice" prompt dialog that can use a shared instance of SearchQueryBuilder to ensure you don't prompt users for a field you already refined on.
-* [SearchRefineDialog](/Search.Dialogs/SearchRefineDialog.cs) allows users to see different values for a given field and select one. This is typically used for filtering later on but can be applied to any case where you want to list distinct values for a given field in the catalog and let the user pick one.
-* [SearchLanguageDialog](/Search.Dialogs/SearchLanguageDialog.cs) allows users to enter in natural language queries. 
-* [SearchDialog](Search.Dialogs/SearchDialog.cs) offers a complete keyword search + refine experience over a search index, and uses the other search dialogs as building blocks. Users can explore the catalog by refining (using facets) and by using keyword search. They can also select items and review their selection. At the end of this dialog a list of one or more selected items is returned. You'll need to subtype this class and at a minimum override GetTopRefiners() (to list refiners (facets) to expore) and ToSearchHit() (to convert your index entries into a common representation that can be rendered).
-
-> You can find these dialogs in the [Search.Dialogs](Search.Dialogs/) project which is ready to reuse in your own bot.
+## Reusable components
+Tools and dialogs you can reuse in your own projects.
+* [Search.Tools.Extract](Core\Search.Tools.Extract\Readme.md) : A tool for analyzing an Azure Search index in order to generate a description of the schema and contents of the index.
+* [Search.Tools.Generate](Core\Search.Tools.Generate\Read.md) : A tool for taking the meta-data with a LUIS template that supports comparisons to make a custom LUIS model.
+* [SearchDialog](Core\Search.Dialogs\AzureSearchDialog.cs) : A generic Search Bot Control that uses the custom LUIS model to interpret user conversation for finding matches in a generic search provider.  The control is multi-turn and supports both guided and freefrom interactions.
+* [AzureSearchDialog](Core\Search.Dialogs\AzureSearchDialog.cs) : A generic Azure Search Bot Control that specializes SearchDialog for Azure Search.
+* [Microsoft.LUIS.API](Core\Microsoft.LUIS.API) : A library for programattically manipulating LUIS models.
 
 To stitch together multiple instances of these dialogs and have filters and other search options carry over, you can use a shared instance of [SearchQueryBuilder](Search.Contracts/Models/SearchQueryBuilder.cs), which captures all the search-related state.
 
@@ -50,8 +43,6 @@ file and then do:
 * generate <schemaFile> -l <LUIS Subscription Key> -tm <LUIS Model Name> -u : This will download the existing <LUIS Model name>, modify it with the information from <schemaFile> and then upload it again.
 
 ### Samples
-
-We included two samples here:
 
 1. RealEstateBot is a bot for exploring a real estate catalog. 
   It starts by taking an arbitrary set of keywords.
@@ -72,6 +63,8 @@ We included two samples here:
   |----------|-------|----------|
   |![Search](images/realstate-pick-emulator.png)|![Search](images/realstate-pick-facebook.png)|![Search](images/realstate-pick-skype.png)|
 
+  https://realestate-sample.search.windows.net
+
 2. JobListingBot is a bot for browing a catalog of job offerings.
   It starts by asking for a top-level refinement, a useful things to do in order to save users from an initial open-ended interation with the bot where they don't know what they can say.
   
@@ -79,7 +72,7 @@ We included two samples here:
   |----------|-------|----------|
   |![Search](images/joblisting-refine-emulator.png)|![Search](images/joblisting-refine-facebook.png)|![Search](images/joblisting-refine-skype.png)|
 
-> All samples target a shared, ready-to-use Azure Search service, so you don't need to provision your own to try these out. 
+> The sample targets a shared, ready-to-use [Azure Search service](https://realestate-sample.search.windows.net) with sample real estate data, so you don't need to provision your own to try it out. 
 
 ### More Information
 
