@@ -1,12 +1,9 @@
 {
-    "name": "botbuilder-sample-basicmultidialog",
+    "name": "core-basic-multidialog",
+    "version": "1.0.0",
     "dependencies": {
         "botbuilder": "^3.8.2",
-        "dotenv": "^2.0.0",
+        "dotenv-extended": "^2.0.0",
         "restify": "^4.3.0"
-    },
-    "devDependencies": {
-        "@types/node": "^6.0.52",
-        "@types/restify": "^2.0.35"
     }
 }

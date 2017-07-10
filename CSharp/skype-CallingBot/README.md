@@ -2,6 +2,11 @@
 
 A sample bot showing how to use the Skype Bot Plaform for Calling API for receiving and handling Skype voice calls.
 
+[![Deploy to Azure][Deploy Button]][Deploy CSharp/SkypeCallingBot]
+
+[Deploy Button]: https://azuredeploy.net/deploybutton.png
+[Deploy CSharp/SkypeCallingBot]: https://azuredeploy.net
+
 ### Prerequisites
 
 The minimum prerequisites to run this sample are:

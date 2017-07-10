@@ -1,0 +1,116 @@
+[
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Johann_Sebastian_Bach.jpg",
+        "Name": "Johannes Sebastian Bach",
+        "Era": "Classical",
+        "Description": "Johann Christian Bach was a composer of the Classical era, the eleventh surviving child and youngest son of Johann Sebastian Bach."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/3/33/Chopin,_by_Wodzinska.JPG",
+        "Name": "Frederic Chopin",
+        "Era": "Romantic",
+        "Description": "Frédéric François Chopin, born Fryderyk Franciszek Chopin, was a Polish composer and virtuoso pianist of the Romantic era who wrote primarily for the solo piano."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Beethoven.jpg/1280px-Beethoven.jpg",
+        "Name": "Ludwig Van Beethoven",
+        "Era": "Romantic",
+        "Description": "Ludwig van Beethoven was a German composer and pianist. A crucial figure in the transition between the Classical and Romantic eras in Western art music, he remains one of the most famous and influential of all composers."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Wolfgang-amadeus-mozart_1.jpg",
+        "Name": "Wolfgang Amadeus Mozart",
+        "Era": "Classical",
+        "Description": "Wolfgang Amadeus Mozart, baptised as Johannes Chrysostomus Wolfgangus Theophilus Mozart, was a prolific and influential composer of the Classical era. Born in Salzburg, Mozart showed prodigious ability from his earliest childhood."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/f/fa/George_Frideric_Handel_by_Balthasar_Denner.jpg",
+        "Name": "George Frideric Handel",
+        "Era": "Baroque",
+        "Description": "George Frideric Handel was a German, later British baroque composer who spent the bulk of his career in London, becoming well known for his operas, oratorios, anthems, and organ concertos."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Pyotr_Ilyich_Tchaikovsky.jpg",
+        "Name": "Pyotr Ilyich Tchaikovsky",
+        "Era": "Romantic",
+        "Description": "Pyotr Ilyich Tchaikovsky, often anglicized as Peter Ilyich Tchaikovsky, was a Russian composer of the late-Romantic period, some of whose works are among the most popular music in the classical repertoire."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/7/79/Franz_Schubert_cropped.jpg",
+        "Name": "Franz Shubert",
+        "Era": "Romantic",
+        "Description": "Franz Peter Schubert was an Austrian composer. Schubert died before his 32nd birthday, but was extremely prolific during his lifetime."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/1/15/JohannesBrahms.jpg",
+        "Name": "Johannes Brahms",
+        "Era": "Romantic",
+        "Description": "Johannes Brahms was a German composer and pianist. Born in Hamburg into a Lutheran family, Brahms spent much of his professional life in Vienna, Austria."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/9/9d/RichardWagner.jpg",
+        "Name": "Richard Wagner",
+        "Era": "Romantic",
+        "Description": "Wilhelm Richard Wagner was a German composer, theatre director, polemicist, and conductor who is primarily known for his operas. Unlike most opera composers, Wagner wrote both the libretto and the music for each of his stage works."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Joseph_Haydn.jpg/475px-Joseph_Haydn.jpg",
+        "Name": "Joseph Haydn",
+        "Era": "Classical",
+        "Description": "Joseph Haydn was a prolific Austrian composer of the Classical period. He was instrumental in the development of chamber music such as the piano trio and his contributions to musical form have earned him the epithets \"Father of the Symphony\" and \"Father of the String Quartet\"."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/f/f9/Claude_Debussy_ca_1908,_foto_av_F%C3%A9lix_Nadar.jpg",
+        "Name": "Claude Debussy",
+        "Era": "Impressionist",
+        "Description": "Claude-Achille Debussy was a French composer. He and Maurice Ravel were the most prominent figures associated with Impressionist music, though Debussy disliked the term when applied to his compositions."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/3/3a/Franz_Liszt_by_Nadar,_March_1886.png",
+        "Name": "Frans Liszt",
+        "Era": "Romantic",
+        "Description": "Franz Liszt was a prolific 19th-century Hungarian composer, virtuoso pianist, conductor, music teacher, arranger, and Franciscan tertiary."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Gustav-Mahler-Kohut.jpg",
+        "Name": "Gustav Mahler",
+        "Era": "Romantic",
+        "Description": "Gustav Mahler was an Austrian late-Romantic composer, and one of the leading conductors of his generation. As a composer he acted as a bridge between the 19th century Austro-German tradition and the modernism of the early 20th century."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Igor_Stravinsky_Essays.jpg",
+        "Name": "Igor Stravinsky",
+        "Era": "Modernist",
+        "Description": "Igor Fyodorovich Stravinsky was a Russian composer, pianist, and conductor. He is widely considered one of the most important and influential composers of the 20th century. Stravinsky's compositional career was notable for its stylistic diversity."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Felix_Mendelssohn-Bartholdy_%28AMZ_1837%29.png/1070px-Felix_Mendelssohn-Bartholdy_%28AMZ_1837%29.png",
+        "Name": "Felix Mendelssohn",
+        "Era": "Romantic",
+        "Description": "Jakob Ludwig Felix Mendelssohn Bartholdy, born and widely known as Felix Mendelssohn, was a German composer, pianist, organist and conductor of the early Romantic period."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/9/98/Antonio_Vivaldi_portrait.jpg",
+        "Name": "Antonio Vivaldi",
+        "Era": "Baroque",
+        "Description": "Antonio Lucio Vivaldi was an Italian Baroque composer, virtuoso violinist, teacher and cleric. Born in Venice, he is recognized as one of the greatest Baroque composers, and his influence during his lifetime was widespread across Europe."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/b/be/Sergei_Rachmaninoff_cph.3a40575.jpg",
+        "Name": "Sergei Rachmaninoff",
+        "Era": "Romantic",
+        "Description": "Sergei Vasilievich Rachmaninoff was a Russian pianist, composer, and conductor of the late-Romantic period, some of whose works are among the most popular in the classical repertoire. He is regarded as one of the major composers of the 20th century."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Portrait_of_Robert_Schumann.jpg",
+        "Name": "Robert Schumann",
+        "Era": "Romantic",
+        "Description": "Robert Schumann was a German composer and influential music critic. He is widely regarded as one of the greatest composers of the Romantic era. Schumann left the study of law, intending to pursue a career as a virtuoso pianist."
+    },
+    {
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/7/78/Maurice_Ravel_1925.jpg",
+        "Name": "Maurice Ravel",
+        "Era": "Impressionist",
+        "Description": "Joseph Maurice Ravel was a French composer, pianist and conductor. He is often associated with impressionism along with his elder contemporary Claude Debussy, although both composers rejected the term."
+    }
+]

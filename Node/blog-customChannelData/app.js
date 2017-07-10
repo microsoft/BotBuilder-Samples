@@ -7,21 +7,17 @@ var restify = require("restify");
 var botbuilder = require("botbuilder");
 var request = require("request-promise");
 
-//load environment variables here
-const MSFT_APP_ID = process.env.MSFT_APP_ID;
-const MSFT_APP_PW = process.env.MSFT_APP_PW;
-
 //create an express server
 var app = express();
-var port = process.env.PORT || 3978;
+var port = process.env.port || process.env.PORT || 3978;
 app.listen(port, function () {
-    console.log("Express app listening on port: " + port);
+    console.log('%s listening in port %s', app.name, port);
 });
 
 //create a chat connector for the bot
 var connector = new botbuilder.ChatConnector({
-    appId: MSFT_APP_ID,
-    appPassword: MSFT_APP_PW
+    appId: process.env.MICROSOFT_APP_ID,
+    appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 
 //load the botbuilder classes and build a unversal bot using the chat connector
@@ -37,7 +33,7 @@ bot.dialog("/", function (session) {
     console.log("Bot Received Message at '/' dialogue endpoint: ");
 
     //detect Facebook Messenger message here
-    if (session.message.address.channelId == "facebook") {
+    if (session.message.address.channelId === "facebook") {
         session.send("Facebook message recognized!");
         session.beginDialog("/send_share_button");
     } else session.send("Channel other than Facebook recognized.");

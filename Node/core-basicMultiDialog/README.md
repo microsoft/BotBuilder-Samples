@@ -2,6 +2,11 @@
 
 A conversation inside of a bot can contain one or more dialogs. A dialog is designed to be a self-contained set of interactions to collect information from a user, or perform an action on her behalf. The bot maintains a stack of dialogs, meaning that as each one completes, it's popped off the stack, and control returns to the one prior. You can add dialogs to the stack by calling `session.beginDialog` or `session.replaceDialog`, and ended by using `session.endDialog` or `session.endDialogWithResult`.
 
+[![Deploy to Azure][Deploy Button]][Deploy Node/BasicMultiDialog]
+
+[Deploy Button]: https://azuredeploy.net/deploybutton.png
+[Deploy Node/BasicMultiDialog]: https://azuredeploy.net
+
 ## Why create dialogs?
 
 Dialogs allow you to make your bot modular. Having multiple dialogs allows you to create smaller black boxes that can perform individual actions, much in the same way you'd create methods. In addition, because of the waterfall nature of bot logic, having dialogs allows you to perform validation, and restart an operation if needed. Finally, having multiple dialogs affords you the opportunity for reuse, which, of course, is the goal of all software development.

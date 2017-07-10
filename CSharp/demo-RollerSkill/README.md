@@ -2,6 +2,11 @@
 
 A sample bot optimized for speech-enabled channels such as Cortana.
 
+[![Deploy to Azure][Deploy Button]][Deploy CSharp/ContosoFlowers]
+
+[Deploy Button]: https://azuredeploy.net/deploybutton.png
+[Deploy CSharp/ContosoFlowers]: https://azuredeploy.net
+
 ### Prerequisites
 
 The minimum prerequisites to run this sample are:
