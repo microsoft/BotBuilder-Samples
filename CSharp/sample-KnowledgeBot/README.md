@@ -3,6 +3,11 @@ If you are new for developing C# bot, please see [this document](https://docs.mi
 
 In this document, we first describe how the code works. Then we explain how to try this sample.
 
+[![Deploy to Azure][Deploy Button]][Deploy CSharp/KnowledgeBot]
+
+[Deploy Button]: https://azuredeploy.net/deploybutton.png
+[Deploy CSharp/KnowledgeBot]: https://azuredeploy.net
+
 ## How the code works
 All messages get routed into the MessagesController.cs. From here, we replace the dialog with the PromptButtonsDialog dialog.
 

@@ -39,7 +39,7 @@
     },
     "Project": {
       "type": "string",
-      "defaultValue": "CSharp/cards-RichCards"
+      "defaultValue": "CSharp/Blog-CustomChannelData"
     },
     "MicrosoftAppId": {
       "type": "string"

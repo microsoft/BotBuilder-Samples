@@ -2,6 +2,11 @@
 
 A sample bot showing how to intercept messages and log them.
 
+[![Deploy to Azure][Deploy Button]][Deploy CSharp/MiddlewareLogging]
+
+[Deploy Button]: https://azuredeploy.net/deploybutton.png
+[Deploy CSharp/MiddlewareLogging]: https://azuredeploy.net
+
 ### Prerequisites
 
 The minimum prerequisites to run this sample are:

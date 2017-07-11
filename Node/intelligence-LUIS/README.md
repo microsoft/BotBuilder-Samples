@@ -37,7 +37,7 @@ One of the key problems in human-computer interactions is the ability of the com
 
 #### Intent Recognizers
 
-The BotBuilder Node SDK contains Recognizer plugins that allow to detect intention from user messages using different methods, from Regex to natural language understading. These Recognizer plugins and the IntentDialog are useful for building more open ended bots that support natural language style understanding.
+The BotBuilder Node SDK contains Recognizer plugins that allow to detect intention from user messages using different methods, from Regex to natural language understanding. These Recognizer plugins and the IntentDialog are useful for building more open ended bots that support natural language style understanding.
 
 Out of the box, Bot Builder comes with a [LuisRecognizer](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer) that can be used to call a machine learning model you have trained via the [LUIS web site](https://www.luis.ai/). You can create a LuisRecognizer that is pointed at your model and then pass that recognizer to an IntentDialog at creation time using the [options](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentdialogoptions) structure, or you can register a global recognizer that will listen to every user message and detect intention. Check out how to [register a global LuisRecognizer](app.js#L25-L28):
 
@@ -155,7 +155,7 @@ bot.dialog('SearchHotels', [
 
 Similarly, the [`ShowHotelsReviews`](app.js#L86) uses a single closure to search for hotel reviews.
 
-````
+````JavaScript
 bot.dialog('ShowHotelsReviews', function (session, args) {
     // retrieve hotel name from matched entities
     var hotelEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'Hotel');
