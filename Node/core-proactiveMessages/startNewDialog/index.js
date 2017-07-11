@@ -15,6 +15,7 @@ var connector = new builder.ChatConnector({
 });
 
 var bot = new builder.UniversalBot(connector);
+bot = require("./botadapter").patch(bot);
 
 // handle the proactive initiated dialog
 bot.dialog('/survey', function (session, args, next) {
