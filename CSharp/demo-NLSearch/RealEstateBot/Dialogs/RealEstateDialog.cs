@@ -86,7 +86,7 @@ namespace RealEstateBot.Dialogs
             var application = await subscription.GetOrImportApplicationAsync(
                         Path.Combine(rootPath, @"dialogs\RealEstateModel.json"),
                         context.CancellationToken, spelling);
-            LUISConfiguration = new LuisModelAttribute(application.ApplicationID, key, domain: domain, spellCheck: spelling != null, staging: staging);
+            LUISConfiguration = new LuisModelAttribute(application.ApplicationID, key, domain: domain) { SpellCheck = spelling != null, Staging = staging };
             context.Wait(IgnoreFirstMessage);
         }
 
