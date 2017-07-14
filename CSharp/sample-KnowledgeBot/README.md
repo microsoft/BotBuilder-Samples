@@ -224,7 +224,7 @@ public static class CardUtil
 ```
 
 ## How to try this sample
-Finally, let's test our bot out. You can tyr it with emulator after setting Web.config with search credentials.
+Finally, let's test our bot out. You can try it with emulator after setting Web.config with search credentials.
 I will demonstrate the bot working in the bot framework emulator, but if deployed to Azure Web Apps, this bot could be enabled on several different channels. 
 
 ### How to set search credentials in Web.Config
