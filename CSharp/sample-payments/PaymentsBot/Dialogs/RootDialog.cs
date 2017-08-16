@@ -169,6 +169,14 @@
 
             var receiptItems = new List<ReceiptItem>();
 
+            var facts = new List<Fact>
+            {
+                new Fact(Resources.RootDialog_Receipt_OrderID, paymentRecord.OrderId.ToString()),
+                new Fact(Resources.RootDialog_Receipt_PaymentMethod, paymentRecord.MethodName),
+                new Fact(Resources.RootDialog_Shipping_Address, paymentRecord.ShippingAddress.FullInline()),
+                new Fact(Resources.RootDialog_Shipping_Option, shippingOption != null ? shippingOption.Label : "N/A")
+            };
+
             receiptItems.AddRange(paymentRecord.Items.Select<PaymentItem, ReceiptItem>(item =>
             {
                 if (catalogItem.Title.Equals(item.Label))
@@ -181,24 +189,16 @@
                 }
                 else
                 {
-                    return RootDialog.BuildReceiptItem(
-                        item.Label,
-                        null,
-                        $"{item.Amount.Currency} {item.Amount.Value}",
-                        null);
+                    facts.Add(new Fact(item.Label, $"{item.Amount.Currency} {item.Amount.Value}"));
+                    return null;
                 }
-            }));
+            })
+            .Where(item => item != null));
 
             var receiptCard = new ReceiptCard
             {
                 Title = Resources.RootDialog_Receipt_Title,
-                Facts = new List<Fact>
-                {
-                    new Fact(Resources.RootDialog_Receipt_OrderID, paymentRecord.OrderId.ToString()),
-                    new Fact(Resources.RootDialog_Receipt_PaymentMethod, paymentRecord.MethodName),
-                    new Fact(Resources.RootDialog_Shipping_Address, paymentRecord.ShippingAddress.FullInline()),
-                    new Fact(Resources.RootDialog_Shipping_Option, shippingOption != null ? shippingOption.Label : "N/A")
-                },
+                Facts = facts,
                 Items = receiptItems,
                 Tax = null, // Sales Tax is a displayed line item, leave this blank
                 Total = $"{paymentRecord.Total.Amount.Currency} {paymentRecord.Total.Amount.Value}"
