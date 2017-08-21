@@ -52,7 +52,6 @@ bot.dialog('/', function(session, args) {
   var message = 'Hey there, I\'m going to interrupt our conversation and start a survey in a few seconds.';
   session.send(message);
   
-  connector.url
   message = 'You can also make me send a message by accessing: ';
   message += 'http://localhost:' + server.address().port + '/api/CustomWebApi';
   session.send(message);

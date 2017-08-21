@@ -10,7 +10,7 @@ All samples below include a custom web api controller that also triggers the sam
 
 ## examples
 
-**simpleSendMessage**: This is the simplest form of having the bot initiating the message ot the user. Basically the message is sent as an "ad hoc", which means it won't change the context of the current conversation and that conversation will keep flowing as usual. So if the bot is asking: 
+**simpleSendMessage**: This is the simplest form of having the bot initiating the message to the user. Basically the message is sent as an "ad hoc", which means it won't change the context of the current conversation and that conversation will keep flowing as usual. So if the bot is asking: 
 
 - "What pizza toppings would you want?"
 
