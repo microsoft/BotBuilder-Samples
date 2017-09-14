@@ -48,11 +48,11 @@ Scenario shows the user changing its mind (context switching)
 
 ````
 Bot: What do you want to do?
-User: Find me a hotel in Madrid                         -- This would trigger a new `FindHotel` intent with Madrid as Location entity
+User: Find me a hotel in Madrid                         -- This would trigger a new `FindHotels` intent with Madrid as Location entity
 Bot: When do you want to check-in?
 User: Today
 Bot: When do you want to check-out?
-User: I changed my mind, find flights to Madrid         -- This would trigger a new `FindFlight` intent with Madrid as Location entity (`FindHotel` progress is discarded)
+User: I changed my mind, find flights to Madrid         -- This would trigger a new `FindFlights` intent with Madrid as Location entity (`FindHotels` progress is discarded)
 Bot: When do you want to flight?
 ````
 
@@ -66,18 +66,18 @@ Scenario shows an user changing one of the context parameters already answered
 
 ````
 Bot: What do you want to do?
-User: Find me a hotel in Madrid                     -- This would trigger a new `FindHotel` intent with Madrid as Location entity
+User: Find me a hotel in Madrid                     -- This would trigger a new `FindHotels` intent with Madrid as Location entity
 Bot: When do you want to check-in?
 User: Today
 Bot: When do you want to check-out?
-User: Sorry, change the checkin date to tomorrow    -- This would trigger a `ChangeHotelCheckin` intent with tomorrow as date (but will execute within the context of `FindHotel` and will update its check-in date previously set)
+User: Sorry, change the checkin date to tomorrow    -- This would trigger a `FindHotels-ChangeCheckin` intent with tomorrow as date (but will execute within the context of `FindHotels` and will update its check-in date previously set)
 Bot: Ok, I changed the check-in date to tomorrow
 Bot: When do you want to check-out?
 ````
 
 #### Scenario #3 : Trigger a Contextual Action with no previous Context (ie. from scratch)
 
-The user can provide an input that will trigger a contextual action (with no current context). The framework supports this scenario by providing a way to instantiate the contexts chain for it (ie. the chain of parent actions that provides will provide the whole context), and finally executes the request.
+The user can provide an input that will trigger a contextual action (with no current context). The framework supports this scenario by providing a way to instantiate the contexts chain for it (ie. the chain of parent actions that will provide the whole context), and finally executes the request.
 
 Next, there is a sample to depict the scenario:
 
@@ -85,8 +85,8 @@ Scenario shows an user changing a check-in date within its reservation (stored i
 
 ````
 User: Please change my check-in date to tomorrow
-Bot: Ok, I changed the check-in date to tomorrow                -- This triggered the `ChangeHotelCheckin` intent which should run in the context of the `FindHotel` action (so main action also is instanced)
-Bot: I changed you reservation in Madrid from 03/25 to 03/27    -- The required parameters of the main context are iterated until it can call the action fulfillment
+Bot: Ok, I changed the check-in date to tomorrow                -- This triggered the `FindHotels-ChangeCheckin` intent which should run in the context of the `FindHotels` action (so main action also is instanced)
+Bot: I changed your reservation in Madrid from 03/25 to 03/27   -- The required parameters of the main context are iterated until it can call the action fulfillment
 ````
 
 The framework also provides, within this scenario, a callback that you can use to hydrate or re-create the parent contexts for the action you are starting. So, for example, in case you have a booking system and you want to change a parameter within a 'PerformBooking' reference (main intent), you can have a related intent 'PerformBookingCheckinChange' which runs in the context of the previous one and if the user already has a reservation you can hydrate the context back from the repository where you stored it (more details about this specific scenario through the document).
