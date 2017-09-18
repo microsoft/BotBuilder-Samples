@@ -58,6 +58,7 @@
     <Compile Include="GetDataFromPlaceBaseAction.cs" />
     <Compile Include="GetTimeInPlaceAction.cs" />
     <Compile Include="GetWeatherInPlaceAction.cs" />
+    <Compile Include="Advanced\AlternativesAction.cs" />
     <Compile Include="LocationAttibute.cs" />
     <Compile Include="Models\AirportInfo.cs" />
     <Compile Include="Models\WeatherInfo.cs" />

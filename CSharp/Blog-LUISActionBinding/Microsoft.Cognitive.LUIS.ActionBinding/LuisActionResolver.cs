@@ -9,6 +9,7 @@
     using Microsoft.Bot.Builder.Dialogs.Internals;
     using Microsoft.Bot.Builder.Luis;
     using Microsoft.Bot.Builder.Luis.Models;
+    using Newtonsoft.Json.Linq;
 
     [Serializable]
     public class LuisActionResolver
@@ -92,7 +93,7 @@
             {
                 var newIntentName = default(string);
                 var newAction = new LuisActionResolver(action.GetType().Assembly).ResolveActionFromLuisIntent(result, out newIntentName);
-                if (newAction != null)
+                if (newAction != null && !newAction.GetType().Equals(action.GetType()))
                 {
                     return new QueryValueResult(false)
                     {
@@ -348,19 +349,25 @@
 
                 try
                 {
+                    object value;
+
+                    // handle LUIS JObjects
+                    paramValue = SanitizeInputValue(type, paramValue);
+
                     if (type.IsArray)
                     {
-                        property.SetValue(action, BuildArrayOfValues(action, property, type.GetElementType(), paramValue));
+                        value = BuildArrayOfValues(action, property, type.GetElementType(), paramValue);
                     }
                     else if (type.IsEnum)
                     {
-                        property.SetValue(action, Enum.Parse(type, (string)paramValue));
+                        value = Enum.Parse(type, paramValue.ToString());
                     }
                     else
                     {
-                        var value = Convert.ChangeType(paramValue, type);
-                        property.SetValue(action, value);
+                        value = Convert.ChangeType(paramValue, type);
                     }
+
+                    property.SetValue(action, value);
 
                     return true;
                 }
@@ -391,7 +398,7 @@
                 var result = Array.CreateInstance(elementType, values.Count());
                 foreach (var value in values)
                 {
-                    result.SetValue(elementType.IsEnum ? Enum.Parse(elementType, (string)value) : Convert.ChangeType(value, elementType), idx++);
+                    result.SetValue(elementType.IsEnum ? Enum.Parse(elementType, value.ToString()) : Convert.ChangeType(value, elementType), idx++);
                 }
 
                 return result;
@@ -400,6 +407,33 @@
             {
                 return null;
             }
+        }
+
+        private static object SanitizeInputValue(Type targetType, object value)
+        {
+            object result = value;
+
+            // handle case where input is JArray returned from LUIS
+            if (value is JArray)
+            {
+                var arrayOfValues = value as JArray;
+
+                if (targetType.IsArray)
+                {
+                    result = arrayOfValues.AsEnumerable<object>();
+                }
+                else
+                {
+                    if (arrayOfValues.Count > 1)
+                    {
+                        throw new FormatException("Cannot assign multiple values to single field");
+                    }
+
+                    result = arrayOfValues[0];
+                }
+            }
+
+            return result;
         }
 
         private static bool AssignEntitiesToMembers(
@@ -489,6 +523,22 @@
                         : matchingEntity.Entity;
 
                     result &= AssignValue(action, property, paramValue);
+                }
+                else if (matchingEntities.Count() > 0 
+                    && matchingEntities.Count(e => e.Resolution != null && e.Resolution.First().Value is JArray) == matchingEntities.Count())
+                {
+                    var paramValues = new JArray();
+                   
+                    foreach (var currentMatchingEntity in matchingEntities)
+                    {
+                        var values = currentMatchingEntity.Resolution.First().Value as JArray;
+                        foreach (var value in values)
+                        {
+                            paramValues.Add(value);
+                        }
+                    }
+
+                    result &= AssignValue(action, property, paramValues);
                 }
                 else
                 {
