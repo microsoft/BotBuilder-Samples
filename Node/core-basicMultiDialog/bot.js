@@ -130,9 +130,9 @@ bot.dialog('getAge', [
                     { name: session.dialogData.name, isReprompt: true });
             }
         } else {
-            // Valid city received
+            // Valid age received
             // Return control to calling dialog
-            // Pass the city in the response property of results
+            // Pass the age in the response property of results
             session.endDialogWithResult({ response: age });
         }
     }
