@@ -10,7 +10,7 @@
     <description>Add 'Action Binding' capabilities to your LUIS app</description>
     <copyright>Copyright ©  2017</copyright>
     <dependencies>
-      <dependency id="Microsoft.Bot.Builder" version="3.5.3" />
+      <dependency id="Microsoft.Bot.Builder" version="3.11.0" />
     </dependencies>
   </metadata>
 </package>
