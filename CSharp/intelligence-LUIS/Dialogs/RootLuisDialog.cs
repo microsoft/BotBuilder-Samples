@@ -11,7 +11,7 @@
     using Microsoft.Bot.Builder.Luis.Models;
     using Microsoft.Bot.Connector;
 
-    [LuisModel("YourModelId", "YourSubscriptionKey")]
+    [LuisModel("YourModelId", "YourSubscriptionKey", domain: "westus.api.cognitive.microsoft.com")]
     [Serializable]
     public class RootLuisDialog : LuisDialog<object>
     {
