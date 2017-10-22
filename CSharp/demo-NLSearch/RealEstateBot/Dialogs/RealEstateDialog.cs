@@ -133,7 +133,7 @@ namespace RealEstateBot.Dialogs
 
         public async Task GotName(IDialogContext context, IAwaitable<string> name)
         {
-            var newName = await name;
+            var newName = (await name).Trim();
             await context.PostAsync($"Good to meet you {newName}!");
             context.UserData.SetValue(NameKey, newName);
             Search(context);

@@ -231,20 +231,20 @@ namespace Search.Dialogs.UserInteraction
                     double typical, min, max;
                     prompt = (string)_prompts.GetType().GetField(type.ToString() + "Money").GetValue(_prompts);
                     Examples(field, out typical, out min, out max);
-                    prompt = string.Format(prompt, field.Description(), field.Min, field.Max, typical, min, max);
+                    prompt = string.Format(_formatter, prompt, field.Description(), field.Min, field.Max, typical, min, max);
                 }
                 else if (field.Type.IsNumeric())
                 {
                     double typical, min, max;
                     prompt = (string)_prompts.GetType().GetField(type.ToString() + "Number").GetValue(_prompts);
                     Examples(field, out typical, out min, out max);
-                    prompt = string.Format(prompt, field.Description(), field.Min, field.Max, typical, min, max);
+                    prompt = string.Format(_formatter, prompt, field.Description(), field.Min, field.Max, typical, min, max);
                 }
                 else
                 {
                     var typical = field.Examples.FirstOrDefault();
                     prompt = (string)_prompts.GetType().GetField(type.ToString() + "String").GetValue(_prompts);
-                    prompt = string.Format(prompt, field.Description(), typical);
+                    prompt = string.Format(_formatter, prompt, field.Description(), typical);
                 }
             }
             return prompt;

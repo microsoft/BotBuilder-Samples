@@ -1,15 +1,11 @@
-﻿using System.IO;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 using Autofac;
-using Microsoft.Azure.Search.Models;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Internals.Fibers;
-using Newtonsoft.Json;
 using RealEstateBot.Dialogs;
-using Search.Azure.Services;
-using Search.Models;
-using Search.Services;
+using Search.Dialogs;
+using System.Configuration;
+using System;
+using System.Web;
 
 namespace RealEstateBot
 {
@@ -18,6 +14,19 @@ namespace RealEstateBot
         protected void Application_Start()
         {
             var builder = new ContainerBuilder();
+
+            var translationKey = ConfigurationManager.AppSettings["TranslationKey"];
+            if (string.IsNullOrWhiteSpace(translationKey))
+            {
+                translationKey = Environment.GetEnvironmentVariable("TranslationKey");
+            }
+            builder.RegisterInstance<SearchTranslator>(new SearchTranslator("en", translationKey))
+                   .AsImplementedInterfaces()
+                    .SingleInstance();
+
+            /* builder.RegisterType<TraceActivityLogger>()
+                .AsImplementedInterfaces()
+                .SingleInstance();*/
 
             builder.RegisterType<RealEstateDialog>()
                 .As<IDialog<object>>()

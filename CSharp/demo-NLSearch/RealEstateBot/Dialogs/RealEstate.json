@@ -1,7 +1,7 @@
 {
   "Fragments": [],
   "DefaultCurrencyProperty": "price",
-  "DefaultNumericProperty": "price",
+  "DefaultNumericProperty": null,
   "DefaultGeoProperty": null,
   "KeywordFields": [ "description" ],
   "Keywords": "acreage of land,apartment residence,appliances,attached garage,automatic sprinklers,bachelor apartment,beach,beautiful bedroom floors,beautiful hardwood floors,beautiful home,bosch appliances,bungalow,ceilings,closet,coastal views,community pool,condition,condo,condominium,crown mouldings,cul-,culs-,cultisac,dead end road,dead end street,deck,den,detached garage,dream home,duplex residence,entertaining,features,features bosch appliances,features high end kitchen appliances,features miele appliances,features stainless steel appliances,features sub,features thermador appliances,features viking appliances,finished basement,flatlet,formal dining room,french doors,garden,gas log fireplace,gated community,generous backyard,gleaming hardwood floors,granite countertops,great room,great starter home,guest house,guest room,heated pool,heated towel racks,high ceilings,high end kitchen appliances,home,home office,huge bonus room,lake,lakefront property,lap pool,large laundry room,large lot,large walk,line appliances,master suites,media room,miele appliances,mountain,mountain views,multi-storey house,multi-story residence,ocean,ocean views,oceanfrontage,office,outlet,owner financing available,panoramic views,parks,pool table,porch,property,ranch style house,ready,river,road,sac,sauna,schools,semi-detached house,shopping,short sale,small lake,spacious living room,stainless steel appliances,steam room,storage,story residence,swimming pool,tenement house,tennis court,thermador appliances,towel racks,townhouse,views,viking appliances,walking distance,wall of windows,water frontage,wet bar,wood burning fireplace,wood floors",
@@ -51,7 +51,9 @@
           "bedroom",
           "beds",
           "bd",
-          "br"
+          "br",
+          "room",
+          "rooms"
         ]
       },
       "ValueSynonyms": [],

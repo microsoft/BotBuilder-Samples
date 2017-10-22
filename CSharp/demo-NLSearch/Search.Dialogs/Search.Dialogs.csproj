@@ -107,6 +107,7 @@
     <Compile Include="SearchDialog.cs" />
     <Compile Include="SearchHitStyler.cs" />
     <Compile Include="SearchPromptStyler.cs" />
+    <Compile Include="SearchTranslator.cs" />
     <Compile Include="Tools\Extensions.cs" />
     <Compile Include="UserInteraction\Button.cs" />
     <Compile Include="UserInteraction\FacetDisplay.cs" />
