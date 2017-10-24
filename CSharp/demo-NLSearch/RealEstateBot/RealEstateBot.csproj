@@ -23,6 +23,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -144,10 +145,10 @@
     <Content Include="Dialogs\RealEstate.json" />
     <Content Include="packages.config" />
     <Content Include="BuildLUIS.cmd" />
-    <None Include="Properties\PublishProfiles\catalogbot - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\catalogbot - Web Deploy.pubxml" />
     <Content Include="Readme.md" />
-    <None Include="Properties\PublishProfiles\RealEstateBotCUI - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\RealEstateBotCUI - Web Deploy.pubxml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

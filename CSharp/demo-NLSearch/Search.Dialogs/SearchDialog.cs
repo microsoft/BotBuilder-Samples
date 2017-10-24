@@ -163,7 +163,7 @@ namespace Search.Dialogs
                 var id = text.Substring(7).Trim();
                 await RemoveSelectedItem(context, id);
             }
-            else
+            else if (!string.IsNullOrWhiteSpace(text))
             {
                 await base.MessageReceived(context, item);
             }

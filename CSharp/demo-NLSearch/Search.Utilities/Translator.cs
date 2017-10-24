@@ -43,14 +43,21 @@ namespace Search.Utilities
             return locale;
         }
 
-		public async Task<Translation> Translate(string from, string to, params string[] texts)
+        public async Task<Translation> Translate(string from, string to, params string[] texts)
         {
             var result = new Translation();
-            var uri = $"{BASE}/TranslateArray";
-            var strings = string.Join("\n", texts.Select((t) => 
-                $@"<string xmlns=""http://schemas.microsoft.com/2003/10/Serialization/Arrays"">{System.Web.HttpUtility.HtmlEncode(t)}</string>"));
-            var body = 
-                $@"<TranslateArrayRequest>
+            if (_key == null || from == to)
+            {
+                result.SourceLanguage = from;
+                result.Translations = texts;
+            }
+            else
+            {
+                var uri = $"{BASE}/TranslateArray";
+                var strings = string.Join("\n", texts.Select((t) =>
+                    $@"<string xmlns=""http://schemas.microsoft.com/2003/10/Serialization/Arrays"">{System.Web.HttpUtility.HtmlEncode(t)}</string>"));
+                var body =
+                    $@"<TranslateArrayRequest>
                      <AppId />
                      <From>{from}</From>
                      <Options>
@@ -59,32 +66,33 @@ namespace Search.Utilities
                      <Texts>{strings}</Texts>
                      <To>{to}</To>
                    </TranslateArrayRequest>";
-            using (var client = new HttpClient())
-            using (var request = new HttpRequestMessage())
-            {
-                request.Method = HttpMethod.Post;
-                request.RequestUri = new Uri(uri);
-                request.Content = new StringContent(body, Encoding.UTF8, "text/xml");
-                request.Headers.Add("Ocp-Apim-Subscription-Key", _key);
-                var response = await client.SendAsync(request);
-                var responseBody = await response.Content.ReadAsStringAsync();
-                switch (response.StatusCode)
+                using (var client = new HttpClient())
+                using (var request = new HttpRequestMessage())
                 {
-                    case HttpStatusCode.OK:
-                        var doc = XDocument.Parse(responseBody);
-                        var ns = XNamespace.Get("http://schemas.datacontract.org/2004/07/Microsoft.MT.Web.Service.V2");
-                        var i = 0;
-                        result.Translations = new string[texts.Length];
-                        foreach (var xe in doc.Descendants(ns + "TranslateArrayResponse"))
-                        {
-                            result.Translations[i++] = xe.Elements(ns + "TranslatedText").First().Value;
-                        }
-                        // TODO: What if there is more than one language?
-                        result.SourceLanguage = doc.Descendants(ns + "From").First().Value;
-                        break;
+                    request.Method = HttpMethod.Post;
+                    request.RequestUri = new Uri(uri);
+                    request.Content = new StringContent(body, Encoding.UTF8, "text/xml");
+                    request.Headers.Add("Ocp-Apim-Subscription-Key", _key);
+                    var response = await client.SendAsync(request);
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    switch (response.StatusCode)
+                    {
+                        case HttpStatusCode.OK:
+                            var doc = XDocument.Parse(responseBody);
+                            var ns = XNamespace.Get("http://schemas.datacontract.org/2004/07/Microsoft.MT.Web.Service.V2");
+                            var i = 0;
+                            result.Translations = new string[texts.Length];
+                            foreach (var xe in doc.Descendants(ns + "TranslateArrayResponse"))
+                            {
+                                result.Translations[i++] = xe.Elements(ns + "TranslatedText").First().Value;
+                            }
+                            // TODO: What if there is more than one language?
+                            result.SourceLanguage = doc.Descendants(ns + "From").First().Value;
+                            break;
 
-                    default:
-                        throw new Exception($"Could not translate {body}: {responseBody}");
+                        default:
+                            throw new Exception($"Could not translate {body}: {responseBody}");
+                    }
                 }
             }
             return result;

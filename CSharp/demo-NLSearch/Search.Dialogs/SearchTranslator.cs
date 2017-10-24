@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
 using Search.Utilities;
+using System.Globalization;
 
 
 // Notes:
@@ -21,6 +22,11 @@ namespace Search.Dialogs
         public string BotLanguage
         {
             get;
+        }
+
+        public string UserLanguage
+        {
+            get; set;
         }
 
         private Translator Translation;
@@ -157,17 +163,32 @@ namespace Search.Dialogs
             return result;
         }
 
+        // TODO: This is the current set of generalnn translation languages
+        private HashSet<string> _translatorLanguages = new HashSet<string>() { "ar", "zh", "en", "fr", "de", "it", "ja", "ko", "pt", "ru", "es" };
+
+        private string UserLocale(IMessageActivity message)
+        {
+            string locale = UserLanguage ?? message?.Locale;
+            if (message != null && message.From.Name != "Bot" && message.Text.Length >= 2 && message.Text.Length <= 5 && _translatorLanguages.Contains(message.Text.Substring(0, 2)))
+            {
+                UserLanguage = locale = message.Text;
+                message.Text = "";
+            }
+            return locale;
+        }
+
         public async Task LogAsync(IActivity activity)
         {
             var message = activity.AsMessageActivity();
-            if (message != null && message.Locale != this.BotLanguage)
+            var userLanguage = UserLocale(message);
+            if (message != null && !string.IsNullOrWhiteSpace(message.Text) && userLanguage != this.BotLanguage)
             {
-                var fromLanguage = message.Locale;
+                var fromLanguage = userLanguage;
                 var toLanguage = this.BotLanguage;
                 if (message.From.Name == "Bot")
                 {
                     fromLanguage = this.BotLanguage;
-                    toLanguage = message.Locale;
+                    toLanguage = userLanguage;
                 }
 
                 var strings = new List<string>();
