@@ -169,7 +169,7 @@ namespace Search.Dialogs
         private string UserLocale(IMessageActivity message)
         {
             string locale = UserLanguage ?? message?.Locale;
-            if (message != null && message.From.Name != "Bot" && message.Text.Length >= 2 && message.Text.Length <= 5 && _translatorLanguages.Contains(message.Text.Substring(0, 2)))
+            if (message != null && message.ReplyToId == null && message.Text.Length >= 2 && message.Text.Length <= 5 && _translatorLanguages.Contains(message.Text.Substring(0, 2)))
             {
                 UserLanguage = locale = message.Text;
                 message.Text = "";
@@ -185,7 +185,7 @@ namespace Search.Dialogs
             {
                 var fromLanguage = userLanguage;
                 var toLanguage = this.BotLanguage;
-                if (message.From.Name == "Bot")
+                if (message.ReplyToId != null)
                 {
                     fromLanguage = this.BotLanguage;
                     toLanguage = userLanguage;

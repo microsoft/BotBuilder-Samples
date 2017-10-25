@@ -256,3 +256,4 @@ paket-files/
 
 # Visual Studio Code
 .vscode/
+/CSharp/demo-NLSearch/RealEstateBot/Web.RealEstateBotCUI - Web Deploy.config
