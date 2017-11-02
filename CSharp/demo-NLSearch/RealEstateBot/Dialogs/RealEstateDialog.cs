@@ -19,6 +19,9 @@ using Microsoft.LUIS.API;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Azure.Search.Models;
 using Search.Azure.Services;
+using Microsoft.Bot.Builder.History;
+using Autofac;
+using Microsoft.Bot.Builder.Dialogs.Internals;
 
 namespace RealEstateBot.Dialogs
 {
@@ -52,9 +55,12 @@ namespace RealEstateBot.Dialogs
         private AzureSearchConfiguration SearchConfiguration;
         private SearchSpec Query = new SearchSpec();
         private SearchSpec LastQuery;
+        [NonSerialized]
+        private SearchTranslator Translator;
 
-        public RealEstateDialog()
+        public RealEstateDialog(IActivityLogger logger)
         {
+            Translator = logger as SearchTranslator;
         }
 
         public async Task StartAsync(IDialogContext context)
@@ -87,6 +93,12 @@ namespace RealEstateBot.Dialogs
                         Path.Combine(rootPath, @"dialogs\RealEstateModel.json"),
                         context.CancellationToken, spelling);
             LUISConfiguration = new LuisModelAttribute(application.ApplicationID, key, domain: domain) { SpellCheck = spelling != null, Staging = staging };
+
+            var language = context.UserData.GetValueOrDefault<string>("UserLanguage");
+            if (language != null)
+            {
+                Translator.UserLanguage = language;
+            }
             context.Wait(IgnoreFirstMessage);
         }
 

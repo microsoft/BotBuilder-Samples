@@ -715,7 +715,7 @@ namespace Search.Dialogs
                 var key = entity.FirstResolution();
                 // Ignore noise words as attributes
                 // TODO: Ideally we would filter when generating, but the Bot Builder is not available in .net core yet
-                if (!Language.NoiseWord(key))
+                if (key != null && !Language.NoiseWord(key))
                 {
                     ValueCanonicalizers.TryGetValue(key, out canonical);
                 }

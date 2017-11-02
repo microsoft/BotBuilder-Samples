@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
 using Search.Utilities;
 using System.Globalization;
+using Microsoft.Bot.Builder.Dialogs.Internals;
+using System.Threading;
+using Microsoft.Bot.Builder.Dialogs;
+using System.Text.RegularExpressions;
 
 
 // Notes:
@@ -29,11 +33,15 @@ namespace Search.Dialogs
             get; set;
         }
 
+        private readonly ConversationReference Conversation;
         private Translator Translation;
+        private readonly IBotData botData;
 
-        public SearchTranslator(string botLanguge, string translationKey)
+        public SearchTranslator(ConversationReference conversation, IBotData botData, string botLanguge, string translationKey)
         {
+            this.Conversation = conversation;
             this.BotLanguage = botLanguge;
+            this.botData = botData;
             this.Translation = new Translator(translationKey);
         }
 
@@ -163,56 +171,54 @@ namespace Search.Dialogs
             return result;
         }
 
-        // TODO: This is the current set of generalnn translation languages
-        private HashSet<string> _translatorLanguages = new HashSet<string>() { "ar", "zh", "en", "fr", "de", "it", "ja", "ko", "pt", "ru", "es" };
-
-        private string UserLocale(IMessageActivity message)
-        {
-            string locale = UserLanguage ?? message?.Locale;
-            if (message != null && message.ReplyToId == null && message.Text.Length >= 2 && message.Text.Length <= 5 && _translatorLanguages.Contains(message.Text.Substring(0, 2)))
-            {
-                UserLanguage = locale = message.Text;
-                message.Text = "";
-            }
-            return locale;
-        }
-
         public async Task LogAsync(IActivity activity)
         {
+            this.UserLanguage = this.botData.UserData.GetValueOrDefault<string>("UserLanguage");
+
             var message = activity.AsMessageActivity();
-            var userLanguage = UserLocale(message);
-            if (message != null && !string.IsNullOrWhiteSpace(message.Text) && userLanguage != this.BotLanguage)
+            var userLanguage = this.UserLanguage ?? message?.Locale;
+            if (message != null && !string.IsNullOrWhiteSpace(message.Text))
             {
-                var fromLanguage = userLanguage;
-                var toLanguage = this.BotLanguage;
-                if (message.ReplyToId != null)
+                if (userLanguage != this.BotLanguage)
                 {
-                    fromLanguage = this.BotLanguage;
-                    toLanguage = userLanguage;
+                    if (!message.Text.StartsWith("#"))
+                    {
+                        var fromLanguage = userLanguage;
+                        var toLanguage = this.BotLanguage;
+                        if (message.From.Id == this.Conversation.Bot.Id)
+                        {
+                            fromLanguage = this.BotLanguage;
+                            toLanguage = userLanguage;
+                        }
+
+                        var strings = new List<string>();
+                        TranslateMessage(message, (string input) =>
+                        {
+                            if (!string.IsNullOrWhiteSpace(input))
+                            {
+                                strings.Add(input);
+                            }
+                            return input;
+                        });
+
+                        var translations = await this.Translation.Translate(fromLanguage, toLanguage, strings.ToArray());
+
+                        var i = 0;
+                        TranslateMessage(message, (string input) =>
+                        {
+                            var translation = input;
+                            if (!string.IsNullOrWhiteSpace(input))
+                            {
+                                translation = translations.Translations[i++];
+                            }
+                            return translation;
+                        });
+                    }
+                } 
+                else
+                {
+                    message.Text = Regex.Replace(message.Text, "<literal>(.*)</literal>", "$1");
                 }
-
-                var strings = new List<string>();
-                TranslateMessage(message, (string input) =>
-                {
-                    if (!string.IsNullOrWhiteSpace(input))
-                    {
-                        strings.Add(input);
-                    }
-                    return input;
-                });
-
-                var translations = await this.Translation.Translate(fromLanguage, toLanguage, strings.ToArray());
-
-                var i = 0;
-                TranslateMessage(message, (string input) =>
-                {
-                    var translation = input;
-                    if (!string.IsNullOrWhiteSpace(input))
-                    {
-                        translation = translations.Translations[i++];
-                    }
-                    return translation;
-                });
             }
         }
     }

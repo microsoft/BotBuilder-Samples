@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Xml.Linq;
@@ -55,13 +56,18 @@ namespace Search.Utilities
             {
                 var uri = $"{BASE}/TranslateArray";
                 var strings = string.Join("\n", texts.Select((t) =>
-                    $@"<string xmlns=""http://schemas.microsoft.com/2003/10/Serialization/Arrays"">{System.Web.HttpUtility.HtmlEncode(t)}</string>"));
+                    {
+                        var text = t
+                            .Replace("<literal>", "<literal translate=\"no\">");
+                        return $@"<string xmlns=""http://schemas.microsoft.com/2003/10/Serialization/Arrays"">{System.Web.HttpUtility.HtmlEncode(text)}</string>";
+                    }));
                 var body =
                     $@"<TranslateArrayRequest>
                      <AppId />
                      <From>{from}</From>
                      <Options>
                        <Category xmlns=""http://schemas.datacontract.org/2004/07/Microsoft.MT.Web.Service.V2"">generalnn</Category>
+                       <ContentType>text/html</ContentType>
                      </Options>
                      <Texts>{strings}</Texts>
                      <To>{to}</To>
@@ -84,7 +90,8 @@ namespace Search.Utilities
                             result.Translations = new string[texts.Length];
                             foreach (var xe in doc.Descendants(ns + "TranslateArrayResponse"))
                             {
-                                result.Translations[i++] = xe.Elements(ns + "TranslatedText").First().Value;
+                                var text = xe.Elements(ns + "TranslatedText").First().Value;
+                                result.Translations[i++] = Regex.Replace(text, "<literal translate=\"no\">(.*)</literal>", "$1");
                             }
                             // TODO: What if there is more than one language?
                             result.SourceLanguage = doc.Descendants(ns + "From").First().Value;

@@ -58,7 +58,7 @@ namespace Search.Dialogs
 
         public static string FirstResolution(this EntityRecommendation entity)
         {
-            return (string) (entity.Resolution?["values"] as JArray)?.First();
+            return (string)(entity.Resolution?["values"] as List<object>)?.First();
         }
 
         public static string Resolution(this EntityRecommendation entity, string name)

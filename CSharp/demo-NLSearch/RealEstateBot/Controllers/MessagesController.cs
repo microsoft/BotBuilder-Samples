@@ -6,12 +6,16 @@ using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Scorables.Internals;
+using Microsoft.Bot.Builder.Scorables;
+using System.Threading;
 
 namespace RealEstateBot
 {
     [BotAuthentication]
     public class MessagesController : ApiController
     {
+
         /// <summary>
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
@@ -20,9 +24,10 @@ namespace RealEstateBot
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, activity))
+                using (var scope = DialogModule.BeginLifetimeScope(WebApiApplication.Container, activity))
                 {
-                    await Conversation.SendAsync(activity, () => scope.Resolve<IDialog<object>>());
+                    var task = scope.Resolve<IPostToBot>();
+                    await task.PostAsync(activity, CancellationToken.None);
                 }
             }
             else
