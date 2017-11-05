@@ -44,6 +44,13 @@ namespace Search.Utilities
             return locale;
         }
 
+        private static Regex MATCH_LITERAL = new Regex(@"<literal[^>]*>(?'text'.*?)</literal>", RegexOptions.Compiled);
+
+        public static string RemoveLiteral(string text)
+        {
+            return MATCH_LITERAL.Replace(text, "${text}");
+        }
+
         public async Task<Translation> Translate(string from, string to, params string[] texts)
         {
             var result = new Translation();
@@ -91,7 +98,7 @@ namespace Search.Utilities
                             foreach (var xe in doc.Descendants(ns + "TranslateArrayResponse"))
                             {
                                 var text = xe.Elements(ns + "TranslatedText").First().Value;
-                                result.Translations[i++] = Regex.Replace(text, "<literal translate=\"no\">(.*)</literal>", "$1");
+                                result.Translations[i++] = RemoveLiteral(text);
                             }
                             // TODO: What if there is more than one language?
                             result.SourceLanguage = doc.Descendants(ns + "From").First().Value;

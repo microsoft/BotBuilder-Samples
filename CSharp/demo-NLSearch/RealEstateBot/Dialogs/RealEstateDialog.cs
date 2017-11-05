@@ -95,7 +95,7 @@ namespace RealEstateBot.Dialogs
             LUISConfiguration = new LuisModelAttribute(application.ApplicationID, key, domain: domain) { SpellCheck = spelling != null, Staging = staging };
 
             var language = context.UserData.GetValueOrDefault<string>("UserLanguage");
-            if (language != null)
+            if (language != null && Translator != null)
             {
                 Translator.UserLanguage = language;
             }
@@ -107,7 +107,7 @@ namespace RealEstateBot.Dialogs
             string name;
             if (context.UserData.TryGetValue(NameKey, out name))
             {
-                await context.PostAsync($"Welcome back to the real estate bot {name}!");
+                await context.PostAsync($"Welcome back to the real estate bot <literal>{name}</literal>!");
                 try
                 {
                     byte[] lastQuery;

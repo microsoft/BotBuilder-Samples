@@ -176,6 +176,8 @@ namespace Search.Dialogs
             this.UserLanguage = this.botData.UserData.GetValueOrDefault<string>("UserLanguage");
 
             var message = activity.AsMessageActivity();
+            dynamic dmessage = activity;
+            dmessage.Properties["OriginalText"] = message.Text;
             var userLanguage = this.UserLanguage ?? message?.Locale;
             if (message != null && !string.IsNullOrWhiteSpace(message.Text))
             {
@@ -217,7 +219,7 @@ namespace Search.Dialogs
                 } 
                 else
                 {
-                    message.Text = Regex.Replace(message.Text, "<literal>(.*)</literal>", "$1");
+                    message.Text = Translator.RemoveLiteral(message.Text);
                 }
             }
         }
