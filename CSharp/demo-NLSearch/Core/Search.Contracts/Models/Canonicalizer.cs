@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace Search.Models
 {
-#if !NETSTANDARD1_6
+#if !NETSTANDARD2_0
     [Serializable]
 #else
     [DataContract]

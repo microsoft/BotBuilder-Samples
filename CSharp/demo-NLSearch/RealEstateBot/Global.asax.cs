@@ -48,7 +48,7 @@ namespace RealEstateBot
 
         protected override async Task<object> PrepareAsync(IActivity item, CancellationToken token)
         {
-            return null;
+            return Task.CompletedTask;
         }
     }
 

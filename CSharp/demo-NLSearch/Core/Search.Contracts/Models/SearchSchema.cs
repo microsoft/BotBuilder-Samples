@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Search.Models
 {
-#if !NETSTANDARD1_6
+#if !NETSTANDARD2_0
     [Serializable]
 #else
     [JsonObject(MemberSerialization.OptOut)]
@@ -17,7 +17,7 @@ namespace Search.Models
         private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
-            TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+            TypeNameAssemblyFormat = 0 // System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple
         };
 
         public Dictionary<string, SearchField> Fields { get; set; }

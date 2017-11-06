@@ -35448,7 +35448,7 @@
     },
     "location": {
       "Name": "location",
-      "Type": "Microsoft.Spatial.GeographyPoint, Microsoft.Spatial, Version=6.15.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
+      "Type": "Microsoft.Spatial.GeographyPoint, Microsoft.Spatial, Version=7.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
       "IsFacetable": false,
       "IsFilterable": true,
       "IsKey": false,

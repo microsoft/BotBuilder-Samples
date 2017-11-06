@@ -60,7 +60,7 @@ namespace Search.Azure
                 throw new ArgumentException($"Cannot map {field.Type} to a C# type");
             }
 
-#if !NETSTANDARD1_6
+#if !NETSTANDARD2_0
             return new SearchField(field.Name, Microsoft.Bot.Builder.FormFlow.Advanced.Language.CamelCase(field.Name))
 #else
             return new SearchField(field.Name, Casing.CamelCase(field.Name))

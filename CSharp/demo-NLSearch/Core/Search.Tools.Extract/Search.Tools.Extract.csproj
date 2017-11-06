@@ -1,12 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>Search.Tools.Extract</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>Search.Tools.Extract</PackageId>
     <RuntimeIdentifiers>win10-x64;win8-x64;win81-x64;win7-x64;osx.10.10-x64;osx.10.11-x64;osx.10.12-x64;rhel.7.2-x64;ubuntu.16.10-x64;ubuntu.16.04-x64;ubuntu.15.10-x64;ubuntu.15.04-x64;debian.8-x64;fedora.23-x64;fedora.24-x64</RuntimeIdentifiers>
-    <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
     <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
@@ -15,6 +14,10 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NETStandard.Library" Version="2.0.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Search.Azure\Search.Azure.csproj" />

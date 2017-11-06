@@ -10,7 +10,7 @@ namespace Search.Models
 {
     public enum PreferredFilter { None, Facet, MinValue, MaxValue };
 
-#if !NETSTANDARD1_6
+#if !NETSTANDARD2_0
     [Serializable]
 #else
     [JsonObject(MemberSerialization.OptOut)]

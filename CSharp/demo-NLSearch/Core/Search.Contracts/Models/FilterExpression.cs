@@ -8,7 +8,7 @@ namespace Search.Models
 {
     public enum FilterOperator { None, LessThan, LessThanOrEqual, Equal, GreaterThanOrEqual, GreaterThan, And, Or, Not, FullText };
 
-#if !NETSTANDARD1_6
+#if !NETSTANDARD2_0
     [Serializable]
 #else
     [DataContract]

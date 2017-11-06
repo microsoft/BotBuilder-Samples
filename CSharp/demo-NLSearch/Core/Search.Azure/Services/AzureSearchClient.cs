@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace Search.Azure.Services
 {
-#if !NETSTANDARD1_6
+#if !NETSTANDARD2_0
     [Serializable]
 #else
     [JsonObject(MemberSerialization.Fields)]

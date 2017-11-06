@@ -24,7 +24,7 @@ namespace Search.Tools.Extract
         private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
-            TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+            TypeNameAssemblyFormat = 0 // FormatterAssemblyStyle.Simple
         };
 
         private static async Task<int> Apply(SearchIndexClient client, string valueField, string idField, string text,
@@ -568,13 +568,8 @@ You can find keywords either through -kf for actual keywords or -af to generate 
                     }
                     using (var stream = new FileStream(parameters.GeneratePath, FileMode.Create))
                     {
-#if !NETSTANDARD1_6
-                        var serializer = new BinaryFormatter();
-                        serializer.Serialize(stream, histograms);
-#else
                         var jsonHistograms = JsonConvert.SerializeObject(histograms);
                         stream.Write(Encoding.UTF8.GetBytes(jsonHistograms), 0, Encoding.UTF8.GetByteCount(jsonHistograms));
-#endif
                     }
                 }
                 if (parameters.HistogramPath != null)
@@ -582,16 +577,11 @@ You can find keywords either through -kf for actual keywords or -af to generate 
                     Dictionary<string, Histogram<object>> histograms;
                     using (var stream = new FileStream(parameters.HistogramPath, FileMode.Open))
                     {
-#if !NETSTANDARD1_6
-                        var deserializer = new BinaryFormatter();
-                        histograms = (Dictionary<string, Histogram<object>>)deserializer.Deserialize(stream);
-#else
                         using (TextReader reader = new StreamReader(stream))
                         {
                             var text = reader.ReadToEnd();
                             histograms = JsonConvert.DeserializeObject<Dictionary<string, Histogram<object>>>(text, jsonSettings);
                         }
-#endif
                         var attributes = new List<Attribute>();
                         foreach (var histogram in histograms)
                         {

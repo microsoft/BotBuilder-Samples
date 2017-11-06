@@ -9,7 +9,7 @@ namespace Search.Models
 {
     public enum SortDirection { Descending, Ascending };
 
-#if !NETSTANDARD1_6
+#if !NETSTANDARD2_0
     [Serializable]
 #else
     [DataContract]
