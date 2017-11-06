@@ -145,7 +145,10 @@ namespace RealEstateBot.Dialogs
 
         public async Task GotName(IDialogContext context, IAwaitable<string> name)
         {
-            var newName = (await name).Trim();
+            await name;
+            // We want the untranslated string
+            dynamic dactivity = context.Activity;
+            var newName = dactivity.Properties["OriginalText"]?.Value as string;
             await context.PostAsync($"Good to meet you {newName}!");
             context.UserData.SetValue(NameKey, newName);
             Search(context);
