@@ -15,6 +15,7 @@ using Microsoft.Bot.Builder.Scorables.Internals;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Autofac.Base;
+using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace RealEstateBot
 {
@@ -99,7 +100,8 @@ namespace RealEstateBot
 
             builder.Register((c) => new SearchTranslator(c.Resolve<ConversationReference>(), c.Resolve<IBotData>(), "en", translationKey))
                    .AsImplementedInterfaces()
-                   .InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
+                   .InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag)
+                   .Keyed<SearchTranslator>(FiberModule.Key_DoNotSerialize);
 
             builder.RegisterType<RealEstateDialog>()
                 .As<IDialog<object>>()

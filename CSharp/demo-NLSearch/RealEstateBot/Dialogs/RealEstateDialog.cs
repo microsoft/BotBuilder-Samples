@@ -55,7 +55,7 @@ namespace RealEstateBot.Dialogs
         private AzureSearchConfiguration SearchConfiguration;
         private SearchSpec Query = new SearchSpec();
         private SearchSpec LastQuery;
-        [NonSerialized]
+        // [NonSerialized]
         private SearchTranslator Translator;
 
         public RealEstateDialog(IActivityLogger logger)
