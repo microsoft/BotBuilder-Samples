@@ -525,7 +525,7 @@
             }
 
             AddKeywords(template, schema.Keywords);
-            ReplaceGenericNames(template, schema.Fields.Values, schema.Keywords);
+            ReplaceGenericNames(template, schema.Fields.Values.ToArray(), schema.Keywords);
             ExpandFacetExamples(template);
             SortClosedList(template, "Attributes");
 

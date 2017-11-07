@@ -2,7 +2,7 @@
   "luis_schema_version": "2.0.0",
   "versionId": "0.1",
   "name": "RealEstateModel",
-  "desc": "LUIS model generated via the command generate ..\\..\\RealEstateBot\\Dialogs\\RealEstate.json -o ..\\..\\RealEstateBot\\Dialogs\\RealEstateModel.json -s 9e768bb58e0d4a91ab3c501b71c0e8ac {-d dialogice2.cloudapp.net -p DiceDev:15Af429A9781490eB8326dA22e4Ff727 -l 1a8dc589b6894e2b9ca44deb237d6943} {-ut} -u",
+  "desc": "LUIS model generated via the command generate ..\\..\\RealEstateBot\\Dialogs\\RealEstate.json -o ..\\..\\RealEstateBot\\Dialogs\\RealEstateModel.json {-s aab4bd56b9f04110a17efd9302c4e3d8} {-d dialogice2.cloudapp.net -p DiceDev:15Af429A9781490eB8326dA22e4Ff727 -l 1a8dc589b6894e2b9ca44deb237d6943} {-ut} -u",
   "culture": "en-us",
   "intents": [
     {
@@ -29588,7 +29588,8 @@
             "+",
             "greater than or equal",
             "at least",
-            "no less than"
+            "no less than",
+            "over"
           ]
         },
         {
@@ -29611,7 +29612,8 @@
           "list": [
             "<=",
             "no more than",
-            "less than or equal"
+            "less than or equal",
+            "under"
           ]
         },
         {
@@ -29645,7 +29647,11 @@
             "bedrooms",
             "bed",
             "bedroom",
-            "beds"
+            "beds",
+            "bd",
+            "br",
+            "room",
+            "rooms"
           ]
         },
         {
@@ -29654,7 +29660,8 @@
             "bathrooms",
             "bath",
             "baths",
-            "bathroom"
+            "bathroom",
+            "ba"
           ]
         },
         {
@@ -29790,7 +29797,76 @@
   "regex_features": [],
   "utterances": [
     {
-      "text": "3-4 sqft",
+      "text": "3-4 Square Feet",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "Value",
+          "startPos": 0,
+          "endPos": 0
+        },
+        {
+          "entity": "Value",
+          "startPos": 2,
+          "endPos": 2
+        },
+        {
+          "entity": "Comparison",
+          "startPos": 0,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "at least 43 sqft",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "Value",
+          "startPos": 9,
+          "endPos": 10
+        },
+        {
+          "entity": "Comparison",
+          "startPos": 0,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "at most 1 sq feet",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "Value",
+          "startPos": 8,
+          "endPos": 8
+        },
+        {
+          "entity": "Comparison",
+          "startPos": 0,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "no more than 3 baths",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "Value",
+          "startPos": 13,
+          "endPos": 13
+        },
+        {
+          "entity": "Comparison",
+          "startPos": 0,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "2-4 beds",
       "intent": "Filter",
       "entities": [
         {
@@ -29811,76 +29887,7 @@
       ]
     },
     {
-      "text": "at least 43 square foot",
-      "intent": "Filter",
-      "entities": [
-        {
-          "entity": "Value",
-          "startPos": 9,
-          "endPos": 10
-        },
-        {
-          "entity": "Comparison",
-          "startPos": 0,
-          "endPos": 22
-        }
-      ]
-    },
-    {
-      "text": "at most 1 sqft",
-      "intent": "Filter",
-      "entities": [
-        {
-          "entity": "Value",
-          "startPos": 8,
-          "endPos": 8
-        },
-        {
-          "entity": "Comparison",
-          "startPos": 0,
-          "endPos": 13
-        }
-      ]
-    },
-    {
-      "text": "no more than 3 bathroom",
-      "intent": "Filter",
-      "entities": [
-        {
-          "entity": "Value",
-          "startPos": 13,
-          "endPos": 13
-        },
-        {
-          "entity": "Comparison",
-          "startPos": 0,
-          "endPos": 22
-        }
-      ]
-    },
-    {
-      "text": "2-4 bedroom",
-      "intent": "Filter",
-      "entities": [
-        {
-          "entity": "Value",
-          "startPos": 0,
-          "endPos": 0
-        },
-        {
-          "entity": "Value",
-          "startPos": 2,
-          "endPos": 2
-        },
-        {
-          "entity": "Comparison",
-          "startPos": 0,
-          "endPos": 10
-        }
-      ]
-    },
-    {
-      "text": "1+ bathroom",
+      "text": "1+ baths",
       "intent": "Filter",
       "entities": [
         {
@@ -29891,7 +29898,7 @@
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 10
+          "endPos": 7
         }
       ]
     },
@@ -29917,18 +29924,18 @@
       ]
     },
     {
-      "text": "baths is at least 4",
+      "text": "Bathrooms is at least 4",
       "intent": "Filter",
       "entities": [
         {
           "entity": "Value",
-          "startPos": 18,
-          "endPos": 18
+          "startPos": 22,
+          "endPos": 22
         },
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 18
+          "endPos": 22
         }
       ]
     },
@@ -29954,7 +29961,7 @@
       ]
     },
     {
-      "text": "3 beds 2 Bathrooms",
+      "text": "3 br 2 br",
       "intent": "Filter",
       "entities": [
         {
@@ -29964,23 +29971,23 @@
         },
         {
           "entity": "Value",
-          "startPos": 7,
-          "endPos": 7
-        },
-        {
-          "entity": "Comparison",
-          "startPos": 0,
+          "startPos": 5,
           "endPos": 5
         },
         {
           "entity": "Comparison",
-          "startPos": 7,
-          "endPos": 17
+          "startPos": 0,
+          "endPos": 3
+        },
+        {
+          "entity": "Comparison",
+          "startPos": 5,
+          "endPos": 8
         }
       ]
     },
     {
-      "text": "at most 3 baths and 1 Square Feet",
+      "text": "at most 3 Bathrooms and 1 ba",
       "intent": "Filter",
       "entities": [
         {
@@ -29990,23 +29997,23 @@
         },
         {
           "entity": "Value",
-          "startPos": 20,
-          "endPos": 20
+          "startPos": 24,
+          "endPos": 24
         },
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 14
+          "endPos": 18
         },
         {
           "entity": "Comparison",
-          "startPos": 20,
-          "endPos": 32
+          "startPos": 24,
+          "endPos": 27
         }
       ]
     },
     {
-      "text": "3 baths",
+      "text": "3 Bathrooms",
       "intent": "Filter",
       "entities": [
         {
@@ -30017,7 +30024,7 @@
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 6
+          "endPos": 10
         }
       ]
     },
@@ -30038,7 +30045,7 @@
       ]
     },
     {
-      "text": "no more than 4 Bedrooms and at most 2 sq foot",
+      "text": "no more than 4 Bedrooms and at most 2 square foot",
       "intent": "Filter",
       "entities": [
         {
@@ -30059,7 +30066,7 @@
         {
           "entity": "Comparison",
           "startPos": 28,
-          "endPos": 44
+          "endPos": 48
         }
       ]
     },
@@ -30075,7 +30082,7 @@
       ]
     },
     {
-      "text": "between 3-4 sq feet and at least 3 Bathrooms",
+      "text": "between 3-4 ba and at least 3 br",
       "intent": "Filter",
       "entities": [
         {
@@ -30090,23 +30097,23 @@
         },
         {
           "entity": "Value",
-          "startPos": 33,
-          "endPos": 33
+          "startPos": 28,
+          "endPos": 28
         },
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 18
+          "endPos": 13
         },
         {
           "entity": "Comparison",
-          "startPos": 24,
-          "endPos": 43
+          "startPos": 19,
+          "endPos": 31
         }
       ]
     },
     {
-      "text": "1 square foot 1 square foot",
+      "text": "1 sqft 1 square foot",
       "intent": "Filter",
       "entities": [
         {
@@ -30116,18 +30123,18 @@
         },
         {
           "entity": "Value",
-          "startPos": 14,
-          "endPos": 14
+          "startPos": 7,
+          "endPos": 7
         },
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 12
+          "endPos": 5
         },
         {
           "entity": "Comparison",
-          "startPos": 14,
-          "endPos": 26
+          "startPos": 7,
+          "endPos": 19
         }
       ]
     },
@@ -30158,7 +30165,7 @@
       ]
     },
     {
-      "text": "at most 3 sq feet",
+      "text": "at most 3 Square Feet",
       "intent": "Filter",
       "entities": [
         {
@@ -30169,34 +30176,34 @@
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 16
+          "endPos": 20
         }
       ]
     },
     {
-      "text": "bathroom less than 500k",
+      "text": "bath less than 500k",
       "intent": "Filter",
       "entities": [
         {
           "entity": "Value",
-          "startPos": 19,
-          "endPos": 22
+          "startPos": 15,
+          "endPos": 18
         },
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 22
+          "endPos": 18
         }
       ]
     },
     {
-      "text": "any number of Days On Market",
+      "text": "any number of sq foot",
       "intent": "Filter",
       "entities": [
         {
           "entity": "Removal",
           "startPos": 0,
-          "endPos": 27
+          "endPos": 20
         }
       ]
     },
@@ -30212,23 +30219,23 @@
       ]
     },
     {
-      "text": "bathroom between 3 and 4",
+      "text": "baths between 3 and 4",
       "intent": "Filter",
       "entities": [
         {
           "entity": "Value",
-          "startPos": 17,
-          "endPos": 17
+          "startPos": 14,
+          "endPos": 14
         },
         {
           "entity": "Value",
-          "startPos": 23,
-          "endPos": 23
+          "startPos": 20,
+          "endPos": 20
         },
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 23
+          "endPos": 20
         }
       ]
     },
@@ -30249,23 +30256,23 @@
       ]
     },
     {
-      "text": "bedroom more than 10",
+      "text": "beds more than 10",
       "intent": "Filter",
       "entities": [
         {
           "entity": "Value",
-          "startPos": 18,
-          "endPos": 19
+          "startPos": 15,
+          "endPos": 16
         },
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 19
+          "endPos": 16
         }
       ]
     },
     {
-      "text": "5 baths 8 Bathrooms",
+      "text": "5 Bathrooms 8 br",
       "intent": "Filter",
       "entities": [
         {
@@ -30275,23 +30282,23 @@
         },
         {
           "entity": "Value",
-          "startPos": 8,
-          "endPos": 8
+          "startPos": 12,
+          "endPos": 12
         },
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 6
+          "endPos": 10
         },
         {
           "entity": "Comparison",
-          "startPos": 8,
-          "endPos": 18
+          "startPos": 12,
+          "endPos": 15
         }
       ]
     },
     {
-      "text": "2-3 Days On Market 5 Square Feet",
+      "text": "2-3 Days On Market 5 ba",
       "intent": "Filter",
       "entities": [
         {
@@ -30317,54 +30324,54 @@
         {
           "entity": "Comparison",
           "startPos": 19,
-          "endPos": 31
+          "endPos": 22
         }
       ]
     },
     {
-      "text": "3+ sqft in Ashtabula",
+      "text": "3+ sq feet in Ashtabula",
       "intent": "Filter",
       "entities": [
         {
           "entity": "Value",
           "startPos": 0,
           "endPos": 0
+        },
+        {
+          "entity": "Comparison",
+          "startPos": 0,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "1 rooms 2+ room",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "Value",
+          "startPos": 0,
+          "endPos": 0
+        },
+        {
+          "entity": "Value",
+          "startPos": 8,
+          "endPos": 8
         },
         {
           "entity": "Comparison",
           "startPos": 0,
           "endPos": 6
+        },
+        {
+          "entity": "Comparison",
+          "startPos": 8,
+          "endPos": 14
         }
       ]
     },
     {
-      "text": "1 bath 2+ Bathrooms",
-      "intent": "Filter",
-      "entities": [
-        {
-          "entity": "Value",
-          "startPos": 0,
-          "endPos": 0
-        },
-        {
-          "entity": "Value",
-          "startPos": 7,
-          "endPos": 7
-        },
-        {
-          "entity": "Comparison",
-          "startPos": 0,
-          "endPos": 5
-        },
-        {
-          "entity": "Comparison",
-          "startPos": 7,
-          "endPos": 18
-        }
-      ]
-    },
-    {
-      "text": "3+ Days On Market 2 bathroom",
+      "text": "3+ Days On Market 2 bath",
       "intent": "Filter",
       "entities": [
         {
@@ -30385,12 +30392,12 @@
         {
           "entity": "Comparison",
           "startPos": 18,
-          "endPos": 27
+          "endPos": 23
         }
       ]
     },
     {
-      "text": "4-5 sqft 3-4 bed",
+      "text": "4-5 Square Feet 3-4 bedroom",
       "intent": "Filter",
       "entities": [
         {
@@ -30405,28 +30412,28 @@
         },
         {
           "entity": "Value",
-          "startPos": 9,
-          "endPos": 9
+          "startPos": 16,
+          "endPos": 16
         },
         {
           "entity": "Value",
-          "startPos": 11,
-          "endPos": 11
+          "startPos": 18,
+          "endPos": 18
         },
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 7
+          "endPos": 14
         },
         {
           "entity": "Comparison",
-          "startPos": 9,
-          "endPos": 15
+          "startPos": 16,
+          "endPos": 26
         }
       ]
     },
     {
-      "text": "3+ beds Amelia County",
+      "text": "3+ br Amelia County",
       "intent": "Filter",
       "entities": [
         {
@@ -30437,12 +30444,12 @@
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 6
+          "endPos": 4
         }
       ]
     },
     {
-      "text": "at least 1 square foot, 2+ Bathrooms",
+      "text": "at least 1 sqft, 2+ room",
       "intent": "Filter",
       "entities": [
         {
@@ -30452,44 +30459,44 @@
         },
         {
           "entity": "Value",
-          "startPos": 24,
+          "startPos": 17,
+          "endPos": 17
+        },
+        {
+          "entity": "Comparison",
+          "startPos": 0,
+          "endPos": 14
+        },
+        {
+          "entity": "Comparison",
+          "startPos": 17,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "between 3 and 4 Bathrooms with a City Of Chilton",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "Value",
+          "startPos": 8,
+          "endPos": 8
+        },
+        {
+          "entity": "Value",
+          "startPos": 14,
+          "endPos": 14
+        },
+        {
+          "entity": "Comparison",
+          "startPos": 0,
           "endPos": 24
-        },
-        {
-          "entity": "Comparison",
-          "startPos": 0,
-          "endPos": 21
-        },
-        {
-          "entity": "Comparison",
-          "startPos": 24,
-          "endPos": 35
         }
       ]
     },
     {
-      "text": "between 3 and 4 baths with a City Of Chilton",
-      "intent": "Filter",
-      "entities": [
-        {
-          "entity": "Value",
-          "startPos": 8,
-          "endPos": 8
-        },
-        {
-          "entity": "Value",
-          "startPos": 14,
-          "endPos": 14
-        },
-        {
-          "entity": "Comparison",
-          "startPos": 0,
-          "endPos": 20
-        }
-      ]
-    },
-    {
-      "text": "between 3 and 4 beds La Crosse for no more than $950k",
+      "text": "between 3 and 4 bd La Crosse for no more than $950k",
       "intent": "Filter",
       "entities": [
         {
@@ -30504,13 +30511,13 @@
         },
         {
           "entity": "Value",
-          "startPos": 48,
-          "endPos": 48
+          "startPos": 46,
+          "endPos": 46
         },
         {
           "entity": "Value",
-          "startPos": 49,
-          "endPos": 52
+          "startPos": 47,
+          "endPos": 50
         },
         {
           "entity": "Comparison",
@@ -30519,13 +30526,13 @@
         },
         {
           "entity": "Comparison",
-          "startPos": 35,
-          "endPos": 48
+          "startPos": 33,
+          "endPos": 46
         }
       ]
     },
     {
-      "text": "between $200k and $500k Sheridan with at least 3 Square Feet",
+      "text": "between $200k and $500k Sheridan with at least 3 bathroom",
       "intent": "Filter",
       "entities": [
         {
@@ -30551,12 +30558,12 @@
         {
           "entity": "Comparison",
           "startPos": 38,
-          "endPos": 59
+          "endPos": 56
         }
       ]
     },
     {
-      "text": "9 baths",
+      "text": "9 bath",
       "intent": "Filter",
       "entities": [
         {
@@ -30567,33 +30574,12 @@
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 6
+          "endPos": 5
         }
       ]
     },
     {
-      "text": "3-4 bedroom Wickenburg",
-      "intent": "Filter",
-      "entities": [
-        {
-          "entity": "Value",
-          "startPos": 0,
-          "endPos": 0
-        },
-        {
-          "entity": "Value",
-          "startPos": 2,
-          "endPos": 2
-        },
-        {
-          "entity": "Comparison",
-          "startPos": 0,
-          "endPos": 10
-        }
-      ]
-    },
-    {
-      "text": "2-5 square foot",
+      "text": "3-4 beds Wickenburg",
       "intent": "Filter",
       "entities": [
         {
@@ -30609,12 +30595,12 @@
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 14
+          "endPos": 7
         }
       ]
     },
     {
-      "text": "3+ sqft West Friendship in xword with a Rowlett for less than $800k",
+      "text": "2-5 sqft",
       "intent": "Filter",
       "entities": [
         {
@@ -30624,29 +30610,50 @@
         },
         {
           "entity": "Value",
-          "startPos": 62,
-          "endPos": 66
+          "startPos": 2,
+          "endPos": 2
         },
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 6
-        },
-        {
-          "entity": "Comparison",
-          "startPos": 52,
-          "endPos": 66
+          "endPos": 7
         }
       ]
     },
     {
-      "text": "between 2 & 4 Square Feet and remove dead end street",
+      "text": "3+ Square Feet West Friendship in xword with a Rowlett for less than $800k",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "Value",
+          "startPos": 0,
+          "endPos": 0
+        },
+        {
+          "entity": "Value",
+          "startPos": 69,
+          "endPos": 73
+        },
+        {
+          "entity": "Comparison",
+          "startPos": 0,
+          "endPos": 13
+        },
+        {
+          "entity": "Comparison",
+          "startPos": 59,
+          "endPos": 73
+        }
+      ]
+    },
+    {
+      "text": "between 2 & 4 bathroom and remove dead end street",
       "intent": "Filter",
       "entities": [
         {
           "entity": "RemoveKeyword",
-          "startPos": 30,
-          "endPos": 51
+          "startPos": 27,
+          "endPos": 48
         },
         {
           "entity": "Value",
@@ -30661,12 +30668,12 @@
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 24
+          "endPos": 21
         },
         {
           "entity": "Keyword",
-          "startPos": 37,
-          "endPos": 51
+          "startPos": 34,
+          "endPos": 48
         }
       ]
     },
@@ -30905,24 +30912,24 @@
       ]
     },
     {
-      "text": "no sqft",
+      "text": "no Square Feet",
       "intent": "Filter",
       "entities": [
         {
           "entity": "Removal",
           "startPos": 0,
-          "endPos": 6
+          "endPos": 13
         }
       ]
     },
     {
-      "text": "any bed",
+      "text": "any bedroom",
       "intent": "Filter",
       "entities": [
         {
           "entity": "Removal",
           "startPos": 0,
-          "endPos": 6
+          "endPos": 10
         }
       ]
     },
@@ -31426,7 +31433,7 @@
       ]
     },
     {
-      "text": "1-4 Days On Market Fuquay Varina with a Mouth Of Wilson for less than $20k",
+      "text": "1-4 sq foot Fuquay Varina with a Mouth Of Wilson for less than $20k",
       "intent": "Filter",
       "entities": [
         {
@@ -31441,23 +31448,23 @@
         },
         {
           "entity": "Value",
-          "startPos": 70,
-          "endPos": 73
+          "startPos": 63,
+          "endPos": 66
         },
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 17
+          "endPos": 10
         },
         {
           "entity": "Comparison",
-          "startPos": 60,
-          "endPos": 73
+          "startPos": 53,
+          "endPos": 66
         }
       ]
     },
     {
-      "text": "2+ sq feet Hague with an Fox in Vida for less than 20k",
+      "text": "2+ ba Hague with an Fox in Vida for less than 20k",
       "intent": "Filter",
       "entities": [
         {
@@ -31467,18 +31474,18 @@
         },
         {
           "entity": "Value",
-          "startPos": 51,
-          "endPos": 53
+          "startPos": 46,
+          "endPos": 48
         },
         {
           "entity": "Comparison",
           "startPos": 0,
-          "endPos": 9
+          "endPos": 4
         },
         {
           "entity": "Comparison",
-          "startPos": 41,
-          "endPos": 53
+          "startPos": 36,
+          "endPos": 48
         }
       ]
     },
@@ -31524,7 +31531,7 @@
       "entities": []
     },
     {
-      "text": "Square Feet",
+      "text": "bathroom",
       "intent": "Facet",
       "entities": []
     },
@@ -31802,6 +31809,26 @@
       "entities": []
     },
     {
+      "text": "bd",
+      "intent": "Facet",
+      "entities": []
+    },
+    {
+      "text": "br",
+      "intent": "Facet",
+      "entities": []
+    },
+    {
+      "text": "room",
+      "intent": "Facet",
+      "entities": []
+    },
+    {
+      "text": "rooms",
+      "intent": "Facet",
+      "entities": []
+    },
+    {
       "text": "bathrooms",
       "intent": "Facet",
       "entities": []
@@ -31818,6 +31845,11 @@
     },
     {
       "text": "bathroom",
+      "intent": "Facet",
+      "entities": []
+    },
+    {
+      "text": "ba",
       "intent": "Facet",
       "entities": []
     },
