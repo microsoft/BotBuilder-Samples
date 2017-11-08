@@ -189,7 +189,7 @@ namespace Search.Dialogs
             }
             else
             {
-                var property = result.Entities.First((e) => e.Type == "Properties");
+                var property = result.Entities.FirstOrDefault((e) => e.Type == "Properties");
                 Refiner = property?.FirstResolution();
                 if (Refiner == null)
                 {
