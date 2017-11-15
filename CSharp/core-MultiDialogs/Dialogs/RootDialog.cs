@@ -57,7 +57,7 @@
             }
             catch (TooManyAttemptsException ex)
             {
-                await context.PostAsync($"Ooops! Too many attemps :(. But don't worry, I'm handling that exception and you can try again!");
+                await context.PostAsync($"Ooops! Too many attempts :(. But don't worry, I'm handling that exception and you can try again!");
 
                 context.Wait(this.MessageReceivedAsync);
             }
