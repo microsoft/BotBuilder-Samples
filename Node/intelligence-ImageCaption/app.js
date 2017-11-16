@@ -30,6 +30,12 @@ var connector = new builder.ChatConnector({
 
 server.post('/api/messages', connector.listen());
 
+// Bot Storage: Here we register the state storage for your bot. 
+// Default store: volatile in-memory store - Only for prototyping!
+// We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+// For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
+var inMemoryStorage = new builder.MemoryBotStorage();
+
 // Gets the caption by checking the type of the image (stream vs URL) and calling the appropriate caption service method.
 var bot = new builder.UniversalBot(connector, function (session) {
     if (hasImageAttachment(session)) {
@@ -49,7 +55,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
             session.send('Did you upload an image? I\'m more of a visual person. Try sending me an image or an image URL');
         }
     }
-});
+}).set('storage', inMemoryStorage); // Register in memory storage
 
 //=========================================================
 // Bots Events
