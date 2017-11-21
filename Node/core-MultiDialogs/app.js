@@ -32,7 +32,8 @@ var bot = new builder.UniversalBot(connector, [
             [DialogLabels.Flights, DialogLabels.Hotels],
             {
                 maxRetries: 3,
-                retryPrompt: 'Not a valid option'
+                retryPrompt: 'Not a valid option',
+                listStyle: builder.ListStyle.button
             });
     },
     function (session, result) {
