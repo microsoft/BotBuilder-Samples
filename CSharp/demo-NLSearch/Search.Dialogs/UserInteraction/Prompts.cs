@@ -383,6 +383,7 @@ namespace Search.Dialogs.UserInteraction
             "{0} is more than ${1:H}",
             "more than ${1:H}",
             "less than ${1:H}",
+            "under ${1:H}",
             "at least ${1:H}",
             "between ${2:H} and ${3:H}",
             "${2:H}-${3:H}",

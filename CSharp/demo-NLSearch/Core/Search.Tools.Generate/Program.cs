@@ -435,7 +435,7 @@
                 cts.Cancel();
             };
 
-            var subscription = new Subscription(p.Domain, p.SubscriptionKey, basicAuth: p.BasicAuth);
+            var subscription = new Subscription(p.Domain, p.SubscriptionKey);
             var schema = SearchSchema.Load(p.SchemaPath);
             dynamic template;
             if (p.TemplatePath != null)
@@ -554,7 +554,7 @@
             {
                 Console.WriteLine(msg);
             }
-            Console.WriteLine("Search.Tools.Generate <schemaFile> [-l <LUIS subscription key>] [-m <modelName>] [-o <outputFile>] [-ot <outputTemplate>] [-tf <templateFile>] [-tm <modelName>] [-u] [-ut]");
+            Console.WriteLine("Search.Tools.Generate <schemaFile> [-d <LUIS Domain>] [-l <LUIS subscription key>] [-m <modelName>] [-o <outputFile>] [-ot <outputTemplate>] [-s <splleing API Key] [-tf <templateFile>] [-tm <modelName>] [-u] [-ut]");
             Console.WriteLine("Take a JSON schema file and use it to generate a LUIS model from a template.");
             Console.WriteLine("The template can be the included SearchTemplate.json file or can be downloaded from LUIS.");
             Console.WriteLine("The resulting LUIS model can be saved as a file or automatically uploaded to LUIS.");
@@ -563,7 +563,6 @@
             Console.WriteLine("-m <modelName> : Output LUIS model name.  By default will be <schemaFileName>Model.");
             Console.WriteLine("-o <outputFile> : Output LUIS JSON file to generate. By default this will be <schemaFileName>Model.json in the same directory as <schemaFile>.");
             Console.WriteLine("-ot <outputFile> : Output template to <outputFile>.");
-            Console.WriteLine("-p <userName:password> : Use basic auth--only useful for LUIS internal.");
             Console.WriteLine("-s <spelling API Key> : Enable spelling using supplied API key.");
             Console.WriteLine("-tf <templateFile> : LUIS Template file to modify based on schema.  By default this is SearchTemplate.json.");
             Console.WriteLine("-tm <modelName> : LUIS model to use as template. Must also specify -l.");
@@ -598,7 +597,6 @@
                 OutputName = Path.GetFileNameWithoutExtension(schemaPath) + "Model";
             }
 
-            public string BasicAuth = null;
             public string Domain = "westus.api.cognitive.microsoft.com";
             public string OutputPath;
             public string OutputName;
@@ -645,7 +643,6 @@
                         case "-m": p.OutputName = NextArg(++i, args); break;
                         case "-o": p.OutputPath = NextArg(++i, args); break;
                         case "-ot": p.OutputTemplate = NextArg(++i, args); break;
-                        case "-p": p.BasicAuth = NextArg(++i, args); break;
                         case "-s": p.SpellingKey = NextArg(++i, args); break;
                         case "-tf": p.TemplatePath = NextArg(++i, args); break;
                         case "-tm": p.TemplateName = NextArg(++i, args); break;

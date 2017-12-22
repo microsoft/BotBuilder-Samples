@@ -456,7 +456,7 @@ namespace Search.Dialogs
             await Search(context);
         }
 
-        [LuisIntent("Clear")]
+        [LuisIntent("Quit")]
         public async Task ClearList(IDialogContext context, LuisResult result)
         {
             Selected.Clear();
@@ -651,7 +651,10 @@ namespace Search.Dialogs
             else if (Showing == Show.List)
             {
                 buttons.Add(Resources.ButtonResource(ButtonType.ContinueSearch));
-                buttons.Add(Resources.ButtonResource(ButtonType.Clear));
+                if (Selected.Any())
+                {
+                    buttons.Add(Resources.ButtonResource(ButtonType.Clear));
+                }
 
             }
             buttons.Add(Resources.ButtonResource(ButtonType.Finished));

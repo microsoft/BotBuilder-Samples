@@ -139,7 +139,13 @@ namespace RealEstateBot.Dialogs
                         await context.PostAsync($@"**Last Search**
 
 {this.LastQuery.Description(RealEstateSearchDialog.DefaultResources)}");
-                        context.Call(new PromptDialog.PromptConfirm("Do you want to start from your last search?", null, 1, promptStyle: PromptStyle.Keyboard), UseLastSearch);
+                        // Fix confirm prompt to include "not" as a valid response for no because no/en -> non/fr -> not/en
+                        var patterns = PromptDialog.PromptConfirm.Patterns;
+                        var oldNo = patterns[PromptDialog.PromptConfirm.No];
+                        Array.Resize<string>(ref oldNo, oldNo.Length + 1);
+                        oldNo[oldNo.Length - 1] = "not";
+                        patterns[1] = oldNo;
+                        context.Call(new PromptDialog.PromptConfirm("Do you want to start from your last search?", null, 1, promptStyle: PromptStyle.Keyboard, patterns: patterns), UseLastSearch);
                     }
                     else
                     {

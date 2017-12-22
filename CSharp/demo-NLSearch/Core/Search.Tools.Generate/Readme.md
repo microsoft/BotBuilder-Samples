@@ -29,7 +29,7 @@ is a regular LUIS application except that it has some placeholders including:
 'stringName' for where a string related property name could be found.
 
 If no parameters are specified, the program will display detailed help and information about the parameters accepted like this:
-`Search.Tools.Generate <schemaFile> [-l <LUIS subscription key>] [-m <modelName>] [-o <outputFile>] [-ot <outputTemplate>] [-tf <templateFile>] [-tm <modelName>] [-u] [-ut]
+`Search.Tools.Generate <schemaFile> [-d <LUIS Domain>] [-l <LUIS subscription key>] [-m <modelName>] [-o <outputFile>] [-ot <outputTemplate>] [-s <splleing API Key] [-tf <templateFile>] [-tm <modelName>] [-u] [-ut]
 Take a JSON schema file and use it to generate a LUIS model from a template.
 The template can be the included SearchTemplate.json file or can be downloaded from LUIS.
 The resulting LUIS model can be saved as a file or automatically uploaded to LUIS.
@@ -38,7 +38,6 @@ The resulting LUIS model can be saved as a file or automatically uploaded to LUI
 -m <modelName> : Output LUIS model name.  By default will be <schemaFileName>Model.
 -o <outputFile> : Output LUIS JSON file to generate. By default this will be <schemaFileName>Model.json in the same directory as <schemaFile>.
 -ot <outputFile> : Output template to <outputFile>.
--p <userName:password> : Use basic auth--only useful for LUIS internal.
 -s <spelling API Key> : Enable spelling using supplied API key.
 -tf <templateFile> : LUIS Template file to modify based on schema.  By default this is SearchTemplate.json.
 -tm <modelName> : LUIS model to use as template. Must also specify -l.
