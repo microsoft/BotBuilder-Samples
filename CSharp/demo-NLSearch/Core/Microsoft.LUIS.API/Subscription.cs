@@ -17,14 +17,13 @@ namespace Microsoft.LUIS.API
         public readonly string Domain;
         public readonly string Key;
         private SemaphoreSlim _semaphore;
-        private HttpClient _client;
+        private HttpClient _client = new HttpClient();
 
         public Subscription(string domain, string subscription, int maxRequests = 30, string basicAuth = null)
         {
             this.Domain = domain;
             Key = subscription;
             _semaphore = new SemaphoreSlim(maxRequests, maxRequests);
-            _client = new HttpClient();
             _client.Timeout = new TimeSpan(0, 2, 0);
             _client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", Key);
             if (basicAuth != null)
@@ -275,9 +274,7 @@ namespace Microsoft.LUIS.API
             var app = await GetApplicationByNameAsync(name, ct);
             if (app == null)
             {
-                var appDesc = new JObject();
-                appDesc["name"] = name;
-                appDesc["culture"] = culture;
+                var appDesc = new JObject() { ["name"] = name, ["culture"] = culture };
                 var response = await PostAsync("apps", appDesc, ct);
                 if (response.IsSuccessStatusCode)
                 {

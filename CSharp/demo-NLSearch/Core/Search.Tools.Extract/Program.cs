@@ -109,8 +109,7 @@ namespace Search.Tools.Extract
             int count = 0;
             while ((line = stream.ReadLine()) != null && count < samples)
             {
-                var result = new SearchResult();
-                result.Document = new Document();
+                var result = new SearchResult() { Document = new Document() };
                 var doc = JsonConvert.DeserializeObject<Document>(line);
                 foreach (var entry in doc)
                 {
@@ -189,8 +188,7 @@ namespace Search.Tools.Extract
                 var value = doc[field];
                 if (value != null)
                 {
-                    Histogram<object> histogram;
-                    if (!histograms.TryGetValue(field, out histogram))
+                    if (!histograms.TryGetValue(field, out Histogram<object> histogram))
                     {
                         histogram = histograms[field] = new Histogram<object>();
                     }
@@ -224,7 +222,7 @@ namespace Search.Tools.Extract
                 Console.WriteLine(msg);
             }
             Console.WriteLine(
-                @"extract <Service name> <Index name> <Admin key> [-a <attributeList>] [-ad <domain>] [-af <fieldList>] [-ak <key>] [-al <language>] [-c <file>] [-dc <Field>] [-dk <FieldList>] [-dn <Field>] [-e <examples>] [-f <facetList>] [-g <path>] [-h <path>] [-j <jsonFile>] [-kf <fieldList>] [-km <max>] [-kt <threshold>] [-mo <min>] [-mt <max>] [-o <outputPath>] [-v <field>]");
+                @"Search.Tools.Extract <Service name> <Index name> <Admin key> [-a <attributeList>] [-ad <domain>] [-af <fieldList>] [-ak <key>] [-al <language>] [-c <file>] [-dc <Field>] [-dk <FieldList>] [-dn <Field>] [-e <examples>] [-f <facetList>] [-g <path>] [-h <path>] [-j <jsonFile>] [-kf <fieldList>] [-km <max>] [-kt <threshold>] [-mo <min>] [-mt <max>] [-o <outputPath>] [-v <field>]");
             Console.WriteLine(
                 @"Generate <parameters.IndexName>.json schema file.
 If you generate a histogram using -g and -h, it will be used to determine attributes if less than -u unique values are found.
@@ -655,11 +653,8 @@ You can find keywords either through -kf for actual keywords or -af to generate 
             {
                 Usage();
             }
-            var parameters = new Parameters();
-            parameters.ServiceName = args[0];
-            parameters.IndexName = args[1];
-            parameters.AdminKey = args[2];
-            parameters.SchemaPath = parameters.IndexName + ".json";
+            var parameters = new Parameters()
+            { ServiceName = args[0], IndexName = args[1], AdminKey = args[2], SchemaPath = args[1] + ".json" };
             for (var i = 3; i < args.Length; ++i)
             {
                 var arg = args[i];

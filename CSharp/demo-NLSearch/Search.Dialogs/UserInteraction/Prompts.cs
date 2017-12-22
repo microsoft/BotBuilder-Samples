@@ -102,8 +102,7 @@ namespace Search.Dialogs.UserInteraction
             max = double.MinValue;
             foreach (var example in examples.Skip(1))
             {
-                double val;
-                if (double.TryParse(example, out val))
+                if (double.TryParse(example, out double val))
                 {
                     if (val < min) min = val;
                     if (val > max) max = val;
@@ -158,15 +157,13 @@ namespace Search.Dialogs.UserInteraction
             }
             else if (field.IsMoney)
             {
-                double typical, min, max;
-                Examples(field, out typical, out min, out max);
+                Examples(field, out double typical, out double min, out double max);
                 var prompt = _prompts.MoneyHints[_random.Next(_prompts.MoneyHints.Length)];
                 hint = string.Format(_formatter, prompt, field.Description(), typical, min, max);
             }
             else if (field.Type.IsNumeric())
             {
-                double typical, min, max;
-                Examples(field, out typical, out min, out max);
+                Examples(field, out double typical, out double min, out double max);
                 var prompt = _prompts.NumberHints[_random.Next(_prompts.NumberHints.Length)];
                 hint = string.Format(_formatter, prompt, field.Description(), typical, min, max);
             }
@@ -228,16 +225,14 @@ namespace Search.Dialogs.UserInteraction
                 var field = schema.Field(fieldName);
                 if (field.IsMoney)
                 {
-                    double typical, min, max;
                     prompt = (string)_prompts.GetType().GetField(type.ToString() + "Money").GetValue(_prompts);
-                    Examples(field, out typical, out min, out max);
+                    Examples(field, out double typical, out double min, out double max);
                     prompt = string.Format(_formatter, prompt, field.Description(), field.Min, field.Max, typical, min, max);
                 }
                 else if (field.Type.IsNumeric())
                 {
-                    double typical, min, max;
                     prompt = (string)_prompts.GetType().GetField(type.ToString() + "Number").GetValue(_prompts);
-                    Examples(field, out typical, out min, out max);
+                    Examples(field, out double typical, out double min, out double max);
                     prompt = string.Format(_formatter, prompt, field.Description(), field.Min, field.Max, typical, min, max);
                 }
                 else
@@ -285,8 +280,7 @@ namespace Search.Dialogs.UserInteraction
                 return arg.ToString();
             }
 
-            int precision;
-            int.TryParse(format.Trim().Substring(1), out precision);
+            int.TryParse(format.Trim().Substring(1), out int precision);
 
             decimal value = Convert.ToDecimal(arg);
             string units = "";

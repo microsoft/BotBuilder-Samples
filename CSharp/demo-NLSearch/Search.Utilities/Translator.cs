@@ -18,9 +18,34 @@ namespace Search.Utilities
         public string[] Translations;
     }
 
+    public struct Language
+    {
+        public string Locale;
+        public string Description;
+        public Language(string locale, string description)
+        {
+            Locale = locale;
+            Description = description;
+        }
+    }
+
     [Serializable]
     public class Translator
     {
+        // List of current NN translation languages
+        static public Language[] Languages = new Language[] {
+            new Language("ar", "Arabic"),
+            new Language("de", "German"),
+            new Language("es", "Spanish"),
+            new Language("en", "English"),
+            new Language("fr", "French"),
+            new Language("it", "Italian"),
+            new Language("ja", "Japanese"),
+            new Language("ko", "Korean"),
+            new Language("pt", "Portuguese"),
+            new Language("ru", "Russion"),
+            new Language("zh", "Chinese")
+        };
         const string BASE = "https://api.microsofttranslator.com/v2/Http.svc/";
         string _key;
 
@@ -48,7 +73,8 @@ namespace Search.Utilities
 
         public static string RemoveLiteral(string text)
         {
-            return MATCH_LITERAL.Replace(text, "${text}");
+            // TODO: The extra space is only necessary because translation drops the space which is a bug I reported.
+            return MATCH_LITERAL.Replace(text, " ${text}");
         }
 
         public async Task<Translation> Translate(string from, string to, params string[] texts)

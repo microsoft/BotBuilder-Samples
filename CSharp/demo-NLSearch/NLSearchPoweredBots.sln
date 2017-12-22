@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.4
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9CEADC8B-6F00-4643-AC7B-D9BD4299F823}"
 	ProjectSection(SolutionItems) = preProject
@@ -35,6 +35,19 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.LUIS.API", "Microsoft.LUIS.API\Microsoft.LUIS.API.csproj", "{23DB64B7-E168-4A86-9C1F-EADADB1C6B7E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.LUIS.API", "Core\Microsoft.LUIS.API\Microsoft.LUIS.API.csproj", "{5E219C2E-4160-4CE1-AF8F-962D2CB89613}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{80CB3A88-BD34-4417-B30C-4C691090948F}"
+	ProjectSection(SolutionItems) = preProject
+		images\realstate-keywords-emulator.png = images\realstate-keywords-emulator.png
+		images\realstate-keywords-facebook.png = images\realstate-keywords-facebook.png
+		images\realstate-keywords-skype.png = images\realstate-keywords-skype.png
+		images\realstate-pick-emulator.png = images\realstate-pick-emulator.png
+		images\realstate-pick-facebook.png = images\realstate-pick-facebook.png
+		images\realstate-pick-skype.png = images\realstate-pick-skype.png
+		images\realstate-refine-emulator.png = images\realstate-refine-emulator.png
+		images\realstate-refine-facebook.png = images\realstate-refine-facebook.png
+		images\realstate-refine-skype.png = images\realstate-refine-skype.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,5 +119,9 @@ Global
 		{9DDAA590-04B8-4C59-ABE8-A0CD13ED5143} = {94DF71D2-8CCF-4433-8800-DFBD0DE19B31}
 		{23DB64B7-E168-4A86-9C1F-EADADB1C6B7E} = {A17FC7C1-DC4A-40A2-B80B-E4C403AD655A}
 		{5E219C2E-4160-4CE1-AF8F-962D2CB89613} = {94DF71D2-8CCF-4433-8800-DFBD0DE19B31}
+		{80CB3A88-BD34-4417-B30C-4C691090948F} = {9CEADC8B-6F00-4643-AC7B-D9BD4299F823}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3C123D7C-D471-4176-801A-8B0A74367AEE}
 	EndGlobalSection
 EndGlobal

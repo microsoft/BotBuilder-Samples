@@ -16,43 +16,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Autofac.Base;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using System.Linq;
 
 namespace RealEstateBot
 {
-    public sealed class MessWithActivity : ScorableBase<IActivity, object, double>
-    {
-        public MessWithActivity(IBotData data)
-        {
-            string vlaue;
-            data.UserData.TryGetValue("hello", out vlaue);
-        }
-
-        protected override Task DoneAsync(IActivity item, object state, CancellationToken token)
-        {
-            return Task.CompletedTask;
-        }
-
-        protected override double GetScore(IActivity item, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override bool HasScore(IActivity item, object state)
-        {
-            return false;
-        }
-
-        protected override Task PostAsync(IActivity item, object state, CancellationToken token)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override async Task<object> PrepareAsync(IActivity item, CancellationToken token)
-        {
-            return Task.CompletedTask;
-        }
-    }
-
     public class WebApiApplication : HttpApplication
     {
 
@@ -83,9 +50,16 @@ namespace RealEstateBot
                      {
                          var logger = ilogger as SearchTranslator;
                          var lang = message.Text.Substring(1);
-                         logger.UserLanguage = lang;
-                         data.UserData.SetValue("UserLanguage", lang);
-                         await botToUser.PostAsync($"Switched language to <literal>{lang}</literal> (ar-Arabic, de-German, es-Spanish, en-English, fr-French, it-Italian, ja-Japanese, ko-Korean, pt-Portuguese, ru-Russion, zh-Chinese)", "en");
+                         if (Search.Utilities.Translator.Languages.Any((l) => l.Locale == lang))
+                         {
+                             logger.UserLanguage = lang;
+                             data.UserData.SetValue("UserLanguage", lang);
+                             await botToUser.PostAsync($"Switched language to <literal>{lang}</literal>");
+                         }
+                         else
+                         {
+                             await botToUser.PostAsync($"<literal>{lang}</literal> is not a valid locale.");
+                         }
                      })
                 // TODO: This is the current set of generalnn translation languages
                 .When(new Regex(@"^\#"))

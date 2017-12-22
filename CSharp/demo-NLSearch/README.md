@@ -26,20 +26,20 @@ The content catalog goes into an Azure Search index, which we can then query fro
 ## Reusable components
 Tools and dialogs you can reuse in your own projects.
 * [Search.Tools.Extract](Core\Search.Tools.Extract\Readme.md) : A tool for analyzing an Azure Search index in order to generate a description of the schema and contents of the index.
-* [Search.Tools.Generate](Core\Search.Tools.Generate\Read.md) : A tool for taking the meta-data with a LUIS template that supports comparisons to make a custom LUIS model.
-* [SearchDialog](Core\Search.Dialogs\AzureSearchDialog.cs) : A generic Search Bot Control that uses the custom LUIS model to interpret user conversation for finding matches in a generic search provider.  The control is multi-turn and supports both guided and freefrom interactions.
+* [Search.Tools.Generate](Core\Search.Tools.Generate\Readme.md) : A tool for taking the meta-data with a LUIS template that supports comparisons to make a custom LUIS model.
+* [SearchDialog](Core\Search.Dialogs\SearchDialog.cs) : A generic Search Bot Control that uses the custom LUIS model to interpret user conversation for finding matches in a generic search provider.  The control is multi-turn and supports both guided and freefrom interactions.
 * [AzureSearchDialog](Core\Search.Dialogs\AzureSearchDialog.cs) : A generic Azure Search Bot Control that specializes SearchDialog for Azure Search.
 * [Microsoft.LUIS.API](Core\Microsoft.LUIS.API) : A library for programattically manipulating LUIS models.
 
 To stitch together multiple instances of these dialogs and have filters and other search options carry over, you can use a shared instance of [SearchQueryBuilder](Search.Contracts/Models/SearchQueryBuilder.cs), which captures all the search-related state.
 
 If you want to apply this to your own Azure search instance you should follow these steps:
-* extract <searchServiceName> <searchIndexName> <searchAdminKey> : this will result in a schema file named <searchIndexName>.json file that defines the schema and some default annotations.
-* generate <schemaFile> -l <LUIS Subscription Key> -u : Generate a LUIS model <schemaFilename>Model by combining a template LUIS model with the schema information and upload it to your LUIS account.
+* Search.Tool.Extract <searchServiceName> <searchIndexName> <searchAdminKey> : this will result in a schema file named <searchIndexName>.json file that defines the schema and some default annotations.
+* Search.Tool.Generate <schemaFile> -l <LUIS Subscription Key> -u : Generate a LUIS model <schemaFilename>Model by combining a template LUIS model with the schema information and upload it to your LUIS account.
 * Run your application against this LUIS model as in the samples.
 
-At this point you can add additional examples to your LUIS model using the LUIS portal, but you should not modify any of the phrase lists that come from the schema file.  To that you need to add annotations to the schema
-file and then do:
+At this point you can improve the LUIS model by using the LUIS portal to additional intents or entities and label utterances.  Normally you would not need to regenerate your LUIS
+app model, but if you need to you can do this command:
 * generate <schemaFile> -l <LUIS Subscription Key> -tm <LUIS Model Name> -u : This will download the existing <LUIS Model name>, modify it with the information from <schemaFile> and then upload it again.
 
 ### Samples
@@ -64,15 +64,6 @@ file and then do:
   |![Search](images/realstate-pick-emulator.png)|![Search](images/realstate-pick-facebook.png)|![Search](images/realstate-pick-skype.png)|
 
   https://realestate-sample.search.windows.net
-
-2. JobListingBot is a bot for browing a catalog of job offerings.
-  It starts by asking for a top-level refinement, a useful things to do in order to save users from an initial open-ended interation with the bot where they don't know what they can say.
-  
-  | Emulator | Facebook | Skype |
-  |----------|-------|----------|
-  |![Search](images/joblisting-refine-emulator.png)|![Search](images/joblisting-refine-facebook.png)|![Search](images/joblisting-refine-skype.png)|
-
-> The sample targets a shared, ready-to-use [Azure Search service](https://realestate-sample.search.windows.net) with sample real estate data, so you don't need to provision your own to try it out. 
 
 ### More Information
 

@@ -169,8 +169,7 @@
             var replacements = new List<dynamic>();
             foreach (var child in model.utterances)
             {
-                dynamic newUtterance;
-                if (newUtterances.TryGetValue((string)child.text, out newUtterance))
+                if (newUtterances.TryGetValue((string)child.text, out dynamic newUtterance))
                 {
                     foundUtterance[(string)newUtterance.text] = true;
                     replacements.Add(child);
@@ -260,8 +259,7 @@
             {
                 var words = phrase.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 var count = words.Length;
-                List<string> candidates;
-                if (result.TryGetValue(words.Length, out candidates))
+                if (result.TryGetValue(words.Length, out List<string> candidates))
                 {
                     candidates.Add(phrase);
                 }
@@ -354,10 +352,9 @@
                     {
                         choices = keywords;
                     }
-                    return choices == null ? null : choices[rand.Next(choices.Length)];
+                    return choices?[rand.Next(choices.Length)];
                 };
-                bool failed;
-                bool hasKeyword = ReplaceNames(utterance, replaceToken, out failed);
+                bool hasKeyword = ReplaceNames(utterance, replaceToken, out bool failed);
                 if (failed)
                 {
                     toRemove.Add(utterance);
@@ -389,13 +386,12 @@
                     {
                         choices = keywordChoices;
                     }
-                    return choices == null ? null : choices[rand.Next(choices.Length)];
+                    return choices?[rand.Next(choices.Length)];
                 };
                 foreach (var add in toAdd)
                 {
-                    bool failed = false;
                     var copy = new JObject(add);
-                    ReplaceNames(copy, replaceToken, out failed);
+                    ReplaceNames(copy, replaceToken, out bool failed);
                     if (!failed)
                     {
                         model.utterances.Add(copy);
@@ -418,8 +414,7 @@
             {
                 var str = (string)utterance.text;
                 var tokenTransformer = mapper(str);
-                bool failed = false;
-                ReplaceNames(utterance, tokenTransformer, out failed);
+                ReplaceNames(utterance, tokenTransformer, out bool failed);
                 if (failed)
                 {
                     throw new Exception($"Failed transforming {str}.");
@@ -559,7 +554,7 @@
             {
                 Console.WriteLine(msg);
             }
-            Console.WriteLine("generate <schemaFile> [-l <LUIS subscription key>] [-m <modelName>] [-o <outputFile>] [-ot <outputTemplate>] [-tf <templateFile>] [-tm <modelName>] [-u] [-ut]");
+            Console.WriteLine("Search.Tools.Generate <schemaFile> [-l <LUIS subscription key>] [-m <modelName>] [-o <outputFile>] [-ot <outputTemplate>] [-tf <templateFile>] [-tm <modelName>] [-u] [-ut]");
             Console.WriteLine("Take a JSON schema file and use it to generate a LUIS model from a template.");
             Console.WriteLine("The template can be the included SearchTemplate.json file or can be downloaded from LUIS.");
             Console.WriteLine("The resulting LUIS model can be saved as a file or automatically uploaded to LUIS.");
@@ -623,9 +618,11 @@
             {
                 Usage();
             }
-            var p = new Parameters(args[0]);
-            // For local debugging of the sample without checking in your key
-            p.SubscriptionKey = Environment.GetEnvironmentVariable(SubscriptionKey);
+            var p = new Parameters(args[0])
+            {
+                // For local debugging of the sample without checking in your key
+                SubscriptionKey = Environment.GetEnvironmentVariable(SubscriptionKey)
+            };
             for (var i = 1; i < args.Count(); ++i)
             {
                 var arg = args[i];

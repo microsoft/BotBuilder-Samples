@@ -8,9 +8,7 @@ using Microsoft.Bot.Connector;
 using Search.Utilities;
 using System.Globalization;
 using Microsoft.Bot.Builder.Dialogs.Internals;
-using System.Threading;
 using Microsoft.Bot.Builder.Dialogs;
-using System.Text.RegularExpressions;
 
 
 // Notes:

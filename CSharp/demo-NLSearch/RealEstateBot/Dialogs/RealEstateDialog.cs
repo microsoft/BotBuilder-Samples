@@ -22,6 +22,7 @@ using Search.Azure.Services;
 using Microsoft.Bot.Builder.History;
 using Autofac;
 using Microsoft.Bot.Builder.Dialogs.Internals;
+using System.Text;
 
 namespace RealEstateBot.Dialogs
 {
@@ -101,16 +102,34 @@ namespace RealEstateBot.Dialogs
             context.Wait(IgnoreFirstMessage);
         }
 
+        private string Languages()
+        {
+            var builder = new StringBuilder();
+            bool first = true;
+            foreach(var lang in Search.Utilities.Translator.Languages)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    builder.Append(", ");
+                }
+                builder.Append($"#{lang.Locale}-{lang.Description}");
+            }
+            return builder.ToString();
+        }
+
         private async Task IgnoreFirstMessage(IDialogContext context, IAwaitable<IMessageActivity> msg)
         {
-            string name;
-            if (context.UserData.TryGetValue(NameKey, out name))
+            await context.PostAsync($"This is a multi-lingual bot.\n\nYou can change the language at any time by typing one of:\n\n{Languages()}");
+            if (context.UserData.TryGetValue(NameKey, out string name))
             {
                 await context.PostAsync($"Welcome back to the real estate bot <literal>{name}</literal>!");
                 try
                 {
-                    byte[] lastQuery;
-                    if (context.UserData.TryGetValue(QueryKey, out lastQuery))
+                    if (context.UserData.TryGetValue(QueryKey, out byte[] lastQuery))
                     {
                         using (var stream = new MemoryStream(lastQuery))
                         {
@@ -124,13 +143,13 @@ namespace RealEstateBot.Dialogs
                     }
                     else
                     {
-                        Search(context);
+                        DoSearch(context);
                     }
                 }
                 catch (Exception)
                 {
                     context.UserData.RemoveValue(QueryKey);
-                    Search(context);
+                    DoSearch(context);
                 }
             }
             else
@@ -150,7 +169,7 @@ namespace RealEstateBot.Dialogs
             var newName = dactivity.Properties["OriginalText"]?.Value as string;
             await context.PostAsync($"Good to meet you {newName}!");
             context.UserData.SetValue(NameKey, newName);
-            Search(context);
+            DoSearch(context);
         }
 
         private async Task UseLastSearch(IDialogContext context, IAwaitable<bool> answer)
@@ -164,10 +183,10 @@ namespace RealEstateBot.Dialogs
                 this.Query = new SearchSpec();
             }
             this.LastQuery = null;
-            Search(context);
+            DoSearch(context);
         }
 
-        private void Search(IDialogContext context)
+        private void DoSearch(IDialogContext context)
         {
             context.Call(new RealEstateSearchDialog(
                 SearchConfiguration, LUISConfiguration,
