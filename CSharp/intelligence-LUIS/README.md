@@ -57,7 +57,7 @@ You'll need these two values to configure the LuisDialog through the LuisModel a
 
 ### Code Highlights
 
-One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. In the LUIS application, you will bundle together the intents and entities that are important to your task. Read more about [Planning an Application](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/Plan-your-app) in the LUIS Help Docs.
+One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. In the LUIS application, you will bundle together the intents and entities that are important to your task. Read more about [Planning an Application](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/plan-your-app) in the LUIS Help Docs.
 Check out the use of LuisIntent attributes decorating [RootLuisDialog](Dialogs/RootLuisDialog.cs#L36) methods to handle LUIS Intents, for instance `[LuisIntent("SearchHotels")]`.
 
 ````C#
@@ -130,9 +130,9 @@ You will see the following in the Bot Framework Emulator when opening and runnin
 
 To get more information about how to get started in Bot Builder for .NET and Conversations please review the following resources:
 * [Bot Builder for .NET](https://docs.microsoft.com/en-us/bot-framework/dotnet/)
-* [Add language understanding to a bot](https://docs.microsoft.com/en-us/bot-framework/cognitive-services-add-bot-language)
-* [LUIS Help Docs](https://www.luis.ai/help#luis-help)
-* [Cognitive Services Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/home)
+* [Add language understanding to a bot](https://docs.botframework.com/en-us/node/builder/guides/understanding-natural-language/)
+* [LUIS Help Docs](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/Home)
+* [Cognitive Services Documentation](https://docs.microsoft.com/en-us/azure/#pivot=products&panel=cognitive)
 * [Specify initial form state and entities](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-formflow-advanced#specify-initial-form-state-and-entities)
 * Other examples using LUIS
     * [Alarm Bot](https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-luis-dialogs#alarm-bot-implementation)
