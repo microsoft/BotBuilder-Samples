@@ -1,4 +1,4 @@
-# LUIS Bot Sample
+﻿# LUIS Bot Sample
 
 A sample bot integrated with a LUIS.ai application for understanding natural language.
 
@@ -82,7 +82,7 @@ var cityEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'buil
 var airportEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'AirportCode');
 ````
 
-The `AirportCode` entity makes use of the LUIS Pattern Features which helps LUIS infer entities based on an Regular Expression match, for instance, Airport Codes consist of three consecutive alphabetic characters. You can read more about Pattern Features in the [Add Features](https://www.microsoft.com/cognitive-services/en-us/LUIS-api/documentation/Add-Features#pattern-features) section of the LUIS Help Docs.
+The `AirportCode` entity makes use of the LUIS Pattern Features which helps LUIS infer entities based on an Regular Expression match, for instance, Airport Codes consist of three consecutive alphabetic characters. You can read more about Pattern Features in the [Add Features](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/add-features) section of the LUIS Help Docs.
 
 ![Edit Regex Feature](images/highlights-regex.png)
 
@@ -167,8 +167,7 @@ bot.dialog('ShowHotelsReviews', function (session, args) {
                 var message = new builder.Message()
                     .attachmentLayout(builder.AttachmentLayout.carousel)
                     .attachments(reviews.map(reviewAsAttachment));
-                session.endDialog(message);
-            });
+                session.endDialog(message);            });
     }
 }).triggerAction({
     matches: 'ShowHotelsReviews'
@@ -178,7 +177,6 @@ bot.dialog('ShowHotelsReviews', function (session, args) {
 > **NOTE:** When using an IntentDialog, you should avoid adding a matches() handler for LUIS’s “None” intent. Add a onDefault() handler instead (or a default dialog when using global recognizers). The reason for this is that a LUIS model will often return a very high score for the None intent if it doesn’t understand the users utterance. In the scenario where you’ve configured the IntentDialog with multiple recognizers that could cause the None intent to win out over a non-None intent from a different model that had a slightly lower score. Because of this the LuisRecognizer class suppresses the None intent all together. If you explicitly register a handler for “None” it will never be matched. The onDefault() handler (or the bot's default dialog) however can achieve the same effect because it essentially gets triggered when all of the models reported a top intent of “None”.
 
 ### Spelling Correction
-
 If you want to enable spelling correction, set the `IS_SPELL_CORRECTION_ENABLED` key to `true` in the [.env](.env#L14) file.
 
 Microsoft Bing Spell Check API provides a module that allows you to to correct the spelling of the text. Check out the [reference](https://dev.cognitive.microsoft.com/docs/services/56e73033cf5ff80c2008c679/operations/56e73036cf5ff81048ee6727) to know more about the modules available. 
@@ -217,8 +215,8 @@ You will see the following in the Bot Framework Emulator when opening and runnin
 To get more information about how to get started in Bot Builder for Node and LUIS please review the following resources:
 * [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
 * [Understanding Natural Language](https://docs.botframework.com/en-us/node/builder/guides/understanding-natural-language/)
-* [LUIS Help Docs](https://www.luis.ai/help#luis-help)
-* [Cognitive Services Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/home)
+* [LUIS Help Docs](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/Home)
+* [Cognitive Services Documentation](https://docs.microsoft.com/en-us/azure/#pivot=products&panel=cognitive)
 * [IntentDialog](https://docs.botframework.com/en-us/node/builder/chat/IntentDialog/)
 * [EntityRecognizer](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.entityrecognizer.html)
 * [Alarm Bot in Node](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/basics-naturalLanguage)
