@@ -15,19 +15,20 @@ The minimum prerequisites to run this sample are:
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
 
 #### LUIS Application
-If you want to test this sample, you have to import the pre-build [LuisBot.json](LuisBot.json) file to your LUIS account.
 
 The first step to using LUIS is to create or import an application. Go to the home page, www.luis.ai, and log in. After creating your LUIS account you'll be able to Import an Existing Application where can you can select a local copy of the LuisBot.json file an import it.
 
 ![Import an Existing Application](images/prereqs-import.png)
 
-Once you imported the application you'll need to "train" the model ([Training](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/train-test)) before you can "Publish" the model in an HTTP endpoint. For more information, take a look at [Publishing a Model](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/publishapp).
+If you want to test this sample, you have to import the pre-build [LuisBot.json](LuisBot.json) file to your LUIS account.
+
+Once you imported the application you'll need to "train" the model ([Training](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/train-test)) before you can "Publish" the model in an HTTP endpoint. For more information, take a look at [Publishing a Model](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/publishapp).
 
 Finally, edit the [.env](.env#L6) file and update the `LUIS_MODEL_URL` variable with your's Model URL.
 
 #### Where to find the Model URL
 
-In the LUIS application's dashboard, click the "Publish App" button in the right side bar, select an Endpoint Key and then click the "Publish" button. After a couple of moments, you will see a url that makes your models available as a web service.
+In the LUIS application's dashboard, click the "Publish App" button in the left side bar, select an Endpoint Key and then click the "Publish" button. After a couple of moments, you will see a url that makes your models available as a web service.
 
 ![Publishing a Model](images/prereqs-publish.png)
 
@@ -166,8 +167,7 @@ bot.dialog('ShowHotelsReviews', function (session, args) {
                 var message = new builder.Message()
                     .attachmentLayout(builder.AttachmentLayout.carousel)
                     .attachments(reviews.map(reviewAsAttachment));
-                session.endDialog(message);
-            });
+                session.endDialog(message);            });
     }
 }).triggerAction({
     matches: 'ShowHotelsReviews'
@@ -177,7 +177,6 @@ bot.dialog('ShowHotelsReviews', function (session, args) {
 > **NOTE:** When using an IntentDialog, you should avoid adding a matches() handler for LUIS’s “None” intent. Add a onDefault() handler instead (or a default dialog when using global recognizers). The reason for this is that a LUIS model will often return a very high score for the None intent if it doesn’t understand the users utterance. In the scenario where you’ve configured the IntentDialog with multiple recognizers that could cause the None intent to win out over a non-None intent from a different model that had a slightly lower score. Because of this the LuisRecognizer class suppresses the None intent all together. If you explicitly register a handler for “None” it will never be matched. The onDefault() handler (or the bot's default dialog) however can achieve the same effect because it essentially gets triggered when all of the models reported a top intent of “None”.
 
 ### Spelling Correction
-
 If you want to enable spelling correction, set the `IS_SPELL_CORRECTION_ENABLED` key to `true` in the [.env](.env#L14) file.
 
 Microsoft Bing Spell Check API provides a module that allows you to to correct the spelling of the text. Check out the [reference](https://dev.cognitive.microsoft.com/docs/services/56e73033cf5ff80c2008c679/operations/56e73036cf5ff81048ee6727) to know more about the modules available. 
@@ -188,7 +187,7 @@ In this sample we added spell correction as a middleware. Check out the middlewa
 
 ````JavaScript
 if (process.env.IS_SPELL_CORRECTION_ENABLED === 'true') {
-    bot.use({
+    bot.use(
         botbuilder: function (session, next) {
             spellService
                 .getCorrectedText(session.message.text)
@@ -243,4 +242,4 @@ To get more information about how to get started in Bot Builder for Node and LUI
 > - Email
 > 
 > On the other hand, they are not supported and the sample won't work as expected in the following channel:
-> - SMS
+> - SM
