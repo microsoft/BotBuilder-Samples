@@ -34,7 +34,7 @@ A bots dialogs can be expressed using a variety of forms:
 
   Allows for the creation of custom dialogs that are based on a simple closure. This is useful for cases where you want a dynamic conversation flow or you have a situation that just doesn't map very well to using a waterfall.
 
-In this sample we start with a dialog that prompts the user to choose the action the bot must do: 
+In this sample we start with a dialog that prompts the user to choose the action the bot must do:
 
 ````JavaScript
 const ChangePasswordOption = 'Change Password';
@@ -109,17 +109,24 @@ const PhoneRegex = new RegExp(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4
 const library = new builder.Library('validators');
 
 library.dialog('phonenumber',
-    builder.DialogAction.validatedPrompt(builder.PromptType.text, (response) =>
-        PhoneRegex.test(response)));
+    new builder.IntentDialog()
+        .onBegin(function (session, args) {
+            session.dialogData.retryPrompt = args.retryPrompt;
+            session.send(args.prompt);
+        }).matches(PhoneRegex, function (session) {
+            session.endDialogWithResult({ response: session.message.text });
+        }).onDefault(function (session) {
+            session.send(session.dialogData.retryPrompt);
+        }));
 
 module.exports = library;
 module.exports.PhoneRegex = PhoneRegex;
-```` 
+````
 
 And this is how you can call the validator from your existing code:
 
 ````JavaScript
-// 
+//
 library.dialog('/', [
     function (session) {
         session.beginDialog('validators:phonenumber', {
@@ -147,7 +154,7 @@ library.dialog('/', [
 
 > It is worth noting that calling other dialogs within your library don't need to be prefixed with the library's id. It is only when crossing from one library context to another that you need to include the library name prefix on your `session.beginDialog()` calls.
 
-> To limit the times the user will reprompt when the response is not valid, the [maxRetries](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptargs.html#maxretries) can be specified. If the maximum number of retries are reached the next dialog is called with the [args.resumed](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptresult.html#resumed) set in [notCompleted](https://docs.botframework.com/en-us/node/builder/chat-reference/enums/_botbuilder_d_.resumereason.html#notcompleted). 
+> To limit the times the user will reprompt when the response is not valid, the [maxRetries](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptargs.html#maxretries) can be specified. If the maximum number of retries are reached the next dialog is called with the [args.resumed](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptresult.html#resumed) set in [notCompleted](https://docs.botframework.com/en-us/node/builder/chat-reference/enums/_botbuilder_d_.resumereason.html#notcompleted).
 The message the bot will send when an no valid user input was received is customizable with the [retryPrompt](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptargs.html#retryprompt).
 
 ### Outcome
