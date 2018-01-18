@@ -187,7 +187,7 @@ In this sample we added spell correction as a middleware. Check out the middlewa
 
 ````JavaScript
 if (process.env.IS_SPELL_CORRECTION_ENABLED === 'true') {
-    bot.use(
+    bot.use({
         botbuilder: function (session, next) {
             spellService
                 .getCorrectedText(session.message.text)
@@ -242,4 +242,4 @@ To get more information about how to get started in Bot Builder for Node and LUI
 > - Email
 > 
 > On the other hand, they are not supported and the sample won't work as expected in the following channel:
-> - SM
+> - SMS
