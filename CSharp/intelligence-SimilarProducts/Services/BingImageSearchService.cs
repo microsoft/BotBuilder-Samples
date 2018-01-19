@@ -25,7 +25,7 @@
         /// <summary>
         /// The bing API URL.
         /// </summary>
-        private static readonly string BingApiUrl = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?modulesRequested=SimilarProducts&mkt=en-us&form=BCSPRD";
+        private static readonly string BingApiUrl = "https://api.cognitive.microsoft.com/bing/v7.0/images/details?modules=SimilarProducts&mkt=en-us";
 
         /// <summary>
         /// Gets a list of visually similar products from an image URL.
@@ -43,7 +43,7 @@
                 var text = await httpClient.GetStringAsync(apiUrl);
                 var response = JsonConvert.DeserializeObject<BingImageResponse>(text);
 
-                return response?.VisuallySimilarProducts?.Select(i => new ImageResult
+                return response?.VisuallySimilarProducts?.Value.Select(i => new ImageResult
                     {
                         HostPageDisplayUrl = i.HostPageDisplayUrl,
                         HostPageUrl = i.HostPageUrl,
@@ -76,7 +76,7 @@
                 var text = await postResponse.Content.ReadAsStringAsync();
                 var response = JsonConvert.DeserializeObject<BingImageResponse>(text);
 
-                return response?.VisuallySimilarProducts?.Select(i => new ImageResult
+                return response?.VisuallySimilarProducts?.Value.Select(i => new ImageResult
                     {
                         HostPageDisplayUrl = i.HostPageDisplayUrl,
                         HostPageUrl = i.HostPageUrl,

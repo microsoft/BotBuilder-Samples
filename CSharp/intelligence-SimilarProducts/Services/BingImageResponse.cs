@@ -10,8 +10,13 @@
 
         public BingImageInstrumentation Instrumentation { get; set; }
 
-        public List<BingImageVisuallySimilarProduct> VisuallySimilarProducts { get; set; }
+        public ValueList<BingImageVisuallySimilarProduct> VisuallySimilarProducts { get; set; }
 
         public string ImageInsightsToken { get; set; }
+    }
+
+    public class ValueList<T>
+    {
+        public List<T> Value { get; set; }
     }
 }
