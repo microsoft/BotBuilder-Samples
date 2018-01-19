@@ -11,7 +11,7 @@ namespace Zummer.Services
     /// </summary>
     internal sealed class BingSearchService : ISearchService
     {
-        private const string BingSearchEndpoint = "https://api.cognitive.microsoft.com/bing/v5.0/search/";
+        private const string BingSearchEndpoint = "https://api.cognitive.microsoft.com/bing/v7.0/search/";
 
         private static readonly Dictionary<string, string> Headers = new Dictionary<string, string>
         {
