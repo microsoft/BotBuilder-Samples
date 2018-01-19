@@ -6,7 +6,8 @@ exports.getResponse = function (url, requestParameters, headers) {
             if (url && requestParameters && headers) {
                 const requestData = {
                     url: url + constructRequestParams(requestParameters),
-                    headers: headers
+                    headers: headers,
+                    json: true
                 }
 
                 request.get(requestData, (error, response, body) => {

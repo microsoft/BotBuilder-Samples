@@ -47,7 +47,7 @@ Zummer bot is trained to understand the following intents:
 
  
 
-1.  **Sign in and Create an application** on [www.luis.ai](http://www.luis.ai/)  
+1.  **Sign in and Create an application** on [www.luis.ai](http://www.luis.ai/)
     **Note:** You can either import the LUIS application JSON file
     “ZummerLuisApp.json” found in the sample folder
 
@@ -113,11 +113,11 @@ Fetching Wikipedia articles on a topic using Bing Web Search API
 1.  Create a free tier “Key” that will be used for calling the Bing APIs on [Microsoft
     Cognitive Service
     subscriptions](https://www.microsoft.com/cognitive-services/en-US/subscriptions)
-    
+
 
 2.  Bing Web Search API request format details can be found at [Bing Web API
     reference](https://dev.cognitive.microsoft.com/docs/services/56b43eeccf5ff8098cef3807/operations/56b4447dcf5ff8098cef380d)
-    page  
+    page
     This tutorial implements communication with Bing Web Search API service and
     mainpulating the user's query to get response with only Wikipedia articles
     through "** *** *findsArticles" in bing-search-service.js
@@ -125,15 +125,14 @@ Fetching Wikipedia articles on a topic using Bing Web Search API
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ c#
     var apiHandler = require('./api-handler-service');
 
-    const BING_SEARCH_API_URL = "https://api.cognitive.microsoft.com/bing/v5.0/search/",
+    const BING_SEARCH_API_URL = "https://api.cognitive.microsoft.com/bing/v7.0/search/",
         BING_SEARCH_API_KEY = process.env.BING_SEARCH_API_KEY;
 
     var headers = { "Ocp-Apim-Subscription-Key": BING_SEARCH_API_KEY }
 
     module.exports = {
         findArticles: (query) => {
-            return apiHandler.getResponse(BING_SEARCH_API_URL, { "q": query + " site:wikipedia.org" }, headers)
-                .then(result => { return JSON.parse(result); }, err => { return err });
+            return apiHandler.getResponse(BING_SEARCH_API_URL, { "q": query + " site:wikipedia.org" }, headers);
         }
     }
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -211,11 +210,14 @@ You will see the following when connecting the Bot to the Emulator:
 More Information
 ----------------
 
-To get more information about how to get started in Bot Builder for .NET, 
+To get more information about how to get started in Bot Builder for .NET,
  Bing Web Search API and LUIS please review the
-following resources: \* [Bot Builder for
-Node.js](https://docs.microsoft.com/en-us/bot-framework/nodejs/) \* [Bing Web
+following resources:
+
+* [Bot Builder for
+Node.js](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
+* [Bing Web
 Search
-API](https://www.microsoft.com/cognitive-services/en-us/bing-web-search-api) \*
-[Language Understanding Intelligent Services
+API](https://www.microsoft.com/cognitive-services/en-us/bing-web-search-api)
+* [Language Understanding Intelligent Services
 (LUIS)](https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis)
