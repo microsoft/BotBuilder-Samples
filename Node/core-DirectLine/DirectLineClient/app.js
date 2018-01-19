@@ -4,7 +4,7 @@ var rp = require('request-promise');
 
 // config items
 var pollInterval = 1000;
-var directLineSecret = 'DIRECTLINE_SECRET';
+var directLineSecret = '4LKVFeUN-JE.cwA.qho.Aj1UU4gwBvbfKWnvqS-_qSmJCWsvzojoUo8iOCbnm8A';
 var directLineClientName = 'DirectLineClient';
 var directLineSpecUrl = 'https://docs.botframework.com/en-us/restapi/directline3/swagger.json';
 
@@ -25,7 +25,7 @@ var directLineClient = rp(directLineSpecUrl)
         console.error('Error initializing DirectLine client', err);
     });
 
-// once the client is ready, create a new conversation 
+// once the client is ready, create a new conversation
 directLineClient.then(function (client) {
     client.Conversations.Conversations_StartConversation()                          // create conversation
         .then(function (response) {
@@ -34,6 +34,9 @@ directLineClient.then(function (client) {
         .then(function (conversationId) {
             sendMessagesFromConsole(client, conversationId);                        // start watching console input for sending new messages to bot
             pollMessages(client, conversationId);                                   // start polling messages from bot
+        })
+        .catch(function (err) {
+            console.error('Error starting conversation', err);
         });
 });
 
@@ -78,7 +81,7 @@ function pollMessages(client, conversationId) {
     setInterval(function () {
         client.Conversations.Conversations_GetActivities({ conversationId: conversationId, watermark: watermark })
             .then(function (response) {
-                watermark = response.obj.watermark;                                 // use watermark so subsequent requests skip old messages 
+                watermark = response.obj.watermark;                                 // use watermark so subsequent requests skip old messages
                 return response.obj.activities;
             })
             .then(printMessages);

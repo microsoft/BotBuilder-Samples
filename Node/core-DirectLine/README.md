@@ -17,7 +17,7 @@ The minimum prerequisites to run this sample are:
 
 #### Direct Line API
 Credentials for the Direct Line API must be obtained from the Bot Framework developer portal, and will only allow the caller to connect to the bot for which they were generated.
-In the Bot Framework developer portal, enable Direct Line in the channels list and then, configure the Direct Line secret and update its value in [DirectLineClient's app.js](DirectLineClient/app.js#L7) (`directLineSecret` variable). Make sure that the checkbox for version 3.0 [PREVIEW] is checked. 
+In the Bot Framework developer portal, enable Direct Line in the channels list and then, configure the Direct Line secret and update its value in [DirectLineClient's app.js](DirectLineClient/app.js#L7) (`directLineSecret` variable). Make sure that the checkbox for version 3.0 [PREVIEW] is checked.
 Refer to [this](https://docs.microsoft.com/en-us/bot-framework/portal-configure-channels) for more information on how to configure channels.
 
 ![Configure Direct Line](images/outcome-configure.png)
@@ -54,10 +54,10 @@ var directLineClient = rp(directLineSpecUrl)
 ````
 
 Each conversation on the Direct Line channel must be explicitly started using the `client.Conversations.Conversations_StartConversation()` function.
-Check out the client's [app.js createConversation](DirectLineClient/app.js#L28-L38) function which creates a new conversation.
+Check out the client's [app.js createConversation](DirectLineClient/app.js#L28-L41) function which creates a new conversation.
 
 ````JavaScript
-// once the client is ready, create a new conversation 
+// once the client is ready, create a new conversation
 directLineClient.then(function (client) {
     client.Conversations.Conversations_StartConversation()                          // create conversation
         .then(function (response) {
@@ -66,6 +66,9 @@ directLineClient.then(function (client) {
         .then(function (conversationId) {
             sendMessagesFromConsole(client, conversationId);                        // start watching console input for sending new messages to bot
             pollMessages(client, conversationId);                                   // start polling messages from bot
+        })
+        .catch(function (err) {
+            console.error('Error starting conversation', err);
         });
 });
 ````
@@ -92,22 +95,22 @@ client.Conversations.Conversations_PostActivity(
     });
 ````
 
-Messages from the Bot are continually polled from the API using an interval. Check out the client's [app.js](DirectLineClient/app.js#L77-L85) usage of `client.Conversations.Conversations_GetActivities` function which retrieves conversation messages newer than the stored watermark. Messages are then filtered from anyone but our own client using the [`printMessages`](DirectLineClient/app.js#L89-L104) function.
+Messages from the Bot are continually polled from the API using an interval. Check out the client's [app.js](DirectLineClient/app.js#L80-L88) usage of `client.Conversations.Conversations_GetActivities` function which retrieves conversation messages newer than the stored watermark. Messages are then filtered from anyone but our own client using the [`printMessages`](DirectLineClient/app.js#L92-L107) function.
 
 ````JavaScript
 var watermark = null;
 setInterval(function () {
     client.Conversations.Conversations_GetActivities({ conversationId: conversationId, watermark: watermark })
         .then(function (response) {
-            watermark = response.obj.watermark;                                 // use watermark so subsequent requests skip old messages 
+            watermark = response.obj.watermark;                                 // use watermark so subsequent requests skip old messages
             return response.obj.activities;
         })
         .then(printMessages);
 }, pollInterval);
 ````
 
-DirectLine v3.0 (unlike version 1.1) has supports for Attachments (see [Send and receive attachments](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-send-receive-attachments) for more information about attachments). 
-Check out the [`printMessage`](DirectLineClient/app.js#L106-L125) function to see how the Attachments are retrieved and rendered appropriately based on their type.
+DirectLine v3.0 (unlike version 1.1) has supports for Attachments (see [Send and receive attachments](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-send-receive-attachments) for more information about attachments).
+Check out the [`printMessage`](DirectLineClient/app.js#L109-L128) function to see how the Attachments are retrieved and rendered appropriately based on their type.
 
 ````JavaScript
 function printMessage(activity) {
@@ -142,7 +145,7 @@ To run the sample, you'll need to run both Bot and Client apps.
 * Running Client app
   1. Open a CMD console and CD to sample's `DirectLineClient` directory
   2. Run `node app.js`
-  
+
 To test the ChannelData custom messages type in the Client's console `show me a hero card` or `send me a botframework image` and you should see the following outcome.
 
 ![Sample Outcome](images/outcome.png)
