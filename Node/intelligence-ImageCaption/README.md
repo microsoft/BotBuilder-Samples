@@ -12,7 +12,6 @@ A sample bot that illustrates how to use the Microsoft Cognitive Services Comput
 The minimum prerequisites to run this sample are:
 * Latest Node.js with NPM. Download it from [here](https://nodejs.org/en/download/).
 * The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
-* Computer Vision App ID. You can obtain one from [Microsoft Cognitive Services Subscriptions Page](https://www.microsoft.com/cognitive-services/en-us/subscriptions?productId=/products/54d873dd5eefd00dc474a0f4).
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
 * Subscribe to Cognitive Services Computer Vision API from [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) to obtain a Trial API Key and update the `MICROSOFT_VISION_API_KEY` and `MICROSOFT_VISION_API_ENDPOINT` keys in [.env](.env) file to try it out further.
 
