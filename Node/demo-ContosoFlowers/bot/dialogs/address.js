@@ -19,6 +19,7 @@ lib.dialog('/', [
             prompt: promptMessage,
             useNativeControl: true,
             reverseGeocode: true,
+            skipFavorites: true,
             skipConfirmationAsk: true,
             requiredFields:
                 locationDialog.LocationRequiredFields.streetAddress |
@@ -32,7 +33,7 @@ lib.dialog('/', [
         if (results.response) {
             // Return selected address to previous dialog in stack
             var place = results.response;
-            var address = locationDialog.getFormattedAddressFromPlace(place, ', ');
+            var address = getFormattedAddressFromPlace(place, ', ');
             session.endDialogWithResult({
                 address: address
             });
@@ -43,7 +44,7 @@ lib.dialog('/', [
     }]);
 
 // Request Billing Address
-// Prompt/Save selected address. Uses previous dialog to request and validate address. 
+// Prompt/Save selected address. Uses previous dialog to request and validate address.
 var UseSavedInfoChoices = {
     Home: 'home_address',
     Work: 'work_address',
@@ -118,7 +119,7 @@ lib.dialog('billing', [
             session.userData.billingAddresses[args.response.entity] = billingAddress;
         }
 
-        // Return address 
+        // Return address
         session.endDialogWithResult({ billingAddress: billingAddress });
     }
 ]);
@@ -136,6 +137,11 @@ function createAddressCard(session, buttonTitle, address) {
         .buttons([
             builder.CardAction.imBack(session, buttonTitle, buttonTitle)
         ]);
+}
+
+function getFormattedAddressFromPlace(place, separator) {
+    var addressParts = [place.streetAddress, place.locality, place.region, place.postalCode, place.country];
+    return addressParts.filter(i => i).join(separator);
 }
 
 module.exports.UseSavedInfoChoices = UseSavedInfoChoices;

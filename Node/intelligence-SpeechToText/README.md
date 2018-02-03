@@ -14,7 +14,7 @@ The minimum prerequisites to run this sample are:
 * The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 * Bing Speech Api Key. You can obtain one from [Microsoft Cognitive Services Subscriptions Page](https://www.microsoft.com/cognitive-services/en-us/subscriptions?productId=/products/Bing.Speech.Preview).
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
-* This sample currently uses a free trial Microsoft Cognitive service key with limited QPS. Please subscribe to Bing Speech Api services [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) and update the `MICROSOFT_SPEECH_API_KEY` key in [.env](.env) file to try it out further.
+* Subscribe to Bing Speech API from [here](https://azure.microsoft.com/en-us/services/cognitive-services/speech/) to obtain a Trial API Key and update the `MICROSOFT_SPEECH_API_KEY` key in [.env](.env) file to try it out further.
 
 ### Usage
 

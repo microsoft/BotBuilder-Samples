@@ -23,11 +23,10 @@
   "dependencies": {
     "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
-    "botbuilder": "^3.8.2",
-    "botbuilder-location": "^1.1.0",
+    "botbuilder": "^3.13.1",
+    "botbuilder-location": "^2.0.0",
     "dotenv-extended": "^1.0.4",
     "express": "^4.14.0",
-    "geobing": "^0.1.3",
     "lodash": "^4.17.4",
     "pug": "^2.0.0-beta6",
     "serve-favicon": "^2.3.2",

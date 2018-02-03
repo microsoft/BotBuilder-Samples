@@ -113,6 +113,7 @@ if (process.env.IS_SPELL_CORRECTION_ENABLED === 'true') {
             spellService
                 .getCorrectedText(session.message.text)
                 .then(function (text) {
+                    console.log('Text corrected to "' + text + '"');
                     session.message.text = text;
                     next();
                 })

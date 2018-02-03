@@ -34,7 +34,7 @@ In the LUIS application's dashboard, click the "Publish App" button in the left 
 
 ### Code Highlights
 
-One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. In the LUIS application, you will bundle together the intents and entities that are important to your task. Read more about [Planning an Application](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/plan-your-app) in the LUIS Help 
+One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. In the LUIS application, you will bundle together the intents and entities that are important to your task. Read more about [Planning an Application](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/plan-your-app) in the LUIS Help
 
 #### Intent Recognizers
 
@@ -92,7 +92,7 @@ Another LUIS Model Feature used is Phrase List Features, for instance, the model
 
 ![Phrase List Feature](images/highlights-phrase.png)
 
-In our sample, we are using a [waterfall dialog](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-dialog-waterfall) for the hotel search. This is a common pattern that you'll likely use for most of your intent handlers. The way waterfalls work in Bot Builder is the very first step of the waterfall is called when a dialog (or in this case intent handler) is triggered. The step then does some work and continues execution of the waterfall by either calling another dialog (like a built-in prompt) or calling the optional `next()` function passed in. When a dialog is called in a step, any result returned from the dialog will be passed as input to the results parameter for the next step. 
+In our sample, we are using a [waterfall dialog](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-dialog-waterfall) for the hotel search. This is a common pattern that you'll likely use for most of your intent handlers. The way waterfalls work in Bot Builder is the very first step of the waterfall is called when a dialog (or in this case intent handler) is triggered. The step then does some work and continues execution of the waterfall by either calling another dialog (like a built-in prompt) or calling the optional `next()` function passed in. When a dialog is called in a step, any result returned from the dialog will be passed as input to the results parameter for the next step.
 
 Our bot tries to check if an entity of city or airport type were [matched and forwards it](app.js#L37-L44) to the next step. If that's not the case, the user is [prompted with a destination](app.js#L47). The [next step](app.js#L50) will receive the destination or airport code in the `results` argument.
 
@@ -179,11 +179,11 @@ bot.dialog('ShowHotelsReviews', function (session, args) {
 ### Spelling Correction
 If you want to enable spelling correction, set the `IS_SPELL_CORRECTION_ENABLED` key to `true` in the [.env](.env#L14) file.
 
-Microsoft Bing Spell Check API provides a module that allows you to to correct the spelling of the text. Check out the [reference](https://dev.cognitive.microsoft.com/docs/services/56e73033cf5ff80c2008c679/operations/56e73036cf5ff81048ee6727) to know more about the modules available. 
+Microsoft Bing Spell Check API provides a module that allows you to to correct the spelling of the text. Check out the [reference](https://dev.cognitive.microsoft.com/docs/services/56e73033cf5ff80c2008c679/operations/56e73036cf5ff81048ee6727) to know more about the modules available.
 
 [spell-service.js](spell-service.js) is the core component illustrating how to call the Bing Spell Check RESTful API.
 
-In this sample we added spell correction as a middleware. Check out the middleware in [app.js](app.js#L109-L125).
+In this sample we added spell correction as a middleware. Check out the middleware in [app.js](app.js#L109-L126).
 
 ````JavaScript
 if (process.env.IS_SPELL_CORRECTION_ENABLED === 'true') {
@@ -192,6 +192,7 @@ if (process.env.IS_SPELL_CORRECTION_ENABLED === 'true') {
             spellService
                 .getCorrectedText(session.message.text)
                 .then(function (text) {
+                    console.log('Text corrected to "' + text + '"');
                     session.message.text = text;
                     next();
                 })
@@ -222,11 +223,11 @@ To get more information about how to get started in Bot Builder for Node and LUI
 * [Alarm Bot in Node](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/basics-naturalLanguage)
 * [Microsoft Bing Spell Check API](https://www.microsoft.com/cognitive-services/en-us/bing-spell-check-api)
 
-> **Limitations**  
+> **Limitations**
 > The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [Message.sourceEvent](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#sourceevent) method.
-> 
+>
 > The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
-> 
+>
 > The features used in this sample are fully supported in the following channels:
 > - Skype
 > - Facebook
@@ -236,10 +237,10 @@ To get more information about how to get started in Bot Builder for Node and LUI
 > - Slack
 > - GroupMe
 > - Telegram
-> 
+>
 > They are also supported, with some limitations, in the following channels:
 > - Kik
 > - Email
-> 
+>
 > On the other hand, they are not supported and the sample won't work as expected in the following channel:
 > - SMS
