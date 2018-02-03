@@ -13,7 +13,7 @@
         /// <summary>
         /// The Bing Spell Check Api Url.
         /// </summary>
-        private const string SpellCheckApiUrl = "https://api.cognitive.microsoft.com/bing/v5.0/spellcheck/?form=BCSSCK";
+        private static readonly string SpellCheckApiUrl = WebConfigurationManager.AppSettings["BingSpellCheckApiEndpoint"];
 
         /// <summary>
         /// Microsoft Bing Spell Check Api Key.

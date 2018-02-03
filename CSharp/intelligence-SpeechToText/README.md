@@ -12,8 +12,7 @@ A sample bot that illustrates how to use the Microsoft Cognitive Services Bing S
 The minimum prerequisites to run this sample are:
 * The latest update of Visual Studio 2015. You can download the community version [here](http://www.visualstudio.com) for free.
 * The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
-* **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
-* This sample currently uses a free trial Microsoft Cognitive service key with limited QPS. Please subscribe to Bing Speech Api services [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) and update the `MicrosoftSpeechApiKey` key in key in [Web.config](Web.config) file to try it out further.
+* Subscribe to Bing Speech API services [here](https://azure.microsoft.com/en-us/services/cognitive-services/speech/) to obtain a Trial API Key and update the `MicrosoftSpeechApiKey` key in key in [Web.config](Web.config) file to try it out further.
 
 ````XML
   <appSettings>

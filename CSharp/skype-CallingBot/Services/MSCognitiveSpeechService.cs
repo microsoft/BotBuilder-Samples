@@ -42,7 +42,7 @@
                 {
                     using (var binaryContent = new ByteArrayContent(StreamToBytes(audiostream)))
                     {
-                        // binaryContent.Headers.TryAddWithoutValidation("content-type", "audio/wav; codec=\"audio/pcm\"; samplerate=16000");
+                        binaryContent.Headers.TryAddWithoutValidation("content-type", "audio/wav; codec=\"audio/pcm\"; samplerate=16000");
                         var response = await client.PostAsync(requestUri, binaryContent);
                         var responseString = await response.Content.ReadAsStringAsync();
                         dynamic data = JsonConvert.DeserializeObject(responseString);

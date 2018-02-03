@@ -96,9 +96,17 @@ Another LUIS Model Feature used is Phrase List Features, for instance, the model
 
 ### Spelling Correction
 
-If you want to enable spelling correction, set the `IsSpellCorrectionEnabled` key to `true` in the [Web.config](Web.config) file.
+To enable spelling correction, subscribe to Cognitive Services Bing Spell Check API from [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) to obtain a Trial API Key and update the `BingSpellCheckApiEndpoint` endpoint and `BingSpellCheckApiKey` key, and set the `IsSpellCorrectionEnabled` key to `true` in [Web.config](Web.config) file.
 
-Bing Spell Check API provides a module that allows you to to correct the spelling of the text. Check out the [reference](https://dev.cognitive.microsoft.com/docs/services/56e73033cf5ff80c2008c679/operations/56e73036cf5ff81048ee6727) to know more about the modules available. 
+````XML
+  <appSettings>
+    <add key="BingSpellCheckApiEndpoint" value="PUT-API-ENDPOINT-HERE" />
+    <add key="BingSpellCheckApiKey" value="PUT-YOUR-OWN-API-KEY-HERE" />
+    <add key="IsSpellCorrectionEnabled" value="true" />
+  </appSettings>
+````
+
+Bing Spell Check API provides a module that allows you to to correct the spelling of the text. Check out the [reference](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-spell-check-api-v7-reference7) to know more about the modules available. 
 
 [BingSpellCheckService.cs](Services/BingSpellCheckService.cs) is the core component illustrating how to call the Bing Spell Check RESTful API.
 

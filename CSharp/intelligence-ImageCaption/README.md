@@ -12,10 +12,11 @@ A sample bot that illustrates how to use the [Microsoft Cognitive Services Compu
 The minimum prerequisites to run this sample are:
 * The latest update of Visual Studio 2015. You can download the community version [here](http://www.visualstudio.com) for free.
 * The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
-* This sample currently uses a free trial Microsoft Cognitive service key with limited QPS. Please subscribe to Vision API services [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) and update the `MicrosoftVisionApiKey` key in [Web.config](Web.config) file to try it out further.
+* Subscribe to Cognitive Services Computer Vision API from [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) to obtain a Trial API Key and update `MicrosoftVisionApiEndpoint` endpoint and the `MicrosoftVisionApiKey` key in [Web.config](Web.config) file to try it out further.
 
 ````XML
   <appSettings>
+    <add key="MicrosoftVisionApiEndpoint" value="PUT-API-ENDPOINT-HERE" />
     <add key="MicrosoftVisionApiKey" value="PUT-YOUR-OWN-API-KEY-HERE" />
   </appSettings>
 ````
