@@ -22,6 +22,11 @@
         private static readonly string ApiKey = WebConfigurationManager.AppSettings["MicrosoftVisionApiKey"];
 
         /// <summary>
+        /// Microsoft Computer Vision API Endpoint.
+        /// </summary>
+        private static readonly string ApiEndpoint = WebConfigurationManager.AppSettings["MicrosoftVisionApiEndpoint"];
+
+        /// <summary>
         /// The set of visual features we want from the Vision API.
         /// </summary>
         private static readonly VisualFeature[] VisualFeatures = { VisualFeature.Description };
@@ -37,7 +42,7 @@
         /// <returns>Description if caption found, null otherwise.</returns>
         public async Task<string> GetCaptionAsync(string url)
         {
-            var client = new VisionServiceClient(ApiKey);
+            var client = new VisionServiceClient(ApiKey, ApiEndpoint);
             var result = await client.AnalyzeImageAsync(url, VisualFeatures);
             return ProcessAnalysisResult(result);
         }
@@ -53,7 +58,7 @@
         /// <returns>Description if caption found, null otherwise.</returns>
         public async Task<string> GetCaptionAsync(Stream stream)
         {
-            var client = new VisionServiceClient(ApiKey);
+            var client = new VisionServiceClient(ApiKey, ApiEndpoint);
             var result = await client.AnalyzeImageAsync(stream, VisualFeatures);
             return ProcessAnalysisResult(result);
         }

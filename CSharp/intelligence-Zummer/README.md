@@ -47,7 +47,7 @@ Zummer bot is trained to understand the following intents:
 
  
 
-1.  **Sign in and Create an application** on [www.luis.ai](http://www.luis.ai/)  
+1.  **Sign in and Create an application** on [www.luis.ai](http://www.luis.ai/)
     **Note:** You can either import the LUIS application JSON file
     “ZummerLuisApp.json” found in the [sample folder](https://github.com/Microsoft/BotBuilder-Samples/blob/master/CSharp/intelligence-Zummer/ZummerLuisApp.json)
 
@@ -160,7 +160,7 @@ Fetching Wikipedia articles on a topic using Bing Web Search API
         /// </summary> 
         internal sealed class BingSearchService : ISearchService 
         { 
-            private const string BingSearchEndpoint = "https://api.cognitive.microsoft.com/bing/v5.0/search/"; 
+            private const string BingSearchEndpoint = "https://api.cognitive.microsoft.com/bing/v7.0/search/"; 
      
             private static readonly Dictionary<string, string> Headers = new Dictionary<string, string> 
             { 
