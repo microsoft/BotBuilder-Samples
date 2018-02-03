@@ -91,10 +91,10 @@ lib.dialog('completed', function (session, args, next) {
                 builder.Fact.create(session, offuscateNumber(order.paymentDetails.creditcardNumber), 'payment_method')
             ])
             .items([
-                builder.ReceiptItem.create(session, order.selection.price, order.selection.name)
+                builder.ReceiptItem.create(session, order.selection.price.toString(), order.selection.name)
                     .image(builder.CardImage.create(session, order.selection.imageUrl))
             ])
-            .total(order.selection.price)
+            .total(order.selection.price.toString())
             .buttons([
                 builder.CardAction.openUrl(session, 'https://dev.botframework.com/', 'more_information')
             ]);

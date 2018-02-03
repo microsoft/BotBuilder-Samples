@@ -20,7 +20,7 @@ The minimum prerequisites to run this sample are:
 #### Integration with Express.js
 BotBuilder is implemented as a REST API, basically a web endpoint where all your bot messages will be routed to. This is done through the ChatConnector's [listen()](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.chatconnector.html#listen) function and it is hooked to your existing [express.js](https://expressjs.com/) or [restify.js](http://restify.com/) application, thus leveraging your web application scalability. If the scaling requirements of your bot are different than your web application, you can opt to host it separatly.
 
-The simplest way to hook your bot with your express.js app is to use express.js routing as follows: 
+The simplest way to hook your bot with your express.js app is to use express.js routing as follows:
 ````JavaScript
 server.post('/api/messages', connector.listen());
 ````
@@ -35,7 +35,7 @@ var connectorListener = connector.listen();
 function listen() {
     return function (req, res) {
         // Capture the url for the hosted application
-        // We'll later need this url to create the checkout link 
+        // We'll later need this url to create the checkout link
         var url = req.protocol + '://' + req.get('host');
         siteUrl.save(url);
         connectorListener(req, res);
@@ -48,7 +48,7 @@ module.exports.listen = listen;
 // Then, register the hook from your express.js application:
 var bot = require('./bot');
 app.post('/api/messages', bot.listen());
-```` 
+````
 
 #### Welcome Message
 
@@ -78,7 +78,7 @@ Each of these dialogs are implemented as a [BotBuilder Library](https://docs.bot
 These are the more important ones related to the shopping experience:
 
 * [**Shop Dialog**](bot/dialogs/shop.js)
-  
+
   Handles the main flow of the shopping experience. Calls other dialogs to capture information like the selected product, delivery address, recipient information and triggers the checkout flow.
 
 * [**Address Dialogs**](bot/dialogs/address.js)
@@ -153,7 +153,7 @@ lib.dialog('email',
 module.exports.createLibrary = function () {
     return lib.clone();
 };
-```` 
+````
 
 And this is how you can call the validator from your existing code:
 
@@ -177,7 +177,7 @@ And this is how you can call the validator from your existing code:
 > It is worth noting that calling other dialogs within your library don't need to be prefixed with the library's id. It is only when crossing from one library context to another that you need to include the library name prefix on your `session.beginDialog()` calls.
 
 Another example of a reusable library is the [BotBuilder's Location picker control](https://github.com/Microsoft/BotBuilder-Location). Once the module is added to your project dependencies, you can register it with your bot and start using it.
-Checkout the [address dialog](bot/dialogs/address.js#L6-L30) to see its usage within Contoso Flowers.
+Checkout the [address dialog](bot/dialogs/address.js#L6-L31) to see its usage within Contoso Flowers.
 
 ````JavaScript
 var lib = new builder.Library('address');
@@ -194,6 +194,7 @@ lib.dialog('/', [
             useNativeControl: true,
             reverseGeocode: true,
             skipConfirmationAsk: true,
+            skipFavorites: true,
             requiredFields:
                 locationDialog.LocationRequiredFields.streetAddress |
                 locationDialog.LocationRequiredFields.locality |
@@ -209,7 +210,7 @@ lib.dialog('/', [
 |----------|-------|----------|
 |![Bing Location Control](images/bing-location-emulator.png)|![Bing Location Control](images/bing-location-facebook.png)|![Bing Location Control](images/bing-location-skype.png)|
 
-#### Rich Cards 
+#### Rich Cards
 
 Many messaging channels provide the ability to attach richer objects. The Bot Framework has the ability to render rich cards as attachments.
 
@@ -301,7 +302,7 @@ var DefaultCategory = 'Flower 2';
 
 bot.dialog('/', [
     function (session, args, next) {
-        // Create dialog function 
+        // Create dialog function
         var displayProducts = CarouselPagination.create(
             // getPageFunc(pageNumber: number, pageSize: number):Promise<PagingResult>
             function (pageNumber, pageSize) { return Products.getProducts(DefaultCategory, pageNumber, pageSize); },
@@ -325,8 +326,8 @@ bot.dialog('/', [
                 unknownOption: 'I couldn\'t understand your selection. Please try again.'
             });
 
-        // Invoke dialog function 
-        // It  will handle product selection, pagination call or product list display 
+        // Invoke dialog function
+        // It  will handle product selection, pagination call or product list display
         displayProducts(session, args, next);
 
     },
@@ -486,12 +487,12 @@ bot.use({
     botbuilder: function (session, next) {
         var text = session.message.text;
         if (settingsRegex.test(text)) {
-            // interrupt and trigger 'settings' dialog 
+            // interrupt and trigger 'settings' dialog
             return session.beginDialog('settings:/');
         } else if (supportRegex.test(text)) {
             // interrupt and trigger 'help' dialog
             return session.beginDialog('help:/');
-        }   
+        }
 
         // continue normal flow
         next();
@@ -589,7 +590,7 @@ bot.set('localizerSettings', {
 });
 ````
 
-The default localization system for Bot Builder is file based and lets a bot support multiple languages using JSON files stored on disk. By default, the localization system will search for the bots prompts in the ./locale/[IETF TAG]/index.json file where [IETF TAG] is a valid [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag) representing the preferred locale to use the prompts for. 
+The default localization system for Bot Builder is file based and lets a bot support multiple languages using JSON files stored on disk. By default, the localization system will search for the bots prompts in the ./locale/[IETF TAG]/index.json file where [IETF TAG] is a valid [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag) representing the preferred locale to use the prompts for.
 
 You can see in the previous code snippet that we are providing a locale path to inform the SDK where to look for language files. Each file in [the locale folder](bot/locale/en) corresponds to a another file in the [bot's dialogs folder](bot/dialogs). They contain the resource strings used by each dialog. E.g.:
 
@@ -668,11 +669,11 @@ To get more information about how to get started in Bot Builder for Node review 
 * [LUIS](https://docs.botframework.com/en-us/node/builder/guides/understanding-natural-language/)
 
 
-> **Limitations**  
+> **Limitations**
 > The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [Message.sourceEvent](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#sourceevent) method.
-> 
+>
 > The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
-> 
+>
 > The features used in this sample are fully supported in the following channels:
 > - Skype
 > - Facebook
@@ -680,11 +681,11 @@ To get more information about how to get started in Bot Builder for Node review 
 > - DirectLine
 > - WebChat
 > - GroupMe
-> 
+>
 > They are also supported, with some limitations, in the following channel:
 > - Microsoft Teams (Receipt card not supported)
 > - Email
-> 
+>
 > On the other hand, they are not supported and the sample won't work as expected in the following channels:
 > - Telegram
 > - SMS

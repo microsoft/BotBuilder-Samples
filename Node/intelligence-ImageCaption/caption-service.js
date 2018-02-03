@@ -5,18 +5,17 @@
 
 var request = require('request').defaults({ encoding: null });
 
-var VISION_URL = 'https://westus.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=Description';
-
-/** 
+/**
  *  Gets the caption of the image from an image stream
  * @param {stream} stream The stream to an image.
  * @return {Promise} Promise with caption string if succeeded, error otherwise
  */
 exports.getCaptionFromStream = function (stream) {
+    var apiUrl = process.env.MICROSOFT_VISION_API_ENDPOINT + '/analyze?visualFeatures=Description'
     return new Promise(
         function (resolve, reject) {
             var requestData = {
-                url: VISION_URL,
+                url: apiUrl,
                 encoding: 'binary',
                 json: true,
                 headers: {
@@ -31,24 +30,29 @@ exports.getCaptionFromStream = function (stream) {
                 } else if (response.statusCode !== 200) {
                     reject(body);
                 } else {
-                    resolve(extractCaption(JSON.parse(body)));
+                    resolve(extractCaption(body));
                 }
             }));
         }
     );
 };
 
-/** 
+/**
  * Gets the caption of the image from an image URL
  * @param {string} url The URL to an image.
  * @return {Promise} Promise with caption string if succeeded, error otherwise
  */
 exports.getCaptionFromUrl = function (url) {
+    var apiUrl = process.env.MICROSOFT_VISION_API_ENDPOINT + '/analyze?visualFeatures=Description'
     return new Promise(
         function (resolve, reject) {
             var requestData = {
-                url: VISION_URL,
-                json: { 'url': url }
+                url: apiUrl,
+                json: { 'url': url },
+                headers: {
+                    'Ocp-Apim-Subscription-Key': process.env.MICROSOFT_VISION_API_KEY,
+                    'content-type': 'application/json'
+                }
             };
 
             request.post(requestData, function (error, response, body) {

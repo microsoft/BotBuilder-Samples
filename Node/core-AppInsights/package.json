@@ -21,8 +21,8 @@
     "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
   },
   "dependencies": {
-    "applicationinsights": "^0.17.2",
-    "botbuilder": "^3.8.2",
+    "applicationinsights": "^1.0.1",
+    "botbuilder": "^3.13.1",
     "dotenv-extended": "^1.0.4",
     "restify": "^4.3.0"
   }

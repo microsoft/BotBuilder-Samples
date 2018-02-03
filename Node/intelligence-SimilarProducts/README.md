@@ -13,12 +13,14 @@ The minimum prerequisites to run this sample are:
 * Latest Node.js with NPM. Download it from [here](https://nodejs.org/en/download/).
 * The Bot Framework Emulator. To install the Bot Framework Emulator, download it from [here](https://emulator.botframework.com/). Please refer to [this documentation article](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started) to know more about the Bot Framework Emulator.
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
+* Subscribe to Bing Search API from [here](https://azure.microsoft.com/en-us/try/cognitive-services/my-apis/?apiSlug=search-api-v7) to obtain a Trial API Key and update the `BING_SEARCH_API_KEY` key in [.env](.env) file to try it out further.
+
 * This sample currently uses a free trial Microsoft Bing Search API key with limited QPS. Please subscribe [here](https://www.microsoft.com/cognitive-services/en-us/subscriptions) to obtain your own key and update the `BING_SEARCH_API_KEY` key in [.env](.env) file to try it out further.
 
 
 ### Code Highlights
 
-Microsoft Bing Image Search API provides a number of modules that allows you to search by image. Check out the [reference](https://msdn.microsoft.com/en-us/library/dn760791.aspx) to know more about the modules available. In this sample we are using the 'SimilarProducts' module to get similar products to an image. We set the 'modulesRequested' parameter to 'SimilarProducts' `https://api.cognitive.microsoft.com/bing/v5.0/images/search?modulesRequested=SimilarProducts` 
+Microsoft Bing Image Search API provides a number of modules that allows you to search by image. Check out the [reference](https://msdn.microsoft.com/en-us/library/dn760791.aspx) to know more about the modules available. In this sample we are using the 'SimilarProducts' module to get similar products to an image. We set the 'modulesRequested' parameter to 'SimilarProducts' `https://api.cognitive.microsoft.com/bing/v5.0/images/search?modulesRequested=SimilarProducts`
 
 The main components are:
 
@@ -40,7 +42,7 @@ if (hasImageAttachment(session)) {
 And here is the implementation of `imageService.getSimilarProductsFromStream(stream)` in [image-service.js](image-service.js)
 
 ````JavaScript
-/** 
+/**
  *  Gets the similar products of the image from an image stream
  * @param {stream} stream The stream to an image.
  * @return {Promise} Promise with visuallySimilarProducts array if succeeded, error otherwise

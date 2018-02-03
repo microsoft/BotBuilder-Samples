@@ -3,11 +3,10 @@
 // https://msdn.microsoft.com/en-us/library/dn760791.aspx
 var request = require('request').defaults({ encoding: null });
 
-var BING_API_URL = 'https://api.cognitive.microsoft.com/bing/v5.0/images/search?modulesRequested=SimilarProducts&mkt=en-us&form=BCSPRD';
-
+var BING_SEARCH_API_ENDPOINT = 'https://api.cognitive.microsoft.com/bing/v7.0/images/details?modules=SimilarProducts&mkt=en-us'
 var BING_SEARCH_API_KEY = process.env.BING_SEARCH_API_KEY;
 
-/** 
+/**
  *  Gets the similar products of the image from an image stream
  * @param {stream} stream The stream to an image.
  * @return {Promise} Promise with visuallySimilarProducts array if succeeded, error otherwise
@@ -16,13 +15,14 @@ exports.getSimilarProductsFromStream = function (stream) {
     return new Promise(
         function (resolve, reject) {
             var requestData = {
-                url: BING_API_URL,
-                encoding: 'binary',
+                url: BING_SEARCH_API_ENDPOINT,
+                json: true,
                 formData: {
                     file: stream
                 },
                 headers: {
-                    'Ocp-Apim-Subscription-Key': BING_SEARCH_API_KEY
+                    'Ocp-Apim-Subscription-Key': BING_SEARCH_API_KEY,
+                    'Content-Type': 'multipart/form-data',
                 }
             };
 
@@ -34,14 +34,14 @@ exports.getSimilarProductsFromStream = function (stream) {
                     reject(body);
                 }
                 else {
-                    resolve(JSON.parse(body).visuallySimilarProducts);
+                    resolve((body.visuallySimilarProducts && body.visuallySimilarProducts.value) || []);
                 }
             });
         }
     );
 };
 
-/** 
+/**
  * Gets the similar products of the image from an image URL
  * @param {string} url The URL to an image.
  * @return {Promise} Promise with visuallySimilarProducts array if succeeded, error otherwise
@@ -50,7 +50,7 @@ exports.getSimilarProductsFromUrl = function (url) {
     return new Promise(
         function (resolve, reject) {
             var requestData = {
-                url: BING_API_URL + '&imgurl=' + url,
+                url: BING_SEARCH_API_ENDPOINT + '&imgurl=' + encodeURIComponent(url),
                 headers: {
                     'Ocp-Apim-Subscription-Key': BING_SEARCH_API_KEY
                 },
@@ -65,7 +65,7 @@ exports.getSimilarProductsFromUrl = function (url) {
                     reject(body);
                 }
                 else {
-                    resolve(body.visuallySimilarProducts);
+                    resolve((body.visuallySimilarProducts && body.visuallySimilarProducts.value) || []);
                 }
             });
         }

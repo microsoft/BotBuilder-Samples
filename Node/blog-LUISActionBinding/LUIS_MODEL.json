@@ -45,13 +45,13 @@
     {
       "name": "Checkin",
       "children": [
-        "datetime"
+        "datetimev2"
       ]
     },
     {
       "name": "Checkout",
       "children": [
-        "datetime"
+        "datetimev2"
       ]
     },
     {
@@ -63,7 +63,7 @@
   ],
   "closedLists": [],
   "bing_entities": [
-    "datetime",
+    "datetimev2",
     "geography"
   ],
   "actions": [],
