@@ -49,8 +49,9 @@ bot.dialog('AddNumber', [
 .triggerAction({matches: /^add$/i})
 .cancelAction('CancelAddNumber', 'Operation cancelled', {
     matches: /^cancel$/,
-    onSelectAction: (session, args) => {
+    onSelectAction: (session, args, next) => {
         session.endConversation(`Operation cancelled.`);
+        next();
     },
     confirmPrompt: `Are you sure you wish to cancel?`
 })
