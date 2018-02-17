@@ -13,7 +13,7 @@ Register your bot with the Microsoft Bot Framework on Azure. Check this [link](h
 
 Enable the DirectLine channel, and get your secrets.
 
-![Configure Direct Line](images/configure.PHG)
+![Configure Direct Line](images/configure.PNG)
 
 ### Code
 
