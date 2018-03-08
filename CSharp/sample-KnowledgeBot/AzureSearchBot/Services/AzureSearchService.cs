@@ -27,6 +27,7 @@ namespace AzureSearchBot.Services
         {
             using (var httpClient = new HttpClient())
             {
+                httpClient.DefaultRequestHeaders.Add("api-key", WebConfigurationManager.AppSettings["SearchKey"]);
                 string facetQuery = $"{QueryString}facet=Era";
                 string response = await httpClient.GetStringAsync(facetQuery);
                 return JsonConvert.DeserializeObject<FacetResult>(response);
@@ -37,6 +38,7 @@ namespace AzureSearchBot.Services
         {
             using (var httpClient = new HttpClient())
             {
+                httpClient.DefaultRequestHeaders.Add("api-key", WebConfigurationManager.AppSettings["SearchKey"]);
                 string nameQuery = $"{QueryString}$filter=Era eq '{era}'";
                 string response = await httpClient.GetStringAsync(nameQuery);
                 return JsonConvert.DeserializeObject<SearchResult>(response);
