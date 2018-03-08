@@ -10,12 +10,13 @@ namespace AzureSearchBot.Services
     [Serializable]
     public class AzureSearchService
     {
-        private static readonly string QueryString = $"https://{WebConfigurationManager.AppSettings["SearchName"]}.search.windows.net/indexes/{WebConfigurationManager.AppSettings["IndexName"]}/docs?api-key={WebConfigurationManager.AppSettings["SearchKey"]}&api-version=2015-02-28&";
+        private static readonly string QueryString = $"https://{WebConfigurationManager.AppSettings["SearchName"]}.search.windows.net/indexes/{WebConfigurationManager.AppSettings["IndexName"]}/docs?api-version=2016-09-01&";
 
         public async Task<SearchResult> SearchByName(string name)
         {
             using (var httpClient = new HttpClient())
             {
+                httpClient.DefaultRequestHeaders.Add("api-key", WebConfigurationManager.AppSettings["SearchKey"]);
                 string nameQuery = $"{QueryString}search={name}";
                 string response = await httpClient.GetStringAsync(nameQuery);
                 return JsonConvert.DeserializeObject<SearchResult>(response);
