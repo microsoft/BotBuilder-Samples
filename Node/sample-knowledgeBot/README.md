@@ -1,6 +1,6 @@
 # Using Search to Create Data Driven Bots
 
-In this demo I'll demonstrate how to use Azure Document DB, Azure Search and the Microsoft Bot Framework to build a bot that searches and filters over an underlying dataset.
+In this demo I'll demonstrate how to use Azure Cosmos DB, Azure Search and the Microsoft Bot Framework to build a bot that searches and filters over an underlying dataset.
 
 [![Deploy to Azure][Deploy Button]][Deploy Node/KnowledgeBot]
 
@@ -32,15 +32,15 @@ More and more frequently we're seeing the value in bots that can reason over und
 
 I'm going to demonstrate the creation of a simple bot that searches and filters over a dataset of classical musicians. First we'll set up our database, then we'll create our search service, and then we'll build our bot.
 
-## Database Setup - DocumentDB 
-I'll start by noting the musicianData JSON file found in the data folder of this project. Each JSON object is made up of four properties: musician name, era, description, and image url. Our goal will be to allow users to quickly find a specific musician or filter musicians by their different eras. Our dataset only contains 19 musicians, but this approach can easily scale to millions of datapoints. Azure Search is capable of indexing data from several data sources including Document DB, Blob Storage, Table Storage and Azure SQL. We'll use Document DB as a demonstration. 
+## Database Setup - Cosmos DB 
+I'll start by noting the musicianData JSON file found in the data folder of this project. Each JSON object is made up of four properties: musician name, era, description, and image url. Our goal will be to allow users to quickly find a specific musician or filter musicians by their different eras. Our dataset only contains 19 musicians, but this approach can easily scale to millions of datapoints. Azure Search is capable of indexing data from several data sources including Document DB, Blob Storage, Table Storage and Azure SQL. We'll use Cosmos DB as a demonstration. 
 
 ### Create a Document DB database and collection. 
-1. Navigate to Document DB in the Azure Portal 
+1. Navigate to Cosmos DB in the Azure Portal 
 
     <img src="./images/docDB1.PNG" alt="Screenshot" style="width: 500px; padding-left: 40px;"/>
                                   
-2. Create Doc DB account
+2. Create a Cosmos DB account
 
     <img src="./images/docDB2.PNG" alt="Screenshot" style="width: 500px; padding-left: 40px;"/>
 
@@ -50,52 +50,44 @@ I'll start by noting the musicianData JSON file found in the data folder of this
 
 
 ### Upload JSON data
-Now that we've got our database and collection set up, let's go ahead and push our JSON data up. We can do this programatically, but for the
-sake of simplicity I'm going to use the Document DB Data Migration Tool (documented here https://azure.microsoft.com/en-us/documentation/articles/documentdb-import-data/).
+Now that we've got our database and collection set up, let's go ahead and push our JSON data up. We can do this in the portal directly, but you can also use the Cosmos DB Data Migration Tool (documented here https://docs.microsoft.com/en-us/azure/cosmos-db/import-data).
 
-1. Once you've got the tool, navigate to the musician JSON data: 
+1. Go to your collection, unfold the menu (...), select Upload, navigate to the musician JSON data, and upload the selected file: 
 
     <img src="./images/dtui1.PNG" alt="Screenshot" style="width: 500px; padding-left: 40px;"/>
 
-2. Fill in target information
-
-    1. Get connection strings from portal
-
-        <img src="./images/dtui2.PNG" alt="Screenshot" style="width: 500px; padding-left: 40px;"/>
-
-    2. Be sure to add Database = <DatabaseName>; to your connection string
-
-        <img src="./images/dtui3.PNG" alt="Screenshot" style="width: 500px; padding-left: 40px;"/>
-
-    3. Then upload your data: 
-
-        <img src="./images/dtui4.PNG" alt="Screenshot" style="width: 500px; padding-left: 40px;"/>
-
-    To see that our data has uploaded, we can go back to the portal, click query explorer and run the default query `SELECT * FROM c`:
+    To see that our data has uploaded, we can go select our collection, and go to Documents, and select one of the ids:
         <img src="./images/queryexplorer1.PNG" alt="Screenshot" style="width: 500px; padding-left: 40px;"/>
 
-3. Create your Azure Search index
+2. Create your Azure Search index
 
     1. Create an Azure Search service
 
+        <img src="./images/search0.PNG" alt="Screenshot" style="width: 500px; padding-left: 40px;"/>
+
+        1. First we create a new Search Service
+
         <img src="./images/search1.PNG" alt="Screenshot" style="width: 500px; padding-left: 40px;"/>
 
-    2. Import Data from your Document DB collection
+    2. Import Data from your Cosmos DB collection
+
+       Go to the Search service, and go to Overview. Herefrom you can select Import data from the menu, and we can create a new connection to our collection:   
 
         <img src="./images/search2.PNG" alt="Screenshot" style="width: 500px; padding-left: 40px;"/>
     
-    3. Create your Azure Search index
+        1. Create your Azure Search index
 
         Here's where the magic starts to happen. You can see that Azure Search has accessed our data and pulled in each parameter of the JSON objects. Now we get to decide which of these parameters we want to search over, facet over, filter by and retrieve. Again we could generate our indeces programically, and in more complex use cases we would, but for the sake of simplicity we'll stick to the portal UI. Given that we want access to all of these properties we'll go ahead and make them all retrievable. We want to be able to facet (more details about faceting to come) and filter over musician's eras. Finally, we'll mark name as searchable so that our bot can search for musicians by their names. 
 
         <img src="./images/search3.PNG" alt="Screenshot" style="width: 500px; padding-left: 40px;"/>
 
-4. Create your Azure Search indexer
-    As our data is subject to change, we need to be able to reindex that data. Azure Search allows you to index on a schedule or on demand, but for this demo we'll index once only.
+        2. Create your Azure Search indexer
 
-    <img src="./images/search4.PNG" alt="Screenshot" style="width: 500px; padding-left: 40px;"/>
+        As our data is subject to change, we need to be able to reindex that data. Azure Search allows you to index on a schedule or on demand, but for this demo we'll index once only. Make sure that after you have created the indexer, you also click on the ok button to import the data.
 
-5. Use the Search explorer
+        <img src="./images/search4.PNG" alt="Screenshot" style="width: 500px; padding-left: 40px;"/>
+
+3. Use the Search explorer
 
     We can verify that our index is properly functioning by using the Azure Search Explorer to enter example searches, filters and facets. This can be a very useful tool in testing out queries as you develop your bot. Note: If you enter a blank query the explorer should return all of your data. 
     
