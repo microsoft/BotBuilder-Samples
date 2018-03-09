@@ -116,7 +116,7 @@
           }
         },
         {
-          "apiVersion": "2014-06-01",
+          "apiVersion": "2014-04-01",
           "name": "web",
           "type": "sourcecontrols",
           "dependsOn": [
