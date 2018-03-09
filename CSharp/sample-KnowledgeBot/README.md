@@ -156,12 +156,13 @@ Note, we're performing a GET for this example, but for production bots/apps you 
 [Serializable]
 public class AzureSearchService
 {
-    private static readonly string QueryString = $"https://{WebConfigurationManager.AppSettings["SearchName"]}.search.windows.net/indexes/{WebConfigurationManager.AppSettings["IndexName"]}/docs?api-key={WebConfigurationManager.AppSettings["SearchKey"]}&api-version=2015-02-28&";
-
+     private static readonly string QueryString = $"https://{WebConfigurationManager.AppSettings["SearchName"]}.search.windows.net/indexes/{WebConfigurationManager.AppSettings["IndexName"]}/docs?api-version=2016-09-01&";
+ 
     public async Task<SearchResult> SearchByName(string name)
     {
         using (var httpClient = new HttpClient())
         {
+            httpClient.DefaultRequestHeaders.Add("api-key", WebConfigurationManager.AppSettings["SearchKey"]);
             string nameQuey = $"{QueryString}search={name}";
             string response = await httpClient.GetStringAsync(nameQuey);
             return JsonConvert.DeserializeObject<SearchResult>(response);
@@ -172,6 +173,7 @@ public class AzureSearchService
     {
         using (var httpClient = new HttpClient())
         {
+            httpClient.DefaultRequestHeaders.Add("api-key", WebConfigurationManager.AppSettings["SearchKey"]);
             string facetQuey = $"{QueryString}facet=Era";
             string response = await httpClient.GetStringAsync(facetQuey);
             return JsonConvert.DeserializeObject<FacetResult>(response);
@@ -182,6 +184,7 @@ public class AzureSearchService
     {
         using (var httpClient = new HttpClient())
         {
+            httpClient.DefaultRequestHeaders.Add("api-key", WebConfigurationManager.AppSettings["SearchKey"]);
             string nameQuey = $"{QueryString}$filter=Era eq '{era}'";
             string response = await httpClient.GetStringAsync(nameQuey);
             return JsonConvert.DeserializeObject<SearchResult>(response);
@@ -224,15 +227,18 @@ public static class CardUtil
 ```
 
 ## How to try this sample
-Finally, let's test our bot out. You can tyr it with emulator after setting Web.config with search credentials.
+Finally, let's test our bot out. You can try it with emulator after creating a Cosmos DB with the musician data, and setting Web.config with search credentials.
 I will demonstrate the bot working in the bot framework emulator, but if deployed to Azure Web Apps, this bot could be enabled on several different channels. 
+
+### How to set up a Cosmos DB with the data
+You can create a Cosmos DB to store the data of this sample by following the steps [here](https://github.com/mdragt/BotBuilder-Samples/tree/master/Node/sample-knowledgeBot).
 
 ### How to set search credentials in Web.Config
 We should set `SearchName`,`IndexName`,`SearchKey` in Web.config.
 
 1. Access Azure portal and see Azure Search you created. 
-2. You can check `SearchName` in Url (in this window, `masotabot`), so copy&paste it in Web.config.
-3. You can see `IndexName` in Indexes area (like `temp`). Please copy and paste it in Web.config.
+2. You can check `SearchName` in Url (in this window, `musicsearch`), so copy&paste it in Web.config.
+3. You can see `IndexName` in Indexes area (like `musicianindex`). Please copy and paste it in Web.config.
 4. Click [All settings]-[Keys]-[Manage query keys] and you can check Key. Please copy it and paste it in Web.config.
 
 After setting web.config, you can start debugging. 
