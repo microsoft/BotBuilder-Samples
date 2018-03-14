@@ -30,7 +30,7 @@
 
             return new FormBuilder<HotelsQuery>()
                 .Field(nameof(HotelsQuery.Destination))
-                .Message("Looking for hotels in {Destination}...")
+                .Message($"Looking for hotels in {Destination}...")
                 .AddRemainingFields()
                 .OnCompletion(processHotelsSearch)
                 .Build();
