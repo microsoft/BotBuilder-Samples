@@ -80,8 +80,18 @@
       },
       "properties": {
         "name": "[parameters('siteName')]",
-        "serverFarm": "[parameters('hostingPlanName')]",
-         "appSettings": [
+        "serverFarm": "[parameters('hostingPlanName')]"
+      },
+      "resources": [
+        {
+          "apiVersion": "2016-08-01",
+          "type": "config",
+          "name": "web",
+          "dependsOn": [
+            "[concat('Microsoft.Web/Sites/', parameters('siteName'))]"
+          ],
+          "properties": {
+                     "appSettings": [
               {
                 "name": "Project",
                 "value": "[parameters('Project')]"
@@ -103,16 +113,6 @@
                 "value": "[parameters('LUIS_ModelId')]"
               }
             ]
-      },
-      "resources": [
-        {
-          "apiVersion": "2016-08-01",
-          "type": "config",
-          "name": "web",
-          "dependsOn": [
-            "[concat('Microsoft.Web/Sites/', parameters('siteName'))]"
-          ],
-          "properties": {
           }
         },
         {
