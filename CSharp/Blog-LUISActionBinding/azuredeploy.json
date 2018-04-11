@@ -80,7 +80,7 @@
       },
       "properties": {
         "name": "[parameters('siteName')]",
-        "serverFarm": "[parameters('hostingPlanName')]"
+        "serverFarm": "[parameters('hostingPlanName')]",
          "appSettings": [
               {
                 "name": "Project",
