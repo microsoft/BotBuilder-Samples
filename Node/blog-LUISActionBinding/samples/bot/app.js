@@ -18,7 +18,13 @@ var connector = new builder.ChatConnector({
 });
 server.post('/api/messages', connector.listen());
 
-var bot = new builder.UniversalBot(connector);
+// Bot Storage: Here we register the state storage for your bot. 
+// Default store: volatile in-memory store - Only for prototyping!
+// We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+// For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
+var inMemoryStorage = new builder.MemoryBotStorage();
+
+var bot = new builder.UniversalBot(connector).set('storage', inMemoryStorage); // Register in memory storage
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 var intentDialog = bot.dialog('/', new builder.IntentDialog({ recognizers: [recognizer] })
     .onDefault(DefaultReplyHandler));

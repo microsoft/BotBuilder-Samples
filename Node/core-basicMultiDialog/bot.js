@@ -12,6 +12,12 @@ const connector = new builder.ChatConnector({
 // perform an action that might take multiple steps, such as collecting
 // information from a user or performing an action on her behalf.
 
+// Bot Storage: Here we register the state storage for your bot. 
+// Default store: volatile in-memory store - Only for prototyping!
+// We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+// For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
+var inMemoryStorage = new builder.MemoryBotStorage();
+
 const bot = module.exports = new builder.UniversalBot(connector, [
     // this section becomes the root dialog
     // If a conversation hasn't been started, and the message
@@ -56,7 +62,7 @@ const bot = module.exports = new builder.UniversalBot(connector, [
             session.endConversation(`Sorry, I didn't understand the response. Let's start over.`);
         }
     },
-]);
+]).set('storage', inMemoryStorage); // Register in memory storage
 
 bot.dialog('getName', [
     (session, args, next) => {

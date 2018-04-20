@@ -7,6 +7,12 @@ const connector = new builder.ChatConnector({
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 
+// Bot Storage: Here we register the state storage for your bot. 
+// Default store: volatile in-memory store - Only for prototyping!
+// We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+// For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
+var inMemoryStorage = new builder.MemoryBotStorage();
+
 const bot = new builder.UniversalBot(connector, [
     (session, args, next) => {
 
@@ -24,7 +30,7 @@ const bot = new builder.UniversalBot(connector, [
         // the buttons will provide the appropriate message
         session.endConversation(message);
     },
-]);
+]).set('storage', inMemoryStorage); // Register in memory storage
 
 bot.dialog('AddNumber', [
     (session, args, next) => {

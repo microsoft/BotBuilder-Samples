@@ -14,6 +14,12 @@ app.listen(port, function () {
     console.log('%s listening in port %s', app.name, port);
 });
 
+// Bot Storage: Here we register the state storage for your bot. 
+// Default store: volatile in-memory store - Only for prototyping!
+// We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+// For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
+var inMemoryStorage = new builder.MemoryBotStorage();
+
 //create a chat connector for the bot
 var connector = new botbuilder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
@@ -21,7 +27,7 @@ var connector = new botbuilder.ChatConnector({
 });
 
 //load the botbuilder classes and build a unversal bot using the chat connector
-var bot = new botbuilder.UniversalBot(connector);
+var bot = new botbuilder.UniversalBot(connector).set('storage', inMemoryStorage); // Register in memory storage
 
 //hook up bot endpoint
 app.post("/api/messages", connector.listen());

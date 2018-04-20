@@ -18,6 +18,12 @@ var connector = new builder.ChatConnector({
 });
 server.post('/api/messages', connector.listen());
 
+// Bot Storage: Here we register the state storage for your bot. 
+// Default store: volatile in-memory store - Only for prototyping!
+// We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+// For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
+var inMemoryStorage = new builder.MemoryBotStorage();
+
 var bot = new builder.UniversalBot(connector, function (session) {
 
     if (session.message && session.message.value) {
@@ -158,7 +164,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
     var msg = new builder.Message(session)
         .addAttachment(card);
     session.send(msg);
-});
+}).set('storage', inMemoryStorage); // Register in memory storage
 
 // Search Hotels
 bot.dialog('hotels-search', require('./hotels-search'));
