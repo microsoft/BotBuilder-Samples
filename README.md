@@ -1,6 +1,11 @@
 ## Overview
 
-Bot Builder samples are organized into groups and designed to illustrate task-focused samples in C# and Node.js to help you build great bots!  To use the samples clone our GitHub repository using Git.
+This repository contains samples for the Microsoft [**Bot Builder V3 SDK**](https://github.com/microsoft/botbuilder). 
+
+Samples for the Bot Builder V4 SDK are available under the respective repositories - [dotnet](https://github.com/microsoft/botbuilder-dotnet), [JS](https://github.com/microsoft/botbuilder-js), [Java](https://github.com/microsoft/botbuilder-java), [Python](https://github.com/microsoft/botbuilder-python).
+
+
+Samples are organized into groups and designed to illustrate task-focused samples in C# and Node.js to help you build great bots!  To use the samples clone our GitHub repository using Git.
 
     git clone https://github.com/Microsoft/BotBuilder-Samples.git
     cd BotBuilder-Samples
