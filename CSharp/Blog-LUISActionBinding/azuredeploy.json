@@ -110,6 +110,14 @@
       },
       "resources": [
         {
+          "apiVersion": "2016-08-01",
+          "type":"config",
+          "name":"web",
+          "dependsOn": [
+            "[concat('Microsoft.Web/Sites/', parameters('siteName'))]" 
+          ]
+        },
+        {
           "apiVersion": "2016-03-01",
           "name": "web",
           "type": "sourcecontrols",
