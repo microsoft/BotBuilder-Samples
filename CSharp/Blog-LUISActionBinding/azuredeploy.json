@@ -81,8 +81,7 @@
       "properties": {
         "name": "[parameters('siteName')]",
         "serverFarm": "[parameters('hostingPlanName')]",
-        "properties" : {
-          "siteConfig":{
+        "siteConfig":{
             "appSettings":[
               {
                 "name": "Project",
@@ -105,8 +104,7 @@
                 "value": "[parameters('LUIS_ModelId')]"
               }
             ]
-          }
-        }
+         }      
       },
       "resources": [
         {
