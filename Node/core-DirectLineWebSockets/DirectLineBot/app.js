@@ -19,6 +19,12 @@ server.post('/api/messages', connector.listen());
 
 var instructions = 'Welcome to the Bot to showcase the DirectLine API. Send \'Show me a hero card\' or \'Send me a BotFramework image\' to see how the DirectLine client supports custom channel data. Any other message will be echoed.';
 
+// Bot Storage: Here we register the state storage for your bot. 
+// Default store: volatile in-memory store - Only for prototyping!
+// We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+// For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
+var inMemoryStorage = new builder.MemoryBotStorage();
+
 var bot = new builder.UniversalBot(connector, function (session) {
 
     var reply = new builder.Message()
@@ -53,7 +59,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
 
     session.send(reply);
 
-});
+}).set('storage', inMemoryStorage); // Register in memory storage
 
 
 bot.on('conversationUpdate', function (activity) {
