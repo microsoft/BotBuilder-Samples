@@ -172,52 +172,54 @@ namespace Search.Dialogs
         public async Task LogAsync(IActivity activity)
         {
             this.UserLanguage = this.botData.UserData.GetValueOrDefault<string>("UserLanguage");
-
             var message = activity.AsMessageActivity();
-            dynamic dmessage = activity;
-            dmessage.Properties["OriginalText"] = message.Text;
-            var userLanguage = this.UserLanguage ?? message?.Locale;
-            if (message != null && !string.IsNullOrWhiteSpace(message.Text))
+            if (message != null)
             {
-                if (userLanguage != this.BotLanguage)
+                dynamic dmessage = activity;
+                dmessage.Properties["OriginalText"] = message.Text;
+                var userLanguage = this.UserLanguage ?? message?.Locale;
+                if (message != null && !string.IsNullOrWhiteSpace(message.Text))
                 {
-                    if (!message.Text.StartsWith("#"))
+                    if (userLanguage != this.BotLanguage)
                     {
-                        var fromLanguage = userLanguage;
-                        var toLanguage = this.BotLanguage;
-                        if (message.From.Id == this.Conversation.Bot.Id)
+                        if (!message.Text.StartsWith("#"))
                         {
-                            fromLanguage = this.BotLanguage;
-                            toLanguage = userLanguage;
+                            var fromLanguage = userLanguage;
+                            var toLanguage = this.BotLanguage;
+                            if (message.From.Id == this.Conversation.Bot.Id)
+                            {
+                                fromLanguage = this.BotLanguage;
+                                toLanguage = userLanguage;
+                            }
+
+                            var strings = new List<string>();
+                            TranslateMessage(message, (string input) =>
+                            {
+                                if (!string.IsNullOrWhiteSpace(input))
+                                {
+                                    strings.Add(input);
+                                }
+                                return input;
+                            });
+
+                            var translations = await this.Translation.Translate(fromLanguage, toLanguage, strings.ToArray());
+
+                            var i = 0;
+                            TranslateMessage(message, (string input) =>
+                            {
+                                var translation = input;
+                                if (!string.IsNullOrWhiteSpace(input))
+                                {
+                                    translation = translations.Translations[i++];
+                                }
+                                return translation;
+                            });
                         }
-
-                        var strings = new List<string>();
-                        TranslateMessage(message, (string input) =>
-                        {
-                            if (!string.IsNullOrWhiteSpace(input))
-                            {
-                                strings.Add(input);
-                            }
-                            return input;
-                        });
-
-                        var translations = await this.Translation.Translate(fromLanguage, toLanguage, strings.ToArray());
-
-                        var i = 0;
-                        TranslateMessage(message, (string input) =>
-                        {
-                            var translation = input;
-                            if (!string.IsNullOrWhiteSpace(input))
-                            {
-                                translation = translations.Translations[i++];
-                            }
-                            return translation;
-                        });
                     }
-                } 
-                else
-                {
-                    message.Text = Translator.RemoveLiteral(message.Text);
+                    else
+                    {
+                        message.Text = Translator.RemoveLiteral(message.Text);
+                    }
                 }
             }
         }
