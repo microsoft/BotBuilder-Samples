@@ -17,7 +17,7 @@ namespace Search.Models
         private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
-            TypeNameAssemblyFormat = 0 // System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
         };
 
         public Dictionary<string, SearchField> Fields { get; set; }
