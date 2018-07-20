@@ -1,0 +1,15 @@
+{
+    "name": "RealEstate",
+    "description": "",
+    "secretKey": "",
+    "services": [
+        {
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3998/api/messages",
+            "id": "262b6440-8bcb-11e8-9e0a-07d97b3ba776",
+            "name": "http://localhost:3998/api/messages",
+            "type": "endpoint"
+        }
+    ]
+}

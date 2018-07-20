@@ -74,6 +74,9 @@ namespace Search.Models
         public bool IsSearchable { get; set; }
         public bool IsSortable { get; set; }
 
+        // If specified, the underlying units to convert to
+        public string Units { get; set; }
+
         // Fields to control experience
         public PreferredFilter FilterPreference { get; set; }
         public Synonyms NameSynonyms { get; set; }

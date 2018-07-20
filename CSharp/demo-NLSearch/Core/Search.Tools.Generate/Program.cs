@@ -445,7 +445,7 @@
                 if (p.UploadTemplate)
                 {
                     Console.WriteLine($"Uploading template {template.name} to LUIS");
-                    await subscription.ReplaceApplicationAsync(template, cts.Token);
+                    await subscription.ReplaceApplicationAsync(template, cts.Token, isStaging: p.IsStaging);
                 }
             }
             else
@@ -487,7 +487,8 @@
             */
             Clear(template);
             AddDescription(template, p.OutputName, args);
-            bool usesNumbers = false;
+            var usesNumbers = false;
+            var usesUnits = false;
             foreach (var field in schema.Fields.Values)
             {
                 if ((field.Type == typeof(string)
@@ -498,7 +499,14 @@
                 }
                 else if (field.Type.IsNumeric() && field.IsFilterable)
                 {
-                    usesNumbers = true;
+                    if (field.Units != null)
+                    {
+                        usesUnits = true;
+                    }
+                    else
+                    {
+                        usesNumbers = true;
+                    }
                     AddComparison(template, field);
                 }
                 else if ((field.IsFacetable || field.IsFilterable)
@@ -508,15 +516,23 @@
                     AddComparison(template, field);
                 }
             }
-            var bing = (JArray)template.bing_entities;
-            bing.Clear();
-            if (usesNumbers)
+            var prebuilt = (JArray)template.prebuiltEntities;
+            prebuilt.Clear();
+            if (usesNumbers || usesUnits)
             {
-                bing.Add("number");
+                prebuilt.Add("number");
+            }
+            if (usesUnits)
+            {
+                prebuilt.Add("dimension");
             }
             if (schema.DefaultCurrencyProperty != null)
             {
-                bing.Add("money");
+                prebuilt.Add("money");
+            }
+            if (schema.KeywordFields.Count() > 0)
+            {
+                prebuilt.Add("keyphrase");
             }
 
             AddKeywords(template, schema.Keywords);
@@ -554,7 +570,7 @@
             {
                 Console.WriteLine(msg);
             }
-            Console.WriteLine("Search.Tools.Generate <schemaFile> [-d <LUIS Domain>] [-l <LUIS subscription key>] [-m <modelName>] [-o <outputFile>] [-ot <outputTemplate>] [-s <splleing API Key] [-tf <templateFile>] [-tm <modelName>] [-u] [-ut]");
+            Console.WriteLine("Search.Tools.Generate <schemaFile> [-d <LUIS Domain>] [-l <LUIS subscription key>] [-m <modelName>] [-o <outputFile>] [-ot <outputTemplate>] [-s <splleing API Key] [-tf <templateFile>] [-tm <modelName>] [-u] [-us] [-ut]");
             Console.WriteLine("Take a JSON schema file and use it to generate a LUIS model from a template.");
             Console.WriteLine("The template can be the included SearchTemplate.json file or can be downloaded from LUIS.");
             Console.WriteLine("The resulting LUIS model can be saved as a file or automatically uploaded to LUIS.");
@@ -566,7 +582,8 @@
             Console.WriteLine("-s <spelling API Key> : Enable spelling using supplied API key.");
             Console.WriteLine("-tf <templateFile> : LUIS Template file to modify based on schema.  By default this is SearchTemplate.json.");
             Console.WriteLine("-tm <modelName> : LUIS model to use as template. Must also specify -l.");
-            Console.WriteLine("-u: Upload resulting model to LUIS.  Must also specify -l.");
+            Console.WriteLine("-u: Upload resulting model to LUIS production.  Must also specify -l.");
+            Console.WriteLine("-us: Upload resulting model to LUIS staging.  Must also specify -l.");
             Console.WriteLine("-ut: Upload template to LUIS.  Must also specify -l.");
             Console.WriteLine("Use {} to comment out arguments.");
             Console.WriteLine("Common usage:");
@@ -598,6 +615,7 @@
             }
 
             public string Domain = "westus.api.cognitive.microsoft.com";
+            public bool IsStaging = false;
             public string OutputPath;
             public string OutputName;
             public string OutputTemplate;
@@ -647,6 +665,7 @@
                         case "-tf": p.TemplatePath = NextArg(++i, args); break;
                         case "-tm": p.TemplateName = NextArg(++i, args); break;
                         case "-u": p.Upload = true; break;
+                        case "-us": p.Upload = true; p.IsStaging = true; break;
                         case "-ut": p.UploadTemplate = true; break;
                         default: Usage($"Unknown parameter {arg}"); break;
                     }

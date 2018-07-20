@@ -211,7 +211,7 @@ namespace Microsoft.LUIS.API
             return await GetApplicationAsync(id.Replace("\"", ""), ct);
         }
 
-        public async Task<Application> ReplaceApplicationAsync(dynamic model, CancellationToken ct, string spellingKey = null)
+        public async Task<Application> ReplaceApplicationAsync(dynamic model, CancellationToken ct, string spellingKey = null, bool isStaging = false)
         {
             Application newApp = null;
             string appName = (string)model.name;
@@ -227,7 +227,7 @@ namespace Microsoft.LUIS.API
                 if (app != null
                     && (spellingKey == null || await app.AddSpelling(spellingKey, ct))
                     && await app.TrainAsync(ct)
-                    && await app.PublishAsync(false, ct))
+                    && await app.PublishAsync(isStaging, ct))
                 {
                     newApp = app;
                 }
@@ -258,13 +258,13 @@ namespace Microsoft.LUIS.API
         /// <param name="ct">Cancellation token.</param>
         /// <param name="spellingKey">Bing spelling key.</param>
         /// <returns>LUIS Model ID.</returns>
-        public async Task<Application> GetOrImportApplicationAsync(string modelPath, CancellationToken ct, string spellingKey = null)
+        public async Task<Application> GetOrImportApplicationAsync(string modelPath, CancellationToken ct, string spellingKey = null, bool isStaging = false)
         {
             dynamic newModel = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(modelPath));
             var app = await GetApplicationByNameAsync((string)newModel.name, ct);
             if (app == null)
             {
-                app = await ReplaceApplicationAsync(newModel, ct, spellingKey);
+                app = await ReplaceApplicationAsync(newModel, ct, spellingKey, isStaging);
             }
             return app;
         }

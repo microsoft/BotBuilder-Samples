@@ -50,6 +50,7 @@ namespace Search.Models
         public SearchSchema()
         {
             Fields = new Dictionary<string, SearchField>();
+            KeywordFields = new List<string>();
         }
 
         public void AddField(SearchField field)

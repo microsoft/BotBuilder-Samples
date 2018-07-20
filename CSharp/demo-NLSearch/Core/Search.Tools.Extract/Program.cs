@@ -24,7 +24,7 @@ namespace Search.Tools.Extract
         private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
-            TypeNameAssemblyFormat = 0 // FormatterAssemblyStyle.Simple
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
         };
 
         private static async Task<int> Apply(SearchIndexClient client, string valueField, string idField, string text,
