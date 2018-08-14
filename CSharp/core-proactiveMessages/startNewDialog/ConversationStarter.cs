@@ -28,7 +28,16 @@ namespace startNewDialog
 
                 //This is our dialog stack
                 var task = scope.Resolve<IDialogTask>();
-                
+
+                //Do we have a root dialog yet?
+                if (task.Frames.Count == 0)
+                {
+                    var root = Chain.Loop(new RootDialog());
+                    task.Call(root, null);
+
+                    await task.PollAsync(CancellationToken.None);
+                }
+
                 //interrupt the stack. This means that we're stopping whatever conversation that is currently happening with the user
                 //Then adding this stack to run and once it's finished, we will be back to the original conversation
                 var dialog = new SurveyDialog();

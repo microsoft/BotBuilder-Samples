@@ -27,6 +27,15 @@ namespace startNewDialogWithPrompt
                 await botData.LoadAsync(CancellationToken.None);
                 var task = scope.Resolve<IDialogTask>();
 
+                //Do we have a root dialog yet?
+                if (task.Frames.Count == 0)
+                {
+                    var root = Chain.Loop(new RootDialog());
+                    task.Call(root, null);
+
+                    await task.PollAsync(CancellationToken.None);
+                }
+
                 //interrupt the stack
                 var dialog =new SurveyDialog();
                 task.Call(dialog.Void<object, IMessageActivity>(), null);
