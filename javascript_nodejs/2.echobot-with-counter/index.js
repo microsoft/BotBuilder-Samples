@@ -22,9 +22,8 @@ const env = require('dotenv').config({path: ENV_FILE});
 let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log(`\n${server.name} listening to ${server.url}`);
-    console.log(`\nGet emulator: https://aka.ms/botframework-emulator`);
-    // TODO: Add emulator deep link
-    console.log(`\nTo talk to your bot, open the EchoBot-With-Counter.bot file in the Emulator`);
+    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
+    console.log(`\nTo talk to your bot, open echoBot-with-counter.bot file in the Emulator`);
 });
 
 // .bot file path
@@ -61,13 +60,13 @@ const memoryStorage = new MemoryStorage();
 //                                            collectionId: cosmosConfig.collection});
 
 // create conversation state with in-memory storage provider. 
-const convoState = new ConversationState(memoryStorage);
+const conversationState = new ConversationState(memoryStorage);
 
 // register conversation state as a middleware. The ConversationState middleware automatically reads and writes conversation sate 
-adapter.use(convoState);
+adapter.use(conversationState);
 
 // Create the main dialog.
-const mainDlg = new MainDialog(convoState);
+const mainDlg = new MainDialog(conversationState);
 
 // Listen for incoming requests 
 server.post('/api/messages', (req, res) => {
