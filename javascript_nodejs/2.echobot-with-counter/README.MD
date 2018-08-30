@@ -11,9 +11,17 @@ This sample shows how to create a simple Echo bot with state. The bot keeps simp
     ```bash
     cd samples\2.echobot-with-counter
     ```
+- Point to the myget feed 
+    ```bash
+    npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
+    ```
 - Install modules and start the bot
     ```bash
     npm i & npm start
+    ```
+- To reset registry, you can do
+    ```bash
+    npm config set registry https://registry.npmjs.org/
     ```
 
 # Testing the bot using Bot Framework Emulator
