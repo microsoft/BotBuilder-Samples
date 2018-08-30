@@ -4,6 +4,8 @@
 const path = require('path');
 const restify = require('restify');
 
+const ERROR = 1;
+
 // Import reuqired bot services. See https://ama.ms/bot-services to learn more about the different part of a bot
 const { BotFrameworkAdapter, MemoryStorage, ConversationState } = require('botbuilder');
 
@@ -27,10 +29,16 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 });
 
 // .bot file path
-const BOT_FILE = path.join(__dirname, process.env.botFilePath);
+const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 
 // read bot configuration from .bot file. 
-const botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
+let botConfig;
+try {
+    botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
+} catch (err) {
+    console.log(`Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment`);
+    process.exit(ERROR);
+}
 
 // bot name as defined in .bot file 
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration .
