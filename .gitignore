@@ -8,15 +8,15 @@
 *.sln.docstates
 
 # dotnet core app settings
-appsettings.json
-appsettings.production.json
-appsettings.development.json
+/*/appsettings.json
+/*/appsettings.production.json
+/*/appsettings.development.json
 
 # webapi app settings
-web.config
+/*/web.config
 
 # JS/ TS/ es6 env files
-*.env
+/*/*.env
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
