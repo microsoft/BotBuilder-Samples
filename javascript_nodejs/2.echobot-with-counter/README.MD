@@ -19,6 +19,10 @@ This sample shows how to create a simple Echo bot with state. The bot keeps simp
     ```bash
     npm i & npm start
     ```
+    Alternatively you can also use nodemon via
+    ```bash
+    npm i & npm run watch
+    ```
 - To reset registry, you can do
     ```bash
     npm config set registry https://registry.npmjs.org/
