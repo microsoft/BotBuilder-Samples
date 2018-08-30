@@ -1,0 +1,14 @@
+{
+    "name": "echobot-with-counter",
+    "secretKey": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "echobot-with-counter",
+            "id": "http://localhost:3978/api/messages",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3978/api/messages"
+        }
+    ]
+}
