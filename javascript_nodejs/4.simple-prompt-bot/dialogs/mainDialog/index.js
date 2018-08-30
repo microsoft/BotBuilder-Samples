@@ -29,8 +29,6 @@ class MainDialog {
         this.dialogs.add('numberPrompt', new NumberPrompt());
         this.dialogs.add('textPrompt', new TextPrompt());
         this.dialogs.add('attachmentPrompt', new AttachmentPrompt());
-
-
             
         //-----------------------------------------------
         // Main Menu
@@ -186,6 +184,12 @@ class MainDialog {
             if (!context.responded) {
                 await dc.begin('mainMenu');
             }
+        } else if (context.activity.type == 'conversationUpdate' && context.activity.membersAdded[0].id === 'default-user') {
+            // Create dialog context
+            const state = this.conversationState.get(context);
+            const dc = this.dialogs.createContext(context, state);
+
+            await dc.begin('mainMenu');
         }
     }
 }
