@@ -1,0 +1,18 @@
+{
+  "name": "echobot-with-counter",
+  "version": "1.0.0",
+  "description": "Bot Builder v4 echo bot sample",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests/*.test.js",
+    "start": "node index.js"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "dependencies": {
+    "botbuilder": "^4.0.0-preview1.1089",
+    "botframework-config": "^4.0.0-preview1.1089",
+    "dotenv": "^6.0.0",
+    "restify": "^6.3.4"
+  }
+}
