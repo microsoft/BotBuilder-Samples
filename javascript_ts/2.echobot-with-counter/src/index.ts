@@ -16,9 +16,6 @@ const BOT_CONFIGURATION = 'echobot-with-counter';
 const ENV_FILE = path.join(__dirname, '..', '.env');
 const loadFromEnv = config({path: ENV_FILE});
 
-// .bot file path
-const BOT_FILE = path.join(__dirname, '..', process.env.botFilePath);
-
 // Create HTTP server
 let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
@@ -27,6 +24,8 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log(`\nTo talk to your bot, open echobot-with-counter.bot file in the Emulator.`);
 });
 
+// .bot file path
+const BOT_FILE = path.join(__dirname, '..', process.env.botFilePath);
 
 // read bot configuration from .bot file.
 const botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
