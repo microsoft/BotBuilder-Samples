@@ -10,8 +10,7 @@
     "installTools": "npm i -g ludown msbot luis-apis botdispatch qnamaker chatdown",
     "configure-services": "node deploymentScripts/configureServices.js",
     "dispatch-create": "dispatch create -b ./nlp-with-dispatch.bot | msbot connect dispatch --stdin",
-    "dispatch-refresh": "dispatch refresh -b ./nlp-with-dispatch.bot",
-    "configure-and-start": "npm run configure-services & npm run dispatch-create & node index.js"
+    "dispatch-refresh": "dispatch refresh -b ./nlp-with-dispatch.bot"
   },
   "author": "Microsoft",
   "license": "MIT",
