@@ -1,165 +1,57 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const {
-    ActionTypes, MessageFactory
-} = require('botbuilder');
+const { ActionTypes, MessageFactory } = require('botbuilder');
 
-const { 
-    DialogSet, TextPrompt, ConfirmPrompt, ChoicePrompt, DatetimePrompt, NumberPrompt, 
-    AttachmentPrompt
-} = require('botbuilder-dialogs');
+const { TextPrompt, DialogSet } = require('botbuilder-dialogs');
+
+const USER_NAME_PROP = 'user_name';
+const WHO_ARE_YOU = 'who_are_you';
+const HELLO_USER = 'hello_user';
 
 class MainDialog {
     /**
      * 
      * @param {Object} conversationState 
      */
-    constructor (conversationState) {
-        // creates a new state accessor property.see https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors 
-        // this.countProperty = conversationState.createProperty(TURN_COUNTER);
+    constructor (conversationState, userState) {
+        var that = this;
+
+        // creates a new state accessor property. see https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors 
         this.conversationState = conversationState;
+        this.userState = userState;
+
+        this.userName = this.userState.createProperty(USER_NAME_PROP)
 
         this.dialogs = new DialogSet();
         
         // Add prompts
-        this.dialogs.add('choicePrompt', new ChoicePrompt());
-        this.dialogs.add('confirmPrompt', new ConfirmPrompt());
-        this.dialogs.add('datetimePrompt', new DatetimePrompt());
-        this.dialogs.add('numberPrompt', new NumberPrompt());
         this.dialogs.add('textPrompt', new TextPrompt());
-        this.dialogs.add('attachmentPrompt', new AttachmentPrompt());
             
-        //-----------------------------------------------
-        // Main Menu
-        //-----------------------------------------------
-        this.dialogs.add('mainMenu', [
+        // Create a dialog that asks the user for their name.
+        this.dialogs.add(WHO_ARE_YOU, [
             async function(dc) {
-                function choice(title, value) {
-                    return {
-                        value: value,
-                        action: { type: ActionTypes.ImBack, title: title, value: title }
-                    };
-                }
-                await dc.prompt('choicePrompt', `Select a demo to run:`, [
-                    choice('choice', 'choiceDemo'),
-                    choice('confirm', 'confirmDemo'),
-                    choice('datetime', 'datetimeDemo'),
-                    choice('number', 'numberDemo'),
-                    choice('text', 'textDemo'),
-                    choice('attachment', 'attachmentDemo'),
-                    // choice('<all>', 'runAll')
-                ]);
-            },
-            async function(dc, choice) {
-                // if (choice.value === 'runAll') {
-                    // await dc.replace(choice.value);
-                // } else {
-                    await dc.context.sendActivity(`The demo will loop so say "menu" or "cancel" to end.`);
-                    await dc.replace('loop', { dialogId: choice.value });
-                // }
-            }
-        ]);
-
-
-
-        this.dialogs.add('loop', [
-            async function(dc, args) {
-                dc.activeDialog.state = args;
-                await dc.begin(args.dialogId);
-            },
-            async function(dc) {
-                const args = dc.activeDialog.state;
-                await dc.replace('loop', args);
-            }
-        ]);
-
-
-        //-----------------------------------------------
-        // Choice Demo
-        //-----------------------------------------------
-        this.dialogs.add('choiceDemo', [
-            async function(dc) {
-                await dc.prompt('choicePrompt', `choice: select a color`, ['red', 'green', 'blue']);
-            },
-            async function(dc, choice) {
-                await dc.context.sendActivity(`Recognized choice: ${JSON.stringify(choice)}`);
-                await dc.end();
-            }
-        ]);
-
-
-        //-----------------------------------------------
-        // Confirm Demo
-        //-----------------------------------------------
-        this.dialogs.add('confirmDemo', [
-            async function(dc) {
-                await dc.prompt('confirmPrompt', `confirm: answer "yes" or "no"`);
+                return await dc.prompt('textPrompt', `What is your name, human?`);
             },
             async function(dc, value) {
-                await dc.context.sendActivity(`Recognized value: ${value}`);
-                await dc.end();
+                const user_name = await that.userName.set(dc.context, value);
+                await dc.context.sendActivity(`Got it. You are ${value}`);
+                return await dc.end();
             }
         ]);
 
 
-        //-----------------------------------------------
-        // Datetime Demo
-        //-----------------------------------------------
-        this.dialogs.add('datetimeDemo', [
+        // Create a dialog that displays a user name after it has been collceted.
+        this.dialogs.add(HELLO_USER, [
             async function(dc) {
-                await dc.prompt('datetimePrompt', `datetime: enter a datetime`);
-            },
-            async function(dc, values) {
-                await dc.context.sendActivity(`Recognized values: ${JSON.stringify(values)}`);
-                await dc.end();
+                const user_name = await that.userName.get(dc.context, null);
+                await dc.context.sendActivity(`Your name is ${user_name}.`);
+                return await dc.end();
             }
         ]);
-
-
-        //-----------------------------------------------
-        // Number Demo
-        //-----------------------------------------------
-        this.dialogs.add('numberDemo', [
-            async function(dc) {
-                await dc.prompt('numberPrompt', `number: enter a number`);
-            },
-            async function(dc, value) {
-                await dc.context.sendActivity(`Recognized value: ${value}`);
-                await dc.end();
-            }
-        ]);
-
-
-        //-----------------------------------------------
-        // Text Demo
-        //-----------------------------------------------
-        this.dialogs.add('textDemo', [
-            async function(dc) {
-                await dc.prompt('textPrompt', `text: enter some text`);
-            },
-            async function(dc, value) {
-                await dc.context.sendActivity(`Recognized value: ${value}`);
-                await dc.end();
-            }
-        ]);
-
-
-        //-----------------------------------------------
-        // Attachment Demo
-        //-----------------------------------------------
-        this.dialogs.add('attachmentDemo', [
-            async function(dc) {
-                await dc.prompt('attachmentPrompt', `attachment: upload image(s)`);
-            },
-            async function(dc, values) {
-                await dc.context.sendActivity(MessageFactory.carousel(values, `Uploaded ${values.length} Attachment(s)`));
-                await dc.end();
-            }
-        ]);
-
-
     }
+
+
     /**
      * 
      * @param {Object} context on turn context object.
@@ -171,9 +63,8 @@ class MainDialog {
             const state = this.conversationState.get(context);
             const dc = this.dialogs.createContext(context, state);
 
-            // Check for cancel
             const utterance = (context.activity.text || '').trim().toLowerCase();
-            if (utterance === 'menu' || utterance === 'cancel') { 
+            if (utterance === 'cancel') { 
                 await dc.endAll(); 
             }
             
@@ -182,14 +73,15 @@ class MainDialog {
 
             // Show menu if no response sent
             if (!context.responded) {
-                await dc.begin('mainMenu');
+                var user_name = await this.userName.get(dc.context,null);
+                if (user_name) {
+                    await dc.begin(HELLO_USER)
+                } else {
+                    await dc.begin(WHO_ARE_YOU)
+                }
             }
         } else if (context.activity.type == 'conversationUpdate' && context.activity.membersAdded[0].id === 'default-user') {
-            // Create dialog context
-            const state = this.conversationState.get(context);
-            const dc = this.dialogs.createContext(context, state);
-
-            await dc.begin('mainMenu');
+            // send a "this is what the bot does" message
         }
     }
 }
