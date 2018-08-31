@@ -1,15 +1,15 @@
-This sample shows how to create a simple Echo bot that you can talk to from the terminal window..
+This sample shows how to use the prompts classes included in `botbuilder-dialogs`.
 
 # To try this sample
 - Clone the repository
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
+    git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 - In a terminal, navigate to javascript_nodejs/4.simple-prompt-bot
     ```bash
     cd javascript_nodejs/4.simple-prompt-bot
     ```
-    - Point to the myget feed 
+    - Point to the MyGet feed 
     ```bash
     npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
     ```
@@ -22,15 +22,21 @@ This sample shows how to create a simple Echo bot that you can talk to from the 
     npm config set registry https://registry.npmjs.org/
     ```
 
-# Testing the bot 
+# Testing the bot using Bot Framework Emulator
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-Open the simple-prompt-bot.bot file in the Botframework Emulator.
+- Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
 
-Once connected, the bot will present you with a menu of sample prompts. If it does not, send "menu"
+## Connect to bot using Bot Framework Emulator **V4**
+- Launch Bot Framework Emulator
+- File -> Open Bot Configuration and navigate to samples\2.echobot-with-state folder
+- Select simple-prompt-bot.bot file
 
 # Prompts
 
 There are lots of prompts.
+A conversation between a bot and a user often involves asking (prompting) the user for information, parsing the user's response, and then acting on that information. This sample demonstrates how to prompt users for information using the different prompt types supported by the SDK.
+
 
 # Further reading
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
