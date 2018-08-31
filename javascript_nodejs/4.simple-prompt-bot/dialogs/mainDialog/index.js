@@ -57,7 +57,7 @@ class MainDialog {
      * @param {Object} context on turn context object.
      */
     async onTurn(context) {
-        // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+        // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         if (context.activity.type === 'message') {
             // Create dialog context
             const state = this.conversationState.get(context);
