@@ -9,7 +9,7 @@ This sample shows how to create a simple echo bot that you can talk to from the 
     ```bash
     cd javascript_nodejs/1.console-echobot
     ```
-    - Point to the myget feed 
+    - Point to the MyGet feed 
     ```bash
     npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
     ```
