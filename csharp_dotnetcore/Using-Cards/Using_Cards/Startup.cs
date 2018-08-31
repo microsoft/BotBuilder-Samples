@@ -33,7 +33,6 @@ namespace Using_Cards
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             try
             {
                 services.AddBot<CardsBot>(options =>
@@ -51,8 +50,7 @@ namespace Using_Cards
                     // is restarted, anything stored in memory will be gone. 
 
                     IStorage dataStore = new MemoryStorage();
-                    var convoState = new ConversationState(dataStore);
-                    var userState = new UserState(dataStore);
+
                     // The File data store, shown here, is suitable for bots that run on 
                     // a single machine and need durable state across application restarts.                 
                     // IStorage dataStore = new FileStorage(System.IO.Path.GetTempPath());
@@ -66,8 +64,8 @@ namespace Using_Cards
                     // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureTableStorage("AzureTablesConnectionString", "TableName");
                     // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
 
+                    var convoState = new ConversationState(dataStore);
                     options.State.Add(convoState);
-                    options.State.Add(userState);
 
                     // Add State to BotStateSet Middleware (that require auto-save)
                     // The BotStateSet Middleware forces state storage to auto-save when the Bot is complete processing the message.
@@ -75,19 +73,22 @@ namespace Using_Cards
                     var stateSet = new BotStateSet(options.State.ToArray());
                     options.Middleware.Add(stateSet);
                 });
+
                 services.AddSingleton<CardsBotAccessors>(sp =>
                 {
                     var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
                     if (options == null)
                     {
-                        throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the State Accessors");
+                        throw new InvalidOperationException(
+                            "BotFrameworkOptions must be configured prior to setting up the State Accessors");
                     }
 
                     var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
-                    var userState = options.State.OfType<UserState>().FirstOrDefault();
+
                     if (conversationState == null)
                     {
-                        throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
+                        throw new InvalidOperationException(
+                            "ConversationState must be defined and added before adding conversation-scoped state accessors.");
                     }
 
                     // Create Custom State Property Accessors
@@ -95,8 +96,8 @@ namespace Using_Cards
                     // pass the entire State object.
                     var accessors = new CardsBotAccessors
                     {
-                        CommandState = userState.CreateProperty<string>(CardsBotAccessors.CommandStateName),
-                        ConversationDialogState = conversationState.CreateProperty<DialogState>(CardsBotAccessors.DialogStateName),
+                        ConversationDialogState =
+                            conversationState.CreateProperty<DialogState>(CardsBotAccessors.DialogStateName),
                     };
 
                     return accessors;
