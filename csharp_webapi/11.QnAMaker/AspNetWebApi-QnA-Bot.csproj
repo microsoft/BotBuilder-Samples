@@ -258,11 +258,6 @@
     <Content Include="README.md" />
     <Content Include="CognitiveModels\smartLightFAQ.tsv" />
     <Content Include="appsettings.json" />
-    <Content Include="QnaBot.bot">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="dave-QnaBot.bot" />
     <Content Include="AspNetWebApi-Qna.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
