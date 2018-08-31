@@ -1,21 +1,23 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Threading;
-using System.Threading.Tasks;
-using AspNetCore_QnA_Bot.AppInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AspNetCore_QnA_Bot
 {
     public class QnABot : IBot
     {
-        private readonly MyAppInsightsQnaMaker _qnaMaker;
+        private readonly BotServices _services;
+        // Key in the Bot config for our QnaMaker
+        public static readonly string QnaMakerKey = "QnaBot";
 
-        public QnABot(MyAppInsightsQnaMaker qnaMaker)
+
+        public QnABot(BotServices services)
         {
-            _qnaMaker = qnaMaker;
+            _services = services;
         }
 
         /// <summary>
@@ -30,7 +32,7 @@ namespace AspNetCore_QnA_Bot
             if (context.Activity.Type == ActivityTypes.Message && !context.Responded)
             {
                 // Check QnAMaker model
-                var response = await _qnaMaker.GetAnswersAsync(context);
+                var response = await _services.QnAServices[QnaMakerKey].GetAnswersAsync(context);
 
                 if (response != null && response.Length > 0)
                 {
