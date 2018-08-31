@@ -192,7 +192,7 @@ private async Task AgeDialogResumeAfter(IDialogContext context, IAwaitable<int> 
 
 Here's what the conversation looks like in the [Bot Framework Emulator](https://docs.microsoft.com/en-us/bot-framework/debug-bots-emulator) when supplying a valid name and age.
 
-![Done Outcome](images/doneoutcome.png)
+![Done Outcome](images/DoneOutcome.png)
 
 And here's what the convesation looks like when providing invalid responses to the `AgeDialog`.
 
