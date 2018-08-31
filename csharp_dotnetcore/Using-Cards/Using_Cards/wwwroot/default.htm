@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+</head>
+<body style="font-family:'Segoe UI'">
+    <h1>EchoBot sample using ASP.Net Core 2</h1>
+    <p>Describe your bot here and your terms of use etc.</p>
+    <p>To debug you bot using the Bot Framework Emulator, paste this URL into the Emulator window:</p>
+    <div style="padding-left: 50px;" id="botBaseUrl"></div>
+    <p>Visit <a href="https://www.botframework.com/">Bot Framework</a> to register your bot. When you register, remember to set the endpoint to:</p>
+    <div style="padding-left: 50px;">
+        https://<strong>{your domain name}</strong>/api/messages
+    </div>
+    <script>
+        var urlDiv = document.getElementById("botBaseUrl");
+        var aTag = document.createElement('a');
+        aTag.setAttribute('href', location.protocol + "//" + location.host + "/api/messages");
+        aTag.innerHTML = location.protocol + "//" + location.host + "/api/messages";
+        urlDiv.appendChild(aTag);
+    </script>
+</body>
+</html>
