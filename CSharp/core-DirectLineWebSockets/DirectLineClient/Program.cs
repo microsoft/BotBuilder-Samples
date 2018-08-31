@@ -40,6 +40,8 @@
             using (var webSocketClient = new WebSocket(conversation.StreamUrl))
             {
                 webSocketClient.OnMessage += WebSocketClient_OnMessage;
+                // You have to specify TLS version to 1.2 or connection will be failed in handshake.
+                webSocketClient.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
                 webSocketClient.Connect();
 
                 while (true)
