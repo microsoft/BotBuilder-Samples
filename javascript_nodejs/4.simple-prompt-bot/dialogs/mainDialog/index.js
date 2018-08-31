@@ -34,7 +34,7 @@ class MainDialog {
                 return await dc.prompt('textPrompt', `What is your name, human?`);
             },
             async function(dc, value) {
-                const user_name = await that.userName.set(dc.context, value);
+                await that.userName.set(dc.context, value);
                 await dc.context.sendActivity(`Got it. You are ${value}`);
                 return await dc.end();
             }
@@ -82,6 +82,7 @@ class MainDialog {
             }
         } else if (context.activity.type == 'conversationUpdate' && context.activity.membersAdded[0].id === 'default-user') {
             // send a "this is what the bot does" message
+            await context.sendActivity('I am a bot that demonstrates the TextPrompt class to collect your name, store it in UserState, and display it. Say anything to continue.');
         }
     }
 }
