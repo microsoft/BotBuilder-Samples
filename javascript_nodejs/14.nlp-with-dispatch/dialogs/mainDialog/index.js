@@ -2,16 +2,16 @@ const { LuisRecognizer } = require('botbuilder-ai');
 
 const homeAutomationDialog = require('../homeAutomation');
 const weatherDialog = require('../weather');
-const qnaDialog = require('../qnaDialog');
+const qnaDialog = require('../qna');
 
 // this is the LUIS service type entry in the .bot file.
 const DISPATCH_CONFIG = 'nlp-with-dispatchDispatch';
 
-// LUIS intent names. you can get this from the .lu file.
+// LUIS intent names. you can get this from the dispatch.lu file.
 const HOME_AUTOMATION_INTENT = 'l_homeautomation-LUIS';
 const WEATHER_INTENT = 'l_weather-LUIS';
 const NONE_INTENT = 'None';
-const QNA_INTENT = 'q_simple-qna-dispatch';
+const QNA_INTENT = 'q_sample_qna';
 
 class MainDialog {
     /**

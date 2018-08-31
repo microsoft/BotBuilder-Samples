@@ -8,8 +8,10 @@
     "start": "node index.js",
     "watch": "nodemon index.js",
     "installTools": "npm i -g ludown msbot luis-apis botdispatch qnamaker chatdown",
-    "configure-services": "node deploymentScripts/configureServices.js",
+    "create-services": "node deploymentScripts/configureServices.js",
+    "update-services": "npm run create-services",
     "dispatch-create": "dispatch create -b ./nlp-with-dispatch.bot | msbot connect dispatch --stdin",
+    "dispatch-lu": "ludown refresh -i ./nlp-with-dispatchDispatch.json -o ./dialogs/mainDialog/resources -n dispatch -s",
     "dispatch-refresh": "dispatch refresh -b ./nlp-with-dispatch.bot"
   },
   "author": "Microsoft",

@@ -7,7 +7,7 @@ const restify = require('restify');
 const CONFIG_ERROR = 1;
 
 // Import reuqired bot services. See https://ama.ms/bot-services to learn more about the different part of a bot
-const { BotFrameworkAdapter, MemoryStorage, ConversationState } = require('botbuilder');
+const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = require('botbuilder');
 
 // the bot's main (and only in this example) dialog
 const MainDialog = require('./dialogs/mainDialog');
@@ -22,10 +22,10 @@ const env = require('dotenv').config({path: ENV_FILE});
 
 // Create HTTP server
 let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function () {
+server.listen(process.env.port || process.env.PORT || 3992, function () {
     console.log(`\n${server.name} listening to ${server.url}`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-    console.log(`\nTo talk to your bot, open echoBot-with-counter.bot file in the Emulator`);
+    console.log(`\nTo talk to your bot, open nlp-with-dispatch.bot file in the Emulator`);
 });
 
 // .bot file path
@@ -70,13 +70,16 @@ const memoryStorage = new MemoryStorage();
 // create conversation state with in-memory storage provider. 
 const conversationState = new ConversationState(memoryStorage);
 
+// create user state with in-memory storage provider. 
+const userState = new UserState(memoryStorage);
 // register conversation state as a middleware. The ConversationState middleware automatically reads and writes conversation sate 
 adapter.use(conversationState);
+adapter.use(userState);
 
 // Create the main dialog.
 let mainDlg;
 try {
-    mainDlg = new MainDialog(conversationState);
+    mainDlg = new MainDialog(conversationState, userState, botConfig);
 } catch (err) {
     console.log(err);
     process.exit(CONFIG_ERROR);
