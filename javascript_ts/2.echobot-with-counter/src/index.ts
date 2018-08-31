@@ -52,10 +52,10 @@ const memoryStorage = new MemoryStorage();
 //                                            databaseId: cosmosConfig.database, 
 //                                            collectionId: cosmosConfig.collection});
 
-// cCeate conversation state with in-memory storage provider. 
+// Create conversation state with in-memory storage provider. 
 const conversationState = new ConversationState(memoryStorage);
 
-// Register conversation state as a middleware. The ConversationState middleware automatically reads and writes conversation sate 
+// Register conversation state as a middleware. The ConversationState middleware automatically reads and writes conversation state. 
 adapter.use(conversationState);
 
 // Create the main dialog.
