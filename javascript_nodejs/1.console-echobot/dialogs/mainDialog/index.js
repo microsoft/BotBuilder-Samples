@@ -5,7 +5,6 @@ module.exports = async function(context) {
     // check to see if this activity is an incoming message
     // (it could theoretically be another type of activity)
     if (context.activity.type === 'message') {
-
         // check to see if the user sent a simple "quit" message
         if (context.activity.text.toLowerCase() === 'quit') {
             // send a reply
