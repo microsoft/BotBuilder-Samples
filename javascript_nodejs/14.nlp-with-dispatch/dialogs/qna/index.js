@@ -1,7 +1,7 @@
 const { QnAMaker } = require('botbuilder-ai');
 
 // this is the LUIS service type entry in the .bot file.
-const QnA_CONFIGURATION = 'simple-qna-dispatch';
+const QnA_CONFIGURATION = 'sample.qna';
 const QnA_TOP_N = 1;
 const QnA_CONFIDENCE_THRESHOLD = 0.5;
 class QnADialog {

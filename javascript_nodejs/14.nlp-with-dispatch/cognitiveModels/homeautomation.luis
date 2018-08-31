@@ -597,7 +597,7 @@
   ],
   "luis_schema_version": "3.0.0",
   "versionId": "0.1",
-  "name": "homeAutomation.luis",
+  "name": "homeautomation.luis",
   "desc": "",
   "culture": "en-us"
 }

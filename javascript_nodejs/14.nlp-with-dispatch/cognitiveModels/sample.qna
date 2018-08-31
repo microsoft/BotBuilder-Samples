@@ -15,7 +15,7 @@
     },
     {
       "id": 0,
-      "answer": "I am the LUIS-QnAMaker Dispatch bot! I show how easy it is to use multiple LUIS models and a QnAMaker model inside of a chatbot.\r\n",
+      "answer": "I am the LUIS-QnAMaker Dispatch bot! This sample demonstrates using several LUIS applications and QnA Maker knowledge base using dispatch.\r\n",
       "source": "custom editorial",
       "questions": [
         "What are you?",

@@ -11,7 +11,7 @@ const LOCATION_ENTITY = 'Location';
 const LOCATION_PATTERNANY_ENTITY = 'Location_PatternAny';
 
 // this is the LUIS service type entry in the .bot file.
-const WEATHER_LUIS_CONFIGURATION = 'weather-LUIS';
+const WEATHER_LUIS_CONFIGURATION = 'weather.luis';
 
 class Weather {
     /**

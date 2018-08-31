@@ -4,10 +4,14 @@
   "description": "Bot Builder v4 example that demonstrates how dispatch should be used E2E.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1", 
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "watch": "nodemon index.js",
-    "configure": "npm i & node deploymentScripts/configureServices.js"
+    "installTools": "npm i -g ludown msbot luis-apis botdispatch qnamaker chatdown",
+    "configure-services": "node deploymentScripts/configureServices.js",
+    "dispatch-create": "dispatch create -b ./nlp-with-dispatch.bot | msbot connect dispatch --stdin",
+    "dispatch-refresh": "dispatch refresh -b ./nlp-with-dispatch.bot",
+    "configure-and-start": "npm run configure-services & npm run dispatch-create & node index.js"
   },
   "author": "Microsoft",
   "license": "MIT",
