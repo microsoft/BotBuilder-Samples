@@ -1,0 +1,16 @@
+{
+    "name": "nlp-with-dispatch",
+    "description": "",
+    "version": "2.0",
+    "secretKey": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "nlp-with-dispatch",
+            "id": "http://localhost:3992/api/messages",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3992/api/messages"
+        }
+    ]
+}

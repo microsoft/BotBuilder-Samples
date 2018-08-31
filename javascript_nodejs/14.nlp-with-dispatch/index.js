@@ -42,7 +42,7 @@ try {
 
 // bot name as defined in .bot file 
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration .
-const BOT_CONFIGURATION = 'echobot-with-counter';
+const BOT_CONFIGURATION = 'nlp-with-dispatch';
 
 // Get bot endpoint configuration by service name
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
@@ -74,7 +74,13 @@ const conversationState = new ConversationState(memoryStorage);
 adapter.use(conversationState);
 
 // Create the main dialog.
-const mainDlg = new MainDialog(conversationState);
+let mainDlg;
+try {
+    mainDlg = new MainDialog(conversationState);
+} catch (err) {
+    console.log(err);
+    process.exit(CONFIG_ERROR);
+}
 
 // Listen for incoming requests 
 server.post('/api/messages', (req, res) => {
