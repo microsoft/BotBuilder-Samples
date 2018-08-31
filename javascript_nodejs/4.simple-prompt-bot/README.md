@@ -34,6 +34,7 @@ This sample shows how to use the prompts classes included in `botbuilder-dialogs
 
 # Prompts
 
+TODO: wite some description of using prompts
 There are lots of prompts.
 A conversation between a bot and a user often involves asking (prompting) the user for information, parsing the user's response, and then acting on that information. This sample demonstrates how to prompt users for information using the different prompt types supported by the SDK.
 
