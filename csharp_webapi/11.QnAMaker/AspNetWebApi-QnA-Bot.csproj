@@ -36,7 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>botbuilder.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AspNetWebApi-Qna-Bot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,7 +45,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>botbuilder.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AspNetWebApi-Qna-Bot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Chronic, Version=0.3.2.0, Culture=neutral, PublicKeyToken=3bd1f1ef638b0d3c, processorArchitecture=MSIL">
@@ -252,18 +252,15 @@
     <Compile Include="QnA\QnABot.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="README.md" />
-    <Content Include="CognitiveModels\smartLightFAQ.tsv" />
     <Content Include="appsettings.json" />
     <Content Include="AspNetWebApi-Qna.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="BotBuilder.ruleset">
+    <Content Include="AspNetWebApi-Qna-Bot.ruleset">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="CognitiveModels\sample.qna" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -293,13 +290,13 @@
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>botbuilder.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AspNetWebApi-Qna-Bot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug - NuGet Packages|AnyCPU'">
     <OutputPath>bin\</OutputPath>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <CodeAnalysisRuleSet>botbuilder.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AspNetWebApi-Qna-Bot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
@@ -312,7 +309,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>3979</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5400/</IISUrl>
+          <IISUrl>http://localhost:5411/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
