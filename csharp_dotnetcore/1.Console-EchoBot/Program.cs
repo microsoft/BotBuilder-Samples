@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+using System.Threading;
+
 namespace Console_EchoBot
 {
-    using System;
-    using System.Threading;
-
     /// <summary>
     /// Main program for EchoBot.
     /// </summary>
