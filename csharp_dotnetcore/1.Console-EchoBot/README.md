@@ -1,4 +1,4 @@
-This sample shows a simple echo bot and demonstrates the bot working as a console app using the console adapter.
+This sample shows a simple echo bot and demonstrates the bot working as a console app using a sample console adapter.
 # Concepts introduced in this sample
 ## What is a bot?
 A bot is an app that users interact with in a conversational way using text, graphics (cards), or speech. It may be a simple question and answer dialog, or a sophisticated bot that allows people to interact with services in an intelligent manner using pattern matching, state tracking and artificial intelligence techniques well-integrated with existing business services.
@@ -15,7 +15,7 @@ The bot adapter encapsulates authentication processes and sends activities to an
 ## To try this sample
 - Clone the repository
 ```bash
-git clone https://github.com/Microsoft/botbuilder-samples.git
+git clone https://github.com/microsoft/botbuilder-samples.git
 ```
 
 ### Visual studio
@@ -24,7 +24,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 ### Visual studio code
 - Open `BotBuilder-Samples\csharp_dotnetcore\1.Console-EchoBot` folder
-- Bring up a terminal, navigate to samples\1.Console-EchoBot-With-State folder
+- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_dotnetcore\1.Console-EchoBot` folder
 - Type 'dotnet run'.
 
 
