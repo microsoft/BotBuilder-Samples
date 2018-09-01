@@ -1,11 +1,12 @@
-﻿This sample shows a simple echo bot and demonstrates the bot working as a console app using the console adapter.
+﻿This sample the use of rich content using cards
 # Concepts introduced in this sample
+Rich Cards
 ## Rich Cards
 Most channels support rich content.  In this samples we explore the different type od Rich cards your bot can use.
 ## To try this sample
 - Clone the repository
 ```bash
-git clone https://github.com/Microsoft/botbuilder-samples.git
+git clone https://github.com/microsoft/botbuilder-samples.git
 ```
  ### Visual studio
 - Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\6.Using_Cards`) and open 6.Using_Cards.sln in Visual studio 
