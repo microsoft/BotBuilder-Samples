@@ -12,19 +12,6 @@
     <CodeAnalysisRuleSet>AspNetCore-QnA-Bot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="dave_appsettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove=".qnamakerrc" />
-    <None Remove="BotBuilder.ruleset" />
-    <None Remove="CognitiveModels\smartLightFAQ.tsv" />
-    <None Remove="dave-AspNetCore-QnA-Bot.bot" />
-    <None Remove="dave-QnaBot.bot" />
-    <None Remove="Properties\vim.exe.stackdump" />
-    <None Remove="QnaBot.bot" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Include="QnaBot.bot">
