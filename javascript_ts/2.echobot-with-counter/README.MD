@@ -9,7 +9,7 @@ This sample shows how to create a simple Echo bot with state. The bot keeps simp
     ```bash
     cd samples\2.echobot-with-counter
     ```
-- Point to the myget feed 
+- Point to the MyGet feed 
     ```bash
     npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
     ```
