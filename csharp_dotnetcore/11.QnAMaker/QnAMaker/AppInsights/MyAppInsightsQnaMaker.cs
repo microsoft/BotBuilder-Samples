@@ -1,41 +1,46 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.ApplicationInsights;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.QnA;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.ApplicationInsights;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.QnA;
 
 namespace AspNetCore_QnA_Bot.AppInsights
 {
     /// <summary>
     /// MyAppInsightsQnaRecognizer invokes the Qna Maker and logs some results into Application Insights.
     /// Logs the score, and (optionally) question along with Conversation and ActivityID.
-    /// 
+    ///
     /// Customize for specific reporting needs.
-    /// 
+    ///
     /// The Custom Event name this logs is "QnaMessage"
     /// See <seealso cref="QnaMaker"/> for additional information.
     /// </summary>
-
     public class MyAppInsightsQnaMaker : QnAMaker
     {
         public static readonly string QnaMsgEvent = "QnaMessage";
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="QnAMaker"/> class.
+        /// Initializes a new instance of the <see cref="MyAppInsightsQnaMaker"/> class.
         /// </summary>
         /// <param name="endpoint">The endpoint of the knowledge base to query.</param>
         /// <param name="options">The options for the QnA Maker knowledge base.</param>
+        /// <param name="logUserName">Option to log user name to Application Insights (PII consideration).</param>
+        /// <param name="logOriginalMessage">Option to log the original message to Application Insights (PII consideration).</param>
         /// <param name="httpClient">An alternate client with which to talk to QnAMaker.
         /// If null, a default client is used for this instance.</param>
-        public MyAppInsightsQnaMaker(QnAMakerEndpoint endpoint, QnAMakerOptions options = null, bool logUserName = false, bool logOriginalMessage = false, HttpClient httpClient = null) : base(endpoint, options, httpClient)
+        public MyAppInsightsQnaMaker(QnAMakerEndpoint endpoint, QnAMakerOptions options = null, bool logUserName = false, bool logOriginalMessage = false, HttpClient httpClient = null)
+            : base(endpoint, options, httpClient)
         {
             LogUserName = logUserName;
             LogOriginalMessage = logOriginalMessage;
         }
+
         public bool LogUserName { get; }
+
         public bool LogOriginalMessage { get; }
 
         public new async Task<QueryResult[]> GetAnswersAsync(ITurnContext context)
@@ -57,13 +62,14 @@ namespace AspNetCore_QnA_Bot.AppInsights
                     telemetryProperties.Add(MyQnaConstants.ConversationIdProperty, conversationId);
                 }
 
-                // For some customers, logging original text name within Application Insights might be an issue  
+                // For some customers, logging original text name within Application Insights might be an issue.
                 var text = context.Activity.Text;
                 if (LogOriginalMessage && !string.IsNullOrWhiteSpace(text))
                 {
                     telemetryProperties.Add(MyQnaConstants.OriginalQuestionProperty, text);
                 }
-                // For some customers, logging user name within Application Insights might be an issue 
+
+                // For some customers, logging user name within Application Insights might be an issue.
                 var userName = context.Activity.From.Name;
                 if (LogUserName && !string.IsNullOrWhiteSpace(userName))
                 {
@@ -79,7 +85,7 @@ namespace AspNetCore_QnA_Bot.AppInsights
                     telemetryMetrics.Add(MyQnaConstants.ScoreProperty, (double)queryResult.Score);
                 }
                 else
-                { 
+                {
                     telemetryProperties.Add(MyQnaConstants.QuestionProperty, "No Qna Question matched");
                     telemetryProperties.Add(MyQnaConstants.AnswerProperty, "No Qna Question matched");
                 }
@@ -91,20 +97,4 @@ namespace AspNetCore_QnA_Bot.AppInsights
             return queryResults;
         }
     }
-
-    /// <summary>
-    /// The Application Insights property names that we're logging.
-    /// </summary>
-    public static class MyQnaConstants
-    {
-        public const string ActivityIdProperty = "ActivityId";
-        public const string UsernameProperty = "Username";
-        public const string ConversationIdProperty = "ConversationId";
-        public const string OriginalQuestionProperty = "OriginalQuestion";
-        public const string QuestionProperty = "Question";
-        public const string AnswerProperty = "Answer";
-        public const string ScoreProperty = "Score";
-        
-    }
 }
-

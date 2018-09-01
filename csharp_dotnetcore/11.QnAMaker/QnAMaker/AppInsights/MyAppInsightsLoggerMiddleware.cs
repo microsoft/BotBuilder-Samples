@@ -1,14 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
-using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Schema;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
 
 namespace AspNetCore_QnA_Bot.AppInsights
 {
@@ -20,14 +19,29 @@ namespace AspNetCore_QnA_Bot.AppInsights
     /// </summary>
     public class MyAppInsightsLoggerMiddleware : IMiddleware
     {
+        /// <summary>
+        /// The name of the App Insights Middleware in the Context TurnState collection.
+        /// </summary>
         public static readonly string AppInsightsServiceKey = $"{nameof(MyAppInsightsLoggerMiddleware)}.AppInsightsContext";
-        // Application Insights Custom Event name, logged when new message is received from the user
-        public static readonly string BotMsgReceiveEvent = "BotMessageReceived";    
-        // Application Insights Custom Event name, logged when a message is sent out from the bot
+
+        /// <summary>
+        /// Application Insights Custom Event name, logged when new message is received from the user.
+        /// </summary>
+        public static readonly string BotMsgReceiveEvent = "BotMessageReceived";
+
+        /// <summary>
+        /// Application Insights Custom Event name, logged when a message is sent out from the bot.
+        /// </summary>
         public static readonly string BotMsgSendEvent = "BotMessageSend";
-        // Application Insights Custom Event name, logged when a message is updated by the bot (rare case)
+
+        /// <summary>
+        /// Application Insights Custom Event name, logged when a message is updated by the bot (rare case).
+        /// </summary>
         public static readonly string BotMsgUpdateEvent = "BotMessageUpdate";
-        // Application Insights Custom Event name, logged when a message is deleted by the bot (rare case)
+
+        /// <summary>
+        /// Application Insights Custom Event name, logged when a message is deleted by the bot (rare case).
+        /// </summary>
         public static readonly string BotMsgDeleteEvent = "BotMessageDelete";
 
         private TelemetryClient _telemetryClient;
@@ -88,6 +102,7 @@ namespace AspNetCore_QnA_Bot.AppInsights
             if (context.Activity != null)
             {
                 var activity = context.Activity;
+
                 // Context properties for App Insights
                 if (!string.IsNullOrEmpty(activity.Conversation.Id))
                 {
@@ -145,7 +160,6 @@ namespace AspNetCore_QnA_Bot.AppInsights
                 _telemetryClient.TrackEvent(BotMsgDeleteEvent, FillDeleteEventProperties(deleteActivity));
             });
 
-
             if (nextTurn != null)
             {
                 await nextTurn(cancellationToken).ConfigureAwait(false);
@@ -156,7 +170,7 @@ namespace AspNetCore_QnA_Bot.AppInsights
         /// Fills the Application Insights Custom Event properties for BotMessageReceived.
         /// These properties are logged in the custom event when a new message is received from the user.
         /// </summary>
-        /// <param name="context">Context object containing information for a single turn of conversation with a user.</param>
+        /// <param name="activity">The Receive activity to harvest properties to be placed into the Application Insights custom event.</param>
         /// <returns>A dictionary that is sent as "Properties" to Application Insights TrackEvent method for the BotMessageReceived Message.</returns>
         private Dictionary<string, string> FillReceiveEventProperties(Activity activity)
         {
@@ -189,7 +203,7 @@ namespace AspNetCore_QnA_Bot.AppInsights
         /// Fills the Application Insights Custom Event properties for BotMessageSend.
         /// These properties are logged in the custom event when a response message is sent by the Bot to the user.
         /// </summary>
-        /// <param name="context">Context object containing information for a single turn of conversation with a user.</param>
+        /// <param name="activity">The Send activity to harvest properties to be placed into the Application Insights custom event.</param>
         /// <returns>A dictionary that is sent as "Properties" to Application Insights TrackEvent method for the BotMessageSend Message.</returns>
         private Dictionary<string, string> FillSendEventProperties(Activity activity)
         {
@@ -220,11 +234,11 @@ namespace AspNetCore_QnA_Bot.AppInsights
 
         /// <summary>
         /// Fills the Application Insights Custom Event properties for BotMessageUpdate.
-        /// These properties are logged in the custom event when an activity message is updated by the Bot.  
+        /// These properties are logged in the custom event when an activity message is updated by the Bot.
         /// For example, if a card is interacted with by the use, and the card needs to be updated to reflect
         /// some interaction.
         /// </summary>
-        /// <param name="context">Context object containing information for a single turn of conversation with a user.</param>
+        /// <param name="activity">The Update activity to harvest properties to be placed into the Application Insights custom event..</param>
         /// <returns>A dictionary that is sent as "Properties" to Application Insights TrackEvent method for the BotMessageUpdate Message.</returns>
         private Dictionary<string, string> FillUpdateEventProperties(Activity activity)
         {
@@ -247,12 +261,11 @@ namespace AspNetCore_QnA_Bot.AppInsights
             return properties;
         }
 
-
         /// <summary>
         /// Fills the Application Insights Custom Event properties for BotMessageDelete.
         /// These properties are logged in the custom event when an activity message is deleted by the Bot.  This is a relatively rare case.
         /// </summary>
-        /// <param name="context">Context object containing information for a single turn of conversation with a user.</param>
+        /// <param name="activity">The Delete activity to harvest properties to be placed into the Application Insights custom event.</param>
         /// <returns>A dictionary that is sent as "Properties" to Application Insights TrackEvent method for the BotMessageDelete Message.</returns>
         private Dictionary<string, string> FillDeleteEventProperties(IMessageDeleteActivity activity)
         {
@@ -268,6 +281,10 @@ namespace AspNetCore_QnA_Bot.AppInsights
             return properties;
         }
 
+        /// <summary>
+        /// Elements that are stored within the Application Insights Custom Event.
+        /// These are retrieved from the Incoming Activity.
+        /// </summary>
         public static class AppInsightsConstants
         {
             public const string ActivityIDProperty = "ActivityId";
@@ -282,5 +299,4 @@ namespace AspNetCore_QnA_Bot.AppInsights
             public const string LocaleProperty = "Locale";
         }
     }
-
 }

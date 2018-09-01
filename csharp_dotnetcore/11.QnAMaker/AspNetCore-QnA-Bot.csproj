@@ -4,7 +4,25 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>AspNetCore-QnA-Bot.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>AspNetCore-QnA-Bot.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
   <ItemGroup>
+    <Content Remove="dave_appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove=".qnamakerrc" />
+    <None Remove="BotBuilder.ruleset" />
+    <None Remove="CognitiveModels\smartLightFAQ.tsv" />
+    <None Remove="dave-AspNetCore-QnA-Bot.bot" />
+    <None Remove="dave-QnaBot.bot" />
+    <None Remove="Properties\vim.exe.stackdump" />
     <None Remove="QnaBot.bot" />
   </ItemGroup>
 
@@ -21,6 +39,9 @@
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.0.0.38511" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.0.0.38511" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.0.0.38511" />
+    <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="2.9.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
