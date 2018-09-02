@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 const { QnAMaker } = require('botbuilder-ai');
 
 // this is the LUIS service type entry in the .bot file.

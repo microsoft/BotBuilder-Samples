@@ -1,4 +1,5 @@
-
+> Auto generated via ludown CLI. 
+> ludown refresh -i DISPATCH-LUIS-JSON -o dialogs/mainDialog/resources -n dispatch.lu
 > # Intent definitions
 
 ## l_homeautomation-LUIS

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 const { LuisRecognizer } = require('botbuilder-ai');
 
 const homeAutomationDialog = require('../homeAutomation');

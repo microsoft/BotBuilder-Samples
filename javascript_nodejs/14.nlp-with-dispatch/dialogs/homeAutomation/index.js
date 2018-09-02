@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 const { LuisRecognizer } = require('botbuilder-ai');
 
 // LUIS intent names. you can get this from the .lu file.
