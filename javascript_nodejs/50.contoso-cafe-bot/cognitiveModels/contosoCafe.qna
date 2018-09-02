@@ -1,0 +1,103 @@
+{
+  "urls": [],
+  "qnaList": [
+    {
+      "id": 0,
+      "answer": "We have Cafe locations in Redmond, Seattle, Renton and Bellevue\r\n",
+      "source": "custom editorial",
+      "questions": [
+        "What are your locations"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Joshua Newmann is the CEO of Contoso Cafe\r\n",
+      "source": "custom editorial",
+      "questions": [
+        "who is your CEO",
+        "who owns contoso cafe"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "You bet, we always are. Please visit http://contosocafe.com/careers\r\n",
+      "source": "custom editorial",
+      "questions": [
+        "Are you hiring",
+        "Do you have job openings?",
+        "are you looking for a barrista",
+        "can i come work for contoso cafe?"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "We have Cafe locations in Redmond, Seattle, Renton and Bellevue\r\n",
+      "source": "custom editorial",
+      "questions": [
+        "Help",
+        "I need help",
+        "Not sure what I can do",
+        "What can I say",
+        "I'm lost"
+      ],
+      "metadata": [
+        {
+          "name": "dialog",
+          "value": "bookTable"
+        },
+        {
+          "name": "prompt",
+          "value": "askForCity"
+        }
+      ]
+    },
+    {
+      "id": 0,
+      "answer": "Most of our stores are open M-F 9AM to 10PM.\r\n",
+      "source": "custom editorial",
+      "questions": [
+        "Help",
+        "I need help",
+        "Not sure what I can do",
+        "What can I say",
+        "I'm lost"
+      ],
+      "metadata": [
+        {
+          "name": "dialog",
+          "value": "bookTable"
+        },
+        {
+          "name": "prompt",
+          "value": "askForDateTime"
+        }
+      ]
+    },
+    {
+      "id": 0,
+      "answer": "Most stores can seat up to 10 guests in a party. Reserverations I handle are typically for 1-2 guests. You can always contact our reservation specialist at 1-800-CONTOSO.\r\n",
+      "source": "custom editorial",
+      "questions": [
+        "Help",
+        "I need help",
+        "Not sure what I can do",
+        "What can I say",
+        "I'm lost"
+      ],
+      "metadata": [
+        {
+          "name": "dialog",
+          "value": "bookTable"
+        },
+        {
+          "name": "prompt",
+          "value": "askForPartySize"
+        }
+      ]
+    }
+  ],
+  "files": []
+}

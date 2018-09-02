@@ -1,3 +1,7 @@
+ludown parse toqna -l dialogs\chitChat\resources -o cognitiveModels --verbose -n chitchat.qna
+ludown parse toqna -l dialogs\qna\resources -o cognitiveModels -n contosoCafe.qna
+
+
 <INSERT AT MOST ONE PARAGRAPH DESCRIPTION OF WHAT THIS SAMPLE DOES> 
 
 # Concepts introduced in this sample
