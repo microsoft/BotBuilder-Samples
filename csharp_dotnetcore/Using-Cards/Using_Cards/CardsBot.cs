@@ -7,9 +7,12 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AdaptiveCards;
+using Newtonsoft.Json;
 
 namespace Using_Cards
 {
@@ -98,6 +101,7 @@ namespace Using_Cards
             };
 
             // Add the choices for the prompt.
+            options.Choices.Add(new Choice() { Value = "Adaptive card" });
             options.Choices.Add(new Choice() { Value = "Animation card" });
             options.Choices.Add(new Choice() { Value = "Audio card" });
             options.Choices.Add(new Choice() { Value = "Hero card" });
@@ -163,15 +167,20 @@ namespace Using_Cards
                 // Display a VideoCard
                 reply.Attachments.Add(GetVideoCard().ToAttachment());
             }
-            else if (text.StartsWith("Audio"))
+            else if (text.StartsWith("audio"))
             {
                 // Display an AudioCard
                 reply.Attachments.Add(GetAudioCard().ToAttachment());
+            }
+            else if (text.StartsWith("adaptive"))
+            {
+                reply.Attachments.Add(CreateAdaptiveCardAttachment());
             }
             else
             {
                 // Display a carousel of all the rich card types.
                 reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+                reply.Attachments.Add(CreateAdaptiveCardAttachment());
                 reply.Attachments.Add(GetHeroCard().ToAttachment());
                 reply.Attachments.Add(GetThumbnailCard().ToAttachment());
                 reply.Attachments.Add(GetReceiptCard().ToAttachment());
@@ -190,6 +199,18 @@ namespace Using_Cards
             return await dc.EndAsync(cancellationToken: cancellationToken);
         }
 
+        // The following methods are all used to generate cards
+
+        private static Attachment CreateAdaptiveCardAttachment()
+        {
+            var adaptiveCardJson = File.ReadAllText(@".\adaptiveCard.json");
+            var adaptiveCardAttachment = new Attachment()
+            {
+                ContentType = "application/vnd.microsoft.card.adaptive",
+                Content = JsonConvert.DeserializeObject(adaptiveCardJson),
+            };
+            return adaptiveCardAttachment;
+        }
 
         private static HeroCard GetHeroCard()
         {
