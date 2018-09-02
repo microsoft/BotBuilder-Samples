@@ -1,7 +1,6 @@
 {
     "name": "nlp-with-dispatch",
     "description": "",
-    "version": "2.0",
     "secretKey": "",
     "services": [
         {
