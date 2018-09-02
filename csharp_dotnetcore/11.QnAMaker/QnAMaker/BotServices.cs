@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder.AI.QnA;
 
-namespace AspNetCore_QnA_Bot
+namespace QnA_Bot
 {
     /// <summary>
-    /// Class represents the bot's references to external services.
+    /// Represents the bot's references to external services.
     ///
     /// For example, Application Insights and QnaMaker services
     /// are kept here (singletons).  These external services are configured
@@ -21,31 +21,34 @@ namespace AspNetCore_QnA_Bot
         /// <summary>
         /// Initializes a new instance of the <see cref="BotServices"/> class.
         /// </summary>
-        public BotServices()
+        /// <param name="client">An Application Insights <see cref="TelemetryClient"/> instance.</param>
+        /// <param name="qnaServices">A dictionary of named <see cref="QnAMaker"/> instances for usage within the bot.</param>
+        public BotServices(TelemetryClient client, Dictionary<string, QnAMaker> qnaServices)
         {
-            // Given there can be multiple Qna services used in a single bot,
-            // Qna is represented as a Dictionary.  This is also modeled in the
-            // ".bot" file since the elements are named (string).
-            QnAServices = new Dictionary<string, QnAMaker>();
+            TelemetryClient = client ?? throw new ArgumentNullException(nameof(client));
+            QnAServices = qnaServices ?? throw new ArgumentNullException(nameof(qnaServices));
         }
 
         /// <summary>
-        /// Gets or sets the Application Insights Telemetry client.
+        /// Gets the Application Insights Telemetry client.
         /// Use this to log new custom events/metrics/traces/etc into your
         /// Application Insights service for later analysis.
         /// </summary>
         /// <value>
-        /// The Application Insights Telemetry client instance created based on configuration in the .bot file.
+        /// The Application Insights <see cref="TelemetryClient"/> instance created based on configuration in the .bot file.
         /// </value>
-        public TelemetryClient TelemetryClient { get; set; }
+        public TelemetryClient TelemetryClient { get; }
 
         /// <summary>
-        /// Gets or sets the (potential) set of Qna Services used.
-        /// This sample only uses a single Qna instance.
+        /// Gets the (potential) set of QnA Services used.
+        /// Given there can be multiple QnA services used in a single bot,
+        /// QnA is represented as a Dictionary.  This is also modeled in the
+        /// ".bot" file since the elements are named (string).
+        /// This sample only uses a single QnA instance.
         /// </summary>
         /// <value>
-        /// A QnaMaker client instance created based on configuration in the .bot file.
+        /// A QnAMaker client instance created based on configuration in the .bot file.
         /// </value>
-        public Dictionary<string, QnAMaker> QnAServices { get; set; }
+        public Dictionary<string, QnAMaker> QnAServices { get; } = new Dictionary<string, QnAMaker>();
     }
 }

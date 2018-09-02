@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace AspNetCore_QnA_Bot.AppInsights
+namespace QnA_Bot.AppInsights
 {
     /// <summary>
-    /// The Application Insights property names that we're logging.
+    /// The Application Insights property names to log.
     /// </summary>
-    public static class MyQnaConstants
+    public static class MyQnAConstants
     {
         public const string ActivityIdProperty = "ActivityId";
         public const string UsernameProperty = "Username";
