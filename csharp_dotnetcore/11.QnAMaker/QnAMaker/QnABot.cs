@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 
-namespace AspNetCore_QnA_Bot
+namespace QnA_Bot
 {
     /// <summary>
     /// Represents a bot that can process incoming activities.
     /// For each interaction from the user, an instance of this class is called.
+    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// each time they're requested. For each Activity received, a new instance of this
+    /// class is created. Objects that are expensive to construct, or have a lifetime
+    /// beyond the single Turn, should be carefully managed.
     /// </summary>
     public class QnABot : IBot
     {
@@ -18,7 +22,7 @@ namespace AspNetCore_QnA_Bot
         /// Key in the Bot config (.bot file) for the QnaMaker instance.
         /// In the .bot file, multiple instances of QnaMaker can be configured.
         /// </summary>
-        public static readonly string QnaMakerKey = "QnaBot";
+        public static readonly string QnAMakerKey = "QnaBot";
 
         /// <summary>
         /// Services configured from the ".bot" file.
@@ -31,20 +35,21 @@ namespace AspNetCore_QnA_Bot
         /// <param name="services">Services configured from the ".bot" file.</param>
         public QnABot(BotServices services)
         {
-            _services = services;
+            _services = services ?? throw new System.ArgumentNullException(nameof(services));
+            if (!_services.QnAServices.ContainsKey(QnAMakerKey))
+            {
+                throw new System.ArgumentException($"Invalid configuration.  Please check your '.bot' file for a QnA service named '{QnAMakerKey}'.");
+            }
         }
 
         /// <summary>
-        /// Every Conversation turn for our QnA Bot will call this method. In this example,
-        /// the bot checks the Activty type to verify it's a message, and asks the QnA Maker
-        /// service if it recognizes an answer for the question given.
-        /// There are no dialogs used, since it's "single turn" processing, meaning there
-        /// are no set of decision points or set of properties that need to be gathered from
-        /// the user to successfully process the activity.
+        /// Every Conversation turn for our QnA Bot will call this method.
+        /// There are no dialogs used, since it's "single turn" processing, meaning a single
+        /// request and response, with no stateful conversation.
         /// </summary>
-        /// <param name="context">Turn scoped context containing all the data needed
+        /// <param name="context">A <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects
+        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A task that represents the work queued to execute.</returns>
         public async Task OnTurnAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
@@ -52,7 +57,7 @@ namespace AspNetCore_QnA_Bot
             if (context.Activity.Type == ActivityTypes.Message && !context.Responded)
             {
                 // Check QnAMaker model
-                var response = await _services.QnAServices[QnaMakerKey].GetAnswersAsync(context);
+                var response = await _services.QnAServices[QnAMakerKey].GetAnswersAsync(context);
 
                 if (response != null && response.Length > 0)
                 {

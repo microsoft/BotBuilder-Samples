@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
-using AspNetCore_QnA_Bot.AppInsights;
+using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
@@ -13,8 +13,9 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using QnA_Bot.AppInsights;
 
-namespace AspNetCore_QnA_Bot
+namespace QnA_Bot
 {
     /// <summary>
     /// The Startup class configures services and the app's request pipeline.
@@ -54,7 +55,7 @@ namespace AspNetCore_QnA_Bot
         {
             // Load the connected services from .bot file
             // BUGBUG: This needs to change to common bot file, once emulator understand appInsights type.
-            var botConfig = BotConfiguration.LoadAsync(@".\QnaBot.bot").Result;
+            var botConfig = BotConfiguration.Load(@".\QnABot.bot");
 
             // Initialize Bot Connected Services Clients
             var connectedServices = InitBotServices(botConfig);
@@ -94,13 +95,14 @@ namespace AspNetCore_QnA_Bot
         ///
         /// For example, Application Insights and QnaMaker services
         /// are created here.  These external services are configured
-        /// using the BotConfigure class (based on the contents of your ".bot" file).
+        /// using the <see cref="BotConfiguration"/> class (based on the contents of your ".bot" file).
         /// </summary>
         /// <param name="config">Configuration object based on your ".bot" file.</param>
-        /// <returns>A object representing client objects to access external services the bot uses.</returns>
+        /// <returns>A <see cref="BotConfiguration"/> representing client objects to access external services the bot uses.</returns>
         private static BotServices InitBotServices(BotConfiguration config)
         {
-            var connectedServices = new BotServices();
+            TelemetryClient telemetryClient = null;
+            var qnaServices = new Dictionary<string, QnAMaker>();
 
             foreach (var service in config.Services)
             {
@@ -108,25 +110,30 @@ namespace AspNetCore_QnA_Bot
                 {
                     case ServiceTypes.QnA:
                         {
-                            // Create a QNA Maker that is initialized and suitable for passing
+                            // Create a QnA Maker that is initialized and suitable for passing
                             // into the IBot-derived class (QnABot).
                             // In this case, we're creating a custom class (wrapping the original
                             // QnAMaker client) that logs the results of QnA Maker into Application
                             // Insights for future anaysis.
-                            var qna = service as QnAMakerService;
+                            var qna = (QnAMakerService)service;
+                            if (qna == null)
+                            {
+                                throw new InvalidOperationException("The QnA service is not configured correctly in your '.bot' file.");
+                            }
+
                             if (string.IsNullOrWhiteSpace(qna.KbId))
                             {
-                                throw new InvalidOperationException("The Qna KnowledgeBaseId ('kbId') is required to run this sample.  Please update your appsettings.json for more details.");
+                                throw new InvalidOperationException("The Qna KnowledgeBaseId ('kbId') is required to run this sample.  Please update your '.bot' file.");
                             }
 
                             if (string.IsNullOrWhiteSpace(qna.EndpointKey))
                             {
-                                throw new InvalidOperationException("The Qna EndpointKey ('endpointKey') is required to run this sample.  Please update your QnaBot.bot file.");
+                                throw new InvalidOperationException("The Qna EndpointKey ('endpointKey') is required to run this sample.  Please update your '.bot' file.");
                             }
 
                             if (string.IsNullOrWhiteSpace(qna.Hostname))
                             {
-                                throw new InvalidOperationException("The Qna Host ('hostname') is required to run this sample.  Please update your QnaBot.bot file.");
+                                throw new InvalidOperationException("The Qna Host ('hostname') is required to run this sample.  Please update your '.bot' file.");
                             }
 
                             var qnaEndpoint = new QnAMakerEndpoint()
@@ -136,28 +143,34 @@ namespace AspNetCore_QnA_Bot
                                 Host = qna.Hostname,
                             };
 
-                            var qnaMaker = new MyAppInsightsQnaMaker(qnaEndpoint, null, logUserName: false, logOriginalMessage: false);
-                            connectedServices.QnAServices.Add(qna.Name, qnaMaker);
+                            var qnaMaker = new MyAppInsightsQnAMaker(qnaEndpoint, null, logUserName: false, logOriginalMessage: false);
+                            qnaServices.Add(qna.Name, qnaMaker);
 
                             break;
                         }
 
                     case ServiceTypes.AppInsights:
                         {
-                            var appInsights = service as AppInsightsService;
+                            var appInsights = (AppInsightsService)service;
+                            if (appInsights == null)
+                            {
+                                throw new InvalidOperationException("The Application Insights is not configured correctly in your '.bot' file.");
+                            }
+
                             if (string.IsNullOrWhiteSpace(appInsights.InstrumentationKey))
                             {
-                                throw new InvalidOperationException("The Application Insights Instrumentation Key ('instrumentationKey') is required to run this sample.  Please update your QnaBot.bot file.");
+                                throw new InvalidOperationException("The Application Insights Instrumentation Key ('instrumentationKey') is required to run this sample.  Please update your '.bot' file.");
                             }
 
                             var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
-                            connectedServices.TelemetryClient = new TelemetryClient(telemetryConfig);
-                            connectedServices.TelemetryClient.InstrumentationKey = appInsights.InstrumentationKey;
+                            telemetryClient = new TelemetryClient(telemetryConfig);
+                            telemetryClient.InstrumentationKey = appInsights.InstrumentationKey;
                             break;
                         }
                 }
             }
 
+            var connectedServices = new BotServices(telemetryClient, qnaServices);
             return connectedServices;
         }
     }

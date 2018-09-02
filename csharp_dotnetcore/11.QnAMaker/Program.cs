@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace AspNetCore_QnA_Bot
+namespace QnA_Bot
 {
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
