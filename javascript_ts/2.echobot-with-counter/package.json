@@ -5,7 +5,8 @@
   "main": "./lib/index.js",
   "scripts": {
     "build-sample": "tsc",
-    "start": "tsc && node ./lib/index.js"
+    "start": "tsc && node ./lib/index.js",
+    "watch": "nodemon ./lib/index.js"
   },
   "author": "Microsoft",
   "license": "MIT",
