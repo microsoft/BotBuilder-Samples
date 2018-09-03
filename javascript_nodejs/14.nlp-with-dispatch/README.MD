@@ -1,6 +1,6 @@
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
+[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 
-This sample shows how to create a bot that relies on multiple [LUIS.ai](http://luis.ai) and [QnAMaker.ai](http://qnamaker.ai) models for natural language processing (NLP). 
+This sample shows how to create a bot that relies on multiple [LUIS.ai](https://luis.ai) and [QnAMaker.ai](https://qnamaker.ai) models for natural language processing (NLP). 
 
 This bot example uses [`restify`](https://www.npmjs.com/package/restify) and [`dotenv`](https://www.npmjs.com/package/dotenv).
 
@@ -43,7 +43,7 @@ Use the Dispatch model in cases when:
     ```
 
 # Configure services
-This sample relies on [LUIS](http://luis.ai), [QnA Maker](http://qnamaker.ai) and [Dispatch](http://github.com/microsoft/botbuilder-tools//tree/master/packages/Dispatch) services. 
+This sample relies on [LUIS](https://luis.ai), [QnA Maker](https://qnamaker.ai) and [Dispatch](https://github.com/microsoft/botbuilder-tools//tree/master/packages/Dispatch) services. 
 
 ## Configure the LUIS service
 To create required LUIS applications for this sample bot, 
@@ -64,7 +64,8 @@ To create the LUIS application this bot needs and update the .bot file configura
 > luis import application --in cognitiveModels\weather.luis --authoringKey <YOUR-LUIS-AUTHORING-KEY> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect LUIS --stdin --name weather.luis
 ```
 
-Note: Should you so desire, you can create the LUIS application in a region of your choice. See [here](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-reference-regions) to learn more about available LUIS authoring regions. You can specify a different region (westus or westeurope or australiaeast) via https://**LUIS-Authoring-Region**.api.cognitive.microsoft.com/luis/api/v2.0 in the above command.
+Note: You can create the LUIS applications in one of the [LUIS authoring regions](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-reference-regions). 
+You can use a different region (westus or westeurope or australiaeast) via https://**LUIS-Authoring-Region**.api.cognitive.microsoft.com/luis/api/v2.0 in the commands above.
 
 ## Train and publish the LUIS models 
 You need to train and publish the LUIS models that were created for this sample to work. You can do so using the following CLI commands
