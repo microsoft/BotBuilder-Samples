@@ -40,34 +40,35 @@ namespace Suggested_Actions
         /// <value>
         /// The IConfiguration that represents a set of key/value application configuration properties.
         /// </value>
+        /// <see cref="IConfiguration"/>
         public IConfiguration Configuration { get; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services">Specifies the contract for a collection of service descriptors.</param>
+        /// <see cref="IServiceCollection"/>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBot<SuggestedActionsBot>(options =>
             {
                 options.CredentialProvider = new ConfigurationCredentialProvider(this.Configuration);
 
-                // The Memory Storage used here is for local bot debugging only. When the bot
+                // Memory Storage is for local bot debugging only. When the bot
                 // is restarted, anything stored in memory will be gone.
                 IStorage dataStore = new MemoryStorage();
 
                 // For production bots use the Azure Blob or
-                // Azure CosmosDB storage provides, as seen below. To include any of
-                // the Azure based storage providers, add the Microsoft.Bot.Builder.Azure
+                // Azure CosmosDB storage providers, as seen below. To the Azure
+                // based storage providers, add the Microsoft.Bot.Builder.Azure
                 // Nuget package to your solution. That package is found at:
                 // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
-                // Uncomment this line to use blob storage
+                // Uncomment this line to use Azure Blob Storage
                 // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
                 // Create and add conversation state.
                 var convoState = new ConversationState(dataStore);
                 options.State.Add(convoState);
 
-                // Add state to BotStateSet middleware (that require auto-save).
                 // The BotStateSet middleware forces state storage to auto-save when the bot is complete processing the message.
                 // Note: Developers may choose not to add all the state providers to this middleware if save is not required.
                 var stateSet = new BotStateSet(options.State.ToArray());
@@ -80,6 +81,8 @@ namespace Suggested_Actions
         /// </summary>
         /// <param name="app">The application builder.  This provides the mechanisms to configure an application's request pipeline.</param>
         /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
+        /// <see cref="IApplicationBuilder"/>
+        /// <see cref="IHostingEnvironment"/>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseDefaultFiles()
