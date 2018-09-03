@@ -10,10 +10,9 @@ using Microsoft.Bot.Schema;
 
 namespace Console_EchoBot
 {
-
     /// <summary>
-    /// Represents a bot adapter that would typically connect a bot to an
-    /// and external service.
+    /// Represents a <see cref="BotAdapter"/> that would typically connect a bot to an
+    /// and external service (For example, Skype, Slack, Teams, etc).
     /// This implementation interacts with the console.
     /// </summary>
     /// <seealso cref="ITurnContext"/>
@@ -33,7 +32,7 @@ namespace Console_EchoBot
         /// <summary>
         /// Adds middleware to the adapter's pipeline.
         /// </summary>
-        /// <param name="middleware">The middleware component to add.</param>
+        /// <param name="middleware">The <see cref="IMiddleware"/> component to add.</param>
         /// <returns>The updated adapter object.</returns>
         public new ConsoleAdapter Use(IMiddleware middleware)
         {
@@ -43,10 +42,11 @@ namespace Console_EchoBot
 
         /// <summary>
         /// Performs the actual translation of input coming from the console
-        /// into the Activity format that the Bot consumes.
+        /// into the <see cref="Activity"/> format that the Bot consumes.
         /// </summary>
-        /// <param name="callback">A callback method to run at the end of the pipeline.</param>
+        /// <param name="callback">A <see cref="BotCallbackHandler"/> method to run at the end of the pipeline.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-resources-identifiers-guide?view=azure-bot-service-4.0"/>
         public async Task ProcessActivityAsync(BotCallbackHandler callback = null)
         {
             while (true)
@@ -57,9 +57,18 @@ namespace Console_EchoBot
                     break;
                 }
 
+                // Performing the conversion from console text to an Activity for
+                // which the system handles all messages (from all unique services).
+                // All processing is performed by the broader bot pipeline on the Activity
+                // object.
                 var activity = new Activity()
                 {
                     Text = msg,
+
+                    // Note on ChannelId:
+                    // The Bot Framework channel is identified by a unique ID.
+                    // For example, "skype" is a common channel to represent the Skype service.
+                    // We are inventing a new channel here.
                     ChannelId = "console",
                     From = new ChannelAccount(id: "user", name: "User1"),
                     Recipient = new ChannelAccount(id: "bot", name: "Bot"),
@@ -71,7 +80,7 @@ namespace Console_EchoBot
 
                 using (var context = new TurnContext(this, activity))
                 {
-                    await this.RunPipelineAsync(context, callback, default(CancellationToken));
+                    await this.RunPipelineAsync(context, callback, default(CancellationToken)).ConfigureAwait(false);
                 }
             }
         }
@@ -79,14 +88,15 @@ namespace Console_EchoBot
         /// <summary>
         /// Sends activities to the conversation.
         /// </summary>
-        /// <param name="context">The context object for the turn.</param>
-        /// <param name="activities">The activities to send.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects
+        /// <param name="context">The <see cref="ITurnContext"/> object for the turn.</param>
+        /// <param name="activities">The array of <see cref="Activity"/> objects to send.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A task that represents the work queued to execute.</returns>
         /// <remarks>If the activities are successfully sent, the task result contains
         /// an array of <see cref="ResourceResponse"/> objects containing the IDs that
         /// the receiving channel assigned to the activities.</remarks>
+        /// <seealso cref="IActivity"/>
         /// <seealso cref="ITurnContext.OnSendActivities(SendActivitiesHandler)"/>
         public override async Task<ResourceResponse[]> SendActivitiesAsync(ITurnContext context, Activity[] activities, CancellationToken cancellationToken)
         {
@@ -116,6 +126,10 @@ namespace Console_EchoBot
                     case ActivityTypes.Message:
                         {
                             IMessageActivity message = activity.AsMessageActivity();
+
+                            // A message exchange between user and bot can contain media attachments
+                            // (e.g., image, video, audio, file).  In this particular example, we are unable
+                            // to create Attachments to messages, but this illustrates processing.
                             if (message.Attachments != null && message.Attachments.Any())
                             {
                                 var attachment = message.Attachments.Count == 1 ? "1 attachment" : $"{message.Attachments.Count()} attachments";
@@ -140,7 +154,8 @@ namespace Console_EchoBot
                         break;
 
                     case ActivityTypes.Trace:
-                        // don't send trace activities unless you know that the client needs them.  For example: BF protocol only sends Trace Activity when talking to emulator channel
+                        // Do not send trace activities unless you know that the client needs them.
+                        // For example: BF protocol only sends Trace Activity when talking to emulator channel.
                         break;
 
                     default:

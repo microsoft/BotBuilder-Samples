@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Threading;
 
 namespace Console_EchoBot
 {
@@ -28,7 +27,7 @@ namespace Console_EchoBot
 
             // Connect the Console Adapter to the Bot.
             adapter.ProcessActivityAsync(
-                async (context, ct) => await echoBot.OnTurnAsync(context, default(CancellationToken))).Wait();
+                async (turnContext, cancellationToken) => await echoBot.OnTurnAsync(turnContext)).Wait();
         }
     }
 }
