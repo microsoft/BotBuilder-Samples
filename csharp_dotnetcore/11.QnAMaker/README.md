@@ -29,7 +29,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 ## Visual studio code
 - Open `BotBuilder-Samples\csharp_dotnetcore\11.QnAMaker` sample folder.
-- Bring up a terminal, navigate to BotBuilder-Samples\11.QnAMaker folder
+- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_dotnetcore\11.QnAMaker` folder
 - type 'dotnet run'
 
 ## Testing the bot using Bot Framework Emulator
@@ -40,7 +40,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
 - File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\11.QnAMaker` folder
-- Select QnA-Bot.bot file
+- Select QnABot.bot file
 
 # Further reading
 
