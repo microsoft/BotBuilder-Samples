@@ -13,8 +13,8 @@ namespace QnA_Bot.AppInsights
 {
     /// <summary>
     /// Middleware for logging incoming, outgoing, updated or deleted Activity messages into Application Insights.
-    /// In addition, registers the telemetry client in the context so other Application Insights components can log
-    /// telemetry.
+    /// In addition, registers the <see cref="TelemetryClient"/> client in the context so other Application Insights
+    /// components can log telemetry.
     /// If this <see cref="IMiddleware"/> is removed, all the other sample components don't log (but still operate).
     /// </summary>
     public class MyAppInsightsLoggerMiddleware : IMiddleware
