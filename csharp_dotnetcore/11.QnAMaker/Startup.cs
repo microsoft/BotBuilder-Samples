@@ -28,6 +28,7 @@ namespace QnA_Bot
         /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940.
         /// </summary>
         /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-2.1"/>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -43,7 +44,7 @@ namespace QnA_Bot
         /// Gets the configuration that represents a set of key/value application configuration properties.
         /// </summary>
         /// <value>
-        /// The IConfiguration that represents a set of key/value application configuration properties.
+        /// The <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
         /// </value>
         public IConfiguration Configuration { get; }
 
@@ -51,6 +52,8 @@ namespace QnA_Bot
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services">Specifies the contract for a collection of service descriptors.</param>
+        /// <seealso cref="IServiceCollection"/>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection"/>
         public void ConfigureServices(IServiceCollection services)
         {
             // Load the connected services from .bot file
@@ -80,11 +83,6 @@ namespace QnA_Bot
         /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
@@ -99,6 +97,9 @@ namespace QnA_Bot
         /// </summary>
         /// <param name="config">Configuration object based on your ".bot" file.</param>
         /// <returns>A <see cref="BotConfiguration"/> representing client objects to access external services the bot uses.</returns>
+        /// <seealso cref="BotConfiguration"/>
+        /// <seealso cref="QnAMaker"/>
+        /// <seealso cref="TelemetryClient"/>
         private static BotServices InitBotServices(BotConfiguration config)
         {
             TelemetryClient telemetryClient = null;

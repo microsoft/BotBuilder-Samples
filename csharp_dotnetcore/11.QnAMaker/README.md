@@ -35,7 +35,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://aka.ms/botframeworkemulator)
+- Install the Bot Framework emulator from [here](https://aka.ms/botframeworkemulator).
 
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
@@ -45,6 +45,6 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 # Further reading
 
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [Bot State](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-storage-concept?view=azure-bot-service-4.0)
 - [QnA Maker documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/overview/overview)
 - [QnA Maker command line tool](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker)
+- [Application Insights](https://azure.microsoft.com/en-us/services/application-insights/)
