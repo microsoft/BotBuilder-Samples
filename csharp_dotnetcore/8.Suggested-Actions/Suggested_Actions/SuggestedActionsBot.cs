@@ -43,6 +43,7 @@ namespace Suggested_Actions
                                 cancellationToken: cancellationToken);
                             break;
                         }
+
                         case "yellow":
                         {
                             await turnContext.SendActivityAsync(
