@@ -126,7 +126,18 @@ NOTE: <ANY NOTES ABOUT THE PREREQUISITES OR ALTERNATE THINGS TO CONSIDER TO GET 
 -	Each solution/ project is named as “\<KEY SCENARIO INTRODUCED BY THE SAMPLE\>”
 -	C# - each sample has its own solution file
 
-## Linting
+## Static Code Analysis
+
+### StyleCop - C#
+
+To benefit from [StyleCop](https://github.com/StyleCop/StyleCop) static code analysis, all samples should have the samples-specific ruleset that can be found [here](csharp_dotnetcore/samples.ruleset).
+
+When creating a new sample, follow these steps to apply the ruleset to the sample:
+
+* Copy the [samples.ruleset](csharp_dotnetcore/samples.ruleset) file to your bot directory, at the same level as the project file.
+* Rename the file to match your bot project name. For example, if your project is AspNetCore-QnA-Bot.csproj, rename the ruleset to AspNetCore-QnA-Bot.ruleset.
+
+### Linting
 
 All samples must have the following linting configuration enabled.
 <TBD>
