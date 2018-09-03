@@ -23,6 +23,7 @@ namespace Suggested_Actions
         /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940.
         /// </summary>
         /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
+        ///<see cref="IHostingEnvironment"/>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
