@@ -136,17 +136,6 @@ When creating a new sample, follow these steps to apply the ruleset to the sampl
 
 * Copy the [samples.ruleset](csharp_dotnetcore/samples.ruleset) file to your bot directory, at the same level as the project file.
 * Rename the file to match your bot project name. For example, if your project is AspNetCore-QnA-Bot.csproj, rename the ruleset to AspNetCore-QnA-Bot.ruleset.
-* Edit your project file and add the ruleset property groups as below, entering the name of your ruleset file, for example, AspNetCore-QnA-Bot.ruleset.
-
-```
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet><BOT PROJECT NAME>.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet><BOT PROJECT NAME>.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-```
 
 ### Linting
 
