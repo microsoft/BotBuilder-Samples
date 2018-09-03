@@ -22,8 +22,7 @@ namespace Suggested_Actions
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940.
         /// </summary>
-        /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
-        ///<see cref="IHostingEnvironment"/>
+        /// <param name="env">Provides information about the <see cref="IHostingEnvironment"/> an application is running in.</param>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -36,19 +35,17 @@ namespace Suggested_Actions
         }
 
         /// <summary>
-        /// Gets the configuration that represents a set of key/value application configuration properties.
+        /// Gets the <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
         /// </summary>
         /// <value>
-        /// The IConfiguration that represents a set of key/value application configuration properties.
+        /// The <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
         /// </value>
-        /// <see cref="IConfiguration"/>
         public IConfiguration Configuration { get; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
-        /// <param name="services">Specifies the contract for a collection of service descriptors.</param>
-        /// <see cref="IServiceCollection"/>
+        /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBot<SuggestedActionsBot>(options =>
@@ -80,10 +77,8 @@ namespace Suggested_Actions
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
-        /// <param name="app">The application builder.  This provides the mechanisms to configure an application's request pipeline.</param>
-        /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
-        /// <see cref="IApplicationBuilder"/>
-        /// <see cref="IHostingEnvironment"/>
+        /// <param name="app">The <see cref="IApplicationBuilder"/>.  This provides the mechanisms to configure an application's request pipeline.</param>
+        /// <param name="env">Provides information about the <see cref="IHostingEnvironment"/> an application is running in.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseDefaultFiles()
