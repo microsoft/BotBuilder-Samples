@@ -9,11 +9,16 @@ using Microsoft.Bot.Schema;
 namespace Console_EchoBot
 {
     /// <summary>
-    /// Represents a bot that can operate on incoming activities.
+    /// Represents a bot that echo's back the original input from the user.
     /// </summary>
     /// <remarks>A <see cref="BotAdapter"/> passes incoming activities from the user's
-    /// channel to the bot's <see cref="OnTurnAsync(ITurnContext, CancellationToken)"/> method.</remarks>
+    /// channel to the bot's <see cref="OnTurnAsync(ITurnContext, CancellationToken)"/> method.
+    /// In this case, the Activity messages originate from console input, which flows through
+    /// sample's <see cref="ConsoleAdapter"/> and the Bot Framework pipeline which calls this
+    /// object.
+    /// </remarks>
     /// <seealso cref="IMiddleware"/>
+    /// <seealso cref="https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.ibot?view=botbuilder-dotnet-preview"/>
     public class EchoBot : IBot
     {
         /// <summary>
@@ -21,9 +26,9 @@ namespace Console_EchoBot
         /// the bot checks the Activty type to verify it's a message, and then echoes the users typing
         /// back to them.
         /// </summary>
-        /// <param name="context">Turn scoped context containing all the data needed
+        /// <param name="context">Turn scoped <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
         public async Task OnTurnAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
