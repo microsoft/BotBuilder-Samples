@@ -1,0 +1,38 @@
+﻿{
+    "name": "Luis-Bot",
+    "description": "",
+    "secretKey": "",
+    "services": [
+      {
+        "id": "http://localhost:3978/api/messages",
+        "name": "Luis-Bot",
+        "type": "endpoint",
+        "appId": "",
+        "appPassword": "",
+        "endpoint": "http://localhost:3978/api/messages"
+      },
+      {
+        "type": "luis",
+        "id": "",
+        "appId": "c4c7646c-f3ef-49c4-9d92-3ba5394aaac5",
+        "authoringKey": "b70cd8ee0844421da97ec682498b025d",
+        "subscriptionKey": "b70cd8ee0844421da97ec682498b025d",
+        "version": "0.1",
+        "region": "westus"
+      },
+      {
+        "type": "appInsights",
+        "id": "3",
+        "name": "",
+        "tenantId": "",
+        "subscriptionId": "",
+        "resourceGroup": "",
+        "instrumentationKey": "1fad4214-4531-4c6a-90ab-22dfabae9e59",
+        "applicationId": "00000000-0000-0000-0000-000000000007",
+        "apiKeys": {
+          "key1": "testKey1",
+          "key2": "testKey2"
+        }
+      }
+    ]
+}
