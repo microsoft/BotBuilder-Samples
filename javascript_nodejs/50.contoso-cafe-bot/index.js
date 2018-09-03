@@ -79,7 +79,7 @@ adapter.use(userState);
 // Create the main dialog.
 let mainDlg;
 try {
-    mainDlg = new MainDialog(conversationState);
+    mainDlg = new MainDialog(conversationState, userState, botConfig);
 } catch (err) {
     console.log(err);
     process.exit(CONFIG_ERROR);
@@ -88,7 +88,7 @@ try {
 // Listen for incoming requests 
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
-        // route to main dialog.
+        // Route to main dialog.
         await mainDlg.onTurn(context);        
     });
 });
