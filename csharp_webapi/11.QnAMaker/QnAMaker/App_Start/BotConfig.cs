@@ -5,10 +5,10 @@ using System.Configuration;
 using System.Web.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.WebApi;
 
-namespace AspNetWebApi_QnA_Bot
+namespace QnA_Bot
 {
     /// <summary>
-    /// Performs the BotConfiguration-specific configuration during Asp.Net start.
+    /// Performs the Bot-specific configuration during Asp.Net start.
     /// </summary>
     public class BotConfig
     {

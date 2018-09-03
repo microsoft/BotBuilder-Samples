@@ -8,23 +8,23 @@ using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 
-namespace AspNetWebApi_QnA_Bot.AppInsights
+namespace QnA_Bot.AppInsights
 {
     /// <summary>
-    /// MyAppInsightsQnaRecognizer invokes the Qna Maker and logs some results into Application Insights.
+    /// MyAppInsightsQnARecognizer invokes the QnA Maker and logs some results into Application Insights.
     /// Logs the score, and (optionally) question along with Conversation and ActivityID.
     ///
     /// Customize for specific reporting needs.
     ///
-    /// The Custom Event name this logs is "QnaMessage"
-    /// See <seealso cref="QnaMaker"/> for additional information.
+    /// The Custom Event name this logs is "QnAMessage"
+    /// See <seealso cref="QnAMaker"/> for additional information.
     /// </summary>
-    public class MyAppInsightsQnaMaker : QnAMaker
+    public class MyAppInsightsQnAMaker : QnAMaker
     {
-        public static readonly string QnaMsgEvent = "QnaMessage";
+        public static readonly string QnAMsgEvent = "QnAMessage";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MyAppInsightsQnaMaker"/> class.
+        /// Initializes a new instance of the <see cref="MyAppInsightsQnAMaker"/> class.
         /// </summary>
         /// <param name="endpoint">The endpoint of the knowledge base to query.</param>
         /// <param name="options">The options for the QnA Maker knowledge base.</param>
@@ -32,7 +32,7 @@ namespace AspNetWebApi_QnA_Bot.AppInsights
         /// <param name="logOriginalMessage">Option to log the original message to Application Insights (PII consideration).</param>
         /// <param name="httpClient">An alternate client with which to talk to QnAMaker.
         /// If null, a default client is used for this instance.</param>
-        public MyAppInsightsQnaMaker(QnAMakerEndpoint endpoint, QnAMakerOptions options = null, bool logUserName = false, bool logOriginalMessage = false, HttpClient httpClient = null)
+        public MyAppInsightsQnAMaker(QnAMakerEndpoint endpoint, QnAMakerOptions options = null, bool logUserName = false, bool logOriginalMessage = false, HttpClient httpClient = null)
             : base(endpoint, options, httpClient)
         {
             LogUserName = logUserName;
@@ -45,7 +45,7 @@ namespace AspNetWebApi_QnA_Bot.AppInsights
 
         public new async Task<QueryResult[]> GetAnswersAsync(ITurnContext context)
         {
-            // Call Qna Maker
+            // Call QnA Maker
             var queryResults = await base.GetAnswersAsync(context);
 
             // Find the Application Insights Telemetry Client
@@ -55,43 +55,43 @@ namespace AspNetWebApi_QnA_Bot.AppInsights
                 var telemetryMetrics = new Dictionary<string, double>();
 
                 // Make it so we can correlate our reports with Activity or Conversation
-                telemetryProperties.Add(MyQnaConstants.ActivityIdProperty, context.Activity.Id);
+                telemetryProperties.Add(MyQnAConstants.ActivityIdProperty, context.Activity.Id);
                 var conversationId = context.Activity.Conversation.Id;
                 if (!string.IsNullOrEmpty(conversationId))
                 {
-                    telemetryProperties.Add(MyQnaConstants.ConversationIdProperty, conversationId);
+                    telemetryProperties.Add(MyQnAConstants.ConversationIdProperty, conversationId);
                 }
 
                 // For some customers, logging original text name within Application Insights might be an issue.
                 var text = context.Activity.Text;
                 if (LogOriginalMessage && !string.IsNullOrWhiteSpace(text))
                 {
-                    telemetryProperties.Add(MyQnaConstants.OriginalQuestionProperty, text);
+                    telemetryProperties.Add(MyQnAConstants.OriginalQuestionProperty, text);
                 }
 
                 // For some customers, logging user name within Application Insights might be an issue.
                 var userName = context.Activity.From.Name;
                 if (LogUserName && !string.IsNullOrWhiteSpace(userName))
                 {
-                    telemetryProperties.Add(MyQnaConstants.UsernameProperty, userName);
+                    telemetryProperties.Add(MyQnAConstants.UsernameProperty, userName);
                 }
 
                 // Fill in Qna Results (found or not)
                 if (queryResults.Length > 0)
                 {
                     var queryResult = queryResults[0];
-                    telemetryProperties.Add(MyQnaConstants.QuestionProperty, string.Join(",", queryResult.Questions));
-                    telemetryProperties.Add(MyQnaConstants.AnswerProperty, queryResult.Answer);
-                    telemetryMetrics.Add(MyQnaConstants.ScoreProperty, (double)queryResult.Score);
+                    telemetryProperties.Add(MyQnAConstants.QuestionProperty, string.Join(",", queryResult.Questions));
+                    telemetryProperties.Add(MyQnAConstants.AnswerProperty, queryResult.Answer);
+                    telemetryMetrics.Add(MyQnAConstants.ScoreProperty, (double)queryResult.Score);
                 }
                 else
                 {
-                    telemetryProperties.Add(MyQnaConstants.QuestionProperty, "No Qna Question matched");
-                    telemetryProperties.Add(MyQnaConstants.AnswerProperty, "No Qna Question matched");
+                    telemetryProperties.Add(MyQnAConstants.QuestionProperty, "No Qna Question matched");
+                    telemetryProperties.Add(MyQnAConstants.AnswerProperty, "No Qna Question matched");
                 }
 
                 // Track the event
-                ((TelemetryClient)telemetryClient).TrackEvent(QnaMsgEvent, telemetryProperties, telemetryMetrics);
+                ((TelemetryClient)telemetryClient).TrackEvent(QnAMsgEvent, telemetryProperties, telemetryMetrics);
             }
 
             return queryResults;

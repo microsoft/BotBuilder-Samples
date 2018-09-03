@@ -36,7 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AspNetWebApi-Qna-Bot.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Qna-Bot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,7 +45,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AspNetWebApi-Qna-Bot.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Qna-Bot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Chronic, Version=0.3.2.0, Culture=neutral, PublicKeyToken=3bd1f1ef638b0d3c, processorArchitecture=MSIL">
@@ -81,23 +81,23 @@
     <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.TelemetryCorrelation.1.0.3\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Builder, Version=4.0.0.38511, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Builder.4.0.0.38511\lib\netstandard2.0\Microsoft.Bot.Builder.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Builder, Version=4.0.0.38762, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Builder.4.0.0.38762\lib\netstandard2.0\Microsoft.Bot.Builder.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Builder.AI.QnA, Version=4.0.0.38511, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Builder.AI.QnA.4.0.0.38511\lib\netstandard2.0\Microsoft.Bot.Builder.AI.QnA.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Builder.AI.QnA, Version=4.0.0.38762, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Builder.AI.QnA.4.0.0.38762\lib\netstandard2.0\Microsoft.Bot.Builder.AI.QnA.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Builder.Integration.AspNet.WebApi, Version=4.0.0.38511, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Builder.Integration.AspNet.WebApi.4.0.0.38511\lib\net461\Microsoft.Bot.Builder.Integration.AspNet.WebApi.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Builder.Integration.AspNet.WebApi, Version=4.0.0.38762, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Builder.Integration.AspNet.WebApi.4.0.0.38762\lib\net461\Microsoft.Bot.Builder.Integration.AspNet.WebApi.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Configuration, Version=4.0.0.38511, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Configuration.4.0.0.38511\lib\netstandard2.0\Microsoft.Bot.Configuration.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Configuration, Version=4.0.0.38762, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Configuration.4.0.0.38762\lib\netstandard2.0\Microsoft.Bot.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Connector, Version=4.0.0.38511, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Connector.4.0.0.38511\lib\netstandard2.0\Microsoft.Bot.Connector.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Connector, Version=4.0.0.38762, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Connector.4.0.0.38762\lib\netstandard2.0\Microsoft.Bot.Connector.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Schema, Version=4.0.0.38511, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Schema.4.0.0.38511\lib\netstandard2.0\Microsoft.Bot.Schema.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Schema, Version=4.0.0.38762, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Schema.4.0.0.38762\lib\netstandard2.0\Microsoft.Bot.Schema.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.Configuration, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -237,30 +237,31 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="QnA\AppInsights\MyAppInsightsQnaMaker.cs" />
-    <Compile Include="QnA\AppInsights\MyQnaConstants.cs" />
-    <Compile Include="QnA\App_Start\BotConfig.cs" />
-    <Compile Include="QnA\App_Start\BotServices.cs" />
-    <Compile Include="QnA\App_Start\UnityConfig.cs" />
-    <Compile Include="QnA\App_Start\UnityResolver.cs" />
-    <Compile Include="QnA\App_Start\UnityWebApiActivator.cs" />
+    <Compile Include="QnAMaker\AppInsights\MyAppInsightsQnaMaker.cs" />
+    <Compile Include="QnAMaker\AppInsights\MyQnAConstants.cs" />
+    <Compile Include="QnAMaker\App_Start\BotConfig.cs" />
+    <Compile Include="QnAMaker\App_Start\BotServices.cs" />
+    <Compile Include="QnAMaker\App_Start\UnityConfig.cs" />
+    <Compile Include="QnAMaker\App_Start\UnityResolver.cs" />
+    <Compile Include="QnAMaker\App_Start\UnityWebApiActivator.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QnA\AppInsights\MyAppInsightsLoggerMiddleware.cs" />
-    <Compile Include="QnA\QnABot.cs" />
+    <Compile Include="QnAMaker\AppInsights\MyAppInsightsLoggerMiddleware.cs" />
+    <Compile Include="QnAMaker\QnABot.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="README.md" />
     <Content Include="appsettings.json" />
-    <Content Include="AspNetWebApi-Qna.bot">
+    <Content Include="QnaBot.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="AspNetWebApi-Qna-Bot.ruleset">
+    <Content Include="Qna-Bot.ruleset">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="CognitiveModels\sample.qna" />
+    <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -290,13 +291,13 @@
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>AspNetWebApi-Qna-Bot.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Qna-Bot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug - NuGet Packages|AnyCPU'">
     <OutputPath>bin\</OutputPath>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <CodeAnalysisRuleSet>AspNetWebApi-Qna-Bot.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Qna-Bot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
@@ -309,7 +310,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>3979</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5411/</IISUrl>
+          <IISUrl>http://localhost:3978/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

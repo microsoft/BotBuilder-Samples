@@ -7,11 +7,12 @@ using System.Web.Http.Dependencies;
 using Unity;
 using Unity.Exceptions;
 
-namespace AspNetWebApi_QnA_Bot
+namespace QnA_Bot
 {
     /// <summary>
     /// Resolves dependencies for dependency injection.
     /// </summary>
+    /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection"/>
     public class UnityResolver : IDependencyResolver
     {
         private readonly IUnityContainer _container;

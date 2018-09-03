@@ -5,11 +5,12 @@ using System.Web.Http;
 
 #pragma warning disable SA1649  // File name should match first type name
 
-namespace AspNetWebApi_QnA_Bot
+namespace QnA_Bot
 {
     /// <summary>
     /// Main Web Application.
     /// </summary>
+    /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/configuring-aspnet-web-api"/>
     public class WebApiApplication : System.Web.HttpApplication
 #pragma warning restore SA1649 // File name should match first type name
     {

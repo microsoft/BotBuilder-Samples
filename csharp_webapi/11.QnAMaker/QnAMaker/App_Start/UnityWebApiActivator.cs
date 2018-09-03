@@ -2,14 +2,15 @@
 // Licensed under the MIT License.
 
 using System.Web.Http;
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(AspNetWebApi_QnA_Bot.UnityWebApiActivator), nameof(AspNetWebApi_QnA_Bot.UnityWebApiActivator.Start))]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(AspNetWebApi_QnA_Bot.UnityWebApiActivator), nameof(AspNetWebApi_QnA_Bot.UnityWebApiActivator.Shutdown))]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(QnA_Bot.UnityWebApiActivator), nameof(QnA_Bot.UnityWebApiActivator.Start))]
+[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(QnA_Bot.UnityWebApiActivator), nameof(QnA_Bot.UnityWebApiActivator.Shutdown))]
 
-namespace AspNetWebApi_QnA_Bot
+namespace QnA_Bot
 {
     /// <summary>
     /// Provides the bootstrapping for integrating Unity with WebApi when it is hosted in ASP.NET.
     /// </summary>
+    /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection"/>
     public static class UnityWebApiActivator
     {
         /// <summary>
