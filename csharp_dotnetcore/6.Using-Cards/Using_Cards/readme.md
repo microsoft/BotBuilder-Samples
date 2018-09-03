@@ -5,7 +5,7 @@ A bot is an app that users interact with in a conversational way using text, gra
 or a sophisticated bot that allows people to interact with services in an intelligent manner using pattern matching,
 state tracking and artificial intelligence techniques well-integrated with existing business services.
 ## Rich Cards
-Most channels support rich content.  In this sample we explore the different type of rich cards your bot may use.
+Most channels support rich content.  In this sample we explore the different types of rich cards your bot may use.
 ## To try this sample
 - Clone the repository.
 ```bash
