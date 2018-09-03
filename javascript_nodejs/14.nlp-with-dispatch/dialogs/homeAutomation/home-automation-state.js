@@ -5,16 +5,16 @@ const HOME_ATUOMATION_STATE_PROPERTY = 'homeAutomation.state';
 class DeviceState {
     /**
      * 
-     * @param {String} device 
-     * @param {String} room 
-     * @param {String} deviceProperty 
-     * @param {String} deviceState 
+     * @param {String} Device Name
+     * @param {String} Room the device is in 
+     * @param {String} Device properties - e.g. temperature=72'F, brightnessLevel=20% 
+     * @param {String} State of the device - on/ off/ standby/ pause etc.
      */
     constructor(device, room, deviceProperty, deviceState) { 
-        this.deviceName = device?device:'';
-        this.room = room?room:'';
-        this.deviceProperty = deviceProperty?deviceProperty:'';
-        this.deviceState = deviceState?deviceState:'';
+        this.deviceName = device ? device : '';
+        this.room = room ? room : '';
+        this.deviceProperty = deviceProperty ? deviceProperty : '';
+        this.deviceState = deviceState ? deviceState : '';
     }
 };
 
@@ -28,9 +28,8 @@ class HomeAutomationState {
         if(!convoState || !convoState.createProperty) throw('Invalid conversation state provided.');
         if(!userState || !userState.createProperty) throw('Invalid user state provided.');
 
-        // device property accessor for home automation scenario.
+        // Device property accessor for home automation scenario.
         this.deviceProperty = convoState.createProperty(HOME_ATUOMATION_STATE_PROPERTY);
-        
     }
     /**
      * 
@@ -42,14 +41,14 @@ class HomeAutomationState {
      */
     async setDevice(device, room, deviceState, deviceProperty, context) {
         // get devices from state.
-        let opetraions = await this.deviceProperty.get(context);
-        if(opetraions === undefined) { 
-            opetraions = new Array(new DeviceState(device, room, deviceProperty, deviceState));
+        let operations = await this.deviceProperty.get(context);
+        if(operations === undefined) { 
+            operations = new Array(new DeviceState(device, room, deviceProperty, deviceState));
         } else {
             // add this operation
-            opetraions.push(new DeviceState(device, room, deviceProperty, deviceState));
+            operations.push(new DeviceState(device, room, deviceProperty, deviceState));
         }
-        return this.deviceProperty.set(context,opetraions);
+        return this.deviceProperty.set(context,operations);
     }
     /**
      * 
@@ -66,10 +65,10 @@ class HomeAutomationState {
         returnText = '';
         opetraions.forEach((device, idx) => {
             returnText += '\n[' + idx + ']. ' + 
-                          (device.deviceName?device.deviceName:'Unknown device') + 
-                          (device.room?' in room = ' + device.room:'') + 
-                          (device.deviceState? ' is ' + device.deviceState: '') +
-                          (device.deviceProperty? ' device property = ' + device.deviceProperty:'');
+                          (device.deviceName ? device.deviceName : 'Unknown device') + 
+                          (device.room ? ' in room = ' + device.room : '') + 
+                          (device.deviceState ? ' is ' + device.deviceState : '') +
+                          (device.deviceProperty ? ' device property = ' + device.deviceProperty : '');
         });
         return returnText;
     }

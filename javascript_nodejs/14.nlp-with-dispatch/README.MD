@@ -71,16 +71,16 @@ You can use a different region (westus or westeurope or australiaeast) via https
 You need to train and publish the LUIS models that were created for this sample to work. You can do so using the following CLI commands
 
 ```bash
-> msbot get service --name homeautomation.lUIS | luis train version --wait --stdin
-> msbot get service --name homeautomation.lUIS | luis publish version --stdin
-> msbot get service --name weather.lUIS | luis train version --wait --stdin
-> msbot get service --name weather.lUIS | luis publish version --stdin
+> msbot get service --name homeautomation.luis | luis train version --wait --stdin
+> msbot get service --name homeautomation.luis | luis publish version --stdin
+> msbot get service --name weather.luis | luis train version --wait --stdin
+> msbot get service --name weather.luis | luis publish version --stdin
 ```
 
 ## Configure QnA Maker service
 To create a new QnA Maker application for the bot, 
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a new QnA Maker Azure resource.
-- Navigate to your QnA Maker resource -> keys and copy the subscription Key
+- Navigate to your QnA Maker resource -> keys and copy the subscription key
 
 To create the QnA Maker application this bot needs and update the .bot file configuration, in a terminal, 
 - Navigate to samples\14.nlp-with-dispatch

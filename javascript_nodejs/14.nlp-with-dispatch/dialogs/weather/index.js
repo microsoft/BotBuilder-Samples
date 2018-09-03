@@ -37,10 +37,10 @@ class Weather {
      * @param {Object} context context object
      */
     async onTurn(context) {
-        // make call to LUIS recognizer to get home automation intent + entities
+        // Call weather LUIS model.
         const weatherResults = await this.luisRecognizer.recognize(context);
         const topWeatherIntent = LuisRecognizer.topIntent(weatherResults);
-        // get location entity if available.
+        // Get location entity if available.
         const locationEntity = (LOCATION_ENTITY in weatherResults.entities)?weatherResults.entities[LOCATION_ENTITY][0] : undefined;
         const locationPatternAnyEntity = (LOCATION_PATTERNANY_ENTITY in weatherResults.entities)?weatherResults.entities[LOCATION_PATTERNANY_ENTITY][0]:undefined;
         // depending on intent, call turn on or turn off or return unknown
@@ -53,8 +53,7 @@ class Weather {
                 break;
             case NONE_INTENT:
             default:
-                await context.sendActivity(`Weather dialog cannot fulfill this request. Bubbling up`);
-                // TODO: this dialog cannot handle this specific utterance. bubble up to parent
+                await context.sendActivity(`Weather dialog cannot fulfill this request.`);
         }
     }
 };

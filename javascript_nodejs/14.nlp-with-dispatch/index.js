@@ -53,12 +53,11 @@ const adapter = new BotFrameworkAdapter({
     appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword
 });
 
-// Define state store for your bot. See https://aka.ms/about-bot-state to learn more about bots memory service
-// A bot requires a sate store to priciest it dialog and user state between messages
+// Define state store for your bot. See https://aka.ms/about-bot-state to learn more about bot state.
 const memoryStorage = new MemoryStorage();
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone. 
-// For production bots use the Azure CosmosDB storage, Azure Blob, or Azure Table storage provides. 
+// For production bots use the Azure CosmosDB storage, Azure Blob storage provides. 
 // const { CosmosDbStorage } = require('botbuilder-azure');
 // const STORAGE_CONFIGURATION = 'CosmosDB'; // this is the name of the cosmos DB configuration in your .bot file
 // const cosmosConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION);
