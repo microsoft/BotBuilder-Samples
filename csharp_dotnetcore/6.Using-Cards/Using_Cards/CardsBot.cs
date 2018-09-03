@@ -1,37 +1,40 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Schema;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AdaptiveCards;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
 
 namespace Using_Cards
 {
     /// <summary>
     /// This bot will respond to the user's input with rich card content.
+    /// Microsoft Bot Framework currently supports eight types of rich cards.
+    /// We will demonstrate the use of each of these types in this project.
+    /// Not all card types are supported on all channels.
+    /// Please view the documentation in the ReadMe.md file in this project for more information.
     /// </summary>
     public class CardsBot : IBot
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsBot"/> class.
-        /// In the constructor for the bot we are instantiating our dialog set, giving our field a value,
-        /// and adding our waterfall and prompts to the dialog set.
+        /// In the constructor for the bot we are instantiating our <see cref="DialogSet"/>, giving our field a value,
+        /// and adding our <see cref="WaterfallDialog"/> and <see cref="ChoicePrompt"/> to the dialog set.
         /// </summary>
         /// <param name="accessors">State accessors for the bot.</param>
         public CardsBot(CardsBotAccessors accessors)
         {
             this.Accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
             this.Dialogs = new DialogSet(this.Accessors.ConversationDialogState);
-            this.Dialogs.Add(new WaterfallDialog("cardSelector", new WaterfallStep[] {ChoiceCardStepAsync, ShowCardStepAsync}));
+            this.Dialogs.Add(new WaterfallDialog("cardSelector", new WaterfallStep[] { ChoiceCardStepAsync, ShowCardStepAsync }));
             this.Dialogs.Add(new ChoicePrompt("cardPrompt"));
         }
 
@@ -42,10 +45,10 @@ namespace Using_Cards
         /// <summary>
         /// This controls what happens when an activity gets sent to the bot.
         /// </summary>
-        /// <param name="turnContext">Provides the context for the turn of the bot.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects
+        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
+        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>A task.</returns>
+        /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (turnContext == null)
@@ -86,11 +89,26 @@ namespace Using_Cards
             }
         }
 
+        /// <summary>
+        /// Prompts the user for intput by sending a <see cref="ChoicePrompt"/> so the user may select their
+        /// choice from a list of options.
+        /// </summary>
+        /// <param name="dc">A <see cref="DialogContext"/> provides context for the current dialog.</param>
+        /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>
+        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
         private static async Task<DialogTurnResult> ChoiceCardStepAsync(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
         {
             return await dc.PromptAsync("cardPrompt", GenerateOptions(dc.Context.Activity), cancellationToken);
         }
 
+        /// <summary>
+        /// Creates options for a <see cref="ChoicePrompt"/> so the user may select an option.
+        /// </summary>
+        /// <param name="activity">The message activity the bot received.</param>
+        /// <returns>A <see cref="PromptOptions"/> to be used in a prompt.</returns>
+        /// <remarks>Related type <see cref="Choice"/>.</remarks>
         private static PromptOptions GenerateOptions(Activity activity)
         {
             // Create options for the prompt
@@ -118,11 +136,12 @@ namespace Using_Cards
         /// This method uses the text of the activity to decide which type
         /// of card to resond with and reply with that card to the user.
         /// </summary>
-        /// <param name="dc">Provides context for the current dialog.</param>
-        /// <param name="step">Provides context for the current waterfall step.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects
+        /// <param name="dc">A <see cref="DialogContext"/> provides context for the current dialog.</param>
+        /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>
+        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>A DialogTurnResult indicating the turn has ended.</returns>
+        /// <returns>A <see cref="DialogTurnResult"/> indicating the turn has ended.</returns>
+        /// <remarks>Related types <see cref="Attachment"/> and <see cref="AttachmentLayoutTypes"/>.</remarks>
         private static async Task<DialogTurnResult> ShowCardStepAsync(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
         {
             // Get the text from the activity to use to show the correct card
@@ -201,6 +220,10 @@ namespace Using_Cards
 
         // The following methods are all used to generate cards
 
+        /// <summary>
+        /// This creates an <see cref="AdaptiveCard"/> as an <see cref="Attachment"/> from a .json file.
+        /// </summary>
+        /// <returns>An <see cref="AdaptiveCard"/>.</returns>
         private static Attachment CreateAdaptiveCardAttachment()
         {
             var adaptiveCardJson = File.ReadAllText(@".\adaptiveCard.json");
@@ -212,6 +235,12 @@ namespace Using_Cards
             return adaptiveCardAttachment;
         }
 
+        /// <summary>
+        /// Creates a <see cref="HeroCard"/>.
+        /// </summary>
+        /// <returns>A <see cref="HeroCard"/> the user can view and/or interact with.</returns>
+        /// <remarks>Related types <see cref="CardImage"/>, <see cref="CardAction"/>,
+        /// and <see cref="ActionTypes"/>.</remarks>
         private static HeroCard GetHeroCard()
         {
             var heroCard = new HeroCard
@@ -227,6 +256,12 @@ namespace Using_Cards
             return heroCard;
         }
 
+        /// <summary>
+        /// Creates a <see cref="ThumbnailCard"/>.
+        /// </summary>
+        /// <returns>A <see cref="ThumbnailCard"/> the user can view and/or interact with.</returns>
+        /// <remarks>Related types <see cref="CardImage"/>, <see cref="CardAction"/>,
+        /// and <see cref="ActionTypes"/>.</remarks>
         private static ThumbnailCard GetThumbnailCard()
         {
             var heroCard = new ThumbnailCard
@@ -242,6 +277,12 @@ namespace Using_Cards
             return heroCard;
         }
 
+        /// <summary>
+        /// Creates a <see cref="ReceiptCard"/>.
+        /// </summary>
+        /// <returns>A <see cref="ReceiptCard"/> the user can view and/or interact with.</returns>
+        /// <remarks>Related types <see cref="CardImage"/>, <see cref="CardAction"/>,
+        /// <see cref="ActionTypes"/>, <see cref="ReceiptItem"/>, <see cref="Fact"/>.</remarks>
         private static ReceiptCard GetReceiptCard()
         {
             var receiptCard = new ReceiptCard
@@ -276,6 +317,11 @@ namespace Using_Cards
             return receiptCard;
         }
 
+        /// <summary>
+        /// Creates a <see cref="SigninCard"/>.
+        /// </summary>
+        /// <returns>A <see cref="SigninCard"/> the user can interact with.</returns>
+        /// <remarks>Related types <see cref="CardAction"/> and <see cref="ActionTypes"/>.</remarks>
         private static SigninCard GetSigninCard()
         {
             var signinCard = new SigninCard
@@ -287,6 +333,12 @@ namespace Using_Cards
             return signinCard;
         }
 
+        /// <summary>
+        /// Creates a <see cref="AnimationCard"/>.
+        /// </summary>
+        /// <returns>A <see cref="AnimationCard"/> the user can view and/or interact with.</returns>
+        /// <remarks>Related types <see cref="CardImage"/>, <see cref="CardAction"/>,
+        /// <see cref="ActionTypes"/> and <see cref="MediaUrl"/>, <see cref="ThumbnailUrl"/>.</remarks>
         private static AnimationCard GetAnimationCard()
         {
             var animationCard = new AnimationCard
@@ -309,6 +361,12 @@ namespace Using_Cards
             return animationCard;
         }
 
+        /// <summary>
+        /// Creates a <see cref="VideoCard"/>.
+        /// </summary>
+        /// <returns>A <see cref="VideoCard"/> the user can view and/or interact with.</returns>
+        /// <remarks> Related types <see cref="CardAction"/>,
+        /// <see cref="ActionTypes"/> and <see cref="MediaUrl"/>, <see cref="ThumbnailUrl"/>.</remarks>
         private static VideoCard GetVideoCard()
         {
             var videoCard = new VideoCard
@@ -344,6 +402,12 @@ namespace Using_Cards
             return videoCard;
         }
 
+        /// <summary>
+        /// Creates a <see cref="AudioCard"/>.
+        /// </summary>
+        /// <returns>A <see cref="AudioCard"/> the user can listen to or interact with.</returns>
+        /// <remarks> Related types <see cref="CardAction"/>,
+        /// <see cref="ActionTypes"/> and <see cref="MediaUrl"/>, <see cref="ThumbnailUrl"/>.</remarks>
         private static AudioCard GetAudioCard()
         {
             var audioCard = new AudioCard
