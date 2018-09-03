@@ -10,13 +10,13 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 
-namespace AspNetWebApi_QnA_Bot.AppInsights
+namespace QnA_Bot.AppInsights
 {
     /// <summary>
     /// Middleware for logging incoming, outgoing, updated or deleted Activity messages into Application Insights.
-    /// In addition, registers the telemetry client in the context so other Application Insights components can log
-    /// telemetry.
-    /// If this Middleware is removed, all the other sample components don't log (but still operate).
+    /// In addition, registers the <see cref="TelemetryClient"/> client in the context so other Application Insights
+    /// components can log telemetry.
+    /// If this <see cref="IMiddleware"/> is removed, all the other sample components don't log (but still operate).
     /// </summary>
     public class MyAppInsightsLoggerMiddleware : IMiddleware
     {
@@ -86,16 +86,21 @@ namespace AspNetWebApi_QnA_Bot.AppInsights
         /// <summary>
         /// Records incoming and outgoing activities to the Application Insights store.
         /// </summary>
-        /// <param name="context">The context object for this turn.</param>
+        /// <param name="context">The <see cref="ITurnContext"/> object for this turn.</param>
         /// <param name="nextTurn">The delegate to call to continue the bot middleware pipeline.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>A task that represents the work queued to execute.</returns>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
         /// <seealso cref="ITurnContext"/>
         /// <seealso cref="Bot.Schema.IActivity"/>
         public async Task OnTurnAsync(ITurnContext context, NextDelegate nextTurn, CancellationToken cancellationToken)
         {
             BotAssert.ContextNotNull(context);
+
+            if (nextTurn == null)
+            {
+                throw new ArgumentNullException(nameof(nextTurn));
+            }
 
             context.TurnState.Add(MyAppInsightsLoggerMiddleware.AppInsightsServiceKey, _telemetryClient);
 
