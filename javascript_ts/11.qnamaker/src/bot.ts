@@ -12,7 +12,7 @@ export class QnAMakerBot {
     private qnaMaker: QnAMaker;
     
     /**
-     * The QnAMakerBot constructore requires one argument (`endpoint`) which is used to create a MyAppInsightsQnAMaker singleton. 
+     * The QnAMakerBot constructor requires one argument (`endpoint`) which is used to create a MyAppInsightsQnAMaker singleton. 
      * @param endpoint QnAMakerEndpoint, in this sample this configuration is retrieved from the .bot file
      * @param config QnAMakerOptions, an optional parameter that contains additional settings for configuring a `QnAMaker` instance.
      * @param logOriginalMessage a boolean indicating whether or not the bot should send the user's utterance to Application Insights with the QnA Maker information.
