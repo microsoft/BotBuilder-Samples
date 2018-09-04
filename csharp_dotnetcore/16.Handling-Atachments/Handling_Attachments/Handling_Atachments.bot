@@ -1,5 +1,5 @@
 {
-  "name": "Suggested_Actions",
+  "name": "Handling_Attachments",
   "secretKey": "",
   "services": [
     {
@@ -8,7 +8,7 @@
       "type": "endpoint",
       "appPassword": "",
       "endpoint": "http://localhost:3978/api/messages",
-      "name": "Suggested_Actions"
+      "name": "Handling_Attachments"
     }
   ]
 }
