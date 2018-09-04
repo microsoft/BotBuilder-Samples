@@ -56,7 +56,7 @@ namespace NLP_With_Dispatch_Bot
         {
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
 
-            if (!_services.QnAServices.ContainsKey(DispatchKey))
+            if (!_services.QnAServices.ContainsKey(QnAMakerKey))
             {
                 throw new System.ArgumentException($"Invalid configuration.  Please check your '.bot' file for a QnA service named '{DispatchKey}'.");
             }
