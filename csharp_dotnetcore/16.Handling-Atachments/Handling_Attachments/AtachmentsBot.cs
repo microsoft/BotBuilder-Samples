@@ -168,7 +168,7 @@ namespace Handling_Atachments
         /// </summary>
         /// <remarks>Not all channel allow users to upload files.  Some channels may have restrictions
         /// on file type, size, and other attributes.  Consult the documentation for the channel for
-        /// more information</remarks>
+        /// more information.</remarks>
         private static void HandleIncomingAttachment(IMessageActivity activity, IMessageActivity reply)
         {
             foreach (var file in activity.Attachments)
