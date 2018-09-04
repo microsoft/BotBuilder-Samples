@@ -138,7 +138,7 @@ namespace Handling_Atachments
         /// This method responds with an <see cref="Activity"/> that demonstrates the use of the type
         /// of attachment the user requested.
         /// </summary>
-        private static void HandleOutgoingAttachment(Activity activity, Activity reply)
+        private static void HandleOutgoingAttachment(IMessageActivity activity, IMessageActivity reply)
         {
             if (activity.Text.StartsWith("1"))
             {
@@ -220,7 +220,12 @@ namespace Handling_Atachments
         {
             if (string.IsNullOrWhiteSpace(serviceUrl))
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(serviceUrl));
+            }
+
+            if (string.IsNullOrWhiteSpace(conversationId))
+            {
+                throw new ArgumentNullException(nameof(conversationId));
             }
 
             var imagePath = Path.Combine(Environment.CurrentDirectory, "architecture-resize.png");
