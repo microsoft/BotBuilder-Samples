@@ -3,42 +3,64 @@ const { ComponentDialog, TextPrompt, NumberPrompt, DateTimePrompt, ChoicePrompt,
 const START_DIALOG = 'start';
 const HELLO_USER = 'welcome_back';
 
-const USER_NAME_PROP = 'user_name';
-const AGE_PROP = 'user_age';
-const DOB_PROP = 'user_dob';
-const COLOR_PROP = 'user_color';
-
 
 const NAME_PROMPT = 'namePrompt';
 const AGE_PROMPT = 'agePrompt';
 const DOB_PROMPT = 'dobPrompt';
 const COLOR_PROMPT = 'colorPrompt';
 
+
+const USER_NAME_PROP = 'user_name';
+const AGE_PROP = 'user_age';
+const DOB_PROP = 'user_dob';
+const COLOR_PROP = 'user_color';
+
 class OnboardingDialog extends ComponentDialog {
 
-    constructor (dialogId, userState) {
+    constructor (dialogId, userName, userAge, userDob, userColor) {
         super(dialogId);
-
-        this.userState = userState;
-
-        this.userName = this.userState.createProperty(USER_NAME_PROP)
-        this.userAge = this.userState.createProperty(AGE_PROP);
-        this.userDob = this.userState.createProperty(DOB_PROP);
-        this.userColor = this.userState.createProperty(COLOR_PROP);
-
 
         // Create a dialog flow that captures a series of values from a user
         this.addDialog(new WaterfallDialog(START_DIALOG,[
-            this.collectName,
-            this.collectAge,
-            this.collectDob,
-            this.collectColor,
-            this.lastStep,
-            this.confirmStep
+            async (dc, step) => {
+                // const user_name = await userName.get(dc, '');
+                // if (user_name) {
+                //     return dc.begin(HELLO_USER);
+                // } else {
+                    return await dc.prompt(NAME_PROMPT, `What is your name, human?`);
+                // }
+            },
+            async (dc, step) => {
+                step.values[USER_NAME_PROP] = step.result;
+                return await dc.prompt(AGE_PROMPT, `What is your age?`);
+            },
+            async (dc, step) => {
+                step.values[AGE_PROP] = step.result;
+                return await dc.prompt(DOB_PROMPT, `What is your date of birth?`);
+            },
+            async (dc, step) => {
+                step.values[DOB_PROP] = step.result;
+                const choices = ['red','blue','green'];
+                return await dc.prompt(COLOR_PROMPT, `Finally, what is your favorite color?`, choices);
+            },
+            async (dc, step) => {
+                step.values[COLOR_PROP] = step.result;
+                return await step.next();
+            },
+            async (dc, step) => {
+
+                await userName.set(dc, step.values[USER_NAME_PROP]);
+                await userAge.set(dc, step.values[AGE_PROP]);
+                await userDob.set(dc, step.values[DOB_PROP]);
+                await userColor.set(dc, step.values[COLOR_PROP]);
+        
+                await dc.context.sendActivity(`Your profile is complete! Thank you.`);
+                return await dc.end();
+            }
         ]));
 
         this.addDialog(new WaterfallDialog(HELLO_USER, [
-            async function(dc, step) {
+            async (dc, step) => {
                 const user_name = await this.userName.get(dc.context, null);
                 await dc.context.sendActivity(`You asked me to call you ${user_name}.`);
                 return await step.next();
@@ -100,8 +122,7 @@ class OnboardingDialog extends ComponentDialog {
         }));
                 
         // colorPrompt provides a validation error when a valid choice is not made
-        this.addDialog(new ChoicePrompt(COLOR_PROMPT
-        , async (context, step) => {
+        this.addDialog(new ChoicePrompt(COLOR_PROMPT, async (context, step) => {
             const choice = step.recognized.value;
             console.log('CHOICE ', choice);
             if (!choice) {
@@ -113,51 +134,6 @@ class OnboardingDialog extends ComponentDialog {
         }));
 
     }
-
-
-    async collectName(dc, step) {
-
-        // const user_name = await this.userName.get(dc, '');
-        // if (user_name) {
-            // return dc.begin(HELLO_USER);
-        // } else {
-            return await dc.prompt(NAME_PROMPT, `What is your name, human?`);
-        // }
-    }
-
-    async collectAge(dc, step) {
-        step.values[USER_NAME_PROP] = step.result;
-        return await dc.prompt(AGE_PROMPT, `What is your age?`);
-    }
-
-    async collectDob(dc, step) {
-        step.values[AGE_PROP] = step.result;
-        return await dc.prompt(DOB_PROMPT, `What is your date of birth?`);
-    }
-
-    async collectColor(dc, step) {
-        step.values[DOB_PROP] = step.result;
-        const choices = ['red','blue','green'];
-        return await dc.prompt(COLOR_PROMPT, `Finally, what is your favorite color?`, choices);
-    }
-
-    async lastStep(dc, step) {
-        step.values[COLOR_PROP] = step.result;
-        await step.next();
-    }
-
-    async confirmStep(dc, step) {
-
-        // this.userName.set(dc, step.values[USER_NAME_PROP]);
-        // this.userAge.set(dc, step.values[AGE_PROP]);
-        // this.userDob.set(dc, step.values[DOB_PROP]);
-        // this.userColor.set(dc, step.values[COLOR_PROP]);
-
-        await dc.context.sendActivity(`Your profile is complete! Thank you.`);
-        return await dc.end();
-    }
-
-
 }
 
 module.exports = OnboardingDialog;
