@@ -1,4 +1,5 @@
 const { ComponentDialog, TextPrompt, NumberPrompt, DateTimePrompt, ChoicePrompt, WaterfallDialog } = require('botbuilder-dialogs');
+const moment = require('moment');
 
 const START_DIALOG = 'start';
 const HELLO_USER = 'welcome_back';
@@ -23,12 +24,12 @@ class OnboardingDialog extends ComponentDialog {
         // Create a dialog flow that captures a series of values from a user
         this.addDialog(new WaterfallDialog(START_DIALOG,[
             async (dc, step) => {
-                // const user_name = await userName.get(dc, '');
-                // if (user_name) {
-                //     return dc.begin(HELLO_USER);
-                // } else {
+                const user_name = await userName.get(dc.context, '');
+                if (user_name) {
+                    return dc.replace(HELLO_USER);
+                } else {
                     return await dc.prompt(NAME_PROMPT, `What is your name, human?`);
-                // }
+                }
             },
             async (dc, step) => {
                 step.values[USER_NAME_PROP] = step.result;
@@ -48,25 +49,29 @@ class OnboardingDialog extends ComponentDialog {
                 return await step.next();
             },
             async (dc, step) => {
-
-                await userName.set(dc, step.values[USER_NAME_PROP]);
-                await userAge.set(dc, step.values[AGE_PROP]);
-                await userDob.set(dc, step.values[DOB_PROP]);
-                await userColor.set(dc, step.values[COLOR_PROP]);
+                await userName.set(dc.context, step.values[USER_NAME_PROP]);
+                await userAge.set(dc.context, step.values[AGE_PROP]);
+                await userDob.set(dc.context, step.values[DOB_PROP]);
+                await userColor.set(dc.context, step.values[COLOR_PROP]);
         
                 await dc.context.sendActivity(`Your profile is complete! Thank you.`);
-                return await dc.end();
+
+                // Transition to the display of the profile data.
+                return await dc.begin(HELLO_USER);
             }
         ]));
 
         this.addDialog(new WaterfallDialog(HELLO_USER, [
             async (dc, step) => {
-                const user_name = await this.userName.get(dc.context, null);
-                await dc.context.sendActivity(`You asked me to call you ${user_name}.`);
+                const user_name = await userName.get(dc.context, null);
+                const user_dob = await userDob.get(dc.context, null);
+                const user_age = await userAge.get(dc.context, null);
+                const user_color = await userColor.get(dc.context, null);
+
+                await dc.context.sendActivity(`You asked me to call you ${user_name}. You were born on ${ moment( user_dob ).format("MMM Do, YYYY") } and claim to be ${ user_age }. Your favorite color is ${ user_color }.`);
                 return await step.next();
             }
         ]));
-
 
         // Add prompts
         // namePrompt will validate that the user's response is between 1 and 50 chars in length
@@ -87,7 +92,7 @@ class OnboardingDialog extends ComponentDialog {
 
         // agePrompt will validate an age between 1 and 99
         this.addDialog(new NumberPrompt(AGE_PROMPT, async (context, step) =>{
-            if (!step.recognized) {
+            if (!step.recognized.succeeded) {
                 context.sendActivity('Please tell me your age!');
             } else {
                 const value = step.recognized.value;
@@ -103,10 +108,11 @@ class OnboardingDialog extends ComponentDialog {
         const DATE_LOW_BOUNDS = new Date('8/24/1918');
         const DATE_HIGH_BOUNDS = new Date('8/24/2018');
         this.addDialog(new DateTimePrompt(DOB_PROMPT, async (context, step) => {
-            console.log('DATE TIME PROMPT', step);
-            const values = step.recognized.value;
-            console.log('VALUES', values);
             try {
+                if (!step.recognized.succeeded) {
+                    throw new Error('no date found');
+                }
+                const values = step.recognized.value;
                 if (!Array.isArray(values) || values.length < 0) { throw new Error('missing time') }
                 if ((values[0].type !== 'datetime') && (values[0].type !== 'date')) { throw new Error('unsupported type') }
                 const value = new Date(values[0].value);
@@ -123,14 +129,12 @@ class OnboardingDialog extends ComponentDialog {
                 
         // colorPrompt provides a validation error when a valid choice is not made
         this.addDialog(new ChoicePrompt(COLOR_PROMPT, async (context, step) => {
-            const choice = step.recognized.value;
-            console.log('CHOICE ', choice);
-            if (!choice) {
+            if (!step.recognized.succeeded) {
                 // an invalid choice was received, emit an error.
                 context.sendActivity(`Sorry, "${ context.activity.text }" is not on my list.`);
+            } else {
+                step.end(step.recognized.value.value);
             }
-            step.end();
-            // return choice;
         }));
 
     }
