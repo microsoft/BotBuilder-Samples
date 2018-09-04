@@ -1,4 +1,4 @@
-This sample shows how to use the prompts classes included in `botbuilder-dialogs`.
+This sample shows how to use the prompts classes included in `botbuilder-dialogs`. This bot will ask for the user's name, then store the response. It demonstrates a 2-step dialog flow using a prompt, as well as using the state accessors to store and retrieve values.
 
 # To try this sample
 - Clone the repository
