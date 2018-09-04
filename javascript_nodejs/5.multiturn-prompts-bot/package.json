@@ -1,0 +1,24 @@
+{
+  "name": "multiturn-prompts-bot",
+  "version": "1.0.0",
+  "description": "Bot Builder v4 multiturn prompts sample",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "watch": "nodemon ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "dependencies": {
+    "botbuilder": "^4.0.0-preview1.2",
+    "botbuilder-dialogs": "^4.0.0-preview1.2",
+    "botframework-config": "^4.0.0-preview1.3",
+    "dotenv": "^6.0.0",
+    "path": "^0.12.7",
+    "restify": "^7.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}
