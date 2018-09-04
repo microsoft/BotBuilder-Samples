@@ -9,7 +9,7 @@ const CONFIG_ERROR = 1;
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, MemoryStorage, ConversationState } = require('botbuilder');
 
-// This bot's main dialog
+// This bot's main dialog.
 const MainDialog = require('./dialogs/mainDialog');
 
 // Import required bot configuration.
