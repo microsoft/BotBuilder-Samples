@@ -33,9 +33,9 @@ Select Welcome-users.bot file
 Your bot should also proactively send a welcome message to a personal chat the first time (and only the first time) a user initiates a personal chat with your bot. Use `UserState` to persist a flag indicating first user interaction with a bot. 
 
 ## A note about Bot Framework Emulator and Web Test in Azure Bot Service 
-The Bot Framework Emulator is following stadnard [Activity protocl](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-activity-spec) for Activity messages sent to your bot. With that said, the emulator has unique behaivor that is useful for testing and debugging your bot. For example, pressing the `Start Over` button reset identifires (conversation, from, recipient) and sends a `ConversationUpdate`) message to which your bot can reply. 
+The Bot Framework Emulator is following stadnard [Activity protocol](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-activity-spec) for Activity messages sent to your bot. With that said, the emulator has unique behaivor that is useful for testing and debugging your bot. For example, pressing the `Start Over` button reset identifires (conversation, from, recipient) and sends a `ConversationUpdate`) message to which your bot can reply. 
 
-The Web Test in Azure Bot Service is where you can test your bot using the Web Chat control. In Azure Bot Service Web Test, your bot will receive a `ConversationUpdate` message only after the first time the user sends a message. Your bot will receive two messages for `ConversationUpdate` (one for the new user and one for the bot) and also a `Message` message containing the utterance (text) the user sent. 
+The Web Test in Azure Bot Service is where you may test your bot using the Web Chat control. In Azure Bot Service Web Test, your bot will receive a `ConversationUpdate` message only after the first time the user sends a message. Your bot will receive two messages for `ConversationUpdate` (one for the new user and one for the bot) and also a `Message` message containing the utterance (text) the user sent. 
 
 In other channels such as Teams, Skype, or Slack, you can expect to receive the `ConversationUpdate` just once in the lifetime of the bot for a given user, and it may arrive as soon as the user joins the channel or sent when the user first interacts with the bot. 
 
