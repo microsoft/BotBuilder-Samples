@@ -1,4 +1,4 @@
-﻿This sample demonstrates the use of suggested actions.
+﻿This sample demonstrates different ways a bot may send and receive attachments.
 # Concepts introduced in this sample
 ## What is a bot?
 A bot is an app that users interact with in a conversational way using text, graphics (cards), or speech. It may be a simple question and answer dialog,
@@ -13,11 +13,11 @@ The types of attachments that may be sent and recieved varies by channel. Additi
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
  ### Visual studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\16.Handling-Atachments\Handling_Attachments`) and open Suggested_Actions.csproj in Visual Studio 
+- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\16.Handling-Atachments\Handling_Attachments`) and open Handling_Attachments.csproj in Visual Studio 
 - Hit F5
  ### Visual studio code
 - Open `BotBuilder-Samples\csharp_dotnetcore\16.Handling-Atachments\Handling_Attachments` folder
-- Bring up a terminal, navigate to BotBuilder-Samples\csharp_dotnetcore\8.Suggested-Actions\Suggested_Actions
+- Bring up a terminal, navigate to BotBuilder-Samples\csharp_dotnetcore\16.Handling-Atachments\Handling_Attachments
 - Type 'dotnet run'.
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
