@@ -11,7 +11,7 @@
     <Rule Id="SA1101" Action="None" />    <!-- local calls prefixed with this -->
     <Rule Id="SA1129" Action="None" />    <!-- don't use value type constructor-->
     <Rule Id="SA1200" Action="None" />
-    <Rule Id="SA1214" Action="None"/>     <!-- encapsalate field in property-->
+    <Rule Id="SA1214" Action="None"/>     <!-- encapsulate field in property-->
     <Rule Id="SA1305" Action="Warning" />
     <Rule Id="SA1309" Action="None" />
     <Rule Id="SA1412" Action="Warning" />
