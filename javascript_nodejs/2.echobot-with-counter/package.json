@@ -1,12 +1,12 @@
 {
-  "name": "echobot-with-counter-ts",
+  "name": "echobot-with-counter",
   "version": "1.0.0",
   "description": "Bot Builder v4 echo bot sample",
-  "main": "./lib/index.js",
+  "main": "index.js",
   "scripts": {
-    "build-sample": "tsc",
-    "start": "tsc && node ./lib/index.js",
-    "watch": "nodemon ./lib/index.js"
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "start": "node index.js",
+    "watch": "nodemon index.js"
   },
   "author": "Microsoft",
   "license": "MIT",
