@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Handling_Atachments
+namespace Handling_Attachments
 {
     /// <summary>
     /// The Startup class configures services and the app's request pipeline.
