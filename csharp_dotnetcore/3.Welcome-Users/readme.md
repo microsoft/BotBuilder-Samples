@@ -12,7 +12,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Hit F5
  ### Visual studio code
 - Open `BotBuilder-Samples\csharp_dotnetcore\3.Welcome-Users` folder
-- Bring up a terminal, navigate to BotBuilder-Samples\csharp_dotnetcore\6.Using_Cards
+- Bring up a terminal, navigate to BotBuilder-Samples\csharp_dotnetcore\3.Welcome-Users
 - Type 'dotnet run'.
 
 # Testing the bot using Bot Framework Emulator

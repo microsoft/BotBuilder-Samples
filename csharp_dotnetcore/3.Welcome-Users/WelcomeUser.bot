@@ -1,5 +1,5 @@
 {
-  "name": "Using_Cards",
+  "name": "Welcome-Users",
   "secretKey": "",
   "services": [
     {
@@ -8,7 +8,7 @@
       "type": "endpoint",
       "appPassword": "",
       "endpoint": "http://localhost:3978/api/messages",
-      "name": "Using_Cards"
+      "name": "Welcome-Users"
     }
   ]
 }
