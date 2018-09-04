@@ -23,7 +23,7 @@ export class QnAMakerBot {
     }
 
     /**
-     * Every Conversation turn for our QnA Bot will call this method.
+     * Every conversation turn for our QnA Bot will call this method.
      * There are no dialogs used, since it's "single turn" processing, meaning a single
      * request and response, with no stateful conversation.
      * @param turnContext A TurnContext instance, containing all the data needed for processing this conversation turn.
@@ -42,12 +42,12 @@ export class QnAMakerBot {
                 await turnContext.sendActivity('No QnA Maker answers were found. This example uses a QnA Maker Knowledge Base that focuses on smart light bulbs. To see QnA Maker in action, ask the bot questions like "Why won\'t it turn on?" or say something like "I need help."');
             }
 
-        // If the activity is a ConversationUpdate, send a greeting message to the user.
+        // If the Activity is a ConversationUpdate, send a greeting message to the user.
         } else if (turnContext.activity.type === ActivityTypes.ConversationUpdate &&
                    turnContext.activity.recipient.id !== turnContext.activity.membersAdded[0].id) {
             await turnContext.sendActivity(`Welcome to the QnA Maker sample! Ask me a question and I will try to answer it.`);
         
-        // Respond to all other activity types.
+        // Respond to all other Activity types.
         } else if (turnContext.activity.type !== ActivityTypes.ConversationUpdate) {
             await turnContext.sendActivity(`[${turnContext.activity.type}]-type activity detected.`);
         }

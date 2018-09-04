@@ -13,7 +13,7 @@ import { MyAppInsightsMiddleware, MyAppInsightsMiddlewareSettings } from './midd
 const CONFIG_ERROR = 1;
 
 // bot name as defined in .bot file 
-// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration .
+// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
 const BOT_CONFIGURATION = 'qnamaker';
 const QNA_CONFIGURATION = 'qnamakerService';
 const APP_INSIGHTS_CONFIGURATION = 'appInsights';
@@ -28,7 +28,7 @@ let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log(`\n${server.name} listening to ${server.url}`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-    console.log(`\nTo talk to your bot, open qnamaker.bot file in the Emulator.`);
+    console.log(`\nTo talk to your bot, open qnamaker.bot file in the emulator.`);
 });
 
 // .bot file path
@@ -83,7 +83,7 @@ adapter.use(new MyAppInsightsMiddleware(appInsightsSettings));
 // Create the main dialog.
 const qnaMakerBot = new QnAMakerBot(qnaEndpointSettings, {}, logMessage, logName);
 
-// Listen for incoming requests 
+// Listen for incoming requests.
 server.post('/api/messages', async (req, res) => {
     await adapter.processActivity(req, res, async (context) => {
         await qnaMakerBot.onTurn(context);        
