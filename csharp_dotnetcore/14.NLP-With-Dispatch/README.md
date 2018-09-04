@@ -59,6 +59,8 @@ To create the LUIS application this bot needs and update the .bot file configura
 > luis import application --in cognitiveModels\weather.luis --authoringKey <YOUR-LUIS-AUTHORING-KEY> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect LUIS --stdin --name weather.luis
 ```
 
+If you decide to change the names passed to msbot such as weather.luis, then you need to update the constants in [NlpDispatchBot.cs](NlpDispatch/NlpDispatchBot.cs). For example, if you change homeautomation.luis to just home, you would update the HomeAutomationLuisKey variable to "home" and the homeAutomationDispatchKey to the intent name assigned by dispatcher, which in this case will be "l_home".
+
 Note: You can create the LUIS applications in one of the [LUIS authoring regions](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-reference-regions). 
 You can use a different region (westus or westeurope or australiaeast) via https://**LUIS-Authoring-Region**.api.cognitive.microsoft.com/luis/api/v2.0 in the commands above.
 
