@@ -13,6 +13,7 @@ class MainDialog {
     /**
      * 
      * @param {Object} conversationState 
+     * @param {Object} userState 
      */
     constructor (conversationState, userState) {
         var that = this;
