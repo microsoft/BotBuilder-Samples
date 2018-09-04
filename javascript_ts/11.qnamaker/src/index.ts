@@ -4,7 +4,6 @@
 import { BotFrameworkAdapter, MemoryStorage, ConversationState } from 'botbuilder';
 import { QnAMakerEndpoint } from 'botbuilder-ai';
 import { BotConfiguration, IEndpointService, QnaMakerService, IQnAService, IAppInsightsService } from 'botframework-config';
-import { DialogSet } from 'botbuilder-dialogs';
 import { config } from 'dotenv';
 import * as path from 'path';
 import * as restify from 'restify';
