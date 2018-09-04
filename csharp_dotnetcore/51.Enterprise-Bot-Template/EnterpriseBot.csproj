@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <CodeAnalysisRuleSet>BotBuilder.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\samples.ruleset</CodeAnalysisRuleSet>
     <ApplicationInsightsResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/4c0d07e4-5490-4784-8d89-d8c504ba2a75/resourcegroups/LamillsBot/providers/microsoft.insights/components/LamillsBot-insights</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
