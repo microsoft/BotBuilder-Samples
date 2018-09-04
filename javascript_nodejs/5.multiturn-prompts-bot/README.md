@@ -29,14 +29,14 @@ This sample shows how to use the prompts classes included in `botbuilder-dialogs
 
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples\2.echobot-with-state folder
+- File -> Open Bot Configuration and navigate to javascript_nodejs/5.multiturn-prompts-bot folder
 - Select multiturn-prompts-bot.bot file
 
 # Prompts
 
 A conversation between a bot and a user often involves asking (prompting) the user for information, parsing the user's response, and then acting on that information. This sample demonstrates how to prompt users for information using the different prompt types included in the [botbuilder-dialogs](https://github.com/Microsoft/botbuilder-js/tree/master/libraries/botbuilder-dialogs) library and supported by the SDK.
 
-The `botbuilder-dialogs` library includes a variety of pre-built prompt classes, including text, number, and datetime types. This sample demonstrates using a single text prompt to collect the user's name. For an example that uses multiple prompts of different types, see [sample 5](../5.multi-prompt-bot/).
+The `botbuilder-dialogs` library includes a variety of pre-built prompt classes, including text, number, and datetime types. This sample demonstrates using a text prompt to collect the user's name, then using a number prompt to collect an age.
 
 # Further reading
 - [Prompt types](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0&tabs=javascript)
