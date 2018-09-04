@@ -40,7 +40,7 @@ class HomeAutomationState {
      * @param {Object} context context object
      */
     async setDevice(device, room, deviceState, deviceProperty, context) {
-        // get devices from state.
+        // Get devices from state.
         let operations = await this.deviceProperty.get(context);
         if(operations === undefined) { 
             operations = new Array(new DeviceState(device, room, deviceProperty, deviceState));
@@ -58,12 +58,12 @@ class HomeAutomationState {
     async getDevices(context) {
         let returnText = 'No operations found';
         // read out of current devices from state
-        const opetraions = await this.deviceProperty.get(context);
-        if(opetraions === undefined) {
+        const operations = await this.deviceProperty.get(context);
+        if(operations === undefined) {
             return returnText;
         }
         returnText = '';
-        opetraions.forEach((device, idx) => {
+        operations.forEach((device, idx) => {
             returnText += '\n[' + idx + ']. ' + 
                           (device.deviceName ? device.deviceName : 'Unknown device') + 
                           (device.room ? ' in room = ' + device.room : '') + 

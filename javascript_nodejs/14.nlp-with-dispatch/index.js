@@ -9,7 +9,7 @@ const CONFIG_ERROR = 1;
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = require('botbuilder');
 
-// the bot's main (and only in this example) dialog
+// This bot's main dialog
 const MainDialog = require('./dialogs/mainDialog');
 
 // Import required bot confuguration.
@@ -31,7 +31,7 @@ server.listen(process.env.port || process.env.PORT || 3992, function () {
 // .bot file path
 const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 
-// read bot configuration from .bot file. 
+// Read bot configuration from .bot file. 
 let botConfig;
 try {
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
@@ -40,7 +40,7 @@ try {
     process.exit(CONFIG_ERROR);
 }
 
-// bot name as defined in .bot file 
+// Bot configuration section in the .bot file.
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration .
 const BOT_CONFIGURATION = 'nlp-with-dispatch';
 
@@ -87,7 +87,7 @@ try {
 // Listen for incoming requests 
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
-        // route to main dialog.
+        // Route to main dialog.
         await mainDlg.onTurn(context);        
     });
 });
