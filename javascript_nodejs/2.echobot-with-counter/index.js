@@ -6,7 +6,7 @@ const restify = require('restify');
 
 const CONFIG_ERROR = 1;
 
-// Import reuqired bot services. See https://ama.ms/bot-services to learn more about the different part of a bot
+// Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, MemoryStorage, ConversationState } = require('botbuilder');
 
 // the bot's main (and only in this example) dialog

@@ -84,7 +84,7 @@ class homeAutomation {
         // Find any additional device properties specified. 
         const deviceProperties = findEntities(DEVICE_PROPERTY_ENTITY, homeAutoResults.entities);
         const numberProperties = findEntities(NUMBER_ENTITY, homeAutoResults.entities);
-        // update device state.
+        // Update device state.
         await this.state.setDevice((devices || devices_patternAny), (rooms || rooms_patternAny), operations[0], (deviceProperties || numberProperties), context);
         await context.sendActivity(`You reached the "HomeAutomation" dialog.`);
         await context.sendActivity(`Here's the current snapshot of your prior operations`);
