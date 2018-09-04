@@ -3,12 +3,16 @@
 
 const { ActionTypes, MessageFactory } = require('botbuilder');
 
-const { TextPrompt, NumberPrompt, DialogSet } = require('botbuilder-dialogs');
+const { TextPrompt, NumberPrompt, DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
 
+const DIALOG_STATE_PROPERTY = 'dialogState';
 const USER_NAME_PROP = 'user_name';
 const AGE_PROP = 'user_age';
 const WHO_ARE_YOU = 'who_are_you';
 const HELLO_USER = 'hello_user';
+
+const NAME_PROMPT = 'name_prompt';
+const AGE_PROMPT = 'age_prompt';
 
 class MainDialog {
     /**
@@ -23,52 +27,53 @@ class MainDialog {
         this.conversationState = conversationState;
         this.userState = userState;
 
+        this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
+
         this.userName = this.userState.createProperty(USER_NAME_PROP);
         this.userAge = this.userState.createProperty(AGE_PROP);
 
-        this.dialogs = new DialogSet();
-        
+        this.dialogs = new DialogSet(this.dialogState);
+     
         // Add prompts
-        this.dialogs.add('textPrompt', new TextPrompt());
-        this.dialogs.add('numberPrompt', new NumberPrompt(async (context, value)=> {
-            if (value < 0) {
+        this.dialogs.add(new TextPrompt(NAME_PROMPT));
+        this.dialogs.add(new NumberPrompt(AGE_PROMPT, async (context, step)=> {
+            if (step.recognized.value < 0) {
                 await context.sendActivity(`Your age can't be less than zero.`);
-                return undefined;
             } else {
-                return value;
+                step.end(step.recognized.value);
             }
         }));
             
         // Create a dialog that asks the user for their name.
-        this.dialogs.add(WHO_ARE_YOU, [
+        this.dialogs.add(new WaterfallDialog(WHO_ARE_YOU,[
             async function(dc) {
-                return await dc.prompt('textPrompt', `What is your name, human?`);
+                return await dc.prompt(NAME_PROMPT, `What is your name, human?`);
             },
-            async function(dc, name_value) {
-                await that.userName.set(dc.context, name_value);
-                return await dc.prompt('numberPrompt',`And what is your age, ${ name_value }?`,
+            async function(dc, step) {
+                await that.userName.set(dc.context, step.result);
+                return await dc.prompt(AGE_PROMPT,`And what is your age, ${ step.result }?`,
                     {
                         retryPrompt: 'Sorry, please specify your age as a positive number or say cancel.'
                     }
                 );
             },
-            async function(dc, age_value) {
-                await that.userAge.set(dc.context, age_value);
-                await dc.context.sendActivity(`I will remember that you are ${ age_value } years old.`);
+            async function(dc, step) {
+                await that.userAge.set(dc.context, step.result);
+                await dc.context.sendActivity(`I will remember that you are ${ step.result } years old.`);
                 return await dc.end();
             }
-        ]);
+        ]));
 
 
         // Create a dialog that displays a user name after it has been collceted.
-        this.dialogs.add(HELLO_USER, [
+        this.dialogs.add(new WaterfallDialog(HELLO_USER, [
             async function(dc) {
                 const user_name = await that.userName.get(dc.context, null);
                 const user_age = await that.userAge.get(dc.context, null);
                 await dc.context.sendActivity(`Your name is ${ user_name } and you are ${ user_age } years old.`);
                 return await dc.end();
             }
-        ]);
+        ]));
     }
 
 
@@ -80,16 +85,17 @@ class MainDialog {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         if (context.activity.type === 'message') {
             // Create dialog context
-            const state = this.conversationState.get(context);
-            const dc = this.dialogs.createContext(context, state);
+            const dc = await this.dialogs.createContext(context);
 
             const utterance = (context.activity.text || '').trim().toLowerCase();
             if (utterance === 'cancel') { 
-               return await dc.endAll(); 
+               return await dc.cancelAll(); 
             }
             
             // Continue the current dialog
-            await dc.continue();
+            if (!context.responded) {
+                await dc.continue();
+            }
 
             // Show menu if no response sent
             if (!context.responded) {
