@@ -7,7 +7,7 @@ import { config } from 'dotenv';
 import { BotFrameworkAdapter, MemoryStorage, ConversationState } from 'botbuilder';
 import { BotConfiguration, IEndpointService } from 'botframework-config';
 import { MainDialog } from './dialogs/mainDialog';
-
+const CONFIG_ERROR = 1;
 // bot name as defined in .bot file 
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration .
 const BOT_CONFIGURATION = 'echobot-with-counter';
@@ -25,11 +25,17 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 });
 
 // .bot file path
-const BOT_FILE = path.join(__dirname, '..', process.env.botFilePath);
+const BOT_FILE = path.join(__dirname, '..', (process.env.botFilePath || ''));
+let botConfig;
+try {
+    // read bot configuration from .bot file.
+    botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
+} catch (err) {
+    console.log(`Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment \n`);
+    process.exit(CONFIG_ERROR);
+}
 
-// Read bot configuration from .bot file.
-const botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
-// Get bot endpoint configuration by service name.
+// Get bot endpoint configuration by service name
 const endpointConfig = <IEndpointService>botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
 // Create adapter. See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration .
