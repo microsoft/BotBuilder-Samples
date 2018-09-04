@@ -1,0 +1,11 @@
+[Book Table intent](../bookTable/resources/root.lu)
+
+[Cancel intent](../cancel/resources/cancel.lu)
+
+[Find Cafe Location intent](../findCafeLocations/resources/root.lu)
+
+[Help intent](../help/resources/help.lu)
+
+[QnA KB](../qna/resources/qna.lu)
+
+[Chit chat KB](../chitchat/resources/)
