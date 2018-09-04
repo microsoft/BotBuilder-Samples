@@ -1,0 +1,13 @@
+﻿user=Vishwac
+bot=EchoBot
+
+user: turn on bedroom light
+bot: You reached the “HomeAutomation” dialog.
+bot: Here’s the current snapshot of your prior operations
+bot: [0]. light in room = bedroom is on
+
+user: turn off bedroom light
+bot: You reached the “HomeAutomation” dialog.
+bot: Here’s the current snapshot of your prior operations
+bot: [0]. light in room = bedroom is on
+[1]. light in room = bedroom is off
