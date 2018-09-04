@@ -72,14 +72,14 @@ class homeAutomation {
      */
     async handleDeviceUpdate(homeAutoResults, context) {
         // Find entities from the LUIS model
-        // The LUIS language understnading model is set up with both machine learned simple entities as well as pattern.any entities. 
-        // We should look to see if either one have value. In cases where both have value, we will take the machine learned simple entities value.
+        // The LUIS language understanding model is set up with both machine learned simple entities as well as pattern.any entities. 
+        // Check to see if either one has value. In cases where both have value, take the machine learned simple entities value.
         const devices = findEntities(DEVICE_ENTITY, homeAutoResults.entities);
         const devices_patternAny = findEntities(DEVICE_PATTERNANY_ENTITY, homeAutoResults.entities);
-        // Find any rooms specified in user uttrance. Look for both machine learned simple entity as well as pattern.any entity
+        // Find any rooms specified in the user utterance. Look for both the machine learned simple entity as well as pattern.any entity
         const rooms = findEntities(ROOM_ENTITY, homeAutoResults.entities);
         const rooms_patternAny = findEntities(ROOM_PATTERNANY_ENTITY, homeAutoResults.entities);
-        // Find any entity that indicate the requested operation. E.g. Turn on/ Turn off.
+        // Find any entity that indicates the requested operation. E.g. Turn on/ Turn off.
         const operations = findEntities(OPERATION_ENTITY, homeAutoResults.entities);
         // Find any additional device properties specified. 
         const deviceProperties = findEntities(DEVICE_PROPERTY_ENTITY, homeAutoResults.entities);

@@ -82,7 +82,8 @@ To create a new QnA Maker application for the bot,
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a new QnA Maker Azure resource.
 - Navigate to your QnA Maker resource -> keys and copy the subscription key
 
-To create the QnA Maker application this bot needs and update the .bot file configuration, in a terminal, 
+To create the QnA Maker application and update the .bot file with the QnA Maker configuration,  
+- Open a terminal
 - Navigate to samples\14.nlp-with-dispatch
 - Run the following command
 ```bash

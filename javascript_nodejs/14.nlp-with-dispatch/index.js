@@ -6,7 +6,7 @@ const restify = require('restify');
 
 const CONFIG_ERROR = 1;
 
-// Import required bot services. See https://aka.ms/bot-services to learn more about the different part of a bot
+// Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = require('botbuilder');
 
 // the bot's main (and only in this example) dialog
@@ -57,9 +57,9 @@ const adapter = new BotFrameworkAdapter({
 const memoryStorage = new MemoryStorage();
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone. 
-// For production bots use the Azure CosmosDB storage, Azure Blob storage provides. 
+// For production bots use Azure CosmosDB storage or Azure Blob storage providers. 
 // const { CosmosDbStorage } = require('botbuilder-azure');
-// const STORAGE_CONFIGURATION = 'CosmosDB'; // this is the name of the cosmos DB configuration in your .bot file
+// const STORAGE_CONFIGURATION = 'CosmosDB'; 
 // const cosmosConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION);
 // const cosmosStorage = new CosmosDbStorage({serviceEndpoint: cosmosConfig.connectionString, 
 //                                            authKey: ?, 
