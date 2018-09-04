@@ -12,7 +12,7 @@ using System.IO;
 using System.Net;
 using Microsoft.Bot.Connector;
 
-namespace Handling_Atachments
+namespace Handling_Attachments
 {
     /// <summary>
     /// This bot will respond to the user's text input with an <see cref="Attachment"/> (in this case an image)
