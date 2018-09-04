@@ -49,9 +49,9 @@ const adapter = new BotFrameworkAdapter({
 const memoryStorage = new MemoryStorage();
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone. 
-// For production bots use the Azure CosmosDB storage, Azure Blob storage providers. 
+// For production bots use the Azure Cosmos DB storage, Azure Blob storage providers. 
 // const { CosmosDbStorage } = require('botbuilder-azure');
-// const STORAGE_CONFIGURATION = 'cosmosDB'; // this is the name of the CosmosDB configuration in your .bot file
+// const STORAGE_CONFIGURATION = 'cosmosDB'; // this is the name of the Cosmos DB configuration in your .bot file
 // const cosmosConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION);
 // const cosmosStorage = new CosmosDbStorage({serviceEndpoint: cosmosConfig.connectionString, 
 //                                            authKey: ?, 

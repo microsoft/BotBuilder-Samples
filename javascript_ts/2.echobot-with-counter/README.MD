@@ -3,11 +3,11 @@ This sample shows how to create a simple echo bot with state. The bot maintains 
 # To try this sample
 - Clone the repository
     ```bash
-    git clone https://github.com/microsoft/botbuilder-js.git
+    git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to samples\2.echobot-with-counter
+- In a terminal, navigate to javascript_ts\2.echobot-with-counter
     ```bash
-    cd samples\2.echobot-with-counter
+    cd javascript_ts\2.echobot-with-counter
     ```
 - Point to the MyGet feed 
     ```bash
