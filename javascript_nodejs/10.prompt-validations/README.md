@@ -29,7 +29,7 @@ This sample shows how to use the prompts classes included in `botbuilder-dialogs
 
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples\2.echobot-with-state folder
+- File -> Open Bot Configuration and navigate to javascript_nodejs/10.prompt-validations
 - Select simple-prompt-bot.bot file
 
 # Prompts
