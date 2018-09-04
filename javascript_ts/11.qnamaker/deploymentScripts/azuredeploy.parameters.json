@@ -15,7 +15,6 @@
         "value": "westus",
         "metadata": {
           "description": "Available regions: eastus, eastus2, southcentralus, westcentralus, westus, northeurope, westeurope, eastasia, southeastasia"
-  
         }
       }
     }
