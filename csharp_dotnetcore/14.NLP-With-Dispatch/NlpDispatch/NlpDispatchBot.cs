@@ -111,10 +111,10 @@ namespace NLP_With_Dispatch_Bot
         /// </summary>
         private async Task DispatchToTopIntentAsync(ITurnContext context, (string intent, double score)? topIntent)
         {
-            const string homeAutomationDispatchKey = "l_homeautomation";
-            const string weatherDispatchKey = "l_weather";
-            const string noneDispatchKey = "none";
-            const string qnaDispatchKey = "q_faq";
+            const string homeAutomationDispatchKey = "l_homeautomation-LUIS";
+            const string weatherDispatchKey = "l_weather-LUIS";
+            const string noneDispatchKey = "None";
+            const string qnaDispatchKey = "q_sample_qna";
 
             switch (topIntent.Value.intent.ToLowerInvariant())
             {
