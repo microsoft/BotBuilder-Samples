@@ -41,7 +41,7 @@ try {
 }
 
 // Bot configuration section in the .bot file.
-// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration .
+// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
 const BOT_CONFIGURATION = 'nlp-with-dispatch';
 
 // Get bot endpoint configuration by service name
@@ -71,7 +71,7 @@ const conversationState = new ConversationState(memoryStorage);
 
 // Create user state with in-memory storage provider. 
 const userState = new UserState(memoryStorage);
-// Register conversation state as a middleware. The ConversationState middleware automatically reads and writes conversation sate 
+// Register conversation state and user state as a middleware. 
 adapter.use(conversationState);
 adapter.use(userState);
 

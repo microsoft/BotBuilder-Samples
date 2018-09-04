@@ -9,10 +9,10 @@ const CONFIG_ERROR = 1;
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, MemoryStorage, ConversationState } = require('botbuilder');
 
-// the bot's main (and only in this example) dialog
+// This bot's main dialog
 const MainDialog = require('./dialogs/mainDialog');
 
-// Import required bot confuguration.
+// Import required bot configuration.
 const { BotConfiguration } = require('botframework-config');
 
 // Read botFilePath and botFileSecret from .env file
@@ -31,7 +31,7 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 // .bot file path
 const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 
-// read bot configuration from .bot file. 
+// Read bot configuration from .bot file. 
 let botConfig;
 try {
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
@@ -40,8 +40,8 @@ try {
     process.exit(CONFIG_ERROR);
 }
 
-// bot name as defined in .bot file 
-// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration .
+// Bot configuration section in the .bot file.
+// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
 const BOT_CONFIGURATION = 'echobot-with-counter';
 
 // Get bot endpoint configuration by service name
@@ -53,33 +53,32 @@ const adapter = new BotFrameworkAdapter({
     appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword
 });
 
-// Define state store for your bot. See https://aka.ms/about-bot-state to learn more about bots memory service
-// A bot requires a sate store to priciest it dialog and user state between messages
+// Define state store for your bot. See https://aka.ms/about-bot-state to learn more about bot state.
 const memoryStorage = new MemoryStorage();
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone. 
-// For production bots use the Azure CosmosDB storage, Azure Blob, or Azure Table storage provides. 
+// For production bots use Azure CosmosDB storage or Azure Blob storage providers. 
 // const { CosmosDbStorage } = require('botbuilder-azure');
-// const STORAGE_CONFIGURATION = 'cosmosDB'; // this is the name of the cosmos DB configuration in your .bot file
+// const STORAGE_CONFIGURATION = 'CosmosDB'; 
 // const cosmosConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION);
 // const cosmosStorage = new CosmosDbStorage({serviceEndpoint: cosmosConfig.connectionString, 
 //                                            authKey: ?, 
 //                                            databaseId: cosmosConfig.database, 
 //                                            collectionId: cosmosConfig.collection});
 
-// create conversation state with in-memory storage provider. 
+// Create conversation state with in-memory storage provider. 
 const conversationState = new ConversationState(memoryStorage);
 
-// register conversation state as a middleware. The ConversationState middleware automatically reads and writes conversation sate 
+// Register conversation state as a middleware. 
 adapter.use(conversationState);
 
 // Create the main dialog.
 const mainDlg = new MainDialog(conversationState);
 
-// Listen for incoming requests 
+// Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
-        // route to main dialog.
+        // Route to main dialog.
         await mainDlg.onTurn(context);        
     });
 });
