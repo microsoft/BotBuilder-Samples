@@ -21,7 +21,6 @@ class MainDialog {
      * @param {Object} userState 
      */
     constructor (conversationState, userState) {
-        var that = this;
 
         // creates a new state accessor property. see https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors 
         this.conversationState = conversationState;
@@ -46,19 +45,19 @@ class MainDialog {
             
         // Create a dialog that asks the user for their name.
         this.dialogs.add(new WaterfallDialog(WHO_ARE_YOU,[
-            async function(dc) {
+            async (dc) => {
                 return await dc.prompt(NAME_PROMPT, `What is your name, human?`);
             },
-            async function(dc, step) {
-                await that.userName.set(dc.context, step.result);
+            async (dc, step) => {
+                await this.userName.set(dc.context, step.result);
                 return await dc.prompt(AGE_PROMPT,`And what is your age, ${ step.result }?`,
                     {
                         retryPrompt: 'Sorry, please specify your age as a positive number or say cancel.'
                     }
                 );
             },
-            async function(dc, step) {
-                await that.userAge.set(dc.context, step.result);
+            async (dc, step) => {
+                await this.userAge.set(dc.context, step.result);
                 await dc.context.sendActivity(`I will remember that you are ${ step.result } years old.`);
                 return await dc.end();
             }
@@ -67,9 +66,9 @@ class MainDialog {
 
         // Create a dialog that displays a user name after it has been collceted.
         this.dialogs.add(new WaterfallDialog(HELLO_USER, [
-            async function(dc) {
-                const user_name = await that.userName.get(dc.context, null);
-                const user_age = await that.userAge.get(dc.context, null);
+            async (dc) => {
+                const user_name = await this.userName.get(dc.context, null);
+                const user_age = await this.userAge.get(dc.context, null);
                 await dc.context.sendActivity(`Your name is ${ user_name } and you are ${ user_age } years old.`);
                 return await dc.end();
             }
