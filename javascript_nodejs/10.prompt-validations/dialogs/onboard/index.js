@@ -117,12 +117,12 @@ class OnboardingDialog extends ComponentDialog {
 
     async collectName(dc, step) {
 
-        const user_name = await this.userName.get(dc, '');
-        if (user_name) {
-            return dc.begin(HELLO_USER);
-        } else {
+        // const user_name = await this.userName.get(dc, '');
+        // if (user_name) {
+            // return dc.begin(HELLO_USER);
+        // } else {
             return await dc.prompt(NAME_PROMPT, `What is your name, human?`);
-        }
+        // }
     }
 
     async collectAge(dc, step) {
@@ -148,10 +148,10 @@ class OnboardingDialog extends ComponentDialog {
 
     async confirmStep(dc, step) {
 
-        this.userName.set(dc, step.values[USER_NAME_PROP]);
-        this.userAge.set(dc, step.values[AGE_PROP]);
-        this.userDob.set(dc, step.values[DOB_PROP]);
-        this.userColor.set(dc, step.values[COLOR_PROP]);
+        // this.userName.set(dc, step.values[USER_NAME_PROP]);
+        // this.userAge.set(dc, step.values[AGE_PROP]);
+        // this.userDob.set(dc, step.values[DOB_PROP]);
+        // this.userColor.set(dc, step.values[COLOR_PROP]);
 
         await dc.context.sendActivity(`Your profile is complete! Thank you.`);
         return await dc.end();
