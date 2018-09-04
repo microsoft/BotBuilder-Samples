@@ -23,14 +23,15 @@ namespace Console_EchoBot
     {
         /// <summary>
         /// Every Conversation turn for our EchoBot will call this method. In here
-        /// the bot checks the Activty type to verify it's a message, and then echoes the users typing
-        /// back to them.
+        /// the bot checks the <see cref="Activity"/> type to verify it's a <see cref="ActivityTypes.Message"/>
+        /// message, and then echoes the user's typing back to them.
         /// </summary>
         /// <param name="context">Turn scoped <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        /// <seealso cref="https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.ibot.onturn?view=botbuilder-dotnet-preview#Microsoft_Bot_IBot_OnTurn_Microsoft_Bot_Builder_ITurnContext_"/>
         public async Task OnTurnAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
             // This bot is only handling Messages
