@@ -32,7 +32,7 @@ also demonstrates using the `ComponentDialog` class to encapsulate related sub-d
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to javascript_nodejs/10.prompt-validations
-- Select simple-prompt-bot.bot file
+- Select prompt-validations-bot.bot file
 
 # Prompts
 
