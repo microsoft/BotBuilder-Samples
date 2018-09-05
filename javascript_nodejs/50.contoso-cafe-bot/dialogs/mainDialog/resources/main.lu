@@ -1,11 +1,16 @@
-[Book Table intent](../bookTable/resources/root.lu)
+> References to other LU files
 
-[Cancel intent](../cancel/resources/cancel.lu)
+[Book Table intent](../../bookTable/resources/root.lu)
 
-[Find Cafe Location intent](../findCafeLocations/resources/root.lu)
+[Cancel intent](../../cancel/resources/cancel.lu)
 
-[Help intent](../help/resources/help.lu)
+> /* at the end will include all .lu files under the specific location. You can use /** to recursively look at sub-folders as well. 
+[Chit chat KB](../../chitchat/resources/*)
 
-[QnA KB](../qna/resources/qna.lu)
+[Find Cafe Location intent](../../findCafeLocations/resources/root.lu)
 
-[Chit chat KB](../chitchat/resources/)
+[Help intent](../../help/resources/help.lu)
+
+[QnA KB](../../qna/resources/qna.lu)
+
+[Who are you intent](../../whoAreYou/resources/whoAreYou.lu)
