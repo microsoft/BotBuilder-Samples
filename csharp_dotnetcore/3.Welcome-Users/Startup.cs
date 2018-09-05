@@ -22,21 +22,12 @@ namespace WelcomeUser
     public class Startup
     {
         /// <summary>
-        /// Gets the configuration that represents a set of key/value application configuration properties.
-        /// </summary>
-        /// <value>
-        /// The IConfiguration that represents a set of key/value application configuration properties.
-        /// </value>
-        public IConfiguration Configuration { get; }
-
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// ASP.NET Core Application Statup code. This method gets called by the runtime. 
+        /// ASP.NET Core Application Statup code. This method gets called by the runtime.
         /// Use this method to add services to the container.
-        /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        /// For more information on how to configure your application, visit <see ref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup"/>.
         /// </summary>
-        /// <param name="env">Provides information about the web hosting environment an application is running in </param>
+        /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -48,12 +39,19 @@ namespace WelcomeUser
             Configuration = builder.Build();
         }
 
+        /// <summary>
+        /// Gets the configuration that represents a set of key/value application configuration properties.
+        /// </summary>
+        /// <value>
+        /// The IConfiguration that represents a set of key/value application configuration properties.
+        /// </value>
+        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// This method gets called by ASP.NET Core runtime as part of initializaing your application
         /// Use this method to add services to the container.
         /// </summary>
-        /// <param name="services"></param>
+        /// <param name="services">Services.</param>
         public void ConfigureServices(IServiceCollection services)
         {
             try
@@ -63,31 +61,29 @@ namespace WelcomeUser
                     options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
 
                     // The Memory Storage used here is for local bot debugging only. When the bot
-                    // is restarted, anything stored in memory will be gone. 
-
+                    // is restarted, anything stored in memory will be gone.
                     IStorage dataStore = new MemoryStorage();
 
                     // For production bots use Azure Blob, or Azure CosmosDB storage provides
-                    // as seen below. To include any of the Azure based storage providers, 
+                    // as seen below. To include any of the Azure based storage providers,
                     // add the Microsoft.Bot.Builder.Azure  Nuget package to your solution. That package is found at:
                     //      https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
 
-                    // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
+                    // IStorage Store = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
 
-                    //var convoState = new ConversationState(dataStore);
-                    //options.State.Add(new ConversationState(dataStore));
+                    // var convoState = new ConversationState(dataStore);
+                    // options.State.Add(new ConversationState(dataStore));
                     options.State.Add(new UserState(dataStore));
 
                     // Add State to BotStateSet Middleware (that require auto-save)
                     // The BotStateSet Middleware forces state storage to auto-save when the Bot is complete processing the message.
                     // Note: Developers may choose not to add all the State providers to this Middleware if save is not required.
-                    //var stateSet = new BotStateSet(options.State.ToArray());
+                    // var stateSet = new BotStateSet(options.State.ToArray());
                     options.Middleware.Add(new BotStateSet(options.State.ToArray()));
-                    
                 });
 
                 // register 'object' (classes) into the runtime services collection
-                services.AddSingleton<WelcomeUserStateAccessors>(sp => 
+                services.AddSingleton<WelcomeUserStateAccessors>(sp =>
                 {
                     var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
                     if (options == null)
@@ -102,19 +98,15 @@ namespace WelcomeUser
                     }
 
                     // Create Custom State Property Accessors
-                    // State Property Accessors enable components to read and write individual properties, without having to 
+                    // State Property Accessors enable components to read and write individual properties, without having to
                     // pass the entire State object.
                     var accessors = new WelcomeUserStateAccessors
                     {
-                        //TODO: change static string and put in accessor class
-                        DidBotWelcomedUser = userState.CreateProperty<Boolean>("DidBotWelcomeState") 
+                        DidBotWelcomedUser = userState.CreateProperty<bool>("DidBotWelcomeState"),
                     };
 
                     return accessors;
                 });
-
-
-
             }
             catch (Exception e)
             {

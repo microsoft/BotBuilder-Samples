@@ -8,7 +8,7 @@ This sample shows how to create a simple echo bot that welcomes user when they j
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
  ### Visual studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\3.Welcome-Users`) and open 3.Welcome-Users.sln in Visual studio 
+- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\3.Welcome-Users`) and open 3.Welcome-Users.csproj in Visual studio 
 - Hit F5
  ### Visual studio code
 - Open `BotBuilder-Samples\csharp_dotnetcore\3.Welcome-Users` folder
@@ -18,17 +18,17 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 # Testing the bot using Bot Framework Emulator
 Microsoft Bot Framework Emulator is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from here
+- Install the Bot Framework Emulator from here
 
 ## Connect to bot using Bot Framework Emulator V4
 Launch Bot Framework Emulator
-File -> Open Bot Configuration and navigate to samples\2.echobot-with-state folder
-Select Welcome-users.bot file
+File -> Open Bot Configuration and navigate to samples\3.Welcome-Users folder
+Select Welcome-Users.bot file
 
 # ConversationUpdate Activity Type
- The [ConversationUpdate](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-activity-spec?view=azure-bot-service-3.0#conversation-update-activity) activity type describe a change in a conversation's members, for example when a new user (and/or) a bot joins the conversation. It is up to the channel to send this activity when a user joins the conversation. Therefore, the why this actvity is sent changes from channel to channel. It is recomended that you test your bot behaivor on the target channel. 
+The [ConversationUpdate](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-activity-spec?view=azure-bot-service-3.0#conversation-update-activity) activity type describe a change in a conversation's members, for example when a new user (and/or) a bot joins the conversation. It is up to the channel to send this activity when a user joins the conversation. Therefore, the why this actvity is sent changes from channel to channel. It is recomended that you test your bot behaivor on the target channel. 
 
- Bots that are added directly by a user, are mostly personal (1:1) conversation bots. It is a best practice to send a welcome message to the General channel to introduce the bot tell a bit about its functionality. To do this, ensure that your bot responds to the `ConversationUpdate` message. Use the `membersAdded` field to identify the list of channel participants (bots or users) that were added to the conversation.
+Bots that are added directly by a user, are mostly personal (1:1) conversation bots. It is a best practice to send a welcome message to the General channel to introduce the bot tell a bit about its functionality. To do this, ensure that your bot responds to the `ConversationUpdate` message. Use the `membersAdded` field to identify the list of channel participants (bots or users) that were added to the conversation.
 
 Your bot should also proactively send a welcome message to a personal chat the first time (and only the first time) a user initiates a personal chat with your bot. Use `UserState` to persist a flag indicating first user interaction with a bot. 
 
