@@ -190,7 +190,7 @@ class RichCardsBot {
     createAudioCard() {
         return CardFactory.audioCard(
             'I am your father',
-            ['http://www.wavlist.com/movies/004/father.wav'],
+            ['https://www.mediacollege.com/downloads/sound-effects/star-wars/darthvader/darthvader_yourfather.wav'],
             CardFactory.actions([
                 {
                     type: 'openUrl',
@@ -285,16 +285,16 @@ class RichCardsBot {
     
     createVideoCard() {
         return CardFactory.videoCard(
-            'Big Buck Bunny',
-            [{ url: 'http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4' }],
+            '2018 Imagine Cup World Championship Intro',
+            [{ url: 'https://sec.ch9.ms/ch9/783d/d57287a5-185f-4df9-aa08-fcab699a783d/IC18WorldChampionshipIntro2.mp4' }],
             [{
                 type: 'openUrl',
                 title: 'Lean More',
-                value: 'https://peach.blender.org/'
+                value: 'https://channel9.msdn.com/Events/Imagine-Cup/World-Finals-2018/2018-Imagine-Cup-World-Championship-Intro'
             }],
             {
-                subtitle: 'by the Blender Institute',
-                text: 'Big Buck Bunny (code-named Peach) is a short computer-animated comedy film by the Blender Institute, part of the Blender Foundation. Like the foundation\'s previous film Elephants Dream, the film was made using Blender, a free software application for animation made by the same foundation. It was released as an open-source film under Creative Commons License Attribution 3.0.'
+                subtitle: 'by Microsoft',
+                text: 'Microsoft\'s Imagine Cup has empowered student developers around the world to create and innovate on the world stage for the past 16 years. These innovations will shape how we live, work and play.'
             }
         )
     }
