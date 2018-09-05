@@ -3,35 +3,34 @@
 
 import { BotState, StatePropertyAccessor, TurnContext, ActivityTypes } from 'botbuilder';
 import { QnAMaker, QnAMakerEndpoint, QnAMakerOptions, QnAMakerResult } from 'botbuilder-ai';
-import { MyAppInsightsQnAMaker } from './myAppInsightsQnAMaker';
 
 /**
- * A simple QnA Maker bot that responds to queries and uses custom middleware to send telemetry data to Application Insights.
+ * A simple bot that responds to users' utterances with answers from QnA Maker when possible.
+ * If an answer is not found for a user's utterance, the bot will respond with a message that
+ * provides examples of questions that the bot should be able to answer with QnA Maker.
  */
 export class QnAMakerBot {
     private qnaMaker: QnAMaker;
     
     /**
-     * The QnAMakerBot constructor requires one argument (`endpoint`) which is used to create a MyAppInsightsQnAMaker singleton. 
-     * @param endpoint QnAMakerEndpoint, in this sample this configuration is retrieved from the .bot file
-     * @param config QnAMakerOptions, an optional parameter that contains additional settings for configuring a `QnAMaker` instance.
-     * @param logOriginalMessage a boolean indicating whether or not the bot should send the user's utterance to Application Insights with the QnA Maker information.
-     * @param logUserName a boolean indicating whether or not the bot should send the username to Application Insights with the QnA Maker information.
+     * The QnAMakerBot constructor requires one argument (`endpoint`) which is used to create an instance of `QnAMaker`.
+     * @param endpoint The basic configuration needed to call QnA Maker. In this sample this configuration is retrieved from the .bot file.
+     * @param config An optional parameter that contains additional settings for configuring a `QnAMaker` when calling the service.
      */
-    constructor(endpoint: QnAMakerEndpoint, config?: QnAMakerOptions, logOriginalMessage: boolean = false, logUserName: boolean = false) {
-        this.qnaMaker = new MyAppInsightsQnAMaker(endpoint, config, logOriginalMessage, logUserName);
+    constructor(endpoint: QnAMakerEndpoint, qnaOptions?: QnAMakerOptions) {
+        this.qnaMaker = new QnAMaker(endpoint, qnaOptions);
     }
 
     /**
      * Every conversation turn for our QnA Bot will call this method.
-     * There are no dialogs used, since it's "single turn" processing, meaning a single
-     * request and response, with no stateful conversation.
+     * There are no dialogs used, since it's "single turn" processing, meaning a single request and
+     * response, with no stateful conversation.
      * @param turnContext A TurnContext instance, containing all the data needed for processing this conversation turn.
      */
     public async onTurn(turnContext: TurnContext) {
         // By checking the incoming activity's type, the bot only calls QnA Maker in appropriate cases.
         if (turnContext.activity.type === ActivityTypes.Message) {
-            // Perform a call to the QnA Maker service to retrieve any potentially matching Question and Answering pairs.
+            // Perform a call to the QnA Maker service to retrieve any potentially matching Question and Answer pairs.
             const qnaResults: QnAMakerResult[] = await this.qnaMaker.generateAnswer(turnContext.activity.text);
             // If an answer was received from QnA Maker, send the answer back to the user.
             if (qnaResults[0]) {

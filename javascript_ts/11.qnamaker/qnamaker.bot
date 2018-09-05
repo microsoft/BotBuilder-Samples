@@ -19,20 +19,6 @@
             "endpointKey": "",
             "hostname": "",
             "ignoredValue": ""
-        },
-        {
-            "type": "appInsights",
-            "id": "appInsights",
-            "name": "appInsights",
-            "tenantId": "",
-            "subscriptionId": "",
-            "resourceGroup": "",
-            "instrumentationKey": "",
-            "applicationId": "00000000-0000-0000-0000-000000000000",
-            "apiKeys": {
-                "key1": "testKey1",
-                "key2": "testKey2"
-            }
         }
     ]
 }
