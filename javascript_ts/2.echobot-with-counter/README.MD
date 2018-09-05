@@ -1,13 +1,13 @@
-This sample shows how to create a simple Echo bot with state. The bot keeps simple counter step that increased with each user message. This bot example uses [`restify`](https://www.npmjs.com/package/restify). 
+This sample shows how to create a simple echo bot with state. The bot maintains a simple counter that increases with each message from the user. This bot example uses [`restify`](https://www.npmjs.com/package/restify). 
 
 # To try this sample
 - Clone the repository
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-js.git
+    git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to samples\2.echobot-with-counter
+- In a terminal, navigate to javascript_ts\2.echobot-with-counter
     ```bash
-    cd samples\2.echobot-with-counter
+    cd javascript_ts\2.echobot-with-counter
     ```
 - Point to the MyGet feed 
     ```bash
