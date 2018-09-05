@@ -25,9 +25,11 @@ namespace LuisBot.AppInsights
         /// <summary>
         /// Initializes a new instance of the <see cref="MyAppInsightLuisRecognizer"/> class.
         /// </summary>
-        /// <param name="application">The LUIS _application to use to recognize text.</param>
-        /// <param name="predictionOptions">The LUIS prediction options to use.</param>
+        /// <param name="application">The <see cref="LuisApplication"/> to use to recognize text.</param>
+        /// <param name="predictionOptions">The <see cref="LuisPredictionOptions"/> to use.</param>
         /// <param name="includeApiResults">TRUE to include raw LUIS API response.</param>
+        /// <param name="logOriginalMessage">Determines if the original message is logged into Application Insights.  This is a privacy consideration.</param>
+        /// <param name="logUserName">Determines if the user name is logged into Application Insights.  This is a privacy consideration.</param>
         public MyAppInsightLuisRecognizer(LuisApplication application, LuisPredictionOptions predictionOptions = null, bool includeApiResults = false, bool logOriginalMessage = false, bool logUserName = false)
             : base(application, predictionOptions, includeApiResults)
         {
