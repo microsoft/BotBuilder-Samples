@@ -92,7 +92,7 @@ class MainDialog {
                     await dc.begin(WHO_ARE_YOU)
                 }
             }
-        } else if (context.activity.type == 'conversationUpdate' && context.activity.membersAdded[0].id === 'default-user') {
+        } else if (context.activity.type == 'conversationUpdate' && context.activity.membersAdded[0].name !== 'Bot') {
             // send a "this is what the bot does" message
             await context.sendActivity('I am a bot that demonstrates the TextPrompt class to collect your name, store it in UserState, and display it. Say anything to continue.');
         }
