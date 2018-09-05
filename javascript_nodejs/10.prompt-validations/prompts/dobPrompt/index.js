@@ -2,6 +2,8 @@ const { DateTimePrompt } = require('botbuilder-dialogs');
 
 const DATE_LOW_BOUNDS = new Date('8/24/1918');
 const DATE_HIGH_BOUNDS = new Date('8/24/2018');
+
+// This is a custom DateTimePrompt that requires the date to be between DATE_LOW_BOUNDS and DATE_HIGH_BOUNDS.
 module.exports = class DOBPrompt extends DateTimePrompt {
     constructor(dialogId) {
         super(dialogId, async (context, step) => {

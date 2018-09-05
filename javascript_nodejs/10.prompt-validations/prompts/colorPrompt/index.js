@@ -1,5 +1,7 @@
 const { ChoicePrompt } = require('botbuilder-dialogs');
 
+// This is a custom choice prompt that will emit an error if the user
+// types an invalid choice.
 module.exports = class ColorPrompt extends ChoicePrompt {
     constructor(dialogId) {
         super(dialogId, async (context, step) => {

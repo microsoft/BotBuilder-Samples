@@ -1,5 +1,7 @@
 const { TextPrompt } = require('botbuilder-dialogs');
 
+
+// This is a custom TextPrompt that requires the input to be between 1 and 50 characters in length.
 module.exports = class NamePrompt extends TextPrompt {
     constructor(dialogId) {
         super(dialogId, async (context, step) => {
