@@ -5,47 +5,48 @@ const { DialogSet } = require('botbuilder-dialogs');
 
 const OnboardingDialog = require('../onboard');
 
-const DIALOG_STATE_PROP = 'dialogState';
+const DIALOG_STATE_PROPERTY = 'dialogState';
+
+const USER_NAME_PROPERTY = 'user_name';
+const AGE_PROPERTY = 'user_age';
+const DOB_PROPERTY = 'user_dob';
+const COLOR_PROPERTY = 'user_color';
 
 const ONBOARD_USER = 'onboard_user';
-
-const USER_NAME_PROP = 'user_name';
-const AGE_PROP = 'user_age';
-const DOB_PROP = 'user_dob';
-const COLOR_PROP = 'user_color';
 
 class MainDialog {
     /**
      * 
-     * @param {Object} conversationState 
-     * @param {Object} userState 
+     * @param {ConversationState} conversationState A ConversationState object used to store dialog state.
+     * @param {UserState} userState A UserState object used to store user profile information.
      */
     constructor (conversationState, userState) {
 
-        // creates a new state accessor property. see https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors 
+        // Creates a new state accessor property. 
+        // See https://aka.ms/about-bot-state-accessors to learn more about bot state and state accessors.
         this.conversationState = conversationState;
         this.userState = userState;
         
-        // create a property used to store dialog state
-        this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROP);
+        // Create a property used to store dialog state.
+        this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
 
-        // create a dialog set to include our dialogs
+        // Create a dialog set to include the dialogs used by this bot.
         this.dialogs = new DialogSet(this.dialogState);
 
-        // create some properties used to store these values
-        this.userName = this.userState.createProperty(USER_NAME_PROP)
-        this.userAge = this.userState.createProperty(AGE_PROP);
-        this.userDob = this.userState.createProperty(DOB_PROP);
-        this.userColor = this.userState.createProperty(COLOR_PROP);
+        // Create some properties used to store values from the user.
+        this.userName = this.userState.createProperty(USER_NAME_PROPERTY)
+        this.userAge = this.userState.createProperty(AGE_PROPERTY);
+        this.userDob = this.userState.createProperty(DOB_PROPERTY);
+        this.userColor = this.userState.createProperty(COLOR_PROPERTY);
 
-        // create the main user onboarding dialog
+        // Create the main user onboarding dialog.
         this.dialogs.add(new OnboardingDialog(ONBOARD_USER, this.userName, this.userAge, this.userDob, this.userColor));
     }
 
 
     /**
      * 
-     * @param {Object} context on turn context object.
+     * @param {TurnContext} context A TurnContext object representing an incoming message to be handled by the bot.
      */
     async onTurn(context) {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
@@ -64,18 +65,23 @@ class MainDialog {
                 }
             }
             
-            // Continue the current dialog if one is pending
+            // Continue the current dialog if one is pending.
             if (!context.responded) {
                 await dc.continue();
             }
 
-            // Show menu if no response sent
+            // If no response has been sent, start the onboarding dialog.
             if (!context.responded) {
                 await dc.begin(ONBOARD_USER)
             } 
         } else if (context.activity.type == 'conversationUpdate' && context.activity.membersAdded[0].id === 'default-user') {
             // send a "this is what the bot does" message
-            await context.sendActivity('I am a bot that demonstrates the TextPrompt class to collect your name, store it in UserState, and display it. Say anything to continue.');
+            const description = [
+                'I am a bot that demonstrates the TextPrompt class to collect your name,',
+                'store it in UserState, and display it.',
+                'Say anything to continue.'
+            ];
+            await context.sendActivity(description.join(' '));
         }
     }
 }
