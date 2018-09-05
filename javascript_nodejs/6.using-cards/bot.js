@@ -22,13 +22,13 @@ class RichCardsBot {
      * 
      * The only argument taken (and required!) by this constructor is a 
      * ConversationState instance.
-     * The ConversationState is used to create a StatePropertyAccessor,
+     * The ConversationState is used to create a StatePropertyAccessor
      * which is needed to create a DialogSet that houses the ChoicePrompt.
      * @param {ConversationState} conversationState 
      */
     constructor(conversationState) {
         // Create a DialogState StatePropertyAccessor which is used to
-        // persist a user's state using dialogs.
+        // persist state using dialogs.
         this.dialogState = conversationState.createProperty('dialogState');
 
         // Create a DialogSet that contains the ChoicePrompt.
@@ -91,28 +91,28 @@ class RichCardsBot {
      */
     async sendCardResponse(turnContext, dialogTurnResult) {
         switch (dialogTurnResult.result.value) {
-            case 'Animation card':
+            case 'Animation Card':
                 await turnContext.sendActivity({ attachments: [this.createAnimationCard()] });
                 break;
-            case 'Audio card':
+            case 'Audio Card':
                 await turnContext.sendActivity({ attachments: [this.createAudioCard()] });
                 break;
-            case 'Hero card':
+            case 'Hero Card':
                 await turnContext.sendActivity({ attachments: [this.createHeroCard()] });
                 break;
-            case 'Receipt card':
+            case 'Receipt Card':
                 await turnContext.sendActivity({ attachments: [this.createReceiptCard()] });
                 break;
-            case 'Signin card':
+            case 'Signin Card':
                 await turnContext.sendActivity({ attachments: [this.createSignInCard()] });
                 break;
-            case 'Thumbnail card':
+            case 'Thumbnail Card':
                 await turnContext.sendActivity({ attachments: [this.createThumbnailCard()] });
                 break;
-            case 'Video card':
+            case 'Video Card':
                 await turnContext.sendActivity({ attachments: [this.createVideoCard()] });
                 break;
-            case 'All cards':
+            case 'All Cards':
                 await turnContext.sendActivities([
                     { attachments: [this.createAnimationCard()] },
                     { attachments: [this.createAudioCard()] },
@@ -134,35 +134,35 @@ class RichCardsBot {
     getChoices() {
         const cardOptions = [
             {
-                value: 'Animation card',
+                value: 'Animation Card',
                 synonyms: ['1', 'animation', 'animation card']
             },
             {
-                value: 'Audio card',
+                value: 'Audio Card',
                 synonyms: ['2', 'audio', 'audio card']
             },
             {
-                value: 'Hero card',
+                value: 'Hero Card',
                 synonyms: ['3', 'hero', 'hero card']
             },
             {
-                value: 'Receipt card',
+                value: 'Receipt Card',
                 synonyms: ['4', 'receipt', 'receipt card']
             },
             {
-                value: 'Signin card',
+                value: 'Signin Card',
                 synonyms: ['5', 'signin', 'signin card']
             },
             {
-                value: 'Thumbnail card',
+                value: 'Thumbnail Card',
                 synonyms: ['6', 'thumbnail', 'thumbnail card']
             },
             {
-                value: 'Video card',
+                value: 'Video Card',
                 synonyms: ['7', 'video', 'video card']
             },
             {
-                value: 'All cards',
+                value: 'All Cards',
                 synonyms: ['8', 'all', 'all cards']
             }
         ];
@@ -194,7 +194,7 @@ class RichCardsBot {
             CardFactory.actions([
                 {
                     type: 'openUrl',
-                    title: 'Read More',
+                    title: 'Read more',
                     value: 'https://en.wikipedia.org/wiki/The_Empire_Strikes_Back'
                 }
             ]),
@@ -213,7 +213,7 @@ class RichCardsBot {
             CardFactory.actions([
                 {
                     type: 'openUrl',
-                    title: 'Get Started',
+                    title: 'Get started',
                     value: 'https://docs.microsoft.com/en-us/azure/bot-service/'
                 }
             ])
@@ -222,7 +222,7 @@ class RichCardsBot {
     
     createReceiptCard() {
         return CardFactory.receiptCard({
-            title: "John Doe",
+            title: 'John Doe',
             facts: [
                 {
                     key: 'Order Number',
@@ -252,7 +252,7 @@ class RichCardsBot {
             buttons: CardFactory.actions([
                 {
                     type: 'openUrl',
-                    title: 'More Information',
+                    title: 'More information',
                     value: 'https://azure.microsoft.com/en-us/pricing/details/bot-service/'
                 }
             ])
@@ -261,9 +261,9 @@ class RichCardsBot {
 
     createSignInCard() {
         return CardFactory.signinCard(
-            'BotFramework Sign-in Card',
+            'BotFramework Sign in Card',
             'https://login.microsoftonline.com',
-            'Sign-in'
+            'Sign in'
         );
     }
     
@@ -273,7 +273,7 @@ class RichCardsBot {
             [{ url: 'https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg' }],
             [{
                 type: 'openUrl',
-                title: 'Get Started',
+                title: 'Get started',
                 value: 'https://docs.microsoft.com/en-us/azure/bot-service/'
             }],
             {
