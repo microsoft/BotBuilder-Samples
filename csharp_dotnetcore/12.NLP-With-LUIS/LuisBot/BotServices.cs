@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder.AI.Luis;
 
-namespace Luis_Bot
+namespace LuisBot
 {
     /// <summary>
     /// Represents the bot's references to external services.
     ///
-    /// For example, Application Insights and Luis services
+    /// For example, Application Insights and LUIS services
     /// are kept here (singletons).  These external services are configured
     /// using the <see cref="BotConfiguration"/> class (based on the contents of your ".bot" file).
     /// </summary>
@@ -44,11 +44,11 @@ namespace Luis_Bot
         public TelemetryClient TelemetryClient { get; }
 
         /// <summary>
-        /// Gets the (potential) set of Luis Services used.
-        /// Given there can be multiple Luis services used in a single bot,
+        /// Gets the (potential) set of LUIS Services used.
+        /// Given there can be multiple LUIS services used in a single bot,
         /// LuisServices is represented as a Dictionary.  This is also modeled in the
         /// ".bot" file since the elements are named (string).
-        /// This sample only uses a single Luis instance.
+        /// This sample only uses a single LUIS instance.
         /// </summary>
         /// <value>
         /// A <see cref="LuisRecognizer"/> client instance created based on configuration in the .bot file.

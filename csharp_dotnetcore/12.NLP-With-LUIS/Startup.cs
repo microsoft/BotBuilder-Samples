@@ -3,7 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-using Luis_Bot.AppInsights;
+using LuisBot.AppInsights;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
@@ -15,7 +15,7 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Luis_Bot
+namespace LuisBot
 {
     /// <summary>
     /// The Startup class configures services and the app's request pipeline.
@@ -25,7 +25,7 @@ namespace Luis_Bot
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// This method gets called by the runtime. Use this method to add services to the container.
-        /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940.
+        /// For more information on how to configure your application, visit <a href="https://go.microsoft.com/fwlink/?LinkID=398940">here</a>.
         /// </summary>
         /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
         public Startup(IHostingEnvironment env)
@@ -43,14 +43,14 @@ namespace Luis_Bot
         /// Gets the configuration that represents a set of key/value application configuration properties.
         /// </summary>
         /// <value>
-        /// The IConfiguration that represents a set of key/value application configuration properties.
+        /// The <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
         /// </value>
         public IConfiguration Configuration { get; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
-        /// <param name="services">Specifies the contract for a collection of service descriptors.</param>
+        /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
         public void ConfigureServices(IServiceCollection services)
         {
             // Load the connected services from .bot file
@@ -75,7 +75,7 @@ namespace Luis_Bot
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
-        /// <param name="app">The application builder.  This provides the mechanisms to configure an application's request pipeline.</param>
+        /// <param name="app">The application builder. This provides the mechanisms to configure an application's request pipeline.</param>
         /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -87,8 +87,8 @@ namespace Luis_Bot
         /// <summary>
         /// Initialize the bot's references to external services.
         ///
-        /// For example, Application Insights and Luis services
-        /// are created here.  These external services are configured
+        /// For example, Application Insights and LUIS services
+        /// are created here. These external services are configured
         /// using the <see cref="BotConfiguration"/> class (based on the contents of your ".bot" file).
         /// </summary>
         /// <param name="config">Configuration object based on your ".bot" file.</param>
