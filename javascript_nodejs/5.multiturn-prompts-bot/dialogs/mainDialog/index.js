@@ -112,7 +112,7 @@ class MainDialog {
                     await dc.begin(WHO_ARE_YOU)
                 }
             }
-        } else if (context.activity.type === 'conversationUpdate' && context.activity.membersAdded[0].id === 'default-user') {
+        } else if (context.activity.type === 'conversationUpdate' && context.activity.membersAdded[0].name !== 'Bot') {
             // Send a "this is what the bot does" message.
             const description = [
                 'I am a bot that demonstrates the TextPrompt and NumberPrompt classes',
