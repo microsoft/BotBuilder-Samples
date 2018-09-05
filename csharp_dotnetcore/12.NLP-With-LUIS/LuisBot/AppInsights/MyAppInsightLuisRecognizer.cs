@@ -52,44 +52,47 @@ namespace LuisBot.AppInsights
         /// <summary>
         /// Analyze the current message text and return results of the analysis (Suggested actions and intents).
         /// </summary>
-        /// <param name="context">Context object containing information for a single turn of conversation with a user.</param>
-        /// <param name="ct">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing information for a single turn of conversation with a user.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="logOriginalMessage">Determines if the original message is logged into Application Insights.  This is a privacy consideration.</param>
-        /// <returns>The LUIS results of the analysis of the current message text in the current turn's context activity.</returns>
-        public async Task<RecognizerResult> RecognizeAsync(ITurnContext context, CancellationToken ct, bool logOriginalMessage = false)
+        /// <returns>The LUIS <see cref="RecognizerResult"/> of the analysis of the current message text in the current turn's context activity."/>.</returns>
+        public async Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken, bool logOriginalMessage = false)
         {
-            if (context == null)
+            if (turnContext == null)
             {
-                throw new ArgumentNullException(nameof(context));
+                throw new ArgumentNullException(nameof(turnContext));
             }
 
             // Call LUIS Recognizer
-            var recognizerResult = await base.RecognizeAsync(context, ct);
+            var recognizerResult = await base.RecognizeAsync(turnContext, cancellationToken);
 
-            var conversationId = context.Activity.Conversation.Id;
+            var conversationId = turnContext.Activity.Conversation.Id;
 
             // Find the Telemetry Client
-            if (context.TurnState.TryGetValue(MyAppInsightsLoggerMiddleware.AppInsightsServiceKey, out var telemetryClient) && recognizerResult != null)
+            if (turnContext.TurnState.TryGetValue(MyAppInsightsLoggerMiddleware.AppInsightsServiceKey, out var telemetryClient) && recognizerResult != null)
             {
                 var topLuisIntent = recognizerResult.GetTopScoringIntent();
+
+                // Limit intent score to two decimal places ("N2").
                 var intentScore = topLuisIntent.score.ToString("N2");
 
                 // Add the intent score and conversation id properties
                 var telemetryProperties = new Dictionary<string, string>()
                 {
-                    { MyLuisConstants.ActivityIdProperty, context.Activity.Id },
+                    { MyLuisConstants.ActivityIdProperty, turnContext.Activity.Id },
                     { MyLuisConstants.IntentProperty, topLuisIntent.intent },
                     { MyLuisConstants.IntentScoreProperty, intentScore },
                 };
 
-                if (recognizerResult.Properties.TryGetValue("sentiment", out var sentiment) && sentiment is JObject)
+                if (recognizerResult.Properties.TryGetValue("sentiment", out var sentimentLuis) && sentimentLuis is JObject)
                 {
-                    if (((JObject)sentiment).TryGetValue("label", out var label))
+                    JObject sentiment = (JObject)sentimentLuis;
+                    if (sentiment.TryGetValue("label", out var label))
                     {
                         telemetryProperties.Add(MyLuisConstants.SentimentLabelProperty, label.Value<string>());
                     }
 
-                    if (((JObject)sentiment).TryGetValue("score", out var score))
+                    if (sentiment.TryGetValue("score", out var score))
                     {
                         telemetryProperties.Add(MyLuisConstants.SentimentScoreProperty, score.Value<string>());
                     }
@@ -111,9 +114,9 @@ namespace LuisBot.AppInsights
                 }
 
                 // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
-                if (logOriginalMessage && !string.IsNullOrEmpty(context.Activity.Text))
+                if (logOriginalMessage && !string.IsNullOrEmpty(turnContext.Activity.Text))
                 {
-                    telemetryProperties.Add(MyLuisConstants.QuestionProperty, context.Activity.Text);
+                    telemetryProperties.Add(MyLuisConstants.QuestionProperty, turnContext.Activity.Text);
                 }
 
                 // Track the event

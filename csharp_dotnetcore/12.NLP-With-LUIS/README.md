@@ -49,12 +49,12 @@ NOTE: Once you publish your app on LUIS portal for the first time, it takes some
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
 - File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\12.NLP-With-LUIS` folder
-- Select LUIS-Bot.bot file
+- Select LuisBot.bot file
 
 
 # Further reading
 
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [Luis documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)
+- [LUIS Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)
 - [Application Insights](https://azure.microsoft.com/en-us/services/application-insights/)
 
