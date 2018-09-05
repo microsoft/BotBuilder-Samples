@@ -9,5 +9,7 @@ namespace MultiTurn_Prompts_Bot
     public class BotAccessors
     {
         public IStatePropertyAccessor<DialogState> ConversationDialogState { get; set; }
+
+        public IStatePropertyAccessor<UserProfile> UserProfile { get; set; }
     }
 }
