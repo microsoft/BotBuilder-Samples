@@ -74,7 +74,7 @@ const userState = new UserState(memoryStorage)
 adapter.use(new BotStateSet(conversationState, userState));
 
 // Create the main dialog, which serves as the bot's main handler.
-const mainDlg = new MainDialog(conversationState, userState);
+const mainDlg = new MainDialog(conversationState, userState, adapter);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {

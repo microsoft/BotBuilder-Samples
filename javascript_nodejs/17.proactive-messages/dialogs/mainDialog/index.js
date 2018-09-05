@@ -16,7 +16,7 @@ class MainDialog {
      * @param {ConversationState} conversationState A ConversationState object used to store dialog state.
      * @param {UserState} userState A UserState object used to store user profile information.
      */
-    constructor (conversationState, userState) {
+    constructor (conversationState, userState, adapter) {
 
         // Creates a new state accessor property. 
         // See https://aka.ms/about-bot-state-accessors to learn more about bot state and state accessors.
@@ -29,7 +29,7 @@ class MainDialog {
         // Create a dialog set to include the dialogs used by this bot.
         this.dialogs = new DialogSet(this.dialogState);
 
-        this.dialogs.add(new CreateReminderDialog(CREATE_REMINDER));
+        this.dialogs.add(new CreateReminderDialog(CREATE_REMINDER, adapter));
         
     }
 

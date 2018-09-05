@@ -3,10 +3,10 @@ const { TurnContext } = require('botbuilder-core');
 const moment = require('moment');
 
 // Import a few specialized prompt classes.
-const NamePrompt = require('../../prompts/namePrompt');
-const AgePrompt = require('../../prompts/agePrompt');
-const DOBPrompt = require('../../prompts/dobPrompt');
-const ColorPrompt = require('../../prompts/colorPrompt');
+// const NamePrompt = require('../../prompts/namePrompt');
+// const AgePrompt = require('../../prompts/agePrompt');
+// const DOBPrompt = require('../../prompts/dobPrompt');
+// const ColorPrompt = require('../../prompts/colorPrompt');
 
 const START_DIALOG = 'start';
 const HELLO_USER = 'welcome_back';
@@ -31,16 +31,31 @@ class CreateReminderDialog extends ComponentDialog {
      * @param {BotStatePropertyAccessor} userDob A property used to store the user's date of birth.
      * @param {BotStatePropertyAccessor} userColor A property used to store the user's favorite color.
      */
-    constructor (dialogId) {
+    constructor (dialogId, adapter) {
         super(dialogId);
 
         this.addDialog(new WaterfallDialog(START_DIALOG, [
-            await (dc, step) => {
-                return await dc.context.sendActivity(`Let's set up a simple reminder!`)
+            async (dc, step) => {
+                await dc.context.sendActivity(`Let's set up a simple reminder!`);
+                return await step.next();
             },
-            await (dc, step) => {
+            async (dc, step) => {
                 const reference = TurnContext.getConversationReference(dc.context.activity);
-                return await dc.context.sendActivity(`The conversation reference we will use is ${ reference }`);
+                console.log('CONVO REFERENCE: ', reference);
+                await dc.context.sendActivity(`The conversation reference we will use is ${ reference }`);
+
+                setTimeout(function() {
+                    console.log('10 seconds has gone by....');
+                    // Resume the  conversation with this user.
+                    adapter.continueConversation(reference, async (ctx) => {
+                        console.log('send a reminder');
+                        await ctx.sendActivity(`This is your reminder.`);
+                    });
+
+                }, 10000);
+
+                return await step.next();
+
             },
         ]));
 
