@@ -5,7 +5,7 @@ const restify = require('restify');
 const path = require('path');
 const ERROR = 1;
 
-// Import required bot services. See https://aka.ms/bot-services to learn more about the different part of a bot
+// Import required bot services. See https://aka.ms/bot-services to learn more about the different part of a bot.
 const { BotFrameworkAdapter, BotStateSet,  MemoryStorage, ConversationState, UserState } = require('botbuilder');
 const { BotConfiguration } = require('botframework-config');
 
@@ -20,45 +20,46 @@ const env = require('dotenv').config({path: ENV_FILE});
 let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log(`\n${server.name} listening to ${server.url}`);
-    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
+    console.log(`\nGet Bot Framework emulator: https://aka.ms/botframework-emulator`);
     console.log(`\nTo talk to your bot, open multiturn-prompts-bot.bot file in the Emulator`);
 });
 
 // .bot file path
 const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 
-console.log('reading config from ', BOT_FILE);
-// read bot configuration from .bot file. 
+// Read the bot's configuration from a .bot file identified by BOT_FILE.
+// This includes information about the bot's endpoints and Bot Framework configuration.
 let botConfig;
 try {
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
 } catch (err) {
-    console.log(`Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment`);
+    console.log(`Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
     console.log(err);
     process.exit(ERROR);
 }
 
-// bot name as defined in .bot file 
-// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration .
+// Define the name of the bot, as specified in .bot file.
+// See https://aka.ms/about-bot-file to learn more about .bot file.
 const BOT_CONFIGURATION = 'multiturn-prompts-bot';
 
-// Get bot endpoint configuration by service name
+// Load the configuration profile specific to this bot identity.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
-// Create adapter. See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration .
+// Create the adapter. See https://aka.ms/about-bot-adapter to learn more about using information from
+// the .bot file when configuring your adapter.
 const adapter = new BotFrameworkAdapter({
     appId: endpointConfig.appId || process.env.microsoftAppID,
     appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword
 });
 
-// Define state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
-// A bot requires a some sort of state storage system to persist the dialog and user state between messages.
+// Define the state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
+// A bot requires a state storage system to persist the dialog and user state between messages.
 const memoryStorage = new MemoryStorage();
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone. 
-// For production bots use the Azure CosmosDB storage, or Azure Blob storage providers. 
+// For production bots use the Azure Cosmos DB storage, or Azure Blob storage providers. 
 // const { CosmosDbStorage } = require('botbuilder-azure');
-// const STORAGE_CONFIGURATION = 'cosmosDB'; // this is the name of the CosmosDB configuration in your .bot file
+// const STORAGE_CONFIGURATION = 'cosmosDB'; // Cosmos DB configuration in your .bot file
 // const cosmosConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION);
 // const cosmosStorage = new CosmosDbStorage({serviceEndpoint: cosmosConfig.connectionString, 
 //                                            authKey: ?, 

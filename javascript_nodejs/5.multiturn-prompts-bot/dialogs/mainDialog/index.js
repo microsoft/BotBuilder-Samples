@@ -6,8 +6,9 @@ const { ActionTypes, MessageFactory } = require('botbuilder');
 const { TextPrompt, NumberPrompt, DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
-const USER_NAME_PROP = 'user_name';
-const AGE_PROP = 'user_age';
+const USER_NAME_PROPERTY = 'user_name';
+const AGE_PROPERTY = 'user_age';
+
 const WHO_ARE_YOU = 'who_are_you';
 const HELLO_USER = 'hello_user';
 
@@ -17,23 +18,23 @@ const AGE_PROMPT = 'age_prompt';
 class MainDialog {
     /**
      * 
-     * @param {Object} conversationState 
-     * @param {Object} userState 
+     * @param {ConversationState} conversationState A ConversationState object used to store the dialog state.
+     * @param {UserState} userState A UserState object used to store values specific to the user.
      */
     constructor (conversationState, userState) {
 
-        // creates a new state accessor property. see https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors 
+        // Create a new state accessor property. See https://aka.ms/about-bot-state-accessors to learn more about bot state and state accessors.
         this.conversationState = conversationState;
         this.userState = userState;
 
         this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
 
-        this.userName = this.userState.createProperty(USER_NAME_PROP);
-        this.userAge = this.userState.createProperty(AGE_PROP);
+        this.userName = this.userState.createProperty(USER_NAME_PROPERTY);
+        this.userAge = this.userState.createProperty(AGE_PROPERTY);
 
         this.dialogs = new DialogSet(this.dialogState);
      
-        // Add prompts
+        // Add prompts that will be used by the main dialogs.
         this.dialogs.add(new TextPrompt(NAME_PROMPT));
         this.dialogs.add(new NumberPrompt(AGE_PROMPT, async (context, step)=> {
             if (step.recognized.value < 0) {
@@ -64,7 +65,7 @@ class MainDialog {
         ]));
 
 
-        // Create a dialog that displays a user name after it has been collceted.
+        // Create a dialog that displays a user name after it has been collected.
         this.dialogs.add(new WaterfallDialog(HELLO_USER, [
             async (dc) => {
                 const user_name = await this.userName.get(dc.context, null);
@@ -78,7 +79,7 @@ class MainDialog {
 
     /**
      * 
-     * @param {Object} context on turn context object.
+     * @param {TurnContext} context A TurnContext object that will be interpretted and acted upon by the bot.
      */
     async onTurn(context) {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
@@ -88,15 +89,20 @@ class MainDialog {
 
             const utterance = (context.activity.text || '').trim().toLowerCase();
             if (utterance === 'cancel') { 
-               return await dc.cancelAll(); 
+                if (dc.activeDialog) {
+                    await dc.cancelAll();
+                    await dc.context.sendActivity(`Ok... Cancelled.`);
+                } else {
+                    await dc.context.sendActivity(`Nothing to cancel.`);
+                }
             }
             
-            // Continue the current dialog
+            // If the bot has not yet responded, continue processing the current dialog.
             if (!context.responded) {
                 await dc.continue();
             }
 
-            // Show menu if no response sent
+            // Start the sample dialog in response to any other input.
             if (!context.responded) {
                 var user_name = await this.userName.get(dc.context,null);
                 var user_age = await this.userAge.get(dc.context,null);
@@ -106,9 +112,14 @@ class MainDialog {
                     await dc.begin(WHO_ARE_YOU)
                 }
             }
-        } else if (context.activity.type == 'conversationUpdate' && context.activity.membersAdded[0].id === 'default-user') {
-            // send a "this is what the bot does" message
-            await context.sendActivity('I am a bot that demonstrates the TextPrompt and NumberPrompt classes to collect your name and age, then store those values in UserState for later use. Say anything to continue.');
+        } else if (context.activity.type === 'conversationUpdate' && context.activity.membersAdded[0].id === 'default-user') {
+            // Send a "this is what the bot does" message.
+            const description = [
+                'I am a bot that demonstrates the TextPrompt and NumberPrompt classes',
+                'to collect your name and age, then store those values in UserState for later use.',
+                'Say anything to continue.'
+            ];
+            await context.sendActivity(description.join(' '));
         }
     }
 }
