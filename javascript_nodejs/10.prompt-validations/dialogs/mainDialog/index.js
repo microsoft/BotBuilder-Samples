@@ -74,7 +74,7 @@ class MainDialog {
             if (!context.responded) {
                 await dc.begin(ONBOARD_USER)
             } 
-        } else if (context.activity.type == 'conversationUpdate' && context.activity.membersAdded[0].id === 'default-user') {
+        } else if (context.activity.type == 'conversationUpdate' && context.activity.membersAdded[0].name !== 'Bot') {
             // send a "this is what the bot does" message
             const description = [
                 'I am a bot that demonstrates the TextPrompt class to collect your name,',
