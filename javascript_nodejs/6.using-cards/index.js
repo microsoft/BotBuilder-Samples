@@ -10,7 +10,7 @@ const CONFIG_ERROR = 1;
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, MemoryStorage, ConversationState } = require('botbuilder');
 
-// Import required bot confuguration.
+// Import required bot configuration.
 const { BotConfiguration } = require('botframework-config');
 
 // Read botFilePath and botFileSecret from .env file.
@@ -21,37 +21,37 @@ const env = require('dotenv').config({path: ENV_FILE});
 // Create HTTP server.
 let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
-    console.log(`\n${server.name} listening to ${server.url}`);
-    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-    console.log(`\nTo talk to your bot, open using-cards.bot file in the Emulator`);
+    console.log(`\n${server.name} listening to ${server.url}.`);
+    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
+    console.log(`\nTo talk to your bot, open using-cards.bot file in the emulator.`);
 });
 
 // .bot file path.
 const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 
-// Read bot configuration from .bot file. 
+// Read configuration from .bot file. 
 let botConfig;
 try {
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
 } catch (err) {
-    console.log(`Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment`);
+    console.log(`Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
     process.exit(CONFIG_ERROR);
 }
 
 // Bot name as defined in .bot file.
-// See https://aka.ms/about-bot-file to learn more about .bot files' usage and bot configuration.
+// See https://aka.ms/about-bot-file to learn more about .bot usage and configuration.
 const BOT_CONFIGURATION = 'using-cards';
 
-// Get bot endpoint configuration by service name.
+// Get endpoint configuration by service name.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
-// Create adapter. See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration.
+// Create adapter. See https://aka.ms/about-bot-adapter to learn more about .bot files.
 const adapter = new BotFrameworkAdapter({
     appId: endpointConfig.appId || process.env.microsoftAppID,
     appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword
 });
 
-// Define state store for your bot. See https://aka.ms/about-bot-state to learn more about bots memory service.
+// Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about bot state management.
 // A bot requires a state store to persist its dialog and various states between messages.
 const memoryStorage = new MemoryStorage();
 
@@ -66,7 +66,7 @@ const memoryStorage = new MemoryStorage();
 //                                            databaseId: cosmosConfig.database, 
 //                                            collectionId: cosmosConfig.collection});
 
-// Create conversation state with in-memory storage provider. 
+// Create conversation state with the in-memory storage provider. 
 const conversationState = new ConversationState(memoryStorage);
 
 // Register conversation state as a middleware. The ConversationState middleware 
