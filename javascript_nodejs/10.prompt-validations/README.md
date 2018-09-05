@@ -1,6 +1,7 @@
-This sample shows how to use the prompts classes included in `botbuilder-dialogs`. This bot will ask for multiple pieces of
-information from the user, each using a different type of prompt, each with its own validation rules. This sample
-also demonstrates using the `ComponentDialog` class to encapsulate related sub-dialogs.
+This sample shows how to use the prompts classes included in `botbuilder-dialogs`.
+This bot will ask for multiple pieces of information from the user, each using a
+different type of prompt, each with its own validation rules. This sample also
+demonstrates using the `ComponentDialog` class to encapsulate related sub-dialogs.
 
 # To try this sample
 - Clone the repository
@@ -25,21 +26,29 @@ also demonstrates using the `ComponentDialog` class to encapsulate related sub-d
     ```
 
 # Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Microsoft Bot Framework emulator](https://github.com/microsoft/botframework-emulator) is
+a desktop applicationthat allows bot developers to test and debug their bots on localhost
+or running remotely through a tunnel.
 
 - Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
 
 ## Connect to bot using Bot Framework Emulator **V4**
-- Launch Bot Framework Emulator
+- Launch Bot Framework emulator
 - File -> Open Bot Configuration and navigate to javascript_nodejs/10.prompt-validations
 - Select prompt-validations-bot.bot file
 
 # Prompts
 
-A conversation between a bot and a user often involves asking (prompting) the user for information, parsing the user's response, and then acting on that information. This sample demonstrates how to prompt users for information using the different prompt types included in the [botbuilder-dialogs](https://github.com/Microsoft/botbuilder-js/tree/master/libraries/botbuilder-dialogs) library and supported by the SDK.
+A conversation between a bot and a user often involves asking (prompting) the user for information,
+parsing the user's response, and then acting on that information. This sample demonstrates how to
+prompt users for information using the different prompt types included in the
+[botbuilder-dialogs](https://github.com/Microsoft/botbuilder-js/tree/master/libraries/botbuilder-dialogs)
+library and supported by the SDK.
 
-The `botbuilder-dialogs` library includes a variety of pre-built prompt classes, including text, number, and datetime types. In this sample, each prompt is wrapped in a custom class that includes a validation function. These prompts are chained
-together into a `WaterfallDialog`, and the final results are stored using the state manager.
+The `botbuilder-dialogs` library includes a variety of pre-built prompt classes, including text, number,
+and datetime types. In this sample, each prompt is wrapped in a custom class that includes a validation
+function. These prompts are chained together into a `WaterfallDialog`, and the final results are stored
+using the state manager.
 
 # Further reading
 - [Prompt types](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0&tabs=javascript)
