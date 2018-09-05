@@ -2,57 +2,73 @@
 // Licensed under the MIT License.
 
 const { ActivityTypes, CardFactory } = require('botbuilder');
-const { ChoicePrompt, DialogSet, DialogTurnResult, DialogTurnStatus, ListStyle } = require('botbuilder-dialogs');
+const { ChoicePrompt,
+        DialogSet,
+        DialogTurnResult,
+        DialogTurnStatus,
+        ListStyle } = require('botbuilder-dialogs');
 
 /**
- * RichCardsBot prompts a user to select a Rich Card and then returns the card that matches the user's selection.
+ * RichCardsBot prompts a user to select a Rich Card and then returns the card 
+ * that matches the user's selection.
  */
 class RichCardsBot {
     
     /**
-     * Constructs the three pieces necessary by this bot to operate:
+     * Constructs the three pieces necessary for this bot to operate:
      * 1. StatePropertyAccessor
      * 2. DialogSet
      * 3. ChoicePrompt
      * 
-     * The only argument taken by this constructor is a ConversationState instance, although any BotState instance would suffice for this bot. `conversationState` is used to create a StatePropertyAccessor, which is needed to create a DialogSet. All botbuilder-dialogs `Prompts` need a DialogSet to operate.
+     * The only argument taken (and required!) by this constructor is a 
+     * ConversationState instance.
+     * The ConversationState is used to create a StatePropertyAccessor,
+     * which is needed to create a DialogSet that houses the ChoicePrompt.
      * @param {ConversationState} conversationState 
      */
     constructor(conversationState) {
-        // DialogState property accessor. Used to keep persist DialogState when using DialogSet.
+        // Create a DialogState StatePropertyAccessor which is used to
+        // persist a user's state using dialogs.
         this.dialogState = conversationState.createProperty('dialogState');
 
-        // Create a DialogSet that will be contain the ChoicePrompt.
+        // Create a DialogSet that contains the ChoicePrompt.
         this.dialogs = new DialogSet(this.dialogState);
 
-        // Create the ChoicePrompt with a unique id of 'cardPrompt' which will be used to call the dialog in
-        // the bot's onTurn logic. 
-        // Set the choice rendering to list and then add it to the bot's DialogSet.
+        // Create the ChoicePrompt with a unique id of 'cardPrompt' which is 
+        // used to call the dialog in the bot's onTurn logic. 
         const prompt = new ChoicePrompt('cardPrompt');
+        
+        // Set the choice rendering to list and then add it to the bot's DialogSet.
         prompt.style = ListStyle.list;
         this.dialogs.add(prompt);
     }
 
     /**
-     * Prompts the user if the user is not in the middle of a dialog, reprompts a user when invalid
-     * input is provided, or sends back to the user a Rich Card response after a valid prompt reply.
+     * Driver code that does one of the following:
+     * 1. Prompts the user if the user is not in the middle of a dialog.
+     * 2. Reprompts a user when an invalid input is received.
+     * 3. Sends back to the user a Rich Card response after a valid prompt reply.
+     * 
+     * These three scenarios are preceeded by an Activity type check.
+     * This check ensures that the bot only responds to Activities that
+     * are of the "Message" type.
+     * 
      * @param {TurnContext} turnContext 
      */
     async onTurn(turnContext) {
         if (turnContext.activity.type === ActivityTypes.Message) {
-            // Construct a DialogContext instance which will be used to continue during a DialogStack
-            // and prompt users.
+            // Construct a DialogContext instance which is used to resume any 
+            // existing Dialogs and prompt users.
             const dc = await this.dialogs.createContext(turnContext);
 
             const results = await dc.continue();
             if (!turnContext.responded && results.status === DialogTurnStatus.empty) {
                 await turnContext.sendActivity('Welcome to the Rich Cards Bot!');
                 // Create the PromptOptions which contain the prompt and reprompt messages.
-                // PromptOptions also contains the valid list of choices available to the user
-                // for selecting.
+                // PromptOptions also contains the list of choices available to the user.
                 const promptOptions = {
                     prompt: 'Please select a card:',
-                    reprompt: 'That was not a valid choice, please select a card or number from 1 to 7.',
+                    reprompt: 'That was not a valid choice, please select a card or number from 1 to 8.',
                     choices: this.getChoices()
                 };
 
@@ -67,9 +83,9 @@ class RichCardsBot {
     }
 
     /**
-     * Handles the user's valid prompt responses and sends back to the user either a Rich Card, or many Rich Cards.
+     * Send a Rich Card response to the user based on their choice.
      * 
-     * This method is only ever called when a valid prompt response is parsed from the user's response to the ChoicePrompt.
+     * This method is only called when a valid prompt response is parsed from the user's response to the ChoicePrompt.
      * @param {TurnContext} turnContext
      * @param {DialogTurnResult} dialogTurnResult 
      */
@@ -108,12 +124,12 @@ class RichCardsBot {
                 ]);
                 break;
             default:
-                await turnContext.sendActivity('Sorry! An invalid selection was parsed. No corresponding Rich Cards were found.');
+                await turnContext.sendActivity('An invalid selection was parsed. No corresponding Rich Cards were found.');
         }
     }
 
     /**
-     * Create the choices with synonyms that will be rendered for the user during the ChoicePrompt.
+     * Create the choices with synonyms to render for the user during the ChoicePrompt.
      */
     getChoices() {
         const cardOptions = [
@@ -162,7 +178,7 @@ class RichCardsBot {
         return CardFactory.animationCard(
             'Microsoft Bot Framework',
             [
-                { url: 'http://i.giphy.com/Ki55RUbOV5njy.gif' }
+                { url: 'https://i.giphy.com/Ki55RUbOV5njy.gif' }
             ],
             [],
             {
