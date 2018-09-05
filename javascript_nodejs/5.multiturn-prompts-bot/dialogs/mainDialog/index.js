@@ -6,8 +6,7 @@ const { ActionTypes, MessageFactory } = require('botbuilder');
 const { TextPrompt, NumberPrompt, DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
-const USER_NAME_PROPERTY = 'user_name';
-const AGE_PROPERTY = 'user_age';
+const USER_PROFILE_PROPERTY = 'user';
 
 const WHO_ARE_YOU = 'who_are_you';
 const HELLO_USER = 'hello_user';
@@ -29,8 +28,7 @@ class MainDialog {
 
         this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
 
-        this.userName = this.userState.createProperty(USER_NAME_PROPERTY);
-        this.userAge = this.userState.createProperty(AGE_PROPERTY);
+        this.userProfile = this.userState.createProperty(USER_PROFILE_PROPERTY);
 
         this.dialogs = new DialogSet(this.dialogState);
      
@@ -50,7 +48,9 @@ class MainDialog {
                 return await dc.prompt(NAME_PROMPT, `What is your name, human?`);
             },
             async (dc, step) => {
-                await this.userName.set(dc.context, step.result);
+                const user = await this.userProfile.get(dc.context, {});
+                user.name = step.result;
+                await this.userProfile.set(dc.context, user);
                 return await dc.prompt(AGE_PROMPT,`And what is your age, ${ step.result }?`,
                     {
                         retryPrompt: 'Sorry, please specify your age as a positive number or say cancel.'
@@ -58,7 +58,9 @@ class MainDialog {
                 );
             },
             async (dc, step) => {
-                await this.userAge.set(dc.context, step.result);
+                const user = await this.userProfile.get(dc.context, {});
+                user.age = step.result;
+                await this.userProfile.set(dc.context, user);
                 await dc.context.sendActivity(`I will remember that you are ${ step.result } years old.`);
                 return await dc.end();
             }
@@ -68,9 +70,8 @@ class MainDialog {
         // Create a dialog that displays a user name after it has been collected.
         this.dialogs.add(new WaterfallDialog(HELLO_USER, [
             async (dc) => {
-                const user_name = await this.userName.get(dc.context, null);
-                const user_age = await this.userAge.get(dc.context, null);
-                await dc.context.sendActivity(`Your name is ${ user_name } and you are ${ user_age } years old.`);
+                const user = await this.userProfile.get(dc.context, {});
+                await dc.context.sendActivity(`Your name is ${ user.name } and you are ${ user.age } years old.`);
                 return await dc.end();
             }
         ]));
@@ -104,9 +105,8 @@ class MainDialog {
 
             // Start the sample dialog in response to any other input.
             if (!context.responded) {
-                var user_name = await this.userName.get(dc.context,null);
-                var user_age = await this.userAge.get(dc.context,null);
-                if (user_name && user_age) {
+                const user = await this.userProfile.get(dc.context, {});
+                if (user.name && user.age) {
                     await dc.begin(HELLO_USER)
                 } else {
                     await dc.begin(WHO_ARE_YOU)
