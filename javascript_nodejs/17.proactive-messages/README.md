@@ -37,9 +37,18 @@ or running remotely through a tunnel.
 - Select proactive-messages.bot file
 
 # Proactive Messages
+In addition to responding to incoming messages, bots are frequently called on to send "proactive" messages
+based on activity, scheduled tasks, or external events.
+
+In order to send a proactive message using Botbuilder, the bot must first capture a conversation reference
+from an incoming message using `TurnContext.getConversationReference()`. This reference can be stored for
+later use.
+
+To send proactive messages, acquire a conversation reference, then use `adapter.continueConversation()` to
+create a TurnContext object that will allow the bot to deliver the new outgoing message.
 
 
 # Further reading
 - [Send proactive messages](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-proactive-message?view=azure-bot-service-4.0&tabs=js)
-
-TODO: Add more links here
+- [continueConversation Method](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadapter#continueconversation)
+- [getConversationReference Method](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/turncontext#getconversationreference)
