@@ -6,6 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.sln
 
 # dotnet core app settings
 /*/appsettings.json
