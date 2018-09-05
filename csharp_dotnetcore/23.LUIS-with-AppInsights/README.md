@@ -28,6 +28,9 @@ https://github.com/microsoft/botbuilder-tools/tree/master/packages/Ludown
 NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
 ### (Optional) Install LUDown
 - (Optional) Install the LUDown [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUDown) to help describe language understanding components for your bot.
+### Install Application Insights
+  -  Follow instructions [here](https://docs.microsoft.com/en-us/azure/application-insights/app-insights-asp-net-core) to set up your Application Insights service.
+  - Note: The Application Insights will automatically update the [appsettings.json](appsettings.json) file.
 
 ### Visual Studio
 - Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\12.NLP-With-LUIS`) and open `Luis-Bot.csproj` in Visual Studio 
@@ -51,4 +54,5 @@ NOTE: Once you publish your app on LUIS portal for the first time, it takes some
 # Further reading
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [LUIS Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)
+- [Application Insights](https://azure.microsoft.com/en-us/services/application-insights/)
 
