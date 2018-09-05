@@ -86,7 +86,7 @@ To create a new QnA Maker application for the bot,
 To create the QnA Maker application and update the .bot file with the QnA Maker configuration,  
 - Open a terminal
 - Navigate to samples\14.NLP-With-Dispatch
-- Run the following command
+- Run the following commands
 ```bash
 > ludown parse toqna --in dialogs/qna/resources/sample-qna.lu -o cognitiveModels -n sample.qna
 
@@ -104,7 +104,7 @@ You need to train and publish the QnA Maker Knowledge Bases that were created fo
 
 To create a new dispatch model for these services and update the .bot file configuration, in a terminal:
 - Navigate to samples\14.nlp-with-dispatch
-- Run the following command
+- Run the following commands
 ```bash
 > dispatch create -b nlp-with-dispatch.bot | msbot connect dispatch --stdin --name bot-dispatch
 ```
