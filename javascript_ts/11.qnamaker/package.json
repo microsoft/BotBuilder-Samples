@@ -12,7 +12,6 @@
   "author": "Microsoft",
   "license": "MIT",
   "dependencies": {
-    "applicationinsights": "^1.0.4",
     "botbuilder": "^4.0.0-preview1.1135",
     "botbuilder-ai": "^4.0.0-preview1.1135",
     "botframework-config": "^4.0.0-preview1.1102",
