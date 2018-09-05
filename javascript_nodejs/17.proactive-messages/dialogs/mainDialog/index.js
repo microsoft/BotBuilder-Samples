@@ -13,7 +13,6 @@ class MainDialog {
         this.adapter = adapter;
     }
 
-
     /**
      * 
      * @param {TurnContext} context A TurnContext object representing an incoming message to be handled by the bot.
@@ -24,6 +23,8 @@ class MainDialog {
 
             const utterance = (context.activity.text || '').trim().toLowerCase();
 
+            // If the user says "subscribe", extract the conversation reference
+            // and set up a message to send 5 seconds later.
             if (utterance === 'subscribe') {
                 const reference = TurnContext.getConversationReference(context.activity);
                 const userId = await this.saveReference(reference);
@@ -33,13 +34,13 @@ class MainDialog {
                 await context.sendActivity(`Say "subscribe" to schedule an example proactive message.`);
             }
 
-
         } else if (context.activity.type == 'conversationUpdate' && context.activity.membersAdded[0].name !== 'Bot') {
-            // send a "this is what the bot does" message
+            // Send a "this is what the bot does" message.
             await context.sendActivity(`Say "subscribe" to schedule an example proactive message.`);
         }
     }
 
+    // Store the conversation reference in the storage system by userId.
     async saveReference(reference) {
         const userId = reference.activityId;
         const changes = {};
@@ -48,6 +49,16 @@ class MainDialog {
         return userId;
     }
 
+    // Load a stored conversation reference from the storage system.
+    async findReference(userId) {
+        const referenceKey = 'reference/' + userId;
+        const rows = await this.storage.read([referenceKey]);
+        const reference = await rows[referenceKey];
+
+        return reference;
+    }
+    
+    // Set up a proactive message to be delivered to a user with a 5 second delay.
     async subscribeUser(userId) {
         setTimeout(async () => {
             const reference = await this.findReference(userId);
@@ -60,13 +71,6 @@ class MainDialog {
 
     }
 
-    async findReference(userId) {
-        const referenceKey = 'reference/' + userId;
-        const rows = await this.storage.read([referenceKey]);
-        const reference = await rows[referenceKey];
-
-        return reference;
-    }
 
 }
 
