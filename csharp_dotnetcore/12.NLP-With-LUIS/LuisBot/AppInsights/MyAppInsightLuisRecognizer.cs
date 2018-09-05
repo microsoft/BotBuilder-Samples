@@ -26,10 +26,10 @@ namespace LuisBot.AppInsights
         /// Initializes a new instance of the <see cref="MyAppInsightLuisRecognizer"/> class.
         /// </summary>
         /// <param name="application">The <see cref="LuisApplication"/> to use to recognize text.</param>
-        /// <param name="predictionOptions">The <see cref="LuisPredictionOptions"/> to use.</param>
-        /// <param name="includeApiResults">TRUE to include raw LUIS API response.</param>
-        /// <param name="logOriginalMessage">Determines if the original message is logged into Application Insights.  This is a privacy consideration.</param>
-        /// <param name="logUserName">Determines if the user name is logged into Application Insights.  This is a privacy consideration.</param>
+        /// <param name="predictionOptions">(Optional) The <see cref="LuisPredictionOptions"/> to use.</param>
+        /// <param name="includeApiResults">(Optional) TRUE to include raw LUIS API response.</param>
+        /// <param name="logOriginalMessage">(Optional) Determines if the original message is logged into Application Insights.  This is a privacy consideration.</param>
+        /// <param name="logUserName">(Optional) Determines if the user name is logged into Application Insights.  This is a privacy consideration.</param>
         public MyAppInsightLuisRecognizer(LuisApplication application, LuisPredictionOptions predictionOptions = null, bool includeApiResults = false, bool logOriginalMessage = false, bool logUserName = false)
             : base(application, predictionOptions, includeApiResults)
         {
@@ -54,7 +54,7 @@ namespace LuisBot.AppInsights
         /// </summary>
         /// <param name="turnContext">A <see cref="ITurnContext"/> containing information for a single turn of conversation with a user.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <param name="logOriginalMessage">Determines if the original message is logged into Application Insights.  This is a privacy consideration.</param>
+        /// <param name="logOriginalMessage">(Optional) Determines if the original message is logged into Application Insights.  This is a privacy consideration.</param>
         /// <returns>The LUIS <see cref="RecognizerResult"/> of the analysis of the current message text in the current turn's context activity."/>.</returns>
         public async Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken, bool logOriginalMessage = false)
         {
