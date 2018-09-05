@@ -73,13 +73,13 @@ const userState = new UserState(memoryStorage)
 // Use the BotStateSet middleware to automatically read and write conversation and user state.
 adapter.use(new BotStateSet(conversationState, userState));
 
-// Create the main dialog.
+// Create the main dialog, which serves as the bot's main handler.
 const mainDlg = new MainDialog(conversationState, userState);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
-        // route to main dialog.
+        // Route the message to the bot's main handler.
         await mainDlg.onTurn(context);        
     });
 });
