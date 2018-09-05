@@ -12,11 +12,11 @@ const CONFIG_ERROR = 1;
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration .
 const BOT_CONFIGURATION = 'echobot-with-counter';
 
-// read botFilePath and botFileSecret from .env file
+// Read botFilePath and botFileSecret from .env file.
 const ENV_FILE = path.join(__dirname, '..', '.env');
 const loadFromEnv = config({path: ENV_FILE});
 
-// Create HTTP server
+// Create HTTP server.
 let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log(`\n${server.name} listening to ${server.url}`);
@@ -44,30 +44,30 @@ const adapter = new BotFrameworkAdapter({
     appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword
 });
 
-// Define state store for your bot. See https://aka.ms/about-bot-state to learn more about bots memory service
-// A bot requires a sate store to priciest it dialog and user state between messages
+// Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
+// A bot requires a state store to persist the dialog and user state between messages.
 const memoryStorage = new MemoryStorage();
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone. 
-// For production bots use the Azure CosmosDB storage, Azure Blob, or Azure Table storage provides. 
+// For production bots use the Azure Cosmos DB storage, Azure Blob storage providers. 
 // const { CosmosDbStorage } = require('botbuilder-azure');
-// const STORAGE_CONFIGURATION = 'cosmosDB'; // this is the name of the cosmos DB configuration in your .bot file
+// const STORAGE_CONFIGURATION = 'cosmosDB'; // this is the name of the Cosmos DB configuration in your .bot file
 // const cosmosConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION);
 // const cosmosStorage = new CosmosDbStorage({serviceEndpoint: cosmosConfig.connectionString, 
 //                                            authKey: ?, 
 //                                            databaseId: cosmosConfig.database, 
 //                                            collectionId: cosmosConfig.collection});
 
-// create conversation state with in-memory storage provider. 
+// Create conversation state with in-memory storage provider. 
 const conversationState = new ConversationState(memoryStorage);
 
-// register conversation state as a middleware. The ConversationState middleware automatically reads and writes conversation sate 
+// Register conversation state as a middleware. The ConversationState middleware automatically reads and writes conversation state. 
 adapter.use(conversationState);
 
 // Create the main dialog.
 const mainDlg = new MainDialog(conversationState);
 
-// Listen for incoming requests 
+// Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
         // route to main dialog.

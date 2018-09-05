@@ -7,12 +7,12 @@ const restify = require('restify');
 const CONFIG_ERROR = 1;
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, MemoryStorage, ConversationState } = require('botbuilder');
+const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = require('botbuilder');
 
 // This bot's main dialog.
 const MainDialog = require('./dialogs/mainDialog');
 
-// Import required bot configuration.
+// Import required bot confuguration.
 const { BotConfiguration } = require('botframework-config');
 
 // Read botFilePath and botFileSecret from .env file
@@ -22,10 +22,10 @@ const env = require('dotenv').config({path: ENV_FILE});
 
 // Create HTTP server
 let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function () {
+server.listen(process.env.port || process.env.PORT || 3992, function () {
     console.log(`\n${server.name} listening to ${server.url}`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-    console.log(`\nTo talk to your bot, open echoBot-with-counter.bot file in the Emulator`);
+    console.log(`\nTo talk to your bot, open nlp-with-dispatch.bot file in the Emulator`);
 });
 
 // .bot file path
@@ -42,7 +42,7 @@ try {
 
 // Bot configuration section in the .bot file.
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
-const BOT_CONFIGURATION = 'echobot-with-counter';
+const BOT_CONFIGURATION = 'nlp-with-dispatch';
 
 // Get bot endpoint configuration by service name
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
@@ -69,13 +69,22 @@ const memoryStorage = new MemoryStorage();
 // Create conversation state with in-memory storage provider. 
 const conversationState = new ConversationState(memoryStorage);
 
-// Register conversation state as a middleware. 
+// Create user state with in-memory storage provider. 
+const userState = new UserState(memoryStorage);
+// Register conversation state and user state as a middleware. 
 adapter.use(conversationState);
+adapter.use(userState);
 
 // Create the main dialog.
-const mainDlg = new MainDialog(conversationState);
+let mainDlg;
+try {
+    mainDlg = new MainDialog(conversationState, userState, botConfig);
+} catch (err) {
+    console.log(err);
+    process.exit(CONFIG_ERROR);
+}
 
-// Listen for incoming requests.
+// Listen for incoming requests 
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
         // Route to main dialog.
