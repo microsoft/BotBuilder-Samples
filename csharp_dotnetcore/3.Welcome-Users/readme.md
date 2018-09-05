@@ -1,16 +1,14 @@
-﻿
-This sample shows how to create a simple echo bot that welcomes user when they join the conversation. The welcoming pattern shown in this bot is applicable for peronsal (1:1) conversation with bots.
-
+﻿This sample shows how to create a simple echo bot that welcomes user when they join the conversation. The welcoming pattern shown in this bot is applicable for peronsal (1:1) conversation with bots.
 
 ## To try this sample
 - Clone the repository
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
- ### Visual studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\3.Welcome-Users`) and open 3.Welcome-Users.csproj in Visual studio 
+ ### Visual Studio
+- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\3.Welcome-Users`) and open 3.Welcome-Users.csproj in Visual Studio 
 - Hit F5
- ### Visual studio code
+ ### Visual Studio code
 - Open `BotBuilder-Samples\csharp_dotnetcore\3.Welcome-Users` folder
 - Bring up a terminal, navigate to BotBuilder-Samples\csharp_dotnetcore\3.Welcome-Users
 - Type 'dotnet run'.
@@ -42,6 +40,6 @@ In other channels such as Teams, Skype, or Slack, you can expect to receive the 
 	
 # Further reading
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [Bot basics](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [Channels and Bot Connector service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
-- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [Bot Basics](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
+- [Activity Processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
