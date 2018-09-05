@@ -6,7 +6,7 @@ class MainDialog {
     /**
      * 
      * @param {Storage} storage A storage system like MemoryStorage used to store information.
-     * @param {Adapter} adapter A Bot Framework adapter used to send messages.
+     * @param {BotAdapter} adapter A BotAdapter used to send and receive messages.
      */
     constructor (storage, adapter) {
         this.storage = storage;
