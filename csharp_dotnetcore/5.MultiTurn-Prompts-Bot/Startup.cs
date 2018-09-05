@@ -69,6 +69,9 @@ namespace MultiTurn_Prompts_Bot
                 var convoState = new ConversationState(dataStore);
                 options.State.Add(convoState);
 
+                var userState = new UserState(dataStore);
+                options.State.Add(userState);
+
                 // The BotStateSet middleware forces state storage to auto-save when the bot is complete processing the message.
                 // Note: Developers may choose not to add all the state providers to this middleware if save is not required.
                 var stateSet = new BotStateSet(options.State.ToArray());
@@ -90,11 +93,18 @@ namespace MultiTurn_Prompts_Bot
                     throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
                 }
 
+                var userState = options.State.OfType<UserState>().FirstOrDefault();
+                if (userState == null)
+                {
+                    throw new InvalidOperationException("UserState must be defined and added before adding user-scoped state accessors.");
+                }
+
                 // The dialogs will need a state store accessor. Creating it here once (on-demand) allows the dependency injection
                 // to hand it to our IBot class that is create per-request. 
                 var accessors = new BotAccessors
                 {
-                    ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState")
+                    ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
+                    UserProfile = userState.CreateProperty<UserProfile>("UserProfile")
                 };
 
                 return accessors;

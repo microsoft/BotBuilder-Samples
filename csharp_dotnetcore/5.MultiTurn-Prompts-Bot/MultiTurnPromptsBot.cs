@@ -15,14 +15,25 @@ namespace MultiTurn_Prompts_Bot
     /// </summary>
     public class MultiTurnPromptsBot : IBot
     {
+        private IStatePropertyAccessor<UserProfile> _userProfileAccessor;
         private DialogSet _dialogs;
 
         public MultiTurnPromptsBot(BotAccessors accessors)
         {
+            // We need a handle on the accessor so we can load the data when we have the turn context.  
+            _userProfileAccessor = accessors.UserProfile;
+
+            // The DialogSet needs a DialogState accessor, it will call it when it has a turn context.
             _dialogs = new DialogSet(accessors.ConversationDialogState);
-            _dialogs.Add(new WaterfallDialog("details", new WaterfallStep[] { NameStep, AgeStep, FinalStep }));
+
+            // This array defines how the Waterfall will execute.
+            var waterfallSteps = new WaterfallStep[] { NameStep, NameConfirmStep, AgeStep, ConfirmStep, SummaryStep };
+
+            // Add all the different named dialogs to the DialogSet. It is these names that will be saved in the serialized dialog state.
+            _dialogs.Add(new WaterfallDialog("details", waterfallSteps));
             _dialogs.Add(new TextPrompt("name"));
             _dialogs.Add(new NumberPrompt<int>("age"));
+            _dialogs.Add(new ConfirmPrompt("confirm"));
         }
 
         /// <summary>
@@ -53,24 +64,97 @@ namespace MultiTurn_Prompts_Bot
             // If the DialogTurnStatus is Empty we should start a new dialog.
             if (results.Status == DialogTurnStatus.Empty)
             {
-                await dialogContext.BeginAsync("details");
+                await dialogContext.BeginAsync("details", null, cancellationToken);
             }
         }
 
         private static async Task<DialogTurnResult> NameStep(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
+            // Running a prompt here means the next WaterfallStep will be run when the users response is received.
             return await dc.PromptAsync("name", new PromptOptions { Prompt = MessageFactory.Text("Please enter your name.") }, cancellationToken);
         }
-        private static async Task<DialogTurnResult> AgeStep(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
+
+        private async Task<DialogTurnResult> NameConfirmStep(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            await dc.Context.SendActivityAsync(MessageFactory.Text($"Thanks {stepContext.Result}."));
-            return await dc.PromptAsync("age", new PromptOptions { Prompt = MessageFactory.Text("Please enter your age") }, cancellationToken);
+            // Get the current profile object from user state.
+            var userProfile = await _userProfileAccessor.GetAsync(dc.Context, () => new UserProfile(), cancellationToken);
+
+            // Update the profile.
+            userProfile.Name = (string)stepContext.Result;
+
+            // We can send messages to the user at any point in the WaterfallStep.
+            await dc.Context.SendActivityAsync(MessageFactory.Text($"Thanks {stepContext.Result}."), cancellationToken);
+
+            // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
+            return await dc.PromptAsync("confirm", new PromptOptions { Prompt = MessageFactory.Text("Would you like to give your age?") }, cancellationToken);
         }
 
-        private static async Task<DialogTurnResult> FinalStep(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> AgeStep(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            await dc.Context.SendActivityAsync(MessageFactory.Text($"I have your age as {stepContext.Result}."));
-            return await dc.EndAsync();
+            if ((bool)stepContext.Result)
+            {
+                // User said "yes" so we will be prompting for the age.
+
+                // Get the current profile object from user state.
+                var userProfile = await _userProfileAccessor.GetAsync(dc.Context, () => new UserProfile(), cancellationToken);
+
+                // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
+                return await dc.PromptAsync("age", new PromptOptions { Prompt = MessageFactory.Text("Please enter your age.") }, cancellationToken);
+            }
+            else
+            {
+                // User said "no" so we will skip the next step. Give -1 as the age.
+                return await stepContext.NextAsync(-1, cancellationToken);
+            }
+        }
+
+        private async Task<DialogTurnResult> ConfirmStep(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            // Get the current profile object from user state.
+            var userProfile = await _userProfileAccessor.GetAsync(dc.Context, () => new UserProfile(), cancellationToken);
+
+            // Update the profile.
+            userProfile.Age = (int)stepContext.Result;
+
+            if (userProfile.Age == -1)
+            {
+                await dc.Context.SendActivityAsync(MessageFactory.Text($"No age given."), cancellationToken);
+            }
+            else
+            {
+                // We can send messages to the user at any point in the WaterfallStep.
+                await dc.Context.SendActivityAsync(MessageFactory.Text($"I have your age as {userProfile.Age}."), cancellationToken);
+            }
+
+            // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
+            return await dc.PromptAsync("confirm", new PromptOptions { Prompt = MessageFactory.Text("Is this ok?") }, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult> SummaryStep(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            if ((bool)stepContext.Result)
+            {
+                // Get the current profile object from user state.
+                var userProfile = await _userProfileAccessor.GetAsync(dc.Context, () => new UserProfile(), cancellationToken);
+
+                // We can send messages to the user at any point in the WaterfallStep.
+                if (userProfile.Age == -1)
+                {
+                    await dc.Context.SendActivityAsync(MessageFactory.Text($"I have your name as {userProfile.Name}."), cancellationToken);
+                }
+                else
+                {
+                    await dc.Context.SendActivityAsync(MessageFactory.Text($"I have your name as {userProfile.Name} and age as {userProfile.Age}."), cancellationToken);
+                }
+            }
+            else
+            {
+                // We can send messages to the user at any point in the WaterfallStep.
+                await dc.Context.SendActivityAsync(MessageFactory.Text("Thanks. Your profile will not be kept."), cancellationToken);
+            }
+            // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is the end.
+            return await dc.EndAsync(cancellationToken);
         }
     }
 }
