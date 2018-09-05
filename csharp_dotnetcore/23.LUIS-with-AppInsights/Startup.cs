@@ -3,6 +3,9 @@
 
 using System;
 using System.Collections.Generic;
+using LuisBot.AppInsights;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -62,6 +65,10 @@ namespace LuisBot
             services.AddBot<LuisBot>(options =>
             {
                 options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
+
+                // Add MyAppInsightsLoggerMiddleware (logs activity messages into Application Insights)
+                var appInsightsLogger = new MyAppInsightsLoggerMiddleware(connectedServices.TelemetryClient.InstrumentationKey, logUserName: true, logOriginalMessage: true);
+                options.Middleware.Add(appInsightsLogger);
             });
         }
 
@@ -80,13 +87,15 @@ namespace LuisBot
         /// <summary>
         /// Initialize the bot's references to external services.
         ///
-        /// For example, LUIS services are created here. This external services is configured
+        /// For example, Application Insights and LUIS services
+        /// are created here. These external services are configured
         /// using the <see cref="BotConfiguration"/> class (based on the contents of your ".bot" file).
         /// </summary>
         /// <param name="config">Configuration object based on your ".bot" file.</param>
-        /// <returns>A <see cref="BotConfiguration"/> representing client objects to access external service(s) the bot uses.</returns>
+        /// <returns>A <see cref="BotConfiguration"/> representing client objects to access external services the bot uses.</returns>
         private static BotServices InitBotServices(BotConfiguration config)
         {
+            TelemetryClient telemetryClient = null;
             var luisServices = new Dictionary<string, LuisRecognizer>();
 
             foreach (var service in config.Services)
@@ -97,7 +106,9 @@ namespace LuisBot
                         {
                             // Create a Luis Recognizer that is initialized and suitable for passing
                             // into the IBot-derived class (LuisBot).
-                            // In this case, we're creating a Luis Recognizer client.
+                            // In this case, we're creating a custom class (wrapping the original
+                            // Luis Recognizer client) that logs the results of Luis Recognizer results
+                            // into Application Insights for future anaysis.
                             var luis = (LuisService)service;
                             if (luis == null)
                             {
@@ -125,14 +136,33 @@ namespace LuisBot
                             }
 
                             var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.Region);
-                            var recognizer = new LuisRecognizer(app);
+                            var recognizer = new MyAppInsightLuisRecognizer(app);
                             luisServices.Add(LuisBot.LuisKey, recognizer);
+                            break;
+                        }
+
+                    case ServiceTypes.AppInsights:
+                        {
+                            var appInsights = (AppInsightsService)service;
+                            if (appInsights == null)
+                            {
+                                throw new InvalidOperationException("The Application Insights is not configured correctly in your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(appInsights.InstrumentationKey))
+                            {
+                                throw new InvalidOperationException("The Application Insights Instrumentation Key ('instrumentationKey') is required to run this sample.  Please update your '.bot' file.");
+                            }
+
+                            var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
+                            telemetryClient = new TelemetryClient(telemetryConfig);
+                            telemetryClient.InstrumentationKey = appInsights.InstrumentationKey;
                             break;
                         }
                 }
             }
 
-            var connectedServices = new BotServices(luisServices);
+            var connectedServices = new BotServices(telemetryClient, luisServices);
             return connectedServices;
         }
     }
