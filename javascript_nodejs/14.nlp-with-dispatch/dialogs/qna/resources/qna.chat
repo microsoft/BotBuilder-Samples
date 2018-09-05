@@ -1,0 +1,8 @@
+user=Vishwac
+bot=EchoBot
+
+user: hi
+bot: Hello!
+
+user: Who are you?
+bot: I am the LUIS-QnAMaker Dispatch bot! I show how easy it is to use multiple LUIS models and a QnAMaker model inside of a chatbot.
