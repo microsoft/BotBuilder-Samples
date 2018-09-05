@@ -7,10 +7,7 @@ const OnboardingDialog = require('../onboard');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
 
-const USER_NAME_PROPERTY = 'user_name';
-const AGE_PROPERTY = 'user_age';
-const DOB_PROPERTY = 'user_dob';
-const COLOR_PROPERTY = 'user_color';
+const USER_PROFILE_PROPERTY = 'user';
 
 const ONBOARD_USER = 'onboard_user';
 
@@ -34,13 +31,10 @@ class MainDialog {
         this.dialogs = new DialogSet(this.dialogState);
 
         // Create some properties used to store values from the user.
-        this.userName = this.userState.createProperty(USER_NAME_PROPERTY)
-        this.userAge = this.userState.createProperty(AGE_PROPERTY);
-        this.userDob = this.userState.createProperty(DOB_PROPERTY);
-        this.userColor = this.userState.createProperty(COLOR_PROPERTY);
+        this.userProfile = this.userState.createProperty(USER_PROFILE_PROPERTY)
 
         // Create the main user onboarding dialog.
-        this.dialogs.add(new OnboardingDialog(ONBOARD_USER, this.userName, this.userAge, this.userDob, this.userColor));
+        this.dialogs.add(new OnboardingDialog(ONBOARD_USER, this.userProfile));
     }
 
 

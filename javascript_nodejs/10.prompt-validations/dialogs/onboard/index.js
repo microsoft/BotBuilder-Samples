@@ -15,22 +15,19 @@ const GET_AGE_PROMPT = 'agePrompt';
 const GET_DOB_PROMPT = 'dobPrompt';
 const GET_COLOR_PROMPT = 'colorPrompt';
 
-const USER_NAME_PROPERTY = 'user_name';
-const AGE_PROPERTY = 'user_age';
-const DOB_PROPERTY = 'user_dob';
-const COLOR_PROPERTY = 'user_color';
+const USER_NAME_PROPERTY = 'name';
+const AGE_PROPERTY = 'age';
+const DOB_PROPERTY = 'dob';
+const COLOR_PROPERTY = 'color';
 
 class OnboardingDialog extends ComponentDialog {
 
     /**
      * 
      * @param {string} dialogId A unique identifier for this dialog.
-     * @param {BotStatePropertyAccessor} userName A property used to store the user's name.
-     * @param {BotStatePropertyAccessor} userAge A property used to store the user's age.
-     * @param {BotStatePropertyAccessor} userDob A property used to store the user's date of birth.
-     * @param {BotStatePropertyAccessor} userColor A property used to store the user's favorite color.
+     * @param {BotStatePropertyAccessor} userProfile A property used to store the user's name.
      */
-    constructor (dialogId, userName, userAge, userDob, userColor) {
+    constructor (dialogId, userProfile) {
         super(dialogId);
 
         // Create a dialog flow that captures a series of values from a user
@@ -38,8 +35,8 @@ class OnboardingDialog extends ComponentDialog {
             // If a user name is already set, switch to the HELLO_USER dialog.
             // Otherwise, continue with collecting values from the user.
             async (dc, step) => {
-                const user_name = await userName.get(dc.context, '');
-                if (user_name) {
+                const user = await userProfile.get(dc.context, {});
+                if (user.name) {
                     return dc.replace(HELLO_USER);
                 } else {
                     return await dc.prompt(GET_NAME_PROMPT, `What is your name, human?`);
@@ -68,10 +65,13 @@ class OnboardingDialog extends ComponentDialog {
             },
             // With all values in hand, we can now store them in our model and complete.
             async (dc, step) => {
-                await userName.set(dc.context, step.values[USER_NAME_PROPERTY]);
-                await userAge.set(dc.context, step.values[AGE_PROPERTY]);
-                await userDob.set(dc.context, step.values[DOB_PROPERTY]);
-                await userColor.set(dc.context, step.values[COLOR_PROPERTY]);
+
+                const user = await userProfile.get(dc.context, {});
+                user[USER_NAME_PROPERTY] = step.values[USER_NAME_PROPERTY];
+                user[AGE_PROPERTY] =  step.values[AGE_PROPERTY];
+                user[DOB_PROPERTY] =  step.values[DOB_PROPERTY];
+                user[COLOR_PROPERTY] =  step.values[COLOR_PROPERTY];
+                await userProfile.set(dc.context, user);
         
                 await dc.context.sendActivity(`Your profile is complete! Thank you.`);
 
@@ -83,15 +83,12 @@ class OnboardingDialog extends ComponentDialog {
         // This dialog loads and displays the information previously provided by the user.
         this.addDialog(new WaterfallDialog(HELLO_USER, [
             async (dc, step) => {
-                const user_name = await userName.get(dc.context, null);
-                const user_dob = await userDob.get(dc.context, null);
-                const user_age = await userAge.get(dc.context, null);
-                const user_color = await userColor.get(dc.context, null);
+                const user = await userProfile.get(dc.context, {});
 
                 const text = [
-                    `You asked me to call you ${user_name}.`,
-                    `You were born on ${ moment( user_dob ).format("MMM Do, YYYY") } and claim to be ${ user_age }.`,
-                    `Your favorite color is ${ user_color }.`
+                    `You asked me to call you ${user[USER_NAME_PROPERTY]}.`,
+                    `You were born on ${ moment( user[DOB_PROPERTY] ).format("MMM Do, YYYY") } and claim to be ${ user[AGE_PROPERTY] }.`,
+                    `Your favorite color is ${ user[COLOR_PROPERTY] }.`
                 ];
 
                 await dc.context.sendActivity(text.join(' '));
@@ -101,16 +98,16 @@ class OnboardingDialog extends ComponentDialog {
 
         // Add prompts:
         // NAME_PROMPT will validate that the user's response is between 1 and 50 chars in length.
-        this.addDialog(new NamePrompt(NAME_PROMPT));
+        this.addDialog(new NamePrompt(GET_NAME_PROMPT));
 
         // AGE_PROMPT will validate an age between 1 and 99.
-        this.addDialog(new AgePrompt(AGE_PROMPT));
+        this.addDialog(new AgePrompt(GET_AGE_PROMPT));
         
         // DOB_PROMPT will validate a date between 8/24/1918 and 8/24/2018.
-        this.addDialog(new DOBPrompt(DOB_PROMPT));
+        this.addDialog(new DOBPrompt(GET_DOB_PROMPT));
                 
         // COLOR_PROMPT provides a validation error when a valid choice is not made.
-        this.addDialog(new ColorPrompt(COLOR_PROMPT));
+        this.addDialog(new ColorPrompt(GET_COLOR_PROMPT));
     }
 }
 
