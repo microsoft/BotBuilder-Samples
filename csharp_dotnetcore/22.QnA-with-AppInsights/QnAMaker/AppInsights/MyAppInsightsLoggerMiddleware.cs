@@ -9,7 +9,7 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 
-namespace QnA_Bot.AppInsights
+namespace QnABot.AppInsights
 {
     /// <summary>
     /// Middleware for logging incoming, outgoing, updated or deleted Activity messages into Application Insights.
@@ -181,7 +181,7 @@ namespace QnA_Bot.AppInsights
         /// <param name="activity">The Receive activity to harvest properties to be placed into the Application
         /// Insights custom event.</param>
         /// <returns>A dictionary that is sent as "Properties" to Application Insights
-        /// <see cref="TelemetryClient.TrackEvent(string, IDictionary{string, string}, IDictionary{string, double})"/> 
+        /// <see cref="TelemetryClient.TrackEvent(string, IDictionary{string, string}, IDictionary{string, double})"/>
         /// method for the BotMessageReceived Message.</returns>
         private Dictionary<string, string> FillReceiveEventProperties(Activity activity)
         {
@@ -214,7 +214,7 @@ namespace QnA_Bot.AppInsights
         /// Fills the Application Insights Custom Event properties for BotMessageSend.
         /// These properties are logged in the custom event when a response message is sent by the Bot to the user.
         /// </summary>
-        /// <param name="activity">The Send <see cref="Activity"/> to harvest properties to be placed into the 
+        /// <param name="activity">The Send <see cref="Activity"/> to harvest properties to be placed into the
         /// Application Insights custom event.</param>
         /// <returns>A dictionary that is sent as "Properties" to Application Insights
         /// <see cref="TelemetryClient.TrackEvent(string, IDictionary{string, string}, IDictionary{string, double})"/>
