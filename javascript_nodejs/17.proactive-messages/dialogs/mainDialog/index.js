@@ -1,36 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
-const { DialogSet } = require('botbuilder-dialogs');
-
-const CreateReminderDialog = require('../createReminder');
-
-const DIALOG_STATE_PROPERTY = 'dialogState';
-
-const CREATE_REMINDER = 'createreminder';
-const INSTRUCTIONS = 'instructions';
+const { TurnContext } = require('botbuilder');
 
 class MainDialog {
     /**
      * 
-     * @param {ConversationState} conversationState A ConversationState object used to store dialog state.
-     * @param {UserState} userState A UserState object used to store user profile information.
+     * @param {Storage} storage A storage system like MemoryStorage used to store information.
+     * @param {Adapter} adapter A Bot Framework adapter used to send messages.
      */
-    constructor (conversationState, userState, adapter) {
-
-        // Creates a new state accessor property. 
-        // See https://aka.ms/about-bot-state-accessors to learn more about bot state and state accessors.
-        this.conversationState = conversationState;
-        this.userState = userState;
-        
-        // Create a property used to store dialog state.
-        this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
-
-        // Create a dialog set to include the dialogs used by this bot.
-        this.dialogs = new DialogSet(this.dialogState);
-
-        this.dialogs.add(new CreateReminderDialog(CREATE_REMINDER, adapter));
-        
+    constructor (storage, adapter) {
+        this.storage = storage;
+        this.adapter = adapter;
     }
 
 
@@ -42,42 +22,52 @@ class MainDialog {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         if (context.activity.type === 'message') {
 
-            // Create dialog context
-            const dc = await this.dialogs.createContext(context);
-
             const utterance = (context.activity.text || '').trim().toLowerCase();
-            if (utterance === 'cancel') { 
-                if (dc.activeDialog) {
-                    await dc.cancelAll();
-                    await dc.context.sendActivity(`Ok... Cancelled.`);
-                } else {
-                    await dc.context.sendActivity(`Nothing to cancel.`);
-                }
-            }
-            
-            // Continue the current dialog if one is pending.
-            if (!context.responded) {
-                await dc.continue();
+
+            if (utterance === 'subscribe') {
+                const reference = TurnContext.getConversationReference(context.activity);
+                const userId = await this.saveReference(reference);
+                await this.subscribeUser(userId);
+                await context.sendActivity(`Thank you! We will message you in 5 seconds.`);
+            } else {
+                await context.sendActivity(`Say "subscribe" to schedule an example proactive message.`);
             }
 
-            // If no response has been sent, start the onboarding dialog.
-            if (!context.responded) {
-                if (utterance.toLowerCase().includes('remind')) {
-                    await dc.begin(CREATE_REMINDER);
-                } else {
-                    await dc.begin(INSTRUCTIONS);
-                }
-            }
-        } else if (context.activity.type == 'conversationUpdate' && context.activity.membersAdded[0].id === 'default-user') {
+
+        } else if (context.activity.type == 'conversationUpdate' && context.activity.membersAdded[0].name !== 'Bot') {
             // send a "this is what the bot does" message
-            const description = [
-                'I am a bot that demonstrates the TextPrompt class to collect your name,',
-                'store it in UserState, and display it.',
-                'Say anything to continue.'
-            ];
-            await context.sendActivity(description.join(' '));
+            await context.sendActivity(`Say "subscribe" to schedule an example proactive message.`);
         }
     }
+
+    async saveReference(reference) {
+        const userId = reference.activityId;
+        const changes = {};
+        changes['reference/' + userId] = reference;
+        await this.storage.write(changes);
+        return userId;
+    }
+
+    async subscribeUser(userId) {
+        setTimeout(async () => {
+            const reference = await this.findReference(userId);
+            if (reference) {
+                this.adapter.continueConversation(reference, async (context) => {
+                    await context.sendActivity(`This is your proactive notication!`);
+                });
+            }
+        }, 5000);
+
+    }
+
+    async findReference(userId) {
+        const referenceKey = 'reference/' + userId;
+        const rows = await this.storage.read([referenceKey]);
+        const reference = await rows[referenceKey];
+
+        return reference;
+    }
+
 }
 
 module.exports = MainDialog;

@@ -6,7 +6,7 @@ const path = require('path');
 const ERROR = 1;
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different part of a bot.
-const { BotFrameworkAdapter, BotStateSet,  MemoryStorage, ConversationState, UserState } = require('botbuilder');
+const { BotFrameworkAdapter, MemoryStorage } = require('botbuilder');
 const { BotConfiguration } = require('botframework-config');
 
 const MainDialog = require('./dialogs/mainDialog');
@@ -66,15 +66,8 @@ const memoryStorage = new MemoryStorage();
 //                                            databaseId: cosmosConfig.database, 
 //                                            collectionId: cosmosConfig.collection});
 
-// Create conversation state with in-memory storage provider. 
-const conversationState = new ConversationState(memoryStorage);
-const userState = new UserState(memoryStorage)
-
-// Use the BotStateSet middleware to automatically read and write conversation and user state.
-adapter.use(new BotStateSet(conversationState, userState));
-
 // Create the main dialog, which serves as the bot's main handler.
-const mainDlg = new MainDialog(conversationState, userState, adapter);
+const mainDlg = new MainDialog(memoryStorage, adapter);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
