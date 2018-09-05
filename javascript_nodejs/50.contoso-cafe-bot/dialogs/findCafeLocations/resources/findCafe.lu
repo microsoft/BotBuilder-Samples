@@ -1,0 +1,17 @@
+# Find Cafe Locations
+- Find contoso cafe locations
+- Where can I get coffee? 
+- find locations near redmond
+- find cafe locations near seattle airport
+- where can I get coffee near renton
+- I want coffee
+- What cafe locations are open today?
+- Is the bellevue store open at 3PM?
+- Is the SEA store open today?
+- What stores are open this weekend?
+- When does the store near microsoft open?
+- can you get me the seatac store hours?
+- can you get me the store hours for the RNT store?
+- is the downtown store open next thursday at 3pm?
+
+[entities ref](../../mainDialog/resources/entities.lu)

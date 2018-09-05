@@ -1,0 +1,10 @@
+> References to other LU files
+[Book Table intent](../../bookTable/resources/bookTableTriggerIntent.lu)
+
+[Cancel intent](../../cancel/resources/cancel.lu)
+
+[Find Cafe Location intent](../../findCafeLocations/resources/findCafe.lu)
+
+[Help intent](../../help/resources/help.lu)
+
+[Who are you intent](../../whoAreYou/resources/whoAreYou.lu)

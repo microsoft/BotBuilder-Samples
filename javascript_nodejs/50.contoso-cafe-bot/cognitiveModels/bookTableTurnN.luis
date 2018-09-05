@@ -1,0 +1,215 @@
+{
+  "intents": [
+    {
+      "name": "GetLocationDateTimePartySize"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [
+    {
+      "name": "confirmationList",
+      "subLists": [
+        {
+          "canonicalForm": "yes",
+          "list": [
+            "yeah",
+            "yup",
+            "sure",
+            "sounds good",
+            "oh yeah",
+            "affirmative",
+            "book it"
+          ]
+        },
+        {
+          "canonicalForm": "no",
+          "list": [
+            "no",
+            "no way",
+            "I'm not sure",
+            "do not do that",
+            "negative",
+            "nothing",
+            "nope",
+            "dont book it"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "cafeLocation",
+      "subLists": [
+        {
+          "canonicalForm": "seattle",
+          "list": [
+            "SEA",
+            "SeaTac",
+            "Tacoma",
+            "Space needle",
+            "downton seattle",
+            "washington",
+            "downtown"
+          ]
+        },
+        {
+          "canonicalForm": "redmond",
+          "list": [
+            "eastside",
+            "microsoft",
+            "east side"
+          ]
+        },
+        {
+          "canonicalForm": "renton",
+          "list": [
+            "Renton",
+            "Boeing",
+            "RNT"
+          ]
+        },
+        {
+          "canonicalForm": "bellevue",
+          "list": [
+            "downtown bellevue"
+          ]
+        }
+      ],
+      "roles": []
+    }
+  ],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "tomorrow at 3 pm and I would like to bring 3 guests",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "make it 5pm",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "can you make it 6pm instead?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "no how about renton?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "how about next thursday at 3pm?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "next friday at 3pm",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "next saturday at 6pm and for 4 guests.",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "I'd like to bring 3 guests",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "no, how about portland?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "no, I'd like to come to seattle instead",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "I would like to come in to redmond instead",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "yes please go ahead with seattle",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "how about 2 guests?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "3 guests",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "yes go ahead",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "how about seattle?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "tomorrow at 3pm",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "how about tomorrow?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "seattle please",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "redmond",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "3",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "tomorrow",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "yes",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [
+    {
+      "name": "number",
+      "roles": []
+    }
+  ],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "bookTableTurnN.luis",
+  "desc": "",
+  "culture": "en-us"
+}
