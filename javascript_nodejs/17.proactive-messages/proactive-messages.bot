@@ -1,10 +1,10 @@
 {
-    "name": "prompt-validations-bot",
+    "name": "proactive-messages-bot",
     "secretKey": "",
     "services": [
         {
             "type": "endpoint",
-            "name": "prompt-validations-bot",
+            "name": "proactive-messages-bot",
             "id": "http://localhost:3978/api/messages",
             "appId": "",
             "appPassword": "",

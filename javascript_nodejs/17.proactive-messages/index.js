@@ -21,7 +21,7 @@ let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log(`\n${server.name} listening to ${server.url}`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-    console.log(`\nTo talk to your bot, open prompt-validations-bot.bot file in the Emulator`);
+    console.log(`\nTo talk to your bot, open proactive-messages.bot file in the Emulator`);
 });
 
 // .bot file path
@@ -40,7 +40,7 @@ try {
 
 // Define the name of the bot, as specified in .bot file.
 // See https://aka.ms/about-bot-file to learn more about .bot file.
-const BOT_CONFIGURATION = 'prompt-validations-bot';
+const BOT_CONFIGURATION = 'proactive-messages-bot';
 
 // Load the configuration profile specific to this bot identity.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
