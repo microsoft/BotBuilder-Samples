@@ -46,6 +46,7 @@ class MainDialog {
         const changes = {};
         changes['reference/' + userId] = reference;
         await this.storage.write(changes);
+
         return userId;
     }
 
