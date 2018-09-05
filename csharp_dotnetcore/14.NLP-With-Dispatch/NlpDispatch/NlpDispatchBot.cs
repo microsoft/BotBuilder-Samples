@@ -13,7 +13,7 @@ using Microsoft.Bot.Schema;
 namespace NLP_With_Dispatch_Bot
 {
     /// <summary>
-    /// Represents a bot that can process incoming activities.
+    /// Represents a bot that processes incoming activities.
     /// For each interaction from the user, an instance of this class is called.
     /// This is a Transient lifetime service.  Transient lifetime services are created
     /// each time they're requested. For each Activity received, a new instance of this
@@ -73,7 +73,7 @@ namespace NLP_With_Dispatch_Bot
         }
 
         /// <summary>
-        /// Every Conversation turn for our NLP Dispatch Bot will call this method.
+        /// Every conversation turn for our NLP Dispatch Bot will call this method.
         /// There are no dialogs used, since it's "single turn" processing, meaning a single
         /// request and response, with no stateful conversation.
         /// </summary>
@@ -81,7 +81,7 @@ namespace NLP_With_Dispatch_Bot
         /// for processing this conversation turn. </param>
         /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>A task that represents the work queued to execute.</returns>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
         public async Task OnTurnAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (context.Activity.Type == ActivityTypes.Message && !context.Responded)
@@ -96,20 +96,15 @@ namespace NLP_With_Dispatch_Bot
                 }
                 else
                 {
-                    if (topIntent.Value.score < 0.3)
-                    {
-                        await context.SendActivityAsync("I'm not very sure what you want but will try to send your request.");
-                    }
-
-                    await DispatchToTopIntentAsync(context, topIntent);
+                    await DispatchToTopIntentAsync(context, topIntent, cancellationToken);
                 }
             }
         }
 
         /// <summary>
-        /// Depending on the intent from Dispatch, routes to the right Luis model or Qna service.
+        /// Depending on the intent from Dispatch, routes to the right Luis model or QnA service.
         /// </summary>
-        private async Task DispatchToTopIntentAsync(ITurnContext context, (string intent, double score)? topIntent)
+        private async Task DispatchToTopIntentAsync(ITurnContext context, (string intent, double score)? topIntent, CancellationToken cancellationToken = default(CancellationToken))
         {
             const string homeAutomationDispatchKey = "l_homeautomation-LUIS";
             const string weatherDispatchKey = "l_weather-LUIS";
@@ -139,22 +134,21 @@ namespace NLP_With_Dispatch_Bot
                 default:
                     // The intent didn't match any case, so just display the recognition results.
                     await context.SendActivityAsync($"Dispatch intent: {topIntent.Value.intent} ({topIntent.Value.score}).");
-
                     break;
             }
         }
 
         /// <summary>
-        /// Dispatches the turn to the request QnaMaker app.
+        /// Dispatches the turn to the request QnAMaker app.
         /// </summary>
-        private async Task DispatchToQnAMakerAsync(ITurnContext context, string appName)
+        private async Task DispatchToQnAMakerAsync(ITurnContext context, string appName, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (!string.IsNullOrEmpty(context.Activity.Text))
             {
                 var results = await _services.QnAServices[appName].GetAnswersAsync(context).ConfigureAwait(false);
                 if (results.Any())
                 {
-                    await context.SendActivityAsync(results.First().Answer);
+                    await context.SendActivityAsync(results.First().Answer, cancellationToken);
                 }
                 else
                 {
@@ -164,12 +158,12 @@ namespace NLP_With_Dispatch_Bot
         }
 
         /// <summary>
-        /// Dispatches the turn to the requested Luis model.
+        /// Dispatches the turn to the requested LUIS model.
         /// </summary>
-        private async Task DispatchToLuisModelAsync(ITurnContext context, string appName)
+        private async Task DispatchToLuisModelAsync(ITurnContext context, string appName, CancellationToken cancellationToken = default(CancellationToken))
         {
             await context.SendActivityAsync($"Sending your request to the {appName} system ...");
-            var result = await _services.LuisServices[appName].RecognizeAsync(context, CancellationToken.None);
+            var result = await _services.LuisServices[appName].RecognizeAsync(context, cancellationToken);
 
             await context.SendActivityAsync($"Intents detected by the {appName} app:\n\n{string.Join("\n\n", result.Intents)}");
 

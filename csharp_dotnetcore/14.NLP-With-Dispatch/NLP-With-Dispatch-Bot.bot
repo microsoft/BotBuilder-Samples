@@ -10,20 +10,6 @@
             "appId": "",
             "appPassword": "",
             "endpoint": "http://localhost:3978/api/messages"
-        },
-        {
-          "type": "appInsights",
-          "id": "3",
-          "name": "",
-          "tenantId": "",
-          "subscriptionId": "",
-          "resourceGroup": "",
-          "instrumentationKey": "<Enter your instrumentation key here>",
-          "applicationId": "00000000-0000-0000-0000-000000000007",
-          "apiKeys": {
-            "key1": "testKey1",
-            "key2": "testKey2"
-          }
         }
     ]
 }

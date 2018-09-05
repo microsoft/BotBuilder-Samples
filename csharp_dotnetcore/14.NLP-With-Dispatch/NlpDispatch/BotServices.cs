@@ -16,7 +16,6 @@ namespace NLP_With_Dispatch_Bot
     /// are kept here (singletons).  These external services are configured
     /// using the BotConfigure class (based on the contents of your ".bot" file).
     /// </summary>
-    [Serializable]
     public class BotServices
     {
         /// <summary>
@@ -24,22 +23,11 @@ namespace NLP_With_Dispatch_Bot
         /// </summary>
         /// <param name="client">An Application Insights <see cref="TelemetryClient"/> instance.</param>
         /// <param name="qnaServices">A dictionary of named <see cref="QnAMaker"/> instances for usage within the bot.</param>
-        public BotServices(TelemetryClient client, Dictionary<string, QnAMaker> qnaServices, Dictionary<string, LuisRecognizer> luisServices)
+        public BotServices(Dictionary<string, QnAMaker> qnaServices, Dictionary<string, LuisRecognizer> luisServices)
         {
-            TelemetryClient = client ?? throw new ArgumentNullException(nameof(client));
             QnAServices = qnaServices ?? throw new ArgumentNullException(nameof(qnaServices));
             LuisServices = luisServices ?? throw new ArgumentNullException(nameof(luisServices));
         }
-
-        /// <summary>
-        /// Gets the Application Insights Telemetry client.
-        /// Use this to log new custom events/metrics/traces/etc into your
-        /// Application Insights service for later analysis.
-        /// </summary>
-        /// <value>
-        /// The Application Insights <see cref="TelemetryClient"/> instance created based on configuration in the .bot file.
-        /// </value>
-        public TelemetryClient TelemetryClient { get; }
 
         /// <summary>
         /// Gets the (potential) set of QnA Services used.
