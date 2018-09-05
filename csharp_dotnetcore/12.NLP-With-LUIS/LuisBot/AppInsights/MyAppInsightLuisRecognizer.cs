@@ -10,10 +10,10 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Newtonsoft.Json.Linq;
 
-namespace Luis_Bot.AppInsights
+namespace LuisBot.AppInsights
 {
     /// <summary>
-    /// MyAppInsightLuisRecognizer invokes the Luis Recognizer and logs some results into Application Insights.
+    /// MyAppInsightLuisRecognizer invokes the LUIS Recognizer and logs some results into Application Insights.
     /// Logs the Top Intent, Sentiment (label/score), (Optionally) Original Text, Conversation and ActivityID.
     /// The Custom Event name this logs is <see cref="MyLuisConstants.IntentPrefix"/> + "." + 'found intent name'
     /// For example, if intent name was "add_calender":
@@ -38,13 +38,13 @@ namespace Luis_Bot.AppInsights
         /// <summary>
         /// Gets a value indicating whether to log the <see cref="Activity"/> message text that came from the user.
         /// </summary>
-        /// <value>If true, will log the Activity Message text into the AppInsight Custome Event for Luis intents.</value>
+        /// <value>If true, will log the Activity Message text into the AppInsight Custome Event for LUIS intents.</value>
         public bool LogOriginalMessage { get; }
 
         /// <summary>
         /// Gets a value indicating whether to log the User name.
         /// </summary>
-        /// <value>If true, will log the user name into the AppInsight Custom Event for Luis intents.</value>
+        /// <value>If true, will log the user name into the AppInsight Custom Event for LUIS intents.</value>
         public bool LogUsername { get; }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Luis_Bot.AppInsights
                 throw new ArgumentNullException(nameof(context));
             }
 
-            // Call Luis Recognizer
+            // Call LUIS Recognizer
             var recognizerResult = await base.RecognizeAsync(context, ct);
 
             var conversationId = context.Activity.Conversation.Id;
@@ -98,7 +98,7 @@ namespace Luis_Bot.AppInsights
                     telemetryProperties.Add(MyLuisConstants.ConversationIdProperty, conversationId);
                 }
 
-                // Add Luis Entitites
+                // Add LUIS Entitites
                 var entities = new List<string>();
                 foreach (var entity in recognizerResult.Entities)
                 {
