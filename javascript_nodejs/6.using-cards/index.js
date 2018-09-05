@@ -7,7 +7,7 @@ const RichCardsBot = require('./bot');
 
 const CONFIG_ERROR = 1;
 
-// Import required bot services. See https://ama.ms/bot-services to learn more about the different parts of a bot.
+// Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, MemoryStorage, ConversationState } = require('botbuilder');
 
 // Import required bot confuguration.
@@ -39,7 +39,7 @@ try {
 }
 
 // Bot name as defined in .bot file.
-// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
+// See https://aka.ms/about-bot-file to learn more about .bot files' usage and bot configuration.
 const BOT_CONFIGURATION = 'using-cards';
 
 // Get bot endpoint configuration by service name.
@@ -54,11 +54,12 @@ const adapter = new BotFrameworkAdapter({
 // Define state store for your bot. See https://aka.ms/about-bot-state to learn more about bots memory service.
 // A bot requires a state store to persist its dialog and various states between messages.
 const memoryStorage = new MemoryStorage();
+
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone.
 // For production bots use the Azure CosmosDB storage, or Azure Blob storage providers.
 // const { CosmosDbStorage } = require('botbuilder-azure');
-// const STORAGE_CONFIGURATION = 'cosmosDB'; // This is the name of the cosmos DB configuration in your .bot file.
+// const STORAGE_CONFIGURATION = 'cosmosDB'; // This is the name of the Cosmos DB configuration in your .bot file.
 // const cosmosConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION);
 // const cosmosStorage = new CosmosDbStorage({serviceEndpoint: cosmosConfig.connectionString, 
 //                                            authKey: ?, 
@@ -68,16 +69,17 @@ const memoryStorage = new MemoryStorage();
 // Create conversation state with in-memory storage provider. 
 const conversationState = new ConversationState(memoryStorage);
 
-// Register conversation state as a middleware. The ConversationState middleware automatically reads and writes conversation sate.
+// Register conversation state as a middleware. The ConversationState middleware 
+// automatically reads and writes conversation state.
 adapter.use(conversationState);
 
-// Create the main dialog.
+// Create a RichCardsBot which responds to a user with Rich Cards.
 const bot = new RichCardsBot(conversationState);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async (context) => {
+    adapter.processActivity(req, res, async (turnContext) => {
         // Route to bot.
-        await bot.onTurn(context);        
+        await bot.onTurn(turnContext);
     });
 });
