@@ -21,19 +21,22 @@ namespace Microsoft.BotBuilderSamples
     /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// </summary>
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
-    public class PromptValidations : IBot
+    public class PromptValidationsBot : IBot
     {
+        private readonly BotAccessors _accessors;
+
         /// <summary>
         /// The <see cref="DialogSet"/> that contains all the Dialogs that can be used at runtime.
         /// </summary>
-        private DialogSet _dialogs;
+        private readonly DialogSet _dialogs;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PromptValidations"/> class.
+        /// Initializes a new instance of the <see cref="PromptValidationsBot"/> class.
         /// </summary>
         /// <param name="accessors">The state accessors this instance will be needing at runtime.</param>
-        public PromptValidations(BotAccessors accessors)
+        public PromptValidationsBot(BotAccessors accessors)
         {
+            _accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
             _dialogs = new DialogSet(accessors.ConversationDialogState);
             _dialogs.Add(new TextPrompt("name", CustomPromptValidatorAsync));
         }
@@ -78,7 +81,7 @@ namespace Microsoft.BotBuilderSamples
                     cancellationToken);
             }
 
-            // We had a dialog run (it was the prompt) now it is complete.
+            // We had a dialog run (it was the prompt) now it is Complete.
             else if (results.Status == DialogTurnStatus.Complete)
             {
                 // Check for a result.
@@ -88,6 +91,9 @@ namespace Microsoft.BotBuilderSamples
                     await turnContext.SendActivityAsync(MessageFactory.Text($"Thank you, I have your name as '{results.Result}'."));
                 }
             }
+
+            // Save the new turn count into the conversation state.
+            await _accessors.ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
 
         public Task CustomPromptValidatorAsync(ITurnContext turnContext, PromptValidatorContext<string> validatorContext, CancellationToken cancellationToken)
@@ -100,7 +106,7 @@ namespace Microsoft.BotBuilderSamples
                 // You are free to change the value you have collected. By way of illustration we are simply uppercasing.
                 var newValue = result.ToUpperInvariant();
 
-                // Success is indicated by passing back the value the Prompt has collected. YOu must pass back a value even if you haven't changed it.
+                // Success is indicated by passing back the value the Prompt has collected. You must pass back a value even if you haven't changed it.
                 validatorContext.End(newValue);
             }
 
