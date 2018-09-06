@@ -12,17 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Handling_Attachments
 {
-    /// <summary>
-    /// The Startup class configures services and the app's request pipeline.
-    /// </summary>
     public class Startup
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// For more information on how to configure your application, visit <see ref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup"/>.
-        /// </summary>
-        /// <param name="env">Provides information about the <see cref="IHostingEnvironment"/> an application is running in.</param>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
