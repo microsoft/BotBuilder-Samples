@@ -4,18 +4,18 @@
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace Bot_Authentication
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// This is a helper class to support the state accessors for the bot.
     /// </summary>
-    public class AuthenticationBotAccessors
+    public class GraphAuthenticationBotAccessors
     {
         // The name of the dialog state.
-        public static readonly string DialogStateName = $"{nameof(AuthenticationBotAccessors)}.DialogState";
+        public static readonly string DialogStateName = $"{nameof(GraphAuthenticationBotAccessors)}.DialogState";
 
         // The name of the command state.
-        public static readonly string CommandStateName = $"{nameof(AuthenticationBotAccessors)}.CommandState";
+        public static readonly string CommandStateName = $"{nameof(GraphAuthenticationBotAccessors)}.CommandState";
 
         /// <summary>
         /// Gets or Sets the DialogState accessor value.

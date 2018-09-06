@@ -1,18 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 
-namespace Bot_Authentication
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// This bot uses OAuth to log the user in. The OAuth provider being demonstrated
@@ -21,7 +18,7 @@ namespace Bot_Authentication
     /// authentication. Bot developers no longer need to host OAuth controllers or
     /// manage the token life-cycle, as all of this can now be done by the Azure Bot Service.
     /// </summary>
-    public class AuthenticationBot : IBot
+    public class GraphAuthenticationBot : IBot
     {
         // Your connection name
         private const string ConnectionSettingName = "";
@@ -32,17 +29,17 @@ namespace Bot_Authentication
             " 'me' to see information about yourself, or 'help' to view the commands" +
             " again. Any other text will display your token.";
 
-        private readonly AuthenticationBotAccessors _stateAccessors;
+        private readonly GraphAuthenticationBotAccessors _stateAccessors;
         private readonly DialogSet _dialogs;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AuthenticationBot"/> class.
+        /// Initializes a new instance of the <see cref="GraphAuthenticationBot"/> class.
         /// In the constructor for the bot we are instantiating our <see cref="DialogSet"/>, giving our field a value,
         /// adding our <see cref="WaterfallDialog"/> and <see cref="ChoicePrompt"/> to the dialog set.
         /// We are also adding  multiple <see cref="WaterfallStep"/> to our <see cref="WaterfallDialog"/>.
         /// </summary>
         /// <param name="accessors">State accessors for the bot.</param>
-        public AuthenticationBot(AuthenticationBotAccessors accessors)
+        public GraphAuthenticationBot(GraphAuthenticationBotAccessors accessors)
         {
             this._stateAccessors = accessors;
             this._dialogs = new DialogSet(this._stateAccessors.ConversationDialogState);
