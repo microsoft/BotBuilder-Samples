@@ -19,8 +19,8 @@ namespace Microsoft.BotBuilderSamples
     public class QnABot : IBot
     {
         /// <summary>
-        /// Key in the bot config (.bot file) for the QnA Maker instance.
-        /// In the ".bot" file, multiple instances of QnA Maker can be configured.
+        /// Key in the bot config (.bot file) for the QnAMaker instance.
+        /// In the ".bot" file, multiple instances of QnAMaker can be configured.
         /// </summary>
         public static readonly string QnAMakerKey = "QnABot";
 
@@ -38,7 +38,7 @@ namespace Microsoft.BotBuilderSamples
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
             if (!_services.QnAServices.ContainsKey(QnAMakerKey))
             {
-                throw new System.ArgumentException($"Invalid configuration. Please check your '.bot' file for a QnA service named '{QnAMakerKey}'.");
+                throw new System.ArgumentException($"Invalid configuration.  Please check your '.bot' file for a QnA service named '{QnAMakerKey}'.");
             }
         }
 
@@ -56,8 +56,9 @@ namespace Microsoft.BotBuilderSamples
         {
             if (context.Activity.Type == ActivityTypes.Message)
             {
-                // Check QnA Maker model
+                // Check QnAMaker model
                 var response = await _services.QnAServices[QnAMakerKey].GetAnswersAsync(context);
+
                 if (response != null && response.Length > 0)
                 {
                     await context.SendActivityAsync(response[0].Answer);

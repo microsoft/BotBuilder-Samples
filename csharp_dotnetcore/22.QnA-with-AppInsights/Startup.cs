@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder.AI.QnA;
@@ -11,6 +13,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using QnABot.AppInsights;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -27,13 +30,15 @@ namespace Microsoft.BotBuilderSamples
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
         }
 
         /// <summary>
-        /// Gets the configuration that represents a set of key/value configuration properties.
+        /// Gets the configuration that represents a set of key/value application configuration properties.
         /// </summary>
         /// <value>
         /// The <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
@@ -44,10 +49,11 @@ namespace Microsoft.BotBuilderSamples
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
+        /// <seealso cref="IServiceCollection"/>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
         public void ConfigureServices(IServiceCollection services)
         {
-            // Load the connected services from .bot file.
+            // Load the connected services from .bot file
             var botConfig = BotConfiguration.Load(@".\QnABot.bot");
 
             // Initialize Bot Connected Services clients.
@@ -59,13 +65,17 @@ namespace Microsoft.BotBuilderSamples
             services.AddBot<QnABot>(options =>
             {
                 options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
+
+                // Add MyAppInsightsLoggerMiddleware (logs activity messages into Application Insights)
+                var appInsightsLogger = new MyAppInsightsLoggerMiddleware(connectedServices.TelemetryClient.InstrumentationKey, logUserName: true, logOriginalMessage: true);
+                options.Middleware.Add(appInsightsLogger);
             });
         }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
-        /// <param name="app">The application builder. This provides the mechanisms to configure the application request pipeline.</param>
+        /// <param name="app">The application builder.  This provides the mechanisms to configure the application request pipeline.</param>
         /// <param name="env">Provides information about the web hosting environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -76,15 +86,18 @@ namespace Microsoft.BotBuilderSamples
 
         /// <summary>
         /// Initialize the bot's references to external services.
-        /// For example, the Qna Maker instance is created here. This external service is configured
+        /// For example, Application Insights and QnaMaker services
+        /// are created here.  These external services are configured
         /// using the <see cref="BotConfiguration"/> class (based on the contents of your ".bot" file).
         /// </summary>
         /// <param name="config">The <see cref="BotConfiguration"/> object based on your ".bot" file.</param>
         /// <returns>A <see cref="BotConfiguration"/> representing client objects to access external services the bot uses.</returns>
         /// <seealso cref="BotConfiguration"/>
         /// <seealso cref="QnAMaker"/>
+        /// <seealso cref="TelemetryClient"/>
         private static BotServices InitBotServices(BotConfiguration config)
         {
+            TelemetryClient telemetryClient = null;
             var qnaServices = new Dictionary<string, QnAMaker>();
 
             foreach (var service in config.Services)
@@ -95,6 +108,9 @@ namespace Microsoft.BotBuilderSamples
                         {
                             // Create a QnA Maker that is initialized and suitable for passing
                             // into the IBot-derived class (QnABot).
+                            // In this case, we're creating a custom class (wrapping the original
+                            // QnAMaker client) that logs the results of QnA Maker into Application
+                            // Insights for future anaysis.
                             var qna = (QnAMakerService)service;
                             if (qna == null)
                             {
@@ -103,17 +119,17 @@ namespace Microsoft.BotBuilderSamples
 
                             if (string.IsNullOrWhiteSpace(qna.KbId))
                             {
-                                throw new InvalidOperationException("The QnA KnowledgeBaseId ('kbId') is required to run this sample. Please update your '.bot' file.");
+                                throw new InvalidOperationException("The QnA KnowledgeBaseId ('kbId') is required to run this sample.  Please update your '.bot' file.");
                             }
 
                             if (string.IsNullOrWhiteSpace(qna.EndpointKey))
                             {
-                                throw new InvalidOperationException("The QnA EndpointKey ('endpointKey') is required to run this sample. Please update your '.bot' file.");
+                                throw new InvalidOperationException("The QnA EndpointKey ('endpointKey') is required to run this sample.  Please update your '.bot' file.");
                             }
 
                             if (string.IsNullOrWhiteSpace(qna.Hostname))
                             {
-                                throw new InvalidOperationException("The QnA Host ('hostname') is required to run this sample. Please update your '.bot' file.");
+                                throw new InvalidOperationException("The QnA Host ('hostname') is required to run this sample.  Please update your '.bot' file.");
                             }
 
                             var qnaEndpoint = new QnAMakerEndpoint()
@@ -123,15 +139,34 @@ namespace Microsoft.BotBuilderSamples
                                 Host = qna.Hostname,
                             };
 
-                            var qnaMaker = new QnAMaker(qnaEndpoint);
+                            var qnaMaker = new MyAppInsightsQnAMaker(qnaEndpoint, null, logUserName: false, logOriginalMessage: false);
                             qnaServices.Add(qna.Name, qnaMaker);
 
+                            break;
+                        }
+
+                    case ServiceTypes.AppInsights:
+                        {
+                            var appInsights = (AppInsightsService)service;
+                            if (appInsights == null)
+                            {
+                                throw new InvalidOperationException("The Application Insights is not configured correctly in your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(appInsights.InstrumentationKey))
+                            {
+                                throw new InvalidOperationException("The Application Insights Instrumentation Key ('instrumentationKey') is required to run this sample.  Please update your '.bot' file.");
+                            }
+
+                            var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
+                            telemetryClient = new TelemetryClient(telemetryConfig);
+                            telemetryClient.InstrumentationKey = appInsights.InstrumentationKey;
                             break;
                         }
                 }
             }
 
-            var connectedServices = new BotServices(qnaServices);
+            var connectedServices = new BotServices(telemetryClient, qnaServices);
             return connectedServices;
         }
     }
