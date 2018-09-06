@@ -1,6 +1,6 @@
 ﻿{
     "name": "QnABot",
-    "description": "Qna Maker Bot Sample",
+    "description": "",
     "secretKey": "",
     "services": [
       {
@@ -10,29 +10,6 @@
         "appId": "",
         "appPassword": "",
         "endpoint": "http://localhost:3978/api/messages"
-      },
-      {
-        "type": "qna",
-        "id": "",
-        "name": "QnaBot",
-        "kbId": "<Fill In Here>",
-        "subscriptionKey": "",
-        "endpointKey": "<Fill in Here>",
-        "hostname": "<Fill In Here>"
-      },
-      {
-        "type": "appInsights",
-        "id": "3",
-        "name": "",
-        "tenantId": "",
-        "subscriptionId": "",
-        "resourceGroup": "",
-        "instrumentationKey": "<Fill In Here>",
-        "applicationId": "00000000-0000-0000-0000-000000000007",
-        "apiKeys": {
-          "key1": "testKey1",
-          "key2": "testKey2"
-        }
       }
     ]
 }
