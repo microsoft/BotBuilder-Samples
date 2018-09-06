@@ -4,7 +4,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Bot_Authentication
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// A helper class for extension methods.

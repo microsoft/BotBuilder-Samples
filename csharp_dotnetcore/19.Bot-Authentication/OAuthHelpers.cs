@@ -9,7 +9,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Attachment = Microsoft.Bot.Schema.Attachment;
 
-namespace Bot_Authentication
+namespace Microsoft.BotBuilderSamples
 {
     // This class is where we make the calls to the Graph API. The following scopes are used:
     // 'OpenId' 'email' 'Mail.Send.Shared' 'Mail.Read' 'profile' 'User.Read' 'User.ReadBasic.All'

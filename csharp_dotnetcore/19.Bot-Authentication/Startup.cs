@@ -14,7 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Bot_Authentication
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// The Startup class configures services and the app's request pipeline.
@@ -52,7 +52,7 @@ namespace Bot_Authentication
         /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-                services.AddBot<AuthenticationBot>(options =>
+                services.AddBot<GraphAuthenticationBot>(options =>
                 {
                     options.CredentialProvider = new ConfigurationCredentialProvider(this.Configuration);
 
@@ -82,7 +82,7 @@ namespace Bot_Authentication
                     var stateSet = new BotStateSet(options.State.ToArray());
                     options.Middleware.Add(stateSet);
                 });
-                services.AddSingleton<AuthenticationBotAccessors>(sp =>
+                services.AddSingleton<GraphAuthenticationBotAccessors>(sp =>
                 {
                     var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
                     if (options == null)
@@ -100,10 +100,10 @@ namespace Bot_Authentication
                     // Create Custom State Property Accessors
                     // State Property Accessors enable components to read and write individual properties, without having to
                     // pass the entire State object.
-                    var accessors = new AuthenticationBotAccessors
+                    var accessors = new GraphAuthenticationBotAccessors
                     {
-                        CommandState = userState.CreateProperty<string>(AuthenticationBotAccessors.CommandStateName),
-                        ConversationDialogState = conversationState.CreateProperty<DialogState>(AuthenticationBotAccessors.DialogStateName),
+                        CommandState = userState.CreateProperty<string>(GraphAuthenticationBotAccessors.CommandStateName),
+                        ConversationDialogState = conversationState.CreateProperty<DialogState>(GraphAuthenticationBotAccessors.DialogStateName),
                     };
 
                     return accessors;
