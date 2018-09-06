@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.using System;
+// Licensed under the MIT License.
 
 using System.Collections.Generic;
 using System.Linq;
@@ -85,7 +85,7 @@ namespace Bot_Authentication
                         new List<CardImage>()
                         {
                             new CardImage(
-                                "https://jasonazurestorage.blob.core.windows.net/files/OutlookLogo.jpg",
+                                "https://botframeworksamples.blob.core.windows.net/samples/OutlookLogo.jpg",
                                 "Outlook Logo"),
                         });
                     reply.Attachments.Add(card.ToAttachment());

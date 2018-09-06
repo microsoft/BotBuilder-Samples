@@ -1,4 +1,7 @@
-﻿namespace Bot_Authentication
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace Bot_Authentication
 {
     /// <summary>
     /// This is a helper class to pass the photo for the ListMeAsync Method.

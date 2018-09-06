@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.using System;
+// Licensed under the MIT License.
 
 using System;
 using System.Collections.Generic;
@@ -66,7 +66,7 @@ namespace Bot_Authentication
             {
                 case ActivityTypes.Message:
 
-                    dc = await ProcessInputAsync(turnContext, dc, cancellationToken);
+                    await ProcessInputAsync(turnContext, cancellationToken);
 
                     break;
                 case ActivityTypes.Event:
@@ -86,17 +86,23 @@ namespace Bot_Authentication
                     break;
                 case ActivityTypes.ConversationUpdate:
                     // Send a HeroCard as a welcome message when a new use joins the conversation
-                    var newUserName = turnContext.Activity.MembersAdded.FirstOrDefault()?.Name;
-
-                    if (!string.Equals("Bot", newUserName))
-                    {
-                        var reply = turnContext.Activity.CreateReply();
-                        reply.Text = HelpText;
-                        reply.Attachments = new List<Attachment> { GetHeroCard(newUserName).ToAttachment() };
-                        await turnContext.SendActivityAsync(reply, cancellationToken);
-                    }
+                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
 
                     break;
+            }
+        }
+
+        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            foreach (var member in turnContext.Activity.MembersAdded)
+            {
+                if (member.Id != turnContext.Activity.Recipient.Id)
+                {
+                    var reply = turnContext.Activity.CreateReply();
+                    reply.Text = HelpText;
+                    reply.Attachments = new List<Attachment> { GetHeroCard(member.Id).ToAttachment() };
+                    await turnContext.SendActivityAsync(reply, cancellationToken);
+                }
             }
         }
 
@@ -112,7 +118,7 @@ namespace Bot_Authentication
                 Images = new List<CardImage>
                 {
                     new CardImage(
-                        "https://jasonazurestorage.blob.core.windows.net/files/aadlogo.png",
+                        "https://botframeworksamples.blob.core.windows.net/samples/aadlogo.png",
                         "AAD Logo",
                         new CardAction(
                             ActionTypes.OpenUrl,
@@ -134,13 +140,12 @@ namespace Bot_Authentication
         /// Processes the user's input and routes the user to the appropriate step.
         /// </summary>
         /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
-        /// <param name="dc">A <see cref="DialogContext"/> provides context for the current dialog.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
-        private async Task<DialogContext> ProcessInputAsync(ITurnContext turnContext, DialogContext dc, CancellationToken cancellationToken)
+        private async Task<DialogContext> ProcessInputAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            dc = await this._dialogs.CreateContextAsync(turnContext, cancellationToken);
+            var dc = await this._dialogs.CreateContextAsync(turnContext, cancellationToken);
             switch (turnContext.Activity.Text.ToLowerInvariant())
             {
                 case "signout":
@@ -152,14 +157,15 @@ namespace Bot_Authentication
                     var botAdapter = (BotFrameworkAdapter)turnContext.Adapter;
                     await botAdapter.SignOutUserAsync(turnContext, ConnectionSettingName, cancellationToken);
 
-                    // Let the user know they are signed out/
+                    // Let the user know they are signed out.
                     await turnContext.SendActivityAsync("You are now signed out.", cancellationToken: cancellationToken);
                     break;
                 case "help":
                     await turnContext.SendActivityAsync(HelpText, cancellationToken: cancellationToken);
                     break;
                 default:
-                    // The user has selected a command that requires them to log in.
+                    // The user has input a command that has not been handled yet,
+                    // begin the waterfall dialog to handle the input.
                     await dc.ContinueAsync(cancellationToken);
                     if (!turnContext.Responded)
                     {
@@ -177,19 +183,19 @@ namespace Bot_Authentication
         /// </summary>
         /// <param name="dc">A <see cref="DialogContext"/> provides context for the current dialog.</param>
         /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>
-        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
         private async Task<DialogTurnResult> ProcessStepAsync(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
         {
             if (step.Result != null)
             {
-                // We do not need to store the token in the bot.  When we need the token we can
-                // Just send another prompt.  If the token is valid the user will not need to log back in
+                // We do not need to store the token in the bot. When we need the token we can
+                // Just send another prompt. If the token is valid the user will not need to log back in
                 // The token will be available in the Result property of the task.
                 var tokenResponse = step.Result as TokenResponse;
 
-                // If we have the token use the user it authenticated so we may use it to make API calls.
+                // If we have the token use the user is authenticated so we may use it to make API calls.
                 if (tokenResponse?.Token != null)
                 {
                     var parts = this._stateAccessors.CommandState.GetAsync(dc.Context, cancellationToken: cancellationToken).Result.Split(' ');
@@ -197,23 +203,22 @@ namespace Bot_Authentication
                     if (parts[0].ToLowerInvariant() == "me")
                     {
                         await OAuthHelpers.ListMeAsync(dc.Context, tokenResponse);
-                        await this._stateAccessors.CommandState.DeleteAsync(dc.Context, cancellationToken);
                     }
                     else if (parts[0].ToLowerInvariant().StartsWith("send"))
                     {
                         await OAuthHelpers.SendMailAsync(dc.Context, tokenResponse, parts[1]);
-                        await this._stateAccessors.CommandState.DeleteAsync(dc.Context, cancellationToken);
                     }
                     else if (parts[0].ToLowerInvariant().StartsWith("recent"))
                     {
                         await OAuthHelpers.ListRecentMailAsync(dc.Context, tokenResponse);
-                        await this._stateAccessors.CommandState.DeleteAsync(dc.Context, cancellationToken);
                     }
                     else
                     {
                         await dc.Context.SendActivityAsync($"your token is: {tokenResponse.Token}", cancellationToken: cancellationToken);
-                        await this._stateAccessors.CommandState.DeleteAsync(dc.Context, cancellationToken);
                     }
+
+
+                    await this._stateAccessors.CommandState.DeleteAsync(dc.Context, cancellationToken);
                 }
             }
             else
@@ -221,7 +226,7 @@ namespace Bot_Authentication
                 await dc.Context.SendActivityAsync("We couldn't log you in. Please Try again later.", cancellationToken: cancellationToken);
             }
 
-            return Dialog.EndOfTurn;
+            return await dc.EndAsync(cancellationToken: cancellationToken);
         }
 
         /// <summary>
