@@ -8,21 +8,34 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
-namespace Prompt_Validations
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// This bot illustrates how a Custom Validation can be added to a prompt.
-    /// In this case we are just going to ask for a name, but we are going to add validation to make sure it
-    /// is more than three characters in length. We are also going to change the value collected.
+    /// Represents a bot that processes incoming activities.
+    /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
+    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// each time they're requested. For each Activity received, a new instance of this
+    /// class is created. Objects that are expensive to construct, or have a lifetime
+    /// beyond the single turn, should be carefully managed.
+    /// For example, the <see cref="MemoryStorage"/> object and associated
+    /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// </summary>
+    /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class PromptValidations : IBot
     {
+        /// <summary>
+        /// The <see cref="DialogSet"/> that contains all the Dialogs that can be used at runtime.
+        /// </summary>
         private DialogSet _dialogs;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PromptValidations"/> class.
+        /// </summary>
+        /// <param name="accessors">The state accessors this instance will be needing at runtime.</param>
         public PromptValidations(BotAccessors accessors)
         {
             _dialogs = new DialogSet(accessors.ConversationDialogState);
-            _dialogs.Add(new TextPrompt("name", CustomPromptValidator));
+            _dialogs.Add(new TextPrompt("name", CustomPromptValidatorAsync));
         }
 
         /// <summary>
@@ -45,7 +58,7 @@ namespace Prompt_Validations
                 return;
             }
 
-            // Run the DialogSet - let the framework identify the current state of the dialog from 
+            // Run the DialogSet - let the framework identify the current state of the dialog from
             // the dialog stack and figure out what (if any) is the active dialog.
             var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
             var results = await dialogContext.ContinueAsync(cancellationToken);
@@ -55,14 +68,16 @@ namespace Prompt_Validations
             {
                 // A prompt dialog can be started directly on from the DialogContext. The prompt text is given in the PromptOptions.
                 // We have defined a RetryPrompt here so this will be used. Otherwise the Prompt text will be repeated.
-                await dialogContext.PromptAsync("name",
+                await dialogContext.PromptAsync(
+                    "name",
                     new PromptOptions
                     {
                         Prompt = MessageFactory.Text("Please enter a name."),
-                        RetryPrompt = MessageFactory.Text("A name must be more than three characters in length. Please try again.")
+                        RetryPrompt = MessageFactory.Text("A name must be more than three characters in length. Please try again."),
                     },
                     cancellationToken);
             }
+
             // We had a dialog run (it was the prompt) now it is complete.
             else if (results.Status == DialogTurnStatus.Complete)
             {
@@ -75,7 +90,7 @@ namespace Prompt_Validations
             }
         }
 
-        public Task CustomPromptValidator(ITurnContext turnContext, PromptValidatorContext<string> validatorContext, CancellationToken cancellationToken)
+        public Task CustomPromptValidatorAsync(ITurnContext turnContext, PromptValidatorContext<string> validatorContext, CancellationToken cancellationToken)
         {
             var result = validatorContext.Recognized.Value;
 

@@ -6,7 +6,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
@@ -14,11 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace MultiTurn_Prompts_Bot
+namespace Microsoft.BotBuilderSamples
 {
-    /// <summary>
-    /// The Startup class configures services and the app's request pipeline.
-    /// </summary>
     public class Startup
     {
         /// <summary>
@@ -35,7 +31,7 @@ namespace MultiTurn_Prompts_Bot
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            this.Configuration = builder.Build();
+            Configuration = builder.Build();
         }
 
         /// <summary>
@@ -65,10 +61,12 @@ namespace MultiTurn_Prompts_Bot
                 // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
                 // Uncomment this line to use Azure Blob Storage
                 // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
+
                 // Create and add conversation state.
                 var convoState = new ConversationState(dataStore);
                 options.State.Add(convoState);
 
+                // Create and add user state.
                 var userState = new UserState(dataStore);
                 options.State.Add(userState);
 
@@ -100,11 +98,11 @@ namespace MultiTurn_Prompts_Bot
                 }
 
                 // The dialogs will need a state store accessor. Creating it here once (on-demand) allows the dependency injection
-                // to hand it to our IBot class that is create per-request. 
+                // to hand it to our IBot class that is create per-request.
                 var accessors = new BotAccessors
                 {
                     ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
-                    UserProfile = userState.CreateProperty<UserProfile>("UserProfile")
+                    UserProfile = userState.CreateProperty<UserProfile>("UserProfile"),
                 };
 
                 return accessors;
