@@ -1,23 +1,22 @@
 ﻿﻿This sample shows how to integrate LUIS to a bot with ASP.Net Core 2. 
 
 # To try this sample
-
 - Clone the samples repository
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 
 
-
 ## Prerequisites
 ### Set up LUIS
-- - Navigate to [LUIS portal](https://www.luis.ai).
+- Navigate to [LUIS portal](https://www.luis.ai).
 - Click the `Sign in` button.
 - Click on `My Apps`.
 - Click on the `Import new app` button.
 - Click on the `Choose File` and select [LUIS-Reminders.json](LUIS-Reminders.json) from the `BotBuilder-Samples\csharp_dotnetcore\12.NLP-With-LUIS\CognitiveModels` folder.
 - Update [LuisBot.bot](LuisBot.bot) file with your AppId, SubscriptionKey, Region and Version. 
-    You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
+    You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
+	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
 
     - AppId = XXXXXXXXXXXXX
     - SubscriptionKey = YYYYYYYYYYYY
@@ -34,12 +33,12 @@ NOTE: Once you publish your app on LUIS portal for the first time, it takes some
   - Note: The Application Insights will automatically update the [appsettings.json](appsettings.json) file.
 
 ### Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\12.NLP-With-LUIS`) and open `Luis-Bot.csproj` in Visual Studio 
+- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\23.LUIS-with-AppInsights`) and open `Luis-Bot.csproj` in Visual Studio 
 - Hit F5
 
 ### Visual Studio Code
 - Open `BotBuilder-Samples\csharp_dotnetcore\12.NLP-With-LUIS` sample folder
-- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_dotnetcore\12.NLP-With-LUIS` folder.
+- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_dotnetcore\23.LUIS-with-AppInsights` folder.
 - Type 'dotnet run'.
 
 ## Testing the bot using Bot Framework Emulator
@@ -49,7 +48,7 @@ NOTE: Once you publish your app on LUIS portal for the first time, it takes some
 
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator
-- File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\12.NLP-With-LUIS` folder.
+- File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\23.LUIS-with-AppInsights` folder.
 - Select LuisBot.bot file.
 
 # Further reading

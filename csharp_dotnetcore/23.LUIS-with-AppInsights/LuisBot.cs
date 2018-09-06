@@ -11,17 +11,17 @@ namespace Microsoft.BotBuilderSamples
     /// <summary>
     /// For each interaction from the user, an instance of this class is created and
     /// the OnTurnAsync method is called.
-    /// This is a Transient lifetime service.  Transient lifetime services are created
-    /// each time they're requested. For each Activity received, a new instance of this
+    /// This is a transient lifetime service.  Transient lifetime services are created
+    /// each time they're requested. For each <see cref="Activity"/> received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
-    /// beyond the single Turn, should be carefully managed.
+    /// beyond the single turn, should be carefully managed.
     /// </summary>
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     /// <seealso cref="https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.ibot?view=botbuilder-dotnet-preview"/>
     public class LuisBot : IBot
     {
         /// <summary>
-        /// Key in the Bot config (.bot file) for the Luis instance.
+        /// Key in the bot config (.bot file) for the LUIS instance.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
         public static readonly string LuisKey = "LuisBot";
@@ -34,7 +34,8 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Initializes a new instance of the <see cref="LuisBot"/> class.
         /// </summary>
-        /// <param name="services">A <see cref="BotServices"/> configured from the ".bot" file.</param>
+        /// <param name="services">Services configured from the ".bot" file.</param>
+        /// <seealso cref="BotConfiguration"/>
         public LuisBot(BotServices services)
         {
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
@@ -45,7 +46,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Every conversation turn for our QnA bot will call this method.
+        /// Every conversation turn for our LUIS Bot will call this method.
         /// There are no dialogs used, the sample only uses "single turn" processing,
         /// meaning a single request and response, with no stateful conversation.
         /// </summary>
@@ -53,7 +54,7 @@ namespace Microsoft.BotBuilderSamples
         /// for processing this conversation turn. </param>
         /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>A task that represents the work queued to execute.</returns>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
         public async Task OnTurnAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (context.Activity.Type == ActivityTypes.Message)
@@ -67,7 +68,12 @@ namespace Microsoft.BotBuilderSamples
                 }
                 else
                 {
-                    await context.SendActivityAsync("No LUIS intents were found.\r\nThis sample is about identifying two user intents:\r\n'Calendar.Add'\r\n'Calendar.Find'\r\nTry typing 'Add Event' or 'Show me tomorrow'.");
+                    var msg = @"No LUIS intents were found.
+                            This sample is about identifying two user intents:
+                            'Calendar.Add'
+                            'Calendar.Find'
+                            Try typing 'Add Event' or 'Show me tomorrow'.";
+                    await context.SendActivityAsync(msg);
                 }
             }
         }
