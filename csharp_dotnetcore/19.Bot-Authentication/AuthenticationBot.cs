@@ -24,7 +24,7 @@ namespace Bot_Authentication
     public class AuthenticationBot : IBot
     {
         // Your connection name
-        private const string ConnectionSettingName = "AADv2Connection";
+        private const string ConnectionSettingName = "";
 
         // Instructions for the user with information about commands that this bot may handle.
         private const string HelpText =
