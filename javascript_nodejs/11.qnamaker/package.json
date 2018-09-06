@@ -1,0 +1,19 @@
+{
+  "name": "10.qnamaker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^4.0.0-preview1.1163",
+    "botbuilder-ai": "^4.0.0-preview1.1163",
+    "botframework-config": "^4.0.0-preview1.1163",
+    "dotenv": "^6.0.0",
+    "restify": "^7.2.1"
+  }
+}
