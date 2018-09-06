@@ -8,16 +8,19 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
-namespace Simple_Prompt_Bot
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// Represents a bot that can process incoming activities.
-    /// For each interaction from the user, an instance of this class is called.
+    /// Represents a bot that processes incoming activities.
+    /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
     /// This is a Transient lifetime service.  Transient lifetime services are created
     /// each time they're requested. For each Activity received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
-    /// beyond the single Turn, should be carefully managed.
+    /// beyond the single turn, should be carefully managed.
+    /// For example, the <see cref="MemoryStorage"/> object and associated
+    /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// </summary>
+    /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class SimplePromptBot : IBot
     {
         /// <summary>

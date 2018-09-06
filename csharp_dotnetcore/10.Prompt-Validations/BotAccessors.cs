@@ -4,7 +4,7 @@
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace Prompt_Validations
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// This class allows the accessors defined in the Startup code to be handed to ever instance of our Bot.

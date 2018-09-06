@@ -13,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Simple_Prompt_Bot
+namespace Microsoft.BotBuilderSamples
 {
     public class Startup
     {

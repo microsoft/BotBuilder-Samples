@@ -1,0 +1,15 @@
+{
+    "name": "Simple-Prompt-Bot",
+    "description": "",
+    "secretKey": "",
+    "services": [
+        {
+            "appId": "",
+            "id": "http://localhost:1499/api/messages",
+            "type": "endpoint",
+            "appPassword": "",
+            "endpoint": "http://localhost:1499/api/messages",
+            "name": "http://localhost:1499/api/messages"
+        }
+    ]
+}

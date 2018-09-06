@@ -8,26 +8,52 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
-namespace MultiTurn_Prompts_Bot
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// This bot illustrates a multi-turn scenario. Following a prompt for name it prompts for age.
+    /// Represents a bot that processes incoming activities.
+    /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
+    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// each time they're requested. For each Activity received, a new instance of this
+    /// class is created. Objects that are expensive to construct, or have a lifetime
+    /// beyond the single turn, should be carefully managed.
+    /// For example, the <see cref="MemoryStorage"/> object and associated
+    /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// </summary>
+    /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class MultiTurnPromptsBot : IBot
     {
+        /// <summary>
+        /// We will be needing the user state accessor within the bot logic.
+        /// </summary>
         private IStatePropertyAccessor<UserProfile> _userProfileAccessor;
+
+        /// <summary>
+        /// The <see cref="DialogSet"/> that contains all the Dialogs that can be used at runtime.
+        /// </summary>
         private DialogSet _dialogs;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultiTurnPromptsBot"/> class.
+        /// </summary>
+        /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
         public MultiTurnPromptsBot(BotAccessors accessors)
         {
-            // We need a handle on the accessor so we can load the data when we have the turn context.  
+            // We need a handle on the accessor so we can load the data when we have the turn context.
             _userProfileAccessor = accessors.UserProfile;
 
             // The DialogSet needs a DialogState accessor, it will call it when it has a turn context.
             _dialogs = new DialogSet(accessors.ConversationDialogState);
 
             // This array defines how the Waterfall will execute.
-            var waterfallSteps = new WaterfallStep[] { NameStep, NameConfirmStep, AgeStep, ConfirmStep, SummaryStep };
+            var waterfallSteps = new WaterfallStep[]
+            {
+                NameStepAsync,
+                NameConfirmStepAsync,
+                AgeStepAsync,
+                ConfirmStepAsync,
+                SummaryStepAsync,
+            };
 
             // Add all the different named dialogs to the DialogSet. It is these names that will be saved in the serialized dialog state.
             _dialogs.Add(new WaterfallDialog("details", waterfallSteps));
@@ -56,7 +82,7 @@ namespace MultiTurn_Prompts_Bot
                 return;
             }
 
-            // Run the DialogSet - let the framework identify the current state of the dialog from 
+            // Run the DialogSet - let the framework identify the current state of the dialog from
             // the dialog stack and figure out what (if any) is the active dialog.
             var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
             var results = await dialogContext.ContinueAsync(cancellationToken);
@@ -68,14 +94,28 @@ namespace MultiTurn_Prompts_Bot
             }
         }
 
-        private static async Task<DialogTurnResult> NameStep(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        /// <summary>
+        /// One of the functions that make up the <see cref="WaterfallDialog"/>. This contains the main business logic of the bot.
+        /// </summary>
+        /// <param name="dc">The <see cref="DialogContext"/> that gives access to the core runtime.</param>
+        /// <param name="stepContext">The <see cref="WaterfallStepContext="/> for additional runtime state associated with this executing <see cref="Waterfall"/> instance.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
+        /// <returns>A <see cref="DialogTurnResult"/> to communicate some flow control back to the containing WaterfallDialog.</returns>
+        private static async Task<DialogTurnResult> NameStepAsync(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
             // Running a prompt here means the next WaterfallStep will be run when the users response is received.
             return await dc.PromptAsync("name", new PromptOptions { Prompt = MessageFactory.Text("Please enter your name.") }, cancellationToken);
         }
 
-        private async Task<DialogTurnResult> NameConfirmStep(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        /// <summary>
+        /// One of the functions that make up the <see cref="WaterfallDialog"/>. This contains the main business logic of the bot.
+        /// </summary>
+        /// <param name="dc">The <see cref="DialogContext"/> that gives access to the core runtime.</param>
+        /// <param name="stepContext">The <see cref="WaterfallStepContext="/> for additional runtime state associated with this executing <see cref="Waterfall"/> instance.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
+        /// <returns>A <see cref="DialogTurnResult"/> to communicate some flow control back to the containing WaterfallDialog.</returns>
+        private async Task<DialogTurnResult> NameConfirmStepAsync(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             // Get the current profile object from user state.
             var userProfile = await _userProfileAccessor.GetAsync(dc.Context, () => new UserProfile(), cancellationToken);
@@ -90,7 +130,14 @@ namespace MultiTurn_Prompts_Bot
             return await dc.PromptAsync("confirm", new PromptOptions { Prompt = MessageFactory.Text("Would you like to give your age?") }, cancellationToken);
         }
 
-        private async Task<DialogTurnResult> AgeStep(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        /// <summary>
+        /// One of the functions that make up the <see cref="WaterfallDialog"/>. This contains the main business logic of the bot.
+        /// </summary>
+        /// <param name="dc">The <see cref="DialogContext"/> that gives access to the core runtime.</param>
+        /// <param name="stepContext">The <see cref="WaterfallStepContext="/> for additional runtime state associated with this executing <see cref="Waterfall"/> instance.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
+        /// <returns>A <see cref="DialogTurnResult"/> to communicate some flow control back to the containing WaterfallDialog.</returns>
+        private async Task<DialogTurnResult> AgeStepAsync(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             if ((bool)stepContext.Result)
             {
@@ -109,7 +156,14 @@ namespace MultiTurn_Prompts_Bot
             }
         }
 
-        private async Task<DialogTurnResult> ConfirmStep(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        /// <summary>
+        /// One of the functions that make up the <see cref="WaterfallDialog"/>. This contains the main business logic of the bot.
+        /// </summary>
+        /// <param name="dc">The <see cref="DialogContext"/> that gives access to the core runtime.</param>
+        /// <param name="stepContext">The <see cref="WaterfallStepContext="/> for additional runtime state associated with this executing <see cref="Waterfall"/> instance.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
+        /// <returns>A <see cref="DialogTurnResult"/> to communicate some flow control back to the containing WaterfallDialog.</returns>
+        private async Task<DialogTurnResult> ConfirmStepAsync(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             // Get the current profile object from user state.
             var userProfile = await _userProfileAccessor.GetAsync(dc.Context, () => new UserProfile(), cancellationToken);
@@ -117,6 +171,7 @@ namespace MultiTurn_Prompts_Bot
             // Update the profile.
             userProfile.Age = (int)stepContext.Result;
 
+            // We can send messages to the user at any point in the WaterfallStep.
             if (userProfile.Age == -1)
             {
                 await dc.Context.SendActivityAsync(MessageFactory.Text($"No age given."), cancellationToken);
@@ -131,7 +186,14 @@ namespace MultiTurn_Prompts_Bot
             return await dc.PromptAsync("confirm", new PromptOptions { Prompt = MessageFactory.Text("Is this ok?") }, cancellationToken);
         }
 
-        private async Task<DialogTurnResult> SummaryStep(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        /// <summary>
+        /// One of the functions that make up the <see cref="WaterfallDialog"/>. This contains the main business logic of the bot.
+        /// </summary>
+        /// <param name="dc">The <see cref="DialogContext"/> that gives access to the core runtime.</param>
+        /// <param name="stepContext">The <see cref="WaterfallStepContext="/> for additional runtime state associated with this executing <see cref="Waterfall"/> instance.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
+        /// <returns>A <see cref="DialogTurnResult"/> to communicate some flow control back to the containing WaterfallDialog.</returns>
+        private async Task<DialogTurnResult> SummaryStepAsync(DialogContext dc, WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             if ((bool)stepContext.Result)
             {
@@ -153,6 +215,7 @@ namespace MultiTurn_Prompts_Bot
                 // We can send messages to the user at any point in the WaterfallStep.
                 await dc.Context.SendActivityAsync(MessageFactory.Text("Thanks. Your profile will not be kept."), cancellationToken);
             }
+
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is the end.
             return await dc.EndAsync(cancellationToken);
         }

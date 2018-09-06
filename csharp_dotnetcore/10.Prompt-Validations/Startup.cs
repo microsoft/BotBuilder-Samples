@@ -13,11 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Prompt_Validations
+namespace Microsoft.BotBuilderSamples
 {
-    /// <summary>
-    /// The Startup class configures services and the app's request pipeline.
-    /// </summary>
     public class Startup
     {
         /// <summary>
@@ -90,10 +87,10 @@ namespace Prompt_Validations
                 }
 
                 // The dialogs will need a state store accessor. Creating it here once (on-demand) allows the dependency injection
-                // to hand it to our IBot class that is create per-request. 
+                // to hand it to our IBot class that is create per-request.
                 var accessors = new BotAccessors
                 {
-                    ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState")
+                    ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
                 };
 
                 return accessors;
