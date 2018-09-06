@@ -59,6 +59,8 @@ class ScriptedDialog extends Dialog {
             }
         }
 
+        // If a prompt is defined in the script, use dc.prompt to call it.
+        // This prompt must be a valid dialog defined somewhere in your code!
         if (line.prompt) {
             try {
                 return await dc.prompt(line.prompt.id, line.text);
@@ -67,6 +69,9 @@ class ScriptedDialog extends Dialog {
                 await dc.context.sendActivity(`Failed to start prompt ${ line.prompt.id }`);
                 return await step.next();
             }
+        // If a dialog is defined in the script, use dc.begin to call it.
+        // This will cause the specified dialog to run to completion,
+        // after which the script will continue.
         } else if (line.dialog) {
             if (line.text) {
                  await dc.context.sendActivity(line.text);
@@ -78,6 +83,8 @@ class ScriptedDialog extends Dialog {
                 await dc.context.sendActivity(`Failed to start dialog ${ line.dialog.id }`);
                 return await step.next();
             }
+        // If there's nothing but text, send it!
+        // This could be extended to include cards and other activity attributes. 
         } else {
             await dc.context.sendActivity(line.text);
             return await step.next();
