@@ -113,7 +113,7 @@ class ScriptedDialog extends Dialog {
 
             if (this.onComplete) {
                 // call the onComplete function if specified
-                await this.onComplete(dc.activeDialog.state.values);
+                await this.onComplete(dc, dc.activeDialog.state.values);
             }
 
             // End of script so just return to parent

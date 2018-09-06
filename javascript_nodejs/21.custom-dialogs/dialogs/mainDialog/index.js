@@ -1,20 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActionTypes, MessageFactory } = require('botbuilder');
-
-const { TextPrompt, NumberPrompt, DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
+const { TextPrompt, DialogSet } = require('botbuilder-dialogs');
 
 const ScriptedDialog = require('./scripted.js');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
-const USER_PROFILE_PROPERTY = 'user';
+const USER_RESPONSES = 'user';
 
-const WHO_ARE_YOU = 'who_are_you';
-const HELLO_USER = 'hello_user';
-
-const NAME_PROMPT = 'name_prompt';
-const AGE_PROMPT = 'age_prompt';
+const CHECKIN_DIALOG = 'checkin';
 
 class MainDialog {
     /**
@@ -30,21 +24,17 @@ class MainDialog {
 
         this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
 
-        this.userProfile = this.userState.createProperty(USER_PROFILE_PROPERTY);
+        this.userResponses = this.userState.createProperty(USER_RESPONSES);
 
         this.dialogs = new DialogSet(this.dialogState);
 
-        this.dialogs.add(new ScriptedDialog(WHO_ARE_YOU, __dirname + '/sample.json', async (results) => {
-            console.log('SAMPLE DIALOG COMPLETED WITH RESULTS', results);
+        this.dialogs.add(new ScriptedDialog(CHECKIN_DIALOG, __dirname + '/resources/checkin.json', async (dc, results) => {
+            console.log('Checkin completed: ', results);
+            await this.userResponses.set(dc.context, results);
         }));
-
-        this.dialogs.add(new ScriptedDialog('followup', __dirname + '/followup.json', async (results) => {
-            console.log('FOLLOW UP DIALOG COMPLETED WITH RESULTS', results);
-        }));
-
-        this.dialogs.add(new ScriptedDialog('preamble', __dirname + '/preamble.json'));
 
         this.dialogs.add(new TextPrompt('TextPrompt'));
+
     }
 
 
@@ -75,18 +65,11 @@ class MainDialog {
 
             // Start the sample dialog in response to any other input.
             if (!context.responded) {
-                const user = await this.userProfile.get(dc.context, {});
-                if (user.name && user.age) {
-                    await dc.begin(HELLO_USER)
-                } else {
-                    await dc.begin(WHO_ARE_YOU)
-                }
+                await dc.begin(CHECKIN_DIALOG);
             }
         } else if (context.activity.type === 'conversationUpdate' && context.activity.membersAdded[0].name !== 'Bot') {
             // Send a "this is what the bot does" message.
             const description = [
-                'I am a bot that demonstrates the TextPrompt and NumberPrompt classes',
-                'to collect your name and age, then store those values in UserState for later use.',
                 'Say anything to continue.'
             ];
             await context.sendActivity(description.join(' '));

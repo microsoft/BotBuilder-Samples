@@ -1,0 +1,29 @@
+[
+    {
+        "text": "Hi! I am here to ask you a few questions."
+    },
+    {
+        "text": "What did you work on yesterday?",
+        "prompt": {
+            "id": "TextPrompt",
+            "responseKey": "yesterday"
+        }
+    },
+    {
+        "text": "What will you work on today?",
+        "prompt": {
+            "id": "TextPrompt",
+            "responseKey": "today"
+        }
+    },
+    {
+        "text": "Do you have any blockers?",
+        "prompt": {
+            "id": "TextPrompt",
+            "responseKey": "blockers"
+        }
+    },
+    {
+        "text": "Thanks for your time."
+    }    
+]
