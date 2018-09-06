@@ -1,5 +1,5 @@
 {
-  "name": "AdaptiveCardBot",
+  "name": "UsingAdaptiveCardBot",
   "secretKey": "",
   "services": [
     {
@@ -8,7 +8,7 @@
       "type": "endpoint",
       "appPassword": "",
       "endpoint": "http://localhost:3978/api/messages",
-      "name": "AdaptiveCardBot"
+      "name": "UsingAdaptiveCardBot"
     }
   ]
 }

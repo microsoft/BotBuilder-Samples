@@ -1,33 +1,33 @@
-﻿This sample demonstrates the use of AdaptiveCards.
+﻿This sample demonstrates the use of Adaptive Cards.
 # Concepts introduced in this sample
 ## What is a bot?
 A bot is an app that users interact with in a conversational way using text, graphics (cards), or speech. It may be a simple question and answer dialog,
 or a sophisticated bot that allows people to interact with services in an intelligent manner using pattern matching,
 state tracking and artificial intelligence techniques well-integrated with existing business services.
 ## Adaptive Cards
-Card Authors describe their content as a simple JSON object. That content can then be rendered natively inside a Host Application,
-automatically adapting to the look and feel of the Host. For example, Contoso Bot can author an Adaptive Card through the Bot Framework,
+Card authors describe their content as a simple JSON object. That content can then be rendered natively inside a host application,
+automatically adapting to the look and feel of the host. For example, Contoso Bot can author an Adaptive Card through the Bot Framework,
 and when delivered to Skype, it will look and feel like a Skype card. When that same payload is sent to Microsoft Teams, it will look
 and feel like Microsoft Teams. As more host apps start to support Adaptive Cards, that same payload will automatically light up inside 
 these applications, yet still feel entirely native to the app. Users win because everything feels familiar. Host apps win because they
-control the user experience. And Card Authors win because their content gets broader reach without any additional work.
+control the user experience. Card authors win because their content gets broader reach without any additional work.
 ## To try this sample
 - Clone the repository.
 ```bash
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
- ### Visual studio
+ ### Visual Studio
 - Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\8.Suggested-Actions`) and open Using_Adaptive_Cards.csproj in Visual Studio 
 - Hit F5
- ### Visual studio code
-- Open `BotBuilder-Samples\csharp_dotnetcore\8.Suggested-Actions` folder
-- Bring up a terminal, navigate to BotBuilder-Samples\csharp_dotnetcore\8.Suggested-Actions\
+ ### Visual Studio Code
+- Open `BotBuilder-Samples\csharp_dotnetcore\7.Using-Adaptive-Cards` folder
+- Bring up a terminal, navigate to BotBuilder-Samples\csharp_dotnetcore\7.Using-Adaptive-Cards\
 - Type 'dotnet run'.
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
   **Note:** this sample requires `Microsoft.Bot.Builder`, `Microsoft.Bot.Builder.Dialogs`, and `Microsoft.Bot.Builder.Integration.AspNet.Core`.
 # Further reading
-- [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Bot basics](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Channels and Bot Connector service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
