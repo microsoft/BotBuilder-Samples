@@ -19,7 +19,6 @@
     "restify": "^6.4.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4",
-    "qnamaker": "^1.0.33-0"
+    "nodemon": "^1.18.4"
   }
 }
