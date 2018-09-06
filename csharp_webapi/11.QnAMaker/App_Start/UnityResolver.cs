@@ -7,7 +7,7 @@ using System.Web.Http.Dependencies;
 using Unity;
 using Unity.Exceptions;
 
-namespace QnA_Bot
+namespace QnABot
 {
     /// <summary>
     /// Resolves dependencies for dependency injection.

@@ -3,17 +3,12 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder.AI.QnA;
 
-namespace QnA_Bot
+namespace QnABot
 {
     /// <summary>
-    /// Represents the bot's references to external services.
-    ///
-    /// For example, Application Insights and QnaMaker services
-    /// are kept here (singletons).  These external services are configured
-    /// using the BotConfigure class (based on the contents of your ".bot" file).
+    /// Represents references to external services.
     /// </summary>
     [Serializable]
     public class BotServices
@@ -21,26 +16,14 @@ namespace QnA_Bot
         /// <summary>
         /// Initializes a new instance of the <see cref="BotServices"/> class.
         /// </summary>
-        /// <param name="client">An Application Insights <see cref="TelemetryClient"/> instance.</param>
         /// <param name="qnaServices">A dictionary of named <see cref="QnAMaker"/> instances for usage within the bot.</param>
-        public BotServices(TelemetryClient client, Dictionary<string, QnAMaker> qnaServices)
+        public BotServices(Dictionary<string, QnAMaker> qnaServices)
         {
-            TelemetryClient = client ?? throw new ArgumentNullException(nameof(client));
             QnAServices = qnaServices ?? throw new ArgumentNullException(nameof(qnaServices));
         }
 
         /// <summary>
-        /// Gets the Application Insights Telemetry client.
-        /// Use this to log new custom events/metrics/traces/etc into your
-        /// Application Insights service for later analysis.
-        /// </summary>
-        /// <value>
-        /// The Application Insights <see cref="TelemetryClient"/> instance created based on configuration in the .bot file.
-        /// </value>
-        public TelemetryClient TelemetryClient { get; }
-
-        /// <summary>
-        /// Gets the (potential) set of QnA Services used.
+        /// Gets QnA Services used.
         /// Given there can be multiple QnA services used in a single bot,
         /// QnA is represented as a Dictionary.  This is also modeled in the
         /// ".bot" file since the elements are named (string).

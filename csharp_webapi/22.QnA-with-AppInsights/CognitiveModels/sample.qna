@@ -1,0 +1,62 @@
+﻿{
+  "urls": [],
+  "qnaList": [
+    {
+      "id": 0,
+      "answer": "Hello!\r\n",
+      "source": "Custom Editorial",
+      "questions": [
+        "hi",
+        "greetings",
+        "good morning",
+        "good evening"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 1,
+      "answer": "I am the QnAMaker bot! This sample demonstrates QnA Maker knowledge base from a bot!\r\n",
+      "source": "Custom Editorial",
+      "questions": [
+        "What are you?",
+        "What?",
+        "What do you do?",
+        "Who are you?",
+        "What is your name?",
+        "What should I call you?"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 2,
+      "answer": "Email us at service@contoso.com.\r\n",
+      "source": "Custom Editorial",
+      "questions": [
+        "I need help",
+        "help"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 3,
+      "answer": "The simplest way to troubleshoot your smart light is to turn it off and on.\r\n",
+      "source": "Custom Editorial",
+      "questions": [
+        "Why does the light not work?",
+        "Not working!"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 4,
+      "answer": "When you upgrade, you need to disable Bluetooth, then re-enable it. After re-enable, re-pair your light with the app.\r\n",
+      "source": "Custom Editorial",
+      "questions": [
+        "Light doesn't work after upgrade.",
+        "Failed upgrade"
+      ],
+      "metadata": []
+    }
+  ],
+  "files": []
+}

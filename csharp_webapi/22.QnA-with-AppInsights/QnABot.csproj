@@ -12,8 +12,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AspNetWebApi_QnA_Bot</RootNamespace>
-    <AssemblyName>AspNetWebApi_QnA_Bot</AssemblyName>
+    <RootNamespace>QnABot</RootNamespace>
+    <AssemblyName>QnABot</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -25,10 +25,8 @@
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
     <Use64BitIISExpress />
-    <ApplicationInsightsResourceId>/subscriptions/35fa7461-d48a-4053-9aa2-56c014495e89/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/AspNetWebApi-QnA-Bot</ApplicationInsightsResourceId>
-    <ApplicationInsightsAnnotationResourceId>/subscriptions/35fa7461-d48a-4053-9aa2-56c014495e89/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/AspNetWebApi-QnA-Bot</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -36,16 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Qna-Bot.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Qna-Bot.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>QnaBot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Chronic, Version=0.3.2.0, Culture=neutral, PublicKeyToken=3bd1f1ef638b0d3c, processorArchitecture=MSIL">
@@ -237,27 +226,27 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="QnAMaker\AppInsights\MyAppInsightsQnaMaker.cs" />
-    <Compile Include="QnAMaker\AppInsights\MyQnAConstants.cs" />
-    <Compile Include="QnAMaker\App_Start\BotConfig.cs" />
-    <Compile Include="QnAMaker\App_Start\BotServices.cs" />
-    <Compile Include="QnAMaker\App_Start\UnityConfig.cs" />
-    <Compile Include="QnAMaker\App_Start\UnityResolver.cs" />
-    <Compile Include="QnAMaker\App_Start\UnityWebApiActivator.cs" />
+    <Compile Include="AppInsights\MyAppInsightsQnaMaker.cs" />
+    <Compile Include="AppInsights\MyQnAConstants.cs" />
+    <Compile Include="App_Start\BotConfig.cs" />
+    <Compile Include="App_Start\BotServices.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="App_Start\UnityResolver.cs" />
+    <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QnAMaker\AppInsights\MyAppInsightsLoggerMiddleware.cs" />
-    <Compile Include="QnAMaker\QnABot.cs" />
+    <Compile Include="AppInsights\MyAppInsightsLoggerMiddleware.cs" />
+    <Compile Include="QnABot.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="README.md" />
     <Content Include="appsettings.json" />
-    <Content Include="QnaBot.bot">
+    <Content Include="QnABot.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Qna-Bot.ruleset">
+    <Content Include="QnaBot.ruleset">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="CognitiveModels\sample.qna" />
@@ -291,13 +280,13 @@
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>Qna-Bot.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>QnaBot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug - NuGet Packages|AnyCPU'">
     <OutputPath>bin\</OutputPath>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <CodeAnalysisRuleSet>Qna-Bot.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>QnaBot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
