@@ -26,7 +26,7 @@ class MainDialog {
             // If user types in run, create a new job
             if (utterance == "run"){
                 await this.createJob(this.storage, context);
-            };
+            }
 
             const firstWord = utterance.split(' ')[0];
             const secondWord = utterance.split(' ')[1];
@@ -38,7 +38,11 @@ class MainDialog {
                 await this.completeJob(this.storage, context, jobIDNumber);
             } else if (firstWord == "done" && isNaN(parseInt(secondWord))) {
                 await context.sendActivity('Enter the job ID number after "done".');
-            };
+            }
+
+            if (!context.responded) {
+                await context.sendActivity(`Say "run" to start a job, or "done <job>" to complete one.`);
+            }
 
         } else if (context.activity.type === 'event' && context.activity.name === 'jobCompleted') {
             var jobIDNumber = context.activity.value;
