@@ -35,4 +35,3 @@ namespace Simple_Prompt_Bot
                 .Build();
     }
 }
-

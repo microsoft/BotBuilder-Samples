@@ -43,7 +43,7 @@ namespace Simple_Prompt_Bot
                 return;
             }
 
-            // Run the DialogSet - let the framework identify the current state of the dialog from 
+            // Run the DialogSet - let the framework identify the current state of the dialog from
             // the dialog stack and figure out what (if any) is the active dialog.
             var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
             var results = await dialogContext.ContinueAsync(cancellationToken);
@@ -52,10 +52,12 @@ namespace Simple_Prompt_Bot
             if (results.Status == DialogTurnStatus.Empty)
             {
                 // A prompt dialog can be started directly on from the DialogContext. The prompt text is given in the PromptOptions.
-                await dialogContext.PromptAsync("name",
+                await dialogContext.PromptAsync(
+                    "name",
                     new PromptOptions { Prompt = MessageFactory.Text("please enter your name") },
                     cancellationToken);
             }
+
             // We had a dialog run (it was the prompt) now it is complete.
             else if (results.Status == DialogTurnStatus.Complete)
             {
