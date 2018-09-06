@@ -2,8 +2,8 @@
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "type": "AdaptiveCard",
     "version": "1.0",
-    "speak": "Weather forecast for Monday is high of 62 and low of 42 degrees with a 20% chance of rainWinds will be 5 mph from the northeast",
-    "backgroundImage": "http://adaptivecards.io/content/Mostly%20Cloudy-Background-Dark.jpg",
+    "speak": "Weather forecast for Monday is high of 62 and low of 42 degrees with a 20% chance of rain. Winds will be 5 mph from the northeast.",
+    "backgroundImage": "https://adaptivecards.io/content/Mostly%20Cloudy-Background-Dark.jpg",
     "body": [
       {
         "type": "ColumnSet",
@@ -14,7 +14,7 @@
             "items": [
               {
                 "type": "Image",
-                "url": "http://adaptivecards.io/content/Mostly%20Cloudy-Square.png",
+                "url": "https://adaptivecards.io/content/Mostly%20Cloudy-Square.png",
                 "size": "stretch"
               }
             ]
@@ -68,7 +68,7 @@
               {
                 "type": "Image",
                 "size": "auto",
-                "url": "http://adaptivecards.io/content/Mostly%20Cloudy-Square.png"
+                "url": "https://adaptivecards.io/content/Mostly%20Cloudy-Square.png"
               },
               {
                 "type": "TextBlock",
@@ -88,7 +88,7 @@
             "selectAction": {
               "type": "Action.OpenUrl",
               "title": "View Friday",
-              "url": "http://www.microsoft.com"
+              "url": "https://www.microsoft.com"
             }
           },
           {
@@ -104,7 +104,7 @@
               {
                 "type": "Image",
                 "size": "auto",
-                "url": "http://adaptivecards.io/content/Drizzle-Square.png"
+                "url": "https://adaptivecards.io/content/Drizzle-Square.png"
               },
               {
                 "type": "TextBlock",
@@ -124,7 +124,7 @@
             "selectAction": {
               "type": "Action.OpenUrl",
               "title": "View Saturday",
-              "url": "http://www.microsoft.com"
+              "url": "https://www.microsoft.com"
             }
           },
           {
@@ -140,7 +140,7 @@
               {
                 "type": "Image",
                 "size": "auto",
-                "url": "http://adaptivecards.io/content/Mostly%20Cloudy-Square.png"
+                "url": "https://adaptivecards.io/content/Mostly%20Cloudy-Square.png"
               },
               {
                 "type": "TextBlock",
@@ -160,7 +160,7 @@
             "selectAction": {
               "type": "Action.OpenUrl",
               "title": "View Sunday",
-              "url": "http://www.microsoft.com"
+              "url": "https://www.microsoft.com"
             }
           },
           {
@@ -176,7 +176,7 @@
               {
                 "type": "Image",
                 "size": "auto",
-                "url": "http://adaptivecards.io/content/Mostly%20Cloudy-Square.png"
+                "url": "https://adaptivecards.io/content/Mostly%20Cloudy-Square.png"
               },
               {
                 "type": "TextBlock",
@@ -196,7 +196,7 @@
             "selectAction": {
               "type": "Action.OpenUrl",
               "title": "View Monday",
-              "url": "http://www.microsoft.com"
+              "url": "https://www.microsoft.com"
             }
           }
         ]
