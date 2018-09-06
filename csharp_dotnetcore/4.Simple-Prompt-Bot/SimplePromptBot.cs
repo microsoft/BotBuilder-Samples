@@ -11,12 +11,24 @@ using Microsoft.Bot.Schema;
 namespace Simple_Prompt_Bot
 {
     /// <summary>
-    /// This bot illustrates a simple prompt. In this case we are just going to ask for a name.
+    /// Represents a bot that can process incoming activities.
+    /// For each interaction from the user, an instance of this class is called.
+    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// each time they're requested. For each Activity received, a new instance of this
+    /// class is created. Objects that are expensive to construct, or have a lifetime
+    /// beyond the single Turn, should be carefully managed.
     /// </summary>
     public class SimplePromptBot : IBot
     {
-        private DialogSet _dialogs;
+        /// <summary>
+        /// The <see cref="DialogSet"/> that contains all the Dialogs that can be used at runtime.
+        /// </summary>
+        private readonly DialogSet _dialogs;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SimplePromptBot"/> class.
+        /// </summary>
+        /// <param name="accessors">The state accessors this instance will be needing at runtime.</param>
         public SimplePromptBot(BotAccessors accessors)
         {
             _dialogs = new DialogSet(accessors.ConversationDialogState);
