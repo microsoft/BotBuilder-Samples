@@ -38,6 +38,13 @@ class MainDialog {
             console.log('SAMPLE DIALOG COMPLETED WITH RESULTS', results);
         }));
 
+        this.dialogs.add(new ScriptedDialog('followup', __dirname + '/followup.json', async (results) => {
+            console.log('FOLLOW UP DIALOG COMPLETED WITH RESULTS', results);
+        }));
+
+        this.dialogs.add(new ScriptedDialog('preamble', __dirname + '/preamble.json'));
+
+
         this.dialogs.add(new TextPrompt('TextPrompt'));
     }
 

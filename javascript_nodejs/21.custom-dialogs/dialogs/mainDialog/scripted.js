@@ -19,7 +19,7 @@ class ScriptedDialog extends Dialog {
     }
 
     async dialogBegin(dc, options) {
-        // Initialize waterfall state
+        // Initialize the state
         const state = dc.activeDialog.state;
         state.options = options || {};
         state.values = {};
@@ -47,12 +47,12 @@ class ScriptedDialog extends Dialog {
 
     async onStep(dc, step) {
 
-        // interpret the this step of the script.
+        // Let's interpret the current line of the script.
         var line = this.script[step.index];
 
         var previous = (step.index >= 1) ? this.script[step.index - 1] : null;
 
-        // handle previous step value if there was a prompt
+        // Capture the previous step value if there previous line included a prompt
         if (previous && previous.prompt) {
             if (previous.prompt.responseKey) {
                 step.values[previous.prompt.responseKey] = step.result;
@@ -60,10 +60,15 @@ class ScriptedDialog extends Dialog {
         }
 
         if (line.prompt) {
-         return await dc.prompt(line.prompt.id, line.text);
+            return await dc.prompt(line.prompt.id, line.text);
+        } else if (line.dialog) {
+            if (line.text) {
+                 await dc.context.sendActivity(line.text);
+            }
+            return await dc.begin(line.dialog.id);
         } else {
-         await dc.context.sendActivity(line.text);
-         return await step.next();
+            await dc.context.sendActivity(line.text);
+            return await step.next();
         }
     }
 
@@ -83,7 +88,7 @@ class ScriptedDialog extends Dialog {
                 values: state.values,
                 next: async (stepResult) => {
                     if (nextCalled) {
-                        throw new Error(`WaterfallStepContext.next(): method already called for dialog and step '${this.id}[${index}]'.`);
+                        throw new Error(`ScriptedStepContext.next(): method already called for dialog and step '${this.id}[${index}]'.`);
                     }
 
                     return await this.dialogResume(dc, DialogReason.nextCalled, stepResult);

@@ -1,6 +1,9 @@
 [
     {
-        "text": "hello"
+        "text": "hello",
+        "dialog": {
+            "id": "preamble"
+        }
     },
     {
         "text": "how are you?",
@@ -24,6 +27,9 @@
         }
     },
     {
-        "text": "Thanks for your time."
-    }
+        "text": "Thanks for your time.",
+        "dialog": {
+            "id": "followup"
+        }
+    }    
 ]
