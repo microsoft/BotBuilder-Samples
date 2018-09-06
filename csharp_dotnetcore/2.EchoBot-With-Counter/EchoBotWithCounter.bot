@@ -1,6 +1,6 @@
 ﻿{
     "name": "EchoBotWithCounter",
-    "description": "Qna Maker Bot Sample",
+    "description": "Echo bot with counter sample.",
     "secretKey": "",
     "services": [
       {
@@ -10,15 +10,6 @@
         "appId": "",
         "appPassword": "",
         "endpoint": "http://localhost:3978/api/messages"
-      },
-      {
-        "type": "qna",
-        "id": "",
-        "name": "QnaBot",
-        "kbId": "<Fill In Here>",
-        "subscriptionKey": "",
-        "endpointKey": "<Fill in Here>",
-        "hostname": "<Fill In Here>"
       }
     ]
 }
