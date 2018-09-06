@@ -10,7 +10,7 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 
-namespace LuisBot.AppInsights
+namespace Microsoft.BotBuilderSamples.AppInsights
 {
     /// <summary>
     /// Middleware for logging incoming, outgoing, updated or deleted Activity messages into Application Insights.

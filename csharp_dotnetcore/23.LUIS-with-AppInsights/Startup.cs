@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using LuisBot.AppInsights;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
@@ -12,14 +11,12 @@ using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
+using Microsoft.BotBuilderSamples.AppInsights;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LuisBot
+namespace Microsoft.BotBuilderSamples
 {
-    /// <summary>
-    /// The Startup class configures services and the app's request pipeline.
-    /// </summary>
     public class Startup
     {
         /// <summary>
@@ -28,19 +25,18 @@ namespace LuisBot
         /// For more information on how to configure your application, visit <a href="https://go.microsoft.com/fwlink/?LinkID=398940">here</a>.
         /// </summary>
         /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-2.1"/>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
         }
 
         /// <summary>
-        /// Gets the configuration that represents a set of key/value application configuration properties.
+        /// Gets the configuration that represents a set of key/value configuration properties.
         /// </summary>
         /// <value>
         /// The <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
@@ -51,6 +47,7 @@ namespace LuisBot
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
         public void ConfigureServices(IServiceCollection services)
         {
             // Load the connected services from .bot file
@@ -75,8 +72,8 @@ namespace LuisBot
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
-        /// <param name="app">The application builder. This provides the mechanisms to configure an application's request pipeline.</param>
-        /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
+        /// <param name="app">The application builder. This provides the mechanisms to configure the application request pipeline.</param>
+        /// <param name="env">Provides information about the web hosting environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseDefaultFiles()
@@ -155,8 +152,10 @@ namespace LuisBot
                             }
 
                             var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
-                            telemetryClient = new TelemetryClient(telemetryConfig);
-                            telemetryClient.InstrumentationKey = appInsights.InstrumentationKey;
+                            telemetryClient = new TelemetryClient(telemetryConfig)
+                            {
+                                InstrumentationKey = appInsights.InstrumentationKey,
+                            };
                             break;
                         }
                 }

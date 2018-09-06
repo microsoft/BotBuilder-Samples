@@ -5,17 +5,16 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder.AI.Luis;
 
-namespace LuisBot
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// Represents the bot's references to external services.
+    /// Represents references to external services.
     ///
-    /// For example, LUIS services are kept here (singletons).  These external services are configured
-    /// using the <see cref="BotConfiguration"/> class (based on the contents of your ".bot" file).
+    /// For example, LUIS services are kept here as a singleton.  This external service is configured
+    /// using the <see cref="BotConfiguration"/> class.
     /// </summary>
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     /// <seealso cref="https://www.luis.ai/home"/>
-    [Serializable]
     public class BotServices
     {
         /// <summary>
@@ -28,12 +27,12 @@ namespace LuisBot
         }
 
         /// <summary>
-        /// Gets the (potential) set of LUIS Services used.
-        /// Given there can be multiple LUIS services used in a single bot,
+        /// Gets the set of LUIS Services used.
+        /// Given there can be multiple <see cref="LuisRecognizer"/> services used in a single bot,
         /// LuisServices is represented as a Dictionary.  This is also modeled in the
         /// ".bot" file since the elements are named (string).
-        /// This sample only uses a single LUIS instance.
         /// </summary>
+        /// <remarks>The Luis services collection should not be modified while the bot is running.</remarks>
         /// <value>
         /// A <see cref="LuisRecognizer"/> client instance created based on configuration in the .bot file.
         /// </value>

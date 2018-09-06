@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Luis-Bot": {
+    "LuisBot": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

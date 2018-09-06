@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Newtonsoft.Json.Linq;
 
-namespace LuisBot.AppInsights
+namespace Microsoft.BotBuilderSamples.AppInsights
 {
     /// <summary>
     /// MyAppInsightLuisRecognizer invokes the LUIS Recognizer and logs some results into Application Insights.

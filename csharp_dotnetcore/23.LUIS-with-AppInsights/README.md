@@ -1,12 +1,13 @@
 ﻿﻿This sample shows how to integrate LUIS to a bot with ASP.Net Core 2. 
 
-## To try this sample
-- Clone the repository
+# To try this sample
+
+- Clone the samples repository
 ```bash
-git clone https://github.com/Microsoft/botbuilder-dotnet.git
+git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 
-https://github.com/microsoft/botbuilder-tools/tree/master/packages/Ludown
+
 
 ## Prerequisites
 ### Set up LUIS
@@ -47,12 +48,12 @@ NOTE: Once you publish your app on LUIS portal for the first time, it takes some
 - Install the Bot Framework Emulator from [here](https://aka.ms/botframeworkemulator).
 
 ### Connect to bot using Bot Framework Emulator **V4**
-- Launch Bot Framework Emulator
-- File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\12.NLP-With-LUIS` folder
-- Select LuisBot.bot file
+- Launch the Bot Framework Emulator
+- File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\12.NLP-With-LUIS` folder.
+- Select LuisBot.bot file.
 
 # Further reading
-- [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [LUIS Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)
 - [Application Insights](https://azure.microsoft.com/en-us/services/application-insights/)
 
