@@ -19,13 +19,6 @@ namespace Microsoft.BotBuilderSamples
 {
     public class Startup
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// For more information on how to configure your application, visit <a href="https://go.microsoft.com/fwlink/?LinkID=398940">here</a>.
-        /// </summary>
-        /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
-        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-2.1"/>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -35,12 +28,6 @@ namespace Microsoft.BotBuilderSamples
             Configuration = builder.Build();
         }
 
-        /// <summary>
-        /// Gets the configuration that represents a set of key/value configuration properties.
-        /// </summary>
-        /// <value>
-        /// The <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
-        /// </value>
         public IConfiguration Configuration { get; }
 
         /// <summary>
@@ -88,8 +75,10 @@ namespace Microsoft.BotBuilderSamples
         /// are created here. These external services are configured
         /// using the <see cref="BotConfiguration"/> class (based on the contents of your ".bot" file).
         /// </summary>
-        /// <param name="config">Configuration object based on your ".bot" file.</param>
-        /// <returns>A <see cref="BotConfiguration"/> representing client objects to access external services the bot uses.</returns>
+        /// <param name="config">The <see cref="BotConfiguration"/> object based on your ".bot" file.</param>
+        /// <returns>A <see cref="BotServices"/> representing client objects to access external services the bot uses.</returns>
+        /// <seealso cref="BotConfiguration"/>
+        /// <seealso cref="LuisRecognizer"/>
         private static BotServices InitBotServices(BotConfiguration config)
         {
             TelemetryClient telemetryClient = null;
@@ -101,11 +90,6 @@ namespace Microsoft.BotBuilderSamples
                 {
                     case ServiceTypes.Luis:
                         {
-                            // Create a Luis Recognizer that is initialized and suitable for passing
-                            // into the IBot-derived class (LuisBot).
-                            // In this case, we're creating a custom class (wrapping the original
-                            // Luis Recognizer client) that logs the results of Luis Recognizer results
-                            // into Application Insights for future anaysis.
                             var luis = (LuisService)service;
                             if (luis == null)
                             {

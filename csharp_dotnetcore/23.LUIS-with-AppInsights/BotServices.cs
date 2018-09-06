@@ -10,9 +10,9 @@ namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// Represents references to external services.
-    /// For example, Application Insights and LUIS services
-    /// are kept here (singletons).  These external services are configured
-    /// using the <see cref="BotConfiguration"/> class (based on the contents of your ".bot" file).
+    ///
+    /// For example, LUIS services are kept here as a singleton.  This external service is configured
+    /// using the <see cref="BotConfiguration"/> class.
     /// </summary>
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     /// <seealso cref="https://www.luis.ai/home"/>
@@ -42,12 +42,12 @@ namespace Microsoft.BotBuilderSamples
         public TelemetryClient TelemetryClient { get; }
 
         /// <summary>
-        /// Gets the (potential) set of LUIS Services used.
-        /// Given there can be multiple LUIS services used in a single bot,
-        /// LuisServices is represented as a Dictionary.  This is also modeled in the
-        /// ".bot" file since the elements are named (string).
-        /// This sample only uses a single LUIS instance.
+        /// Gets the set of LUIS Services used.
+        /// Given there can be multiple <see cref="LuisRecognizer"/> services used in a single bot,
+        /// LuisServices is represented as a dictionary.  This is also modeled in the
+        /// ".bot" file since the elements are named.
         /// </summary>
+        /// <remarks>The LUIS services collection should not be modified while the bot is running.</remarks>
         /// <value>
         /// A <see cref="LuisRecognizer"/> client instance created based on configuration in the .bot file.
         /// </value>

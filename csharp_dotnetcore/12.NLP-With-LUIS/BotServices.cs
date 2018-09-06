@@ -29,10 +29,10 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Gets the set of LUIS Services used.
         /// Given there can be multiple <see cref="LuisRecognizer"/> services used in a single bot,
-        /// LuisServices is represented as a Dictionary.  This is also modeled in the
-        /// ".bot" file since the elements are named (string).
+        /// LuisServices is represented as a dictionary.  This is also modeled in the
+        /// ".bot" file since the elements are named.
         /// </summary>
-        /// <remarks>The Luis services collection should not be modified while the bot is running.</remarks>
+        /// <remarks>The LUIS services collection should not be modified while the bot is running.</remarks>
         /// <value>
         /// A <see cref="LuisRecognizer"/> client instance created based on configuration in the .bot file.
         /// </value>

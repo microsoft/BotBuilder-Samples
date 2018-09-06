@@ -16,13 +16,6 @@ namespace Microsoft.BotBuilderSamples
 {
     public class Startup
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940.
-        /// </summary>
-        /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
-        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-2.1"/>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -32,12 +25,6 @@ namespace Microsoft.BotBuilderSamples
             Configuration = builder.Build();
         }
 
-        /// <summary>
-        /// Gets the configuration that represents a set of key/value configuration properties.
-        /// </summary>
-        /// <value>
-        /// The <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
-        /// </value>
         public IConfiguration Configuration { get; }
 
         /// <summary>
@@ -81,7 +68,7 @@ namespace Microsoft.BotBuilderSamples
         /// using the <see cref="BotConfiguration"/> class (based on the contents of your ".bot" file).
         /// </summary>
         /// <param name="config">The <see cref="BotConfiguration"/> object based on your ".bot" file.</param>
-        /// <returns>A <see cref="BotConfiguration"/> representing client objects to access external services the bot uses.</returns>
+        /// <returns>A <see cref="BotServices"/> representing client objects to access external services the bot uses.</returns>
         /// <seealso cref="BotConfiguration"/>
         /// <seealso cref="LuisRecognizer"/>
         private static BotServices InitBotServices(BotConfiguration config)
@@ -94,32 +81,30 @@ namespace Microsoft.BotBuilderSamples
                 {
                     case ServiceTypes.Luis:
                         {
-                            // Create a Luis Recognizer that is initialized and suitable for passing
-                            // into the IBot-derived class (LuisBot).
                             var luis = (LuisService)service;
                             if (luis == null)
                             {
-                                throw new InvalidOperationException("The Luis service is not configured correctly in your '.bot' file.");
+                                throw new InvalidOperationException("The LUIS service is not configured correctly in your '.bot' file.");
                             }
 
                             if (string.IsNullOrWhiteSpace(luis.AppId))
                             {
-                                throw new InvalidOperationException("The Luis Model Application Id ('appId') is required to run this sample.  Please update your '.bot' file.");
+                                throw new InvalidOperationException("The LUIS Model Application Id ('appId') is required to run this sample. Please update your '.bot' file.");
                             }
 
                             if (string.IsNullOrWhiteSpace(luis.AuthoringKey))
                             {
-                                throw new InvalidOperationException("The Luis Authoring Key ('authoringKey') is required to run this sample.  Please update your '.bot' file.");
+                                throw new InvalidOperationException("The LUIS Authoring Key ('authoringKey') is required to run this sample. Please update your '.bot' file.");
                             }
 
                             if (string.IsNullOrWhiteSpace(luis.SubscriptionKey))
                             {
-                                throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample.  Please update your '.bot' file.");
+                                throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample. Please update your '.bot' file.");
                             }
 
                             if (string.IsNullOrWhiteSpace(luis.Region))
                             {
-                                throw new InvalidOperationException("The Region ('region') is required to run this sample.  Please update your '.bot' file.");
+                                throw new InvalidOperationException("The Region ('region') is required to run this sample. Please update your '.bot' file.");
                             }
 
                             var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.Region);
