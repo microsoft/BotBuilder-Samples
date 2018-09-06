@@ -102,7 +102,7 @@ namespace NLP_With_Dispatch_Bot
         }
 
         /// <summary>
-        /// Depending on the intent from Dispatch, routes to the right Luis model or QnA service.
+        /// Depending on the intent from Dispatch, routes to the right LUIS model or QnA service.
         /// </summary>
         private async Task DispatchToTopIntentAsync(ITurnContext context, (string intent, double score)? topIntent, CancellationToken cancellationToken = default(CancellationToken))
         {

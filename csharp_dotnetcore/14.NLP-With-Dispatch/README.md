@@ -122,7 +122,7 @@ Any time the bot file is encrypted, make sure to set the botFileSecret environme
 - Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\14.NLP-With-Dispatch`) and open NLP-With-Dispatch-Bot.csproj in Visual Studio 
 - Hit F5
 
-## Visual Studio code
+## Visual Studio Code
 - Open `BotBuilder-Samples\csharp_dotnetcore\14.NLP-With-Dispatch` sample folder.
 - Bring up a terminal, navigate to BotBuilder-Samples\14.NLP-With-Dispatch folder
 - type 'dotnet run'
@@ -130,7 +130,7 @@ Any time the bot file is encrypted, make sure to set the botFileSecret environme
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://aka.ms/botframeworkemulator).
+- Install the Bot Framework Emulator from [here](https://aka.ms/botframeworkemulator).
 
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
