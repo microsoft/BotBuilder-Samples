@@ -9,11 +9,11 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Configuration;
-using QnA_Bot.AppInsights;
+using QnABot.AppInsights;
 using Unity;
 using Unity.Lifetime;
 
-namespace QnA_Bot
+namespace QnABot
 {
     /// <summary>
     /// Specifies the Unity configuration for the main container.
@@ -79,11 +79,6 @@ namespace QnA_Bot
                 {
                     case ServiceTypes.QnA:
                         {
-                            // Create a QnA Maker that is initialized and suitable for passing
-                            // into the IBot-derived class (QnABot).
-                            // In this case, we're creating a custom class (wrapping the original
-                            // QnAMaker client) that logs the results of QnA Maker into Application
-                            // Insights for future anaysis.
                             var qna = (QnAMakerService)service;
                             if (qna == null)
                             {
@@ -92,17 +87,17 @@ namespace QnA_Bot
 
                             if (string.IsNullOrWhiteSpace(qna.KbId))
                             {
-                                throw new InvalidOperationException("The Qna KnowledgeBaseId ('kbId') is required to run this sample.  Please update your '.bot' file.");
+                                throw new InvalidOperationException("The QnA KnowledgeBaseId ('kbId') is required to run this sample. Please update your '.bot' file.");
                             }
 
                             if (string.IsNullOrWhiteSpace(qna.EndpointKey))
                             {
-                                throw new InvalidOperationException("The Qna EndpointKey ('endpointKey') is required to run this sample.  Please update your '.bot' file.");
+                                throw new InvalidOperationException("The QnA EndpointKey ('endpointKey') is required to run this sample. Please update your '.bot' file.");
                             }
 
                             if (string.IsNullOrWhiteSpace(qna.Hostname))
                             {
-                                throw new InvalidOperationException("The Qna Host ('hostname') is required to run this sample.  Please update your '.bot' file.");
+                                throw new InvalidOperationException("The QnA Host ('hostname') is required to run this sample. Please update your '.bot' file.");
                             }
 
                             var qnaEndpoint = new QnAMakerEndpoint()
@@ -112,7 +107,7 @@ namespace QnA_Bot
                                 Host = qna.Hostname,
                             };
 
-                            var qnaMaker = new MyAppInsightsQnAMaker(qnaEndpoint, null, logUserName: false, logOriginalMessage: false);
+                            var qnaMaker = new QnAMaker(qnaEndpoint);
                             qnaServices.Add(qna.Name, qnaMaker);
 
                             break;
@@ -132,8 +127,10 @@ namespace QnA_Bot
                             }
 
                             var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
-                            telemetryClient = new TelemetryClient(telemetryConfig);
-                            telemetryClient.InstrumentationKey = appInsights.InstrumentationKey;
+                            telemetryClient = new TelemetryClient(telemetryConfig)
+                            {
+                                InstrumentationKey = appInsights.InstrumentationKey,
+                            };
                             break;
                         }
                 }

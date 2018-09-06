@@ -8,7 +8,7 @@ using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 
-namespace QnA_Bot.AppInsights
+namespace QnABot.AppInsights
 {
     /// <summary>
     /// MyAppInsightsQnARecognizer invokes the QnA Maker and logs some results into Application Insights.

@@ -1,6 +1,6 @@
 ﻿{
     "name": "QnABot",
-    "description": "",
+    "description": "Sample using QnA Maker with ASP.net Web API",
     "secretKey": "",
     "services": [
       {

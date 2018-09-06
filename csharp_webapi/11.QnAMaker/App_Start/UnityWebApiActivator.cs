@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 using System.Web.Http;
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(QnA_Bot.UnityWebApiActivator), nameof(QnA_Bot.UnityWebApiActivator.Start))]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(QnA_Bot.UnityWebApiActivator), nameof(QnA_Bot.UnityWebApiActivator.Shutdown))]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(QnABot.UnityWebApiActivator), nameof(QnABot.UnityWebApiActivator.Start))]
+[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(QnABot.UnityWebApiActivator), nameof(QnABot.UnityWebApiActivator.Shutdown))]
 
-namespace QnA_Bot
+namespace QnABot
 {
     /// <summary>
     /// Provides the bootstrapping for integrating Unity with WebApi when it is hosted in ASP.NET.
@@ -20,7 +20,6 @@ namespace QnA_Bot
         {
             // Use UnityHierarchicalDependencyResolver if you want to use
             // a new child container for each IHttpController resolution.
-            // var resolver = new UnityHierarchicalDependencyResolver(UnityConfig.Container);
             var resolver = new UnityResolver(UnityConfig.Container);
 
             GlobalConfiguration.Configuration.DependencyResolver = resolver;

@@ -1,14 +1,16 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Configuration;
+using System.Linq;
+using System.Web.Hosting;
 using System.Web.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.WebApi;
+using Microsoft.Bot.Configuration;
 
-namespace QnA_Bot
+namespace QnABot
 {
     /// <summary>
-    /// Performs the Bot-specific configuration during Asp.Net start.
+    /// Bot-specific configuration during Asp.Net WebAPI start.
     /// </summary>
     public class BotConfig
     {
@@ -20,8 +22,13 @@ namespace QnA_Bot
         {
             config.MapBotFramework(botConfig =>
             {
+                // Load Connected Services from .bot file
+                var path = HostingEnvironment.MapPath(@"~/QnABot.bot");
+                var botConfigurationFile = BotConfiguration.Load(path);
+                var endpointService = (EndpointService)botConfigurationFile.Services.First(s => s.Type == "endpoint");
+
                 botConfig
-                    .UseMicrosoftApplicationIdentity(ConfigurationManager.AppSettings["BotFramework.MicrosoftApplicationId"], ConfigurationManager.AppSettings["BotFramework.MicrosoftApplicationPassword"]);
+                    .UseMicrosoftApplicationIdentity(endpointService?.AppId, endpointService?.AppPassword);
             });
         }
     }
