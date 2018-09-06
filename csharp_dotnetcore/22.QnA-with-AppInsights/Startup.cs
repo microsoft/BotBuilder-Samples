@@ -15,11 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QnABot.AppInsights;
 
-namespace QnABot
+namespace Microsoft.BotBuilderSamples
 {
-    /// <summary>
-    /// The Startup class configures services and the app's request pipeline.
-    /// </summary>
     public class Startup
     {
         /// <summary>
@@ -51,16 +48,15 @@ namespace QnABot
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
-        /// <param name="services">Specifies the contract for a collection of service descriptors.</param>
+        /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
         /// <seealso cref="IServiceCollection"/>
-        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection"/>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
         public void ConfigureServices(IServiceCollection services)
         {
             // Load the connected services from .bot file
-            // BUGBUG: This needs to change to common bot file, once emulator understand appInsights type.
             var botConfig = BotConfiguration.Load(@".\QnABot.bot");
 
-            // Initialize Bot Connected Services Clients
+            // Initialize Bot Connected Services clients.
             var connectedServices = InitBotServices(botConfig);
             services.AddSingleton(sp => connectedServices);
 
@@ -79,8 +75,8 @@ namespace QnABot
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
-        /// <param name="app">The application builder.  This provides the mechanisms to configure an application's request pipeline.</param>
-        /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
+        /// <param name="app">The application builder.  This provides the mechanisms to configure the application request pipeline.</param>
+        /// <param name="env">Provides information about the web hosting environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseDefaultFiles()
@@ -90,12 +86,11 @@ namespace QnABot
 
         /// <summary>
         /// Initialize the bot's references to external services.
-        ///
         /// For example, Application Insights and QnaMaker services
         /// are created here.  These external services are configured
         /// using the <see cref="BotConfiguration"/> class (based on the contents of your ".bot" file).
         /// </summary>
-        /// <param name="config">Configuration object based on your ".bot" file.</param>
+        /// <param name="config">The <see cref="BotConfiguration"/> object based on your ".bot" file.</param>
         /// <returns>A <see cref="BotConfiguration"/> representing client objects to access external services the bot uses.</returns>
         /// <seealso cref="BotConfiguration"/>
         /// <seealso cref="QnAMaker"/>
@@ -124,17 +119,17 @@ namespace QnABot
 
                             if (string.IsNullOrWhiteSpace(qna.KbId))
                             {
-                                throw new InvalidOperationException("The Qna KnowledgeBaseId ('kbId') is required to run this sample.  Please update your '.bot' file.");
+                                throw new InvalidOperationException("The QnA KnowledgeBaseId ('kbId') is required to run this sample.  Please update your '.bot' file.");
                             }
 
                             if (string.IsNullOrWhiteSpace(qna.EndpointKey))
                             {
-                                throw new InvalidOperationException("The Qna EndpointKey ('endpointKey') is required to run this sample.  Please update your '.bot' file.");
+                                throw new InvalidOperationException("The QnA EndpointKey ('endpointKey') is required to run this sample.  Please update your '.bot' file.");
                             }
 
                             if (string.IsNullOrWhiteSpace(qna.Hostname))
                             {
-                                throw new InvalidOperationException("The Qna Host ('hostname') is required to run this sample.  Please update your '.bot' file.");
+                                throw new InvalidOperationException("The QnA Host ('hostname') is required to run this sample.  Please update your '.bot' file.");
                             }
 
                             var qnaEndpoint = new QnAMakerEndpoint()

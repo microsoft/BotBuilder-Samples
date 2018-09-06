@@ -6,16 +6,15 @@ using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder.AI.QnA;
 
-namespace QnABot
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// Represents the bot's references to external services.
     ///
     /// For example, Application Insights and QnaMaker services
-    /// are kept here (singletons).  These external services are configured
-    /// using the BotConfigure class (based on the contents of your ".bot" file).
+    /// are configured here using the <see cref="Microsoft.Bot.Configuration.BotConfiguration"/> class
+    /// (based on the contents of your ".bot" file).
     /// </summary>
-    [Serializable]
     public class BotServices
     {
         /// <summary>
