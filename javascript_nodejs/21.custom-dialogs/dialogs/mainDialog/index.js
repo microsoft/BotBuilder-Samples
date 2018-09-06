@@ -44,7 +44,6 @@ class MainDialog {
 
         this.dialogs.add(new ScriptedDialog('preamble', __dirname + '/preamble.json'));
 
-
         this.dialogs.add(new TextPrompt('TextPrompt'));
     }
 

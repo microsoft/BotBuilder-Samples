@@ -1,9 +1,6 @@
 [
     {
-        "text": "hello",
-        "dialog": {
-            "id": "preamble"
-        }
+        "text": "hello"
     },
     {
         "text": "how are you?",

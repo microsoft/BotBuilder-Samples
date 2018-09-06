@@ -60,12 +60,24 @@ class ScriptedDialog extends Dialog {
         }
 
         if (line.prompt) {
-            return await dc.prompt(line.prompt.id, line.text);
+            try {
+                return await dc.prompt(line.prompt.id, line.text);
+            } catch (err) {
+                console.error(err);
+                await dc.context.sendActivity(`Failed to start prompt ${ line.prompt.id }`);
+                return await step.next();
+            }
         } else if (line.dialog) {
             if (line.text) {
                  await dc.context.sendActivity(line.text);
             }
-            return await dc.begin(line.dialog.id);
+            try {
+                return await dc.begin(line.dialog.id);
+            } catch (err) {
+                console.error(err);
+                await dc.context.sendActivity(`Failed to start dialog ${ line.dialog.id }`);
+                return await step.next();
+            }
         } else {
             await dc.context.sendActivity(line.text);
             return await step.next();
@@ -74,7 +86,7 @@ class ScriptedDialog extends Dialog {
 
     async runStep(dc, index, reason, result) {
         if (index < this.script.length) {
-            // Update persisted step index
+            // Update the step index
             const state = dc.activeDialog.state;
             state.stepIndex = index;
 
