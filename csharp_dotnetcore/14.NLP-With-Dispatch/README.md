@@ -54,13 +54,13 @@ To create the LUIS application this bot needs and update the .bot file configura
 - Navigate to BotBuilder-Samples\csharp_dotnetcore\14.NlpWithDispatch
 - Run the following commands
 ```bash 
-> ludown parse toluis --in dialogs/homeAutomation/resources/homeautomation.lu -o cognitiveModels -n homeautomation.luis
+> ludown parse toluis --in Resources/homeautomation.lu -o CognitiveModels -n homeautomation.luis
 
-> ludown parse toluis --in dialogs/weather/resources/weather.lu -o cognitiveModels -n weather.luis
+> ludown parse toluis --in Resources/weather.lu -o CognitiveModels -n weather.luis
 
-> luis import application --in cognitiveModels\homeautomation.luis --authoringKey <YOUR-LUIS-AUTHORING-KEY> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect luis --stdin --name homeautomation.luis
+> luis import application --in CognitiveModels\homeautomation.luis --authoringKey <YOUR-LUIS-AUTHORING-KEY> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect luis --stdin --name homeautomation.luis
 
-> luis import application --in cognitiveModels\weather.luis --authoringKey <YOUR-LUIS-AUTHORING-KEY> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect luis --stdin --name weather.luis
+> luis import application --in CognitiveModels\weather.luis --authoringKey <YOUR-LUIS-AUTHORING-KEY> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect luis --stdin --name weather.luis
 ```
 
 If you decide to change the names passed to msbot such as weather.luis, then you need to update the constants in [NlpDispatchBot.cs](NlpDispatch/NlpDispatchBot.cs). For example, if you change homeautomation.luis to just home, you would update the HomeAutomationLuisKey variable to "home" and the homeAutomationDispatchKey to the intent name assigned by dispatcher, which in this case will be "l_home".
