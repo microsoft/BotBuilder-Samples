@@ -23,6 +23,8 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class SimplePromptBot : IBot
     {
+        private readonly BotAccessors _accessors;
+
         /// <summary>
         /// The <see cref="DialogSet"/> that contains all the Dialogs that can be used at runtime.
         /// </summary>
@@ -34,6 +36,7 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="accessors">The state accessors this instance will be needing at runtime.</param>
         public SimplePromptBot(BotAccessors accessors)
         {
+            _accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
             _dialogs = new DialogSet(accessors.ConversationDialogState);
             _dialogs.Add(new TextPrompt("name"));
         }
@@ -66,23 +69,26 @@ namespace Microsoft.BotBuilderSamples
             // If the DialogTurnStatus is Empty we should start a new dialog.
             if (results.Status == DialogTurnStatus.Empty)
             {
-                // A prompt dialog can be started directly on from the DialogContext. The prompt text is given in the PromptOptions.
+                // A prompt dialog can be started directly on the DialogContext. The prompt text is given in the PromptOptions.
                 await dialogContext.PromptAsync(
                     "name",
-                    new PromptOptions { Prompt = MessageFactory.Text("please enter your name") },
+                    new PromptOptions { Prompt = MessageFactory.Text("Please enter your name.") },
                     cancellationToken);
             }
 
-            // We had a dialog run (it was the prompt) now it is complete.
+            // We had a dialog run (it was the prompt). Now it is Complete.
             else if (results.Status == DialogTurnStatus.Complete)
             {
                 // Check for a result.
                 if (results.Result != null)
                 {
-                    // And finish by sending a message to the user. Next time ContinueAsync is called it will return DialogTurnStatus.Empty.
+                    // Finish by sending a message to the user. Next time ContinueAsync is called it will return DialogTurnStatus.Empty.
                     await turnContext.SendActivityAsync(MessageFactory.Text($"Thank you, I have your name as '{results.Result}'."));
                 }
             }
+
+            // Save the new turn count into the conversation state.
+            await _accessors.ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
     }
 }

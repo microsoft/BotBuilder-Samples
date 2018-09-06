@@ -17,12 +17,6 @@ namespace Microsoft.BotBuilderSamples
 {
     public class Startup
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940.
-        /// </summary>
-        /// <param name="env">Provides information about the <see cref="IHostingEnvironment"/> an application is running in.</param>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -34,12 +28,6 @@ namespace Microsoft.BotBuilderSamples
             Configuration = builder.Build();
         }
 
-        /// <summary>
-        /// Gets the <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
-        /// </summary>
-        /// <value>
-        /// The <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
-        /// </value>
         public IConfiguration Configuration { get; }
 
         /// <summary>
@@ -48,10 +36,10 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBot<PromptValidations>(options =>
+            services.AddBot<PromptValidationsBot>(options =>
             {
                 // Memory Storage is for local bot debugging only. When the bot
-                // is restarted, anything stored in memory will be gone.
+                // is restarted, everything stored in memory will be gone.
                 IStorage dataStore = new MemoryStorage();
 
                 // For production bots use the Azure Blob or
@@ -64,11 +52,6 @@ namespace Microsoft.BotBuilderSamples
                 // Create and add conversation state.
                 var convoState = new ConversationState(dataStore);
                 options.State.Add(convoState);
-
-                // The BotStateSet middleware forces state storage to auto-save when the bot is complete processing the message.
-                // Note: Developers may choose not to add all the state providers to this middleware if save is not required.
-                var stateSet = new BotStateSet(options.State.ToArray());
-                options.Middleware.Add(stateSet);
             });
 
             services.AddSingleton(sp =>
@@ -88,7 +71,7 @@ namespace Microsoft.BotBuilderSamples
 
                 // The dialogs will need a state store accessor. Creating it here once (on-demand) allows the dependency injection
                 // to hand it to our IBot class that is create per-request.
-                var accessors = new BotAccessors
+                var accessors = new BotAccessors(conversationState)
                 {
                     ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
                 };

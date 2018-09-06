@@ -69,11 +69,6 @@ namespace Microsoft.BotBuilderSamples
                 // Create and add user state.
                 var userState = new UserState(dataStore);
                 options.State.Add(userState);
-
-                // The BotStateSet middleware forces state storage to auto-save when the bot is complete processing the message.
-                // Note: Developers may choose not to add all the state providers to this middleware if save is not required.
-                var stateSet = new BotStateSet(options.State.ToArray());
-                options.Middleware.Add(stateSet);
             });
 
             services.AddSingleton(sp =>
@@ -99,7 +94,7 @@ namespace Microsoft.BotBuilderSamples
 
                 // The dialogs will need a state store accessor. Creating it here once (on-demand) allows the dependency injection
                 // to hand it to our IBot class that is create per-request.
-                var accessors = new BotAccessors
+                var accessors = new BotAccessors(conversationState, userState)
                 {
                     ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
                     UserProfile = userState.CreateProperty<UserProfile>("UserProfile"),
