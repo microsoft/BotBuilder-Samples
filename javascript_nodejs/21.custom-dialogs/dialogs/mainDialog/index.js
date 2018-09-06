@@ -9,6 +9,8 @@ const DIALOG_STATE_PROPERTY = 'dialogState';
 const USER_RESPONSES = 'user';
 
 const CHECKIN_DIALOG = 'checkin';
+const THANKS_DIALOG = 'thanks';
+
 
 class MainDialog {
     /**
@@ -32,6 +34,8 @@ class MainDialog {
             console.log('Checkin completed: ', results);
             await this.userResponses.set(dc.context, results);
         }));
+
+        this.dialogs.add(new ScriptedDialog(THANKS_DIALOG, __dirname + '/resources/thanks.json'));
 
         this.dialogs.add(new TextPrompt('TextPrompt'));
 

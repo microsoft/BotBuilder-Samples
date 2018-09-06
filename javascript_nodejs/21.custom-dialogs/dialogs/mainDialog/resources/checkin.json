@@ -24,6 +24,8 @@
         }
     },
     {
-        "text": "Thanks for your time."
+        "dialog": {
+            "id": "thanks"
+        }
     }    
 ]
