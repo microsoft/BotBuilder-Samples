@@ -6,11 +6,10 @@ using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder.AI.Luis;
 
-namespace LuisBot
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// Represents the bot's references to external services.
-    ///
+    /// Represents references to external services.
     /// For example, Application Insights and LUIS services
     /// are kept here (singletons).  These external services are configured
     /// using the <see cref="BotConfiguration"/> class (based on the contents of your ".bot" file).
@@ -18,7 +17,6 @@ namespace LuisBot
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     /// <seealso cref="https://www.luis.ai/home"/>
     /// <seealso cref="https://azure.microsoft.com/en-us/services/application-insights/"/>
-    [Serializable]
     public class BotServices
     {
         /// <summary>

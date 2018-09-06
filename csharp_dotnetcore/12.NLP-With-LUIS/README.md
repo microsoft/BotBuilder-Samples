@@ -1,12 +1,11 @@
 ﻿﻿This sample shows how to integrate LUIS to a bot with ASP.Net Core 2. 
 
-## To try this sample
-- Clone the repository
+# To try this sample
+- Clone the samples repository
 ```bash
-git clone https://github.com/Microsoft/botbuilder-dotnet.git
+git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 
-https://github.com/microsoft/botbuilder-tools/tree/master/packages/Ludown
 
 ## Prerequisites
 ### Set up LUIS
@@ -29,18 +28,17 @@ NOTE: Once you publish your app on LUIS portal for the first time, it takes some
 ### (Optional) Install LUDown
 - (Optional) Install the LUDown [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUDown) to help describe language understanding components for your bot.
 
-### Visual Studio
+## Visual Studio
 - Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\12.NLP-With-LUIS`) and open `Luis-Bot.csproj` in Visual Studio 
 - Hit F5
 
-### Visual Studio Code
+## Visual Studio Code
 - Open `BotBuilder-Samples\csharp_dotnetcore\12.NLP-With-LUIS` sample folder
 - Bring up a terminal, navigate to `BotBuilder-Samples\csharp_dotnetcore\12.NLP-With-LUIS` folder.
 - Type 'dotnet run'.
 
 ## Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://aka.ms/botframeworkemulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
-
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 - Install the Bot Framework Emulator from [here](https://aka.ms/botframeworkemulator).
 
 ### Connect to bot using Bot Framework Emulator **V4**

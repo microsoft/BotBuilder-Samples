@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace LuisBot
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// This is an ASP.NET Core app that creates a webserver.

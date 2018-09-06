@@ -1,6 +1,6 @@
 ﻿{
     "name": "LuisBot",
-    "description": "Luis Bot Sample",
+    "description": "Asp.Net Core 2 sample bot with Language Understanding (LUIS) service.",
     "secretKey": "",
     "services": [
       {
@@ -10,15 +10,6 @@
         "appId": "",
         "appPassword": "",
         "endpoint": "http://localhost:3978/api/messages"
-      },
-      {
-        "type": "luis",
-        "id": "",
-        "appId": "<Fill in here>",
-        "authoringKey": "<Fill In Here>",
-        "subscriptionKey": "",
-        "version": "<Fill in Here>",
-        "region": "<Fill In Here>"
       }
     ]
 }

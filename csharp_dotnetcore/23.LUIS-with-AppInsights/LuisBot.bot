@@ -1,6 +1,6 @@
 ﻿{
     "name": "LuisBot",
-    "description": "Luis Bot Sample",
+    "description": "Language Understanding (LUIS) sample using Asp.Net Core 2",
     "secretKey": "",
     "services": [
       {
@@ -10,29 +10,6 @@
         "appId": "",
         "appPassword": "",
         "endpoint": "http://localhost:3978/api/messages"
-      },
-      {
-        "type": "luis",
-        "id": "",
-        "appId": "<Fill in here>",
-        "authoringKey": "<Fill In Here>",
-        "subscriptionKey": "",
-        "version": "<Fill in Here>",
-        "region": "<Fill In Here>"
-      },
-      {
-        "type": "appInsights",
-        "id": "3",
-        "name": "",
-        "tenantId": "",
-        "subscriptionId": "",
-        "resourceGroup": "",
-        "instrumentationKey": "<Fill In Here>",
-        "applicationId": "00000000-0000-0000-0000-000000000007",
-        "apiKeys": {
-          "key1": "testKey1",
-          "key2": "testKey2"
-        }
       }
     ]
 }
