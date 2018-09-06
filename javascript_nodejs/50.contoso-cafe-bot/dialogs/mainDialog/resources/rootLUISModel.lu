@@ -8,3 +8,7 @@
 [Help intent](../../help/resources/help.lu)
 
 [Who are you intent](../../whoAreYou/resources/whoAreYou.lu)
+
+> Add references to book table turn.n so these continue to be routed to book table dialog
+# Book Table
+- [Book Table turn-N](../../bookTable/resources/turn-N.lu#GetLocationDateTimePartySize)

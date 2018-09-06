@@ -2,6 +2,9 @@
   "intents": [
     {
       "name": "GetLocationDateTimePartySize"
+    },
+    {
+      "name": "Cancel"
     }
   ],
   "entities": [],
@@ -196,6 +199,36 @@
     {
       "text": "yes",
       "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "I dont want that anymore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Abort",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Please cancel that",
+      "intent": "Cancel",
       "entities": []
     }
   ],
