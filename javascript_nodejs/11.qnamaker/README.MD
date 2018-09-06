@@ -32,7 +32,7 @@ In this sample, we demonstrate how to use the QnA Maker service to answer questi
 
 - Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator)
 
-## Connect to bot using Bot Framework Emulator **V4**
+## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to javascript_node.js\11.qnamaker folder
 - Select qnamaker.bot file
@@ -41,12 +41,12 @@ In this sample, we demonstrate how to use the QnA Maker service to answer questi
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a QnA Maker service.
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base#create-a-qna-maker-knowledge-base) to import the [smartLightFAQ.tsv](cognitiveModels/smartLightFAQ.tsv) to your newly created QnA Maker service.
 - Update [qnamaker.bot](qnamaker.bot) with your QnAMaker-Host, QnAMaker-KnowledgeBaseId and QnAMaker-EndpointKey. You can find this information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://qnamaker.ai).
-- (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the Qna Maker CLI to deploy the model.
+- (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the `qnamaker` CLI tool to deploy the model.
 
 # QnA Maker service
 QnA Maker enables you to power a question and answer service from your semi-structured content. 
 
-One of the basic requirements in writing your own Bot service is to seed it with questions and answers. In many cases, the questions and answers already exist in content like FAQ URLs/documents, product manuals, etc. With QnA Maker, users can query your application in a natural, conversational manner. QnA Maker uses machine learning to extract relevant question-answer pairs from your content. It also uses powerful matching and ranking algorithms to provide the best possible match between the user query and the questions.
+One of the basic requirements in writing your own bot is to seed it with questions and answers. In many cases, the questions and answers already exist in content like FAQ URLs/documents, product manuals, etc. With QnA Maker, users can query your application in a natural, conversational manner. QnA Maker uses machine learning to extract relevant question-answer pairs from your content. It also uses powerful matching and ranking algorithms to provide the best possible match between the user query and the questions.
 
 # Further reading
 - [About Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

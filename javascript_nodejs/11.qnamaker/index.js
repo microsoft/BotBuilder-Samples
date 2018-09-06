@@ -31,7 +31,6 @@ try {
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
 } catch (err) {
     console.log(`Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
-    throw err;
     process.exit(CONFIG_ERROR);
 }
 
@@ -44,7 +43,7 @@ const QNA_CONFIGURATION = 'qnamakerService';
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 const qnaConfig = botConfig.findServiceByNameOrId(QNA_CONFIGURATION);
 
-// Map the contents to the required format for QnAMaker.
+// Map the contents to the required format for `QnAMaker`.
 const qnaEndpointSettings = {
     knowledgeBaseId: qnaConfig.kbId,
     endpointKey: qnaConfig.endpointKey,

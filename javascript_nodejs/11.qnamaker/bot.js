@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, CardFactory } = require('botbuilder');
+const { ActivityTypes } = require('botbuilder');
 const { QnAMaker, QnAMakerEndpoint, QnAMakerOptions } = require('botbuilder-ai');
 
 /**
@@ -20,7 +20,7 @@ class QnAMakerBot {
     }
 
     /**
-     * Every conversation turn for our QnA Bot will call this method.
+     * Every conversation turn for our QnAMakerBot will call this method.
      * There are no dialogs used, since it's "single turn" processing, meaning a single request and
      * response, with no stateful conversation.
      * @param turnContext A TurnContext instance, containing all the data needed for processing the conversation turn.
@@ -37,7 +37,7 @@ class QnAMakerBot {
             
             // If no answers were returned from QnA Maker, reply with help.
             } else {
-                await turnContext.sendActivity('No QnA Maker answers were found. This example uses a QnA Maker Knowledge Base that focuses on smart light bulbs. To see QnA Maker in action, ask the bot questions like "Why won\'t it turn on?" or say something like "I need help."');
+                await turnContext.sendActivity('No QnA Maker answers were found. This example uses a QnA Maker Knowledge Base that focuses on smart light bulbs. To see QnA Maker in action, ask the bot questions like "Why won\'t it turn on?" or "I need help."');
             }
 
         // If the Activity is a ConversationUpdate, send a greeting message to the user.
