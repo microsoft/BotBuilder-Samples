@@ -1,0 +1,29 @@
+[
+    {
+        "text": "hello"
+    },
+    {
+        "text": "how are you?",
+        "prompt": {
+            "id": "TextPrompt",
+            "responseKey": "how_are_you"
+        }
+    },
+    {
+        "text": "Got it. And what are you going to work on today?",
+        "prompt": {
+            "id": "TextPrompt",
+            "responseKey": "today_goal"
+        }
+    },
+    {
+        "text": "How can the team help you?",
+        "prompt": {
+            "id": "TextPrompt",
+            "responseKey": "help_me_with"
+        }
+    },
+    {
+        "text": "Thanks for your time."
+    }
+]
