@@ -14,11 +14,10 @@
             "type": "qna",
             "id": "qnamakerService",
             "name": "qnamakerService",
-            "kbId": "7f34a978-ca40-42e9-9280-290bf9369895",
-            "subscriptionKey": "09b0de965a574b2582162fd7fa1321eb",
-            "endpointKey": "02d0fc43-9802-4f53-969e-6ceb934047d3",
-            "hostname": "https://ignite2018-samples.azurewebsites.net/qnamaker",
-            "ignoredValue": "/knowledgebases/7f34a978-ca40-42e9-9280-290bf9369895/generateAnswer"
+            "kbId": "",
+            "subscriptionKey": "",
+            "endpointKey": "",
+            "hostname": ""
         }
     ]
 }
