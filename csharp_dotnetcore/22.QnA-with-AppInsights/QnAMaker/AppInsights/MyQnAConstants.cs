@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace QnA_Bot.AppInsights
+namespace QnABot.AppInsights
 {
     /// <summary>
     /// The Application Insights property names to log.
