@@ -12,8 +12,7 @@
   "author": "Microsoft",
   "license": "MIT",
   "dependencies": {
-    "botbuilder": "^4.0.0-preview1.1163",
-    "dotenv": "^6.0.0"
+    "botbuilder": "^4.0.0-preview1.1163"
   },
   "devDependencies": {
     "nodemon": "^1.18.4"
