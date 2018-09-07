@@ -13,7 +13,7 @@ using Unity.Lifetime;
 namespace EchoBotWithCounter
 {
     /// <summary>
-    /// Performs the Bot-specific configuration during Asp.Net start.
+    /// Performs bot-specific configuration during Asp.Net start.
     /// </summary>
     public class BotConfig
     {
@@ -26,7 +26,7 @@ namespace EchoBotWithCounter
             config.MapBotFramework(botConfig =>
             {
                 // Load Connected Services from .bot file
-                var path = HostingEnvironment.MapPath(@"~/EchoBotWithCounter.bot");
+                var path = HostingEnvironment.MapPath(@"~/EchoBot.bot");
                 var botConfigurationFile = BotConfiguration.Load(path);
                 var endpointService = (EndpointService)botConfigurationFile.Services.First(s => s.Type == "endpoint");
 

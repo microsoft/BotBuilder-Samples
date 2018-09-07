@@ -27,7 +27,7 @@ namespace EchoBotWithCounter
           });
 
         /// <summary>
-        /// Gets configured Unity Container.
+        /// Gets the configured Unity Container.
         /// </summary>
         /// <value>
         /// The <see cref="IUnityContainer"/> container.

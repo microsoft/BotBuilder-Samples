@@ -1,4 +1,4 @@
-﻿This sample demonstrates a simple echo bot using state with ASP.Net Core 2.
+﻿This sample demonstrates a simple echo bot using state with ASP.Net Web API.
 
 # To try this sample
 - Clone the samples repository
@@ -21,7 +21,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 developers to test and debug their bots on localhost or running remotely through a tunnel.
 - Install the Bot Framework emulator from [here](https://aka.ms/botframeworkemulator).
 
-## Connect to bot using Bot Framework Emulator **V4**
+## Connect to bot using Bot Framework Emulator V4
 - Launch the Bot Framework Emulator.
 - File -> Open bot and navigate to `BotBuilder-Samples\csharp_webapi\2.EchoBot-With-Counter` folder.
 - Select `EchoBot.bot` file.
