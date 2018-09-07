@@ -148,6 +148,7 @@ DocProject/Help/html
 
 # Click-Once directory
 publish/
+PublishProfiles/
 
 # Publish Web Output
 *.[Pp]ublish.xml
