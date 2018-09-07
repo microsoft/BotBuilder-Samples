@@ -21,6 +21,10 @@ namespace Microsoft.BotBuilderSamples
     {
         private const string ConnectionName = "AADv2Connection";
 
+        private const string HelpText = " This bot will introduce you to Authentication." +
+                                        " Type anything to get logged in. Type 'logout' to signout." +
+                                        " Type 'help' to view this message again";
+
         private readonly AuthenticationBotAccessors _stateAccessors;
         private readonly DialogSet _dialogs;
 
@@ -53,14 +57,19 @@ namespace Microsoft.BotBuilderSamples
                 case ActivityTypes.Message:
 
                     var text = turnContext.Activity.Text.ToLowerInvariant();
-                    if (text == "signout" || text == "logout" || text == "signoff" || text == "logoff")
+                    if (text == "help")
+                    {
+                        await turnContext.SendActivityAsync(HelpText, cancellationToken: cancellationToken);
+                        break;
+                    }
+
+                    if (text == "logout")
                     {
                             // The bot adapter encapsulates authentication processes and sends
                             // activities to and receives activities from the Bot Connector Service.
                             var botAdapter = (BotFrameworkAdapter)turnContext.Adapter;
                             await botAdapter.SignOutUserAsync(turnContext, ConnectionName, cancellationToken);
                     }
-
                     await dc.ContinueAsync(cancellationToken);
 
                     if (!turnContext.Responded)
@@ -110,10 +119,7 @@ namespace Microsoft.BotBuilderSamples
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     await turnContext.SendActivityAsync(
-                        $"Welcome to AuthenticationBot {member.Name}." +
-                        $" This bot will introduce you to Authentication." +
-                        $" Type anything to get logged in. Type 'logout' to signout." +
-                        $" Type 'help' to view this message again",
+                        $"Welcome to AuthenticationBot {member.Name}.",
                         cancellationToken: cancellationToken);
                 }
             }
