@@ -148,7 +148,7 @@ namespace NLP_With_Dispatch_Bot
                 var results = await _services.QnAServices[appName].GetAnswersAsync(context).ConfigureAwait(false);
                 if (results.Any())
                 {
-                    await context.SendActivityAsync(results.First().Answer, cancellationToken);
+                    await context.SendActivityAsync(results.First().Answer, cancellationToken: cancellationToken);
                 }
                 else
                 {
