@@ -19,6 +19,8 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class AuthenticationBot : IBot
     {
+        // This is your connection name.  It can be found on Azure in
+        // your Bot Channels Registration on the settings blade.
         private const string ConnectionName = "AADv2Connection";
 
         private const string HelpText = " This bot will introduce you to Authentication." +
@@ -65,11 +67,15 @@ namespace Microsoft.BotBuilderSamples
 
                     if (text == "logout")
                     {
-                            // The bot adapter encapsulates authentication processes and sends
-                            // activities to and receives activities from the Bot Connector Service.
-                            var botAdapter = (BotFrameworkAdapter)turnContext.Adapter;
-                            await botAdapter.SignOutUserAsync(turnContext, ConnectionName, cancellationToken);
+                        // The bot adapter encapsulates authentication processes and sends
+                        // activities to and receives activities from the Bot Connector Service.
+                        var botAdapter = (BotFrameworkAdapter)turnContext.Adapter;
+                        await botAdapter.SignOutUserAsync(turnContext, ConnectionName, cancellationToken);
+                        await turnContext.SendActivityAsync("You have been signed out.", cancellationToken: cancellationToken);
+                        await turnContext.SendActivityAsync(HelpText, cancellationToken: cancellationToken);
+                        break;
                     }
+
                     await dc.ContinueAsync(cancellationToken);
 
                     if (!turnContext.Responded)
