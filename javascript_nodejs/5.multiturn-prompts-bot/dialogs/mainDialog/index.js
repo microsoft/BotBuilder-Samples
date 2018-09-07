@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActionTypes, MessageFactory } = require('botbuilder');
-
-const { TextPrompt, NumberPrompt, ChoicePrompt, DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
+const { ChoicePrompt, DialogSet, NumberPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
 const USER_PROFILE_PROPERTY = 'user';
@@ -36,9 +34,9 @@ class MainDialog {
         // Add prompts that will be used by the main dialogs.
         this.dialogs.add(new TextPrompt(NAME_PROMPT));
         this.dialogs.add(new ChoicePrompt(CONFIRM_PROMPT));
-        this.dialogs.add(new NumberPrompt(AGE_PROMPT, async (context, step)=> {
+        this.dialogs.add(new NumberPrompt(AGE_PROMPT, async (turnContext, step)=> {
             if (step.recognized.value < 0) {
-                await context.sendActivity(`Your age can't be less than zero.`);
+                await turnContext.sendActivity(`Your age can't be less than zero.`);
             } else {
                 step.end(step.recognized.value);
             }
@@ -79,7 +77,6 @@ class MainDialog {
             }
         ]));
 
-
         // Create a dialog that displays a user name after it has been collected.
         this.dialogs.add(new WaterfallDialog(HELLO_USER, [
             async (dc) => {
@@ -94,34 +91,31 @@ class MainDialog {
         ]));
     }
 
-
     /**
      * 
-     * @param {TurnContext} context A TurnContext object that will be interpretted and acted upon by the bot.
+     * @param {TurnContext} turnContext A TurnContext object that will be interpreted and acted upon by the bot.
      */
-    async onTurn(context) {
+    async onTurn(turnContext) {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
-        if (context.activity.type === 'message') {
-            // Create dialog context
-            const dc = await this.dialogs.createContext(context);
+        if (turnContext.activity.type === 'message') {
+            // Create a dialog context object.
+            const dc = await this.dialogs.createContext(turnContext);
 
-            const utterance = (context.activity.text || '').trim().toLowerCase();
+            const utterance = (turnContext.activity.text || '').trim().toLowerCase();
             if (utterance === 'cancel') { 
                 if (dc.activeDialog) {
                     await dc.cancelAll();
-                    await dc.context.sendActivity(`Ok... Cancelled.`);
+                    await dc.context.sendActivity(`Ok... canceled.`);
                 } else {
                     await dc.context.sendActivity(`Nothing to cancel.`);
                 }
             }
             
             // If the bot has not yet responded, continue processing the current dialog.
-            if (!context.responded) {
-                await dc.continue();
-            }
+            await dc.continue();
 
             // Start the sample dialog in response to any other input.
-            if (!context.responded) {
+            if (!turnContext.responded) {
                 const user = await this.userProfile.get(dc.context, {});
                 if (user.name) {
                     await dc.begin(HELLO_USER)
@@ -129,14 +123,14 @@ class MainDialog {
                     await dc.begin(WHO_ARE_YOU)
                 }
             }
-        } else if (context.activity.type === 'conversationUpdate' && context.activity.membersAdded[0].name !== 'Bot') {
+        } else if (turnContext.activity.type === 'conversationUpdate' && turnContext.activity.membersAdded[0].name !== 'Bot') {
             // Send a "this is what the bot does" message.
             const description = [
                 'I am a bot that demonstrates the TextPrompt and NumberPrompt classes',
                 'to collect your name and age, then store those values in UserState for later use.',
                 'Say anything to continue.'
             ];
-            await context.sendActivity(description.join(' '));
+            await turnContext.sendActivity(description.join(' '));
         }
     }
 }

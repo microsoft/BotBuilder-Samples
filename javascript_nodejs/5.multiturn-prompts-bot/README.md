@@ -1,7 +1,7 @@
-This sample shows how to use the prompts classes included in `botbuilder-dialogs`.
-This bot will ask for the user's name and age, then store the response. It demonstrates
-a multi-turn dialog flow using a text prompt, a number prompt, and multiple state 
-accessors to store and retrieve values.
+This sample shows how to use the prompt classes included in `botbuilder-dialogs`.
+This bot will ask for the user's name and age, then store the responses. It demonstrates
+a multi-turn dialog flow using a text prompt, a number prompt, and state accessors to
+store and retrieve values.
 
 # To try this sample
 - Clone the repository
@@ -26,18 +26,17 @@ accessors to store and retrieve values.
     ```
 
 # Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot
 developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
+- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator)
 
-## Connect to bot using Bot Framework Emulator **V4**
-- Launch Bot Framework emulator
+## Connect to bot using Bot Framework Emulator V4
+- Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to javascript_nodejs/5.multiturn-prompts-bot folder
 - Select multiturn-prompts-bot.bot file
 
 # Prompts
-
 A conversation between a bot and a user often involves asking (prompting) the user for information, parsing the user's response,
 and then acting on that information. This sample demonstrates how to prompt users for information using the different prompt types
 included in the [botbuilder-dialogs](https://github.com/microsoft/botbuilder-js/tree/master/libraries/botbuilder-dialogs) library
