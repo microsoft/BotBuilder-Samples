@@ -1,7 +1,7 @@
 ﻿
 #---------------------Variables-----------------------------------------
 $serviceName = Read-Host -Prompt 'Service Name (this is also the name of your resource group)'
-$luisAuthoringKey = "76e5f6633af94f75a155190b00b770e6" # Read-Host -Prompt 'Input your LUIS authoring key' # Authoring key cannot be accessed via API
+$luisAuthoringKey = Read-Host -Prompt 'Input your LUIS authoring key' # Authoring key cannot be accessed via API
 
 # Get file path for .bot file
 $botDir = "$PSScriptRoot\..\"

@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "microsoft_app_id": {
-      "value": "ca333540-46d3-4cc1-94ce-7073dd8a4a45"
+      "value": ""
     },
     "app_insights_location": {
       "value": "westus2",
