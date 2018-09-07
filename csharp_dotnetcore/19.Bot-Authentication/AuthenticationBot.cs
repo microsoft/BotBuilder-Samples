@@ -131,7 +131,12 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
-        // Prompts the user to log in using the OAuth provider specified by the connection name.
+        /// <summary>
+        ///  Prompts the user to log in using the OAuth provider specified by the connection name.
+        /// </summary>
+        /// <param name="connectionName"> The name of your connection. It can be found on Azure in
+        /// your Bot Channels Registration on the settings blade. </param>
+        /// <returns> An <see cref="OAuthPrompt"/> the user may use to log in.</returns>
         private static OAuthPrompt Prompt(string connectionName)
         {
             return new OAuthPrompt(
@@ -169,6 +174,8 @@ namespace Microsoft.BotBuilderSamples
         /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
         private static async Task<DialogTurnResult> LoginStepAsync(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
         {
+            // Here we get the token from the previous step. We could also have gotten the token directly
+            // from the prompt itself.  There is an example of this in the next method.
             var tokenResponse = (TokenResponse)step.Result;
             if (tokenResponse != null)
             {
