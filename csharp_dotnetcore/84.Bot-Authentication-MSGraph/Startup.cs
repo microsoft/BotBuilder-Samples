@@ -17,16 +17,10 @@ using Microsoft.Extensions.Options;
 namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// The Startup class configures services and the app's request pipeline.
+    /// The startup class configures services and the app's request pipeline.
     /// </summary>
     public class Startup
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// For more information on how to configure your application, visit <see ref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup"/>.
-        /// </summary>
-        /// <param name="env">Provides information about the <see cref="IHostingEnvironment"/> an application is running in.</param>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -38,12 +32,6 @@ namespace Microsoft.BotBuilderSamples
             this.Configuration = builder.Build();
         }
 
-        /// <summary>
-        /// Gets the <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
-        /// </summary>
-        /// <value>
-        /// The <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
-        /// </value>
         public IConfiguration Configuration { get; }
 
         /// <summary>
@@ -52,62 +40,68 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-                services.AddBot<GraphAuthenticationBot>(options =>
+            services.AddBot<GraphAuthenticationBot>(options =>
+            {
+                options.CredentialProvider = new ConfigurationCredentialProvider(this.Configuration);
+
+                // Memory Storage is for local bot debugging only. When the bot
+                // is restarted, anything stored in memory will be gone.
+                IStorage dataStore = new MemoryStorage();
+
+                // For production bots use the Azure Blob or
+                // Azure CosmosDB storage providers, as seen below. To the Azure
+                // based storage providers, add the Microsoft.Bot.Builder.Azure
+                // Nuget package to your solution. That package is found at:
+                // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
+                // Uncomment this line to use Azure Blob Storage
+                // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
+                // Create and add conversation state.
+                var convoState = new ConversationState(dataStore);
+                var userState = new UserState(dataStore);
+
+                // The BotStateSet middleware forces state storage to auto-save when the bot is complete processing the message.
+                // Note: Developers may choose not to add all the state providers to this middleware if save is not required.
+                options.State.Add(convoState);
+                options.State.Add(userState);
+
+                // Add State to BotStateSet Middleware (that require auto-save)
+                // The BotStateSet Middleware forces state storage to auto-save when the Bot is complete processing the message.
+                // Note: Developers may choose not to add all the State providers to this Middleware if save is not required.
+                var stateSet = new BotStateSet(options.State.ToArray());
+                options.Middleware.Add(stateSet);
+            });
+
+            services.AddSingleton<GraphAuthenticationBotAccessors>(sp =>
+            {
+                var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
+                if (options == null)
                 {
-                    options.CredentialProvider = new ConfigurationCredentialProvider(this.Configuration);
+                    throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the State Accessors");
+                }
 
-                    // Memory Storage is for local bot debugging only. When the bot
-                    // is restarted, anything stored in memory will be gone.
-                    IStorage dataStore = new MemoryStorage();
-
-                    // For production bots use the Azure Blob or
-                    // Azure CosmosDB storage providers, as seen below. To the Azure
-                    // based storage providers, add the Microsoft.Bot.Builder.Azure
-                    // Nuget package to your solution. That package is found at:
-                    // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
-                    // Uncomment this line to use Azure Blob Storage
-                    // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
-                    // Create and add conversation state.
-                    var convoState = new ConversationState(dataStore);
-                    var userState = new UserState(dataStore);
-
-                    // The BotStateSet middleware forces state storage to auto-save when the bot is complete processing the message.
-                    // Note: Developers may choose not to add all the state providers to this middleware if save is not required.
-                    options.State.Add(convoState);
-                    options.State.Add(userState);
-
-                    // Add State to BotStateSet Middleware (that require auto-save)
-                    // The BotStateSet Middleware forces state storage to auto-save when the Bot is complete processing the message.
-                    // Note: Developers may choose not to add all the State providers to this Middleware if save is not required.
-                    var stateSet = new BotStateSet(options.State.ToArray());
-                    options.Middleware.Add(stateSet);
-                });
-                services.AddSingleton<GraphAuthenticationBotAccessors>(sp =>
+                var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
+                if (conversationState == null)
                 {
-                    var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
-                    if (options == null)
-                    {
-                        throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the State Accessors");
-                    }
+                    throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
+                }
 
-                    var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
-                    var userState = options.State.OfType<UserState>().FirstOrDefault();
-                    if (conversationState == null)
-                    {
-                        throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
-                    }
+                var userState = options.State.OfType<UserState>().FirstOrDefault();
+                if (userState == null)
+                {
+                    throw new InvalidOperationException("UserState must be defined and added before adding conversation-scoped state accessors.");
+                }
 
-                    // Create Custom State Property Accessors
-                    // State Property Accessors enable components to read and write individual properties, without having to
-                    // pass the entire State object.
-                    var accessors = new GraphAuthenticationBotAccessors
-                    {
-                        CommandState = userState.CreateProperty<string>(GraphAuthenticationBotAccessors.CommandStateName),
-                        ConversationDialogState = conversationState.CreateProperty<DialogState>(GraphAuthenticationBotAccessors.DialogStateName),
-                    };
+                // Create Custom State Property Accessors
+                // State Property Accessors enable components to read and write individual
+                // properties, without having to pass the entire State object.
+                var accessors = new GraphAuthenticationBotAccessors
+                {
+                    CommandState = userState.CreateProperty<string>(GraphAuthenticationBotAccessors.CommandStateName),
+                    ConversationDialogState = conversationState.CreateProperty<DialogState>(GraphAuthenticationBotAccessors.DialogStateName),
+                };
 
-                    return accessors;
-                });
+                return accessors;
+            });
         }
 
         /// <summary>

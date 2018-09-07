@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,36 +12,58 @@ using Attachment = Microsoft.Bot.Schema.Attachment;
 
 namespace Microsoft.BotBuilderSamples
 {
-    // This class is where we make the calls to the Graph API. The following scopes are used:
+    // This class calls the Microsoft Graph API. The following OAuth scopes are used:
     // 'OpenId' 'email' 'Mail.Send.Shared' 'Mail.Read' 'profile' 'User.Read' 'User.ReadBasic.All'
     // for more information about scopes see:
     // https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference
     public static class OAuthHelpers
     {
-        // Allows the user to send an email from the bot on their behalf.
-        public static async Task SendMailAsync(ITurnContext context, TokenResponse tokenResponse, string recipient)
+        // Enable the user to send an email via the bot.
+        public static async Task SendMailAsync(ITurnContext turnContext, TokenResponse tokenResponse, string recipient)
         {
-            var token = tokenResponse;
-            var client = new SimpleGraphClient(token.Token);
+            if (turnContext == null)
+            {
+                throw new ArgumentNullException(nameof(turnContext));
+            }
 
+            if (tokenResponse == null)
+            {
+                throw new ArgumentNullException(nameof(tokenResponse));
+            }
+
+            var client = new SimpleGraphClient(tokenResponse.Token);
             var me = await client.GetMeAsync();
 
-            await client.SendMailAsync(recipient, "Message from a bot!", $"Hi there! I had this message sent from a bot. - Your friend, {me.DisplayName}");
+            await client.SendMailAsync(
+                recipient,
+                "Message from a bot!",
+                $"Hi there! I had this message sent from a bot. - Your friend, {me.DisplayName}");
 
-            await context.SendActivityAsync($"I sent a message to '{recipient}' from your account :)");
+            await turnContext.SendActivityAsync(
+                $"I sent a message to '{recipient}' from your account.");
         }
 
-        // Displays information about the user in the bot
-        public static async Task ListMeAsync(ITurnContext context, TokenResponse tokenResponse)
+        // Displays information about the user in the bot.
+        public static async Task ListMeAsync(ITurnContext turnContext, TokenResponse tokenResponse)
         {
-            var token = tokenResponse;
-            var client = new SimpleGraphClient(token.Token);
+            if (turnContext == null)
+            {
+                throw new ArgumentNullException(nameof(turnContext));
+            }
 
+            if (tokenResponse == null)
+            {
+                throw new ArgumentNullException(nameof(tokenResponse));
+            }
+
+            // Pull in the data from the Microsoft Graph.
+            var client = new SimpleGraphClient(tokenResponse.Token);
             var me = await client.GetMeAsync();
             var manager = await client.GetManagerAsync();
-
-            var reply = context.Activity.CreateReply();
             var photoResponse = await client.GetPhotoAsync();
+
+            // Generate the reply activity.
+            var reply = turnContext.Activity.CreateReply();
             var photoText = string.Empty;
             if (photoResponse != null)
             {
@@ -49,20 +72,30 @@ namespace Microsoft.BotBuilderSamples
             }
             else
             {
-                photoText = "You should really add an image to your Outlook profile :)";
+                photoText = "Consider adding an image to your Outlook profile.";
             }
 
-            reply.Text = $"You are {me.DisplayName} and you report to {manager.DisplayName}.  {photoText}";
-            await context.SendActivityAsync(reply);
+            reply.Text = $"You are {me.DisplayName} and you report to {manager.DisplayName}. {photoText}";
+            await turnContext.SendActivityAsync(reply);
         }
 
         // Gets recent mail the user has received within the last hour and displays up
         // to 5 of the emails in the bot.
-        public static async Task ListRecentMailAsync(ITurnContext context, TokenResponse tokenResponse)
+        public static async Task ListRecentMailAsync(ITurnContext turnContext, TokenResponse tokenResponse)
         {
+            if (turnContext == null)
+            {
+                throw new ArgumentNullException(nameof(turnContext));
+            }
+
+            if (tokenResponse == null)
+            {
+                throw new ArgumentNullException(nameof(tokenResponse));
+            }
+
             var client = new SimpleGraphClient(tokenResponse.Token);
-            var messages = await client.GetRecentUnreadMailAsync();
-            var reply = context.Activity.CreateReply();
+            var messages = await client.GetRecentMailAsync();
+            var reply = turnContext.Activity.CreateReply();
 
             if (messages.Any())
             {
@@ -93,10 +126,10 @@ namespace Microsoft.BotBuilderSamples
             }
             else
             {
-                reply.Text = "Unable to find any unread mail in the past 60 minutes";
+                reply.Text = "Unable to find any recent unread mail.";
             }
 
-            await context.SendActivityAsync(reply);
+            await turnContext.SendActivityAsync(reply);
         }
 
         // Prompts the user to log in using the OAuth provider specified by the connection name.
@@ -107,8 +140,8 @@ namespace Microsoft.BotBuilderSamples
                 new OAuthPromptSettings
                 {
                     ConnectionName = connectionName,
-                    Text = "Please Sign In",
-                    Title = "Sign In",
+                    Text = "Please login",
+                    Title = "Login",
                     Timeout = 300000, // User has 5 minutes to login
                 });
         }

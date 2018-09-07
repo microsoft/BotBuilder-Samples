@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -13,10 +14,8 @@ namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// This bot uses OAuth to log the user in. The OAuth provider being demonstrated
-    /// here is Azure Active Directory v2.0 (AADv2). The bot uses the Microsoft Graph
-    /// API and the Outlook API to demonstrate making calls to a service that requires
-    /// authentication. Bot developers no longer need to host OAuth controllers or
-    /// manage the token life-cycle, as all of this can now be done by the Azure Bot Service.
+    /// here is Azure Active Directory v2.0 (AADv2). Once logged in,the bot uses the
+    /// Microsoft Graph API to demonstrate making calls to authenticated services.
     /// </summary>
     public class GraphAuthenticationBot : IBot
     {
@@ -25,27 +24,29 @@ namespace Microsoft.BotBuilderSamples
 
         // Instructions for the user with information about commands that this bot may handle.
         private const string HelpText =
-            "You can type 'send <recipient_email>' to send an email, 'recent' to view recent unread mail" +
-            " 'me' to see information about yourself, or 'help' to view the commands" +
-            " again. Any other text will display your token.";
+            @"You can type 'send <recipient_email>' to send an email, 'recent' to view recent unread mail
+            'me' to see information about yourself, or 'help' to view the commands
+            again. Any other text will display your token.";
 
         private readonly GraphAuthenticationBotAccessors _stateAccessors;
         private readonly DialogSet _dialogs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GraphAuthenticationBot"/> class.
-        /// In the constructor for the bot we are instantiating our <see cref="DialogSet"/>, giving our field a value,
-        /// adding our <see cref="WaterfallDialog"/> and <see cref="ChoicePrompt"/> to the dialog set.
-        /// We are also adding  multiple <see cref="WaterfallStep"/> to our <see cref="WaterfallDialog"/>.
         /// </summary>
         /// <param name="accessors">State accessors for the bot.</param>
         public GraphAuthenticationBot(GraphAuthenticationBotAccessors accessors)
         {
-            this._stateAccessors = accessors;
-            this._dialogs = new DialogSet(this._stateAccessors.ConversationDialogState);
-            this._dialogs.Add(OAuthHelpers.Prompt(ConnectionSettingName));
-            this._dialogs.Add(new ChoicePrompt("choicePrompt"));
-            this._dialogs.Add(new WaterfallDialog("graphDialog", new WaterfallStep[] { PromptStepAsync, ProcessStepAsync }));
+            if (string.IsNullOrWhiteSpace(ConnectionSettingName))
+            {
+                throw new InvalidOperationException("ConnectionSettingName must be configured prior to running the bot.");
+            }
+
+            _stateAccessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
+            _dialogs = new DialogSet(this._stateAccessors.ConversationDialogState);
+            _dialogs.Add(OAuthHelpers.Prompt(ConnectionSettingName));
+            _dialogs.Add(new ChoicePrompt("choicePrompt"));
+            _dialogs.Add(new WaterfallDialog("graphDialog", new WaterfallStep[] { PromptStepAsync, ProcessStepAsync }));
         }
 
         /// <summary>
@@ -62,17 +63,22 @@ namespace Microsoft.BotBuilderSamples
             switch (turnContext.Activity.Type)
             {
                 case ActivityTypes.Message:
-
                     await ProcessInputAsync(turnContext, cancellationToken);
-
                     break;
                 case ActivityTypes.Event:
                 case ActivityTypes.Invoke:
-                    // This handles the MS Teams Invoke Activity sent when magic code is not used.
+                    // This handles the Microsoft Teams Invoke Activity sent when magic code is not used.
                     // See: https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/authentication/auth-oauth-card#getting-started-with-oauthcard-in-teams
                     // Manifest Schema Here: https://docs.microsoft.com/en-us/microsoftteams/platform/resources/schema/manifest-schema
                     // It also handles the Event Activity sent from The Emulator when the magic code is not used.
                     // See: https://blog.botframework.com/2018/08/28/testing-authentication-to-your-bot-using-the-bot-framework-emulator/
+
+                    // Sanity check the activity type and channel Id.
+                    if (turnContext.Activity.Type == ActivityTypes.Invoke && turnContext.Activity.ChannelId != "msteams")
+                    {
+                        throw new InvalidOperationException("The Invoke type is only valid onthe MSTeams channel.");
+                    }
+
                     dc = await this._dialogs.CreateContextAsync(turnContext, cancellationToken);
                     await dc.ContinueAsync(cancellationToken);
                     if (!turnContext.Responded)
@@ -82,7 +88,7 @@ namespace Microsoft.BotBuilderSamples
 
                     break;
                 case ActivityTypes.ConversationUpdate:
-                    // Send a HeroCard as a welcome message when a new use joins the conversation
+                    // Send a HeroCard as a welcome message when a new user joins the conversation.
                     await SendWelcomeMessageAsync(turnContext, cancellationToken);
 
                     break;
@@ -97,7 +103,7 @@ namespace Microsoft.BotBuilderSamples
                 {
                     var reply = turnContext.Activity.CreateReply();
                     reply.Text = HelpText;
-                    reply.Attachments = new List<Attachment> { GetHeroCard(member.Id).ToAttachment() };
+                    reply.Attachments = new List<Attachment> { CreateHeroCard(member.Id).ToAttachment() };
                     await turnContext.SendActivityAsync(reply, cancellationToken);
                 }
             }
@@ -108,7 +114,7 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="newUserName"> The name of the user.</param>
         /// <returns>A <see cref="HeroCard"/> the user can interact with.</returns>
-        private static HeroCard GetHeroCard(string newUserName)
+        private static HeroCard CreateHeroCard(string newUserName)
         {
             var heroCard = new HeroCard($"Welcome {newUserName}", "OAuthBot")
             {
@@ -134,7 +140,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Processes the user's input and routes the user to the appropriate step.
+        /// Processes input and route to the appropriate step.
         /// </summary>
         /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
@@ -149,8 +155,8 @@ namespace Microsoft.BotBuilderSamples
                 case "logout":
                 case "signoff":
                 case "logoff":
-                    // The bot adapter encapsulates authentication processes and sends
-                    // activities to and receives activities from the Bot Connector Service.
+                    // The bot adapter encapsulates the authentication processes and sends
+                    // activities to from the Bot Connector Service.
                     var botAdapter = (BotFrameworkAdapter)turnContext.Adapter;
                     await botAdapter.SignOutUserAsync(turnContext, ConnectionSettingName, cancellationToken);
 
@@ -188,7 +194,7 @@ namespace Microsoft.BotBuilderSamples
             if (step.Result != null)
             {
                 // We do not need to store the token in the bot. When we need the token we can
-                // Just send another prompt. If the token is valid the user will not need to log back in
+                // send another prompt. If the token is valid the user will not need to log back in.
                 // The token will be available in the Result property of the task.
                 var tokenResponse = step.Result as TokenResponse;
 
@@ -196,31 +202,31 @@ namespace Microsoft.BotBuilderSamples
                 if (tokenResponse?.Token != null)
                 {
                     var parts = this._stateAccessors.CommandState.GetAsync(dc.Context, cancellationToken: cancellationToken).Result.Split(' ');
+                    string command = parts[0].ToLowerInvariant();
 
-                    if (parts[0].ToLowerInvariant() == "me")
+                    if (command == "me")
                     {
                         await OAuthHelpers.ListMeAsync(dc.Context, tokenResponse);
                     }
-                    else if (parts[0].ToLowerInvariant().StartsWith("send"))
+                    else if (command.StartsWith("send"))
                     {
                         await OAuthHelpers.SendMailAsync(dc.Context, tokenResponse, parts[1]);
                     }
-                    else if (parts[0].ToLowerInvariant().StartsWith("recent"))
+                    else if (command.StartsWith("recent"))
                     {
                         await OAuthHelpers.ListRecentMailAsync(dc.Context, tokenResponse);
                     }
                     else
                     {
-                        await dc.Context.SendActivityAsync($"your token is: {tokenResponse.Token}", cancellationToken: cancellationToken);
+                        await dc.Context.SendActivityAsync($"Your token is: {tokenResponse.Token}", cancellationToken: cancellationToken);
                     }
-
 
                     await this._stateAccessors.CommandState.DeleteAsync(dc.Context, cancellationToken);
                 }
             }
             else
             {
-                await dc.Context.SendActivityAsync("We couldn't log you in. Please Try again later.", cancellationToken: cancellationToken);
+                await dc.Context.SendActivityAsync("We couldn't log you in. Please try again later.", cancellationToken: cancellationToken);
             }
 
             return await dc.EndAsync(cancellationToken: cancellationToken);
