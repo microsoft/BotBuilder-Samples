@@ -1,0 +1,69 @@
+{
+    "type": "AdaptiveCard",
+    "horizontalAlignment": "Center",
+    "separator": true,
+    "height": "stretch",
+    "body": [
+        {
+            "type": "ColumnSet",
+            "horizontalAlignment": "Center",
+            "spacing": "Large",
+            "height": "stretch",
+            "columns": [
+                {
+                    "type": "Column",
+                    "spacing": "Large",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "size": "ExtraLarge",
+                            "weight": "Bolder",
+                            "text": "Contoso Cafe"
+                        },
+                        {
+                            "type": "TextBlock",
+                            "size": "Medium",
+                            "text": "Hello, I'm the Cafe bot! How can I be of help today?",
+                            "wrap": true
+                        }
+                    ],
+                    "width": {
+                        "physicalSize": 2,
+                        "unit": 0
+                    }
+                },
+                {
+                    "type": "Column",
+                    "spacing": "Small",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "horizontalAlignment": "Center",
+                            "url": "http://contosocafeontheweb.azurewebsites.net/assets/contoso_logo_black.png",
+                            "size": "medium"
+                        }
+                    ],
+                    "width": "auto"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Book table",
+            "data": {
+                "intent": "Book_Table"
+            }
+        },
+        {
+            "type": "Action.Submit",
+            "title": "Find Cafe Locations",
+            "data": {
+                "intent": "Find_cafe_locations"
+            }
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
+}
