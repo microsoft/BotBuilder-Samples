@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Schema;
-using System.IO;
-using System.Net;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Schema;
 
 namespace Handling_Attachments
 {
@@ -70,7 +70,7 @@ namespace Handling_Attachments
         /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
         private static async Task DisplayOptionsAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             var reply = turnContext.Activity.CreateReply();
@@ -102,7 +102,7 @@ namespace Handling_Attachments
         /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
         private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             foreach (var member in turnContext.Activity.MembersAdded)
@@ -120,10 +120,10 @@ namespace Handling_Attachments
         }
 
         /// <summary>
-        /// Given the input from the message <see cref="Activity"/> the user sent, create the appropriate response.
+        /// Given the input from the message <see cref="Activity"/>, create the response.
         /// </summary>
         /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
-        /// <returns>An <see cref="Activity"/> to send as a response to the user's input.</returns>
+        /// <returns>An <see cref="Activity"/> to send as a response.</returns>
         private static Activity ProcessInput(ITurnContext turnContext)
         {
             var activity = turnContext.Activity;
@@ -131,10 +131,13 @@ namespace Handling_Attachments
 
             if (activity.Attachments != null && activity.Attachments.Any())
             {
+                // We know the user is sending an attachment as there is at least one item
+                // in the Attachements list.
                 HandleIncomingAttachment(activity, reply);
             }
             else
             {
+                // Send at attachment to the user.
                 HandleOutgoingAttachment(activity, reply);
             }
 
@@ -142,55 +145,57 @@ namespace Handling_Attachments
         }
 
         /// <summary>
-        /// This method responds with an <see cref="Activity"/> that demonstrates the use of the type
-        /// of attachment the user requested.
+        /// Adds an attachment to the 'reply' paramter that is passed in.
         /// </summary>
         private static void HandleOutgoingAttachment(IMessageActivity activity, IMessageActivity reply)
         {
+            // Look at the user input, and figure out what kind of attachment to send.
             if (activity.Text.StartsWith("1"))
             {
-                reply.Text = "This is an inline attachment";
+                reply.Text = "This is an inline attachment.";
                 reply.Attachments = new List<Attachment>() { GetInlineAttachment() };
             }
             else if (activity.Text.StartsWith("2"))
             {
-                reply.Text = "This is an attachment from a https url";
+                reply.Text = "This is an attachment from a https url.";
                 reply.Attachments = new List<Attachment>() { GetInternetAttachment() };
             }
             else if (activity.Text.StartsWith("3"))
             {
-                reply.Text = "This is an uploaded attachment";
+                reply.Text = "This is an uploaded attachment.";
 
-                // Here we get the result of the task in which we uploaded a file using a ConnectorClient.
-                reply.Attachments = new List<Attachment>() { GetUploadedAttachmentAsync(reply.ServiceUrl, reply.Conversation.Id).Result };
+                // Get the uploaded attachment.
+                var uploadedAttachment = GetUploadedAttachmentAsync(reply.ServiceUrl, reply.Conversation.Id).Result;
+                reply.Attachments = new List<Attachment>() { uploadedAttachment };
             }
             else
             {
                 // The user did not enter input that this bot was built to handle.
-                reply.Text = "Your input was not recognized please try again";
+                reply.Text = "Your input was not recognized please try again.";
             }
         }
 
         /// <summary>
-        /// This method handles attachments uploaded by users. The bot receives an <see cref="Attachment"/>
-        /// In an <see cref="Activity"/>. The activity has a <see cref="IList{T}"/> of attachments
-        /// In this case the <see cref="Attachment"/> is saved to the directory AttachmentBot.cs resides in.
+        /// Handle attachments uploaded by users. The bot receives an <see cref="Attachment"/> in an <see cref="Activity"/>.
+        /// The activity has a <see cref="IList{T}"/> of attachments.
         /// </summary>
-        /// <remarks>Not all channels allow users to upload files.  Some channels may have restrictions
-        /// on file type, size, and other attributes.  Consult the documentation for the channel for
+        /// <remarks>
+        /// Not all channels allow users to upload files. Some channels have restrictions
+        /// on file type, size, and other attributes. Consult the documentation for the channel for
         /// more information. For example Skype's limits are here
-        /// <see ref="https://support.skype.com/en/faq/FA34644/skype-file-sharing-file-types-size-and-time-limits"/>.</remarks>
+        /// <see ref="https://support.skype.com/en/faq/FA34644/skype-file-sharing-file-types-size-and-time-limits"/>.
+        /// </remarks>
         private static void HandleIncomingAttachment(IMessageActivity activity, IMessageActivity reply)
         {
             foreach (var file in activity.Attachments)
             {
-                // Where the file is hosted.
+                // Determine where the file is hosted.
                 var remoteFileUrl = file.ContentUrl;
 
-                // Where we are saving the file.
-                var localFileName = Path.Combine(Environment.CurrentDirectory, file.Name);
+                // Save the attachment to the system temp directory.
+                var localFileName = Path.Combine(Path.GetTempPath(), file.Name);
 
-                // Save the file locally where the bot is hosted.
+                // Download the actual attachment
                 using (var webClient = new WebClient())
                 {
                     webClient.DownloadFile(remoteFileUrl, localFileName);
@@ -205,14 +210,15 @@ namespace Handling_Attachments
         /// Creates an inline attachment sent from the bot to the user using a base64 string.
         /// </summary>
         /// <returns>An <see cref="Attachment"/> to be displayed to the user.</returns>
-        /// <remarks>Using a base64 string to send an attachment will not work on all channels.
+        /// <remarks>
+        /// Using a base64 string to send an attachment will not work on all channels.
         /// Additionally, some channels will only allow certain file types to be sent this way.
         /// For example a .png file may work but a .pdf file may not on some channels.
-        /// Please consult the channel documentation for specifics.</remarks>
+        /// Please consult the channel documentation for specifics.
+        /// </remarks>
         private static Attachment GetInlineAttachment()
         {
             var imagePath = Path.Combine(Environment.CurrentDirectory, "architecture-resize.png");
-
             var imageData = Convert.ToBase64String(File.ReadAllBytes(imagePath));
 
             return new Attachment
@@ -226,7 +232,7 @@ namespace Handling_Attachments
         /// <summary>
         /// Creates an <see cref="Attachment"/> to be sent from the bot to the user from an uploaded file.
         /// </summary>
-        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        /// <returns>A <see cref="Task"/> representing the operation result.</returns>
         private static async Task<Attachment> GetUploadedAttachmentAsync(string serviceUrl, string conversationId)
         {
             if (string.IsNullOrWhiteSpace(serviceUrl))
@@ -268,7 +274,7 @@ namespace Handling_Attachments
         /// <summary>
         /// Creates an <see cref="Attachment"/> to be sent from the bot to the user from a https url.
         /// </summary>
-        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        /// <returns>A <see cref="Task"/> representing the operation result.</returns>
         private static Attachment GetInternetAttachment()
         {
             // ContentUrl must be https.
