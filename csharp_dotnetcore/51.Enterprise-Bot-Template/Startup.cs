@@ -39,8 +39,11 @@ namespace EnterpriseBot
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var botFilePath = Configuration.GetSection("botFilePath").Value;
+            var botFileSecret = Configuration.GetSection("botFileSecret").Value;
+
             // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
-            var botConfig = BotConfiguration.LoadAsync(@".\EnterpriseBot.bot").GetAwaiter().GetResult();
+            var botConfig = BotConfiguration.LoadAsync(botFilePath, botFileSecret).GetAwaiter().GetResult();
             services.AddSingleton(sp => botConfig);
 
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.

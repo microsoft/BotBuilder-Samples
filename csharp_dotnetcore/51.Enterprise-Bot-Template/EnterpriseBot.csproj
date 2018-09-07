@@ -54,10 +54,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CogSvcModels\Dispatch\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Dialogs\Cancel\Resources\CancelStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
