@@ -2,17 +2,16 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WelcomeUser.State
 {
     /// <summary>
-    /// Represent state per user in a conversation.
+    /// Represent a state object for a given user in a conversation.
+    /// The state object is used to keep track of various state related to a user in a conversation.
+    /// In this example, we are tracking if the bot has replied to customer first interaction.
     /// </summary>
     public class WelcomeUserState
     {
-        public bool DidBotWelcomedUser { get; set; }
+        public bool DidBotWelcomedUser { get; set; } = false;
     }
 }
