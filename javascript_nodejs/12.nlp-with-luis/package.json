@@ -1,0 +1,23 @@
+{
+  "name": "nlp-with-luis",
+  "version": "1.0.0",
+  "description": "Bot Builder v4 sample using LUIS for NLP",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon index.js"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "dependencies": {
+    "botbuilder": "^4.0.0-preview1.1163",
+    "botbuilder-ai": "^4.0.0-preview1.1163",
+    "botframework-config": "^4.0.0-preview1.1163",
+    "dotenv": "^6.0.0",
+    "restify": "^7.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}
