@@ -2,9 +2,6 @@
 // Licensed under the MIT License.
 
 const BotStateExports = {
-    BotState: class {
-
-    },
     UserProfile: class {
 
     },
@@ -24,7 +21,6 @@ const BotStateExports = {
             this.location = '';
             this.date = '';
             this.time = '';
-            
         }
     },
     Constraints: class {
