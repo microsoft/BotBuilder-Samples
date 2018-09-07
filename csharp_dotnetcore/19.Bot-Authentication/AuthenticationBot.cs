@@ -15,37 +15,44 @@ using Microsoft.Bot.Schema;
 namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// This bot will respond to the user's input with an <see cref="OAuthPrompt"/>.
+    /// This bot will respond to user input with an <see cref="OAuthPrompt"./>.
     /// </summary>
     public class AuthenticationBot : IBot
     {
-        // This is your connection name.  It can be found on Azure in
-        // your Bot Channels Registration on the settings blade.
+        // The connection name here must match the the one from
+        // your Bot Channels Registration on the settings blade in Azure.
         private const string ConnectionName = "AADv2Connection";
 
-        private const string HelpText = " This bot will introduce you to Authentication." +
-                                        " Type anything to get logged in. Type 'logout' to signout." +
-                                        " Type 'help' to view this message again";
+        private const string LoginPromptName = "loginPrompt";
+        private const string ConfirmPromptName = "confirmPrompt";
+
+
+
+        private const string HelpText = @"This bot will introduce you to Authentication.
+                                        Type anything to get logged in. Type 'logout' to signout.
+                                        Type 'help' to view this message again";
 
         private readonly AuthenticationBotAccessors _stateAccessors;
         private readonly DialogSet _dialogs;
 
         public AuthenticationBot(AuthenticationBotAccessors accessors)
         {
-            this._stateAccessors = accessors;
+            this._stateAccessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
             this._dialogs = new DialogSet(this._stateAccessors.ConversationDialogState);
+
+            // Add the OAuth prompts and related dialogs into the dialog set
             this._dialogs.Add(Prompt(ConnectionName));
-            this._dialogs.Add(new ConfirmPrompt("confirm"));
+            this._dialogs.Add(new ConfirmPrompt(ConfirmPromptName));
             this._dialogs.Add(new WaterfallDialog("authDialog", new WaterfallStep[] { PromptStepAsync, LoginStepAsync, DisplayTokenAsync }));
         }
 
         /// <summary>
-        /// This controls what happens when an activity gets sent to the bot.
+        /// Process incoming activities.
         /// </summary>
         /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        /// <returns>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             var dc = await this._dialogs.CreateContextAsync(turnContext, cancellationToken);
@@ -58,6 +65,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 case ActivityTypes.Message:
 
+                    // This bot is not case sensitive.
                     var text = turnContext.Activity.Text.ToLowerInvariant();
                     if (text == "help")
                     {
@@ -67,8 +75,7 @@ namespace Microsoft.BotBuilderSamples
 
                     if (text == "logout")
                     {
-                        // The bot adapter encapsulates authentication processes and sends
-                        // activities to and receives activities from the Bot Connector Service.
+                        // The bot adapter encapsulates the authentication processes.
                         var botAdapter = (BotFrameworkAdapter)turnContext.Adapter;
                         await botAdapter.SignOutUserAsync(turnContext, ConnectionName, cancellationToken);
                         await turnContext.SendActivityAsync("You have been signed out.", cancellationToken: cancellationToken);
@@ -80,6 +87,7 @@ namespace Microsoft.BotBuilderSamples
 
                     if (!turnContext.Responded)
                     {
+                        // Start the Login process.
                         var result = await dc.BeginAsync("authDialog", cancellationToken: cancellationToken);
                         var token = (TokenResponse)result.Result;
                     }
@@ -89,8 +97,8 @@ namespace Microsoft.BotBuilderSamples
                 case ActivityTypes.Invoke:
                     // This handles the MS Teams Invoke Activity sent when magic code is not used.
                     // See: https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/authentication/auth-oauth-card#getting-started-with-oauthcard-in-teams
-                    // Manifest Schema Here: https://docs.microsoft.com/en-us/microsoftteams/platform/resources/schema/manifest-schema
-                    // It also handles the Event Activity sent from The Emulator when the magic code is not used.
+                    // The Teams manifest schema is found : https://docs.microsoft.com/en-us/microsoftteams/platform/resources/schema/manifest-schema
+                    // It also handles the Event Activity sent from the emulator when the magic code is not used.
                     // See: https://blog.botframework.com/2018/08/28/testing-authentication-to-your-bot-using-the-bot-framework-emulator/
                     dc = await this._dialogs.CreateContextAsync(turnContext, cancellationToken);
                     await dc.ContinueAsync(cancellationToken);
@@ -132,7 +140,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        ///  Prompts the user to log in using the OAuth provider specified by the connection name.
+        /// Prompts the user to login using the OAuth provider specified by the connection name.
         /// </summary>
         /// <param name="connectionName"> The name of your connection. It can be found on Azure in
         /// your Bot Channels Registration on the settings blade. </param>
@@ -140,13 +148,13 @@ namespace Microsoft.BotBuilderSamples
         private static OAuthPrompt Prompt(string connectionName)
         {
             return new OAuthPrompt(
-                "loginPrompt",
+                LoginPromptName,
                 new OAuthPromptSettings
                 {
                     ConnectionName = connectionName,
                     Text = "Please Sign In",
                     Title = "Sign In",
-                    Timeout = 300000, // User has 5 minutes to login
+                    Timeout = 300000, // User has 5 minutes to login (1000 * 60 * 5)
                 });
         }
 
@@ -160,12 +168,11 @@ namespace Microsoft.BotBuilderSamples
         /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
         private static async Task<DialogTurnResult> PromptStepAsync(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
         {
-            return await dc.BeginAsync("loginPrompt", cancellationToken: cancellationToken);
+            return await dc.BeginAsync(LoginPromptName, cancellationToken: cancellationToken);
         }
 
         /// <summary>
-        /// In this step we check that a token was received and prompt the user asking if they would like
-        /// to see the token or not.
+        /// In this step we check that a token was received and prompt the user as needed.
         /// </summary>
         /// <param name="dc">A <see cref="DialogContext"/> provides context for the current dialog.</param>
         /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>
@@ -174,14 +181,14 @@ namespace Microsoft.BotBuilderSamples
         /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
         private static async Task<DialogTurnResult> LoginStepAsync(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
         {
-            // Here we get the token from the previous step. We could also have gotten the token directly
-            // from the prompt itself.  There is an example of this in the next method.
+            // Get the token from the previous step. Note that we could also have gotten the
+            // token directly from the prompt itself. There is an example of this in the next method.
             var tokenResponse = (TokenResponse)step.Result;
             if (tokenResponse != null)
             {
                 await dc.Context.SendActivityAsync("You are now logged in.", cancellationToken: cancellationToken);
                 return await dc.PromptAsync(
-                    "confirm",
+                    ConfirmPromptName,
                     new PromptOptions
                     {
                         Prompt = MessageFactory.Text("Would you like to view your token?"),
@@ -207,14 +214,15 @@ namespace Microsoft.BotBuilderSamples
             var result = (bool)step.Result;
             if (result)
             {
-                // Here we call the prompt again because we need the token. We do this for a couple of reasons.
-                // If the user is already logged in we do not need to store the token locally in the bot and worry
-                // about refreshing it. We can always just call the prompt again to get the token. Another reason we
-                // do this is because in a bot we never know how long it will take a user to respond. By the time the
-                // user responds the token may have expired. The user would then be prompted to login again. There is
-                // no reason to store the token locally in the bot because we can always just call the OAuth prompt to
-                // get the token or get a new token if needed.
-                var prompt = await dc.BeginAsync("loginPrompt", cancellationToken: cancellationToken);
+                // Call the prompt again because we need the token. The reasons for this are:
+                // 1. If the user is already logged in we do not need to store the token locally in the bot and worry
+                // about refreshing it. We can always just call the prompt again to get the token.
+                // 2. We never know how long it will take a user to respond. By the time the
+                // user responds the token may have expired. The user would then be prompted to login again.
+                //
+                // There is no reason to store the token locally in the bot because we can always just call
+                // the OAuth prompt to get the token or get a new token if needed.
+                var prompt = await dc.BeginAsync(LoginPromptName, cancellationToken: cancellationToken);
                 var tokenResponse = (TokenResponse)prompt.Result;
                 if (tokenResponse != null)
                 {

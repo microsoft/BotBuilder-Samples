@@ -71,7 +71,7 @@ namespace Microsoft.BotBuilderSamples
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
                 if (options == null)
                 {
-                    throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the State Accessors");
+                    throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the State Accessors.");
                 }
 
                 var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
@@ -81,9 +81,9 @@ namespace Microsoft.BotBuilderSamples
                     throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
                 }
 
-                // Create Custom State Property Accessors
+                // Create Custom State Property accessors
                 // State Property Accessors enable components to read and write individual properties, without having to
-                // pass the entire State object.
+                // pass the entire state object.
                 var accessors = new AuthenticationBotAccessors
                 {
                     ConversationDialogState = conversationState.CreateProperty<DialogState>(AuthenticationBotAccessors.DialogStateName),
