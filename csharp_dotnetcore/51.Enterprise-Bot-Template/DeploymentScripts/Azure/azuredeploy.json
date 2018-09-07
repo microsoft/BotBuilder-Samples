@@ -1,0 +1,392 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "service_location": {
+      "defaultValue": "[resourceGroup().location]",
+      "type": "string"
+    },
+    "app_insights_location": {
+      "type": "string",
+      "allowedValues": [
+        "eastus",
+        "westus2",
+        "southcentralus",
+        "northeurope",
+        "westeurope",
+        "southeastasia"
+      ]
+    },
+    "cognitive_services_location": {
+      "type": "string",
+      "allowedValues": [
+        "eastus",
+        "eastus2",
+        "southcentralus",
+        "westcentralus",
+        "westus",
+        "northeurope",
+        "westeurope",
+        "eastasia",
+        "southeastasia"
+      ]
+    },
+    "microsoft_app_id": {
+      "type": "string"
+    },
+    "storage_account_type": {
+      "defaultValue": "Standard_LRS",
+      "type": "string"
+    },
+    "app_service_sku": {
+      "type": "object",
+      "defaultValue": {
+        "name": "S1",
+        "tier": "Standard",
+        "size": "S1",
+        "family": "S",
+        "capacity": 1
+      }
+    },
+    "endpoint": {
+      "type": "string",
+      "defaultValue": ""
+    }
+  },
+  "variables": {
+    "service_name": "[resourceGroup().name]",
+    "config": {
+      "scratch": {
+        "stateEndpoint": "https://intercom-api-scratch.azurewebsites.net",
+        "azureWebJobsBotFrameworkDirectLineEndpoint": "https://directline.scratch.botframework.com/",
+        "blobStoreName": "icscratch",
+        "openIdMetadata": "https://intercom-api-ppe.azurewebsites.net/v1/.well-known/openidconfiguration"
+      },
+      "ppe": {
+        "stateEndpoint": "https://intercom-api-ppe.azurewebsites.net",
+        "azureWebJobsBotFrameworkDirectLineEndpoint": "https://directline.ppe.botframework.com/",
+        "blobStoreName": "intercomppe",
+        "openIdMetadata": "https://intercom-api-ppe.azurewebsites.net/v1/.well-known/openidconfiguration"
+      },
+      "prod": {
+        "stateEndpoint": "",
+        "azureWebJobsBotFrameworkDirectLineEndpoint": "https://directline.botframework.com/",
+        "blobStoreName": "connectorprod",
+        "openIdMetadata": ""
+      }
+    },
+    "qna_service_name": "[concat(variables('service_name'), '-qna')]",
+    "qna_app_name": "[variables('qna_service_name')]",
+    "content_moderator_service_name": "[concat(variables('service_name'), '-cm')]",
+    "luis_service_name": "[concat(variables('service_name'), '-luis')]",
+    "storage_account_name": "[toLower(variables('service_name'))]",
+    "cosmos_db_name": "[toLower(variables('service_name'))]",
+    "app_service_name": "[variables('service_name')]",
+    "app_insights_name": "[concat(variables('service_name'), '-insights')]",
+    "bot_id": "[variables('service_name')]",
+    "bot_env": "prod",
+    "current_config": "[variables('config')[toLower(variables('bot_env'))]]",
+    "site_host": "[concat(variables('app_service_name'), '.azurewebsites.net')]",
+    "bot_endpoint_config": {
+      "bot": "[parameters('endpoint')]",
+      "sdk": "[concat('https://', variables('site_host'), '/api/messages')]",
+      "designer": "[concat('https://', variables('site_host'), '/api/messages')]",
+      "function": "[concat('https://', variables('site_host'), '/api/messages?code=', 'NYI')]"
+    },
+    "bot_endpoint": "[variables('bot_endpoint_config')['sdk']]",
+    "azure_search_Name": "[toLower(concat(variables('service_name'), '-search'))]"
+  },
+  "resources": [
+    {
+      "comments": "Content Moderator",
+      "type": "Microsoft.CognitiveServices/accounts",
+      "sku": {
+        "name": "S0"
+      },
+      "kind": "ContentModerator",
+      "name": "[variables('content_moderator_service_name')]",
+      "apiVersion": "2016-02-01-preview",
+      "location": "[parameters('cognitive_services_location')]",
+      "scale": null,
+      "properties": {},
+      "dependsOn": []
+    },
+    {
+      "comments": "LUIS",
+      "type": "Microsoft.CognitiveServices/accounts",
+      "sku": {
+        "name": "S0"
+      },
+      "kind": "LUIS",
+      "name": "[variables('luis_service_name')]",
+      "apiVersion": "2016-02-01-preview",
+      "location": "[parameters('cognitive_services_location')]",
+      "scale": null,
+      "properties": {},
+      "dependsOn": []
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('storage_account_name')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[parameters('service_location')]",
+      "properties": {
+        "accountType": "[parameters('storage_account_type')]"
+      }
+    },
+    {
+      "apiVersion": "2015-04-08",
+      "type": "Microsoft.DocumentDB/databaseAccounts",
+      "kind": "GlobalDocumentDB",
+      "name": "[variables('cosmos_db_name')]",
+      "location": "[parameters('service_location')]",
+      "properties": {
+        "name": "[variables('cosmos_db_name')]",
+        "databaseAccountOfferType": "Standard",
+        "locations": [
+          {
+            "locationName": "[parameters('service_location')]",
+            "failoverPriority": 0
+          },
+          {
+            "locationName": "[parameters('service_location')]",
+            "failoverPriority": 1
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "name": "[variables('app_service_name')]",
+      "apiVersion": "2016-09-01",
+      "location": "[parameters('service_location')]",
+      "sku": "[parameters('app_service_sku')]",
+      "properties": {
+        "name": "[variables('app_service_name')]"
+      }
+    },
+    {
+      "name": "[variables('app_insights_name')]",
+      "type": "microsoft.insights/components",
+      "kind": "web",
+      "apiVersion": "2014-04-01",
+      "location": "[parameters('app_insights_location')]",
+      "tags": {
+        "[concat('hidden-link:', resourceId('Microsoft.BotService/botServices/', variables('bot_id')))]": "Resource",
+        "[concat('hidden-link:', resourceId('Microsoft.Web/sites/', variables('service_name')))]": "Resource",
+        "[concat('hidden-link:', resourceId('Microsoft.Web/sites/', variables('qna_app_name')))]": "Resource"
+
+      },
+      "properties": {
+        "ApplicationId": "[variables('bot_id')]"
+      }
+    },
+    {
+      "name": "[variables('app_service_name')]",
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2015-08-01",
+      "location": "[parameters('service_location')]",
+      "kind": "app",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/', variables('storage_account_name'))]"
+      ],
+      "properties": {
+        "name": "[variables('service_name')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('app_service_name'))]",
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "AzureWebJobsStorage",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storage_account_name'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storage_account_name')), '2015-05-01-preview').key1,';')]"
+            },
+            {
+              "name": "AzureWebJobsDashboard",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storage_account_name'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storage_account_name')), '2015-05-01-preview').key1,';')]"
+            },
+            {
+              "name": "WEBSITE_NODE_DEFAULT_VERSION",
+              "value": "6.9.1"
+            },
+            {
+              "name": "BotEnv",
+              "value": "[variables('bot_env')]"
+            },
+            {
+              "name": "BotId",
+              "value": "[variables('bot_id')]"
+            },
+            {
+              "name": "MicrosoftAppId",
+              "value": ""
+            },
+            {
+              "name": "MicrosoftAppPassword",
+              "value": ""
+            },
+            {
+              "name": "BotStateEndpoint",
+              "value": "[variables('current_config').stateEndpoint]"
+            },
+            {
+              "name": "BotOpenIdMetadata",
+              "value": "[variables('current_config').openIdMetadata]"
+            },
+            {
+              "name": "UseTableStorageForConversationState",
+              "value": "true"
+            },
+            {
+              "name": "BotDevAppInsightsKey",
+              "value": "[reference(resourceId('microsoft.insights/components/', variables('app_insights_name')), '2015-05-01').InstrumentationKey]"
+            },
+            {
+              "name": "BotDevAppInsightsName",
+              "value": "[variables('app_insights_name')]"
+            },
+            {
+              "name": "BotDevAppInsightsAppId",
+              "value": "[reference(resourceId('microsoft.insights/components/', variables('app_insights_name')), '2015-05-01').AppId]"
+            }
+          ],
+          "cors": {
+            "allowedOrigins": [
+              "https://botservice.hosting.portal.azure.net",
+              "https://hosting.onecloud.azure-test.net/"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "2017-12-01",
+      "type": "Microsoft.BotService/botServices",
+      "name": "[variables('bot_id')]",
+      "location": "global",
+      "kind": "sdk",
+      "sku": {
+        "name": "S1"
+      },
+      "properties": {
+        "name": "[variables('bot_id')]",
+        "displayName": "[variables('bot_id')]",
+        "endpoint": "[variables('bot_endpoint')]",
+        "msaAppId": "[parameters('microsoft_app_id')]",
+        "developerAppInsightsApplicationId": "[variables('app_insights_name')]",
+        "developerAppInsightKey": "[reference(resourceId('microsoft.insights/components/', variables('app_insights_name')), '2015-05-01').InstrumentationKey]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/', variables('storage_account_name'))]",
+        "[resourceId('Microsoft.Web/sites/', variables('app_service_name'))]",
+        "[resourceId('microsoft.insights/components/', variables('app_insights_name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "sku": {
+        "name": "S0"
+      },
+      "kind": "QnAMaker",
+      "name": "[variables('qna_service_name')]",
+      "apiVersion": "2016-02-01-preview",
+      "location": "[parameters('cognitive_services_location')]",
+      "properties": {
+        "apiProperties": {
+          "qnaRuntimeEndpoint": "[concat('https://',reference(resourceId('Microsoft.Web/sites', variables('qna_app_name'))).hostNames[0])]"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/Sites', variables('qna_app_name'))]",
+        "[resourceId('Microsoft.Search/searchServices/', variables('azure_search_name'))]",
+        "[resourceId('microsoft.insights/components/', variables('app_insights_name'))]"
+      ]
+    },
+    {
+      "apiVersion": "2015-08-19",
+      "location": "[parameters('service_location')]",
+      "name": "[variables('azure_search_name')]",
+      "properties": {
+        "replicaCount": 1,
+        "partitionCount": 1,
+        "hostingMode": "default"
+      },
+      "sku": {
+        "name": "basic"
+      },
+      "tags": {},
+      "type": "Microsoft.Search/searchServices"
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2016-08-01",
+      "name": "[variables('qna_app_name')]",
+      "location": "[parameters('service_location')]",
+      "properties": {
+        "enabled": true,
+        "siteConfig": {
+          "cors": {
+            "allowedOrigins": [
+              "*"
+            ]
+          }
+        },
+        "name": "[variables('qna_app_name')]",
+        "serverFarmId": "[concat('/subscriptions/', subscription().id,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', variables('app_service_name'))]",
+        "hostingEnvironment": ""
+      },
+      "tags": {
+        "[concat('hidden-related:', '/subscriptions/', subscription().id,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', variables('app_service_name'))]": "empty"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Web/serverfarms/', variables('app_service_name'))]"
+      ],
+      "resources": [
+        {
+          "apiVersion": "2015-08-01",
+          "name": "appsettings",
+          "type": "config",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', variables('qna_service_name'))]",
+            "[resourceId('Microsoft.Search/searchServices/', variables('azure_search_name'))]"
+          ],
+          "properties": {
+            "AzureSearchName": "[variables('azure_search_name')]",
+            "AzureSearchAdminKey": "[listAdminKeys(resourceId('Microsoft.Search/searchServices/', variables('azure_search_name')), '2015-08-19').primaryKey]",
+            "UserAppInsightsKey": "[reference(resourceId('microsoft.insights/components/', variables('app_insights_name')), '2015-05-01').InstrumentationKey]",
+            "UserAppInsightsName": "[variables('app_insights_name')]",
+            "UserAppInsightsAppId": "[reference(resourceId('microsoft.insights/components/', variables('app_insights_name')), '2015-05-01').AppId]",
+            "PrimaryEndpointKey": "[concat(variables('qna_service_name'), '-PrimaryEndpointKey')]",
+            "SecondaryEndpointKey": "[concat(variables('qna_service_name'), '-SecondaryEndpointKey')]",
+            "DefaultAnswer": "No good match found in KB.",
+            "QNAMAKER_EXTENSION_VERSION": "latest"
+          }
+        }
+      ]
+    }
+  ],
+  "outputs": {
+    "appInsightsResourceId": {
+      "type": "string",
+      "value": "[resourceId('microsoft.insights/components', variables('app_insights_name'))]"
+    },
+    "luisResourceId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.CognitiveServices/accounts', variables('luis_service_name'))]"
+    },
+    "qnaMakerResourceId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.CognitiveServices/accounts', variables('qna_service_name'))]"
+    },
+    "contentModeratorResourceId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.CognitiveServices/accounts', variables('content_moderator_service_name'))]"
+    },
+    "storageResourceId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Storage/storageAccounts', variables('storage_account_name'))]"
+    },
+    "cosmosDbResourceId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmos_db_name'))]"
+    }
+  }
+}
