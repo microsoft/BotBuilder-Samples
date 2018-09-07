@@ -1,6 +1,8 @@
 {
     "name": "contoso-cafe-bot",
-    "secretKey": "",
+    "description": "",
+    "version": "2.0",
+    "secretKey": "c3I2pyMGt4p1k/kHs/cOlg==!zEU2q96cR6KL4wV6xNpPDHOmEyjK+t+OBLoTCzclorZPIjfgAHAk5UkSbnxk6Gsv",
     "services": [
         {
             "type": "endpoint",
@@ -9,6 +11,35 @@
             "appId": "",
             "appPassword": "",
             "endpoint": "http://localhost:3978/api/messages"
+        },
+        {
+            "type": "luis",
+            "id": "60",
+            "name": "cafeDispatchModel",
+            "version": "0.1",
+            "appId": "cb904573-3d6f-46b0-80b9-b23a24e49152",
+            "authoringKey": "ZsrP01fSzUA4AzlECa4oow==!oF7W+HCmavP8mG4MUP6mFtK19myWyjCiqMcDj3faQhNQr5IAxC7fhvyBHuOHLLF9",
+            "subscriptionKey": "+f8g1JiCT9akWbcuFvnw+g==!AmIf3mU8gvXZV9lCeo5UfYjoEioUXps8JOaO47A21+FklZpwItrpL+K44h4O8hmv",
+            "region": "westus"
+        },
+        {
+            "type": "luis",
+            "id": "235",
+            "name": "cafeBotBookTableTurnN",
+            "version": "0.1",
+            "appId": "e01dc6a8-e2cb-4a96-8a41-f10730c41c43",
+            "authoringKey": "VMwMr56dSl1BnPjD+4jHgw==!9H3j/05eNjKHImLuQZBa7FNOyE+6CbtA/hdzjTHx4hyCbO6m8yuEEhbkRDwYjjGQ",
+            "subscriptionKey": "UVXmA8ETnwMV9sZFS3v24w==!lHf0Qw1hhxZkY0QGyIA0vPjAmX2SuYQiTs4TZ/msCh8hgYjLJeYAGkO9aAyGSWR/",
+            "region": "westus"
+        },
+        {
+            "type": "qna",
+            "id": "163",
+            "name": "cafeFaqChitChat",
+            "kbId": "21368628-da9e-4bc8-a91f-c7d10c26ffed",
+            "subscriptionKey": "5ZhWbhzYt/fGcrCror6k2w==!RUit5IDQ/FMzDjFmh/XF8WZleP/b1T5DkllE7n+3WZh7nHZ5AH5Eyp9LevuBcXt0",
+            "endpointKey": "kcTPTFx1tijE4hqrlp+Xvg==!PgFx3os2nRIp/IC9z+D4fGi9ePNjdWiPrz8E4YeZ1wgn/b/cvauMD07VezsLJ4QK",
+            "hostname": "https://contosocafeqnab8.azurewebsites.net/qnamaker"
         }
     ]
 }

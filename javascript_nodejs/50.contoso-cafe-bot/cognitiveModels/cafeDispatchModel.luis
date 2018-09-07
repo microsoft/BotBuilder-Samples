@@ -1,0 +1,567 @@
+{
+  "intents": [
+    {
+      "name": "Help"
+    },
+    {
+      "name": "Book Table"
+    },
+    {
+      "name": "Find Cafe Locations"
+    },
+    {
+      "name": "Cancel"
+    },
+    {
+      "name": "Who are you"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [
+    {
+      "name": "confirmationList",
+      "subLists": [
+        {
+          "canonicalForm": "yes",
+          "list": [
+            "yeah",
+            "yup",
+            "sure",
+            "sounds good",
+            "oh yeah",
+            "affirmative",
+            "book it"
+          ]
+        },
+        {
+          "canonicalForm": "no",
+          "list": [
+            "no",
+            "no way",
+            "I'm not sure",
+            "do not do that",
+            "negative",
+            "nothing",
+            "nope",
+            "dont book it"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "cafeLocation",
+      "subLists": [
+        {
+          "canonicalForm": "seattle",
+          "list": [
+            "SEA",
+            "SeaTac",
+            "Tacoma",
+            "Space needle",
+            "downton seattle",
+            "washington",
+            "downtown"
+          ]
+        },
+        {
+          "canonicalForm": "redmond",
+          "list": [
+            "eastside",
+            "microsoft",
+            "east side"
+          ]
+        },
+        {
+          "canonicalForm": "renton",
+          "list": [
+            "Renton",
+            "Boeing",
+            "RNT"
+          ]
+        },
+        {
+          "canonicalForm": "bellevue",
+          "list": [
+            "downtown bellevue"
+          ]
+        }
+      ],
+      "roles": []
+    }
+  ],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "Help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I need help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Not sure what I can do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "What can you do?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "What can I say?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I'm lost",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I need help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Not sure what I can do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "What can I say",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I'm lost",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I need help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Not sure what I can do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "What can I say",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I'm lost",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I need help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Not sure what I can do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "What can I say",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I'm lost",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "tomorrow at 3 pm and I would like to bring 3 guests",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "make it 5pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "can you make it 6pm instead?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "no how about renton?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "how about next thursday at 3pm?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "next friday at 3pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "next saturday at 6pm and for 4 guests.",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "I'd like to bring 3 guests",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "no, how about portland?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "no, I'd like to come to seattle instead",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "I would like to come in to redmond instead",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "yes please go ahead with seattle",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "how about 2 guests?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "3 guests",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "yes go ahead",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "how about seattle?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "tomorrow at 3pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "how about tomorrow?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "seattle please",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "redmond",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "3",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "tomorrow",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "yes",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "Find contoso cafe locations",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "Where can I get coffee?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "find locations near redmond",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "find cafe locations near seattle airport",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "where can I get coffee near renton",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "I want coffee",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "What cafe locations are open today?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "Is the bellevue store open at 3PM?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "Is the SEA store open today?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "What stores are open this weekend?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "When does the store near microsoft open?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "can you get me the seatac store hours?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "can you get me the store hours for the RNT store?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "is the downtown store open next thursday at 3pm?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "I dont want that anymore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Abort",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Please cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Who are you?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "What is your name?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "how should I address you?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "What's your name?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "What can you do?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "how can you help me?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "what can you do for me?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "book a table",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "i would like to book a table",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 3",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 2 in redmond store for next thursday at 3pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 3 guests in seattle",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for next thursday at 3pm please",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 3 guests near microsoft for next thursday at 3pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "can you book a table for 3 guests?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "get me a table for next wednesday",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table at seatac",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "can you please book a table for 2 guests for this weekend?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "get a table for next thursday",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "reserve a table for 4 at SEA",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "can you get me a table",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "please help reserve a table for 5",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "can i get a table for this sunday at seattle?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "need a table in redmond",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "I need to reserve a table",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "I need to make a reservation",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "I need to reserve a table for 2 in Seattle",
+      "intent": "Book Table",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [
+    {
+      "name": "number",
+      "roles": []
+    }
+  ],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "cafeDispatchModel",
+  "desc": "",
+  "culture": "en-us"
+}

@@ -7,10 +7,10 @@ const restify = require('restify');
 const CONFIG_ERROR = 1;
 
 // Import reuqired bot services. See https://ama.ms/bot-services to learn more about the different part of a bot
-const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState, StateSet } = require('botbuilder');
+const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState, BotStateSet } = require('botbuilder');
 
 // This bot's main dialog
-const MainDialog = require('./dialogs/mainDialog');
+const Bot = require('./bot');
 
 // Import required bot confuguration.
 const { BotConfiguration } = require('botframework-config');
@@ -73,13 +73,12 @@ const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
 // Register conversation state and user state as a middleware. 
-adapter.use(conversationState);
-adapter.use(userState);
+adapter.use(new BotStateSet(conversationState, userState));
 
 // Create the main dialog.
-let mainDlg;
+let bot;
 try {
-    mainDlg = new MainDialog(conversationState, userState, botConfig);
+    bot = new Bot(conversationState, userState, botConfig);
 } catch (err) {
     console.log(err);
     process.exit(CONFIG_ERROR);
@@ -89,7 +88,7 @@ try {
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
         // Route to main dialog.
-        await mainDlg.onTurn(context);        
+        await bot.onTurn(context);        
     });
 });
 

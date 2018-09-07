@@ -1,0 +1,16 @@
+> Construct the root dispatch LUIS model based on other .lu files
+
+[Find Cafe Location intent](../../findCafeLocations/resources/findCafe.lu)
+
+[Cancel intent](../../cancel/resources/cancel.lu)
+
+[Who are you intent](../../whoAreYou/resources/whoAreYou.lu)
+
+# Help
+- [Help intent](../../help/resources/help.lu#?)
+
+[Book Table intent](../../bookTable/resources/bookTableTriggerIntent.lu)
+
+# Book Table
+> Add references to book table turn.n so these continue to be routed to book table dialog
+- [Book Table turn-N](../../bookTable/resources/turn-N.lu#GetLocationDateTimePartySize)
