@@ -26,13 +26,13 @@ demonstrates using the `ComponentDialog` class to encapsulate related sub-dialog
     ```
 
 # Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework emulator](https://github.com/microsoft/botframework-emulator) is
-a desktop applicationthat allows bot developers to test and debug their bots on localhost
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is
+a desktop application that allows bot developers to test and debug their bots on localhost
 or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
+- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator)
 
-## Connect to bot using Bot Framework Emulator **V4**
+## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework emulator
 - File -> Open Bot Configuration and navigate to javascript_nodejs/10.prompt-validations
 - Select prompt-validations-bot.bot file
@@ -43,7 +43,7 @@ A conversation between a bot and a user often involves asking (prompting) the us
 parsing the user's response, and then acting on that information. This sample demonstrates how to
 prompt users for information using the different prompt types included in the
 [botbuilder-dialogs](https://github.com/Microsoft/botbuilder-js/tree/master/libraries/botbuilder-dialogs)
-library and supported by the SDK.
+library.
 
 The `botbuilder-dialogs` library includes a variety of pre-built prompt classes, including text, number,
 and datetime types. In this sample, each prompt is wrapped in a custom class that includes a validation

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 const { ComponentDialog, WaterfallDialog } = require('botbuilder-dialogs');
 const moment = require('moment');
 
@@ -86,8 +89,8 @@ class OnboardingDialog extends ComponentDialog {
                 const user = await userProfile.get(dc.context, {});
 
                 const text = [
-                    `You asked me to call you ${user[USER_NAME_PROPERTY]}.`,
-                    `You were born on ${ moment( user[DOB_PROPERTY] ).format("MMM Do, YYYY") } and claim to be ${ user[AGE_PROPERTY] }.`,
+                    `You asked me to call you ${ user[USER_NAME_PROPERTY] }.`,
+                    `You were born on ${ moment(user[DOB_PROPERTY]).format("MMM Do, YYYY") } and claim to be ${ user[AGE_PROPERTY] }.`,
                     `Your favorite color is ${ user[COLOR_PROPERTY] }.`
                 ];
 
