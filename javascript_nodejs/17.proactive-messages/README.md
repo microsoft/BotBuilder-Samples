@@ -25,11 +25,11 @@ outbound messages.
     ```
 
 # Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework emulator](https://github.com/microsoft/botframework-emulator) is
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is
 a desktop application that allows bot developers to test and debug their bots on localhost
 or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
+- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator)
 
 Build run your bot locally and open two instances of the emulator.
 
@@ -38,8 +38,8 @@ Build run your bot locally and open two instances of the emulator.
 1. In the second emulator, type "done <jobNumber>", where "<jobNumber>" is the job number, without the angle brackets, that you copied in the previous step. This will cause the bot to complete the job.
 1. Note that the bot sends a message proactively to the user in the first emulator when the job is completed.
 
-## Connect to bot using Bot Framework Emulator **V4**
-- Launch Bot Framework emulator
+## Connect to bot using Bot Framework Emulator V4
+- Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to javascript_nodejs/17.proactive-messages
 - Select proactive-messages.bot file
 
