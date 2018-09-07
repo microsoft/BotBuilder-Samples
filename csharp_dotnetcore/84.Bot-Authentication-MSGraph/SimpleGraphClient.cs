@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -18,84 +19,66 @@ namespace Microsoft.BotBuilderSamples
 
         public SimpleGraphClient(string token)
         {
-            this._token = token;
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                throw new ArgumentNullException(nameof(token));
+            }
+
+            _token = token;
         }
 
-        // Sends an email on the users behlaf using the Microsoft Graph API
-        public async Task<bool> SendMailAsync(string toAddress, string subject, string content)
+        // Sends an email on the users behalf using the Microsoft Graph API
+        public async Task SendMailAsync(string toAddress, string subject, string content)
         {
-            try
+            if (string.IsNullOrWhiteSpace(toAddress))
             {
-                var graphClient = this.GetAuthenticatedClient();
-
-                var recipients = new List<Recipient>
-                {
-                    new Recipient
-                    {
-                        EmailAddress = new EmailAddress
-                        {
-                            Address = toAddress,
-                        },
-                    },
-                };
-
-                // Create the message.
-                var email = new Message
-                {
-                    Body = new ItemBody
-                    {
-                        Content = content,
-                        ContentType = BodyType.Text,
-                    },
-                    Subject = subject,
-                    ToRecipients = recipients,
-                };
-
-                // Send the message.
-                await graphClient.Me.SendMail(email, true).Request().PostAsync();
-                return true;
+                throw new ArgumentNullException(nameof(toAddress));
             }
-            catch (Exception)
+
+            if (string.IsNullOrWhiteSpace(subject))
             {
-                return false;
+                throw new ArgumentNullException(nameof(subject));
             }
+
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                throw new ArgumentNullException(nameof(content));
+            }
+
+            var graphClient = this.GetAuthenticatedClient();
+            var recipients = new List<Recipient>
+            {
+                new Recipient
+                {
+                    EmailAddress = new EmailAddress
+                    {
+                        Address = toAddress,
+                    },
+                },
+            };
+
+            // Create the message.
+            var email = new Message
+            {
+                Body = new ItemBody
+                {
+                    Content = content,
+                    ContentType = BodyType.Text,
+                },
+                Subject = subject,
+                ToRecipients = recipients,
+            };
+
+            // Send the message.
+            await graphClient.Me.SendMail(email, true).Request().PostAsync();
         }
 
-        // Gets recent unread mail for the user using the Microsoft Graph API
-        public async Task<Message[]> GetRecentUnreadMailAsync()
+        // Gets mail for the user using the Microsoft Graph API
+        public async Task<Message[]> GetRecentMailAsync()
         {
             var graphClient = this.GetAuthenticatedClient();
-            var messages =
-                await graphClient.Me.MailFolders.Inbox.Messages.Request().GetAsync();
-            var from = DateTime.Now.Subtract(TimeSpan.FromMinutes(60));
-            var unreadMessages = new List<Message>();
-
-            var done = false;
-            while (messages?.Count > 0 && !done)
-            {
-                foreach (var message in messages)
-                {
-                    if (message.ReceivedDateTime.HasValue && message.ReceivedDateTime.Value >= from)
-                    {
-                        if (message.IsRead.HasValue && !message.IsRead.Value)
-                        {
-                            unreadMessages.Add(message);
-                            if (unreadMessages.Count >= 5)
-                            {
-                                done = true;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        done = true;
-                    }
-                }
-
-                messages = await messages.NextPageRequest.GetAsync();
-            }
-
-            return unreadMessages.ToArray();
+            var messages = await graphClient.Me.MailFolders.Inbox.Messages.Request().GetAsync();
+            return messages.Take(5).ToArray();
         }
 
         // Get information about the user.
@@ -106,7 +89,7 @@ namespace Microsoft.BotBuilderSamples
             return me;
         }
 
-        // gets information about the user's manager
+        // gets information about the user's manager.
         public async Task<User> GetManagerAsync()
         {
             var graphClient = this.GetAuthenticatedClient();
@@ -117,17 +100,35 @@ namespace Microsoft.BotBuilderSamples
         // Gets the user's photo
         public async Task<PhotoResponse> GetPhotoAsync()
         {
-            var photoResponse =
-                await new HttpClient().GetStreamWithAuthAsync(
-                    this._token,
-                    "https://graph.microsoft.com/v1.0/me/photo/$value");
-            if (photoResponse != null)
-            {
-                photoResponse.Base64String = $"data:{photoResponse.ContentType};base64," +
-                                             Convert.ToBase64String(photoResponse.Bytes);
-            }
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + _token);
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
 
-            return photoResponse;
+            using (var response = await client.GetAsync("https://graph.microsoft.com/v1.0/me/photo/$value"))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException($"Graph returned an invalid success code: {response.StatusCode}");
+                }
+
+                var stream = await response.Content.ReadAsStreamAsync();
+                var bytes = new byte[stream.Length];
+                stream.Read(bytes, 0, (int)stream.Length);
+
+                var photoResponse = new PhotoResponse
+                {
+                    Bytes = bytes,
+                    ContentType = response.Content.Headers.ContentType?.ToString(),
+                };
+
+                if (photoResponse != null)
+                {
+                    photoResponse.Base64String = $"data:{photoResponse.ContentType};base64," +
+                                                 Convert.ToBase64String(photoResponse.Bytes);
+                }
+
+                return photoResponse;
+            }
         }
 
         // Get an Authenticated Microsoft Graph client using the token issued to the user.
