@@ -47,6 +47,8 @@ class OnboardingDialog extends ComponentDialog {
             },
             // Collect user name, then prompt for age. 
             async (dc, step) => {
+                // Capture the response from the previous turn in step.values
+                // which will be stored through the end of the dialog.
                 step.values[USER_NAME_PROPERTY] = step.result;
                 return await dc.prompt(GET_AGE_PROMPT, `What is your age?`);
             },
@@ -70,6 +72,8 @@ class OnboardingDialog extends ComponentDialog {
             async (dc, step) => {
 
                 const user = await userProfile.get(dc.context, {});
+
+                // Extract collected values and add them to the user profile object.
                 user[USER_NAME_PROPERTY] = step.values[USER_NAME_PROPERTY];
                 user[AGE_PROPERTY] =  step.values[AGE_PROPERTY];
                 user[DOB_PROPERTY] =  step.values[DOB_PROPERTY];
