@@ -21,7 +21,7 @@ namespace Microsoft.BotBuilderSamples
     {
         // The connection name here must match the the one from
         // your Bot Channels Registration on the settings blade in Azure.
-        private const string ConnectionName = "AADv2Connection";
+        private const string ConnectionName = "";
 
         private const string LoginPromptName = "loginPrompt";
         private const string ConfirmPromptName = "confirmPrompt";
@@ -133,7 +133,7 @@ namespace Microsoft.BotBuilderSamples
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     await turnContext.SendActivityAsync(
-                        $"Welcome to AuthenticationBot {member.Name}.",
+                        $"Welcome to AuthenticationBot {member.Name}. {HelpText}",
                         cancellationToken: cancellationToken);
                 }
             }
