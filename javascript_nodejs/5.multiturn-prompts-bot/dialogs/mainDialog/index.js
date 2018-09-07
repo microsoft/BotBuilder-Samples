@@ -3,7 +3,7 @@
 
 const { ActionTypes, MessageFactory } = require('botbuilder');
 
-const { TextPrompt, NumberPrompt, DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
+const { TextPrompt, NumberPrompt, ChoicePrompt, DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
 const USER_PROFILE_PROPERTY = 'user';
@@ -12,6 +12,7 @@ const WHO_ARE_YOU = 'who_are_you';
 const HELLO_USER = 'hello_user';
 
 const NAME_PROMPT = 'name_prompt';
+const CONFIRM_PROMPT = 'confirm_prompt';
 const AGE_PROMPT = 'age_prompt';
 
 class MainDialog {
@@ -34,6 +35,7 @@ class MainDialog {
      
         // Add prompts that will be used by the main dialogs.
         this.dialogs.add(new TextPrompt(NAME_PROMPT));
+        this.dialogs.add(new ChoicePrompt(CONFIRM_PROMPT));
         this.dialogs.add(new NumberPrompt(AGE_PROMPT, async (context, step)=> {
             if (step.recognized.value < 0) {
                 await context.sendActivity(`Your age can't be less than zero.`);
@@ -51,17 +53,28 @@ class MainDialog {
                 const user = await this.userProfile.get(dc.context, {});
                 user.name = step.result;
                 await this.userProfile.set(dc.context, user);
-                return await dc.prompt(AGE_PROMPT,`And what is your age, ${ step.result }?`,
-                    {
-                        retryPrompt: 'Sorry, please specify your age as a positive number or say cancel.'
-                    }
-                );
+                await dc.prompt(CONFIRM_PROMPT, 'Do you want to give your age?', ['yes','no']);                
+            },
+            async (dc, step) => {
+                if (step.result && step.result.value === 'yes') {
+                    return await dc.prompt(AGE_PROMPT,`What is your age?`,
+                        {
+                            retryPrompt: 'Sorry, please specify your age as a positive number or say cancel.'
+                        }
+                    );
+                } else {
+                    return await step.next(-1);
+                }
             },
             async (dc, step) => {
                 const user = await this.userProfile.get(dc.context, {});
-                user.age = step.result;
-                await this.userProfile.set(dc.context, user);
-                await dc.context.sendActivity(`I will remember that you are ${ step.result } years old.`);
+                if (step.result !== -1) {
+                    user.age = step.result;
+                    await this.userProfile.set(dc.context, user);
+                    await dc.context.sendActivity(`I will remember that you are ${ step.result } years old.`);
+                } else {
+                    await dc.context.sendActivity(`No age given.`);
+                }
                 return await dc.end();
             }
         ]));
@@ -71,7 +84,11 @@ class MainDialog {
         this.dialogs.add(new WaterfallDialog(HELLO_USER, [
             async (dc) => {
                 const user = await this.userProfile.get(dc.context, {});
-                await dc.context.sendActivity(`Your name is ${ user.name } and you are ${ user.age } years old.`);
+                if (user.age) {
+                    await dc.context.sendActivity(`Your name is ${ user.name } and you are ${ user.age } years old.`);
+                } else {
+                    await dc.context.sendActivity(`Your name is ${ user.name } and you did not share your age.`);
+                }
                 return await dc.end();
             }
         ]));
@@ -106,7 +123,7 @@ class MainDialog {
             // Start the sample dialog in response to any other input.
             if (!context.responded) {
                 const user = await this.userProfile.get(dc.context, {});
-                if (user.name && user.age) {
+                if (user.name) {
                     await dc.begin(HELLO_USER)
                 } else {
                     await dc.begin(WHO_ARE_YOU)
