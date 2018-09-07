@@ -6,7 +6,7 @@
   "services": [
     {
       "type": "endpoint",
-      "name": "$safeprojectname",
+      "name": "EnterpriseBot",
       "id": "http://localhost:3978/api/messages",
       "appId": "",
       "appPassword": "",
@@ -102,6 +102,5 @@
       "version": "Dispatch",
       "region": ""
     }
-
   ]
 }
