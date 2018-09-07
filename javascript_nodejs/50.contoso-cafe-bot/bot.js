@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 class Bot {
     /**
      * 
@@ -12,6 +15,16 @@ class Bot {
      * @param {Object} context on turn context object.
      */
     async onTurn(context) {
+
+        // Bot class is reposible for 4 things - 
+        // 1. Keeps hold of user and conversation state property accessors
+        // 2. Does input processing on incoming activity and updates conversation/ user state. This includes
+        //      a. handling all activity types
+        //      b. processing card inputs
+        //      c. root level NLP for messages
+        // 3. Hands over execution context to main dialog
+        // 4. Responsible for handling no-match response from mainDialog when main dialog is unable to continue the conversation
+
         // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
         if (context.activity.type === 'message') {
             // read from state.

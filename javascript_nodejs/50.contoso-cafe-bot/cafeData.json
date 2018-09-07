@@ -1,0 +1,46 @@
+{
+    redmond: {
+        hours:'M-F 9AM-5PM', 
+        name:'Cafe Redmond',
+        address: '60 158th Way NE, Redmond WA 98052',
+        startHour: '9',
+        endHour:'17',
+        startDay:'1',
+        endDay: '5',
+        storeImg: 'https://media-cdn.tripadvisor.com/media/photo-s/09/1f/5d/42/photo0jpg.jpg',
+        location:'Redmond, WA'
+    },
+    seattle: {
+        hours:'Open 24x7', 
+        name:'Seattle coffee shop',
+        address: '15234 1st Street, Seattle WA 98154',
+        startHour: '0',
+        endHour:'23',
+        startDay:'0',
+        endDay: '6',
+        storeImg: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Seattle_-_Row_House_Cafe_interior_01.jpg',
+        location:'Seattle, WA'
+    },
+    bellevue: {
+        hours:'M-Sat 9AM-9PM', 
+        name:'Cafe Bellevue',
+        address: '15 SE Neport Way, Bellevue WA 98006',
+        startHour: '9',
+        endHour:'21',
+        startDay:'1',
+        endDay: '6',
+        storeImg: 'http://resizer.otstatic.com/v2/photos/medium/24611363.jpg',
+        location:'Bellevue, WA'
+    },
+    renton: {
+        hours:'Tue-Fri 9AM-5PM', 
+        name:'Renton Contoso Cafe',
+        address: '15 E Airport Way, Renton WA 98432',
+        startHour: '9',
+        endHour:'17',
+        startDay:'2',
+        endDay: '5',
+        storeImg: 'https://s3-media3.fl.yelpcdn.com/bphoto/diTab2Q3gxSA-Dn_jI2j2g/o.jpg',
+        location:'Renton, WA'
+    }
+}
