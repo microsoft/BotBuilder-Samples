@@ -1,0 +1,14 @@
+{
+  "name": "Welcome-Users",
+  "secretKey": "",
+  "services": [
+    {
+      "appId": "",
+      "id": "98fd9150-a278-11e8-90fe-f92f88ed2f78",
+      "type": "endpoint",
+      "appPassword": "",
+      "endpoint": "http://localhost:3978/api/messages",
+      "name": "Welcome-Users"
+    }
+  ]
+}
