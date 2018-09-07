@@ -15,7 +15,7 @@ using Microsoft.Bot.Connector;
 namespace Handling_Attachments
 {
     /// <summary>
-    /// This bot responds to the user's text input with an <see cref="Attachment"/> (in this case an image)
+    /// This bot responds to the user's text input with an <see cref="Attachment"/> (in this example, an image)
     /// using various types of attachments. In this case, we are displaying an image from a file on the server,
     /// an image from an https url, and an uploaded image. In this project the user also has the option to upload
     /// an <see cref="Attachment"/> to the bot. The <see cref="Attachment"/> saves to the the same directory as the
@@ -32,7 +32,7 @@ namespace Handling_Attachments
         /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        /// <returns>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (turnContext == null)
@@ -64,6 +64,13 @@ namespace Handling_Attachments
             }
         }
 
+        /// <summary>
+        ///  Displays a <see cref="HeroCard"/> with options for the user to select.
+        /// </summary>
+        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
+        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
         private static async Task DisplayOptionsAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             var reply = turnContext.Activity.CreateReply();
@@ -90,8 +97,7 @@ namespace Handling_Attachments
         }
 
         /// <summary>
-        /// On a conversation update <see cref="Activity"/> sent to the bot, the bot
-        /// sends a message to the any new user(s) that were added.
+        /// Greet the user and give them instructions on how to interact with the bot.
         /// </summary>
         /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
@@ -106,7 +112,7 @@ namespace Handling_Attachments
                     await turnContext.SendActivityAsync(
                         $"Welcome to AttachmentsBot {member.Name}." +
                         $" This bot will introduce you to Attachments." +
-                        $"  Please select an option",
+                        $" Please select an option",
                         cancellationToken: cancellationToken);
                     await DisplayOptionsAsync(turnContext, cancellationToken);
                 }
