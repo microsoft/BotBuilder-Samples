@@ -39,6 +39,9 @@ namespace Handling_Attachments
         /// Gets the <see cref="IHostingEnvironment"/> for the current environment of the bot.
         /// This is used to get the correct filepath to send and receive attachments in the bot.
         /// </summary>
+        /// <value>
+        /// The <see cref="IHostingEnvironment"/> that provides information about the web hosting environment an application is running in.
+        /// </value>
         public IHostingEnvironment Environment { get; }
 
         /// <summary>
@@ -50,26 +53,6 @@ namespace Handling_Attachments
             services.AddBot<AttachmentsBot>(options =>
             {
                 options.CredentialProvider = new ConfigurationCredentialProvider(this.Configuration);
-
-                // Memory Storage is for local bot debugging only. When the bot
-                // is restarted, anything stored in memory will be gone.
-                IStorage dataStore = new MemoryStorage();
-
-                // For production bots use the Azure Blob or
-                // Azure CosmosDB storage providers, as seen below. To use the Azure
-                // based storage providers, add the Microsoft.Bot.Builder.Azure
-                // Nuget package to your solution. That package is found at:
-                // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
-                // Uncomment this line to use Azure Blob Storage
-                // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
-                // Create and add conversation state.
-                var convoState = new ConversationState(dataStore);
-                options.State.Add(convoState);
-
-                // The BotStateSet middleware forces state storage to auto-save when the bot completes processing the message.
-                // Note: Developers may choose not to add state providers to this middleware if auto-save is not required.
-                var stateSet = new BotStateSet(options.State.ToArray());
-                options.Middleware.Add(stateSet);
             });
         }
 
