@@ -7,7 +7,7 @@ const moment = require('moment');
 // Import a few specialized prompt classes.
 const NamePrompt = require('../../prompts/namePrompt');
 const AgePrompt = require('../../prompts/agePrompt');
-const DOBPrompt = require('../../prompts/dobPrompt');
+const DobPrompt = require('../../prompts/dobPrompt');
 const ColorPrompt = require('../../prompts/colorPrompt');
 
 const START_DIALOG = 'start';
@@ -24,7 +24,6 @@ const DOB_PROPERTY = 'dob';
 const COLOR_PROPERTY = 'color';
 
 class OnboardingDialog extends ComponentDialog {
-
     /**
      * 
      * @param {string} dialogId A unique identifier for this dialog.
@@ -33,7 +32,7 @@ class OnboardingDialog extends ComponentDialog {
     constructor (dialogId, userProfile) {
         super(dialogId);
 
-        // Create a dialog flow that captures a series of values from a user
+        // Create a dialog flow that captures a series of values from a user.
         this.addDialog(new WaterfallDialog(START_DIALOG,[
             // If a user name is already set, switch to the HELLO_USER dialog.
             // Otherwise, continue with collecting values from the user.
@@ -70,7 +69,6 @@ class OnboardingDialog extends ComponentDialog {
             },
             // With all values in hand, we can now store them in our model and complete.
             async (dc, step) => {
-
                 const user = await userProfile.get(dc.context, {});
 
                 // Extract collected values and add them to the user profile object.
@@ -93,7 +91,7 @@ class OnboardingDialog extends ComponentDialog {
                 const user = await userProfile.get(dc.context, {});
 
                 const text = [
-                    `You asked me to call you ${ user[USER_NAME_PROPERTY] }.`,
+                    `You asked me to call you "${ user[USER_NAME_PROPERTY] }".`,
                     `You were born on ${ moment(user[DOB_PROPERTY]).format("MMM Do, YYYY") } and claim to be ${ user[AGE_PROPERTY] }.`,
                     `Your favorite color is ${ user[COLOR_PROPERTY] }.`
                 ];
@@ -103,17 +101,17 @@ class OnboardingDialog extends ComponentDialog {
             }
         ]));
 
-        // Add prompts:
-        // NAME_PROMPT will validate that the user's response is between 1 and 50 chars in length.
+        // Add prompts
+        // GET_NAME_PROMPT will validate that the user's response is between 1 and 50 chars in length.
         this.addDialog(new NamePrompt(GET_NAME_PROMPT));
 
-        // AGE_PROMPT will validate an age between 1 and 99.
+        // GET_AGE_PROMPT will validate an age between 1 and 99.
         this.addDialog(new AgePrompt(GET_AGE_PROMPT));
         
-        // DOB_PROMPT will validate a date between 8/24/1918 and 8/24/2018.
-        this.addDialog(new DOBPrompt(GET_DOB_PROMPT));
+        // GET_DOB_PROMPT will validate a date between 8/24/1918 and 8/24/2018.
+        this.addDialog(new DobPrompt(GET_DOB_PROMPT));
                 
-        // COLOR_PROMPT provides a validation error when a valid choice is not made.
+        // GET_COLOR_PROMPT provides a validation error when a valid choice is not made.
         this.addDialog(new ColorPrompt(GET_COLOR_PROMPT));
     }
 }

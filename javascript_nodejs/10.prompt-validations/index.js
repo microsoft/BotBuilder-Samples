@@ -14,7 +14,7 @@ const MainDialog = require('./dialogs/mainDialog');
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '.env');
-const env = require('dotenv').config({path: ENV_FILE});
+const env = require('dotenv').config({ path: ENV_FILE });
 
 // Create HTTP server.
 let server = restify.createServer();
@@ -27,8 +27,8 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 // .bot file path
 const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 
-// Read the bot's configuration from a .bot file identified by BOT_FILE.
-// This includes information about the bot's endpoints and Bot Framework configuration.
+// Read the configuration from a .bot file.
+// This includes information about the bot's endpoints and configuration.
 let botConfig;
 try {
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
@@ -38,7 +38,7 @@ try {
     process.exit(CONFIG_ERROR);
 }
 
-// Define the name of the bot, as specified in .bot file.
+// Define the name of the bot, as specified in the .bot file.
 // See https://aka.ms/about-bot-file to learn more about .bot files.
 const BOT_CONFIGURATION = 'prompt-validations-bot';
 

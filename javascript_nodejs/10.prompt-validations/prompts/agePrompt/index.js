@@ -12,7 +12,7 @@ module.exports = class AgePrompt extends NumberPrompt {
             } else {
                 const value = step.recognized.value;
                 if (value < 1 || value > 99) {
-                    await turnContext.sendActivity('Please enter an age in years between 1 and 99');
+                    await turnContext.sendActivity('Please enter an age in years between 1 and 99.');
                 } else {
                     step.end(value);
                 }
