@@ -1,0 +1,14 @@
+{
+    "name": "suggested-actions",
+    "secretKey": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "suggested-actions",
+            "id": "http://localhost:3978/api/messages",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3978/api/messages"
+        }
+    ]
+}
