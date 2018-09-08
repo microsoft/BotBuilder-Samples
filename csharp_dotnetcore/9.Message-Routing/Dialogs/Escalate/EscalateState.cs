@@ -3,6 +3,9 @@
 
 namespace MessageRoutingBot
 {
+    /// <summary>
+    /// Place holder for custom state in the <see cref="EscalateDialog"/>.
+    /// </summary>
     public class EscalateState
     {
     }

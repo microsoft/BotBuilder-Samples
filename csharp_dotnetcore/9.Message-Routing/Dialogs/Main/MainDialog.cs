@@ -12,6 +12,9 @@ using Microsoft.Bot.Schema;
 
 namespace MessageRoutingBot
 {
+    /// <summary>
+    /// Entry point for the dialogs of the <see cref="MessageRoutingBot"/>.
+    /// </summary>
     public class MainDialog : ComponentDialog
     {
         // Constants
@@ -21,6 +24,10 @@ namespace MessageRoutingBot
         private static MainResponses _responder = new MainResponses();
         private readonly BotServices _services;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainDialog"/> class.
+        /// </summary>
+        /// <param name="services">The <see cref="BotServices"/> for the bot.</param>
         public MainDialog(BotServices services)
             : base(Name)
         {

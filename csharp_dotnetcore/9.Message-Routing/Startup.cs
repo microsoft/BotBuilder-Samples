@@ -1,16 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
-using System.Linq;
-using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.AI.QnA;
-using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration;
@@ -19,6 +13,7 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Linq;
 
 namespace MessageRoutingBot
 {
@@ -107,7 +102,6 @@ namespace MessageRoutingBot
                 var convoState = new ConversationState(dataStore);
                 options.State.Add(convoState);
                 options.Middleware.Add(new BotStateSet(options.State.ToArray()));
-                //options.Middleware.Add(new ConversationState(dataStore));
             });
         }
 

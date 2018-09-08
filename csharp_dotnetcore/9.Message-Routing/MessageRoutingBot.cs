@@ -54,6 +54,7 @@ namespace MessageRoutingBot
 
                 if (result.Status == DialogTurnStatus.Empty)
                 {
+                    // Start main dialog.
                     await dc.BeginAsync(MainDialog.Name);
                 }
             }

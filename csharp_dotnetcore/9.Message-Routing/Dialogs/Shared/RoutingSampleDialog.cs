@@ -8,12 +8,19 @@ using Microsoft.Bot.Builder.Dialogs;
 
 namespace MessageRoutingBot
 {
+    /// <summary>
+    /// Interruptable dialog specialization for the Message Routing sample.
+    /// </summary>
     public class RoutingSampleDialog : InterruptableDialog
     {
-        // Fields
         private readonly BotServices _services;
         private readonly CancelResponses _responder = new CancelResponses();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RoutingSampleDialog"/> class.
+        /// </summary>
+        /// <param name="botServices">The <see cref=" BotServices" />for the bot.</param>
+        /// <param name="dialogId">Id of the dialog.</param>
         public RoutingSampleDialog(BotServices botServices, string dialogId)
             : base(dialogId)
         {
@@ -22,11 +29,17 @@ namespace MessageRoutingBot
             AddDialog(new CancelDialog());
         }
 
+        /// <summary>
+        /// Handle dialog interruption.
+        /// </summary>
+        /// <param name="dc">The current <see cref="DialogContext"/>.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> to control cancellation of asynchronous tasks.</param>
+        /// <returns>A <see cref="Task"/> representing the <see cref="InterruptionStatus"/>.</returns>
         protected override async Task<InterruptionStatus> OnDialogInterruptionAsync(DialogContext dc, CancellationToken cancellationToken)
         {
-            // check dispatch intent
-            // TODO: use luis gen models
-            var luisService = _services.LuisServices["General.luis"];
+            const string luisName = "General.luis";
+
+            var luisService = _services.LuisServices[luisName];
             var luisResult = await luisService.RecognizeAsync<MessageRoutingBot_General>(dc.Context, cancellationToken);
             var intent = luisResult.TopIntent().intent;
 
@@ -46,6 +59,11 @@ namespace MessageRoutingBot
             return InterruptionStatus.NoAction;
         }
 
+        /// <summary>
+        /// Handle dialog cancellation.
+        /// </summary>
+        /// <param name="dc">The current <see cref="DialogContext"/>.</param>
+        /// <returns>A <see cref="Task"/> representing the <see cref="InterruptionStatus"/>.</returns>
         protected virtual async Task<InterruptionStatus> OnCancel(DialogContext dc)
         {
             if (dc.ActiveDialog.Id != CancelDialog.Name)
@@ -61,6 +79,11 @@ namespace MessageRoutingBot
             return InterruptionStatus.NoAction;
         }
 
+        /// <summary>
+        /// Handle help requests.
+        /// </summary>
+        /// <param name="dc">The current <see cref="DialogContext"/>.</param>
+        /// <returns>A <see cref="Task"/> representing the <see cref="InterruptionStatus"/>.</returns>
         protected virtual async Task<InterruptionStatus> OnHelp(DialogContext dc)
         {
             var view = new MainResponses();

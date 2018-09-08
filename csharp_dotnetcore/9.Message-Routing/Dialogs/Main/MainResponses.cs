@@ -1,16 +1,19 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
-using System.IO;
+using MessageRoutingBot.Dialogs.Main.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
-using MessageRoutingBot.Dialogs.Main.Resources;
+using System.Collections.Generic;
+using System.IO;
 
 namespace MessageRoutingBot
 {
+    /// <summary>
+    /// Responses for the <see cref="MainDialog"/>.
+    /// </summary>
     public class MainResponses : TemplateManager
     {
         // Constants
@@ -36,12 +39,15 @@ namespace MessageRoutingBot
             ["fr"] = new TemplateIdMap { },
         };
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainResponses"/> class.
+        /// </summary>
         public MainResponses()
         {
             Register(new DictionaryRenderer(_responseTemplates));
         }
 
-        public static IMessageActivity SendIntroCard(ITurnContext turnContext, dynamic data)
+        private static IMessageActivity SendIntroCard(ITurnContext turnContext, dynamic data)
         {
             var response = turnContext.Activity.CreateReply();
 
@@ -57,7 +63,7 @@ namespace MessageRoutingBot
             return response;
         }
 
-        public static IMessageActivity SendHelpCard(ITurnContext turnContext, dynamic data)
+        private static IMessageActivity SendHelpCard(ITurnContext turnContext, dynamic data)
         {
             var response = turnContext.Activity.CreateReply();
             response.Attachments = new List<Attachment>();

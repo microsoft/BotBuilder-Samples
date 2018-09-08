@@ -6,6 +6,9 @@ using Microsoft.Bot.Builder.TemplateManager;
 
 namespace MessageRoutingBot
 {
+    /// <summary>
+    /// Responses for the <see cref="OnboardingDialog"/>.
+    /// </summary>
     public class OnboardingResponses : TemplateManager
     {
         public const string _namePrompt = "namePrompt";
@@ -48,6 +51,9 @@ namespace MessageRoutingBot
             ["fr"] = new TemplateIdMap { },
         };
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OnboardingResponses"/> class.
+        /// </summary>
         public OnboardingResponses()
         {
             this.Register(new DictionaryRenderer(_responseTemplates));

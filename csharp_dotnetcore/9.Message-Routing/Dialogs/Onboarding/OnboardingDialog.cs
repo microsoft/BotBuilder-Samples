@@ -7,6 +7,9 @@ using Microsoft.Bot.Builder.Dialogs;
 
 namespace MessageRoutingBot
 {
+    /// <summary>
+    /// Onboarding dialog to gather user information, such as name, email, etc. This dialog is interruptable.
+    /// </summary>
     public class OnboardingDialog : RoutingSampleDialog
     {
         // Constants
@@ -18,6 +21,10 @@ namespace MessageRoutingBot
         // Fields
         private static OnboardingResponses _responder = new OnboardingResponses();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OnboardingDialog"/> class.
+        /// </summary>
+        /// <param name="botServices">The <see cref="BotServices"/> for the bot.</param>
         public OnboardingDialog(BotServices botServices)
             : base(botServices, Name)
         {
@@ -35,7 +42,7 @@ namespace MessageRoutingBot
             AddDialog(new TextPrompt(LocationPrompt));
         }
 
-        public async Task<DialogTurnResult> AskForName(DialogContext dc, WaterfallStepContext args, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> AskForName(DialogContext dc, WaterfallStepContext args, CancellationToken cancellationToken)
         {
             return await dc.PromptAsync(NamePrompt, new PromptOptions()
             {
@@ -43,7 +50,7 @@ namespace MessageRoutingBot
             });
         }
 
-        public async Task<DialogTurnResult> AskForEmail(DialogContext dc, WaterfallStepContext args, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> AskForEmail(DialogContext dc, WaterfallStepContext args, CancellationToken cancellationToken)
         {
             var name = dc.ActiveDialog.State["name"] = args.Result;
 
@@ -55,7 +62,7 @@ namespace MessageRoutingBot
             });
         }
 
-        public async Task<DialogTurnResult> AskForLocation(DialogContext dc, WaterfallStepContext args, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> AskForLocation(DialogContext dc, WaterfallStepContext args, CancellationToken cancellationToken)
         {
             var email = dc.ActiveDialog.State["email"] = args.Result;
 
@@ -67,7 +74,7 @@ namespace MessageRoutingBot
             });
         }
 
-        public async Task<DialogTurnResult> FinishOnboardingDialog(DialogContext dc, WaterfallStepContext args, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> FinishOnboardingDialog(DialogContext dc, WaterfallStepContext args, CancellationToken cancellationToken)
         {
             var name = dc.ActiveDialog.State["name"];
             var email = dc.ActiveDialog.State["email"];

@@ -3,6 +3,9 @@
 
 namespace MessageRoutingBot
 {
+    /// <summary>
+    /// Placeholder for custom state in the <see cref="CancelDialog"/>.
+    /// </summary>
     public class CancelState
     {
     }

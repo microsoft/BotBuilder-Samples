@@ -5,6 +5,9 @@ using Microsoft.Bot.Builder.TemplateManager;
 
 namespace MessageRoutingBot
 {
+    /// <summary>
+    /// View elements for the <see cref="EscalateDialog"/>.
+    /// </summary>
     public class EscalateView : TemplateManager
     {
         public const string SendPhone = "sendPhone";
@@ -19,6 +22,9 @@ namespace MessageRoutingBot
             ["fr"] = new TemplateIdMap { },
         };
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EscalateView"/> class.
+        /// </summary>
         public EscalateView()
         {
             Register(new DictionaryRenderer(_responseTemplates));

@@ -7,6 +7,9 @@ using Microsoft.Bot.Builder.TemplateManager;
 
 namespace MessageRoutingBot
 {
+    /// <summary>
+    /// Responses for the <see cref="EscalateDialog"/>.
+    /// </summary>
     public class EscalateResponses : TemplateManager
     {
         public const string SendPhone = "sendPhone";
@@ -21,6 +24,9 @@ namespace MessageRoutingBot
             ["fr"] = new TemplateIdMap { },
         };
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EscalateResponses"/> class.
+        /// </summary>
         public EscalateResponses()
         {
             Register(new DictionaryRenderer(_responseTemplates));
