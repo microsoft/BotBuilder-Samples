@@ -2,13 +2,8 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
-using System.Web.Hosting;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Configuration;
 using Unity;
-using Unity.Lifetime;
 
 namespace EchoBotWithCounter
 {
