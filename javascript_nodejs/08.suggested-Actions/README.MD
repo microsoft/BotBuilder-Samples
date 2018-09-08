@@ -1,11 +1,11 @@
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 
-This sample shows how to send an Adaptive Card. This bot example uses [`restify`](https://www.npmjs.com/package/restify) and [`dotenv`](https://www.npmjs.com/package/dotenv).
+This sample shows how to send SuggestedActions. This bot example uses [`restify`](https://www.npmjs.com/package/restify) and [`dotenv`](https://www.npmjs.com/package/dotenv).
 
 # To try this sample
 - Clone the repository
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-sample.git
+    git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 - In a terminal, navigate to javascript_nodejs\7.using-adaptive-cards
     ```bash
