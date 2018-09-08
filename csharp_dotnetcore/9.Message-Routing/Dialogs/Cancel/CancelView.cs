@@ -5,6 +5,9 @@ using Microsoft.Bot.Builder.TemplateManager;
 
 namespace MessageRoutingBot
 {
+    /// <summary>
+    /// View for the <see cref="CancelDialog"/>.
+    /// </summary>
     public class CancelView : TemplateManager
     {
         public const string ConfirmPrompt = "ConfirmCancelPrompt";
@@ -23,6 +26,9 @@ namespace MessageRoutingBot
             ["fr"] = new TemplateIdMap { },
         };
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CancelView"/> class.
+        /// </summary>
         public CancelView()
         {
             Register(new DictionaryRenderer(_responseTemplates));

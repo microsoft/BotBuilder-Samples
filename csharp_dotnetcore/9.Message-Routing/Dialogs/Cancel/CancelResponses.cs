@@ -6,6 +6,9 @@ using Microsoft.Bot.Builder.TemplateManager;
 
 namespace MessageRoutingBot
 {
+    /// <summary>
+    /// Responses for the <see cref="CancelDialog"/>.
+    /// </summary>
     public class CancelResponses : TemplateManager
     {
         // Constants
@@ -26,6 +29,9 @@ namespace MessageRoutingBot
             ["fr"] = new TemplateIdMap { },
         };
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CancelResponses"/> class.
+        /// </summary>
         public CancelResponses()
         {
             Register(new DictionaryRenderer(_responseTemplates));

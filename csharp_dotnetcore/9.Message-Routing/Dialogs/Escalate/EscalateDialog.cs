@@ -7,6 +7,9 @@ using Microsoft.Bot.Builder.Dialogs;
 
 namespace MessageRoutingBot
 {
+    /// <summary>
+    /// Dialog for escalating the conversation to humans.
+    /// </summary>
     public class EscalateDialog : RoutingSampleDialog
     {
         // Constants
@@ -15,6 +18,10 @@ namespace MessageRoutingBot
         // Fields
         private EscalateResponses _responder = new EscalateResponses();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EscalateDialog"/> class.
+        /// </summary>
+        /// <param name="botServices">The <see cref="BotServices"/> for the bot.</param>
         public EscalateDialog(BotServices botServices)
             : base(botServices, Name)
         {

@@ -3,6 +3,9 @@
 
 namespace MessageRoutingBot
 {
+    /// <summary>
+    /// Possible interruption status of interruptable dialogs.
+    /// </summary>
     public enum InterruptionStatus
     {
         /// <summary>

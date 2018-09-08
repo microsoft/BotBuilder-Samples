@@ -5,6 +5,9 @@ using Microsoft.Bot.Builder.TemplateManager;
 
 namespace MessageRoutingBot
 {
+    /// <summary>
+    /// View for the <see cref="OnboardingDialog"/>.
+    /// </summary>
     public class OnboardingView : TemplateManager
     {
         // Constants
@@ -32,6 +35,9 @@ namespace MessageRoutingBot
             ["fr"] = new TemplateIdMap { },
         };
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OnboardingView"/> class.
+        /// </summary>
         public OnboardingView()
         {
             this.Register(new DictionaryRenderer(_responseTemplates));

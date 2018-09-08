@@ -7,6 +7,9 @@ using Microsoft.Bot.Builder.Dialogs;
 
 namespace MessageRoutingBot
 {
+    /// <summary>
+    /// Dialog to handle Cancellation of interruptable dialogs.
+    /// </summary>
     public class CancelDialog : ComponentDialog
     {
         // Constants
@@ -16,6 +19,9 @@ namespace MessageRoutingBot
         // Fields
         private static CancelResponses _responder = new CancelResponses();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CancelDialog"/> class.
+        /// </summary>
         public CancelDialog()
             : base(Name)
         {
@@ -29,7 +35,7 @@ namespace MessageRoutingBot
             AddDialog(new ConfirmPrompt(CancelPrompt));
         }
 
-        public static async Task<DialogTurnResult> AskToCancel(DialogContext dc, WaterfallStepContext args, CancellationToken cancellationToken)
+        private static async Task<DialogTurnResult> AskToCancel(DialogContext dc, WaterfallStepContext args, CancellationToken cancellationToken)
         {
             return await dc.PromptAsync(CancelPrompt, new PromptOptions()
             {
@@ -37,7 +43,7 @@ namespace MessageRoutingBot
             });
         }
 
-        public static async Task<DialogTurnResult> FinishCancelDialog(DialogContext dc, WaterfallStepContext args, CancellationToken cancellationToken)
+        private static async Task<DialogTurnResult> FinishCancelDialog(DialogContext dc, WaterfallStepContext args, CancellationToken cancellationToken)
         {
             return await dc.EndAsync((bool)args.Result);
         }
