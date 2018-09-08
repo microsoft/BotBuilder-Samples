@@ -13,12 +13,12 @@ namespace MessageRoutingBot
     public class MessageRoutingBotAccessors
     {
         /// <summary>
-        /// Access <see cref="DialogState"> properties for the conversation.
+        /// Gets or sets the <see cref="DialogState"/> properties for the conversation.
         /// </summary>
         public IStatePropertyAccessor<DialogState> ConversationDialogState { get; set; }
 
         /// <summary>
-        /// Gets <see cref="SemaphoreSlim"> for state synchronization.
+        /// Gets <see cref="SemaphoreSlim"/> for state synchronization.
         /// </summary>
         public SemaphoreSlim SemaphoreSlim { get; } = new SemaphoreSlim(1, 1);
     }
