@@ -7,7 +7,9 @@ const { ActivityTypes, MessageFactory } = require('botbuilder');
  */
 class SuggestedActionsBot {
     /**
-     * 
+     * Every conversation turn for our SuggestedActionsbot will call this method.
+     * There are no dialogs used, since it's "single turn" processing, meaning a single request and
+     * response, with no stateful conversation.
      * @param {Object} turnContext on turn context object.
      */
     async onTurn(turnContext) {
@@ -47,7 +49,7 @@ class SuggestedActionsBot {
 }
 
 /**
- * 
+ * Send the suggested actions to the user.
  * @param {Object} turnContext on turn context object.
  */
 async function sendSuggestedActions(turnContext) {
