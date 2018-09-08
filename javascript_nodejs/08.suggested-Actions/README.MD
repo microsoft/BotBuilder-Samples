@@ -1,17 +1,17 @@
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 
-This sample shows how to send SuggestedActions. This bot example uses [`restify`](https://www.npmjs.com/package/restify) and [`dotenv`](https://www.npmjs.com/package/dotenv).
+This sample shows how to use suggested actions. This bot example uses [`restify`](https://www.npmjs.com/package/restify) and [`dotenv`](https://www.npmjs.com/package/dotenv).
 
 # To try this sample
 - Clone the repository
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
+    git clone https://github.com/Microsoft/botbuilder-sample.git
     ```
-- In a terminal, navigate to javascript_nodejs\7.using-adaptive-cards
+- In a terminal, navigate to javascript_nodejs\08.suggested-actions
     ```bash
-    cd javascript_nodejs\7.using-adaptive-cards
+    cd javascript_nodejs\08.suggested-actions
     ```
-- Point to the myget feed 
+- Point to the MyGet feed 
     ```bash
     npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
     ```
@@ -31,23 +31,20 @@ This sample shows how to send SuggestedActions. This bot example uses [`restify`
 # Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
+Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
 
-## Connect to bot using Bot Framework Emulator **V4**
+## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to javascript_nodejs\7.using-adaptive-cards folder
-- Select using-adaptive-cards.bot file
+- File -> Open Bot Configuration and navigate to javascript_nodejs\08.suggested-actions folder
+- Select suggested-actions.bot file
 
-# Adding media to messages
-A message exchange between user and bot can contain media attachments, such as cards, images, video, audio, and files.
-
-Adaptive Cards are supported by Bot Framework:
-- [Adaptive card](http://adaptivecards.io)
-- [Send an Adaptive card](https://docs.microsoft.com/en-us/azure/bot-service/nodejs/bot-builder-nodejs-send-rich-cards?view=azure-bot-service-3.0&viewFallbackFrom=azure-bot-service-4.0#send-an-adaptive-card)
+# Suggested Actions
+Suggested actions enable your bot to present buttons that the user can tap to provide input.
+Suggested actions appear close to the composer and enhance user experience.
+They enable the user to answer a question or make a selection with a simple tap of a button, rather than having to type a response with a keyboard.
+Unlike buttons that appear within rich cards (which remain visible and accessible to the user even after being tapped), buttons that appear within the suggested actions pane will disappear after the user makes a selection. This prevents the user from tapping stale buttons within a conversation and simplifies bot development (since you will not need to account for that scenario).
 
 # Further reading
-
-- [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Bot State](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-storage-concept?view=azure-bot-service-4.0)
-- [Add media to messages](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-add-media-attachments?view=azure-bot-service-4.0&tabs=javascript)
-- [Rich card types](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-add-rich-cards?view=azure-bot-service-4.0)
+- [Suggested Actions](https://docs.microsoft.com/en-us/azure/bot-service/nodejs/bot-builder-nodejs-send-suggested-actions?view=azure-bot-service-4.0)

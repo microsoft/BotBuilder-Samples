@@ -3,32 +3,36 @@
 
 const { ActivityTypes, MessageFactory } = require('botbuilder');
 
+/**
+ * A simple bot that responds to input from suggested actions.
+ */
 class SuggestedActionsBot {
     /**
-     * 
+     * Every conversation turn for our SuggestedActionsbot will call this method.
+     * There are no dialogs used, since it's "single turn" processing, meaning a single request and
+     * response, with no stateful conversation.
      * @param {Object} turnContext on turn context object.
      */
     async onTurn(turnContext) {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         if (turnContext.activity.type === ActivityTypes.Message) {
             const text = turnContext.activity.text;
-            switch (text) {
-                case 'Red':
-                    await sendResponse(turnContext);
-                    break;
-                case 'Yellow':
-                    await sendResponse(turnContext);
-                    break;
-                case 'Blue':
-                    await sendResponse(turnContext);
-                    break;
-                default:
-                    await turnContext.sendActivity('Please select a color.');
-                    break;
+
+            // Create an array with the valid color options.
+            const validColors = ['Red', 'Blue', 'Yellow'];
+
+            // If the `text` is in the Array, a valid color was selected and send agreement. 
+            if (validColors.includes(text)) {
+                await turnContext.sendActivity(`I agree, ${text} is the best color.`);
+            } else {
+                await turnContext.sendActivity('Please select a color.');
             }
+
+            // After the bot has responded send the SuggestedActions.
             await sendSuggestedActions(turnContext);
         } else if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
             let members = turnContext.activity.membersAdded;
+
             for (let index = 0; index < members.length; index++) {
                 const member = members[index];
                 if (member.id != turnContext.activity.recipient.id) {
@@ -40,22 +44,18 @@ class SuggestedActionsBot {
                 }
             };
         } else {
-            await turnContext.sendActivity(`[${turnContext.activity.type} event detected]`);
+            await turnContext.sendActivity(`[${turnContext.activity.type} event detected.]`);
         }
     }
 }
 
-async function sendResponse(turnContext) {
-    await turnContext.sendActivity(`I agree, ${turnContext.activity.text} is the best color`);
-}
 /**
- * 
+ * Send the suggested actions to the user.
  * @param {Object} turnContext on turn context object.
  */
 async function sendSuggestedActions(turnContext) {
-    var reply = MessageFactory.suggestedActions(['Red', 'Yellow', 'Blue'], `What is the best color`);
+    var reply = MessageFactory.suggestedActions(['Red', 'Yellow', 'Blue'], `What is the best color?`);
     await turnContext.sendActivity(reply);
 }
-
 
 module.exports = SuggestedActionsBot;
