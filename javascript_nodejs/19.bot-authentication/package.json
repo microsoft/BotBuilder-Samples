@@ -12,6 +12,7 @@
     "license": "MIT",
     "dependencies": {
         "botbuilder": "^4.0.0-preview1.1089",
+        "botbuilder-dialogs": "^4.0.0-preview1.1188",
         "botframework-config": "^4.0.0-preview1.1102",
         "dotenv": "^6.0.0",
         "restify": "^7.2.1"

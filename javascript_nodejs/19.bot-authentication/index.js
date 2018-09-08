@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { BotFrameworkAdapter } = require('botbuilder');
+const { BotFrameworkAdapter, BotStateSet, ConversationState, MemoryStorage } = require('botbuilder');
 const { BotConfiguration } = require('botframework-config');
 const path = require('path');
 const restify = require('restify');
@@ -46,6 +46,27 @@ const adapter = new BotFrameworkAdapter({
     appId: endpointConfig.appId || process.env.MicrosoftAppId,
     appPassword: endpointConfig.appPassword || process.env.MicrosoftAppPassword
 });
+
+// Define the state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
+// A bot requires a state storage system to persist the dialog and user state between messages.
+const memoryStorage = new MemoryStorage();
+
+// CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
+// is restarted, everything stored in memory will be gone. 
+// For production bots use the Azure Cosmos DB storage, or Azure Blob storage providers. 
+// const { CosmosDbStorage } = require('botbuilder-azure');
+// const STORAGE_CONFIGURATION = 'cosmosDB'; // Cosmos DB configuration in your .bot file
+// const cosmosConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION);
+// const cosmosStorage = new CosmosDbStorage({serviceEndpoint: cosmosConfig.connectionString, 
+//                                            authKey: ?, 
+//                                            databaseId: cosmosConfig.database, 
+//                                            collectionId: cosmosConfig.collection});
+
+// Create conversation state with in-memory storage provider. 
+const conversationState = new ConversationState(memoryStorage);
+
+// Use the BotStateSet middleware to automatically read and write conversation and user state.
+adapter.use(new BotStateSet(conversationState));
 
 // Create the bot that will handle incoming messages.
 const authenticationBot = new AuthenticationBot();
