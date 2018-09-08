@@ -1,6 +1,6 @@
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 
-This sample shows how to use Bot Authentication. This bot example uses [`restify`](https://www.npmjs.com/package/restify) and [`dotenv`](https://www.npmjs.com/package/dotenv).
+This sample shows how to use Suggested Actions. This bot example uses [`restify`](https://www.npmjs.com/package/restify) and [`dotenv`](https://www.npmjs.com/package/dotenv).
 
 # To try this sample
 - Clone the repository
@@ -11,7 +11,7 @@ This sample shows how to use Bot Authentication. This bot example uses [`restify
     ```bash
     cd javascript_nodejs\08.suggested-actions
     ```
-- Point to the myget feed 
+- Point to the MyGet feed 
     ```bash
     npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
     ```
@@ -31,17 +31,18 @@ This sample shows how to use Bot Authentication. This bot example uses [`restify
 # Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
+Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to javascript_nodejs\08.suggested-actions folder
 - Select suggested-actions.bot file
 
-# Bot Authorization
-This Sample uses bot authentication capabilities in Azure Bot Service, providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc. It is possible to improve user experience by eliminating the magic code verification for some clients.
+# Suggested Actions
+Suggested actions enable your bot to present buttons that the user can tap to provide input. Suggested actions appear close to the composer and enhance user experience by enabling the user to answer a question or make a selection with a simple tap of a button, rather than having to type a response with a keyboard. Unlike buttons that appear within rich cards (which remain visible and accessible to the user even after being tapped), buttons that appear within the suggested actions pane will disappear after the user makes a selection. This prevents the user from tapping stale buttons within a conversation and simplifies bot development (since you will not need to account for that scenario).
+
 # Further reading
 
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Bot State](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-storage-concept?view=azure-bot-service-4.0)
-- [bot Authentication](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-authentication?view=azure-bot-service-4.0)
+- [Suggested Actions](https://docs.microsoft.com/en-us/azure/bot-service/nodejs/bot-builder-nodejs-send-suggested-actions?view=azure-bot-service-4.0)

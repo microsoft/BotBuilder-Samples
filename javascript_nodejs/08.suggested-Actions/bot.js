@@ -22,12 +22,12 @@ class SuggestedActionsBot {
 
             // If the `text` is in the Array, a valid color was selected and send agreement. 
             if (validColors.includes(text)) {
-                await turnContext.sendActivity(`I agree, ${text} is the best color`);
+                await turnContext.sendActivity(`I agree, ${text} is the best color.`);
             } else {
                 await turnContext.sendActivity('Please select a color.');
             }
 
-            // after the bot has responded send the suggested actions.
+            // After the bot has responded send the SuggestedActions.
             await sendSuggestedActions(turnContext);
         } else if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
             let members = turnContext.activity.membersAdded;
@@ -43,7 +43,7 @@ class SuggestedActionsBot {
                 }
             };
         } else {
-            await turnContext.sendActivity(`[${turnContext.activity.type} event detected]`);
+            await turnContext.sendActivity(`[${turnContext.activity.type} event detected.]`);
         }
     }
 }
@@ -53,7 +53,7 @@ class SuggestedActionsBot {
  * @param {Object} turnContext on turn context object.
  */
 async function sendSuggestedActions(turnContext) {
-    var reply = MessageFactory.suggestedActions(['Red', 'Yellow', 'Blue'], `What is the best color`);
+    var reply = MessageFactory.suggestedActions(['Red', 'Yellow', 'Blue'], `What is the best color?`);
     await turnContext.sendActivity(reply);
 }
 
