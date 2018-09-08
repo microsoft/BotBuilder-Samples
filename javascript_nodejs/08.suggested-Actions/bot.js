@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 const { ActivityTypes, MessageFactory } = require('botbuilder');
-
+/**
+ * A simple bot that responds to unput from suggested actions.
+ */
 class SuggestedActionsBot {
     /**
      * 
@@ -12,23 +14,22 @@ class SuggestedActionsBot {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         if (turnContext.activity.type === ActivityTypes.Message) {
             const text = turnContext.activity.text;
-            switch (text) {
-                case 'Red':
-                    await sendResponse(turnContext);
-                    break;
-                case 'Yellow':
-                    await sendResponse(turnContext);
-                    break;
-                case 'Blue':
-                    await sendResponse(turnContext);
-                    break;
-                default:
-                    await turnContext.sendActivity('Please select a color.');
-                    break;
+
+            // Create an array with the valid color options.
+            const validColors = ['Red', 'Blue', 'Yellow'];
+
+            // If the `text` is in the Array, a valid color was selected and send agreement. 
+            if (validColors.includes(text)) {
+                await turnContext.sendActivity(`I agree, ${text} is the best color`);
+            } else {
+                await turnContext.sendActivity('Please select a color.');
             }
+
+            // after the bot has responded send the suggested actions.
             await sendSuggestedActions(turnContext);
         } else if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
             let members = turnContext.activity.membersAdded;
+
             for (let index = 0; index < members.length; index++) {
                 const member = members[index];
                 if (member.id != turnContext.activity.recipient.id) {
@@ -45,9 +46,6 @@ class SuggestedActionsBot {
     }
 }
 
-async function sendResponse(turnContext) {
-    await turnContext.sendActivity(`I agree, ${turnContext.activity.text} is the best color`);
-}
 /**
  * 
  * @param {Object} turnContext on turn context object.

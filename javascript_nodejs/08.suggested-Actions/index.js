@@ -4,14 +4,9 @@
 const path = require('path');
 const restify = require('restify');
 const SuggestedActionsBot = require('./bot');
-
-const CONFIG_ERROR = 1;
-
-// Import reuqired bot services. See https://ama.ms/bot-services to learn more about the different part of a bot
 const { BotFrameworkAdapter } = require('botbuilder');
-
-// Import required bot confuguration.
 const { BotConfiguration } = require('botframework-config');
+const CONFIG_ERROR = 1;
 
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
