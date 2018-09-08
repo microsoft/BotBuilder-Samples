@@ -69,7 +69,7 @@ const conversationState = new ConversationState(memoryStorage);
 adapter.use(new BotStateSet(conversationState));
 
 // Create the bot that will handle incoming messages.
-const authenticationBot = new AuthenticationBot();
+const authenticationBot = new AuthenticationBot(conversationState);
 
 // Listen for incoming requests. 
 server.post('/api/messages', (req, res) => {

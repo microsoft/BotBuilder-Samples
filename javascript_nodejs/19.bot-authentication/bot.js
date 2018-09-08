@@ -26,9 +26,9 @@ class AuthenticationBot {
         // Create a new state accessor property. See https://aka.ms/about-bot-state-accessors to learn more about bot state and state accessors.
         this.conversationState = conversationState;
         this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
-                
+        this.dialogs = new DialogSet(this.dialogState);       
         // Add prompts that will be used by the bot.
-        this.dialogs.add(new OAuthPrompt(NAME_PROMPT));
+        //this.dialogs.add(new OAuthPrompt(NAME_PROMPT));
         this.dialogs.add(new ChoicePrompt(CONFIRM_PROMPT));
         this.dialogs.add(new WaterfallDialog(AUTH_DIALOG,[
 
