@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityTypes, MessageFactory } = require('botbuilder');
+
 /**
  * A simple bot that responds to unput from suggested actions.
  */
@@ -56,6 +57,5 @@ async function sendSuggestedActions(turnContext) {
     var reply = MessageFactory.suggestedActions(['Red', 'Yellow', 'Blue'], `What is the best color?`);
     await turnContext.sendActivity(reply);
 }
-
 
 module.exports = SuggestedActionsBot;
