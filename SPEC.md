@@ -141,3 +141,126 @@ When creating a new sample, follow these steps to apply the ruleset to the sampl
 
 All samples must have the following linting configuration enabled.
 <TBD>
+
+## Bot Styles
+We want to have consistent patterns for how to use our SDK.  The following should be followed for all of our samples.
+
+### General Rules
+
+#### Startup initialization should only initialize middleware and bot
+
+> We want to minimize the cognitive load of what happens in startup and 
+> foster code being organized along class boundaries.
+
+#### Creating Property Accessors should be scoped to the class which makes the most sense.
+
+> We want to organize our logic at class boundaries to make it clearer 
+> how code reuse happens and localize the information around classes.
+
+```cs
+    public class ExampleDialog
+    {
+        public ExampleDialog(BotState state)
+        {
+            this.AlarmsProperty = state.CreateProperty<Alarm[]>("Alarms");
+        }
+    	IStatePropertyAccessor<Alarms> AlarmsProperty { get;set;}
+    }
+    ...
+    var alarms = await this.AlarmsProperty.Get(context);
+```
+
+#### Property Accessors should be passed to a class if they are shared among multiple classes
+
+> If you have 3 dialogs which all need the same property accessor, then the higher level
+> class should define the accessor and pass it to the child dialogs. 
+
+```cs
+   AlarmDialogs(BotState botState)
+   {
+       this.AlarmsProperty = botState.CreateProperty<List<Alarm>>("Alarms");
+
+       this.Dialogs.Add(new AddAlarmDialog(alarmsDialog));
+       this.Dialogs.Add(new ShowAlarmsDialog(alarmsDialog));
+       this.Dialogs.Add(new DeleteAlarmsDialog(alarmsDialog));
+   } 
+   
+```
+
+#### Constructors should use BotState to create properties unless the component requires that it is ConversationState or UserState.
+
+> Reasoning:  When you take a ConversationState you are stating that your component is
+> required to be have the scoping of conversation for it to work correctly.  When you 
+> accept BotState as your input parameter you are leaving your class open to have your 
+> state live where the caller needs it to be, and makes you work with future storage 
+> types. 
+
+```cs
+    public class ExampleDialog
+    {
+        public ExampleDialog(BotState state)
+        {
+            this.AlarmsProperty = state.CreateProperty<Alarm[]>("Alarms");
+        }
+```
+
+#### Bot, Dialog and Prompt class names should have standard postfix
+> Making it clear what a class is helps with readability and understanding the structure
+> of the sample.
+
+```cs
+    var myBot = new MyBot();
+    var exampleDialog = new ExampleDialog(...);
+    var titlePrompt = new TitlePrompt(...);
+```
+
+#### Bot, Dialog and Prompts variable names should have standard postfix.
+> Clear and consistent variable name helps with readability and 
+> understanding the structure of a sample.
+
+```cs
+    var myBot = new MyBot();
+    var exampleDialog = new ExampleDialog(...);
+    var titlePrompt = new TitlePrompt(...);
+```
+
+#### Property Accessors variables should have standard postfix 
+> property accessors do not define the state but are an interface to 
+> get access to the object.  Postfix naming makes this clear and prevents confusion  
+> between the actual state object and the interface which gives you access to it.
+
+```cs
+    IStatePropertyAccessor<List<Alarm>> AlarmsProperty { get;set;}
+    ...
+    var alarms = await this.AlarmsProperty.Get(context, ()=> new List<Alarm>());
+```
+
+#### Dependency Injection should be avoided unless it is super clear
+
+> Dependency Injection is great for sophisticated users but it 
+> makes it hard to understand how the code is composed.  Samples should be as
+> clear and succinct as possible with the composition as explicit as possible
+> to make it obvious how things work.
+
+It is easy for people to layer in DI, but it is not something which helps us
+to show how the program is structured.
+
+#### We should avoid value type property accessors 
+
+> Value type property accessors work, but have a "gotcha" which is that you 
+> have to call the propertyAccessor.Set() method for it to commit.
+
+We should probably avoid value types unless we are trying to show the pattern of
+how to deal with value types in the sample.
+
+```cs
+   // bad
+   greetedProperty = botState.CreateProperty<bool>("Greeted");
+
+    // good
+   public class MyData:
+   {
+       public bool Greeted {get;set;}
+   }
+   myDataProperty = botState.CreateProperty<MyData>("MyData");
+```
