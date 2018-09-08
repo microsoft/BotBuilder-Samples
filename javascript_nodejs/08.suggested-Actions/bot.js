@@ -4,7 +4,7 @@
 const { ActivityTypes, MessageFactory } = require('botbuilder');
 
 /**
- * A simple bot that responds to unput from suggested actions.
+ * A simple bot that responds to input from suggested actions.
  */
 class SuggestedActionsBot {
     /**
