@@ -91,10 +91,6 @@
       <HintPath>packages\Microsoft.Bot.Builder.4.0.0.38905\lib\netstandard2.0\Microsoft.Bot.Builder.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Bot.Builder.AI.Luis, Version=4.0.0.38905, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Builder.AI.Luis.4.0.0.38905\lib\netstandard2.0\Microsoft.Bot.Builder.AI.Luis.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Bot.Builder.Integration.AspNet.WebApi, Version=4.0.0.38905, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bot.Builder.Integration.AspNet.WebApi.4.0.0.38905\lib\net461\Microsoft.Bot.Builder.Integration.AspNet.WebApi.dll</HintPath>
     </Reference>
@@ -253,7 +249,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BotConfig.cs" />
-    <Compile Include="App_Start\BotServices.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityResolver.cs" />
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
