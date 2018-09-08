@@ -3,7 +3,7 @@
 
 
 const { ActivityTypes, MessageFactory } = require('botbuilder');
-const { ChoicePrompt, DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
+const { ChoicePrompt, DialogSet, WaterfallDialog, OAuthPrompt  } = require('botbuilder-dialogs');
 const connectionName = "";
 const DIALOG_STATE_PROPERTY = 'dialogState';
 const OAUTH_PROMPT = 'oAuth_prompt';
@@ -28,7 +28,7 @@ class AuthenticationBot {
         this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
         this.dialogs = new DialogSet(this.dialogState);       
         // Add prompts that will be used by the bot.
-        //this.dialogs.add(new OAuthPrompt(NAME_PROMPT));
+        this.dialogs.add(new OAuthPrompt(OAUTH_PROMPT));
         this.dialogs.add(new ChoicePrompt(CONFIRM_PROMPT));
         this.dialogs.add(new WaterfallDialog(AUTH_DIALOG,[
 
