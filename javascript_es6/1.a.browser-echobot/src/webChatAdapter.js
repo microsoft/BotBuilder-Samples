@@ -58,8 +58,8 @@ export class WebChatAdapter extends BotAdapter {
     }    
     
     /**
-     * Used to register business logic for the bot, it takes a handler that takes a context object as a parameter.
-     * @param {function} logic
+     * Registers the business logic for the adapter, it takes a handler that takes a TurnContext object as a parameter.
+     * @param {function} logic The driver code of the developer's bot application. This code receives and responds to user messages.
     */
     processActivity(logic) {
         this.logic = logic;

@@ -1,15 +1,16 @@
-The example shows the use of the botbuilder-js SDK for the browser using the [BotFramework-WebChat](https://github.com/Microsoft/BotFramework-WebChat) and a custom [WebChatAdapter](/src/webChatAdapter.js). After running the bot, to see it in action, visit `http://localhost:8080`
+The example shows the use of the botbuilder-js SDK for the browser using the [BotFramework-WebChat](https://github.com/Microsoft/BotFramework-WebChat) and a custom [WebChatAdapter](/src/webChatAdapter.js). 
+After running the bot, to see it in action, visit `http://localhost:8080`.
 
 ## To try this sample
 - Clone the repository
-```bash
-git clone https://github.com/Microsoft/botbuilder-samples.git
-```
+    ```bash
+    git clone https://github.com/Microsoft/botbuilder-samples.git
+    ```
 - In a terminal, navigate to javascript_es6\1.a.browser-echobot
     ```bash
     cd javascript_es6\1.a.browser-echobot
     ```
-- Point to the myget feed 
+- Point to the MyGet feed 
     ```bash
     npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
     ```
@@ -17,26 +18,25 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
     ```bash
     npm i & npm start
     ```
+- To see the bot in action, visit `http://localhost:8080` in a browser.
+
 - To reset registry, you can do
     ```bash
     npm config set registry https://registry.npmjs.org/
     ```
 
-### Visual Stydio Code:
-- open `javascript_es6\1.a.browser-echobot` folder 
-- bring up a terminal, navigate to `javascript_es6\1.a.browser-echobot` folder
-- type `npm i` to install the sample's dependencies
-- type `npm start` to run the bot
-- navigate to `http://localhost:8080`
-
-
 # Adapters
-Developers can use the [BotAdapter](https://github.com/Microsoft/botbuilder-js/blob/master/doc/botbuilder/classes/botbuilder.botadapter.md) abstract base class to implement their own custom adapters. Implementing a custom adapter allows users to connect bots to connect to channels not supported by the [Bot Framework](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0). In this sample, a custom [WebChatAdapter](./src/WebChatAdapter.js) has been implemented so that the entirety of the bot can live in a user's browser.
+Developers can use the [BotAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter) abstract base class to implement their own custom adapters.
+Implementing a custom adapter allows users to connect bots to connect to channels not supported by the [Bot Framework](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0).
+In this sample, a custom [WebChatAdapter](./src/WebChatAdapter.js) has been implemented so that the entirety of the bot is hosted in a user's browser.
 
+Hosting a bot in a user's browser provides these benefits:
+- A bot hosted in the user's browser has improved latency as there is no round-trip from the browser to a server hosting the bot.
+- One engineering team in charge of bot design and the website. This can lead towards a more integrated UX and speed up development.
+- A browser hosted bot can offload some of the work done by your servers by passing it to the user's machine.
 
 # Further reading
 
-- [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [Bot State](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-storage-concept?view=azure-bot-service-4.0)
-- [Write directly to storage](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-storage?view=azure-bot-service-4.0&tabs=jsechoproperty%2Ccsetagoverwrite%2Ccsetag)
-- [Managing conversation and user state](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.0&tabs=js)
+- [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [Bot State and storage](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-storage-concept?view=azure-bot-service-4.0)
