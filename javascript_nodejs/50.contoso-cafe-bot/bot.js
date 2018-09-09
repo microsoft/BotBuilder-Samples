@@ -16,8 +16,8 @@ const LUIS_ENTITIES = ['confirmationList', 'number', 'datetimeV2', 'cafeLocation
 const ON_TURN_PROPERTY = 'onTurnProperty';
 const DIALOG_STATE_PROPERTY = 'dialogState';
 
-const onTurnProperty = require('./onTurnProperty');
-const entityProperty = require('./entityProperty');
+const onTurnProperty = require('./dialogs/shared/stateProperties/onTurnProperty');
+const entityProperty = require('./dialogs/shared/stateProperties/entityProperty');
 
 class Bot {
     /**

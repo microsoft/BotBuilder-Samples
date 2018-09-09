@@ -9,7 +9,7 @@ const CONFIRM_CANCEL_PROMPT = 'confirmCancel';
 const CANCEL_STATE_PROPERTY = 'cancelStateProperty';
 const CANCEL_DIALOG_PROPERTY = 'cancelDialogProperty';
 
-const cancelProperty = require('./cancelProperty');
+const cancelProperty = require('../shared/stateProperties/cancelProperty');
 
 class CancelDialog extends ComponentDialog {
     constructor(activeDialogPropertyAccessor, onTurnPropertyAccessor, conversationState) {
