@@ -10,13 +10,13 @@ const OAUTH_PROMPT = 'oAuth_prompt';
 const CONFIRM_PROMPT = 'confirm_prompt';
 const AUTH_DIALOG = 'auth_dialog';
 const HELP_TEXT = ' Type anything to get logged in. Type \'logout\' to signout.' +
-    ' Type \'help\' to view this message again';
+                  ' Type \'help\' to view this message again';
 const OAUTH_SETTINGS = {
     connectionName: CONNECTION_NAME,
     title: "Sign In",
     text: "Please Sign In",
     timeout: 300000
-}
+};
 // Creat an OAuthPrompt
 
 /**
@@ -25,7 +25,7 @@ const OAUTH_SETTINGS = {
 class AuthenticationBot {
 
     /**
-    * 
+    * The constructor for the bot. 
     * @param {ConversationState} conversationState A ConversationState object used to store the dialog state.
     */
     constructor(conversationState) {
@@ -39,6 +39,8 @@ class AuthenticationBot {
 
         this.dialogs.add(new ChoicePrompt(CONFIRM_PROMPT));
         this.dialogs.add(new OAuthPrompt(OAUTH_PROMPT, OAUTH_SETTINGS))
+
+        // the waterfall dialog that controls the flow of the conversation
         this.dialogs.add(new WaterfallDialog(AUTH_DIALOG, [
             async (dc) => {
                 return await dc.prompt(OAUTH_PROMPT);
@@ -49,11 +51,12 @@ class AuthenticationBot {
                     await dc.context.sendActivity("You are now logged in.");
                     return await dc.prompt(CONFIRM_PROMPT, 'Do you want to view your token?', ['yes', 'no']);
                 }
+
                 await dc.Context.sendActivity("Login was not sucessful please try again");
                 return await dc.end();
             },
             async (dc, step) => {
-                let result = step.result.value;
+                const result = step.result.value;
                 if (result === 'yes'){
                     // Call the prompt again because we need the token. The reasons for this are:
                     // 1. If the user is already logged in we do not need to store the token locally in the bot and worry
@@ -71,6 +74,7 @@ class AuthenticationBot {
                         return await dc.end();
                     }
                 }
+
                 await dc.context.sendActivity(HELP_TEXT);
                 return await dc.end();                
             },
@@ -100,19 +104,20 @@ class AuthenticationBot {
                 if (text === 'help') {
                     await turnContext.sendActivity(HELP_TEXT);
                 }
+
                 if (text === 'logout') {
                     let botAdapter = turnContext.adapter;
                     await botAdapter.signOutUser(turnContext, CONNECTION_NAME);
                     await turnContext.sendActivity("You have been signed out.");
                     await turnContext.sendActivity(HELP_TEXT)
-                }
+                }                
             } else {
                 if (!turnContext.responded) {
                     await dc.begin(AUTH_DIALOG);
                 }
             };
-            // After the bot has responded send the SuggestedActions.
         } else if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
+            // Send a greeting to new members that join the conersation.
             let members = turnContext.activity.membersAdded;
 
             for (let index = 0; index < members.length; index++) {
