@@ -7,17 +7,17 @@
         {
             "type": "ColumnSet",
             "horizontalAlignment": "Center",
-            "spacing": "Large",
+            "spacing": "large",
             "height": "stretch",
             "columns": [
                 {
                     "type": "Column",
-                    "spacing": "Large",
+                    "spacing": "large",
                     "items": [
                         {
                             "type": "TextBlock",
-                            "size": "ExtraLarge",
-                            "weight": "Bolder",
+                            "size": "extraLarge",
+                            "weight": "bolder",
                             "text": "Contoso Cafe"
                         },
                         {
@@ -26,19 +26,15 @@
                             "text": "Hello, I'm the Cafe bot! How can I be of help today?",
                             "wrap": true
                         }
-                    ],
-                    "width": {
-                        "physicalSize": 2,
-                        "unit": 0
-                    }
+                    ]
                 },
                 {
                     "type": "Column",
-                    "spacing": "Small",
+                    "spacing": "small",
                     "items": [
                         {
                             "type": "Image",
-                            "horizontalAlignment": "Center",
+                            "horizontalAlignment": "center",
                             "url": "http://contosocafeontheweb.azurewebsites.net/assets/contoso_logo_black.png",
                             "size": "medium"
                         }

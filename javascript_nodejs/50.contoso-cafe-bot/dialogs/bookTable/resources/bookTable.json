@@ -93,6 +93,7 @@
         {
             "type": "Input.ChoiceSet",
             "placeholder": "Pick number of guests...",
+            "id": "partySize",
             "choices": [
                 {
                     "title": "1",
@@ -126,6 +127,7 @@
             "type": "Action.Submit",
             "title": "Book it",
             "data": {
+                "intent": "Book_Table_Submit",
                 "confirmationList": "yes"
             }
         },
@@ -133,7 +135,8 @@
             "type": "Action.Submit",
             "title": "Cancel",
             "data": {
-                "intent": "cancel"
+                "intent": "Book_Table_Cancel",
+                "confirmationList": "no"
             }
         }
     ],

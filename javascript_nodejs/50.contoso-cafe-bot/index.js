@@ -6,10 +6,10 @@ const restify = require('restify');
 
 const CONFIG_ERROR = 1;
 
-// Import reuqired bot services. See https://ama.ms/bot-services to learn more about the different part of a bot
+// Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState, BotStateSet } = require('botbuilder');
 
-// This bot's main dialog
+// This bot's main dialog.
 const Bot = require('./bot');
 
 // Import required bot confuguration.
@@ -40,14 +40,14 @@ try {
     process.exit(CONFIG_ERROR);
 }
 
-// Bot name as defined in .bot file 
-// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration .
+// Bot configuration section in the .bot file.
+// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
 const BOT_CONFIGURATION = 'contoso-cafe-bot';
 
 // Get bot endpoint configuration by service name
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
-// Create adapter. See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration .
+// Create adapter. See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration.
 const adapter = new BotFrameworkAdapter({
     appId: endpointConfig.appId || process.env.microsoftAppID,
     appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword
@@ -57,9 +57,9 @@ const adapter = new BotFrameworkAdapter({
 const memoryStorage = new MemoryStorage();
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone. 
-// For production bots use the Azure CosmosDB storage, Azure Blob storage provides. 
+// For production bots use Azure CosmosDB storage or Azure Blob storage providers. 
 // const { CosmosDbStorage } = require('botbuilder-azure');
-// const STORAGE_CONFIGURATION = 'CosmosDB'; // this is the name of the cosmos DB configuration in your .bot file
+// const STORAGE_CONFIGURATION = 'CosmosDB'; 
 // const cosmosConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION);
 // const cosmosStorage = new CosmosDbStorage({serviceEndpoint: cosmosConfig.connectionString, 
 //                                            authKey: ?, 
@@ -69,26 +69,26 @@ const memoryStorage = new MemoryStorage();
 // Create conversation state with in-memory storage provider. 
 const conversationState = new ConversationState(memoryStorage);
 
-// Create user state with in-memory storage provider.
+// Create user state with in-memory storage provider. 
 const userState = new UserState(memoryStorage);
 
 // Register conversation state and user state as a middleware. 
 adapter.use(new BotStateSet(conversationState, userState));
 
-// Create the main dialog.
-let bot;
+// Create Bot.
+let myBot;
 try {
-    bot = new Bot(conversationState, userState, botConfig);
+    myBot = new Bot(conversationState, userState, botConfig);
 } catch (err) {
     console.log(err);
     process.exit(CONFIG_ERROR);
 }
 
-// Listen for incoming requests 
+// Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
-        // Route to main dialog.
-        await bot.onTurn(context);        
+        // Route to Bot.
+        await myBot.onTurn(context);        
     });
 });
 
