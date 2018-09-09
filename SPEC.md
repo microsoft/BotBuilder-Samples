@@ -143,7 +143,7 @@ All samples must have the following linting configuration enabled.
 <TBD>
 
 ## Bot Styles
-Our samples have consistent patterns for how to use our SDK.  The following should be followed for all of our samples.
+Our samples have consistent patterns for how to use the Bot Builder SDK.  The following should be followed for all of our samples.
 
 ### General Rules
 
