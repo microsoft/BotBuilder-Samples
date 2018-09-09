@@ -7,11 +7,11 @@ const USER_QUERY_PROPERTY = 'userQuery';
 const ACTIVE_DIALOG_PROPERTY = 'activeDialog';
 const MAIN_DIALOG_STATE_PROPERTY = 'mainDialogState';
 /**
- * Bot state class. Holds property accessors to on turn property and dialog property
+ * Holds property accessors relevant to Main Dialog.
  */
-class MainState {
+class MainDialogPropertyAccessors {
     /**
-     * Main State constructor.
+     * Main Dialog property accessors constructor.
      * 
      * @param {Object} conversationState conversation state object
      * @param {Object} userState user state object
@@ -31,4 +31,4 @@ class MainState {
     }
 };
 
-module.exports = MainState;
+module.exports = MainDialogPropertyAccessors;

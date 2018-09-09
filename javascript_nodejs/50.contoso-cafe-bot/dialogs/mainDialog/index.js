@@ -4,32 +4,33 @@
 const { ComponentDialog, DialogTurnStatus, WaterfallDialog, DialogSet } = require('botbuilder-dialogs');
 const MAIN_DIALOG = 'MainDialog';
 const DialogTurnResult = require('../shared/turnResult');
-const mainState = require('./mainState');
+const propertyAccessors = require('./mainDialogPropAccessors');
 const BookTableDialog = require('../bookTable');
 const WhoAreYouDialog = require('../whoAreYou');
 const QnADialog = require('../qna');
 const ChitChatDialog = require('../chitChat');
 const HelpDialog = require('../help');
 const CancelDialog = require('../cancel');
-
+const FindCafeLocationsDialog = require('../findCafeLocations');
 class MainDialog extends ComponentDialog {
 
     constructor(botConfig, onTurnPropertyAccessor, conversationState, userState) {
         super(MAIN_DIALOG)
         if(!botConfig) throw ('Need bot config');
         if(!onTurnPropertyAccessor) throw ('Need on turn property accessor');
+
         // Create state objects for user, conversation and dialog states.   
-        this.mainState = new mainState(conversationState, userState);
+        this.propertyAccessors = new propertyAccessors(conversationState, userState);
         // keep on turn accessor and bot configuration
         this.onTurnPropertyAccessor = onTurnPropertyAccessor;
         this.botConfig = botConfig;
         // add dialogs
-        this.dialogs = new DialogSet(this.mainState.mainDialogPropertyAccessor);
+        this.dialogs = new DialogSet(this.propertyAccessors.mainDialogPropertyAccessor);
         // add book table dialog
         // add who are you dialog
         // add cancel dialog
         //this.dialogs.add(new MainDialog(botConfig, this.botState.onTurnPropertyAccessor, conversationState, userState));
-        this.dialogs.add(new CancelDialog(this.mainState.activeDialogPropertyAccessor, onTurnPropertyAccessor, conversationState));
+        this.dialogs.add(new CancelDialog(this.propertyAccessors.activeDialogPropertyAccessor, onTurnPropertyAccessor, conversationState));
         // other single-turn dialogs
         this.qnaDialog = new QnADialog(botConfig);
     }
@@ -86,6 +87,7 @@ class MainDialog extends ComponentDialog {
                 break;
             }
         }
+        dialogTurnResult = (dialogTurnResult === undefined) ? new DialogTurnResult(DialogTurnStatus.empty) : dialogTurnResult;
         return dialogTurnResult;
     }
 
@@ -98,12 +100,19 @@ class MainDialog extends ComponentDialog {
                 return await this.qnaDialog.onTurn(dc.context);
             }
             case CancelDialog.Name: {
-                return await dc.begin(CancelDialog.Name);
+                return await dc.context.sendActivity(`Cancel`);
+                //return await dc.begin(CancelDialog.Name);
+                break;
+            } case BookTableDialog.Name: {
+                return await dc.context.sendActivity(`Book Table`);
+                break;
+            } case WhoAreYouDialog.Name: {
+                return await dc.context.sendActivity(`Who are You!`);
+                break;
+            } case FindCafeLocationsDialog.Name: {
+                return await dc.context.sendActivity(`Find Cafe Locations!`);
+                break;
             }
-
-            //case book_table: {
-                // set active dialog
-            //}
         }
 
     }
@@ -112,7 +121,7 @@ class MainDialog extends ComponentDialog {
         
         // get active dialog from property accessor
         // TODO: Evaluate if this can be achieved via dc.activeDialog instead of a separate property
-        const activeDialog = await this.mainState.activeDialogPropertyAccessor.get(dc.context);
+        const activeDialog = await this.propertyAccessors.activeDialogPropertyAccessor.get(dc.context);
 
         // Book table submit and Book Table cancel requests through book table card are not allowed when Book Table is not the active dialog
         if(requestedOperation === 'Book_Table_Submit' || requestedOperation === 'Book_Table_Cancel') {

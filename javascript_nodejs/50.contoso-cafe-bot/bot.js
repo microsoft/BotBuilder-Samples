@@ -5,7 +5,6 @@ const { ActivityTypes, CardFactory, MessageFactory } = require('botbuilder');
 const { DialogTurnStatus, DialogSet } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
 
-const myBotState = require('./botState');
 const MainDialog = require('./dialogs/mainDialog');
 const welcomeCard = require('./dialogs/welcome');
 
@@ -13,6 +12,12 @@ const welcomeCard = require('./dialogs/welcome');
 const LUIS_CONFIGURATION = 'cafeDispatchModel';
 // Possible LUIS entities. You can refer to dialogs\mainDialog\resources\entities.lu for list of entities
 const LUIS_ENTITIES = ['confirmationList', 'number', 'datetimeV2', 'cafeLocation'];
+
+const ON_TURN_PROPERTY = 'onTurnProperty';
+const DIALOG_STATE_PROPERTY = 'dialogState';
+
+const onTurnProperty = require('./onTurnProperty');
+const entityProperty = require('./entityProperty');
 
 class Bot {
     /**
@@ -27,8 +32,10 @@ class Bot {
         if(!conversationState) throw ('Need converstaion state');
         if(!userState) throw ('Need user state');
         if(!botConfig) throw ('Need bot config');
-        // Create state objects for user, conversation and dialog states.   
-        this.botState = new myBotState(conversationState);
+        // Create state property accessors.
+        this.onTurnPropertyAccessor = conversationState.createProperty(ON_TURN_PROPERTY);
+        this.dialogPropertyAccessor = conversationState.createProperty(DIALOG_STATE_PROPERTY);
+        
         this.botConfig = botConfig;
         // add recogizers
         const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
@@ -40,8 +47,8 @@ class Bot {
             endpointKey: luisConfig.authoringKey
         });
         // add dialogs
-        this.dialogs = new DialogSet(this.botState.dialogPropertyAccessor);
-        this.dialogs.add(new MainDialog(botConfig, this.botState.onTurnPropertyAccessor, conversationState, userState));
+        this.dialogs = new DialogSet(this.dialogPropertyAccessor);
+        this.dialogs.add(new MainDialog(botConfig, this.onTurnPropertyAccessor, conversationState, userState));
     }
     /**
      * On turn dispatcher. Responsible for processing turn input, gather relevant properties,
@@ -57,7 +64,7 @@ class Bot {
                 // Process on turn input (card or NLP) and gather new properties
                 let onTurnProperties = await this.getNewOnTurnProperties(context);
                 // Update state with gathered properties (dialog/ intent/ entities)
-                this.botState.onTurnPropertyAccessor.set(context, onTurnProperties);
+                this.onTurnPropertyAccessor.set(context, onTurnProperties);
                 // Do we have any oustanding dialogs? if so, continue them and get results
                 // No active dialog? start a new main dialog
                 await this.continueOrBeginMainDialog(context);
@@ -101,13 +108,13 @@ class Bot {
         // Nothing to do for this turn if there is no text specified.
         if(context.activity.text === undefined || context.activity.text.trim() === '') return;
 
-        let onTurnProperties = new myBotState.newTurn();
+        let onTurnProperties = new onTurnProperty();
         // make call to LUIS recognizer to get intent + entities
         const LUISResults = await this.luisRecognizer.recognize(context);
         onTurnProperties.intent = LuisRecognizer.topIntent(LUISResults);
         // gather entity values if available
         LUIS_ENTITIES.forEach(luisEntity => {
-            if(luisEntity in LUISResults.entities) onTurnProperties.entities.push(myBotState.addNewEntity(luisEntity, LUISResults.entities[luisEntity]))
+            if(luisEntity in LUISResults.entities) onTurnProperties.entities.push(new entityProperty(luisEntity, LUISResults.entities[luisEntity]))
         });
         return onTurnProperties;
     }
@@ -132,7 +139,7 @@ class Bot {
      * 
      */
     async handleCardInput (cardValue) {
-        let onTurnProperties = new myBotState.newTurn();
+        let onTurnProperties = new onTurnProperty();
         // Add all card values to appropriate place. 
         // All cards used by this bot are adaptive cards with the card's 'data' property set to relevant information.
         for(var key in cardValue) {
@@ -140,7 +147,7 @@ class Bot {
             if(key.toLowerCase().trim() === 'intent') {
                 onTurnProperties.intent = cardValue[key];
             } else {
-                onTurnProperties.entities.push(myBotState.addNewEntity(key, cardValue[key]));
+                onTurnProperties.entities.push(new entityProperty(key, cardValue[key]));
             }
         }
         return onTurnProperties;
