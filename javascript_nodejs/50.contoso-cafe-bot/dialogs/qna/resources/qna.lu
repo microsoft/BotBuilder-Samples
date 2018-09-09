@@ -43,6 +43,16 @@ Yes. All our stores offer free parking for guests.
 ```markdown
 Guests all age are welcome at Contoso Cafe! We offer convenient seating for all age groups and can provide high chairs if needed. We are more than happy to accomodate your needs while you are here. Just let one of the staff know! 
 ```
+> Alterations
+$child : qna-alterations=
+- kid
+- kiddo
+- children
+- son
+- daughter
+- grand son
+- grand daughter
+- grandson
 
 ## ? what's your layout?
 - so what's your layout? 
