@@ -10,6 +10,8 @@ const WhoAreYouDialog = require('../whoAreYou');
 const QnADialog = require('../qna');
 const ChitChatDialog = require('../chitChat');
 const HelpDialog = require('../help');
+const CancelDialog = require('../cancel');
+
 class MainDialog extends ComponentDialog {
 
     constructor(botConfig, onTurnPropertyAccessor, conversationState, userState) {
@@ -25,8 +27,9 @@ class MainDialog extends ComponentDialog {
         this.dialogs = new DialogSet(this.mainState.mainDialogPropertyAccessor);
         // add book table dialog
         // add who are you dialog
+        // add cancel dialog
         //this.dialogs.add(new MainDialog(botConfig, this.botState.onTurnPropertyAccessor, conversationState, userState));
-
+        this.dialogs.add(new CancelDialog(this.mainState.activeDialogPropertyAccessor, onTurnPropertyAccessor));
         // other single-turn dialogs
         this.qnaDialog = new QnADialog(botConfig);
     }
@@ -94,6 +97,10 @@ class MainDialog extends ComponentDialog {
             case HelpDialog.Name: {
                 return await this.qnaDialog.onTurn(dc.context);
             }
+
+            //case book_table: {
+                // set active dialog
+            //}
         }
 
     }
