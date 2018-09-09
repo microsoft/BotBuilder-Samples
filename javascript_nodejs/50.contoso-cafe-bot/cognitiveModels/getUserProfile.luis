@@ -1,10 +1,13 @@
 {
   "intents": [
     {
-      "name": "GetLocationDateTimePartySize"
+      "name": "Get user name"
     },
     {
-      "name": "Help"
+      "name": "Why do you ask"
+    },
+    {
+      "name": "No Name"
     },
     {
       "name": "Cancel"
@@ -16,6 +19,22 @@
   "entities": [],
   "composites": [],
   "closedLists": [
+    {
+      "name": "attributeOfInterest",
+      "subLists": [
+        {
+          "canonicalForm": "name",
+          "list": [
+            "user name",
+            "first name",
+            "last name",
+            "first",
+            "name"
+          ]
+        }
+      ],
+      "roles": []
+    },
     {
       "name": "confirmationList",
       "subLists": [
@@ -93,223 +112,68 @@
   "regex_features": [],
   "utterances": [
     {
-      "text": "tomorrow at 3 pm and I would like to bring 3 guests",
-      "intent": "GetLocationDateTimePartySize",
+      "text": "I'm {userName_patternAny}",
+      "intent": "Get user name",
       "entities": []
     },
     {
-      "text": "make it 5pm",
-      "intent": "GetLocationDateTimePartySize",
+      "text": "Why do you need my name?",
+      "intent": "Why do you ask",
       "entities": []
     },
     {
-      "text": "can you make it 6pm instead?",
-      "intent": "GetLocationDateTimePartySize",
+      "text": "Why do you ask?",
+      "intent": "Why do you ask",
       "entities": []
     },
     {
-      "text": "no how about renton?",
-      "intent": "GetLocationDateTimePartySize",
+      "text": "Why?",
+      "intent": "Why do you ask",
       "entities": []
     },
     {
-      "text": "how about next thursday at 3pm?",
-      "intent": "GetLocationDateTimePartySize",
+      "text": "why do you need user name?",
+      "intent": "Why do you ask",
       "entities": []
     },
     {
-      "text": "next friday at 3pm",
-      "intent": "GetLocationDateTimePartySize",
+      "text": "first or last name?",
+      "intent": "Why do you ask",
       "entities": []
     },
     {
-      "text": "next saturday at 6pm and for 4 guests.",
-      "intent": "GetLocationDateTimePartySize",
+      "text": "first name?",
+      "intent": "Why do you ask",
       "entities": []
     },
     {
-      "text": "I'd like to bring 3 guests",
-      "intent": "GetLocationDateTimePartySize",
+      "text": "I will not give you my name",
+      "intent": "No Name",
       "entities": []
     },
     {
-      "text": "no, how about portland?",
-      "intent": "GetLocationDateTimePartySize",
+      "text": "Sorry, no name for you",
+      "intent": "No Name",
       "entities": []
     },
     {
-      "text": "no, I'd like to come to seattle instead",
-      "intent": "GetLocationDateTimePartySize",
+      "text": "No, I cannot give you my name",
+      "intent": "No Name",
       "entities": []
     },
     {
-      "text": "I would like to come in to redmond instead",
-      "intent": "GetLocationDateTimePartySize",
+      "text": "I cannot give you my name",
+      "intent": "No Name",
       "entities": []
     },
     {
-      "text": "yes please go ahead with seattle",
-      "intent": "GetLocationDateTimePartySize",
+      "text": "No",
+      "intent": "No Name",
       "entities": []
     },
     {
-      "text": "how about 2 guests?",
-      "intent": "GetLocationDateTimePartySize",
-      "entities": []
-    },
-    {
-      "text": "3 guests",
-      "intent": "GetLocationDateTimePartySize",
-      "entities": []
-    },
-    {
-      "text": "yes go ahead",
-      "intent": "GetLocationDateTimePartySize",
-      "entities": []
-    },
-    {
-      "text": "how about seattle?",
-      "intent": "GetLocationDateTimePartySize",
-      "entities": []
-    },
-    {
-      "text": "tomorrow at 3pm",
-      "intent": "GetLocationDateTimePartySize",
-      "entities": []
-    },
-    {
-      "text": "how about tomorrow?",
-      "intent": "GetLocationDateTimePartySize",
-      "entities": []
-    },
-    {
-      "text": "seattle please",
-      "intent": "GetLocationDateTimePartySize",
-      "entities": []
-    },
-    {
-      "text": "redmond",
-      "intent": "GetLocationDateTimePartySize",
-      "entities": []
-    },
-    {
-      "text": "3",
-      "intent": "GetLocationDateTimePartySize",
-      "entities": []
-    },
-    {
-      "text": "tomorrow",
-      "intent": "GetLocationDateTimePartySize",
-      "entities": []
-    },
-    {
-      "text": "yes",
-      "intent": "GetLocationDateTimePartySize",
-      "entities": []
-    },
-    {
-      "text": "Help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I need help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Not sure what I can do",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "What can you do?",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "What can I say?",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I'm lost",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I need help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Not sure what I can do",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "What can I say",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I'm lost",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I need help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Not sure what I can do",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "What can I say",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I'm lost",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I need help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Not sure what I can do",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "What can I say",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I'm lost",
-      "intent": "Help",
+      "text": "No way",
+      "intent": "No Name",
       "entities": []
     },
     {
@@ -1413,8 +1277,27 @@
       "entities": []
     }
   ],
-  "patterns": [],
-  "patternAnyEntities": [],
+  "patterns": [
+    {
+      "pattern": "I'm {userName_patternAny}",
+      "intent": "Get user name"
+    },
+    {
+      "pattern": "my name is {userName_patternAny}",
+      "intent": "Get user name"
+    },
+    {
+      "pattern": "call me {userName_patternAny}",
+      "intent": "Get user name"
+    }
+  ],
+  "patternAnyEntities": [
+    {
+      "name": "userName_patternAny",
+      "explicitList": [],
+      "roles": []
+    }
+  ],
   "prebuiltEntities": [
     {
       "name": "number",
@@ -1423,7 +1306,7 @@
   ],
   "luis_schema_version": "3.0.0",
   "versionId": "0.1",
-  "name": "cafeBotBookTableTurnN",
+  "name": "getUserProfile",
   "desc": "",
   "culture": "en-us"
 }

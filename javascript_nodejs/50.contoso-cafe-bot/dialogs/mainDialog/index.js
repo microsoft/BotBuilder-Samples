@@ -12,6 +12,11 @@ const ChitChatDialog = require('../chitChat');
 const HelpDialog = require('../help');
 const CancelDialog = require('../cancel');
 const FindCafeLocationsDialog = require('../findCafeLocations');
+
+// User name entity from ../whoAreYou/resources/whoAreYou.lu
+const USER_NAME = 'userName_patternAny';
+
+const userProfile = require('../shared/stateProperties/userProfileProperty');
 class MainDialog extends ComponentDialog {
 
     constructor(botConfig, onTurnPropertyAccessor, conversationState, userState) {
@@ -31,6 +36,7 @@ class MainDialog extends ComponentDialog {
         // add cancel dialog
         //this.dialogs.add(new MainDialog(botConfig, this.botState.onTurnPropertyAccessor, conversationState, userState));
         this.dialogs.add(new CancelDialog(this.propertyAccessors.activeDialogPropertyAccessor, onTurnPropertyAccessor, conversationState));
+        this.dialogs.add(new WhoAreYouDialog(this.propertyAccessors.userProfilePropertyAccessor, botConfig, this.propertyAccessors.turnCounterPropertyAccessor, onTurnPropertyAccessor));
         // other single-turn dialogs
         this.qnaDialog = new QnADialog(botConfig);
     }
@@ -60,7 +66,7 @@ class MainDialog extends ComponentDialog {
 
         dialogTurnResult = await dc.continue();
 
-        if(dialogTurnResult.status !== DialogTurnStatus.empty) return dialogTurnResult;
+        //if(dialogTurnResult.status !== DialogTurnStatus.empty) return dialogTurnResult;
 
         switch(dialogTurnResult.status) {
             case DialogTurnStatus.empty: {
@@ -69,11 +75,17 @@ class MainDialog extends ComponentDialog {
                 break;
             }
             case DialogTurnStatus.complete: {
-                // The active dialog's stack ended with a complete status
-                await dc.context.sendActivity(`What else can I help you with?`);
-                // End active dialog
-                await dc.EndAsync();
-                break;
+                if(dialogTurnResult.result && dialogTurnResult.result.reason === 'Interruption') {
+                    // Interruption. Begin child dialog
+                    dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty);
+                    break;
+                } else {
+                    // The active dialog's stack ended with a complete status
+                    await dc.context.sendActivity(`What else can I help you with?`);
+                    // End active dialog
+                    await dc.end();
+                    break;
+                }
             }
             case DialogTurnStatus.waiting: {
                 // The active dialog is waiting for a response from the user, so do nothing
@@ -101,21 +113,43 @@ class MainDialog extends ComponentDialog {
             }
             case CancelDialog.Name: {
                 return await dc.context.sendActivity(`Cancel`);
+                await this.resetTurnCounter(dc.context);
                 //return await dc.begin(CancelDialog.Name);
                 break;
             } case BookTableDialog.Name: {
                 return await dc.context.sendActivity(`Book Table`);
                 break;
             } case WhoAreYouDialog.Name: {
-                return await dc.context.sendActivity(`Who are You!`);
+                // Get user profile.
+                let userProfile = await this.propertyAccessors.userProfilePropertyAccessor.get(dc.context);
+                // Handle case where user is re-introducing themselves. 
+                // These utterances are defined in ../whoAreYou/resources/whoAreYou.lu 
+                if(USER_NAME in onTurnProperty.entities) {
+                    const userName = onTurnProperty.entities[USER_NAME][0];
+                    this.propertyAccessors.userProfilePropertyAccessor.set(dc.context, new userProfile(userName));
+                    return await dc.context.sendActivity(`Hello ${userName}, Nice to meet you again! I'm the Contoso Cafe Bot.`);
+                }
+                if(userProfile === undefined || userProfile.userName === '' || userProfile.userName === 'Human') {
+                    await dc.context.sendActivity(`Hello, I'm the Contoso Cafe Bot.`);
+                    await this.resetTurnCounter(dc.context);
+                    // Begin user Profile dialog to ask user their name
+                    return await dc.begin(WhoAreYouDialog.Name);
+                } else {
+                    // Already have the user name. So just greet them.
+                    return await dc.context.sendActivity(`Hello ${userProfile.userName}, Nice to meet you again! I'm the Contoso Cafe Bot.`);
+                }
                 break;
             } case FindCafeLocationsDialog.Name: {
                 return await dc.context.sendActivity(`Find Cafe Locations!`);
                 break;
             }
         }
-
     }
+
+    async resetTurnCounter(context) {
+        this.propertyAccessors.turnCounterPropertyAccessor.set(context, 0);
+    }
+
     async isRequestedOperationPossible(dc, requestedOperation) {
         let outcome = {allowed: true, reason: ''};
         

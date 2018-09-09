@@ -7,3 +7,11 @@
 - What can you do?
 - how can you help me?
 - what can you do for me?
+- My [first] name is {userName_patternAny}
+- I'm {userName_patternAny}
+- You can call me {userName_patternAny}
+- call me {userName_patternAny}
+- [please] call me {userName_patternAny}
+- [Get user name and location](./getUserProfile.lu/#Get-user-name-and-location)
+- [Why do you ask](./getUserProfile.lu/#Why-do-you-ask)
+- [No Name](./getUserProfile.lu/#No-Name)

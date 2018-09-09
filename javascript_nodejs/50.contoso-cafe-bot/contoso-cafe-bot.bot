@@ -1,6 +1,8 @@
 {
     "name": "contoso-cafe-bot",
     "description": "",
+    "version": "2.0",
+    "secretKey": "",
     "services": [
         {
             "type": "endpoint",
@@ -38,8 +40,16 @@
             "subscriptionKey": "d30ebbcc44ef4f07bae1a0e31b69f709",
             "endpointKey": "0fa7f711-6a82-4155-9cf9-5c8168967df6",
             "hostname": "https://contosocafeqnab8.azurewebsites.net/qnamaker"
+        },
+        {
+            "type": "luis",
+            "id": "111",
+            "name": "getUserProfile",
+            "version": "0.1",
+            "appId": "d59fa0b8-2398-4a7c-8043-224a4153494d",
+            "authoringKey": "be30825b782843dcbbe520ac5338f567",
+            "subscriptionKey": "be30825b782843dcbbe520ac5338f567",
+            "region": "westus"
         }
-    ],
-    "secretKey": "",
-    "version": "2.0"
+    ]
 }

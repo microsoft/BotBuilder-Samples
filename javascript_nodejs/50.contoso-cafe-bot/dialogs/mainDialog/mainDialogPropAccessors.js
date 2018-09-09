@@ -6,6 +6,7 @@ const USER_RESERVATIONS_PROPERTY = 'userReservations';
 const USER_QUERY_PROPERTY = 'userQuery';
 const ACTIVE_DIALOG_PROPERTY = 'activeDialog';
 const MAIN_DIALOG_STATE_PROPERTY = 'mainDialogState';
+const TURN_COUNTER_PROPERTY = 'turnCounter';
 /**
  * Holds property accessors relevant to Main Dialog.
  */
@@ -28,6 +29,7 @@ class MainDialogPropertyAccessors {
         this.userQueryPropertyAccessor = userState.createProperty(USER_QUERY_PROPERTY);
         this.activeDialogPropertyAccessor = conversationState.createProperty(ACTIVE_DIALOG_PROPERTY);
         this.mainDialogPropertyAccessor = conversationState.createProperty(MAIN_DIALOG_STATE_PROPERTY);
+        this.turnCounterPropertyAccessor = conversationState.createProperty(TURN_COUNTER_PROPERTY);
     }
 };
 

@@ -417,6 +417,16 @@
       "entities": []
     },
     {
+      "text": "is it ok to bring my son?",
+      "intent": "QnA",
+      "entities": []
+    },
+    {
+      "text": "can i bring my daughter along?",
+      "intent": "QnA",
+      "entities": []
+    },
+    {
       "text": "what's your layout?",
       "intent": "QnA",
       "entities": []
@@ -1437,6 +1447,71 @@
       "entities": []
     },
     {
+      "text": "Why do you need my name?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "Why do you ask?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "Why?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "why do you need user name?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "first or last name?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "first name?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "why",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "I will not give you my name",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "Sorry, no name for you",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "No, I cannot give you my name",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "I cannot give you my name",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "No",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "No way",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
       "text": "book a table",
       "intent": "Book Table",
       "entities": []
@@ -1537,8 +1612,27 @@
       "entities": []
     }
   ],
-  "patterns": [],
-  "patternAnyEntities": [],
+  "patterns": [
+    {
+      "pattern": "My name is {userName_patternAny}",
+      "intent": "Who are you"
+    },
+    {
+      "pattern": "I'm {userName_patternAny}",
+      "intent": "Who are you"
+    },
+    {
+      "pattern": "You can call me {userName_patternAny}",
+      "intent": "Who are you"
+    }
+  ],
+  "patternAnyEntities": [
+    {
+      "name": "userName_patternAny",
+      "explicitList": [],
+      "roles": []
+    }
+  ],
   "prebuiltEntities": [
     {
       "name": "number",
