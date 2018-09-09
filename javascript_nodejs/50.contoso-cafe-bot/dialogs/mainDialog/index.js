@@ -29,7 +29,7 @@ class MainDialog extends ComponentDialog {
         // add who are you dialog
         // add cancel dialog
         //this.dialogs.add(new MainDialog(botConfig, this.botState.onTurnPropertyAccessor, conversationState, userState));
-        this.dialogs.add(new CancelDialog(this.mainState.activeDialogPropertyAccessor, onTurnPropertyAccessor));
+        this.dialogs.add(new CancelDialog(this.mainState.activeDialogPropertyAccessor, onTurnPropertyAccessor, conversationState));
         // other single-turn dialogs
         this.qnaDialog = new QnADialog(botConfig);
     }
@@ -97,6 +97,9 @@ class MainDialog extends ComponentDialog {
             case HelpDialog.Name: {
                 return await this.qnaDialog.onTurn(dc.context);
             }
+            case CancelDialog.Name: {
+                return await dc.begin(CancelDialog.Name);
+            }
 
             //case book_table: {
                 // set active dialog
@@ -106,7 +109,9 @@ class MainDialog extends ComponentDialog {
     }
     async isRequestedOperationPossible(dc, requestedOperation) {
         let outcome = {allowed: true, reason: ''};
+        
         // get active dialog from property accessor
+        // TODO: Evaluate if this can be achieved via dc.activeDialog instead of a separate property
         const activeDialog = await this.mainState.activeDialogPropertyAccessor.get(dc.context);
 
         // Book table submit and Book Table cancel requests through book table card are not allowed when Book Table is not the active dialog
@@ -115,7 +120,15 @@ class MainDialog extends ComponentDialog {
                 outcome.allowed = false;
                 outcome.reason = `Sorry! I'm unable to process that. To start a new table reservation, try 'Book a table'`;
             }
+        } 
+        else if(requestedOperation === CancelDialog.Name) {
+            // Cancel dialog (with confirmation) is only possible for multi-turn dialogs - Book Table, Who are you
+            if(activeDialog !== BookTableDialog.Name || activeDialog !== WhoAreYouDialog.Name) {
+                outcome.allowed = false;
+                outcome.reason = `Nothing to cancel.`;
+            }
         }
+        
         
         return outcome;
     }
