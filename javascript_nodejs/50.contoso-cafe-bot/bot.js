@@ -73,7 +73,7 @@ class Bot {
         }
     }
     /**
-     * Async method to continue to begin main dialog
+     * Async method to continue or begin main dialog
      * 
      * @param {Object} context conversation context object
      * 
