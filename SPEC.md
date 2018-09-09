@@ -143,7 +143,7 @@ All samples must have the following linting configuration enabled.
 <TBD>
 
 ## Bot Styles
-We want to have consistent patterns for how to use our SDK.  The following should be followed for all of our samples.
+Our samples have consistent patterns for how to use our SDK.  The following should be followed for all of our samples.
 
 ### General Rules
 
@@ -152,73 +152,128 @@ We want to have consistent patterns for how to use our SDK.  The following shoul
 > We want to minimize the cognitive load of what happens in startup and 
 > foster code being organized along class boundaries.
 
-#### Creating Property Accessors should be scoped to the class which makes the most sense.
+#### CreateProperty() calls should be scoped to the class which consumes it and not in startup code
 
-> We want to organize our logic at class boundaries to make it clearer 
-> how code reuse happens and localize the information around classes.
+> Organize CreateProperty() calls at class boundaries to make it clearer 
+> how code reuse happens and foster good component isolation.
 
+*C# Example*
 ```cs
-    public class ExampleDialog
+    public class ExampleDialog : ComponentDialog
     {
-        public ExampleDialog(BotState state)
+        public ExampleDialog(IPropertyManager propertyManager)
         {
-            this.AlarmsProperty = state.CreateProperty<Alarm[]>("Alarms");
+            this.AlarmsProperty = propertyManager.CreateProperty<Alarm[]>("Alarms");
         }
-    	IStatePropertyAccessor<Alarms> AlarmsProperty { get;set;}
+
+    	public IStatePropertyAccessor<Alarms> AlarmsProperty { get;set;}
     }
     ...
     var alarms = await this.AlarmsProperty.Get(context);
 ```
 
-#### Property Accessors should be passed to a class if they are shared among multiple classes
+*Typescript Example*
+```typescript
+    export class ExampleDialog extends ComponentDialog
+    {
+        constructor(propertyManager: PropertyManager)
+        {
+            this.AlarmsProperty = propertyManager.CreateProperty<Alarm[]>("Alarms");
+        }
+
+        public readonly alarmsProperty: StatePropertyAccessor<Alarm[]>;
+    }
+    ...
+    var alarms = await this.AlarmsProperty.Get(context);
+```
+
+#### Shared Properties should be passed to a class if they are shared among multiple classes
 
 > If you have 3 dialogs which all need the same property accessor, then the higher level
-> class should define the accessor and pass it to the child dialogs. 
+> class should define the property and pass the accessor to the child dialogs. 
 
+*C# Example*
 ```cs
-   AlarmDialogs(BotState botState)
-   {
-       this.AlarmsProperty = botState.CreateProperty<List<Alarm>>("Alarms");
-
-       this.Dialogs.Add(new AddAlarmDialog(alarmsDialog));
-       this.Dialogs.Add(new ShowAlarmsDialog(alarmsDialog));
-       this.Dialogs.Add(new DeleteAlarmsDialog(alarmsDialog));
-   } 
-   
-```
-
-#### Constructors should use BotState to create properties unless the component requires that it is ConversationState or UserState.
-
-> Reasoning:  When you take a ConversationState you are stating that your component is
-> required to be have the scoping of conversation for it to work correctly.  When you 
-> accept BotState as your input parameter you are leaving your class open to have your 
-> state live where the caller needs it to be, and makes you work with future storage 
-> types. 
-
-```cs
-    public class ExampleDialog
+    public class ExampleDialog : ComponentDialog
     {
-        public ExampleDialog(BotState state)
+        public ExampleDialog(IPropertyManager propertyManager)
         {
-            this.AlarmsProperty = state.CreateProperty<Alarm[]>("Alarms");
-        }
+            // create shared alarms property and pass to dialogs which use it
+            this.AlarmsProperty = propertyManager.CreateProperty<List<Alarm>>("Alarms");
+
+            this.Dialogs.Add(new AddAlarmDialog(alarmsProperty));
+            this.Dialogs.Add(new ShowAlarmsDialog(alarmsProperty));
+            this.Dialogs.Add(new DeleteAlarmsDialog(alarmsProperty));
+        } 
+    }
 ```
 
-#### Bot, Dialog and Prompt class names should have standard postfix
-> Making it clear what a class is helps with readability and understanding the structure
-> of the sample.
+*Typescript Example*
+```typescript
+    export class ExampleDialog extends ComponentDialog
+    {
+        constructor(PropertyManager propertyManager)
+        {
+            // create shared alarms property and pass to dialogs which use it
+            this.AlarmsProperty = propertyManager.CreateProperty<List<Alarm>>("Alarms");
 
+            this.Dialogs.Add(new AddAlarmDialog(alarmsProperty));
+            this.Dialogs.Add(new ShowAlarmsDialog(alarmsProperty));
+            this.Dialogs.Add(new DeleteAlarmsDialog(alarmsProperty));
+        } 
+    }
+```
+
+#### Constructors should use IPropertyManager interface to create properties 
+
+> It is best practice to consume an unbiased resource unless you need a specific class type.
+> Our samples should use IPropertyManager as a component so the caller can control the policy 
+> of the where the property is stored.
+
+#### Bot, Dialog, and Prompt class names should have standard postfix of the class type
+> Our samples use standard postfix names to make it clear what the class does.  
+> This enhances  readability and understanding the structure of the sample.
+
+| Base Class | Custom Class |
+|------------|--------------|
+| Bot        | MyBot        |
+| Dialog     | MyDialog     |
+| Prompt     | MyPrompt     |
+
+
+*C# Example*
 ```cs
     var myBot = new MyBot();
     var exampleDialog = new ExampleDialog(...);
     var titlePrompt = new TitlePrompt(...);
 ```
 
-#### Bot, Dialog and Prompts variable names should have standard postfix.
+*Typescript Example*
+```typescript
+    var myBot = new MyBot();
+    var exampleDialog = new ExampleDialog(...);
+    var titlePrompt = new TitlePrompt(...);
+```
+
+#### Bot, Dialog Prompt and Property variable names should have standard postfix.
 > Clear and consistent variable name helps with readability and 
 > understanding the structure of a sample.
 
+| Class  | Type     | variable name    |
+|--------|----------|------------------|
+| Bot    | MyBot    | var myBot =      |
+| Dialog | MyDialog | var myDialog =   |
+| Prompt | MyPrompt | var myProperty = |
+
+*C# Example*
 ```cs
+    var myBot = new MyBot();
+    var exampleDialog = new ExampleDialog(...);
+    var titlePrompt = new TitlePrompt(...);
+```
+
+*Typescript Example*
+```typescript
     var myBot = new MyBot();
     var exampleDialog = new ExampleDialog(...);
     var titlePrompt = new TitlePrompt(...);
@@ -229,38 +284,27 @@ We want to have consistent patterns for how to use our SDK.  The following shoul
 > get access to the object.  Postfix naming makes this clear and prevents confusion  
 > between the actual state object and the interface which gives you access to it.
 
+*C# Example*
 ```cs
-    IStatePropertyAccessor<List<Alarm>> AlarmsProperty { get;set;}
+    IStatePropertyAccessor<Alarm> AlarmProperty { get;set;}
     ...
-    var alarms = await this.AlarmsProperty.Get(context, ()=> new List<Alarm>());
+    var alarm = await this.AlarmProperty.Get(context, ()=> new Alarm());
+```
+
+*Typescript Example*
+```typescript
+    public AlarmProperty :StatePropertyAccessor<Alarm>;
+    ...
+    var alarm = await this.AlarmProperty.Get(context, ()=> new Alarm());
 ```
 
 #### Dependency Injection should be avoided unless it is super clear
 
-> Dependency Injection is great for sophisticated users but it 
-> makes it hard to understand how the code is composed.  Samples should be as
-> clear and succinct as possible with the composition as explicit as possible
-> to make it obvious how things work.
+> Our samples will use a minimum of dependency injection in order to keep the 
+> structure and logic as clear and succinct as possible.
 
-It is easy for people to layer in DI, but it is not something which helps us
-to show how the program is structured.
 
-#### We should avoid value type property accessors 
 
-> Value type property accessors work, but have a "gotcha" which is that you 
-> have to call the propertyAccessor.Set() method for it to commit.
 
-We should probably avoid value types unless we are trying to show the pattern of
-how to deal with value types in the sample.
 
-```cs
-   // bad
-   greetedProperty = botState.CreateProperty<bool>("Greeted");
 
-    // good
-   public class MyData:
-   {
-       public bool Greeted {get;set;}
-   }
-   myDataProperty = botState.CreateProperty<MyData>("MyData");
-```
