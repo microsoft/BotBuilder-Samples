@@ -5,7 +5,7 @@ This sample shows how to use authentication in your bot using OAuth. This bot ex
 # To try this sample
 - Clone the repository
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-sample.git
+    git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 - In a terminal, navigate to javascript_nodejs\19.bot-authentication
     ```bash
