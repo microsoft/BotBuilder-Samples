@@ -13,6 +13,9 @@
       "name": "ChitChat"
     },
     {
+      "name": "What can you do"
+    },
+    {
       "name": "Find Cafe Locations"
     },
     {
@@ -102,6 +105,31 @@
   "regex_features": [],
   "utterances": [
     {
+      "text": "What can you do?",
+      "intent": "What can you do",
+      "entities": []
+    },
+    {
+      "text": "What can I say?",
+      "intent": "What can you do",
+      "entities": []
+    },
+    {
+      "text": "what can you help me with?",
+      "intent": "What can you do",
+      "entities": []
+    },
+    {
+      "text": "what can you do for me?",
+      "intent": "What can you do",
+      "entities": []
+    },
+    {
+      "text": "what do you do?",
+      "intent": "What can you do",
+      "entities": []
+    },
+    {
       "text": "Help",
       "intent": "Help",
       "entities": []
@@ -113,16 +141,6 @@
     },
     {
       "text": "Not sure what I can do",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "What can you do?",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "What can I say?",
       "intent": "Help",
       "entities": []
     },
@@ -1092,6 +1110,21 @@
       "entities": []
     },
     {
+      "text": "ok",
+      "intent": "ChitChat",
+      "entities": []
+    },
+    {
+      "text": "I see",
+      "intent": "ChitChat",
+      "entities": []
+    },
+    {
+      "text": "I get it",
+      "intent": "ChitChat",
+      "entities": []
+    },
+    {
       "text": "Ha ha",
       "intent": "ChitChat",
       "entities": []
@@ -1614,7 +1647,7 @@
   ],
   "patterns": [
     {
-      "pattern": "My name is {userName_patternAny}",
+      "pattern": "My [first] name [is] {userName_patternAny}",
       "intent": "Who are you"
     },
     {
@@ -1623,6 +1656,14 @@
     },
     {
       "pattern": "You can call me {userName_patternAny}",
+      "intent": "Who are you"
+    },
+    {
+      "pattern": "call me {userName_patternAny}",
+      "intent": "Who are you"
+    },
+    {
+      "pattern": "[please] call me {userName_patternAny}",
       "intent": "Who are you"
     }
   ],

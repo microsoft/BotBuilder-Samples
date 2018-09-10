@@ -54,9 +54,9 @@
         },
         {
             "type": "Action.Submit",
-            "title": "Find Cafe Locations",
+            "title": "What can you do?",
             "data": {
-                "intent": "Find_Cafe_Locations"
+                "intent": "What_can_you_do"
             }
         }
     ],

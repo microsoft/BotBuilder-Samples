@@ -44,7 +44,8 @@ class QnADialog {
         const qnaResult = await this.qnaRecognizer.generateAnswer(context.activity.text, topNResults, QnA_CONFIDENCE_THRESHOLD);
         if(!qnaResult || qnaResult.length === 0 || !qnaResult[0].answer) {
             // No answer found. respond with dialogturnstatus.empty
-            await context.sendActivity(`Sorry, I did not find an answer to what you are looking for in my Knowledge base...`);
+            await context.sendActivity(`I'm still learning.. Sorry, I do not know how to help you with that.`);
+            await context.sendActivity(`Follow [this link](https://www.bing.com/search?q=${context.activity.text}) to search the web!`);
             return new dialogTurnResult(DialogTurnStatus.empty);
         }
         if(filterSearch === undefined) {

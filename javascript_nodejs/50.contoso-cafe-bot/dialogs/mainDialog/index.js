@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 const { ComponentDialog, DialogTurnStatus, WaterfallDialog, DialogSet } = require('botbuilder-dialogs');
+const { MessageFactory } = require('botbuilder');
 const MAIN_DIALOG = 'MainDialog';
 const DialogTurnResult = require('../shared/turnResult');
 const propertyAccessors = require('./mainDialogPropAccessors');
@@ -12,10 +13,14 @@ const ChitChatDialog = require('../chitChat');
 const HelpDialog = require('../help');
 const CancelDialog = require('../cancel');
 const FindCafeLocationsDialog = require('../findCafeLocations');
+const WhatCanYouDoDialog = require('../whatCanYouDo');
 
 // User name entity from ../whoAreYou/resources/whoAreYou.lu
 const USER_NAME = 'userName_patternAny';
 
+// Query property from ../whatCanYouDo/resources/whatCanYHouDoCard.json
+// When user responds to what can you do card, a query property is set in response.
+const QUERY_PROPERTY = 'query';
 const userProfileProperty = require('../shared/stateProperties/userProfileProperty');
 class MainDialog extends ComponentDialog {
 
@@ -40,6 +45,7 @@ class MainDialog extends ComponentDialog {
         // other single-turn dialogs
         this.qnaDialog = new QnADialog(botConfig);
         this.findCafeLocationsDialog = new FindCafeLocationsDialog();
+        this.whatCanYouDoDialog = new WhatCanYouDoDialog();
     }
 
     async onDialogBegin(dc, options) {
@@ -92,7 +98,7 @@ class MainDialog extends ComponentDialog {
                     }
                 } else {
                     // The active dialog's stack ended with a complete status
-                    await dc.context.sendActivity(`What else can I help you with?`);
+                    await dc.context.sendActivity(MessageFactory.suggestedActions([`What can you do?`], `Is there anything else I can help you with?`));
                     // End active dialog
                     await dc.end();
                     break;
@@ -104,7 +110,7 @@ class MainDialog extends ComponentDialog {
             }
             case DialogTurnStatus.cancelled: {
                 // The active dialog's stack has been cancelled
-                await dc.context.sendActivity(`What else can I help you with?`);
+                await dc.context.sendActivity(MessageFactory.suggestedActions([`What can you do?`], `Is there anything else I can help you with?`));
                 // End active dialog
                 await dc.cancelAll();
                 break;
@@ -125,10 +131,8 @@ class MainDialog extends ComponentDialog {
             case CancelDialog.Name: {
                 await this.resetTurnCounter(dc.context);
                 return await dc.begin(CancelDialog.Name, childDialogPayload);
-                break;
             } case BookTableDialog.Name: {
                 return await dc.context.sendActivity(`Book Table`);
-                break;
             } case WhoAreYouDialog.Name: {
                 // Get user profile.
                 let userProfile = await this.propertyAccessors.userProfilePropertyAccessor.get(dc.context);
@@ -149,10 +153,19 @@ class MainDialog extends ComponentDialog {
                     // Already have the user name. So just greet them.
                     return await dc.context.sendActivity(`Hello ${userProfile.userName}, Nice to meet you again! I'm the Contoso Cafe Bot.`);
                 }
-                break;
             } case FindCafeLocationsDialog.Name: {
                 return await this.findCafeLocationsDialog.onTurn(dc.context);
-                break;
+            } case WhatCanYouDoDialog.Name: {
+                // Handle case when user interacted with the what can you do card.
+                let queryProperty = (onTurnProperty.entities || []).filter(item => item.entityName == QUERY_PROPERTY);
+                if(queryProperty.length !== 0) {
+                    if(JSON.parse(queryProperty[0].entityValue).text !== undefined) {
+                        dc.context.activity.text = JSON.parse(queryProperty[0].entityValue).text;
+                        await dc.context.sendActivity(`You said: '${dc.context.activity.text}'`);
+                    }
+                    return await this.beginChildDialog(dc, JSON.parse(queryProperty[0].entityValue));
+                }
+                return await this.whatCanYouDoDialog.onTurn(dc.context);
             }
         }
     }
