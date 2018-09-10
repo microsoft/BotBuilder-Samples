@@ -39,7 +39,7 @@ namespace MessageRoutingBot
         {
             return await dc.PromptAsync(CancelPrompt, new PromptOptions()
             {
-                Prompt = await _responder.RenderTemplate(dc.Context, "en", CancelResponses._confirmPrompt),
+                Prompt = await _responder.RenderTemplate(dc.Context, "en", CancelResponses.confirmPrompt),
             });
         }
 
@@ -55,7 +55,7 @@ namespace MessageRoutingBot
             if (doCancel)
             {
                 // If user chose to cancel
-                await _responder.ReplyWith(outerDc.Context, CancelResponses._cancelConfirmed);
+                await _responder.ReplyWith(outerDc.Context, CancelResponses.cancelConfirmed);
 
                 // Cancel all in outer stack of component i.e. the stack the component belongs to
                 return await outerDc.CancelAllAsync();
@@ -63,7 +63,7 @@ namespace MessageRoutingBot
             else
             {
                 // else if user chose not to cancel
-                await _responder.ReplyWith(outerDc.Context, CancelResponses._cancelDenied);
+                await _responder.ReplyWith(outerDc.Context, CancelResponses.cancelDenied);
 
                 // End this component. Will trigger reprompt/resume on outer stack
                 return await outerDc.EndAsync();
