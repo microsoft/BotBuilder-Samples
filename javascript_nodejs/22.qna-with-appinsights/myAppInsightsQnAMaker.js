@@ -11,8 +11,6 @@ class MyAppInsightsQnAMaker extends QnAMaker {
     constructor(endpoint, options, logOriginalMessage, logUserName) {
         super(endpoint);
         this.QnAMsgEvent = 'QnAMessage';
-        this.logOriginalMessage = false;
-        this.logUserName = false;
         this.requestConfig = options;
         this.logOriginalMessage = logOriginalMessage;
         this.logUserName = logUserName;
