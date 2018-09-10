@@ -16,7 +16,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\81.Facebook-Events`) and open Facebook-Events-Bot.csproj in Visual Studio 
 - Hit F5
 
-## Visual Studio code
+## Visual Studio Code
 - Open `BotBuilder-Samples\csharp_dotnetcore\81.Facebook-Events` sample folder.
 - Bring up a terminal, navigate to BotBuilder-Samples\81.Facebook-Events folder
 - type 'dotnet run'
