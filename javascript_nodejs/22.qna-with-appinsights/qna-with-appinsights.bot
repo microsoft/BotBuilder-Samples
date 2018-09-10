@@ -1,0 +1,38 @@
+{
+    "name": "qna-with-appinsights",
+    "secretKey": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "qna-with-appinsights",
+            "id": "http://localhost:3978/api/messages",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3978/api/messages"
+        },
+        {
+            "type": "qna",
+            "id": "qnamakerService",
+            "name": "qnamakerService",
+            "kbId": "",
+            "subscriptionKey": "",
+            "endpointKey": "",
+            "hostname": "",
+            "ignoredValue": ""
+        },
+        {
+            "type": "appInsights",
+            "id": "appInsights",
+            "name": "appInsights",
+            "tenantId": "",
+            "subscriptionId": "",
+            "resourceGroup": "",
+            "instrumentationKey": "",
+            "applicationId": "00000000-0000-0000-0000-000000000000",
+            "apiKeys": {
+                "key1": "testKey1",
+                "key2": "testKey2"
+            }
+        }
+    ]
+}
