@@ -2,7 +2,7 @@
 
 # Concepts introduced in this sample
 
-This sample shows how to integrate consume Facebook specific payloads, such as PostBacks, quick replies and optin events. 
+This sample shows how to integrate and consume Facebook specific payloads, such as postbacks, quick replies and optin events. 
 Since Bot Framework supports multiple Facebook pages for a single bot, we also show how to know the page to which the message was sent, so developers can have custom behavior per page.
 
 # To try this sample
@@ -24,9 +24,9 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://aka.ms/botframeworkemulator).
+- Install the Bot Framework Emulator from [here](https://aka.ms/botframeworkemulator).
 
-### Connect to bot using Bot Framework Emulator **V4**
+### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\81.Facebook-Events` folder
 - Select NLP-With-Dispatch-Bot.bot file
@@ -41,4 +41,4 @@ The final step to test Facebook-specific features is to publish your bot for the
 
 # Further reading
 
-- [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
