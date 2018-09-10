@@ -43,62 +43,37 @@ namespace Microsoft.BotBuilderSamples
             // The DialogSet needs a DialogState accessor, it will call it when it has a turn context.
             _dialogs = new DialogSet(accessors.ConversationDialogState);
 
-            var name_slots = new List<SlotDetails>
+            var fullname_slots = new List<SlotDetails>
             {
-                new SlotDetails { Name = "first", PromptId = "text", PromptText = "Please enter your first name." },
-                new SlotDetails { Name = "last", PromptId = "text", PromptText = "Please enter your last name." },
+                new SlotDetails("first", "text", "Please enter your first name."),
+                new SlotDetails("last", "text", "Please enter your last name."),
             };
 
             var address_slots = new List<SlotDetails>
             {
-                new SlotDetails { Name = "street", PromptId = "text", PromptText = "Please enter the street." },
-                new SlotDetails { Name = "city", PromptId = "text", PromptText = "Please enter the city." },
-                new SlotDetails { Name = "zip", PromptId = "text", PromptText = "Please enter the zip." },
+                new SlotDetails("street", "text", "Please enter the street."),
+                new SlotDetails("city", "text", "Please enter the city."),
+                new SlotDetails("zip", "text", "Please enter the zip."),
             };
 
             var slots = new List<SlotDetails>
             {
-                new SlotDetails { Name = "fullname", PromptId = "fullname" },
-                new SlotDetails { Name = "age", PromptId = "number", PromptText = "Please enter your age." },
-                new SlotDetails { Name = "shoesize", PromptId = "number", PromptText = "Please enter your shoe size." },
-                new SlotDetails { Name = "nickname", PromptId = "text", PromptText = "Please enter your nickname." },
-                new SlotDetails { Name = "address", PromptId = "address" },
+                new SlotDetails("fullname", "fullname"),
+                new SlotDetails("age", "number", "Please enter your age."),
+                new SlotDetails("shoesize", "shoesize", "Please enter your shoe size.", "You must enter a size between 0 and 16. Half sizes are acceptable."),
+                new SlotDetails("address", "address"),
             };
 
             // Add the various dialogs we will be using to teh DialogSet
             _dialogs.Add(new SlotFillingDialog("address", address_slots));
-            _dialogs.Add(new SlotFillingDialog("fullname", name_slots));
+            _dialogs.Add(new SlotFillingDialog("fullname", fullname_slots));
             _dialogs.Add(new TextPrompt("text"));
             _dialogs.Add(new NumberPrompt<int>("number", defaultLocale: Culture.English));
+            _dialogs.Add(new NumberPrompt<float>("shoesize", ShoeSizeAsync, defaultLocale: Culture.English));
             _dialogs.Add(new SlotFillingDialog("slot-dialog", slots));
 
             // Add a simple two step Waterfall to test the slot dialog.
-            _dialogs.Add(new WaterfallDialog(
-                "root",
-                new WaterfallStep[]
-                {
-                    async (dc, wc, ct) =>
-                    {
-                        return await dc.BeginAsync("slot-dialog").ConfigureAwait(false);
-                    },
-                    async (dc, wc, ct) =>
-                    {
-                        var result = wc.Result as IDictionary<string, object>;
-
-                        if (result != null && result.Count > 0)
-                        {
-                            var fullname = (IDictionary<string, object>)result["fullname"];
-                            await dc.Context.SendActivityAsync(MessageFactory.Text($"{fullname["first"]} {fullname["last"]}"), ct);
-
-                            await dc.Context.SendActivityAsync(MessageFactory.Text($"{result["shoesize"]} {result["nickname"]}"), ct);
-
-                            var address = (IDictionary<string, object>)result["address"];
-                            await dc.Context.SendActivityAsync(MessageFactory.Text($"{address["street"]} {address["city"]} {address["zip"]}"), ct);
-                        }
-
-                        return Dialog.EndOfTurn;
-                    },
-                }));
+            _dialogs.Add(new WaterfallDialog("root", new WaterfallStep[] { StartDialogAsync, ProcessResultsAsync }));
         }
 
         /// <summary>
@@ -134,6 +109,45 @@ namespace Microsoft.BotBuilderSamples
 
             // Save the dialog state into the conversation state.
             await _accessors.ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
+        }
+
+        private Task ShoeSizeAsync(ITurnContext turnContext, PromptValidatorContext<float> promptContext, CancellationToken cancellationToken)
+        {
+            var shoesize = promptContext.Recognized.Value;
+
+            // show sizes can range from 0 to 16
+            if (shoesize >= 0 && shoesize <= 16)
+            {
+                // we only accept round numbers or half sizes
+                if (Math.Floor(shoesize) == shoesize || Math.Floor(shoesize * 2) == shoesize * 2)
+                {
+                    // indicate success by returning the value
+                    promptContext.End(shoesize);
+                }
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private async Task<DialogTurnResult> StartDialogAsync(DialogContext dialogContext, WaterfallStepContext waterfallStepContext, CancellationToken cancellationToken)
+        {
+            return await dialogContext.BeginAsync("slot-dialog", null, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult> ProcessResultsAsync(DialogContext dialogContext, WaterfallStepContext waterfallStepContext, CancellationToken cancellationToken)
+        {
+            if (waterfallStepContext.Result is IDictionary<string, object> result && result.Count > 0)
+            {
+                var fullname = (IDictionary<string, object>)result["fullname"];
+                await dialogContext.Context.SendActivityAsync(MessageFactory.Text($"{fullname["first"]} {fullname["last"]}"), cancellationToken);
+
+                await dialogContext.Context.SendActivityAsync(MessageFactory.Text($"{result["shoesize"]}"), cancellationToken);
+
+                var address = (IDictionary<string, object>)result["address"];
+                await dialogContext.Context.SendActivityAsync(MessageFactory.Text($"{address["street"]} {address["city"]} {address["zip"]}"), cancellationToken);
+            }
+
+            return await dialogContext.EndAsync();
         }
     }
 }
