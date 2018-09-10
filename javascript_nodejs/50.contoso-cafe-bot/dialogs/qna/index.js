@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 const { QnAMaker } = require('botbuilder-ai');
+const { DialogTurnStatus } = require('botbuilder-dialogs');
+
+const dialogTurnResult = require('../shared/turnResult');
 
 // QnA name from ../../mainDialog/resources/cafeDispatchModel.lu 
 const QnA_DIALOG_NAME = 'QnA';
@@ -11,8 +14,6 @@ const QnA_TOP_1 = 1;
 const QnA_TOP_10 = 10;
 const QnA_CONFIDENCE_THRESHOLD = 0.5;
 
-const dialogTurnResult = require('../shared/turnResult');
-const { DialogTurnStatus } = require('botbuilder-dialogs');
 class QnADialog {
     /**
      * 

@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, CardFactory, MessageFactory } = require('botbuilder');
+const { ActivityTypes, CardFactory } = require('botbuilder');
 const { DialogTurnStatus, DialogSet } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
 
 const MainDialog = require('./dialogs/mainDialog');
 const welcomeCard = require('./dialogs/welcome');
+const onTurnProperty = require('./dialogs/shared/stateProperties/onTurnProperty');
+const entityProperty = require('./dialogs/shared/stateProperties/entityProperty');
 
 // LUIS service type entry in the .bot file for dispatch.
 const LUIS_CONFIGURATION = 'cafeDispatchModel';
 // Possible LUIS entities. You can refer to dialogs\mainDialog\resources\entities.lu for list of entities
 const LUIS_ENTITIES = ['confirmationList', 'number', 'datetimeV2', 'cafeLocation', 'userName_patternAny'];
 
+// State properties
 const ON_TURN_PROPERTY = 'onTurnProperty';
 const DIALOG_STATE_PROPERTY = 'dialogState';
-
-const onTurnProperty = require('./dialogs/shared/stateProperties/onTurnProperty');
-const entityProperty = require('./dialogs/shared/stateProperties/entityProperty');
 
 class Bot {
     /**
@@ -32,11 +32,11 @@ class Bot {
         if(!conversationState) throw ('Need converstaion state');
         if(!userState) throw ('Need user state');
         if(!botConfig) throw ('Need bot config');
+
         // Create state property accessors.
         this.onTurnPropertyAccessor = conversationState.createProperty(ON_TURN_PROPERTY);
         this.dialogPropertyAccessor = conversationState.createProperty(DIALOG_STATE_PROPERTY);
         
-        this.botConfig = botConfig;
         // add recogizers
         const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
         if(!luisConfig || !luisConfig.appId) throw (`Home automation LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
@@ -46,7 +46,8 @@ class Bot {
             // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
             endpointKey: luisConfig.authoringKey
         });
-        // add dialogs
+
+        // add main dialog
         this.dialogs = new DialogSet(this.dialogPropertyAccessor);
         this.dialogs.add(new MainDialog(botConfig, this.onTurnPropertyAccessor, conversationState, userState));
     }
@@ -71,10 +72,12 @@ class Bot {
                 break;
             }
             case ActivityTypes.ConversationUpdate: {
+                // Send a welcome card to any user that joins the conversation.
                 if(context.activity.membersAdded[0].name !== 'Bot') await this.welcomeUser(context);
                 break;
             }
             default: {
+                // Handle other acivity types as needed.
                 break;            
             }
         }
@@ -86,7 +89,7 @@ class Bot {
      * 
      */
     async continueOrBeginMainDialog(context) {
-        // create dialog context;
+        // Create dialog context.
         let dc = await this.dialogs.createContext(context);
         // Continue outstanding dialogs. 
         let result = await dc.continue();
@@ -96,30 +99,31 @@ class Bot {
         }
     }
     /**
-     * Async method to get on turn properties from cards or NLU using https://LUIS.ai
+     * Async helper method to get on turn properties from cards or NLU using https://LUIS.ai
      * 
      * @param {Object} context conversation context object
      * 
      */
     async getNewOnTurnProperties (context) {
-        // Handle card input (if any), update state and return
+        // Handle card input (if any), update state and return.
         if(context.activity.value !== undefined) return await this.handleCardInput(context.activity.value);
         
         // Nothing to do for this turn if there is no text specified.
         if(context.activity.text === undefined || context.activity.text.trim() === '') return;
 
-        let onTurnProperties = new onTurnProperty();
         // make call to LUIS recognizer to get intent + entities
         const LUISResults = await this.luisRecognizer.recognize(context);
+
+        let onTurnProperties = new onTurnProperty();
         onTurnProperties.intent = LuisRecognizer.topIntent(LUISResults);
-        // gather entity values if available
+        // Gather entity values if available. Uses a const list of LUIS entity names. 
         LUIS_ENTITIES.forEach(luisEntity => {
             if(luisEntity in LUISResults.entities) onTurnProperties.entities.push(new entityProperty(luisEntity, LUISResults.entities[luisEntity]))
         });
         return onTurnProperties;
     }
     /**
-     * Async method to welcome the user.
+     * Async helper method to welcome the user.
      * 
      * @param {Object} context conversation context object
      * 
@@ -130,18 +134,16 @@ class Bot {
         await context.sendActivity(`I can help book a table, find cafe locations and more..`);
         // Welcome card with suggested actions.
         await context.sendActivity({ attachments: [CardFactory.adaptiveCard(welcomeCard)]});
-        // TODO: add suggested actions
     }
     /**
-     * Async method to process card input and gather turn properties
+     * Async helper method to process card input and gather turn properties
      * 
      * @param {Object} context conversation context object
      * 
      */
     async handleCardInput (cardValue) {
+        // All cards used by this bot are adaptive cards with the card's 'data' property set to useful information.
         let onTurnProperties = new onTurnProperty();
-        // Add all card values to appropriate place. 
-        // All cards used by this bot are adaptive cards with the card's 'data' property set to relevant information.
         for(var key in cardValue) {
             if(!cardValue.hasOwnProperty(key)) continue;
             if(key.toLowerCase().trim() === 'intent') {

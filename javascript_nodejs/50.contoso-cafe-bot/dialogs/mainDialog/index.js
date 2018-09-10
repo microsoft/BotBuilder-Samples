@@ -40,8 +40,8 @@ class MainDialog extends ComponentDialog {
         // add who are you dialog
         // add cancel dialog
         //this.dialogs.add(new MainDialog(botConfig, this.botState.onTurnPropertyAccessor, conversationState, userState));
-        this.dialogs.add(new CancelDialog(this.propertyAccessors.activeDialogPropertyAccessor, onTurnPropertyAccessor, conversationState));
-        this.dialogs.add(new WhoAreYouDialog(this.propertyAccessors.userProfilePropertyAccessor, botConfig, this.propertyAccessors.turnCounterPropertyAccessor, onTurnPropertyAccessor));
+        this.dialogs.add(new CancelDialog());
+        this.dialogs.add(new WhoAreYouDialog(botConfig, this.propertyAccessors.userProfilePropertyAccessor, this.propertyAccessors.turnCounterPropertyAccessor));
         // other single-turn dialogs
         this.qnaDialog = new QnADialog(botConfig);
         this.findCafeLocationsDialog = new FindCafeLocationsDialog();
@@ -157,6 +157,8 @@ class MainDialog extends ComponentDialog {
                 return await this.findCafeLocationsDialog.onTurn(dc.context);
             } case WhatCanYouDoDialog.Name: {
                 // Handle case when user interacted with the what can you do card.
+                // What can you do card sends a custom data property with intent name, text value and possible entities.
+                // See ../whatCanYouDo/resources/whatCanYouDoCard.json for card definition.
                 let queryProperty = (onTurnProperty.entities || []).filter(item => item.entityName == QUERY_PROPERTY);
                 if(queryProperty.length !== 0) {
                     if(JSON.parse(queryProperty[0].entityValue).text !== undefined) {

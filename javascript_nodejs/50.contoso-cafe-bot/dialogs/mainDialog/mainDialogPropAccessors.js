@@ -18,9 +18,9 @@ class MainDialogPropertyAccessors {
      * @param {Object} userState user state object
      */
     constructor(conversationState, userState) {
-        // holds property accessor to the following properties
-        //      userState - userProfile, reservations, userQuery
-        //      conversationState - activeDialog, mainDialog
+        // Holds property accessor to the following properties:
+            // userState - userProfile, reservations, userQuery
+            // conversationState - activeDialog, mainDialog
         if(!conversationState) throw ('Need conversation state');
         if(!userState) throw ('Need user state');
 
