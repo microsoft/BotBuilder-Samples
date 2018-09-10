@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
@@ -66,13 +65,25 @@ namespace Microsoft.BotBuilderSamples
                 throw new ArgumentNullException(nameof(dialogContext));
             }
 
-            // Update the state with the result from the child prompt. 
+            // Update the state with the result from the child prompt.
             var slotName = (string)dialogContext.ActiveDialog.State[SlotName];
             var values = GetPersistedValues(dialogContext.ActiveDialog);
             values[slotName] = result;
 
             // Run prompt.
             return await RunPromptAsync(dialogContext, cancellationToken);
+        }
+
+        private static IDictionary<string, object> GetPersistedValues(DialogInstance dialogInstance)
+        {
+            object obj;
+            if (!dialogInstance.State.TryGetValue(PersistedValues, out obj))
+            {
+                obj = new Dictionary<string, object>();
+                dialogInstance.State.Add(PersistedValues, obj);
+            }
+
+            return (IDictionary<string, object>)obj;
         }
 
         private Task<DialogTurnResult> RunPromptAsync(DialogContext dialogContext, CancellationToken cancellationToken)
@@ -90,29 +101,13 @@ namespace Microsoft.BotBuilderSamples
                 // If the slot contains prompt text create the PromptOptions.
 
                 // Run the child dialog
-                return dialogContext.BeginAsync(unfilledSlot.PromptId, CreatePromptOptions(unfilledSlot.PromptText), cancellationToken);
+                return dialogContext.BeginAsync(unfilledSlot.PromptId, unfilledSlot.Options, cancellationToken);
             }
             else
             {
                 // No more slots to fill so end the dialog.
                 return dialogContext.EndAsync(state);
             }
-        }
-
-        private static IDictionary<string, object> GetPersistedValues(DialogInstance dialogInstance)
-        {
-            object obj;
-            if (!dialogInstance.State.TryGetValue(PersistedValues, out obj))
-            {
-                obj = new Dictionary<string, object>();
-                dialogInstance.State.Add(PersistedValues, obj);
-            }
-            return (IDictionary<string, object>)obj;
-        }
-
-        private static PromptOptions CreatePromptOptions(string promptText)
-        {
-            return promptText != null ? new PromptOptions { Prompt = MessageFactory.Text(promptText) } : null;
         }
     }
 }
