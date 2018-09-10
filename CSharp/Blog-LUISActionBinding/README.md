@@ -119,7 +119,7 @@ The provisioned app for the samples have the following intents and entities:
 
 ![ActionBindingSamples provisioned app](images/ActionBindingSamplesApp.png)
 
-Below is a table describined the relations between the intents and entities recognized by them:
+Below is a table describing the relations between the intents and entities recognized by them:
 
 | Intent | Entities recognized | Utterance sample |
 |--------|---------------------|------------------|
