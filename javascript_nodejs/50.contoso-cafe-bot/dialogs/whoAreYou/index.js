@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 const { ComponentDialog, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
 
-const getUserNamePrompt = require('./getUserNamePrompt');
+const getUserNamePrompt = require('../shared/prompts/getUserNamePrompt');
 const onTurnProperty = require('../shared/stateProperties/onTurnProperty');
 const turnResult = require('../shared/turnResult');
 
@@ -29,7 +29,7 @@ class WhoAreYouDialog extends ComponentDialog {
         if(!botConfig) throw ('Need bot config');
         if(!userProfilePropertyAccessor) throw ('Need user profile property accessor');
         if(!turnCounterPropertyAccessor) throw ('Need turn counter property accessor');
-        
+
         // add dialogs
         this.addDialog(new WaterfallDialog(DIALOG_START, [
             this.askForUserName,

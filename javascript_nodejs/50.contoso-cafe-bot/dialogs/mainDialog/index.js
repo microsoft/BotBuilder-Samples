@@ -37,10 +37,12 @@ class MainDialog extends ComponentDialog {
         // add dialogs
         this.dialogs = new DialogSet(this.propertyAccessors.mainDialogPropertyAccessor);
         // add book table dialog
-        this.bookTableDialog = new BookTableDialog(botConfig, 
+        /*this.bookTableDialog = new BookTableDialog(botConfig, 
                                                    this.propertyAccessors.reservationsPropertyAccessor, 
                                                    this.propertyAccessors.turnCounterPropertyAccessor, 
+                                                   this.propertyAccessors.bookTableDialogPropertyAccessor,
                                                    onTurnPropertyAccessor);
+        */
         // add cancel dialog
         this.dialogs.add(new CancelDialog());
         // add QnA dialog. This serves help, qna and chit chat.

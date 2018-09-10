@@ -4,7 +4,7 @@ const { TextPrompt } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
 
-const userProfile = require('../shared/stateProperties/userProfileProperty');
+const userProfile = require('../stateProperties/userProfileProperty');
 
 // LUIS service type entry for the get user profile LUIS model in the .bot file.
 const LUIS_CONFIGURATION = 'getUserProfile';

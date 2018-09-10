@@ -4,7 +4,7 @@
 const USER_PROFILE_PROPERTY = 'userProfile';
 const USER_RESERVATIONS_PROPERTY = 'userReservations';
 const USER_QUERY_PROPERTY = 'userQuery';
-const ACTIVE_DIALOG_PROPERTY = 'activeDialog';
+const BOOK_TABLE_DIALOG_PROPERTY = 'bookTableDialog';
 const MAIN_DIALOG_STATE_PROPERTY = 'mainDialogState';
 const TURN_COUNTER_PROPERTY = 'turnCounter';
 /**
@@ -27,9 +27,9 @@ class MainDialogPropertyAccessors {
         this.userProfilePropertyAccessor = userState.createProperty(USER_PROFILE_PROPERTY);
         this.reservationsPropertyAccessor = userState.createProperty(USER_RESERVATIONS_PROPERTY);
         this.userQueryPropertyAccessor = userState.createProperty(USER_QUERY_PROPERTY);
-        this.activeDialogPropertyAccessor = conversationState.createProperty(ACTIVE_DIALOG_PROPERTY);
         this.mainDialogPropertyAccessor = conversationState.createProperty(MAIN_DIALOG_STATE_PROPERTY);
         this.turnCounterPropertyAccessor = conversationState.createProperty(TURN_COUNTER_PROPERTY);
+        this.bookTableDialogPropertyAccessor = conversationState.createProperty(BOOK_TABLE_DIALOG_PROPERTY);
     }
 };
 
