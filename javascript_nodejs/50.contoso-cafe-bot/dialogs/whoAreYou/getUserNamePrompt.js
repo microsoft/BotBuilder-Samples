@@ -73,8 +73,9 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                         break;
                     }
                     default: {
-                        // TODO: handle interruption. Pass back original payload.
-                        step.end({reason: 'Interruption', payload: await onTurnPropertyAccessor.get(turnContext)});
+                        // Handle interruption. Pass back original payload.
+                        let currentPayload = await this.userProfilePropertyAccessor.get(turnContext);
+                        step.end({reason: 'Interruption', payload: currentPayload});
                         break;
                     }
                 }

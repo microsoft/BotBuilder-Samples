@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ComponentDialog, ConfirmPrompt, WaterfallDialog } = require('botbuilder-dialogs');
+const { ComponentDialog, ConfirmPrompt, WaterfallDialog, DialogTurnStatus } = require('botbuilder-dialogs');
 // Cancel intent name from ../../mainDialog/resources/cafeDispatchModel.lu 
 const CANCEL_DIALOG = 'Cancel';
 const START_DIALOG = 'start';
 const CONFIRM_CANCEL_PROMPT = 'confirmCancel';
 const CANCEL_STATE_PROPERTY = 'cancelStateProperty';
 const CANCEL_DIALOG_PROPERTY = 'cancelDialogProperty';
-
-const cancelProperty = require('../shared/stateProperties/cancelProperty');
-
+const turnResult = require('../shared/turnResult');
 class CancelDialog extends ComponentDialog {
     constructor(activeDialogPropertyAccessor, onTurnPropertyAccessor, conversationState) {
         super(CANCEL_DIALOG);
@@ -27,31 +25,26 @@ class CancelDialog extends ComponentDialog {
             this.finalizeCancel
         ])); 
 
-        this.addDialog(new ConfirmPrompt(CONFIRM_CANCEL_PROMPT, this.confirmPromptValidator));
+        this.addDialog(new ConfirmPrompt(CONFIRM_CANCEL_PROMPT));
+
+        
     }
 
-    async confirmPromptValidator (turnContext, validatorContext) {
-        let result = validatorContext.Recognized.Value; 
-
-        // TODO: increment turn counter and decide if we should re-prompt
-    }
     async promptToConfirm(dc, step) {
-        // prompt if cancelState 
-        const activeDialog = await this.activeDialogPropertyAccessor.get(dc.context);
-        this.cancelStatePropertyAccessor.set(new cancelProperty(activeDialog));
-
         // prompt for confirmation to cancel
-        return await dc.prompt(CONFIRM_DELETE_PROMPT, `Are you sure you want to cancel? ${activeDialog}`);
+        return await dc.prompt(CONFIRM_CANCEL_PROMPT, `Are you sure you want to cancel?`);
     }
 
     async finalizeCancel(dc, step) {
         if (step.result) {
             await dc.cancelAll();
             await dc.context.sendActivity(`Sure. I've cancelled that!`);
+            return await dc.end();
         } else {
             await dc.context.sendActivity(`Ok..`);
+            await dc.end();
+            return new turnResult(DialogTurnStatus.complete, {reason: 'Abandon', payload: step.options})
         }
-        return await dc.end();
     }
 
  };

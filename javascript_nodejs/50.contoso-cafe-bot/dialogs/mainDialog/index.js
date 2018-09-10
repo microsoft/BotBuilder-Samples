@@ -16,7 +16,7 @@ const FindCafeLocationsDialog = require('../findCafeLocations');
 // User name entity from ../whoAreYou/resources/whoAreYou.lu
 const USER_NAME = 'userName_patternAny';
 
-const userProfile = require('../shared/stateProperties/userProfileProperty');
+const userProfileProperty = require('../shared/stateProperties/userProfileProperty');
 class MainDialog extends ComponentDialog {
 
     constructor(botConfig, onTurnPropertyAccessor, conversationState, userState) {
@@ -39,6 +39,7 @@ class MainDialog extends ComponentDialog {
         this.dialogs.add(new WhoAreYouDialog(this.propertyAccessors.userProfilePropertyAccessor, botConfig, this.propertyAccessors.turnCounterPropertyAccessor, onTurnPropertyAccessor));
         // other single-turn dialogs
         this.qnaDialog = new QnADialog(botConfig);
+        this.findCafeLocationsDialog = new FindCafeLocationsDialog();
     }
 
     async onDialogBegin(dc, options) {
@@ -75,10 +76,20 @@ class MainDialog extends ComponentDialog {
                 break;
             }
             case DialogTurnStatus.complete: {
-                if(dialogTurnResult.result && dialogTurnResult.result.reason === 'Interruption') {
-                    // Interruption. Begin child dialog
-                    dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty);
-                    break;
+                if(dialogTurnResult.result) {
+                    switch(dialogTurnResult.result.reason) {
+                        case 'Interruption': {
+                            // Interruption. Begin child dialog
+                            dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty, dialogTurnResult.result.payload);
+                            break;
+                        } 
+                        case 'Abandon': {
+                            // Re-hydrate old dialog
+                            dialogTurnResult = await this.beginChildDialog(dc, dialogTurnResult.result.payload.onTurnProperty);
+                            break;
+                        }
+                        
+                    }
                 } else {
                     // The active dialog's stack ended with a complete status
                     await dc.context.sendActivity(`What else can I help you with?`);
@@ -103,7 +114,7 @@ class MainDialog extends ComponentDialog {
         return dialogTurnResult;
     }
 
-    async beginChildDialog(dc, onTurnProperty) {
+    async beginChildDialog(dc, onTurnProperty, childDialogPayload) {
         switch(onTurnProperty.intent) {
             // Help, ChitChat and QnA share the same QnA Maker model. So just call the QnA Dialog.
             case QnADialog.Name: 
@@ -112,9 +123,8 @@ class MainDialog extends ComponentDialog {
                 return await this.qnaDialog.onTurn(dc.context);
             }
             case CancelDialog.Name: {
-                return await dc.context.sendActivity(`Cancel`);
                 await this.resetTurnCounter(dc.context);
-                //return await dc.begin(CancelDialog.Name);
+                return await dc.begin(CancelDialog.Name, childDialogPayload);
                 break;
             } case BookTableDialog.Name: {
                 return await dc.context.sendActivity(`Book Table`);
@@ -124,9 +134,10 @@ class MainDialog extends ComponentDialog {
                 let userProfile = await this.propertyAccessors.userProfilePropertyAccessor.get(dc.context);
                 // Handle case where user is re-introducing themselves. 
                 // These utterances are defined in ../whoAreYou/resources/whoAreYou.lu 
-                if(USER_NAME in onTurnProperty.entities) {
-                    const userName = onTurnProperty.entities[USER_NAME][0];
-                    this.propertyAccessors.userProfilePropertyAccessor.set(dc.context, new userProfile(userName));
+                let userNameInOnTurnProperty = (onTurnProperty.entities || []).filter(item => item.entityName == USER_NAME);
+                if(userNameInOnTurnProperty.length !== 0) {
+                    const userName = userNameInOnTurnProperty[0].entityValue[0];
+                    this.propertyAccessors.userProfilePropertyAccessor.set(dc.context, new userProfileProperty(userName));
                     return await dc.context.sendActivity(`Hello ${userName}, Nice to meet you again! I'm the Contoso Cafe Bot.`);
                 }
                 if(userProfile === undefined || userProfile.userName === '' || userProfile.userName === 'Human') {
@@ -140,12 +151,15 @@ class MainDialog extends ComponentDialog {
                 }
                 break;
             } case FindCafeLocationsDialog.Name: {
-                return await dc.context.sendActivity(`Find Cafe Locations!`);
+                return await this.findCafeLocationsDialog.onTurn(dc.context);
                 break;
             }
         }
     }
-
+    async findEntity(entitiesCollection, entityName) {
+        return 
+        
+    }
     async resetTurnCounter(context) {
         this.propertyAccessors.turnCounterPropertyAccessor.set(context, 0);
     }
@@ -155,7 +169,8 @@ class MainDialog extends ComponentDialog {
         
         // get active dialog from property accessor
         // TODO: Evaluate if this can be achieved via dc.activeDialog instead of a separate property
-        const activeDialog = await this.propertyAccessors.activeDialogPropertyAccessor.get(dc.context);
+        let activeDialog = '';
+        if(dc.activeDialog !== undefined) activeDialog = dc.activeDialog.id;
 
         // Book table submit and Book Table cancel requests through book table card are not allowed when Book Table is not the active dialog
         if(requestedOperation === 'Book_Table_Submit' || requestedOperation === 'Book_Table_Cancel') {
@@ -166,7 +181,7 @@ class MainDialog extends ComponentDialog {
         } 
         else if(requestedOperation === CancelDialog.Name) {
             // Cancel dialog (with confirmation) is only possible for multi-turn dialogs - Book Table, Who are you
-            if(activeDialog !== BookTableDialog.Name || activeDialog !== WhoAreYouDialog.Name) {
+            if(activeDialog !== BookTableDialog.Name && activeDialog !== WhoAreYouDialog.Name) {
                 outcome.allowed = false;
                 outcome.reason = `Nothing to cancel.`;
             }

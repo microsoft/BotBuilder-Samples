@@ -7,7 +7,7 @@
 - What can you do?
 - how can you help me?
 - what can you do for me?
-- My [first] name is {userName_patternAny}
+- My [first] name [is] {userName_patternAny}
 - I'm {userName_patternAny}
 - You can call me {userName_patternAny}
 - call me {userName_patternAny}

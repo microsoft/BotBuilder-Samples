@@ -56,7 +56,7 @@
             "type": "Action.Submit",
             "title": "Find Cafe Locations",
             "data": {
-                "intent": "Find_cafe_locations"
+                "intent": "Find_Cafe_Locations"
             }
         }
     ],
