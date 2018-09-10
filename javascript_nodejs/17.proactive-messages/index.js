@@ -28,7 +28,7 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 
 // Read the bot's configuration from a .bot file identified by BOT_FILE.
-// This includes information about the bot's endpoints and Bot Framework configuration.
+// This includes information about the bot's endpoints and configuration.
 let botConfig;
 try {
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);

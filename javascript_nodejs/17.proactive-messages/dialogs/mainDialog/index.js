@@ -36,8 +36,8 @@ class MainDialog {
             // If the user types done and a Job Id Number,
             // we check if the second word input is a number.
             if (firstWord === "done" && !isNaN(parseInt(secondWord))) {
-                var jobIDNumber = secondWord;
-                await this.completeJob(this.storage, turnContext, jobIDNumber);
+                var jobIdNumber = secondWord;
+                await this.completeJob(this.storage, turnContext, jobIdNumber);
                 await turnContext.sendActivity('Job completed. Notification sent.');
 
             } else if (firstWord === "done" && isNaN(parseInt(secondWord))) {
@@ -49,9 +49,9 @@ class MainDialog {
             }
 
         } else if (turnContext.activity.type === 'event' && turnContext.activity.name === 'jobCompleted') {
-            var jobIDNumber = turnContext.activity.value;
-            if (!isNaN(parseInt(jobIDNumber))) {
-                await this.completeJob(this.storage, turnContext, jobIDNumber);
+            var jobIdNumber = turnContext.activity.value;
+            if (!isNaN(parseInt(jobIdNumber))) {
+                await this.completeJob(this.storage, turnContext, jobIdNumber);
             }
         }
     }
@@ -61,21 +61,21 @@ class MainDialog {
 
         // Create a unique job ID.
         var date = new Date();
-        var jobIDNumber = date.getTime();
+        var jobIdNumber = date.getTime();
 
         // Get the conversation reference.
         const reference = TurnContext.getConversationReference(turnContext.activity);
 
         // Try to find previous information about the saved job:
-        const jobInfo = await storage.read([jobIDNumber]);
+        const jobInfo = await storage.read([jobIdNumber]);
 
         try {
             if (isEmpty(jobInfo)){
                 // Job object is empty so we have to create it
-                await turnContext.sendActivity(`Need to create new job ID: ${ jobIDNumber }`);
+                await turnContext.sendActivity(`Need to create new job ID: ${ jobIdNumber }`);
 
                 // Update jobInfo with new info
-                jobInfo[jobIDNumber] = { completed: false, reference: reference };
+                jobInfo[jobIdNumber] = { completed: false, reference: reference };
 
                 try {
                     // Save to storage
@@ -91,26 +91,26 @@ class MainDialog {
         }
     }
 
-    async completeJob(storage, turnContext, jobIDNumber) {
-
+    async completeJob(storage, turnContext, jobIdNumber) {
         // Read from storage
-        let jobInfo = await storage.read([jobIDNumber]);
+        let jobInfo = await storage.read([jobIdNumber]);
 
-        // If no job notify the user
+        // If no job was found, notify the user of this error state.
         if (isEmpty(jobInfo)){
-            await turnContext.sendActivity(`Sorry no job with ID ${ jobIDNumber }.`);
+            await turnContext.sendActivity(`Sorry no job with ID ${ jobIdNumber }.`);
         } else {
             // Found a job with the ID passed in.
-            const reference = jobInfo[jobIDNumber].reference;
-            const completed = jobInfo[jobIDNumber].completed;
+            const reference = jobInfo[jobIdNumber].reference;
+            const completed = jobInfo[jobIdNumber].completed;
 
-            // If not completed and reference exists. 
+            // If the job is not yet completed and conversation reference exists,
+            // use the adapter to continue the conversation with the job's original creator.
             if (reference && !completed) {
                 // Since we are going to proactively send a message to the user who started the job,
                 // we need to create the turnContext based on the stored reference value.
                 await this.adapter.continueConversation(reference, async (turnContext) => {
                     // Complete the job.
-                    jobInfo[jobIDNumber].completed = true;
+                    jobInfo[jobIdNumber].completed = true;
                     // Save the updated job.
                     await storage.write(jobInfo);
                     // Notify the user that the job is complete.
@@ -125,7 +125,6 @@ class MainDialog {
             };
         };
     };
-
 }
 
 // Helper function to check if object is empty.
