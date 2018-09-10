@@ -39,6 +39,9 @@ class MyAppInsightsMiddleware {
      */
     async onTurn(turnContext, next) {
         if (turnContext.activity) {
+            // Store the TelemetryClient on the TurnContext's turnState so MyAppInsightsQnAMaker can use it.
+            turnContext.turnState.set(this.appInsightsServiceKey, this._telemetryClient);
+            
             const activity = turnContext.activity;
             // Set userId and sessionId tag values for the Application Insights Context object.
             if (activity.from && activity.from.id) {

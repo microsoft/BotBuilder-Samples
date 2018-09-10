@@ -21,10 +21,10 @@ class MyAppInsightsQnAMaker extends QnAMaker {
      * Sends the top scoring Question and Answer pairing to Application Insights.
      * @param turnContext The TurnContext instance with the necessary information to perform the calls.
      */
-    async getAnswers(turnContext) {
+    async generateAnswer(turnContext) {
             const { top, scoreThreshold } = this.requestConfig;
             // Call QnAMaker.generateAnswer to retrieve possible Question and Answer pairings for the user's message.
-            const results = await this.generateAnswer(turnContext.activity.text, top, scoreThreshold);
+            const results = await super.generateAnswer(turnContext.activity.text, top, scoreThreshold);
             
             // Retrieve the reference for the TelemetryClient that was cached for the Turn in TurnContext.turnState via MyAppInsightsMiddleware.
             const telemetryClient = turnContext.turnState.get('AppInsightsLoggerMiddleware.AppInsightsContext');
