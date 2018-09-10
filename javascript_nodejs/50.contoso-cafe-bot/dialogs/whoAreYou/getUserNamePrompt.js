@@ -66,7 +66,9 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                     case GET_USER_NAME_INTENT: {
                         // Find the user's name from LUIS entities list.
                         if(USER_NAME in LUISResults.entities) {
-                            const userName = LUISResults.entities[USER_NAME][0];
+                            let userName = LUISResults.entities[USER_NAME][0];
+                            // capitalize user name   
+                            userName = userName.charAt(0).toUpperCase() + userName.slice(1);
                             this.userProfilePropertyAccessor.set(turnContext, new userProfile(userName));
                             await turnContext.sendActivity(`Hey there ${userName}!. Nice to meet you!`);
                             step.end(value);
@@ -81,7 +83,9 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                         break;
                     }
                     case NONE_INTENT: {
-                        const userName = value;
+                        let userName = value;
+                        // capitalize user name   
+                        userName = userName.charAt(0).toUpperCase() + userName.slice(1);
                         this.userProfilePropertyAccessor.set(turnContext, new userProfile(userName));
                         await turnContext.sendActivity(`Hey there ${userName}!. Nice to meet you!`);
                         step.end(value);

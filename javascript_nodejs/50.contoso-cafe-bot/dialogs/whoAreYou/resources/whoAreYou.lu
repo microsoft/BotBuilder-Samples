@@ -12,6 +12,7 @@
 - You can call me {userName_patternAny}
 - call me {userName_patternAny}
 - [please] call me {userName_patternAny}
+- {userName_patternAny} is my name
 - [Get user name and location](./getUserProfile.lu/#Get-user-name-and-location)
 - [Why do you ask](./getUserProfile.lu/#Why-do-you-ask)
 - [No Name](./getUserProfile.lu/#No-Name)

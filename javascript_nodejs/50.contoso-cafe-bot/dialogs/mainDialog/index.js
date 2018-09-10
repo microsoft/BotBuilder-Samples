@@ -43,7 +43,7 @@ class MainDialog extends ComponentDialog {
         this.dialogs.add(new CancelDialog());
         this.dialogs.add(new WhoAreYouDialog(botConfig, this.propertyAccessors.userProfilePropertyAccessor, this.propertyAccessors.turnCounterPropertyAccessor));
         // other single-turn dialogs
-        this.qnaDialog = new QnADialog(botConfig);
+        this.qnaDialog = new QnADialog(botConfig, this.propertyAccessors.userProfilePropertyAccessor);
         this.findCafeLocationsDialog = new FindCafeLocationsDialog();
         this.whatCanYouDoDialog = new WhatCanYouDoDialog();
     }
@@ -140,7 +140,9 @@ class MainDialog extends ComponentDialog {
                 // These utterances are defined in ../whoAreYou/resources/whoAreYou.lu 
                 let userNameInOnTurnProperty = (onTurnProperty.entities || []).filter(item => item.entityName == USER_NAME);
                 if(userNameInOnTurnProperty.length !== 0) {
-                    const userName = userNameInOnTurnProperty[0].entityValue[0];
+                    let userName = userNameInOnTurnProperty[0].entityValue[0];
+                    // capitalize user name   
+                    userName = userName.charAt(0).toUpperCase() + userName.slice(1);
                     this.propertyAccessors.userProfilePropertyAccessor.set(dc.context, new userProfileProperty(userName));
                     return await dc.context.sendActivity(`Hello ${userName}, Nice to meet you again! I'm the Contoso Cafe Bot.`);
                 }

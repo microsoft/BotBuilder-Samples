@@ -64,6 +64,7 @@ class Bot {
             case ActivityTypes.Message: {
                 // Process on turn input (card or NLP) and gather new properties
                 let onTurnProperties = await this.getNewOnTurnProperties(context);
+                if(onTurnProperties === undefined) break;
                 // Update state with gathered properties (dialog/ intent/ entities)
                 this.onTurnPropertyAccessor.set(context, onTurnProperties);
                 // Do we have any oustanding dialogs? if so, continue them and get results
@@ -108,6 +109,12 @@ class Bot {
         // Handle card input (if any), update state and return.
         if(context.activity.value !== undefined) return await this.handleCardInput(context.activity.value);
         
+        // Acknowledge attachments from user. 
+        if(context.activity.attachments && context.activity.attachments.length !== 0) {
+            await context.sendActivity(`Thanks for sending me that attachment. I'm still learning to process attachments.`);
+            return undefined;
+        }
+
         // Nothing to do for this turn if there is no text specified.
         if(context.activity.text === undefined || context.activity.text.trim() === '') return;
 

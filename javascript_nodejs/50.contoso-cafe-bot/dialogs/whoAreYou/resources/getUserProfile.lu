@@ -2,6 +2,7 @@
 - I'm {userName_patternAny}
 - my name is {userName_patternAny}
 - call me {userName_patternAny}
+- {userName_patternAny} is my name
 
 # Why do you ask
 - Why do you need my name?

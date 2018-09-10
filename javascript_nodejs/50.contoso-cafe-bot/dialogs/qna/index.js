@@ -19,9 +19,10 @@ class QnADialog {
      * 
      * @param {Object} botConfig bot configuration from .bot file
      */
-    constructor(botConfig) {
+    constructor(botConfig, userProfilePropertyAccessor) {
         if(!botConfig) throw ('Need bot config');
-
+        if(!userProfilePropertyAccessor) throw ('Need user profile property accessor');
+        this.userProfilePropertyAccessor = userProfilePropertyAccessor;
         // add recogizers
         const qnaConfig = botConfig.findServiceByNameOrId(QnA_CONFIGURATION);
         if(!qnaConfig || !qnaConfig.kbId) throw (`QnA Maker application information not found in .bot file. Please ensure you have all required QnA Maker applications created and available in the .bot file. See readme.md for additional information\n`);
@@ -51,15 +52,41 @@ class QnADialog {
         }
         if(filterSearch === undefined) {
             // respond with qna result
-            await context.sendActivity(qnaResult[0].answer);
+            await context.sendActivity(await this.userSalutation(context) + qnaResult[0].answer);
             return new dialogTurnResult(DialogTurnStatus.complete);
         } else {
             // just return the result to caller without responding to user. 
             return new dialogTurnResult(DialogTurnStatus.complete, qnaResult);
         }
     }
+    /**
+     * Async helper function to randomly include user salutation. Helps make bot's response feel more natural.
+     * 
+     * @param {Object} context 
+     */
+    async userSalutation (context) {
+        let salutation = '';
+        const userProfile = await this.userProfilePropertyAccessor.get(context);
+        if(userProfile !== undefined && userProfile.userName !== '') {
+            const userName = userProfile.userName;
+            // see if we have user's name
+            let userSalutationList = [``,
+                                      ``,
+                                      ``,
+                                      `Well... ${userName}, `,
+                                      `${userName}, `];
+            // Randomly include user's name in response so the reply in personalized.
+            const randomNumberIdx = Math.floor(Math.random() * 4);
+            if(userSalutationList[randomNumberIdx] !== undefined) salutation = userSalutationList[randomNumberIdx];
+        } 
+        return salutation;
+    }
 };
 
 QnADialog.Name = QnA_DIALOG_NAME;
 
 module.exports = QnADialog;
+
+const userSalutation = function() {
+
+}
