@@ -12,7 +12,6 @@ namespace MessageRoutingBot
     /// <summary>
     /// Class represents bot configuration.
     /// </summary>
-    [Serializable]
     public class BotServices
     {
         /// <summary>

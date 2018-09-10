@@ -15,11 +15,10 @@ namespace MessageRoutingBot
     public class MessageRoutingBot : IBot
     {
         private readonly BotServices _services;
-        private readonly SemaphoreSlim _semaphore;
         private readonly MessageRoutingBotAccessors _accessors;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnterpriseBot"/> class.
+        /// Initializes a new instance of the <see cref="MessageRoutingBot"/> class.
         /// </summary>
         /// <param name="botServices">Bot services.</param>
         /// <param name="accessors">Bot State Accessors.</param>
@@ -27,9 +26,6 @@ namespace MessageRoutingBot
         {
             _accessors = accessors;
             _services = botServices;
-
-            // a semaphore to serialize access to the bot state
-            _semaphore = accessors.SemaphoreSlim;
 
             Dialogs = new DialogSet(accessors.ConversationDialogState);
             Dialogs.Add(new MainDialog(_services));
@@ -45,22 +41,13 @@ namespace MessageRoutingBot
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            try
-            {
-                await _semaphore.WaitAsync();
+            var dc = await Dialogs.CreateContextAsync(turnContext);
+            var result = await dc.ContinueAsync();
 
-                var dc = await Dialogs.CreateContextAsync(turnContext);
-                var result = await dc.ContinueAsync();
-
-                if (result.Status == DialogTurnStatus.Empty)
-                {
-                    // Start main dialog.
-                    await dc.BeginAsync(MainDialog.Name);
-                }
-            }
-            finally
+            if (result.Status == DialogTurnStatus.Empty)
             {
-                _semaphore.Release();
+                // Start main dialog.
+                await dc.BeginAsync(MainDialog.Name);
             }
         }
     }
