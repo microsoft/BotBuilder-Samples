@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-const { DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
+const { DialogTurnStatus, WaterfallDialog, ComponentDialog } = require('botbuilder-dialogs');
 
 const getLocationDateTimePartySize = require('./getLocationDateTimePartySize');
 const onTurnProperty = require('../shared/stateProperties/onTurnProperty');
@@ -17,7 +17,7 @@ const GET_BOOK_TABLE_TURN_N = 'bookTableTurnN';
 /**
  * Class Who are you dialog.
  */
-class BookTableDialog {
+class BookTableDialog extends ComponentDialog {
     /**
      * Constructor.
      * 
@@ -33,11 +33,15 @@ class BookTableDialog {
         if(!turnCounterPropertyAccessor) throw ('Need turn counter property accessor');
         if(!onTurnPropertyAccessor) throw ('Need on turn property accessor');
         
+        this.reservationsPropertyAccessor = reservationsPropertyAccessor;
+
         // add dialogs
         this.addDialog(new WaterfallDialog(DIALOG_START, [
             this.getLocationDateTimePartySize,
             this.bookTable
         ]));
+
+        // Helper sub-dialog that captures all required information to book a table
         this.addDialog(new getLocationDateTimePartySize(GET_BOOK_TABLE_TURN_N, 
                                                         botConfig, 
                                                         reservationsPropertyAccessor, 
@@ -51,10 +55,13 @@ class BookTableDialog {
      * @param {Object} step Dialog turn result
      */
     async getLocationDateTimePartySize(dc, step) {
-        // get what's passed in via dc.begin and update reservation instance.
-        let reservationProperty = new ReservationProperty();
-        // nothing to do here if we already have all required information
-        return await dc.prompt(GET_BOOK_TABLE_TURN_N, `What's your name?`);
+        // This one waterfall step is executed until all required information is captured.
+        let turnResult = dc.continue();
+
+        if(turnResult.status === DialogTurnStatus.empty) {
+            dc.begin(GET_BOOK_TABLE_TURN_N); // TODO: pass in step context passed in? 
+        } // TODO: might need to handle other types like interruption and abandon
+        return turnResult;
     }
     /**
      * Waterfall step to finalize user's response and greet user.
@@ -63,17 +70,20 @@ class BookTableDialog {
      * @param {Object} step Dialog turn result
      */
     async bookTable(dc, step) {
+        // read from reservations property accessor
+        let newReservation = await this.reservationsPropertyAccessor.get(dc.context);
+
         // Handle interruption.
-        if(step.result.reason && step.result.reason === 'Interruption') {
-            // set onTurnProperty in the payload so this can be resumed back if needed by main dialog.
-            if(step.result.payload === undefined) {
-                step.result.payload = {onTurnProperty: new onTurnProperty(WHO_ARE_YOU)};
-            }
-            else {
-                step.result.payload.onTurnProperty = new onTurnProperty(WHO_ARE_YOU);
-            }
-            return new turnResult(DialogTurnStatus.empty, step.result);
-        }
+        // if(step.result.reason && step.result.reason === 'Interruption') {
+        //     // set onTurnProperty in the payload so this can be resumed back if needed by main dialog.
+        //     if(step.result.payload === undefined) {
+        //         step.result.payload = {onTurnProperty: new onTurnProperty(WHO_ARE_YOU)};
+        //     }
+        //     else {
+        //         step.result.payload.onTurnProperty = new onTurnProperty(WHO_ARE_YOU);
+        //     }
+        //     return new turnResult(DialogTurnStatus.empty, step.result);
+        // }
         return await dc.end();
     }
 };

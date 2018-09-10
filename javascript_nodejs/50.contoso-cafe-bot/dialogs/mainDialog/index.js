@@ -37,15 +37,22 @@ class MainDialog extends ComponentDialog {
         // add dialogs
         this.dialogs = new DialogSet(this.propertyAccessors.mainDialogPropertyAccessor);
         // add book table dialog
-        // add who are you dialog
+        this.bookTableDialog = new BookTableDialog(botConfig, 
+                                                   this.propertyAccessors.reservationsPropertyAccessor, 
+                                                   this.propertyAccessors.turnCounterPropertyAccessor, 
+                                                   onTurnPropertyAccessor);
         // add cancel dialog
-        //this.dialogs.add(new MainDialog(botConfig, this.botState.onTurnPropertyAccessor, conversationState, userState));
         this.dialogs.add(new CancelDialog());
-        this.dialogs.add(new WhoAreYouDialog(botConfig, this.propertyAccessors.userProfilePropertyAccessor, this.propertyAccessors.turnCounterPropertyAccessor));
-        // other single-turn dialogs
+        // add QnA dialog. This serves help, qna and chit chat.
         this.qnaDialog = new QnADialog(botConfig, this.propertyAccessors.userProfilePropertyAccessor);
+        // add find cafe locations dialog.
         this.findCafeLocationsDialog = new FindCafeLocationsDialog();
+        // add what can you dialog.
         this.whatCanYouDoDialog = new WhatCanYouDoDialog();
+        // add who are you dialog
+        this.dialogs.add(new WhoAreYouDialog(botConfig, 
+                                             this.propertyAccessors.userProfilePropertyAccessor, 
+                                             this.propertyAccessors.turnCounterPropertyAccessor));
     }
 
     async onDialogBegin(dc, options) {
