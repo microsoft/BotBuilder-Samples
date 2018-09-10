@@ -21,6 +21,7 @@
             Add(new TextPrompt(TextPrompt));
 
             // Define the main dialog and add it to the set.
+            // This is a simple, two-step dialog, with the steps defined in-line with lambda expressions.
             Add(new WaterfallDialog(MainDialog, new WaterfallStep[]
             {
                 async (dc, step, cancellationToken) =>
