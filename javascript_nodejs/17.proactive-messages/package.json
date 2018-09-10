@@ -1,7 +1,7 @@
 {
-  "name": "prompt-validations-bot",
+  "name": "proactive-messaging-bot",
   "version": "1.0.0",
-  "description": "Bot Builder v4 prompt sample with validation functions",
+  "description": "Bot Builder v4 sample with proactive messaging",
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
