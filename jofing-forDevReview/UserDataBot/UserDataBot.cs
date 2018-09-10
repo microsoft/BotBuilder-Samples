@@ -19,17 +19,18 @@
         private GreetingsDialog GreetingsDialog { get; }
 
         /// <summary>Create a new instance of the bot.</summary>
-        /// <param name="options">The options to use for our app.</param>
-        /// <param name="greetingsDialog">An instance of the dialog set.</param>
-        public UserDataBot(IOptions<BotFrameworkOptions> options, GreetingsDialog greetingsDialog)
+        /// <param name="conversationState">The conversation state middleware for our bot.</param>
+        /// <param name="userState">The user state middleware for our bot.</param>
+        public UserDataBot(ConversationState conversationState, UserState userState)
         {
-            // Retrieve the user state middleware from the options, and create the state property accessor.
-            BotStateSet stateSet = options.Value.Middleware.OfType<BotStateSet>().FirstOrDefault();
-            UserState userState = stateSet.BotStates.OfType<UserState>().FirstOrDefault();
+            // Create the state property accessor for the user profile.
             UserDataAccessor = userState.CreateProperty<UserData>("UserDataBot.UserData");
 
-            // Record the dialog set to use to get the user's name. 
-            GreetingsDialog = greetingsDialog;
+            // Create the state property accessor for the greetings dialog.
+            var dialogStateAccessor = conversationState.CreateProperty<DialogState>("UserDataBot.DialogState");
+
+            // Create the greetings dialog. 
+            GreetingsDialog = new GreetingsDialog(dialogStateAccessor);
         }
 
         /// <summary>Handles incoming activities to the bot.</summary>

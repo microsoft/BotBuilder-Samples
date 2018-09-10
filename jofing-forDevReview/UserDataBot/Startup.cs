@@ -45,7 +45,7 @@
                     await context.SendActivityAsync("Sorry, it looks like something went wrong!");
                 };
 
-                // Add state middleware, with persistent storage.
+                // Add conversation and user state middleware that use persistent storage.
                 var CosmosSettings = Configuration.GetSection("CosmosDB");
                 IStorage storage = new CosmosDbStorage(
                     new CosmosDbStorageOptions
@@ -60,20 +60,20 @@
                 options.Middleware.Add(new BotStateSet(conversationState, userState));
             });
 
-            // Register the dialog state accessor off of conversation state.
+            // Register conversation state middleware.
             services.AddSingleton(sp =>
             {
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
                 var stateSet = options.Middleware.OfType<BotStateSet>().FirstOrDefault();
-                var conversationState = stateSet.BotStates.OfType<ConversationState>().FirstOrDefault();
-                return conversationState.CreateProperty<DialogState>("UserDataBot.DialogState");
+                return stateSet.BotStates.OfType<ConversationState>().FirstOrDefault();
             });
 
-            // Register the main dialog set.
+            // Register user state middleware.
             services.AddSingleton(sp =>
             {
-                var dialogState = sp.GetRequiredService<IStatePropertyAccessor<DialogState>>();
-                return new GreetingsDialog(dialogState);
+                var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
+                var stateSet = options.Middleware.OfType<BotStateSet>().FirstOrDefault();
+                return stateSet.BotStates.OfType<UserState>().FirstOrDefault();
             });
         }
 
