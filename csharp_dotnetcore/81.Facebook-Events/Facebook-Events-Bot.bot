@@ -7,8 +7,8 @@
         "type": "endpoint",
         "name": "facebook-events",
         "id": "https://2137f71a.ngrok.io/api/messages",
-        "appId": "1999c181-69b1-4705-a51d-cd3071e8532d",
-        "appPassword": "mgmgkKKY7664!lpSMMN2:]_",
+        "appId": "",
+        "appPassword": "",
         "endpoint": "https://2137f71a.ngrok.io/api/messages"
       }
     ]
