@@ -1,0 +1,23 @@
+{
+    "name": "basic-bot",
+    "description": "",
+    "secretKey": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "basic-bot",
+            "id": "http://localhost:3978/api/messages",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3978/api/messages"
+        },
+        {
+            "type": "luis",
+            "id": "",
+            "name": "basic-bot-LUIS",
+            "appId": "",
+            "authoringKey": "",
+            "subscriptionKey": ""
+        }
+    ]
+}
