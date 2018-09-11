@@ -173,6 +173,7 @@ class MainDialog extends ComponentDialog {
                     this.userProfilePropertyAccessor.set(dc.context, new userProfileProperty(userName));
                     return await dc.context.sendActivity(`Hello ${userName}, Nice to meet you again! I'm the Contoso Cafe Bot.`);
                 }
+                // Begin the who are you dialog if we have an invalid or empty user name or if the user name was previously set to 'Human'
                 if(userProfile === undefined || userProfile.userName === '' || userProfile.userName === 'Human') {
                     await dc.context.sendActivity(`Hello, I'm the Contoso Cafe Bot.`);
                     await this.resetTurnCounter(dc.context);
@@ -200,10 +201,7 @@ class MainDialog extends ComponentDialog {
             }
         }
     }
-    async findEntity(entitiesCollection, entityName) {
-        return 
-        
-    }
+    
     async resetTurnCounter(context) {
         this.turnCounterPropertyAccessor.set(context, 0);
     }
