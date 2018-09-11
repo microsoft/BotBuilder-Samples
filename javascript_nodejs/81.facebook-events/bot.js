@@ -47,7 +47,7 @@ class FacebookEventsBot {
             const text = turnContext.activity.text;
 
             // Check if we are on the Facebook channel.
-            if (turnContext.activity.channelId == 'emulator') {
+            if (turnContext.activity.channelId == 'facebook') {
 
                 // Analyze Facebook payload from channel data.
                 processFacebookPayload(turnContext.activity.channelData);
