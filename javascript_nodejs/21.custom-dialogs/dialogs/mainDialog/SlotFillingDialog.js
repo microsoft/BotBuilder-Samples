@@ -29,6 +29,9 @@ class SlotFillingDialog extends Dialog {
             return await Dialog.EndOfTurn;
         }
 
+        // Initialize a spot to store these values.
+        dc.activeDialog.state[PersistedValues] = {};
+
         // Call runPrompt, which will find the next slot to fill.
         return await this.runPrompt(dc);
     }
