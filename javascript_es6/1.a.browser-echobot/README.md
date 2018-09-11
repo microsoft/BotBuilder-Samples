@@ -1,10 +1,10 @@
-The example shows the use of the botbuilder-js SDK for the browser using the [BotFramework-WebChat](https://github.com/Microsoft/BotFramework-WebChat) and a custom [WebChatAdapter](/src/webChatAdapter.js). 
+The example shows the use of the `botbuilder-js` SDKs for the browser using the [BotFramework-WebChat](https://github.com/Microsoft/BotFramework-WebChat) and a custom [WebChatAdapter](/src/webChatAdapter.js). 
 After running the bot, to see it in action, visit `http://localhost:8080`.
 
 ## To try this sample
 - Clone the repository
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
+    git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 - In a terminal, navigate to javascript_es6\1.a.browser-echobot
     ```bash
@@ -27,10 +27,10 @@ After running the bot, to see it in action, visit `http://localhost:8080`.
 
 # Adapters
 Developers can use the [BotAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter) abstract base class to implement their own custom adapters.
-Implementing a custom adapter allows users to connect bots to connect to channels not supported by the [Bot Framework](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0).
+Implementing a custom adapter allows users to connect bots to channels not supported by the [Bot Framework](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0).
 In this sample, a custom [WebChatAdapter](./src/WebChatAdapter.js) has been implemented so that the entirety of the bot is hosted in a user's browser.
 
-Hosting a bot in a user's browser provides these benefits:
+Hosting a bot in the browser provides these benefits:
 - A bot hosted in the user's browser has improved latency as there is no round-trip from the browser to a server hosting the bot.
 - One engineering team in charge of bot design and the website. This can lead towards a more integrated UX and speed up development.
 - A browser hosted bot can offload some of the work done by your servers by passing it to the user's machine.

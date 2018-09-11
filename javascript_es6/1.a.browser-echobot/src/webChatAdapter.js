@@ -34,7 +34,7 @@ export class WebChatAdapter extends BotAdapter {
 
     /**
      * This WebChatAdapter implements the sendActivities method which is called by the TurnContext class.
-     * It's also possible to write a custom Context class with different methods of accessing an adapter.
+     * It's also possible to write a custom TurnContext with different methods of accessing an adapter.
      * @param {TurnContext} context
      * @param {Activity[]} activities
      */
@@ -50,8 +50,6 @@ export class WebChatAdapter extends BotAdapter {
 
         sentActivities.forEach(activity => this.activity$.next(activity));
 
-        // Returns a mock of the ResourceResponse (https://github.com/Microsoft/botbuilder-js/blob/master/libraries/botframework-schema/src/index.ts#L605-L616)
-        // to the bot.
         return Promise.resolve(sentActivities.map(activity => {
             id: activity.id
         }));
