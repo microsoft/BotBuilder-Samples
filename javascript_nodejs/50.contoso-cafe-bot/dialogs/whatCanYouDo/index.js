@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 const { DialogTurnStatus } = require('botbuilder-dialogs');
-const { CardFactory } = require('botbuilder');
+const { CardFactory, MessageFactory } = require('botbuilder');
 
 const turnResult = require('../shared/turnResult');
 const helpCard = require('./resources/whatCanYouDoCard.json');
+const getQuerySuggestions = require('../shared/genSuggestedQueries');
 
 // This dialog's name. Also matches the name of the intent from ../mainDialog/resources/cafeDispatchModel.lu
 // LUIS recognizer replaces spaces ' ' with '_'. So intent name 'Who are you' is recognized as 'Who_are_you'.
@@ -22,6 +23,7 @@ class WhatCanYouDoDialog {
      */
     async onTurn(context) {
         await context.sendActivity({ attachments: [CardFactory.adaptiveCard(helpCard)]});
+        await context.sendActivity(MessageFactory.suggestedActions(getQuerySuggestions(), `Pick a query from the card or you can use the suggestions below.`));
         return new turnResult(DialogTurnStatus.complete);
     }
 };

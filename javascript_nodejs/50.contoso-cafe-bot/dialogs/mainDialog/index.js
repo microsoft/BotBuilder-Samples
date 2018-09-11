@@ -14,6 +14,8 @@ const CancelDialog = require('../cancel');
 const FindCafeLocationsDialog = require('../findCafeLocations');
 const WhatCanYouDoDialog = require('../whatCanYouDo');
 
+const getQuerySuggestions = require('../shared/genSuggestedQueries');
+
 // User name entity from ../whoAreYou/resources/whoAreYou.lu
 const USER_NAME = 'userName_patternAny';
 
@@ -124,7 +126,7 @@ class MainDialog extends ComponentDialog {
                     }
                 } else {
                     // The active dialog's stack ended with a complete status
-                    await dc.context.sendActivity(MessageFactory.suggestedActions([`What can you do?`], `Is there anything else I can help you with?`));
+                    await dc.context.sendActivity(MessageFactory.suggestedActions(getQuerySuggestions(), `Is there anything else I can help you with?`));
                     // End active dialog
                     await dc.end();
                     break;
@@ -136,7 +138,7 @@ class MainDialog extends ComponentDialog {
             }
             case DialogTurnStatus.cancelled: {
                 // The active dialog's stack has been cancelled
-                await dc.context.sendActivity(MessageFactory.suggestedActions([`What can you do?`], `Is there anything else I can help you with?`));
+                await dc.context.sendActivity(MessageFactory.suggestedActions(getQuerySuggestions(), `Is there anything else I can help you with?`));
                 // End active dialog
                 await dc.cancelAll();
                 break;
