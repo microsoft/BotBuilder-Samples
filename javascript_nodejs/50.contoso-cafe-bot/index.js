@@ -4,7 +4,7 @@
 const path = require('path');
 const restify = require('restify');
 
-const CONFIG_ERROR = 1;
+const BOT_CONFIGURATION_ERROR = 1;
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState, BotStateSet } = require('botbuilder');
@@ -37,7 +37,7 @@ try {
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
 } catch (err) {
     console.log(`Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment`);
-    process.exit(CONFIG_ERROR);
+    process.exit(BOT_CONFIGURATION_ERROR);
 }
 
 // Bot configuration section in the .bot file.
@@ -81,7 +81,7 @@ try {
     myBot = new Bot(conversationState, userState, botConfig);
 } catch (err) {
     console.log(err);
-    process.exit(CONFIG_ERROR);
+    process.exit(BOT_CONFIGURATION_ERROR);
 }
 
 // Listen for incoming requests.

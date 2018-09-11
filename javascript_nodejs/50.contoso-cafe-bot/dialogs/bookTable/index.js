@@ -4,9 +4,9 @@ const { DialogTurnStatus, WaterfallDialog, ComponentDialog, DialogSet, DateTimeP
 
 const getLocationDateTimePartySizeDialog = require('../shared/dialogs/getLocDateTimePartySizeDialog');
 const confirmDialog = require('../shared/dialogs/confirmDialog');
-const onTurnProperty = require('../shared/stateProperties/onTurnProperty');
+const { onTurnProperty, reservationProperty } = require('../shared/stateProperties');
 const turnResult = require('../shared/turnResult');
-const ReservationProperty = require('../shared/stateProperties/reservationProperty');
+
 // This dialog's name. Also matches the name of the intent from ../mainDialog/resources/cafeDispatchModel.lu
 // LUIS recognizer replaces spaces ' ' with '_'. So intent name 'Who are you' is recognized as 'Who_are_you'.
 const BOOK_TABLE = 'Book_Table';
@@ -102,10 +102,10 @@ class BookTableDialog extends ComponentDialog {
                 newReservation.updateProperties(onTurnProperties);
             } else {
                 // Static method that returns a reservation property with onTurnproperties passed in.
-                newReservation = ReservationProperty.fromOnTurnProperty(onTurnProperties);
+                newReservation = reservationProperty.fromOnTurnProperty(onTurnProperties);
             }
         } else {
-            newReservation = new ReservationProperty();
+            newReservation = new reservationProperty();
         }
         // Set reservation property
         this.reservationsPropertyAccessor.set(dc.context, newReservation);

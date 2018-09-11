@@ -1,1 +1,6 @@
-module.exports = require('./resources/welcomeCard.json');
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+const WelcomeCard = require('./resources/welcomeCard.json');
+
+module.exports = WelcomeCard;

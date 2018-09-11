@@ -3,7 +3,7 @@
 const { ComponentDialog, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
 
 const getUserNamePrompt = require('../shared/prompts/getUserNamePrompt');
-const onTurnProperty = require('../shared/stateProperties/onTurnProperty');
+const { onTurnProperty } = require('../shared/stateProperties');
 const turnResult = require('../shared/turnResult');
 
 // This dialog's name. Also matches the name of the intent from ../mainDialog/resources/cafeDispatchModel.lu

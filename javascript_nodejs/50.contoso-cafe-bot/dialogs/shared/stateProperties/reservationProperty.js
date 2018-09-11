@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const LUIS_ENTITIES = require('../luisEntities');
-const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
+//const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
 
 class ReservationProperty {
     /**

@@ -7,8 +7,8 @@ const { LuisRecognizer } = require('botbuilder-ai');
 
 const MainDialog = require('./dialogs/mainDialog');
 const welcomeCard = require('./dialogs/welcome');
-const onTurnProperty = require('./dialogs/shared/stateProperties/onTurnProperty');
-const entityProperty = require('./dialogs/shared/stateProperties/entityProperty');
+
+const { entityProperty, onTurnProperty } = require('./dialogs/shared/stateProperties');
 
 // LUIS service type entry in the .bot file for dispatch.
 const LUIS_CONFIGURATION = 'cafeDispatchModel';
@@ -29,9 +29,9 @@ class Bot {
      * 
      */
     constructor (conversationState, userState, botConfig) {
-        if(!conversationState) throw ('Need converstaion state');
-        if(!userState) throw ('Need user state');
-        if(!botConfig) throw ('Need bot config');
+        if(!conversationState) throw ('Missing parameter. conversationState is required');
+        if(!userState) throw ('Missing parameter. userState is required');
+        if(!botConfig) throw ('Missing parameter. botConfig is required');
 
         // Create state property accessors.
         this.onTurnPropertyAccessor = conversationState.createProperty(ON_TURN_PROPERTY);
@@ -39,7 +39,7 @@ class Bot {
         
         // add recogizers
         const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
-        if(!luisConfig || !luisConfig.appId) throw (`Home automation LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
+        if(!luisConfig || !luisConfig.appId) throw (`Cafe Dispatch LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
         this.luisRecognizer = new LuisRecognizer({
             applicationId: luisConfig.appId,
             azureRegion: luisConfig.region,

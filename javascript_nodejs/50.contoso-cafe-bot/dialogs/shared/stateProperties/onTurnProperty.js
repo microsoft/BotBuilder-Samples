@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-const entityProperty = require('./entityProperty');
+
+const { entityProperty } = require('./index');
 
 /**
  * On turn property class.

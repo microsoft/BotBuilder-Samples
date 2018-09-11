@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ComponentDialog, DialogTurnStatus, WaterfallDialog, DialogSet } = require('botbuilder-dialogs');
+const { ComponentDialog, DialogTurnStatus, DialogSet } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
 const MAIN_DIALOG = 'MainDialog';
 const DialogTurnResult = require('../shared/turnResult');
-const propertyAccessors = require('./mainDialogPropAccessors');
 const BookTableDialog = require('../bookTable');
 const WhoAreYouDialog = require('../whoAreYou');
 const QnADialog = require('../qna');
@@ -21,41 +20,58 @@ const USER_NAME = 'userName_patternAny';
 // Query property from ../whatCanYouDo/resources/whatCanYHouDoCard.json
 // When user responds to what can you do card, a query property is set in response.
 const QUERY_PROPERTY = 'query';
-const userProfileProperty = require('../shared/stateProperties/userProfileProperty');
+const { userProfileProperty } = require('../shared/stateProperties');
+
+
+const USER_PROFILE_PROPERTY = 'userProfile';
+const USER_RESERVATIONS_PROPERTY = 'userReservations';
+const USER_QUERY_PROPERTY = 'userQuery';
+const BOOK_TABLE_DIALOG_PROPERTY = 'bookTableDialog';
+const MAIN_DIALOG_STATE_PROPERTY = 'mainDialogState';
+const TURN_COUNTER_PROPERTY = 'turnCounter';
+
 class MainDialog extends ComponentDialog {
 
     constructor(botConfig, onTurnPropertyAccessor, conversationState, userState) {
         super(MAIN_DIALOG)
-        if(!botConfig) throw ('Need bot config');
-        if(!onTurnPropertyAccessor) throw ('Need on turn property accessor');
+        if(!botConfig) throw ('Missing parameter. botConfig is required');
+        if(!onTurnPropertyAccessor) throw ('Missing parameter. onTurnPropertyAccessor is required');
+        if(!conversationState) throw ('Missing parameter. conversationState is required');
+        if(!userState) throw ('Missing parameter. userState is required');
 
         // Create state objects for user, conversation and dialog states.   
-        this.propertyAccessors = new propertyAccessors(conversationState, userState);
+        this.userProfilePropertyAccessor = userState.createProperty(USER_PROFILE_PROPERTY);
+        this.reservationsPropertyAccessor = userState.createProperty(USER_RESERVATIONS_PROPERTY);
+        this.userQueryPropertyAccessor = userState.createProperty(USER_QUERY_PROPERTY);
+        this.mainDialogPropertyAccessor = conversationState.createProperty(MAIN_DIALOG_STATE_PROPERTY);
+        this.turnCounterPropertyAccessor = conversationState.createProperty(TURN_COUNTER_PROPERTY);
+        this.bookTableDialogPropertyAccessor = conversationState.createProperty(BOOK_TABLE_DIALOG_PROPERTY);
+
         // keep on turn accessor and bot configuration
         this.onTurnPropertyAccessor = onTurnPropertyAccessor;
         this.botConfig = botConfig;
         // add dialogs
-        this.dialogs = new DialogSet(this.propertyAccessors.mainDialogPropertyAccessor);
+        this.dialogs = new DialogSet(this.mainDialogPropertyAccessor);
         // add book table dialog
-        this.dialogs.add(new BookTableDialog(botConfig, 
-                                             this.propertyAccessors.reservationsPropertyAccessor, 
-                                             this.propertyAccessors.turnCounterPropertyAccessor, 
+        /*this.dialogs.add(new BookTableDialog(botConfig, 
+                                             this.reservationsPropertyAccessor, 
+                                             this.turnCounterPropertyAccessor, 
                                              onTurnPropertyAccessor, 
-                                             this.propertyAccessors.bookTableDialogPropertyAccessor, 
+                                             this.bookTableDialogPropertyAccessor, 
                                              conversationState));
-        
+        */
         // add cancel dialog
         this.dialogs.add(new CancelDialog());
         // add QnA dialog. This serves help, qna and chit chat.
-        this.qnaDialog = new QnADialog(botConfig, this.propertyAccessors.userProfilePropertyAccessor);
+        this.qnaDialog = new QnADialog(botConfig, this.userProfilePropertyAccessor);
         // add find cafe locations dialog.
         this.findCafeLocationsDialog = new FindCafeLocationsDialog();
         // add what can you dialog.
         this.whatCanYouDoDialog = new WhatCanYouDoDialog();
         // add who are you dialog
         this.dialogs.add(new WhoAreYouDialog(botConfig, 
-                                             this.propertyAccessors.userProfilePropertyAccessor, 
-                                             this.propertyAccessors.turnCounterPropertyAccessor));
+                                             this.userProfilePropertyAccessor, 
+                                             this.turnCounterPropertyAccessor));
     }
 
     async onDialogBegin(dc, options) {
@@ -146,7 +162,7 @@ class MainDialog extends ComponentDialog {
                 return await dc.begin(BookTableDialog.Name, childDialogPayload);
             } case WhoAreYouDialog.Name: {
                 // Get user profile.
-                let userProfile = await this.propertyAccessors.userProfilePropertyAccessor.get(dc.context);
+                let userProfile = await this.userProfilePropertyAccessor.get(dc.context);
                 // Handle case where user is re-introducing themselves. 
                 // These utterances are defined in ../whoAreYou/resources/whoAreYou.lu 
                 let userNameInOnTurnProperty = (onTurnProperty.entities || []).filter(item => item.entityName == USER_NAME);
@@ -154,7 +170,7 @@ class MainDialog extends ComponentDialog {
                     let userName = userNameInOnTurnProperty[0].entityValue[0];
                     // capitalize user name   
                     userName = userName.charAt(0).toUpperCase() + userName.slice(1);
-                    this.propertyAccessors.userProfilePropertyAccessor.set(dc.context, new userProfileProperty(userName));
+                    this.userProfilePropertyAccessor.set(dc.context, new userProfileProperty(userName));
                     return await dc.context.sendActivity(`Hello ${userName}, Nice to meet you again! I'm the Contoso Cafe Bot.`);
                 }
                 if(userProfile === undefined || userProfile.userName === '' || userProfile.userName === 'Human') {
@@ -189,7 +205,7 @@ class MainDialog extends ComponentDialog {
         
     }
     async resetTurnCounter(context) {
-        this.propertyAccessors.turnCounterPropertyAccessor.set(context, 0);
+        this.turnCounterPropertyAccessor.set(context, 0);
     }
 
     async isRequestedOperationPossible(dc, requestedOperation) {

@@ -4,7 +4,7 @@ const { TextPrompt } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
 
-const userProfile = require('../stateProperties/userProfileProperty');
+const { userProfileProperty } = require('../stateProperties');
 
 // LUIS service type entry for the get user profile LUIS model in the .bot file.
 const LUIS_CONFIGURATION = 'getUserProfile';
@@ -57,7 +57,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                 switch(topIntent) {
                     case NO_NAME_INTENT: {
                         // set user name in profile to Human
-                        this.userProfilePropertyAccessor.set(turnContext, new userProfile('Human'));
+                        this.userProfilePropertyAccessor.set(turnContext, new userProfileProperty('Human'));
                         await turnContext.sendActivity(`No worries. Hello Human, nice to meet you!`);
                         await turnContext.sendActivity(`You can always say 'My name is <your name>' to introduce yourself to me.`);
                         step.end(value);
@@ -69,7 +69,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                             let userName = LUISResults.entities[USER_NAME][0];
                             // capitalize user name   
                             userName = userName.charAt(0).toUpperCase() + userName.slice(1);
-                            this.userProfilePropertyAccessor.set(turnContext, new userProfile(userName));
+                            this.userProfilePropertyAccessor.set(turnContext, new userProfileProperty(userName));
                             await turnContext.sendActivity(`Hey there ${userName}!. Nice to meet you!`);
                             step.end(value);
                         } else {
@@ -86,7 +86,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                         let userName = value;
                         // capitalize user name   
                         userName = userName.charAt(0).toUpperCase() + userName.slice(1);
-                        this.userProfilePropertyAccessor.set(turnContext, new userProfile(userName));
+                        this.userProfilePropertyAccessor.set(turnContext, new userProfileProperty(userName));
                         await turnContext.sendActivity(`Hey there ${userName}!. Nice to meet you!`);
                         step.end(value);
                         break;
