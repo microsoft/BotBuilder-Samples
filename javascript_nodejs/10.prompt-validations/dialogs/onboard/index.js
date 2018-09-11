@@ -32,73 +32,21 @@ class OnboardingDialog extends ComponentDialog {
     constructor (dialogId, userProfile) {
         super(dialogId);
 
+        this.userProfile = userProfile;
+
         // Create a dialog flow that captures a series of values from a user.
         this.addDialog(new WaterfallDialog(START_DIALOG,[
-            // If a user name is already set, switch to the HELLO_USER dialog.
-            // Otherwise, continue with collecting values from the user.
-            async (dc, step) => {
-                const user = await userProfile.get(dc.context, {});
-                if (user.name) {
-                    return dc.replace(HELLO_USER);
-                } else {
-                    return await dc.prompt(GET_NAME_PROMPT, `What is your name, human?`);
-                }
-            },
-            // Collect user name, then prompt for age. 
-            async (dc, step) => {
-                // Capture the response from the previous turn in step.values
-                // which will be stored through the end of the dialog.
-                step.values[USER_NAME_PROPERTY] = step.result;
-                return await dc.prompt(GET_AGE_PROMPT, `What is your age?`);
-            },
-            // Collect age, then prompt for date of birth.
-            async (dc, step) => {
-                step.values[AGE_PROPERTY] = step.result;
-                return await dc.prompt(GET_DOB_PROMPT, `What is your date of birth?`);
-            },
-            // Collect date of birth, then prompt for favorite color.
-            async (dc, step) => {
-                step.values[DOB_PROPERTY] = step.result;
-                const choices = ['red','blue','green'];
-                return await dc.prompt(GET_COLOR_PROMPT, `Finally, what is your favorite color?`, choices);
-            },
-            // Collect favorite color and continue.
-            async (dc, step) => {
-                step.values[COLOR_PROPERTY] = step.result;
-                return await step.next();
-            },
-            // With all values in hand, we can now store them in our model and complete.
-            async (dc, step) => {
-                const user = await userProfile.get(dc.context, {});
-
-                // Extract collected values and add them to the user profile object.
-                user[USER_NAME_PROPERTY] = step.values[USER_NAME_PROPERTY];
-                user[AGE_PROPERTY] =  step.values[AGE_PROPERTY];
-                user[DOB_PROPERTY] =  step.values[DOB_PROPERTY];
-                user[COLOR_PROPERTY] =  step.values[COLOR_PROPERTY];
-                await userProfile.set(dc.context, user);
-        
-                await dc.context.sendActivity(`Your profile is complete! Thank you.`);
-
-                // Transition to the display of the profile data.
-                return await dc.begin(HELLO_USER);
-            }
+            this.promptForName.bind(this),
+            this.promptForAge.bind(this),
+            this.promptForDob.bind(this),
+            this.promptForColor.bind(this),
+            this.captureColor.bind(this),
+            this.completeProfile.bind(this)
         ]));
 
         // This dialog loads and displays the information previously provided by the user.
         this.addDialog(new WaterfallDialog(HELLO_USER, [
-            async (dc, step) => {
-                const user = await userProfile.get(dc.context, {});
-
-                const text = [
-                    `You asked me to call you "${ user[USER_NAME_PROPERTY] }".`,
-                    `You were born on ${ moment(user[DOB_PROPERTY]).format("MMM Do, YYYY") } and claim to be ${ user[AGE_PROPERTY] }.`,
-                    `Your favorite color is ${ user[COLOR_PROPERTY] }.`
-                ];
-
-                await dc.context.sendActivity(text.join(' '));
-                return await dc.end();
-            }
+            this.displayProfile.bind(this)
         ]));
 
         // Add prompts
@@ -114,6 +62,76 @@ class OnboardingDialog extends ComponentDialog {
         // GET_COLOR_PROMPT provides a validation error when a valid choice is not made.
         this.addDialog(new ColorPrompt(GET_COLOR_PROMPT));
     }
+
+    // If a user name is already set, switch to the HELLO_USER dialog.
+    // Otherwise, continue with collecting values from the user.
+    async promptForName(dc, step) {
+        const user = await this.userProfile.get(dc.context, {});
+        if (user.name) {
+            return dc.replace(HELLO_USER);
+        } else {
+            return await dc.prompt(GET_NAME_PROMPT, `What is your name, human?`);
+        }
+    }
+
+    // Collect user name, then prompt for age. 
+    async promptForAge (dc, step) {
+        // Capture the response from the previous turn in step.values
+        // which will be stored through the end of the dialog.
+        step.values[USER_NAME_PROPERTY] = step.result;
+        return await dc.prompt(GET_AGE_PROMPT, `What is your age?`);
+    }
+
+    // Collect age, then prompt for date of birth.
+    async promptForDob(dc, step) {
+        step.values[AGE_PROPERTY] = step.result;
+        return await dc.prompt(GET_DOB_PROMPT, `What is your date of birth?`);
+    }
+
+    // Collect date of birth, then prompt for favorite color.
+    async promptForColor(dc, step) {
+        step.values[DOB_PROPERTY] = step.result;
+        const choices = ['red','blue','green'];
+        return await dc.prompt(GET_COLOR_PROMPT, `Finally, what is your favorite color?`, choices);
+    }
+
+    // Collect favorite color and continue.
+    async captureColor(dc, step) {
+        step.values[COLOR_PROPERTY] = step.result;
+        return await step.next();
+    }
+
+    // With all values in hand, we can now store them in our model and complete.
+    async completeProfile(dc, step) {
+        const user = await this.userProfile.get(dc.context, {});
+
+        // Extract collected values and add them to the user profile object.
+        user[USER_NAME_PROPERTY] = step.values[USER_NAME_PROPERTY];
+        user[AGE_PROPERTY] =  step.values[AGE_PROPERTY];
+        user[DOB_PROPERTY] =  step.values[DOB_PROPERTY];
+        user[COLOR_PROPERTY] =  step.values[COLOR_PROPERTY];
+        await this.userProfile.set(dc.context, user);
+
+        await dc.context.sendActivity(`Your profile is complete! Thank you.`);
+
+        // Transition to the display of the profile data.
+        return await dc.begin(HELLO_USER);
+    }
+
+    async displayProfile(dc, step) {
+        const user = await this.userProfile.get(dc.context, {});
+
+        const text = [
+            `You asked me to call you "${ user[USER_NAME_PROPERTY] }".`,
+            `You were born on ${ moment(user[DOB_PROPERTY]).format("MMM Do, YYYY") } and claim to be ${ user[AGE_PROPERTY] }.`,
+            `Your favorite color is ${ user[COLOR_PROPERTY] }.`
+        ];
+
+        await dc.context.sendActivity(text.join(' '));
+        return await dc.end();
+    }
+
+
 }
 
 module.exports = OnboardingDialog;
