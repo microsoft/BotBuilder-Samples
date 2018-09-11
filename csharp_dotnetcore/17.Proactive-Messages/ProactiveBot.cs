@@ -105,7 +105,7 @@ namespace Microsoft.BotBuilderSamples
                                 "| Job number &nbsp; | Conversation ID &nbsp; | Completed |<br>" +
                                 "| :--- | :---: | :---: |<br>" +
                                 string.Join("<br>", jobLog.Values.Select(j =>
-                                    $"| {j.TimeStamp} &nbsp; | {j.Conversation.Conversation.Id} &nbsp; | {j.Completed} |")));
+                                    $"| {j.TimeStamp} &nbsp; | {j.Conversation.Conversation.Id.Split('|')[0]} &nbsp; | {j.Completed} |")));
                         }
                         else
                         {
@@ -203,6 +203,12 @@ namespace Microsoft.BotBuilderSamples
 
                 // Perform bookkeeping.
                 jobLog[jobInfo.TimeStamp].Completed = true;
+
+                // Set the new property
+                await StateAccessors.JobLogData.SetAsync(turnContext, jobLog);
+
+                // Now save it into the JobState
+                await StateAccessors.JobState.SaveChangesAsync(turnContext);
 
                 // Send the user a proactive confirmation message.
                 await turnContext.SendActivityAsync($"Job {jobInfo.TimeStamp} is complete.");
