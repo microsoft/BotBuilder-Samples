@@ -1,7 +1,7 @@
 {
-  "name": "prompt-validations-bot",
+  "name": "proactive-messaging-bot",
   "version": "1.0.0",
-  "description": "Bot Builder v4 prompt sample with validation functions",
+  "description": "Bot Builder v4 sample with proactive messaging",
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
@@ -12,7 +12,6 @@
   "license": "MIT",
   "dependencies": {
     "botbuilder": "^4.0.0-preview1.1140",
-    "botbuilder-core": "^4.0.0-preview1.1140",
     "botbuilder-dialogs": "^4.0.0-preview1.1140",
     "botframework-config": "^4.0.0-preview1.1140",
     "dotenv": "^6.0.0",
