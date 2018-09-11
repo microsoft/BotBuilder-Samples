@@ -12,8 +12,13 @@
     /// <summary>Defines the bot for the persisting user data tutorial.</summary>
     public class UserDataBot : IBot
     {
+        private UserState UserStateObject { get; }
+
         /// <summary>The state property accessor for user data.</summary>
         private IStatePropertyAccessor<UserData> UserDataAccessor { get; }
+        private ConversationState ConvStateObject { get; }
+
+        public IStatePropertyAccessor<DialogState> GreetingsStateAccessor { get; }
 
         /// <summary>The dialog set that has the dialog to use.</summary>
         private GreetingsDialog GreetingsDialog { get; }
@@ -24,13 +29,15 @@
         public UserDataBot(ConversationState conversationState, UserState userState)
         {
             // Create the state property accessor for the user profile.
+            UserStateObject = userState;
             UserDataAccessor = userState.CreateProperty<UserData>("UserDataBot.UserData");
 
             // Create the state property accessor for the greetings dialog.
-            var dialogStateAccessor = conversationState.CreateProperty<DialogState>("UserDataBot.DialogState");
+            ConvStateObject = conversationState;
+            GreetingsStateAccessor = conversationState.CreateProperty<DialogState>("UserDataBot.Greetings.DialogState");
 
             // Create the greetings dialog. 
-            GreetingsDialog = new GreetingsDialog(dialogStateAccessor);
+            GreetingsDialog = new GreetingsDialog(GreetingsStateAccessor);
         }
 
         /// <summary>Handles incoming activities to the bot.</summary>
@@ -82,6 +89,9 @@
                         {
                             // If it completes successfully and returns a valid name, save the name and greet the user.
                             userData.Name = name;
+                            await UserDataAccessor.SetAsync(turnContext, userData);
+                            await UserStateObject.SaveChangesAsync(turnContext);
+
                             await turnContext.SendActivityAsync($"Pleased to meet you {userData.Name}.");
                         }
                     }
@@ -102,10 +112,16 @@
 
                     // Delete the user's data.
                     userData.Name = null;
+                    await UserDataAccessor.SetAsync(turnContext, userData);
+                    await UserStateObject.SaveChangesAsync(turnContext);
+
                     await turnContext.SendActivityAsync("I have deleted your user data.");
 
                     break;
             }
+
+            // The Dialo
+            await ConvStateObject.SaveChangesAsync(turnContext);
         }
     }
 }

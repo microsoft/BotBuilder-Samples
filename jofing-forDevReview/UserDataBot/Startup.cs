@@ -55,25 +55,22 @@
                         CosmosDBEndpoint = new Uri(CosmosSettings["EndpointUri"]),
                         DatabaseId = CosmosSettings["DatabaseID"],
                     });
-                var conversationState = new ConversationState(storage);
-                var userState = new UserState(storage);
-                options.Middleware.Add(new BotStateSet(conversationState, userState));
+                options.State.Add(new ConversationState(storage));
+                options.State.Add(new UserState(storage));
             });
 
             // Register conversation state middleware.
             services.AddSingleton(sp =>
             {
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
-                var stateSet = options.Middleware.OfType<BotStateSet>().FirstOrDefault();
-                return stateSet.BotStates.OfType<ConversationState>().FirstOrDefault();
+                return options.State.OfType<ConversationState>().FirstOrDefault();
             });
 
             // Register user state middleware.
             services.AddSingleton(sp =>
             {
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
-                var stateSet = options.Middleware.OfType<BotStateSet>().FirstOrDefault();
-                return stateSet.BotStates.OfType<UserState>().FirstOrDefault();
+                return options.State.OfType<UserState>().FirstOrDefault();
             });
         }
 
