@@ -106,8 +106,8 @@ class FacebookEventsBot {
 /**
  * Process a Facebook payload from channel data, to handle optin events, postbacks and quick replies.
  * NOTE: This is a simplification of the Facebook object model. There are many more events and payloads
- * that could be captured here. We only show some key features that are commonly used. The <see cref="FacebookPayload"/> class
- * can be extended to account for more complete models according to developers' needs.
+ * that could be captured here. We only show some key features that are commonly used. The sample
+ * can be extended to account for more Facebook-specific events according to developers' needs.
  * @param {string} channelData Channel data for the current turn.
  */
 function processFacebookPayload(channelData) {
