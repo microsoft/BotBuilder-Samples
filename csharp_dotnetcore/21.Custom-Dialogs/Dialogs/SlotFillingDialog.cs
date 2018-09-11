@@ -28,12 +28,12 @@ namespace Microsoft.BotBuilderSamples
         private const string PersistedValues = "values";
 
         // The list of slots defines the properties to collect and the dialogs to use to collect them.
-        private List<SlotDetails> _slots;
+        private readonly List<SlotDetails> _slots;
 
         public SlotFillingDialog(string dialogId, List<SlotDetails> slots)
             : base(dialogId)
         {
-            _slots = slots;
+            _slots = slots ?? throw new ArgumentNullException(nameof(slots));
         }
 
         /// <summary>
