@@ -92,6 +92,16 @@ ReservationProperty.fromOnTurnProperty = function(onTurnProperty) {
     return validate(onTurnProperty, returnResult);
 };
 
+/**
+ * Static method to create a new instance of Reservation property based on a JSON object
+ * @param {Object} obj 
+ * @returns {ReservationProperty} object
+ */
+ReservationProperty.fromJSON = function(obj) {
+    if(obj === undefined) return new ReservationProperty();
+    const { id, date, time, partySize, location } = obj;
+    return new ReservationProperty(id, date, time, partySize, location);
+}
 module.exports = ReservationProperty;
 /**
  * HELPERS

@@ -10,7 +10,7 @@
             "id": "http://localhost:3980/api/messages",
             "appId": "",
             "appPassword": "",
-            "endpoint": "http://localhost:3978/api/messages"
+            "endpoint": "http://localhost:3980/api/messages"
         },
         {
             "type": "luis",

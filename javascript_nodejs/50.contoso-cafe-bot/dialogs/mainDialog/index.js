@@ -101,14 +101,17 @@ class MainDialog extends ComponentDialog {
 
         dialogTurnResult = await dc.continue();
 
-        //if(dialogTurnResult.status !== DialogTurnStatus.empty) return dialogTurnResult;
+        // This will only be empty if there is no active dialog in the stack.
+        if(dialogTurnResult.status === DialogTurnStatus.empty) {
+            dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty);
+        }
 
         switch(dialogTurnResult.status) {
-            case DialogTurnStatus.empty: {
-                // begin right child dialog
-                dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty);
-                break;
-            }
+            // case DialogTurnStatus.empty: {
+            //     // begin right child dialog
+            //     dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty);
+            //     break;
+            // }
             case DialogTurnStatus.complete: {
                 if(dialogTurnResult.result) {
                     switch(dialogTurnResult.result.reason) {

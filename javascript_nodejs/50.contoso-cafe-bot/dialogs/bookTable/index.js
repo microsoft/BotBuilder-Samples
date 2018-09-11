@@ -10,11 +10,13 @@ const turnResult = require('../shared/turnResult');
 // This dialog's name. Also matches the name of the intent from ../mainDialog/resources/cafeDispatchModel.lu
 // LUIS recognizer replaces spaces ' ' with '_'. So intent name 'Who are you' is recognized as 'Who_are_you'.
 const BOOK_TABLE = 'Book_Table';
+const BOOK_TABLE_WATERFALL = 'bookTableWaterfall'
 const BOOK_TABLE_DIALOG_STATE = 'bookTable';
 const GET_LOCATION_DIALOG_STATE = 'getLocDialogState';
 const CONFIRM_DIALOG_STATE = 'confirmDialogState';
 
 const DIALOG_START = 'Start';
+const { ReservationOutcome, ReservationResult, reservationStatus } = require('../shared/createReservationPropertyResult');
 
 // Turn.N here refers to all back and forth conversations beyond the initial trigger until the book table dialog is completed or cancelled.
 const GET_LOCATION_DATE_TIME_PARTY_SIZE_PROMPT = 'getLocationDateTimePartySize';
@@ -52,6 +54,13 @@ class BookTableDialog extends ComponentDialog {
         // add dialogs
         this.dialogs = new DialogSet(this.bookTableDialogPropertyAccessor);
 
+        // Water fall dialog
+        this.addDialog(new WaterfallDialog(BOOK_TABLE_WATERFALL, [
+            this.getAllRequiredProperties,
+            this.confirmReservation,
+            this.bookTable
+        ]));
+
         // Get location, date, time & party size prompt.
         this.addDialog(new getLocationDateTimePartySizePrompt(GET_LOCATION_DATE_TIME_PARTY_SIZE_PROMPT,
                                                               botConfig, 
@@ -65,29 +74,50 @@ class BookTableDialog extends ComponentDialog {
                                            onTurnPropertyAccessor));
         
     }
-    async onDialogBegin(dc, options) {
-        // Override default begin() logic with bot orchestration logic
-        return await this.onDialogContinue(dc);
-    }
-
-    async onDialogContinue(dc) {
-        // Call active dialog and get results
-        let turnResults = await dc.continue();
-
-        if(turnResults.status === DialogTurnStatus.empty) {
-            // Begin the right dialog based on what we have in reservation
-            const newReservation = await this.reservationsPropertyAccessor.get(dc.context);
-            if(newReservation === undefined || !newReservation.haveCompleteReservationProperty()) {
-                return await dc.begin(GET_LOCATION_DATE_TIME_PARTY_SIZE_PROMPT);
+    
+    async getAllRequiredProperties(dc, step) {
+        // Get current reservation property from accessor
+        const newReservation = await this.reservationsPropertyAccessor.get(dc.context);
+        // Get on turn property (includes LUIS entities captured by parent)
+        const onTurnProperty = await this.onTurnPropertyAccessor.get(dc.context);
+        let reservationResult;
+        if(onTurnProperty !== undefined) {
+            if(newReservation !== undefined) {
+                // update reservation object and gather results.
+                reservationResult = newReservation.updateProperties(onTurnProperty);
             } else {
-                // Move on to confirm the reservation.
-                return await dc.begin(confirmDialog.Name)
+                reservationResult = reservationProperty.fromOnTurnProperty(onTurnProperty);
             }
-        } else {
-            // handle interruptions.
         }
-        
+        // set reservation property 
+        this.reservationsPropertyAccessor.set(dc.context, reservationResult.newReservation);
+        // see if updadte reservtion resulted in errors, if so, report them to user. 
+        if(reservationResult &&
+            reservationResult.status === reservationStatus.INCOMPLETE &&
+            reservationResult.outcome !== undefined &&
+            reservationResult.outcome.length !== 0) {
+                // Start the prompt with the initial feedback based on update results.
+                return await dc.prompt(GET_LOCATION_DATE_TIME_PARTY_SIZE_PROMPT, reservationResult.outcome[0].message);
+        } else {
+            // Start the prompt with the first missing piece of information. 
+            return await dc.prompt(GET_LOCATION_DATE_TIME_PARTY_SIZE_PROMPT, reservationResult.newReservation.getMissingPropertyReadOut());
+        }
     }
+    // async onDialogContinue(dc) {
+    //     // Call active dialog and get results
+    //     let turnResults = await dc.continue();
+
+    //     if(turnResults.status === DialogTurnStatus.empty) {
+            
+    //     }
+
+    //     // handle interrupts, completions from child
+    //     return turnResult;
+    // }
+    // async onDialogBegin(dc, options) {
+    //     // Override default begin() logic with bot orchestration logic
+    //     return await this.onDialogContinue(dc);
+    // }
     
 };
 

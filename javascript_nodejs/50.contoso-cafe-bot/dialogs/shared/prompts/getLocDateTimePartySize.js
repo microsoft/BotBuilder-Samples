@@ -9,8 +9,10 @@ const PROMPT_NAME = 'GetLocationDateTimePartySize';
 
 // LUIS service type entry for turn.n book table LUIS model in the .bot file.
 const LUIS_CONFIGURATION = 'cafeBotBookTableTurnN';
+const turnResult = require('../turnResult');
 
 const { ReservationOutcome, ReservationResult, reservationStatus } = require('../createReservationPropertyResult');
+const { DialogTurnStatus } = require('botbuilder-dialogs');
 
 const { reservationProperty } = require('../stateProperties');
 
@@ -25,7 +27,70 @@ module.exports = class GetLocDateTimePartySizePrompt extends TextPrompt {
         if(!reservationsPropertyAccessor) throw ('Need user reservation property accessor');
         if(!onTurnPropertyAccessor) throw ('Need on turn property accessor');
         super(dialogId, async (turnContext, step) => { 
-            return await this.processInput(turnContext);
+            // get reservation property
+            let reservationFromState = await this.reservationsPropertyAccessor.get(turnContext);
+            let newReservation; 
+
+            if(reservationFromState === undefined) {
+                newReservation = new reservationProperty(); 
+            } else {
+                newReservation = reservationProperty.fromJSON(reservationFromState);
+            }
+            
+            // get on turn property
+            const onTurnProperties = await this.onTurnPropertyAccessor.get(turnContext);
+
+            // if on turn property has entities
+            let updateResult;
+            if(onTurnProperties !== undefined && onTurnProperties.entities && onTurnProperties.entities.length !== 0) {
+                // update reservation property with on turn property results
+                updateResult = newReservation.updateProperties(onTurnProperties);
+            }
+            // see if updadte reservtion resulted in errors, if so, report them to user. 
+            if(updateResult &&
+                updateResult.status === reservationStatus.INCOMPLETE &&
+                updateResult.outcome !== undefined &&
+                updateResult.outcome.length !== 0) {
+                    // set reservation property 
+                    this.reservationsPropertyAccessor.set(turnContext, updateResult.newReservation);
+                    // return and do not continue if there is an error.
+                    await turnContext.sendActivity(updateResult.outcome[0].message);
+            }
+            if(turnContext.activity.text !== undefined) {
+                // call LUIS and get results
+                const LUISResults = await this.luisRecognizer.recognize(turnContext); 
+                // update reservation property with LUIS results
+                updateResult = newReservation.updateProperties(onTurnProperty.fromLUISResults(LUISResults));
+                
+                // TODO: end if LUISResult is an interruption
+
+                
+            }
+            // see if updadte reservtion resulted in errors, if so, report them to user. 
+            if(updateResult &&
+                updateResult.status === reservationStatus.INCOMPLETE &&
+                updateResult.outcome !== undefined &&
+                updateResult.outcome.length !== 0) {
+                    // set reservation property 
+                    this.reservationsPropertyAccessor.set(turnContext, updateResult.newReservation);
+                    // return and do not continue if there is an error.
+                    await turnContext.sendActivity(updateResult.outcome[0].message);
+            }
+            
+            // set reservation property
+            if(updateResult !== undefined && updateResult.newReservation !== undefined) {
+                this.reservationsPropertyAccessor.set(turnContext, updateResult.newReservation);
+            }
+
+            // if we have a valid reservation, end this prompt. 
+            // else Get LG based on what's available in reservatio property 
+            if(newReservation.haveCompleteReservationProperty()) {
+                //return new turnResult(DialogTurnStatus.complete);
+                step.end(DialogTurnStatus.complete);
+            } else {
+                // Ask user for missing information
+                await turnContext.sendActivity(newReservation.getMissingPropertyReadOut());
+            }
         });
         this.reservationsPropertyAccessor = reservationsPropertyAccessor;
         this.onTurnPropertyAccessor = onTurnPropertyAccessor;
@@ -39,80 +104,5 @@ module.exports = class GetLocDateTimePartySizePrompt extends TextPrompt {
             // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
             endpointKey: luisConfig.authoringKey
         });
-    }
-
-    //onPrompt(context: TurnContext, state: any, options: PromptOptions, isRetry: boolean)
-    async onPrompt(context, state, options, isRetry) {
-        // override
-        await context.sendActivity('Book table!');
-        return await this.processInput(context);
-    }
-
-    async processInput(turnContext) {
-        // get reservation property
-        let newReservation = await this.reservationsPropertyAccessor.get(turnContext);
-
-        if(newReservation === undefined) newReservation = new reservationProperty();
-        
-        // get on turn property
-        const onTurnProperties = await this.onTurnPropertyAccessor.get(turnContext);
-
-        // if on turn property has entities
-        let updateResult;
-        if(onTurnProperties !== undefined && onTurnProperties.entities && onTurnProperties.entities.length !== 0) {
-            // update reservation property with on turn property results
-            if(newReservation !== undefined) {
-                updateResult = newReservation.updateProperties(onTurnProperties);
-            } else {
-                // Static method that returns a reservation property with onTurnproperties passed in.
-                updateResult = reservationProperty.fromOnTurnProperty(onTurnProperties);
-            }
-        }
-        // see if updadte reservtion resulted in errors, if so, report them to user. 
-        if(updateResult &&
-            updateResult.status === reservationStatus.INCOMPLETE &&
-            updateResult.outcome !== undefined &&
-            updateResult.outcome.length !== 0) {
-                // set reservation property 
-                this.reservationsPropertyAccessor.set(turnContext, updateResult.newReservation);
-                // return and do not continue if there is an error.
-                return await turnContext.sendActivity(updateResult.outcome[0].message);
-        }
-        if(turnContext.activity.text !== undefined) {
-            // call LUIS and get results
-            const LUISResults = await this.luisRecognizer.recognize(turnContext); 
-            // update reservation property with LUIS results
-            updateResult = newReservation.updateProperties(onTurnProperty.fromLUISResults(LUISResults));
-            
-            // TODO: end if LUISResult is an interruption
-
-            
-        }
-        // see if updadte reservtion resulted in errors, if so, report them to user. 
-        if(updateResult &&
-            updateResult.status === reservationStatus.INCOMPLETE &&
-            updateResult.outcome !== undefined &&
-            updateResult.outcome.length !== 0) {
-                // set reservation property 
-                this.reservationsPropertyAccessor.set(turnContext, updateResult.newReservation);
-                // return and do not continue if there is an error.
-                return await turnContext.sendActivity(updateResult.outcome[0].message);
-        }
-        
-        // set reservation property
-        if(updateResult !== undefined && updateResult.newReservation !== undefined) {
-            this.reservationsPropertyAccessor.set(turnContext, updateResult.newReservation);
-        }
-
-        // if we have a valid reservation, end this prompt. 
-        // else Get LG based on what's available in reservatio property 
-        if(newReservation.haveCompleteReservationProperty()) {
-            // TODO: this might have to be updated to be turnResult.
-            // step.end(newReservation);
-            return await turnContext.sendActivity(`have complete reservation`);
-        } else {
-            // Ask user for missing information
-            return await turnContext.sendActivity(newReservation.getMissingPropertyReadOut());
-        }
     }
 };
