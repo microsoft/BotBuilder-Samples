@@ -14,8 +14,7 @@ const reservationDateConstraints = [        /* Date for reservations must be    
 ];
 // Time constraints for reservations
 const reservationTimeConstraints = [    /* Time for reservations must be   */
-    creator.daytime,                    /* - daytime or                    */
-    creator.evening                     /* - evenigns                      */
+    creator.daytime                     /* - daytime or                    */
 ];
 
 class ReservationProperty {
@@ -32,6 +31,9 @@ class ReservationProperty {
         this.id = id ? id : get_guid();
         this.date = date ? date : '';
         this.time = time ? time : '';
+        this.dateLGString = '';
+        this.timeLGString = '';
+        this.dateTimeLGString = '';
         this.partySize = partySize ? partySize : 0;
         this.location = location ? location : '';
         this.metaData = metaData ? metaData : {};
@@ -66,25 +68,33 @@ ReservationProperty.fromOnTurnProperty = function(onTurnProperty) {
         // Take the first date time since book table scenario does not have to deal with multiple date times or date time ranges.
         if(dateTimeEntity.entityValue[0].timex && dateTimeEntity.entityValue[0].timex[0]) {
             let today = new Date();
-            // see if we have a valid date and time specified
-            const haveValidDateAndTime = resolver.evaluate(dateTimeEntity.entityValue[0].timex, reservationDateConstraints.concat(reservationTimeConstraints));
-            if(haveValidDateAndTime && haveValidDateAndTime.length !== 0) {
-                // we have valid date and time. Accept it.
-                let p = haveValidDateAndTime[0].toNaturalLanguage(today);
-            } else {
-                // see if the date meets our constraints
+            let parsedTimex = new TimexProperty(dateTimeEntity.entityValue[0].timex[0]);
+            // see if the date meets our constraints
+            if(parsedTimex.dayOfMonth !== undefined && parsedTimex.year  !== undefined && parsedTimex.month  !== undefined) {
                 const validDate = resolver.evaluate(dateTimeEntity.entityValue[0].timex, reservationDateConstraints);
                 if(validDate && validDate.length !== 0) {
                     // We have a valid date. Accept it.
-                    let p = validDate[0].toNaturalLanguage(today);
+                    // TODO: Make this into a fully formed date YYYY-MM-DD
+                    reservation.date = `${parsedTimex.year}-${parsedTimex.month}-${parsedTimex.dayOfMonth}`;
                 }
-                // see if the time meets our constraints
+            }
+            // see if the time meets our constraints
+            if(parsedTimex.hour !== undefined && parsedTimex.minute  !== undefined && parsedTimex.second  !== undefined) {
                 const validtime = resolver.evaluate(dateTimeEntity.entityValue[0].timex, reservationTimeConstraints);
                 if(validtime && validtime.length !== 0) {
                     // We have a valid time. Accept it.
-                    let p = validtime[0].toNaturalLanguage(today);
+                    // TODO: Make this into a fully formed time HH:MM:SS
+                    reservation.time = `${validtime[0].hour}:${validtime[0].minute}:${validtime[0].second}`;
                 }
-            }            
+            }
+            // Get date time LG string if we have both date and time            
+            if(reservation.date !== '' && reservation.time !== '') {
+                reservation.dateTimeLGString = parsedTimex.toNaturalLanguage(today);
+            } else if(reservation.date !== '') {
+                reservation.dateLGString = new TimexProperty(reservation.date).toNaturalLanguage(today);
+            } else if(reservation.time !== '') {
+                reservation.timeLGString = new TimexProperty('xxxx-xx-xxT' + reservation.time).toNaturalLanguage(today);
+            }
         }        
     }
     // Take the first found value.
