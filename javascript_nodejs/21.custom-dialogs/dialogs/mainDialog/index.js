@@ -47,7 +47,6 @@ class MainDialog {
             new SlotDetails('address', 'address')
         ];
 
-
         // Add the individual child dialogs and prompts used.
         // Note that the built-in prompts work hand-in-hand with our custom SlotFillingDialog class
         // because they are both based on the provided Dialog class.
@@ -130,13 +129,15 @@ class MainDialog {
                 }
             }
             
-            // Continue the current dialog if one is pending.
-            const results = await dc.continue();
+            if (!dc.context.responded) {
+                // Continue the current dialog if one is pending.
+                const results = await dc.continue();
+            }
 
-            // If no response has been sent, start the onboarding dialog.
-            if (results.status === DialogTurnStatus.empty) {
+            if (!dc.context.responded) {
+                // If no response has been sent, start the onboarding dialog.
                 await dc.begin('root');
-            } 
+            }
         } else if (
              turnContext.activity.type === ActivityTypes.ConversationUpdate &&
              turnContext.activity.membersAdded[0].name !== 'Bot'
