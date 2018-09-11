@@ -72,7 +72,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 // Get the job log.
                 // The job log is a dictionary of all outstanding jobs in the system.
-                JobLog jobLog = await StateAccessors.JobLogData.GetAsync(turnContext, () => new JobLog());
+                var jobLog = await StateAccessors.JobLogData.GetAsync(turnContext, () => new JobLog());
 
                 // Get the user's text input for the message.
                 var text = turnContext.Activity.Text.Trim().ToLowerInvariant();
@@ -82,7 +82,7 @@ namespace Microsoft.BotBuilderSamples
                     case "run job":
 
                         // Start a virtual job for the user.
-                        JobLog.JobData job = CreateJob(turnContext, jobLog);
+                        var job = CreateJob(turnContext, jobLog);
 
                         // Set the new property
                         await StateAccessors.JobLogData.SetAsync(turnContext, jobLog);
@@ -105,7 +105,16 @@ namespace Microsoft.BotBuilderSamples
                                 "| Job number &nbsp; | Conversation ID &nbsp; | Completed |<br>" +
                                 "| :--- | :---: | :---: |<br>" +
                                 string.Join("<br>", jobLog.Values.Select(j =>
-                                    $"| {j.TimeStamp} &nbsp; | {j.Conversation.Conversation.Id} &nbsp; | {j.Completed} |")));
+                                {
+                                    var conversation = j.Conversation.Conversation.Id;
+                                    var index = conversation.LastIndexOf("|");
+                                    if (index > 0)
+                                    {
+                                        conversation = conversation.Substring(0, index);
+                                    }
+
+                                    return $"| {j.TimeStamp} &nbsp; | {conversation} &nbsp; | {j.Completed} |";
+                                })));
                         }
                         else
                         {
@@ -116,12 +125,12 @@ namespace Microsoft.BotBuilderSamples
 
                     default:
                         // Check whether this is simulating a job completed event.
-                        string[] parts = text?.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                        var parts = text?.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                         if (parts != null && parts.Length == 2
                             && parts[0].Equals("done", StringComparison.InvariantCultureIgnoreCase)
-                            && long.TryParse(parts[1], out long jobNumber))
+                            && long.TryParse(parts[1], out var jobNumber))
                         {
-                            if (!jobLog.TryGetValue(jobNumber, out JobLog.JobData jobInfo))
+                            if (!jobLog.TryGetValue(jobNumber, out var jobInfo))
                             {
                                 await turnContext.SendActivityAsync($"The log does not contain a job {jobInfo.TimeStamp}.");
                             }
@@ -172,7 +181,7 @@ namespace Microsoft.BotBuilderSamples
         // Creates and "starts" a new job.
         private JobLog.JobData CreateJob(ITurnContext turnContext, JobLog jobLog)
         {
-            JobLog.JobData jobInfo = new JobLog.JobData
+            var jobInfo = new JobLog.JobData
             {
                 TimeStamp = DateTime.Now.ToBinary(),
                 Conversation = turnContext.Activity.GetConversationReference(),
@@ -199,10 +208,16 @@ namespace Microsoft.BotBuilderSamples
             return async (turnContext, token) =>
             {
                 // Get the job log from state, and retrieve the job.
-                JobLog jobLog = await StateAccessors.JobLogData.GetAsync(turnContext, () => new JobLog());
+                var jobLog = await StateAccessors.JobLogData.GetAsync(turnContext, () => new JobLog());
 
                 // Perform bookkeeping.
                 jobLog[jobInfo.TimeStamp].Completed = true;
+
+                // Set the new property
+                await StateAccessors.JobLogData.SetAsync(turnContext, jobLog);
+
+                // Now save it into the JobState
+                await StateAccessors.JobState.SaveChangesAsync(turnContext);
 
                 // Send the user a proactive confirmation message.
                 await turnContext.SendActivityAsync($"Job {jobInfo.TimeStamp} is complete.");
