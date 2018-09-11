@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 const { DialogTurnStatus, WaterfallDialog, ComponentDialog, DialogSet, DateTimePrompt } = require('botbuilder-dialogs');
 
-const getLocationDateTimePartySizeDialog = require('../shared/dialogs/getLocDateTimePartySizeDialog');
+const getLocationDateTimePartySizePrompt = require('../shared/prompts/getLocDateTimePartySize');
 const confirmDialog = require('../shared/dialogs/confirmDialog');
 const { onTurnProperty, reservationProperty } = require('../shared/stateProperties');
 const turnResult = require('../shared/turnResult');
-const reservationResult = require('../shared/createReservationPropertyResult').Result;
 
 // This dialog's name. Also matches the name of the intent from ../mainDialog/resources/cafeDispatchModel.lu
 // LUIS recognizer replaces spaces ' ' with '_'. So intent name 'Who are you' is recognized as 'Who_are_you'.
@@ -16,8 +15,9 @@ const GET_LOCATION_DIALOG_STATE = 'getLocDialogState';
 const CONFIRM_DIALOG_STATE = 'confirmDialogState';
 
 const DIALOG_START = 'Start';
+
 // Turn.N here refers to all back and forth conversations beyond the initial trigger until the book table dialog is completed or cancelled.
-const GET_BOOK_TABLE_TURN_N = 'bookTableTurnN';
+const GET_LOCATION_DATE_TIME_PARTY_SIZE_PROMPT = 'getLocationDateTimePartySize';
 
 /**
  * Class Who are you dialog.Uses the same pattern as main dialog and extends ComponentDialog
@@ -51,12 +51,13 @@ class BookTableDialog extends ComponentDialog {
         
         // add dialogs
         this.dialogs = new DialogSet(this.bookTableDialogPropertyAccessor);
-        // Get location, date, time & party size dialog.
-        this.addDialog(new getLocationDateTimePartySizeDialog(botConfig, 
-                                                                reservationsPropertyAccessor, 
-                                                                turnCounterPropertyAccessor,
-                                                                onTurnPropertyAccessor,
-                                                                this.getLocDialogPropertyAccessor));
+
+        // Get location, date, time & party size prompt.
+        this.addDialog(new getLocationDateTimePartySizePrompt(GET_LOCATION_DATE_TIME_PARTY_SIZE_PROMPT,
+                                                              botConfig, 
+                                                              reservationsPropertyAccessor, 
+                                                              onTurnPropertyAccessor));
+        
         // Confirm dialog.
         this.addDialog(new confirmDialog(botConfig, 
                                            reservationsPropertyAccessor, 
@@ -70,48 +71,22 @@ class BookTableDialog extends ComponentDialog {
     }
 
     async onDialogContinue(dc) {
-        // Update reservation properties based any available information in onTurnProperty
-        let updateResult = await this.updateReservationProperties(dc, this.onTurnPropertyAccessor);
-
-        //if(updateResult.)
-
         // Call active dialog and get results
         let turnResults = await dc.continue();
 
         if(turnResults.status === DialogTurnStatus.empty) {
             // Begin the right dialog based on what we have in reservation
             const newReservation = await this.reservationsPropertyAccessor.get(dc.context);
-            if(!newReservation.haveValidReservation) {
-                return await dc.begin(getLocationDateTimePartySizeDialog.Name);
+            if(newReservation === undefined || !newReservation.haveCompleteReservationProperty()) {
+                return await dc.begin(GET_LOCATION_DATE_TIME_PARTY_SIZE_PROMPT);
             } else {
+                // Move on to confirm the reservation.
                 return await dc.begin(confirmDialog.Name)
             }
         } else {
             // handle interruptions.
         }
         
-    }
-
-    async updateReservationProperties(dc, propertyAccessor) {
-        // Get reservation property
-        let newReservation = await this.reservationsPropertyAccessor.get(dc.context);
-
-        // Get any available properties in the property accessor
-        const onTurnProperties = await propertyAccessor.get(dc.context);
-
-        // Update reservation objectg with on turn properties.
-        if(onTurnProperties !== undefined) {
-            if(newReservation !== undefined) {
-                return newReservation.updateProperties(onTurnProperties);
-            } else {
-                // Static method that returns a reservation property with onTurnproperties passed in.
-                return reservationProperty.fromOnTurnProperty(onTurnProperties);
-            }
-        } else {
-            return ;
-        }
-        // Set reservation property
-        this.reservationsPropertyAccessor.set(dc.context, newReservation);
     }
     
 };

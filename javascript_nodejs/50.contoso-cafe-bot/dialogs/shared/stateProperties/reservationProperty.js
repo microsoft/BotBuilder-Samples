@@ -10,9 +10,8 @@ var { TimexProperty, creator, resolver }  = require('@microsoft/recognizers-text
 const FOUR_WEEKS = '4';
 const MAX_PARTY_SIZE = 10;
 
-const createReservationResult = require('../createReservationPropertyResult').Result;
-const outcomeObject = require('../createReservationPropertyResult').Outcome;
-const statusEnum = require('../createReservationPropertyResult').status;
+const { ReservationOutcome, ReservationResult, reservationStatus } = require('../createReservationPropertyResult');
+
 // Date constraints for reservations
 const reservationDateConstraints = [        /* Date for reservations must be        */
     creator.thisWeek,                       /* - a date in this week .OR.           */
@@ -45,24 +44,51 @@ class ReservationProperty {
         this.metaData = metaData ? metaData : {};
     }
     /**
+     * Helper method to evalute if we have all required properties filled.
+     * @returns {Boolean} true if we have a complete reservation property
+     */
+    haveCompleteReservationProperty() {
+        return ((this.id !== undefined) && 
+                (this.date !== '') &&
+                (this.time !== '') &&
+                (this.partySize !== 0) && 
+                (this.location !== ''));
+    }
+    /**
      * Helper method to update Reservation property with information passed in via the onTurnProperty object
      * @param {Object} onTurnProperty 
-     * @returns {createReservationResult} return result object 
+     * @returns {ReservationResult} return result object 
      */
     updateProperties(onTurnProperty) {
         // TODO: implement.
-        let returnResult = new createReservationResult(this);
+        let returnResult = new ReservationResult(this);
         return validate(onTurnProperty, returnResult);
+    }
+
+    /**
+     * Helper function for Language Generation read out based on current reservation property object
+     * @returns {String}
+     */
+    getMissingPropertyReadOut() {
+        if(this.location === '') {
+            return `What city? We offer services in Seattle, Bellevue, Redmond and Renton.`;
+        } else if (this.date === '') {
+            return `When do you want to come in? You can say things like tomorrow, next thursday ...`;
+        } else if (this.time === '') {
+            return `What time?`;
+        } else if (this.partySize === '') {
+            return `How many guests?`
+        } else return '';
     }
 };
 
 /**
  * Static method to create a new instance of Reservation property based on onTurnProperty object
  * @param {Object} onTurnProperty 
- * @returns {createReservationResult} object 
+ * @returns {ReservationResult} object 
  */
 ReservationProperty.fromOnTurnProperty = function(onTurnProperty) {
-    let returnResult = new createReservationResult(new ReservationProperty());
+    let returnResult = new ReservationResult(new ReservationProperty());
     return validate(onTurnProperty, returnResult);
 };
 
@@ -85,7 +111,7 @@ const get_guid = function () {
  * Helper function to validate input and return results based on validation constraints
  * 
  * @param {Object} onTurnProperty 
- * @param {createReservationResult} return result object 
+ * @param {ReservationResult} return result object 
  */
 const validate = function (onTurnProperty, returnResult) {
     if(onTurnProperty === undefined || onTurnProperty.entities.length === 0) return returnResult;
@@ -98,8 +124,8 @@ const validate = function (onTurnProperty, returnResult) {
     if(numberEntity !== undefined) {
         // We only accept MAX_PARTY_SIZE in a reservation.
         if(parseInt(numberEntity.entityValue[0]) > MAX_PARTY_SIZE) {
-            returnResult.outcome.push(new outcomeObject(`Sorry. ${numberEntity.entityName[0]} does not work. I can only accept up to 10 guests in a reservation.`, PARTY_SIZE_ENTITY));
-            returnResult.status = statusEnum.INCOMPLETE;
+            returnResult.outcome.push(new ReservationOutcome(`Sorry. ${numberEntity.entityName[0]} does not work. I can only accept up to 10 guests in a reservation.`, PARTY_SIZE_ENTITY));
+            returnResult.status = reservationStatus.INCOMPLETE;
         } else {
             returnResult.newReservation.partySize = numberEntity.entityValue[0];
         }
@@ -121,9 +147,9 @@ const validate = function (onTurnProperty, returnResult) {
                 const validDate = resolver.evaluate(dateTimeEntity.entityValue[0].timex, reservationDateConstraints);
                 if(!validDate || (validDate.length === 0)) {
                     // Validation failed!
-                    returnResult.outcome.push(new outcomeObject(`Sorry. ${returnResult.newReservation.dateLGString} does not work. I can only make reservations for the next 4 weeks.`, DATE_TIME_ENTITY));
+                    returnResult.outcome.push(new ReservationOutcome(`Sorry. ${returnResult.newReservation.dateLGString} does not work. I can only make reservations for the next 4 weeks.`, DATE_TIME_ENTITY));
                     returnResult.newReservation.date = '';
-                    returnResult.status = statusEnum.INCOMPLETE;
+                    returnResult.status = reservationStatus.INCOMPLETE;
                 }
             }
             // see if the time meets our constraints
@@ -131,9 +157,9 @@ const validate = function (onTurnProperty, returnResult) {
                 const validtime = resolver.evaluate(dateTimeEntity.entityValue[0].timex, reservationTimeConstraints);
                 if(!validtime || (validtime.length === 0)) {
                     // Validation failed!
-                    returnResult.outcome.push(new outcomeObject(`Sorry, that time does not work. I can only make reservations that are in the daytime (6AM - 6PM)`, DATE_TIME_ENTITY));
+                    returnResult.outcome.push(new ReservationOutcome(`Sorry, that time does not work. I can only make reservations that are in the daytime (6AM - 6PM)`, DATE_TIME_ENTITY));
                     returnResult.newReservation.time = '';
-                    returnResult.status = statusEnum.INCOMPLETE;
+                    returnResult.status = reservationStatus.INCOMPLETE;
                 }
             }
             // Get date time LG string if we have both date and time            

@@ -107,7 +107,7 @@ class Bot {
      */
     async getNewOnTurnProperties (context) {
         // Handle card input (if any), update state and return.
-        if(context.activity.value !== undefined) return await this.handleCardInput(context.activity.value);
+        if(context.activity.value !== undefined) return onTurnProperty.fromCardInput(context.activity.value);
         
         // Acknowledge attachments from user. 
         if(context.activity.attachments && context.activity.attachments.length !== 0) {
@@ -121,13 +121,8 @@ class Bot {
         // make call to LUIS recognizer to get intent + entities
         const LUISResults = await this.luisRecognizer.recognize(context);
 
-        let onTurnProperties = new onTurnProperty();
-        onTurnProperties.intent = LuisRecognizer.topIntent(LUISResults);
-        // Gather entity values if available. Uses a const list of LUIS entity names. 
-        LUIS_ENTITIES.forEach(luisEntity => {
-            if(luisEntity in LUISResults.entities) onTurnProperties.entities.push(new entityProperty(luisEntity, LUISResults.entities[luisEntity]))
-        });
-        return onTurnProperties;
+        // Return new instance of on turn property from LUIS results.
+        return onTurnProperty.fromLUISResults(LUISResults);
     }
     /**
      * Async helper method to welcome the user.
@@ -141,25 +136,6 @@ class Bot {
         await context.sendActivity(`I can help book a table, find cafe locations and more..`);
         // Welcome card with suggested actions.
         await context.sendActivity({ attachments: [CardFactory.adaptiveCard(welcomeCard)]});
-    }
-    /**
-     * Async helper method to process card input and gather turn properties
-     * 
-     * @param {Object} context conversation context object
-     * 
-     */
-    async handleCardInput (cardValue) {
-        // All cards used by this bot are adaptive cards with the card's 'data' property set to useful information.
-        let onTurnProperties = new onTurnProperty();
-        for(var key in cardValue) {
-            if(!cardValue.hasOwnProperty(key)) continue;
-            if(key.toLowerCase().trim() === 'intent') {
-                onTurnProperties.intent = cardValue[key];
-            } else {
-                onTurnProperties.entities.push(new entityProperty(key, cardValue[key]));
-            }
-        }
-        return onTurnProperties;
     }
 }
 

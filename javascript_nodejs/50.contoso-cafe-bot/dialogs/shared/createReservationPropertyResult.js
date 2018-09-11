@@ -3,7 +3,7 @@
 // Licensed under the MIT License.
 
 module.exports = {
-    Result: class {
+    ReservationResult: class {
         /**
          * 
          * @param {reservationProperty} reservationProperty 
@@ -16,11 +16,11 @@ module.exports = {
             this.outcome = outcome ? (Array.isArray(outcome) ? outcome : [outcome]): [];    
         }
     },
-    status: {
+    reservationStatus: {
         'SUCCESS': 0,
         'INCOMPLETE': 1
     },
-    Outcome: class {
+    ReservationOutcome: class {
         /**
          * 
          * @param {String} message 
