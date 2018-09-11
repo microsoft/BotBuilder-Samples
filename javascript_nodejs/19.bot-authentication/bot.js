@@ -1,12 +1,20 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, MessageFactory } = require('botbuilder');
-const { ChoicePrompt, DialogSet, WaterfallDialog, OAuthPrompt } = require('botbuilder-dialogs');
+const { ActivityTypes } = require('botbuilder');
+const { ChoicePrompt, DialogSet, OAuthPrompt, WaterfallDialog } = require('botbuilder-dialogs');
+
+// Name of the dialog state used in the constructor.
 const DIALOG_STATE_PROPERTY = 'dialogState';
+
+// Names of the prompts the bot uses.
 const OAUTH_PROMPT = 'oAuth_prompt';
 const CONFIRM_PROMPT = 'confirm_prompt';
+
+// Name of the waterfall dialog the bot uses.
 const AUTH_DIALOG = 'auth_dialog';
+
+// Text to help guide the user through using the bot.
 const HELP_TEXT = ' Type anything to get logged in. Type \'logout\' to signout.' +
     ' Type \'help\' to view this message again';
 
@@ -24,7 +32,7 @@ const OAUTH_SETTINGS = {
 
 
 /**
- * A simple bot that authenticates users using OAuth prompts.
+ * A bot that authenticates users using OAuth prompts.
  */
 class AuthenticationBot {
 
@@ -146,6 +154,10 @@ class AuthenticationBot {
             await turnContext.sendActivity(`[${turnContext.activity.type} event detected.]`);
         }
     }
+}
+
+async function displayToken(dc, step) {
+
 }
 
 module.exports = AuthenticationBot;
