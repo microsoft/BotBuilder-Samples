@@ -11,7 +11,7 @@ const DIALOG_STATE_PROPERTY = 'dialogState';
 
 class MainDialog {
     /**
-     * 
+     * MainDialog defines the core business logic of this bot.
      * @param {ConversationState} conversationState A ConversationState object used to store dialog state.
      */
     constructor (conversationState) {
@@ -25,17 +25,21 @@ class MainDialog {
         // Create a dialog set to include the dialogs used by this bot.
         this.dialogs = new DialogSet(this.dialogState);
 
+        // Set up a series of questions for collecting the user's name.
         const fullname_slots = [
             new SlotDetails('first', 'text', 'Please enter your first name.'),
             new SlotDetails('last', 'text', 'Please enter your last name.')
         ];
 
+        // Set up a series of questions to collect a street address.
         const address_slots = [
             new SlotDetails('street', 'text', 'Please enter your street address.'),
             new SlotDetails('city', 'text', 'Please enter the city.'),
             new SlotDetails('zip', 'text', 'Please enter your zipcode.')
         ];
 
+        // Link the questions together into a parent group that contains references
+        // to both the fullname and address questions defined above.
         const slots = [
             new SlotDetails('fullname', 'fullname'),
             new SlotDetails('age', 'number', 'Please enter your age.'),
@@ -44,6 +48,9 @@ class MainDialog {
         ];
 
 
+        // Add the individual child dialogs and prompts used.
+        // Note that the built-in prompts work hand-in-hand with our custom SlotFillingDialog class
+        // because they are both based on the provided Dialog class.
         this.dialogs.add(new SlotFillingDialog('address', address_slots));
         this.dialogs.add(new SlotFillingDialog('fullname', fullname_slots));
         this.dialogs.add(new TextPrompt('text'));
@@ -51,18 +58,27 @@ class MainDialog {
         this.dialogs.add(new NumberPrompt('shoesize', this.showSizeValidator));
         this.dialogs.add(new SlotFillingDialog('slot-dialog', slots));
 
+        // Finally, add a 2-step WaterfallDialog that will initiate the SlotFillingDialog,
+        // and then collect and display the results.
         this.dialogs.add(new WaterfallDialog('root', [
             this.startDialog,
             this.processResults
         ]));
     }
 
-    // Kick off the dialog with the main slot dialog.
+    // This is the first step of the WaterfallDialog.
+    // It kicks off the dialog with the multi-question SlotFillingDialog,
+    // then passes the aggregated results on to the next step.
     async startDialog(dc, step) {
         return await dc.begin('slot-dialog');
     }   
 
+    // This is the second step of the WaterfallDialog.
+    // It receives the results of the SlotFillingDialog and displays them.
     async processResults(dc, step) {
+
+        // Each "slot" in the SlotFillingDialog is represented by a field in step.result.values.
+        // The complex that contain subfields have their own .values field containing the sub-values.
         const values = step.result.values;
 
         const fullname = values['fullname'].values;
@@ -76,17 +92,19 @@ class MainDialog {
         return await dc.end();
     }
 
+    // Validate that the provided shoe size is between 0 and 16, and allow half steps.
+    // This is used to instantiate a specialized NumberPrompt.
     async showSizeValidator(turnContext, step) {
 
         const shoesize = step.recognized.value;
         
-        // show sizes can range from 0 to 16
+        // Show sizes can range from 0 to 16.
         if (shoesize >= 0 && shoesize <= 16)
         {
-            // we only accept round numbers or half sizes
+            // We only accept round numbers or half sizes.
             if (Math.floor(shoesize) == shoesize || Math.floor(shoesize * 2) == shoesize * 2)
             {
-                // indicate success by returning the value
+                // Indicate success by returning the value.
                 step.end(shoesize);
             }
         }
