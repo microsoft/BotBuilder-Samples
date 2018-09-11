@@ -37,13 +37,13 @@ class MainDialog extends ComponentDialog {
         // add dialogs
         this.dialogs = new DialogSet(this.propertyAccessors.mainDialogPropertyAccessor);
         // add book table dialog
-        /*this.bookTableDialog = new BookTableDialog(botConfig, 
-                                                   this.propertyAccessors.reservationsPropertyAccessor, 
-                                                   this.propertyAccessors.turnCounterPropertyAccessor, 
-                                                   this.propertyAccessors.bookTableDialogPropertyAccessor,
-                                                   onTurnPropertyAccessor,
-                                                   conversationState);
-        */
+        this.dialogs.add(new BookTableDialog(botConfig, 
+                                             this.propertyAccessors.reservationsPropertyAccessor, 
+                                             this.propertyAccessors.turnCounterPropertyAccessor, 
+                                             onTurnPropertyAccessor, 
+                                             this.propertyAccessors.bookTableDialogPropertyAccessor, 
+                                             conversationState));
+        
         // add cancel dialog
         this.dialogs.add(new CancelDialog());
         // add QnA dialog. This serves help, qna and chit chat.
@@ -142,7 +142,8 @@ class MainDialog extends ComponentDialog {
                 await this.resetTurnCounter(dc.context);
                 return await dc.begin(CancelDialog.Name, childDialogPayload);
             } case BookTableDialog.Name: {
-                return await dc.context.sendActivity(`Book Table`);
+                await this.resetTurnCounter(dc.context);
+                return await dc.begin(BookTableDialog.Name, childDialogPayload);
             } case WhoAreYouDialog.Name: {
                 // Get user profile.
                 let userProfile = await this.propertyAccessors.userProfilePropertyAccessor.get(dc.context);

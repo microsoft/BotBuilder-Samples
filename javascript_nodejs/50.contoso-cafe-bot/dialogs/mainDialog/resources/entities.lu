@@ -18,7 +18,6 @@ $confirmationList:no=
 - nope
 - dont book it
 
-> TODO: replace with entity references
 $PREBUILT:number
 
 $PREBUILT:datetimeV2

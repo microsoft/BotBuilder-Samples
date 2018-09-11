@@ -12,8 +12,8 @@ const entityProperty = require('./dialogs/shared/stateProperties/entityProperty'
 
 // LUIS service type entry in the .bot file for dispatch.
 const LUIS_CONFIGURATION = 'cafeDispatchModel';
-// Possible LUIS entities. You can refer to dialogs\mainDialog\resources\entities.lu for list of entities
-const LUIS_ENTITIES = ['confirmationList', 'number', 'datetimeV2', 'cafeLocation', 'userName_patternAny'];
+
+const LUIS_ENTITIES = require('./dialogs/shared/luisEntities');
 
 // State properties
 const ON_TURN_PROPERTY = 'onTurnProperty';

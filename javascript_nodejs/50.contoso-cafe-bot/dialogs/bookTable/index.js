@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-const { DialogTurnStatus, WaterfallDialog, ComponentDialog } = require('botbuilder-dialogs');
+const { DialogTurnStatus, WaterfallDialog, ComponentDialog, DialogSet, DateTimePrompt } = require('botbuilder-dialogs');
 
 const getLocationDateTimePartySizeDialog = require('../shared/dialogs/getLocDateTimePartySizeDialog');
 const confirmDialog = require('../shared/dialogs/confirmDialog');
@@ -51,13 +51,13 @@ class BookTableDialog extends ComponentDialog {
         // add dialogs
         this.dialogs = new DialogSet(this.bookTableDialogPropertyAccessor);
         // Get location, date, time & party size dialog.
-        this.dialogs.add(new getLocationDateTimePartySizeDialog(botConfig, 
+        this.addDialog(new getLocationDateTimePartySizeDialog(botConfig, 
                                                                 reservationsPropertyAccessor, 
                                                                 turnCounterPropertyAccessor,
                                                                 onTurnPropertyAccessor,
                                                                 this.getLocDialogPropertyAccessor));
         // Confirm dialog.
-        this.dialogs.add(new confirmDialog(botConfig, 
+        this.addDialog(new confirmDialog(botConfig, 
                                            reservationsPropertyAccessor, 
                                            turnCounterPropertyAccessor,
                                            onTurnPropertyAccessor));
@@ -70,12 +70,12 @@ class BookTableDialog extends ComponentDialog {
 
     async onDialogContinue(dc) {
         // Update reservation properties based any available information in onTurnProperty
-        this.updateReservationProperties(dc, this.onTurnPropertyAccessor);
+        await this.updateReservationProperties(dc, this.onTurnPropertyAccessor);
 
         // Call active dialog and get results
-        let turnResults = dc.continue();
+        let turnResults = await dc.continue();
 
-        if(turnResults.status !== DialogTurnStatus.empty) {
+        if(turnResults.status === DialogTurnStatus.empty) {
             // Begin the right dialog based on what we have in reservation
             const newReservation = await this.reservationsPropertyAccessor.get(dc.context);
             if(!newReservation.haveValidReservation) {

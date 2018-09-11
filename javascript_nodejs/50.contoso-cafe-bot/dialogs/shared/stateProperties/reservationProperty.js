@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// Possible LUIS entities. You can refer to dialogs\mainDialog\resources\entities.lu for list of entities
-const LUIS_ENTITIES = ['confirmationList', 'number', 'datetimeV2', 'cafeLocation', 'userName_patternAny'];
+const LUIS_ENTITIES = require('../luisEntities');
+const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
 
 class ReservationProperty {
     /**
@@ -27,7 +27,7 @@ class ReservationProperty {
      * @param {Object} onTurnProperty 
      */
     updateProperties(onTurnProperty) {
-
+        // TODO: implement.
     }
 };
 /**
@@ -46,7 +46,17 @@ ReservationProperty.fromOnTurnProperty = function(onTurnProperty) {
     let locationEntity = onTurnProperty.entities.find(item => item.entityName == LUIS_ENTITIES[3]);
 
     if(numberEntity !== undefined) reservation.partySize = numberEntity.entityValue[0];
+    if(dateTimeEntity !== undefined) {
+        // Get parsed date time from TIMEX
+        // LUIS returns a timex expression and so get and un-wrap that.
+        // Take the first date time since book table scenario does not have to deal with multiple date times or date time ranges.
+        if(dateTimeEntity.entityValue[0].timex && dateTimeEntity.entityValue[0].timex[0]) {
 
+        }
+        const x = new TimexProperty(dateTimeEntity.entityValue[0].timex[0]);
+    }
+    // Take the first found value.
+    if(locationEntity !== undefined) reservation.location = locationEntity.entityValue[0][0];
     return reservation;
 };
 
