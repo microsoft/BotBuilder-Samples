@@ -6,6 +6,7 @@ const getLocationDateTimePartySizeDialog = require('../shared/dialogs/getLocDate
 const confirmDialog = require('../shared/dialogs/confirmDialog');
 const { onTurnProperty, reservationProperty } = require('../shared/stateProperties');
 const turnResult = require('../shared/turnResult');
+const reservationResult = require('../shared/createReservationPropertyResult').Result;
 
 // This dialog's name. Also matches the name of the intent from ../mainDialog/resources/cafeDispatchModel.lu
 // LUIS recognizer replaces spaces ' ' with '_'. So intent name 'Who are you' is recognized as 'Who_are_you'.
@@ -70,7 +71,9 @@ class BookTableDialog extends ComponentDialog {
 
     async onDialogContinue(dc) {
         // Update reservation properties based any available information in onTurnProperty
-        await this.updateReservationProperties(dc, this.onTurnPropertyAccessor);
+        let updateResult = await this.updateReservationProperties(dc, this.onTurnPropertyAccessor);
+
+        //if(updateResult.)
 
         // Call active dialog and get results
         let turnResults = await dc.continue();
@@ -99,13 +102,13 @@ class BookTableDialog extends ComponentDialog {
         // Update reservation objectg with on turn properties.
         if(onTurnProperties !== undefined) {
             if(newReservation !== undefined) {
-                newReservation.updateProperties(onTurnProperties);
+                return newReservation.updateProperties(onTurnProperties);
             } else {
                 // Static method that returns a reservation property with onTurnproperties passed in.
-                newReservation = reservationProperty.fromOnTurnProperty(onTurnProperties);
+                return reservationProperty.fromOnTurnProperty(onTurnProperties);
             }
         } else {
-            newReservation = new reservationProperty();
+            return ;
         }
         // Set reservation property
         this.reservationsPropertyAccessor.set(dc.context, newReservation);

@@ -22,7 +22,7 @@ const env = require('dotenv').config({path: ENV_FILE});
 
 // Create HTTP server
 let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function () {
+server.listen(process.env.port || process.env.PORT || 3980, function () {
     console.log(`\n${server.name} listening to ${server.url}`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
     console.log(`\nTo talk to your bot, open echoBot-with-counter.bot file in the Emulator`);
