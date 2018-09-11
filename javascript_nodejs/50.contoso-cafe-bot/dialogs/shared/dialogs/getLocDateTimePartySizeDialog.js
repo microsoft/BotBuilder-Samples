@@ -6,7 +6,7 @@ const { DialogTurnStatus, WaterfallDialog, ComponentDialog } = require('botbuild
 const DIALOG_NAME = 'GetLocationDateTimePartySize';
 
 class GetLocDateTimePartySize extends ComponentDialog {
-    constructor() {
+    constructor(botConfig, reservationsPropertyAccessor, turnCounterPropertyAccessor, onTurnPropertyAccessor, stateAccessor) {
         super(DIALOG_NAME);
 
     }

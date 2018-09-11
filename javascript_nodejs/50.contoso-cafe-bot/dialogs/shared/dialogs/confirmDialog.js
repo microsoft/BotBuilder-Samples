@@ -5,7 +5,7 @@ const { DialogTurnStatus, WaterfallDialog, ComponentDialog } = require('botbuild
 const DIALOG_NAME = 'confirmationDialog';
 
 class ConfirmDialog extends ComponentDialog {
-    constructor() {
+    constructor(botConfig, reservationsPropertyAccessor, turnCounterPropertyAccessor, onTurnPropertyAccessor) {
         super(DIALOG_NAME);
 
     }

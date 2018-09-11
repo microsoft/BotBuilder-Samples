@@ -41,7 +41,8 @@ class MainDialog extends ComponentDialog {
                                                    this.propertyAccessors.reservationsPropertyAccessor, 
                                                    this.propertyAccessors.turnCounterPropertyAccessor, 
                                                    this.propertyAccessors.bookTableDialogPropertyAccessor,
-                                                   onTurnPropertyAccessor);
+                                                   onTurnPropertyAccessor,
+                                                   conversationState);
         */
         // add cancel dialog
         this.dialogs.add(new CancelDialog());
