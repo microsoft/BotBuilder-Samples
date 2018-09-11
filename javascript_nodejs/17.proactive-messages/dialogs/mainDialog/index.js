@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes } = require('botbuilder-core');
-const { TurnContext } = require('botbuilder');
+const { ActivityTypes, TurnContext } = require('botbuilder');
 
 class MainDialog {
     /**
