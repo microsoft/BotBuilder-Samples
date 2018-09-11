@@ -27,7 +27,7 @@ const OAUTH_SETTINGS = {
     connectionName: CONNECTION_NAME,
     title: "Sign In",
     text: "Please Sign In",
-    timeout: 300000
+    timeout: 300000 // User has 5 minutes to log in.
 };
 
 
