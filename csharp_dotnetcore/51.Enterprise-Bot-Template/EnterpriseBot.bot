@@ -1,0 +1,106 @@
+{
+  "name": "EnterpriseBot",
+  "description": "",
+  "version": "2.0",
+  "secretKey": "",
+  "services": [
+    {
+      "type": "endpoint",
+      "name": "EnterpriseBot",
+      "id": "http://localhost:3978/api/messages",
+      "appId": "",
+      "appPassword": "",
+      "endpoint": "http://localhost:3978/api/messages"
+    },
+    {
+      "type": "blob",
+      "id": "2",
+      "name": "",
+      "tenantId": "",
+      "subscriptionId": "",
+      "resourceGroup": "",
+      "serviceName": "",
+      "connectionString": "",
+      "container": ""
+    },
+    {
+      "type": "appInsights",
+      "id": "3",
+      "name": "",
+      "tenantId": "",
+      "subscriptionId": "",
+      "resourceGroup": "",
+      "serviceName": "",
+      "instrumentationKey": "",
+      "applicationId": "",
+      "apiKeys": {
+        "key1": "",
+        "key2": ""
+      }
+    },
+    {
+      "type": "cosmosdb",
+      "id": "4",
+      "name": "",
+      "tenantId": "",
+      "subscriptionId": "",
+      "resourceGroup": "",
+      "serviceName": "",
+      "connectionString": "",
+      "database": "",
+      "collection": ""
+    },
+    {
+      "type": "generic",
+      "id": "5",
+      "name": "ContentModerator",
+      "url": "",
+      "configuration": {
+        "subscriptionKey": "",
+        "region": ""
+      }
+    },
+    {
+      "type": "generic",
+      "id": "6",
+      "name": "Authentication",
+      "url": "",
+      "configuration": {
+        "Azure Active Directory v2": ""
+      }
+    },
+    {
+      "type": "luis",
+      "id": "7",
+      "name": "",
+      "version": "0.1",
+      "appId": "",
+      "authoringKey": "",
+      "subscriptionKey": "",
+      "region": ""
+    },
+    {
+      "type": "qna",
+      "id": "8",
+      "name": "",
+      "kbId": "",
+      "subscriptionKey": "",
+      "endpointKey": "",
+      "hostname": "https://yourservice.azurewebsites.net/qnamaker"
+    },
+    {
+      "type": "dispatch",
+      "id": "9",
+      "name": "",
+      "appId": "",
+      "authoringKey": "",
+      "serviceIds": [
+        "7",
+        "8"
+      ],
+      "subscriptionKey": "",
+      "version": "Dispatch",
+      "region": ""
+    }
+  ]
+}

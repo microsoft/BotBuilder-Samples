@@ -269,3 +269,5 @@ paket-files/
 
 # Visual Studio Code
 .vscode/
+/javascript_nodejs/.DS_Store
+.DS_Store
