@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
-const entityProperty = require('./entityProperty');
 const { LuisRecognizer } = require('botbuilder-ai');
-const LUIS_ENTITIES = require('../luisEntities');
+const { LUIS_ENTITIES } = require('../helpers');
+const entityProperty = require('./entityProperty');
 /**
  * On turn property class.
  */

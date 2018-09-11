@@ -2,13 +2,12 @@
 // Licensed under the MIT License.
 
 const { ComponentDialog, ConfirmPrompt, WaterfallDialog, DialogTurnStatus } = require('botbuilder-dialogs');
-
-const turnResult = require('../shared/turnResult');
+const { TurnResult } = require('../shared/helpers');
 
 // Cancel intent name from ../../mainDialog/resources/cafeDispatchModel.lu 
 const CANCEL_DIALOG = 'Cancel';
 const START_DIALOG = 'start';
-const CONFIRM_CANCEL_PROMPT = 'confirmCancel';
+const CONFIRM_CANCEL_PROMPT = 'confirmCancelPrompt';
 
 class CancelDialog extends ComponentDialog {
     /**
@@ -23,6 +22,7 @@ class CancelDialog extends ComponentDialog {
             this.finalizeCancel
         ])); 
 
+        // Add prompt.
         this.addDialog(new ConfirmPrompt(CONFIRM_CANCEL_PROMPT));
     }
 
@@ -38,10 +38,10 @@ class CancelDialog extends ComponentDialog {
             await dc.context.sendActivity(`Sure. I've cancelled that!`);
             return await dc.end();
         } else {
-            // User rejected cancellation.
+            // User rejected.
             await dc.context.sendActivity(`Ok..`);
             await dc.end();
-            return new turnResult(DialogTurnStatus.complete, {reason: 'Abandon', payload: step.options})
+            return new TurnResult(DialogTurnStatus.complete, {reason: 'Abandon', payload: step.options})
         }
     }
  };

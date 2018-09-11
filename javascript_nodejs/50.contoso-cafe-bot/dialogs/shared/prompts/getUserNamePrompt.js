@@ -3,7 +3,6 @@
 const { TextPrompt } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
-
 const { userProfileProperty } = require('../stateProperties');
 
 // LUIS service type entry for the get user profile LUIS model in the .bot file.
@@ -44,15 +43,18 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                 await turnContext.sendActivity(`You can always say 'My name is <your name>' to introduce yourself to me.`);
                 step.end();
             }
+            
             // set updated turn counter
             this.turnCounterPropertyAccessor.set(turnContext, turnCounter);
             if(!step.recognized) {
                 await turnContext.sendActivity(`Please tell me your name`);
             } else {
                 const value = step.recognized.value;
+                
                 // call LUIS and get results
                 const LUISResults = await this.luisRecognizer.recognize(turnContext); 
                 const topIntent = LuisRecognizer.topIntent(LUISResults);
+                
                 // Did user ask for help or said they are not going to give us the name? 
                 switch(topIntent) {
                     case NO_NAME_INTENT: {
@@ -67,6 +69,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                         // Find the user's name from LUIS entities list.
                         if(USER_NAME in LUISResults.entities) {
                             let userName = LUISResults.entities[USER_NAME][0];
+                            
                             // capitalize user name   
                             userName = userName.charAt(0).toUpperCase() + userName.slice(1);
                             this.userProfilePropertyAccessor.set(turnContext, new userProfileProperty(userName));
@@ -84,6 +87,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                     }
                     case NONE_INTENT: {
                         let userName = value;
+                        
                         // capitalize user name   
                         userName = userName.charAt(0).toUpperCase() + userName.slice(1);
                         this.userProfilePropertyAccessor.set(turnContext, new userProfileProperty(userName));

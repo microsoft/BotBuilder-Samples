@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 const { QnAMaker } = require('botbuilder-ai');
 const { DialogTurnStatus } = require('botbuilder-dialogs');
-
-const dialogTurnResult = require('../shared/turnResult');
+const { TurnResult } = require('../shared/helpers');
 
 // QnA name from ../../mainDialog/resources/cafeDispatchModel.lu 
-const QnA_DIALOG_NAME = 'QnA';
+const QnA_DIALOG = 'QnADialog';
+
 // Name of the QnA Maker service in the .bot file.
 const QnA_CONFIGURATION = 'cafeFaqChitChat';
+
 // CONSTS used in QnA Maker query. See [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-qna?view=azure-bot-service-4.0&tabs=cs) for additional info
 const QnA_TOP_1 = 1;
 const QnA_TOP_10 = 10;
@@ -23,6 +24,7 @@ class QnADialog {
         if(!botConfig) throw ('Need bot config');
         if(!userProfilePropertyAccessor) throw ('Need user profile property accessor');
         this.userProfilePropertyAccessor = userProfilePropertyAccessor;
+        
         // add recogizers
         const qnaConfig = botConfig.findServiceByNameOrId(QnA_CONFIGURATION);
         if(!qnaConfig || !qnaConfig.kbId) throw (`QnA Maker application information not found in .bot file. Please ensure you have all required QnA Maker applications created and available in the .bot file. See readme.md for additional information\n`);
@@ -42,21 +44,22 @@ class QnADialog {
     async onTurn(context, filterSearch) {
         let topNResults = QnA_TOP_1;
         if(filterSearch !== undefined && filterSearch) topNResults = QnA_TOP_10;
+        
         // Call QnA Maker and get results.
         const qnaResult = await this.qnaRecognizer.generateAnswer(context.activity.text, topNResults, QnA_CONFIDENCE_THRESHOLD);
         if(!qnaResult || qnaResult.length === 0 || !qnaResult[0].answer) {
             // No answer found. respond with dialogturnstatus.empty
             await context.sendActivity(`I'm still learning.. Sorry, I do not know how to help you with that.`);
             await context.sendActivity(`Follow [this link](https://www.bing.com/search?q=${context.activity.text}) to search the web!`);
-            return new dialogTurnResult(DialogTurnStatus.empty);
+            return new TurnResult(DialogTurnStatus.empty);
         }
         if(filterSearch === undefined) {
             // respond with qna result
             await context.sendActivity(await this.userSalutation(context) + qnaResult[0].answer);
-            return new dialogTurnResult(DialogTurnStatus.complete);
+            return new TurnResult(DialogTurnStatus.complete);
         } else {
             // just return the result to caller without responding to user. 
-            return new dialogTurnResult(DialogTurnStatus.complete, qnaResult);
+            return new TurnResult(DialogTurnStatus.complete, qnaResult);
         }
     }
     /**
@@ -72,18 +75,17 @@ class QnADialog {
             // see if we have user's name
             let userSalutationList = [``,
                                       ``,
-                                      ``,
                                       `Well... ${userName}, `,
                                       `${userName}, `];
             // Randomly include user's name in response so the reply in personalized.
-            const randomNumberIdx = Math.floor(Math.random() * 4);
+            const randomNumberIdx = Math.floor(Math.random() * userSalutationList.length);
             if(userSalutationList[randomNumberIdx] !== undefined) salutation = userSalutationList[randomNumberIdx];
         } 
         return salutation;
     }
 };
 
-QnADialog.Name = QnA_DIALOG_NAME;
+QnADialog.Name = QnA_DIALOG;
 
 module.exports = QnADialog;
 

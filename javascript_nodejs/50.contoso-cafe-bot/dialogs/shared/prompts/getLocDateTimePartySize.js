@@ -9,9 +9,9 @@ const PROMPT_NAME = 'GetLocationDateTimePartySize';
 
 // LUIS service type entry for turn.n book table LUIS model in the .bot file.
 const LUIS_CONFIGURATION = 'cafeBotBookTableTurnN';
-const turnResult = require('../turnResult');
+const { TurnResult } = require('../helpers');
 
-const { ReservationOutcome, ReservationResult, reservationStatus } = require('../createReservationPropertyResult');
+const { ReservationOutcome, ReservationResult, reservationStatus } = require('../stateProperties/createReservationPropertyResult');
 const { DialogTurnStatus } = require('botbuilder-dialogs');
 
 const { reservationProperty } = require('../stateProperties');

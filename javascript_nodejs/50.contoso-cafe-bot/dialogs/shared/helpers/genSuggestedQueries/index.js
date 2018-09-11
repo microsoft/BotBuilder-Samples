@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// This .json file was generated using ludown's luis batch testing option with ./querySuggestions.lu as input.
+// This .json file was generated using ludown's luis batch testing option with ./resources/querySuggestions.lu as input.
 // To generate list of utterances in the model, you can call ludown parse toluis --in <INPUT-FILE> -t
-const dispatchLUISModel = require('./querySuggestions.json');
+const dispatchLUISModel = require('./resources/querySuggestions.json');
 const DEFAULT_NUMBER_OF_SUGGESTIONS = 3;
 
 /**
@@ -12,7 +12,7 @@ const DEFAULT_NUMBER_OF_SUGGESTIONS = 3;
  * @param {Integer} numberOfSuggestions 
  * @returns {String []} of query suggestions
  */
-const genSuggestedQueries = function (numberOfSuggestions) {
+const generate = function (numberOfSuggestions) {
     let suggestedQueries = [];
     let possibleUtterances = dispatchLUISModel;
     if(numberOfSuggestions === undefined) numberOfSuggestions = DEFAULT_NUMBER_OF_SUGGESTIONS;
@@ -24,4 +24,6 @@ const genSuggestedQueries = function (numberOfSuggestions) {
     return suggestedQueries;
 }
 
-module.exports = genSuggestedQueries;
+module.exports = {
+    GenSuggestedQueries: generate
+}

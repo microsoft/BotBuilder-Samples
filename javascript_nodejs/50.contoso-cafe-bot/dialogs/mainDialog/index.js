@@ -4,7 +4,8 @@
 const { ComponentDialog, DialogTurnStatus, DialogSet } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
 const MAIN_DIALOG = 'MainDialog';
-const DialogTurnResult = require('../shared/turnResult');
+const { TurnResult } = require('../shared/helpers');
+
 const BookTableDialog = require('../bookTable');
 const WhoAreYouDialog = require('../whoAreYou');
 const QnADialog = require('../qna');
@@ -14,7 +15,7 @@ const CancelDialog = require('../cancel');
 const FindCafeLocationsDialog = require('../findCafeLocations');
 const WhatCanYouDoDialog = require('../whatCanYouDo');
 
-const getQuerySuggestions = require('../shared/genSuggestedQueries');
+const { GenSuggestedQueries } = require('../shared/helpers/genSuggestedQueries');
 
 // User name entity from ../whoAreYou/resources/whoAreYou.lu
 const USER_NAME = 'userName_patternAny';
@@ -44,7 +45,6 @@ class MainDialog extends ComponentDialog {
         // Create state objects for user, conversation and dialog states.   
         this.userProfilePropertyAccessor = userState.createProperty(USER_PROFILE_PROPERTY);
         this.reservationsPropertyAccessor = userState.createProperty(USER_RESERVATIONS_PROPERTY);
-        this.userQueryPropertyAccessor = userState.createProperty(USER_QUERY_PROPERTY);
         this.mainDialogPropertyAccessor = conversationState.createProperty(MAIN_DIALOG_STATE_PROPERTY);
         this.turnCounterPropertyAccessor = conversationState.createProperty(TURN_COUNTER_PROPERTY);
         this.bookTableDialogPropertyAccessor = conversationState.createProperty(BOOK_TABLE_DIALOG_PROPERTY);
@@ -82,7 +82,7 @@ class MainDialog extends ComponentDialog {
     }
 
     async onDialogContinue(dc) {
-        let dialogTurnResult = new DialogTurnResult(DialogTurnStatus.empty);
+        let dialogTurnResult = new TurnResult(DialogTurnStatus.empty);
         // get on turn property through the property accessor
         const onTurnProperty = await this.onTurnPropertyAccessor.get(dc.context);
 
@@ -129,7 +129,7 @@ class MainDialog extends ComponentDialog {
                     }
                 } else {
                     // The active dialog's stack ended with a complete status
-                    await dc.context.sendActivity(MessageFactory.suggestedActions(getQuerySuggestions(), `Is there anything else I can help you with?`));
+                    await dc.context.sendActivity(MessageFactory.suggestedActions(GenSuggestedQueries(), `Is there anything else I can help you with?`));
                     // End active dialog
                     await dc.end();
                     break;
@@ -141,13 +141,13 @@ class MainDialog extends ComponentDialog {
             }
             case DialogTurnStatus.cancelled: {
                 // The active dialog's stack has been cancelled
-                await dc.context.sendActivity(MessageFactory.suggestedActions(getQuerySuggestions(), `Is there anything else I can help you with?`));
+                await dc.context.sendActivity(MessageFactory.suggestedActions(GenSuggestedQueries(), `Is there anything else I can help you with?`));
                 // End active dialog
                 await dc.cancelAll();
                 break;
             }
         }
-        dialogTurnResult = (dialogTurnResult === undefined) ? new DialogTurnResult(DialogTurnStatus.empty) : dialogTurnResult;
+        dialogTurnResult = (dialogTurnResult === undefined) ? new TurnResult(DialogTurnStatus.empty) : dialogTurnResult;
         return dialogTurnResult;
     }
 
@@ -196,11 +196,17 @@ class MainDialog extends ComponentDialog {
                 // See ../whatCanYouDo/resources/whatCanYouDoCard.json for card definition.
                 let queryProperty = (onTurnProperty.entities || []).filter(item => item.entityName == QUERY_PROPERTY);
                 if(queryProperty.length !== 0) {
-                    if(JSON.parse(queryProperty[0].entityValue).text !== undefined) {
-                        dc.context.activity.text = JSON.parse(queryProperty[0].entityValue).text;
+                    let parsedJSON;
+                    try {
+                        parsedJSON = JSON.parse(queryProperty[0].entityValue);
+                    } catch (err) {
+                        return await dc.context.sendActivity(`Try and choose a query from the card before you click the 'Let's talk!' button.`);
+                    }
+                    if(parsedJSON.text !== undefined) {
+                        dc.context.activity.text = parsedJSON.text;
                         await dc.context.sendActivity(`You said: '${dc.context.activity.text}'`);
                     }
-                    return await this.beginChildDialog(dc, JSON.parse(queryProperty[0].entityValue));
+                    return await this.beginChildDialog(dc, parsedJSON);
                 }
                 return await this.whatCanYouDoDialog.onTurn(dc.context);
             }

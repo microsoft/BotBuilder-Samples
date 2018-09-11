@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+const { ReservationOutcome, ReservationResult, reservationStatus } = require('./createReservationPropertyResult');
+// Using text recognizers package to perform timex operations.
+var { TimexProperty, creator, resolver }  = require('@microsoft/recognizers-text-data-types-timex-expression').default;
+const { LUIS_ENTITIES } = require('../helpers');
 
-const LUIS_ENTITIES = require('../luisEntities');
 const PARTY_SIZE_ENTITY = LUIS_ENTITIES[1];
 const DATE_TIME_ENTITY = LUIS_ENTITIES[2];
 const LOCATION_ENTITY = LUIS_ENTITIES[3];
-// Using text recognizers package to perform timex operations.
-var { TimexProperty, creator, resolver }  = require('@microsoft/recognizers-text-data-types-timex-expression').default;
 const FOUR_WEEKS = '4';
 const MAX_PARTY_SIZE = 10;
-
-const { ReservationOutcome, ReservationResult, reservationStatus } = require('../createReservationPropertyResult');
 
 // Date constraints for reservations
 const reservationDateConstraints = [        /* Date for reservations must be        */
     creator.thisWeek,                       /* - a date in this week .OR.           */
     creator.nextWeeksFromToday(FOUR_WEEKS), /* - a date in the next 4 weeks .AND.   */
 ];
+
 // Time constraints for reservations
-const reservationTimeConstraints = [    /* Time for reservations must be   */
-    creator.daytime                     /* - daytime or                    */
+const reservationTimeConstraints = [        /* Time for reservations must be   */
+    creator.daytime                         /* - daytime or                    */
 ];
 
 class ReservationProperty {
@@ -60,13 +60,11 @@ class ReservationProperty {
      * @returns {ReservationResult} return result object 
      */
     updateProperties(onTurnProperty) {
-        // TODO: implement.
         let returnResult = new ReservationResult(this);
         return validate(onTurnProperty, returnResult);
     }
-
     /**
-     * Helper function for Language Generation read out based on current reservation property object
+     * Helper method for Language Generation read out based on current reservation property object
      * @returns {String}
      */
     getMissingPropertyReadOut() {
@@ -81,7 +79,6 @@ class ReservationProperty {
         } else return '';
     }
 };
-
 /**
  * Static method to create a new instance of Reservation property based on onTurnProperty object
  * @param {Object} onTurnProperty 
@@ -91,7 +88,6 @@ ReservationProperty.fromOnTurnProperty = function(onTurnProperty) {
     let returnResult = new ReservationResult(new ReservationProperty());
     return validate(onTurnProperty, returnResult);
 };
-
 /**
  * Static method to create a new instance of Reservation property based on a JSON object
  * @param {Object} obj 
@@ -102,6 +98,7 @@ ReservationProperty.fromJSON = function(obj) {
     const { id, date, time, partySize, location } = obj;
     return new ReservationProperty(id, date, time, partySize, location);
 }
+
 module.exports = ReservationProperty;
 /**
  * HELPERS
@@ -116,7 +113,6 @@ const get_guid = function () {
         return v.toString(16);
     });
 }
-
 /**
  * Helper function to validate input and return results based on validation constraints
  * 
