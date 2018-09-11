@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActionTypes, MessageFactory } = require('botbuilder');
-
+const { ActivityTypes } = require('botbuilder');
 const { TextPrompt, DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
@@ -62,13 +61,13 @@ class MainDialog {
      * 
      * @param {Object} context on turn context object.
      */
-    async onTurn(context) {
+    async onTurn(turnContext) {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
-        if (context.activity.type === 'message') {
+        if (turnContext.activity.type === 'message') {
             // Create dialog context
-            const dc = await this.dialogs.createContext(context);
+            const dc = await this.dialogs.createContext(turnContext);
 
-            const utterance = (context.activity.text || '').trim().toLowerCase();
+            const utterance = (turnContext.activity.text || '').trim().toLowerCase();
             if (utterance === 'cancel') { 
                 if (dc.activeDialog) {
                     await dc.cancelAll();
@@ -79,12 +78,12 @@ class MainDialog {
             }
             
             // Continue the current dialog
-            if (!context.responded) {
+            if (!turnContext.responded) {
                 await dc.continue();
             }
 
             // Show menu if no response sent
-            if (!context.responded) {
+            if (!turnContext.responded) {
                 var user_name = await this.userName.get(dc.context,null);
                 if (user_name) {
                     await dc.begin(HELLO_USER)
@@ -92,11 +91,23 @@ class MainDialog {
                     await dc.begin(WHO_ARE_YOU)
                 }
             }
-        } else if (context.activity.type == 'conversationUpdate' && context.activity.membersAdded[0].name !== 'Bot') {
-            // send a "this is what the bot does" message
-            await context.sendActivity('I am a bot that demonstrates the TextPrompt class to collect your name, store it in UserState, and display it. Say anything to continue.');
+            
+        } else if (
+            turnContext.activity.type === ActivityTypes.ConversationUpdate &&
+            turnContext.activity.membersAdded[0].name !== 'Bot'
+       ) {
+           // send a "this is what the bot does" message
+            await turnContext.sendActivity('I am a bot that demonstrates the TextPrompt class to collect your name, store it in UserState, and display it. Say anything to continue.');
         }
+
+        // Save changes to the user name.
+        await this.userState.write(turnContext);
+
+        // End this turn by saving changes to the conversation state.
+        await this.conversationState.write(turnContext);
+
     }
+
 }
 
 module.exports = MainDialog;

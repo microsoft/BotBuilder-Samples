@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+const { ActivityTypes } = require('botbuilder');
 const { ChoicePrompt, DialogSet, NumberPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
@@ -123,8 +124,11 @@ class MainDialog {
                     await dc.begin(WHO_ARE_YOU)
                 }
             }
-        } else if (turnContext.activity.type === 'conversationUpdate' && turnContext.activity.membersAdded[0].name !== 'Bot') {
-            // Send a "this is what the bot does" message.
+        } else if (
+            turnContext.activity.type === ActivityTypes.ConversationUpdate &&
+            turnContext.activity.membersAdded[0].name !== 'Bot'
+       ) {
+           // Send a "this is what the bot does" message.
             const description = [
                 'I am a bot that demonstrates the TextPrompt and NumberPrompt classes',
                 'to collect your name and age, then store those values in UserState for later use.',
@@ -132,6 +136,13 @@ class MainDialog {
             ];
             await turnContext.sendActivity(description.join(' '));
         }
+
+        // Save changes to the user state.
+        this.userState.write(turnContext);
+
+        // End this turn by saving changes to the conversation state.
+        this.conversationState.write(turnContext);
+
     }
 }
 

@@ -58,7 +58,9 @@ class MainDialog {
             }
             
             // Continue the current dialog if one is pending.
-            await dc.continue();
+            if (!turnContext.responded) {
+                await dc.continue();
+            }
 
             // If no response has been sent, start the onboarding dialog.
             if (!turnContext.responded) {
@@ -76,6 +78,13 @@ class MainDialog {
             ];
             await turnContext.sendActivity(description.join(' '));
         }
+
+        // Save changes to the user state.
+        this.userState.write(turnContext);
+
+        // End this turn by saving changes to the conversation state.
+        this.conversationState.write(turnContext);
+    
     }
 }
 
