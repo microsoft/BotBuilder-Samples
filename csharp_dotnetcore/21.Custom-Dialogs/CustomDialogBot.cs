@@ -43,12 +43,15 @@ namespace Microsoft.BotBuilderSamples
             // The DialogSet needs a DialogState accessor, it will call it when it has a turn context.
             _dialogs = new DialogSet(accessors.ConversationDialogState);
 
+            // Rather than explicitly coding a Waterfall we have only to declare what properties we want collected.
+            // In this example we will want two text prompts to run, one for the first name and one for the last.
             var fullname_slots = new List<SlotDetails>
             {
                 new SlotDetails("first", "text", "Please enter your first name."),
                 new SlotDetails("last", "text", "Please enter your last name."),
             };
 
+            // This defines an address dialog that collects street, city and zip properties.
             var address_slots = new List<SlotDetails>
             {
                 new SlotDetails("street", "text", "Please enter the street."),
@@ -56,6 +59,8 @@ namespace Microsoft.BotBuilderSamples
                 new SlotDetails("zip", "text", "Please enter the zip."),
             };
 
+            // Dialogs can be nested and the slot filling dialog makes use of that. In this example some of the child
+            // dialogs are slot filling dialogs themselves.
             var slots = new List<SlotDetails>
             {
                 new SlotDetails("fullname", "fullname"),
@@ -64,7 +69,7 @@ namespace Microsoft.BotBuilderSamples
                 new SlotDetails("address", "address"),
             };
 
-            // Add the various dialogs we will be using to teh DialogSet
+            // Add the various dialogs we will be using to the DialogSet.
             _dialogs.Add(new SlotFillingDialog("address", address_slots));
             _dialogs.Add(new SlotFillingDialog("fullname", fullname_slots));
             _dialogs.Add(new TextPrompt("text"));
@@ -72,7 +77,7 @@ namespace Microsoft.BotBuilderSamples
             _dialogs.Add(new NumberPrompt<float>("shoesize", ShoeSizeAsync, defaultLocale: Culture.English));
             _dialogs.Add(new SlotFillingDialog("slot-dialog", slots));
 
-            // Add a simple two step Waterfall to test the slot dialog.
+            // Defines a simple two step Waterfall to test the slot dialog.
             _dialogs.Add(new WaterfallDialog("root", new WaterfallStep[] { StartDialogAsync, ProcessResultsAsync }));
         }
 
@@ -131,11 +136,13 @@ namespace Microsoft.BotBuilderSamples
 
         private async Task<DialogTurnResult> StartDialogAsync(DialogContext dialogContext, WaterfallStepContext waterfallStepContext, CancellationToken cancellationToken)
         {
+            // Start the child dialog. This will run the top slot dialog than will complete when all the properties are gathered.
             return await dialogContext.BeginAsync("slot-dialog", null, cancellationToken);
         }
 
         private async Task<DialogTurnResult> ProcessResultsAsync(DialogContext dialogContext, WaterfallStepContext waterfallStepContext, CancellationToken cancellationToken)
         {
+            // To demonstrate that the slot dialog collected all the properties we will echo them back to the user.
             if (waterfallStepContext.Result is IDictionary<string, object> result && result.Count > 0)
             {
                 var fullname = (IDictionary<string, object>)result["fullname"];

@@ -8,7 +8,7 @@ using Microsoft.Bot.Builder.Dialogs;
 namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// The accessors we will be using in the bot logic. Having a class like this just allows them to be easily
+    /// The accessors used in the bot logic. This class allows them to be easily
     /// handed to the IBot instance through the dependency injection.
     /// </summary>
     public class BotAccessors
