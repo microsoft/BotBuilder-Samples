@@ -1,11 +1,11 @@
-This sample shows how to create a bot that uses Language Understanding (LUIS) with Application Insights to get telemetry around bot and QnA Maker performance. This bot example uses [`applicationinsights`](https://www.npmjs.com/package/applicationinsights), [`restify`](https://www.npmjs.com/package/restify) and [`dotenv`](https://npmjs.com/package/dotenv). 
+This sample shows how to create a bot that uses Language Understanding (LUIS) with Application Insights to get telemetry around bot and your LUIS application's performance. This bot example uses [`applicationinsights`](https://www.npmjs.com/package/applicationinsights), [`restify`](https://www.npmjs.com/package/restify) and [`dotenv`](https://npmjs.com/package/dotenv). 
 
 # Concepts introduced in this sample
-The [QnA Maker Service](https://www.qnamaker.ai) enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
+[LUIS](https://www.luis.ai) enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
 
 The [Application Insights](https://azure.microsoft.com/en-us/services/application-insights/) enables you to discover actionable insights through application performance management and instant analytics.
 
-In this sample, we demonstrate how to use the QnA Maker service to answer questions based on a FAQ text file as input.
+In this sample, we demonstrate how to call LUIS to extract the intents from a user's message and use Application Insights to gather user-bot interaction telemetry.
 
 # To try this sample
 - Clone the repository
@@ -37,23 +37,37 @@ In this sample, we demonstrate how to use the QnA Maker service to answer questi
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to javascript_nodejs\23.luis-with-appinsights
-- Select qna-with-appinsights.bot file
+- Select luis-with-appinsights.bot file
 
 ## Prerequisites
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a QnA Maker service
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base#create-a-qna-maker-knowledge-base) to import the [smartLightFAQ.tsv](cognitiveModels/smartLightFAQ.tsv) to your newly created QnA Maker service
-- Update [qna-with-appinsights.bot](qna-with-appinsights.bot) with your QnAMaker-Host, QnAMaker-KnowledgeBaseId and QnAMaker-EndpointKey. You can find this information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://qnamaker.ai)
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/application-insights/app-insights-nodejs) to set up your Application Insights Service.
-    - Note: You will need to manually add the Application Insights Instrumentation Key to the qna-with-appinsights.bot file.
-- (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the Qna Maker CLI to deploy the model.
+### Set up LUIS
+- Navigate to [LUIS portal](https://www.luis.ai).
+- Click the `Sign in` button.
+- Click on `My Apps`.
+- Click on the `Import new app` button.
+- Click on the `Choose File` and select [reminders.json](cognitiveModels/reminders.json) from the `botbuilder-samples\javascript_nodejs\23.luis-with-appinsights\cognitiveModels` folder.
+- Update [luis-with-appinsights.bot](luis-with-appinsights.bot) file with your AppId, SubscriptionKey, Region and Version. 
+    You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
+	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
 
-# QnA Maker service
-QnA Maker enables you to power a question and answer service from your semi-structured content. 
+    - AppId = XXXXXXXXXXXXX
+    - SubscriptionKey = YYYYYYYYYYYY
+    - Region =  westus
 
-One of the basic requirements in writing your own Bot service is to seed it with questions and answers. In many cases, the questions and answers already exist in content like FAQ URLs/documents, product manuals, etc. With QnA Maker, users can query your application in a natural, conversational manner. QnA Maker uses machine learning to extract relevant question-answer pairs from your content. It also uses powerful matching and ranking algorithms to provide the best possible match between the user query and the questions.
+    The Version is listed on the page.
+- Update [luis-with-appinsights.bot](luis-with-appinsights.bot) file with your Authoring Key.  
+    You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
+NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
+### (Optional) Install LUDown
+- (Optional) Install the LUDown [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUDown) to help describe language understanding components for your bot.
+### Install Application Insights
+  -  Follow instructions [here](https://docs.microsoft.com/en-us/azure/application-insights/app-insights-nodejs) to set up your Application Insights service.
+
+# LUIS
+Language Understanding service (LUIS) allows your application to understand what a person wants in their own words. LUIS uses machine learning to allow developers to build applications that can receive user input in natural language and extract meaning from it.
 
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [QnA Maker documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/overview/overview)
-- [QnA Maker command line tool](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker)
+- [LUIS Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)
+- [LUDown](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown)
 - [Application Insights](https://azure.microsoft.com/en-us/services/application-insights/)
