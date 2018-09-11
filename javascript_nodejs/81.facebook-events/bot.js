@@ -9,7 +9,7 @@ const USER_PROFILE_PROPERTY = 'user';
 const SAMPLE_PROMPT = 'sample_prompt';
 
 /**
- * A simple bot that responds to input from suggested actions.
+ * A simple bot that responds handles and shows Facebook events.
  */
 class FacebookEventsBot {
     /**
