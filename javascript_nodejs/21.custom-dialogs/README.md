@@ -1,16 +1,14 @@
-This sample shows how to use the prompt classes included in `botbuilder-dialogs`.
-This bot will ask for multiple pieces of information from the user, each using a
-different type of prompt, each with its own validation rules. This sample also
-demonstrates using the `ComponentDialog` class to encapsulate related sub-dialogs.
+This sample demonstrates how to sub-class the Dialog class to create
+different bot control mechanism, such as a slot filling.
 
 # To try this sample
 - Clone the repository
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to javascript_nodejs/10.prompt-validations
+- In a terminal, navigate to javascript_nodejs/21.custom-dialogs
     ```bash
-    cd javascript_nodejs/10.prompt-validations
+    cd javascript_nodejs/21.custom-dialogs
     ```
     - Point to the MyGet feed 
     ```bash
@@ -34,20 +32,22 @@ or running remotely through a tunnel.
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to javascript_nodejs/10.prompt-validations
-- Select prompt-validations-bot.bot file
+- File -> Open Bot Configuration and navigate to javascript_nodejs/21.custom-dialogs
+- Select custom-dialogs.bot file
 
-# Prompts
-A conversation between a bot and a user often involves asking (prompting) the user for information,
-parsing the user's response, and then acting on that information. This sample demonstrates how to
-prompt users for information and validate the incoming responses using the different prompt types included in the
-[botbuilder-dialogs](https://github.com/Microsoft/botbuilder-js/tree/master/libraries/botbuilder-dialogs)
-library.
+# Custom Dialogs
 
-The `botbuilder-dialogs` library includes a variety of pre-built prompt classes, including text, number,
-and datetime types. In this sample, each prompt is wrapped in a custom class that includes a validation
-function. These prompts are chained together into a `WaterfallDialog`, and the final results are stored
-using the state manager.
+Botbuilder provides a built-in base class called `Dialog`. By subclassing Dialog, developers
+can create new ways to define and control dialog flows used by the bot. By adhering to the
+features of this class, developers create custom dialog types that can be used side-by-side
+with other dialog types, as well as built-in or custom prompts.
+
+This example demonstrates a custom Dialog class called `SlotFillingDialog`, which takes a
+series of "slots" which define a value the bot needs to collect from the user, as well
+as the prompt it should use. The bot will iterate through all of the slots until they are
+all full, at which point the dialog completes.
 
 # Further reading
-- [Prompt types](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0&tabs=javascript)
+- [Dialog class reference](https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/dialog)
+- [WaterfallDialog class reference](https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/waterfall)
+- [Manage complex conversation flows with dialogs](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-dialog-manage-complex-conversation-flow?view=azure-bot-service-4.0&tabs=javascript)
