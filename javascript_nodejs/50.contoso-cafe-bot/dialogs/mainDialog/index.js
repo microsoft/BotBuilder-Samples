@@ -3,10 +3,11 @@
 
 const { ComponentDialog, DialogTurnStatus, DialogSet } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
-const MAIN_DIALOG = 'MainDialog';
 const { TurnResult } = require('../shared/helpers');
+const { GenSuggestedQueries } = require('../shared/helpers/genSuggestedQueries');
+const { userProfileProperty } = require('../shared/stateProperties');
 
-const BookTableDialog = require('../bookTable');
+const MAIN_DIALOG = 'MainDialog';
 const WhoAreYouDialog = require('../whoAreYou');
 const QnADialog = require('../qna');
 const ChitChatDialog = require('../chitChat');
@@ -15,26 +16,25 @@ const CancelDialog = require('../cancel');
 const FindCafeLocationsDialog = require('../findCafeLocations');
 const WhatCanYouDoDialog = require('../whatCanYouDo');
 
-const { GenSuggestedQueries } = require('../shared/helpers/genSuggestedQueries');
-
 // User name entity from ../whoAreYou/resources/whoAreYou.lu
-const USER_NAME = 'userName_patternAny';
+const USER_NAME_ENTITY = 'userName_patternAny';
 
 // Query property from ../whatCanYouDo/resources/whatCanYHouDoCard.json
 // When user responds to what can you do card, a query property is set in response.
 const QUERY_PROPERTY = 'query';
-const { userProfileProperty } = require('../shared/stateProperties');
-
-
-const USER_PROFILE_PROPERTY = 'userProfile';
-const USER_RESERVATIONS_PROPERTY = 'userReservations';
-const USER_QUERY_PROPERTY = 'userQuery';
-const BOOK_TABLE_DIALOG_PROPERTY = 'bookTableDialog';
+const USER_PROFILE_PROPERTY = 'userProfileProperty';
+const USER_RESERVATIONS_PROPERTY = 'userReservationsProperty';
 const MAIN_DIALOG_STATE_PROPERTY = 'mainDialogState';
-const TURN_COUNTER_PROPERTY = 'turnCounter';
+const TURN_COUNTER_PROPERTY = 'turnCounterProperty';
 
 class MainDialog extends ComponentDialog {
-
+    /**
+     * Constructor.
+     * @param {Object} botConfig bot configuration
+     * @param {Object} onTurnPropertyAccessor 
+     * @param {Object} conversationState 
+     * @param {Object} userState 
+     */
     constructor(botConfig, onTurnPropertyAccessor, conversationState, userState) {
         super(MAIN_DIALOG)
         if(!botConfig) throw ('Missing parameter. botConfig is required');
@@ -47,47 +47,44 @@ class MainDialog extends ComponentDialog {
         this.reservationsPropertyAccessor = userState.createProperty(USER_RESERVATIONS_PROPERTY);
         this.mainDialogPropertyAccessor = conversationState.createProperty(MAIN_DIALOG_STATE_PROPERTY);
         this.turnCounterPropertyAccessor = conversationState.createProperty(TURN_COUNTER_PROPERTY);
-        this.bookTableDialogPropertyAccessor = conversationState.createProperty(BOOK_TABLE_DIALOG_PROPERTY);
 
         // keep on turn accessor and bot configuration
         this.onTurnPropertyAccessor = onTurnPropertyAccessor;
         this.botConfig = botConfig;
+
         // add dialogs
         this.dialogs = new DialogSet(this.mainDialogPropertyAccessor);
-        // add book table dialog
-        this.dialogs.add(new BookTableDialog(botConfig, 
-                                             this.reservationsPropertyAccessor, 
-                                             this.turnCounterPropertyAccessor, 
-                                             onTurnPropertyAccessor, 
-                                             this.bookTableDialogPropertyAccessor, 
-                                             conversationState));
-        
-        // add cancel dialog
         this.dialogs.add(new CancelDialog());
-        // add QnA dialog. This serves help, qna and chit chat.
         this.qnaDialog = new QnADialog(botConfig, this.userProfilePropertyAccessor);
-        // add find cafe locations dialog.
         this.findCafeLocationsDialog = new FindCafeLocationsDialog();
-        // add what can you dialog.
         this.whatCanYouDoDialog = new WhatCanYouDoDialog();
-        // add who are you dialog
         this.dialogs.add(new WhoAreYouDialog(botConfig, 
                                              this.userProfilePropertyAccessor, 
                                              this.turnCounterPropertyAccessor));
     }
-
+    /**
+     * Override onDialogBegin 
+     * 
+     * @param {Object} dc dialog context
+     * @param {Object} options dialog turn options
+     */
     async onDialogBegin(dc, options) {
         // Override default begin() logic with bot orchestration logic
         return await this.onDialogContinue(dc);
     }
 
+    /**
+     * Override onDialogContinue
+     * 
+     * @param {Object} dc dialog context
+     */
     async onDialogContinue(dc) {
         let dialogTurnResult = new TurnResult(DialogTurnStatus.empty);
         // get on turn property through the property accessor
         const onTurnProperty = await this.onTurnPropertyAccessor.get(dc.context);
-
         // Main Dialog examines the incoming turn property to determine  
-        //     1. If the requested operation is permissible - e.g. if user is in middle of a dialog, then an out of order reply should not be allowed.
+        //     1. If the requested operation is permissible - e.g. if user is in middle of a dialog, 
+        //        then an out of order reply should not be allowed.
         //     2. Calls any oustanding dialogs to continue
         //     3. If results is no-match from outstanding dialog .OR. if there are no outstanding dialogs,
         //         Decide which child dialog should begin and start it
@@ -99,6 +96,7 @@ class MainDialog extends ComponentDialog {
             return dialogTurnResult; 
         }
 
+        // continue outstanding dialogs
         dialogTurnResult = await dc.continue();
 
         // This will only be empty if there is no active dialog in the stack.
@@ -106,12 +104,8 @@ class MainDialog extends ComponentDialog {
             dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty);
         }
 
+        // Examine result from continue or beginChildDialog.
         switch(dialogTurnResult.status) {
-            // case DialogTurnStatus.empty: {
-            //     // begin right child dialog
-            //     dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty);
-            //     break;
-            // }
             case DialogTurnStatus.complete: {
                 if(dialogTurnResult.result) {
                     switch(dialogTurnResult.result.reason) {
@@ -125,7 +119,6 @@ class MainDialog extends ComponentDialog {
                             dialogTurnResult = await this.beginChildDialog(dc, dialogTurnResult.result.payload.onTurnProperty);
                             break;
                         }
-                        
                     }
                 } else {
                     // The active dialog's stack ended with a complete status
@@ -151,6 +144,13 @@ class MainDialog extends ComponentDialog {
         return dialogTurnResult;
     }
 
+    /**
+     * Method to begin appropriate child dialog based on user input
+     * 
+     * @param {Object} dc 
+     * @param {Object} onTurnProperty 
+     * @param {Object} childDialogPayload 
+     */
     async beginChildDialog(dc, onTurnProperty, childDialogPayload) {
         switch(onTurnProperty.intent) {
             // Help, ChitChat and QnA share the same QnA Maker model. So just call the QnA Dialog.
@@ -162,15 +162,12 @@ class MainDialog extends ComponentDialog {
             case CancelDialog.Name: {
                 await this.resetTurnCounter(dc.context);
                 return await dc.begin(CancelDialog.Name, childDialogPayload);
-            } case BookTableDialog.Name: {
-                await this.resetTurnCounter(dc.context);
-                return await dc.begin(BookTableDialog.Name, childDialogPayload);
             } case WhoAreYouDialog.Name: {
                 // Get user profile.
                 let userProfile = await this.userProfilePropertyAccessor.get(dc.context);
                 // Handle case where user is re-introducing themselves. 
                 // These utterances are defined in ../whoAreYou/resources/whoAreYou.lu 
-                let userNameInOnTurnProperty = (onTurnProperty.entities || []).filter(item => item.entityName == USER_NAME);
+                let userNameInOnTurnProperty = (onTurnProperty.entities || []).filter(item => item.entityName == USER_NAME_ENTITY);
                 if(userNameInOnTurnProperty.length !== 0) {
                     let userName = userNameInOnTurnProperty[0].entityValue[0];
                     // capitalize user name   
@@ -212,38 +209,44 @@ class MainDialog extends ComponentDialog {
             }
         }
     }
-    
+    /** 
+     * Method to reset turn counter property
+     * @param {Object} context
+     * 
+     */
     async resetTurnCounter(context) {
         this.turnCounterPropertyAccessor.set(context, 0);
     }
-
+    /**
+     * Method to evaluate if the requested user operation is possible.
+     * User could be in the middle of a multi-turn dialog where intteruption might not be possible/ allowed
+     * 
+     * @param {Object} dc 
+     * @param {String} requestedOperation 
+     * @returns {Object} outcome object
+     */
     async isRequestedOperationPossible(dc, requestedOperation) {
         let outcome = {allowed: true, reason: ''};
-        
-        // get active dialog from property accessor
-        // TODO: Evaluate if this can be achieved via dc.activeDialog instead of a separate property
         let activeDialog = '';
         if(dc.activeDialog !== undefined) activeDialog = dc.activeDialog.id;
 
-        // Book table submit and Book Table cancel requests through book table card are not allowed when Book Table is not the active dialog
+        // E.g. Book table submit and Book Table cancel requests through book table card are not allowed when Book Table is not the active dialog
         if(requestedOperation === 'Book_Table_Submit' || requestedOperation === 'Book_Table_Cancel') {
             if(activeDialog !== BookTableDialog.Name) {
                 outcome.allowed = false;
                 outcome.reason = `Sorry! I'm unable to process that. To start a new table reservation, try 'Book a table'`;
             }
-        } 
-        else if(requestedOperation === CancelDialog.Name) {
+        } else if(requestedOperation === CancelDialog.Name) {
             // Cancel dialog (with confirmation) is only possible for multi-turn dialogs - Book Table, Who are you
             if(activeDialog !== BookTableDialog.Name && activeDialog !== WhoAreYouDialog.Name) {
                 outcome.allowed = false;
                 outcome.reason = `Nothing to cancel.`;
             }
         }
-        
-        
         return outcome;
     }
 };
+
 MainDialog.Name = MAIN_DIALOG;
 
 module.exports = MainDialog;

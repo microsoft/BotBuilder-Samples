@@ -9,11 +9,11 @@
 # Help
 - [Help intent](../../help/resources/help.lu#?)
 
-[Book Table intent](../../bookTable/resources/bookTableTriggerIntent.lu)
+> [Book Table intent](../../bookTable/resources/bookTableTriggerIntent.lu)
 
 # Book Table
 > Add references to book table turn.n so these continue to be routed to book table dialog
-- [Book Table turn-N](../../bookTable/resources/turn-N.lu#GetLocationDateTimePartySize)
+> - [Book Table turn-N](../../bookTable/resources/turn-N.lu#GetLocationDateTimePartySize)
 
 # QnA
 > Add questions from QnA model to the dispatch LUIS model

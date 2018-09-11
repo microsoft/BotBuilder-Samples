@@ -147,6 +147,11 @@
       "entities": []
     },
     {
+      "text": "why",
+      "intent": "Why do you ask",
+      "entities": []
+    },
+    {
       "text": "I will not give you my name",
       "intent": "No Name",
       "entities": []
@@ -204,106 +209,6 @@
     {
       "text": "Please cancel that",
       "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "book a table",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i would like to book a table",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "book a table for 3",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "book a table for 2 in redmond store for next thursday at 3pm",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "book a table for 3 guests in seattle",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "book a table for next thursday at 3pm please",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "book a table for 3 guests near microsoft for next thursday at 3pm",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "can you book a table for 3 guests?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "get me a table for next wednesday",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "book a table at seatac",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "can you please book a table for 2 guests for this weekend?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "get a table for next thursday",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "reserve a table for 4 at SEA",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "can you get me a table",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "please help reserve a table for 5",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "can i get a table for this sunday at seattle?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "need a table in redmond",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "I need to reserve a table",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "I need to make a reservation",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "I need to reserve a table for 2 in Seattle",
-      "intent": "Interruptions",
       "entities": []
     },
     {
@@ -1057,6 +962,21 @@
       "entities": []
     },
     {
+      "text": "ok",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "I see",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "I get it",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
       "text": "Ha ha",
       "intent": "Interruptions",
       "entities": []
@@ -1288,6 +1208,10 @@
     },
     {
       "pattern": "call me {userName_patternAny}",
+      "intent": "Get user name"
+    },
+    {
+      "pattern": "{userName_patternAny} is my name",
       "intent": "Get user name"
     }
   ],

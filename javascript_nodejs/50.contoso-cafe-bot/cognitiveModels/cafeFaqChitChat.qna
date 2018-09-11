@@ -627,7 +627,10 @@
         "Great!",
         "I know",
         "No thanks",
-        "cool!"
+        "cool!",
+        "ok",
+        "I see",
+        "I get it"
       ],
       "metadata": []
     },
@@ -974,6 +977,17 @@
     },
     {
       "id": 0,
+      "answer": "Most cafe locations are open 8AM through 10PM local Pacific time.\r\n",
+      "source": "custom editorial",
+      "questions": [
+        "What are your store hours",
+        "store hours",
+        "timings"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
       "answer": "Joshua Newmann is the CEO of Contoso Cafe\r\n",
       "source": "custom editorial",
       "questions": [
@@ -1038,8 +1052,10 @@
       "source": "custom editorial",
       "questions": [
         "what's your layout?",
-        "so what's your layout?",
+        "so what's your store's layout?",
         "typical layout of your coffee shops",
+        "what is your store layout",
+        "what is the layout of your stores?",
         "does"
       ],
       "metadata": []
@@ -1063,8 +1079,6 @@
         "Help",
         "I need help",
         "Not sure what I can do",
-        "What can you do?",
-        "What can I say?",
         "I'm lost"
       ],
       "metadata": []
@@ -1136,5 +1150,6 @@
       ]
     }
   ],
-  "files": []
+  "files": [],
+  "name": "cafeFaqChitChat"
 }
