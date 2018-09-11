@@ -115,8 +115,6 @@ class MainDialog {
             // Continue the current dialog if one is pending.
             const results = await dc.continue();
 
-            console.log('RESULTS OF CONTINUE', results.status, DialogTurnStatus.Empty);
-
             // If no response has been sent, start the onboarding dialog.
             if (results.status === DialogTurnStatus.empty) {
                 await dc.begin('root');
