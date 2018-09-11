@@ -2,7 +2,21 @@
 // Licensed under the MIT License.
 
 const LUIS_ENTITIES = require('../luisEntities');
-//const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
+
+// Using text recognizers package to perform timex operations.
+var { TimexProperty, creator, resolver }  = require('@microsoft/recognizers-text-data-types-timex-expression').default;
+const FOUR_WEEKS = '4';
+
+// Date constraints for reservations
+const reservationDateConstraints = [        /* Date for reservations must be        */
+    creator.thisWeek,                       /* - a date in this week .OR.           */
+    creator.nextWeeksFromToday(FOUR_WEEKS), /* - a date in the next 4 weeks .AND.   */
+];
+// Time constraints for reservations
+const reservationTimeConstraints = [    /* Time for reservations must be   */
+    creator.daytime,                    /* - daytime or                    */
+    creator.evening                     /* - evenigns                      */
+];
 
 class ReservationProperty {
     /**
@@ -51,9 +65,27 @@ ReservationProperty.fromOnTurnProperty = function(onTurnProperty) {
         // LUIS returns a timex expression and so get and un-wrap that.
         // Take the first date time since book table scenario does not have to deal with multiple date times or date time ranges.
         if(dateTimeEntity.entityValue[0].timex && dateTimeEntity.entityValue[0].timex[0]) {
-
-        }
-        const x = new TimexProperty(dateTimeEntity.entityValue[0].timex[0]);
+            let today = new Date();
+            // see if we have a valid date and time specified
+            const haveValidDateAndTime = resolver.evaluate(dateTimeEntity.entityValue[0].timex, reservationDateConstraints.concat(reservationTimeConstraints));
+            if(haveValidDateAndTime && haveValidDateAndTime.length !== 0) {
+                // we have valid date and time. Accept it.
+                let p = haveValidDateAndTime[0].toNaturalLanguage(today);
+            } else {
+                // see if the date meets our constraints
+                const validDate = resolver.evaluate(dateTimeEntity.entityValue[0].timex, reservationDateConstraints);
+                if(validDate && validDate.length !== 0) {
+                    // We have a valid date. Accept it.
+                    let p = validDate[0].toNaturalLanguage(today);
+                }
+                // see if the time meets our constraints
+                const validtime = resolver.evaluate(dateTimeEntity.entityValue[0].timex, reservationTimeConstraints);
+                if(validtime && validtime.length !== 0) {
+                    // We have a valid time. Accept it.
+                    let p = validtime[0].toNaturalLanguage(today);
+                }
+            }            
+        }        
     }
     // Take the first found value.
     if(locationEntity !== undefined) reservation.location = locationEntity.entityValue[0][0];

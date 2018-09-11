@@ -12,11 +12,12 @@
   "author": "Microsoft",
   "license": "MIT",
   "dependencies": {
+    "@microsoft/recognizers-text-data-types-timex-expression": "^1.0.1",
     "botbuilder": "^4.0.0-preview1.1089",
-    "botframework-config": "^4.0.0-preview1.1089",
     "botbuilder-ai": "^4.0.0-preview1.1089",
-    "botbuilder-dialogs": "^4.0.0-preview1.1089",
     "botbuilder-azure": "^4.0.0-preview1.1089",
+    "botbuilder-dialogs": "^4.0.0-preview1.1089",
+    "botframework-config": "^4.0.0-preview1.1089",
     "dotenv": "^6.0.0",
     "restify": "^6.3.4"
   },
