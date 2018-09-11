@@ -15,7 +15,7 @@ namespace Microsoft.BotBuilderSamples
     /// <summary>
     /// Represents a bot that processes incoming activities.
     /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
-    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// This is a Transient lifetime service. Transient lifetime services are created
     /// each time they're requested. For each Activity received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
     /// beyond the single turn, should be carefully managed.
@@ -25,6 +25,9 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class CustomDialogBot : IBot
     {
+        /// <summary>
+        /// A handle on the property accessor and BotState used by the dialog state.
+        /// </summary>
         private readonly BotAccessors _accessors;
 
         /// <summary>
@@ -40,7 +43,7 @@ namespace Microsoft.BotBuilderSamples
         {
             _accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
 
-            // The DialogSet needs a DialogState accessor, it will call it when it has a turn context.
+            // The DialogSet needs a DialogState accessor which will be used during the turn.
             _dialogs = new DialogSet(accessors.ConversationDialogState);
 
             // Rather than explicitly coding a Waterfall we have only to declare what properties we want collected.
@@ -69,7 +72,7 @@ namespace Microsoft.BotBuilderSamples
                 new SlotDetails("address", "address"),
             };
 
-            // Add the various dialogs we will be using to the DialogSet.
+            // Add the various dialogs that will be used to the DialogSet.
             _dialogs.Add(new SlotFillingDialog("address", address_slots));
             _dialogs.Add(new SlotFillingDialog("fullname", fullname_slots));
             _dialogs.Add(new TextPrompt("text"));
