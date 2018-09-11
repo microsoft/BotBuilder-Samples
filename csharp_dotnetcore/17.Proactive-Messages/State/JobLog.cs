@@ -7,6 +7,8 @@ using Microsoft.Bot.Schema;
 namespace Microsoft.BotBuilderSamples
 {
     /// <summary>Contains a dictionary of job data, indexed by job number.</summary>
+    /// <remarks>The JobLog class tracks all the outstanding jobs.  Each job is
+    /// identified by a unique key.</remarks>
     public class JobLog : Dictionary<long, JobLog.JobData>
     {
         /// <summary>Describes the state of a job.</summary>

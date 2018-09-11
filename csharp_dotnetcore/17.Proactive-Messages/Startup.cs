@@ -19,6 +19,10 @@ namespace Microsoft.BotBuilderSamples
 {
     public class Startup
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// The Startup class configures services and the request pipeline.
+        /// </summary>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -28,8 +32,21 @@ namespace Microsoft.BotBuilderSamples
             Configuration = builder.Build();
         }
 
+        /// <summary>
+        /// Gets the configuration that represents a set of key/value application configuration properties.
+        /// </summary>
+        /// <value>
+        /// The <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
+        /// </value>
         public IConfiguration Configuration { get; }
 
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> specifies the contract for a collection of service descriptors.</param>
+        /// <seealso cref="IStatePropertyAccessor{T}"/>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection"/>
+        /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
             // Register the proactive bot.
@@ -44,38 +61,44 @@ namespace Microsoft.BotBuilderSamples
                     await context.SendActivityAsync("Sorry, it looks like something went wrong!");
                 };
 
-                // Set up state management middleware.
+                // The Memory Storage used here is for local bot debugging only. When the bot
+                // is restarted, everything stored in memory will be gone.
                 IStorage dataStore = new MemoryStorage();
-                var state = new JobState(dataStore);
-                options.Middleware.Add(state);
+
+                // Create Job State object.
+                // The Job State object is where we persist anything at the job-scope.
+                // It's independent of any user or conversation.
+                var jobState = new JobState(dataStore);
+                options.State.Add(jobState);
             });
 
-            // Validate .bot file endpoint
+            // Validate .bot file endpoint.
             services.AddSingleton(sp =>
             {
                 var config = BotConfiguration.Load(@".\ProactiveBot.bot");
                 var endpointService = (EndpointService)config.Services.First(s => s.Type == "endpoint")
                     ?? throw new InvalidOperationException(".bot file 'endpoint' must be configured prior to running.");
-                if (string.IsNullOrWhiteSpace(endpointService.AppId))
-                {
-                    throw new InvalidOperationException(".bot file 'endpoint' must contain application id (appId) prior to running.");
-                }
 
                 return endpointService;
             });
 
             // Create and register the state accessors for use with this bot.
+            // Acessors created here are passed into the IBot-derived class on every turn.
             services.AddSingleton(sp =>
             {
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value
                     ?? throw new InvalidOperationException(
                         "BotFrameworkOptions must be configured prior to setting up the state accessors.");
 
-                var jobState = options.Middleware.OfType<JobState>().FirstOrDefault()
-                    ?? throw new InvalidOperationException(
-                        "Job state must be defined and added before adding job-scoped state accessors.");
+                var jobState = options.State.OfType<JobState>().FirstOrDefault();
+                if (jobState == null)
+                {
+                    throw new InvalidOperationException("JobState must be defined and added before adding conversation-scoped state accessors.");
+                }
 
-                return new ProactiveAccessors
+                // Create the custom state accessor.
+                // State accessors enable other components to read and write individual properties of state.
+                return new ProactiveAccessors(jobState)
                 {
                     // Create the state property accessor for job data.
                     JobLogData = jobState.CreateProperty<JobLog>(ProactiveAccessors.JobLogDataName),

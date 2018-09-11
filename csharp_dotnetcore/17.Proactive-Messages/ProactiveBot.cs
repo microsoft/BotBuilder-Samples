@@ -31,11 +31,14 @@ namespace Microsoft.BotBuilderSamples
         {
             StateAccessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
 
-            // AppId was validated during startup.
-            AppId = endpointService.AppId;
+            // Validate AppId.
+            // Note: For local testing, .bot AppId is empty for the Bot Framework Emulator.
+            AppId = string.IsNullOrWhiteSpace(endpointService.AppId) ? "1" : endpointService.AppId;
         }
 
         /// <summary>Gets the bot's app ID.</summary>
+        /// <remarks>AppId required to continue a conversation.
+        /// See <see cref="BotAdapter.ContinueConversationAsync"/> for more details.</remarks>
         private string AppId { get; }
 
         /// <summary>Gets the state accessors for use with the bot.</summary>
@@ -43,12 +46,20 @@ namespace Microsoft.BotBuilderSamples
 
         /// <summary>
         /// Every conversation turn will call this method.
+        /// Proactive messages use existing conversations (turns) with the user to deliver proactive messages.
+        /// Proactive messages can be ad-hoc or dialog-based. This is demonstrating ad-hoc, which doesn't
+        /// have to consider an interruption to an existing conversation, which may upset the dialog flow.
+        /// Note: The Email channel may send a proactive message outside the context of a active conversation.
         /// </summary>
         /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
         /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A task that represents the work queued to execute.</returns>
+        /// <remarks>
+        /// In the scenario, the bot is being called by users as normal (to start jobs and such) and by some
+        /// theoretical service (to signal when jobs are complete). The service is sending activities to the
+        /// bot on a separate conversation from the user conversations.</remarks>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
@@ -59,7 +70,8 @@ namespace Microsoft.BotBuilderSamples
             }
             else
             {
-                // Get the job log from the turn context.
+                // Get the job log.
+                // The job log is a dictionary of all outstanding jobs in the system.
                 JobLog jobLog = await StateAccessors.JobLogData.GetAsync(turnContext, () => new JobLog());
 
                 // Get the user's text input for the message.
@@ -71,7 +83,12 @@ namespace Microsoft.BotBuilderSamples
 
                         // Start a virtual job for the user.
                         JobLog.JobData job = CreateJob(turnContext, jobLog);
-                        ConversationReference conversation = turnContext.Activity.GetConversationReference();
+
+                        // Set the new property
+                        await StateAccessors.JobLogData.SetAsync(turnContext, jobLog);
+
+                        // Now save it into the JobState
+                        await StateAccessors.JobState.SaveChangesAsync(turnContext);
 
                         await turnContext.SendActivityAsync(
                             $"We're starting job {job.TimeStamp} for you. We'll notify you when it's complete.");
@@ -98,10 +115,9 @@ namespace Microsoft.BotBuilderSamples
                         break;
 
                     default:
-
                         // Check whether this is simulating a job completed event.
                         string[] parts = text?.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                        if (parts != null && parts.Length is 2
+                        if (parts != null && parts.Length == 2
                             && parts[0].Equals("done", StringComparison.InvariantCultureIgnoreCase)
                             && long.TryParse(parts[1], out long jobNumber))
                         {
@@ -117,6 +133,7 @@ namespace Microsoft.BotBuilderSamples
                             {
                                 await turnContext.SendActivityAsync($"Completing job {jobInfo.TimeStamp}.");
 
+                                // Send the proactive message.
                                 await CompleteJobAsync(turnContext.Adapter, AppId, jobInfo);
                             }
                         }
@@ -127,16 +144,14 @@ namespace Microsoft.BotBuilderSamples
                 if (!turnContext.Responded)
                 {
                     await turnContext.SendActivityAsync(
-                        "Type `run` or `run job` to start a new job.<br>" +
-                        "Type `show` or `show jobs` to display the job log.<br>" +
+                        "Type `run` or `run job` to start a new job.\r\n" +
+                        "Type `show` or `show jobs` to display the job log.\r\n" +
                         "Type `done <jobNumber>` to complete a job.");
                 }
             }
         }
 
-        /// <summary>Handles non-message activities.</summary>
-        /// <param name="turnContext">The context object for this turn.</param>
-        /// <returns>A task that represents the work queued to execute.</returns>
+        // Handles non-message activities.
         private async Task OnSystemActivityAsync(ITurnContext turnContext)
         {
             // On a job completed event, mark the job as complete and notify the user.
@@ -144,7 +159,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 var jobLog = await StateAccessors.JobLogData.GetAsync(turnContext, () => new JobLog());
                 var activity = turnContext.Activity.AsEventActivity();
-                if (activity.Name is JobCompleteEventName
+                if (activity.Name == JobCompleteEventName
                     && activity.Value is long timestamp
                     && jobLog.ContainsKey(timestamp)
                     && !jobLog[timestamp].Completed)
@@ -154,10 +169,7 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
-        /// <summary>Creates and "starts" a new job.</summary>
-        /// <param name="turnContext">The context object for this turn.</param>
-        /// <param name="jobLog">A log of all the jobs.</param>
-        /// <returns>The information for the created job.</returns>
+        // Creates and "starts" a new job.
         private JobLog.JobData CreateJob(ITurnContext turnContext, JobLog jobLog)
         {
             JobLog.JobData jobInfo = new JobLog.JobData
@@ -171,13 +183,7 @@ namespace Microsoft.BotBuilderSamples
             return jobInfo;
         }
 
-        /// <summary>Sends a proactive message to the user.</summary>
-        /// <param name="adapter">The adapter for the bot.</param>
-        /// <param name="botId">The bot's app ID.</param>
-        /// <param name="jobInfo">Information about the job to complete.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects
-        /// or threads to receive notice of cancellation.</param>
-        /// <returns>A task that represents the work queued to execute.</returns>
+        // Sends a proactive message to the user.
         private async Task CompleteJobAsync(
             BotAdapter adapter,
             string botId,
@@ -187,9 +193,7 @@ namespace Microsoft.BotBuilderSamples
             await adapter.ContinueConversationAsync(botId, jobInfo.Conversation, CreateCallback(jobInfo), cancellationToken);
         }
 
-        /// <summary>Creates the turn logic to use for the proactive message.</summary>
-        /// <param name="jobInfo">Information about the job to complete.</param>
-        /// <returns>The turn logic to use for the proactive message.</returns>
+        // Creates the turn logic to use for the proactive message.
         private BotCallbackHandler CreateCallback(JobLog.JobData jobInfo)
         {
             return async (turnContext, token) =>
