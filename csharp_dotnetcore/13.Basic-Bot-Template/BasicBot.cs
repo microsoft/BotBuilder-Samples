@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples
@@ -54,16 +55,28 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         private readonly DialogSet _dialogs;
 
+        private readonly ILogger _logger;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicBot"/> class.
         /// </summary>
         /// <param name="services">Services configured from the .bot file.</param>
         /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
+        /// <param name="loggerFactory">A <see cref="ILoggerFactory"/> that hooked to the Azure App Service provider.</param>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>        
         /// <seealso cref="BotConfiguration"/>
-        public BasicBot(BotServices services, BasicBotAccessors accessors)
+        public BasicBot(BotServices services, BasicBotAccessors accessors, ILoggerFactory loggerFactory)
         {
+            if (loggerFactory == null)
+            {
+                throw new System.ArgumentNullException(nameof(loggerFactory));
+            }
+
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
             _accessors = accessors ?? throw new System.ArgumentNullException(nameof(accessors));
+
+            _logger = loggerFactory.CreateLogger<BasicBot>();
+            _logger.LogTrace("BasicBot turn start.");
 
             if (!_services.LuisServices.ContainsKey(LuisKey))
             {
@@ -158,7 +171,7 @@ namespace Microsoft.BotBuilderSamples
             await _accessors.UserState.SaveChangesAsync(context);
         }
 
-        // Create an attachment message response
+        // Create an attachment message response.
         private Activity CreateResponse(Activity activity, Attachment attachment)
         {
             var response = activity.CreateReply();

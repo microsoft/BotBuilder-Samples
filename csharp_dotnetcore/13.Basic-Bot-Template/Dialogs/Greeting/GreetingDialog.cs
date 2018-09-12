@@ -75,7 +75,6 @@ namespace Microsoft.BotBuilderSamples
                                                     WaterfallStepContext stepContext,
                                                     CancellationToken cancellationToken)
         {
-
             var greetingState = await GreetingStateAccessor.GetAsync(dc.Context, () => new GreetingState());
 
             stepContext.Values[NameValue] = greetingState.Name;
