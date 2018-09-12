@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace MultiLingualBot
         /// <param name="accessors">Bot State Accessors.</param>
         public MultiLingualBot(MultiLingualBotAccessors accessors)
         {
-            _accessors = accessors;
+            _accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
         }
 
         /// <summary>
@@ -41,6 +42,11 @@ namespace MultiLingualBot
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
+            if (turnContext == null)
+            {
+                throw new ArgumentNullException(nameof(turnContext));
+            }
+
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 string userLanguage = await _accessors.LanguagePreference.GetAsync(turnContext, () => TranslationSettings.DefaultLanguage) ?? TranslationSettings.DefaultLanguage;

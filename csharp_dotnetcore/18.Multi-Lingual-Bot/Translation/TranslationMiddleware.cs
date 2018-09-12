@@ -17,7 +17,7 @@ namespace MultiLingualBot.Translation
     /// </summary>
     public class TranslationMiddleware : IMiddleware
     {
-        private readonly ITranslator _translator;
+        private readonly MicrosoftTranslator _translator;
         private readonly IStatePropertyAccessor<string> _languageStateProperty;
 
         /// <summary>
@@ -25,28 +25,33 @@ namespace MultiLingualBot.Translation
         /// </summary>
         /// <param name="translator">Translator implementation to be used for text translation.</param>
         /// <param name="languageStateProperty">State property for current language.</param>
-        public TranslationMiddleware(ITranslator translator, IStatePropertyAccessor<string> languageStateProperty)
+        public TranslationMiddleware(MicrosoftTranslator translator, IStatePropertyAccessor<string> languageStateProperty)
         {
-            _translator = translator;
-            _languageStateProperty = languageStateProperty;
+            _translator = translator ?? throw new ArgumentNullException(nameof(translator));
+            _languageStateProperty = languageStateProperty ?? throw new ArgumentNullException(nameof(languageStateProperty));
         }
 
         /// <summary>
         /// Processess an incoming activity.
         /// </summary>
-        /// <param name="context">Context object containing information for a single turn of conversation with a user.</param>
+        /// <param name="turnContext">Context object containing information for a single turn of conversation with a user.</param>
         /// <param name="next">The delegate to call to continue the bot middleware pipeline.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, NextDelegate next, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var translate = await ShouldTranslateAsync(turnContext);
+            if (turnContext == null)
+            {
+                throw new ArgumentNullException(nameof(turnContext));
+            }
+
+            var translate = await ShouldTranslateAsync(turnContext, cancellationToken);
 
             if (translate)
             {
                 if (turnContext.Activity.Type == ActivityTypes.Message)
                 {
-                    turnContext.Activity.Text = await _translator.TranslateAsync(turnContext.Activity.Text, TranslationSettings.DefaultLanguage);
+                    turnContext.Activity.Text = await _translator.TranslateAsync(turnContext.Activity.Text, TranslationSettings.DefaultLanguage, cancellationToken);
                 }
             }
 
@@ -93,7 +98,7 @@ namespace MultiLingualBot.Translation
             await next(cancellationToken).ConfigureAwait(false);
         }
 
-        private async Task TranslateMessageActivityAsync(IMessageActivity activity, string targetLocale)
+        private async Task TranslateMessageActivityAsync(IMessageActivity activity, string targetLocale, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (activity.Type == ActivityTypes.Message)
             {
@@ -101,9 +106,9 @@ namespace MultiLingualBot.Translation
             }
         }
 
-        private async Task<bool> ShouldTranslateAsync(ITurnContext turnContext)
+        private async Task<bool> ShouldTranslateAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
-            string userLanguage = await _languageStateProperty.GetAsync(turnContext, () => TranslationSettings.DefaultLanguage) ?? TranslationSettings.DefaultLanguage;
+            string userLanguage = await _languageStateProperty.GetAsync(turnContext, () => TranslationSettings.DefaultLanguage, cancellationToken) ?? TranslationSettings.DefaultLanguage;
             return userLanguage != TranslationSettings.DefaultLanguage;
         }
     }

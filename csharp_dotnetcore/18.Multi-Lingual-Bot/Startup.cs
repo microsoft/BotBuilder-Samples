@@ -81,8 +81,17 @@ namespace MultiLingualBot
                 var userState = new UserState(dataStore);
                 options.State.Add(userState);
 
+                // Translation key from settings
+                var translatorKey = Configuration.GetValue<string>("translatorKey");
+
+                if (string.IsNullOrEmpty(translatorKey))
+                {
+                    throw new InvalidOperationException("Microsoft Text Translation API key is missing. Please add your translation key to the 'translatorKey' setting.");
+                }
+
                 // Translation middleware setup
-                var translator = new MicrosoftTranslator(Configuration.GetValue<string>("translatorKey"));
+                var translator = new MicrosoftTranslator(translatorKey);
+
                 var translationMiddleware = new TranslationMiddleware(translator, userState.CreateProperty<string>("LanguagePreference"));
                 options.Middleware.Add(translationMiddleware);
             });

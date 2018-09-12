@@ -1,6 +1,4 @@
-﻿This sample shows how to create complex conversation flows such as interruptions and cancellations, to build user-friendly, effective bots.
-
-# Concepts introduced in this sample
+﻿# Concepts introduced in this sample
 
 Translation Middleware: We create a translation middleware than can translate text from bot to user and from user to bot, allowing the creation of multi-lingual bots. 
 The middleware is driven by user state. This means that users can specify their language preference, and the middleware automatically will intercept messages back and forth and present them to the user in their preferred language.
@@ -31,13 +29,6 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 To consume the Microsoft Translator Text API, first obtain a key following the instructions in the [Microsoft Translator Text API documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup). 
 Paste the key in the ```translationKey``` placeholder within the appsettings.json file.
 
-## Install BotBuilder tools
-
-- In a terminal, navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\18.Multi-Lingual-Bot`) 
-
-    ```bash
-    cd BotBuilder-Samples\csharp_dotnetcore\18.Multi-Lingual-Bot
-    ```
 
 ## Visual Studio
 - Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\18.Multi-Lingual-Bot`) and open MessageRoutingBot.csproj in Visual Studio 
@@ -53,12 +44,12 @@ Paste the key in the ```translationKey``` placeholder within the appsettings.jso
 
 - Install the Bot Framework Emulator from [here](https://aka.ms/botframeworkemulator).
 
-### Connect to bot using Bot Framework Emulator **V4**
+### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\18.Multi-Lingual-Bot` folder
 - Select MessageRouting.bot file
 
 # Further reading
 
-- [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/)
