@@ -3,15 +3,19 @@
 
 const { ActivityTypes, TurnContext } = require('botbuilder');
 
+const JOBS_LIST = 'jobs';
+
 class MainDialog {
     /**
      * 
-     * @param {Storage} storage A storage system like MemoryStorage used to store information.
+     * @param {BotState} botState A BotState object used to store information for the bot independent of user or conversation.
      * @param {BotAdapter} adapter A BotAdapter used to send and receive messages.
      */
-    constructor(storage, adapter) {
-        this.storage = storage;
+    constructor(botState, adapter) {
+        this.botState = botState;
         this.adapter = adapter;
+
+        this.jobsList = this.botState.createProperty(JOBS_LIST);
     }
 
     /**
@@ -25,22 +29,22 @@ class MainDialog {
             const utterance = (turnContext.activity.text || '').trim().toLowerCase();
 
             // If user types in run, create a new job.
-            if (utterance === "run"){
-                await this.createJob(this.storage, turnContext);
-            }
+            if (utterance === 'run'){
+                await this.createJob(turnContext);
+            } else if (utterance === 'show') {
+                await this.showJobs(turnContext);
+            } else {
+                const words = utterance.split(' ');
 
-            const firstWord = utterance.split(' ')[0];
-            const secondWord = utterance.split(' ')[1];
+                // If the user types done and a Job Id Number,
+                // we check if the second word input is a number.
+                if (words[0] === 'done' && !isNaN(parseInt(words[1]))) {
+                    var jobIdNumber = words[1];
+                    await this.completeJob(turnContext, jobIdNumber);
 
-            // If the user types done and a Job Id Number,
-            // we check if the second word input is a number.
-            if (firstWord === "done" && !isNaN(parseInt(secondWord))) {
-                var jobIdNumber = secondWord;
-                await this.completeJob(this.storage, turnContext, jobIdNumber);
-                await turnContext.sendActivity('Job completed. Notification sent.');
-
-            } else if (firstWord === "done" && isNaN(parseInt(secondWord))) {
-                await turnContext.sendActivity('Enter the job ID number after "done".');
+                } else if (words[0] === 'done' && (words.length < 2 || isNaN(parseInt(words[1])))) {
+                    await turnContext.sendActivity('Enter the job ID number after "done".');
+                }
             }
 
             if (!turnContext.responded) {
@@ -50,13 +54,15 @@ class MainDialog {
         } else if (turnContext.activity.type === 'event' && turnContext.activity.name === 'jobCompleted') {
             var jobIdNumber = turnContext.activity.value;
             if (!isNaN(parseInt(jobIdNumber))) {
-                await this.completeJob(this.storage, turnContext, jobIdNumber);
+                await this.completeJob(turnContext, jobIdNumber);
             }
         }
+
+        await this.botState.saveChanges(turnContext);
     }
 
     // Save job ID and conversation reference.
-    async createJob(storage, turnContext) {
+    async createJob(turnContext) {
 
         // Create a unique job ID.
         var date = new Date();
@@ -65,8 +71,11 @@ class MainDialog {
         // Get the conversation reference.
         const reference = TurnContext.getConversationReference(turnContext.activity);
 
-        // Try to find previous information about the saved job:
-        const jobInfo = await storage.read([jobIdNumber]);
+        // Get the list of jobs. Default it to {} if it is empty.
+        const jobs = await this.jobsList.get(turnContext, {});
+
+        // Try to find previous information about the saved job.
+        const jobInfo = jobs[jobIdNumber];
 
         try {
             if (isEmpty(jobInfo)){
@@ -74,11 +83,11 @@ class MainDialog {
                 await turnContext.sendActivity(`Need to create new job ID: ${ jobIdNumber }`);
 
                 // Update jobInfo with new info
-                jobInfo[jobIdNumber] = { completed: false, reference: reference };
+                jobs[jobIdNumber] = { completed: false, reference: reference };
 
                 try {
                     // Save to storage
-                    await storage.write(jobInfo)
+                    await this.jobsList.set(turnContext, jobs);
                     // Notify the user that the job has been processed 
                     await turnContext.sendActivity('Successful write to log.');
                 } catch(err) {
@@ -90,40 +99,60 @@ class MainDialog {
         }
     }
 
-    async completeJob(storage, turnContext, jobIdNumber) {
-        // Read from storage
-        let jobInfo = await storage.read([jobIdNumber]);
+    async completeJob(turnContext, jobIdNumber) {
+        // Get the list of jobs from the bot's state property accessor.
+        const jobs = await this.jobsList.get(turnContext, {});
+
+        // Find the appropriate job in the list of jobs.
+        let jobInfo = jobs[jobIdNumber];
 
         // If no job was found, notify the user of this error state.
-        if (isEmpty(jobInfo)){
+        if (isEmpty(jobInfo)) {
             await turnContext.sendActivity(`Sorry no job with ID ${ jobIdNumber }.`);
         } else {
             // Found a job with the ID passed in.
-            const reference = jobInfo[jobIdNumber].reference;
-            const completed = jobInfo[jobIdNumber].completed;
+            const reference = jobInfo.reference;
+            const completed = jobInfo.completed;
 
             // If the job is not yet completed and conversation reference exists,
             // use the adapter to continue the conversation with the job's original creator.
             if (reference && !completed) {
                 // Since we are going to proactively send a message to the user who started the job,
                 // we need to create the turnContext based on the stored reference value.
-                await this.adapter.continueConversation(reference, async (turnContext) => {
+                await this.adapter.continueConversation(reference, async (proactiveTurnContext) => {
                     // Complete the job.
-                    jobInfo[jobIdNumber].completed = true;
+                    jobInfo.completed = true;
                     // Save the updated job.
-                    await storage.write(jobInfo);
+                    await this.jobsList.set(turnContext, jobs);
                     // Notify the user that the job is complete.
-                    await turnContext.sendActivity('Your queued job just completed.');
+                    await proactiveTurnContext.sendActivity(`Your queued job ${ jobIdNumber } just completed.`);
                 });
+
+                // Send a message to the person who completed the job.
+                await turnContext.sendActivity('Job completed. Notification sent.');
+
             }
             // The job has already been completed.
-            else if (reference && completed) {
-                await this.adapter.continueConversation(reference, async (turnContext) => {
-                    await turnContext.sendActivity('This job is already completed, please start a new job.');
-                });
+            else if (completed) {
+                await turnContext.sendActivity('This job is already completed, please start a new job.');
             };
         };
     };
+
+    // Show a list of the pending jobs
+    async showJobs(turnContext) {
+        const jobs = await this.jobsList.get(turnContext, {});
+        if (Object.keys(jobs).length) {
+            await turnContext.sendActivity(
+                '| Job number &nbsp; | Conversation ID &nbsp; | Completed |<br>' +
+                '| :--- | :---: | :---: |<br>' +
+                Object.keys(jobs).map((key) => {
+                    return `${ key } &nbsp; | ${ jobs[key].reference.conversation.id.split('|')[0] } &nbsp; | ${ jobs[key].completed }`
+                }).join('<br>'));
+        } else {
+            await turnContext.sendActivity('The job log is empty.');
+        }
+    }
 }
 
 // Helper function to check if object is empty.

@@ -6,7 +6,7 @@ const path = require('path');
 const CONFIG_ERROR = 1;
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different part of a bot.
-const { BotFrameworkAdapter, BotState, MemoryStorage } = require('botbuilder');
+const { BotFrameworkAdapter, BotStateSet, ConversationState, MemoryStorage, UserState } = require('botbuilder');
 const { BotConfiguration } = require('botframework-config');
 
 const MainDialog = require('./dialogs/mainDialog');
@@ -14,20 +14,20 @@ const MainDialog = require('./dialogs/mainDialog');
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '.env');
-const env = require('dotenv').config({path: ENV_FILE});
+const env = require('dotenv').config({ path: ENV_FILE });
 
 // Create HTTP server.
 let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
-    console.log(`\n${ server.name } listening to ${ server.url }.`);
+    console.log(`\n${server.name} listening to ${server.url}.`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
-    console.log(`\nTo talk to your bot, open proactive-messages.bot file in the Emulator.`);
+    console.log(`\nTo talk to your bot, open custom-dialogs.bot file in the emulator.`);
 });
 
 // .bot file path
 const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 
-// Read the bot's configuration from a .bot file identified by BOT_FILE.
+// Read the configuration from a .bot file.
 // This includes information about the bot's endpoints and configuration.
 let botConfig;
 try {
@@ -38,9 +38,9 @@ try {
     process.exit(CONFIG_ERROR);
 }
 
-// Define the name of the bot, as specified in .bot file.
+// Define the name of the bot, as specified in the .bot file.
 // See https://aka.ms/about-bot-file to learn more about .bot files.
-const BOT_CONFIGURATION = 'proactive-messages-bot';
+const BOT_CONFIGURATION = 'custom-dialogs';
 
 // Load the configuration profile specific to this bot identity.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
@@ -56,9 +56,6 @@ const adapter = new BotFrameworkAdapter({
 // A bot requires a state storage system to persist the dialog and user state between messages.
 const memoryStorage = new MemoryStorage();
 
-// Create state manager with in-memory storage provider. 
-const botState = new BotState(memoryStorage, () => 'proactiveBot.botState');
-
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone. 
 // For production bots use the Azure Cosmos DB storage, or Azure Blob storage providers. 
@@ -70,9 +67,11 @@ const botState = new BotState(memoryStorage, () => 'proactiveBot.botState');
 //                                            databaseId: cosmosConfig.database, 
 //                                            collectionId: cosmosConfig.collection});
 
-// Create the main dialog, which serves as the bot's main handler.
-const mainDlg = new MainDialog(botState, adapter);
+// Create conversation state with in-memory storage provider. 
+const conversationState = new ConversationState(memoryStorage);
 
+// Create the main dialog, which serves as the bot's main handler.
+const mainDlg = new MainDialog(conversationState);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {

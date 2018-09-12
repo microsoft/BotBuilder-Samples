@@ -6,17 +6,20 @@ const { TextPrompt } = require('botbuilder-dialogs');
 // This is a custom TextPrompt that requires the input to be between 1 and 50 characters in length.
 module.exports = class NamePrompt extends TextPrompt {
     constructor(dialogId) {
-        super(dialogId, async (turnContext, step) => {
-            if (!step.recognized) {
-                await turnContext.sendActivity('Please tell me your name.');
+        super(dialogId, async (prompt) => {
+            if (!prompt.recognized.succeeded) {
+                await prompt.context.sendActivity('Please tell me your name.');
+                return false;
             } else {
-                const value = step.recognized.value;
+                const value = prompt.recognized.value;
                 if (value.length < 1) {
-                    await turnContext.sendActivity('Your name has to include at least one character.');
+                    await prompt.context.sendActivity('Your name has to include at least one character.');
+                    return false;
                 } else if (value.length > 50) {
-                    await turnContext.sendActivity(`Sorry, but I can only handle names of up to 50 characters. Yours was ${ value.length }.`);
+                    await prompt.context.sendActivity(`Sorry, but I can only handle names of up to 50 characters. Yours was ${ value.length }.`);
+                    return false;
                 } else {
-                    step.end(value);
+                    return true;
                 }
             }
         });
