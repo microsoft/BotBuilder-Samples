@@ -54,9 +54,9 @@ class BookTableDialog extends ComponentDialog {
 
         // Water fall dialog
         this.addDialog(new WaterfallDialog(BOOK_TABLE_WATERFALL, [
-            //this.getAllRequiredProperties,
-            this.confirmReservation,
-            this.bookTable
+            this.getAllRequiredProperties.bind(this),
+            this.confirmReservation.bind(this),
+            this.bookTable.bind(this)
         ]));
 
         // Get location, date, time & party size prompt.
@@ -71,7 +71,14 @@ class BookTableDialog extends ComponentDialog {
     
     async getAllRequiredProperties(dc, step) {
         // Get current reservation property from accessor
-        const newReservation = await this.reservationsPropertyAccessor.get(dc.context);
+        let reservationFromState = await this.reservationsPropertyAccessor.get(dc.context);
+        let newReservation; 
+
+        if(reservationFromState === undefined) {
+            newReservation = new reservationProperty(); 
+        } else {
+            newReservation = reservationProperty.fromJSON(reservationFromState);
+        }
         // Get on turn property (includes LUIS entities captured by parent)
         const onTurnProperty = await this.onTurnPropertyAccessor.get(dc.context);
         let reservationResult;
@@ -85,6 +92,7 @@ class BookTableDialog extends ComponentDialog {
         }
         // set reservation property 
         this.reservationsPropertyAccessor.set(dc.context, reservationResult.newReservation);
+        
         // see if updadte reservtion resulted in errors, if so, report them to user. 
         if(reservationResult &&
             reservationResult.status === reservationStatus.INCOMPLETE &&

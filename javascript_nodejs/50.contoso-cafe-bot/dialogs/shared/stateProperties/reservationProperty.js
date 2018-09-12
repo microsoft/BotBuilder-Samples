@@ -74,7 +74,7 @@ class ReservationProperty {
             return `When do you want to come in? You can say things like tomorrow, next thursday ...`;
         } else if (this.time === '') {
             return `What time?`;
-        } else if (this.partySize === '') {
+        } else if (this.partySize === 0) {
             return `How many guests?`
         } else return '';
     }
@@ -161,6 +161,13 @@ const validate = function (onTurnProperty, returnResult) {
             // see if the time meets our constraints
             if(parsedTimex.hour !== undefined && parsedTimex.minute  !== undefined && parsedTimex.second  !== undefined) {
                 const validtime = resolver.evaluate(dateTimeEntity.entityValue[0].timex, reservationTimeConstraints);
+                
+                returnResult.newReservation.time = ((parseInt(parsedTimex.hour) < 10) ? '0' + parsedTimex.hour : parsedTimex.hour);
+                returnResult.newReservation.time += ':';
+                returnResult.newReservation.time += ((parseInt(parsedTimex.minute) < 10) ? '0' + parsedTimex.minute : parsedTimex.minute);
+                returnResult.newReservation.time += ':';
+                returnResult.newReservation.time += ((parseInt(parsedTimex.second) < 10) ? '0' + parsedTimex.second : parsedTimex.second);
+                
                 if(!validtime || (validtime.length === 0)) {
                     // Validation failed!
                     returnResult.outcome.push(new ReservationOutcome(`Sorry, that time does not work. I can only make reservations that are in the daytime (6AM - 6PM)`, DATE_TIME_ENTITY));
