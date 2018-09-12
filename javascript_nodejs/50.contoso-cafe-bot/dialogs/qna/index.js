@@ -5,7 +5,7 @@ const { DialogTurnStatus } = require('botbuilder-dialogs');
 const { TurnResult } = require('../shared/helpers');
 
 // QnA name from ../../mainDialog/resources/cafeDispatchModel.lu 
-const QnA_DIALOG = 'QnADialog';
+const QnA_DIALOG = 'QnA';
 
 // Name of the QnA Maker service in the .bot file.
 const QnA_CONFIGURATION = 'cafeFaqChitChat';
