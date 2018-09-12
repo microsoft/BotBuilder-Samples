@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { BotFrameworkAdapter, BotStateSet, ConversationState, MemoryStorage } = require('botbuilder');
+const { BotFrameworkAdapter, ConversationState, MemoryStorage } = require('botbuilder');
 const { BotConfiguration } = require('botframework-config');
 const path = require('path');
 const restify = require('restify');

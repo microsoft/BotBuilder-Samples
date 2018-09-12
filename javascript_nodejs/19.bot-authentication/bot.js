@@ -11,14 +11,14 @@ const DIALOG_STATE_PROPERTY = 'dialogState';
 const OAUTH_PROMPT = 'oAuth_prompt';
 const CONFIRM_PROMPT = 'confirm_prompt';
 
-// Name of the waterfall dialog the bot uses.
+// Name of the WaterfallDialog the bot uses.
 const AUTH_DIALOG = 'auth_dialog';
 
 // Text to help guide the user through using the bot.
 const HELP_TEXT = ' Type anything to get logged in. Type \'logout\' to signout.' +
     ' Type \'help\' to view this message again';
 
-// The connection name here must match the the one from
+// The connection name here must match the the one from found in
 // your Bot Channels Registration on the settings blade in Azure.
 const CONNECTION_NAME = "";
 
@@ -30,7 +30,6 @@ const OAUTH_SETTINGS = {
     timeout: 300000 // User has 5 minutes to log in.
 };
 
-
 /**
  * A bot that authenticates users using OAuth prompts.
  */
@@ -41,18 +40,16 @@ class AuthenticationBot {
      * @param {ConversationState} conversationState A ConversationState object used to store the dialog state.
      */
     constructor(conversationState) {
-
         // Create a new state accessor property. See https://aka.ms/about-bot-state-accessors to learn more about bot state and state accessors.
         this.conversationState = conversationState;
         this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
         this.dialogs = new DialogSet(this.dialogState);
 
         // Add prompts that will be used by the bot.
-
         this.dialogs.add(new ChoicePrompt(CONFIRM_PROMPT));
-        this.dialogs.add(new OAuthPrompt(OAUTH_PROMPT, OAUTH_SETTINGS))
+        this.dialogs.add(new OAuthPrompt(OAUTH_PROMPT, OAUTH_SETTINGS));
 
-        // The waterfall dialog that controls the flow of the conversation.
+        // The WaterfallDialog that controls the flow of the conversation.
         this.dialogs.add(new WaterfallDialog(AUTH_DIALOG, [
             this.oauthPrompt,
             this.loginResults,
@@ -135,8 +132,8 @@ class AuthenticationBot {
                 }
             };
         } else if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
-            // Send a greeting to new members that join the conersation.
-            let members = turnContext.activity.membersAdded;
+            // Send a greeting to new members that join the conversation.
+            const members = turnContext.activity.membersAdded;
 
             for (let index = 0; index < members.length; index++) {
                 const member = members[index];
@@ -148,11 +145,11 @@ class AuthenticationBot {
         } else if (turnContext.activity.type === ActivityTypes.Invoke || turnContext.activity.type === ActivityTypes.Event) {
             // This handles the MS Teams Invoke Activity sent when magic code is not used.
             // See: https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/authentication/auth-oauth-card#getting-started-with-oauthcard-in-teams
-            // The Teams manifest schema is found : https://docs.microsoft.com/en-us/microsoftteams/platform/resources/schema/manifest-schema
+            // The Teams manifest schema is found here: https://docs.microsoft.com/en-us/microsoftteams/platform/resources/schema/manifest-schema
             // It also handles the Event Activity sent from the emulator when the magic code is not used.
             // See: https://blog.botframework.com/2018/08/28/testing-authentication-to-your-bot-using-the-bot-framework-emulator/
             const dc = await this.dialogs.createContext(turnContext);
-            await dc.continue;
+            await dc.continue();
             if (!turnContext.responded) {
                 await dc.begin(AUTH_DIALOG);
             }
