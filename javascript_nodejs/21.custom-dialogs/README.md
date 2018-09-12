@@ -1,5 +1,5 @@
 This sample demonstrates how to sub-class the Dialog class to create
-different bot control mechanism, such as a slot filling.
+different bot control mechanism like simple slot filling.
 
 # To try this sample
 - Clone the repository
@@ -39,7 +39,7 @@ or running remotely through a tunnel.
 
 Botbuilder provides a built-in base class called `Dialog`. By subclassing Dialog, developers
 can create new ways to define and control dialog flows used by the bot. By adhering to the
-features of this class, developers create custom dialog types that can be used side-by-side
+features of this class, developers will create custom dialogs that can be used side-by-side
 with other dialog types, as well as built-in or custom prompts.
 
 This example demonstrates a custom Dialog class called `SlotFillingDialog`, which takes a
