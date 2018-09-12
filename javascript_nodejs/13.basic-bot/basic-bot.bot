@@ -1,7 +1,6 @@
 {
     "name": "basic-bot",
     "description": "",
-    "secretKey": "",
     "services": [
         {
             "type": "endpoint",
@@ -10,14 +9,8 @@
             "appId": "",
             "appPassword": "",
             "endpoint": "http://localhost:3978/api/messages"
-        },
-        {
-            "type": "luis",
-            "id": "",
-            "name": "basic-bot-LUIS",
-            "appId": "",
-            "authoringKey": "",
-            "subscriptionKey": ""
         }
-    ]
+    ],
+    "secretKey": "",
+    "version": "2.0"
 }
