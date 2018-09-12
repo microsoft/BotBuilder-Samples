@@ -8,7 +8,7 @@ const JOBS_LIST = 'jobs';
 class MainDialog {
     /**
      * 
-     * @param {BotState} botState A ConversationState object used to track the dialog.
+     * @param {BotState} botState A BotState object used to store information for the bot independent of user or conversation.
      * @param {BotAdapter} adapter A BotAdapter used to send and receive messages.
      */
     constructor(botState, adapter) {
@@ -100,10 +100,10 @@ class MainDialog {
     }
 
     async completeJob(turnContext, jobIdNumber) {
-        // Get the list of jobs.
+        // Get the list of jobs from the bot's state property accessor.
         const jobs = await this.jobsList.get(turnContext, {});
 
-        // Read from storage
+        // Find the appropriate job in the list of jobs.
         let jobInfo = jobs[jobIdNumber];
 
         // If no job was found, notify the user of this error state.
