@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -15,6 +16,22 @@ namespace Microsoft.BotBuilderSamples
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureLogging((hostingContext, logging) =>
+                {
+                    // Add Azure Logging
+                    logging.AddAzureWebAppDiagnostics();
+
+                    // Other Loggers.
+                    // There are other logging options available:
+                    // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1
+                    // logging.AddDebug();
+                    // logging.AddConsole();
+                })
+
+                // Application Insights.
+                // An alternative logging and metrics service for your application.
+                // https://azure.microsoft.com/en-us/services/application-insights/
+                //.UseApplicationInsights()
                 .UseStartup<Startup>()
                 .Build();
     }

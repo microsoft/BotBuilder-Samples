@@ -3,7 +3,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -13,14 +15,17 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Microsoft.BotBuilderSamples
 {
     public class Startup
     {
+        private ILoggerFactory _loggerFactory;
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -50,11 +55,33 @@ namespace Microsoft.BotBuilderSamples
 
             services.AddBot<BasicBot>(options =>
             {
-                options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
+                // Load the connected services from .bot file.
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
+                var endpointService = service as EndpointService;
+                if (endpointService == null)
+                {
+                    throw new InvalidOperationException("The .bot file does not contain an endpoint.");
+                }
+
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+
+                // Catches any errors that occur during a conversation turn and logs them.
+                ILogger logger = _loggerFactory.CreateLogger<BasicBot>();
+                options.OnTurnError = async (context, exception) =>
+                {
+                    logger.LogError($"Exception caught : {exception}");
+                    await context.SendActivityAsync("Sorry, it looks like something went wrong.");
+                };
 
                 // The Memory Storage used here is for local bot debugging only. When the bot
                 // is restarted, everything stored in memory will be gone.
                 IStorage dataStore = new MemoryStorage();
+
+                // Azure Blob storage.
+                // To replace with Azure Blob Storage, add the Microsoft.Bot.Builder.Azure Nuget package to your
+                // solution. The package is found at:
+                //      https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
+                // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
 
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
@@ -74,7 +101,7 @@ namespace Microsoft.BotBuilderSamples
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
                 if (options == null)
                 {
-                    throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the state accessors");
+                    throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the state accessors.");
                 }
 
                 var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
@@ -106,8 +133,9 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="app">The application builder. This provides the mechanisms to configure the application request pipeline.</param>
         /// <param name="env">Provides information about the web hosting environment.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            _loggerFactory = loggerFactory;
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
