@@ -103,7 +103,8 @@ class OnboardingDialog extends ComponentDialog {
 
     // With all values in hand, we can now store them in our model and complete.
     async completeProfile(step) {
-        const user = await this.userProfile.get(step.context, {});
+        // Initialize user as a blank object into which we can store values.
+        const user = {};
 
         // Extract collected values and add them to the user profile object.
         user[USER_NAME_PROPERTY] = step.values[USER_NAME_PROPERTY];
