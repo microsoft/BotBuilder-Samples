@@ -35,12 +35,17 @@ class MainDialog {
         // Add prompts that will be used by the main dialogs.
         this.dialogs.add(new TextPrompt(NAME_PROMPT));
         this.dialogs.add(new ChoicePrompt(CONFIRM_PROMPT));
-        this.dialogs.add(new NumberPrompt(AGE_PROMPT, async (turnContext, step)=> {
-            if (step.recognized.value < 0) {
-                await turnContext.sendActivity(`Your age can't be less than zero.`);
-            } else {
-                step.end(step.recognized.value);
-            }
+        this.dialogs.add(new NumberPrompt(AGE_PROMPT, async (prompt)=> {
+            if (prompt.recognized.succeeded) {
+                if (prompt.recognized.value <= 0) {
+                    await prompt.context.sendActivity(`Your age can't be less than zero.`);
+                    return false;
+                } else {
+                    return true;
+                }
+            } 
+
+            return false;
         }));
             
         // Create a dialog that asks the user for their name.

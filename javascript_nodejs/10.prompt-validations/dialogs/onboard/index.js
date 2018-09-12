@@ -90,14 +90,14 @@ class OnboardingDialog extends ComponentDialog {
 
     // Collect date of birth, then prompt for favorite color.
     async promptForColor(step) {
-        step.values[DOB_PROPERTY] = step.result;
+        step.values[DOB_PROPERTY] = step.result[0].value;
         const choices = ['red','blue','green'];
         return await step.prompt(GET_COLOR_PROMPT, `Finally, what is your favorite color?`, choices);
     }
 
     // Collect favorite color and continue.
     async captureColor(step) {
-        step.values[COLOR_PROPERTY] = step.result;
+        step.values[COLOR_PROPERTY] = step.result.value;
         return await step.next();
     }
 
