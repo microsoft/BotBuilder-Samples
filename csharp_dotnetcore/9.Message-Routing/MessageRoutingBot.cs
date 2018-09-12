@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -24,8 +25,8 @@ namespace MessageRoutingBot
         /// <param name="accessors">Bot State Accessors.</param>
         public MessageRoutingBot(BotServices botServices, MessageRoutingBotAccessors accessors)
         {
-            _accessors = accessors;
-            _services = botServices;
+            _services = botServices ?? throw new ArgumentNullException(nameof(botServices));
+            _accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
 
             Dialogs = new DialogSet(accessors.ConversationDialogState);
             Dialogs.Add(new MainDialog(_services));
@@ -49,6 +50,12 @@ namespace MessageRoutingBot
                 // Start main dialog.
                 await dc.BeginAsync(MainDialog.Name);
             }
+
+            // Save the dialog state into the conversation state.
+            await _accessors.ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
+
+            // Save the user profile updates into the user state.
+            await _accessors.UserState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
     }
 }
