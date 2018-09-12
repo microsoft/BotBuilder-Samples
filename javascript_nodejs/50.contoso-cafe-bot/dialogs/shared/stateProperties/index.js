@@ -4,5 +4,6 @@
 module.exports = {
     entityProperty: require('./entityProperty'),
     onTurnProperty: require('./onTurnProperty'),
+    reservationProperty: require('./reservationProperty'),
     userProfileProperty: require('./userProfileProperty')
 };

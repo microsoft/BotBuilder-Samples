@@ -8,6 +8,7 @@ const { GenSuggestedQueries } = require('../shared/helpers/genSuggestedQueries')
 const { userProfileProperty } = require('../shared/stateProperties');
 
 const MAIN_DIALOG = 'MainDialog';
+const BookTableDialog = require('../bookTable');
 const WhoAreYouDialog = require('../whoAreYou');
 const QnADialog = require('../qna');
 const ChitChatDialog = require('../chitChat');
@@ -24,6 +25,7 @@ const USER_NAME_ENTITY = 'userName_patternAny';
 const QUERY_PROPERTY = 'query';
 const USER_PROFILE_PROPERTY = 'userProfileProperty';
 const USER_RESERVATIONS_PROPERTY = 'userReservationsProperty';
+const BOOK_TABLE_DIALOG_PROPERTY = 'bookTableDialog';
 const MAIN_DIALOG_STATE_PROPERTY = 'mainDialogState';
 const TURN_COUNTER_PROPERTY = 'turnCounterProperty';
 
@@ -47,6 +49,7 @@ class MainDialog extends ComponentDialog {
         this.reservationsPropertyAccessor = userState.createProperty(USER_RESERVATIONS_PROPERTY);
         this.mainDialogPropertyAccessor = conversationState.createProperty(MAIN_DIALOG_STATE_PROPERTY);
         this.turnCounterPropertyAccessor = conversationState.createProperty(TURN_COUNTER_PROPERTY);
+        this.bookTableDialogPropertyAccessor = conversationState.createProperty(BOOK_TABLE_DIALOG_PROPERTY);
 
         // keep on turn accessor and bot configuration
         this.onTurnPropertyAccessor = onTurnPropertyAccessor;
@@ -54,6 +57,14 @@ class MainDialog extends ComponentDialog {
 
         // add dialogs
         this.dialogs = new DialogSet(this.mainDialogPropertyAccessor);
+        // add book table dialog
+        this.dialogs.add(new BookTableDialog(botConfig, 
+                                             this.reservationsPropertyAccessor, 
+                                             this.turnCounterPropertyAccessor, 
+                                             onTurnPropertyAccessor, 
+                                             this.bookTableDialogPropertyAccessor, 
+                                             conversationState));
+        
         this.dialogs.add(new CancelDialog());
         this.qnaDialog = new QnADialog(botConfig, this.userProfilePropertyAccessor);
         this.findCafeLocationsDialog = new FindCafeLocationsDialog();
@@ -72,7 +83,6 @@ class MainDialog extends ComponentDialog {
         // Override default begin() logic with bot orchestration logic
         return await this.onDialogContinue(dc);
     }
-
     /**
      * Override onDialogContinue
      * 
@@ -88,22 +98,20 @@ class MainDialog extends ComponentDialog {
         //     2. Calls any oustanding dialogs to continue
         //     3. If results is no-match from outstanding dialog .OR. if there are no outstanding dialogs,
         //         Decide which child dialog should begin and start it
-        //         
+        //              
         const reqOpStatus = await this.isRequestedOperationPossible(dc, onTurnProperty.intent);
 
         if(!reqOpStatus.allowed) {
             await dc.context.sendActivity(reqOpStatus.reason);
             return dialogTurnResult; 
         }
-
         // continue outstanding dialogs
         dialogTurnResult = await dc.continue();
 
         // This will only be empty if there is no active dialog in the stack.
-        if(dialogTurnResult.status === DialogTurnStatus.empty) {
+        if(dialogTurnResult === undefined || dialogTurnResult.status === DialogTurnStatus.empty) {
             dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty);
-        }
-
+        } 
         // Examine result from continue or beginChildDialog.
         switch(dialogTurnResult.status) {
             case DialogTurnStatus.complete: {
@@ -118,7 +126,7 @@ class MainDialog extends ComponentDialog {
                             // Re-hydrate old dialog
                             dialogTurnResult = await this.beginChildDialog(dc, dialogTurnResult.result.payload.onTurnProperty);
                             break;
-                        }
+                        } 
                     }
                 } else {
                     // The active dialog's stack ended with a complete status
@@ -143,7 +151,6 @@ class MainDialog extends ComponentDialog {
         dialogTurnResult = (dialogTurnResult === undefined) ? new TurnResult(DialogTurnStatus.empty) : dialogTurnResult;
         return dialogTurnResult;
     }
-
     /**
      * Method to begin appropriate child dialog based on user input
      * 
@@ -162,6 +169,9 @@ class MainDialog extends ComponentDialog {
             case CancelDialog.Name: {
                 await this.resetTurnCounter(dc.context);
                 return await dc.begin(CancelDialog.Name, childDialogPayload);
+            } case BookTableDialog.Name: {
+                await this.resetTurnCounter(dc.context);
+                return await dc.begin(BookTableDialog.Name, childDialogPayload);
             } case WhoAreYouDialog.Name: {
                 // Get user profile.
                 let userProfile = await this.userProfilePropertyAccessor.get(dc.context);
@@ -246,7 +256,6 @@ class MainDialog extends ComponentDialog {
         return outcome;
     }
 };
-
 MainDialog.Name = MAIN_DIALOG;
 
 module.exports = MainDialog;

@@ -50,6 +50,10 @@
             "placeholder": "Choose an example of what you can say: ",
             "choices": [
                 {
+                    "title": "book a table for 2 in seattle",
+                    "value": " {\"intent\": \"Book_Table\", \"location\": \"seattle\", \"partySize\": \"2\", \"text\": \"book a table for 2 in seattle\"}"
+                },
+                {
                     "title": "tell me a joke",
                     "value": "{\"intent\": \"ChitChat\", \"text\": \"tell me a joke\"}"
                 },

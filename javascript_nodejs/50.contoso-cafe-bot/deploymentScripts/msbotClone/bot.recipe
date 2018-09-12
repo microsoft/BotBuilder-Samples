@@ -13,6 +13,11 @@
       "name": "cafeDispatchModel"
     },
     {
+      "type": "luis",
+      "id": "235",
+      "name": "cafeBotBookTableTurnN"
+    },
+    {
       "type": "qna",
       "id": "163",
       "name": "cafeFaqChitChat"

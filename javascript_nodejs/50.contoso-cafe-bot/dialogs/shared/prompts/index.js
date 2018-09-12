@@ -2,5 +2,6 @@
 // Licensed under the MIT License.
 
 module.exports = {
-    GetUserNamePrompt: require('./getUserNamePrompt')
+    GetUserNamePrompt: require('./getUserNamePrompt'),
+    GetLocDateTimePartySizePrompt: require('./getLocDateTimePartySize')
 };
