@@ -78,6 +78,12 @@ namespace Microsoft.BotBuilderSamples
                 // is restarted, everything stored in memory will be gone.
                 IStorage dataStore = new MemoryStorage();
 
+                // Other Storage.
+                // Consider Azure Blob storage as an option.
+                // To include add the Microsoft.Bot.Builder.Azure Nuget package to your solution. That package is found at:
+                //      https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
+                // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
+
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
                 var conversationState = new ConversationState(dataStore);
