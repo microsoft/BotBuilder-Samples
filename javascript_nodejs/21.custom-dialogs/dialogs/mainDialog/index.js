@@ -151,7 +151,7 @@ class MainDialog {
             await turnContext.sendActivity(description.join(' '));
         }
         
-        await this.conversationState.write(turnContext);
+        await this.conversationState.saveChanges(turnContext);
     }    
 }
 

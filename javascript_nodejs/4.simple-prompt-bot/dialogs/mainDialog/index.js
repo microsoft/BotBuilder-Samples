@@ -53,17 +53,17 @@ class MainDialog {
 
     // The second step in this waterfall collects the response, stores it in
     // the state accessor, then displays it.
-    async collectAndDisplayName(dc, step) {
-        await this.userName.set(dc.context, step.result);
-        await dc.context.sendActivity(`Got it. You are ${ step.result }`);
-        return await dc.end();
+    async collectAndDisplayName(step) {
+        await this.userName.set(step.context, step.result);
+        await step.context.sendActivity(`Got it. You are ${ step.result }.`);
+        return await step.end();
     }
 
     // This step loads the user's name from state and displays it.
-    async displayName(dc, step) {
-            const user_name = await this.userName.get(dc.context, null);
-            await dc.context.sendActivity(`Your name is ${user_name}.`);
-            return await dc.end();
+    async displayName(step) {
+            const user_name = await this.userName.get(step.context, null);
+            await step.context.sendActivity(`Your name is ${user_name}.`);
+            return await step.end();
     }
 
     /**
@@ -110,10 +110,10 @@ class MainDialog {
         }
 
         // Save changes to the user name.
-        await this.userState.write(turnContext);
+        await this.userState.saveChanges(turnContext);
 
         // End this turn by saving changes to the conversation state.
-        await this.conversationState.write(turnContext);
+        await this.conversationState.saveChanges(turnContext);
 
     }
 
