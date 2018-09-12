@@ -34,16 +34,15 @@ class MainDialog {
             } else if (utterance === 'show') {
                 await this.showJobs(turnContext);
             } else {
-                const firstWord = utterance.split(' ')[0];
-                const secondWord = utterance.split(' ')[1];
+                const words = utterance.split(' ');
 
                 // If the user types done and a Job Id Number,
                 // we check if the second word input is a number.
-                if (firstWord === 'done' && !isNaN(parseInt(secondWord))) {
-                    var jobIdNumber = secondWord;
+                if (words[0] === 'done' && !isNaN(parseInt(words[1]))) {
+                    var jobIdNumber = words[1];
                     await this.completeJob(turnContext, jobIdNumber);
 
-                } else if (firstWord === 'done' && isNaN(parseInt(secondWord))) {
+                } else if (words[0] === 'done' && (words.length < 2 || isNaN(parseInt(words[1])))) {
                     await turnContext.sendActivity('Enter the job ID number after "done".');
                 }
             }
