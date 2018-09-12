@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +15,7 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Microsoft.BotBuilderSamples
@@ -23,6 +25,8 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class Startup
     {
+        private ILoggerFactory _loggerFactory;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -63,10 +67,11 @@ namespace Microsoft.BotBuilderSamples
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Catches any errors that occur during a conversation turn and logs them.
-                options.OnTurnError = (context, exception) =>
+                ILogger logger = _loggerFactory.CreateLogger<EchoWithCounterBot>();
+                options.OnTurnError = async (context, exception) =>
                 {
-                    System.Diagnostics.Trace.TraceError($"Exception caught : {exception}");
-                    return Task.CompletedTask;
+                    logger.LogError($"Exception caught : {exception}");
+                    await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
                 // The Memory Storage used here is for local bot debugging only. When the bot
@@ -107,8 +112,9 @@ namespace Microsoft.BotBuilderSamples
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            _loggerFactory = loggerFactory;
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
