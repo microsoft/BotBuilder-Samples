@@ -3,6 +3,7 @@
 
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -52,8 +53,21 @@ namespace Microsoft.BotBuilderSamples
             {
                 // Load the connected services from .bot file.
                 var botConfig = BotConfiguration.Load(@".\EchoBotWithCounter.bot");
-                var endpointService = (EndpointService)botConfig.Services.First(s => s.Type == "endpoint");
-                options.CredentialProvider = new SimpleCredentialProvider(endpointService?.AppId, endpointService?.AppPassword);
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
+                var endpointService = service as EndpointService;
+                if (endpointService == null)
+                {
+                    throw new InvalidOperationException("The .bot file does not contain an endpoint.");
+                }
+
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+
+                // Catches any errors that occur during a conversation turn and logs them.
+                options.OnTurnError = (context, exception) =>
+                {
+                    System.Diagnostics.Trace.TraceError($"Exception caught : {exception}");
+                    return Task.CompletedTask;
+                };
 
                 // The Memory Storage used here is for local bot debugging only. When the bot
                 // is restarted, everything stored in memory will be gone.
