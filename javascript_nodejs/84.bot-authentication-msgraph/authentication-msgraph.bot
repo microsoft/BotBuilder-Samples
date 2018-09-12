@@ -1,0 +1,15 @@
+{
+    "name": "authBot",
+    "description": "",
+    "secretKey": "",
+    "services": [
+        {
+            "appId": "<MICROSOFT_APP_ID>",
+            "id": "",
+            "type": "endpoint",
+            "appPassword": "<MICROSOFT_APP_PASSWORD>",
+            "endpoint": "http://localhost:3978/api/messages",
+            "name": "http://localhost:3978/api/messages"
+        }
+    ]
+}
