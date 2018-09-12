@@ -33,6 +33,7 @@ class TranslatorMiddleware {
             }
 
             turnContext.onSendActivities(async (context, activities, next) => {
+                // Translate messages sent to the user to user language
                 const userLanguage = await this.languagePreferenceProperty.get(turnContext, DEFAULT_LANGUAGE);
                 const shouldTranslate = userLanguage != DEFAULT_LANGUAGE;
     
@@ -45,7 +46,7 @@ class TranslatorMiddleware {
             });
 
             turnContext.onUpdateActivity(async (context, activitiy, next) => {
-
+                // Translate messages sent to the user to user language
                 const userLanguage = await this.languagePreferenceProperty.get(turnContext, DEFAULT_LANGUAGE);
                 const shouldTranslate = userLanguage != DEFAULT_LANGUAGE;
     
