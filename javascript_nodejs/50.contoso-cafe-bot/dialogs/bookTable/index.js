@@ -33,7 +33,7 @@ class BookTableDialog extends ComponentDialog {
      * @param {Object} accessor for the dialog property
      * @param {Object} conversation state object
      */
-    constructor(botConfig, reservationsPropertyAccessor, turnCounterPropertyAccessor, onTurnPropertyAccessor, dialogPropertyAccessor, conversationState) {
+    constructor(botConfig, reservationsPropertyAccessor, turnCounterPropertyAccessor, onTurnPropertyAccessor, userProfilePropertyAccessor, conversationState) {
         super(BOOK_TABLE);
         if(!botConfig) throw ('Need bot config');
         if(!reservationsPropertyAccessor) throw ('Need reservations property accessor');
@@ -48,6 +48,7 @@ class BookTableDialog extends ComponentDialog {
         // create property accessors for child dialogs
         this.getLocDialogPropertyAccessor = conversationState.createProperty(GET_LOCATION_DIALOG_STATE);
         this.confirmDialogPropertyAccessor = conversationState.createProperty(CONFIRM_DIALOG_STATE);
+        this.userProfilePropertyAccessor = userProfilePropertyAccessor;
         
         // add dialogs
         this.dialogs = new DialogSet(this.bookTableDialogPropertyAccessor);
@@ -63,7 +64,8 @@ class BookTableDialog extends ComponentDialog {
         this.addDialog(new getLocationDateTimePartySizePrompt(GET_LOCATION_DATE_TIME_PARTY_SIZE_PROMPT,
                                                               botConfig, 
                                                               reservationsPropertyAccessor, 
-                                                              onTurnPropertyAccessor));
+                                                              onTurnPropertyAccessor, 
+                                                              userProfilePropertyAccessor));
         
         // Confirm prompt.
         this.addDialog(new ConfirmPrompt(CONFIRM_RESERVATION_PROMPT));
@@ -107,8 +109,18 @@ class BookTableDialog extends ComponentDialog {
     }
 
     async confirmReservation(dc, step) {
+        // Get current reservation property from accessor
+        let reservationFromState = await this.reservationsPropertyAccessor.get(dc.context);
+        let newReservation; 
+
+        if(reservationFromState === undefined) {
+            newReservation = new reservationProperty(); 
+        } else {
+            newReservation = reservationProperty.fromJSON(reservationFromState);
+        }
+        await dc.context.sendActivity(newReservation.confirmationReadOut());
         // prompt for confirmation to cancel
-        return await dc.prompt(CONFIRM_RESERVATION_PROMPT, `Are you sure you to book the table?`);
+        return await dc.prompt(CONFIRM_RESERVATION_PROMPT, `Should I go ahead and book the table?`);
     }
 
     async bookTable(dc, step) {
@@ -116,11 +128,15 @@ class BookTableDialog extends ComponentDialog {
         if (step.result) {
             // User confirmed.
             // TODO: Book the table.
+            // clear out state
+            this.reservationsPropertyAccessor.set(dc.context, undefined);
             await dc.cancelAll();
             await dc.context.sendActivity(`Sure. I've booked the table`);
             return await dc.end();
         } else {
             // User rejected cancellation.
+            // clear out state.
+            this.reservationsPropertyAccessor.set(dc.context, undefined);
             await dc.context.sendActivity(`Ok..I've cancelled the reservation`);
             return await dc.end();
         }

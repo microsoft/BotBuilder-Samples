@@ -18,10 +18,12 @@ const { reservationProperty } = require('../stateProperties');
 
 const { onTurnProperty } = require('../stateProperties');
 
+const QnADialog = require('../../qna');
+
 // This is a custom TextPrompt that uses a LUIS model to handle turn.n conversations including interruptions.
 module.exports = class GetLocDateTimePartySizePrompt extends TextPrompt {
 
-    constructor(dialogId, botConfig, reservationsPropertyAccessor, onTurnPropertyAccessor) {
+    constructor(dialogId, botConfig, reservationsPropertyAccessor, onTurnPropertyAccessor, userProfilePropertyAccessor) {
         if(!dialogId) throw ('Need dialog ID');
         if(!botConfig) throw ('Need bot configuration');
         if(!reservationsPropertyAccessor) throw ('Need user reservation property accessor');
@@ -59,11 +61,42 @@ module.exports = class GetLocDateTimePartySizePrompt extends TextPrompt {
             if(turnContext.activity.text !== undefined) {
                 // call LUIS and get results
                 const LUISResults = await this.luisRecognizer.recognize(turnContext); 
-                // update reservation property with LUIS results
-                updateResult = newReservation.updateProperties(onTurnProperty.fromLUISResults(LUISResults));
+                const topIntent = LuisRecognizer.topIntent(LUISResults);
                 
-                // TODO: end if LUISResult is an interruption
-
+                // Did user ask for help or said they are not going to give us the name? 
+                switch(topIntent) {
+                    case 'GetLocationDateTimePartySize':
+                        break;
+                    case 'Help':
+                        // call qna maker and get contextual help
+                        let results = await this.qnaDialog.onTurn(turnContext, true);
+                        let filter = '';
+                        if(step.options.prompt.includes('city')) filter = 'askforcity';
+                        if(step.options.prompt.includes('come in')) filter = 'askfordatetime';
+                        if(step.options.prompt.includes('time')) filter = 'askfordatetime';
+                        if(step.options.prompt.includes('guest')) filter = 'askforpartysize';
+                        let helpAnswer;
+                        results.result.forEach(item => {
+                            item.metadata.forEach(md => {
+                                if(md.value == filter) {
+                                    helpAnswer = item;
+                                }
+                            })
+                        });
+                        if(helpAnswer !== undefined) {
+                            await turnContext.sendActivity(helpAnswer.answer);
+                        }
+                        break;
+                    case 'Cancel':
+                    default:
+                        // interruption
+                        // Handle interruption. Pass back original payload.
+                        let pld = {};
+                        if(updateResult !== undefined) pld = updateResult;
+                        if(newReservation !== undefined) pld = newReservation;
+                        step.end({reason: 'Interruption', payload: pld});
+                        break;
+                }
                 
             }
             // see if updadte reservtion resulted in errors, if so, report them to user. 
@@ -94,6 +127,8 @@ module.exports = class GetLocDateTimePartySizePrompt extends TextPrompt {
         });
         this.reservationsPropertyAccessor = reservationsPropertyAccessor;
         this.onTurnPropertyAccessor = onTurnPropertyAccessor;
+
+        this.qnaDialog = new QnADialog(botConfig, userProfilePropertyAccessor);
         
         // add recogizers
         const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);

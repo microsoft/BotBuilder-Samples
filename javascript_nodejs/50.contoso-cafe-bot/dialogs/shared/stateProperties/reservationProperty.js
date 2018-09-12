@@ -69,14 +69,21 @@ class ReservationProperty {
      */
     getMissingPropertyReadOut() {
         if(this.location === '') {
-            return `What city? We offer services in Seattle, Bellevue, Redmond and Renton.`;
+            return `What city?`;
         } else if (this.date === '') {
-            return `When do you want to come in? You can say things like tomorrow, next thursday ...`;
+            return `When do you want to come in?`;
         } else if (this.time === '') {
             return `What time?`;
         } else if (this.partySize === 0) {
             return `How many guests?`
         } else return '';
+    }
+    /**
+     * Helper to generate confirmation read out string.
+     */
+    confirmationReadOut() {
+        let today = new Date();
+        return 'Ok. I have a table for ' + this.partySize + ' at our ' + this.location + ' store for ' + new TimexProperty(this.date + 'T' + this.time).toNaturalLanguage(today) + '.';
     }
 };
 /**
@@ -130,7 +137,7 @@ const validate = function (onTurnProperty, returnResult) {
     if(numberEntity !== undefined) {
         // We only accept MAX_PARTY_SIZE in a reservation.
         if(parseInt(numberEntity.entityValue[0]) > MAX_PARTY_SIZE) {
-            returnResult.outcome.push(new ReservationOutcome(`Sorry. ${numberEntity.entityName[0]} does not work. I can only accept up to 10 guests in a reservation.`, PARTY_SIZE_ENTITY));
+            returnResult.outcome.push(new ReservationOutcome('Sorry. ' + parseInt(numberEntity.entityValue[0]) + ' does not work. I can only accept up to 10 guests in a reservation.', PARTY_SIZE_ENTITY));
             returnResult.status = reservationStatus.INCOMPLETE;
         } else {
             returnResult.newReservation.partySize = numberEntity.entityValue[0];

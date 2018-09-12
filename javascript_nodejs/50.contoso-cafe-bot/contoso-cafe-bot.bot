@@ -7,10 +7,10 @@
         {
             "type": "endpoint",
             "name": "contoso-cafe-bot",
-            "id": "http://localhost:3980/api/messages",
+            "id": "http://localhost:3982/api/messages",
             "appId": "",
             "appPassword": "",
-            "endpoint": "http://localhost:3980/api/messages"
+            "endpoint": "http://localhost:3982/api/messages"
         },
         {
             "type": "luis",
