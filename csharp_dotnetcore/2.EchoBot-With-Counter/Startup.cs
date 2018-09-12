@@ -9,6 +9,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -48,7 +50,10 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddBot<EchoWithCounterBot>(options =>
             {
-                options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
+                // Load the connected services from .bot file.
+                var botConfig = BotConfiguration.Load(@".\EchoBotWithCounter.bot");
+                var endpointService = (EndpointService)botConfig.Services.First(s => s.Type == "endpoint");
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService?.AppId, endpointService?.AppPassword);
 
                 // The Memory Storage used here is for local bot debugging only. When the bot
                 // is restarted, everything stored in memory will be gone.
