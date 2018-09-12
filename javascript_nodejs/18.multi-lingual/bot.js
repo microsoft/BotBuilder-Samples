@@ -47,9 +47,6 @@ class MultilingualBot {
                 // If Spanish was selected by the user, the reply below will actually be shown in spanish to the user.
                 await this.languagePreferenceProperty.set(turnContext, text);
                 var reply = await turnContext.sendActivity(`Your current language code is: ${text}`);
-
-                // Save the user profile updates into the user state.
-                //await _accessors.UserState.SaveChangesAsync(turnContext, false, cancellationToken);
             }
             else {
                 // Show the user the possible options for language. If the user chooses a different language
