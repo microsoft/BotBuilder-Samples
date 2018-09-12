@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityTypes, MessageFactory } = require('botbuilder');
-const { DialogSet, ChoicePrompt } = require('botbuilder-dialogs');
+const { ChoicePrompt, DialogSet } = require('botbuilder-dialogs');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
 const USER_PROFILE_PROPERTY = 'user';
@@ -32,8 +32,6 @@ class FacebookEventsBot {
 
     /**
      * Every conversation turn for our FacebookEventsBot will call this method.
-     * There are no dialogs used, since it's "single turn" processing, meaning a single request and
-     * response, with no stateful conversation.
      * @param {Object} turnContext on turn context object.
      */
     async onTurn(turnContext) {
@@ -47,7 +45,7 @@ class FacebookEventsBot {
             const text = turnContext.activity.text;
 
             // Check if we are on the Facebook channel.
-            if (turnContext.activity.channelId == 'facebook') {
+            if (turnContext.activity.channelId === 'facebook') {
 
                 // Analyze Facebook payload from channel data.
                 processFacebookPayload(turnContext.activity.channelData);
@@ -87,7 +85,9 @@ class FacebookEventsBot {
                         break;
                     case quickRepliesOption:
                     default:
-                        var reply = MessageFactory.suggestedActions([facebookPageNameOption, postBackOption, quickRepliesOption], `What Facebook feature would you like to try? Here are some quick replies to choose from!`);
+                        var reply = MessageFactory.suggestedActions(
+                            [facebookPageNameOption, postBackOption, quickRepliesOption], 
+                            `What Facebook feature would you like to try? Here are some quick replies to choose from!`);
                         await turnContext.sendActivity(reply);
                 }
             }
@@ -95,7 +95,7 @@ class FacebookEventsBot {
             await turnContext.sendActivity(`[${turnContext.activity.type} event detected.]`);
 
             // Check if we are on the Facebook channel.
-            if (turnContext.activity.channelId == 'facebook') {
+            if (turnContext.activity.channelId === 'facebook') {
                 // Analyze Facebook payload from channel data to trigger custom events.
                 processFacebookPayload(turnContext.activity.channelData);
             }
