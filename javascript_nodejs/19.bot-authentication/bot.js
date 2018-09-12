@@ -54,43 +54,49 @@ class AuthenticationBot {
 
         // The waterfall dialog that controls the flow of the conversation.
         this.dialogs.add(new WaterfallDialog(AUTH_DIALOG, [
-            async(dc) => {
-                return await dc.prompt(OAUTH_PROMPT);
-            },
-            async(dc, step) => {
-                let tokenResponse = step.result;
-                if (tokenResponse != null) {
-                    await dc.context.sendActivity("You are now logged in.");
-                    return await dc.prompt(CONFIRM_PROMPT, 'Do you want to view your token?', ['yes', 'no']);
-                }
+            this.oauthPrompt,
+            this.loginResults,
+            this.displayToken
+        ]));
+    }
 
-                await dc.Context.sendActivity("Login was not sucessful please try again");
-                return await dc.end();
-            },
-            async(dc, step) => {
-                const result = step.result.value;
-                if (result === 'yes') {
-                    // Call the prompt again because we need the token. The reasons for this are:
-                    // 1. If the user is already logged in we do not need to store the token locally in the bot and worry
-                    // about refreshing it. We can always just call the prompt again to get the token.
-                    // 2. We never know how long it will take a user to respond. By the time the
-                    // user responds the token may have expired. The user would then be prompted to login again.
-                    //
-                    // There is no reason to store the token locally in the bot because we can always just call
-                    // the OAuth prompt to get the token or get a new token if needed.
-                    let prompt = await dc.prompt(OAUTH_PROMPT);
-                    var tokenResponse = prompt.result;
-                    if (tokenResponse != null) {
-                        await dc.context.sendActivity(`Here is your token: ${tokenResponse.token}`);
-                        await dc.context.sendActivity(HELP_TEXT);
-                        return await dc.end();
-                    }
-                }
+    async oauthPrompt(dc) {
+        return await dc.prompt(OAUTH_PROMPT);
+    }
 
+    async loginResults(dc, step) {
+        let tokenResponse = step.result;
+        if (tokenResponse != null) {
+            await dc.context.sendActivity("You are now logged in.");
+            return await dc.prompt(CONFIRM_PROMPT, 'Do you want to view your token?', ['yes', 'no']);
+        }
+
+        await dc.Context.sendActivity("Login was not sucessful please try again");
+        return await dc.end();
+    }
+
+    async displayToken(dc, step) {
+        const result = step.result.value;
+        if (result === 'yes') {
+            // Call the prompt again because we need the token. The reasons for this are:
+            // 1. If the user is already logged in we do not need to store the token locally in the bot and worry
+            // about refreshing it. We can always just call the prompt again to get the token.
+            // 2. We never know how long it will take a user to respond. By the time the
+            // user responds the token may have expired. The user would then be prompted to login again.
+            //
+            // There is no reason to store the token locally in the bot because we can always just call
+            // the OAuth prompt to get the token or get a new token if needed.
+            let prompt = await dc.prompt(OAUTH_PROMPT);
+            var tokenResponse = prompt.result;
+            if (tokenResponse != null) {
+                await dc.context.sendActivity(`Here is your token: ${tokenResponse.token}`);
                 await dc.context.sendActivity(HELP_TEXT);
                 return await dc.end();
-            },
-        ]));
+            }
+        }
+
+        await dc.context.sendActivity(HELP_TEXT);
+        return await dc.end();
     }
 
     /**
@@ -153,11 +159,10 @@ class AuthenticationBot {
         } else {
             await turnContext.sendActivity(`[${turnContext.activity.type} event detected.]`);
         }
+
+        // Update the conversation state before ending the turn.
+        await this.conversationState.write(turnContext);
     }
-}
-
-async function displayToken(dc, step) {
-
 }
 
 module.exports = AuthenticationBot;

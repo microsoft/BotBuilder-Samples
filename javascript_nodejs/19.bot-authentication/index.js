@@ -65,9 +65,6 @@ const memoryStorage = new MemoryStorage();
 // Create conversation state with in-memory storage provider. 
 const conversationState = new ConversationState(memoryStorage);
 
-// Use the BotStateSet middleware to automatically read and write conversation and user state.
-adapter.use(new BotStateSet(conversationState));
-
 // Create the bot that will handle incoming messages.
 const authenticationBot = new AuthenticationBot(conversationState);
 
