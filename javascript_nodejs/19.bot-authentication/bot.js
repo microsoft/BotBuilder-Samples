@@ -57,22 +57,22 @@ class AuthenticationBot {
         ]));
     }
 
-    async oauthPrompt(dc) {
-        return await dc.prompt(OAUTH_PROMPT);
+    async oauthPrompt(step) {
+        return await step.prompt(OAUTH_PROMPT);
     }
 
-    async loginResults(dc, step) {
+    async loginResults(step) {
         let tokenResponse = step.result;
         if (tokenResponse != null) {
-            await dc.context.sendActivity("You are now logged in.");
-            return await dc.prompt(CONFIRM_PROMPT, 'Do you want to view your token?', ['yes', 'no']);
+            await step.context.sendActivity("You are now logged in.");
+            return await step.prompt(CONFIRM_PROMPT, 'Do you want to view your token?', ['yes', 'no']);
         }
 
-        await dc.Context.sendActivity("Login was not sucessful please try again");
-        return await dc.end();
+        await step.Context.sendActivity("Login was not sucessful please try again");
+        return await step.end();
     }
 
-    async displayToken(dc, step) {
+    async displayToken(step) {
         const result = step.result.value;
         if (result === 'yes') {
             // Call the prompt again because we need the token. The reasons for this are:
@@ -83,17 +83,17 @@ class AuthenticationBot {
             //
             // There is no reason to store the token locally in the bot because we can always just call
             // the OAuth prompt to get the token or get a new token if needed.
-            let prompt = await dc.prompt(OAUTH_PROMPT);
+            let prompt = await step.prompt(OAUTH_PROMPT);
             var tokenResponse = prompt.result;
             if (tokenResponse != null) {
-                await dc.context.sendActivity(`Here is your token: ${tokenResponse.token}`);
-                await dc.context.sendActivity(HELP_TEXT);
-                return await dc.end();
+                await step.context.sendActivity(`Here is your token: ${tokenResponse.token}`);
+                await step.context.sendActivity(HELP_TEXT);
+                return await step.end();
             }
         }
 
-        await dc.context.sendActivity(HELP_TEXT);
-        return await dc.end();
+        await step.context.sendActivity(HELP_TEXT);
+        return await step.end();
     }
 
     /**
