@@ -16,7 +16,7 @@ module.exports = class AgePrompt extends NumberPrompt {
                     await prompt.context.sendActivity('Please enter an age in years between 1 and 99.');
                     return false;
                 } else {
-                    retun true;
+                    return true;
                 }
             }
         });

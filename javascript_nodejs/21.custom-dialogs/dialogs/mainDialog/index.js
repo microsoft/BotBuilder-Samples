@@ -96,7 +96,7 @@ class MainDialog {
     async showSizeValidator(prompt) {
 
         if (prompt.recognized.succeeded) {
-            const shoesize = step.recognized.value;
+            const shoesize = prompt.recognized.value;
             
             // Shoe sizes can range from 0 to 16.
             if (shoesize >= 0 && shoesize <= 16)

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes } = require('botbuilder-core');
+const { ActivityTypes } = require('botbuilder');
 const { DialogSet } = require('botbuilder-dialogs');
 
 const OnboardingDialog = require('../onboard');

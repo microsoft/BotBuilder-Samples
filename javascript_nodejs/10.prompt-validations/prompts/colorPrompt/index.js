@@ -10,7 +10,7 @@ module.exports = class ColorPrompt extends ChoicePrompt {
         super(dialogId, async (prompt) => {
             if (!prompt.recognized.succeeded) {
                 // An invalid choice was received, emit an error.
-                await prompt.sendActivity(`Sorry, "${ prompt.context.activity.text }" is not on my list.`);
+                await prompt.context.sendActivity(`Sorry, "${ prompt.context.activity.text }" is not on my list.`);
                 return false;
             } else {
                 return true;
