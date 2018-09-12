@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BotOnXamarin.Forms.Views.DataTemplates.SentByBot">
+  <ViewCell.View>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackLayout Margin="10, 5, 5, 5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="FillAndExpand">
+                <Frame BackgroundColor="DodgerBlue" OutlineColor="Transparent">
+                    <Label Text="{Binding Content}" FontSize="Medium"/>
+                </Frame>
+                <Label FontSize="Micro" HorizontalOptions="Start" TextColor="Gray" Text="{Binding Time,  StringFormat='{0:MM/dd/yyyy hh:mm tt}'}"/>
+            </StackLayout>
+        </Grid>
+    </ViewCell.View>
+</ViewCell>

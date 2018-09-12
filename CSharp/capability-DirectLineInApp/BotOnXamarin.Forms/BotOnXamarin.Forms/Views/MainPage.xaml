@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:BotOnXamarin.Forms.Views"
+             x:Class="BotOnXamarin.Forms.Views.MainPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ChatDataTemplateSelector x:Key="ChatDataTemplateSelector"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <StackLayout Margin="5">
+            <ListView x:Name="ChatListView"
+                  VerticalOptions="FillAndExpand"
+                      SelectedItem="{Binding SelectedMessage}"
+                      ItemsSource="{Binding BotMessages, Mode=TwoWay}"
+                  BackgroundColor="Azure"
+                  HasUnevenRows="True" 
+                  SeparatorVisibility="None"
+                  ItemTemplate="{StaticResource ChatDataTemplateSelector}"/>
+            <StackLayout Orientation="Horizontal">
+                <Entry Placeholder="Message" Margin="5" Keyboard="Chat"
+                       Text="{Binding CurrentMessage, Mode=TwoWay}"
+                       HorizontalOptions="FillAndExpand"/>
+                <Button Text="Send" Command="{Binding SendCommand}"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>

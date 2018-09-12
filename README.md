@@ -34,6 +34,7 @@ ChannelData (Share Button) | A sample bot sending native metadata to Facebook to
 AppInsights | A sample bot which logs telemetry to an Application Insights instance. | [View Sample](/CSharp/core-AppInsights)[![Deploy to Azure][Deploy Button]][Deploy CSharp/AppInsights] | [View Sample](/Node/core-AppInsights)[![Deploy to Azure][Deploy Button]][Deploy Node/AppInsights]
 Middleware Logging | A basic bot that logs incoming and outgoing messages. | [View Sample](/CSharp/core-Middleware)[![Deploy to Azure][Deploy Button]][Deploy CSharp/MiddlewareLogging] | [View Sample](/Node/capability-middlewareLogging)[![Deploy to Azure][Deploy Button]][Deploy Node/MiddlewareLogging]
 Bot in Apps | A sample bot showing how to go beyond by becoming embedded into larger applications. | [View Sample](/CSharp/capability-BotInApps) |
+DirectLine Bot in App| A sample showing how to build a client app in Xamarin.Forms for a bot with DirectLine|[View Sample](/CSharp/capability-DirectLineInApp)|
 
 ## Cards
 These examples emphasize the rich card support in Bot Framework.
