@@ -9,8 +9,6 @@
 # Help
 - [Help intent](../help/resources/help.lu#?)
 
-> [Book Table intent](../bookTable/resources/bookTableTriggerIntent.lu)
-
 # QnA
 > Add questions from QnA model to the dispatch LUIS model
 - [QnA](../qna/resources/qna.lu#?)

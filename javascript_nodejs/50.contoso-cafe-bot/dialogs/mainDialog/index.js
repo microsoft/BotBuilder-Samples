@@ -230,19 +230,13 @@ class MainDialog extends ComponentDialog {
         let activeDialog = '';
         if(dc.activeDialog !== undefined) activeDialog = dc.activeDialog.id;
 
-        // E.g. Book table submit and Book Table cancel requests through book table card are not allowed when Book Table is not the active dialog
-        if(requestedOperation === 'Book_Table_Submit' || requestedOperation === 'Book_Table_Cancel') {
-            if(activeDialog !== BookTableDialog.Name) {
+        // E.g. What_can_you_do is not possible when you are in the middle of Who_are_you dialog
+        if(requestedOperation === 'What_can_you_do') {
+            if(activeDialog === WhoAreYouDialog.Name) {
                 outcome.allowed = false;
-                outcome.reason = `Sorry! I'm unable to process that. To start a new table reservation, try 'Book a table'`;
+                outcome.reason = `Sorry! I'm unable to process that. You can say 'cancel' to cancel giving me your name..`;
             }
-        } else if(requestedOperation === CancelDialog.Name) {
-            // Cancel dialog (with confirmation) is only possible for multi-turn dialogs - Book Table, Who are you
-            if(activeDialog !== BookTableDialog.Name && activeDialog !== WhoAreYouDialog.Name) {
-                outcome.allowed = false;
-                outcome.reason = `Nothing to cancel.`;
-            }
-        }
+        } 
         return outcome;
     }
 };
