@@ -58,23 +58,23 @@ class MainDialog {
     }
 
     // This step in the dialog prompts the user for their name.
-    async promptForName(dc) {
-        return await dc.prompt(NAME_PROMPT, `What is your name, human?`);
+    async promptForName(step) {
+        return await step.prompt(NAME_PROMPT, `What is your name, human?`);
     }
 
     // This step captures the user's name, then prompts whether or not to collect an age.
-    async confirmAgePrompt(dc, step) {
-        const user = await this.userProfile.get(dc.context, {});
+    async confirmAgePrompt(step) {
+        const user = await this.userProfile.get(step.context, {});
         user.name = step.result;
-        await this.userProfile.set(dc.context, user);
-        await dc.prompt(CONFIRM_PROMPT, 'Do you want to give your age?', ['yes','no']);                
+        await this.userProfile.set(step.context, user);
+        await step.prompt(CONFIRM_PROMPT, 'Do you want to give your age?', ['yes','no']);                
     }
 
     // This step checks the user's response - if yes, the bot will proceed to prompt for age.
     // Otherwise, the bot will skip the age step.
-    async promptForAge(dc, step) {
+    async promptForAge(step) {
         if (step.result && step.result.value === 'yes') {
-            return await dc.prompt(AGE_PROMPT,`What is your age?`,
+            return await step.prompt(AGE_PROMPT,`What is your age?`,
                 {
                     retryPrompt: 'Sorry, please specify your age as a positive number or say cancel.'
                 }
@@ -85,27 +85,27 @@ class MainDialog {
     }
 
     // This step captures the user's age.
-    async captureAge(dc, step) {
-        const user = await this.userProfile.get(dc.context, {});
+    async captureAge(step) {
+        const user = await this.userProfile.get(step.context, {});
         if (step.result !== -1) {
             user.age = step.result;
-            await this.userProfile.set(dc.context, user);
-            await dc.context.sendActivity(`I will remember that you are ${ step.result } years old.`);
+            await this.userProfile.set(step.context, user);
+            await step.context.sendActivity(`I will remember that you are ${ step.result } years old.`);
         } else {
-            await dc.context.sendActivity(`No age given.`);
+            await step.context.sendActivity(`No age given.`);
         }
-        return await dc.end();
+        return await step.end();
     }
 
     // This step displays the captured information back to the user.
-    async displayProfile(dc) {
-        const user = await this.userProfile.get(dc.context, {});
+    async displayProfile(step) {
+        const user = await this.userProfile.get(step.context, {});
         if (user.age) {
-            await dc.context.sendActivity(`Your name is ${ user.name } and you are ${ user.age } years old.`);
+            await step.context.sendActivity(`Your name is ${ user.name } and you are ${ user.age } years old.`);
         } else {
-            await dc.context.sendActivity(`Your name is ${ user.name } and you did not share your age.`);
+            await step.context.sendActivity(`Your name is ${ user.name } and you did not share your age.`);
         }
-        return await dc.end();
+        return await step.end();
     }
 
     /**

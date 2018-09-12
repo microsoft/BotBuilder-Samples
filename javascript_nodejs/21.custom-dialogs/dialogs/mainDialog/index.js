@@ -60,53 +60,57 @@ class MainDialog {
         // Finally, add a 2-step WaterfallDialog that will initiate the SlotFillingDialog,
         // and then collect and display the results.
         this.dialogs.add(new WaterfallDialog('root', [
-            this.startDialog,
-            this.processResults
+            this.startDialog.bind(this),
+            this.processResults.bind(this)
         ]));
     }
 
     // This is the first step of the WaterfallDialog.
     // It kicks off the dialog with the multi-question SlotFillingDialog,
     // then passes the aggregated results on to the next step.
-    async startDialog(dc, step) {
-        return await dc.begin('slot-dialog');
+    async startDialog(step) {
+        return await step.begin('slot-dialog');
     }   
 
     // This is the second step of the WaterfallDialog.
     // It receives the results of the SlotFillingDialog and displays them.
-    async processResults(dc, step) {
+    async processResults(step) {
 
         // Each "slot" in the SlotFillingDialog is represented by a field in step.result.values.
         // The complex that contain subfields have their own .values field containing the sub-values.
         const values = step.result.values;
 
         const fullname = values['fullname'].values;
-        await dc.context.sendActivity(`Your name is ${ fullname['first'] } ${ fullname['last'] }.`);
+        await step.context.sendActivity(`Your name is ${ fullname['first'] } ${ fullname['last'] }.`);
 
-        await dc.context.sendActivity(`You wear a size ${ values['shoesize'] } shoe.`);
+        await step.context.sendActivity(`You wear a size ${ values['shoesize'] } shoe.`);
 
         const address = values['address'].values;
-        await dc.context.sendActivity(`Your address is: ${ address['street'] }, ${ address['city'] } ${ address['zip'] }`);
+        await step.context.sendActivity(`Your address is: ${ address['street'] }, ${ address['city'] } ${ address['zip'] }`);
 
-        return await dc.end();
+        return await step.end();
     }
 
     // Validate that the provided shoe size is between 0 and 16, and allow half steps.
     // This is used to instantiate a specialized NumberPrompt.
-    async showSizeValidator(turnContext, step) {
+    async showSizeValidator(prompt) {
 
-        const shoesize = step.recognized.value;
-        
-        // Shoe sizes can range from 0 to 16.
-        if (shoesize >= 0 && shoesize <= 16)
-        {
-            // We only accept round numbers or half sizes.
-            if (Math.floor(shoesize) == shoesize || Math.floor(shoesize * 2) == shoesize * 2)
+        if (prompt.recognized.succeeded) {
+            const shoesize = step.recognized.value;
+            
+            // Shoe sizes can range from 0 to 16.
+            if (shoesize >= 0 && shoesize <= 16)
             {
-                // Indicate success by returning the value.
-                step.end(shoesize);
+                // We only accept round numbers or half sizes.
+                if (Math.floor(shoesize) == shoesize || Math.floor(shoesize * 2) == shoesize * 2)
+                {
+                    // Indicate success.
+                    return true;
+                }
             }
         }
+
+        return false;
     }
 
     /**
