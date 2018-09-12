@@ -80,10 +80,10 @@ class MainDialog {
         }
 
         // Save changes to the user state.
-        this.userState.write(turnContext);
+        await this.userState.saveChanges(turnContext);
 
         // End this turn by saving changes to the conversation state.
-        this.conversationState.write(turnContext);
+        await this.conversationState.saveChanges(turnContext);
     
     }
 }

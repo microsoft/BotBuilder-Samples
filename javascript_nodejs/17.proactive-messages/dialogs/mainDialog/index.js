@@ -59,7 +59,7 @@ class MainDialog {
             }
         }
 
-        await this.conversationState.write(turnContext);
+        await this.conversationState.saveChanges(turnContext);
     }
 
     // Save job ID and conversation reference.
