@@ -1,7 +1,6 @@
 {
-  "name": "proactive-messaging-bot",
-  "version": "1.0.0",
-  "description": "Bot Builder v4 sample with proactive messaging",
+  "name": "custom-dialogs-bot",
+  "description": "Bot Builder v4 custom dialogs sample",
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",

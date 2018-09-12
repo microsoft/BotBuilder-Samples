@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActionTypes, MessageFactory } = require('botbuilder');
-
+const { ActivityTypes } = require('botbuilder');
 const { TextPrompt, DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
@@ -36,39 +35,48 @@ class MainDialog {
             
         // Create a dialog that asks the user for their name.
         this.dialogs.add(new WaterfallDialog(WHO_ARE_YOU, [
-            async (dc, step) => {
-                return await dc.prompt(NAME_PROMPT, `What is your name, human?`);
-            },
-            async (dc, step) => {
-                await this.userName.set(dc.context, step.result);
-                await dc.context.sendActivity(`Got it. You are ${ step.result }`);
-                return await dc.end();
-            }
+            this.askForName.bind(this),
+            this.collectAndDisplayName.bind(this)
         ]));
 
 
         // Create a dialog that displays a user name after it has been collceted.
         this.dialogs.add(new WaterfallDialog(HELLO_USER, [
-            async (dc, step) => {
-                const user_name = await this.userName.get(dc.context, null);
-                await dc.context.sendActivity(`Your name is ${user_name}.`);
-                return await dc.end();
-            }
+            this.displayName.bind(this)
         ]));
     }
 
+    // The first step in this waterfall asks the user for their name.
+    async askForName(dc, step) {
+        return await dc.prompt(NAME_PROMPT, `What is your name, human?`);
+    }
+
+    // The second step in this waterfall collects the response, stores it in
+    // the state accessor, then displays it.
+    async collectAndDisplayName(step) {
+        await this.userName.set(step.context, step.result);
+        await step.context.sendActivity(`Got it. You are ${ step.result }.`);
+        return await step.end();
+    }
+
+    // This step loads the user's name from state and displays it.
+    async displayName(step) {
+            const user_name = await this.userName.get(step.context, null);
+            await step.context.sendActivity(`Your name is ${user_name}.`);
+            return await step.end();
+    }
 
     /**
      * 
      * @param {Object} context on turn context object.
      */
-    async onTurn(context) {
+    async onTurn(turnContext) {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
-        if (context.activity.type === 'message') {
+        if (turnContext.activity.type === 'message') {
             // Create dialog context
-            const dc = await this.dialogs.createContext(context);
+            const dc = await this.dialogs.createContext(turnContext);
 
-            const utterance = (context.activity.text || '').trim().toLowerCase();
+            const utterance = (turnContext.activity.text || '').trim().toLowerCase();
             if (utterance === 'cancel') { 
                 if (dc.activeDialog) {
                     await dc.cancelAll();
@@ -79,12 +87,12 @@ class MainDialog {
             }
             
             // Continue the current dialog
-            if (!context.responded) {
+            if (!turnContext.responded) {
                 await dc.continue();
             }
 
             // Show menu if no response sent
-            if (!context.responded) {
+            if (!turnContext.responded) {
                 var user_name = await this.userName.get(dc.context,null);
                 if (user_name) {
                     await dc.begin(HELLO_USER)
@@ -92,11 +100,23 @@ class MainDialog {
                     await dc.begin(WHO_ARE_YOU)
                 }
             }
-        } else if (context.activity.type == 'conversationUpdate' && context.activity.membersAdded[0].name !== 'Bot') {
-            // send a "this is what the bot does" message
-            await context.sendActivity('I am a bot that demonstrates the TextPrompt class to collect your name, store it in UserState, and display it. Say anything to continue.');
+            
+        } else if (
+            turnContext.activity.type === ActivityTypes.ConversationUpdate &&
+            turnContext.activity.membersAdded[0].name !== 'Bot'
+       ) {
+           // send a "this is what the bot does" message
+            await turnContext.sendActivity('I am a bot that demonstrates the TextPrompt class to collect your name, store it in UserState, and display it. Say anything to continue.');
         }
+
+        // Save changes to the user name.
+        await this.userState.saveChanges(turnContext);
+
+        // End this turn by saving changes to the conversation state.
+        await this.conversationState.saveChanges(turnContext);
+
     }
+
 }
 
 module.exports = MainDialog;
