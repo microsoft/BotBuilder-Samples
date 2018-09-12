@@ -69,7 +69,7 @@ namespace MessageRoutingBot
                 var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
                 var userState = options.State.OfType<UserState>().FirstOrDefault();
 
-                var accessors = new MessageRoutingBotAccessors
+                var accessors = new MessageRoutingBotAccessors(conversationState, userState)
                 {
                     ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
                 };
