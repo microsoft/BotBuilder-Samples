@@ -70,13 +70,13 @@ class SlotFillingDialog extends Dialog {
         const values = state[PersistedValues];
         
         // Find unfilled slots by filtering the full list of slots, excluding those for which we already have a value.
-        const unfilledSlot = this.slots.filter(function(slot) { return !Object.keys(values).includes(slot.Name); });
+        const unfilledSlot = this.slots.filter(function(slot) { return !Object.keys(values).includes(slot.name); });
 
         // If there are unfilled slots still left, prompt for the next one.
         if (unfilledSlot.length) {
-            state[SlotName] = unfilledSlot[0].Name;
+            state[SlotName] = unfilledSlot[0].name;
 
-            return await dc.prompt(unfilledSlot[0].PromptId, unfilledSlot[0].Options);
+            return await dc.prompt(unfilledSlot[0].promptId, unfilledSlot[0].options);
         } else {
 
             // If all the prompts are filled, we're done. Return the full state object,

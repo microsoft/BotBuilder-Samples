@@ -11,15 +11,15 @@ class SlotDetails {
      * @param {string} reprompt (optional) The text to present if the user responds with an invalid value.
      */
     constructor(name, promptId, prompt, reprompt) {
-        this.Name = name;
-        this.PromptId = promptId;
+        this.name = name;
+        this.promptId = promptId;
         if (prompt && reprompt) {
-            this.Options = {
+            this.options = {
                 prompt: prompt,
                 retryPrompt: reprompt,
             }
         } else {
-            this.Options = prompt;
+            this.options = prompt;
         }
     }
 }

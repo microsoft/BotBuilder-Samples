@@ -8,14 +8,14 @@ const JOBS_LIST = 'jobs';
 class MainDialog {
     /**
      * 
-     * @param {ConversationState} conversationState A ConversationState object used to track the dialog.
+     * @param {BotState} botState A ConversationState object used to track the dialog.
      * @param {BotAdapter} adapter A BotAdapter used to send and receive messages.
      */
-    constructor(conversationState, adapter) {
-        this.conversationState = conversationState;
+    constructor(botState, adapter) {
+        this.botState = botState;
         this.adapter = adapter;
 
-        this.jobsList = this.conversationState.createProperty(JOBS_LIST);
+        this.jobsList = this.botState.createProperty(JOBS_LIST);
     }
 
     /**
@@ -29,9 +29,9 @@ class MainDialog {
             const utterance = (turnContext.activity.text || '').trim().toLowerCase();
 
             // If user types in run, create a new job.
-            if (utterance === "run"){
+            if (utterance === 'run'){
                 await this.createJob(turnContext);
-            } else if (utterance === "show") {
+            } else if (utterance === 'show') {
                 await this.showJobs(turnContext);
             } else {
                 const firstWord = utterance.split(' ')[0];
@@ -39,11 +39,11 @@ class MainDialog {
 
                 // If the user types done and a Job Id Number,
                 // we check if the second word input is a number.
-                if (firstWord === "done" && !isNaN(parseInt(secondWord))) {
+                if (firstWord === 'done' && !isNaN(parseInt(secondWord))) {
                     var jobIdNumber = secondWord;
                     await this.completeJob(turnContext, jobIdNumber);
 
-                } else if (firstWord === "done" && isNaN(parseInt(secondWord))) {
+                } else if (firstWord === 'done' && isNaN(parseInt(secondWord))) {
                     await turnContext.sendActivity('Enter the job ID number after "done".');
                 }
             }
@@ -59,7 +59,7 @@ class MainDialog {
             }
         }
 
-        await this.conversationState.saveChanges(turnContext);
+        await this.botState.saveChanges(turnContext);
     }
 
     // Save job ID and conversation reference.
@@ -126,7 +126,7 @@ class MainDialog {
                     // Save the updated job.
                     await this.jobsList.set(turnContext, jobs);
                     // Notify the user that the job is complete.
-                    await proactiveTurnContext.sendActivity('Your queued job just completed.');
+                    await proactiveTurnContext.sendActivity(`Your queued job ${ jobIdNumber } just completed.`);
                 });
 
                 // Send a message to the person who completed the job.
@@ -145,13 +145,13 @@ class MainDialog {
         const jobs = await this.jobsList.get(turnContext, {});
         if (Object.keys(jobs).length) {
             await turnContext.sendActivity(
-                "| Job number &nbsp; | Conversation ID &nbsp; | Completed |<br>" +
-                "| :--- | :---: | :---: |<br>" +
+                '| Job number &nbsp; | Conversation ID &nbsp; | Completed |<br>' +
+                '| :--- | :---: | :---: |<br>' +
                 Object.keys(jobs).map((key) => {
-                    return `${ key } &nbsp; | ${ jobs[key].reference.activityId } &nbsp; | ${ jobs[key].completed }`
+                    return `${ key } &nbsp; | ${ jobs[key].reference.conversation.id.split('|')[0] } &nbsp; | ${ jobs[key].completed }`
                 }).join('<br>'));
         } else {
-            await turnContext.sendActivity("The job log is empty.");
+            await turnContext.sendActivity('The job log is empty.');
         }
     }
 }
