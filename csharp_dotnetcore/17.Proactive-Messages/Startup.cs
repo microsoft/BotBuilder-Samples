@@ -53,17 +53,7 @@ namespace Microsoft.BotBuilderSamples
             // Register the proactive bot.
             services.AddBot<ProactiveBot>(options =>
             {
-                // Load the connected services from .bot file.
-                var botConfig = BotConfiguration.Load(@".\ProactiveBot.bot");
-
-                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
-                var endpointService = service as EndpointService;
-                if (endpointService == null)
-                {
-                    throw new InvalidOperationException("The .bot file does not contain an endpoint.");
-                }
-
-                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+                InitCredentialProvider(options);
 
                 // Set up error handling. (Trace output goes to the Emulator log, but not to the user.)
                 options.OnTurnError = async (context, exception) =>
@@ -122,6 +112,25 @@ namespace Microsoft.BotBuilderSamples
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
+        }
+
+        /// <summary>
+        /// Initializes the credential provider, using by default the <see cref="SimpleCredentialProvider"/>.
+        /// </summary>
+        /// <param name="options"><see cref="BotFrameworkOptions"/> for the current bot.</param>
+        private static void InitCredentialProvider(BotFrameworkOptions options)
+        {
+            // Load the connected services from .bot file.
+            var botConfig = BotConfiguration.Load(@".\BotConfiguration.bot");
+
+            var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
+            var endpointService = service as EndpointService;
+            if (endpointService == null)
+            {
+                throw new InvalidOperationException("The .bot file does not contain an endpoint.");
+            }
+
+            options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
@@ -35,17 +36,7 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddBot<AdaptiveCardsBot>(options =>
             {
-                // Load the connected services from .bot file.
-                var botConfig = BotConfiguration.Load(@".\AdaptiveCards.bot");
-
-                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
-                var endpointService = service as EndpointService;
-                if (endpointService == null)
-                {
-                    throw new InvalidOperationException("The .bot file does not contain an endpoint.");
-                }
-
-                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+                InitCredentialProvider(options);
             });
         }
 
@@ -59,6 +50,25 @@ namespace Microsoft.BotBuilderSamples
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
+        }
+
+        /// <summary>
+        /// Initializes the credential provider, using by default the <see cref="SimpleCredentialProvider"/>.
+        /// </summary>
+        /// <param name="options"><see cref="BotFrameworkOptions"/> for the current bot.</param>
+        private static void InitCredentialProvider(BotFrameworkOptions options)
+        {
+            // Load the connected services from .bot file.
+            var botConfig = BotConfiguration.Load(@".\BotConfiguration.bot");
+
+            var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
+            var endpointService = service as EndpointService;
+            if (endpointService == null)
+            {
+                throw new InvalidOperationException("The .bot file does not contain an endpoint.");
+            }
+
+            options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
         }
     }
 }

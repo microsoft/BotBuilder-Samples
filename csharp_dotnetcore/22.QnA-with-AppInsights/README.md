@@ -20,7 +20,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 to create a QnA Maker service.
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/migrate-knowledge-base) to
 import the [sample.qna](sample.qna) to your newly created QnA Maker service.
-- Update [QnABot.bot](QnABot.bot) with your kbid (KnowledgeBase Id) and endpointKey in the "qna" services section. You can find this
+- Update [BotConfiguration.bot](BotConfiguration.bot) with your kbid (KnowledgeBase Id) and endpointKey in the "qna" services section. You can find this
 information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://www.qnamaker.ai).
 - Name of your QnA Bot should be "QnABot".
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/application-insights/app-insights-asp-net-core) to set up your Application Insights service.
@@ -46,7 +46,7 @@ Qna Maker CLI to deploy the model.
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator
 - File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\22.QnA-with-AppInsights` folder.
-- Select the QnABot.bot file.
+- Select the BotConfiguration.bot file.
 
 # Further reading
 
