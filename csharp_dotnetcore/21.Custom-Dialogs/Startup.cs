@@ -1,20 +1,21 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
-namespace Custom_Dialogs
+namespace Microsoft.BotBuilderSamples
 {
-    /// <summary>
-    /// The Startup class configures services and the app's request pipeline.
-    /// </summary>
     public class Startup
     {
         /// <summary>
@@ -48,10 +49,8 @@ namespace Custom_Dialogs
         /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBot<MainBot>(options =>
+            services.AddBot<CustomDialogBot>(options =>
             {
-                options.CredentialProvider = new ConfigurationCredentialProvider(this.Configuration);
-
                 // Memory Storage is for local bot debugging only. When the bot
                 // is restarted, anything stored in memory will be gone.
                 IStorage dataStore = new MemoryStorage();
@@ -66,11 +65,31 @@ namespace Custom_Dialogs
                 // Create and add conversation state.
                 var convoState = new ConversationState(dataStore);
                 options.State.Add(convoState);
+            });
 
-                // The BotStateSet middleware forces state storage to auto-save when the bot is complete processing the message.
-                // Note: Developers may choose not to add all the state providers to this middleware if save is not required.
-                var stateSet = new BotStateSet(options.State.ToArray());
-                options.Middleware.Add(stateSet);
+            services.AddSingleton(sp =>
+            {
+                // We need to grab the conversationState we added on the options in the previous step
+                var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
+                if (options == null)
+                {
+                    throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the State Accessors");
+                }
+
+                var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
+                if (conversationState == null)
+                {
+                    throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
+                }
+
+                // The dialogs will need a state store accessor. Creating it here once (on-demand) allows the dependency injection
+                // to hand it to our IBot class that is create per-request.
+                var accessors = new BotAccessors(conversationState)
+                {
+                    ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
+                };
+
+                return accessors;
             });
         }
 

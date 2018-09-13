@@ -1,0 +1,13 @@
+{
+  "presets": [
+    ["env", {
+      "targets": {
+        "browsers": "current"
+      },
+      "modules": "umd"
+    }]
+  ],
+  "ignore": [
+    "node_modules/**/"
+  ]
+}
