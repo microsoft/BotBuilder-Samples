@@ -5,4 +5,8 @@
 const HELP_INTENT_NAME = 'Help';
 
 // Help, ChitChat and QnA share the same QnA Maker model. So, just export the Help intent name here. 
-module.exports = {Name : HELP_INTENT_NAME};
+// This is used by MainDialog to dispatch to the appropriate child dialog.
+// The name needs to match the intent name returned by LUIS. 
+module.exports = {
+    Name : HELP_INTENT_NAME
+};

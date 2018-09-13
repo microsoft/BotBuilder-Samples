@@ -6,17 +6,17 @@ const restify = require('restify');
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState, BotStateSet } = require('botbuilder');
-const { Bot } = require('./bot');
-
-// Import required bot confuguration.
 const { BotConfiguration } = require('botframework-config');
+const { Bot } = require('./bot');
 
 // Read botFilePath and botFileSecret from .env file
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '.env');
 const env = require('dotenv').config({path: ENV_FILE});
-
 const BOT_CONFIGURATION_ERROR = 1;
+// Bot configuration section in the .bot file.
+// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
+const BOT_CONFIGURATION = 'contoso-cafe-bot';
 
 // Create HTTP server
 let server = restify.createServer();
@@ -37,10 +37,6 @@ try {
     console.log(`Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment`);
     process.exit(BOT_CONFIGURATION_ERROR);
 }
-
-// Bot configuration section in the .bot file.
-// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
-const BOT_CONFIGURATION = 'contoso-cafe-bot';
 
 // Get bot endpoint configuration by service name
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);

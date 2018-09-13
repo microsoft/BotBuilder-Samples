@@ -3,13 +3,14 @@
 const { ComponentDialog, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
 const { OnTurnProperty } = require('../shared/stateProperties');
 const { GetUserNamePrompt } = require('../shared/prompts');
-const { TurnResult } = require('../shared/helpers');
+const { TurnResultHelper } = require('../shared/helpers');
 
 // This dialog's name. Also matches the name of the intent from ../mainDialog/resources/cafeDispatchModel.lu
 // LUIS recognizer replaces spaces ' ' with '_'. So intent name 'Who are you' is recognized as 'Who_are_you'.
 const WHO_ARE_YOU_DIALOG = 'Who_are_you';
 const ASK_USER_NAME_PROMPT = 'askUserNamePrompt';
 const DIALOG_START = 'Who_are_you_start';
+
 /**
  * Class Who are you dialog.
  */
@@ -19,13 +20,13 @@ class WhoAreYouDialog extends ComponentDialog {
      * 
      * @param {Object} botConfig bot configuration
      * @param {Object} userProfilePropertyAccessor property accessor for user profile property
-     * @param {Object} turnCounterPropertyAccessor property accessor for turn counter property
+     * @param {Object} conversationState 
      */
-    constructor(botConfig, userProfilePropertyAccessor, turnCounterPropertyAccessor) {
-        super(WHO_ARE_YOU_DIALOG);
-        if(!botConfig) throw ('Need bot config');
-        if(!userProfilePropertyAccessor) throw ('Need user profile property accessor');
-        if(!turnCounterPropertyAccessor) throw ('Need turn counter property accessor');
+    constructor(botConfig, userProfilePropertyAccessor, conversationState) {
+        super (WHO_ARE_YOU_DIALOG);
+        if (!botConfig) throw ('Missing parameter. Bot configuration is required.');
+        if (!userProfilePropertyAccessor) throw ('Missing parameter. User profile property accessor is required.');
+        if (!conversationState) throw ('Missing parameter. Conversation state is required.');
 
         // add dialogs
         this.addDialog(new WaterfallDialog(DIALOG_START, [
@@ -34,7 +35,10 @@ class WhoAreYouDialog extends ComponentDialog {
         ]));
 
         // add prompts
-        this.addDialog(new GetUserNamePrompt(ASK_USER_NAME_PROMPT, botConfig, userProfilePropertyAccessor, turnCounterPropertyAccessor));
+        this.addDialog(new GetUserNamePrompt(ASK_USER_NAME_PROMPT, 
+                                             botConfig, 
+                                             userProfilePropertyAccessor, 
+                                             conversationState));
     }
     /**
      * Waterfall step to prompt for user's name
@@ -53,15 +57,15 @@ class WhoAreYouDialog extends ComponentDialog {
      */
     async greetUser(dc, step) {
         // Handle interruption.
-        if(step.result.reason && step.result.reason === 'Interruption') {
+        if (step.result.reason && step.result.reason === 'Interruption') {
             // Set onTurnProperty in the payload so this can be resumed back if needed by main dialog.
-            if(step.result.payload === undefined) {
+            if (step.result.payload === undefined) {
                 step.result.payload = {onTurnProperty: new OnTurnProperty(WHO_ARE_YOU_DIALOG)};
             }
             else {
                 step.result.payload.onTurnProperty = new OnTurnProperty(WHO_ARE_YOU_DIALOG);
             }
-            return new TurnResult(DialogTurnStatus.empty, step.result);
+            return new TurnResultHelper(DialogTurnStatus.empty, step.result);
         }
         return await dc.end();
     }

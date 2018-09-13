@@ -1,5 +1,5 @@
 
 module.exports = {
-    TurnResult: require('./turnResult'),
+    TurnResultHelper: require('./turnResult'),
     LUIS_ENTITIES: require('./luisEntities')
 }
