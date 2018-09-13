@@ -2,11 +2,15 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -15,10 +19,13 @@ namespace Microsoft.BotBuilderSamples
     /// - Use a subclass of ComponentDialog to implement a mult-turn conversation
     /// - Use a Waterflow dialog to model multi-turn conversation flow
     /// - Use custom prompts to validate user input
-    /// - Store conversation and user state
+    /// - Store conversation and user state.
     /// </summary>
-    public class GreetingDialog : ComponentDialog
+    public class GreetingDialog : DetectInterruptDialog
     {
+        // Name of the dialog.
+        public const string DialogName = "GreetingDialog";
+
         // Prompt IDs
         public static readonly string NamePrompt = "namePrompt";
         public static readonly string CityPrompt = "cityPrompt";
@@ -34,34 +41,29 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Initializes a new instance of the <see cref="GreetingDialog"/> class.
         /// </summary>
-        /// <param name="dialogId">Unique identifier for this dialog instance.</param>
+        /// <param name="botServices">Connected services used in processing.</param>
         /// <param name="dialogStateAccessor">The <see cref="DialogState"/> property accessor.</param>
         /// <param name="greetingStateAccessor">The <see cref="GreetingState"/> property
         /// accessor for <see cref="UserState"/>. Used for holding name/city.</param>
         public GreetingDialog(
-                    string dialogId,
+                    BotServices botServices,
                     IStatePropertyAccessor<DialogState> dialogStateAccessor,
-                    IStatePropertyAccessor<GreetingState> greetingStateAccessor)
-            : base(dialogId)
+                    IStatePropertyAccessor<GreetingState> greetingStateAccessor,
+                    ILogger logger)
+            : base(botServices, DialogName, logger)
         {
-            // validate what was passed in
-            if (string.IsNullOrWhiteSpace(dialogId))
-            {
-                throw new ArgumentNullException($"Missing parameter. {nameof(dialogId)} is required .");
-            }
-
             DialogStateAccessor = dialogStateAccessor ?? throw new ArgumentNullException($"Missing parameter. {nameof(dialogStateAccessor)} is required.");
             GreetingStateAccessor = greetingStateAccessor ?? throw new ArgumentNullException($"Missing parameter. {nameof(greetingStateAccessor)} is required.");
 
             // Add control flow dialogs
-            var profileSteps = new WaterfallStep[]
+            var waterfallSteps = new WaterfallStep[]
             {
                 InitializeStateStepAsync,
                 PromptForNameStepAsync,
                 PromptForCityStepAsync,
                 DisplayGreetingStateStepAsync,
             };
-            AddDialog(new WaterfallDialog(ProfileDialog, profileSteps));
+            AddDialog(new WaterfallDialog(ProfileDialog, waterfallSteps));
             AddDialog(new NamePrompt(GreetingDialog.NamePrompt));
             AddDialog(new CityPrompt(GreetingDialog.CityPrompt));
         }
@@ -70,10 +72,12 @@ namespace Microsoft.BotBuilderSamples
 
         public IStatePropertyAccessor<GreetingState> GreetingStateAccessor { get; }
 
+        private BotServices BotServices { get; }
+
         private async Task<DialogTurnResult> InitializeStateStepAsync(
-                                                    DialogContext dc,
-                                                    WaterfallStepContext stepContext,
-                                                    CancellationToken cancellationToken)
+                                                          DialogContext dc,
+                                                          WaterfallStepContext stepContext,
+                                                          CancellationToken cancellationToken)
         {
             var greetingState = await GreetingStateAccessor.GetAsync(dc.Context, () => new GreetingState());
 

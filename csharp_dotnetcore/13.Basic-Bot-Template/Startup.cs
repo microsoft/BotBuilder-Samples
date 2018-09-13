@@ -26,6 +26,7 @@ namespace Microsoft.BotBuilderSamples
     public class Startup
     {
         private ILoggerFactory _loggerFactory;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -65,7 +66,8 @@ namespace Microsoft.BotBuilderSamples
 
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
-                // Catches any errors that occur during a conversation turn and logs them.
+                // Catches any errors that occur during a conversation turn and logs them to currently
+                // configured ILogger.
                 ILogger logger = _loggerFactory.CreateLogger<BasicBot>();
                 options.OnTurnError = async (context, exception) =>
                 {
@@ -189,7 +191,7 @@ namespace Microsoft.BotBuilderSamples
 
                             var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.Region);
                             var recognizer = new LuisRecognizer(app);
-                            luisServices.Add(BasicBot.LuisKey, recognizer);
+                            luisServices.Add(luis.Name, recognizer);
                             break;
                         }
                 }
