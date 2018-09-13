@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+const { ActivityTypes } = require('botbuilder');
 const { ChoicePrompt, DialogSet, NumberPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
@@ -34,61 +35,82 @@ class MainDialog {
         // Add prompts that will be used by the main dialogs.
         this.dialogs.add(new TextPrompt(NAME_PROMPT));
         this.dialogs.add(new ChoicePrompt(CONFIRM_PROMPT));
-        this.dialogs.add(new NumberPrompt(AGE_PROMPT, async (turnContext, step)=> {
-            if (step.recognized.value < 0) {
-                await turnContext.sendActivity(`Your age can't be less than zero.`);
-            } else {
-                step.end(step.recognized.value);
-            }
+        this.dialogs.add(new NumberPrompt(AGE_PROMPT, async (prompt)=> {
+            if (prompt.recognized.succeeded) {
+                if (prompt.recognized.value <= 0) {
+                    await prompt.context.sendActivity(`Your age can't be less than zero.`);
+                    return false;
+                } else {
+                    return true;
+                }
+            } 
+
+            return false;
         }));
             
         // Create a dialog that asks the user for their name.
         this.dialogs.add(new WaterfallDialog(WHO_ARE_YOU,[
-            async (dc) => {
-                return await dc.prompt(NAME_PROMPT, `What is your name, human?`);
-            },
-            async (dc, step) => {
-                const user = await this.userProfile.get(dc.context, {});
-                user.name = step.result;
-                await this.userProfile.set(dc.context, user);
-                await dc.prompt(CONFIRM_PROMPT, 'Do you want to give your age?', ['yes','no']);                
-            },
-            async (dc, step) => {
-                if (step.result && step.result.value === 'yes') {
-                    return await dc.prompt(AGE_PROMPT,`What is your age?`,
-                        {
-                            retryPrompt: 'Sorry, please specify your age as a positive number or say cancel.'
-                        }
-                    );
-                } else {
-                    return await step.next(-1);
-                }
-            },
-            async (dc, step) => {
-                const user = await this.userProfile.get(dc.context, {});
-                if (step.result !== -1) {
-                    user.age = step.result;
-                    await this.userProfile.set(dc.context, user);
-                    await dc.context.sendActivity(`I will remember that you are ${ step.result } years old.`);
-                } else {
-                    await dc.context.sendActivity(`No age given.`);
-                }
-                return await dc.end();
-            }
+            this.promptForName.bind(this),
+            this.confirmAgePrompt.bind(this),
+            this.promptForAge.bind(this),
+            this.captureAge.bind(this)
         ]));
 
         // Create a dialog that displays a user name after it has been collected.
         this.dialogs.add(new WaterfallDialog(HELLO_USER, [
-            async (dc) => {
-                const user = await this.userProfile.get(dc.context, {});
-                if (user.age) {
-                    await dc.context.sendActivity(`Your name is ${ user.name } and you are ${ user.age } years old.`);
-                } else {
-                    await dc.context.sendActivity(`Your name is ${ user.name } and you did not share your age.`);
-                }
-                return await dc.end();
-            }
+            this.displayProfile.bind(this)
         ]));
+    }
+
+    // This step in the dialog prompts the user for their name.
+    async promptForName(step) {
+        return await step.prompt(NAME_PROMPT, `What is your name, human?`);
+    }
+
+    // This step captures the user's name, then prompts whether or not to collect an age.
+    async confirmAgePrompt(step) {
+        const user = await this.userProfile.get(step.context, {});
+        user.name = step.result;
+        await this.userProfile.set(step.context, user);
+        await step.prompt(CONFIRM_PROMPT, 'Do you want to give your age?', ['yes','no']);                
+    }
+
+    // This step checks the user's response - if yes, the bot will proceed to prompt for age.
+    // Otherwise, the bot will skip the age step.
+    async promptForAge(step) {
+        if (step.result && step.result.value === 'yes') {
+            return await step.prompt(AGE_PROMPT,`What is your age?`,
+                {
+                    retryPrompt: 'Sorry, please specify your age as a positive number or say cancel.'
+                }
+            );
+        } else {
+            return await step.next(-1);
+        }
+    }
+
+    // This step captures the user's age.
+    async captureAge(step) {
+        const user = await this.userProfile.get(step.context, {});
+        if (step.result !== -1) {
+            user.age = step.result;
+            await this.userProfile.set(step.context, user);
+            await step.context.sendActivity(`I will remember that you are ${ step.result } years old.`);
+        } else {
+            await step.context.sendActivity(`No age given.`);
+        }
+        return await step.end();
+    }
+
+    // This step displays the captured information back to the user.
+    async displayProfile(step) {
+        const user = await this.userProfile.get(step.context, {});
+        if (user.age) {
+            await step.context.sendActivity(`Your name is ${ user.name } and you are ${ user.age } years old.`);
+        } else {
+            await step.context.sendActivity(`Your name is ${ user.name } and you did not share your age.`);
+        }
+        return await step.end();
     }
 
     /**
@@ -123,8 +145,11 @@ class MainDialog {
                     await dc.begin(WHO_ARE_YOU)
                 }
             }
-        } else if (turnContext.activity.type === 'conversationUpdate' && turnContext.activity.membersAdded[0].name !== 'Bot') {
-            // Send a "this is what the bot does" message.
+        } else if (
+            turnContext.activity.type === ActivityTypes.ConversationUpdate &&
+            turnContext.activity.membersAdded[0].name !== 'Bot'
+       ) {
+           // Send a "this is what the bot does" message.
             const description = [
                 'I am a bot that demonstrates the TextPrompt and NumberPrompt classes',
                 'to collect your name and age, then store those values in UserState for later use.',
@@ -132,6 +157,13 @@ class MainDialog {
             ];
             await turnContext.sendActivity(description.join(' '));
         }
+
+        // Save changes to the user state.
+        await this.userState.saveChanges(turnContext);
+
+        // End this turn by saving changes to the conversation state.
+        await this.conversationState.saveChanges(turnContext);
+
     }
 }
 

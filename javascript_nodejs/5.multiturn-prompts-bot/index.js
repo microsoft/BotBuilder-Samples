@@ -71,9 +71,6 @@ const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage)
 
-// Use the BotStateSet middleware to automatically read and write conversation and user state.
-adapter.use(new BotStateSet(conversationState, userState));
-
 // Create the main dialog, which serves as the bot's main handler.
 const mainDlg = new MainDialog(conversationState, userState);
 
