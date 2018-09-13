@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-const { DialogTurnStatus } = require('botbuilder-dialogs');
+const { DialogTurnStatus, Dialog } = require('botbuilder-dialogs');
 const { CardFactory, MessageFactory } = require('botbuilder');
 const { TurnResult } = require('../shared/helpers');
 const { GenSuggestedQueries } = require('../shared/helpers/genSuggestedQueries');
@@ -15,7 +15,7 @@ const WHAT_CAN_YOU_DO_DIALOG = 'What_can_you_do';
 /**
  * Class What can you do dialog.
  */
-class WhatCanYouDoDialog {
+class WhatCanYouDoDialog extends Dialog {
     constructor() {}
     /**
      * On turn method.

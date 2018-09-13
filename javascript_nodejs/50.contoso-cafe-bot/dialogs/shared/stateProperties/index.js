@@ -3,6 +3,6 @@
 
 module.exports = {
     entityProperty: require('./entityProperty'),
-    onTurnProperty: require('./onTurnProperty'),
+    OnTurnProperty: require('./onTurnProperty'),
     userProfileProperty: require('./userProfileProperty')
 };

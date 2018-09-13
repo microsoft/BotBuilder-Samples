@@ -4,13 +4,9 @@
 const path = require('path');
 const restify = require('restify');
 
-const BOT_CONFIGURATION_ERROR = 1;
-
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState, BotStateSet } = require('botbuilder');
-
-// This bot's main dialog.
-const Bot = require('./bot');
+const { Bot } = require('./bot');
 
 // Import required bot confuguration.
 const { BotConfiguration } = require('botframework-config');
@@ -19,6 +15,8 @@ const { BotConfiguration } = require('botframework-config');
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '.env');
 const env = require('dotenv').config({path: ENV_FILE});
+
+const BOT_CONFIGURATION_ERROR = 1;
 
 // Create HTTP server
 let server = restify.createServer();

@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, CardFactory } = require('botbuilder');
+const { ActivityTypes, CardFactory, MessageFactory } = require('botbuilder');
 const { DialogTurnStatus, DialogSet } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
-
-const { onTurnProperty } = require('./dialogs/shared/stateProperties');
-const MainDialog = require('./dialogs/mainDialog');
-const welcomeCard = require('./dialogs/welcome');
+const { OnTurnProperty } = require('./dialogs/shared/stateProperties');
+const { MainDialog } = require('./dialogs');
+const { WelcomeCard } = require('./dialogs/welcome');
 
 // LUIS service type entry in the .bot file for dispatch.
 const LUIS_CONFIGURATION = 'cafeDispatchModel';
@@ -41,7 +40,7 @@ class Bot {
             applicationId: luisConfig.appId,
             azureRegion: luisConfig.region,
             // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
-            endpointKey: luisConfig.authoringKey
+            endpointKey: luisConfig.subscriptionKey
         });
 
         // add main dialog
@@ -61,7 +60,7 @@ class Bot {
             case ActivityTypes.Message: {
                 // Process on turn input (card or NLP) and gather new properties
                 // OnTurnProperty object has processed information from the input message activity.
-                let onTurnProperties = await this.getNewOnTurnProperties(context);
+                let onTurnProperties = await this.detectIntentAndEntities(context);
                 if(onTurnProperties === undefined) break;
                 
                 // Set the state with gathered properties (intent/ entities) through the onTurnPropertyAccessor
@@ -73,14 +72,21 @@ class Bot {
                 break;
             }
             case ActivityTypes.ConversationUpdate: {
-                
-                // Send a welcome card to any user that joins the conversation.
-                if(context.activity.membersAdded[0].name !== 'Bot') await this.welcomeUser(context);
+                if (context.activity.membersAdded.length !== 0)
+                {
+                    // Iterate over all new members added to the conversation
+                    // Greet anyone that was not the target (recipient) of this message
+                    // the 'bot' is the recipient for events from the channel,
+                    // turnContext.Activity.MembersAdded == turnContext.Activity.Recipient.Id indicates the
+                    // bot was added to the conversation.
+                    // TODO: Send welcome card the right way
+                    await this.welcomeUser(context);
+                }
                 break;
             }
             default: {
                 
-                // Handle other acivity types as needed.
+                // Handle other activity types as needed.
                 break;            
             }
         }
@@ -93,13 +99,13 @@ class Bot {
      */
     async continueOrBeginMainDialog(context) {
         // Create dialog context.
-        let dc = await this.dialogs.createContext(context);
+        const dc = await this.dialogs.createContext(context);
         
         // Continue outstanding dialogs. 
-        let result = await dc.continue();
+        const result = await dc.continue();
         
         // If no oustanding dialogs, begin main dialog
-        if(result.status === DialogTurnStatus.empty) {
+        if (result.status === DialogTurnStatus.empty) {
             await dc.begin(MainDialog.Name);
         }
     }
@@ -109,9 +115,9 @@ class Bot {
      * @param {Object} context conversation context object
      * 
      */
-    async getNewOnTurnProperties (context) {
+    async detectIntentAndEntities (context) {
         // Handle card input (if any), update state and return.
-        if(context.activity.value !== undefined) return onTurnProperty.fromCardInput(context.activity.value);
+        if(context.activity.value !== undefined) return OnTurnProperty.fromCardInput(context.activity.value);
         
         // Acknowledge attachments from user. 
         if(context.activity.attachments && context.activity.attachments.length !== 0) {
@@ -126,7 +132,7 @@ class Bot {
         const LUISResults = await this.luisRecognizer.recognize(context);
 
         // Return new instance of on turn property from LUIS results.
-        return onTurnProperty.fromLUISResults(LUISResults);
+        return OnTurnProperty.fromLUISResults(LUISResults);
     }
     /**
      * Async helper method to welcome the user.
@@ -140,8 +146,10 @@ class Bot {
         await context.sendActivity(`I can help book a table, find cafe locations and more..`);
         
         // Send welcome card.
-        await context.sendActivity({ attachments: [CardFactory.adaptiveCard(welcomeCard)]});
+        await context.sendActivity(MessageFactory.attachment(CardFactory.adaptiveCard(WelcomeCard)));
     }
 }
 
-module.exports = Bot;
+module.exports = {
+    Bot: Bot
+};
