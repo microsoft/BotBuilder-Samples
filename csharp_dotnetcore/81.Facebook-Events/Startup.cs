@@ -11,6 +11,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -62,7 +63,14 @@ namespace Facebook_Events_Bot
 
             services.AddBot<FacebookEventsBot>(options =>
             {
-                options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
+                var endpointService = service as EndpointService;
+                if (endpointService == null)
+                {
+                    throw new InvalidOperationException("The .bot file does not contain an endpoint.");
+                }
+
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Memory Storage is for local bot debugging only. When the bot
                 // is restarted, anything stored in memory will be gone.

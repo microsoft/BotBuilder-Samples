@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +13,7 @@ using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -33,8 +35,6 @@ namespace NLP_With_Dispatch_Bot
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -65,6 +65,20 @@ namespace NLP_With_Dispatch_Bot
 
             services.AddSingleton(sp => connectedServices);
             services.AddSingleton(sp => botConfig);
+
+            services.AddBot<NlpDispatchBot>(options =>
+            {
+                // Load the connected services from .bot file.
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
+                var endpointService = service as EndpointService;
+                if (endpointService == null)
+                {
+                    throw new InvalidOperationException("The .bot file does not contain an endpoint.");
+                }
+
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+
+            });
         }
 
         /// <summary>
@@ -72,7 +86,7 @@ namespace NLP_With_Dispatch_Bot
         /// </summary>
         /// <param name="app">The application builder. This provides the mechanisms to configure an application's request pipeline.</param>
         /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+            public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseDefaultFiles()
                 .UseStaticFiles()
@@ -82,7 +96,7 @@ namespace NLP_With_Dispatch_Bot
         /// <summary>
         /// Initialize the bot's references to external services.
         ///
-        /// For example, QnaMaker services are created here.  
+        /// For example, QnaMaker services are created here.
         /// These external services are configured
         /// using the <see cref="BotConfiguration"/> class (based on the contents of your ".bot" file).
         /// </summary>

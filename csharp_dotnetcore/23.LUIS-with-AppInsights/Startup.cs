@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +12,7 @@ using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.BotBuilderSamples.AppInsights;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,7 +50,14 @@ namespace Microsoft.BotBuilderSamples
 
             services.AddBot<LuisBot>(options =>
             {
-                options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
+                var endpointService = service as EndpointService;
+                if (endpointService == null)
+                {
+                    throw new InvalidOperationException("The .bot file does not contain an endpoint.");
+                }
+
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Add MyAppInsightsLoggerMiddleware (logs activity messages into Application Insights)
                 var appInsightsLogger = new MyAppInsightsLoggerMiddleware(connectedServices.TelemetryClient.InstrumentationKey, logUserName: true, logOriginalMessage: true);

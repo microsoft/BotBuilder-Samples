@@ -9,6 +9,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -32,8 +34,6 @@ namespace WelcomeUser
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -56,7 +56,17 @@ namespace WelcomeUser
         {
             services.AddBot<WelcomeUserBot>(options =>
             {
-                options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
+                // Load the connected services from .bot file.
+                var botConfig = BotConfiguration.Load(@".\WelcomeUser.bot");
+
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
+                var endpointService = service as EndpointService;
+                if (endpointService == null)
+                {
+                    throw new InvalidOperationException("The .bot file does not contain an endpoint.");
+                }
+
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // The Memory Storage used here is for local bot debugging only. When the bot
                 // is restarted, anything stored in memory will be gone.
@@ -71,12 +81,6 @@ namespace WelcomeUser
                 // var convoState = new ConversationState(dataStore);
                 // options.State.Add(new ConversationState(dataStore));
                 options.State.Add(new UserState(dataStore));
-
-                // Add State to BotStateSet Middleware (that require auto-save)
-                // The BotStateSet Middleware forces state storage to auto-save when the Bot is complete processing the message.
-                // Note: Developers may choose not to add all the State providers to this Middleware if save is not required.
-                // var stateSet = new BotStateSet(options.State.ToArray());
-                options.Middleware.Add(new BotStateSet(options.State.ToArray()));
             });
 
             services.AddSingleton<WelcomeUserStateAccessors>(sp =>
@@ -93,10 +97,10 @@ namespace WelcomeUser
                     throw new InvalidOperationException("UserState must be defined and added before adding user-scoped state accessors.");
                 }
 
-                    // Create custom state property accessors
-                    // State property accessors enable components to read and write individual properties,
-                    // without having to pass the entire State object.
-                var accessors = new WelcomeUserStateAccessors
+                // Create custom state property accessors
+                // State property accessors enable components to read and write individual properties,
+                // without having to pass the entire State object.
+                var accessors = new WelcomeUserStateAccessors(userState)
                 {
                     DidBotWelcomedUser = userState.CreateProperty<bool>("DidBotWelcomeState"),
                 };

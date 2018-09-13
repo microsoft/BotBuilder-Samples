@@ -10,6 +10,8 @@ using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -31,8 +33,6 @@ namespace Using_Cards
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             this.Configuration = builder.Build();
@@ -54,7 +54,17 @@ namespace Using_Cards
         {
             services.AddBot<CardsBot>(options =>
             {
-                options.CredentialProvider = new ConfigurationCredentialProvider(this.Configuration);
+                // Load the connected services from .bot file.
+                var botConfig = BotConfiguration.Load(@".\Using_Cards.bot");
+
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
+                var endpointService = service as EndpointService;
+                if (endpointService == null)
+                {
+                    throw new InvalidOperationException("The .bot file does not contain an endpoint.");
+                }
+
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Memory Storage is for local bot debugging only. When the bot
                 // is restarted, anything stored in memory will be gone.

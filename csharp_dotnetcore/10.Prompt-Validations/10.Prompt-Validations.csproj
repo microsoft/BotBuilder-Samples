@@ -14,6 +14,7 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.0.38762" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.0.0.38762" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.0.0.39259" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" />
   </ItemGroup>
 
