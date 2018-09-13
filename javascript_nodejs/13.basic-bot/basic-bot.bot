@@ -9,6 +9,28 @@
             "appId": "",
             "appPassword": "",
             "endpoint": "http://localhost:3978/api/messages"
+        },
+        {
+            "type": "luis",
+            "id": "43bab448-a477-4c2b-b192-ef6e6aebdb5f",
+            "name": "basic-bot-LUIS",
+            "appId": "43bab448-a477-4c2b-b192-ef6e6aebdb5f",
+            "authoringKey": "95c77ecf50154fb895926e97901fea88",
+            "subscriptionKey": ""
+        },
+        {
+            "type": "appInsights",
+            "id": "appInsights",
+            "name": "appInsights",
+            "tenantId": "",
+            "subscriptionId": "",
+            "resourceGroup": "",
+            "instrumentationKey": "",
+            "applicationId": "00000000-0000-0000-0000-000000000000",
+            "apiKeys": {
+                "key1": "testKey1",
+                "key2": "testKey2"
+            }
         }
     ],
     "secretKey": "",

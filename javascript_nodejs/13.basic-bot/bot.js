@@ -5,8 +5,8 @@ const { ActivityTypes, CardFactory } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { DialogSet, DialogTurnStatus } = require('botbuilder-dialogs');
 
-const WelcomeCard = require('./dialogs/welcome');
-const GreetingDialog = require('./dialogs/greeting');
+const { WelcomeCard } = require('./dialogs/welcome');
+const { GreetingDialog } = require('./dialogs/greeting');
 
 // Greeting Dialog ID
 const GREETING_DIALOG = 'greetingDialog';
