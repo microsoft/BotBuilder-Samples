@@ -29,7 +29,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\81.Facebook-Events` folder
-- Select NLP-With-Dispatch-Bot.bot file
+- Select BotConfiguration.bot file
 
 ### Publish to Azure 
 

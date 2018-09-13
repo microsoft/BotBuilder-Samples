@@ -21,7 +21,7 @@ Microsoft Bot Framework Emulator is a desktop application that allows bot develo
 ## Connect to bot using Bot Framework Emulator V4
 Launch Bot Framework Emulator
 File -> Open Bot Configuration and navigate to samples\3.Welcome-Users folder
-Select Welcome-Users.bot file
+Select BotConfiguration.bot file
 
 # ConversationUpdate Activity Type
 The [ConversationUpdate](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-activity-spec?view=azure-bot-service-3.0#conversation-update-activity) an Activity type describes a change in conversation members, for example when a new user (and/or) a bot joins the conversation. The channel sends this activity when a user (and/or) bot joins the conversation. It is recomended that you test your bot behaivor on the target channel. 
