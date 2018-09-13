@@ -19,7 +19,7 @@
             "version": "0.1",
             "appId": "cb904573-3d6f-46b0-80b9-b23a24e49152",
             "authoringKey": "be30825b782843dcbbe520ac5338f567",
-            "subscriptionKey": "be30825b782843dcbbe520ac5338f567",
+            "subscriptionKey": "5900dee5c4504da0834968ba6fcc4854",
             "region": "westus"
         },
         {
@@ -29,7 +29,7 @@
             "version": "0.1",
             "appId": "e01dc6a8-e2cb-4a96-8a41-f10730c41c43",
             "authoringKey": "be30825b782843dcbbe520ac5338f567",
-            "subscriptionKey": "be30825b782843dcbbe520ac5338f567",
+            "subscriptionKey": "5900dee5c4504da0834968ba6fcc4854",
             "region": "westus"
         },
         {
@@ -48,7 +48,7 @@
             "version": "0.1",
             "appId": "d59fa0b8-2398-4a7c-8043-224a4153494d",
             "authoringKey": "be30825b782843dcbbe520ac5338f567",
-            "subscriptionKey": "be30825b782843dcbbe520ac5338f567",
+            "subscriptionKey": "5900dee5c4504da0834968ba6fcc4854",
             "region": "westus"
         }
     ]

@@ -225,6 +225,121 @@
       "entities": []
     },
     {
+      "text": "tomorrow at 3 pm and I would like to bring 3 guests",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "make it 5pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "can you make it 6pm instead?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "no how about renton?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "how about next thursday at 3pm?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "next friday at 3pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "next saturday at 6pm and for 4 guests.",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "I'd like to bring 3 guests",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "no, how about portland?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "no, I'd like to come to seattle instead",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "I would like to come in to redmond instead",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "yes please go ahead with seattle",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "how about 2 guests?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "3 guests",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "yes go ahead",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "how about seattle?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "tomorrow at 3pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "how about tomorrow?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "seattle please",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "redmond",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "3",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "tomorrow",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "yes",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
       "text": "What are your locations",
       "intent": "QnA",
       "entities": []
@@ -1453,6 +1568,106 @@
       "text": "No way",
       "intent": "Who are you",
       "entities": []
+    },
+    {
+      "text": "book a table",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "i would like to book a table",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 3",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 2 in redmond store for next thursday at 3pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 3 guests in seattle",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for next thursday at 3pm please",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 3 guests near microsoft for next thursday at 3pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "can you book a table for 3 guests?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "get me a table for next wednesday",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table at seatac",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "can you please book a table for 2 guests for this weekend?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "get a table for next thursday",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "reserve a table for 4 at SEA",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "can you get me a table",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "please help reserve a table for 5",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "can i get a table for this sunday at seattle?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "need a table in redmond",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "I need to reserve a table",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "I need to make a reservation",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "I need to reserve a table for 2 in Seattle",
+      "intent": "Book Table",
+      "entities": []
     }
   ],
   "patterns": [
@@ -1491,6 +1706,10 @@
   "prebuiltEntities": [
     {
       "name": "number",
+      "roles": []
+    },
+    {
+      "name": "datetimeV2",
       "roles": []
     }
   ],
