@@ -25,8 +25,7 @@ namespace WelcomeUser
         // generic message sent to user
         private const string _genericMessage = @"This is a simple Welcome Bot sample. You can say 'intro' to 
                                                  see the introduction card. If you are running this bot in the Bot 
-                                                 Framework Emulator, press the 'Start Over' button to simulate user joining 
-                                                 a bot or a channel";
+                                                 Framework Emulator, press the 'Start Over' button to simulate user joining a bot or a channel";
 
         // The bot state accessor object. Use this to access specific state properties.
         private readonly WelcomeUserStateAccessors _welcomeUserStateAccessors;
@@ -56,7 +55,7 @@ namespace WelcomeUser
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = new CancellationToken())
         {
             // use state accessor to extract the didBotWelcomeUser flag
-            var didBotWelcomeUser = await _welcomeUserStateAccessors.DidBotWelcomedUser.GetAsync(turnContext);
+            var didBotWelcomeUser = await _welcomeUserStateAccessors.DidBotWelcomedUser.GetAsync(turnContext, () => false);
 
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
@@ -67,17 +66,21 @@ namespace WelcomeUser
                     // Update user state flag to reflect bot handled first user interaction.
                     await _welcomeUserStateAccessors.DidBotWelcomedUser.SetAsync(turnContext, true);
 
-                    await turnContext.SendActivityAsync($"You first message ever to this bot.", cancellationToken: cancellationToken);
+                    // the channel should sends the user name in the 'From' object
+                    var userName = turnContext.Activity.From.Name;
+
+                    await turnContext.SendActivityAsync($"You are seeing this message because this was your first message ever to this bot.", cancellationToken: cancellationToken);
+                    await turnContext.SendActivityAsync($"It is a good practice to welcome the user and provdie personal greeting. For example, welcome {userName}.", cancellationToken: cancellationToken);
                 }
                 else
                 {
+                    // This example hardcodes specific uterances. You should use LUIS or QnA for more advance language understanding.
                     var text = turnContext.Activity.Text.ToLowerInvariant();
                     switch (text)
                     {
                         case "hello":
                         case "hi":
                             await turnContext.SendActivityAsync($"You said {text}.", cancellationToken: cancellationToken);
-                            await turnContext.SendActivityAsync(_genericMessage, cancellationToken: cancellationToken);
                             break;
                         case "intro":
                         case "help":
@@ -105,7 +108,8 @@ namespace WelcomeUser
                         if (member.Id != turnContext.Activity.Recipient.Id)
                         {
                             await turnContext.SendActivityAsync($"Hi there - {member.Name}. Welcome to the 'Welcome User' Bot. This bot will introduce you to welcoming and greeting users.", cancellationToken: cancellationToken);
-                            await turnContext.SendActivityAsync($"You are seeing this message because the bot recieved atleast one 'ConversationUpdate' event,indicating you (and possibly others) joined a conversation. If you are using the emulator, pressing the 'Start Over' button to trigger this event again. The specifics of the 'ConversationUpdate' event depends on the channel. You can read more information at https://aka.ms/about-botframewor-welcome-user", cancellationToken: cancellationToken);
+                            await turnContext.SendActivityAsync($"You are seeing this message because the bot recieved atleast one 'ConversationUpdate' event,indicating you (and possibly others) joined the conversation. If you are using the emulator, pressing the 'Start Over' button to trigger this event again. The specifics of the 'ConversationUpdate' event depends on the channel. You can read more information at https://aka.ms/about-botframewor-welcome-user", cancellationToken: cancellationToken);
+                            await turnContext.SendActivityAsync($"It is a good pattern to use this event to send general greeting to user, explaning what your bot can do. In this example, the bot handles 'hello', 'hi', 'help' and 'intro. Try it now, type 'hi'", cancellationToken: cancellationToken);
                         }
                     }
                 }
@@ -116,6 +120,9 @@ namespace WelcomeUser
                 var ev = turnContext.Activity.AsEventActivity();
                 await turnContext.SendActivityAsync($"Received event: {ev.Name}");
             }
+
+            // save any state changes made to your state objects.
+            await _welcomeUserStateAccessors.UserState.SaveChangesAsync(turnContext);
         }
 
         /// <summary>
@@ -128,7 +135,7 @@ namespace WelcomeUser
         /// <returns>A task that represents the work queued to execute.</returns>
         private static async Task SendIntroCardAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var response = turnContext.Activity.CreateReply("This is an hello world intro to Adaptive Cards.");
+            var response = turnContext.Activity.CreateReply();
 
             var introCard = File.ReadAllText(@".\Resources\IntroCard.json");
 

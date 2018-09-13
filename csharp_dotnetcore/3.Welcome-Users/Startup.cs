@@ -67,16 +67,12 @@ namespace WelcomeUser
                 // add the Microsoft.Bot.Builder.Azure  Nuget package to your solution. That package is found at:
                 // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
                 // IStorage Store = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
-
-                // var convoState = new ConversationState(dataStore);
-                // options.State.Add(new ConversationState(dataStore));
                 options.State.Add(new UserState(dataStore));
 
                 // Add State to BotStateSet Middleware (that require auto-save)
                 // The BotStateSet Middleware forces state storage to auto-save when the Bot is complete processing the message.
                 // Note: Developers may choose not to add all the State providers to this Middleware if save is not required.
-                // var stateSet = new BotStateSet(options.State.ToArray());
-                options.Middleware.Add(new BotStateSet(options.State.ToArray()));
+                // options.Middleware.Add(new AutoSaveStateMiddleware(options.State.ToArray()));
             });
 
             services.AddSingleton<WelcomeUserStateAccessors>(sp =>
@@ -93,10 +89,10 @@ namespace WelcomeUser
                     throw new InvalidOperationException("UserState must be defined and added before adding user-scoped state accessors.");
                 }
 
-                    // Create custom state property accessors
-                    // State property accessors enable components to read and write individual properties,
-                    // without having to pass the entire State object.
-                var accessors = new WelcomeUserStateAccessors
+                // Create custom state property accessors
+                // State property accessors enable components to read and write individual properties,
+                // without having to pass the entire State object.
+                var accessors = new WelcomeUserStateAccessors(userState)
                 {
                     DidBotWelcomedUser = userState.CreateProperty<bool>("DidBotWelcomeState"),
                 };
