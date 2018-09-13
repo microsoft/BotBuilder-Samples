@@ -31,7 +31,7 @@ namespace Microsoft.BotBuilderSamples
                 // Application Insights.
                 // An alternative logging and metrics service for your application.
                 // https://azure.microsoft.com/en-us/services/application-insights/
-                //.UseApplicationInsights()
+                // .UseApplicationInsights()
                 .UseStartup<Startup>()
                 .Build();
     }

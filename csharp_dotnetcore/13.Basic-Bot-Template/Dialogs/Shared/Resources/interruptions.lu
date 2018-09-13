@@ -1,24 +1,5 @@
 ﻿
-> Greeting intents
-
-# Greeting
-- Hello
-- Hi
-- Hello bot
-- hiya
-- hi bot
-- Hey
-- Hey there
-- Yo
-- good morning
-- good evening
-- hello bot
-- how are you
-- how are you today
-- what's your name
-- who are you
-- who am I speaking to
-- who am I speaking with
+> Greeting Interrupt intents
 
 # Cancel
 - cancel
@@ -73,3 +54,5 @@
 - her cat has no teeth
 - world wide pants
 - i'd rather be riding my bike
+- dave
+- my name is foo
