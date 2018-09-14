@@ -10,7 +10,5 @@ namespace EnterpriseBot
     public class EnterpriseBotAccessors
     {
         public IStatePropertyAccessor<DialogState> ConversationDialogState { get; set; }
-
-        public SemaphoreSlim SemaphoreSlim { get; } = new SemaphoreSlim(1, 1);
     }
 }

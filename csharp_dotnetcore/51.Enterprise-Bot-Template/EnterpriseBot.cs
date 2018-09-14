@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Extensions.Options;
+using Microsoft.Bot.Schema;
 
 namespace EnterpriseBot
 {
@@ -28,9 +29,6 @@ namespace EnterpriseBot
             _accessors = accessors;
             _services = botServices;
 
-            // a semaphore to serialize access to the bot state
-            _semaphore = accessors.SemaphoreSlim;
-
             Dialogs = new DialogSet(accessors.ConversationDialogState);
             Dialogs.Add(new MainDialog(_services));
         }
@@ -45,21 +43,21 @@ namespace EnterpriseBot
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            try
+            var dc = await Dialogs.CreateContextAsync(turnContext);
+            var result = await dc.ContinueAsync();
+
+            if (result.Status == DialogTurnStatus.Empty)
             {
-                await _semaphore.WaitAsync();
-
-                var dc = await Dialogs.CreateContextAsync(turnContext);
-                var result = await dc.ContinueAsync();
-
-                if (result.Status == DialogTurnStatus.Empty)
+                if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
                 {
-                    await dc.BeginAsync(MainDialog.Name);
+                    var activity = turnContext.Activity.AsConversationUpdateActivity();
+
+                    // if conversation update is not from the bot.
+                    if (!activity.MembersAdded.Any(m => m.Id == activity.Recipient.Id))
+                    {
+                        await dc.BeginAsync(nameof(MainDialog));
+                    }
                 }
-            }
-            finally
-            {
-                _semaphore.Release();
             }
         }
     }
