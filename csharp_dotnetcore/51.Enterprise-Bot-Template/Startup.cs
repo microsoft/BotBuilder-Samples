@@ -11,11 +11,11 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -32,7 +32,7 @@ namespace EnterpriseBot
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            this.Configuration = builder.Build();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -50,7 +50,7 @@ namespace EnterpriseBot
             var connectedServices = InitBotServices(botConfig);
             services.AddSingleton(sp => connectedServices);
 
-            // Initializes Bot Conversation and User State and adds a singleton that your Bot can access through dependency injection.
+            // Initializes Bot Conversation State and User State and adds a singleton that your Bot can access through dependency injection.
             services.AddSingleton(sp =>
             {
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
@@ -67,7 +67,8 @@ namespace EnterpriseBot
 
             services.AddBot<EnterpriseBot>(options =>
             {
-                options.CredentialProvider = new ConfigurationCredentialProvider(this.Configuration);
+                InitCredentialProvider(options, botConfig);
+                // options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
                 var appInsightsService = botConfig.Services.Where(s => s.Type == ServiceTypes.AppInsights).FirstOrDefault();
@@ -94,18 +95,17 @@ namespace EnterpriseBot
                 if (cosmosDbService != null)
                 {
                     var cosmosDb = cosmosDbService as CosmosDbService;
-                    var connectionStringItems = cosmosDb.ConnectionString.Split(";");
                     var cosmosOptions = new CosmosDbStorageOptions()
                     {
-                        CosmosDBEndpoint = new Uri(connectionStringItems[0].Split("=")[1]),
-                        AuthKey = connectionStringItems[1].Split("=")[1] + "==",
+                        CosmosDBEndpoint = new Uri(cosmosDb.Endpoint),
+                        AuthKey = cosmosDb.Key,
                         CollectionId = cosmosDb.Collection,
                         DatabaseId = cosmosDb.Database,
                     };
 
                     IStorage datastore = new CosmosDbStorage(cosmosOptions);
                     options.State.Add(new ConversationState(datastore));
-                    options.Middleware.Add(new BotStateSet(options.State.ToArray()));
+                    options.Middleware.Add(new AutoSaveStateMiddleware(options.State.ToArray()));
                 }
                 else
                 {
@@ -125,17 +125,6 @@ namespace EnterpriseBot
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
                 var typingMiddleware = new ShowTypingMiddleware();
                 options.Middleware.Add(typingMiddleware);
-
-                // Content Moderation Middleware (analyzes incoming messages for inappropriate content including PII, profanity, etc.)
-                var moderatorService = botConfig.Services.Where(s => s.Name == ContentModeratorMiddleware.ServiceName).FirstOrDefault();
-                if (moderatorService != null)
-                {
-                    var moderator = moderatorService as GenericService;
-                    var moderatorKey = moderator.Configuration["subscriptionKey"];
-                    var moderatorRegion = moderator.Configuration["region"];
-                    var moderatorMiddleware = new ContentModeratorMiddleware(moderatorKey, moderatorRegion);
-                    options.Middleware.Add(moderatorMiddleware);
-                }
             });
         }
 
@@ -157,6 +146,23 @@ namespace EnterpriseBot
         }
 
         /// <summary>
+        /// Initializes the service credentials based on the appId and password from the .bot file.
+        /// </summary>
+        /// <param name="options">BotFramewrokOptions object./param>
+        /// <param name="botConfig">Bot File Configuration object.</param>
+        private static void InitCredentialProvider(BotFrameworkOptions options, BotConfiguration botConfig)
+        {
+            var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
+            var endpointService = service as EndpointService;
+            if (endpointService == null)
+            {
+                throw new InvalidOperationException("The .bot file does not contain an endpoint.");
+            }
+
+            options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+        }
+
+        /// <summary>
         /// Initializes service clients which will be used throughout the bot code into a single object.
         /// It is recommended that you add any additional service clients you may need into the <see cref="BotServices"/> object and initialize them here.
         /// These services include AppInsights telemetry client, Luis Recognizers, QnAMaker instances, etc.</summary>
@@ -172,7 +178,7 @@ namespace EnterpriseBot
                 {
                     case ServiceTypes.AppInsights:
                         {
-                            if (connectedServices.DispatchRecognizer != null)
+                            if (connectedServices.TelemetryClient != null)
                             {
                                 throw new Exception("Only one telemetry client can currently be configured in BotServices.");
                             }
@@ -226,11 +232,14 @@ namespace EnterpriseBot
 
                     case ServiceTypes.Generic:
                         {
-                            // update readme with .bot update instructions
                             if (service.Name == "Authentication")
                             {
                                 var authentication = service as GenericService;
-                                connectedServices.AuthConnectionName = authentication.Configuration["Azure Active Directory v2"];
+
+                                if (!string.IsNullOrEmpty(authentication.Configuration["Azure Active Directory v2"]))
+                                {
+                                    connectedServices.AuthConnectionName = authentication.Configuration["Azure Active Directory v2"];
+                                }
                             }
 
                             break;
