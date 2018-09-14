@@ -14,11 +14,11 @@ const MainDialog = require('./dialogs/mainDialog');
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '.env');
-const env = require('dotenv').config({path: ENV_FILE});
+require('dotenv').config({ path: ENV_FILE });
 
 // Create HTTP server.
 let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function () {
+server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }.`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
     console.log(`\nTo talk to your bot, open proactive-messages.bot file in the Emulator.`);
@@ -56,28 +56,27 @@ const adapter = new BotFrameworkAdapter({
 // A bot requires a state storage system to persist the dialog and user state between messages.
 const memoryStorage = new MemoryStorage();
 
-// Create state manager with in-memory storage provider. 
+// Create state manager with in-memory storage provider.
 const botState = new BotState(memoryStorage, () => 'proactiveBot.botState');
 
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
-// is restarted, anything stored in memory will be gone. 
-// For production bots use the Azure Cosmos DB storage, or Azure Blob storage providers. 
+// is restarted, anything stored in memory will be gone.
+// For production bots use the Azure Cosmos DB storage, or Azure Blob storage providers.
 // const { CosmosDbStorage } = require('botbuilder-azure');
 // const STORAGE_CONFIGURATION = 'cosmosDB'; // Cosmos DB configuration in your .bot file
 // const cosmosConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION);
-// const cosmosStorage = new CosmosDbStorage({serviceEndpoint: cosmosConfig.connectionString, 
-//                                            authKey: ?, 
-//                                            databaseId: cosmosConfig.database, 
+// const cosmosStorage = new CosmosDbStorage({serviceEndpoint: cosmosConfig.connectionString,
+//                                            authKey: ?,
+//                                            databaseId: cosmosConfig.database,
 //                                            collectionId: cosmosConfig.collection});
 
 // Create the main dialog, which serves as the bot's main handler.
 const mainDlg = new MainDialog(botState, adapter);
 
-
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (turnContext) => {
         // Route the message to the bot's main handler.
-        await mainDlg.onTurn(turnContext);        
+        await mainDlg.onTurn(turnContext);
     });
 });
