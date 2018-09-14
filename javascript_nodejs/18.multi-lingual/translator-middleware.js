@@ -28,7 +28,7 @@ class TranslatorMiddleware {
             const userLanguage = await this.languagePreferenceProperty.get(turnContext, DEFAULT_LANGUAGE);
             const shouldTranslate = userLanguage != DEFAULT_LANGUAGE;
 
-            if(shouldTranslate) {
+            if (shouldTranslate) {
                 turnContext.activity.text = await this.translate(turnContext.activity.text, DEFAULT_LANGUAGE);
             }
 
@@ -37,21 +37,10 @@ class TranslatorMiddleware {
                 const userLanguage = await this.languagePreferenceProperty.get(turnContext, DEFAULT_LANGUAGE);
                 const shouldTranslate = userLanguage != DEFAULT_LANGUAGE;
     
-                if(shouldTranslate) {
-                    for(const activity of activities) {
+                if (shouldTranslate) {
+                    for (const activity of activities) {
                         activity.text = await this.translate(activity.text, userLanguage);
                     }
-                }
-                await next();
-            });
-
-            turnContext.onUpdateActivity(async (context, activitiy, next) => {
-                // Translate messages sent to the user to user language
-                const userLanguage = await this.languagePreferenceProperty.get(turnContext, DEFAULT_LANGUAGE);
-                const shouldTranslate = userLanguage != DEFAULT_LANGUAGE;
-    
-                if(shouldTranslate) {
-                    activity.text = await this.translate(turnContext.activity.text, userLanguage);
                 }
                 await next();
             });
@@ -70,20 +59,19 @@ class TranslatorMiddleware {
 
         return fetch(url, { 
                 method: 'post',
-                body:    JSON.stringify ([{'Text' : text}]),
+                body: JSON.stringify ([{'Text' : text}]),
                 headers: {
-                    'Content-Type' : 'application/json',
-                    'Ocp-Apim-Subscription-Key' : this.translatorKey
+                    'Content-Type': 'application/json',
+                    'Ocp-Apim-Subscription-Key': this.translatorKey
                 },
             })
             .then(res => res.json())
             .then(jsonResponse => {
-                if(jsonResponse && jsonResponse.length > 0) {
+                if (jsonResponse && jsonResponse.length > 0) {
                     return jsonResponse[0].translations[0].text;
                 } else {
                     return text;
                 }
-                
             });
     }
 }
