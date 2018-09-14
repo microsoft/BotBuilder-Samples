@@ -18,7 +18,7 @@ const { BotFrameworkAdapter, BotStateSet,  MemoryStorage, ConversationState, Use
 const { BotConfiguration } = require('botframework-config');
 
 const Bot = require('./bot');
-const BOT_CONFIGURATION = 'basic-bot';
+const BOT_CONFIGURATION = (process.env.NODE_ENV || 'development');
 const BOT_CONFIGURATION_ERROR = 1;
 
 // Create server
@@ -93,7 +93,13 @@ const userState = new UserState(memoryStorage);
 adapter.use(new BotStateSet(conversationState, userState));
 
 // Create main dialog.
-const bot = new Bot(conversationState, userState, botConfig);
+let bot;
+try {
+    bot = new Bot(conversationState, userState, botConfig);
+} catch (err) {
+    console.log(`Error: ${err}`);
+    process.exit(BOT_CONFIGURATION_ERROR);
+}
 
 // Listen for incoming requests
 server.post('/api/messages', (req, res) => {

@@ -52,6 +52,7 @@ class Bot {
 
         // add the LUIS recogizer
         const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
+        if (!luisConfig || !luisConfig.appId) throw ('Missing LUIS configuration. Please follow README.MD to create required LUIS applications.\n\n')
         this.luisRecognizer = new LuisRecognizer({
             applicationId: luisConfig.appId,
             azureRegion: luisConfig.region,
