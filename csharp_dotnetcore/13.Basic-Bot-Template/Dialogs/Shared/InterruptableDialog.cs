@@ -30,7 +30,7 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="dc">The current <see cref="DialogContext"/>.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> to control cancellation of asynchronous tasks.</param>
-        /// <returns>A <see cref="Task<DialogTurnResult>"/> representing the result of the dialog turn.</returns>
+        /// <returns>A <see cref="Task"/> representing the result of the dialog turn.</returns>
         protected override async Task<DialogTurnResult> OnDialogContinueAsync(DialogContext dc, CancellationToken cancellationToken)
         {
             var status = await OnDialogInterruptionAsync(dc, cancellationToken);
@@ -55,7 +55,7 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="dc">The current <see cref="DialogContext"/>.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> to control cancellation of asynchronous tasks.</param>
-        /// <returns>A <see cref="Task<DialogTurnResult>"/> representing the result of the dialog turn.</returns>
+        /// <returns>A <see cref="Task"/> representing the result of the dialog turn.</returns>
         protected abstract Task<InterruptionStatus> OnDialogInterruptionAsync(DialogContext dc, CancellationToken cancellationToken);
     }
 }

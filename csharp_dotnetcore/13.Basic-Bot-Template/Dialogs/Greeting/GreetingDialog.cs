@@ -21,15 +21,8 @@ namespace Microsoft.BotBuilderSamples
     /// - Use custom prompts to validate user input
     /// - Store conversation and user state.
     /// </summary>
-    public class GreetingDialog : DetectInterruptDialog
+    public class GreetingDialog : DetectHelpCancelDialog
     {
-        // Name of the dialog.
-        public const string DialogName = "GreetingDialog";
-
-        // Prompt IDs
-        public static readonly string NamePrompt = "namePrompt";
-        public static readonly string CityPrompt = "cityPrompt";
-
         // User state for greeting dialog
         private const string GreetingStateProperty = "greetingState";
         private const string NameValue = "greetingName";
@@ -45,12 +38,13 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="dialogStateAccessor">The <see cref="DialogState"/> property accessor.</param>
         /// <param name="greetingStateAccessor">The <see cref="GreetingState"/> property
         /// accessor for <see cref="UserState"/>. Used for holding name/city.</param>
+        /// <param name="logger">The <see cref="ILogger"/> that enables logging.</param>
         public GreetingDialog(
                     BotServices botServices,
                     IStatePropertyAccessor<DialogState> dialogStateAccessor,
                     IStatePropertyAccessor<GreetingState> greetingStateAccessor,
                     ILogger logger)
-            : base(botServices, DialogName, logger)
+            : base(botServices, nameof(GreetingDialog), logger)
         {
             DialogStateAccessor = dialogStateAccessor ?? throw new ArgumentNullException($"Missing parameter. {nameof(dialogStateAccessor)} is required.");
             GreetingStateAccessor = greetingStateAccessor ?? throw new ArgumentNullException($"Missing parameter. {nameof(greetingStateAccessor)} is required.");
@@ -64,8 +58,8 @@ namespace Microsoft.BotBuilderSamples
                 DisplayGreetingStateStepAsync,
             };
             AddDialog(new WaterfallDialog(ProfileDialog, waterfallSteps));
-            AddDialog(new NamePrompt(GreetingDialog.NamePrompt));
-            AddDialog(new CityPrompt(GreetingDialog.CityPrompt));
+            AddDialog(new NamePrompt(nameof(NamePrompt)));
+            AddDialog(new CityPrompt(nameof(CityPrompt)));
         }
 
         public IStatePropertyAccessor<DialogState> DialogStateAccessor { get; }
@@ -104,7 +98,7 @@ namespace Microsoft.BotBuilderSamples
                     },
                 };
 
-                return await dc.PromptAsync(NamePrompt, options).ConfigureAwait(false);
+                return await dc.PromptAsync(nameof(NamePrompt), options).ConfigureAwait(false);
             }
             else
             {
@@ -135,7 +129,7 @@ namespace Microsoft.BotBuilderSamples
                         Text = $"`{stepContext.Values[NameValue]}`, what city do you live in?",
                     },
                 };
-                return await dc.PromptAsync(CityPrompt, options, cancellationToken);
+                return await dc.PromptAsync(nameof(CityPrompt), options, cancellationToken);
             }
             else
             {

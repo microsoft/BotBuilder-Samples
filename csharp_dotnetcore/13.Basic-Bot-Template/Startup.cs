@@ -49,8 +49,8 @@ namespace Microsoft.BotBuilderSamples
         public void ConfigureServices(IServiceCollection services)
         {
             // Load the connected services from .bot file.
-            string secretKey = Configuration.GetSection("botFileSecret")?.Value;
-            string botFilePath = Configuration.GetSection("botFilePath")?.Value;
+            var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botConfig = BotConfiguration.Load(botFilePath ?? @".\BasicBot.bot", secretKey);
             if (botConfig == null)
             {
@@ -68,8 +68,7 @@ namespace Microsoft.BotBuilderSamples
                 // Load the connected services from .bot file.
                 var environment = _isProduction ? "production" : "development";
                 var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
-                var endpointService = service as EndpointService;
-                if (endpointService == null)
+                if (!(service is EndpointService endpointService))
                 {
                     throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
                 }
@@ -145,6 +144,9 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="app">The application builder. This provides the mechanisms to configure the application request pipeline.</param>
         /// <param name="env">Provides information about the web hosting environment.</param>
+        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to create logger object for tracing.</param>
+        /// <remarks>See <see cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-2.1"/> for
+        /// more information how environments are detected.</remarks>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             _isProduction = env.IsProduction();

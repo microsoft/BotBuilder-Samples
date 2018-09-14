@@ -98,12 +98,12 @@ namespace Microsoft.BotBuilderSamples
         {
             // Run the DialogSet - let the framework identify the current state of the dialog from
             // the dialog stack and figure out what (if any) is the active dialog.
-            DialogContext dc = await _dialogs.CreateContextAsync(context);
+            var dc = await _dialogs.CreateContextAsync(context);
             var dialogResult = await dc.ContinueAsync();
 
             if (dialogResult.Status == DialogTurnStatus.Empty)
             {
-                await dc.BeginAsync(MainDialog.DialogName);
+                await dc.BeginAsync(nameof(MainDialog));
             }
 
             await _accessors.ConversationState.SaveChangesAsync(context);

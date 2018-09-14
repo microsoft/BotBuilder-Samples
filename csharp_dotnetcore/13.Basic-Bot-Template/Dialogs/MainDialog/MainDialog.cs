@@ -19,8 +19,6 @@ namespace Microsoft.BotBuilderSamples
         public const string GreetingIntent = "Greeting";
         public const string HelpIntent = "Help";
 
-        public const string DialogName = "MainDialog";
-
         /// <summary>
         /// Key in the bot config (.bot file) for the LUIS instance.
         /// In the .bot file, multiple instances of LUIS can be configured.
@@ -31,20 +29,20 @@ namespace Microsoft.BotBuilderSamples
         private readonly ILogger _logger;
 
         public MainDialog(BotServices services, BasicBotAccessors accessors, ILogger logger)
-            : base(DialogName)
+            : base(nameof(MainDialog))
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             AddDialog(new GreetingDialog(services, accessors.DialogStateProperty, accessors.GreetingStateProperty, logger));
-            AddDialog(new NamePrompt(GreetingDialog.NamePrompt));
-            AddDialog(new CityPrompt(GreetingDialog.CityPrompt));
+            AddDialog(new NamePrompt(nameof(NamePrompt)));
+            AddDialog(new CityPrompt(nameof(CityPrompt)));
         }
 
         protected override async Task<DialogTurnResult> OnDialogBeginAsync(DialogContext dc, DialogOptions options, CancellationToken cancellationToken)
         {
             // Override default begin() logic with bot orchestration logic
-            return await OnDialogContinueAsync(dc, cancellationToken);
+            return await OnDialogContinueAsync(dc, cancellationToken).ConfigureAwait(false);
         }
 
         protected override async Task<DialogTurnResult> OnDialogContinueAsync(DialogContext dc, CancellationToken cancellationToken)
@@ -56,16 +54,7 @@ namespace Microsoft.BotBuilderSamples
 
                 switch (result.Status)
                 {
-                    case DialogTurnStatus.Complete:
                     case DialogTurnStatus.Empty:
-                        // The active dialog's stack ended with a complete status.
-                        // End active dialog.
-                        if (result.Status == DialogTurnStatus.Complete && dc.ActiveDialog != null)
-                        {
-                            await dc.EndAsync();
-                            break;
-                        }
-
                         // No dialog is currently on the stack and we haven't responded to the user.
                         // Perform a call to LUIS to retrieve results for the current activity message.
                         var luisResults = await _services.LuisServices[LuisKey].RecognizeAsync(dc.Context, cancellationToken).ConfigureAwait(false);
@@ -79,7 +68,7 @@ namespace Microsoft.BotBuilderSamples
                                 case GreetingIntent:
                                     if (topIntent.Value.score > .5)
                                     {
-                                        await dc.BeginAsync(GreetingDialog.DialogName, null, cancellationToken);
+                                        await dc.BeginAsync(nameof(GreetingDialog), null, cancellationToken);
                                     }
 
                                     break;
@@ -107,6 +96,10 @@ namespace Microsoft.BotBuilderSamples
 
                     case DialogTurnStatus.Waiting:
                         // The active dialog is waiting for a response from the user, so do nothing
+                        break;
+
+                    case DialogTurnStatus.Complete:
+                        await dc.EndAsync();
                         break;
 
                     default:
