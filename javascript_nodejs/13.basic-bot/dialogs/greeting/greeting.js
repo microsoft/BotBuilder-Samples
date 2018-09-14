@@ -6,7 +6,7 @@ const { ComponentDialog, WaterfallDialog } = require('botbuilder-dialogs');
 const { NamePrompt, CityPrompt } = require('../shared/greetingPrompts');
 
 // User state for greeting dialog
-const GreetingState = require('./greetingState');
+const { GreetingState } = require('./greetingState');
 const GREETING_STATE_PROPERTY = 'greetingState';
 const NAME_VALUE = 'greetingName';
 const CITY_VALUE = 'greetingCity';
@@ -38,10 +38,10 @@ class Greeting extends ComponentDialog {
 
     // Add control flow dialogs
     this.addDialog(new WaterfallDialog(PROFILE_DIALOG, [
-      this.initializeStateStep,
-      this.promptForNameStep,
-      this.promptForCityStep,
-      this.displayGreetingStateStep
+      this.initializeStateStep.bind(this),
+      this.promptForNameStep.bind(this),
+      this.promptForCityStep.bind(this),
+      this.displayGreetingStateStep.bind(this)
     ]));
 
     // Add supporting prompts for name and city
@@ -62,16 +62,12 @@ class Greeting extends ComponentDialog {
    * @param {WaterfallStepContext} step contextual information for the current step being executed
    */
   async initializeStateStep(dc, step) {
-    // if (step.options && step.options.greetingState) {
-    //   await this.greetingStateAccessor.set(dc.context, step.options.greetingState);
-    // } else {
-    //   await this.greetingStateAccessor.set(dc.context, new GreetingState());
-    // }
-
     if (step.options && step.options.greetingState) {
-      step.values[NAME_VALUE] = step.options.greetingState.name;
-      step.values[CITY_VALUE] = step.options.greetingState.city;
+      await this.greetingStateAccessor.set(dc.context, step.options.greetingState);
+    } else {
+      await this.greetingStateAccessor.set(dc.context, new GreetingState());
     }
+
     return await step.next();
   }
 
@@ -86,16 +82,9 @@ class Greeting extends ComponentDialog {
    */
   async promptForNameStep(dc, step) {
     // prompt for name, if missing
-    // const greetingState = await this.greetingStateAccessor.get(dc.context);
-    // if(!greetingState.name) {
-    //   return await dc.prompt(NAME_PROMPT, 'What is your name?');
-    // } else {
-    //   return await step.next();
-    // }
-
-    // Prompt for name if missing
-    if (!step.values[NAME_VALUE]) {
-      return await dc.prompt(NAME_PROMPT, `What is your name?`);
+    const greetingState = await this.greetingStateAccessor.get(dc.context);
+    if(!greetingState.name) {
+      return await dc.prompt(NAME_PROMPT, 'What is your name?');
     } else {
       return await step.next();
     }
@@ -111,27 +100,15 @@ class Greeting extends ComponentDialog {
    * @param {WaterfallStepContext} step contextual information for the current step being executed
    */
   async promptForCityStep(dc, step) {
-    // // save name, if prompted for
-    // const greetingState = await this.greetingStateAccessor.get(dc.context);
-    // if (step.result) {
-    //   greetingState.name = step.result;
-    //   await that.greetingStateAccessor.set(dc.context, greetingState);
-    // }
-
-    // if (!greetingState.city) {
-    //   return await dc.prompt(CITY_PROMPT, `${greetingState.name}, what city do you live in?`);
-    // } else {
-    //   return await step.next();
-    // }
-
-    // Save name if prompted for
+    // save name, if prompted for
+    const greetingState = await this.greetingStateAccessor.get(dc.context);
     if (step.result) {
-      step.values[NAME_VALUE] = step.result;
+      greetingState.name = step.result;
+      await this.greetingStateAccessor.set(dc.context, greetingState);
     }
 
-    // Prompt for city if missing
-    if (!step.values[CITY_VALUE]) {
-      return await dc.prompt(CITY_PROMPT, `${step.values[NAME_VALUE]}, what city do you live in?`);
+    if (!greetingState.city) {
+      return await dc.prompt(CITY_PROMPT, `${greetingState.name}, what city do you live in?`);
     } else {
       return await step.next();
     }
@@ -146,26 +123,17 @@ class Greeting extends ComponentDialog {
    * @param {WaterfallStepContext} step contextual information for the current step being executed
    */
   async displayGreetingStateStep(dc, step) {
-    // // Save city, if prompted for
-    // const greetingState = await that.greetingStateAccessor.get(dc.context);
-    // if (step.result) {
-    //   greetingState.city = step.result;
-    //   await this.greetingStateAccessor.set(dc.context, greetingState);
-    // }
-
-    // // Display to the user their profile information and end dialog
-    // await dc.context.sendActivity(`${greetingState.name}, you live in ${greetingState.city}.`);
-    // return await dc.end();
-
-    // Save city if prompted for
+    // Save city, if prompted for
+    const greetingState = await this.greetingStateAccessor.get(dc.context);
     if (step.result) {
-      step.values[CITY_VALUE] = step.result;
+      greetingState.city = step.result;
+      await this.greetingStateAccessor.set(dc.context, greetingState);
     }
 
-    await dc.context.sendActivity(`Ok ${step.values[NAME_VALUE]}, I've got you living in ${step.values[CITY_VALUE]}.`);
-    await dc.context.sendActivity(`I'll go ahead an update your profile with that information.`);
+    // Display to the user their profile information and end dialog
+    await dc.context.sendActivity(`${greetingState.name}, you live in ${greetingState.city}.`);
     return await dc.end();
   }
 }
 
-module.exports = Greeting;
+module.exports.GreetingDialog = Greeting;

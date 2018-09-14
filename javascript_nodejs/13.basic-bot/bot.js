@@ -5,8 +5,8 @@ const { ActivityTypes, CardFactory } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { DialogSet, DialogTurnStatus } = require('botbuilder-dialogs');
 
-const WelcomeCard = require('./dialogs/welcome');
-const GreetingDialog = require('./dialogs/greeting');
+const { WelcomeCard } = require('./dialogs/welcome');
+const { GreetingDialog } = require('./dialogs/greeting');
 
 // Greeting Dialog ID
 const GREETING_DIALOG = 'greetingDialog';
@@ -52,6 +52,7 @@ class Bot {
 
         // add the LUIS recogizer
         const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
+        if (!luisConfig || !luisConfig.appId) throw ('Missing LUIS configuration. Please follow README.MD to create required LUIS applications.\n\n')
         this.luisRecognizer = new LuisRecognizer({
             applicationId: luisConfig.appId,
             azureRegion: luisConfig.region,

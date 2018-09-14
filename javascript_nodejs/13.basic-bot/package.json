@@ -7,17 +7,14 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node ./index.js",
-        "watch": "nodemon ./index.js"
+        "start": "node ./index.js NODE_ENV=development",
+        "watch": "nodemon ./index.js NODE_ENV=development"
     },
     "dependencies": {
         "botbuilder": "https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/botbuilder/-/4.0.0-preview1.1200.tgz",
         "botbuilder-ai": "https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/botbuilder-ai/-/4.0.0-preview1.1200.tgz",
-        "botbuilder-core": "https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/botbuilder-core/-/4.0.0-preview1.1200.tgz",
         "botbuilder-dialogs": "https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/botbuilder-dialogs/-/4.0.0-preview1.1200.tgz",
         "botframework-config": "https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/botframework-config/-/4.0.0-preview1.1200.tgz",
-        "botframework-connector": "https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/botframework-connector/-/4.0.0-preview1.1200.tgz",
-        "botframework-schema": "https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/botframework-schema/-/4.0.0-preview1.1200.tgz",
         "dotenv": "^6.0.0",
         "restify": "^6.3.4"
     },
