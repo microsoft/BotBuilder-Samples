@@ -11,34 +11,31 @@ const HELLO_USER = 'hello_user';
 
 const NAME_PROMPT = 'name_prompt';
 
-
 class MainDialog {
     /**
-     * 
-     * @param {Object} conversationState 
-     * @param {Object} userState 
+     *
+     * @param {Object} conversationState
+     * @param {Object} userState
      */
-    constructor (conversationState, userState) {
-
-        // creates a new state accessor property. see https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors 
+    constructor(conversationState, userState) {
+        // creates a new state accessor property. see https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors
         this.conversationState = conversationState;
         this.userState = userState;
 
         this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
 
-        this.userName = this.userState.createProperty(USER_NAME_PROP)
+        this.userName = this.userState.createProperty(USER_NAME_PROP);
 
         this.dialogs = new DialogSet(this.dialogState);
-        
+
         // Add prompts
         this.dialogs.add(new TextPrompt(NAME_PROMPT));
-            
+
         // Create a dialog that asks the user for their name.
         this.dialogs.add(new WaterfallDialog(WHO_ARE_YOU, [
             this.askForName.bind(this),
             this.collectAndDisplayName.bind(this)
         ]));
-
 
         // Create a dialog that displays a user name after it has been collceted.
         this.dialogs.add(new WaterfallDialog(HELLO_USER, [
@@ -61,13 +58,13 @@ class MainDialog {
 
     // This step loads the user's name from state and displays it.
     async displayName(step) {
-            const user_name = await this.userName.get(step.context, null);
-            await step.context.sendActivity(`Your name is ${user_name}.`);
-            return await step.end();
+        const userName = await this.userName.get(step.context, null);
+        await step.context.sendActivity(`Your name is ${ userName }.`);
+        return await step.end();
     }
 
     /**
-     * 
+     *
      * @param {Object} context on turn context object.
      */
     async onTurn(turnContext) {
@@ -77,7 +74,7 @@ class MainDialog {
             const dc = await this.dialogs.createContext(turnContext);
 
             const utterance = (turnContext.activity.text || '').trim().toLowerCase();
-            if (utterance === 'cancel') { 
+            if (utterance === 'cancel') {
                 if (dc.activeDialog) {
                     await dc.cancelAll();
                     await dc.context.sendActivity(`Ok... Cancelled.`);
@@ -85,7 +82,7 @@ class MainDialog {
                     await dc.context.sendActivity(`Nothing to cancel.`);
                 }
             }
-            
+
             // Continue the current dialog
             if (!turnContext.responded) {
                 await dc.continue();
@@ -93,19 +90,18 @@ class MainDialog {
 
             // Show menu if no response sent
             if (!turnContext.responded) {
-                var user_name = await this.userName.get(dc.context,null);
-                if (user_name) {
-                    await dc.begin(HELLO_USER)
+                var userName = await this.userName.get(dc.context, null);
+                if (userName) {
+                    await dc.begin(HELLO_USER);
                 } else {
-                    await dc.begin(WHO_ARE_YOU)
+                    await dc.begin(WHO_ARE_YOU);
                 }
             }
-            
         } else if (
             turnContext.activity.type === ActivityTypes.ConversationUpdate &&
             turnContext.activity.membersAdded[0].name !== 'Bot'
-       ) {
-           // send a "this is what the bot does" message
+        ) {
+            // send a "this is what the bot does" message
             await turnContext.sendActivity('I am a bot that demonstrates the TextPrompt class to collect your name, store it in UserState, and display it. Say anything to continue.');
         }
 
@@ -114,9 +110,7 @@ class MainDialog {
 
         // End this turn by saving changes to the conversation state.
         await this.conversationState.saveChanges(turnContext);
-
     }
-
 }
 
 module.exports = MainDialog;
