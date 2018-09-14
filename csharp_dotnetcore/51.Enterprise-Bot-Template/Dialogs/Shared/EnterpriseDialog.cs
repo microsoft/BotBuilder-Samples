@@ -48,10 +48,10 @@ namespace EnterpriseBot
 
         protected virtual async Task<InterruptionStatus> OnCancel(DialogContext dc)
         {
-            if (dc.ActiveDialog.Id != CancelDialog.Name)
+            if (dc.ActiveDialog.Id != nameof(CancelDialog))
             {
                 // Don't start restart cancel dialog
-                await dc.BeginAsync(CancelDialog.Name);
+                await dc.BeginAsync(nameof(CancelDialog));
 
                 // Signal that the dialog is waiting on user response
                 return InterruptionStatus.Waiting;
