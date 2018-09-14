@@ -96,7 +96,7 @@ Any time the bot file is encrypted, make sure to set the botFileSecret environme
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
 - File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\9.Message-Routing` folder
-- Select MessageRouting.bot file
+- Select BotConfiguration.bot file
 
 # Further reading
 

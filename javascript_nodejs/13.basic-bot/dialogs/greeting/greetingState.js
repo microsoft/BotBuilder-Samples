@@ -12,4 +12,4 @@ class GreetingState {
   }
 }
 
-module.exports.default = GreetingState;
+module.exports.GreetingState = GreetingState;

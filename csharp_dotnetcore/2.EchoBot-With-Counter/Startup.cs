@@ -2,15 +2,20 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Microsoft.BotBuilderSamples
@@ -20,6 +25,8 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class Startup
     {
+        private ILoggerFactory _loggerFactory;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -48,11 +55,25 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddBot<EchoWithCounterBot>(options =>
             {
-                options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
+                InitCredentialProvider(options);
+
+                // Catches any errors that occur during a conversation turn and logs them.
+                ILogger logger = _loggerFactory.CreateLogger<EchoWithCounterBot>();
+                options.OnTurnError = async (context, exception) =>
+                {
+                    logger.LogError($"Exception caught : {exception}");
+                    await context.SendActivityAsync("Sorry, it looks like something went wrong.");
+                };
 
                 // The Memory Storage used here is for local bot debugging only. When the bot
                 // is restarted, everything stored in memory will be gone.
                 IStorage dataStore = new MemoryStorage();
+
+                // Other Storage.
+                // Consider Azure Blob storage as an option.
+                // To include add the Microsoft.Bot.Builder.Azure Nuget package to your solution. That package is found at:
+                //      https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
+                // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
 
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
@@ -88,11 +109,31 @@ namespace Microsoft.BotBuilderSamples
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            _loggerFactory = loggerFactory;
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
+        }
+
+        /// <summary>
+        /// Initializes the credential provider, using by default the <see cref="SimpleCredentialProvider"/>.
+        /// </summary>
+        /// <param name="options"><see cref="BotFrameworkOptions"/> for the current bot.</param>
+        private static void InitCredentialProvider(BotFrameworkOptions options)
+        {
+            // Load the connected services from .bot file.
+            var botConfig = BotConfiguration.Load(@".\BotConfiguration.bot");
+
+            var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
+            var endpointService = service as EndpointService;
+            if (endpointService == null)
+            {
+                throw new InvalidOperationException("The .bot file does not contain an endpoint.");
+            }
+
+            options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
         }
     }
 }
