@@ -12,7 +12,7 @@ using Microsoft.Bot.Schema;
 
 namespace EnterpriseBot
 {
-    public class MainDialog : ComponentDialog
+    public class MainDialog : RouterDialog
     {
         // Fields
         private static MainResponses _responder = new MainResponses();
@@ -27,19 +27,11 @@ namespace EnterpriseBot
             AddDialog(new EscalateDialog(_services));
         }
 
-        protected override async Task<DialogTurnResult> OnDialogBeginAsync(DialogContext dc, object options, CancellationToken cancellationToken)
-        {
-            // Override default begin() logic with bot orchestration logic
-            return await OnDialogContinueAsync(dc, cancellationToken);
-        }
-
-        protected override async Task<DialogTurnResult> OnDialogContinueAsync(DialogContext dc, CancellationToken cancellationToken)
+        protected override async Task<DialogTurnResult> RouteAsync(DialogContext dc, DialogTurnResult result, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // If an active dialog is waiting, continue dialog
-                var result = await dc.ContinueAsync();
-
                 switch (result.Status)
                 {
                     case DialogTurnStatus.Empty:
