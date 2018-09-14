@@ -14,24 +14,20 @@ namespace EnterpriseBot
 {
     public class MainDialog : ComponentDialog
     {
-        // Constants
-        public const string Name = "MainDialog";
-
         // Fields
         private static MainResponses _responder = new MainResponses();
         private readonly BotServices _services;
 
         public MainDialog(BotServices services)
-            : base(Name)
+            : base(nameof(MainDialog))
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
 
-            AddDialog(new SignInDialog(_services.AuthConnectionName));
             AddDialog(new OnboardingDialog(_services));
             AddDialog(new EscalateDialog(_services));
         }
 
-        protected override async Task<DialogTurnResult> OnDialogBeginAsync(DialogContext dc, DialogOptions options, CancellationToken cancellationToken)
+        protected override async Task<DialogTurnResult> OnDialogBeginAsync(DialogContext dc, object options, CancellationToken cancellationToken)
         {
             // Override default begin() logic with bot orchestration logic
             return await OnDialogContinueAsync(dc, cancellationToken);
@@ -53,33 +49,31 @@ namespace EnterpriseBot
                             var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, CancellationToken.None);
                             var intent = dispatchResult.TopIntent().intent;
 
-                            if (intent == Dispatch.Intent.l_EnterpriseBot_General)
+                            if (intent == Dispatch.Intent.l_General)
                             {
                                 // If dispatch result is general luis model
-                                var luisService = _services.LuisServices[typeof(EnterpriseBot_General).Name];
-                                var luisResult = await luisService.RecognizeAsync<EnterpriseBot_General>(dc.Context, CancellationToken.None);
+                                var luisService = _services.LuisServices["EnterpriseBot-General"];
+                                var luisResult = await luisService.RecognizeAsync<General>(dc.Context, CancellationToken.None);
                                 var luisIntent = luisResult?.TopIntent().intent;
 
                                 // switch on general intents
                                 switch (luisIntent)
                                 {
-                                    case EnterpriseBot_General.Intent.Greeting:
+                                    case General.Intent.Greeting:
                                         {
-                                            var signInResult = await dc.BeginAsync(SignInDialog.Name);
-
                                             // send greeting response
                                             await _responder.ReplyWith(dc.Context, MainResponses.Greeting);
                                             break;
                                         }
 
-                                    case EnterpriseBot_General.Intent.Help:
+                                    case General.Intent.Help:
                                         {
                                             // send help response
                                             await _responder.ReplyWith(dc.Context, MainResponses.Help);
                                             break;
                                         }
 
-                                    case EnterpriseBot_General.Intent.Cancel:
+                                    case General.Intent.Cancel:
                                         {
                                             // send cancelled response
                                             await _responder.ReplyWith(dc.Context, MainResponses.Cancelled);
@@ -89,14 +83,14 @@ namespace EnterpriseBot
                                             break;
                                         }
 
-                                    case EnterpriseBot_General.Intent.Escalate:
+                                    case General.Intent.Escalate:
                                         {
                                             // start escalate dialog
-                                            await dc.BeginAsync(OnboardingDialog.Name);
+                                            await dc.BeginAsync(nameof(EscalateDialog));
                                             break;
                                         }
 
-                                    case EnterpriseBot_General.Intent.None:
+                                    case General.Intent.None:
                                     default:
                                         {
                                             // No intent was identified, send confused message
@@ -105,9 +99,9 @@ namespace EnterpriseBot
                                         }
                                 }
                             }
-                            else if (intent == Dispatch.Intent.q_EnterpriseBot_faq)
+                            else if (intent == Dispatch.Intent.q_FAQ)
                             {
-                                var qnaService = _services.QnAServices["EnterpriseBot_faq"];
+                                var qnaService = _services.QnAServices["EnterpriseBot-FAQ"];
                                 var answers = await qnaService.GetAnswersAsync(dc.Context);
 
                                 if (answers != null && answers.Count() > 0)
@@ -146,15 +140,28 @@ namespace EnterpriseBot
                         }
                 }
             }
+            else if (dc.Context.Activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                // greet when added to conversation
+                var activity = dc.Context.Activity.AsConversationUpdateActivity();
+                if (activity.MembersAdded.Where(m => m.Id == activity.Recipient.Id).Any())
+                {
+                    var view = new MainResponses();
+                    await view.ReplyWith(dc.Context, MainResponses.Intro);
+
+                    // This is the first time the user is interacting with the bot, so gather onboarding information.
+                    await dc.BeginAsync(nameof(OnboardingDialog));
+                }
+            }
             else
             {
-                await HandleSystemMessage(dc.Context);
+                HandleSystemMessage(dc.Context);
             }
 
             return new DialogTurnResult(DialogTurnStatus.Waiting);
         }
 
-        private async Task HandleSystemMessage(ITurnContext context)
+        private void HandleSystemMessage(ITurnContext context)
         {
             switch (context.Activity.Type)
             {
@@ -163,19 +170,7 @@ namespace EnterpriseBot
                 case ActivityTypes.EndOfConversation:
                 case ActivityTypes.Typing:
                 case ActivityTypes.Event:
-                    var ev = context.Activity.AsEventActivity();
-                    await context.SendActivityAsync($"Received event: {ev.Name}");
-                    break;
-
-                case ActivityTypes.ConversationUpdate:
-                    // greet when added to conversation
-                    var activity = context.Activity.AsConversationUpdateActivity();
-                    if (activity.MembersAdded.Where(m => m.Id == activity.Recipient.Id).Any())
-                    {
-                        var view = new MainResponses();
-                        await view.ReplyWith(context, MainResponses.Intro);
-                    }
-
+                    // Add any additional logic for process these system messages here.
                     break;
             }
         }

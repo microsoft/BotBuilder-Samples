@@ -26,18 +26,18 @@ namespace EnterpriseBot
         {
             // check dispatch intent
             // TODO: use luis gen models
-            var luisService = _services.LuisServices[typeof(EnterpriseBot_General).Name];
-            var luisResult = await luisService.RecognizeAsync<EnterpriseBot_General>(dc.Context, cancellationToken);
+            var luisService = _services.LuisServices["EnterpriseBot-General"];
+            var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
             var intent = luisResult.TopIntent().intent;
 
             switch (intent)
             {
-                case EnterpriseBot_General.Intent.Cancel:
+                case General.Intent.Cancel:
                     {
                         return await OnCancel(dc);
                     }
 
-                case EnterpriseBot_General.Intent.Help:
+                case General.Intent.Help:
                     {
                         return await OnHelp(dc);
                     }
