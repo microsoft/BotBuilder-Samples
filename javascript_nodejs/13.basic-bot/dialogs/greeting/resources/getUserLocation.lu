@@ -1,0 +1,22 @@
+> get user location intent and utterances
+# askForUserLocation
+- i live in {userLocation_patternAny}
+- i'm from {userLocation_patternAny}
+- {userLocation_patternAny} is where i live
+- I reside in {userLocation_patternAny}
+- you can assume i live in {userLocation_patternAny}
+
+> add additional machine learned simple entity
+- {userLocation=seattle} is my current city
+- my location is {userLocation=new york}
+- I live in {userLocation=london}
+- I'm from {userLocation=georgia} 
+- {userLocation=portland}
+- I reside in {userLocation=san francisco}
+- you can assume i live in {userLocation=cairo}
+- {userLocation=paris}
+- {userLocation=shangai}
+- {userLocation=delhi}
+- {userLocation=mumbai}
+- {userLocation=dhaka}
+- {userLocation=toronto}

@@ -1,0 +1,19 @@
+> Get user name intent and utterances
+# GetUserName
+- my name is {userName_patternAny}
+- call me {userName_patternAny}
+- {userName_patternAny} is my name
+- I'm {userName_patternAny}
+- you can call me {userName_patternAny}
+- {userName_patternAny}.
+
+> add additional machine learned simple entity
+- {userName=vishwac} is my name
+- my name is {userName=tom}
+- call me {userName=scott}
+- {userName=tony} is my name
+- {userName=melanie}
+- I'm {userName=lili}
+- you can call me {userName=steve}
+- {userName=dan}
+
