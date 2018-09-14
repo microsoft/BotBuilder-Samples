@@ -49,7 +49,7 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBot<EchoWithCounterBot>(options =>
+            services.AddBot<ConversationHistoryBot>(options =>
             {
                 var botConfig = BotConfiguration.Load(@".\ConversationHistory.bot");
                 var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");

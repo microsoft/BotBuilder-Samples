@@ -4,9 +4,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
@@ -23,13 +25,13 @@ namespace Microsoft.BotBuilderSamples
     /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// </summary>
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
-    public class EchoWithCounterBot : IBot
+    public class ConversationHistoryBot : IBot
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="EchoWithCounterBot"/> class.
+        /// Initializes a new instance of the <see cref="ConversationHistoryBot"/> class.
         /// </summary>
         /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
-        public EchoWithCounterBot()
+        public ConversationHistoryBot()
         {
         }
 
@@ -58,9 +60,28 @@ namespace Microsoft.BotBuilderSamples
             if (turnContext.Activity.Type == ActivityTypes.Message && turnContext.Activity.Text == "history")
             {
                 var connector = turnContext.TurnState.Get<ConnectorClient>(typeof(IConnectorClient).FullName);
+
+                var activity = turnContext.Activity;
+                var transcriptStore = new AzureBlobTranscriptStore("DefaultEndpointsProtocol=https;AccountName=conversationhistorystore;AccountKey=wCxjJSqEDfrWSHGVVYWREVL8ds8sS6hC2fGhi/kaoFKzkiJmtovF+LHIBD/xu42SKCI/CjzL6HWV2CPvGor9uw==;EndpointSuffix=core.windows.net", "transcriptstore");
+                var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
+                string continuationToken = null;
+                var activities = new List<Activity>();
+                do
+                {
+                    var pagedTranscript = await transcriptStore.GetTranscriptActivitiesAsync(activity.ChannelId, activity.Conversation.Id);
+                    continuationToken = pagedTranscript.ContinuationToken;
+                    activities.AddRange(pagedTranscript.Items.Where(a => a.Type == ActivityTypes.Message).Select(ia => {
+                        var a = (Activity)ia;
+                        a.Text = $"HISTORIC -> {a.Text}";
+                        a.ChannelData = null;
+                        a.Id = $"HISTORY_{a.Id}";
+                        return a;
+                    }).ToList());
+                } while (continuationToken != null);
+                var transcript = new Bot.Schema.Transcript(activities);
+                await connector.Conversations.SendConversationHistoryAsync(activity.Conversation.Id, transcript);
+
                 var reply = turnContext.Activity.CreateReply();
-                reply.Text = "Uploading history";
-                await connector.Conversations.SendToConversationAsync(reply);
                 reply.Text = "DONE";
                 await turnContext.SendActivityAsync(reply);
             }
