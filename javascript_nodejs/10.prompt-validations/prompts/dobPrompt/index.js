@@ -15,8 +15,8 @@ module.exports = class DOBPrompt extends DateTimePrompt {
                     throw new Error('No date found.');
                 }
                 const values = prompt.recognized.value;
-                if (!Array.isArray(values) || values.length < 0) { throw new Error('Missing time.') }
-                if ((values[0].type !== 'datetime') && (values[0].type !== 'date')) { throw new Error('Unsupported type.') }
+                if (!Array.isArray(values) || values.length < 0) { throw new Error('Missing time.'); }
+                if ((values[0].type !== 'datetime') && (values[0].type !== 'date')) { throw new Error('Unsupported type.'); }
                 const value = new Date(values[0].value);
                 if (value.getTime() < DATE_LOW_BOUNDS.getTime()) {
                     throw new Error('Date too low.');
@@ -30,4 +30,4 @@ module.exports = class DOBPrompt extends DateTimePrompt {
             }
         });
     }
-}
+};
