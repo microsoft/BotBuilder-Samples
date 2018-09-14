@@ -5,7 +5,6 @@ const { ActivityTypes, MessageFactory } = require('botbuilder');
 const { ChoicePrompt, DialogSet } = require('botbuilder-dialogs');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
-const USER_PROFILE_PROPERTY = 'user';
 const SAMPLE_PROMPT = 'sample_prompt';
 
 /**
@@ -13,7 +12,7 @@ const SAMPLE_PROMPT = 'sample_prompt';
  */
 class FacebookEventsBot {
     /**
-     * 
+     * Creates a FacebookEventsBot. Since we use prompts, we need to receive a conversation state instance.
      * @param {ConversationState} conversationState A ConversationState object used to store the dialog state.
      * @param {UserState} userState A UserState object used to store values specific to the user.
      */
@@ -24,10 +23,8 @@ class FacebookEventsBot {
 
         this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
 
-        this.userProfile = this.userState.createProperty(USER_PROFILE_PROPERTY);
-
         this.dialogs = new DialogSet(this.dialogState);
-        this.dialogs.add(new ChoicePrompt(SAMPLE_PROMPT))
+        this.dialogs.add(new ChoicePrompt(SAMPLE_PROMPT));
     }
 
     /**
@@ -35,7 +32,7 @@ class FacebookEventsBot {
      * @param {Object} turnContext on turn context object.
      */
     async onTurn(turnContext) {
-
+        // These are the 3 main Facebook features we show in this sample
         const facebookPageNameOption = 'Facebook Page Name';
         const quickRepliesOption = 'Quick Replies';
         const postBackOption = 'PostBack';
@@ -46,17 +43,15 @@ class FacebookEventsBot {
 
             // Check if we are on the Facebook channel.
             if (turnContext.activity.channelId === 'facebook') {
-
                 // Analyze Facebook payload from channel data.
                 processFacebookPayload(turnContext.activity.channelData);
 
                 // Initially the bot offers to showcase 3 Facebook features: Quick replies, PostBack and getting the Facebook Page Name.
                 // Below we also show how to get the messaging_optin payload separately as well.
                 switch(text) {
-                    
                     // Here we showcase how to obtain the Facebook page name.
                     // This can be useful for the Facebook multi-page support provided by the Bot Framework.
-                    // The Facebook page name from which the message comes from is in turnContext.Activity.Recipient.Name.
+                    // The Facebook page name from which the message comes from is in turnContext.activity.recipient.name.
                     case facebookPageNameOption:
                         await turnContext.sendActivity(`This message comes from the following Facebook Page: ${turnContext.activity.recipient.name}`);
                         break;
@@ -72,17 +67,12 @@ class FacebookEventsBot {
                         const promptOptions = {
                             prompt: 'Is 42 the answer to the ultimate question of Life, the Universe, and Everything?',
                             reprompt: 'Please answer Yes or No.',
-                            choices: [{
-                                    value: 'Yes',
-                                },{
-                                    value: 'No'
-                                }]
-                        };
+                            choices: [{ value: 'Yes', },{ value: 'No' }]};
 
                         // Prompt the user with the configured PromptOptions.
                         await dc.prompt(SAMPLE_PROMPT, promptOptions);
-                    
                         break;
+
                     case quickRepliesOption:
                     default:
                         var reply = MessageFactory.suggestedActions(
@@ -100,6 +90,7 @@ class FacebookEventsBot {
                 processFacebookPayload(turnContext.activity.channelData);
             }
         }
+        await this.conversationState.saveChanges(turnContext);
     }
 }
 
@@ -108,10 +99,9 @@ class FacebookEventsBot {
  * NOTE: This is a simplification of the Facebook object model. There are many more events and payloads
  * that could be captured here. We only show some key features that are commonly used. The sample
  * can be extended to account for more Facebook-specific events according to developers' needs.
- * @param {string} channelData Channel data for the current turn.
+ * @param {Object} channelData Channel data for the current turn.
  */
 function processFacebookPayload(channelData) {
-    
     if(!channelData) {
         return;
     }
@@ -129,7 +119,7 @@ function processFacebookPayload(channelData) {
 
 /**
  * Called when receiving a Facebook messaging_postback event.
- * Facebook Developer Refence: Postback
+ * Facebook Developer Reference: Postback
  * https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_postbacks/
  * @param {Object} postback JSON object for postback payload.
  */
@@ -139,7 +129,7 @@ function onFacebookPostback(postback) {
 
 /**
  * Called when receiving a Facebook messaging_optin event.
- * Facebook Developer Refence: Optin
+ * Facebook Developer Reference: Optin
  * https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_optins/
  * @param {Object} optin JSON object for postback payload.
  */
@@ -149,7 +139,7 @@ function onFacebookOptin(optin) {
 
 /**
  * Called when receiving a Facebook quick reply.
- * Facebook Developer Refence: Quick reply
+ * Facebook Developer Reference: Quick reply
  * https://developers.facebook.com/docs/messenger-platform/send-messages/quick-replies/
  * @param {Object} quickReply JSON object for postback payload.
  */

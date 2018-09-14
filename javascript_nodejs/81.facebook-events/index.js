@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { BotFrameworkAdapter, BotStateSet, ConversationState, MemoryStorage, UserState } = require('botbuilder');
+const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
 const { BotConfiguration } = require('botframework-config');
-const { DialogSet } = require('botbuilder-dialogs');
 const path = require('path');
 const restify = require('restify');
 const FacebookEventsBot = require('./bot');
@@ -36,7 +35,7 @@ try {
 }
 
 // Bot name as defined in .bot file. 
-// See https://aka.ms/about-bot-file to learn more about .bot file usage and configuration.
+// See https://aka.ms/about-bot-file to learn more about .bot files.
 const BOT_CONFIGURATION = 'facebook-events';
 
 // Get bot endpoint configuration by service name.
@@ -66,9 +65,6 @@ const memoryStorage = new MemoryStorage();
 // Create conversation state with in-memory storage provider. 
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage)
-
-// Use the BotStateSet middleware to automatically read and write conversation and user state.
-adapter.use(new BotStateSet(conversationState, userState));
 
 // Create the bot that will handle incoming messages.
 const facebookEventsBot = new FacebookEventsBot(conversationState, userState);

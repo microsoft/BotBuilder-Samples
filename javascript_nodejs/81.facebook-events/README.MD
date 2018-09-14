@@ -7,7 +7,7 @@ Since Bot Framework supports multiple Facebook pages for a single bot, we also s
 # To try this sample
 - Clone the repository
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-sample.git
+    git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 - In a terminal, navigate to javascript_nodejs\81.facebook-events
     ```bash
@@ -48,4 +48,6 @@ The final step to test Facebook-specific features is to publish your bot for the
 
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [Bot State](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-storage-concept?view=azure-bot-service-4.0)
+- [Facebook Quick Replies](https://developers.facebook.com/docs/messenger-platform/send-messages/quick-replies/0)
+- [Facebook PostBack](https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_postbacks/)
+- [Facebook Optin](https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_optins/)
