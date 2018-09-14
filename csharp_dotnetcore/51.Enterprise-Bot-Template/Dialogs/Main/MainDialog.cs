@@ -26,6 +26,15 @@ namespace EnterpriseBot
             AddDialog(new EscalateDialog(_services));
         }
 
+        protected override async Task OnStart(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var view = new MainResponses();
+            await view.ReplyWith(innerDc.Context, MainResponses.Intro);
+
+            // This is the first time the user is interacting with the bot, so gather onboarding information.
+            await innerDc.BeginAsync(nameof(OnboardingDialog));
+        }
+
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Check dispatch result
@@ -94,16 +103,7 @@ namespace EnterpriseBot
             }
         }
 
-        protected override async Task OnStart(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var view = new MainResponses();
-            await view.ReplyWith(innerDc.Context, MainResponses.Intro);
-
-            // This is the first time the user is interacting with the bot, so gather onboarding information.
-            await innerDc.BeginAsync(nameof(OnboardingDialog));
-        }
-
-        protected override async Task OnComplete(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task CompleteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // The active dialog's stack ended with a complete status
             await _responder.ReplyWith(innerDc.Context, MainResponses.Completed);

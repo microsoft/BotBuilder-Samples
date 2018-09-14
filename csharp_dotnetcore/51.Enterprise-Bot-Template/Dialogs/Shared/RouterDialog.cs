@@ -35,7 +35,7 @@ namespace EnterpriseBot
 
                             case DialogTurnStatus.Complete:
                                 {
-                                    await OnComplete(innerDc);
+                                    await CompleteAsync(innerDc);
 
                                     // End active dialog
                                     await innerDc.EndAsync();
@@ -77,14 +77,44 @@ namespace EnterpriseBot
 
         protected override Task OnDialogRepromptAsync(ITurnContext turnContext, DialogInstance instance, CancellationToken cancellationToken = default(CancellationToken)) => base.OnDialogRepromptAsync(turnContext, instance, cancellationToken);
 
+        /// <summary>
+        /// Called when the inner dialog stack is empty.
+        /// </summary>
+        /// <param name="innerDc">The dialog context for the component.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         protected abstract Task RouteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken));
 
-        protected virtual Task OnStart(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
+        /// <summary>
+        /// Called when the inner dialog stack is complete.
+        /// </summary>
+        /// <param name="innerDc">The dialog context for the component.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        protected virtual Task CompleteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
 
-        protected virtual Task OnComplete(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
-
+        /// <summary>
+        /// Called when an event activity is received.
+        /// </summary>
+        /// <param name="innerDc">The dialog context for the component.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         protected virtual Task OnEvent(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
 
+        /// <summary>
+        /// Called when a system activity is received.
+        /// </summary>
+        /// <param name="innerDc">The dialog context for the component.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         protected virtual Task OnSystemMessage(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
+
+        /// <summary>
+        /// Called when a conversation update activity is received.
+        /// </summary>
+        /// <param name="innerDc">The dialog context for the component.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        protected virtual Task OnStart(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
     }
 }
