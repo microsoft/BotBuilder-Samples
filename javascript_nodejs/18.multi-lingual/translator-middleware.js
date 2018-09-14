@@ -4,7 +4,6 @@
 const { Middleware, TurnContext, ConversationState } = require('botbuilder');
 const fetch = require('node-fetch');
 
-const LANGUAGE_PREFERENCE = 'language_preference';
 const ENGLISH_LANGUAGE = 'en';
 const SPANISH_LANGUAGE = 'es';
 const DEFAULT_LANGUAGE = ENGLISH_LANGUAGE;
@@ -26,7 +25,7 @@ class TranslatorMiddleware {
         if (turnContext.activity.type === 'message') {
 
             const userLanguage = await this.languagePreferenceProperty.get(turnContext, DEFAULT_LANGUAGE);
-            const shouldTranslate = userLanguage != DEFAULT_LANGUAGE;
+            const shouldTranslate = userLanguage !== DEFAULT_LANGUAGE;
 
             if (shouldTranslate) {
                 turnContext.activity.text = await this.translate(turnContext.activity.text, DEFAULT_LANGUAGE);
@@ -35,7 +34,7 @@ class TranslatorMiddleware {
             turnContext.onSendActivities(async (context, activities, next) => {
                 // Translate messages sent to the user to user language
                 const userLanguage = await this.languagePreferenceProperty.get(turnContext, DEFAULT_LANGUAGE);
-                const shouldTranslate = userLanguage != DEFAULT_LANGUAGE;
+                const shouldTranslate = userLanguage !== DEFAULT_LANGUAGE;
     
                 if (shouldTranslate) {
                     for (const activity of activities) {
