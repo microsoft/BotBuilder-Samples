@@ -3,9 +3,8 @@
 const { ComponentDialog, DialogTurnStatus, DialogSet } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
 const { WhoAreYouDialog, QnADialog, ChitChatDialog, HelpDialog, CancelDialog, WhatCanYouDoDialog, FindCafeLocationsDialog } = require('../../dialogs');
-const { TurnResultHelper } = require('../shared/helpers');
 const { GenSuggestedQueries } = require('../shared/helpers/genSuggestedQueries');
-const { userProfileProperty } = require('../shared/stateProperties');
+const { UserProfile } = require('../shared/stateProperties');
 
 const MAIN_DISPATCHER_DIALOG = 'MainDispatcherDialog';
 
@@ -16,7 +15,7 @@ const NONE_INTENT = 'None';
 // Query property from ../whatCanYouDo/resources/whatCanYHouDoCard.json
 // When user responds to what can you do card, a query property is set in response.
 const QUERY_PROPERTY = 'query';
-const USER_PROFILE_PROPERTY = 'userProfileProperty';
+const USER_PROFILE_PROPERTY = 'userProfile';
 const MAIN_DISPATCHER_STATE_PROPERTY = 'mainDispatcherState';
 
 module.exports = {
@@ -26,32 +25,32 @@ module.exports = {
          * Constructor.
          * 
          * @param {Object} botConfig bot configuration
-         * @param {Object} onTurnPropertyAccessor 
+         * @param {Object} onTurnAccessor 
          * @param {Object} conversationState 
          * @param {Object} userState 
          */
-        constructor(botConfig, onTurnPropertyAccessor, conversationState, userState) {
+        constructor(botConfig, onTurnAccessor, conversationState, userState) {
             super (MAIN_DISPATCHER_DIALOG);
 
             if (!botConfig) throw ('Missing parameter. Bot Configuration is required.');
-            if (!onTurnPropertyAccessor) throw ('Missing parameter. On turn property accessor is required.');
+            if (!onTurnAccessor) throw ('Missing parameter. On turn property accessor is required.');
             if (!conversationState) throw ('Missing parameter. Conversation state is required.');
             if (!userState) throw ('Missing parameter. User state is required.');
 
             // Create state objects for user, conversation and dialog states.   
-            this.userProfilePropertyAccessor = userState.createProperty(USER_PROFILE_PROPERTY);
-            this.mainDispatcherPropertyAccessor = conversationState.createProperty(MAIN_DISPATCHER_STATE_PROPERTY);
+            this.userProfileAccessor = userState.createProperty(USER_PROFILE_PROPERTY);
+            this.mainDispatcherAccessor = conversationState.createProperty(MAIN_DISPATCHER_STATE_PROPERTY);
 
             // keep on turn accessor and bot configuration
-            this.onTurnPropertyAccessor = onTurnPropertyAccessor;
+            this.onTurnAccessor = onTurnAccessor;
 
             // add dialogs
-            this.dialogs = new DialogSet(this.mainDispatcherPropertyAccessor);
+            this.dialogs = new DialogSet(this.mainDispatcherAccessor);
             this.addDialog(new WhatCanYouDoDialog());
             this.addDialog(new CancelDialog());
             this.addDialog(new FindCafeLocationsDialog());
-            this.addDialog(new QnADialog(botConfig, this.userProfilePropertyAccessor));
-            this.addDialog(new WhoAreYouDialog(botConfig, this.userProfilePropertyAccessor, onTurnPropertyAccessor, conversationState));
+            this.addDialog(new QnADialog(botConfig, this.userProfileAccessor));
+            this.addDialog(new WhoAreYouDialog(botConfig, this.userProfileAccessor, onTurnAccessor, conversationState));
         }
         /**
          * Override onDialogBegin 
@@ -86,10 +85,10 @@ module.exports = {
          */
         async mainDispatch(dc) {
             // get on turn property through the property accessor
-            const onTurnProperty = await this.onTurnPropertyAccessor.get(dc.context);
+            const onTurnProperty = await this.onTurnAccessor.get(dc.context);
             
             // Evaluate if the requested operation is possible/ allowed.
-            const reqOpStatus = await this.isRequestedOperationPossible(dc, onTurnProperty.intent);
+            const reqOpStatus = await this.isRequestedOperationPossible(dc.activeDialog, onTurnProperty.intent);
             if (!reqOpStatus.allowed) {
                 await dc.context.sendActivity(reqOpStatus.reason);
                 // Nothing to do here. End main dialog.
@@ -100,7 +99,8 @@ module.exports = {
             let dialogTurnResult  = await dc.continue();
 
             // This will only be empty if there is no active dialog in the stack.
-            if (!dc.context.responded) {
+            // Removing check for dialogTurnStatus here will break sucessful cancellation of child dialogs. E.g. who are you -> cancel -> yes flow.
+            if (!dc.context.responded && dialogTurnResult !== undefined && dialogTurnResult.status !== DialogTurnStatus.complete) {
                 // No one has responded so start the right child dialog.
                 dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty);
             }
@@ -110,24 +110,13 @@ module.exports = {
             // Examine result from dc.continue() or from the call to beginChildDialog().
             switch (dialogTurnResult.status) {
                 case DialogTurnStatus.complete: {
-                    // if (dialogTurnResult.result) {
-                    //     switch (dialogTurnResult.result.reason) {
-                    //         case 'Interruption': {
-                    //             // Interruption. Begin child dialog
-                    //             dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty, dialogTurnResult.result.payload);
-                    //             break;
-                    //         } 
-                    //         case 'Abandon': {
-                    //             // Re-hydrate old dialog
-                    //             dialogTurnResult = await this.beginChildDialog(dc, dialogTurnResult.result.payload.onTurnProperty);
-                    //             break;
-                    //         }
-                    //     }
-                    // } else {
-                        // The active dialog finished successfully. Ask user if they need help with anything else.
+                    // The active dialog finished successfully. Ask user if they need help with anything else.
+                    if(Math.random() > 0.7) {
                         await dc.context.sendActivity(MessageFactory.suggestedActions(GenSuggestedQueries(), `Is there anything else I can help you with?`));
-                        break;
-                    // }
+                    } else {
+                        await dc.context.sendActivity(`Is there anything else I can help you with?`);
+                    }
+                    break;
                 }
                 case DialogTurnStatus.waiting: {
                     // The active dialog is waiting for a response from the user, so do nothing
@@ -135,13 +124,10 @@ module.exports = {
                 }
                 case DialogTurnStatus.cancelled: {
                     // The active dialog's stack has been cancelled
-                    await dc.context.sendActivity(MessageFactory.suggestedActions(GenSuggestedQueries(), `Is there anything else I can help you with?`));
-                    // End active dialog
                     await dc.cancelAll();
                     break;
                 }
             }
-            //dialogTurnResult = (dialogTurnResult === undefined) ? new TurnResultHelper(DialogTurnStatus.empty) : dialogTurnResult;
             return dialogTurnResult;
         }
         /**
@@ -167,6 +153,7 @@ module.exports = {
                 case WhatCanYouDoDialog.Name:
                     return await this.beginWhatCanYouDoDialog(dc, onTurnProperty);
                 case NONE_INTENT:
+                default:
                     await dc.context.sendActivity(`I'm still learning.. Sorry, I do not know how to help you with that.`);
                     return await dc.context.sendActivity(`Follow [this link](https://www.bing.com/search?q=${dc.context.activity.text}) to search the web!`);
             }
@@ -181,8 +168,6 @@ module.exports = {
          */
         async isRequestedOperationPossible(activeDialog, requestedOperation) {
             let outcome = {allowed: true, reason: ''};
-            if (activeDialog === undefined) return outcome;
-            
             // E.g. What_can_you_do is not possible when you are in the middle of Who_are_you dialog
             if (requestedOperation === WhatCanYouDoDialog.Name) {
                 if(activeDialog === WhoAreYouDialog.Name) {
@@ -205,7 +190,7 @@ module.exports = {
          */
         async beginWhoAreYouDialog(dc, onTurnProperty) {
             // Get user profile.
-            let userProfile = await this.userProfilePropertyAccessor.get(dc.context);
+            let userProfile = await this.userProfileAccessor.get(dc.context);
             // Handle case where user is re-introducing themselves. 
             // These utterances are defined in ../whoAreYou/resources/whoAreYou.lu 
             let userNameInOnTurnProperty = (onTurnProperty.entities || []).filter(item => item.entityName == USER_NAME_ENTITY);
@@ -213,7 +198,7 @@ module.exports = {
                 let userName = userNameInOnTurnProperty[0].entityValue[0];
                 // capitalize user name   
                 userName = userName.charAt(0).toUpperCase() + userName.slice(1);
-                await this.userProfilePropertyAccessor.set(dc.context, new userProfileProperty(userName));
+                await this.userProfileAccessor.set(dc.context, new UserProfile(userName));
                 return await dc.context.sendActivity(`Hello ${userName}, Nice to meet you again! I'm the Contoso Cafe Bot.`);
             }
             // Begin the who are you dialog if we have an invalid or empty user name or if the user name was previously set to 'Human'

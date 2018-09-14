@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 module.exports = {
-    entityProperty: require('./entityProperty'),
+    EntityProperty: require('./entityProperty'),
     OnTurnProperty: require('./onTurnProperty'),
-    userProfileProperty: require('./userProfileProperty')
+    UserProfile: require('./UserProfile')
 };

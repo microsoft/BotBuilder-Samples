@@ -16,7 +16,7 @@ const env = require('dotenv').config({path: ENV_FILE});
 const BOT_CONFIGURATION_ERROR = 1;
 // Bot configuration section in the .bot file.
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
-const BOT_CONFIGURATION = 'contoso-cafe-bot';
+const BOT_CONFIGURATION = (process.env.NODE_ENV || 'development');
 
 // Create HTTP server
 let server = restify.createServer();

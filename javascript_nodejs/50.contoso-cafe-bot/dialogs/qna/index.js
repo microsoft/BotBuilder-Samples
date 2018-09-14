@@ -22,14 +22,14 @@ module.exports = {
          * 
          * @param {Object} botConfig bot configuration from .bot file
          */
-        constructor(botConfig, userProfilePropertyAccessor, dialogId) {
+        constructor(botConfig, userProfileAccessor, dialogId) {
 
             (dialogId===undefined) ? super(QNA_DIALOG) : super(dialogId);
 
             if (!botConfig) throw ('Missing parameter. Bot Configuration is required');
-            if (!userProfilePropertyAccessor) throw ('Missing parameter. User profile property accessor is required');
+            if (!userProfileAccessor) throw ('Missing parameter. User profile property accessor is required');
 
-            this.userProfilePropertyAccessor = userProfilePropertyAccessor;
+            this.userProfileAccessor = userProfileAccessor;
             
             // add recogizers
             const qnaConfig = botConfig.findServiceByNameOrId(QNA_CONFIGURATION);
@@ -66,7 +66,7 @@ module.exports = {
          */
         async userSalutation (context) {
             let salutation = '';
-            const userProfile = await this.userProfilePropertyAccessor.get(context);
+            const userProfile = await this.userProfileAccessor.get(context);
             if (userProfile !== undefined && userProfile.userName !== '') {
                 const userName = userProfile.userName;
                 // see if we have user's name

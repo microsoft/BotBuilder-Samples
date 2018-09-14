@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-class UserProfileProperty {
+class UserProfile {
     /**
      * User Profile Property constructor.
      * 
@@ -9,10 +9,9 @@ class UserProfileProperty {
      * @param {String} location user location
      */
     constructor(name, location) {
-        if(!name) throw ('Need name to create user profile');
         this.userName = name;
         this.location = location ? location : '';
     }
 };
 
-module.exports = UserProfileProperty;
+module.exports = UserProfile;

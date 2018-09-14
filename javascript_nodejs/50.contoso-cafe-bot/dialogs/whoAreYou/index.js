@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-const { ComponentDialog, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
+const { ComponentDialog, DialogTurnStatus, WaterfallDialog, ConfirmPrompt } = require('botbuilder-dialogs');
 const { OnTurnProperty } = require('../shared/stateProperties');
 const { GetUserNamePrompt } = require('../shared/prompts');
 const { TurnResultHelper } = require('../shared/helpers');
@@ -11,6 +11,7 @@ const { InterruptionDispatcher } = require('../interruptionDispatcher');
 const WHO_ARE_YOU_DIALOG = 'Who_are_you';
 const ASK_USER_NAME_PROMPT = 'askUserNamePrompt';
 const DIALOG_START = 'Who_are_you_start';
+const CONFIRM_CANCEL_PROMPT = 'confirmCancelPrompt';
 
 /**
  * Class Who are you dialog.
@@ -22,16 +23,17 @@ module.exports = {
          * Constructor.
          * 
          * @param {Object} botConfig bot configuration
-         * @param {Object} userProfilePropertyAccessor property accessor for user profile property
+         * @param {Object} userProfileAccessor property accessor for user profile property
          * @param {Object} conversationState 
          */
-        constructor(botConfig, userProfilePropertyAccessor, onTurnPropertyAccessor, conversationState) {
+        constructor(botConfig, userProfileAccessor, onTurnAccessor, conversationState) {
             super (WHO_ARE_YOU_DIALOG);
             if (!botConfig) throw ('Missing parameter. Bot configuration is required.');
-            if (!userProfilePropertyAccessor) throw ('Missing parameter. User profile property accessor is required.');
+            if (!userProfileAccessor) throw ('Missing parameter. User profile property accessor is required.');
             if (!conversationState) throw ('Missing parameter. Conversation state is required.');
 
-            this.onTurnPropertyAccessor = onTurnPropertyAccessor;
+            this.onTurnAccessor = onTurnAccessor;
+            this.userProfileAccessor = userProfileAccessor;
 
             // add dialogs
             this.addDialog(new WaterfallDialog(DIALOG_START, [
@@ -42,11 +44,15 @@ module.exports = {
             // add prompts
             this.addDialog(new GetUserNamePrompt(ASK_USER_NAME_PROMPT, 
                                                 botConfig, 
-                                                userProfilePropertyAccessor, 
-                                                conversationState));
+                                                userProfileAccessor, 
+                                                conversationState,
+                                                onTurnAccessor));
 
             // This dialog is interruptable. So add interruptionDispatcherDialog
-            this.addDialog(new InterruptionDispatcher(onTurnPropertyAccessor, conversationState, userProfilePropertyAccessor));
+            this.addDialog(new InterruptionDispatcher(onTurnAccessor, conversationState, userProfileAccessor, botConfig));
+
+            // When user decides to abandon this dialog, we need to confirm user action. Add confirmation prompt
+            this.addDialog(new ConfirmPrompt(CONFIRM_CANCEL_PROMPT));
         }
         /**
          * Waterfall step to prompt for user's name
@@ -64,19 +70,9 @@ module.exports = {
          * @param {Object} step Dialog turn result
          */
         async greetUser(dc, step) {
-            // Handle interruption.
-            if (step.result.reason && step.result.reason === 'Interruption') {
-                // Get on turn properties
-                const onTurnProperty = await this.onTurnPropertyAccessor.get(dc.context);
-                await dc.begin(InterruptionDispatcher.Name, onTurnProperty);
-                // // Set onTurnProperty in the payload so this can be resumed back if needed by main dialog.
-                // if (step.result.payload === undefined) {
-                //     step.result.payload = {onTurnProperty: new OnTurnProperty(WHO_ARE_YOU_DIALOG)};
-                // }
-                // else {
-                //     step.result.payload.onTurnProperty = new OnTurnProperty(WHO_ARE_YOU_DIALOG);
-                // }
-                // return new TurnResultHelper(DialogTurnStatus.empty, step.result);
+            if(step.result) {
+                const userProfile = await this.userProfileAccessor.get(dc.context);
+                await dc.context.sendActivity(`Hey there ${userProfile.userName}!. Nice to meet you!`);
             }
             return await dc.end();
         }

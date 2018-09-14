@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityTypes, CardFactory, MessageFactory } = require('botbuilder');
-const { DialogTurnStatus, DialogSet } = require('botbuilder-dialogs');
+const { DialogSet } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { OnTurnProperty } = require('./dialogs/shared/stateProperties');
 const { MainDispatcher } = require('./dialogs/mainDispatcher');
@@ -31,8 +31,8 @@ module.exports = {
             if (!botConfig) throw ('Missing parameter. Bot configuration is required.');
 
             // Create state property accessors.
-            this.onTurnPropertyAccessor = conversationState.createProperty(ON_TURN_PROPERTY);
-            this.dialogPropertyAccessor = conversationState.createProperty(DIALOG_STATE_PROPERTY);
+            this.onTurnAccessor = conversationState.createProperty(ON_TURN_PROPERTY);
+            this.dialogAccessor = conversationState.createProperty(DIALOG_STATE_PROPERTY);
             
             // add recogizers
             const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
@@ -45,8 +45,8 @@ module.exports = {
             });
 
             // add main dialog
-            this.dialogs = new DialogSet(this.dialogPropertyAccessor);
-            this.dialogs.add(new MainDispatcher(botConfig, this.onTurnPropertyAccessor, conversationState, userState));
+            this.dialogs = new DialogSet(this.dialogAccessor);
+            this.dialogs.add(new MainDispatcher(botConfig, this.onTurnAccessor, conversationState, userState));
         }
         /**
          * On turn dispatcher. Responsible for processing turn input, gather relevant properties,
@@ -64,12 +64,21 @@ module.exports = {
                     let onTurnProperties = await this.detectIntentAndEntities(context);
                     if(onTurnProperties === undefined) break;
                     
-                    // Set the state with gathered properties (intent/ entities) through the onTurnPropertyAccessor
-                    await this.onTurnPropertyAccessor.set(context, onTurnProperties);
+                    // Set the state with gathered properties (intent/ entities) through the onTurnAccessor
+                    await this.onTurnAccessor.set(context, onTurnProperties);
                     
                     // Do we have any oustanding dialogs? if so, continue them and get results
                     // No active dialog? start a new main dialog
-                    await this.continueOrBeginMainDispatcher(context);
+                    // Create dialog context.
+                    const dc = await this.dialogs.createContext(context);
+                    
+                    // Continue outstanding dialogs. 
+                    await dc.continue();
+                    
+                    // Begin main dialog if no oustanding dialogs/ no one responded
+                    if (!dc.context.responded) {
+                        await dc.begin(MainDispatcher.Name);
+                    }
                     break;
                 }
                 case ActivityTypes.ConversationUpdate: {
@@ -91,24 +100,6 @@ module.exports = {
             }
         }
         /**
-         * Async method to continue or begin main dialog
-         * 
-         * @param {Object} context conversation context object
-         * 
-         */
-        async continueOrBeginMainDispatcher(context) {
-            // Create dialog context.
-            const dc = await this.dialogs.createContext(context);
-            
-            // Continue outstanding dialogs. 
-            const result = await dc.continue();
-            
-            // If no oustanding dialogs, begin main dialog
-            if (result.status === DialogTurnStatus.empty) {
-                await dc.begin(MainDispatcher.Name);
-            }
-        }
-        /**
          * Async helper method to get on turn properties from cards or NLU using https://LUIS.ai
          * 
          * @param {Object} context conversation context object
@@ -116,7 +107,9 @@ module.exports = {
          */
         async detectIntentAndEntities (context) {
             // Handle card input (if any), update state and return.
-            if (context.activity.value !== undefined) return OnTurnProperty.fromCardInput(context.activity.value);
+            if (context.activity.value !== undefined) {
+                return OnTurnProperty.fromCardInput(context.activity.value);
+            }
             
             // Acknowledge attachments from user. 
             if (context.activity.attachments && context.activity.attachments.length !== 0) {
@@ -125,9 +118,11 @@ module.exports = {
             }
 
             // Nothing to do for this turn if there is no text specified.
-            if (context.activity.text === undefined || context.activity.text.trim() === '') return;
+            if (context.activity.text === undefined || context.activity.text.trim() === '') {
+                return;
+            }
 
-            // make call to LUIS recognizer to get intent + entities
+            // Call to LUIS recognizer to get intent + entities
             const LUISResults = await this.luisRecognizer.recognize(context);
 
             // Return new instance of on turn property from LUIS results.
