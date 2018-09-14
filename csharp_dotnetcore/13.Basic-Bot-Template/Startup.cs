@@ -26,11 +26,14 @@ namespace Microsoft.BotBuilderSamples
     public class Startup
     {
         private ILoggerFactory _loggerFactory;
+        private bool _isProduction = false;
 
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -46,7 +49,13 @@ namespace Microsoft.BotBuilderSamples
         public void ConfigureServices(IServiceCollection services)
         {
             // Load the connected services from .bot file.
-            var botConfig = BotConfiguration.Load(@".\BasicBot.bot");
+            string secretKey = Configuration.GetSection("botFileSecret")?.Value;
+            string botFilePath = Configuration.GetSection("botFilePath")?.Value;
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\BasicBot.bot", secretKey);
+            if (botConfig == null)
+            {
+                throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})");
+            }
 
             // Initialize Bot Connected Services clients.
             var connectedServices = InitBotServices(botConfig);
@@ -57,11 +66,12 @@ namespace Microsoft.BotBuilderSamples
             services.AddBot<BasicBot>(options =>
             {
                 // Load the connected services from .bot file.
-                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
+                var environment = _isProduction ? "production" : "development";
+                var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
                 var endpointService = service as EndpointService;
                 if (endpointService == null)
                 {
-                    throw new InvalidOperationException("The .bot file does not contain an endpoint.");
+                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
                 }
 
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
@@ -137,6 +147,7 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="env">Provides information about the web hosting environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            _isProduction = env.IsProduction();
             _loggerFactory = loggerFactory;
             app.UseDefaultFiles()
                 .UseStaticFiles()
