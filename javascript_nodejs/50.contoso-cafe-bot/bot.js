@@ -5,7 +5,7 @@ const { ActivityTypes, CardFactory, MessageFactory } = require('botbuilder');
 const { DialogTurnStatus, DialogSet } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { OnTurnProperty } = require('./dialogs/shared/stateProperties');
-const { MainDialog } = require('./dialogs/main');
+const { MainDispatcher } = require('./dialogs/mainDispatcher');
 const { WelcomeCard } = require('./dialogs/welcome');
 
 // LUIS service type entry in the .bot file for dispatch.
@@ -46,7 +46,7 @@ module.exports = {
 
             // add main dialog
             this.dialogs = new DialogSet(this.dialogPropertyAccessor);
-            this.dialogs.add(new MainDialog(botConfig, this.onTurnPropertyAccessor, conversationState, userState));
+            this.dialogs.add(new MainDispatcher(botConfig, this.onTurnPropertyAccessor, conversationState, userState));
         }
         /**
          * On turn dispatcher. Responsible for processing turn input, gather relevant properties,
@@ -65,11 +65,11 @@ module.exports = {
                     if(onTurnProperties === undefined) break;
                     
                     // Set the state with gathered properties (intent/ entities) through the onTurnPropertyAccessor
-                    this.onTurnPropertyAccessor.set(context, onTurnProperties);
+                    await this.onTurnPropertyAccessor.set(context, onTurnProperties);
                     
                     // Do we have any oustanding dialogs? if so, continue them and get results
                     // No active dialog? start a new main dialog
-                    await this.continueOrBeginMainDialog(context);
+                    await this.continueOrBeginMainDispatcher(context);
                     break;
                 }
                 case ActivityTypes.ConversationUpdate: {
@@ -96,7 +96,7 @@ module.exports = {
          * @param {Object} context conversation context object
          * 
          */
-        async continueOrBeginMainDialog(context) {
+        async continueOrBeginMainDispatcher(context) {
             // Create dialog context.
             const dc = await this.dialogs.createContext(context);
             
@@ -105,7 +105,7 @@ module.exports = {
             
             // If no oustanding dialogs, begin main dialog
             if (result.status === DialogTurnStatus.empty) {
-                await dc.begin(MainDialog.name);
+                await dc.begin(MainDispatcher.Name);
             }
         }
         /**

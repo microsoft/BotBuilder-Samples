@@ -35,6 +35,8 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
         if (!conversationState) throw ('Missing parameter. Conversation state is required.');
         
         super (dialogId, async (turnContext, step) => { 
+            // Validation logic
+
             // Get turn counter
             let turnCounter = await this.turnCounterPropertyAccessor.get(turnContext);
             turnCounter = (turnCounter === undefined) ? 0 : ++turnCounter;
@@ -45,65 +47,10 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                 await turnContext.sendActivity(`You can always say 'My name is <your name>' to introduce yourself to me.`);
                 step.end();
             }
-            
+
             // set updated turn counter
-            this.turnCounterPropertyAccessor.set(turnContext, turnCounter);
-    
-            if (!step.recognized) {
-                await turnContext.sendActivity(`Please tell me your name`);
-            } else {
-                const value = step.recognized.value;
-                
-                // call LUIS and get results
-                const LUISResults = await this.luisRecognizer.recognize(turnContext); 
-                const topIntent = LuisRecognizer.topIntent(LUISResults);
-                
-                // Did user ask for help or said they are not going to give us the name? 
-                switch (topIntent) {
-                    case NO_NAME_INTENT: {
-                        // set user name in profile to Human
-                        this.userProfilePropertyAccessor.set(turnContext, new userProfileProperty('Human'));
-                        await turnContext.sendActivity(`No worries. Hello Human, nice to meet you!`);
-                        await turnContext.sendActivity(`You can always say 'My name is <your name>' to introduce yourself to me.`);
-                        step.end(value);
-                        break;
-                    }
-                    case GET_USER_NAME_INTENT: {
-                        // Find the user's name from LUIS entities list.
-                        if (USER_NAME in LUISResults.entities) {
-                            let userName = LUISResults.entities[USER_NAME][0];
-                            // capitalize user name   
-                            userName = userName.charAt(0).toUpperCase() + userName.slice(1);
-                            this.userProfilePropertyAccessor.set(turnContext, new userProfileProperty(userName));
-                            await turnContext.sendActivity(`Hey there ${userName}!. Nice to meet you!`);
-                            step.end(value);
-                        } else {
-                            await turnContext.sendActivity(`Sorry, I didn't get that. What's your name?`);
-                        }
-                        break;
-                    }
-                    case WHY_DO_YOU_ASK_INTENT: {
-                        await turnContext.sendActivity(`I need your name to be able to address you correctly!`);
-                        await turnContext.sendActivity(MessageFactory.suggestedActions([`I won't give you my name`], `What is your name?`));
-                        break;
-                    }
-                    case NONE_INTENT: {
-                        let userName = value;
-                        // capitalize user name   
-                        userName = userName.charAt(0).toUpperCase() + userName.slice(1);
-                        this.userProfilePropertyAccessor.set(turnContext, new userProfileProperty(userName));
-                        await turnContext.sendActivity(`Hey there ${userName}!. Nice to meet you!`);
-                        step.end(value);
-                        break;
-                    }
-                    default: {
-                        // Handle interruption. Pass back original payload.
-                        let currentPayload = await this.userProfilePropertyAccessor.get(turnContext);
-                        step.end({reason: 'Interruption', payload: currentPayload});
-                        break;
-                    }
-                }
-            }
+            await this.turnCounterPropertyAccessor.set(turnContext, turnCounter);
+            
         });
 
         this.userProfilePropertyAccessor = userProfilePropertyAccessor;
@@ -118,5 +65,62 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
             // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
             endpointKey: luisConfig.authoringKey
         });
-    }    
+    }
+    
+    async onRecognize(context, state, options) {
+        
+        // call LUIS and get results
+        const LUISResults = await this.luisRecognizer.recognize(context); 
+        const topIntent = LuisRecognizer.topIntent(LUISResults);
+        
+        // Did user ask for help or said they are not going to give us the name? 
+        switch (topIntent) {
+            case NO_NAME_INTENT: {
+                // set user name in profile to Human
+                await this.userProfilePropertyAccessor.set(context, new userProfileProperty('Human'));
+                await context.sendActivity(`No worries. Hello Human, nice to meet you!`);
+                await context.sendActivity(`You can always say 'My name is <your name>' to introduce yourself to me.`);
+                // step.end(value);
+                return { succeeded: false };
+                break;
+            }
+            case GET_USER_NAME_INTENT: {
+                // Find the user's name from LUIS entities list.
+                if (USER_NAME in LUISResults.entities) {
+                    let userName = LUISResults.entities[USER_NAME][0];
+                    // capitalize user name   
+                    userName = userName.charAt(0).toUpperCase() + userName.slice(1);
+                    await this.userProfilePropertyAccessor.set(context, new userProfileProperty(userName));
+                    await context.sendActivity(`Hey there ${userName}!. Nice to meet you!`);
+                    //step.end(value);
+                    return { succeeded: true, value: userName }
+                } else {
+                    await context.sendActivity(`Sorry, I didn't get that. What's your name?`);
+                }
+                break;
+            }
+            case WHY_DO_YOU_ASK_INTENT: {
+                await context.sendActivity(`I need your name to be able to address you correctly!`);
+                await context.sendActivity(MessageFactory.suggestedActions([`I won't give you my name`], `What is your name?`));
+                break;
+            }
+            case NONE_INTENT: {
+                let userName = value;
+                // capitalize user name   
+                userName = userName.charAt(0).toUpperCase() + userName.slice(1);
+                await this.userProfilePropertyAccessor.set(context, new userProfileProperty(userName));
+                await context.sendActivity(`Hey there ${userName}!. Nice to meet you!`);
+                //step.end(value);
+                return { succeeded: false }
+                break;
+            }
+            default: {
+                // Handle interruption. Pass back original payload.
+                let currentPayload = await this.userProfilePropertyAccessor.get(context);
+                //step.end({reason: 'Interruption', payload: currentPayload});
+                return { succeeded: false, value: {reason: 'Interruption', payload: currentPayload} }
+                break;
+            }
+        }
+    }
 }

@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 module.exports = {
-    WhoAreYouDialog: require('./whoAreYou'),
-    WhatCanYouDoDialog: require('./whatCanYouDo'),
-    QnADialog: require('./qna'),
+    WhoAreYouDialog: require('./whoAreYou').WhoAreYouDialog,
+    WhatCanYouDoDialog: require('./whatCanYouDo').WhatCanYouDoDialog,
+    QnADialog: require('./qna').QnADialog,
     HelpDialog: require('./help'),
-    FindCafeLocationsDialog: require('./findCafeLocations'),
-    ChitChatDialog: require('./chitChat'),
-    CancelDialog: require('./cancel')
+    FindCafeLocationsDialog: require('./findCafeLocations').FindCafeLocationsDialog,
+    ChitChatDialog: require('./chitChat').ChitChatDialog,
+    CancelDialog: require('./cancel').CancelDialog
 };

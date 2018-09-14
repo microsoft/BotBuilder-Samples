@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 const { ComponentDialog, DialogTurnStatus, DialogSet } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
-const { WhoAreYouDialog, QnADialog, ChitChatDialog, HelpDialog, CancelDialog, WhatCanYouDoDialog, FindCafeLocationsDialog } = require('../index');
+const { WhoAreYouDialog, QnADialog, ChitChatDialog, HelpDialog, CancelDialog, WhatCanYouDoDialog, FindCafeLocationsDialog } = require('../../dialogs');
 const { TurnResultHelper } = require('../shared/helpers');
 const { GenSuggestedQueries } = require('../shared/helpers/genSuggestedQueries');
 const { userProfileProperty } = require('../shared/stateProperties');
 
-const MAIN_DIALOG = 'MainDialog';
+const MAIN_DISPATCHER_DIALOG = 'MainDispatcherDialog';
 
 // User name entity from ../whoAreYou/resources/whoAreYou.lu
 const USER_NAME_ENTITY = 'userName_patternAny';
@@ -17,10 +17,11 @@ const NONE_INTENT = 'None';
 // When user responds to what can you do card, a query property is set in response.
 const QUERY_PROPERTY = 'query';
 const USER_PROFILE_PROPERTY = 'userProfileProperty';
-const MAIN_DIALOG_STATE_PROPERTY = 'mainDialogState';
+const MAIN_DISPATCHER_STATE_PROPERTY = 'mainDispatcherState';
 
 module.exports = {
-    MainDialog: class extends ComponentDialog {
+    MainDispatcher: class extends ComponentDialog {
+        static get Name() { return MAIN_DISPATCHER_DIALOG; }
         /**
          * Constructor.
          * 
@@ -30,7 +31,7 @@ module.exports = {
          * @param {Object} userState 
          */
         constructor(botConfig, onTurnPropertyAccessor, conversationState, userState) {
-            super (MAIN_DIALOG);
+            super (MAIN_DISPATCHER_DIALOG);
 
             if (!botConfig) throw ('Missing parameter. Bot Configuration is required.');
             if (!onTurnPropertyAccessor) throw ('Missing parameter. On turn property accessor is required.');
@@ -39,18 +40,18 @@ module.exports = {
 
             // Create state objects for user, conversation and dialog states.   
             this.userProfilePropertyAccessor = userState.createProperty(USER_PROFILE_PROPERTY);
-            this.mainDialogPropertyAccessor = conversationState.createProperty(MAIN_DIALOG_STATE_PROPERTY);
+            this.mainDispatcherPropertyAccessor = conversationState.createProperty(MAIN_DISPATCHER_STATE_PROPERTY);
 
             // keep on turn accessor and bot configuration
             this.onTurnPropertyAccessor = onTurnPropertyAccessor;
 
             // add dialogs
-            this.dialogs = new DialogSet(this.mainDialogPropertyAccessor);
+            this.dialogs = new DialogSet(this.mainDispatcherPropertyAccessor);
             this.addDialog(new WhatCanYouDoDialog());
             this.addDialog(new CancelDialog());
             this.addDialog(new FindCafeLocationsDialog());
             this.addDialog(new QnADialog(botConfig, this.userProfilePropertyAccessor));
-            this.addDialog(new WhoAreYouDialog(botConfig, this.userProfilePropertyAccessor, conversationState));
+            this.addDialog(new WhoAreYouDialog(botConfig, this.userProfilePropertyAccessor, onTurnPropertyAccessor, conversationState));
         }
         /**
          * Override onDialogBegin 
@@ -95,10 +96,8 @@ module.exports = {
                 return await dc.end(); 
             }
             
-            let dialogTurnResult;
-
             // continue outstanding dialogs
-            dialogTurnResult = await dc.continue();
+            let dialogTurnResult  = await dc.continue();
 
             // This will only be empty if there is no active dialog in the stack.
             if (!dc.context.responded) {
@@ -111,24 +110,24 @@ module.exports = {
             // Examine result from dc.continue() or from the call to beginChildDialog().
             switch (dialogTurnResult.status) {
                 case DialogTurnStatus.complete: {
-                    if (dialogTurnResult.result) {
-                        switch (dialogTurnResult.result.reason) {
-                            case 'Interruption': {
-                                // Interruption. Begin child dialog
-                                dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty, dialogTurnResult.result.payload);
-                                break;
-                            } 
-                            case 'Abandon': {
-                                // Re-hydrate old dialog
-                                dialogTurnResult = await this.beginChildDialog(dc, dialogTurnResult.result.payload.onTurnProperty);
-                                break;
-                            }
-                        }
-                    } else {
+                    // if (dialogTurnResult.result) {
+                    //     switch (dialogTurnResult.result.reason) {
+                    //         case 'Interruption': {
+                    //             // Interruption. Begin child dialog
+                    //             dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty, dialogTurnResult.result.payload);
+                    //             break;
+                    //         } 
+                    //         case 'Abandon': {
+                    //             // Re-hydrate old dialog
+                    //             dialogTurnResult = await this.beginChildDialog(dc, dialogTurnResult.result.payload.onTurnProperty);
+                    //             break;
+                    //         }
+                    //     }
+                    // } else {
                         // The active dialog finished successfully. Ask user if they need help with anything else.
                         await dc.context.sendActivity(MessageFactory.suggestedActions(GenSuggestedQueries(), `Is there anything else I can help you with?`));
                         break;
-                    }
+                    // }
                 }
                 case DialogTurnStatus.waiting: {
                     // The active dialog is waiting for a response from the user, so do nothing
@@ -142,7 +141,7 @@ module.exports = {
                     break;
                 }
             }
-            dialogTurnResult = (dialogTurnResult === undefined) ? new TurnResultHelper(DialogTurnStatus.empty) : dialogTurnResult;
+            //dialogTurnResult = (dialogTurnResult === undefined) ? new TurnResultHelper(DialogTurnStatus.empty) : dialogTurnResult;
             return dialogTurnResult;
         }
         /**
@@ -157,36 +156,33 @@ module.exports = {
                 // Help, ChitChat and QnA share the same QnA Maker model. So just call the QnA Dialog.
                 case QnADialog.Name: 
                 case ChitChatDialog.Name: 
-                case HelpDialog.Name: {
+                case HelpDialog.Name: 
                     return await dc.begin(QnADialog.Name);
-                }
-                case CancelDialog.Name: {
+                case CancelDialog.Name: 
                     return await dc.begin(CancelDialog.Name, childDialogPayload);
-                } case WhoAreYouDialog.Name: {
+                case WhoAreYouDialog.Name: 
                     return await this.beginWhoAreYouDialog(dc, onTurnProperty);
-                } case FindCafeLocationsDialog.Name: {
+                case FindCafeLocationsDialog.Name:
                     return await dc.begin(FindCafeLocationsDialog.Name);
-                } case WhatCanYouDoDialog.Name: {
+                case WhatCanYouDoDialog.Name:
                     return await this.beginWhatCanYouDoDialog(dc, onTurnProperty);
-                } case NONE_INTENT: {
+                case NONE_INTENT:
                     await dc.context.sendActivity(`I'm still learning.. Sorry, I do not know how to help you with that.`);
                     return await dc.context.sendActivity(`Follow [this link](https://www.bing.com/search?q=${dc.context.activity.text}) to search the web!`);
-                }
             }
         }
         /**
          * Method to evaluate if the requested user operation is possible.
          * User could be in the middle of a multi-turn dialog where intteruption might not be possible or allowed.
          * 
-         * @param {Object} dc 
+         * @param {String} activeDialog
          * @param {String} requestedOperation 
          * @returns {Object} outcome object
          */
-        async isRequestedOperationPossible(dc, requestedOperation) {
-            let activeDialog;
+        async isRequestedOperationPossible(activeDialog, requestedOperation) {
             let outcome = {allowed: true, reason: ''};
-            if (dc.activeDialog !== undefined) activeDialog = dc.activeDialog.id;
-
+            if (activeDialog === undefined) return outcome;
+            
             // E.g. What_can_you_do is not possible when you are in the middle of Who_are_you dialog
             if (requestedOperation === WhatCanYouDoDialog.Name) {
                 if(activeDialog === WhoAreYouDialog.Name) {
@@ -217,7 +213,7 @@ module.exports = {
                 let userName = userNameInOnTurnProperty[0].entityValue[0];
                 // capitalize user name   
                 userName = userName.charAt(0).toUpperCase() + userName.slice(1);
-                this.userProfilePropertyAccessor.set(dc.context, new userProfileProperty(userName));
+                await this.userProfilePropertyAccessor.set(dc.context, new userProfileProperty(userName));
                 return await dc.context.sendActivity(`Hello ${userName}, Nice to meet you again! I'm the Contoso Cafe Bot.`);
             }
             // Begin the who are you dialog if we have an invalid or empty user name or if the user name was previously set to 'Human'
