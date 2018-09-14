@@ -3,7 +3,6 @@
 
 const { ActivityTypes, MessageFactory } = require('botbuilder');
 
-const LANGUAGE_PREFERENCE = 'language_preference';
 const ENGLISH_LANGUAGE = 'en';
 const SPANISH_LANGUAGE = 'es';
 const DEFAULT_LANGUAGE = ENGLISH_LANGUAGE;
@@ -15,12 +14,14 @@ const DEFAULT_LANGUAGE = ENGLISH_LANGUAGE;
 class MultilingualBot {
 
     /**
-     * Creates a Multilingual bot
-     * @param {StatePropertyAccessor } languagePreferenceProperty Accessor for language preference property in the user state.
+     * Creates a Multilingual bot.
+     * @param {Object} userState User state object.
+     * @param {Object} languagePreferenceProperty Accessor for language preference property in the user state.
      */
-    constructor (languagePreferenceProperty) {
+    constructor (userState, languagePreferenceProperty) {
 
         this.languagePreferenceProperty = languagePreferenceProperty;
+        this.userState = userState;
     }
 
     /**
@@ -34,10 +35,10 @@ class MultilingualBot {
         if (turnContext.activity.type === ActivityTypes.Message) {
             const text = turnContext.activity.text;
 
-            // Get the user language preference if specified.
+            // Get the user language preference from the user state.
             const userLanguage = await this.languagePreferenceProperty.get(turnContext, DEFAULT_LANGUAGE);
 
-            const shouldTranslate = userLanguage != DEFAULT_LANGUAGE;
+            const shouldTranslate = userLanguage !== DEFAULT_LANGUAGE;
 
             if (isLanguageChangeRequested(text)) {
                 // If the user requested a language change through the suggested actions with values "es" or "en",
@@ -46,25 +47,34 @@ class MultilingualBot {
                 // selected language.
                 // If Spanish was selected by the user, the reply below will actually be shown in spanish to the user.
                 await this.languagePreferenceProperty.set(turnContext, text);
-                var reply = await turnContext.sendActivity(`Your current language code is: ${text}`);
-            }
-            else {
-                // Show the user the possible options for language. If the user chooses a different language
-                // than the default, then the translation middleware will pick it up from the user state and
+                await turnContext.sendActivity(`Your current language code is: ${text}`);
+            } else {
+                // Show the user the possible options for language. The translation middleware
+                // will pick up the language selected by the user and 
                 // translate messages both ways, i.e. user to bot and bot to user.
-                // Create an array with the supported languages
-                var reply = MessageFactory.suggestedActions([SPANISH_LANGUAGE, ENGLISH_LANGUAGE], `Choose your language:`);
+                // Create an array with the supported languages.
+                const reply = MessageFactory.suggestedActions([SPANISH_LANGUAGE, ENGLISH_LANGUAGE], `Choose your language:`);
                 await turnContext.sendActivity(reply);
             }
+            await this.userState.saveChanges(turnContext);
         }
     }
 }
 
+/**
+ * Checks whether the utterance from the user is requesting a language change.
+ * In a production bot, we would use the Microsoft Text Translation API language
+ * detection feature, along with detecting language names.
+ * For the purpose of the sample, we just assume that the user requests language
+ * changes by responding with the language code through the suggested action presented 
+ * above or by typing it.
+ * @param {string} utterance the current turn utterance.
+ */
 function isLanguageChangeRequested(utterance) {
     if(!utterance) {
         return false;
     }
-    return utterance == SPANISH_LANGUAGE || utterance == ENGLISH_LANGUAGE;
+    return utterance === SPANISH_LANGUAGE || utterance === ENGLISH_LANGUAGE;
 }
 
 module.exports = MultilingualBot;

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { BotFrameworkAdapter, BotStateSet, ConversationState, MemoryStorage, UserState } = require('botbuilder');
+const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
 const { BotConfiguration } = require('botframework-config');
-const path = require('path');
-const restify = require('restify');
 const MultilingualBot = require('./bot');
 const TranslatorMiddleware = require('./translator-middleware');
+const path = require('path');
+const restify = require('restify');
 
 const CONFIG_ERROR = 1;
 const LANGUAGE_PREFERENCE = 'language_preference';
@@ -37,7 +37,7 @@ try {
 }
 
 // Bot name as defined in .bot file. 
-// See https://aka.ms/about-bot-file to learn more about .bot file usage and configuration.
+// See https://aka.ms/about-bot-file to learn more about .bot files.
 const BOT_CONFIGURATION = 'multilingual';
 
 // Get bot endpoint configuration by service name.
@@ -66,15 +66,15 @@ const memoryStorage = new MemoryStorage();
 
 // Create conversation state with in-memory storage provider. 
 const conversationState = new ConversationState(memoryStorage);
-const userState = new UserState(memoryStorage)
+
+// We use the UserState to track the user's language preference for translation.
+const userState = new UserState(memoryStorage);
 const languagePreferenceProperty = userState.createProperty(LANGUAGE_PREFERENCE);
 
-// Use the BotStateSet middleware to automatically read and write conversation and user state.
-adapter.use(new BotStateSet(conversationState, userState));
 adapter.use(new TranslatorMiddleware(languagePreferenceProperty, process.env.translatorKey));
 
 // Create the bot that will handle incoming messages.
-const multilingualBot = new MultilingualBot(languagePreferenceProperty);
+const multilingualBot = new MultilingualBot(userState, languagePreferenceProperty);
 
 // Listen for incoming requests. 
 server.post('/api/messages', (req, res) => {
