@@ -68,7 +68,6 @@ namespace EnterpriseBot
             services.AddBot<EnterpriseBot>(options =>
             {
                 InitCredentialProvider(options, botConfig);
-                // options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
                 var appInsightsService = botConfig.Services.Where(s => s.Type == ServiceTypes.AppInsights).FirstOrDefault();
