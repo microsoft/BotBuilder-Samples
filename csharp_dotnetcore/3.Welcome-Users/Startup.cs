@@ -69,8 +69,8 @@ namespace WelcomeUser
                 // IStorage Store = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
                 options.State.Add(new UserState(dataStore));
 
-                // Add State to BotStateSet Middleware (that require auto-save)
-                // The BotStateSet Middleware forces state storage to auto-save when the Bot is complete processing the message.
+                // To enable auto-saving of state, consider using the AutoSaveStateMiddlware.
+                // The AutoSaveStateMiddlware forces state storage to auto-save when the Bot has completed processing the message.
                 // Note: Developers may choose not to add all the State providers to this Middleware if save is not required.
                 // options.Middleware.Add(new AutoSaveStateMiddleware(options.State.ToArray()));
             });
