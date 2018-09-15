@@ -1,15 +1,15 @@
 {
-    "name": "authBot",
+    "name": "authentication-msgraph",
     "description": "",
     "secretKey": "",
     "services": [
         {
-            "appId": "<MICROSOFT_APP_ID>",
+            "appId": "",
             "id": "",
             "type": "endpoint",
-            "appPassword": "<MICROSOFT_APP_PASSWORD>",
-            "endpoint": "http://localhost:3978/api/messages",
-            "name": "http://localhost:3978/api/messages"
+            "appPassword": "",
+            "endpoint": "",
+            "name": "authentication-msgraph"
         }
     ]
 }
