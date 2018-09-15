@@ -4,12 +4,12 @@
     {
       "type": "endpoint",
       "id": "http://localhost:3978/api/messages",
-      "name": "basic-bot",
+      "name": "development",
       "url": "http://localhost:3978/api/messages"
     },
     {
       "type": "luis",
-      "id": "6",
+      "id": "5",
       "name": "basic-bot-LUIS"
     }
   ]
