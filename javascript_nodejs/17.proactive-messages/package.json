@@ -11,9 +11,9 @@
   "author": "Microsoft",
   "license": "MIT",
   "dependencies": {
-    "botbuilder": "^4.0.0-preview1.1140",
-    "botbuilder-dialogs": "^4.0.0-preview1.1140",
-    "botframework-config": "^4.0.0-preview1.1140",
+    "botbuilder": "^4.0.0-preview1.1302",
+    "botbuilder-dialogs": "^4.0.0-preview1.1302",
+    "botframework-config": "^4.0.0-preview1.1302",
     "dotenv": "^6.0.0",
     "moment": "^2.22.2",
     "path": "^0.12.7",

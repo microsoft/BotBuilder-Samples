@@ -38,7 +38,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\17.Proactive-Messages` folder
-- Select `Proactive.bot` file
+- Select `BotConfiguration.bot` file
 - Open two conversations in the emulator, see that the proactive message goes to the correct conversation
 
 # Further reading

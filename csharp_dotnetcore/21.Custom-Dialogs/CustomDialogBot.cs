@@ -119,7 +119,14 @@ namespace Microsoft.BotBuilderSamples
             await _accessors.ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
 
-        private Task ShoeSizeAsync(ITurnContext turnContext, PromptValidatorContext<float> promptContext, CancellationToken cancellationToken)
+        /// <summary>
+        /// This is an example of a custom validator. This example can be directly used on a float NumberPrompt.
+        /// Returning true indicates the recognized value is acceptable. Returning false will trigger re-prompt behavior.
+        /// </summary>
+        /// <param name="promptContext">The <see cref="PromptValidatorContext"/> gives the validator code access to the runtime, including the recognized value and the turn context.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A an asynchronous Task of bool indicating validation success as true.</returns>
+        private Task<bool> ShoeSizeAsync(PromptValidatorContext<float> promptContext, CancellationToken cancellationToken)
         {
             var shoesize = promptContext.Recognized.Value;
 
@@ -130,34 +137,47 @@ namespace Microsoft.BotBuilderSamples
                 if (Math.Floor(shoesize) == shoesize || Math.Floor(shoesize * 2) == shoesize * 2)
                 {
                     // indicate success by returning the value
-                    promptContext.End(shoesize);
+                    return Task.FromResult(true);
                 }
             }
 
-            return Task.CompletedTask;
+            return Task.FromResult(false);
         }
 
-        private async Task<DialogTurnResult> StartDialogAsync(DialogContext dialogContext, WaterfallStepContext waterfallStepContext, CancellationToken cancellationToken)
+        /// <summary>
+        /// One of the functions that make up the <see cref="WaterfallDialog"/>.
+        /// </summary>
+        /// <param name="stepContext">The <see cref="WaterfallStepContext"/> gives access to the executing dialog runtime.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
+        /// <returns>A <see cref="DialogTurnResult"/> to communicate some flow control back to the containing WaterfallDialog.</returns>
+        private async Task<DialogTurnResult> StartDialogAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             // Start the child dialog. This will run the top slot dialog than will complete when all the properties are gathered.
-            return await dialogContext.BeginAsync("slot-dialog", null, cancellationToken);
+            return await stepContext.BeginAsync("slot-dialog", null, cancellationToken);
         }
 
-        private async Task<DialogTurnResult> ProcessResultsAsync(DialogContext dialogContext, WaterfallStepContext waterfallStepContext, CancellationToken cancellationToken)
+        /// <summary>
+        /// One of the functions that make up the <see cref="WaterfallDialog"/>.
+        /// </summary>
+        /// <param name="stepContext">The <see cref="WaterfallStepContext"/> gives access to the executing dialog runtime.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
+        /// <returns>A <see cref="DialogTurnResult"/> to communicate some flow control back to the containing WaterfallDialog.</returns>
+        private async Task<DialogTurnResult> ProcessResultsAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             // To demonstrate that the slot dialog collected all the properties we will echo them back to the user.
-            if (waterfallStepContext.Result is IDictionary<string, object> result && result.Count > 0)
+            if (stepContext.Result is IDictionary<string, object> result && result.Count > 0)
             {
                 var fullname = (IDictionary<string, object>)result["fullname"];
-                await dialogContext.Context.SendActivityAsync(MessageFactory.Text($"{fullname["first"]} {fullname["last"]}"), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text($"{fullname["first"]} {fullname["last"]}"), cancellationToken);
 
-                await dialogContext.Context.SendActivityAsync(MessageFactory.Text($"{result["shoesize"]}"), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text($"{result["shoesize"]}"), cancellationToken);
 
                 var address = (IDictionary<string, object>)result["address"];
-                await dialogContext.Context.SendActivityAsync(MessageFactory.Text($"{address["street"]} {address["city"]} {address["zip"]}"), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text($"{address["street"]} {address["city"]} {address["zip"]}"), cancellationToken);
             }
 
-            return await dialogContext.EndAsync();
+            // Remember to call EndAsync to indicate to the runtime that this is the end of our waterfall.
+            return await stepContext.EndAsync();
         }
     }
 }

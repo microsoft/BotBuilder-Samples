@@ -106,7 +106,7 @@ To create a new dispatch model for these services and update the .bot file confi
 - Navigate to samples\14.nlp-with-dispatch
 - Run the following commands
 ```bash
-> dispatch create -b nlp-with-dispatch.bot | msbot connect dispatch --stdin --name bot-dispatch
+> dispatch create -b BotConfiguration.bot | msbot connect dispatch --stdin --name bot-dispatch
 ```
 ### Securing keys in your .bot file
 Since your .bot file contains service Ids, subscription and authoring keys, its best to encrypt them. To encrypt the .bot file, run
@@ -135,11 +135,11 @@ Any time the bot file is encrypted, make sure to set the botFileSecret environme
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
 - File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\14.NlpWithDispatch` folder
-- Select NLP-With-Dispatch-Bot.bot file
+- Select BotConfiguration.bot file
 
 # Further reading
 
-- [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [QnA Maker Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/overview/overview)
 - [QnA Maker Command Line Tool](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker)
 - [Application Insights](https://azure.microsoft.com/en-us/services/application-insights/)

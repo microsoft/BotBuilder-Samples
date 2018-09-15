@@ -56,7 +56,7 @@ namespace WelcomeUser
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = new CancellationToken())
         {
             // use state accessor to extract the didBotWelcomeUser flag
-            var didBotWelcomeUser = await _welcomeUserStateAccessors.DidBotWelcomedUser.GetAsync(turnContext);
+            var didBotWelcomeUser = await _welcomeUserStateAccessors.DidBotWelcomedUser.GetAsync(turnContext, () => false);
 
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
@@ -66,6 +66,7 @@ namespace WelcomeUser
                 {
                     // Update user state flag to reflect bot handled first user interaction.
                     await _welcomeUserStateAccessors.DidBotWelcomedUser.SetAsync(turnContext, true);
+                    await _welcomeUserStateAccessors.UserState.SaveChangesAsync(turnContext);
 
                     await turnContext.SendActivityAsync($"You first message ever to this bot.", cancellationToken: cancellationToken);
                 }
