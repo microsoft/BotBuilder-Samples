@@ -25,10 +25,10 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 ## Install BotBuilder tools
 
-- In a terminal, navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\14.NLP-With-Dispatch`) 
+- In a terminal, navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\09.Message-Routing`) 
 
     ```bash
-    cd BotBuilder-Samples\csharp_dotnetcore\14.NLP-With-Dispatch
+    cd BotBuilder-Samples\csharp_dotnetcore\09.Message-Routing
     ```
 
 - Install required tools - to successfully setup and configure all services this bot depend on, you need to install the MSBOT, LUIS, QnAMaker, Ludown, Dispatch CLI tools. 
