@@ -96,9 +96,16 @@ namespace Microsoft.BotBuilderSamples
             await _accessors.ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
 
-        public Task CustomPromptValidatorAsync(ITurnContext turnContext, PromptValidatorContext<string> validatorContext, CancellationToken cancellationToken)
+        /// <summary>
+        /// This is an example of a custom validator. This example can be directly used on a float NumberPrompt.
+        /// Returning true indicates the recognized value is acceptable. Returning false will trigger re-prompt behavior.
+        /// </summary>
+        /// <param name="promptContext">The <see cref="PromptValidatorContext"/> gives the validator code access to the runtime, including the recognized value and the turn context.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A an asynchronous Task of bool indicating validation success as true.</returns>
+        public Task<bool> CustomPromptValidatorAsync(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
         {
-            var result = validatorContext.Recognized.Value;
+            var result = promptContext.Recognized.Value;
 
             // This condition is our validation rule.
             if (result != null && result.Length > 3)
@@ -106,14 +113,16 @@ namespace Microsoft.BotBuilderSamples
                 // You are free to change the value you have collected. By way of illustration we are simply uppercasing.
                 var newValue = result.ToUpperInvariant();
 
+                promptContext.Recognized.Value = newValue;
+
                 // Success is indicated by passing back the value the Prompt has collected. You must pass back a value even if you haven't changed it.
-                validatorContext.End(newValue);
+                return Task.FromResult(true);
             }
 
             // Not calling End indicates validation failure. This will trigger a RetryPrompt if one has been defined.
 
             // Note you are free to do async IO from within a validator. Here we had no need so just complete.
-            return Task.CompletedTask;
+            return Task.FromResult(false);
         }
     }
 }

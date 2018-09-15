@@ -67,6 +67,7 @@ class Greeting extends ComponentDialog {
         await this.greetingStateAccessor.set(dc.context, new GreetingState());        
       }
     }
+
     return await step.next();
   }
   /**

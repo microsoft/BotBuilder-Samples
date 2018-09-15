@@ -6,7 +6,7 @@ const path = require('path');
 const CONFIG_ERROR = 1;
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different part of a bot.
-const { BotFrameworkAdapter, MemoryStorage } = require('botbuilder');
+const { BotFrameworkAdapter, BotState, MemoryStorage } = require('botbuilder');
 const { BotConfiguration } = require('botframework-config');
 
 const MainDialog = require('./dialogs/mainDialog');
@@ -56,6 +56,9 @@ const adapter = new BotFrameworkAdapter({
 // A bot requires a state storage system to persist the dialog and user state between messages.
 const memoryStorage = new MemoryStorage();
 
+// Create state manager with in-memory storage provider. 
+const botState = new BotState(memoryStorage, () => 'proactiveBot.botState');
+
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone. 
 // For production bots use the Azure Cosmos DB storage, or Azure Blob storage providers. 
@@ -68,7 +71,8 @@ const memoryStorage = new MemoryStorage();
 //                                            collectionId: cosmosConfig.collection});
 
 // Create the main dialog, which serves as the bot's main handler.
-const mainDlg = new MainDialog(memoryStorage, adapter);
+const mainDlg = new MainDialog(botState, adapter);
+
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
