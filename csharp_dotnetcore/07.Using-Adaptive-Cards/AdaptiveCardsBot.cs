@@ -69,7 +69,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Greet new users as they are added to the conversation. 
+        /// Greet new users as they are added to the conversation.
         /// </summary>
         /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
