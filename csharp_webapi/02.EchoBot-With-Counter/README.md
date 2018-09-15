@@ -12,8 +12,8 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Hit F5.
 
 ## Visual Studio Code
-- Open `BotBuilder-Samples\csharp_webapi\2.EchoBot-With-Counter` sample folder.
-- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_webapi\2.EchoBot-With-Counter` folder.
+- Open `BotBuilder-Samples\csharp_webapi\02.EchoBot-With-Counter` sample folder.
+- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_webapi\02.EchoBot-With-Counter` folder.
 - Type 'dotnet run'.
 
 ## Testing the bot using Bot Framework Emulator
@@ -23,7 +23,7 @@ developers to test and debug their bots on localhost or running remotely through
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch the Bot Framework Emulator.
-- File -> Open bot and navigate to `BotBuilder-Samples\csharp_webapi\2.EchoBot-With-Counter` folder.
+- File -> Open bot and navigate to `BotBuilder-Samples\csharp_webapi\02.EchoBot-With-Counter` folder.
 - Select `EchoBot.bot` file.
 
 # Further reading
