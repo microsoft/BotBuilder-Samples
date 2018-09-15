@@ -1,64 +1,60 @@
 > Greeting intent and utterances
 # Greeting
-- Hello
-- Hi
-- Hello bot
-- hiya
-- hi bot
-- Hey
-- Hey there
-- Yo
-- good morning
 - good evening
+- good morning
+- hello
 - hello bot
+- hey
+- hey there
+- hi
+- hi bot
+- hiya
 - how are you
 - how are you today
 - what's your name
+- who am i speaking to
+- who am i speaking with
 - who are you
-- who am I speaking to
-- who am I speaking with
+- yo
 
-> add some patterns
-- my name is {userName_paternAny}
-- call me {userName_paternAny}
-- {userName_paternAny} is my name
-- I'm {userName_paternAny}
-- you can call me {userName_paternAny}
-- some people call me {userName_paternAny}
-- i live in {userLocation_patternAny}
-- i'm from {userLocation_patternAny}
-- {userLocation_patternAny} is where i live
-- I reside in {userLocation_patternAny}
-- you can assume i live in {userLocation_patternAny}
-
-> add additional machine learned simple entity
-- {userName=vishwac} is my name
-- my name is {userName=tom}
+> Add utterances with machine learned simple entity values
 - call me {userName=scott}
-- {userName=tony} is my name
-- {userName=melanie}
-- I'm {userName=lili}
-- you can call me {userName=steve}
 - {userName=dan}
-- {userLocation=seattle} is my current city
-- my location is {userLocation=new york}
-- I live in {userLocation=london}
-- I'm from {userLocation=georgia} 
-- {userLocation=portland}
-- I reside in {userLocation=san francisco}
-- you can assume i live in {userLocation=cairo}
-- {userLocation=paris}
-- {userLocation=shangai}
 - {userLocation=delhi}
-- {userLocation=mumbai}
 - {userLocation=dhaka}
+- i live in {userLocation=london}
+- i reside in {userLocation=san francisco}
+- i'm from {userLocation=georgia}
+- i'm {userName=john} from {userLocation=cairo}
+- i'm {userName=lauren}, and i'm from {userLocation=madrid}
+- i'm {userName=lili}
+- {userName=melanie}
+- {userLocation=mumbai}
+- my location is {userLocation=new york}
+- my name is {userName=maria} and i'm from {userLocation=sydney}
+- my name is {userName=tom}
+- {userLocation=paris}
+- {userLocation=portland}
+- {userLocation=seattle} is my current city
+- {userLocation=shangai}
+- {userName=tony} is my name
 - {userLocation=toronto}
+- {userName=vishwac} is my name
+- you can assume i live in {userLocation=cairo}
+- you can call me {userName=steve}
 
-> multi-entity utterances as patterns
-- my name is {userName_paternAny} and I'm from {userLocation_patternAny}
-- I'm {userName_paternAny}[,] [and I'm] from {userLocation_patternAny}
-
-> multi-entity utterances with machine learned entity types
-- my name is {userName=maria} and I'm from {userLocation=sydney}
-- I'm {userName=lauren}, and I'm from {userLocation=madrid}
-- I'm {userName=john} from {userLocation=cairo}
+> Add patterns with pattern.any entitiy
+- some people call me {userName_paternAny}
+- {userName_paternAny}.
+- i'm {userName_paternAny}
+- {userName_paternAny} is my name
+- my name is {userName_paternAny} and i'm from {userLocation_patternAny}
+- {userLocation_patternAny} is where i live
+- i'm from {userLocation_patternAny}
+- my name is {userName_paternAny}
+- i reside in {userLocation_patternAny}
+- you can call me {userName_paternAny}
+- you can assume i live in {userLocation_patternAny}
+- call me {userName_paternAny}
+- i live in {userLocation_patternAny}
+- i'm {userName_paternAny}[,] [and i'm] from {userLocation_patternAny}

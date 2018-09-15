@@ -110,42 +110,7 @@
       "entities": []
     },
     {
-      "text": "Hello",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "Hi",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "Hello bot",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "hiya",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "hi bot",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "Hey",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "Hey there",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "Yo",
+      "text": "good evening",
       "intent": "Greeting",
       "entities": []
     },
@@ -155,12 +120,37 @@
       "entities": []
     },
     {
-      "text": "good evening",
+      "text": "hello",
       "intent": "Greeting",
       "entities": []
     },
     {
       "text": "hello bot",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hey",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hey there",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hi",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hi bot",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hiya",
       "intent": "Greeting",
       "entities": []
     },
@@ -180,41 +170,24 @@
       "entities": []
     },
     {
+      "text": "who am i speaking to",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "who am i speaking with",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
       "text": "who are you",
       "intent": "Greeting",
       "entities": []
     },
     {
-      "text": "who am I speaking to",
+      "text": "yo",
       "intent": "Greeting",
       "entities": []
-    },
-    {
-      "text": "who am I speaking with",
-      "intent": "Greeting",
-      "entities": []
-    },
-    {
-      "text": "vishwac is my name",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userName",
-          "startPos": 0,
-          "endPos": 6
-        }
-      ]
-    },
-    {
-      "text": "my name is tom",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userName",
-          "startPos": 11,
-          "endPos": 13
-        }
-      ]
     },
     {
       "text": "call me scott",
@@ -224,50 +197,6 @@
           "entity": "userName",
           "startPos": 8,
           "endPos": 12
-        }
-      ]
-    },
-    {
-      "text": "tony is my name",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userName",
-          "startPos": 0,
-          "endPos": 3
-        }
-      ]
-    },
-    {
-      "text": "melanie",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userName",
-          "startPos": 0,
-          "endPos": 6
-        }
-      ]
-    },
-    {
-      "text": "I'm lili",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userName",
-          "startPos": 4,
-          "endPos": 7
-        }
-      ]
-    },
-    {
-      "text": "you can call me steve",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userName",
-          "startPos": 16,
-          "endPos": 20
         }
       ]
     },
@@ -283,105 +212,6 @@
       ]
     },
     {
-      "text": "seattle is my current city",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userLocation",
-          "startPos": 0,
-          "endPos": 6
-        }
-      ]
-    },
-    {
-      "text": "my location is new york",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userLocation",
-          "startPos": 15,
-          "endPos": 22
-        }
-      ]
-    },
-    {
-      "text": "I live in london",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userLocation",
-          "startPos": 10,
-          "endPos": 15
-        }
-      ]
-    },
-    {
-      "text": "I'm from georgia",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userLocation",
-          "startPos": 9,
-          "endPos": 15
-        }
-      ]
-    },
-    {
-      "text": "portland",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userLocation",
-          "startPos": 0,
-          "endPos": 7
-        }
-      ]
-    },
-    {
-      "text": "I reside in san francisco",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userLocation",
-          "startPos": 12,
-          "endPos": 24
-        }
-      ]
-    },
-    {
-      "text": "you can assume i live in cairo",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userLocation",
-          "startPos": 25,
-          "endPos": 29
-        }
-      ]
-    },
-    {
-      "text": "paris",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userLocation",
-          "startPos": 0,
-          "endPos": 4
-        }
-      ]
-    },
-    {
-      "text": "shangai",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userLocation",
-          "startPos": 0,
-          "endPos": 6
-        }
-      ]
-    },
-    {
       "text": "delhi",
       "intent": "Greeting",
       "entities": [
@@ -389,17 +219,6 @@
           "entity": "userLocation",
           "startPos": 0,
           "endPos": 4
-        }
-      ]
-    },
-    {
-      "text": "mumbai",
-      "intent": "Greeting",
-      "entities": [
-        {
-          "entity": "userLocation",
-          "startPos": 0,
-          "endPos": 5
         }
       ]
     },
@@ -415,34 +234,56 @@
       ]
     },
     {
-      "text": "toronto",
+      "text": "i live in london",
       "intent": "Greeting",
       "entities": [
         {
           "entity": "userLocation",
-          "startPos": 0,
-          "endPos": 6
+          "startPos": 10,
+          "endPos": 15
         }
       ]
     },
     {
-      "text": "my name is maria and I'm from sydney",
+      "text": "i reside in san francisco",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 12,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "i'm from georgia",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 9,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "i'm john from cairo",
       "intent": "Greeting",
       "entities": [
         {
           "entity": "userName",
-          "startPos": 11,
-          "endPos": 15
+          "startPos": 4,
+          "endPos": 7
         },
         {
           "entity": "userLocation",
-          "startPos": 30,
-          "endPos": 35
+          "startPos": 14,
+          "endPos": 18
         }
       ]
     },
     {
-      "text": "I'm lauren, and I'm from madrid",
+      "text": "i'm lauren, and i'm from madrid",
       "intent": "Greeting",
       "entities": [
         {
@@ -458,18 +299,172 @@
       ]
     },
     {
-      "text": "I'm john from cairo",
+      "text": "i'm lili",
       "intent": "Greeting",
       "entities": [
         {
           "entity": "userName",
           "startPos": 4,
           "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "melanie",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "mumbai",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 0,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "my location is new york",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 15,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "my name is maria and i'm from sydney",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 11,
+          "endPos": 15
         },
         {
           "entity": "userLocation",
-          "startPos": 14,
-          "endPos": 18
+          "startPos": 30,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "my name is tom",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 11,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "paris",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 0,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "portland",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 0,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "seattle is my current city",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "shangai",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "tony is my name",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "toronto",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "vishwac is my name",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "you can assume i live in cairo",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 25,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "you can call me steve",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 16,
+          "endPos": 20
         }
       ]
     },
@@ -587,27 +582,76 @@
       "text": "i'd rather be riding my bike",
       "intent": "None",
       "entities": []
+    },
+    {
+      "text": "Cook me something",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Have you any dreams?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Dont you ever sleep?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Do you play games?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Can you fly?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "What's your age?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Are you old?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "How old are you?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Getting tired of you",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "I am tired of you",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "You are boring",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Who is your boss?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Are you busy?",
+      "intent": "None",
+      "entities": []
     }
   ],
   "patterns": [
     {
-      "pattern": "my name is {userName_paternAny}",
-      "intent": "Greeting"
-    },
-    {
-      "pattern": "call me {userName_paternAny}",
-      "intent": "Greeting"
-    },
-    {
-      "pattern": "{userName_paternAny} is my name",
-      "intent": "Greeting"
-    },
-    {
-      "pattern": "I'm {userName_paternAny}",
-      "intent": "Greeting"
-    },
-    {
-      "pattern": "you can call me {userName_paternAny}",
+      "pattern": "some people call me {userName_paternAny}",
       "intent": "Greeting"
     },
     {
@@ -615,15 +659,15 @@
       "intent": "Greeting"
     },
     {
-      "pattern": "some people call me {userName_paternAny}",
+      "pattern": "i'm {userName_paternAny}",
       "intent": "Greeting"
     },
     {
-      "pattern": "i live in {userLocation_patternAny}",
+      "pattern": "{userName_paternAny} is my name",
       "intent": "Greeting"
     },
     {
-      "pattern": "i'm from {userLocation_patternAny}",
+      "pattern": "my name is {userName_paternAny} and i'm from {userLocation_patternAny}",
       "intent": "Greeting"
     },
     {
@@ -631,7 +675,19 @@
       "intent": "Greeting"
     },
     {
-      "pattern": "I reside in {userLocation_patternAny}",
+      "pattern": "i'm from {userLocation_patternAny}",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "my name is {userName_paternAny}",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "i reside in {userLocation_patternAny}",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "you can call me {userName_paternAny}",
       "intent": "Greeting"
     },
     {
@@ -639,11 +695,15 @@
       "intent": "Greeting"
     },
     {
-      "pattern": "my name is {userName_paternAny} and I'm from {userLocation_patternAny}",
+      "pattern": "call me {userName_paternAny}",
       "intent": "Greeting"
     },
     {
-      "pattern": "I'm {userName_paternAny}[,] [and I'm] from {userLocation_patternAny}",
+      "pattern": "i live in {userLocation_patternAny}",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "i'm {userName_paternAny}[,] [and i'm] from {userLocation_patternAny}",
       "intent": "Greeting"
     }
   ],
