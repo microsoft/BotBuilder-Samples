@@ -7,9 +7,9 @@ This sample shows how to create a simple Echo bot with state. The bot keeps simp
     ```bash
     git clone https://github.com/Microsoft/botbuilder-js.git
     ```
-- In a terminal, navigate to samples\2.echobot-with-counter
+- In a terminal, navigate to samples\02.echobot-with-counter
     ```bash
-    cd samples\2.echobot-with-counter
+    cd samples\02.echobot-with-counter
     ```
 - Point to the myget feed 
     ```bash
@@ -33,9 +33,9 @@ This sample shows how to create a simple Echo bot with state. The bot keeps simp
 
 - Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
 
-## Connect to bot using Bot Framework Emulator **V4**
+## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples\2.echobot-with-state folder
+- File -> Open Bot Configuration and navigate to samples\02.echobot-with-state folder
 - Select echobot-with-state.bot file
 
 # Bot state
