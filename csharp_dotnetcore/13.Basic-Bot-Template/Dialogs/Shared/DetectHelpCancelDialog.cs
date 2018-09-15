@@ -136,7 +136,11 @@ namespace Microsoft.BotBuilderSamples
         }
 
         // Check for simple interrupts.
+<<<<<<< HEAD
         public static string DetectSingleWorld(string text)
+=======
+        private static string DetectSingleWorld(string text)
+>>>>>>> v4
         {
             var word = text.Trim().ToLowerInvariant();
             var concrete = new Dictionary<string, string>()

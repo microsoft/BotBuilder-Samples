@@ -50,6 +50,9 @@ namespace EchoBotWithCounter
                 // Bump the turn count for this conversation.
                 state.TurnCount++;
 
+                // Set the state
+                await _accessors.CounterState.SetAsync(turnContext, state);
+
                 // Save the new turn count into the conversation state.
                 await _accessors.ConversationState.SaveChangesAsync(turnContext);
 
