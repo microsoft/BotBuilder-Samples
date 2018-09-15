@@ -43,7 +43,7 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="options">This isn't used in this implementation but required for the contract. Potentially it could be used to pass in existing state - already filled slots for example.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A DialogTurnResult indicating the state of this dialog to the caller.</returns>
-        public override async Task<DialogTurnResult> DialogBeginAsync(DialogContext dialogContext, DialogOptions options = null, CancellationToken cancellationToken = default(CancellationToken))
+        public override async Task<DialogTurnResult> DialogBeginAsync(DialogContext dialogContext, object options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (dialogContext == null)
             {

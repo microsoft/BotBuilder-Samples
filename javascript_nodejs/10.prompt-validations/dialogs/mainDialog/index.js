@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes } = require('botbuilder-core');
+const { ActivityTypes } = require('botbuilder');
 const { DialogSet } = require('botbuilder-dialogs');
 
 const OnboardingDialog = require('../onboard');
@@ -58,7 +58,9 @@ class MainDialog {
             }
             
             // Continue the current dialog if one is pending.
-            await dc.continue();
+            if (!turnContext.responded) {
+                await dc.continue();
+            }
 
             // If no response has been sent, start the onboarding dialog.
             if (!turnContext.responded) {
@@ -76,6 +78,13 @@ class MainDialog {
             ];
             await turnContext.sendActivity(description.join(' '));
         }
+
+        // Save changes to the user state.
+        await this.userState.saveChanges(turnContext);
+
+        // End this turn by saving changes to the conversation state.
+        await this.conversationState.saveChanges(turnContext);
+    
     }
 }
 

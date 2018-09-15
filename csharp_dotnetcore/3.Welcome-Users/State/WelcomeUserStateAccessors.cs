@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using Microsoft.Bot.Builder;
 
 namespace WelcomeUser.State
@@ -11,6 +12,13 @@ namespace WelcomeUser.State
     /// </summary>
     public class WelcomeUserStateAccessors
     {
+        public WelcomeUserStateAccessors(UserState userState)
+        {
+            this.UserState = userState ?? throw new ArgumentNullException(nameof(userState));
+        }
+
+        public UserState UserState { get; set; }
+
         public IStatePropertyAccessor<bool> DidBotWelcomedUser { get; set; }
     }
 }
