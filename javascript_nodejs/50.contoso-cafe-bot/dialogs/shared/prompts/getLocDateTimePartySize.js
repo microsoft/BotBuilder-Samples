@@ -137,7 +137,7 @@ module.exports = class GetLocDateTimePartySizePrompt extends TextPrompt {
             applicationId: luisConfig.appId,
             azureRegion: luisConfig.region,
             // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
-            endpointKey: luisConfig.authoringKey
+            endpointKey: luisConfig.subscriptionKey
         });
     }
 };
