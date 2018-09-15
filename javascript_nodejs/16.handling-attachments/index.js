@@ -11,7 +11,7 @@ const CONFIG_ERROR = 1;
 
 // Bot name as defined in .bot file.
 // See https://aka.ms/about-bot-file to learn more about .bot files.
-const BOT_CONFIGURATION = 'handling-attachments';
+const BOT_CONFIGURATION = 'attachments';
 
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.

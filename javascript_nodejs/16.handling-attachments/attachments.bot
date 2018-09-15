@@ -1,10 +1,10 @@
 {
-    "name": "handling-attachments",
+    "name": "attachments",
     "secretKey": "",
     "services": [
         {
             "type": "endpoint",
-            "name": "handling-attachments",
+            "name": "attachments",
             "id": "http://localhost:3978/api/messages",
             "appId": "",
             "appPassword": "",
