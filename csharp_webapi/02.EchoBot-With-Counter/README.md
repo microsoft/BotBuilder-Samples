@@ -8,7 +8,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 # Prerequisites
 ## Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_webapi\2.EchoBot-With-Counter`) and open EchoBotWithCounter.csproj in Visual Studio.
+- Navigate to the samples folder (`BotBuilder-Samples\csharp_webapi\02.EchoBot-With-Counter`) and open EchoBotWithCounter.csproj in Visual Studio.
 - Hit F5.
 
 ## Visual Studio Code
