@@ -127,7 +127,7 @@ class Greeting extends ComponentDialog {
   async displayGreetingStateStep(dc, step) {
     // Save city, if prompted for
     const greetingState = await this.greetingStateAccessor.get(dc.context);
-    if (step.result) {
+    if (greetingState.city === undefined && step.result) {
       let lowerCaseCity = step.result;
       // capitalize and set city
       greetingState.city = lowerCaseCity.charAt(0).toUpperCase() + lowerCaseCity.substr(1);
