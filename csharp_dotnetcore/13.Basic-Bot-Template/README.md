@@ -15,13 +15,13 @@ Navigate to sample:
 `cd BotBuilder-Samples\csharp_dotnetcore\13.Basic-Bot-Template`
 Install LUDown
 `npm i -g ludown'
-Create LUIS json model file:
-`ludown parse toluis -l .\Dialogs\Greeting\Resources -s -o .\CognitiveModels -n BasicBot`
+Create LUIS json model file (this will consume two .lu files combined into one model):
+`ludown parse toluis -l .\Dialogs -s -o .\CognitiveModels -n BasicBot`
 Install LUIS command line tool:
 `npm install -g luis-apis`
 Create a new LUIS application:
-`luis import application --in .\CognitiveModels\BasicBot.json --authoringKey "<Your Authoring Key>" --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY`  
-
+`luis import application --in .\CognitiveModels\BasicBot.json --authoringKey "<Your Authoring Key>" 
+--endpointBasePath https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY`  
 ### Set up LUIS via Portal
 - Navigate to [LUIS portal](https://www.luis.ai).
 - Click the `Sign in` button.

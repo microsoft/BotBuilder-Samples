@@ -68,12 +68,9 @@ namespace Microsoft.BotBuilderSamples
 
         private BotServices BotServices { get; }
 
-        private async Task<DialogTurnResult> InitializeStateStepAsync(
-                                                          DialogContext dc,
-                                                          WaterfallStepContext stepContext,
-                                                          CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> InitializeStateStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var greetingState = await GreetingStateAccessor.GetAsync(dc.Context, () => new GreetingState());
+            var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context, () => new GreetingState());
 
             stepContext.Values[NameValue] = greetingState.Name;
             stepContext.Values[CityValue] = greetingState.City;
@@ -82,7 +79,6 @@ namespace Microsoft.BotBuilderSamples
         }
 
         private async Task<DialogTurnResult> PromptForNameStepAsync(
-                                                DialogContext dc,
                                                 WaterfallStepContext stepContext,
                                                 CancellationToken cancellationToken)
         {
@@ -98,7 +94,7 @@ namespace Microsoft.BotBuilderSamples
                     },
                 };
 
-                return await dc.PromptAsync(nameof(NamePrompt), options).ConfigureAwait(false);
+                return await stepContext.PromptAsync(nameof(NamePrompt), options).ConfigureAwait(false);
             }
             else
             {
@@ -107,7 +103,6 @@ namespace Microsoft.BotBuilderSamples
         }
 
         private async Task<DialogTurnResult> PromptForCityStepAsync(
-                                                        DialogContext dc,
                                                         WaterfallStepContext stepContext,
                                                         CancellationToken cancellationToken)
         {
@@ -129,7 +124,7 @@ namespace Microsoft.BotBuilderSamples
                         Text = $"`{stepContext.Values[NameValue]}`, what city do you live in?",
                     },
                 };
-                return await dc.PromptAsync(nameof(CityPrompt), options, cancellationToken);
+                return await stepContext.PromptAsync(nameof(CityPrompt), options, cancellationToken);
             }
             else
             {
@@ -138,7 +133,6 @@ namespace Microsoft.BotBuilderSamples
         }
 
         private async Task<DialogTurnResult> DisplayGreetingStateStepAsync(
-                                                    DialogContext dc,
                                                     WaterfallStepContext stepContext,
                                                     CancellationToken cancellationToken)
         {
@@ -147,23 +141,23 @@ namespace Microsoft.BotBuilderSamples
             if (!string.IsNullOrWhiteSpace(args))
             {
                 stepContext.Values[CityValue] = args;
-                await dc.Context.SendActivityAsync($"Ok `{stepContext.Values[NameValue]}`, I've got you living in `{stepContext.Values[CityValue]}`.");
-                await dc.Context.SendActivityAsync("I'll go ahead an update your profile with that information.");
+                await stepContext.Context.SendActivityAsync($"Ok `{stepContext.Values[NameValue]}`, I've got you living in `{stepContext.Values[CityValue]}`.");
+                await stepContext.Context.SendActivityAsync("I'll go ahead an update your profile with that information.");
 
                 var greetingState = new GreetingState()
                 {
                     City = stepContext.Values[CityValue] as string,
                     Name = stepContext.Values[NameValue] as string,
                 };
-                await GreetingStateAccessor.SetAsync(dc.Context, greetingState);
+                await GreetingStateAccessor.SetAsync(stepContext.Context, greetingState);
             }
             else
             {
-                await dc.Context.SendActivityAsync($"Hi `{stepContext.Values[NameValue]}`, living in `{stepContext.Values[CityValue]}`,"
+                await stepContext.Context.SendActivityAsync($"Hi `{stepContext.Values[NameValue]}`, living in `{stepContext.Values[CityValue]}`,"
                     + " I understand greetings and asking for help!  Or start your connection over for a card.");
             }
 
-            return await dc.EndAsync();
+            return await stepContext.EndAsync();
         }
     }
 }
