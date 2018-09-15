@@ -4,9 +4,6 @@
       "name": "Help"
     },
     {
-      "name": "Book Table"
-    },
-    {
       "name": "QnA"
     },
     {
@@ -141,81 +138,6 @@
     },
     {
       "text": "Not sure what I can do",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I'm lost",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I need help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Not sure what I can do",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "What can I say",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I'm lost",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I need help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Not sure what I can do",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "What can I say",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I'm lost",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I need help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Not sure what I can do",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "What can I say",
       "intent": "Help",
       "entities": []
     },
@@ -1491,6 +1413,10 @@
   "prebuiltEntities": [
     {
       "name": "number",
+      "roles": []
+    },
+    {
+      "name": "datetimeV2",
       "roles": []
     }
   ],

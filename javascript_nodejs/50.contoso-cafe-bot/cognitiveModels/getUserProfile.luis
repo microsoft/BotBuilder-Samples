@@ -1226,6 +1226,10 @@
     {
       "name": "number",
       "roles": []
+    },
+    {
+      "name": "datetimeV2",
+      "roles": []
     }
   ],
   "luis_schema_version": "3.0.0",

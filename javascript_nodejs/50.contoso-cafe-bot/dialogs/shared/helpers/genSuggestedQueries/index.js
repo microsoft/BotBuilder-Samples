@@ -16,10 +16,9 @@ const generate = function (numberOfSuggestions) {
     let suggestedQueries = [];
     let possibleUtterances = dispatchLUISModel;
     if(numberOfSuggestions === undefined) numberOfSuggestions = DEFAULT_NUMBER_OF_SUGGESTIONS;
-    while(numberOfSuggestions !== 0) {
+    while(--numberOfSuggestions) {
         let rndIdx = Math.floor(possibleUtterances.length * Math.random());
         suggestedQueries.push(possibleUtterances[rndIdx].text);
-        --numberOfSuggestions;
     }
     return suggestedQueries;
 }
