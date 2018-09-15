@@ -56,7 +56,7 @@ namespace Microsoft.BotBuilderSamples
             services.AddBot<EchoWithCounterBot>(options =>
             {
                 // Load the connected services from .bot file.
-                var botConfig = BotConfiguration.Load(@".\EchoBotWithCounter.bot");
+                var botConfig = BotConfiguration.Load(@".\BotConfiguration.bot");
                 var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
                 var endpointService = service as EndpointService;
                 if (endpointService == null)

@@ -66,6 +66,9 @@ namespace Microsoft.BotBuilderSamples
                 // Bump the turn count for this conversation.
                 state.TurnCount++;
 
+                // Set the property using the accessor
+                await _accessors.CounterState.SetAsync(turnContext, state);
+
                 // Save the new turn count into the conversation state.
                 await _accessors.ConversationState.SaveChangesAsync(turnContext);
 
