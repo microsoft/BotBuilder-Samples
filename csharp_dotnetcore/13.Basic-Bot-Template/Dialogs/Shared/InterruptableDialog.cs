@@ -23,8 +23,6 @@ namespace Microsoft.BotBuilderSamples
         {
         }
 
-        public InterruptOptions Options { get; private set; }
-
         /// <summary>
         /// Continue dialog execution.
         /// </summary>
