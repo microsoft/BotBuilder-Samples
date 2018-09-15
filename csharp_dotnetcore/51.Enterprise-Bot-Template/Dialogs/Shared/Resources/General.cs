@@ -68,7 +68,7 @@ namespace Luis
                 if (entry.Value.Score > max)
                 {
                     maxIntent = entry.Key;
-                    max = (double)entry.Value.Score;
+                    max = entry.Value.Score.Value;
                 }
             }
             return (maxIntent, max);
