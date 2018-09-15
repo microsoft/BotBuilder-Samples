@@ -5,9 +5,9 @@ This sample shows how to use the prompts classes included in `botbuilder-dialogs
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to javascript_nodejs/4.simple-prompt-bot
+- In a terminal, navigate to javascript_nodejs/04.simple-prompt-bot
     ```bash
-    cd javascript_nodejs/4.simple-prompt-bot
+    cd javascript_nodejs/04.simple-prompt-bot
     ```
     - Point to the MyGet feed 
     ```bash
@@ -27,9 +27,9 @@ This sample shows how to use the prompts classes included in `botbuilder-dialogs
 
 - Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
 
-## Connect to bot using Bot Framework Emulator **V4**
+## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples\2.echobot-with-state folder
+- File -> Open Bot Configuration and navigate to samples\04.simple-prompt-bot
 - Select simple-prompt-bot.bot file
 
 # Prompts
