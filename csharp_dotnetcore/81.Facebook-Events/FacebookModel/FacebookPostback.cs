@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 
 namespace Facebook_Events_Bot.FacebookModel
 {
-
     /// <summary>
     /// Definition for Facebook PostBack payload. Present on calls from
     /// messaging_postback webhook event.
