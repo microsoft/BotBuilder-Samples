@@ -70,7 +70,7 @@ namespace Microsoft.BotBuilderSamples
             if (!text.Trim().Contains(" "))
             {
                 // Simple detection.
-                topIntent = DetectCancelHelpSingleWorld(text);
+                topIntent = DetectSingleWorld(text);
             }
 
             if (topIntent == NoneIntent)
@@ -136,7 +136,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         // Check for simple interrupts.
-        private string DetectCancelHelpSingleWorld(string text)
+        public static string DetectSingleWorld(string text)
         {
             var word = text.Trim().ToLowerInvariant();
             var concrete = new Dictionary<string, string>()

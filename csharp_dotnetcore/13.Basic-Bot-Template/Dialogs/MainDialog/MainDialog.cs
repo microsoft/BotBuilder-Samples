@@ -15,7 +15,20 @@ using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class MainDialog : ComponentDialog
+    /// <summary>
+    /// The <see cref="MainDialog"/> is first dialog that runs after a user begins a conversation.
+    /// </summary>
+    /// <remarks>
+    /// The <see cref="MainDialog"/> responsibility is to:
+    /// - Start message.
+    ///   Display the inital message the user sees when they begin a conversation.
+    /// - Help.
+    ///   Provide the user about the commands the bot can process.
+    /// - Start other dialogs to perform more complex operations.
+    ///   Begin the <see cref="GreetingDialog"/> if the user greets the bot, which will
+    ///   prompt the user for name and city.
+    /// </remarks>
+    public class MainDialog : RouterDialog
     {
         // Supported LUIS Main Dialog Intents
         public const string GreetingIntent = "Greeting";
@@ -31,99 +44,66 @@ namespace Microsoft.BotBuilderSamples
         private readonly ILogger _logger;
 
         public MainDialog(BotServices services, BasicBotAccessors accessors, ILogger logger)
-            : base(nameof(MainDialog))
+                    : base(nameof(MainDialog))
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             AddDialog(new GreetingDialog(services, accessors.DialogStateProperty, accessors.GreetingStateProperty, logger));
             AddDialog(new NamePrompt(nameof(NamePrompt)));
             AddDialog(new CityPrompt(nameof(CityPrompt)));
+
+            _logger.LogInformation("MainDialog started.");
+
         }
 
-        protected override async Task<DialogTurnResult> OnDialogBeginAsync(DialogContext dc, object options, CancellationToken cancellationToken)
+        protected override async Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // Override default begin() logic with bot orchestration logic
-            return await OnDialogContinueAsync(dc, cancellationToken).ConfigureAwait(false);
+            var context = innerDc.Context;
+
+            // Greet user when added to conversation.
+            // The member joining the conversation is the bot we will send our Welcome Adaptive Card.  This will only 
+            // be sent once, when the Bot joins conversation
+            // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
+            var welcomeCard = CreateAdaptiveCardAttachment();
+            var response = CreateResponse(context.Activity, welcomeCard);
+            await context.SendActivityAsync(response).ConfigureAwait(false);
         }
 
-        protected override async Task<DialogTurnResult> OnDialogContinueAsync(DialogContext dc, CancellationToken cancellationToken)
+        protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (dc.Context.Activity.Type == ActivityTypes.Message)
+            // Perform a call to LUIS to retrieve results for the current activity message.
+            var luisResults = await _services.LuisServices[LuisKey].RecognizeAsync(dc.Context, cancellationToken).ConfigureAwait(false);
+            var topScoringIntent = luisResults?.GetTopScoringIntent();
+            var topIntent = topScoringIntent.Value.intent;
+
+            var interruptResult = InterruptionStatus.NoAction;
+            if (topIntent != null)
             {
-                // If an active dialog is waiting, continue dialog
-                var result = await dc.ContinueAsync();
-
-                switch (result.Status)
+                // See if there are any conversation interrupts we need to handle
+                switch (topIntent)
                 {
-                    case DialogTurnStatus.Empty:
-                        // No dialog is currently on the stack and we haven't responded to the user.
-                        // Perform a call to LUIS to retrieve results for the current activity message.
-                        var luisResults = await _services.LuisServices[LuisKey].RecognizeAsync(dc.Context, cancellationToken).ConfigureAwait(false);
-                        var topIntent = luisResults?.GetTopScoringIntent();
-                        var interruptResult = InterruptionStatus.NoAction;
-                        if (topIntent != null)
-                        {
-                            // See if there are any conversation interrupts we need to handle
-                            switch (topIntent.Value.intent)
-                            {
-                                case GreetingIntent:
-                                    if (topIntent.Value.score > .5)
-                                    {
-                                        await dc.BeginAsync(nameof(GreetingDialog), null, cancellationToken);
-                                    }
-
-                                    break;
-
-                                case HelpIntent:
-                                    if (topIntent.Value.score > .5)
-                                    {
-                                        interruptResult = await OnMainHelpAsync(dc).ConfigureAwait(false);
-                                    }
-
-                                    break;
-
-                                default:
-                                    interruptResult = await OnConfusedAsync(dc).ConfigureAwait(false);
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            _logger.LogError($"No LUIS intent identified.");
-                            interruptResult = await OnConfusedAsync(dc).ConfigureAwait(false);
-                        }
-
+                    case GreetingIntent:
+                        await dc.BeginAsync(nameof(GreetingDialog), null, cancellationToken);
                         break;
 
-                    case DialogTurnStatus.Waiting:
-                        // The active dialog is waiting for a response from the user, so do nothing
-                        break;
-
-                    case DialogTurnStatus.Complete:
-                        await dc.EndAsync();
+                    case HelpIntent:
+                        interruptResult = await OnMainHelpAsync(dc).ConfigureAwait(false);
                         break;
 
                     default:
-                        // The active dialog's stack ended with an error status
-                        // End active dialog
-                        await dc.EndAsync();
+                        interruptResult = await OnConfusedAsync(dc).ConfigureAwait(false);
                         break;
                 }
             }
-            else
-            {
-                await HandleSystemMessageAsync(dc.Context);
-            }
-
-            return new DialogTurnResult(DialogTurnStatus.Waiting);
         }
 
-        /// <summary>
-        /// Handle help requests.
-        /// </summary>
-        /// <param name="dc">The current <see cref="DialogContext"/>.</param>
-        /// <returns>A <see cref="Task"/> representing the <see cref="InterruptionStatus"/>.</returns>
+        protected override async Task CompleteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // The active dialog's stack ended with a complete status
+            await innerDc.Context.SendActivityAsync("Anything else I can help with?\rTry typing `help` or `hello`.");
+        }
+
+        // Handle help requests for the main/root level.
         protected virtual async Task<InterruptionStatus> OnMainHelpAsync(DialogContext dc)
         {
             if (dc.ActiveDialog != null)
@@ -146,41 +126,10 @@ namespace Microsoft.BotBuilderSamples
         protected virtual async Task<InterruptionStatus> OnConfusedAsync(DialogContext dc)
         {
             await dc.Context.SendActivityAsync("Didn't quite understand that.");
-            await dc.Context.SendActivityAsync("I understand greetings, being asked for help, or being asked to cancel what I am doing.");
+            await dc.Context.SendActivityAsync("I understand greetings, or being asked for help.\nTry typing `help` or `hello`.");
 
             // Signal the conversation was interrupted and should immediately continue
             return InterruptionStatus.Interrupted;
-        }
-
-        // Handle System Messages.
-        private async Task HandleSystemMessageAsync(ITurnContext context)
-        {
-            switch (context.Activity.Type)
-            {
-                case ActivityTypes.ContactRelationUpdate:
-                case ActivityTypes.DeleteUserData:
-                case ActivityTypes.EndOfConversation:
-                case ActivityTypes.Typing:
-                case ActivityTypes.Event:
-                    var ev = context.Activity.AsEventActivity();
-                    await context.SendActivityAsync($"Received event: {ev.Name}");
-                    break;
-
-                case ActivityTypes.ConversationUpdate:
-                    // Greet user when added to conversation.
-                    var activity = context.Activity.AsConversationUpdateActivity();
-                    if (activity.MembersAdded.Where(m => m.Id == activity.Recipient.Id).Any())
-                    {
-                        // When activity type is "conversationUpdate" and the member joining the conversation is the bot
-                        // we will send our Welcome Adaptive Card.  This will only be sent once, when the Bot joins conversation
-                        // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
-                        var welcomeCard = CreateAdaptiveCardAttachment();
-                        var response = CreateResponse(context.Activity, welcomeCard);
-                        await context.SendActivityAsync(response).ConfigureAwait(false);
-                    }
-
-                    break;
-            }
         }
 
         // Create an attachment message response.
