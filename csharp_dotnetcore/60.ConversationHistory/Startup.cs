@@ -27,6 +27,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -49,9 +50,15 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
+            AzureBlobTranscriptStore transcriptStore = null;
             services.AddBot<ConversationHistoryBot>(options =>
             {
                 var botConfig = BotConfiguration.Load(@".\ConversationHistory.bot");
+
+
+                var x = Configuration.GetSection(nameof(TranscriptStore));
+                var y = Configuration.GetValue<string>("ConnectionString");
+
                 var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
                 var endpointService = service as EndpointService;
                 if (endpointService == null)
@@ -71,11 +78,14 @@ namespace Microsoft.BotBuilderSamples
 
                 options.State.Add(conversationState);
 
-                var transcriptStore = new AzureBlobTranscriptStore("DefaultEndpointsProtocol=https;AccountName=conversationhistorystore;AccountKey=wCxjJSqEDfrWSHGVVYWREVL8ds8sS6hC2fGhi/kaoFKzkiJmtovF+LHIBD/xu42SKCI/CjzL6HWV2CPvGor9uw==;EndpointSuffix=core.windows.net", "transcriptstore");
+                var connectionString = Configuration.GetValue<string>("ConnectionString");
+                transcriptStore = new AzureBlobTranscriptStore(connectionString, "transcriptstore");
                 var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
                 options.Middleware.Add(transcriptMiddleware);
 
             });
+
+            services.AddSingleton(_ => { return new TranscriptStore(transcriptStore); });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

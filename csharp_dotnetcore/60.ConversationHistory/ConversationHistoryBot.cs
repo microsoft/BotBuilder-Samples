@@ -27,12 +27,15 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class ConversationHistoryBot : IBot
     {
+        private readonly TranscriptStore _transcriptStore;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ConversationHistoryBot"/> class.
         /// </summary>
-        /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
-        public ConversationHistoryBot()
+        /// <param name="transcriptStore">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
+        public ConversationHistoryBot(TranscriptStore transcriptStore)
         {
+            _transcriptStore = transcriptStore;
         }
 
         /// <summary>
@@ -62,13 +65,12 @@ namespace Microsoft.BotBuilderSamples
                 var connector = turnContext.TurnState.Get<ConnectorClient>(typeof(IConnectorClient).FullName);
 
                 var activity = turnContext.Activity;
-                var transcriptStore = new AzureBlobTranscriptStore("DefaultEndpointsProtocol=https;AccountName=conversationhistorystore;AccountKey=wCxjJSqEDfrWSHGVVYWREVL8ds8sS6hC2fGhi/kaoFKzkiJmtovF+LHIBD/xu42SKCI/CjzL6HWV2CPvGor9uw==;EndpointSuffix=core.windows.net", "transcriptstore");
-                var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
+
                 string continuationToken = null;
                 var activities = new List<Activity>();
                 do
                 {
-                    var pagedTranscript = await transcriptStore.GetTranscriptActivitiesAsync(activity.ChannelId, activity.Conversation.Id);
+                    var pagedTranscript = await _transcriptStore.Store.GetTranscriptActivitiesAsync(activity.ChannelId, activity.Conversation.Id);
                     continuationToken = pagedTranscript.ContinuationToken;
                     activities.AddRange(pagedTranscript.Items.Where(a => a.Type == ActivityTypes.Message).Select(ia => {
                         var a = (Activity)ia;
@@ -81,8 +83,9 @@ namespace Microsoft.BotBuilderSamples
                 var transcript = new Bot.Schema.Transcript(activities);
                 await connector.Conversations.SendConversationHistoryAsync(activity.Conversation.Id, transcript);
 
+                var x = string.Join(" ; ", turnContext.TurnState.Keys);
                 var reply = turnContext.Activity.CreateReply();
-                reply.Text = "DONE";
+                reply.Text = $"DONE {activities.Count()} actvities {x}";
                 await turnContext.SendActivityAsync(reply);
             }
         }
