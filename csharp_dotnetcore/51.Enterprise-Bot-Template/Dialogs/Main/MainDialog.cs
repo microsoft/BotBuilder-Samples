@@ -2,20 +2,28 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
 
 namespace EnterpriseBot
 {
     public class MainDialog : RouterDialog
     {
-        private static MainResponses _responder = new MainResponses();
-        private readonly BotServices _services;
+        private BotServices _services;
+        private MainResponses _responder = new MainResponses();
+        private Dictionary<Regex, string> _regexMap = new Dictionary<Regex, string>()
+        {
+            { new Regex("hi", RegexOptions.IgnoreCase), General.Intent.Greeting.ToString() },
+            { new Regex("hello", RegexOptions.IgnoreCase), General.Intent.Greeting.ToString() },
+            { new Regex("help", RegexOptions.IgnoreCase), General.Intent.Help.ToString() },
+            { new Regex("cancel", RegexOptions.IgnoreCase), General.Intent.Cancel.ToString() },
+            { new Regex("escalate", RegexOptions.IgnoreCase), General.Intent.Escalate.ToString() },
+        };
 
         public MainDialog(BotServices services)
             : base(nameof(MainDialog))
@@ -43,13 +51,20 @@ namespace EnterpriseBot
 
             if (intent == Dispatch.Intent.l_General)
             {
-                // If dispatch result is general luis model
-                var luisService = _services.LuisServices["EnterpriseBot-General"];
-                var luisResult = await luisService.RecognizeAsync<General>(dc.Context, CancellationToken.None);
-                var luisIntent = luisResult?.TopIntent().intent;
+                var regexRecognizer = new RegexRecognizer(_regexMap);
+                var result = await regexRecognizer.RecognizeAsync<General>(dc.Context, CancellationToken.None);
+
+                if (result == null)
+                {
+                    // If dispatch result is general luis model
+                    var luisService = _services.LuisServices["EnterpriseBot-General"];
+                    result = await luisService.RecognizeAsync<General>(dc.Context, CancellationToken.None);
+                }
+
+                var generalIntent = result?.TopIntent().intent;
 
                 // switch on general intents
-                switch (luisIntent)
+                switch (generalIntent)
                 {
                     case General.Intent.Greeting:
                         {
@@ -103,10 +118,8 @@ namespace EnterpriseBot
             }
         }
 
-        protected override async Task CompleteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
-        {
+        protected override async Task CompleteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) =>
             // The active dialog's stack ended with a complete status
             await _responder.ReplyWith(innerDc.Context, MainResponses.Completed);
-        }
     }
 }
