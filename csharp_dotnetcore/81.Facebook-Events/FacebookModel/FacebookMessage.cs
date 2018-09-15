@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 
 namespace Facebook_Events_Bot.FacebookModel
 {
-
     /// <summary>
     /// A Facebook message payload.
     /// </summary>

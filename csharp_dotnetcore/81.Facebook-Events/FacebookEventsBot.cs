@@ -24,12 +24,12 @@ namespace Facebook_Events_Bot
     /// </summary>
     public class FacebookEventsBot : IBot
     {
+        private const string DialogId = "question";
+
         /// <summary>
         /// The <see cref="DialogSet"/> that contains all the Dialogs that can be used at runtime.
         /// </summary>
         private readonly DialogSet _dialogs;
-
-        private const string DialogId = "question";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SimplePromptBot"/> class.
@@ -87,7 +87,7 @@ namespace Facebook_Events_Bot
                             break;
                         }
 
-                    // Here we send a HeroCard with 2 options that will trigger a Facebook PostBack. 
+                    // Here we send a HeroCard with 2 options that will trigger a Facebook PostBack.
                     case postBackOption:
                         {
                             var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
@@ -98,8 +98,8 @@ namespace Facebook_Events_Bot
                                 Text = "Is 42 the answer to the ultimate question of Life, the Universe, and Everything?",
                                 Buttons = new List<CardAction>
                                     {
-                                        new CardAction() { Title = "Yes", Type = ActionTypes.PostBack, Value = "Yes"},
-                                        new CardAction() { Title = "No", Type = ActionTypes.PostBack, Value = "No"},
+                                        new CardAction() { Title = "Yes", Type = ActionTypes.PostBack, Value = "Yes" },
+                                        new CardAction() { Title = "No", Type = ActionTypes.PostBack, Value = "No" },
                                     },
                             };
 
@@ -119,9 +119,9 @@ namespace Facebook_Events_Bot
                             {
                                 Actions = new List<CardAction>()
                                 {
-                                    new CardAction() { Title = quickRepliesOption, Type = ActionTypes.PostBack, Value = quickRepliesOption},
-                                    new CardAction() { Title = facebookPageNameOption, Type = ActionTypes.PostBack, Value = facebookPageNameOption},
-                                    new CardAction() { Title = postBackOption, Type = ActionTypes.PostBack, Value = postBackOption},
+                                    new CardAction() { Title = quickRepliesOption, Type = ActionTypes.PostBack, Value = quickRepliesOption },
+                                    new CardAction() { Title = facebookPageNameOption, Type = ActionTypes.PostBack, Value = facebookPageNameOption },
+                                    new CardAction() { Title = postBackOption, Type = ActionTypes.PostBack, Value = postBackOption },
                                 },
                             };
                             await turnContext.SendActivityAsync(reply);
@@ -137,7 +137,6 @@ namespace Facebook_Events_Bot
                     // Here we can check for messaging_optin webhook event.
                     // Facebook Documentation for Message optin:
                     // https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_optins/
-
                 }
 
                 await turnContext.SendActivityAsync($"Received activity of type {turnContext.Activity.Type}.");

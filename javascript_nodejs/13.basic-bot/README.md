@@ -22,17 +22,11 @@ This samples shows how to:
   ```bash
   npm install
   ```
-- Update `basic-bot.bot` with required configuration settings
-  - App ID and Key for registered bots
-- Train LUIS to use the `greeting.lu` training set
-  ```bash
-  npm run train-luis
-  ```
+- Create [required services](./deploymentScripts/DEPLOYMENT.MD)
 - Run the sample
   ```bash
   npm start
   ```
-
 
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.

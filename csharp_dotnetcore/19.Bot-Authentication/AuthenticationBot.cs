@@ -26,8 +26,6 @@ namespace Microsoft.BotBuilderSamples
         private const string LoginPromptName = "loginPrompt";
         private const string ConfirmPromptName = "confirmPrompt";
 
-
-
         private const string HelpText = @"This bot will introduce you to Authentication.
                                         Type anything to get logged in. Type 'logout' to signout.
                                         Type 'help' to view this message again";

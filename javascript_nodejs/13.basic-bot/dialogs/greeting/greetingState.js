@@ -7,9 +7,9 @@
  */
 class GreetingState {
   constructor(name, city) {
-    this.name = name;
-    this.city = city;
+    this.name = name ? name : undefined;
+    this.city = city ? city : undefined;
   }
 }
 
-module.exports.default = GreetingState;
+module.exports.GreetingState = GreetingState;
