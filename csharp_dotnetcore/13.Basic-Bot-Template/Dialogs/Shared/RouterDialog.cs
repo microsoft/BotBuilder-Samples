@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -25,9 +26,19 @@ namespace Microsoft.BotBuilderSamples
     /// </remarks>
     public abstract class RouterDialog : ComponentDialog
     {
-        public RouterDialog(string dialogId)
+        private ILogger _logger;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RouterDialog"/> class.
+        /// </summary>
+        /// <param name="dialogId">Identifier for the dialog system.  The identifier must be unique
+        /// within the containing <see cref="ComponentDialog"/>.</param>
+        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> for creating loggers.</param>
+        public RouterDialog(string dialogId, ILoggerFactory loggerFactory)
             : base(dialogId)
         {
+            // Create logger for this class.
+            _logger = loggerFactory.CreateLogger<RouterDialog>();
         }
 
         protected override Task<DialogTurnResult> OnDialogBeginAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken)) => OnDialogContinueAsync(innerDc, cancellationToken);

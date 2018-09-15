@@ -43,8 +43,8 @@ namespace Microsoft.BotBuilderSamples
                     BotServices botServices,
                     IStatePropertyAccessor<DialogState> dialogStateAccessor,
                     IStatePropertyAccessor<GreetingState> greetingStateAccessor,
-                    ILogger logger)
-            : base(botServices, nameof(GreetingDialog), logger)
+                    ILoggerFactory loggerFactory)
+            : base(botServices, nameof(GreetingDialog), loggerFactory)
         {
             DialogStateAccessor = dialogStateAccessor ?? throw new ArgumentNullException($"Missing parameter. {nameof(dialogStateAccessor)} is required.");
             GreetingStateAccessor = greetingStateAccessor ?? throw new ArgumentNullException($"Missing parameter. {nameof(greetingStateAccessor)} is required.");

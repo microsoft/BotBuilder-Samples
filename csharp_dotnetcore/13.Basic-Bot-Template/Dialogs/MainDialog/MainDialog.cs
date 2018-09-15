@@ -43,30 +43,42 @@ namespace Microsoft.BotBuilderSamples
         private readonly BotServices _services;
         private readonly ILogger _logger;
 
-        public MainDialog(BotServices services, BasicBotAccessors accessors, ILogger logger)
-                    : base(nameof(MainDialog))
+        public MainDialog(BotServices services, BasicBotAccessors accessors, ILoggerFactory loggerFactory)
+                    : base(nameof(MainDialog), loggerFactory)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
 
-            AddDialog(new GreetingDialog(services, accessors.DialogStateProperty, accessors.GreetingStateProperty, logger));
+            AddDialog(new GreetingDialog(services, accessors.DialogStateProperty, accessors.GreetingStateProperty, loggerFactory));
             AddDialog(new NamePrompt(nameof(NamePrompt)));
             AddDialog(new CityPrompt(nameof(CityPrompt)));
 
-            _logger.LogInformation("MainDialog started.");
-
+            // Create logger for this class.
+            _logger = loggerFactory.CreateLogger<MainDialog>();
         }
 
         protected override async Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var context = innerDc.Context;
+            var activity = context.Activity;
 
-            // Greet user when added to conversation.
-            // The member joining the conversation is the bot we will send our Welcome Adaptive Card.  This will only 
-            // be sent once, when the Bot joins conversation
-            // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
-            var welcomeCard = CreateAdaptiveCardAttachment();
-            var response = CreateResponse(context.Activity, welcomeCard);
-            await context.SendActivityAsync(response).ConfigureAwait(false);
+            if (activity.MembersAdded.Any())
+            {
+                // Iterate over all new members added to the conversation
+                foreach (var member in activity.MembersAdded)
+                {
+                    // Greet anyone that was not the target (recipient) of this message
+                    // the 'bot' is the recipient for events from the channel,
+                    // turnContext.Activity.MembersAdded == turnContext.Activity.Recipient.Id indicates the
+                    // bot was added to the conversation.
+                    // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
+                    if (member.Id != activity.Recipient.Id)
+                    {
+                        var welcomeCard = CreateAdaptiveCardAttachment();
+                        var response = CreateResponse(context.Activity, welcomeCard);
+                        await context.SendActivityAsync(response).ConfigureAwait(false);
+                    }
+                }
+            }
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
