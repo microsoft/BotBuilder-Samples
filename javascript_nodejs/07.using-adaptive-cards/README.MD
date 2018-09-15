@@ -7,7 +7,7 @@ This sample shows how to send an Adaptive Card. This bot example uses [`restify`
     ```bash
     git clone https://github.com/Microsoft/botbuilder-sample.git
     ```
-- In a terminal, navigate to javascript_nodejs\7.using-adaptive-cards
+- In a terminal, navigate to javascript_nodejs\07.using-adaptive-cards
     ```bash
     cd javascript_nodejs\7.using-adaptive-cards
     ```
@@ -33,9 +33,9 @@ This sample shows how to send an Adaptive Card. This bot example uses [`restify`
 
 - Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
 
-## Connect to bot using Bot Framework Emulator **V4**
+## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to javascript_nodejs\7.using-adaptive-cards folder
+- File -> Open Bot Configuration and navigate to javascript_nodejs\07.using-adaptive-cards folder
 - Select using-adaptive-cards.bot file
 
 # Adding media to messages
