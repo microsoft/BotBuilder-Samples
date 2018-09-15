@@ -19,12 +19,12 @@ git clone https://github.com/microsoft/botbuilder-samples.git
 ```
 
 ## Visual studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\1.Console-EchoBot`) and open Console-EchoBot.csproj in Visual studio 
+- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\01.Console-EchoBot`) and open Console-EchoBot.csproj in Visual studio 
 - Hit F5
 
 ## Visual studio code
 - Open `BotBuilder-Samples\csharp_dotnetcore\1.Console-EchoBot` folder
-- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_dotnetcore\1.Console-EchoBot` folder
+- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_dotnetcore\01.Console-EchoBot` folder
 - Type 'dotnet run'.
 
 # Further reading
