@@ -5,9 +5,9 @@ This sample shows how to create a simple echo bot that you can talk to from the 
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to javascript_nodejs/1.console-echobot
+- In a terminal, navigate to javascript_nodejs/01.console-echobot
     ```bash
-    cd javascript_nodejs/1.console-echobot
+    cd javascript_nodejs/01.console-echobot
     ```
     - Point to the MyGet feed 
     ```bash

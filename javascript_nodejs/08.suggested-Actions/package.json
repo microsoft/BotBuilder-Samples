@@ -1,5 +1,5 @@
 {
-    "name": "08.suggested actions",
+    "name": "suggested actions",
     "version": "1.0.0",
     "description": "Bot Builder v4 SuggestedActions sample",
     "main": "index.js",
