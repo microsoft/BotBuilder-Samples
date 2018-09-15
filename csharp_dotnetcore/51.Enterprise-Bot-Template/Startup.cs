@@ -147,7 +147,7 @@ namespace EnterpriseBot
         /// <summary>
         /// Initializes the service credentials based on the appId and password from the .bot file.
         /// </summary>
-        /// <param name="options">BotFramewrokOptions object./param>
+        /// <param name="options">BotFramewrokOptions object.</param>
         /// <param name="botConfig">Bot File Configuration object.</param>
         private static void InitCredentialProvider(BotFrameworkOptions options, BotConfiguration botConfig)
         {

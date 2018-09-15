@@ -16,7 +16,6 @@ namespace EnterpriseBot
     public class EnterpriseBot : IBot
     {
         private readonly BotServices _services;
-        private readonly SemaphoreSlim _semaphore;
         private readonly EnterpriseBotAccessors _accessors;
 
         /// <summary>
