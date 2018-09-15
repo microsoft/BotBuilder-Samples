@@ -65,6 +65,7 @@ namespace WelcomeUser
                 {
                     // Update user state flag to reflect bot handled first user interaction.
                     await _welcomeUserStateAccessors.DidBotWelcomedUser.SetAsync(turnContext, true);
+                    await _welcomeUserStateAccessors.UserState.SaveChangesAsync(turnContext);
 
                     // the channel should sends the user name in the 'From' object
                     var userName = turnContext.Activity.From.Name;

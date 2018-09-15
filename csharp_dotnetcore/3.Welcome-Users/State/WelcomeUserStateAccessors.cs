@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using Microsoft.Bot.Builder;
 
 namespace WelcomeUser.State
@@ -17,7 +18,7 @@ namespace WelcomeUser.State
         /// <param name="userState">A <see cref="UserState"/> object used to save sate.</param>
         public WelcomeUserStateAccessors(UserState userState)
         {
-            UserState = userState;
+            this.UserState = userState ?? throw new ArgumentNullException(nameof(userState));
         }
 
         public IStatePropertyAccessor<bool> DidBotWelcomedUser { get; set; }

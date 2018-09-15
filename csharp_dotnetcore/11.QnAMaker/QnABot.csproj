@@ -7,7 +7,7 @@
 
 
   <ItemGroup>
-    <Content Include="QnABot.bot">
+    <Content Include="BotConfiguration.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
