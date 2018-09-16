@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ConsoleAdapter, TurnContext } from 'botbuilder';
+import { TurnContext } from 'botbuilder';
+import { ConsoleAdapter} from './consoleAdapter';
 import { ConsoleEchoBot } from './bot';
 
 // Create the adapter which is responsible for sending and receiving messages.
