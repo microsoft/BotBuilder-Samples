@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, CardFactory } = require('botbuilder');
-const { LuisRecognizer } = require('botbuilder-ai');
-const { DialogSet, DialogTurnStatus } = require('botbuilder-dialogs');
-
-const { GreetingState } = require('./dialogs/greeting/greetingState');
-const { WelcomeCard } = require('./dialogs/welcome');
-const { GreetingDialog } = require('./dialogs/greeting');
-
+import { StatePropertyAccessor, ActivityTypes, CardFactory, ConversationState, UserState, RecognizerResult, TurnContext } from 'botbuilder';
+import { LuisRecognizer, LuisApplication } from 'botbuilder-ai';
+import { DialogSet, DialogTurnStatus, DialogContext, DialogState } from 'botbuilder-dialogs';
+import { WelcomeCard } from './dialogs/welcome';
+import { GreetingState, GreetingDialog } from './dialogs/greeting';
+import { BotConfiguration, LuisService } from 'botframework-config';
 // Greeting Dialog ID
 const GREETING_DIALOG = 'greetingDialog';
 
@@ -38,7 +36,13 @@ const USER_LOCATION_ENTITIES = ['userLocation', 'userLocation_patternAny'];
  *  Store conversation and user state
  *  Handle conversation interruptions
  */
-class Bot {
+export class Bot {
+
+    private greetingStateAccessor: StatePropertyAccessor<GreetingState>;
+    private dialogState: StatePropertyAccessor<DialogState>;
+    private luisRecognizer: LuisRecognizer;
+    private readonly dialogs: DialogSet;
+
     /**
      * Constructs the three pieces necessary for this bot to operate:
      * 1. StatePropertyAccessor for conversation state
@@ -50,17 +54,17 @@ class Bot {
      * @param {UserState} userState property accessor
      * @param {BotConfiguration} botConfig contents of the .bot file
      */
-    constructor(conversationState, userState, botConfig) {
+    constructor(conversationState: ConversationState, userState: UserState, botConfig: BotConfiguration) {
         if (!conversationState) throw ('Missing parameter.  conversationState is required');
         if (!userState) throw ('Missing parameter.  userState is required');
         if (!botConfig) throw ('Missing parameter.  botConfig is required');
 
         // add the LUIS recogizer
-        const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
+        let luisConfig: LuisService;
+        luisConfig = <LuisService>botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
         if (!luisConfig || !luisConfig.appId) throw ('Missing LUIS configuration. Please follow README.MD to create required LUIS applications.\n\n')
         this.luisRecognizer = new LuisRecognizer({
             applicationId: luisConfig.appId,
-            azureRegion: luisConfig.region,
             // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
             endpointKey: luisConfig.authoringKey
         });
@@ -83,7 +87,8 @@ class Bot {
      *
      * @param {Context} context turn context from the adapter
      */
-    async onTurn(context) {
+
+    public onTurn = async (context: TurnContext) => {
         // Create a dialog context
         const dc = await this.dialogs.createContext(context);
 
@@ -147,7 +152,7 @@ class Bot {
      * @param {DialogContext} dc - dialog context
      * @param {LuisResults} luisResults - LUIS recognizer results
      */
-    async isTurnInterrupted(dc, luisResults) {
+    private isTurnInterrupted = async (dc: DialogContext, luisResults: RecognizerResult) => {
         const topIntent = LuisRecognizer.topIntent(luisResults);
 
         // see if there are anh conversation interrupts we need to handle
@@ -178,7 +183,7 @@ class Bot {
      * @param {LuisResults} luisResults - LUIS recognizer results
      * @param {DialogContext} dc - dialog context
      */
-    async updateGreetingState(luisResult, context) {
+    private updateGreetingState = async (luisResult: RecognizerResult, context: TurnContext) => {
         // Do we have any entities? 
         if(Object.keys(luisResult.entities).length !== 1) {
             // get greetingState object using the accessor
@@ -203,6 +208,5 @@ class Bot {
             await this.greetingStateAccessor.set(context, greetingState);
         }
     }
-}
 
-module.exports = Bot;
+};
