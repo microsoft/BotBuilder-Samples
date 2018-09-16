@@ -1,6 +1,6 @@
 {
-    "name": "echobot-with-counter",
-    "secretKey": "",
+    "name": "basic-bot",
+    "description": "",
     "services": [
         {
             "type": "endpoint",
@@ -10,5 +10,7 @@
             "appPassword": "",
             "endpoint": "http://localhost:3978/api/messages"
         }
-    ]
+    ],
+    "secretKey": "",
+    "version": "2.0"
 }

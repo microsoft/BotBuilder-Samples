@@ -10,7 +10,7 @@ import { MainDialog } from './dialogs/mainDialog';
 const CONFIG_ERROR = 1;
 // bot name as defined in .bot file 
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration .
-const BOT_CONFIGURATION = 'echobot-with-counter';
+const BOT_CONFIGURATION = (process.env.NODE_ENV || 'development');
 
 // Read botFilePath and botFileSecret from .env file.
 const ENV_FILE = path.join(__dirname, '..', '.env');

@@ -105,8 +105,9 @@ class Greeting extends ComponentDialog {
     // save name, if prompted for
     const greetingState = await this.greetingStateAccessor.get(dc.context);
     if(greetingState.name === undefined && step.result) {
+      let lowerCaseName = step.result;
       // capitalize and set name
-      greetingState.name = step.result.replace(/^\w/, c => c.toUpperCase());
+      greetingState.name = lowerCaseName.charAt(0).toUpperCase() + lowerCaseName.substr(1);
       await this.greetingStateAccessor.set(dc.context, greetingState);
     }
     if (!greetingState.city) {
@@ -126,9 +127,10 @@ class Greeting extends ComponentDialog {
   async displayGreetingStateStep(dc, step) {
     // Save city, if prompted for
     const greetingState = await this.greetingStateAccessor.get(dc.context);
-    if (step.result) {
+    if (greetingState.city === undefined && step.result) {
+      let lowerCaseCity = step.result;
       // capitalize and set city
-      greetingState.city = step.result.replace(/^\w/, c => c.toUpperCase());
+      greetingState.city = lowerCaseCity.charAt(0).toUpperCase() + lowerCaseCity.substr(1);
       await this.greetingStateAccessor.set(dc.context, greetingState);
     }
     return await this.greetUser(dc);
