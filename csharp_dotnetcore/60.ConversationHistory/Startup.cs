@@ -73,6 +73,7 @@ namespace Microsoft.BotBuilderSamples
 
                 options.State.Add(conversationState);
 
+                // Enable the conversation transcript middleware.
                 var connectionString = Configuration.GetValue<string>("ConnectionString");
                 transcriptStore = new AzureBlobTranscriptStore(connectionString, "transcriptstore");
                 var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
