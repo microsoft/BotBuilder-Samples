@@ -25,8 +25,19 @@ indent_size = 2
 # Code files
 [*.{cs,csx,vb,vbx}]
 indent_size = 4
+trim_trailing_whitespace = true
 insert_final_newline = true
 charset = utf-8-bom
+
+[*.{js, ts}]
+indent_size = 4
+trim_trailing_whitespace = true
+
+# The indent size used in the `package.json` file cannot be changed
+# https://github.com/npm/npm/pull/3180#issuecomment-16336516
+[{*.yml,*.yaml,package.json}]
+indent_style = space
+indent_size = 2
 
 ###############################
 # .NET Coding Conventions     #
