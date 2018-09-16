@@ -4,7 +4,7 @@ const { ComponentDialog, DialogTurnStatus, DialogSet } = require('botbuilder-dia
 const { MessageFactory } = require('botbuilder');
 const { WhoAreYouDialog, QnADialog, ChitChatDialog, HelpDialog, CancelDialog, WhatCanYouDoDialog, FindCafeLocationsDialog, BookTableDialog } = require('../../dialogs');
 const { GenSuggestedQueries } = require('../shared/helpers/genSuggestedQueries');
-const { UserProfile } = require('../shared/stateProperties');
+const { UserProfile, OnTurnProperty } = require('../shared/stateProperties');
 
 const MAIN_DISPATCHER_DIALOG = 'MainDispatcherDialog';
 
@@ -232,12 +232,14 @@ module.exports = {
                 try {
                     parsedJSON = JSON.parse(queryProperty[0].entityValue);
                 } catch (err) {
-                    return await dc.context.sendActivity(`Try and choose a query from the card before you click the 'Let's talk!' button.`);
+                    return await dc.context.sendActivity(`Choose a query from the card drop down before you click 'Let's talk!'`);
                 }
                 if (parsedJSON.text !== undefined) {
                     dc.context.activity.text = parsedJSON.text;
                     await dc.context.sendActivity(`You said: '${dc.context.activity.text}'`);
                 }
+                // create a set a new onturn property
+                await this.onTurnAccessor.set(dc.context, OnTurnProperty.fromCardInput(parsedJSON));
                 return await this.beginChildDialog(dc, parsedJSON);
             }
             return await dc.begin(WhatCanYouDoDialog.Name);

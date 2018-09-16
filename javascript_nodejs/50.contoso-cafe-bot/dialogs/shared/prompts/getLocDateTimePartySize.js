@@ -117,51 +117,53 @@ module.exports = {
                     await turnContext.sendActivity(updateResult.outcome[0].message);
                     return await super.dialogContinue(dc);
             } 
-            // call LUIS if we have new incoming text
-            if(turnContext.activity.text !== undefined) {
-                // call LUIS and get results
-                const LUISResults = await this.luisRecognizer.recognize(turnContext); 
-                const topIntent = LuisRecognizer.topIntent(LUISResults);
-                // update object with LUIS result
-                updateResult = newReservation.updateProperties(OnTurnProperty.fromLUISResults(LUISResults), step);
-                
-                // see if updadte reservtion resulted in errors, if so, report them to user. 
-                if(updateResult &&
-                    updateResult.status === reservationStatusEnum.INCOMPLETE &&
-                    updateResult.outcome !== undefined &&
-                    updateResult.outcome.length !== 0) {
-                        // set reservation property 
-                        this.reservationsAccessor.set(turnContext, updateResult.newReservation);
-                        // return and do not continue if there is an error.
-                        await turnContext.sendActivity(updateResult.outcome[0].message);
-                        return await super.dialogContinue(dc);
-                } 
-                // Did user ask for help or said cancel or continuing the conversation?
-                switch(topIntent) {
-                    case CONTINUE_PROMPT_INTENT:
-                        // user does not want to make any change.
-                        updateResult.newReservation.needsChange = false;
-                        break;
-                    case NOCHANGE_INTENT:
-                        // user does not want to make any change.
-                        updateResult.newReservation.needsChange = false;
-                        break;
-                    case HELP_INTENT:
-                        // come back with contextual help
-                        let helpReadOut = updateResult.newReservation.helpReadOut();
-                        await turnContext.sendActivity(helpReadOut);
-                        break;
-                    case CANCEL_INTENT:
-                        // start confirmation prompt
-                        return await dc.prompt(CONFIRM_CANCEL_PROMPT, `Are you sure you want to cancel?`);
-                    case INTERRUPTIONS_INTENT:
-                    default:
-                        // if we picked up new entity values, do not treat this as an interruption
-                        if(onTurnProperties.entities.length !== 0 || Object.keys(LUISResults.entities).length > 1) break;
-                        // Handle interruption.
-                        const onTurnProperty = await this.onTurnAccessor.get(dc.context);
-                        return await dc.begin(INTERRUPTION_DISPATCHER, onTurnProperty);
-                }
+            
+            // call LUIS and get results
+            const LUISResults = await this.luisRecognizer.recognize(turnContext); 
+            let topIntent = LuisRecognizer.topIntent(LUISResults);
+            if (Object.keys(LUISResults.intents).length === 0) {
+                // go with intent in onTurnProperty
+                topIntent = (onTurnProperties.intent || 'None');
+            }
+            // update object with LUIS result
+            updateResult = newReservation.updateProperties(OnTurnProperty.fromLUISResults(LUISResults), step);
+            
+            // see if updadte reservtion resulted in errors, if so, report them to user. 
+            if(updateResult &&
+                updateResult.status === reservationStatusEnum.INCOMPLETE &&
+                updateResult.outcome !== undefined &&
+                updateResult.outcome.length !== 0) {
+                    // set reservation property 
+                    this.reservationsAccessor.set(turnContext, updateResult.newReservation);
+                    // return and do not continue if there is an error.
+                    await turnContext.sendActivity(updateResult.outcome[0].message);
+                    return await super.dialogContinue(dc);
+            } 
+            // Did user ask for help or said cancel or continuing the conversation?
+            switch(topIntent) {
+                case CONTINUE_PROMPT_INTENT:
+                    // user does not want to make any change.
+                    updateResult.newReservation.needsChange = false;
+                    break;
+                case NOCHANGE_INTENT:
+                    // user does not want to make any change.
+                    updateResult.newReservation.needsChange = false;
+                    break;
+                case HELP_INTENT:
+                    // come back with contextual help
+                    let helpReadOut = updateResult.newReservation.helpReadOut();
+                    await turnContext.sendActivity(helpReadOut);
+                    break;
+                case CANCEL_INTENT:
+                    // start confirmation prompt
+                    return await dc.prompt(CONFIRM_CANCEL_PROMPT, `Are you sure you want to cancel?`);
+                case INTERRUPTIONS_INTENT:
+                default:
+                    // if we picked up new entity values, do not treat this as an interruption
+                    if(onTurnProperties.entities.length !== 0 || Object.keys(LUISResults.entities).length > 1) break;
+                    // Handle interruption.
+                    const onTurnProperty = await this.onTurnAccessor.get(dc.context);
+                    return await dc.begin(INTERRUPTION_DISPATCHER, onTurnProperty);
             }
             // set reservation property based on OnTurn properties
             this.reservationsAccessor.set(turnContext, updateResult.newReservation);
