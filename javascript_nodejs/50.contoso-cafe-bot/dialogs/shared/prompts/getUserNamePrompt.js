@@ -96,8 +96,12 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
 
         // call LUIS and get results
         const LUISResults = await this.luisRecognizer.recognize(context); 
-        const topIntent = LuisRecognizer.topIntent(LUISResults);
-        
+        let topIntent = LuisRecognizer.topIntent(LUISResults);
+        if (Object.keys(LUISResults.intents).length === 0) {
+            // go with intent in onTurnProperty
+            topIntent = (onTurnProperties.intent || 'None');
+        }
+                
         // Did user ask for help or said they are not going to give us the name? 
         switch (topIntent) {
             case NO_NAME_INTENT: {
