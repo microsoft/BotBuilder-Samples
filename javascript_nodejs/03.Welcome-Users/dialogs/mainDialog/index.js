@@ -17,7 +17,7 @@ class MainDialog {
      * @param {Object} userState 
      */
     constructor (userState) {
-        // Creates a new user  property accessor.
+        // Creates a new user property accessor.
         // See https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors.
         this.welcomedUserPropery = userState.createProperty(WELCOMED_USER);
     }
@@ -29,19 +29,19 @@ class MainDialog {
 
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         if (turnContext.activity.type === ActivityTypes.Message) {
-            // Read UserState. If the 'DidBotWelcomedUser' doesnt exist (first time ever for a user)
+            // Read UserState. If the 'DidBotWelcomedUser' does not exist (first time ever for a user)
             // set the default to false.
             let didBotWelcomedUser = await this.welcomedUserPropery.get(turnContext, false);
 
             // Your bot should proactively send a welcome message to a personal chat the first time
             // (and only the first time) a user initiates a personal chat with your bot.
             if (didBotWelcomedUser === false) {
-                // The channel should sends the user name in the 'From' object
+                // The channel should send the user name in the 'From' object
                 let userName = turnContext.activity.from.name;
                 await turnContext.sendActivity("You are seeing this message because this was your first message ever sent to this bot.");
                 await turnContext.sendActivity(`It is a good practice to welcome the user and provdie personal greeting. For example, welcome ${userName}.`);
                 
-                // Set the flag indicating the bot handled the user's first message
+                // Set the flag indicating the bot handled the user's first message.
                 await this.welcomedUserPropery.set(turnContext, true);
             }
             else {
@@ -67,7 +67,7 @@ class MainDialog {
                 }
             }
         }
-        // Greet when users are added to the conversation.
+        // Send greeting when users are added to the conversation.
         else if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
                 await this.sendWelcomeMessage(turnContext)
         }
@@ -88,7 +88,7 @@ class MainDialog {
             // Define a promise that will welcome the user
             async function welcomeUserFunc(conversationMember) {
                 // Greet anyone that was not the target (recipient) of this message.
-                // The bot is the recipient of all events from the channel, including all  ConversationUpdate-type activities
+                // The bot is the recipient of all events from the channel, including all ConversationUpdate-type activities
                 // turnContext.activity.membersAdded !== turnContext.activity.aecipient.id indicates 
                 // a user was added to the conversation 
                 if (conversationMember.id !== this.activity.recipient.id) {
