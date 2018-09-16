@@ -16,4 +16,5 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
   </ItemGroup>
 
+
 </Project>
