@@ -5,14 +5,13 @@ const { TextPrompt, DialogTurnStatus } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { Reservation, reservationStatusEnum, OnTurnProperty } = require('../stateProperties');
 const { QnADialog } = require('../../qna');
-const { InterruptionDispatcher } = require('../../dispatcher');
 // Dialog name from ../../bookTable/resources/turn-N.lu
 const CONTINUE_PROMPT_INTENT = 'GetLocationDateTimePartySize';
 const HELP_INTENT = 'Help';
 const CANCEL_INTENT = 'Cancel';
 const INTERRUPTIONS_INTENT = 'Interruptions';
 const NOCHANGE_INTENT = 'noChange';
-
+const INTERRUPTION_DISPATCHER = 'interruptionDispatcherDialog'
 const CONFIRM_CANCEL_PROMPT = 'confirmCancelPrompt';
 // LUIS service type entry for turn.n book table LUIS model in the .bot file.
 const LUIS_CONFIGURATION = 'cafeBotBookTableTurnN';
@@ -20,15 +19,15 @@ const LUIS_CONFIGURATION = 'cafeBotBookTableTurnN';
 // This is a custom TextPrompt that uses a LUIS model to handle turn.n conversations including interruptions.
 module.exports = {
     GetLocationDateTimePartySizePrompt: class extends TextPrompt {
-        constructor(dialogId, botConfig, reservationsPropertyAccessor, onTurnPropertyAccessor, userProfilePropertyAccessor) {
+        constructor(dialogId, botConfig, reservationsAccessor, onTurnAccessor, userProfileAccessor) {
             if(!dialogId) throw ('Need dialog ID');
             if(!botConfig) throw ('Need bot configuration');
-            if(!reservationsPropertyAccessor) throw ('Need user reservation property accessor');
-            if(!onTurnPropertyAccessor) throw ('Need on turn property accessor');
+            if(!reservationsAccessor) throw ('Need user reservation property accessor');
+            if(!onTurnAccessor) throw ('Need on turn property accessor');
             super(dialogId, async (turnContext, step) => { 
                 // validation and prompting logic
                 // get reservation property
-                let reservationFromState = await this.reservationsPropertyAccessor.get(turnContext);
+                let reservationFromState = await this.reservationsAccessor.get(turnContext);
                 let newReservation; 
                 if(reservationFromState === undefined) {
                     newReservation = new Reservation(); 
@@ -43,7 +42,13 @@ module.exports = {
                         if(newReservation.needsChange == true) {
                             await turnContext.sendActivity(`What would you like to change?`);                        
                         } else {
-                            await turnContext.sendActivity('Ok. I have a table for ' + newReservation.confirmationReadOut());
+                            // Greet user with name if we have the user profile set.
+                            const userProfile = await this.userProfileAccessor.get(turnContext);
+                            if(userProfile !== undefined && userProfile.userName !== '') {
+                                await turnContext.sendActivity('Alright ' + userProfile.userName + ', I have a table for ' + newReservation.confirmationReadOut());    
+                            } else {
+                                await turnContext.sendActivity('Ok. I have a table for ' + newReservation.confirmationReadOut());
+                            }
                             await turnContext.sendActivity(MessageFactory.suggestedActions(['Yes', 'No'], `Should I go ahead and book the table?`));
                         }
                     } else {
@@ -59,9 +64,10 @@ module.exports = {
                     await turnContext.sendActivity(newReservation.getMissingPropertyReadOut());
                 }
             });
-            this.reservationsPropertyAccessor = reservationsPropertyAccessor;
-            this.onTurnPropertyAccessor = onTurnPropertyAccessor;
-            this.qnaDialog = new QnADialog(botConfig, userProfilePropertyAccessor);
+            this.reservationsAccessor = reservationsAccessor;
+            this.onTurnAccessor = onTurnAccessor;
+            this.userProfileAccessor = userProfileAccessor;
+            this.qnaDialog = new QnADialog(botConfig, userProfileAccessor);
             // add recogizers
             const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
             if(!luisConfig || !luisConfig.appId) throw (`Book Table Turn.N LUIS configuration not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
@@ -82,7 +88,7 @@ module.exports = {
             let step = dc.activeDialog.state;
     
             // get reservation property
-            let reservationFromState = await this.reservationsPropertyAccessor.get(turnContext);
+            let reservationFromState = await this.reservationsAccessor.get(turnContext);
             let newReservation; 
             if(reservationFromState === undefined) {
                 newReservation = new Reservation(); 
@@ -92,7 +98,7 @@ module.exports = {
             
             // Get on turn property. This has any entities that mainDispatcher, 
             //  or Bot might have captured in its LUIS model
-            const onTurnProperties = await this.onTurnPropertyAccessor.get(turnContext);
+            const onTurnProperties = await this.onTurnAccessor.get(turnContext);
     
             // if on turn property has entities
             let updateResult;
@@ -106,7 +112,7 @@ module.exports = {
                 updateResult.outcome !== undefined &&
                 updateResult.outcome.length !== 0) {
                     // set reservation property 
-                    this.reservationsPropertyAccessor.set(turnContext, updateResult.newReservation);
+                    this.reservationsAccessor.set(turnContext, updateResult.newReservation);
                     // return and do not continue if there is an error.
                     await turnContext.sendActivity(updateResult.outcome[0].message);
                     return await super.dialogContinue(dc);
@@ -125,7 +131,7 @@ module.exports = {
                     updateResult.outcome !== undefined &&
                     updateResult.outcome.length !== 0) {
                         // set reservation property 
-                        this.reservationsPropertyAccessor.set(turnContext, updateResult.newReservation);
+                        this.reservationsAccessor.set(turnContext, updateResult.newReservation);
                         // return and do not continue if there is an error.
                         await turnContext.sendActivity(updateResult.outcome[0].message);
                         return await super.dialogContinue(dc);
@@ -154,11 +160,11 @@ module.exports = {
                         if(onTurnProperties.entities.length !== 0 || Object.keys(LUISResults.entities).length > 1) break;
                         // Handle interruption.
                         const onTurnProperty = await this.onTurnAccessor.get(dc.context);
-                        return await dc.begin(InterruptionDispatcher.Name, onTurnProperty);
+                        return await dc.begin(INTERRUPTION_DISPATCHER, onTurnProperty);
                 }
             }
             // set reservation property based on OnTurn properties
-            this.reservationsPropertyAccessor.set(turnContext, updateResult.newReservation);
+            this.reservationsAccessor.set(turnContext, updateResult.newReservation);
             return await super.dialogContinue(dc);
         }
         /**

@@ -7,9 +7,10 @@ const { HelpDialog } = require('../help');
 const { CancelDialog } = require('../cancel');
 const { WhatCanYouDoDialog } = require('../whatCanYouDo');
 const { FindCafeLocationsDialog } = require('../findCafeLocations');
-const { BookTableDialog } = require('../bookTable/index');
 
 const NONE_INTENT = 'None';
+const WHO_ARE_YOU_DIALOG_NAME = 'Who_are_you';
+const BOOK_TABLE_DIALOG_NAME = 'Book_Table'
 const INTERRUPTION_DISPATCHER_DIALOG = 'interruptionDispatcherDialog';
 
 module.exports = {
@@ -39,7 +40,6 @@ module.exports = {
             this.addDialog(new WhatCanYouDoDialog());
             this.addDialog(new FindCafeLocationsDialog());
             this.addDialog(new QnADialog(botConfig, userProfileAccessor));
-            this.addDialog(new BookTableDialog(botConfig, reservationsAccessor, onTurnAccessor, userProfileAccessor, conversationState));
         }
         /**
          * Override onDialogBegin 
@@ -78,13 +78,14 @@ module.exports = {
                 case ChitChatDialog.Name: 
                 case HelpDialog.Name: 
                     return await dc.begin(QnADialog.Name);
-                case CancelDialog.Name: 
-                case WhatCanYouDoDialog.Name:
-                case BookTableDialog.Name:
-                    await dc.context.sendActivity(`Sorry. I'm unable to do that right now. You can cancel the current conversation and start a new one`);
-                    return await dc.end();
                 case FindCafeLocationsDialog.Name:
                     return await dc.begin(FindCafeLocationsDialog.Name);
+                case CancelDialog.Name: 
+                case WhatCanYouDoDialog.Name:
+                case WHO_ARE_YOU_DIALOG_NAME: 
+                case BOOK_TABLE_DIALOG_NAME:
+                    await dc.context.sendActivity(`Sorry. I'm unable to do that right now. You can cancel the current conversation and start a new one`);
+                    return await dc.end();
                 case NONE_INTENT:
                 default:
                     await dc.context.sendActivity(`I'm still learning.. Sorry, I do not know how to help you with that.`);

@@ -5,7 +5,7 @@ const { WaterfallDialog, ComponentDialog, ConfirmPrompt, DialogTurnStatus } = re
 const GetLocDateTimePartySizePrompt = require('../shared/prompts/getLocDateTimePartySize').GetLocationDateTimePartySizePrompt;
 const { Reservation } = require('../shared/stateProperties');
 const { reservationStatus } = require('../shared/stateProperties/createReservationPropertyResult');
-const { InterruptionDispatcher } = require('../dispatcher');
+const { InterruptionDispatcher } = require('../dispatcher/interruptionDispatcher');
 
 // This dialog's name. Also matches the name of the intent from ../dispatcher/resources/cafeDispatchModel.lu
 // LUIS recognizer replaces spaces ' ' with '_'. So intent name 'Who are you' is recognized as 'Who_are_you'.
