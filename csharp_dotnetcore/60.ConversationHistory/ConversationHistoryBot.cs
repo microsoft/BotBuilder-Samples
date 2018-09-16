@@ -1,14 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
@@ -60,33 +57,32 @@ namespace Microsoft.BotBuilderSamples
                 await turnContext.SendActivityAsync(responseMessage);
             }
 
-            if (turnContext.Activity.Type == ActivityTypes.Message && turnContext.Activity.Text == "history")
+            // Send over the transcript when a request arrives. This is something that the client and the Bot have
+            // to agree on.
+            var shouldUploadHistory = false;
+            if (shouldUploadHistory)
             {
-                var connector = turnContext.TurnState.Get<ConnectorClient>(typeof(IConnectorClient).FullName);
-
+                var connectorClient = turnContext.TurnState.Get<ConnectorClient>(typeof(IConnectorClient).FullName);
                 var activity = turnContext.Activity;
 
+                // Get all the message type activities from the Transcript.
                 string continuationToken = null;
                 var activities = new List<Activity>();
                 do
                 {
                     var pagedTranscript = await _transcriptStore.Store.GetTranscriptActivitiesAsync(activity.ChannelId, activity.Conversation.Id);
+                    activities.AddRange(pagedTranscript.Items
+                                        .Where(a => a.Type == ActivityTypes.Message)
+                                        .Select(ia => (Activity)ia)
+                                        .ToList());
                     continuationToken = pagedTranscript.ContinuationToken;
-                    activities.AddRange(pagedTranscript.Items.Where(a => a.Type == ActivityTypes.Message).Select(ia => {
-                        var a = (Activity)ia;
-                        a.Text = $"HISTORIC -> {a.Text}";
-                        a.ChannelData = null;
-                        a.Id = $"HISTORY_{a.Id}";
-                        return a;
-                    }).ToList());
-                } while (continuationToken != null);
-                var transcript = new Bot.Schema.Transcript(activities);
-                await connector.Conversations.SendConversationHistoryAsync(activity.Conversation.Id, transcript);
+                }
+                while (continuationToken != null);
 
-                var x = string.Join(" ; ", turnContext.TurnState.Keys);
-                var reply = turnContext.Activity.CreateReply();
-                reply.Text = $"DONE {activities.Count()} actvities {x}";
-                await turnContext.SendActivityAsync(reply);
+                // Construct a Transcript object from the activities above and use the
+                // SendConversationHistoryAsync API to upload the historic activities.
+                var transcript = new Bot.Schema.Transcript(activities);
+                await connectorClient.Conversations.SendConversationHistoryAsync(activity.Conversation.Id, transcript);
             }
         }
     }

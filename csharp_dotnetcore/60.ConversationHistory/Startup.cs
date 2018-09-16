@@ -54,11 +54,6 @@ namespace Microsoft.BotBuilderSamples
             services.AddBot<ConversationHistoryBot>(options =>
             {
                 var botConfig = BotConfiguration.Load(@".\ConversationHistory.bot");
-
-
-                var x = Configuration.GetSection(nameof(TranscriptStore));
-                var y = Configuration.GetValue<string>("ConnectionString");
-
                 var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
                 var endpointService = service as EndpointService;
                 if (endpointService == null)
