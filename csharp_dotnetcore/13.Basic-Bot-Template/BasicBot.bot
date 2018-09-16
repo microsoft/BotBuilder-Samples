@@ -11,6 +11,5 @@
       "appPassword": "",
       "endpoint": "http://localhost:3978/api/messages"
     }
-    }
   ]
 }

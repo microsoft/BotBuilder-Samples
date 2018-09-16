@@ -83,7 +83,7 @@ namespace Microsoft.BotBuilderSamples
 
             // Create top-level dialog(s)
             _dialogs = new DialogSet(_accessors.DialogStateProperty);
-            _dialogs.Add(new MainDialog(services, accessors, _logger));
+            _dialogs.Add(new MainDialog(services, accessors, loggerFactory));
         }
 
         /// <summary>

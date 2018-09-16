@@ -14,17 +14,19 @@ namespace Microsoft.BotBuilderSamples
         private const int CityLengthMinValue = 5;
 
         public CityPrompt(string dialogId)
-            : base(dialogId, async (context, promptContext, cancellationToken) =>
+            : base(dialogId, async (promptContext, cancellationToken) =>
             {
                 // Validate that the user entered a minimum lenght for their name
                 var value = promptContext.Recognized.Value?.Trim() ?? string.Empty;
                 if (value.Length > CityLengthMinValue)
                 {
-                    promptContext.End(value);
+                    promptContext.Recognized.Value = value;
+                    return true;
                 }
                 else
                 {
-                    await context.SendActivityAsync($"City names needs to be at least `{CityLengthMinValue}` characters long.").ConfigureAwait(false);
+                    await promptContext.Context.SendActivityAsync($"City names needs to be at least `{CityLengthMinValue}` characters long.").ConfigureAwait(false);
+                    return false;
                 }
             })
         {

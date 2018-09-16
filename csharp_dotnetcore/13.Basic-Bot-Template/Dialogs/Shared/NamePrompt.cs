@@ -13,17 +13,19 @@ namespace Microsoft.BotBuilderSamples
         private const int NameLengthMinValue = 3;
 
         public NamePrompt(string dialogId)
-            : base(dialogId, async (context, promptContext, cancellationToken) =>
+            : base(dialogId, async (promptContext, cancellationToken) =>
             {
-                // Validate that the user entered a minimum length for their name
+                // Validate that the user entered a minimum length for their name.
                 var value = promptContext.Recognized.Value?.Trim() ?? string.Empty;
                 if (value.Length > NameLengthMinValue)
                 {
-                    promptContext.End(value);
+                    promptContext.Recognized.Value = value;
+                    return true;
                 }
                 else
                 {
-                    await context.SendActivityAsync($"Names needs to be at least `{NameLengthMinValue}` characters long.").ConfigureAwait(false);
+                    await promptContext.Context.SendActivityAsync($"Names needs to be at least `{NameLengthMinValue}` characters long.").ConfigureAwait(false);
+                    return false;
                 }
             })
         {
