@@ -23,12 +23,28 @@
 - tomorrow
 - yes
 
-[entities ref](../../mainDialog/resources/entities.lu)
+# noChange
+- nothing
+- please proceed
+- I'm good thanks
+- nothing to change. please proceed
+- let's do it
+- I don't know
+
+[entities ref](../../mainDispatcher/resources/entities.lu)
 
 > reference to help and cancel intents
 # Help
 > All questions from QnA will be added as utterances. #? is a reserved reference to QnA Maker questions in the file.
 - [Help intent](../../help/resources/help.lu#?)
+- what are my options?
+- what are your hours?
+- what can I say?
+- what are your locations?
+- I need help
+- I dont know
+- help please
+- when do you open?
 
 # Cancel
 - [Cancel intent](../../cancel/resources/cancel.lu#Cancel)

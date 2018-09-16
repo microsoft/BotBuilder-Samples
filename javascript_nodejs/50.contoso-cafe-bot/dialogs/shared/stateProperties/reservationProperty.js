@@ -8,6 +8,7 @@ const { LUIS_ENTITIES } = require('../helpers');
 const PARTY_SIZE_ENTITY = LUIS_ENTITIES[1];
 const DATE_TIME_ENTITY = LUIS_ENTITIES[2];
 const LOCATION_ENTITY = LUIS_ENTITIES[3];
+const CONFIRMATION_ENTITY = 'confirmationList';
 const FOUR_WEEKS = '4';
 const MAX_PARTY_SIZE = 10;
 
@@ -32,7 +33,7 @@ class ReservationProperty {
      * @param {Number} partySize number of guests in reservation
      * @param {String} location reservation location
      */
-    constructor(id, date, time, partySize, location, metaData) {
+    constructor(id, date, time, partySize, location, reservationConfirmed, needsChange, metaData) {
         this.id = id ? id : get_guid();
         this.date = date ? date : '';
         this.time = time ? time : '';
@@ -41,13 +42,15 @@ class ReservationProperty {
         this.dateTimeLGString = '';
         this.partySize = partySize ? partySize : 0;
         this.location = location ? location : '';
+        this.reservationConfirmed = reservationConfirmed ? reservationConfirmed : false;
+        this.needsChange = needsChange ? needsChange : undefined;
         this.metaData = metaData ? metaData : {};
     }
     /**
      * Helper method to evalute if we have all required properties filled.
      * @returns {Boolean} true if we have a complete reservation property
      */
-    haveCompleteReservationProperty() {
+    get haveCompleteReservation() {
         return ((this.id !== undefined) && 
                 (this.date !== '') &&
                 (this.time !== '') &&
@@ -59,9 +62,9 @@ class ReservationProperty {
      * @param {Object} onTurnProperty 
      * @returns {ReservationResult} return result object 
      */
-    updateProperties(onTurnProperty) {
+    updateProperties(onTurnProperty, step) {
         let returnResult = new ReservationResult(this);
-        return validate(onTurnProperty, returnResult);
+        return validate(onTurnProperty, returnResult, step);
     }
     /**
      * Helper method for Language Generation read out based on current reservation property object
@@ -78,12 +81,42 @@ class ReservationProperty {
             return `How many guests?`
         } else return '';
     }
+    getGroundedPropertiesReadOut() {
+        let today = new Date();
+        if (this.haveCompleteReservation) return this.confirmationReadOut();
+        let groundedProperties = '';
+        if (this.partySize !== 0) groundedProperties += ` for ${this.partySize} guests,`;
+        if (this.location !== '') groundedProperties += ` in our ${this.location} store,`;
+        if (this.date !== '' && this.time !== '') {
+            groundedProperties += ' for ' + new TimexProperty(this.date + 'T' + this.time).toNaturalLanguage(today) + '.';
+        } else if (this.date !== '') {
+            groundedProperties += ' for ' + new TimexProperty(this.date).toNaturalLanguage(today);
+        } else if (this.timeLGString !== '') {
+            groundedProperties += ` for ${this.timeLGString}`;
+        }
+        if (groundedProperties === '') return groundedProperties;
+        return `Ok. I have a table ${groundedProperties}`;
+    }
     /**
      * Helper to generate confirmation read out string.
      */
     confirmationReadOut() {
         let today = new Date();
-        return 'Ok. I have a table for ' + this.partySize + ' at our ' + this.location + ' store for ' + new TimexProperty(this.date + 'T' + this.time).toNaturalLanguage(today) + '.';
+        return this.partySize + ' at our ' + this.location + ' store for ' + new TimexProperty(this.date + 'T' + this.time).toNaturalLanguage(today) + '.';
+    }
+    /**
+     * Helper to generate help read out string.
+     */
+    helpReadOut() {
+        if(this.location === '') {
+            return `We have cafe locations in Seattle, Bellevue, Redmond and Renton.`;
+        } else if (this.date === '') {
+            return `I can help you reserve a table up to 4 weeks from today.. You can say 'tomorrow', 'next sunday at 3pm' ...`;
+        } else if (this.time === '') {
+            return `All our cafe locations are open 6AM - 6PM.`;
+        } else if (this.partySize === 0) {
+            return `I can help you book a table for up to 10 guests..`;
+        } else return '';
     }
 };
 /**
@@ -91,9 +124,9 @@ class ReservationProperty {
  * @param {Object} onTurnProperty 
  * @returns {ReservationResult} object 
  */
-ReservationProperty.fromOnTurnProperty = function(onTurnProperty) {
+ReservationProperty.fromOnTurnProperty = function(onTurnProperty, step) {
     let returnResult = new ReservationResult(new ReservationProperty());
-    return validate(onTurnProperty, returnResult);
+    return validate(onTurnProperty, returnResult, step);
 };
 /**
  * Static method to create a new instance of Reservation property based on a JSON object
@@ -102,8 +135,8 @@ ReservationProperty.fromOnTurnProperty = function(onTurnProperty) {
  */
 ReservationProperty.fromJSON = function(obj) {
     if(obj === undefined) return new ReservationProperty();
-    const { id, date, time, partySize, location } = obj;
-    return new ReservationProperty(id, date, time, partySize, location);
+    const { id, date, time, partySize, location, reservationConfirmed, needsChange } = obj;
+    return new ReservationProperty(id, date, time, partySize, location, reservationConfirmed, needsChange );
 }
 
 module.exports = ReservationProperty;
@@ -126,13 +159,14 @@ const get_guid = function () {
  * @param {Object} onTurnProperty 
  * @param {ReservationResult} return result object 
  */
-const validate = function (onTurnProperty, returnResult) {
+const validate = function (onTurnProperty, returnResult, step) {
     if(onTurnProperty === undefined || onTurnProperty.entities.length === 0) return returnResult;
     
     // We only will pull number -> party size, datetimeV2 -> date and time, cafeLocation -> location. 
     let numberEntity = onTurnProperty.entities.find(item => item.entityName == PARTY_SIZE_ENTITY);
     let dateTimeEntity = onTurnProperty.entities.find(item => item.entityName == DATE_TIME_ENTITY);
     let locationEntity = onTurnProperty.entities.find(item => item.entityName == LOCATION_ENTITY);
+    let confirmationEntity = onTurnProperty.entities.find(item => item.entityName == CONFIRMATION_ENTITY);
 
     if(numberEntity !== undefined) {
         // We only accept MAX_PARTY_SIZE in a reservation.
@@ -189,6 +223,23 @@ const validate = function (onTurnProperty, returnResult) {
         }        
     }
     // Take the first found value.
-    if(locationEntity !== undefined) returnResult.newReservation.location = locationEntity.entityValue[0][0];
+    if(locationEntity !== undefined) {
+        let cafeLocation = locationEntity.entityValue[0][0];
+
+        // Capitalize cafe location.
+        returnResult.newReservation.location = cafeLocation.charAt(0).toUpperCase() + cafeLocation.substr(1);
+    }
+
+    // Accept confirmation entity if available only if we have a complete reservation
+    if (confirmationEntity !== undefined) {
+        if(confirmationEntity.entityValue[0][0] == 'yes') {
+            returnResult.newReservation.reservationConfirmed = true;
+            returnResult.newReservation.needsChange = undefined;
+        } else {
+            returnResult.newReservation.needsChange = true;
+            returnResult.newReservation.reservationConfirmed = undefined;
+        }
+    }
+    
     return returnResult;
 }

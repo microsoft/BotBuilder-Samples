@@ -820,11 +820,6 @@
     "entities": []
   },
   {
-    "text": "Go to hell",
-    "intent": "ChitChat",
-    "entities": []
-  },
-  {
     "text": "You are stupid",
     "intent": "ChitChat",
     "entities": []
@@ -931,11 +926,6 @@
   },
   {
     "text": "Why?",
-    "intent": "ChitChat",
-    "entities": []
-  },
-  {
-    "text": "TBD",
     "intent": "ChitChat",
     "entities": []
   },

@@ -8,5 +8,6 @@ module.exports = {
     HelpDialog: require('./help'),
     FindCafeLocationsDialog: require('./findCafeLocations').FindCafeLocationsDialog,
     ChitChatDialog: require('./chitChat').ChitChatDialog,
-    CancelDialog: require('./cancel').CancelDialog
+    CancelDialog: require('./cancel').CancelDialog,
+    BookTableDialog: require('./bookTable').BookTableDialog
 };

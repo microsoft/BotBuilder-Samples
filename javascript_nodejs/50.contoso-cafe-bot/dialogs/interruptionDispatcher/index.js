@@ -7,10 +7,10 @@ const { HelpDialog } = require('../help');
 const { CancelDialog } = require('../cancel');
 const { WhatCanYouDoDialog } = require('../whatCanYouDo');
 const { FindCafeLocationsDialog } = require('../findCafeLocations');
+const { BookTableDialog } = require('../bookTable');
 
 const NONE_INTENT = 'None';
 const INTERRUPTION_DISPATCHER_DIALOG = 'interruptionDispatcherDialog';
-const INTERRUPTION_DISPATCHER_STATE_PROPERTY = 'interruptionDispatcherStateProperty';
 
 module.exports = {
     InterruptionDispatcher: class extends ComponentDialog {
@@ -24,15 +24,13 @@ module.exports = {
          * @param {Object} userProfileAccessor 
          * @param {Object} botConfig 
          */
-        constructor(onTurnAccessor, conversationState, userProfileAccessor, botConfig) {
+        constructor(onTurnAccessor, conversationState, userProfileAccessor, botConfig, reservationsAccessor) {
             super (INTERRUPTION_DISPATCHER_DIALOG);
             
             if (!onTurnAccessor) throw ('Missing parameter. On turn property accessor is required.');
             if (!conversationState) throw ('Missing parameter. Conversation state is required.');
             if (!userProfileAccessor) throw ('Missing parameter. User profile accessor is required.');
             if (!botConfig) throw ('Missing parameter. Bot configuration is required.');
-
-            this.interruptionDispatcherAccessor = conversationState.createProperty(INTERRUPTION_DISPATCHER_STATE_PROPERTY);
 
             // keep on turn accessor
             this.onTurnAccessor = onTurnAccessor;
@@ -42,7 +40,7 @@ module.exports = {
             this.addDialog(new WhatCanYouDoDialog());
             this.addDialog(new FindCafeLocationsDialog());
             this.addDialog(new QnADialog(botConfig, userProfileAccessor));
-            
+            this.addDialog(new BookTableDialog(botConfig, reservationsAccessor, onTurnAccessor, userProfileAccessor, conversationState));
         }
         /**
          * Override onDialogBegin 
@@ -83,6 +81,7 @@ module.exports = {
                     return await dc.begin(QnADialog.Name);
                 case CancelDialog.Name: 
                 case WhatCanYouDoDialog.Name:
+                case BookTableDialog.Name:
                     await dc.context.sendActivity(`Sorry. I'm unable to do that right now. You can cancel the current conversation and start a new one`);
                     return await dc.end();
                 case FindCafeLocationsDialog.Name:

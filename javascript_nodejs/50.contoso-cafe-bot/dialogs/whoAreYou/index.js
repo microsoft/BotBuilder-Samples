@@ -26,7 +26,7 @@ module.exports = {
          * @param {Object} userProfileAccessor property accessor for user profile property
          * @param {Object} conversationState 
          */
-        constructor(botConfig, userProfileAccessor, onTurnAccessor, conversationState) {
+        constructor(botConfig, userProfileAccessor, onTurnAccessor, conversationState, reservationAccessor) {
             super (WHO_ARE_YOU_DIALOG);
             if (!botConfig) throw ('Missing parameter. Bot configuration is required.');
             if (!userProfileAccessor) throw ('Missing parameter. User profile property accessor is required.');
@@ -49,7 +49,7 @@ module.exports = {
                                                 onTurnAccessor));
 
             // This dialog is interruptable. So add interruptionDispatcherDialog
-            this.addDialog(new InterruptionDispatcher(onTurnAccessor, conversationState, userProfileAccessor, botConfig));
+            this.addDialog(new InterruptionDispatcher(onTurnAccessor, conversationState, userProfileAccessor, botConfig, reservationAccessor));
 
             // When user decides to abandon this dialog, we need to confirm user action. Add confirmation prompt
             this.addDialog(new ConfirmPrompt(CONFIRM_CANCEL_PROMPT));

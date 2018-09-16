@@ -4,6 +4,9 @@
       "name": "GetLocationDateTimePartySize"
     },
     {
+      "name": "noChange"
+    },
+    {
       "name": "Help"
     },
     {
@@ -208,6 +211,76 @@
       "entities": []
     },
     {
+      "text": "nothing",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "please proceed",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "I'm good thanks",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "nothing to change. please proceed",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "let's do it",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "I don't know",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "what are my options?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what are your hours?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can I say?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what are your locations?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I need help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I dont know",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help please",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "when do you open?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
       "text": "Help",
       "intent": "Help",
       "entities": []
@@ -219,81 +292,6 @@
     },
     {
       "text": "Not sure what I can do",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I'm lost",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I need help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Not sure what I can do",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "What can I say",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I'm lost",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I need help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Not sure what I can do",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "What can I say",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I'm lost",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "I need help",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "Not sure what I can do",
-      "intent": "Help",
-      "entities": []
-    },
-    {
-      "text": "What can I say",
       "intent": "Help",
       "entities": []
     },

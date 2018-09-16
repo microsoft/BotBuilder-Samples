@@ -3,5 +3,5 @@
 
 module.exports = {
     GetUserNamePrompt: require('./getUserNamePrompt'),
-    GetLocDateTimePartySizePrompt: require('./getLocDateTimePartySize')
+    GetLocDateTimePartySizePrompt: require('./getLocDateTimePartySize').GetLocationDateTimePartySizePrompt
 };

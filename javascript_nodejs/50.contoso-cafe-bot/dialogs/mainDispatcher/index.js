@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 const { ComponentDialog, DialogTurnStatus, DialogSet } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
-const { WhoAreYouDialog, QnADialog, ChitChatDialog, HelpDialog, CancelDialog, WhatCanYouDoDialog, FindCafeLocationsDialog } = require('../../dialogs');
+const { WhoAreYouDialog, QnADialog, ChitChatDialog, HelpDialog, CancelDialog, WhatCanYouDoDialog, FindCafeLocationsDialog, BookTableDialog } = require('../../dialogs');
 const { GenSuggestedQueries } = require('../shared/helpers/genSuggestedQueries');
 const { UserProfile } = require('../shared/stateProperties');
 
@@ -17,6 +17,7 @@ const NONE_INTENT = 'None';
 const QUERY_PROPERTY = 'query';
 const USER_PROFILE_PROPERTY = 'userProfile';
 const MAIN_DISPATCHER_STATE_PROPERTY = 'mainDispatcherState';
+const RESERVATION_PROPERTY = 'reservationProperty';
 
 module.exports = {
     MainDispatcher: class extends ComponentDialog {
@@ -40,6 +41,7 @@ module.exports = {
             // Create state objects for user, conversation and dialog states.   
             this.userProfileAccessor = userState.createProperty(USER_PROFILE_PROPERTY);
             this.mainDispatcherAccessor = conversationState.createProperty(MAIN_DISPATCHER_STATE_PROPERTY);
+            this.reservationAccessor = conversationState.createProperty(RESERVATION_PROPERTY);
 
             // keep on turn accessor and bot configuration
             this.onTurnAccessor = onTurnAccessor;
@@ -50,7 +52,8 @@ module.exports = {
             this.addDialog(new CancelDialog());
             this.addDialog(new FindCafeLocationsDialog());
             this.addDialog(new QnADialog(botConfig, this.userProfileAccessor));
-            this.addDialog(new WhoAreYouDialog(botConfig, this.userProfileAccessor, onTurnAccessor, conversationState));
+            this.addDialog(new WhoAreYouDialog(botConfig, this.userProfileAccessor, onTurnAccessor, conversationState, reservationAccessor));
+            this.addDialog(new BookTableDialog(botConfig, this.reservationAccessor, onTurnAccessor, this.userProfileAccessor, conversationState));
         }
         /**
          * Override onDialogBegin 
@@ -146,6 +149,8 @@ module.exports = {
                     return await dc.begin(QnADialog.Name);
                 case CancelDialog.Name: 
                     return await dc.begin(CancelDialog.Name, childDialogPayload);
+                case BookTableDialog.Name: 
+                    return await dc.begin(BookTableDialog.Name);
                 case WhoAreYouDialog.Name: 
                     return await this.beginWhoAreYouDialog(dc, onTurnProperty);
                 case FindCafeLocationsDialog.Name:
