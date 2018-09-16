@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// Help intent name from ../../mainDispatcher/resources/cafeDispatchModel.lu 
+// Help intent name from ../../dispatcher/resources/cafeDispatchModel.lu 
 const HELP_INTENT_NAME = 'Help';
 const { QnADialog } = require('../qna');
 

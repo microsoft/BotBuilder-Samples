@@ -3,7 +3,7 @@
 const { QnAMaker } = require('botbuilder-ai');
 const { Dialog } = require('botbuilder-dialogs');
 
-// QnA name from ../../mainDispatcher/resources/cafeDispatchModel.lu 
+// QnA name from ../../dispatcher/resources/cafeDispatchModel.lu 
 const QNA_DIALOG = 'QnA';
 
 // Name of the QnA Maker service in the .bot file.

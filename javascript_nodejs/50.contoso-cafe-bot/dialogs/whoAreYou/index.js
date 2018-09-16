@@ -4,9 +4,9 @@ const { ComponentDialog, DialogTurnStatus, WaterfallDialog, ConfirmPrompt } = re
 const { OnTurnProperty } = require('../shared/stateProperties');
 const { GetUserNamePrompt } = require('../shared/prompts');
 const { TurnResultHelper } = require('../shared/helpers');
-const { InterruptionDispatcher } = require('../interruptionDispatcher');
+const { InterruptionDispatcher } = require('../dispatcher');
 
-// This dialog's name. Also matches the name of the intent from ../mainDispatcher/resources/cafeDispatchModel.lu
+// This dialog's name. Also matches the name of the intent from ../dispatcher/resources/cafeDispatchModel.lu
 // LUIS recognizer replaces spaces ' ' with '_'. So intent name 'Who are you' is recognized as 'Who_are_you'.
 const WHO_ARE_YOU_DIALOG = 'Who_are_you';
 const ASK_USER_NAME_PROMPT = 'askUserNamePrompt';

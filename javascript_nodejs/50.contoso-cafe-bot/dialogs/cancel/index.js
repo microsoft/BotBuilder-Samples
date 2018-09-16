@@ -4,7 +4,7 @@
 const { ComponentDialog, ConfirmPrompt, WaterfallDialog, DialogTurnStatus } = require('botbuilder-dialogs');
 const { TurnResultHelper } = require('../shared/helpers');
 
-// Cancel intent name from ../../mainDispatcher/resources/cafeDispatchModel.lu 
+// Cancel intent name from ../../dispatcher/resources/cafeDispatchModel.lu 
 const CANCEL_DIALOG = 'Cancel';
 const START_DIALOG = 'start';
 const CONFIRM_CANCEL_PROMPT = 'confirmCancelPrompt';

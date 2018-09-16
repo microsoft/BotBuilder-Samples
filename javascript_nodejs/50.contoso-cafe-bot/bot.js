@@ -5,8 +5,8 @@ const { ActivityTypes, CardFactory, MessageFactory } = require('botbuilder');
 const { DialogSet } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { OnTurnProperty } = require('./dialogs/shared/stateProperties');
-const { MainDispatcher } = require('./dialogs/mainDispatcher');
 const { WelcomeCard } = require('./dialogs/welcome');
+const { MainDispatcher } = require('./dialogs/dispatcher');
 
 // LUIS service type entry in the .bot file for dispatch.
 const LUIS_CONFIGURATION = 'cafeDispatchModel';

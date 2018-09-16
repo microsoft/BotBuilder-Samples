@@ -1,9 +1,9 @@
 @echo off
 ECHO Generating LUIS and QnA Maker models from .lu files ..
-REM call ludown parse toluis --in dialogs\mainDispatcher\resources\cafeDispatchModel.lu -o cognitiveModels --out cafeDispatchModel.luis -n cafeDispatchModel
+REM call ludown parse toluis --in dialogs\dispatcher\resources\cafeDispatchModel.lu -o cognitiveModels --out cafeDispatchModel.luis -n cafeDispatchModel
 call ludown parse toluis --in dialogs\bookTable\resources\turn-N.lu -o cognitiveModels -n cafeBotBookTableTurnN --out cafeBotBookTableTurnN.luis
 REM call ludown parse toluis --in dialogs\whoAreYou\resources\getUserProfile.lu -o cognitiveModels -n getUserProfile.luis
-REM call ludown parse toqna --in dialogs\mainDispatcher\resources\cafeFAQ_ChitChat.lu -o cognitiveModels -n cafeFaqChitChat.qna -a
+REM call ludown parse toqna --in dialogs\dispatcher\resources\cafeFAQ_ChitChat.lu -o cognitiveModels -n cafeFaqChitChat.qna -a
 
 ECHO Updating LUIS models .. 
 REM call msbot get cafeDispatchModel | luis rename version --newVersionId 0.1_old --stdin --versionId 0.1

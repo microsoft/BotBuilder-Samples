@@ -28,7 +28,7 @@ $attributeOfInterest:name=
 - No
 - No way
 
-[entities](../../mainDispatcher/resources/entities.lu)
+[entities](../../dispatcher/resources/entities.lu)
 
 > reference to cancel intent
 # Cancel

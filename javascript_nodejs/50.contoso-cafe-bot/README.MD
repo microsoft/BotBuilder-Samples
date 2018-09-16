@@ -111,13 +111,13 @@ Optionally, you can use the LUIS, QnA Maker portals to manually import the model
 ## Building and creating services
 - Parse .lu files into LUIS models
     ```bash
-    > ludown parse toluis --in dialogs\mainDispatcher\resources\cafeDispatchModel.lu -o cognitiveModels -n cafeDispatchModel.luis
+    > ludown parse toluis --in dialogs\dispatcher\resources\cafeDispatchModel.lu -o cognitiveModels -n cafeDispatchModel.luis
     > ludown parse toluis --in dialogs\bookTable\resources\turn-N.lu -o cognitiveModels -n cafeBotBookTableTurnN.luis
     > ludown parse toluis --in dialogs\whoAreYou\resources\getUserProfile.lu -o cognitiveModels -n getUserProfile.luis
     ```
 - Parse .lu files into QnA Maker KB and QnA Maker alterations file
     ```bash
-    > ludown parse toqna --in dialogs\mainDispatcher\resources\cafeFAQ_ChitChat.lu --verbose -o cognitiveModels -n cafeFaqChitChat.qna -a
+    > ludown parse toqna --in dialogs\dispatcher\resources\cafeFAQ_ChitChat.lu --verbose -o cognitiveModels -n cafeFaqChitChat.qna -a
     ```
 - Import LUIS applications (Note: You don't need this if you have already run MSBOT clone)
     ```bash

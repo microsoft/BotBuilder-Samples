@@ -5,6 +5,7 @@ const { TextPrompt, DialogTurnStatus } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { Reservation, reservationStatusEnum, OnTurnProperty } = require('../stateProperties');
 const { QnADialog } = require('../../qna');
+const { InterruptionDispatcher } = require('../../dispatcher');
 // Dialog name from ../../bookTable/resources/turn-N.lu
 const CONTINUE_PROMPT_INTENT = 'GetLocationDateTimePartySize';
 const HELP_INTENT = 'Help';

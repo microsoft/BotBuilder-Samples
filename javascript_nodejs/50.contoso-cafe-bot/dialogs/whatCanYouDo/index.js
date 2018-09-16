@@ -7,7 +7,7 @@ const { GenSuggestedQueries } = require('../shared/helpers/genSuggestedQueries')
 // Require the adaptive card.
 const helpCard = require('./resources/whatCanYouDoCard.json');
 
-// This dialog's name. Also matches the name of the intent from ../mainDispatcher/resources/cafeDispatchModel.lu
+// This dialog's name. Also matches the name of the intent from ../dispatcher/resources/cafeDispatchModel.lu
 // LUIS recognizer replaces spaces ' ' with '_'. So intent name 'Who are you' is recognized as 'Who_are_you'.
 const WHAT_CAN_YOU_DO_DIALOG = 'What_can_you_do';
 

@@ -4,8 +4,8 @@ const { TextPrompt } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { UserProfile } = require('../stateProperties');
-const { InterruptionDispatcher } = require('../../interruptionDispatcher');
 
+const InterruptionDispatcher = 'interruptionDispatcherDialog';
 // LUIS service type entry for the get user profile LUIS model in the .bot file.
 const LUIS_CONFIGURATION = 'getUserProfile';
 
@@ -130,7 +130,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
             default: {
                 // Handle interruption.
                 const onTurnProperty = await this.onTurnAccessor.get(dc.context);
-                return await dc.begin(InterruptionDispatcher.Name, onTurnProperty);
+                return await dc.begin(InterruptionDispatcher, onTurnProperty);
             }
         }
     }

@@ -7,7 +7,7 @@ const { HelpDialog } = require('../help');
 const { CancelDialog } = require('../cancel');
 const { WhatCanYouDoDialog } = require('../whatCanYouDo');
 const { FindCafeLocationsDialog } = require('../findCafeLocations');
-const { BookTableDialog } = require('../bookTable');
+const { BookTableDialog } = require('../bookTable/index');
 
 const NONE_INTENT = 'None';
 const INTERRUPTION_DISPATCHER_DIALOG = 'interruptionDispatcherDialog';
@@ -36,7 +36,6 @@ module.exports = {
             this.onTurnAccessor = onTurnAccessor;
 
             // add dialogs
-            this.dialogs = new DialogSet(this.mainDispatcherAccessor);
             this.addDialog(new WhatCanYouDoDialog());
             this.addDialog(new FindCafeLocationsDialog());
             this.addDialog(new QnADialog(botConfig, userProfileAccessor));

@@ -52,7 +52,7 @@ module.exports = {
             this.addDialog(new CancelDialog());
             this.addDialog(new FindCafeLocationsDialog());
             this.addDialog(new QnADialog(botConfig, this.userProfileAccessor));
-            this.addDialog(new WhoAreYouDialog(botConfig, this.userProfileAccessor, onTurnAccessor, conversationState, reservationAccessor));
+            this.addDialog(new WhoAreYouDialog(botConfig, this.userProfileAccessor, onTurnAccessor, conversationState, this.reservationAccessor));
             this.addDialog(new BookTableDialog(botConfig, this.reservationAccessor, onTurnAccessor, this.userProfileAccessor, conversationState));
         }
         /**

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 const { Dialog } = require('botbuilder-dialogs');
 
-// This dialog's name. Also matches the name of the intent from ../mainDispatcher/resources/cafeDispatchModel.lu
+// This dialog's name. Also matches the name of the intent from ../dispatcher/resources/cafeDispatchModel.lu
 // LUIS recognizer replaces spaces ' ' with '_'. So intent name 'Who are you' is recognized as 'Who_are_you'.
 const FIND_CAFE_LOCATIONS_DIALOG = 'Find_Cafe_Locations';
 
