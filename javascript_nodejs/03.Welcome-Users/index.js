@@ -14,7 +14,7 @@ const { BotConfiguration } = require('botframework-config');
 // This bot's main dialog.
 const MainDialog = require('./dialogs/mainDialog');
 
-// Read botFilePath and botFileSecret from .env file
+// Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '.env');
 const env = require('dotenv').config({path: ENV_FILE});
@@ -34,10 +34,10 @@ try {
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
 const BOT_CONFIGURATION = 'Welcome-User-bot';
 
-// Get bot endpoint configuration by service name
+// Get bot endpoint configuration by service name.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
-// Create adapter. See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration .
+// Create adapter. See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration.
 const adapter = new BotFrameworkAdapter({
     appId: endpointConfig.appId || process.env.microsoftAppID,
     appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword
@@ -86,4 +86,3 @@ server.post('/api/messages', (req, res) => {
         await mainDlg.onTurn(context);        
     });
 });
-
