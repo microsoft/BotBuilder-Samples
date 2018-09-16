@@ -50,10 +50,6 @@ The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissio
 - **[Restify](http://restify.com)** Used to host the web service for the bot, and for making REST calls
 - **[dotenv](https://github.com/motdotla/dotenv)** Used to manage environmental variables
 
-### Project Structure
-
-The root `index.js` references the bot and starts a Restify server. The `dialogs/mainDialog/index.js` file loads the dialog type you selected when running the generator and adds it as the default dialog.
-
 ### Configuring the bot
 
 Update `.env` with the appropriate keys:
@@ -61,18 +57,6 @@ Update `.env` with the appropriate keys:
 - App ID and Key for registered bots.
 - botFilePath and botFileSecret from `authentication-msgraph.bot` file
 
-### Running the bot
-
-```
-node ./index.js
-```
-### Developing the bot
-
-```
-nodemon ./index.js
-```
-
 ## Further Reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-
 - [MS Graph Docs](https://developer.microsoft.com/en-us/graph/docs/concepts/overview) and [SDK](https://github.com/microsoftgraph/msgraph-sdk-javascript)

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
+const { BotFrameworkAdapter, ConversationState, MemoryStorage } = require('botbuilder');
 const { BotConfiguration } = require('botframework-config');
 const restify = require('restify');
 const path = require('path');
@@ -12,7 +12,6 @@ const CONFIG_ERROR = 1;
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '.env');
-console.log('ENV_FILE', ENV_FILE);
 const env = require('dotenv').config({ path: ENV_FILE });
 
 // Create HTTP server.
@@ -64,10 +63,9 @@ const memoryStorage = new MemoryStorage();
 
 // Create conversation state with in-memory storage provider. 
 const conversationState = new ConversationState(memoryStorage);
-const userState = new UserState(memoryStorage);
 
 // Create the GraphAuthenticationBot.
-const graphAuthenticationBot = new GraphAuthenticationBot(conversationState, userState);
+const graphAuthenticationBot = new GraphAuthenticationBot(conversationState);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
