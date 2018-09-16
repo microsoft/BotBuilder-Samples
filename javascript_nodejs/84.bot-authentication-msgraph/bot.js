@@ -17,31 +17,28 @@ class GraphAuthenticationBot {
      * 2. DialogSet
      * 3. OAuthPrompt
      * 
-     * The arguments taken by this constructor are ConversationState and UserState, although any BotState
+     * The arguments taken by this constructor are ConversationState, although any BotState
      * instance would suffice for this bot. `conversationState` is used to create a StatePropertyAccessor,
      *  which is needed to create a DialogSet. All botbuilder-dialogs `Prompts` need a DialogSet to operate.
      * @param {ConversationState} conversationState 
-     * @param {UserState} userState
      */
-    constructor(conversationState, userState) {
+    constructor(conversationState) {
         this.data = conversationState;
-        this.user = userState;
-        const that = this;
 
         // DialogState property accessor. Used to keep persist DialogState when using DialogSet.
         this.dialogState = conversationState.createProperty("dialogState");
         this.commandState = conversationState.createProperty('commandState');
+        
+        // Instructions for the user with information about commands that this bot may handle.
+        this.helpMessage = `You can type "send <recipient_email>" to send an email, "recent" to view recent unread mail,` +
+        ` "me" to see information about your, or "help" to view the commands` +
+        ` again. Any other text will display your token.`;
 
         // Create a DialogSet that contains the OAuthPrompt.
         this.dialogs = new DialogSet(this.dialogState);
 
-        // Instructions for the user with information about commands that this bot may handle.
-        this.helpMessage = `You can type "send <recipient_email>" to send an email, "recent" to view recent unread mail,` +
-            ` "me" to see information about your, or "help" to view the commands` +
-            ` again. Any other text will display your token.`;
-
-        this.connectionSettingName = 'AADv4Node';
-        this.dialogs.add(OAuthHelpers.prototype.prompt(this.connectionSettingName));
+        this.connectionSettingName = 'AADv2Connection';
+        this.dialogs.add(OAuthHelpers.prompt(this.connectionSettingName));
 
         // Logs in the user and calls proceeding dialogs, if login is successful.
         this.dialogs.add(new WaterfallDialog('graphDialog', [
@@ -49,50 +46,6 @@ class GraphAuthenticationBot {
             this.processStep.bind(this)
         ]));
     };
-
-    // Move this after onTurn
-
-    /**
-     * Sends a welcome hero card.
-     * @param {Object} turnContext 
-     */
-    async sendWelcomeMessage(turnContext) {
-        // Creates a Hero Card that is sent as a welcome message to the user.
-        // this.heroCard = function () {
-        const heroCard = CardFactory.heroCard(
-            "Welcome",
-            CardFactory.images(["https://botframeworksamples.blob.core.windows.net/samples/aadlogo.png"]),
-            CardFactory.actions([
-                {
-                    "type": "imBack",
-                    "title": "Me",
-                    "value": "Me"
-                },
-                {
-                    "type": "imBack",
-                    "title": "Recent",
-                    "value": "Recent"
-                },
-                {
-                    "type": "imBack",
-                    "title": "View Token",
-                    "value": "View Token"
-                },
-                {
-                    "type": "imBack",
-                    "title": "Help",
-                    "value": "Help"
-                },
-                {
-                    "type": "imBack",
-                    "title": "Signout",
-                    "value": "Signout"
-                }
-            ])
-        );
-        await turnContext.sendActivity({ attachments: [heroCard] });
-    }
-
 
     /**
      * This controls what happens when an activity get sent to the bot.
@@ -122,18 +75,69 @@ class GraphAuthenticationBot {
                     await dc.begin("graphDialog");
                 };
             case ActivityTypes.ConversationUpdate:
-                const members = turnContext.activity.membersAdded;
-                for (const member in members) {
-                    if (members[0].name !== "Bot") {
-                        // Send a HeroCard as a welcome message when a new user joins the conversation.
-                        await this.sendWelcomeMessage(turnContext);
-                        // await dc.begin("graphDialog");
-                    }
-                };
+                await this.sendWelcomeMessage(turnContext)
         }
     };
 
-    // Processes input and route to the appropriate step.
+    /**
+     * Creates a Hero Card that is sent as a welcome message to the user.
+     * @param {Object} turnContext 
+     */
+    async sendWelcomeMessage(turnContext) {
+        if (turnContext.activity && turnContext.activity.membersAdded) {
+            const heroCard = CardFactory.heroCard(
+                "Welcome to GraphAuthenticationBot!",
+                CardFactory.images(["https://botframeworksamples.blob.core.windows.net/samples/aadlogo.png"]),
+                CardFactory.actions([
+                    {
+                        "type": "imBack",
+                        "title": "Me",
+                        "value": "me"
+                    },
+                    {
+                        "type": "imBack",
+                        "title": "Recent",
+                        "value": "recent"
+                    },
+                    {
+                        "type": "imBack",
+                        "title": "View Token",
+                        "value": "view Token"
+                    },
+                    {
+                        "type": "imBack",
+                        "title": "Help",
+                        "value": "help"
+                    },
+                    {
+                        "type": "imBack",
+                        "title": "Signout",
+                        "value": "signout"
+                    }
+                ])
+            );
+
+            async function welcomeUser(conversationMember) {
+                // Checks to see if the member added to the conversation is not the bot.
+                // The bot is the recipient of all ConversationUpdate-type activities.
+                if (conversationMember.id !== this.activity.recipient.id) {
+                    // Because the TurnContext was bound to this function, the bot can call
+                    // `TurnContext.sendActivity` via `this.sendActivity`;
+                    await this.sendActivity({ attachments: [heroCard] });
+                }
+            }
+
+            // Prepare Promises to reply to the user with information about the bot.
+            // The current TurnContext is bound so `replyForReceivedAttachments` can also send replies.
+            const welcomeMessages = turnContext.activity.membersAdded.map(welcomeUser.bind(turnContext));
+            await Promise.all(welcomeMessages);
+        }
+    }
+
+    /**
+     * Processes input and route to the appropriate step.
+     * @param {Object} dc DialogContext
+     */
     async processInput(dc) {
         switch (dc.context.activity.text.toLowerCase()) {
             case 'signout':
@@ -151,6 +155,7 @@ class GraphAuthenticationBot {
                 await dc.context.sendActivity(this.helpMessage);
                 break;
             default:
+                await this.commandState.set(dc.context, dc.context.activity.text);
                 // The user has input a command that has not been handled yet,
                 // begin the waterfall dialog to handle the input.
                 await dc.continue();
@@ -158,7 +163,6 @@ class GraphAuthenticationBot {
                     await dc.begin('graphDialog', dc);
                 }
         }
-        return dc;
     };
 
     /**
@@ -181,32 +185,36 @@ class GraphAuthenticationBot {
      * @param {Object} step WaterfallStepContext
      */
     async processStep(step) {
-        console.log(step);
         // We do not need to store the token in the bot. When we need the token we can
         // send another prompt. If the token is valid the user will not need to log back in.
         // The token will be available in the Result property of the task.
         const tokenResponse = step.result;
 
-        // If we have the token use the user is authenticated so we may use it to make API calls.
+        // If the user is authenticated the bot can use the token to make API calls.
         if (tokenResponse !== undefined) {
-            const parts = (step.context.activity.text).split(" ");
+            let parts;
+            
+            if (!step.context.activity.text) {
+                parts = await this.commandState.get(step.context);
+                parts = parts.split(" ");
+            } else {
+                parts = (step.context.activity.text).split(" ");
+            }
             const command = parts[0].toLowerCase();
-            if (command == "me") {
-                await OAuthHelpers.prototype.listMe(step, tokenResponse);
-                return await step.end();
-            } else if (command == "send") {
-                await OAuthHelpers.prototype.sendMail(step, tokenResponse, parts[1].toLowerCase())
-                return await step.end();
-            } else if (command == "recent") {
-                await OAuthHelpers.prototype.listRecentMail(step, tokenResponse);
-                return await step.end();
+            if (command === "me") {
+                await OAuthHelpers.listMe(step.context, tokenResponse);
+            } else if (command === "send") {
+                await OAuthHelpers.sendMail(step.context, tokenResponse, parts[1].toLowerCase())
+            } else if (command === "recent") {
+                await OAuthHelpers.listRecentMail(step.context, tokenResponse);
             } else {
                 await step.context.sendActivity(`Your token is: ${tokenResponse.token}`);
-                return await step.end();
             }
         } else {
-            step.context.sendActivity(`We couldn't log you in. Please try again later.`);
+            // Ask the user to try logging in later as they are not logged in.
+            await step.context.sendActivity(`We couldn't log you in. Please try again later.`);
         }
+        return await step.end();  
     };
 };
 

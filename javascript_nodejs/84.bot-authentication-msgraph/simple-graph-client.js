@@ -1,18 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const request = require('request');
+const request = require('request'); // Pending Deletion.
 const axios = require('axios');
 const MicrosoftGraph = require('@microsoft/microsoft-graph-client');
 
-// This class is a wrapper for the Microsoft Graph API.
-// See: https://developer.microsoft.com/en-us/graph
+/**
+ * This class is a wrapper for the Microsoft Graph API. 
+ * See: https://developer.microsoft.com/en-us/graph for more information.
+ */
 class SimpleGraphClient {
 
     constructor(token) {
         if (!token || !token.trim()) {
-            throw new Error(token.name);
+            throw new Error('SimpleGraphClient: Invalid token received.');
         }
+
         this._token = token;
 
         // Get an Authenticated Microsoft Graph client using the token issued to the user.
@@ -23,19 +26,21 @@ class SimpleGraphClient {
         });
     }
 
-
-    // Sends an email on the users behalf using the Microsoft Graph API
+    /**
+     * Sends an email on the users behalf using the Microsoft Graph API.
+     * @param {*} toAddress 
+     * @param {*} subject 
+     * @param {*} content 
+     */
     async sendMail(toAddress, subject, content) {
         if (!toAddress || !toAddress.trim()) {
-            throw new Error(toAddress);
+            throw new Error('SimpleGraphClient.sendMail(): Invalid `toAddress` parameter received.');
         }
-
         if (!subject || !subject.trim()) {
-            throw new Error(subject);
+            throw new Error('SimpleGraphClient.sendMail(): Invalid `subject`  parameter received.');
         }
-
         if (!content || !content.trim()) {
-            throw new Error(content);
+            throw new Error('SimpleGraphClient.sendMail(): Invalid `content` parameter received.');
         }
 
         // Create the message.
@@ -57,94 +62,85 @@ class SimpleGraphClient {
             .api('/me/sendMail')
             .post({ message: mail }, (error, res) => {
                 if (error) {
-                    console.error(error);
-                    return;
+                    throw error;
                 } else {
-                    console.log(res);
+                    return res;
                 }
             });
     }
 
-    // Gets recent mail the user has received within the last hour and displays up
-    // to 5 of the emails in the bot.
-    async getRecentMail(step) {
+    /**
+     * Gets recent mail the user has received within the last hour and displays up to 5 of the emails in the bot.
+     */
+    async getRecentMail() {
         return await this.graphClient
             .api('/me/messages')
             .version('beta')
-            .top(1)
-            .select(['from', 'address', 'subject', 'message'])
-            .get((error, res) => {
-                if (error) {
-                    console.error(error);
-                    return;
-                } else {
-                    const topMessages = res.value.map((u) => {
-                        return u.from + ' ' + u.address + ' ' + u.subject + ' ' + u.message;
-                    });
-                    console.log(topMessages.join(', '));
-                    // return topMessages;
-                }
-            });
-    }
-
-    async getMe(step) {
-        // Collects information about the user in the bot.
-        return await this.graphClient
-            .api('/me')
+            .top(5)
             .get().then((res) => {
-                console.log(res);
                 return res;
             });
     }
 
-    // Collects the user's manager in the bot.
-    async getManager(step) {
+    /**
+     * Collects information about the user in the bot.
+     */
+    async getMe() {
+        return await this.graphClient
+            .api('/me')
+            .get().then((res) => {
+                return res;
+            });
+    }
+
+    /**
+     * Collects the user's manager in the bot.
+     */
+    async getManager() {
         return await this.graphClient
             .api('/me/manager')
             .version('beta')
             .select('displayName')
             .get().then((res) => {
-                console.log(res);
                 return res;
             });
     }
 
-    // Collects the user's photo in the bot.
+    /**
+     * Collects the user's photo on MS Graph.
+     */
     async getPhoto() {
-        // Collects the user's photo in the bot.
         const photoResponse = await axios.request({
             "method": "GET",
             "url": "https://graph.microsoft.com/v1.0/me/photo/$value",
-            "responseType": "stream",
-            "responseEncoding": null,
+            // "responseType": "stream",
+            // "responseEncoding": null,
             "headers": {
                 "Authorization": "Bearer " + this._token,
                 "Accept": "application/json"
             }
-        })
-        console.log('photoResponse: ', photoResponse);
-        // Grab the content-type header for the data URI
+        });
+
+        // Grab the content-type header for the data URI.
         const contentType = photoResponse.headers['content-type'];
 
-        // Encode the raw body as a base64 string
-        const base64Body = photoResponse.data.readableBuffer.head.data.toString("base64");
-
-        // Construct a Data URI for the image
-        const base64DataUri = 'data:' + contentType + ';base64,' + base64Body;
-
-        // Assign your values to the photoResponse object
-        const photo = [];
+        // Encode the raw body as a base64 string.
+        const base64Body = photoResponse.data.toString("base64");
+        // Assign your values to the photo object.
+        const photo = {
+            'contentType': contentType,
+            // Construct a Data URI for the image.
+            'base64string': `data:${contentType};base64,${base64Body}`
+        };
         photo.data = [
             {
                 '@odata.type': '#microsoft.graph.fileAttachment',
                 contentBytes: base64Body,
                 contentLocation: "https://graph.microsoft.com/v1.0/me/photo/$value",
                 isinline: true,
-                Name: 'mypic.jpg'
+                name: 'mypic.jpg'
             }
         ];
-        photo.contentType = contentType;
-        photo.base64string = base64DataUri;
 
         return photo;
 

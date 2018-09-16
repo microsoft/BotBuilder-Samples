@@ -13,38 +13,42 @@ const { SimpleGraphClient } = require('./simple-graph-client');
 */
 class OAuthHelpers {
 
-    // Enable the user to send an email via the bot
-    async sendMail(turnContext, tokenResponse, recipient) {
-
+    /**
+     * Enable the user to send an email via the bot.
+     * @param {Object} turnContext 
+     * @param {Object} tokenResponse 
+     * @param {string} emailAddress The email address of the recipient.
+     */
+    static async sendMail(turnContext, tokenResponse, emailAddress) {
         if (turnContext === undefined) {
-            throw new Error(turnContext.name);
+            throw new Error('OAuthHelpers.sendMail(): `turnContext` cannot be undefined.');
         }
-
         if (tokenResponse === undefined) {
-            throw new Error(tokenResponse.name);
+            throw new Error('OAuthHelpers.sendMail(): `tokenResponse` cannot be undefined.');
         }
 
         const client = new SimpleGraphClient(tokenResponse.token);
         const me = await client.getMe();
 
         await client.sendMail(
-            recipient,
+            emailAddress,
             `Message from a bot!`,
             `Hi there! I had this message sent from a bot. - Your friend, ${me.displayName}`
         );
-        await step.context.sendActivity(`I sent a message to ${recipient} from your account.`);
-        return await turnContext.end();
+        await turnContext.sendActivity(`I sent a message to ${emailAddress} from your account.`);
     }
 
-    // Displays information about the user in the bot.
-    async listMe(turnContext, tokenResponse) {
-
+    /**
+     * Displays information about the user in the bot.
+     * @param {Object} turnContext 
+     * @param {Object} tokenResponse 
+     */
+    static async listMe(turnContext, tokenResponse) {
         if (turnContext === undefined) {
-            throw new Error(turnContext.name);
+            throw new Error('OAuthHelpers.listMe(): `turnContext` cannot be undefined.');
         }
-
         if (tokenResponse === undefined) {
-            throw new Error(tokenResponse.name);
+            throw new Error('OAuthHelpers.listMe(): `tokenResponse` cannot be undefined.');
         }
 
         try {
@@ -54,11 +58,14 @@ class OAuthHelpers {
             const manager = await client.getManager();
             const photo = await client.getPhoto();
 
-            // Generate the reply activity.
+            // Create the reply activity.
             let reply = { type: ActivityTypes.Message };
             let photoText = '';
             if (photo !== undefined) {
-                const replyAttachment = { "contentType": photo.contentType, "contentUrl": photo.base64string }
+                const replyAttachment = {
+                    contentType: photo.contentType,
+                    contentUrl: photo.base64string
+                }
                 reply.attachments = [replyAttachment];
             }
             else {
@@ -66,58 +73,58 @@ class OAuthHelpers {
             }
 
             reply.text = `You are ${me.displayName} and you report to ${manager.displayName}. ${photoText}`;
-            await turnContext.context.sendActivity(reply);
-            // await turnContext.context.sendActivity(reply.text + { attachments: [{ reply }] });
+            await turnContext.sendActivity(reply);
         }
         catch (error) {
             throw error;
         }
     }
 
-    // Lists the user's collected email.
-    async listRecentMail(turnContext, tokenResponse) {
-
+    /**
+     * Lists the user's collected email.
+     * @param {Object} turnContext 
+     * @param {Object} tokenResponse 
+     */
+    static async listRecentMail(turnContext, tokenResponse) {
         if (turnContext === undefined) {
-            throw new Error(turnContext.name);
+            throw new Error('OAuthHelpers.listRecentMail(): `turnContext` cannot be undefined.');
+        }
+        if (tokenResponse === undefined) {
+            throw new Error('OAuthHelpers.listRecentMail(): `tokenResponse` cannot be undefined.');
         }
 
-        if (tokenResponse == undefined) {
-            throw new Error(tokenResponse.name);
+        var client = new SimpleGraphClient(tokenResponse.token);
+        var messages = await client.getRecentMail();
+
+        /**
+         * Constructs and sends activities with information about the received `message`.
+         * @param {Object} message A `Message` result from the MS Graph API call.
+         */
+        async function sendMessageInfo(message) {
+            const from = message.from.emailAddress.name;
+            const address = message.from.emailAddress.address;
+            const subject = message.subject;
+            const messagePreview = message.bodyPreview;
+            const email = {
+                type: ActivityTypes.Message,
+                text:
+                    `From: ${from}\n` +
+                    `Email: ${address}\n` +
+                    `Subject: ${subject}\n` +
+                    `Message: ${messagePreview}`
+            };
+            await this.sendActivity(email);
         }
 
-        var client = new SimpleGraphClient(tokenResponse.Token);
-        var messages = await client.GetRecentMail();
-
-        if (messages) {
-            let count = messages.length();
-            if (count > 5) {
-                count = 1
-            }
-
-            for (var i = 0; i < count; i++) {
-                from = messages[i].from.emailAddress.name;
-                address = messages[i].from.emailAddress.address;
-                subject = messages[i].subject;
-                message = messages[i].bodyPreview;
-                email = [
-                    {
-                        "type": "message",
-                        "text":
-                            `From: ${from} /\r\n/` +
-                            `Email: ${address} /\r\n` +
-                            `Subject: ${subject} /\r\n/` +
-                            `Message: ${message}`
-                    }
-                ];
-                email = email[0].text.replace(/\//g, "");
-                await step.context.sendActivity(email);
-            }
-        }
-        return await turnContext.end();
+        const preparedMessages = messages.value.map(sendMessageInfo.bind(turnContext));
+        await Promise.all(preparedMessages);
     }
 
-    // Prompts the user to log in using the OAuth provider specified by the connection name.
-    prompt(connectionName) {
+    /**
+     * Prompts the user to log in using the OAuth provider specified by the connection name.
+     * @param {string} connectionName 
+     */
+    static prompt(connectionName) {
         const loginPrompt = new OAuthPrompt("loginPrompt", {
             connectionName: connectionName,
             text: 'Please login',
