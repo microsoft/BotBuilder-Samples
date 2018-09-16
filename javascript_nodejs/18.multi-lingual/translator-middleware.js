@@ -48,6 +48,11 @@ class TranslatorMiddleware {
     }
 
     async translate(text, to) {
+        
+        // Check to make sure "en" is not translated to "In" 
+        if(text.toLowerCase()===ENGLISH_LANGUAGE){
+            return text;
+        }
         // From Microsoft Text Translator API docs;
         // https://docs.microsoft.com/en-us/azure/cognitive-services/translator/quickstart-nodejs-transliterate
         const host = 'https://api.cognitive.microsofttranslator.com';
