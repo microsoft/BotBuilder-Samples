@@ -1,15 +1,15 @@
 {
-    "name": "Simple-Prompt-Bot",
-    "description": "",
-    "secretKey": "",
-    "services": [
-        {
-            "appId": "",
-            "id": "http://localhost:1499/api/messages",
-            "type": "endpoint",
-            "appPassword": "",
-            "endpoint": "http://localhost:1499/api/messages",
-            "name": "http://localhost:1499/api/messages"
-        }
-    ]
+  "name": "MultiTurn-Prompts-Bot",
+  "description": "Demonstrates how to use multiple prompts to gather data from the user.",
+  "secretKey": "",
+  "services": [
+    {
+      "id": "http://localhost:3978/api/messages",
+      "name": "development",
+      "type": "endpoint",
+      "appId": "",
+      "appPassword": "",
+      "endpoint": "http://localhost:3978/api/messages"
+    }
+  ]
 }
