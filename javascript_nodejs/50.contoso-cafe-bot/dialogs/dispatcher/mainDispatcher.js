@@ -114,11 +114,7 @@ module.exports = {
             switch (dialogTurnResult.status) {
                 case DialogTurnStatus.complete: {
                     // The active dialog finished successfully. Ask user if they need help with anything else.
-                    if(Math.random() > 0.7) {
-                        await dc.context.sendActivity(MessageFactory.suggestedActions(GenSuggestedQueries(), `Is there anything else I can help you with?`));
-                    } else {
-                        await dc.context.sendActivity(`Is there anything else I can help you with?`);
-                    }
+                    await dc.context.sendActivity(MessageFactory.suggestedActions(GenSuggestedQueries(), `Is there anything else I can help you with?`));
                     break;
                 }
                 case DialogTurnStatus.waiting: {
