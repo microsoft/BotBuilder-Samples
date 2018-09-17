@@ -125,7 +125,7 @@ class MainDialog {
             const utterance = (turnContext.activity.text || '').trim().toLowerCase();
             if (utterance === 'cancel') {
                 if (dc.activeDialog) {
-                    await dc.cancelAll();
+                    await dc.cancelAllDialogs();
                     await dc.context.sendActivity(`Ok... canceled.`);
                 } else {
                     await dc.context.sendActivity(`Nothing to cancel.`);
