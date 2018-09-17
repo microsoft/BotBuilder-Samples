@@ -1,0 +1,14 @@
+{
+    "name": "attachments",
+    "secretKey": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "attachments",
+            "id": "http://localhost:3978/api/messages",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3978/api/messages"
+        }
+    ]
+}
