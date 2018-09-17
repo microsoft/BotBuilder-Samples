@@ -88,6 +88,8 @@ class Bot {
         const dc = await this.dialogs.createContext(context);
 
         if(context.activity.type === ActivityTypes.Message) {
+            let dialogResult; 
+            
             // Perform a call to LUIS to retrieve results for the current activity message.
             const results = await this.luisRecognizer.recognize(context);
             const topIntent = LuisRecognizer.topIntent(results);
@@ -95,14 +97,17 @@ class Bot {
             // update greeting state with any entities captured
             await this.updateGreetingState(results, context);
 
-            // handle conversation interrupts first
+            // Evaluate if we have an interruption.
             const interrupted = await this.isTurnInterrupted(dc, results);
-            if(interrupted) {
-                return;
+            if (interrupted) {
+                if (dc.activeDialog !== undefined) {
+                    // issue a re-prompt on the active dialog
+                    dialogResult = await dc.reprompt();
+                } // Else: We dont have an active dialog so nothing to continue here.
+            } else {
+                // this is not an interruption. So continue any active dialogs.
+                dialogResult = await dc.continue();
             }
-
-            // Continue the current dialog
-            const dialogResult = await dc.continue();
 
             // if no one has responded, 
             if(!dc.context.responded) {
@@ -158,18 +163,15 @@ class Bot {
             } else {
                 await dc.context.sendActivity(`I don't have anything to cancel.`);
             }
-            return true;        // handled the interrupt
+            return true;        // this is an interruption
         }
 
         if (topIntent === HELP_INTENT) {
-            if (dc.activeDialog) {
-                await dc.cancelAll();
-            }
             await dc.context.sendActivity(`Let me try to provide some help.`);
             await dc.context.sendActivity(`I understand greetings, being asked for help, or being asked to cancel what I am doing.`);
-            return true;        // handled the interrupt
+            return true;        // this is an interruption
         }
-        return false;           // did not handle the interrupt
+        return false;           // this is not an interruption
     }
 
     /**
