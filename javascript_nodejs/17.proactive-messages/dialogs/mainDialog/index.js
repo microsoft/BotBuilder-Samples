@@ -7,7 +7,7 @@ const JOBS_LIST = 'jobs';
 
 class MainDialog {
     /**
-     * 
+     *
      * @param {BotState} botState A BotState object used to store information for the bot independent of user or conversation.
      * @param {BotAdapter} adapter A BotAdapter used to send and receive messages.
      */
@@ -19,17 +19,17 @@ class MainDialog {
     }
 
     /**
-     * 
+     *
      * @param {TurnContext} turnContext A TurnContext object representing an incoming message to be handled by the bot.
      */
     async onTurn(turnContext) {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         if (turnContext.activity.type === ActivityTypes.Message) {
-
             const utterance = (turnContext.activity.text || '').trim().toLowerCase();
+            var jobIdNumber;
 
             // If user types in run, create a new job.
-            if (utterance === 'run'){
+            if (utterance === 'run') {
                 await this.createJob(turnContext);
             } else if (utterance === 'show') {
                 await this.showJobs(turnContext);
@@ -39,9 +39,8 @@ class MainDialog {
                 // If the user types done and a Job Id Number,
                 // we check if the second word input is a number.
                 if (words[0] === 'done' && !isNaN(parseInt(words[1]))) {
-                    var jobIdNumber = words[1];
+                    jobIdNumber = words[1];
                     await this.completeJob(turnContext, jobIdNumber);
-
                 } else if (words[0] === 'done' && (words.length < 2 || isNaN(parseInt(words[1])))) {
                     await turnContext.sendActivity('Enter the job ID number after "done".');
                 }
@@ -50,9 +49,8 @@ class MainDialog {
             if (!turnContext.responded) {
                 await turnContext.sendActivity(`Say "run" to start a job, or "done <job>" to complete one.`);
             }
-
         } else if (turnContext.activity.type === 'event' && turnContext.activity.name === 'jobCompleted') {
-            var jobIdNumber = turnContext.activity.value;
+            jobIdNumber = turnContext.activity.value;
             if (!isNaN(parseInt(jobIdNumber))) {
                 await this.completeJob(turnContext, jobIdNumber);
             }
@@ -63,7 +61,6 @@ class MainDialog {
 
     // Save job ID and conversation reference.
     async createJob(turnContext) {
-
         // Create a unique job ID.
         var date = new Date();
         var jobIdNumber = date.getTime();
@@ -78,7 +75,7 @@ class MainDialog {
         const jobInfo = jobs[jobIdNumber];
 
         try {
-            if (isEmpty(jobInfo)){
+            if (isEmpty(jobInfo)) {
                 // Job object is empty so we have to create it
                 await turnContext.sendActivity(`Need to create new job ID: ${ jobIdNumber }`);
 
@@ -88,13 +85,13 @@ class MainDialog {
                 try {
                     // Save to storage
                     await this.jobsList.set(turnContext, jobs);
-                    // Notify the user that the job has been processed 
+                    // Notify the user that the job has been processed
                     await turnContext.sendActivity('Successful write to log.');
-                } catch(err) {
+                } catch (err) {
                     await turnContext.sendActivity(`Write failed: ${ err.message }`);
                 }
             }
-        } catch(err){
+        } catch (err) {
             await turnContext.sendActivity(`Read rejected. ${ err.message }`);
         }
     }
@@ -130,10 +127,7 @@ class MainDialog {
 
                 // Send a message to the person who completed the job.
                 await turnContext.sendActivity('Job completed. Notification sent.');
-
-            }
-            // The job has already been completed.
-            else if (completed) {
+            } else if (completed) { // The job has already been completed.
                 await turnContext.sendActivity('This job is already completed, please start a new job.');
             };
         };
@@ -147,7 +141,7 @@ class MainDialog {
                 '| Job number &nbsp; | Conversation ID &nbsp; | Completed |<br>' +
                 '| :--- | :---: | :---: |<br>' +
                 Object.keys(jobs).map((key) => {
-                    return `${ key } &nbsp; | ${ jobs[key].reference.conversation.id.split('|')[0] } &nbsp; | ${ jobs[key].completed }`
+                    return `${ key } &nbsp; | ${ jobs[key].reference.conversation.id.split('|')[0] } &nbsp; | ${ jobs[key].completed }`;
                 }).join('<br>'));
         } else {
             await turnContext.sendActivity('The job log is empty.');
@@ -157,9 +151,10 @@ class MainDialog {
 
 // Helper function to check if object is empty.
 function isEmpty(obj) {
-    for(var key in obj) {
-        if(obj.hasOwnProperty(key))
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
             return false;
+        }
     }
     return true;
 };
