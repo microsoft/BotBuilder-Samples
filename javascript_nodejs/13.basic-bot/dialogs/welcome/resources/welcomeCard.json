@@ -4,55 +4,32 @@
   "version": "1.0",
   "body": [
     {
-      "type": "Container",
-      "items": [
-        {
-          "type": "ColumnSet",
-          "id": "TopContainer",
-          "columns": [
-            {
-              "type": "Column",
-              "items": [
-                {
-                  "type": "Image",
-                  "style": "Person",
-                  "url": "https://cloudhostingindonesia.com/wp-content/uploads/2017/12/Microsoft-Luncurkan-Azure-Bot-Service.png",
-                  "size": "Small"
-                }
-              ],
-              "width": "auto"
-            },
-            {
-              "type": "Column",
-              "items": [
-                {
-                  "type": "TextBlock",
-                  "horizontalAlignment": "Left",
-                  "height": "stretch",
-                  "size": "Large",
-                  "weight": "Bolder",
-                  "color": "Accent",
-                  "text": "Welcome to Bot Framework"
-                }
-              ],
-              "width": "stretch"
-            }
-          ]
-        }
-      ]
+      "type": "Image",
+      "url": "https://aka.ms/bf-welcome-card-image",
+      "size": "stretch"
     },
     {
       "type": "TextBlock",
-      "size": "Medium",
-      "text": "Now that you successfully ran your bot, you can use this Adaptive Card to further expand your knowledge of Bot Framework.",
+      "spacing": "medium",
+      "size": "default",
+      "weight": "bolder",
+      "text": "Welcome to Bot Framework!",
       "wrap": true,
-      "maxLines": 3
+      "maxLines": 0
+    },
+    {
+      "type": "TextBlock",
+      "size": "default",
+      "isSubtle": "yes",
+      "text": "Welcome to Basic sample! This Introduction card is a great way to introduce your Bot to the user and suggest some things to get them started. We use this opportunity to recommend a few next steps for learning more creating and deploying bots.",
+      "wrap": true,
+      "maxLines": 0
     }
   ],
   "actions": [
     {
       "type": "Action.OpenUrl",
-      "title": "Learn More",
+      "title": "Get an overview",
       "url": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
     },
     {
