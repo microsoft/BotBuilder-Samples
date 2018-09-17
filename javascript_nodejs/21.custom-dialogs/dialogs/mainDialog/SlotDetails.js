@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 class SlotDetails {
-
     /**
      * SlotDetails is a small class that defines a "slot" to be filled in a SlotFillingDialog.
      * @param {string} name The field name used to store user's response.
@@ -16,8 +15,8 @@ class SlotDetails {
         if (prompt && reprompt) {
             this.options = {
                 prompt: prompt,
-                retryPrompt: reprompt,
-            }
+                retryPrompt: reprompt
+            };
         } else {
             this.options = prompt;
         }

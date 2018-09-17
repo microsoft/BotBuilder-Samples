@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityTypes } = require('botbuilder');
-const { DialogSet, DialogTurnStatus, NumberPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
+const { DialogSet, NumberPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 
 const SlotFillingDialog = require('./SlotFillingDialog');
 const SlotDetails = require('./SlotDetails');
@@ -14,8 +14,7 @@ class MainDialog {
      * MainDialog defines the core business logic of this bot.
      * @param {ConversationState} conversationState A ConversationState object used to store dialog state.
      */
-    constructor (conversationState) {
-
+    constructor(conversationState) {
         this.conversationState = conversationState;
 
         // Create a property used to store dialog state.
@@ -26,13 +25,13 @@ class MainDialog {
         this.dialogs = new DialogSet(this.dialogState);
 
         // Set up a series of questions for collecting the user's name.
-        const fullname_slots = [
+        const fullnameSlots = [
             new SlotDetails('first', 'text', 'Please enter your first name.'),
             new SlotDetails('last', 'text', 'Please enter your last name.')
         ];
 
         // Set up a series of questions to collect a street address.
-        const address_slots = [
+        const addressSlots = [
             new SlotDetails('street', 'text', 'Please enter your street address.'),
             new SlotDetails('city', 'text', 'Please enter the city.'),
             new SlotDetails('zip', 'text', 'Please enter your zipcode.')
@@ -50,8 +49,8 @@ class MainDialog {
         // Add the individual child dialogs and prompts used.
         // Note that the built-in prompts work hand-in-hand with our custom SlotFillingDialog class
         // because they are both based on the provided Dialog class.
-        this.dialogs.add(new SlotFillingDialog('address', address_slots));
-        this.dialogs.add(new SlotFillingDialog('fullname', fullname_slots));
+        this.dialogs.add(new SlotFillingDialog('address', addressSlots));
+        this.dialogs.add(new SlotFillingDialog('fullname', fullnameSlots));
         this.dialogs.add(new TextPrompt('text'));
         this.dialogs.add(new NumberPrompt('number'));
         this.dialogs.add(new NumberPrompt('shoesize', this.showSizeValidator));
@@ -75,7 +74,6 @@ class MainDialog {
     // This is the second step of the WaterfallDialog.
     // It receives the results of the SlotFillingDialog and displays them.
     async processResults(step) {
-
         // Each "slot" in the SlotFillingDialog is represented by a field in step.result.values.
         // The complex that contain subfields have their own .values field containing the sub-values.
         const values = step.result.values;
@@ -94,16 +92,13 @@ class MainDialog {
     // Validate that the provided shoe size is between 0 and 16, and allow half steps.
     // This is used to instantiate a specialized NumberPrompt.
     async showSizeValidator(prompt) {
-
         if (prompt.recognized.succeeded) {
             const shoesize = prompt.recognized.value;
-            
+
             // Shoe sizes can range from 0 to 16.
-            if (shoesize >= 0 && shoesize <= 16)
-            {
+            if (shoesize >= 0 && shoesize <= 16) {
                 // We only accept round numbers or half sizes.
-                if (Math.floor(shoesize) == shoesize || Math.floor(shoesize * 2) == shoesize * 2)
-                {
+                if (Math.floor(shoesize) === shoesize || Math.floor(shoesize * 2) === shoesize * 2) {
                     // Indicate success.
                     return true;
                 }
@@ -114,7 +109,7 @@ class MainDialog {
     }
 
     /**
-     * 
+     *
      * @param {TurnContext} turnContext A TurnContext object representing an incoming message to be handled by the bot.
      */
     async onTurn(turnContext) {
@@ -124,7 +119,7 @@ class MainDialog {
             const dc = await this.dialogs.createContext(turnContext);
 
             const utterance = (turnContext.activity.text || '').trim().toLowerCase();
-            if (utterance === 'cancel') { 
+            if (utterance === 'cancel') {
                 if (dc.activeDialog) {
                     await dc.cancelAllDialogs();
                     await dc.context.sendActivity(`Ok... canceled.`);
@@ -132,10 +127,10 @@ class MainDialog {
                     await dc.context.sendActivity(`Nothing to cancel.`);
                 }
             }
-            
+
             if (!dc.context.responded) {
                 // Continue the current dialog if one is pending.
-                const results = await dc.continueDialog();
+                await dc.continueDialog();
             }
 
             if (!dc.context.responded) {
@@ -143,7 +138,7 @@ class MainDialog {
                 await dc.beginDialog('root');
             }
         } else if (
-             turnContext.activity.type === ActivityTypes.ConversationUpdate &&
+            turnContext.activity.type === ActivityTypes.ConversationUpdate &&
              turnContext.activity.membersAdded[0].name !== 'Bot'
         ) {
             // Send a "this is what the bot does" message.
@@ -154,9 +149,9 @@ class MainDialog {
             ];
             await turnContext.sendActivity(description.join(' '));
         }
-        
+
         await this.conversationState.saveChanges(turnContext);
-    }    
+    }
 }
 
 module.exports = MainDialog;

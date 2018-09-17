@@ -24,4 +24,4 @@ module.exports = class NamePrompt extends TextPrompt {
             }
         });
     }
-}
+};
