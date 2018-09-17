@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, BotFrameworkAdapter, CardFactory } = require('botbuilder');
-const { DialogSet, OAuthPrompt, WaterfallDialog } = require('botbuilder-dialogs');
+const { ActivityTypes, CardFactory } = require('botbuilder');
+const { DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
 const { OAuthHelpers } = require('./oauth-helpers');
 
 /**
@@ -58,6 +58,7 @@ class GraphAuthenticationBot {
         switch (turnContext.activity.type) {
             case ActivityTypes.Message:
                 await this.processInput(dc);
+                break;
             case ActivityTypes.Event:
             case ActivityTypes.Invoke:
                 // This handles the Microsoft Teams Invoke Activity sent when magic code is not used.
@@ -70,12 +71,14 @@ class GraphAuthenticationBot {
                 if (turnContext.activity.type === ActivityTypes.Invoke && turnContext.activity.channelId !== "msteams") {
                     throw new Error("The Invoke type is only valid on the MS Teams channel.");
                 };
-                await dc.continue();
+                await dc.continueDialog();
                 if (!turnContext.responded) {
-                    await dc.begin("graphDialog");
+                    await dc.beginDialog("graphDialog");
                 };
+                break;
             case ActivityTypes.ConversationUpdate:
-                await this.sendWelcomeMessage(turnContext)
+                await this.sendWelcomeMessage(turnContext);
+                break;
         }
     };
 
@@ -158,9 +161,9 @@ class GraphAuthenticationBot {
                 await this.commandState.set(dc.context, dc.context.activity.text);
                 // The user has input a command that has not been handled yet,
                 // begin the waterfall dialog to handle the input.
-                await dc.continue();
+                await dc.continueDialog();
                 if (!dc.context.responded) {
-                    await dc.begin('graphDialog', dc);
+                    await dc.beginDialog('graphDialog', dc);
                 }
         }
     };
@@ -177,7 +180,7 @@ class GraphAuthenticationBot {
         if (activity.type === ActivityTypes.Message && !(/\d{6}/).test(activity.text)) {
             await this.commandState.set(step.context, activity.text);
         }
-        return await step.begin('loginPrompt');
+        return await step.beginDialog('loginPrompt');
     }
 
     /**
@@ -214,7 +217,7 @@ class GraphAuthenticationBot {
             // Ask the user to try logging in later as they are not logged in.
             await step.context.sendActivity(`We couldn't log you in. Please try again later.`);
         }
-        return await step.end();  
+        return await step.endDialog();  
     };
 };
 

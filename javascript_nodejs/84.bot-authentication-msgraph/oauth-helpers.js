@@ -71,7 +71,7 @@ class OAuthHelpers {
             else {
                 photoText = `Consider adding an image to your Outlook profile.`;
             }
-
+            
             reply.text = `You are ${me.displayName} and you report to ${manager.displayName}. ${photoText}`;
             await turnContext.sendActivity(reply);
         }

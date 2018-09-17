@@ -113,7 +113,7 @@ class SimpleGraphClient {
         const photoResponse = await axios.request({
             "method": "GET",
             "url": "https://graph.microsoft.com/v1.0/me/photo/$value",
-            // "responseType": "stream",
+            "responseType": "stream",
             // "responseEncoding": null,
             "headers": {
                 "Authorization": "Bearer " + this._token,
@@ -123,7 +123,7 @@ class SimpleGraphClient {
 
         // Grab the content-type header for the data URI.
         const contentType = photoResponse.headers['content-type'];
-
+        
         // Encode the raw body as a base64 string.
         const base64Body = photoResponse.data.toString("base64");
         // Assign your values to the photo object.
