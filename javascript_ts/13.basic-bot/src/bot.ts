@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { StatePropertyAccessor, ActivityTypes, CardFactory, ConversationState, UserState, RecognizerResult, TurnContext } from 'botbuilder';
-import { LuisRecognizer, LuisApplication } from 'botbuilder-ai';
-import { DialogSet, DialogTurnStatus, DialogContext, DialogState } from 'botbuilder-dialogs';
+import { LuisRecognizer } from 'botbuilder-ai';
+import { DialogSet, DialogTurnStatus, DialogContext, DialogState, DialogTurnResult } from 'botbuilder-dialogs';
 import { WelcomeCard } from './dialogs/welcome';
 import { GreetingState, GreetingDialog } from './dialogs/greeting';
 import { BotConfiguration, LuisService } from 'botframework-config';
@@ -92,7 +92,9 @@ export class Bot {
         // Create a dialog context
         const dc = await this.dialogs.createContext(context);
 
-        if(context.activity.type === ActivityTypes.Message) {
+        if (context.activity.type === ActivityTypes.Message) {
+            let dialogResult: DialogTurnResult;
+
             // Perform a call to LUIS to retrieve results for the current activity message.
             const results = await this.luisRecognizer.recognize(context);
             const topIntent = LuisRecognizer.topIntent(results);
@@ -100,19 +102,22 @@ export class Bot {
             // update greeting state with any entities captured
             await this.updateGreetingState(results, context);
 
-            // handle conversation interrupts first
+            // Evaluate if we have an interruption.
             const interrupted = await this.isTurnInterrupted(dc, results);
-            if(interrupted) {
-                return;
+            if (interrupted) {
+                if (dc.activeDialog !== undefined) {
+                    // issue a re-prompt on the active dialog
+                    await dc.reprompt();
+                } // Else: We dont have an active dialog so nothing to continue here.
+            } else {
+                // this is not an interruption. So continue any active dialogs.
+                dialogResult = await dc.continue();
             }
 
-            // Continue the current dialog
-            const dialogResult = await dc.continue();
-
             // if no one has responded, 
-            if(!dc.context.responded) {
+            if (!dc.context.responded) {
                 // examine results from active dialog
-                switch(dialogResult.status) {
+                switch (dialogResult.status) {
                     case DialogTurnStatus.empty:
                         switch (topIntent) {
                             case GREETING_INTENT:
@@ -163,18 +168,15 @@ export class Bot {
             } else {
                 await dc.context.sendActivity(`I don't have anything to cancel.`);
             }
-            return true;        // handled the interrupt
+            return true;        // this is an interruption
         }
 
         if (topIntent === HELP_INTENT) {
-            if (dc.activeDialog) {
-                await dc.cancelAll();
-            }
             await dc.context.sendActivity(`Let me try to provide some help.`);
             await dc.context.sendActivity(`I understand greetings, being asked for help, or being asked to cancel what I am doing.`);
-            return true;        // handled the interrupt
+            return true;        // this is an interruption
         }
-        return false;           // did not handle the interrupt
+        return false;           // this is not an interruption
     }
 
     /**
