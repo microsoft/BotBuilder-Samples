@@ -197,11 +197,18 @@ module.exports = {
             // These utterances are defined in ../whoAreYou/resources/whoAreYou.lu 
             let userNameInOnTurnProperty = (onTurnProperty.entities || []).filter(item => ((item.entityName == USER_NAME_ENTITY) || (item.entityName == USER_NAME_PATTERN_ANY_ENTITY)));
             if (userNameInOnTurnProperty.length !== 0) {
-                let userName = userNameInOnTurnProperty[0].entityValue;
-                // capitalize user name   
-                userName = userName.charAt(0).toUpperCase() + userName.slice(1);
-                await this.userProfileAccessor.set(dc.context, new UserProfile(userName));
-                return await dc.context.sendActivity(`Hello ${userName}, Nice to meet you again! I'm the Contoso Cafe Bot.`);
+                // LUIS occasionally can trigger into this scenario due to {userName_patternAny} entity in the model. 
+                // Skip if that's the case.
+                if (!Array.isArray(userNameInOnTurnProperty[0].entityValue)) {
+                    let userName = userNameInOnTurnProperty[0].entityValue;
+                    // capitalize user name   
+                    userName = userName.charAt(0).toUpperCase() + userName.slice(1);
+                    await this.userProfileAccessor.set(dc.context, new UserProfile(userName));
+                    return await dc.context.sendActivity(`Hello ${userName}, Nice to meet you again! I'm the Contoso Cafe Bot.`);
+                } else {
+                    await dc.context.sendActivity(`Sorry, I do not know how to help you with that.`);
+                    return await dc.context.sendActivity(`Follow [this link](https://www.bing.com/search?q=${dc.context.activity.text}) to search the web!`);
+                }
             }
             // Begin the who are you dialog if we have an invalid or empty user name or if the user name was previously set to 'Human'
             if (userProfile === undefined || userProfile.userName === '' || userProfile.userName === 'Human') {
