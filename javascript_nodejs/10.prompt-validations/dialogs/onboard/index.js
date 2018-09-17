@@ -68,7 +68,7 @@ class OnboardingDialog extends ComponentDialog {
     async promptForName(step) {
         const user = await this.userProfile.get(step.context, {});
         if (user.name) {
-            return await step.replace(HELLO_USER);
+            return await step.replaceDialog(HELLO_USER);
         } else {
             return await step.prompt(GET_NAME_PROMPT, `What is your name, human?`);
         }
@@ -116,7 +116,7 @@ class OnboardingDialog extends ComponentDialog {
         await step.context.sendActivity(`Your profile is complete! Thank you.`);
 
         // Transition to the display of the profile data.
-        return await step.begin(HELLO_USER);
+        return await step.beginDialog(HELLO_USER);
     }
 
     async displayProfile(step) {
@@ -129,7 +129,7 @@ class OnboardingDialog extends ComponentDialog {
         ];
 
         await step.context.sendActivity(text.join(' '));
-        return await step.end();
+        return await step.endDialog();
     }
 }
 

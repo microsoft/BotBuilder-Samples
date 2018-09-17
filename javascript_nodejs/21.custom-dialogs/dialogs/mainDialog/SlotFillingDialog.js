@@ -76,7 +76,7 @@ class SlotFillingDialog extends Dialog {
         } else {
             // If all the prompts are filled, we're done. Return the full state object,
             // which will now contain values for all the slots.
-            return await dc.end(dc.activeDialog.state);
+            return await dc.endDialog(dc.activeDialog.state);
         }
     }
 }
