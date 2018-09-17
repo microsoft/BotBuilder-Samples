@@ -53,19 +53,19 @@ namespace EnterpriseBot
 
                 case ActivityTypes.Event:
                     {
-                        await OnEvent(innerDc);
+                        await OnEventAsync(innerDc);
                         break;
                     }
 
                 case ActivityTypes.ConversationUpdate:
                     {
-                        await OnStart(innerDc);
+                        await OnStartAsync(innerDc);
                         break;
                     }
 
                 default:
                     {
-                        await OnSystemMessage(innerDc);
+                        await OnSystemMessageAsync(innerDc);
                         break;
                     }
             }
@@ -99,7 +99,7 @@ namespace EnterpriseBot
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task OnEvent(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
+        protected virtual Task OnEventAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
 
         /// <summary>
         /// Called when a system activity is received.
@@ -107,7 +107,7 @@ namespace EnterpriseBot
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task OnSystemMessage(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
+        protected virtual Task OnSystemMessageAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
 
         /// <summary>
         /// Called when a conversation update activity is received.
@@ -115,6 +115,6 @@ namespace EnterpriseBot
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task OnStart(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
+        protected virtual Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
     }
 }
