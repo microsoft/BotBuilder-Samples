@@ -99,7 +99,7 @@ class MainDialog {
         } else {
             await step.context.sendActivity(`No age given.`);
         }
-        return await step.end();
+        return await step.endDialog();
     }
 
     // This step displays the captured information back to the user.
@@ -110,7 +110,7 @@ class MainDialog {
         } else {
             await step.context.sendActivity(`Your name is ${ user.name } and you did not share your age.`);
         }
-        return await step.end();
+        return await step.endDialog();
     }
 
     /**
@@ -140,9 +140,9 @@ class MainDialog {
             if (!turnContext.responded) {
                 const user = await this.userProfile.get(dc.context, {});
                 if (user.name) {
-                    await dc.begin(HELLO_USER)
+                    await dc.beginDialog(HELLO_USER)
                 } else {
-                    await dc.begin(WHO_ARE_YOU)
+                    await dc.beginDialog(WHO_ARE_YOU)
                 }
             }
         } else if (
