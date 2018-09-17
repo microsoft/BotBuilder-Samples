@@ -69,7 +69,7 @@ class MainDialog {
     // It kicks off the dialog with the multi-question SlotFillingDialog,
     // then passes the aggregated results on to the next step.
     async startDialog(step) {
-        return await step.begin('slot-dialog');
+        return await step.beginDialog('slot-dialog');
     }   
 
     // This is the second step of the WaterfallDialog.
@@ -88,7 +88,7 @@ class MainDialog {
         const address = values['address'].values;
         await step.context.sendActivity(`Your address is: ${ address['street'] }, ${ address['city'] } ${ address['zip'] }`);
 
-        return await step.end();
+        return await step.enDialog();
     }
 
     // Validate that the provided shoe size is between 0 and 16, and allow half steps.
@@ -126,7 +126,7 @@ class MainDialog {
             const utterance = (turnContext.activity.text || '').trim().toLowerCase();
             if (utterance === 'cancel') { 
                 if (dc.activeDialog) {
-                    await dc.cancelAll();
+                    await dc.cancelAllDialogs();
                     await dc.context.sendActivity(`Ok... canceled.`);
                 } else {
                     await dc.context.sendActivity(`Nothing to cancel.`);
@@ -135,12 +135,12 @@ class MainDialog {
             
             if (!dc.context.responded) {
                 // Continue the current dialog if one is pending.
-                const results = await dc.continue();
+                const results = await dc.continueDialog();
             }
 
             if (!dc.context.responded) {
                 // If no response has been sent, start the onboarding dialog.
-                await dc.begin('root');
+                await dc.beginDialog('root');
             }
         } else if (
              turnContext.activity.type === ActivityTypes.ConversationUpdate &&

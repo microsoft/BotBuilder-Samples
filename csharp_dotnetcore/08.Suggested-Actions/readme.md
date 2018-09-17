@@ -16,17 +16,17 @@ and simplifies bot development (since you will not need to account for that scen
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
  ### Visual studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\8.Suggested-Actions\Suggested_Actions`) and open Suggested_Actions.csproj in Visual Studio 
+- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\08.Suggested-Actions\Suggested_Actions`) and open Suggested_Actions.csproj in Visual Studio 
 - Hit F5
  ### Visual studio code
-- Open `BotBuilder-Samples\csharp_dotnetcore\8.Suggested-Actions\Suggested_Actions` folder
-- Bring up a terminal, navigate to BotBuilder-Samples\csharp_dotnetcore\8.Suggested-Actions\Suggested_Actions
+- Open `BotBuilder-Samples\csharp_dotnetcore\08.Suggested-Actions\Suggested_Actions` folder
+- Bring up a terminal, navigate to BotBuilder-Samples\csharp_dotnetcore\08.Suggested-Actions\Suggested_Actions
 - Type 'dotnet run'.
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
   **Note:** this sample requires `Microsoft.Bot.Builder`, `Microsoft.Bot.Builder.Dialogs`, and `Microsoft.Bot.Builder.Integration.AspNet.Core`.
 # Further reading
-- [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Bot basics](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Channels and Bot Connector service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
