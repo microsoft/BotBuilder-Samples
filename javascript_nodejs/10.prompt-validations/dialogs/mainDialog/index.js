@@ -14,12 +14,11 @@ const ONBOARD_USER = 'onboard_user';
 
 class MainDialog {
     /**
-     * 
+     *
      * @param {ConversationState} conversationState A ConversationState object used to store dialog state.
      * @param {UserState} userState A UserState object used to store user profile information.
      */
-    constructor (conversationState, userState) {
-
+    constructor(conversationState, userState) {
         this.conversationState = conversationState;
         this.userState = userState;
 
@@ -28,7 +27,7 @@ class MainDialog {
         this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
 
         // Create properties used to store values from the user.
-        this.userProfile = this.userState.createProperty(USER_PROFILE_PROPERTY)
+        this.userProfile = this.userState.createProperty(USER_PROFILE_PROPERTY);
 
         // Create a dialog set to include the dialogs used by this bot.
         this.dialogs = new DialogSet(this.dialogState);
@@ -38,7 +37,7 @@ class MainDialog {
     }
 
     /**
-     * 
+     *
      * @param {TurnContext} turnContext A TurnContext object representing an incoming message to be handled by the bot.
      */
     async onTurn(turnContext) {
@@ -48,26 +47,26 @@ class MainDialog {
             const dc = await this.dialogs.createContext(turnContext);
 
             const utterance = (turnContext.activity.text || '').trim().toLowerCase();
-            if (utterance === 'cancel') { 
+            if (utterance === 'cancel') {
                 if (dc.activeDialog) {
-                    await dc.cancelAll();
+                    await dc.cancelAllDialogs();
                     await dc.context.sendActivity(`Ok... canceled.`);
                 } else {
                     await dc.context.sendActivity(`Nothing to cancel.`);
                 }
             }
-            
+
             // Continue the current dialog if one is pending.
             if (!turnContext.responded) {
-                await dc.continue();
+                await dc.continueDialog();
             }
 
             // If no response has been sent, start the onboarding dialog.
             if (!turnContext.responded) {
-                await dc.begin(ONBOARD_USER);
+                await dc.beginDialog(ONBOARD_USER);
             } 
         } else if (
-             turnContext.activity.type === ActivityTypes.ConversationUpdate &&
+            turnContext.activity.type === ActivityTypes.ConversationUpdate &&
              turnContext.activity.membersAdded[0].name !== 'Bot'
         ) {
             // Send a "this is what the bot does" message.
@@ -84,7 +83,6 @@ class MainDialog {
 
         // End this turn by saving changes to the conversation state.
         await this.conversationState.saveChanges(turnContext);
-    
     }
 }
 

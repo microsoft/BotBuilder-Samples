@@ -15,4 +15,4 @@ module.exports = async function(context) {
             return context.sendActivity(`I heard you say "${ context.activity.text }"`);
         }
     }
-}
+};

@@ -16,12 +16,11 @@ const AGE_PROMPT = 'age_prompt';
 
 class MainDialog {
     /**
-     * 
+     *
      * @param {ConversationState} conversationState A ConversationState object used to store the dialog state.
      * @param {UserState} userState A UserState object used to store values specific to the user.
      */
-    constructor (conversationState, userState) {
-
+    constructor(conversationState, userState) {
         // Create a new state accessor property. See https://aka.ms/about-bot-state-accessors to learn more about bot state and state accessors.
         this.conversationState = conversationState;
         this.userState = userState;
@@ -31,11 +30,11 @@ class MainDialog {
         this.userProfile = this.userState.createProperty(USER_PROFILE_PROPERTY);
 
         this.dialogs = new DialogSet(this.dialogState);
-     
+
         // Add prompts that will be used by the main dialogs.
         this.dialogs.add(new TextPrompt(NAME_PROMPT));
         this.dialogs.add(new ChoicePrompt(CONFIRM_PROMPT));
-        this.dialogs.add(new NumberPrompt(AGE_PROMPT, async (prompt)=> {
+        this.dialogs.add(new NumberPrompt(AGE_PROMPT, async (prompt) => {
             if (prompt.recognized.succeeded) {
                 if (prompt.recognized.value <= 0) {
                     await prompt.context.sendActivity(`Your age can't be less than zero.`);
@@ -43,13 +42,13 @@ class MainDialog {
                 } else {
                     return true;
                 }
-            } 
+            }
 
             return false;
         }));
-            
+
         // Create a dialog that asks the user for their name.
-        this.dialogs.add(new WaterfallDialog(WHO_ARE_YOU,[
+        this.dialogs.add(new WaterfallDialog(WHO_ARE_YOU, [
             this.promptForName.bind(this),
             this.confirmAgePrompt.bind(this),
             this.promptForAge.bind(this),
@@ -72,14 +71,14 @@ class MainDialog {
         const user = await this.userProfile.get(step.context, {});
         user.name = step.result;
         await this.userProfile.set(step.context, user);
-        await step.prompt(CONFIRM_PROMPT, 'Do you want to give your age?', ['yes','no']);                
+        await step.prompt(CONFIRM_PROMPT, 'Do you want to give your age?', ['yes', 'no']);
     }
 
     // This step checks the user's response - if yes, the bot will proceed to prompt for age.
     // Otherwise, the bot will skip the age step.
     async promptForAge(step) {
         if (step.result && step.result.value === 'yes') {
-            return await step.prompt(AGE_PROMPT,`What is your age?`,
+            return await step.prompt(AGE_PROMPT, `What is your age?`,
                 {
                     retryPrompt: 'Sorry, please specify your age as a positive number or say cancel.'
                 }
@@ -99,7 +98,7 @@ class MainDialog {
         } else {
             await step.context.sendActivity(`No age given.`);
         }
-        return await step.end();
+        return await step.endDialog();
     }
 
     // This step displays the captured information back to the user.
@@ -110,11 +109,11 @@ class MainDialog {
         } else {
             await step.context.sendActivity(`Your name is ${ user.name } and you did not share your age.`);
         }
-        return await step.end();
+        return await step.endDialog();
     }
 
     /**
-     * 
+     *
      * @param {TurnContext} turnContext A TurnContext object that will be interpreted and acted upon by the bot.
      */
     async onTurn(turnContext) {
@@ -124,15 +123,15 @@ class MainDialog {
             const dc = await this.dialogs.createContext(turnContext);
 
             const utterance = (turnContext.activity.text || '').trim().toLowerCase();
-            if (utterance === 'cancel') { 
+            if (utterance === 'cancel') {
                 if (dc.activeDialog) {
-                    await dc.cancelAll();
+                    await dc.cancelAllDialogs();
                     await dc.context.sendActivity(`Ok... canceled.`);
                 } else {
                     await dc.context.sendActivity(`Nothing to cancel.`);
                 }
             }
-            
+
             // If the bot has not yet responded, continue processing the current dialog.
             await dc.continue();
 
@@ -140,16 +139,16 @@ class MainDialog {
             if (!turnContext.responded) {
                 const user = await this.userProfile.get(dc.context, {});
                 if (user.name) {
-                    await dc.begin(HELLO_USER)
+                    await dc.beginDialog(HELLO_USER)
                 } else {
-                    await dc.begin(WHO_ARE_YOU)
+                    await dc.beginDialog(WHO_ARE_YOU)
                 }
             }
         } else if (
             turnContext.activity.type === ActivityTypes.ConversationUpdate &&
             turnContext.activity.membersAdded[0].name !== 'Bot'
-       ) {
-           // Send a "this is what the bot does" message.
+        ) {
+            // Send a "this is what the bot does" message.
             const description = [
                 'I am a bot that demonstrates the TextPrompt and NumberPrompt classes',
                 'to collect your name and age, then store those values in UserState for later use.',
@@ -163,7 +162,6 @@ class MainDialog {
 
         // End this turn by saving changes to the conversation state.
         await this.conversationState.saveChanges(turnContext);
-
     }
 }
 

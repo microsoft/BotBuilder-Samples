@@ -3,21 +3,21 @@
 
 const botbuilder = require('botbuilder');
 const path = require('path');
-const config = require('dotenv').config;
+const { ConsoleAdapter } = require('./consoleAdapter');
 
 const mainDialog = require('./dialogs/mainDialog');
 
 // load environment variables from .env file.
 const ENV_FILE = path.join(__dirname, '.env');
-const loadFromEnv = config({path: ENV_FILE});
+require('dotenv').config({ path: ENV_FILE });
 
 // Create the bot adapter, which is responsible for sending and receiving messages.
 // We are using the ConsoleAdapter, which enables a bot you can chat with from within your terminal window.
-const adapter = new botbuilder.ConsoleAdapter();
+const adapter = new ConsoleAdapter();
 
 // A call to adapter.listen tells the adapter to start listening for incoming messages and events, known as "activities."
 // Activities are received as TurnContext objects by the handler function.
-const closeFn = adapter.listen(async (context) => {
+adapter.listen(async (context) => {
     await mainDialog(context);
 });
 

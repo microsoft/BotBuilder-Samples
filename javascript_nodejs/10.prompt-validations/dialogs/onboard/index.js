@@ -25,17 +25,17 @@ const COLOR_PROPERTY = 'color';
 
 class OnboardingDialog extends ComponentDialog {
     /**
-     * 
+     *
      * @param {string} dialogId A unique identifier for this dialog.
      * @param {BotStatePropertyAccessor} userProfile A property used to store the user's name.
      */
-    constructor (dialogId, userProfile) {
+    constructor(dialogId, userProfile) {
         super(dialogId);
 
         this.userProfile = userProfile;
 
         // Create a dialog flow that captures a series of values from a user.
-        this.addDialog(new WaterfallDialog(START_DIALOG,[
+        this.addDialog(new WaterfallDialog(START_DIALOG, [
             this.promptForName.bind(this),
             this.promptForAge.bind(this),
             this.promptForDob.bind(this),
@@ -55,10 +55,10 @@ class OnboardingDialog extends ComponentDialog {
 
         // GET_AGE_PROMPT will validate an age between 1 and 99.
         this.addDialog(new AgePrompt(GET_AGE_PROMPT));
-        
+
         // GET_DOB_PROMPT will validate a date between 8/24/1918 and 8/24/2018.
         this.addDialog(new DobPrompt(GET_DOB_PROMPT));
-                
+
         // GET_COLOR_PROMPT provides a validation error when a valid choice is not made.
         this.addDialog(new ColorPrompt(GET_COLOR_PROMPT));
     }
@@ -68,14 +68,14 @@ class OnboardingDialog extends ComponentDialog {
     async promptForName(step) {
         const user = await this.userProfile.get(step.context, {});
         if (user.name) {
-            return await step.replace(HELLO_USER);
+            return await step.replaceDialog(HELLO_USER);
         } else {
             return await step.prompt(GET_NAME_PROMPT, `What is your name, human?`);
         }
     }
 
-    // Collect user name, then prompt for age. 
-    async promptForAge (step) {
+    // Collect user name, then prompt for age.
+    async promptForAge(step) {
         // Capture the response from the previous turn in step.values
         // which will be stored through the end of the dialog.
         step.values[USER_NAME_PROPERTY] = step.result;
@@ -91,7 +91,7 @@ class OnboardingDialog extends ComponentDialog {
     // Collect date of birth, then prompt for favorite color.
     async promptForColor(step) {
         step.values[DOB_PROPERTY] = step.result[0].value;
-        const choices = ['red','blue','green'];
+        const choices = ['red', 'blue', 'green'];
         return await step.prompt(GET_COLOR_PROMPT, `Finally, what is your favorite color?`, choices);
     }
 
@@ -108,15 +108,15 @@ class OnboardingDialog extends ComponentDialog {
 
         // Extract collected values and add them to the user profile object.
         user[USER_NAME_PROPERTY] = step.values[USER_NAME_PROPERTY];
-        user[AGE_PROPERTY] =  step.values[AGE_PROPERTY];
-        user[DOB_PROPERTY] =  step.values[DOB_PROPERTY];
-        user[COLOR_PROPERTY] =  step.values[COLOR_PROPERTY];
+        user[AGE_PROPERTY] = step.values[AGE_PROPERTY];
+        user[DOB_PROPERTY] = step.values[DOB_PROPERTY];
+        user[COLOR_PROPERTY] = step.values[COLOR_PROPERTY];
         await this.userProfile.set(step.context, user);
 
         await step.context.sendActivity(`Your profile is complete! Thank you.`);
 
         // Transition to the display of the profile data.
-        return await step.begin(HELLO_USER);
+        return await step.beginDialog(HELLO_USER);
     }
 
     async displayProfile(step) {
@@ -124,15 +124,13 @@ class OnboardingDialog extends ComponentDialog {
 
         const text = [
             `You asked me to call you "${ user[USER_NAME_PROPERTY] }".`,
-            `You were born on ${ moment(user[DOB_PROPERTY]).format("MMM Do, YYYY") } and claim to be ${ user[AGE_PROPERTY] }.`,
+            `You were born on ${ moment(user[DOB_PROPERTY]).format('MMM Do, YYYY') } and claim to be ${ user[AGE_PROPERTY] }.`,
             `Your favorite color is ${ user[COLOR_PROPERTY] }.`
         ];
 
         await step.context.sendActivity(text.join(' '));
-        return await step.end();
+        return await step.endDialog();
     }
-
-
 }
 
 module.exports = OnboardingDialog;

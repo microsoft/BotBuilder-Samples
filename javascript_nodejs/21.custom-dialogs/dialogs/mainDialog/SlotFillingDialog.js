@@ -4,27 +4,23 @@
 const { ActivityTypes } = require('botbuilder');
 const { Dialog } = require('botbuilder-dialogs');
 
-const SlotName = "slot";
-const PersistedValues = "values";
+const SlotName = 'slot';
+const PersistedValues = 'values';
 
 class SlotFillingDialog extends Dialog {
-    /** 
+    /**
      * SlotFillingDialog is a Dialog class for offering slot filling features to a bot.
      * Given multiple slots to fill, the dialog will walk a user through all of them
      * until all slots are filled with user responses.
      * @param {string} dialogId A unique identifier for this dialog.
      * @param {Array} slots An array of SlotDetails that define the required slots.
      */
-    constructor (dialogId, slots) {
-
+    constructor(dialogId, slots) {
         super(dialogId);
         this.slots = slots;
     }
 
     async dialogBegin(dc, options) {
-        // Initialize the state. We'll use this to store slot values.
-        const state = dc.activeDialog.state;
-
         if (dc.context.activity.type !== ActivityTypes.Message) {
             return await Dialog.EndOfTurn;
         }
@@ -51,7 +47,7 @@ class SlotFillingDialog extends Dialog {
         // and the parent dialog resumes.  Since every turn of a SlotFillingDialog
         // is a prompt, we know that whenever we resume, there is a value to capture.
 
-        // The slotName of the slot that was just filled was been stored in the state. 
+        // The slotName of the slot that was just filled was been stored in the state.
         const slotName = dc.activeDialog.state[SlotName];
 
         // Get the previously persisted values.
@@ -59,7 +55,7 @@ class SlotFillingDialog extends Dialog {
 
         // Set the new value into the appropriate slot name.
         values[slotName] = result;
-        
+
         // Move on to the next slot in the dialog.
         return await this.runPrompt(dc);
     }
@@ -68,7 +64,7 @@ class SlotFillingDialog extends Dialog {
         // runPrompt finds the next slot to fill, then calls the appropriate prompt to fill it.
         const state = dc.activeDialog.state;
         const values = state[PersistedValues];
-        
+
         // Find unfilled slots by filtering the full list of slots, excluding those for which we already have a value.
         const unfilledSlot = this.slots.filter(function(slot) { return !Object.keys(values).includes(slot.name); });
 
@@ -78,10 +74,9 @@ class SlotFillingDialog extends Dialog {
 
             return await dc.prompt(unfilledSlot[0].promptId, unfilledSlot[0].options);
         } else {
-
             // If all the prompts are filled, we're done. Return the full state object,
             // which will now contain values for all the slots.
-            return await dc.end(dc.activeDialog.state);
+            return await dc.endDialog(dc.activeDialog.state);
         }
     }
 }

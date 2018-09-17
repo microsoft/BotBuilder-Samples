@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { StatePropertyAccessor, ActivityTypes, CardFactory, ConversationState, UserState, RecognizerResult, TurnContext } from 'botbuilder';
-import { LuisRecognizer, LuisApplication } from 'botbuilder-ai';
+import { LuisRecognizer } from 'botbuilder-ai';
 import { DialogSet, DialogTurnStatus, DialogContext, DialogState, DialogTurnResult } from 'botbuilder-dialogs';
 import { WelcomeCard } from './dialogs/welcome';
 import { GreetingState, GreetingDialog } from './dialogs/greeting';
