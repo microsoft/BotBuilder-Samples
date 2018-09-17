@@ -5,7 +5,7 @@
   "body": [
     {
       "type": "Image",
-      "url": "https://aka.ms/bf-welcome-card-image",
+      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU",
       "size": "stretch"
     },
     {
@@ -21,7 +21,7 @@
       "type": "TextBlock",
       "size": "default",
       "isSubtle": "yes",
-      "text": "Welcome to Basic sample! This Introduction card is a great way to introduce your Bot to the user and suggest some things to get them started. We use this opportunity to recommend a few next steps for learning more creating and deploying bots.",
+      "text": "Now that you have successfully run your bot, follow the links in this Adaptive Card to expand your knowledge of Bot Framework.",
       "wrap": true,
       "maxLines": 0
     }
