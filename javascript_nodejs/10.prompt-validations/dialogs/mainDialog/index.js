@@ -49,7 +49,7 @@ class MainDialog {
             const utterance = (turnContext.activity.text || '').trim().toLowerCase();
             if (utterance === 'cancel') {
                 if (dc.activeDialog) {
-                    await dc.cancelAll();
+                    await dc.cancelAllDialogs();
                     await dc.context.sendActivity(`Ok... canceled.`);
                 } else {
                     await dc.context.sendActivity(`Nothing to cancel.`);
@@ -58,13 +58,13 @@ class MainDialog {
 
             // Continue the current dialog if one is pending.
             if (!turnContext.responded) {
-                await dc.continue();
+                await dc.continueDialog();
             }
 
             // If no response has been sent, start the onboarding dialog.
             if (!turnContext.responded) {
-                await dc.begin(ONBOARD_USER);
-            }
+                await dc.beginDialog(ONBOARD_USER);
+            } 
         } else if (
             turnContext.activity.type === ActivityTypes.ConversationUpdate &&
              turnContext.activity.membersAdded[0].name !== 'Bot'

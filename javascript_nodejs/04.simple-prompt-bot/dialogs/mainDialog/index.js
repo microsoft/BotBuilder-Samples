@@ -53,14 +53,14 @@ class MainDialog {
     async collectAndDisplayName(step) {
         await this.userName.set(step.context, step.result);
         await step.context.sendActivity(`Got it. You are ${ step.result }.`);
-        return await step.end();
+        return await step.endDialog();
     }
 
     // This step loads the user's name from state and displays it.
     async displayName(step) {
         const userName = await this.userName.get(step.context, null);
         await step.context.sendActivity(`Your name is ${ userName }.`);
-        return await step.end();
+        return await step.endDialog();
     }
 
     /**
@@ -85,16 +85,16 @@ class MainDialog {
 
             // Continue the current dialog
             if (!turnContext.responded) {
-                await dc.continue();
+                await dc.continueDialog();
             }
 
             // Show menu if no response sent
             if (!turnContext.responded) {
-                var userName = await this.userName.get(dc.context, null);
+                var userName = await this.userName.get(dc.context,null);
                 if (userName) {
-                    await dc.begin(HELLO_USER);
+                    await dc.beginDialog(HELLO_USER)
                 } else {
-                    await dc.begin(WHO_ARE_YOU);
+                    await dc.beginDialog(WHO_ARE_YOU)
                 }
             }
         } else if (
