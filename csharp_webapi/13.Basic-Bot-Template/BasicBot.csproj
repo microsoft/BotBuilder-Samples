@@ -242,7 +242,6 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityResolver.cs" />
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
-    <Compile Include="BasicBotAccessors.cs" />
     <Compile Include="Dialogs\Greeting\GreetingDialog.cs" />
     <Compile Include="Dialogs\Greeting\GreetingState.cs" />
     <Compile Include="Dialogs\MainDialog\MainDialog.cs" />

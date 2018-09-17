@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Configuration;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -21,9 +22,27 @@ namespace Microsoft.BotBuilderSamples
         /// Initializes a new instance of the <see cref="BotServices"/> class.
         /// </summary>
         /// <param name="luisServices">A dictionary of named <see cref="LuisRecognizer"/> instances for usage within the bot.</param>
-        public BotServices(Dictionary<string, LuisRecognizer> luisServices)
+        public BotServices(BotConfiguration botConfiguration)
         {
-            LuisServices = luisServices ?? throw new ArgumentNullException(nameof(luisServices));
+            foreach (var service in botConfiguration.Services)
+            {
+                switch (service.Type)
+                {
+                    case ServiceTypes.Luis:
+                        {
+                            var luis = (LuisService)service;
+                            if (luis == null)
+                            {
+                                throw new InvalidOperationException("The LUIS service is not configured correctly in your '.bot' file.");
+                            }
+
+                            var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.Region);
+                            var recognizer = new LuisRecognizer(app);
+                            this.LuisServices.Add(luis.Name, recognizer);
+                            break;
+                        }
+                }
+            }
         }
 
         /// <summary>

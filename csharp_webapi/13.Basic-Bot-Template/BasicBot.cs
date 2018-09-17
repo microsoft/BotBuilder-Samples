@@ -1,15 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace BasicBot
 {
@@ -44,11 +39,6 @@ namespace BasicBot
         private readonly BotServices _services;
 
         /// <summary>
-        /// Accessors (and associated State managers).
-        /// </summary>
-        private readonly BasicBotAccessors _accessors;
-
-        /// <summary>
         /// Top level dialog(s).
         /// </summary>
         private readonly DialogSet _dialogs;
@@ -56,24 +46,39 @@ namespace BasicBot
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicBot"/> class.
         /// </summary>
-        /// <param name="services">Services configured from the .bot file.</param>
-        /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
+        /// <param name="userState">The <see cref="UserState"/> used to manage user state.</param>
+        /// <param name="conversationState">The <see cref="ConversationState"/> used to manage conversation state.</param>
+        /// <param name="services">A <see cref="BotServices"/> that holds external services.</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
         /// <seealso cref="BotConfiguration"/>
-        public BasicBot(BotServices services, BasicBotAccessors accessors)
+        public BasicBot(UserState userState, ConversationState conversationState, BotServices services)
         {
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
-            _accessors = accessors ?? throw new System.ArgumentNullException(nameof(accessors));
 
             if (!_services.LuisServices.ContainsKey(LuisKey))
             {
                 throw new System.ArgumentException($"Invalid configuration.  Please check your '.bot' file for a LUIS service named '{LuisKey}'.");
             }
 
+            ConversationState = conversationState ?? throw new System.ArgumentNullException(nameof(conversationState));
+            UserState = userState ?? throw new System.ArgumentNullException(nameof(userState));
+
             // Create top-level dialog(s)
-            _dialogs = new DialogSet(_accessors.DialogStateProperty);
-            _dialogs.Add(new MainDialog(services, accessors));
+            _dialogs = new DialogSet(ConversationState.CreateProperty<DialogState>(nameof(BasicBot)));
+            _dialogs.Add(new MainDialog(services, UserState, ConversationState));
         }
+
+        /// <summary>
+        /// Gets the <see cref="ConversationState"/> object for the conversation.
+        /// </summary>
+        /// <value>The <see cref="ConversationState"/> object.</value>
+        public ConversationState ConversationState { get; }
+
+        /// <summary>
+        /// Gets the <see cref="UserState"/> object for the conversation.
+        /// </summary>
+        /// <value>The <see cref="UserState"/> object.</value>
+        public UserState UserState { get; }
 
         /// <summary>
         /// Every conversation turn for our Basic Bot will call this method.
@@ -95,8 +100,8 @@ namespace BasicBot
                 await dc.BeginDialogAsync(nameof(MainDialog));
             }
 
-            await _accessors.ConversationState.SaveChangesAsync(context);
-            await _accessors.UserState.SaveChangesAsync(context);
+            await ConversationState.SaveChangesAsync(context);
+            await UserState.SaveChangesAsync(context);
         }
     }
 }

@@ -43,12 +43,12 @@ namespace Microsoft.BotBuilderSamples
         private readonly BotServices _services;
         private readonly ILogger _logger;
 
-        public MainDialog(BotServices services, BasicBotAccessors accessors, ILoggerFactory loggerFactory)
+        public MainDialog(BotServices services, UserState userState, ConversationState conversationState, ILoggerFactory loggerFactory)
                     : base(nameof(MainDialog), loggerFactory)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
 
-            AddDialog(new GreetingDialog(services, accessors.DialogStateProperty, accessors.GreetingStateProperty, loggerFactory));
+            AddDialog(new GreetingDialog(services, userState, loggerFactory));
             AddDialog(new NamePrompt(nameof(NamePrompt)));
             AddDialog(new CityPrompt(nameof(CityPrompt)));
 

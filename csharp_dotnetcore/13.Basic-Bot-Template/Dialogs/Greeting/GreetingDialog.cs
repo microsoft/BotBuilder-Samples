@@ -1,16 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -35,34 +31,37 @@ namespace Microsoft.BotBuilderSamples
         /// Initializes a new instance of the <see cref="GreetingDialog"/> class.
         /// </summary>
         /// <param name="botServices">Connected services used in processing.</param>
-        /// <param name="dialogStateAccessor">The <see cref="DialogState"/> property accessor.</param>
-        /// <param name="greetingStateAccessor">The <see cref="GreetingState"/> property
         /// accessor for <see cref="UserState"/>. Used for holding name/city.</param>
         /// <param name="logger">The <see cref="ILogger"/> that enables logging.</param>
-        public GreetingDialog(
-                    BotServices botServices,
-                    IStatePropertyAccessor<DialogState> dialogStateAccessor,
-                    IStatePropertyAccessor<GreetingState> greetingStateAccessor,
-                    ILoggerFactory loggerFactory)
+        public GreetingDialog(BotServices botServices, UserState botState, ILoggerFactory loggerFactory)
+            : this(botServices, botState.CreateProperty<GreetingState>(GreetingStateName), loggerFactory)
+        {
+        }
+
+        public GreetingDialog(BotServices botServices, IStatePropertyAccessor<GreetingState> greetingStateAccessor, ILoggerFactory loggerFactory)
             : base(botServices, nameof(GreetingDialog), loggerFactory)
         {
-            DialogStateAccessor = dialogStateAccessor ?? throw new ArgumentNullException($"Missing parameter. {nameof(dialogStateAccessor)} is required.");
-            GreetingStateAccessor = greetingStateAccessor ?? throw new ArgumentNullException($"Missing parameter. {nameof(greetingStateAccessor)} is required.");
+            this.GreetingStateAccessor = greetingStateAccessor;
 
             // Add control flow dialogs
             var waterfallSteps = new WaterfallStep[]
             {
-                InitializeStateStepAsync,
-                PromptForNameStepAsync,
-                PromptForCityStepAsync,
-                DisplayGreetingStateStepAsync,
+                    InitializeStateStepAsync,
+                    PromptForNameStepAsync,
+                    PromptForCityStepAsync,
+                    DisplayGreetingStateStepAsync,
             };
             AddDialog(new WaterfallDialog(ProfileDialog, waterfallSteps));
             AddDialog(new NamePrompt(nameof(NamePrompt)));
             AddDialog(new CityPrompt(nameof(CityPrompt)));
         }
 
-        public IStatePropertyAccessor<DialogState> DialogStateAccessor { get; }
+        /// <summary>
+        /// Gets the <see cref="IStatePropertyAccessor{T}"/> name used for the <see cref="CounterState"/> accessor.
+        /// </summary>
+        /// <remarks>Accessors require a unique name.</remarks>
+        /// <value>The accessor name for the accessor.</value>
+        public static string GreetingStateName { get; } = $"{nameof(GreetingDialog)}.GreetingState";
 
         public IStatePropertyAccessor<GreetingState> GreetingStateAccessor { get; }
 

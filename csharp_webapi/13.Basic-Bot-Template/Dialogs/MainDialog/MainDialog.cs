@@ -42,12 +42,12 @@ namespace BasicBot
 
         private readonly BotServices _services;
 
-        public MainDialog(BotServices services, BasicBotAccessors accessors)
+        public MainDialog(BotServices services, UserState userState, ConversationState conversationState)
                     : base(nameof(MainDialog))
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
 
-            AddDialog(new GreetingDialog(services, accessors.DialogStateProperty, accessors.GreetingStateProperty));
+            AddDialog(new GreetingDialog(services, userState));
             AddDialog(new NamePrompt(nameof(NamePrompt)));
             AddDialog(new CityPrompt(nameof(CityPrompt)));
         }

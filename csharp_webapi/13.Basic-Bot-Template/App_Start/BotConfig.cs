@@ -41,7 +41,7 @@ namespace BasicBot
                 botConfig
                     .UseMicrosoftApplicationIdentity(endpointService?.AppId, endpointService?.AppPassword);
 
-                var connectedServices = InitBotServices(botConfigurationFile);
+                var connectedServices = new BotServices(botConfigurationFile);
 
                 UnityConfig.Container.RegisterInstance<BotServices>(connectedServices, new ContainerControlledLifetimeManager());
 
@@ -63,74 +63,9 @@ namespace BasicBot
                 // The User State object is where we persist anything at the user-scope.
                 var userState = new UserState(dataStore);
 
-                // Create the custom state accessor.
-                // State accessors enable other components to read and write individual properties of state.
-                var accessors = new BasicBotAccessors(userState, conversationState)
-                {
-                    GreetingStateProperty = userState.CreateProperty<GreetingState>(BasicBotAccessors.GreetingStateName),
-                    DialogStateProperty = conversationState.CreateProperty<DialogState>(BasicBotAccessors.DialogStateName),
-                };
-
-                UnityConfig.Container.RegisterInstance<BasicBotAccessors>(accessors, new ContainerControlledLifetimeManager());
+                UnityConfig.Container.RegisterInstance<ConversationState>(conversationState, new ContainerControlledLifetimeManager());
+                UnityConfig.Container.RegisterInstance<UserState>(userState, new ContainerControlledLifetimeManager());
             });
-        }
-
-        /// <summary>
-        /// Initialize the bot's references to external services.
-        /// For example, Luis services created here.  External services are configured
-        /// using the <see cref="BotConfiguration"/> class (based on the contents of your .bot file).
-        /// </summary>
-        /// <param name="config">Configuration object based on your .bot file.</param>
-        /// <returns>A <see cref="BotConfiguration"/> representing client objects to access external services the bot uses.</returns>
-        /// <seealso cref="BotConfiguration"/>
-        /// <seealso cref="LuisRecognizer"/>
-        /// <seealso cref="TelemetryClient"/>
-        private static BotServices InitBotServices(BotConfiguration config)
-        {
-            var luisServices = new Dictionary<string, LuisRecognizer>();
-
-            foreach (var service in config.Services)
-            {
-                switch (service.Type)
-                {
-                    case ServiceTypes.Luis:
-                        {
-                            var luis = (LuisService)service;
-                            if (luis == null)
-                            {
-                                throw new InvalidOperationException("The LUIS service is not configured correctly in your '.bot' file.");
-                            }
-
-                            if (string.IsNullOrWhiteSpace(luis.AppId))
-                            {
-                                throw new InvalidOperationException("The LUIS Model Application Id ('appId') is required to run this sample. Please update your '.bot' file.");
-                            }
-
-                            if (string.IsNullOrWhiteSpace(luis.AuthoringKey))
-                            {
-                                throw new InvalidOperationException("The LUIS Authoring Key ('authoringKey') is required to run this sample. Please update your '.bot' file.");
-                            }
-
-                            if (string.IsNullOrWhiteSpace(luis.SubscriptionKey))
-                            {
-                                throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample. Please update your '.bot' file.");
-                            }
-
-                            if (string.IsNullOrWhiteSpace(luis.Region))
-                            {
-                                throw new InvalidOperationException("The Region ('region') is required to run this sample.  Please update your '.bot' file.");
-                            }
-
-                            var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.Region);
-                            var recognizer = new LuisRecognizer(app);
-                            luisServices.Add(BasicBot.LuisKey, recognizer);
-                            break;
-                        }
-                }
-            }
-
-            var connectedServices = new BotServices(luisServices);
-            return connectedServices;
         }
     }
 }
