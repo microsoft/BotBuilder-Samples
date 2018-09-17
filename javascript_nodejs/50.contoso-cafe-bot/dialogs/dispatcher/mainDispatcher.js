@@ -9,7 +9,8 @@ const { UserProfile, OnTurnProperty } = require('../shared/stateProperties');
 const MAIN_DISPATCHER_DIALOG = 'MainDispatcherDialog';
 
 // User name entity from ../whoAreYou/resources/whoAreYou.lu
-const USER_NAME_ENTITY = 'userName_patternAny';
+const USER_NAME_ENTITY = 'userName';
+const USER_NAME_PATTERN_ANY_ENTITY = 'userName_patternAny'
 const NONE_INTENT = 'None';
 
 // Query property from ../whatCanYouDo/resources/whatCanYHouDoCard.json
@@ -39,7 +40,7 @@ module.exports = {
             if (!userState) throw ('Missing parameter. User state is required.');
 
             // Create state objects for user, conversation and dialog states.   
-            this.userProfileAccessor = userState.createProperty(USER_PROFILE_PROPERTY);
+            this.userProfileAccessor = conversationState.createProperty(USER_PROFILE_PROPERTY);
             this.mainDispatcherAccessor = conversationState.createProperty(MAIN_DISPATCHER_STATE_PROPERTY);
             this.reservationAccessor = conversationState.createProperty(RESERVATION_PROPERTY);
 
@@ -80,7 +81,7 @@ module.exports = {
          * This method examines the incoming turn property to determine  
          * 1. If the requested operation is permissible - e.g. if user is in middle of a dialog, 
          *     then an out of order reply should not be allowed.
-         * 2. Calls any oustanding dialogs to continue
+         * 2. Calls any outstanding dialogs to continue
          * 3. If results is no-match from outstanding dialog .OR. if there are no outstanding dialogs,
          *    decide which child dialog should begin and start it
          * 
@@ -102,7 +103,7 @@ module.exports = {
             let dialogTurnResult  = await dc.continue();
 
             // This will only be empty if there is no active dialog in the stack.
-            // Removing check for dialogTurnStatus here will break sucessful cancellation of child dialogs. E.g. who are you -> cancel -> yes flow.
+            // Removing check for dialogTurnStatus here will break successful cancellation of child dialogs. E.g. who are you -> cancel -> yes flow.
             if (!dc.context.responded && dialogTurnResult !== undefined && dialogTurnResult.status !== DialogTurnStatus.complete) {
                 // No one has responded so start the right child dialog.
                 dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty);
@@ -161,7 +162,7 @@ module.exports = {
         }
         /**
          * Method to evaluate if the requested user operation is possible.
-         * User could be in the middle of a multi-turn dialog where intteruption might not be possible or allowed.
+         * User could be in the middle of a multi-turn dialog where interruption might not be possible or allowed.
          * 
          * @param {String} activeDialog
          * @param {String} requestedOperation 
@@ -194,9 +195,9 @@ module.exports = {
             let userProfile = await this.userProfileAccessor.get(dc.context);
             // Handle case where user is re-introducing themselves. 
             // These utterances are defined in ../whoAreYou/resources/whoAreYou.lu 
-            let userNameInOnTurnProperty = (onTurnProperty.entities || []).filter(item => item.entityName == USER_NAME_ENTITY);
+            let userNameInOnTurnProperty = (onTurnProperty.entities || []).filter(item => ((item.entityName == USER_NAME_ENTITY) || (item.entityName == USER_NAME_PATTERN_ANY_ENTITY)));
             if (userNameInOnTurnProperty.length !== 0) {
-                let userName = userNameInOnTurnProperty[0].entityValue[0];
+                let userName = userNameInOnTurnProperty[0].entityValue;
                 // capitalize user name   
                 userName = userName.charAt(0).toUpperCase() + userName.slice(1);
                 await this.userProfileAccessor.set(dc.context, new UserProfile(userName));

@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 const { TextPrompt } = require('botbuilder-dialogs');
-const { MessageFactory } = require('botbuilder');
+const { MessageFactory, CardFactory } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { UserProfile } = require('../stateProperties');
+const { GetUserNameCard } = require('../../whoAreYou/getUserNameCard');
 
 const InterruptionDispatcher = 'interruptionDispatcherDialog';
 // LUIS service type entry for the get user profile LUIS model in the .bot file.
@@ -17,7 +18,8 @@ const NONE_INTENT = 'None';
 const CANCEL_INTENT = 'Cancel';
 
 // User name entity from ./resources/getUserProfile.lu
-const USER_NAME = 'userName_patternAny';
+const USER_NAME = 'userName'
+const USER_NAME_PATTERN_ANY = 'userName_patternAny';
 const TURN_COUNTER_PROPERTY = 'turnCounterProperty';
 const HAVE_USER_PROFILE = true;
 const NO_USER_PROFILE = false;
@@ -40,20 +42,24 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
         if (!conversationState) throw ('Missing parameter. Conversation state is required.');
         
         super (dialogId, async (turnContext, step) => { 
+            const userProfile = await this.userProfileAccessor.get(turnContext);
+
             // Prompt validator
             // Examine if we have a user name and validate it.
-            if (this.userProfile.userName !== undefined) {
+            if (userProfile !== undefined && userProfile.userName !== undefined) {
                 // We can only accept user names that up to two words.
-                if (this.userProfile.userName.split(' ').length > 2) {
+                if (userProfile.userName.split(' ').length > 2) {
                     await turnContext.sendActivity(`Sorry, I can only accept two words for a name.`);
                     await turnContext.sendActivity(`You can always say 'My name is <your name>' to introduce yourself to me.`);
                     await this.userProfileAccessor.set(context, new UserProfile('Human'));
+                    // set updated turn counter
+                    await this.turnCounterAccessor.set(context, 0);
                     step.end(NO_USER_PROFILE);
                 } else {
                     // capitalize user name   
-                    this.userProfile.userName = this.userProfile.userName.charAt(0).toUpperCase() + this.userProfile.userName.slice(1);
+                    userProfile.userName = userProfile.userName.charAt(0).toUpperCase() + userProfile.userName.slice(1);
                     // Create user profile and set it to state.
-                    await this.userProfileAccessor.set(turnContext, this.userProfile);
+                    await this.userProfileAccessor.set(turnContext, userProfile);
                     step.end(HAVE_USER_PROFILE);
                 }
             }
@@ -62,9 +68,8 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
         this.userProfileAccessor = userProfileAccessor;
         this.turnCounterAccessor = conversationState.createProperty(TURN_COUNTER_PROPERTY);
         this.onTurnAccessor = onTurnAccessor;
-        this.userProfile = new UserProfile();
         
-        // add recogizers
+        // add recognizer
         const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
         if (!luisConfig || !luisConfig.appId) throw (`Get User Profile LUIS configuration not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
         this.luisRecognizer = new LuisRecognizer({
@@ -85,14 +90,30 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
         // Get turn counter
         let turnCounter = await this.turnCounterAccessor.get(context);
         turnCounter = (turnCounter === undefined) ? 0 : ++turnCounter;
-        
-        // We are not going to spend more than 3 turns to get user's name.
-        if (turnCounter >= 3) {
-            return await this.endGetUserNamePrompt(dc);
-        }
-
         // set updated turn counter
         await this.turnCounterAccessor.set(context, turnCounter);
+        
+        // See if we have card input. This would come in through onTurnProperty
+        const onTurnProperty = await this.onTurnAccessor.get(context);
+
+        if(onTurnProperty !== undefined) {
+            if(onTurnProperty.entities.length !== 0) {
+                const userNameInOnTurnProperty = onTurnProperty.entities.find(item => item.entityName == USER_NAME);
+                if(userNameInOnTurnProperty !== undefined) {
+                    await this.updateUserProfileProperty(userNameInOnTurnProperty.entityValue, context);
+                    return await super.dialogContinue(dc);
+                }
+            }
+        }
+
+        if (turnCounter >= 1) {
+            // We we need to get user's name right. Include a card.
+            await dc.context.sendActivity({ attachments: [CardFactory.adaptiveCard(GetUserNameCard)]});
+            return await super.dialogContinue(dc);
+        } else if (turnCounter >= 3) {
+            // We are not going to spend more than 3 turns to get user's name.
+            return await this.endGetUserNamePrompt(dc);
+        }
 
         // call LUIS and get results
         const LUISResults = await this.luisRecognizer.recognize(context); 
@@ -112,7 +133,10 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
             case GET_USER_NAME_INTENT: {
                 // Find the user's name from LUIS entities list.
                 if (USER_NAME in LUISResults.entities) {
-                    this.userProfile.userName = LUISResults.entities[USER_NAME][0];
+                    await this.updateUserProfileProperty(LUISResults.entities[USER_NAME][0], context);
+                    return await super.dialogContinue(dc);
+                } else if(USER_NAME_PATTERN_ANY in LUISResults.entities) {
+                    await this.updateUserProfileProperty(LUISResults.entities[USER_NAME_PATTERN_ANY][0], context);
                     return await super.dialogContinue(dc);
                 } else {
                     await context.sendActivity(`Sorry, I didn't get that. What's your name?`);
@@ -125,7 +149,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                 return await super.dialogContinue(dc);
             }
             case NONE_INTENT: {
-                this.userProfile.userName = context.activity.text;
+                await this.updateUserProfileProperty(context.activity.text, context);
                 return await super.dialogContinue(dc);
             } case CANCEL_INTENT: {
                 // start confirmation prompt
@@ -166,5 +190,21 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
             // User said no to cancel.
             return await super.dialogResume(dc, reason, result)
         }
+    }
+
+    /**
+     * Helper method to set user name
+     * 
+     * @param {String} userName 
+     * @param {Object} context 
+     */
+    async updateUserProfileProperty(userName, context) {
+        let userProfile = await this.userProfileAccessor.get(context);
+        if (userProfile === undefined) {
+            userProfile = new UserProfile(userName);
+        } else {
+            userProfile.userName = userName;
+        }
+        return await this.userProfileAccessor.set(context, userProfile);
     }
 }

@@ -13,7 +13,7 @@ const LUIS_CONFIGURATION = 'cafeDispatchModel';
 
 // State properties
 const ON_TURN_PROPERTY = 'onTurnStateProperty';
-const DIALOG_STATE_PROPERTY = 'dialogStatePropety';
+const DIALOG_STATE_PROPERTY = 'dialogStateProperty';
 
 module.exports = {
     Bot: class {
@@ -34,7 +34,7 @@ module.exports = {
             this.onTurnAccessor = conversationState.createProperty(ON_TURN_PROPERTY);
             this.dialogAccessor = conversationState.createProperty(DIALOG_STATE_PROPERTY);
             
-            // add recogizers
+            // add recognizer
             const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
             if (!luisConfig || !luisConfig.appId) throw (`Cafe Dispatch LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information.\n`);
             this.luisRecognizer = new LuisRecognizer({
@@ -67,7 +67,7 @@ module.exports = {
                     // Set the state with gathered properties (intent/ entities) through the onTurnAccessor
                     await this.onTurnAccessor.set(context, onTurnProperties);
                     
-                    // Do we have any oustanding dialogs? if so, continue them and get results
+                    // Do we have any outstanding dialogs? if so, continue them and get results
                     // No active dialog? start a new main dialog
                     // Create dialog context.
                     const dc = await this.dialogs.createContext(context);
@@ -75,7 +75,7 @@ module.exports = {
                     // Continue outstanding dialogs. 
                     await dc.continue();
                     
-                    // Begin main dialog if no oustanding dialogs/ no one responded
+                    // Begin main dialog if no outstanding dialogs/ no one responded
                     if (!dc.context.responded) {
                         await dc.begin(MainDispatcher.Name);
                     }
@@ -89,7 +89,7 @@ module.exports = {
                         // turnContext.Activity.MembersAdded == turnContext.Activity.Recipient.Id indicates the
                         // bot was added to the conversation.
                         // TODO: Send welcome card the right way
-                        if(context.activity.membersAdded[0].name !== 'Bot') await this.welcomeUser(context);
+                        if(!['username', 'Bot'].includes(context.activity.membersAdded[0].name)) await this.welcomeUser(context);
                     }
                     break;
                 }

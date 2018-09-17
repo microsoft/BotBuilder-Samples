@@ -1,6 +1,15 @@
 {
   "intents": [
     {
+      "name": "Find Cafe Locations"
+    },
+    {
+      "name": "Cancel"
+    },
+    {
+      "name": "Who are you"
+    },
+    {
       "name": "Help"
     },
     {
@@ -14,15 +23,6 @@
     },
     {
       "name": "What can you do"
-    },
-    {
-      "name": "Find Cafe Locations"
-    },
-    {
-      "name": "Cancel"
-    },
-    {
-      "name": "Who are you"
     }
   ],
   "entities": [],
@@ -130,6 +130,156 @@
       "entities": []
     },
     {
+      "text": "Find contoso cafe locations",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "Where can I get coffee?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "find locations near redmond",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "find cafe locations near seattle airport",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "where can I get coffee near renton",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "I want coffee",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "What cafe locations are open today?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "Is the bellevue store open at 3PM?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "Is the SEA store open today?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "What stores are open this weekend?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "When does the store near microsoft open?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "can you get me the seatac store hours?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "can you get me the store hours for the RNT store?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "is the downtown store open next thursday at 3pm?",
+      "intent": "Find Cafe Locations",
+      "entities": []
+    },
+    {
+      "text": "cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "I dont want that anymore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Abort",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Please cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Who are you?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "What is your name?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "how should I address you?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "What's your name?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "What can you do?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "how can you help me?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "what can you do for me?",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "[Get user name and location](./getUserProfile.lu/#Get-user-name-and-location)",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "[Why do you ask](./getUserProfile.lu/#Why-do-you-ask)",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "[No Name](./getUserProfile.lu/#No-Name)",
+      "intent": "Who are you",
+      "entities": []
+    },
+    {
       "text": "Help",
       "intent": "Help",
       "entities": []
@@ -147,6 +297,106 @@
     {
       "text": "I'm lost",
       "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "book a table",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "i would like to book a table",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 3",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 2 in redmond store for next thursday at 3pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 3 guests in seattle",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for next thursday at 3pm please",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 3 guests near microsoft for next thursday at 3pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "can you book a table for 3 guests?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "get me a table for next wednesday",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table at seatac",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "can you please book a table for 2 guests for this weekend?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "get a table for next thursday",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "reserve a table for 4 at SEA",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "can you get me a table",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "please help reserve a table for 5",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "can i get a table for this sunday at seattle?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "need a table in redmond",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "I need to reserve a table",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "I need to make a reservation",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "I need to reserve a table for 2 in Seattle",
+      "intent": "Book Table",
       "entities": []
     },
     {
@@ -1293,341 +1543,10 @@
       "text": "Can I trust you?",
       "intent": "ChitChat",
       "entities": []
-    },
-    {
-      "text": "Find contoso cafe locations",
-      "intent": "Find Cafe Locations",
-      "entities": []
-    },
-    {
-      "text": "Where can I get coffee?",
-      "intent": "Find Cafe Locations",
-      "entities": []
-    },
-    {
-      "text": "find locations near redmond",
-      "intent": "Find Cafe Locations",
-      "entities": []
-    },
-    {
-      "text": "find cafe locations near seattle airport",
-      "intent": "Find Cafe Locations",
-      "entities": []
-    },
-    {
-      "text": "where can I get coffee near renton",
-      "intent": "Find Cafe Locations",
-      "entities": []
-    },
-    {
-      "text": "I want coffee",
-      "intent": "Find Cafe Locations",
-      "entities": []
-    },
-    {
-      "text": "What cafe locations are open today?",
-      "intent": "Find Cafe Locations",
-      "entities": []
-    },
-    {
-      "text": "Is the bellevue store open at 3PM?",
-      "intent": "Find Cafe Locations",
-      "entities": []
-    },
-    {
-      "text": "Is the SEA store open today?",
-      "intent": "Find Cafe Locations",
-      "entities": []
-    },
-    {
-      "text": "What stores are open this weekend?",
-      "intent": "Find Cafe Locations",
-      "entities": []
-    },
-    {
-      "text": "When does the store near microsoft open?",
-      "intent": "Find Cafe Locations",
-      "entities": []
-    },
-    {
-      "text": "can you get me the seatac store hours?",
-      "intent": "Find Cafe Locations",
-      "entities": []
-    },
-    {
-      "text": "can you get me the store hours for the RNT store?",
-      "intent": "Find Cafe Locations",
-      "entities": []
-    },
-    {
-      "text": "is the downtown store open next thursday at 3pm?",
-      "intent": "Find Cafe Locations",
-      "entities": []
-    },
-    {
-      "text": "cancel",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "cancel that",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "stop that",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "I dont want that anymore",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "Abort",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "Please cancel that",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
-      "text": "Who are you?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "What is your name?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "how should I address you?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "What's your name?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "What can you do?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "how can you help me?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "what can you do for me?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "Why do you need my name?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "Why do you ask?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "Why?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "why do you need user name?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "first or last name?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "first name?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "why",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "I will not give you my name",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "Sorry, no name for you",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "No, I cannot give you my name",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "I cannot give you my name",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "No",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "No way",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "book a table",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "i would like to book a table",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "book a table for 3",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "book a table for 2 in redmond store for next thursday at 3pm",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "book a table for 3 guests in seattle",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "book a table for next thursday at 3pm please",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "book a table for 3 guests near microsoft for next thursday at 3pm",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "can you book a table for 3 guests?",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "get me a table for next wednesday",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "book a table at seatac",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "can you please book a table for 2 guests for this weekend?",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "get a table for next thursday",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "reserve a table for 4 at SEA",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "can you get me a table",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "please help reserve a table for 5",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "can i get a table for this sunday at seattle?",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "need a table in redmond",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "I need to reserve a table",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "I need to make a reservation",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "I need to reserve a table for 2 in Seattle",
-      "intent": "Book Table",
-      "entities": []
     }
   ],
-  "patterns": [
-    {
-      "pattern": "My [first] name [is] {userName_patternAny}",
-      "intent": "Who are you"
-    },
-    {
-      "pattern": "I'm {userName_patternAny}",
-      "intent": "Who are you"
-    },
-    {
-      "pattern": "You can call me {userName_patternAny}",
-      "intent": "Who are you"
-    },
-    {
-      "pattern": "call me {userName_patternAny}",
-      "intent": "Who are you"
-    },
-    {
-      "pattern": "[please] call me {userName_patternAny}",
-      "intent": "Who are you"
-    },
-    {
-      "pattern": "{userName_patternAny} is my name",
-      "intent": "Who are you"
-    }
-  ],
-  "patternAnyEntities": [
-    {
-      "name": "userName_patternAny",
-      "explicitList": [],
-      "roles": []
-    }
-  ],
+  "patterns": [],
+  "patternAnyEntities": [],
   "prebuiltEntities": [
     {
       "name": "number",

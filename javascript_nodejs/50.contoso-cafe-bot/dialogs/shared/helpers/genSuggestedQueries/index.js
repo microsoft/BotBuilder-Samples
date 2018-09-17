@@ -5,10 +5,10 @@
 // To generate list of utterances in the model, you can call ludown parse toluis --in <INPUT-FILE> -t
 const dispatchLUISModel = require('./resources/querySuggestions.json');
 const DEFAULT_NUMBER_OF_SUGGESTIONS = 3;
-const PROMOTIONS_LIST = ['Book a table', 'Find cafe locations', 'Who are you?', 'Sing a song'];
+const PROMOTIONS_LIST = ['Book a table', 'Who are you?', 'Sing a song'];
 
 /**
- * Helper method that returns an array of possbile queries the user can issue.
+ * Helper method that returns an array of possible queries the user can issue.
  * 
  * @param {Integer} numberOfSuggestions 
  * @returns {String []} of query suggestions

@@ -1,15 +1,19 @@
 > Construct the root dispatch LUIS model based on other .lu files
 
-[Find Cafe Location intent](../../findCafeLocations/resources/findCafe.lu)
+# Find Cafe Locations
+- [Find Cafe Location intent](../../findCafeLocations/resources/findCafe.lu#Find-Cafe-Locations)
 
-[Cancel intent](../../cancel/resources/cancel.lu)
+# Cancel
+- [Cancel intent](../../cancel/resources/cancel.lu#Cancel)
 
-[Who are you intent](../../whoAreYou/resources/whoAreYou.lu)
+# Who are you
+- [Who are you intent](../../whoAreYou/resources/whoAreYou.lu#Who-are-you)
 
 # Help
 - [Help intent](../../help/resources/help.lu#?)
 
-[Book Table intent](../../bookTable/resources/bookTableTriggerIntent.lu)
+# Book Table
+- [Book Table intent](../../bookTable/resources/bookTableTriggerIntent.lu#Book-Table)
 
 # Book Table
 > Add references to book table turn.n so these continue to be routed to book table dialog
@@ -29,6 +33,3 @@
 - what can you help me with?
 - what can you do for me?
 - what do you do?
-
-> Add entities
-[Entities](./entities.lu)

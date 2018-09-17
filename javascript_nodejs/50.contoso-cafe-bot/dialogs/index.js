@@ -5,7 +5,7 @@ module.exports = {
     WhoAreYouDialog: require('./whoAreYou').WhoAreYouDialog,
     WhatCanYouDoDialog: require('./whatCanYouDo').WhatCanYouDoDialog,
     QnADialog: require('./qna').QnADialog,
-    HelpDialog: require('./help'),
+    HelpDialog: require('./help').HelpDialog,
     FindCafeLocationsDialog: require('./findCafeLocations').FindCafeLocationsDialog,
     ChitChatDialog: require('./chitChat').ChitChatDialog,
     CancelDialog: require('./cancel').CancelDialog,
