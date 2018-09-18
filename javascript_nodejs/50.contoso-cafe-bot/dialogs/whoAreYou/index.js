@@ -21,31 +21,31 @@ const CONFIRM_CANCEL_PROMPT = 'confirmCancelPrompt';
 const HAVE_USER_NAME = true;
 /**
  * Class Who are you dialog.
- * 
+ *
  *  Uses a waterfall dialog with a custom text prompt to get user's name and greet them.
  *  Has two water fall steps -
- *    1. Skips to water fall step #2 if we already have user's name or the main dispatcher picked up their name. 
+ *    1. Skips to water fall step #2 if we already have user's name or the main dispatcher picked up their name.
  *       Initiates the 'ask user name' prompt if we dont have their name yet
  *    2. Greets user with their name
- * 
+ *
  * 'Ask user name' prompt is implemented as a custom text prompt. See ../shared/prompts/getUserNamePrompt.js
- * 
+ *
  */
 module.exports = {
     WhoAreYouDialog: class extends ComponentDialog {
         static get Name() { return WHO_ARE_YOU_DIALOG; }
         /**
          * Constructor.
-         * 
+         *
          * @param {BotConfiguration} bot configuration
-         * @param {ConversationState} conversationState 
+         * @param {ConversationState} conversationState
          * @param {StatePropertyAccessor} accessor for user profile property
          * @param {StatePropertyAccessor} accessor for on turn property
          * @param {StatePropertyAccessor} accessor for reservation property
          */
         constructor(botConfig, conversationState, userProfileAccessor, onTurnAccessor, reservationAccessor) {
-            super (WHO_ARE_YOU_DIALOG);
-            
+            super(WHO_ARE_YOU_DIALOG);
+
             if (!botConfig) throw ('Missing parameter. Bot configuration is required.');
             if (!userProfileAccessor) throw ('Missing parameter. User profile property accessor is required.');
             if (!conversationState) throw ('Missing parameter. Conversation state is required.');
@@ -61,11 +61,11 @@ module.exports = {
             ]));
 
             // add get user name prompt
-            this.addDialog(new GetUserNamePrompt(ASK_USER_NAME_PROMPT, 
-                                                botConfig, 
-                                                userProfileAccessor, 
-                                                conversationState,
-                                                onTurnAccessor));
+            this.addDialog(new GetUserNamePrompt(ASK_USER_NAME_PROMPT,
+                botConfig,
+                userProfileAccessor,
+                conversationState,
+                onTurnAccessor));
 
             // this dialog is interruptable, add interruptionDispatcherDialog
             this.addDialog(new InterruptionDispatcher(onTurnAccessor, conversationState, userProfileAccessor, botConfig, reservationAccessor));
@@ -75,7 +75,7 @@ module.exports = {
         }
         /**
          * Waterfall step to prompt for user's name
-         * 
+         *
          * @param {DialogContext} Dialog context
          * @param {WaterfallStepContext} water fall step context
          */
@@ -85,7 +85,7 @@ module.exports = {
             // Get on turn properties.
             const onTurnProperty = await this.onTurnAccessor.get(dc.context);
 
-            // Handle case where user is re-introducing themselves. 
+            // Handle case where user is re-introducing themselves.
             // This flow is triggered when we are not in the middle of who-are-you dialog
             //   and the user says something like 'call me {username}' or 'my name is {username}'.
 
@@ -94,16 +94,16 @@ module.exports = {
             if (userNameInOnTurnProperty.length !== 0) {
                 // get user name from on turn property
                 let userName = userNameInOnTurnProperty[0].entityValue[0];
-                // capitalize user name   
+                // capitalize user name
                 userName = userName.charAt(0).toUpperCase() + userName.slice(1);
-                // set user name 
+                // set user name
                 await this.userProfileAccessor.set(dc.context, new UserProfile(userName));
                 // End this step so we can greet the user.
                 return await step.next(HAVE_USER_NAME);
             }
 
-            // Prompt user for name if 
-            //    we have an invalid or empty user name or 
+            // Prompt user for name if
+            //    we have an invalid or empty user name or
             //    if the user name was previously set to 'Human'
 
             if (userProfile === undefined || userProfile.userName === '' || userProfile.userName === 'Human') {
@@ -112,22 +112,22 @@ module.exports = {
                 return await dc.prompt(ASK_USER_NAME_PROMPT, `What's your name?`);
             } else {
                 // Already have the user name. So just greet them.
-                await dc.context.sendActivity(`Hello ${userProfile.userName}, Nice to meet you again! I'm the Contoso Cafe Bot.`);
+                await dc.context.sendActivity(`Hello ${ userProfile.userName }, Nice to meet you again! I'm the Contoso Cafe Bot.`);
 
-                // End this dialog. We are skipping the next water fall step deliberately. 
+                // End this dialog. We are skipping the next water fall step deliberately.
                 return await dc.end();
             }
         }
         /**
          * Waterfall step to finalize user's response and greet user.
-         * 
+         *
          * @param {DialogContext} Dialog context
          * @param {WaterfallStepContext} water fall step context
          */
         async greetUser(dc, step) {
-            if(step.result) {
+            if (step.result) {
                 const userProfile = await this.userProfileAccessor.get(dc.context);
-                await dc.context.sendActivity(`Hey there ${userProfile.userName}!, nice to meet you!`);
+                await dc.context.sendActivity(`Hey there ${ userProfile.userName }!, nice to meet you!`);
             }
             return await dc.end();
         }

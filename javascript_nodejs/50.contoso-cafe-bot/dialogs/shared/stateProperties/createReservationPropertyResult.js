@@ -5,16 +5,16 @@
 module.exports = {
     ReservationResult: class {
         /**
-         * Constructor. 
-         * 
-         * @param {reservationProperty} reservationProperty 
-         * @param {Enum} status 
-         * @param {Object []} outcome {message:'', property:''} 
+         * Constructor.
+         *
+         * @param {reservationProperty} reservationProperty
+         * @param {Enum} status
+         * @param {Object []} outcome {message:'', property:''}
          */
         constructor(property, status, outcome) {
-            this.newReservation = property ? property : '';
-            this.status = status ? status : 0;
-            this.outcome = outcome ? (Array.isArray(outcome) ? outcome : [outcome]): [];    
+            this.newReservation = property || '';
+            this.status = status || 0;
+            this.outcome = outcome ? (Array.isArray(outcome) ? outcome : [outcome]) : [];
         }
     },
     reservationStatus: {
@@ -23,14 +23,14 @@ module.exports = {
     },
     ReservationOutcome: class {
         /**
-         * Constructor. 
-         * 
-         * @param {String} message 
-         * @param {String} entity name 
+         * Constructor.
+         *
+         * @param {String} message
+         * @param {String} entity name
          */
         constructor(message, entityName) {
-            this.message = message ? message : '';
-            this.entityName = entityName ? entityName : '';
+            this.message = message || '';
+            this.entityName = entityName || '';
         }
     }
 };

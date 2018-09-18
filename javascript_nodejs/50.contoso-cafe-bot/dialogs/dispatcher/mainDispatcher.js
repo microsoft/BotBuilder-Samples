@@ -2,32 +2,38 @@
 // Licensed under the MIT License.
 const { ComponentDialog, DialogTurnStatus, DialogSet } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
+
 const { WhoAreYouDialog, QnADialog, ChitChatDialog, HelpDialog, WhatCanYouDoDialog, BookTableDialog } = require('../../dialogs');
 const { GenSuggestedQueries } = require('../shared/helpers');
 const { OnTurnProperty } = require('../shared/stateProperties');
 
+// dialog name
 const MAIN_DISPATCHER_DIALOG = 'MainDispatcherDialog';
 
-
-const NONE_INTENT = 'None';
-const CANCEL_INTENT = 'Cancel';
-// Query property from ../whatCanYouDo/resources/whatCanYHouDoCard.json
-// When user responds to what can you do card, a query property is set in response.
-const QUERY_PROPERTY = 'query';
+// consts for state properties
 const USER_PROFILE_PROPERTY = 'userProfile';
 const MAIN_DISPATCHER_STATE_PROPERTY = 'mainDispatcherState';
 const RESERVATION_PROPERTY = 'reservationProperty';
 
+// consts for cancel and none intent names
+const NONE_INTENT = 'None';
+const CANCEL_INTENT = 'Cancel';
+
+// Query property from ../whatCanYouDo/resources/whatCanYHouDoCard.json
+// When user responds to what can you do card, a query property is set in response.
+const QUERY_PROPERTY = 'query';
+
 module.exports = {
     MainDispatcher: class extends ComponentDialog {
         static get Name() { return MAIN_DISPATCHER_DIALOG; }
+        
         /**
          * Constructor.
          * 
-         * @param {Object} botConfig bot configuration
-         * @param {Object} onTurnAccessor 
-         * @param {Object} conversationState 
-         * @param {Object} userState 
+         * @param {BotConfiguration} botConfig bot configuration
+         * @param {StatePropertyAccessor} onTurnAccessor 
+         * @param {ConversationState} conversationState 
+         * @param {UserState} userState 
          */
         constructor(botConfig, onTurnAccessor, conversationState, userState) {
             super (MAIN_DISPATCHER_DIALOG);
@@ -52,6 +58,7 @@ module.exports = {
             this.addDialog(new WhoAreYouDialog(botConfig, conversationState, this.userProfileAccessor, onTurnAccessor, this.reservationAccessor));
             this.addDialog(new BookTableDialog(botConfig, this.reservationAccessor, onTurnAccessor, this.userProfileAccessor, conversationState));
         }
+        
         /**
          * Override onDialogBegin 
          * 
@@ -62,6 +69,7 @@ module.exports = {
             // Override default begin() logic with bot orchestration logic
             return await this.mainDispatch(dc);
         }
+        
         /**
          * Override onDialogContinue
          * 
@@ -71,6 +79,7 @@ module.exports = {
             // Override default continue() logic with bot orchestration logic
             return await this.mainDispatch(dc);
         }
+        
         /**
          * Main Dispatch 
          * 
@@ -99,7 +108,8 @@ module.exports = {
             let dialogTurnResult  = await dc.continue();
 
             // This will only be empty if there is no active dialog in the stack.
-            // Removing check for dialogTurnStatus here will break successful cancellation of child dialogs. E.g. who are you -> cancel -> yes flow.
+            // Removing check for dialogTurnStatus here will break successful cancellation of child dialogs. 
+            // E.g. who are you -> cancel -> yes flow.
             if (!dc.context.responded && dialogTurnResult !== undefined && dialogTurnResult.status !== DialogTurnStatus.complete) {
                 // No one has responded so start the right child dialog.
                 dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty);
@@ -126,14 +136,14 @@ module.exports = {
             }
             return dialogTurnResult;
         }
+        
         /**
          * Method to begin appropriate child dialog based on user input
          * 
-         * @param {Object} dc 
-         * @param {Object} onTurnProperty 
-         * @param {Object} childDialogPayload 
+         * @param {DialogContext} dc 
+         * @param {OnTurnProperty} onTurnProperty 
          */
-        async beginChildDialog(dc, onTurnProperty, childDialogPayload) {
+        async beginChildDialog(dc, onTurnProperty) {
             switch (onTurnProperty.intent) {
                 // Help, ChitChat and QnA share the same QnA Maker model. So just call the QnA Dialog.
                 case QnADialog.Name: 
@@ -152,6 +162,7 @@ module.exports = {
                     return await dc.context.sendActivity(`Follow [this link](https://www.bing.com/search?q=${dc.context.activity.text}) to search the web!`);
             }
         }
+        
         /**
          * Method to evaluate if the requested user operation is possible.
          * User could be in the middle of a multi-turn dialog where interruption might not be possible or allowed.
@@ -162,6 +173,7 @@ module.exports = {
          */
         async isRequestedOperationPossible(activeDialog, requestedOperation) {
             let outcome = {allowed: true, reason: ''};
+            
             // E.g. What_can_you_do is not possible when you are in the middle of Who_are_you dialog
             if (requestedOperation === WhatCanYouDoDialog.Name) {
                 if(activeDialog === WhoAreYouDialog.Name) {
