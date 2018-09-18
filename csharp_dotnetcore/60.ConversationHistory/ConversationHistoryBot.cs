@@ -2,12 +2,14 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Builder.Azure;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -24,21 +26,19 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class ConversationHistoryBot : IBot
     {
-        private readonly TranscriptStore _transcriptStore;
+        private readonly AzureBlobTranscriptStore _transcriptStore;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConversationHistoryBot"/> class.
         /// </summary>
-        /// <param name="transcriptStore">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
-        public ConversationHistoryBot(TranscriptStore transcriptStore)
+        /// <param name="transcriptStore">Injected via ASP.NET dependency injection.</param>
+        public ConversationHistoryBot(AzureBlobTranscriptStore transcriptStore)
         {
-            _transcriptStore = transcriptStore;
+            _transcriptStore = transcriptStore ?? throw new ArgumentNullException(nameof(transcriptStore));
         }
 
         /// <summary>
-        /// Every conversation turn for our Echo Bot will call this method.
-        /// There are no dialogs used, since it's "single turn" processing, meaning a single
-        /// request and response.
+        /// Every conversation turn will call this method. The method either echoes the message activity or uploads the history to the channel.
         /// </summary>
         /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
@@ -50,39 +50,51 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="IMiddleware"/>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (turnContext.Activity.Type == ActivityTypes.Message)
+            if (turnContext == null)
+            {
+                throw new ArgumentNullException(nameof(turnContext));
+            }
+
+            var activity = turnContext.Activity;
+            bool isMessageType = activity.Type == ActivityTypes.Message;
+
+            if (isMessageType && activity.Text == "!history")
+            {
+                // Send over the transcript to the channel when a request arrives. This could be an event or a special
+                // message acctivity as above.
+                var connectorClient = turnContext.TurnState.Get<ConnectorClient>(typeof(IConnectorClient).FullName);
+
+                // Get all the message type activities from the Transcript.
+                string continuationToken = null;
+                int count = 0;
+                do
+                {
+                    var pagedTranscript = await _transcriptStore.GetTranscriptActivitiesAsync(activity.ChannelId, activity.Conversation.Id);
+                    var activities = pagedTranscript.Items
+                                        .Where(a => a.Type == ActivityTypes.Message)
+                                        .Select(ia => (Activity)ia)
+                                        .ToList();
+
+                    // DirectLine only allows the upload of at most 500 activities at a time. The limit of 1500 below is
+                    // arbitrary and up to the Bot author to decide.
+                    count += activities.Count();
+                    if (activities.Count() > 500 || count > 1500)
+                    {
+                        throw new InvalidOperationException("Attempt to upload too many activities");
+                    }
+
+                    var transcript = new Bot.Schema.Transcript(activities);
+                    await connectorClient.Conversations.SendConversationHistoryAsync(activity.Conversation.Id, transcript);
+
+                    continuationToken = pagedTranscript.ContinuationToken;
+                }
+                while (continuationToken != null);
+            }
+            else if (activity.Type == ActivityTypes.Message)
             {
                 // Echo back to the user whatever they typed.
                 var responseMessage = $"You sent '{turnContext.Activity.Text}'\n";
                 await turnContext.SendActivityAsync(responseMessage);
-            }
-
-            // Send over the transcript when a request arrives. This is something that the client and the Bot have
-            // to agree on.
-            var shouldUploadHistory = false;
-            if (shouldUploadHistory)
-            {
-                var connectorClient = turnContext.TurnState.Get<ConnectorClient>(typeof(IConnectorClient).FullName);
-                var activity = turnContext.Activity;
-
-                // Get all the message type activities from the Transcript.
-                string continuationToken = null;
-                var activities = new List<Activity>();
-                do
-                {
-                    var pagedTranscript = await _transcriptStore.Store.GetTranscriptActivitiesAsync(activity.ChannelId, activity.Conversation.Id);
-                    activities.AddRange(pagedTranscript.Items
-                                        .Where(a => a.Type == ActivityTypes.Message)
-                                        .Select(ia => (Activity)ia)
-                                        .ToList());
-                    continuationToken = pagedTranscript.ContinuationToken;
-                }
-                while (continuationToken != null);
-
-                // Construct a Transcript object from the activities above and use the
-                // SendConversationHistoryAsync API to upload the historic activities.
-                var transcript = new Bot.Schema.Transcript(activities);
-                await connectorClient.Conversations.SendConversationHistoryAsync(activity.Conversation.Id, transcript);
             }
         }
     }

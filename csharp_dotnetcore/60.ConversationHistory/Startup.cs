@@ -50,10 +50,10 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
-            AzureBlobTranscriptStore transcriptStore = null;
+            AzureBlobTranscriptStore blobStore = null;
             services.AddBot<ConversationHistoryBot>(options =>
             {
-                var botConfig = BotConfiguration.Load(@".\ConversationHistory.bot");
+                var botConfig = BotConfiguration.Load(@".\BotConfiguration.bot");
                 var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
                 var endpointService = service as EndpointService;
                 if (endpointService == null)
@@ -75,13 +75,12 @@ namespace Microsoft.BotBuilderSamples
 
                 // Enable the conversation transcript middleware.
                 var connectionString = Configuration.GetValue<string>("ConnectionString");
-                transcriptStore = new AzureBlobTranscriptStore(connectionString, "transcriptstore");
-                var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
+                blobStore = new AzureBlobTranscriptStore(connectionString, "transcriptstore");
+                var transcriptMiddleware = new TranscriptLoggerMiddleware(blobStore);
                 options.Middleware.Add(transcriptMiddleware);
 
-            });
-
-            services.AddSingleton(_ => { return new TranscriptStore(transcriptStore); });
+            })
+            .AddSingleton(_ => blobStore);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
