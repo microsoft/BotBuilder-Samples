@@ -25,8 +25,8 @@ Create a new LUIS application:
 ### Set up LUIS via Portal
 - Navigate to [LUIS portal](https://www.luis.ai).
 - Click the `Sign in` button.
-- Click on the `Choose File` and select [greeting.luis](greeting.luis) from the `BotBuilder-Samples\csharp_dotnetcore\13.Basic-Bot-Template\CognitiveModels` folder.
-- Update [LuisBot.bot](LuisBot.bot) file with your AppId, SubscriptionKey, Region and Version. 
+- Click on the `Choose File` and select [basic-bot.luis](basic-bot.luis) from the `BotBuilder-Samples\csharp_dotnetcore\13.Basic-Bot-Template\CognitiveModels` folder.
+- Update [BasicBot.bot](BasicBot.bot) file with your AppId, SubscriptionKey, Region and Version. 
     You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
 	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
     - AppId = XXXXXXXXXXXXX
