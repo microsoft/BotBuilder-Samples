@@ -6,6 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.sln
 
 # dotnet core app settings
 /*/appsettings.json
@@ -147,6 +148,7 @@ DocProject/Help/html
 
 # Click-Once directory
 publish/
+PublishProfiles/
 
 # Publish Web Output
 *.[Pp]ublish.xml
@@ -267,3 +269,5 @@ paket-files/
 
 # Visual Studio Code
 .vscode/
+/javascript_nodejs/.DS_Store
+.DS_Store

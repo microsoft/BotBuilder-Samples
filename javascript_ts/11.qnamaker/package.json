@@ -1,0 +1,24 @@
+{
+  "name": "qnamaker-ts",
+  "version": "1.0.0",
+  "description": "Bot Builder v4 QnA Maker with Applications Insights sample",
+  "main": "./lib/index.js",
+  "scripts": {
+    "build-sample": "tsc",
+    "start": "tsc && node ./lib/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon ./lib/index.js"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "dependencies": {
+    "botbuilder": "^4.0.0-preview1.1135",
+    "botbuilder-ai": "^4.0.0-preview1.1135",
+    "botframework-config": "^4.0.0-preview1.1102",
+    "dotenv": "^6.0.0",
+    "restify": "^6.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}

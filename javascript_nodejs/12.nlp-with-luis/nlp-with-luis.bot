@@ -1,0 +1,26 @@
+{
+    "name": "nlp-with-luis",
+    "description": "Node.js sample bot with Language Understanding (LUIS) service.",
+    "version": "2.0",
+    "secretKey": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "nlp-with-luis",
+            "id": "http://localhost:3978/api/messages",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3978/api/messages"
+        },
+        {
+            "type": "luis",
+            "id": "",
+            "name": "",
+            "version": "",
+            "appId": "",
+            "authoringKey": "",
+            "subscriptionKey": "",
+            "region": ""
+        }
+    ]
+}

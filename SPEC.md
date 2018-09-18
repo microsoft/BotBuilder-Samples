@@ -126,7 +126,185 @@ NOTE: <ANY NOTES ABOUT THE PREREQUISITES OR ALTERNATE THINGS TO CONSIDER TO GET 
 -	Each solution/ project is named as “\<KEY SCENARIO INTRODUCED BY THE SAMPLE\>”
 -	C# - each sample has its own solution file
 
-## Linting
+## Static Code Analysis
+
+### StyleCop - C#
+
+To benefit from [StyleCop](https://github.com/StyleCop/StyleCop) static code analysis, all samples should have the samples-specific ruleset that can be found [here](csharp_dotnetcore/samples.ruleset).
+
+When creating a new sample, follow these steps to apply the ruleset to the sample:
+
+* Copy the [samples.ruleset](csharp_dotnetcore/samples.ruleset) file to your bot directory, at the same level as the project file.
+* Rename the file to match your bot project name. For example, if your project is AspNetCore-QnA-Bot.csproj, rename the ruleset to AspNetCore-QnA-Bot.ruleset.
+
+### Linting
 
 All samples must have the following linting configuration enabled.
 <TBD>
+
+## Bot Styles
+Our samples have consistent patterns for how to use the Bot Builder SDK.  The following should be followed for all of our samples.
+
+### General Rules
+
+#### Startup initialization should only initialize middleware and bot
+
+> We want to minimize the cognitive load of what happens in startup and 
+> foster code being organized along class boundaries.
+
+#### CreateProperty() calls should be scoped to the class which consumes it and not in startup code
+
+> Organize CreateProperty() calls at class boundaries to make it clearer 
+> how code reuse happens and foster good component isolation.
+
+*C# Example*
+```cs
+    public class ExampleDialog : ComponentDialog
+    {
+        public ExampleDialog(IPropertyManager propertyManager)
+        {
+            this.AlarmsProperty = propertyManager.CreateProperty<Alarm[]>("Alarms");
+        }
+
+    	public IStatePropertyAccessor<Alarms> AlarmsProperty { get;set;}
+    }
+    ...
+    var alarms = await this.AlarmsProperty.Get(context);
+```
+
+*Typescript Example*
+```typescript
+    export class ExampleDialog extends ComponentDialog
+    {
+        constructor(propertyManager: PropertyManager)
+        {
+            this.AlarmsProperty = propertyManager.CreateProperty<Alarm[]>("Alarms");
+        }
+
+        public readonly alarmsProperty: StatePropertyAccessor<Alarm[]>;
+    }
+    ...
+    var alarms = await this.AlarmsProperty.Get(context);
+```
+
+#### Shared Properties should be passed to a class if they are shared among multiple classes
+
+> If you have 3 dialogs which all need the same property accessor, then the higher level
+> class should define the property and pass the accessor to the child dialogs. 
+
+*C# Example*
+```cs
+    public class ExampleDialog : ComponentDialog
+    {
+        public ExampleDialog(IPropertyManager propertyManager)
+        {
+            // create shared alarms property and pass to dialogs which use it
+            this.AlarmsProperty = propertyManager.CreateProperty<List<Alarm>>("Alarms");
+
+            this.Dialogs.Add(new AddAlarmDialog(alarmsProperty));
+            this.Dialogs.Add(new ShowAlarmsDialog(alarmsProperty));
+            this.Dialogs.Add(new DeleteAlarmsDialog(alarmsProperty));
+        } 
+    }
+```
+
+*Typescript Example*
+```typescript
+    export class ExampleDialog extends ComponentDialog
+    {
+        constructor(PropertyManager propertyManager)
+        {
+            // create shared alarms property and pass to dialogs which use it
+            this.AlarmsProperty = propertyManager.CreateProperty<List<Alarm>>("Alarms");
+
+            this.Dialogs.Add(new AddAlarmDialog(alarmsProperty));
+            this.Dialogs.Add(new ShowAlarmsDialog(alarmsProperty));
+            this.Dialogs.Add(new DeleteAlarmsDialog(alarmsProperty));
+        } 
+    }
+```
+
+#### Constructors should use IPropertyManager interface to create properties 
+
+> It is best practice to consume an unbiased resource unless you need a specific class type.
+> Our samples should use IPropertyManager as a component so the caller can control the policy 
+> of the where the property is stored.
+
+#### Bot, Dialog, and Prompt class names should have standard postfix of the class type
+> Our samples use standard postfix names to make it clear what the class does.  
+> This enhances  readability and understanding the structure of the sample.
+
+| Base Class | Custom Class |
+|------------|--------------|
+| Bot        | MyBot        |
+| Dialog     | MyDialog     |
+| Prompt     | MyPrompt     |
+
+
+*C# Example*
+```cs
+    var myBot = new MyBot();
+    var exampleDialog = new ExampleDialog(...);
+    var titlePrompt = new TitlePrompt(...);
+```
+
+*Typescript Example*
+```typescript
+    var myBot = new MyBot();
+    var exampleDialog = new ExampleDialog(...);
+    var titlePrompt = new TitlePrompt(...);
+```
+
+#### Bot, Dialog Prompt and Property variable names should have standard postfix.
+> Clear and consistent variable name helps with readability and 
+> understanding the structure of a sample.
+
+| Class  | Type     | variable name    |
+|--------|----------|------------------|
+| Bot    | MyBot    | var myBot =      |
+| Dialog | MyDialog | var myDialog =   |
+| Prompt | MyPrompt | var myProperty = |
+
+*C# Example*
+```cs
+    var myBot = new MyBot();
+    var exampleDialog = new ExampleDialog(...);
+    var titlePrompt = new TitlePrompt(...);
+```
+
+*Typescript Example*
+```typescript
+    var myBot = new MyBot();
+    var exampleDialog = new ExampleDialog(...);
+    var titlePrompt = new TitlePrompt(...);
+```
+
+#### Property Accessors variables should have standard postfix 
+> property accessors do not define the state but are an interface to 
+> get access to the object.  Postfix naming makes this clear and prevents confusion  
+> between the actual state object and the interface which gives you access to it.
+
+*C# Example*
+```cs
+    IStatePropertyAccessor<Alarm> AlarmProperty { get;set;}
+    ...
+    var alarm = await this.AlarmProperty.Get(context, ()=> new Alarm());
+```
+
+*Typescript Example*
+```typescript
+    public AlarmProperty :StatePropertyAccessor<Alarm>;
+    ...
+    var alarm = await this.AlarmProperty.Get(context, ()=> new Alarm());
+```
+
+#### Dependency Injection should be avoided unless it is super clear
+
+> Our samples will use a minimum of dependency injection in order to keep the 
+> structure and logic as clear and succinct as possible.
+
+
+
+
+
+
