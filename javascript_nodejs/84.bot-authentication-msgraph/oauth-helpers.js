@@ -93,7 +93,8 @@ class OAuthHelpers {
             const messagePreview = message.bodyPreview;
             const email = {
                 type: ActivityTypes.Message,
-                text: `From: ${from}\n` +
+                text: 
+					`From: ${from}\n` +
                     `Email: ${address}\n` +
                     `Subject: ${subject}\n` +
                     `Message: ${messagePreview}`
@@ -110,7 +111,8 @@ class OAuthHelpers {
      * @param {string} connectionName 
      */
     static prompt(connectionName) {
-        const loginPrompt = new OAuthPrompt("loginPrompt", {
+        const loginPrompt = new OAuthPrompt("loginPrompt", 
+		{
             connectionName: connectionName,
             text: 'Please login',
             title: "Login",
