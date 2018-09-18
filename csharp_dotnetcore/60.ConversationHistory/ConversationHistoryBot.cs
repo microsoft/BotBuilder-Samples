@@ -90,7 +90,7 @@ namespace Microsoft.BotBuilderSamples
                 }
                 while (continuationToken != null);
             }
-            else if (activity.Type == ActivityTypes.Message)
+            else if (isMessageType)
             {
                 // Echo back to the user whatever they typed.
                 var responseMessage = $"You sent '{turnContext.Activity.Text}'\n";
