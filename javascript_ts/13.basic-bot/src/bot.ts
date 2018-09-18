@@ -30,8 +30,8 @@ const USER_LOCATION_ENTITIES = ['userLocation', 'userLocation_patternAny'];
 /**
  * Demonstrates the following concepts:
  *  Displaying a Welcome Card, using Adaptive Card technology
- *  Use LUIS to model Greetings, Help, and Cancel interations
- *  Use a Waterflow dialog to model multi-turn conversation flow
+ *  Use LUIS to model Greetings, Help, and Cancel interactions
+ *  Use a Waterfall dialog to model multi-turn conversation flow
  *  Use custom prompts to validate user input
  *  Store conversation and user state
  *  Handle conversation interruptions
@@ -59,7 +59,7 @@ export class Bot {
         if (!userState) throw ('Missing parameter.  userState is required');
         if (!botConfig) throw ('Missing parameter.  botConfig is required');
 
-        // add the LUIS recogizer
+        // add the LUIS recognizer
         let luisConfig: LuisService;
         luisConfig = <LuisService>botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
         if (!luisConfig || !luisConfig.appId) throw ('Missing LUIS configuration. Please follow README.MD to create required LUIS applications.\n\n')

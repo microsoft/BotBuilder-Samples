@@ -22,7 +22,7 @@ class Weather {
     constructor(botConfig) {
         if(!botConfig) throw ('Need bot config');
         
-        // add recogizers
+        // add recognizers
         const luisConfig = botConfig.findServiceByNameOrId(WEATHER_LUIS_CONFIGURATION);
         if(!luisConfig || !luisConfig.appId) throw (`Weather LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
         this.luisRecognizer = new LuisRecognizer({

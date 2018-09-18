@@ -22,8 +22,8 @@ const HELP_UTTERANCE = 'help';
 /**
  * Demonstrates the following concepts:
  *  Displaying a Welcome Card, using Adaptive Card technology
- *  Use LUIS to model Greetings, Help, and Cancel interations
- *  Use a Waterflow dialog to model multi-turn conversation flow
+ *  Use LUIS to model Greetings, Help, and Cancel interactions
+ *  Use a Waterfall dialog to model multi-turn conversation flow
  *  Use custom prompts to validate user input
  *  Store conversation and user state
  *  Handle conversation interruptions
