@@ -56,45 +56,46 @@ namespace Microsoft.BotBuilderSamples
             }
 
             var activity = turnContext.Activity;
-            bool isMessageType = activity.Type == ActivityTypes.Message;
 
-            if (isMessageType && activity.Text == "!history")
+            if (activity.Type == ActivityTypes.Message)
             {
-                // Send over the transcript to the channel when a request arrives. This could be an event or a special
-                // message acctivity as above.
-                var connectorClient = turnContext.TurnState.Get<ConnectorClient>(typeof(IConnectorClient).FullName);
-
-                // Get all the message type activities from the Transcript.
-                string continuationToken = null;
-                int count = 0;
-                do
+                if (activity.Text == "!history")
                 {
-                    var pagedTranscript = await _transcriptStore.GetTranscriptActivitiesAsync(activity.ChannelId, activity.Conversation.Id);
-                    var activities = pagedTranscript.Items
-                                        .Where(a => a.Type == ActivityTypes.Message)
-                                        .Select(ia => (Activity)ia)
-                                        .ToList();
+                    // Download the activities from the Transcript (blob store) and send them over to the channel when a request to upload history arrives.
+                    // This could be an event or a special message acctivity as above.
+                    var connectorClient = turnContext.TurnState.Get<ConnectorClient>(typeof(IConnectorClient).FullName);
 
-                    // DirectLine only allows the upload of at most 500 activities at a time. The limit of 1500 below is
-                    // arbitrary and up to the Bot author to decide.
-                    count += activities.Count();
-                    if (activities.Count() > 500 || count > 1500)
+                    // Get all the message type activities from the Transcript.
+                    string continuationToken = null;
+                    var count = 0;
+                    do
                     {
-                        throw new InvalidOperationException("Attempt to upload too many activities");
+                        var pagedTranscript = await _transcriptStore.GetTranscriptActivitiesAsync(activity.ChannelId, activity.Conversation.Id);
+                        var activities = pagedTranscript.Items
+                                            .Where(a => a.Type == ActivityTypes.Message)
+                                            .Select(ia => (Activity)ia)
+                                            .ToList();
+
+                        // DirectLine only allows the upload of at most 500 activities at a time. The limit of 1500 below is
+                        // arbitrary and up to the Bot author to decide.
+                        count += activities.Count();
+                        if (activities.Count() > 500 || count > 1500)
+                        {
+                            throw new InvalidOperationException("Attempt to upload too many activities");
+                        }
+
+                        var transcript = new Bot.Schema.Transcript(activities);
+                        await connectorClient.Conversations.SendConversationHistoryAsync(activity.Conversation.Id, transcript);
+
+                        continuationToken = pagedTranscript.ContinuationToken;
                     }
-
-                    var transcript = new Bot.Schema.Transcript(activities);
-                    await connectorClient.Conversations.SendConversationHistoryAsync(activity.Conversation.Id, transcript);
-
-                    continuationToken = pagedTranscript.ContinuationToken;
+                    while (continuationToken != null);
                 }
-                while (continuationToken != null);
-            }
-            else if (isMessageType)
-            {
-                // Echo back to the user whatever they typed.
-                var responseMessage = $"You sent '{turnContext.Activity.Text}'\n";
-                await turnContext.SendActivityAsync(responseMessage);
+                else
+                {
+                    // Echo back to the user whatever they typed.
+                    await turnContext.SendActivityAsync($"You sent '{activity.Text}'\n");
+                }
             }
         }
     }
