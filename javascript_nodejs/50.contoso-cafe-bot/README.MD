@@ -22,12 +22,12 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 - Support for help and cancel
 - FAQ
 - Chit-chat conversations
-- Routing user input to appropriate dialog
-- Handling no-match 
+- Routing user input to the appropriate dialog
+- Handling a no-match scenario
 - Prompting users for information
 - Implementing a custom prompt
 - Multi-turn conversations using dialogs
-- Implementing custom dialog solution
+- Implementing a custom dialog solution
 - Managing user and conversation state
 
 ## Services and tools demonstrated
