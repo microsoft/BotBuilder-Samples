@@ -1,0 +1,16 @@
+{
+    "name": "generator-botbuilder",
+    "version": "0.1.0",
+    "description": "Microsoft Bot Framework templates for NodeJS",
+    "files": [
+        "app"
+    ],
+    "keywords": [
+        "yeoman-generator"
+    ],
+    "dependencies": {
+        "botbuilder": "^4.0.0-preview1.996",
+        "lodash": "^4.17.10",
+        "yeoman-generator": "^1.0.0"
+    }
+}

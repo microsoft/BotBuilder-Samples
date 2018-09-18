@@ -1,0 +1,239 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+'use strict';
+
+const path = require("path");
+const _ = require("lodash");
+const mkdirp = require("mkdirp");
+
+//
+// create the folder for the generated bot code, if it doesn't exist
+//
+const makeProjectDirectory = (gen, directoryName) => {
+    gen.log(path.basename(gen.destinationPath()));
+    gen.log(directoryName);
+    if (path.basename(gen.destinationPath()) !== directoryName) {
+        gen.log(`Your bot should be in a directory named ${directoryName}\nI'll automatically create this folder.`);
+        mkdirp.sync(directoryName);
+        gen.destinationRoot(gen.destinationPath(directoryName));
+    }
+}
+
+//
+// based on the template, write the files common across the given template options
+//
+const writeCommonFiles = (gen, templatePath) => {
+    const botName = gen.props.botName;
+    const extension = _.toLower(gen.props.language) === "javascript" ? "js" : "ts";
+    const npmRunCmd = extension === 'js' ? `NODE_ENV=development node ./index.js` : `NODE_ENV=development tsc && node index.js`;
+    const npmWatchCmd = extension === 'js' ? `NODE_ENV=development nodemon ./index.js` : `NODE_ENV=development tsc && node index.js`;
+
+    // ensure our project directory exists before we start writing files into it
+    makeProjectDirectory(gen, _.camelCase(gen.props.botName));
+
+    // write the project files common to all templates
+    // do any text token processing where required
+    gen.fs.copyTpl(
+        gen.templatePath(templatePath + "package.json"),
+        gen.destinationPath("package.json"),
+        {
+            botName: gen.props.botName,
+            botDescription: gen.props.description,
+            npmRunCmd: npmRunCmd,
+            npmWatchCmd: npmWatchCmd
+        }
+    );
+    gen.fs.copy(gen.templatePath(templatePath + '_gitignore'), gen.destinationPath('.gitignore'));
+
+    gen.fs.copy(gen.templatePath(templatePath + `botName.bot`), gen.destinationPath(`${gen.props.botName}.bot`), {
+        process: function (content) {
+            var pattern = new RegExp('<%= botName %>', 'g');
+            return content.toString().replace(pattern, botName.toString());
+        }
+    });
+
+    // gen a .env file that points to the botfile
+    gen.fs.copyTpl(
+        gen.templatePath(templatePath + '_env'),
+        gen.destinationPath('.env'),
+        {
+            botFileName: gen.props.botName
+        }
+    );
+
+    // gen the main index file
+    gen.fs.copyTpl(
+        gen.templatePath(templatePath + `index.${extension}`),
+        gen.destinationPath(`index.${extension}`),
+        {
+            botName: gen.props.botName
+        }
+    );
+
+    // if we're working in TypeScript, then add a tsconfig.json file
+    if (extension === 'ts') {
+        gen.fs.copy(gen.templatePath(templatePath + 'tsconfig.json'), gen.destinationPath('tsconfig.json'));
+    }
+
+    gen.fs.copyTpl(
+        gen.templatePath(templatePath + "README.md"),
+        gen.destinationPath("README.md"),
+        {
+            botName: gen.props.botName,
+            description: gen.props.description,
+            runCmd: npmRunCmd,
+            watchCmd: npmWatchCmd,
+            extension: extension
+        }
+    );
+}
+
+//
+// write the files that are specific to the basic bot template
+//
+const writeBasicTemplateFiles = (gen, templatePath) => {
+    const COGNITIVE_MODELS = 0;
+    const DEPLOYMENT_SCRIPTS = 1;
+    const DIALOGS_MAIN = 2;
+    const DIALOGS_MAIN_RESOURCES = 3;
+    const DIALOGS_GREETING = 4;
+    const DIALOGS_GREETING_RESOURCES = 5;
+    const folders = [
+        'cognitiveModels/',
+        'deploymentScripts/',
+        'dialogs/mainDialog/',
+        'dialogs/mainDialog/resources/',
+        'dialogs/greeting/',
+        'dialogs/greeting/resources/'
+    ];
+    const extension = _.toLower(gen.props.language) === "javascript" ? "js" : "ts";
+
+    // create the basic bot folder structure
+    for(let cnt = 0; cnt < folders.length; ++cnt) {
+        mkdirp.sync(folders[cnt]);
+    }
+    // write out the LUIS model
+    let sourcePath = templatePath + folders[COGNITIVE_MODELS];
+    let destinationPath = gen.destinationPath() + '/' + folders[COGNITIVE_MODELS];
+    gen.fs.copy(sourcePath + 'greeting.luis',  destinationPath + 'greeting.luis');
+
+    // write out the deployment scripts and docs
+    sourcePath = templatePath + folders[DEPLOYMENT_SCRIPTS];
+    destinationPath = gen.destinationPath() + '/' + folders[DEPLOYMENT_SCRIPTS];
+    gen.fs.copy(sourcePath + 'DEPLOYMENT.md', destinationPath + 'DEPLOYMENT.md', {
+        process: function (content) {
+            var pattern = new RegExp('<%= botName %>', 'g');
+            return content.toString().replace(pattern, gen.props.botName.toString());
+        }
+    });
+    gen.fs.copy(sourcePath + 'azuredeploy.json', destinationPath + 'azuredeploy.json');
+    gen.fs.copy(sourcePath + 'provision.sh', destinationPath + 'provision.sh');
+    gen.fs.copy(sourcePath + 'provision.cmd', destinationPath + 'provision.cmd');
+
+    // write out the main dialog
+    sourcePath = templatePath + folders[DIALOGS_MAIN];
+    destinationPath = gen.destinationPath() + '/' + folders[DIALOGS_MAIN];
+    gen.fs.copy(sourcePath + `index.${extension}`, destinationPath + `index.${extension}`);
+    gen.fs.copy(sourcePath + `mainState.${extension}`, destinationPath + `mainState.${extension}`);
+
+    // write out greeting dialog resources
+    sourcePath = templatePath + folders[DIALOGS_MAIN_RESOURCES];
+    destinationPath = gen.destinationPath() + '/' + folders[DIALOGS_MAIN_RESOURCES];
+    gen.fs.copy(sourcePath + 'botFrameworkWelcomeCard.json', destinationPath + 'botFrameworkWelcomeCard.json');
+
+    // write out greeting dialog
+    sourcePath = templatePath + folders[DIALOGS_GREETING];
+    destinationPath = gen.destinationPath() + '/' + folders[DIALOGS_GREETING];
+    gen.fs.copyTpl(
+        sourcePath + `index.${extension}`,
+        destinationPath + `index.${extension}`,
+        {
+            botName: gen.props.botName
+        }
+    );
+
+    // write out greeting dialog resources
+    sourcePath = templatePath + folders[DIALOGS_GREETING_RESOURCES];
+    destinationPath = gen.destinationPath() + '/' + folders[DIALOGS_GREETING_RESOURCES];
+    gen.fs.copy(sourcePath + 'greeting.lu', destinationPath + 'greeting.lu');
+}
+
+//
+// write the files that are specific to the echo bot template
+//
+const writeEchoTemplateFiles = (gen, templatePath) => {
+    const DEPLOYMENT_SCRIPTS = 0;
+    const DIALOGS_MAIN = 1;
+    const DIALOGS_MAIN_RESOURCES = 2;
+    const folders = [
+        'deploymentScripts/',
+        'dialogs/mainDialog/',
+        'dialogs/mainDialog/resources/'
+    ];
+    const extension = _.toLower(gen.props.language) === "javascript" ? "js" : "ts";
+    const srcFolder = _.toLower(gen.props.language) === "javascript" ? "" : "src/";
+    // create the echo bot folder structure
+    mkdirp.sync(folders[DEPLOYMENT_SCRIPTS]);
+    for(let cnt = 1; cnt < folders.length; ++cnt) {
+        mkdirp.sync(srcFolder + folders[cnt]);
+    }
+
+    // write out the deployment scripts and docs
+    let sourcePath = templatePath + folders[DEPLOYMENT_SCRIPTS];
+    let destinationPath = gen.destinationPath() + '/' + folders[DEPLOYMENT_SCRIPTS];
+    gen.fs.copy(sourcePath + 'DEPLOYMENT.md', destinationPath + 'DEPLOYMENT.md', {
+        process: function (content) {
+            var pattern = new RegExp('<%= botName %>', 'g');
+            return content.toString().replace(pattern, gen.props.botName.toString());
+        }
+    });
+    gen.fs.copy(sourcePath + 'azuredeploy.json', destinationPath + 'azuredeploy.json');
+    gen.fs.copy(sourcePath + 'azuredeploy.parameters.json', destinationPath + 'azuredeploy.parameters.json');
+
+    // write out the main dialog
+    sourcePath = templatePath + folders[DIALOGS_MAIN];
+    destinationPath = gen.destinationPath() + '/' + srcFolder + folders[DIALOGS_MAIN];
+    gen.fs.copy(sourcePath + `index.${extension}`, destinationPath + `index.${extension}`);
+
+    // write out the main dialog AI resource(s)
+    sourcePath = templatePath + folders[DIALOGS_MAIN_RESOURCES];
+    destinationPath = gen.destinationPath() + '/' + srcFolder + folders[DIALOGS_MAIN_RESOURCES];
+    gen.fs.copy(sourcePath + `echo.chat`, destinationPath + `echo.chat`);
+}
+
+//
+// Write project files for Echo template
+//
+module.exports.writeEchoProjectFiles = gen => {
+    // do some simple sanity checking to ensure we're being
+    // called correctly
+    if (_.toLower(gen.props.template) !== "echo") {
+        throw new Error(`writeEchoProjectFiles called for wrong template: ${gen.props.template}`)
+    }
+    const templatePath = gen.templatePath() + "/echo/";
+
+    // write files common to all our template options
+    writeCommonFiles(gen, templatePath);
+
+    // write files specific to the echo bot template
+    writeEchoTemplateFiles(gen, templatePath);
+}
+
+//
+// Write project files for Basic template
+//
+module.exports.writeBasicProjectFiles = gen => {
+    // do some simple sanity checking to ensure we're being
+    // called correctly
+    if (_.toLower(gen.props.template) !== "basic") {
+        throw new Error(`writeBasicProjectFiles called for wrong template: ${gen.props.template}`)
+    }
+    const templatePath = gen.templatePath() + "/basic/";
+
+    // write files common to all our template options
+    writeCommonFiles(gen, templatePath);
+
+    // write files specific to the basic bot template
+    writeBasicTemplateFiles(gen, templatePath);
+}
