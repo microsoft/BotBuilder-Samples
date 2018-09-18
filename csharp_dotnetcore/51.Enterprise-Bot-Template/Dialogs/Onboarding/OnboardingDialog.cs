@@ -3,6 +3,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
 namespace EnterpriseBot
@@ -16,10 +17,13 @@ namespace EnterpriseBot
 
         // Fields
         private static OnboardingResponses _responder = new OnboardingResponses();
+        private IStatePropertyAccessor<OnboardingState> _accessor;
+        private OnboardingState _state;
 
-        public OnboardingDialog(BotServices botServices)
+        public OnboardingDialog(BotServices botServices, IStatePropertyAccessor<OnboardingState> accessor)
             : base(botServices, nameof(OnboardingDialog))
         {
+            _accessor = accessor;
             InitialDialogId = nameof(OnboardingDialog);
 
             var onboarding = new WaterfallStep[]
@@ -38,43 +42,67 @@ namespace EnterpriseBot
 
         public async Task<DialogTurnResult> AskForName(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            return await sc.PromptAsync(NamePrompt, new PromptOptions()
+            _state = await _accessor.GetAsync(sc.Context);
+
+            if (!string.IsNullOrEmpty(_state.Name))
             {
-                Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._namePrompt),
-            });
+                return await sc.NextAsync(_state.Name);
+            }
+            else
+            {
+                return await sc.PromptAsync(NamePrompt, new PromptOptions()
+                {
+                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._namePrompt),
+                });
+            }
         }
 
         public async Task<DialogTurnResult> AskForEmail(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var name = sc.Values["name"] = sc.Result;
+            _state = await _accessor.GetAsync(sc.Context);
+            var name = _state.Name = (string)sc.Result;
 
             await _responder.ReplyWith(sc.Context, OnboardingResponses._haveName, new { name });
 
-            return await sc.PromptAsync(EmailPrompt, new PromptOptions()
+            if (!string.IsNullOrEmpty(_state.Email))
             {
-                Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._emailPrompt),
-            });
+                return await sc.NextAsync(_state.Email);
+            }
+            else
+            {
+                return await sc.PromptAsync(EmailPrompt, new PromptOptions()
+                {
+                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._emailPrompt),
+                });
+            }
         }
 
         public async Task<DialogTurnResult> AskForLocation(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var email = sc.Values["email"] = sc.Result;
+            _state = await _accessor.GetAsync(sc.Context);
+            var email = _state.Email = (string)sc.Result;
 
             await _responder.ReplyWith(sc.Context, OnboardingResponses._haveEmail, new { email });
 
-            return await sc.PromptAsync(LocationPrompt, new PromptOptions()
+            if (!string.IsNullOrEmpty(_state.Location))
             {
-                Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._locationPrompt),
-            });
+                return await sc.NextAsync(_state.Location);
+            }
+            else
+            {
+                return await sc.PromptAsync(LocationPrompt, new PromptOptions()
+                {
+                    Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses._locationPrompt),
+                });
+            }
         }
 
         public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var name = sc.Values["name"];
-            var email = sc.Values["email"];
-            var location = sc.Values["location"] = sc.Result;
+            _state = await _accessor.GetAsync(sc.Context);
+            _state.Location = (string)sc.Result;
 
-            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveLocation, new { name, location });
+            await _responder.ReplyWith(sc.Context, OnboardingResponses._haveLocation, new { _state.Name, _state.Location });
             return await sc.EndAsync();
         }
     }

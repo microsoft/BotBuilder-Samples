@@ -43,7 +43,7 @@ namespace EnterpriseBot
                     if (match.Success)
                     {
                         var score = new IntentScore() { Score = 1.0 };
-                        var intents = new Dictionary<string, IntentScore> { { regexMap.Value, score }};
+                        var intents = new Dictionary<string, IntentScore> { { regexMap.Value, score } };
 
                         return Task.FromResult(new RecognizerResult()
                         {

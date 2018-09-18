@@ -26,7 +26,7 @@ namespace EnterpriseBot
         {
             // check dispatch intent
             // TODO: use luis gen models
-            var luisService = _services.LuisServices["EnterpriseBot-General"];
+            var luisService = _services.LuisServices["MyEnterpriseBot-General"];
             var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
             var intent = luisResult.TopIntent().intent;
 

@@ -15,24 +15,26 @@ namespace EnterpriseBot
     /// </summary>
     public class EnterpriseBot : IBot
     {
-        private readonly BotServices _services;
-        private readonly EnterpriseBotAccessors _accessors;
+        private BotServices _services;
+        private ConversationState _conversationState;
+        private UserState _userState;
+        private DialogSet _dialogs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnterpriseBot"/> class.
         /// </summary>
         /// <param name="botServices">Bot services.</param>
-        /// <param name="accessors">Bot State Accessors.</param>
-        public EnterpriseBot(BotServices botServices, EnterpriseBotAccessors accessors)
+        /// <param name="conversationState">Bot conversation state.</param>
+        /// <param name="userState">Bot user state.</param>
+        public EnterpriseBot(BotServices botServices, ConversationState conversationState, UserState userState)
         {
-            _accessors = accessors;
+            _conversationState = conversationState;
+            _userState = userState;
             _services = botServices;
 
-            Dialogs = new DialogSet(accessors.ConversationDialogState);
-            Dialogs.Add(new MainDialog(_services));
+            _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(EnterpriseBot)));
+            _dialogs.Add(new MainDialog(_services, _conversationState, _userState));
         }
-
-        private DialogSet Dialogs { get; set; }
 
         /// <summary>
         /// Run every turn of the conversation. Handles orchestration of messages.
@@ -42,7 +44,7 @@ namespace EnterpriseBot
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var dc = await Dialogs.CreateContextAsync(turnContext);
+            var dc = await _dialogs.CreateContextAsync(turnContext);
             var result = await dc.ContinueAsync();
 
             if (result.Status == DialogTurnStatus.Empty)

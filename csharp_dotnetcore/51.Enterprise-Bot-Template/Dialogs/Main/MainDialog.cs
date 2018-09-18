@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
 namespace EnterpriseBot
@@ -15,32 +14,34 @@ namespace EnterpriseBot
     public class MainDialog : RouterDialog
     {
         private BotServices _services;
+        private UserState _userState;
+        private ConversationState _conversationState;
         private MainResponses _responder = new MainResponses();
-        private Dictionary<Regex, string> _regexMap = new Dictionary<Regex, string>()
-        {
-            { new Regex("hi", RegexOptions.IgnoreCase), General.Intent.Greeting.ToString() },
-            { new Regex("hello", RegexOptions.IgnoreCase), General.Intent.Greeting.ToString() },
-            { new Regex("help", RegexOptions.IgnoreCase), General.Intent.Help.ToString() },
-            { new Regex("cancel", RegexOptions.IgnoreCase), General.Intent.Cancel.ToString() },
-            { new Regex("escalate", RegexOptions.IgnoreCase), General.Intent.Escalate.ToString() },
-        };
 
-        public MainDialog(BotServices services)
+        public MainDialog(BotServices services, ConversationState conversationState, UserState userState)
             : base(nameof(MainDialog))
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
+            _conversationState = conversationState;
+            _userState = userState;
 
-            AddDialog(new OnboardingDialog(_services));
+            AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState))));
             AddDialog(new EscalateDialog(_services));
         }
 
-        protected override async Task OnStart(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            var onboardingAccessor = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
+            var onboardingState = await onboardingAccessor.GetAsync(innerDc.Context, () => new OnboardingState());
+
             var view = new MainResponses();
             await view.ReplyWith(innerDc.Context, MainResponses.Intro);
 
-            // This is the first time the user is interacting with the bot, so gather onboarding information.
-            await innerDc.BeginAsync(nameof(OnboardingDialog));
+            if (string.IsNullOrEmpty(onboardingState.Name))
+            {
+                // This is the first time the user is interacting with the bot, so gather onboarding information.
+                await innerDc.BeginAsync(nameof(OnboardingDialog));
+            }
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -51,15 +52,9 @@ namespace EnterpriseBot
 
             if (intent == Dispatch.Intent.l_General)
             {
-                var regexRecognizer = new RegexRecognizer(_regexMap);
-                var result = await regexRecognizer.RecognizeAsync<General>(dc.Context, CancellationToken.None);
-
-                if (result == null)
-                {
-                    // If dispatch result is general luis model
-                    var luisService = _services.LuisServices["EnterpriseBot-General"];
-                    result = await luisService.RecognizeAsync<General>(dc.Context, CancellationToken.None);
-                }
+                // If dispatch result is general luis model
+                var luisService = _services.LuisServices["EnterpriseBot-General"];
+                var result = await luisService.RecognizeAsync<General>(dc.Context, CancellationToken.None);
 
                 var generalIntent = result?.TopIntent().intent;
 
@@ -118,8 +113,10 @@ namespace EnterpriseBot
             }
         }
 
-        protected override async Task CompleteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) =>
+        protected override async Task CompleteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        {
             // The active dialog's stack ended with a complete status
             await _responder.ReplyWith(innerDc.Context, MainResponses.Completed);
+        }
     }
 }
