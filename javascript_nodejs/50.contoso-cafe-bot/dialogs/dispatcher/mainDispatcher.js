@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-const { ComponentDialog, DialogTurnStatus, DialogSet } = require('botbuilder-dialogs');
+const { ComponentDialog, DialogSet, DialogTurnStatus } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
 
-const { WhoAreYouDialog, QnADialog, ChitChatDialog, HelpDialog, WhatCanYouDoDialog, BookTableDialog } = require('../../dialogs');
+const { BookTableDialog, ChitChatDialog, HelpDialog, QnADialog, WhatCanYouDoDialog, WhoAreYouDialog } = require('../../dialogs');
 const { GenSuggestedQueries } = require('../shared/helpers');
 const { OnTurnProperty } = require('../shared/stateProperties');
 

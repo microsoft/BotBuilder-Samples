@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 const { MessageFactory } = require('botbuilder');
-const { WaterfallDialog, ComponentDialog, ConfirmPrompt, DialogTurnStatus } = require('botbuilder-dialogs');
+const { ComponentDialog, ConfirmPrompt, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
 const GetLocDateTimePartySizePrompt = require('../shared/prompts/getLocDateTimePartySize').GetLocationDateTimePartySizePrompt;
 const { Reservation } = require('../shared/stateProperties');
 const { reservationStatus } = require('../shared/stateProperties/createReservationPropertyResult');

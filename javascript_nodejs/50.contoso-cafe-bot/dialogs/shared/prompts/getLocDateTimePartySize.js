@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 const { MessageFactory } = require('botbuilder');
-const { TextPrompt, DialogTurnStatus } = require('botbuilder-dialogs');
+const { DialogTurnStatus, TextPrompt } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { Reservation, reservationStatusEnum, OnTurnProperty } = require('../stateProperties');
 const { QnADialog } = require('../../qna');

@@ -71,7 +71,7 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to javascript_nodejs\50.contoso-cafe-bot
+- File -> Open Bot Configuration and navigate to javascript_nodejs\50.contoso-cafe-bot.bot
 - Select qna-with-appinsights.bot file
 
 # Prerequisites
@@ -94,13 +94,13 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 
 ## Configure required services
 1. Follow instructions [here](https://portal.azure.com) to create an Azure account. If you already have an account, sign in. Click on all services -> search for 'subscriptions' -> copy the subscription ID you would like to use from the Home > Subscriptions page.
-2. Follow instructions [here](https://www.luis.ai/home) to create a LUIS.ai account. If you already have an account, sign in. Click on your name on top right corner of the screen -> settings and grab your authroing key.
+2. Follow instructions [here](https://www.luis.ai/home) to create a LUIS.ai account. If you already have an account, sign in. Click on your name on top right corner of the screen -> settings and grab your authoring key.
 3. To create and configure required LUIS and QnA Maker services, 
     - In a terminal, navigate to javascript_nodejs\50.contoso-cafe-bot
         ```bash
         cd javascript_nodejs\50.contoso-cafe-bot
         ```
-    - Run MSbot Clone and pass in your LUIS authoring key and azure subscription ID. This command will create required services for your bot and update the .bot file.
+    - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
         ```bash
         msbot clone -n <YOUR-BOT-NAME> -f deploymentScripts/msbotClone -l <Bot service location> --luisAuthoringKey <Key from step \#2 above> --subscriptionId <Key from step \#1 above>
         ```

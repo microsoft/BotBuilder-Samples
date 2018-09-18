@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-const { ComponentDialog, WaterfallDialog, ConfirmPrompt } = require('botbuilder-dialogs');
+const { ComponentDialog, ConfirmPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 const { GetUserNamePrompt } = require('../shared/prompts');
 const { InterruptionDispatcher } = require('../dispatcher/interruptionDispatcher');
 const { UserProfile } = require('../shared/stateProperties');
