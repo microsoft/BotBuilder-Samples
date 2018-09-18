@@ -41,7 +41,7 @@ namespace EnterpriseBot
                 },
                 {
                     _haveLocation,
-                    (context, data) => string.Format(OnboardingStrings.HAVE_LOCATION, data.name, data.location)
+                    (context, data) => string.Format(OnboardingStrings.HAVE_LOCATION, data.Name, data.Location)
                 },
             },
             ["en"] = new TemplateIdMap { },

@@ -8,11 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EnterpriseBot.Dialogs.SignIn.Resources
-{
+namespace EnterpriseBot.Dialogs.SignIn.Resources {
     using System;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -23,92 +22,76 @@ namespace EnterpriseBot.Dialogs.SignIn.Resources
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class SignInStrings
-    {
-
+    public class SignInStrings {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SignInStrings()
-        {
+        internal SignInStrings() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if (object.ReferenceEquals(resourceMan, null))
-                {
+        public static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EnterpriseBot.Dialogs.SignIn.Resources.SignInStrings", typeof(SignInStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        public static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Sorry, I&apos;m not able to sign you in at the moment..
         /// </summary>
-        public static string FAILED
-        {
-            get
-            {
+        public static string FAILED {
+            get {
                 return ResourceManager.GetString("FAILED", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Please sign in to access this bot..
         /// </summary>
-        public static string PROMPT
-        {
-            get
-            {
+        public static string PROMPT {
+            get {
                 return ResourceManager.GetString("PROMPT", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Thanks, {0}! You are all signed in..
         /// </summary>
-        public static string SUCCEEDED
-        {
-            get
-            {
+        public static string SUCCEEDED {
+            get {
                 return ResourceManager.GetString("SUCCEEDED", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Sign In.
         /// </summary>
-        public static string TITLE
-        {
-            get
-            {
+        public static string TITLE {
+            get {
                 return ResourceManager.GetString("TITLE", resourceCulture);
             }
         }

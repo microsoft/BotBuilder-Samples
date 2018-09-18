@@ -9,27 +9,26 @@ namespace EnterpriseBot
 {
     public class EscalateDialog : EnterpriseDialog
     {
-        // Constants
-        public const string Name = "EscalateDialog";
-
         // Fields
         private EscalateResponses _responder = new EscalateResponses();
 
         public EscalateDialog(BotServices botServices)
-            : base(botServices, Name)
+            : base(botServices, nameof(EscalateDialog))
         {
+            InitialDialogId = nameof(EscalateDialog);
+
             var escalate = new WaterfallStep[]
             {
                 SendPhone,
             };
 
-            AddDialog(new WaterfallDialog(Name, escalate));
+            AddDialog(new WaterfallDialog(InitialDialogId, escalate));
         }
 
-        private async Task<DialogTurnResult> SendPhone(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> SendPhone(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            await _responder.ReplyWith(dc.Context, EscalateResponses.SendPhone);
-            return await dc.EndAsync();
+            await _responder.ReplyWith(sc.Context, EscalateResponses.SendPhone);
+            return await sc.EndAsync();
         }
     }
 }

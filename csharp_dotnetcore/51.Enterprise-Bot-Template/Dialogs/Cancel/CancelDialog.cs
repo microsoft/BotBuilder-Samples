@@ -10,41 +10,36 @@ namespace EnterpriseBot
     public class CancelDialog : ComponentDialog
     {
         // Constants
-        public const string Name = "cancel";
         public const string CancelPrompt = "cancelPrompt";
 
         // Fields
         private static CancelResponses _responder = new CancelResponses();
 
         public CancelDialog()
-            : base(Name)
+            : base(nameof(CancelDialog))
         {
+            InitialDialogId = nameof(CancelDialog);
+
             var cancel = new WaterfallStep[]
             {
                 AskToCancel,
                 FinishCancelDialog,
             };
 
-            AddDialog(new WaterfallDialog(Name, cancel));
+            AddDialog(new WaterfallDialog(InitialDialogId, cancel));
             AddDialog(new ConfirmPrompt(CancelPrompt));
         }
 
-        public static async Task<DialogTurnResult> AskToCancel(DialogContext dc, WaterfallStepContext args, CancellationToken cancellationToken)
+        public static async Task<DialogTurnResult> AskToCancel(WaterfallStepContext sc, CancellationToken cancellationToken) => await sc.PromptAsync(CancelPrompt, new PromptOptions()
         {
-            return await dc.PromptAsync(CancelPrompt, new PromptOptions()
-            {
-                Prompt = await _responder.RenderTemplate(dc.Context, "en", CancelResponses._confirmPrompt),
-            });
-        }
+            Prompt = await _responder.RenderTemplate(sc.Context, "en", CancelResponses._confirmPrompt),
+        });
 
-        public static async Task<DialogTurnResult> FinishCancelDialog(DialogContext dc, WaterfallStepContext args, CancellationToken cancellationToken)
-        {
-            return await dc.EndAsync((bool)args.Result);
-        }
+        public static async Task<DialogTurnResult> FinishCancelDialog(WaterfallStepContext sc, CancellationToken cancellationToken) => await sc.EndAsync((bool)sc.Result);
 
         protected override async Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
         {
-            bool doCancel = (bool)result;
+            var doCancel = (bool)result;
 
             if (doCancel)
             {
