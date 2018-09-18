@@ -12,23 +12,6 @@ namespace EnterpriseBot
         public InterruptableDialog(string dialogId)
             : base(dialogId)
         {
-            PrimaryDialogName = dialogId;
-        }
-
-        public string PrimaryDialogName { get; set; }
-
-        protected override async Task<DialogTurnResult> OnDialogBeginAsync(DialogContext dc, DialogOptions options, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (dc.Dialogs.Find(PrimaryDialogName) != null)
-            {
-                // Overrides default behavior which starts the first dialog added to the stack (i.e. Cancel waterfall)
-                return await dc.BeginAsync(PrimaryDialogName);
-            }
-            else
-            {
-                // If we don't have a matching dialog, start the initial dialog
-                return await dc.BeginAsync(InitialDialogId);
-            }
         }
 
         protected override async Task<DialogTurnResult> OnDialogContinueAsync(DialogContext dc, CancellationToken cancellationToken)
