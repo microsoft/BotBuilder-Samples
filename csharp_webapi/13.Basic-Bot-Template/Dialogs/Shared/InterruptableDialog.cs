@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace Microsoft.BotBuilderSamples
+namespace BasicBot
 {
     /// <summary>
     /// Abstract class that represents a dialog that supports interruptions.

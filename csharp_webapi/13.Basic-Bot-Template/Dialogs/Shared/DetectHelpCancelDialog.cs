@@ -5,10 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.BotBuilderSamples
+namespace BasicBot
 {
     /// <summary>
     /// Detects interrupts using a LUIS model.
@@ -39,19 +38,14 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="botServices">The <see cref=" BotServices" />for the bot.</param>
         /// <param name="dialogId">Id of the dialog.</param>
-        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> that enables logging/tracing.</param>
-        public DetectHelpCancelDialog(BotServices botServices, string dialogId, ILoggerFactory loggerFactory)
+        public DetectHelpCancelDialog(BotServices botServices, string dialogId)
             : base(dialogId)
         {
             Services = botServices;
-            Logger = loggerFactory.CreateLogger<DetectHelpCancelDialog>();
         }
 
         // External services (ie, LUIS)
         protected BotServices Services { get; }
-
-        // Logging for trace/error/exceptions.
-        protected ILogger Logger { get; }
 
         /// <summary>
         /// Handle dialog interruption.
@@ -71,13 +65,9 @@ namespace Microsoft.BotBuilderSamples
 
             // If any entities were updated, treat as interruption.
             // For example, "no my name is tony" will manifest as an update of the name to be "tony".
-            if (luisResults.Entities != null && luisResults.Entities.HasValues)
+            if (await ProcessUpdateEntitiesAsync(luisResults.Entities, dc, cancellationToken))
             {
-                dc.Context.TurnState.Add(GreetingDialog.LuisEntities, luisResults.Entities);
-                if (await OnUpdateEntitiesAsync(dc.Context, cancellationToken))
-                {
-                    return InterruptionStatus.Interrupted;
-                }
+                return InterruptionStatus.Interrupted;
             }
 
             var topScoringIntent = luisResults?.GetTopScoringIntent();
@@ -93,8 +83,6 @@ namespace Microsoft.BotBuilderSamples
                     return await OnHelpAsync(dc);
             }
 
-            Logger.LogTrace($"No interruption. '{topIntent}' LUIS intent will be processed by dialog.");
-
             return InterruptionStatus.NoAction;
         }
 
@@ -103,10 +91,10 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <remarks>If a user types "no, my name is tony", in the LUIS model it will pass an entity.</remarks>
         /// <param name="entities">LUIS <see cref="RecognizerResult"/> entities.</param>
-        /// <param name="turnContext">The current <see cref="ITurnContext"/>.</param>
+        /// <param name="dc">The current <see cref="DialogContext"/>.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> to control cancellation of asynchronous tasks.</param>
         /// <returns>true if the process updated an entity, which is treated as an interruption.</returns>
-        protected virtual Task<bool> OnUpdateEntitiesAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        protected virtual Task<bool> ProcessUpdateEntitiesAsync(JObject entities, DialogContext dc, CancellationToken cancellationToken)
         {
             return Task.FromResult<bool>(false);
         }
