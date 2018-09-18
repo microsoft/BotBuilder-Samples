@@ -1,13 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 
 namespace BasicBot
 {
@@ -40,7 +38,6 @@ namespace BasicBot
         /// </summary>
         /// <param name="botServices">The <see cref=" BotServices" />for the bot.</param>
         /// <param name="dialogId">Id of the dialog.</param>
-        /// <param name="logger">The <see cref="ILogger"/> that enables logging.</param>
         public DetectHelpCancelDialog(BotServices botServices, string dialogId)
             : base(dialogId)
         {
@@ -62,38 +59,19 @@ namespace BasicBot
             var topIntent = NoneIntent;
             var text = dc.Context.Activity.Text;
 
-            if (!text.Trim().Contains(" "))
-            {
-                // Simple detection.
-                var stopCancelPatterns = new Dictionary<Regex, string>()
-                {
-                    { new Regex(@"^\?+", RegexOptions.IgnoreCase), HelpIntent },
-                    { new Regex("what", RegexOptions.IgnoreCase), HelpIntent },
-                    { new Regex("confused", RegexOptions.IgnoreCase), HelpIntent },
-                    { new Regex("help", RegexOptions.IgnoreCase), HelpIntent },
-                    { new Regex("cancel", RegexOptions.IgnoreCase), CancelIntent },
-                    { new Regex("stop", RegexOptions.IgnoreCase), CancelIntent },
-                    { new Regex("done", RegexOptions.IgnoreCase), CancelIntent },
-                    { new Regex("quit", RegexOptions.IgnoreCase), CancelIntent },
-                    { new Regex("goodbye", RegexOptions.IgnoreCase), CancelIntent },
-                    { new Regex("bye", RegexOptions.IgnoreCase), CancelIntent },
-                };
+            // Advanced detection.
+            // Perform a call to LUIS to retrieve results for the current activity message.
+            var luisResults = await Services.LuisServices[LuisKey].RecognizeAsync(dc.Context, cancellationToken).ConfigureAwait(false);
 
-                var regexRecognizer = new RegexRecognizer(stopCancelPatterns);
-                var regexResults = await regexRecognizer.RecognizeAsync(dc.Context, CancellationToken.None);
-                if (regexResults != null)
-                {
-                    var topScoringIntent = regexResults?.GetTopScoringIntent();
-                    topIntent = topScoringIntent.Value.intent;
-                }
-            }
-            else
+            // If any entities were updated, treat as interruption.
+            // For example, "no my name is tony" will manifest as an update of the name to be "tony".
+            if (await ProcessUpdateEntitiesAsync(luisResults.Entities, dc, cancellationToken))
             {
-                // Advanced detection.
-                // Perform a call to LUIS to retrieve results for the current activity message.
-                var luisResults = await Services.LuisServices[LuisKey].RecognizeAsync(dc.Context, cancellationToken).ConfigureAwait(false);
-                var topScoringIntent = luisResults?.GetTopScoringIntent();
+                return InterruptionStatus.Interrupted;
             }
+
+            var topScoringIntent = luisResults?.GetTopScoringIntent();
+            topIntent = topScoringIntent.Value.intent;
 
             // See if there are any conversation interrupts we need to handled
             switch (topIntent)
@@ -106,6 +84,19 @@ namespace BasicBot
             }
 
             return InterruptionStatus.NoAction;
+        }
+
+        /// <summary>
+        /// Handle updates to entities.
+        /// </summary>
+        /// <remarks>If a user types "no, my name is tony", in the LUIS model it will pass an entity.</remarks>
+        /// <param name="entities">LUIS <see cref="RecognizerResult"/> entities.</param>
+        /// <param name="dc">The current <see cref="DialogContext"/>.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> to control cancellation of asynchronous tasks.</param>
+        /// <returns>true if the process updated an entity, which is treated as an interruption.</returns>
+        protected virtual Task<bool> ProcessUpdateEntitiesAsync(JObject entities, DialogContext dc, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<bool>(false);
         }
 
         /// <summary>

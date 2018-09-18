@@ -32,8 +32,8 @@ namespace Microsoft.BotBuilderSamples
         /// Initializes a new instance of the <see cref="GreetingDialog"/> class.
         /// </summary>
         /// <param name="botServices">Connected services used in processing.</param>
-        /// accessor for <see cref="UserState"/>. Used for holding name/city.</param>
-        /// <param name="logger">The <see cref="ILogger"/> that enables logging.</param>
+        /// <param name="botState">The <see cref="UserState"/> for storing properties at user-scope.</param>
+        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> that enables logging and tracing.</param>
         public GreetingDialog(BotServices botServices, UserState botState, ILoggerFactory loggerFactory)
             : this(botServices, botState.CreateProperty<GreetingState>(GreetingStateName), loggerFactory)
         {
@@ -77,7 +77,7 @@ namespace Microsoft.BotBuilderSamples
             string[] userNameEntities = { "userName", "userName_paternAny" };
             string[] userLocationEntities = { "userLocation", "userLocation_patternAny" };
 
-            bool result = false;
+            var result = false;
 
             if (entities != null && entities.HasValues)
             {
@@ -196,7 +196,7 @@ namespace Microsoft.BotBuilderSamples
                     + " I understand greetings and asking for help!  Or start your connection over for a card.");
             }
 
-            return await stepContext.EndAsync();
+            return await stepContext.EndDialogAsync();
         }
     }
 }

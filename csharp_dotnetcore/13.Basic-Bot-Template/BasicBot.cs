@@ -1,14 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Integration;
-using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
@@ -53,8 +49,9 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicBot"/> class.
         /// </summary>
-        /// <param name="services">Services configured from the .bot file.</param>
-        /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
+        /// <param name="userState">The <see cref="UserState"/> for properties at user scope.</param>
+        /// <param name="conversationState">The <see cref="ConversationState"/> for properties at conversation scope.</param>
+        /// <param name="services">The <see cref="BotServices"/> which holds clients for external services.</param>
         /// <param name="loggerFactory">A <see cref="ILoggerFactory"/> that hooked to the Azure App Service provider.</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
         /// <seealso cref="BotConfiguration"/>
@@ -107,11 +104,11 @@ namespace Microsoft.BotBuilderSamples
             // Run the DialogSet - let the framework identify the current state of the dialog from
             // the dialog stack and figure out what (if any) is the active dialog.
             var dc = await _dialogs.CreateContextAsync(context);
-            var dialogResult = await dc.ContinueAsync();
+            var dialogResult = await dc.ContinueDialogAsync();
 
             if (dialogResult.Status == DialogTurnStatus.Empty)
             {
-                await dc.BeginAsync(nameof(MainDialog));
+                await dc.BeginDialogAsync(nameof(MainDialog));
             }
         }
     }

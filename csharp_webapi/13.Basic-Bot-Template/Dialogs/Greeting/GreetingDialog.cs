@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Newtonsoft.Json.Linq;
 
 namespace BasicBot
 {
@@ -30,7 +31,7 @@ namespace BasicBot
         /// Initializes a new instance of the <see cref="GreetingDialog"/> class.
         /// </summary>
         /// <param name="botServices">Connected services used in processing.</param>
-        /// <param name="botState">The <see cref="UserState"/> that manages user-scope state.</param>
+        /// <param name="botState">The <see cref="UserState"/> for storing properties at user-scope.</param>
         public GreetingDialog(BotServices botServices, UserState botState)
             : this(botServices, botState.CreateProperty<GreetingState>(GreetingStateName))
         {
@@ -64,6 +65,48 @@ namespace BasicBot
         public IStatePropertyAccessor<GreetingState> GreetingStateAccessor { get; }
 
         private BotServices BotServices { get; }
+
+        // Handle updates to entities.
+        protected override async Task<bool> ProcessUpdateEntitiesAsync(JObject entities, DialogContext dc, CancellationToken cancellationToken)
+        {
+            var greetingState = await GreetingStateAccessor.GetAsync(dc.Context, () => new GreetingState());
+
+            // Supported LUIS Entities
+            string[] userNameEntities = { "userName", "userName_paternAny" };
+            string[] userLocationEntities = { "userLocation", "userLocation_patternAny" };
+
+            var result = false;
+
+            if (entities != null && entities.HasValues)
+            {
+                // Update any entities
+                foreach (var name in userNameEntities)
+                {
+                    // check if we found valid slot values in entities returned from LUIS
+                    if (entities[name] != null)
+                    {
+                        greetingState.Name = (string)entities[name][0];
+                        result = true;
+                        break;
+                    }
+                }
+
+                foreach (var city in userLocationEntities)
+                {
+                    if (entities[city] != null)
+                    {
+                        greetingState.City = (string)entities[city][0];
+                        result = true;
+                        break;
+                    }
+                }
+
+                // set the new values
+                await GreetingStateAccessor.SetAsync(dc.Context, greetingState);
+            }
+
+            return result;
+        }
 
         private async Task<DialogTurnResult> InitializeStateStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
@@ -104,21 +147,22 @@ namespace BasicBot
                                                         CancellationToken cancellationToken)
         {
             // Save name if prompted for
+            var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context, () => new GreetingState());
             var args = stepContext.Result as string;
-            if (!string.IsNullOrWhiteSpace(args))
+            if (!string.IsNullOrWhiteSpace(args) && string.IsNullOrWhiteSpace(greetingState.Name))
             {
-                stepContext.Values[NameValue] = args;
+                greetingState.Name = args;
             }
 
             // Prompt for city if missing
-            if (string.IsNullOrWhiteSpace(stepContext.Values[CityValue] as string))
+            if (string.IsNullOrWhiteSpace(greetingState.City))
             {
                 var options = new PromptOptions
                 {
                     Prompt = new Activity
                     {
                         Type = ActivityTypes.Message,
-                        Text = $"`{stepContext.Values[NameValue]}`, what city do you live in?",
+                        Text = $"What city do you live in?",
                     },
                 };
                 return await stepContext.PromptAsync(nameof(CityPrompt), options, cancellationToken);
@@ -134,23 +178,19 @@ namespace BasicBot
                                                     CancellationToken cancellationToken)
         {
             // Save city if it were prompted.
-            var args = stepContext.Result as string;
-            if (!string.IsNullOrWhiteSpace(args))
-            {
-                stepContext.Values[CityValue] = args;
-                await stepContext.Context.SendActivityAsync($"Ok `{stepContext.Values[NameValue]}`, I've got you living in `{stepContext.Values[CityValue]}`.");
-                await stepContext.Context.SendActivityAsync("I'll go ahead an update your profile with that information.");
+            var greeting = await GreetingStateAccessor.GetAsync(stepContext.Context, () => new GreetingState());
 
-                var greetingState = new GreetingState()
-                {
-                    City = stepContext.Values[CityValue] as string,
-                    Name = stepContext.Values[NameValue] as string,
-                };
-                await GreetingStateAccessor.SetAsync(stepContext.Context, greetingState);
+            var args = stepContext.Result as string;
+            if (string.IsNullOrWhiteSpace(greeting.City) && !string.IsNullOrWhiteSpace(args))
+            {
+                greeting.City = args;
+                await GreetingStateAccessor.SetAsync(stepContext.Context, greeting);
+                await stepContext.Context.SendActivityAsync($"Ok `{greeting.Name}`, I've got you living in `{greeting.City}`.");
+                await stepContext.Context.SendActivityAsync("I'll go ahead an update your profile with that information.");
             }
             else
             {
-                await stepContext.Context.SendActivityAsync($"Hi `{stepContext.Values[NameValue]}`, living in `{stepContext.Values[CityValue]}`,"
+                await stepContext.Context.SendActivityAsync($"Hi `{greeting.Name}`, living in `{greeting.City}`,"
                     + " I understand greetings and asking for help!  Or start your connection over for a card.");
             }
 

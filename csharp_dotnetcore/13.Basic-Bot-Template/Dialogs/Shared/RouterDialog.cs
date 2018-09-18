@@ -41,9 +41,9 @@ namespace Microsoft.BotBuilderSamples
             _logger = loggerFactory.CreateLogger<RouterDialog>();
         }
 
-        protected override Task<DialogTurnResult> OnDialogBeginAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken)) => OnDialogContinueAsync(innerDc, cancellationToken);
+        protected override Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken)) => OnContinueDialogAsync(innerDc, cancellationToken);
 
-        protected override async Task<DialogTurnResult> OnDialogContinueAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var activity = innerDc.Context.Activity;
 
@@ -51,7 +51,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 case ActivityTypes.Message:
                     {
-                        var result = await innerDc.ContinueAsync();
+                        var result = await innerDc.ContinueDialogAsync();
 
                         switch (result.Status)
                         {
@@ -66,7 +66,7 @@ namespace Microsoft.BotBuilderSamples
                                     await CompleteAsync(innerDc);
 
                                     // End active dialog
-                                    await innerDc.EndAsync();
+                                    await innerDc.EndDialogAsync();
                                     break;
                                 }
 
@@ -101,9 +101,9 @@ namespace Microsoft.BotBuilderSamples
             return EndOfTurn;
         }
 
-        protected override Task OnDialogEndAsync(ITurnContext context, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default(CancellationToken)) => base.OnDialogEndAsync(context, instance, reason, cancellationToken);
+        protected override Task OnEndDialogAsync(ITurnContext context, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default(CancellationToken)) => base.OnEndDialogAsync(context, instance, reason, cancellationToken);
 
-        protected override Task OnDialogRepromptAsync(ITurnContext turnContext, DialogInstance instance, CancellationToken cancellationToken = default(CancellationToken)) => base.OnDialogRepromptAsync(turnContext, instance, cancellationToken);
+        protected override Task OnRepromptDialogAsync(ITurnContext turnContext, DialogInstance instance, CancellationToken cancellationToken = default(CancellationToken)) => base.OnRepromptDialogAsync(turnContext, instance, cancellationToken);
 
         /// <summary>
         /// Called when the inner dialog stack is empty.

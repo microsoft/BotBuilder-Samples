@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -41,7 +39,7 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="botServices">The <see cref=" BotServices" />for the bot.</param>
         /// <param name="dialogId">Id of the dialog.</param>
-        /// <param name="logger">The <see cref="ILogger"/> that enables logging.</param>
+        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> that enables logging/tracing.</param>
         public DetectHelpCancelDialog(BotServices botServices, string dialogId, ILoggerFactory loggerFactory)
             : base(dialogId)
         {
@@ -118,7 +116,7 @@ namespace Microsoft.BotBuilderSamples
         {
             if (dc.ActiveDialog != null)
             {
-                await dc.CancelAllAsync().ConfigureAwait(false);
+                await dc.CancelAllDialogsAsync().ConfigureAwait(false);
                 await dc.Context.SendActivityAsync("Ok. I've cancelled our last activity.");
             }
             else

@@ -29,14 +29,14 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="dc">The current <see cref="DialogContext"/>.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> to control cancellation of asynchronous tasks.</param>
         /// <returns>A <see cref="Task"/> representing the result of the dialog turn.</returns>
-        protected override async Task<DialogTurnResult> OnDialogContinueAsync(DialogContext dc, CancellationToken cancellationToken)
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken)
         {
             var status = await OnDialogInterruptionAsync(dc, cancellationToken);
 
             if (status == InterruptionStatus.Interrupted)
             {
                 // Resume the waiting dialog after interruption.
-                await dc.RepromptAsync().ConfigureAwait(false);
+                await dc.RepromptDialogAsync().ConfigureAwait(false);
                 return EndOfTurn;
             }
             else if (status == InterruptionStatus.Waiting)
@@ -45,7 +45,7 @@ namespace Microsoft.BotBuilderSamples
                 return EndOfTurn;
             }
 
-            return await base.OnDialogContinueAsync(dc, cancellationToken);
+            return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
         /// <summary>

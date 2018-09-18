@@ -64,6 +64,8 @@ namespace Microsoft.BotBuilderSamples
 
             services.AddSingleton(userState);
             services.AddSingleton(conversationState);
+
+            // The BotStateSet enables read() and write() in parallel on multiple BotState instances.
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
             // add the bot with options
@@ -88,6 +90,7 @@ namespace Microsoft.BotBuilderSamples
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
+                // Automatically save state at the end of a turn.
                 options.Middleware
                     .Add(new AutoSaveStateMiddleware(userState, conversationState));
             });

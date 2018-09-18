@@ -65,6 +65,13 @@ namespace BasicBot
 
                 UnityConfig.Container.RegisterInstance<ConversationState>(conversationState, new ContainerControlledLifetimeManager());
                 UnityConfig.Container.RegisterInstance<UserState>(userState, new ContainerControlledLifetimeManager());
+
+                // The BotStateSet enables read() and write() in parallel on multiple BotState instances.
+                UnityConfig.Container.RegisterInstance<BotStateSet>(new BotStateSet(userState, conversationState), new ContainerControlledLifetimeManager());
+
+                // Automatically save state at the end of a turn.
+                botConfig.BotFrameworkOptions.Middleware
+                    .Add(new AutoSaveStateMiddleware(userState, conversationState));
             });
         }
     }

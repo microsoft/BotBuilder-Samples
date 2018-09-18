@@ -59,7 +59,6 @@ namespace Microsoft.BotBuilderSamples
             _logger = loggerFactory.CreateLogger<MainDialog>();
         }
 
-
         protected override async Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var context = innerDc.Context;
@@ -104,7 +103,7 @@ namespace Microsoft.BotBuilderSamples
                     switch (topIntent)
                     {
                         case GreetingIntent:
-                            await dc.BeginAsync(nameof(GreetingDialog), null, cancellationToken);
+                            await dc.BeginDialogAsync(nameof(GreetingDialog), null, cancellationToken);
                             break;
 
                         case HelpIntent:
@@ -130,7 +129,7 @@ namespace Microsoft.BotBuilderSamples
         {
             if (dc.ActiveDialog != null)
             {
-                await dc.CancelAllAsync();
+                await dc.CancelAllDialogsAsync();
             }
 
             await dc.Context.SendActivityAsync("Welcome to the Basic Bot.");
@@ -157,14 +156,13 @@ namespace Microsoft.BotBuilderSamples
         // Handle updates to entities.
         private async Task<bool> ProcessUpdateEntitiesAsync(JObject entities, DialogContext dc, CancellationToken cancellationToken)
         {
-
             var greetingState = await _greetingState.GetAsync(dc.Context, () => new GreetingState());
 
             // Supported LUIS Entities
             string[] userNameEntities = { "userName", "userName_paternAny" };
             string[] userLocationEntities = { "userLocation", "userLocation_patternAny" };
 
-            bool result = false;
+            var result = false;
 
             if (entities != null && entities.HasValues)
             {
@@ -198,7 +196,6 @@ namespace Microsoft.BotBuilderSamples
 
             return result;
         }
-
 
         // Create an attachment message response.
         private Activity CreateResponse(Activity activity, Attachment attachment)

@@ -46,13 +46,15 @@ namespace BasicBot
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicBot"/> class.
         /// </summary>
-        /// <param name="userState">The <see cref="UserState"/> used to manage user state.</param>
-        /// <param name="conversationState">The <see cref="ConversationState"/> used to manage conversation state.</param>
-        /// <param name="services">A <see cref="BotServices"/> that holds external services.</param>
+        /// <param name="userState">The <see cref="UserState"/> for properties at user scope.</param>
+        /// <param name="conversationState">The <see cref="ConversationState"/> for properties at conversation scope.</param>
+        /// <param name="services">The <see cref="BotServices"/> which holds clients for external services.</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
         /// <seealso cref="BotConfiguration"/>
         public BasicBot(UserState userState, ConversationState conversationState, BotServices services)
         {
+            ConversationState = conversationState ?? throw new System.ArgumentNullException(nameof(conversationState));
+            UserState = userState ?? throw new System.ArgumentNullException(nameof(userState));
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
 
             if (!_services.LuisServices.ContainsKey(LuisKey))
@@ -60,12 +62,9 @@ namespace BasicBot
                 throw new System.ArgumentException($"Invalid configuration.  Please check your '.bot' file for a LUIS service named '{LuisKey}'.");
             }
 
-            ConversationState = conversationState ?? throw new System.ArgumentNullException(nameof(conversationState));
-            UserState = userState ?? throw new System.ArgumentNullException(nameof(userState));
-
             // Create top-level dialog(s)
             _dialogs = new DialogSet(ConversationState.CreateProperty<DialogState>(nameof(BasicBot)));
-            _dialogs.Add(new MainDialog(services, UserState, ConversationState));
+            _dialogs.Add(new MainDialog(services, UserState));
         }
 
         /// <summary>
@@ -99,9 +98,6 @@ namespace BasicBot
             {
                 await dc.BeginDialogAsync(nameof(MainDialog));
             }
-
-            await ConversationState.SaveChangesAsync(context);
-            await UserState.SaveChangesAsync(context);
         }
     }
 }
