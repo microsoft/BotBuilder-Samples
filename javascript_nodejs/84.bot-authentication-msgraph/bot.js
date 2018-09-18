@@ -37,7 +37,7 @@ class GraphAuthenticationBot {
         // Create a DialogSet that contains the OAuthPrompt.
         this.dialogs = new DialogSet(this.dialogState);
 
-        this.connectionSettingName = 'AADv2Connection';
+        this.connectionSettingName = '';
         this.dialogs.add(OAuthHelpers.prompt(this.connectionSettingName));
 
         // Logs in the user and calls proceeding dialogs, if login is successful.
