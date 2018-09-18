@@ -23,16 +23,16 @@ class GraphAuthenticationBot {
      * @param {ConversationState} conversationState 
      */
     constructor(conversationState) {
-        this.data = conversationState;
+        this.conversationState = conversationState;
 
         // DialogState property accessor. Used to keep persist DialogState when using DialogSet.
         this.dialogState = conversationState.createProperty("dialogState");
         this.commandState = conversationState.createProperty('commandState');
-        
+
         // Instructions for the user with information about commands that this bot may handle.
         this.helpMessage = `You can type "send <recipient_email>" to send an email, "recent" to view recent unread mail,` +
-        ` "me" to see information about your, or "help" to view the commands` +
-        ` again. Any other text will display your token.`;
+            ` "me" to see information about your, or "help" to view the commands` +
+            ` again. Any other text will display your token.`;
 
         // Create a DialogSet that contains the OAuthPrompt.
         this.dialogs = new DialogSet(this.dialogState);
@@ -58,7 +58,6 @@ class GraphAuthenticationBot {
         switch (turnContext.activity.type) {
             case ActivityTypes.Message:
                 await this.processInput(dc);
-                break;
             case ActivityTypes.Event:
             case ActivityTypes.Invoke:
                 // This handles the Microsoft Teams Invoke Activity sent when magic code is not used.
@@ -75,10 +74,8 @@ class GraphAuthenticationBot {
                 if (!turnContext.responded) {
                     await dc.beginDialog("graphDialog");
                 };
-                break;
             case ActivityTypes.ConversationUpdate:
-                await this.sendWelcomeMessage(turnContext);
-                break;
+                await this.sendWelcomeMessage(turnContext)
         }
     };
 
@@ -91,8 +88,7 @@ class GraphAuthenticationBot {
             const heroCard = CardFactory.heroCard(
                 "Welcome to GraphAuthenticationBot!",
                 CardFactory.images(["https://botframeworksamples.blob.core.windows.net/samples/aadlogo.png"]),
-                CardFactory.actions([
-                    {
+                CardFactory.actions([{
                         "type": "imBack",
                         "title": "Me",
                         "value": "me"
@@ -159,6 +155,8 @@ class GraphAuthenticationBot {
                 break;
             default:
                 await this.commandState.set(dc.context, dc.context.activity.text);
+                await this.conversationState.saveChanges(dc.context);
+
                 // The user has input a command that has not been handled yet,
                 // begin the waterfall dialog to handle the input.
                 await dc.continueDialog();
@@ -196,7 +194,7 @@ class GraphAuthenticationBot {
         // If the user is authenticated the bot can use the token to make API calls.
         if (tokenResponse !== undefined) {
             let parts;
-            
+
             if (!step.context.activity.text) {
                 parts = await this.commandState.get(step.context);
                 parts = parts.split(" ");
@@ -217,7 +215,7 @@ class GraphAuthenticationBot {
             // Ask the user to try logging in later as they are not logged in.
             await step.context.sendActivity(`We couldn't log you in. Please try again later.`);
         }
-        return await step.endDialog();  
+        return await step.endDialog();
     };
 };
 

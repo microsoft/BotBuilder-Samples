@@ -6,11 +6,11 @@ const { OAuthPrompt } = require('botbuilder-dialogs');
 const { SimpleGraphClient } = require('./simple-graph-client');
 
 /**
-* This method calls the Microsoft Graph API. The following OAuth scopes are used:
-* 'OpenId' 'email' 'Mail.Send.Shared' 'Mail.Read' 'profile' 'User.Read' 'User.ReadBasic.All'
-* for more information about scopes see:
-* https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference
-*/
+ * These methods call the Microsoft Graph API. The following OAuth scopes are used:
+ * 'OpenId' 'email' 'Mail.Send.Shared' 'Mail.Read' 'profile' 'User.Read' 'User.ReadBasic.All'
+ * for more information about scopes see:
+ * https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference
+ */
 class OAuthHelpers {
 
     /**
@@ -56,26 +56,12 @@ class OAuthHelpers {
             const client = new SimpleGraphClient(tokenResponse.token);
             const me = await client.getMe();
             const manager = await client.getManager();
-            const photo = await client.getPhoto();
 
             // Create the reply activity.
             let reply = { type: ActivityTypes.Message };
-            let photoText = '';
-            if (photo !== undefined) {
-                const replyAttachment = {
-                    contentType: photo.contentType,
-                    contentUrl: photo.base64string
-                }
-                reply.attachments = [replyAttachment];
-            }
-            else {
-                photoText = `Consider adding an image to your Outlook profile.`;
-            }
-            
-            reply.text = `You are ${me.displayName} and you report to ${manager.displayName}. ${photoText}`;
+            reply.text = `You are ${me.displayName} and you report to ${manager.displayName}.`;
             await turnContext.sendActivity(reply);
-        }
-        catch (error) {
+        } catch (error) {
             throw error;
         }
     }
@@ -107,8 +93,7 @@ class OAuthHelpers {
             const messagePreview = message.bodyPreview;
             const email = {
                 type: ActivityTypes.Message,
-                text:
-                    `From: ${from}\n` +
+                text: `From: ${from}\n` +
                     `Email: ${address}\n` +
                     `Subject: ${subject}\n` +
                     `Message: ${messagePreview}`
