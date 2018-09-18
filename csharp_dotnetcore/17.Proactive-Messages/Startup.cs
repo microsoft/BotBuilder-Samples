@@ -76,7 +76,7 @@ namespace Microsoft.BotBuilderSamples
             // Validate .bot file endpoint.
             services.AddSingleton(sp =>
             {
-                var config = BotConfiguration.Load(@".\ProactiveBot.bot");
+                var config = BotConfiguration.Load(@".\BotConfiguration.bot");
                 var endpointService = (EndpointService)config.Services.First(s => s.Type == "endpoint")
                     ?? throw new InvalidOperationException(".bot file 'endpoint' must be configured prior to running.");
 
