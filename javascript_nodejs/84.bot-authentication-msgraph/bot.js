@@ -88,7 +88,8 @@ class GraphAuthenticationBot {
             const heroCard = CardFactory.heroCard(
                 "Welcome to GraphAuthenticationBot!",
                 CardFactory.images(["https://botframeworksamples.blob.core.windows.net/samples/aadlogo.png"]),
-                CardFactory.actions([{
+                CardFactory.actions([
+					{
                         "type": "imBack",
                         "title": "Me",
                         "value": "me"
