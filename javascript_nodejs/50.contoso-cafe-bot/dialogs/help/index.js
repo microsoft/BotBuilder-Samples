@@ -3,21 +3,21 @@
 
 const { QnADialog } = require('../qna');
 
-// Help intent name from ../../dispatcher/resources/cafeDispatchModel.lu 
+// Help intent name from ../../dispatcher/resources/cafeDispatchModel.lu
 // This is used by MainDispatcher to dispatch to the appropriate child dialog.
-// The name needs to match the intent name returned by LUIS. 
+// The name needs to match the intent name returned by LUIS.
 const HELP_INTENT_NAME = 'Help';
 
-// Help, ChitChat and QnA share the same QnA Maker model. 
-// Help and ChitChat dialogs derive from the QnADialog class. 
+// Help, ChitChat and QnA share the same QnA Maker model.
+// Help and ChitChat dialogs derive from the QnADialog class.
 module.exports = {
     HelpDialog: class extends QnADialog {
-        static get Name () { 
-            return HELP_INTENT_NAME; 
+        static get Name() {
+            return HELP_INTENT_NAME;
         }
         /**
-         * Constructor. 
-         * 
+         * Constructor.
+         *
          * @param {BotConfiguration} botConfig bot configuration from .bot file
          * @param {StatePropertyAccessor} user profile accessor
          */

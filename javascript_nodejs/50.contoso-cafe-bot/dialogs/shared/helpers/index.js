@@ -3,4 +3,4 @@
 module.exports = {
     LUIS_ENTITIES: require('./luisEntities'),
     GenSuggestedQueries: require('./genSuggestedQueries').GenSuggestedQueries
-}
+};

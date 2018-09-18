@@ -5,7 +5,6 @@ const { TextPrompt, DialogTurnStatus } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { Reservation, reservationStatusEnum, OnTurnProperty } = require('../stateProperties');
 const { QnADialog } = require('../../qna');
-
 // Dialog name from ../../bookTable/resources/turn-N.lu
 const CONTINUE_PROMPT_INTENT = 'GetLocationDateTimePartySize';
 const HELP_INTENT = 'Help';
@@ -14,18 +13,25 @@ const INTERRUPTIONS_INTENT = 'Interruptions';
 const NOCHANGE_INTENT = 'noChange';
 const INTERRUPTION_DISPATCHER = 'interruptionDispatcherDialog';
 const CONFIRM_CANCEL_PROMPT = 'confirmCancelPrompt';
-
 // LUIS service type entry for turn.n book table LUIS model in the .bot file.
 const LUIS_CONFIGURATION = 'cafeBotBookTableTurnN';
-
-// This is a custom TextPrompt that uses a LUIS model to handle turn.n conversations including interruptions.
 module.exports = {
+    // This is a custom TextPrompt that uses a LUIS model to handle turn.n conversations including interruptions.
     GetLocationDateTimePartySizePrompt: class extends TextPrompt {
+        /**
+         * Constructor.
+         * @param {String} dialog id
+         * @param {BotConfiguration} .bot file configuration
+         * @param {StateAccessor} accessor for the reservation property
+         * @param {StateAccessor} accessor for on turn property
+         * @param {StateAccessor} accessor for user profile property
+         */
         constructor(dialogId, botConfig, reservationsAccessor, onTurnAccessor, userProfileAccessor) {
             if (!dialogId) throw ('Need dialog ID');
             if (!botConfig) throw ('Need bot configuration');
             if (!reservationsAccessor) throw ('Need user reservation property accessor');
             if (!onTurnAccessor) throw ('Need on turn property accessor');
+            // Call super and provide a prompt validator
             super(dialogId, async (turnContext, step) => {
                 // validation and prompting logic
                 // get reservation property
@@ -36,9 +42,8 @@ module.exports = {
                 } else {
                     newReservation = Reservation.fromJSON(reservationFromState);
                 }
-
                 // if we have a valid reservation, end this prompt.
-                //  else get LG based on what's available in reservatio property
+                //  else get LG based on what's available in reservation property
                 if (newReservation.haveCompleteReservation) {
                     if (!newReservation.reservationConfirmed) {
                         if (newReservation.needsChange === true) {
@@ -57,12 +62,12 @@ module.exports = {
                         step.end(DialogTurnStatus.complete);
                     }
                 } else {
-                    // Readout what has been understood already
+                    // readout what has been understood already
                     let groundedPropertiesReadout = newReservation.getGroundedPropertiesReadOut();
                     if (groundedPropertiesReadout !== '') {
                         await turnContext.sendActivity(groundedPropertiesReadout);
                     }
-                    // Ask user for missing information
+                    // ask user for missing information
                     await turnContext.sendActivity(newReservation.getMissingPropertyReadOut());
                 }
             });
@@ -82,13 +87,16 @@ module.exports = {
         }
         /**
          * Override dialogContinue.
+         *   The override enables
+         *     Interruption to be kicked off from right within this dialog.
+         *     Ability to leverage a dedicated LUIS model to provide flexible entity filling,
+         *     corrections and contextual help.
          *
-         * @param {Object} dc dialog context
+         * @param {DialogContext} dialog context
          */
         async dialogContinue(dc) {
             let turnContext = dc.context;
             let step = dc.activeDialog.state;
-
             // get reservation property
             let reservationFromState = await this.reservationsAccessor.get(turnContext);
             let newReservation;
@@ -97,32 +105,31 @@ module.exports = {
             } else {
                 newReservation = Reservation.fromJSON(reservationFromState);
             }
-
             // Get on turn property. This has any entities that mainDispatcher,
             //  or Bot might have captured in its LUIS model
             const onTurnProperties = await this.onTurnAccessor.get(turnContext);
-
             // if on turn property has entities
             let updateResult;
             if (onTurnProperties !== undefined && onTurnProperties.entities && onTurnProperties.entities.length !== 0) {
                 // update reservation property with on turn property results
                 updateResult = newReservation.updateProperties(onTurnProperties, step);
             }
-            // see if updadte reservtion resulted in errors, if so, report them to user.
+            // see if updates to reservation resulted in errors, if so, report them to user.
             if (updateResult &&
                 updateResult.status === reservationStatusEnum.INCOMPLETE &&
                 updateResult.outcome !== undefined &&
                 updateResult.outcome.length !== 0) {
                 // set reservation property
                 this.reservationsAccessor.set(turnContext, updateResult.newReservation);
-                // return and do not continue if there is an error.
+                // return and do not continue if there is an error
                 await turnContext.sendActivity(updateResult.outcome[0].message);
                 return await super.dialogContinue(dc);
             }
-
             // call LUIS and get results
             const LUISResults = await this.luisRecognizer.recognize(turnContext);
             let topIntent = LuisRecognizer.topIntent(LUISResults);
+            // If we dont have an intent match from LUIS, go with the intent available via
+            // the on turn property (parent's LUIS model)
             if (Object.keys(LUISResults.intents).length === 0) {
                 // go with intent in onTurnProperty
                 topIntent = (onTurnProperties.intent || 'None');
@@ -130,7 +137,7 @@ module.exports = {
             // update object with LUIS result
             updateResult = newReservation.updateProperties(OnTurnProperty.fromLUISResults(LUISResults), step);
 
-            // see if updadte reservtion resulted in errors, if so, report them to user.
+            // see if update reservation resulted in errors, if so, report them to user.
             if (updateResult &&
                 updateResult.status === reservationStatusEnum.INCOMPLETE &&
                 updateResult.outcome !== undefined &&
@@ -174,8 +181,8 @@ module.exports = {
         /**
          * Override dialogResume. This is used to handle user's response to confirm cancel prompt.
          *
-         * @param {Object} dc
-         * @param {Object} reason
+         * @param {DialogContext} dc
+         * @param {DialogReason} reason
          * @param {Object} result
          */
         async dialogResume(dc, reason, result) {

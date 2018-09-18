@@ -9,39 +9,39 @@ const { EntityProperty } = require('./entityProperty');
 class OnTurnProperty {
     /**
      * On Turn Property constructor.
-     * 
+     *
      * @param {String} intent intent name
      * @param {EntityProperty []} entities Array of Entities
      */
     constructor(intent, entities) {
-        this.intent = intent ? intent : '';
-        this.entities = entities ? entities : [];
+        this.intent = intent || '';
+        this.entities = entities || [];
     }
 }
 /**
- * 
+ *
  * Static method to create an on turn property object from LUIS results
- * 
- * @param {Object} LUISResults 
+ *
+ * @param {Object} LUISResults
  * @returns {OnTurnProperty}
  */
-OnTurnProperty.fromLUISResults = function (LUISResults) {
+OnTurnProperty.fromLUISResults = function(LUISResults) {
     let onTurnProperties = new OnTurnProperty();
     onTurnProperties.intent = LuisRecognizer.topIntent(LUISResults);
-    // Gather entity values if available. Uses a const list of LUIS entity names. 
+    // Gather entity values if available. Uses a const list of LUIS entity names.
     LUIS_ENTITIES.forEach(luisEntity => {
-        if(luisEntity in LUISResults.entities) { 
-            onTurnProperties.entities.push(new EntityProperty(luisEntity, LUISResults.entities[luisEntity]))
+        if (luisEntity in LUISResults.entities) {
+            onTurnProperties.entities.push(new EntityProperty(luisEntity, LUISResults.entities[luisEntity]));
         }
     });
     return onTurnProperties;
-}
+};
 /**
- * 
+ *
  * Static method to create an on turn property object from card input
- * 
+ *
  * @param {Object} cardValue context.activity.value from a card interaction
- * @returns {OnTurnProperty} 
+ * @returns {OnTurnProperty}
  */
 OnTurnProperty.fromCardInput = function(cardValue) {
     // All cards used by this bot are adaptive cards with the card's 'data' property set to useful information.
@@ -55,5 +55,5 @@ OnTurnProperty.fromCardInput = function(cardValue) {
         }
     }
     return onTurnProperties;
-}
+};
 module.exports = OnTurnProperty;

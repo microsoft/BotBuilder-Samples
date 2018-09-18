@@ -4,13 +4,13 @@
 class UserProfile {
     /**
      * User Profile Property constructor.
-     * 
+     *
      * @param {String} name user name
      * @param {String} location user location
      */
     constructor(name, location) {
         this.userName = name;
-        this.location = location ? location : '';
+        this.location = location || '';
     }
 };
 

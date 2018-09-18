@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 // Using text recognizer package to perform timex operations.
-var { TimexProperty, creator, resolver }  = require('@microsoft/recognizers-text-data-types-timex-expression').default;
+var { TimexProperty, creator, resolver } = require('@microsoft/recognizers-text-data-types-timex-expression').default;
 
 const { ReservationOutcome, ReservationResult, reservationStatus } = require('./createReservationPropertyResult');
 const { LUIS_ENTITIES } = require('../helpers');
@@ -16,34 +16,34 @@ const FOUR_WEEKS = '4';
 const MAX_PARTY_SIZE = 10;
 
 // Date constraints for reservations
-const reservationDateConstraints = [        /* Date for reservations must be        */
-    creator.thisWeek,                       /* - a date in this week .OR.           */
-    creator.nextWeeksFromToday(FOUR_WEEKS), /* - a date in the next 4 weeks .AND.   */
+const reservationDateConstraints = [ /* Date for reservations must be        */
+    creator.thisWeek, /* - a date in this week .OR.           */
+    creator.nextWeeksFromToday(FOUR_WEEKS) /* - a date in the next 4 weeks .AND.   */
 ];
 
 // Time constraints for reservations
-const reservationTimeConstraints = [        /* Time for reservations must be   */
-    creator.daytime                         /* - daytime or                    */
+const reservationTimeConstraints = [ /* Time for reservations must be   */
+    creator.daytime /* - daytime or                    */
 ];
 
 /**
- * Reservation property class. 
- *   This is a self contained class that exposes a bunch of public methods to 
+ * Reservation property class.
+ *   This is a self contained class that exposes a bunch of public methods to
  *     evaluate if we have a complete instance (all required properties filled in)
- *     generate reply text 
+ *     generate reply text
  *       based on missing properties
  *       with all information that's already been captured
  *       to confirm reservation
  *       to provide contextual help
- *   Also exposes two static methods to construct a reservations object based on 
+ *   Also exposes two static methods to construct a reservations object based on
  *     LUIS results object
- *     arbitrary object        
- *   
+ *     arbitrary object
+ *
  */
 class ReservationProperty {
     /**
      * Reservation Property constructor.
-     * 
+     *
      * @param {String} id reservation id
      * @param {String} date reservation date
      * @param {String} time reservation time
@@ -51,37 +51,37 @@ class ReservationProperty {
      * @param {String} location reservation location
      */
     constructor(id, date, time, partySize, location, reservationConfirmed, needsChange, metaData) {
-        this.id = id ? id : get_guid();
-        this.date = date ? date : '';
-        this.time = time ? time : '';
+        this.id = id || get_guid();
+        this.date = date || '';
+        this.time = time || '';
         this.dateLGString = '';
         this.timeLGString = '';
         this.dateTimeLGString = '';
-        this.partySize = partySize ? partySize : 0;
-        this.location = location ? location : '';
-        this.reservationConfirmed = reservationConfirmed ? reservationConfirmed : false;
-        this.needsChange = needsChange ? needsChange : undefined;
-        this.metaData = metaData ? metaData : {};
+        this.partySize = partySize || 0;
+        this.location = location || '';
+        this.reservationConfirmed = reservationConfirmed || false;
+        this.needsChange = needsChange || undefined;
+        this.metaData = metaData || {};
     }
 
     /**
      * Helper method to evalute if we have all required properties filled.
-     * 
+     *
      * @returns {Boolean} true if we have a complete reservation property
      */
     get haveCompleteReservation() {
-        return ((this.id !== undefined) && 
+        return ((this.id !== undefined) &&
                 (this.date !== '') &&
                 (this.time !== '') &&
-                (this.partySize !== 0) && 
+                (this.partySize !== 0) &&
                 (this.location !== ''));
     }
 
     /**
      * Helper method to update Reservation property with information passed in via the onTurnProperty object
-     * 
-     * @param {OnTurnProperty}  
-     * @returns {ReservationResult}  
+     *
+     * @param {OnTurnProperty}
+     * @returns {ReservationResult}
      */
     updateProperties(onTurnProperty, step) {
         let returnResult = new ReservationResult(this);
@@ -90,7 +90,7 @@ class ReservationProperty {
 
     /**
      * Helper method for Language Generation read out based on current reservation property object
-     * 
+     *
      * @returns {String}
      */
     getMissingPropertyReadOut() {
@@ -101,35 +101,35 @@ class ReservationProperty {
         } else if (this.time === '') {
             return `What time?`;
         } else if (this.partySize === 0) {
-            return `How many guests?`
+            return `How many guests?`;
         } else return '';
     }
 
     /**
      * Helper method for Language Generation read out based on properties that have been captured
-     * 
+     *
      * @returns {String}
      */
     getGroundedPropertiesReadOut() {
         let today = new Date();
         if (this.haveCompleteReservation) return this.confirmationReadOut();
         let groundedProperties = '';
-        if (this.partySize !== 0) groundedProperties += ` for ${this.partySize} guests,`;
-        if (this.location !== '') groundedProperties += ` in our ${this.location} store,`;
+        if (this.partySize !== 0) groundedProperties += ` for ${ this.partySize } guests,`;
+        if (this.location !== '') groundedProperties += ` in our ${ this.location } store,`;
         if (this.date !== '' && this.time !== '') {
             groundedProperties += ' for ' + new TimexProperty(this.date + 'T' + this.time).toNaturalLanguage(today) + '.';
         } else if (this.date !== '') {
             groundedProperties += ' for ' + new TimexProperty(this.date).toNaturalLanguage(today);
         } else if (this.timeLGString !== '') {
-            groundedProperties += ` for ${this.timeLGString}`;
+            groundedProperties += ` for ${ this.timeLGString }`;
         }
         if (groundedProperties === '') return groundedProperties;
-        return `Ok. I have a table ${groundedProperties}`;
+        return `Ok. I have a table ${ groundedProperties }`;
     }
 
     /**
      * Helper to generate confirmation read out string.
-     * 
+     *
      * @returns {String}
      */
     confirmationReadOut() {
@@ -139,7 +139,7 @@ class ReservationProperty {
 
     /**
      * Helper to generate help read out string.
-     * 
+     *
      * @returns {String}
      */
     helpReadOut() {
@@ -159,9 +159,9 @@ module.exports = ReservationProperty;
 
 /**
  * Static method to create a new instance of Reservation property based on onTurnProperty object
- * 
- * @param {OnTurnProperty} 
- * @returns {ReservationResult} 
+ *
+ * @param {OnTurnProperty}
+ * @returns {ReservationResult}
  */
 ReservationProperty.fromOnTurnProperty = function(onTurnProperty, step) {
     let returnResult = new ReservationResult(new ReservationProperty());
@@ -170,15 +170,15 @@ ReservationProperty.fromOnTurnProperty = function(onTurnProperty, step) {
 
 /**
  * Static method to create a new instance of Reservation property based on a JSON object
- * 
- * @param {Object} obj 
- * @returns {ReservationProperty} 
+ *
+ * @param {Object} obj
+ * @returns {ReservationProperty}
  */
 ReservationProperty.fromJSON = function(obj) {
     if (obj === undefined) return new ReservationProperty();
     const { id, date, time, partySize, location, reservationConfirmed, needsChange } = obj;
-    return new ReservationProperty(id, date, time, partySize, location, reservationConfirmed, needsChange );
-}
+    return new ReservationProperty(id, date, time, partySize, location, reservationConfirmed, needsChange);
+};
 
 /**
  * HELPERS
@@ -187,22 +187,22 @@ ReservationProperty.fromJSON = function(obj) {
  * Helper function to create a random guid
   * @returns {string} GUID
  */
-const get_guid = function () {
+const get_guid = function() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        var r = Math.random() * 16 | 0; var v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
-}
+};
 /**
  * Helper function to validate input and return results based on validation constraints
- * 
- * @param {Object} onTurnProperty 
- * @param {ReservationResult} return result object 
+ *
+ * @param {Object} onTurnProperty
+ * @param {ReservationResult} return result object
  */
-const validate = function (onTurnProperty, returnResult, step) {
+const validate = function(onTurnProperty, returnResult, step) {
     if (onTurnProperty === undefined || onTurnProperty.entities.length === 0) return returnResult;
-    
-    // We only will pull number -> party size, datetimeV2 -> date and time, cafeLocation -> location. 
+
+    // We only will pull number -> party size, datetimeV2 -> date and time, cafeLocation -> location.
     let numberEntity = onTurnProperty.entities.find(item => item.entityName == PARTY_SIZE_ENTITY);
     let dateTimeEntity = onTurnProperty.entities.find(item => item.entityName == DATE_TIME_ENTITY);
     let locationEntity = onTurnProperty.entities.find(item => item.entityName == LOCATION_ENTITY);
@@ -226,30 +226,30 @@ const validate = function (onTurnProperty, returnResult, step) {
             let today = new Date();
             let parsedTimex = new TimexProperty(dateTimeEntity.entityValue[0].timex[0]);
             // see if the date meets our constraints
-            if (parsedTimex.dayOfMonth !== undefined && parsedTimex.year  !== undefined && parsedTimex.month  !== undefined) {
-                let lDate = new Date(`${parsedTimex.year}-${parsedTimex.month}-${parsedTimex.dayOfMonth}`);
-                returnResult.newReservation.date = new Date(lDate.getTime() - (lDate.getTimezoneOffset() * 60000 ))
-                                                        .toISOString()
-                                                        .split("T")[0];
+            if (parsedTimex.dayOfMonth !== undefined && parsedTimex.year !== undefined && parsedTimex.month !== undefined) {
+                let lDate = new Date(`${ parsedTimex.year }-${ parsedTimex.month }-${ parsedTimex.dayOfMonth }`);
+                returnResult.newReservation.date = new Date(lDate.getTime() - (lDate.getTimezoneOffset() * 60000))
+                    .toISOString()
+                    .split('T')[0];
                 returnResult.newReservation.dateLGString = new TimexProperty(returnResult.newReservation.date).toNaturalLanguage(today);
                 const validDate = resolver.evaluate(dateTimeEntity.entityValue[0].timex, reservationDateConstraints);
                 if (!validDate || (validDate.length === 0)) {
                     // Validation failed!
-                    returnResult.outcome.push(new ReservationOutcome(`Sorry. ${returnResult.newReservation.dateLGString} does not work. I can only make reservations for the next 4 weeks.`, DATE_TIME_ENTITY));
+                    returnResult.outcome.push(new ReservationOutcome(`Sorry. ${ returnResult.newReservation.dateLGString } does not work. I can only make reservations for the next 4 weeks.`, DATE_TIME_ENTITY));
                     returnResult.newReservation.date = '';
                     returnResult.status = reservationStatus.INCOMPLETE;
                 }
             }
             // see if the time meets our constraints
-            if (parsedTimex.hour !== undefined && parsedTimex.minute  !== undefined && parsedTimex.second  !== undefined) {
+            if (parsedTimex.hour !== undefined && parsedTimex.minute !== undefined && parsedTimex.second !== undefined) {
                 const validtime = resolver.evaluate(dateTimeEntity.entityValue[0].timex, reservationTimeConstraints);
-                
+
                 returnResult.newReservation.time = ((parseInt(parsedTimex.hour) < 10) ? '0' + parsedTimex.hour : parsedTimex.hour);
                 returnResult.newReservation.time += ':';
                 returnResult.newReservation.time += ((parseInt(parsedTimex.minute) < 10) ? '0' + parsedTimex.minute : parsedTimex.minute);
                 returnResult.newReservation.time += ':';
                 returnResult.newReservation.time += ((parseInt(parsedTimex.second) < 10) ? '0' + parsedTimex.second : parsedTimex.second);
-                
+
                 if (!validtime || (validtime.length === 0)) {
                     // Validation failed!
                     returnResult.outcome.push(new ReservationOutcome(`Sorry, that time does not work. I can only make reservations that are in the daytime (6AM - 6PM)`, DATE_TIME_ENTITY));
@@ -257,11 +257,11 @@ const validate = function (onTurnProperty, returnResult, step) {
                     returnResult.status = reservationStatus.INCOMPLETE;
                 }
             }
-            // Get date time LG string if we have both date and time            
+            // Get date time LG string if we have both date and time
             if (returnResult.newReservation.date !== '' && returnResult.newReservation.time !== '') {
                 returnResult.newReservation.dateTimeLGString = new TimexProperty(returnResult.newReservation.date + 'T' + returnResult.newReservation.time).toNaturalLanguage(today);
-            } 
-        }        
+            }
+        }
     }
     // Take the first found value.
     if (locationEntity !== undefined) {
@@ -281,6 +281,6 @@ const validate = function (onTurnProperty, returnResult, step) {
             returnResult.newReservation.reservationConfirmed = undefined;
         }
     }
-    
+
     return returnResult;
-}
+};

@@ -2,6 +2,6 @@
 // Licensed under the MIT License.
 
 module.exports = {
-    MainDispatcher : require('./mainDispatcher').MainDispatcher,
+    MainDispatcher: require('./mainDispatcher').MainDispatcher,
     InterruptionDispatcher: require('./interruptionDispatcher').InterruptionDispatcher
 };

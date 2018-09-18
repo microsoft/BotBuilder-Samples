@@ -9,25 +9,25 @@ const PROMOTIONS_LIST = ['Book a table', 'Who are you?', 'Sing a song'];
 
 /**
  * Helper method that returns an array of possible queries the user can issue.
- * 
- * @param {Integer} numberOfSuggestions 
+ *
+ * @param {Integer} numberOfSuggestions
  * @returns {String []} of query suggestions
  */
-const generate = function (numberOfSuggestions) {
+const generate = function(numberOfSuggestions) {
     let suggestedQueries = ['What can you do?'];
-    if(PROMOTIONS_LIST.length !== 0) {
+    if (PROMOTIONS_LIST.length !== 0) {
         let rndIdx = Math.floor(PROMOTIONS_LIST.length * Math.random());
         suggestedQueries.push(PROMOTIONS_LIST[rndIdx]);
     }
     let possibleUtterances = dispatchLUISModel;
-    if(numberOfSuggestions === undefined) numberOfSuggestions = DEFAULT_NUMBER_OF_SUGGESTIONS;
-    while(--numberOfSuggestions) {
+    if (numberOfSuggestions === undefined) numberOfSuggestions = DEFAULT_NUMBER_OF_SUGGESTIONS;
+    while (--numberOfSuggestions) {
         let rndIdx = Math.floor(possibleUtterances.length * Math.random());
         suggestedQueries.push(possibleUtterances[rndIdx].text);
     }
     return suggestedQueries;
-}
+};
 
 module.exports = {
     GenSuggestedQueries: generate
-}
+};
