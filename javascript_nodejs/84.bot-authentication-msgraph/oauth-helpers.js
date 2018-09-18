@@ -5,6 +5,9 @@ const { ActivityTypes } = require('botbuilder');
 const { OAuthPrompt } = require('botbuilder-dialogs');
 const { SimpleGraphClient } = require('./simple-graph-client');
 
+// DialogId for the OAuthPrompt.
+const LOGIN_PROMPT = 'loginPrompt';
+
 /**
  * These methods call the Microsoft Graph API. The following OAuth scopes are used:
  * 'OpenId' 'email' 'Mail.Send.Shared' 'Mail.Read' 'profile' 'User.Read' 'User.ReadBasic.All'
@@ -20,10 +23,10 @@ class OAuthHelpers {
      * @param {string} emailAddress The email address of the recipient.
      */
     static async sendMail(turnContext, tokenResponse, emailAddress) {
-        if (turnContext === undefined) {
+        if (!turnContext) {
             throw new Error('OAuthHelpers.sendMail(): `turnContext` cannot be undefined.');
         }
-        if (tokenResponse === undefined) {
+        if (!tokenResponse) {
             throw new Error('OAuthHelpers.sendMail(): `tokenResponse` cannot be undefined.');
         }
 
@@ -44,10 +47,10 @@ class OAuthHelpers {
      * @param {Object} tokenResponse 
      */
     static async listMe(turnContext, tokenResponse) {
-        if (turnContext === undefined) {
+        if (!turnContext) {
             throw new Error('OAuthHelpers.listMe(): `turnContext` cannot be undefined.');
         }
-        if (tokenResponse === undefined) {
+        if (!tokenResponse) {
             throw new Error('OAuthHelpers.listMe(): `tokenResponse` cannot be undefined.');
         }
 
@@ -111,7 +114,7 @@ class OAuthHelpers {
      * @param {string} connectionName 
      */
     static prompt(connectionName) {
-        const loginPrompt = new OAuthPrompt("loginPrompt", 
+        const loginPrompt = new OAuthPrompt(LOGIN_PROMPT, 
 		{
             connectionName: connectionName,
             text: 'Please login',
@@ -123,3 +126,4 @@ class OAuthHelpers {
 }
 
 exports.OAuthHelpers = OAuthHelpers;
+exports.LOGIN_PROMPT = LOGIN_PROMPT;

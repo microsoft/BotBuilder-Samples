@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, CardFactory } = require('botbuilder');
+const { ActionTypes, ActivityTypes, CardFactory } = require('botbuilder');
 const { DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
-const { OAuthHelpers } = require('./oauth-helpers');
+const { OAuthHelpers, LOGIN_PROMPT } = require('./oauth-helpers');
 
 /**
  * This bot uses OAuth to log the user in. The OAuth provider being demonstrated
@@ -26,7 +26,7 @@ class GraphAuthenticationBot {
         this.conversationState = conversationState;
 
         // DialogState property accessor. Used to keep persist DialogState when using DialogSet.
-        this.dialogState = conversationState.createProperty("dialogState");
+        this.dialogState = conversationState.createProperty('dialogState');
         this.commandState = conversationState.createProperty('commandState');
 
         // Instructions for the user with information about commands that this bot may handle.
@@ -37,11 +37,15 @@ class GraphAuthenticationBot {
         // Create a DialogSet that contains the OAuthPrompt.
         this.dialogs = new DialogSet(this.dialogState);
 
+        // The connection name here must match the the one from your
+        // Bot Channels Registration on the settings blade in Azure.
         this.connectionSettingName = '';
         this.dialogs.add(OAuthHelpers.prompt(this.connectionSettingName));
 
+        this._graphDialogId = 'graphDialog';
+
         // Logs in the user and calls proceeding dialogs, if login is successful.
-        this.dialogs.add(new WaterfallDialog('graphDialog', [
+        this.dialogs.add(new WaterfallDialog(this._graphDialogId, [
             this.promptStep.bind(this),
             this.processStep.bind(this)
         ]));
@@ -58,6 +62,7 @@ class GraphAuthenticationBot {
         switch (turnContext.activity.type) {
             case ActivityTypes.Message:
                 await this.processInput(dc);
+                break;
             case ActivityTypes.Event:
             case ActivityTypes.Invoke:
                 // This handles the Microsoft Teams Invoke Activity sent when magic code is not used.
@@ -67,15 +72,19 @@ class GraphAuthenticationBot {
                 // See: https://blog.botframework.com/2018/08/28/testing-authentication-to-your-bot-using-the-bot-framework-emulator/
 
                 // Sanity check the Activity type and channel Id.
-                if (turnContext.activity.type === ActivityTypes.Invoke && turnContext.activity.channelId !== "msteams") {
-                    throw new Error("The Invoke type is only valid on the MS Teams channel.");
+                if (turnContext.activity.type === ActivityTypes.Invoke && turnContext.activity.channelId !== 'msteams') {
+                    throw new Error('The Invoke type is only valid on the MS Teams channel.');
                 };
                 await dc.continueDialog();
                 if (!turnContext.responded) {
-                    await dc.beginDialog("graphDialog");
+                    await dc.beginDialog(this._graphDialogId);
                 };
+                break;
             case ActivityTypes.ConversationUpdate:
-                await this.sendWelcomeMessage(turnContext)
+                await this.sendWelcomeMessage(turnContext);
+                break;
+            default:
+                await turnContext.sendActivity(`[${turnContext.activity.type}]-type activity detected.`);
         }
     };
 
@@ -86,33 +95,33 @@ class GraphAuthenticationBot {
     async sendWelcomeMessage(turnContext) {
         if (turnContext.activity && turnContext.activity.membersAdded) {
             const heroCard = CardFactory.heroCard(
-                "Welcome to GraphAuthenticationBot!",
-                CardFactory.images(["https://botframeworksamples.blob.core.windows.net/samples/aadlogo.png"]),
+                'Welcome to GraphAuthenticationBot!',
+                CardFactory.images(['https://botframeworksamples.blob.core.windows.net/samples/aadlogo.png']),
                 CardFactory.actions([
-					{
-                        "type": "imBack",
-                        "title": "Me",
-                        "value": "me"
+                    {
+                        type: ActionTypes.ImBack,
+                        title: 'Me',
+                        value: 'me'
                     },
                     {
-                        "type": "imBack",
-                        "title": "Recent",
-                        "value": "recent"
+                        type: ActionTypes.ImBack,
+                        title: 'Recent',
+                        value: 'recent'
                     },
                     {
-                        "type": "imBack",
-                        "title": "View Token",
-                        "value": "view Token"
+                        type: ActionTypes.ImBack,
+                        title: 'View Token',
+                        value: 'view Token'
                     },
                     {
-                        "type": "imBack",
-                        "title": "Help",
-                        "value": "help"
+                        type: ActionTypes.ImBack,
+                        title: 'Help',
+                        value: 'help'
                     },
                     {
-                        "type": "imBack",
-                        "title": "Signout",
-                        "value": "signout"
+                        type: ActionTypes.ImBack,
+                        title: 'Signout',
+                        value: 'signout'
                     }
                 ])
             );
@@ -122,7 +131,7 @@ class GraphAuthenticationBot {
                 // The bot is the recipient of all ConversationUpdate-type activities.
                 if (conversationMember.id !== this.activity.recipient.id) {
                     // Because the TurnContext was bound to this function, the bot can call
-                    // `TurnContext.sendActivity` via `this.sendActivity`;
+                    // `TurnContext.sendActivity` via `this.sendActivity`.
                     await this.sendActivity({ attachments: [heroCard] });
                 }
             }
@@ -162,7 +171,7 @@ class GraphAuthenticationBot {
                 // begin the waterfall dialog to handle the input.
                 await dc.continueDialog();
                 if (!dc.context.responded) {
-                    await dc.beginDialog('graphDialog', dc);
+                    await dc.beginDialog(this._graphDialogId, dc);
                 }
         }
     };
@@ -179,7 +188,7 @@ class GraphAuthenticationBot {
         if (activity.type === ActivityTypes.Message && !(/\d{6}/).test(activity.text)) {
             await this.commandState.set(step.context, activity.text);
         }
-        return await step.beginDialog('loginPrompt');
+        return await step.beginDialog(LOGIN_PROMPT);
     }
 
     /**
@@ -198,16 +207,16 @@ class GraphAuthenticationBot {
 
             if (!step.context.activity.text) {
                 parts = await this.commandState.get(step.context);
-                parts = parts.split(" ");
+                parts = parts.split(' ');
             } else {
-                parts = (step.context.activity.text).split(" ");
+                parts = (step.context.activity.text).split(' ');
             }
             const command = parts[0].toLowerCase();
-            if (command === "me") {
+            if (command === 'me') {
                 await OAuthHelpers.listMe(step.context, tokenResponse);
-            } else if (command === "send") {
+            } else if (command === 'send') {
                 await OAuthHelpers.sendMail(step.context, tokenResponse, parts[1].toLowerCase())
-            } else if (command === "recent") {
+            } else if (command === 'recent') {
                 await OAuthHelpers.listRecentMail(step.context, tokenResponse);
             } else {
                 await step.context.sendActivity(`Your token is: ${tokenResponse.token}`);
