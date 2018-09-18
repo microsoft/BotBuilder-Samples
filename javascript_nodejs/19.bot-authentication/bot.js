@@ -68,8 +68,8 @@ class AuthenticationBot {
             return await step.prompt(CONFIRM_PROMPT, 'Do you want to view your token?', ['yes', 'no']);
         }
 
-        await step.Context.sendActivity("Login was not sucessful please try again");
-        return await step.end();
+        await step.context.sendActivity("Login was not sucessful please try again");
+        return await step.endDialog();
     }
 
     async displayToken(step) {
@@ -88,12 +88,12 @@ class AuthenticationBot {
             if (tokenResponse != null) {
                 await step.context.sendActivity(`Here is your token: ${tokenResponse.token}`);
                 await step.context.sendActivity(HELP_TEXT);
-                return await step.end();
+                return await step.endDialog();
             }
         }
 
         await step.context.sendActivity(HELP_TEXT);
-        return await step.end();
+        return await step.endDialog();
     }
 
     /**
@@ -112,7 +112,7 @@ class AuthenticationBot {
 
             // Create an array with the valid color options.
             const validCommands = ['logout', 'help'];
-            await dc.continue();
+            await dc.continueDialog();
 
             // If the `text` is in the Array, a valid color was selected and send agreement. 
             if (validCommands.includes(text)) {
@@ -128,7 +128,7 @@ class AuthenticationBot {
                 }
             } else {
                 if (!turnContext.responded) {
-                    await dc.begin(AUTH_DIALOG);
+                    await dc.beginDialog(AUTH_DIALOG);
                 }
             };
         } else if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
@@ -149,16 +149,16 @@ class AuthenticationBot {
             // It also handles the Event Activity sent from the emulator when the magic code is not used.
             // See: https://blog.botframework.com/2018/08/28/testing-authentication-to-your-bot-using-the-bot-framework-emulator/
             const dc = await this.dialogs.createContext(turnContext);
-            await dc.continue();
+            await dc.continueDialog();
             if (!turnContext.responded) {
-                await dc.begin(AUTH_DIALOG);
+                await dc.beginDialog(AUTH_DIALOG);
             }
         } else {
             await turnContext.sendActivity(`[${turnContext.activity.type} event detected.]`);
         }
 
         // Update the conversation state before ending the turn.
-        await this.conversationState.write(turnContext);
+        await this.conversationState.saveChanges(turnContext);
     }
 }
 

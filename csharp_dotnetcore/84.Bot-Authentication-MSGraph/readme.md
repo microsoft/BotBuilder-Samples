@@ -26,11 +26,11 @@ including Windows, Office 365, and Azure.
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
  ### Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\19.Bot-Authentication`) and open Handling_Attachments.csproj in Visual Studio 
+- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\84.Bot-Authentication-MSGraph`) and open Bot_Authentication_MSGraph.csproj in Visual Studio 
 - Hit F5
  ### Visual Studio Code
-- Open `BotBuilder-Samples\csharp_dotnetcore\19.Bot-Authentication\` folder
-- Bring up a terminal, navigate to BotBuilder-Samples\csharp_dotnetcore\19.Bot-Authentication
+- Open `BotBuilder-Samples\csharp_dotnetcore\84.Bot-Authentication-MSGraph\` folder
+- Bring up a terminal, navigate to BotBuilder-Samples\csharp_dotnetcore\84.Bot-Authentication-MSGraph
 - Type 'dotnet run'.
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
