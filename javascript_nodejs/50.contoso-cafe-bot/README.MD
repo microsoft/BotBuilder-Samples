@@ -1,6 +1,6 @@
 Contoso cafe bot is a complete and fairly sophisticated sample that demonstrates various parts of the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-js) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) in action. 
 
-This sample relies on prior knowledge/familiarity with the following tools and services 
+This sample relies on prior knowledge/familiarity with the following tools and services:
 - [LUIS](https://luis.ai)
 - [QnA Maker](https://qnamaker.ai)
 - [Ludown CLI tool](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown)
@@ -11,7 +11,7 @@ This sample relies on prior knowledge/familiarity with the following tools and s
 - [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator)
 
 # Concepts covered in this sample
-Contoso cafe bot is a fairly sophisticated bot sample that uses the following concepts in the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-js) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) - 
+Contoso cafe bot is a fairly sophisticated bot sample that uses the following concepts in the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-js) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools):
 
 ## Scenarios demonstrated
 - Welcoming users
