@@ -16,16 +16,26 @@ const ON_TURN_PROPERTY = 'onTurnStateProperty';
 const DIALOG_STATE_PROPERTY = 'dialogStateProperty';
 
 module.exports = {
+    /**
+     * 
+     * Bot Class is responsible for 4 main things - 
+     *   1. Handle different types of activities
+     *   2. Process incoming activities and extract relevant information into an onTurnProperty object
+     *   3. Route message to or start an instance of main dispatcher
+     *   4. Welcome user(s) that might have joined the conversation
+     * 
+     */
     Bot: class {
         /**
          * Bot constructor.
          * 
-         * @param {Object} conversationState conversation state object
-         * @param {Object} userState user state object
-         * @param {Object} botConfig bot configuration
+         * @param {ConversationState} conversation state object
+         * @param {UserState} user state object
+         * @param {BotframeworkConfig} botConfig bot configuration
          * 
          */
         constructor (conversationState, userState, botConfig) {
+
             if (!conversationState) throw ('Missing parameter. Conversation state is required.');
             if (!userState) throw ('Missing parameter. User state is required.');
             if (!botConfig) throw ('Missing parameter. Bot configuration is required.');

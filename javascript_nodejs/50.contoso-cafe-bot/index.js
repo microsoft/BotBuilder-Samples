@@ -14,6 +14,7 @@ const { Bot } = require('./bot');
 const ENV_FILE = path.join(__dirname, '.env');
 const env = require('dotenv').config({path: ENV_FILE});
 const BOT_CONFIGURATION_ERROR = 1;
+
 // Bot configuration section in the .bot file.
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
 const BOT_CONFIGURATION = (process.env.NODE_ENV || 'development');
@@ -34,7 +35,7 @@ let botConfig;
 try {
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
 } catch (err) {
-    console.log(`Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment`);
+    console.log(`Error reading bot file. Please ensure you have botFilePath and botFileSecret set for your environment`);
     process.exit(BOT_CONFIGURATION_ERROR);
 }
 
