@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.BotBuilderSamples
+namespace BasicBot
 {
     /// <summary>
     /// Demonstrates the following concepts:
@@ -20,9 +19,6 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class GreetingDialog : DetectHelpCancelDialog
     {
-        // TurnState property
-        public const string LuisEntities = "LUIS.Entities";
-
         // User state for greeting dialog
         private const string GreetingStateProperty = "greetingState";
         private const string NameValue = "greetingName";
@@ -36,14 +32,13 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="botServices">Connected services used in processing.</param>
         /// <param name="botState">The <see cref="UserState"/> for storing properties at user-scope.</param>
-        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> that enables logging and tracing.</param>
-        public GreetingDialog(BotServices botServices, UserState botState, ILoggerFactory loggerFactory)
-            : this(botServices, botState.CreateProperty<GreetingState>(GreetingStateName), loggerFactory)
+        public GreetingDialog(BotServices botServices, UserState botState)
+            : this(botServices, botState.CreateProperty<GreetingState>(GreetingStateName))
         {
         }
 
-        public GreetingDialog(BotServices botServices, IStatePropertyAccessor<GreetingState> greetingStateAccessor, ILoggerFactory loggerFactory)
-            : base(botServices, nameof(GreetingDialog), loggerFactory)
+        public GreetingDialog(BotServices botServices, IStatePropertyAccessor<GreetingState> greetingStateAccessor)
+            : base(botServices, nameof(GreetingDialog))
         {
             this.GreetingStateAccessor = greetingStateAccessor;
 
@@ -72,46 +67,42 @@ namespace Microsoft.BotBuilderSamples
         private BotServices BotServices { get; }
 
         // Handle updates to entities.
-        protected override async Task<bool> OnUpdateEntitiesAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        protected override async Task<bool> ProcessUpdateEntitiesAsync(JObject entities, DialogContext dc, CancellationToken cancellationToken)
         {
-            var greetingState = await GreetingStateAccessor.GetAsync(turnContext, () => new GreetingState());
+            var greetingState = await GreetingStateAccessor.GetAsync(dc.Context, () => new GreetingState());
+
+            // Supported LUIS Entities
+            string[] userNameEntities = { "userName", "userName_paternAny" };
+            string[] userLocationEntities = { "userLocation", "userLocation_patternAny" };
 
             var result = false;
-            if (turnContext.TurnState.ContainsKey(LuisEntities))
+
+            if (entities != null && entities.HasValues)
             {
-                // Supported LUIS Entities
-                string[] userNameEntities = { "userName", "userName_paternAny" };
-                string[] userLocationEntities = { "userLocation", "userLocation_patternAny" };
-
-                var entities = turnContext.TurnState[LuisEntities] as JObject;
-                if (entities != null && entities.HasValues)
+                // Update any entities
+                foreach (var name in userNameEntities)
                 {
-                    // Update any entities
-                    // Consider having a dialog confirm the update.
-                    foreach (var name in userNameEntities)
+                    // check if we found valid slot values in entities returned from LUIS
+                    if (entities[name] != null)
                     {
-                        // check if we found valid slot values in entities returned from LUIS
-                        if (entities[name] != null)
-                        {
-                            greetingState.Name = (string)entities[name][0];
-                            result = true;
-                            break;
-                        }
+                        greetingState.Name = (string)entities[name][0];
+                        result = true;
+                        break;
                     }
-
-                    foreach (var city in userLocationEntities)
-                    {
-                        if (entities[city] != null)
-                        {
-                            greetingState.City = (string)entities[city][0];
-                            result = true;
-                            break;
-                        }
-                    }
-
-                    // set the new values
-                    await GreetingStateAccessor.SetAsync(turnContext, greetingState);
                 }
+
+                foreach (var city in userLocationEntities)
+                {
+                    if (entities[city] != null)
+                    {
+                        greetingState.City = (string)entities[city][0];
+                        result = true;
+                        break;
+                    }
+                }
+
+                // set the new values
+                await GreetingStateAccessor.SetAsync(dc.Context, greetingState);
             }
 
             return result;
@@ -119,9 +110,6 @@ namespace Microsoft.BotBuilderSamples
 
         private async Task<DialogTurnResult> InitializeStateStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // Check to see if there are entities that require updating.
-            await OnUpdateEntitiesAsync(stepContext.Context, cancellationToken);
-
             var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context, () => new GreetingState());
 
             stepContext.Values[NameValue] = greetingState.Name;

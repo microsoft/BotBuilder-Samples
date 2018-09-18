@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 
-namespace Microsoft.BotBuilderSamples
+namespace BasicBot
 {
     public class RegexRecognizer : IRecognizer
     {

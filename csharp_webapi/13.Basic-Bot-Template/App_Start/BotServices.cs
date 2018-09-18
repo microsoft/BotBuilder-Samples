@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Configuration;
 
-namespace Microsoft.BotBuilderSamples
+namespace BasicBot
 {
     /// <summary>
     /// Represents references to external services.
@@ -21,7 +21,7 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Initializes a new instance of the <see cref="BotServices"/> class.
         /// </summary>
-        /// <param name="luisServices">A dictionary of named <see cref="LuisRecognizer"/> instances for usage within the bot.</param>
+        /// <param name="botConfiguration">A <see cref="BotConfiguration"/> for the bot.</param>
         public BotServices(BotConfiguration botConfiguration)
         {
             foreach (var service in botConfiguration.Services)
@@ -34,6 +34,21 @@ namespace Microsoft.BotBuilderSamples
                             if (luis == null)
                             {
                                 throw new InvalidOperationException("The LUIS service is not configured correctly in your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(luis.AppId))
+                            {
+                                throw new InvalidOperationException("The LUIS Model Application Id ('appId') is required to run this sample. Please update your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(luis.SubscriptionKey))
+                            {
+                                throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample. Please update your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(luis.Region))
+                            {
+                                throw new InvalidOperationException("The Region ('region') is required to run this sample.  Please update your '.bot' file.");
                             }
 
                             var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.Region);

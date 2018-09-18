@@ -5,9 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Extensions.Logging;
 
-namespace Microsoft.BotBuilderSamples
+namespace BasicBot
 {
     /// <summary>
     /// For each interaction from the user, an instance of this class is created and
@@ -44,30 +43,19 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         private readonly DialogSet _dialogs;
 
-        private readonly ILogger _logger;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicBot"/> class.
         /// </summary>
         /// <param name="userState">The <see cref="UserState"/> for properties at user scope.</param>
         /// <param name="conversationState">The <see cref="ConversationState"/> for properties at conversation scope.</param>
         /// <param name="services">The <see cref="BotServices"/> which holds clients for external services.</param>
-        /// <param name="loggerFactory">A <see cref="ILoggerFactory"/> that hooked to the Azure App Service provider.</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
         /// <seealso cref="BotConfiguration"/>
-        public BasicBot(UserState userState, ConversationState conversationState, BotServices services, ILoggerFactory loggerFactory)
+        public BasicBot(UserState userState, ConversationState conversationState, BotServices services)
         {
-            if (loggerFactory == null)
-            {
-                throw new System.ArgumentNullException(nameof(loggerFactory));
-            }
-
             ConversationState = conversationState ?? throw new System.ArgumentNullException(nameof(conversationState));
             UserState = userState ?? throw new System.ArgumentNullException(nameof(userState));
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
-
-            _logger = loggerFactory.CreateLogger<BasicBot>();
-            _logger.LogTrace("BasicBot turn start.");
 
             if (!_services.LuisServices.ContainsKey(LuisKey))
             {
@@ -76,7 +64,7 @@ namespace Microsoft.BotBuilderSamples
 
             // Create top-level dialog(s)
             _dialogs = new DialogSet(ConversationState.CreateProperty<DialogState>(nameof(BasicBot)));
-            _dialogs.Add(new MainDialog(services, UserState, loggerFactory));
+            _dialogs.Add(new MainDialog(services, UserState));
         }
 
         /// <summary>
