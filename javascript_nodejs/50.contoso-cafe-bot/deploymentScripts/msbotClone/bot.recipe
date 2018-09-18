@@ -3,9 +3,9 @@
   "resources": [
     {
       "type": "endpoint",
-      "id": "http://localhost:3978/api/messages",
-      "name": "contoso-cafe-bot",
-      "url": "http://localhost:3978/api/messages"
+      "id": "http://localhost:3980/api/messages",
+      "name": "development",
+      "url": "http://localhost:3982/api/messages"
     },
     {
       "type": "luis",

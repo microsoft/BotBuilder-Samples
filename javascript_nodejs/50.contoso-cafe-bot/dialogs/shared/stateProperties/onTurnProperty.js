@@ -19,7 +19,9 @@ class OnTurnProperty {
     }
 }
 /**
- * Helper to create an on turn property object from LUIS results
+ * 
+ * Static method to create an on turn property object from LUIS results
+ * 
  * @param {Object} LUISResults 
  * @returns {OnTurnProperty}
  */
@@ -28,12 +30,15 @@ OnTurnProperty.fromLUISResults = function (LUISResults) {
     onTurnProperties.intent = LuisRecognizer.topIntent(LUISResults);
     // Gather entity values if available. Uses a const list of LUIS entity names. 
     LUIS_ENTITIES.forEach(luisEntity => {
-        if(luisEntity in LUISResults.entities) onTurnProperties.entities.push(new EntityProperty(luisEntity, LUISResults.entities[luisEntity]))
+        if(luisEntity in LUISResults.entities) { 
+            onTurnProperties.entities.push(new EntityProperty(luisEntity, LUISResults.entities[luisEntity]))
+        }
     });
     return onTurnProperties;
 }
 /**
- * Helper to create an on turn property object from card input
+ * 
+ * Static method to create an on turn property object from card input
  * 
  * @param {Object} cardValue context.activity.value from a card interaction
  * @returns {OnTurnProperty} 

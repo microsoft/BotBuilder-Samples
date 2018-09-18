@@ -5,6 +5,7 @@
 module.exports = {
     ReservationResult: class {
         /**
+         * Constructor. 
          * 
          * @param {reservationProperty} reservationProperty 
          * @param {Enum} status 
@@ -22,6 +23,7 @@ module.exports = {
     },
     ReservationOutcome: class {
         /**
+         * Constructor. 
          * 
          * @param {String} message 
          * @param {String} entity name 

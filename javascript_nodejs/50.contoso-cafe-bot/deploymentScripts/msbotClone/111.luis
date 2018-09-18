@@ -23,24 +23,13 @@
       "name": "Why do you ask"
     }
   ],
-  "entities": [],
-  "closedLists": [
+  "entities": [
     {
-      "name": "attributeOfInterest",
-      "subLists": [
-        {
-          "canonicalForm": "name",
-          "list": [
-            "user name",
-            "first name",
-            "last name",
-            "first",
-            "name"
-          ]
-        }
-      ],
+      "name": "userName",
       "roles": []
-    },
+    }
+  ],
+  "closedLists": [
     {
       "name": "cafeLocation",
       "subLists": [
@@ -124,6 +113,10 @@
   "regex_entities": [],
   "prebuiltEntities": [
     {
+      "name": "datetimeV2",
+      "roles": []
+    },
+    {
       "name": "number",
       "roles": []
     }
@@ -132,7 +125,15 @@
   "model_features": [],
   "patterns": [
     {
-      "pattern": "call me {userName_patternAny}",
+      "pattern": "it's {userName_patternAny}",
+      "intent": "Get user name"
+    },
+    {
+      "pattern": "i'm {userName_patternAny}",
+      "intent": "Get user name"
+    },
+    {
+      "pattern": "{userName_patternAny} is my name",
       "intent": "Get user name"
     },
     {
@@ -140,138 +141,89 @@
       "intent": "Get user name"
     },
     {
-      "pattern": "i'm {userName_patternAny}",
+      "pattern": "{userName}",
+      "intent": "Get user name"
+    },
+    {
+      "pattern": "call me {userName_patternAny}",
+      "intent": "Get user name"
+    },
+    {
+      "pattern": "{userName_patternAny}",
+      "intent": "Get user name"
+    },
+    {
+      "pattern": "you can call me {userName_patternAny}",
+      "intent": "Get user name"
+    },
+    {
+      "pattern": "its {userName_patternAny}",
       "intent": "Get user name"
     }
   ],
   "utterances": [
-    {
-      "text": "[get user name and location](./getuserprofile.lu/#get-user-name-and-location)",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "[no name](./getuserprofile.lu/#no-name)",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "[why do you ask](./getuserprofile.lu/#why-do-you-ask)",
-      "intent": "Interruptions",
-      "entities": []
-    },
     {
       "text": "abort",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "anyone there?",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "alex",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "userName"
+        }
+      ]
     },
     {
-      "text": "are you a girl?",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "ana",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "userName"
+        }
+      ]
     },
     {
-      "text": "are you a person?",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "anastasia",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 8,
+          "entity": "userName"
+        }
+      ]
     },
     {
-      "text": "are you busy?",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "anastasia paushkina",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 18,
+          "entity": "userName"
+        }
+      ]
     },
     {
-      "text": "are you dumb?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "are you gay?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "are you happy?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "are you hungry?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "are you lesbian?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "are you male or female?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "are you my assistant?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "are you old?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "are you prettier than me?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "are you real?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "are you smart?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "are you smarter than me?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "are you spying on me?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "are you straight?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "are you there?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "ask me anything",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "angshuman sarkar",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 15,
+          "entity": "userName"
+        }
+      ]
     },
     {
       "text": "awesome",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "be my friend?",
       "intent": "Interruptions",
       "entities": []
     },
@@ -311,22 +263,7 @@
       "entities": []
     },
     {
-      "text": "bye",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
       "text": "can i get a table for this sunday at seattle?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "can i trust you?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "can we chat?",
       "intent": "Interruptions",
       "entities": []
     },
@@ -336,37 +273,12 @@
       "entities": []
     },
     {
-      "text": "can you fly?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
       "text": "can you get me a table",
       "intent": "Interruptions",
       "entities": []
     },
     {
-      "text": "can you get me the seatac store hours?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "can you get me the store hours for the rnt store?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "can you hear me?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
       "text": "can you please book a table for 2 guests for this weekend?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "can you sing?",
       "intent": "Interruptions",
       "entities": []
     },
@@ -381,9 +293,26 @@
       "entities": []
     },
     {
-      "text": "cook me something",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "chris",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "userName"
+        }
+      ]
+    },
+    {
+      "text": "chris mcconnel",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 13,
+          "entity": "userName"
+        }
+      ]
     },
     {
       "text": "cool!",
@@ -391,92 +320,40 @@
       "entities": []
     },
     {
-      "text": "do you hate me?",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "dan",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "userName"
+        }
+      ]
     },
     {
-      "text": "do you have a family?",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "dan driscoll",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 11,
+          "entity": "userName"
+        }
+      ]
     },
     {
-      "text": "do you know me?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "do you know other ai?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "do you know other chatbots?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "do you like cortana?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "do you like google home?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "do you like me?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "do you like siri?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "do you love me?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "do you play games?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "do you want to rule the world?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "dont you ever sleep?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "don't you get hungry?",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "dave",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "userName"
+        }
+      ]
     },
     {
       "text": "excuse me",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "find cafe locations near seattle airport",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "find contoso cafe locations",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "find locations near redmond",
       "intent": "Interruptions",
       "entities": []
     },
@@ -501,46 +378,6 @@
       "entities": []
     },
     {
-      "text": "getting tired of you",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "give me a hug",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "give me a kiss",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "go away",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "go to hell",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "good evening",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "good morning",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "good night",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
       "text": "great!",
       "intent": "Interruptions",
       "entities": []
@@ -551,167 +388,7 @@
       "entities": []
     },
     {
-      "text": "happy halloween!",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "have you any dreams?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "hello",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "hello cortana",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "hello google assistant",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "hello siri",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "hi there!",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "hiya",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "how are you?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "how can you help me?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "how do i look today?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "how do you feel about love?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "how do you feel about working late?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "how old are you?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "how should i address you?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "how was your day?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am angry",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am annoyed",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am bored",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am going on a run",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am happy",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am here",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am hungry",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am in love",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am just kidding",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am lonely",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am sad",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am sad today",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am sleepy",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am so lonely",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
       "text": "i am sorry",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am tired",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i am tired of you",
       "intent": "Interruptions",
       "entities": []
     },
@@ -726,42 +403,12 @@
       "entities": []
     },
     {
-      "text": "i feel sad",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i hate you",
+      "text": "i get it",
       "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i know",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i like you",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i love music",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i love my family",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i love you",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i miss you",
       "intent": "Interruptions",
       "entities": []
     },
@@ -781,22 +428,7 @@
       "entities": []
     },
     {
-      "text": "i want coffee",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i want to go shopping",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i want to marry you",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "i will be back",
+      "text": "i see",
       "intent": "Interruptions",
       "entities": []
     },
@@ -816,32 +448,73 @@
       "entities": []
     },
     {
-      "text": "is the bellevue store open at 3pm?",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "james lew",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 8,
+          "entity": "userName"
+        }
+      ]
     },
     {
-      "text": "is the downtown store open next thursday at 3pm?",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "john taylor",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 10,
+          "entity": "userName"
+        }
+      ]
     },
     {
-      "text": "is the sea store open today?",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "kannan",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 5,
+          "entity": "userName"
+        }
+      ]
     },
     {
-      "text": "just kidding",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "lili",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 3,
+          "entity": "userName"
+        }
+      ]
+    },
+    {
+      "text": "marieke",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 6,
+          "entity": "userName"
+        }
+      ]
+    },
+    {
+      "text": "melanie",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 6,
+          "entity": "userName"
+        }
+      ]
     },
     {
       "text": "need a table in redmond",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "nice to meet you",
       "intent": "Interruptions",
       "entities": []
     },
@@ -866,6 +539,11 @@
       "entities": []
     },
     {
+      "text": "ok",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
       "text": "please cancel that",
       "intent": "Cancel",
       "entities": []
@@ -881,19 +559,15 @@
       "entities": []
     },
     {
-      "text": "say something funny",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "shut up",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "sing a song",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "scott",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "userName"
+        }
+      ]
     },
     {
       "text": "sorry, no name for you",
@@ -901,47 +575,34 @@
       "entities": []
     },
     {
+      "text": "stephen",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 6,
+          "entity": "userName"
+        }
+      ]
+    },
+    {
+      "text": "steve",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 4,
+          "entity": "userName"
+        }
+      ]
+    },
+    {
       "text": "stop that",
       "intent": "Cancel",
       "entities": []
     },
     {
-      "text": "surprise me",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "talk to me?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "talk to you later",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
       "text": "tbd",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "tell me a joke",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "tell me a silly joke",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "tell me something interesting",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "testing",
       "intent": "Interruptions",
       "entities": []
     },
@@ -951,69 +612,48 @@
       "entities": []
     },
     {
-      "text": "that is smart",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "tom",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 2,
+          "entity": "userName"
+        }
+      ]
     },
     {
-      "text": "that was a boring answer",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "tom laird mcconnekl",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 18,
+          "entity": "userName"
+        }
+      ]
     },
     {
-      "text": "that was a sad joke",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "tony anzanio",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 11,
+          "entity": "userName"
+        }
+      ]
     },
     {
-      "text": "that was hilarious!",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "that's interesting",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what are you doing later?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what are you doing tomorrow?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what are you doing?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what cafe locations are open today?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what can you do for me?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what can you do?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what did you do last week?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what did you do yesterday?",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "uzang denis",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 10,
+          "entity": "userName"
+        }
+      ]
     },
     {
       "text": "what do you mean by that?",
@@ -1021,153 +661,8 @@
       "entities": []
     },
     {
-      "text": "what do you think about *?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what do you think about ai?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what do you think about bots?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what do you think about me?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what do you think about technology?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what do you think of other bots?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what is the meaning of life?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what is up?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what is wrong with you!",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what is your name?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what should i do?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what stores are open this weekend?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "whats going on?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "whats the answer to the universe?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what's your age?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what's your favorite color?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what's your name?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "when does the store near microsoft open?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "where are you?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "where can i get coffee near renton",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "where can i get coffee?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "where have you come from?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "who are you?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "who created you?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "who invented you?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "who is your boss?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "who is your father?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "who is your favorite bot?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "who is your mother?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "who made you?",
-      "intent": "Interruptions",
+      "text": "why",
+      "intent": "Why do you ask",
       "entities": []
     },
     {
@@ -1196,87 +691,7 @@
       "entities": []
     },
     {
-      "text": "will you marry me?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you a guy?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you are a bad bot",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you are a genius!",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you are awesome",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you are awesome!",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you are bad",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you are beautiful",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you are boring",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you are fired",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you are funny :)",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you are so annoying!",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you are stupid",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you are ugly",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you are useless",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
       "text": "you are welcome",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you can't work for me anymore",
       "intent": "Interruptions",
       "entities": []
     },
@@ -1286,14 +701,15 @@
       "entities": []
     },
     {
-      "text": "you seem happy!",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "you're nice!",
-      "intent": "Interruptions",
-      "entities": []
+      "text": "zarmada is my name",
+      "intent": "Get user name",
+      "entities": [
+        {
+          "startPos": 0,
+          "endPos": 6,
+          "entity": "userName"
+        }
+      ]
     }
   ]
 }

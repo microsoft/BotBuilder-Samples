@@ -10,7 +10,7 @@ const QNA_DIALOG = 'QnA';
 const QNA_CONFIGURATION = 'cafeFaqChitChat';
 
 // CONSTS used in QnA Maker query. 
-// See (https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-qna?view=azure-bot-service-4.0&tabs=cs) for additional information
+// See (https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-qna) for additional information
 const QNA_NUM_OF_RESULTS = 1;
 const QNA_CONFIDENCE_THRESHOLD = 0.5;
 
@@ -20,7 +20,10 @@ module.exports = {
         /**
          * Constructor. 
          * 
-         * @param {Object} botConfig bot configuration from .bot file
+         * @param {BotConfiguration} botConfig bot configuration from .bot file
+         * @param {StatePropertyAccessor} user profile accessor
+         * @param {String} optional: dialog id
+         * 
          */
         constructor(botConfig, userProfileAccessor, dialogId) {
 
@@ -50,7 +53,7 @@ module.exports = {
             // Call QnA Maker and get results.
             const qnaResult = await this.qnaRecognizer.generateAnswer(dc.context.activity.text, QNA_NUM_OF_RESULTS, QNA_CONFIDENCE_THRESHOLD);
             if (!qnaResult || qnaResult.length === 0 || !qnaResult[0].answer) {
-                // No answer found. respond with dialogturnstatus.empty
+                // No answer found. 
                 await dc.context.sendActivity(`I'm still learning.. Sorry, I do not know how to help you with that.`);
                 await dc.context.sendActivity(`Follow [this link](https://www.bing.com/search?q=${dc.context.activity.text}) to search the web!`);
             } else {

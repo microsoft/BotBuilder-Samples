@@ -2,17 +2,15 @@
 // Licensed under the MIT License.
 const { ComponentDialog, DialogTurnStatus, DialogSet } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
-const { WhoAreYouDialog, QnADialog, ChitChatDialog, HelpDialog, CancelDialog, WhatCanYouDoDialog, FindCafeLocationsDialog, BookTableDialog } = require('../../dialogs');
-const { GenSuggestedQueries } = require('../shared/helpers/genSuggestedQueries');
-const { UserProfile, OnTurnProperty } = require('../shared/stateProperties');
+const { WhoAreYouDialog, QnADialog, ChitChatDialog, HelpDialog, WhatCanYouDoDialog, BookTableDialog } = require('../../dialogs');
+const { GenSuggestedQueries } = require('../shared/helpers');
+const { OnTurnProperty } = require('../shared/stateProperties');
 
 const MAIN_DISPATCHER_DIALOG = 'MainDispatcherDialog';
 
-// User name entity from ../whoAreYou/resources/whoAreYou.lu
-const USER_NAME_ENTITY = 'userName';
-const USER_NAME_PATTERN_ANY_ENTITY = 'userName_patternAny'
-const NONE_INTENT = 'None';
 
+const NONE_INTENT = 'None';
+const CANCEL_INTENT = 'Cancel';
 // Query property from ../whatCanYouDo/resources/whatCanYHouDoCard.json
 // When user responds to what can you do card, a query property is set in response.
 const QUERY_PROPERTY = 'query';
@@ -50,10 +48,8 @@ module.exports = {
             // add dialogs
             this.dialogs = new DialogSet(this.mainDispatcherAccessor);
             this.addDialog(new WhatCanYouDoDialog());
-            this.addDialog(new CancelDialog());
-            this.addDialog(new FindCafeLocationsDialog());
             this.addDialog(new QnADialog(botConfig, this.userProfileAccessor));
-            this.addDialog(new WhoAreYouDialog(botConfig, this.userProfileAccessor, onTurnAccessor, conversationState, this.reservationAccessor));
+            this.addDialog(new WhoAreYouDialog(botConfig, conversationState, this.userProfileAccessor, onTurnAccessor, this.reservationAccessor));
             this.addDialog(new BookTableDialog(botConfig, this.reservationAccessor, onTurnAccessor, this.userProfileAccessor, conversationState));
         }
         /**
@@ -144,14 +140,10 @@ module.exports = {
                 case ChitChatDialog.Name: 
                 case HelpDialog.Name: 
                     return await dc.begin(QnADialog.Name);
-                case CancelDialog.Name: 
-                    return await dc.begin(CancelDialog.Name, childDialogPayload);
                 case BookTableDialog.Name: 
                     return await dc.begin(BookTableDialog.Name);
                 case WhoAreYouDialog.Name: 
-                    return await this.beginWhoAreYouDialog(dc, onTurnProperty);
-                case FindCafeLocationsDialog.Name:
-                    return await dc.begin(FindCafeLocationsDialog.Name);
+                    return await dc.begin(WhoAreYouDialog.Name);
                 case WhatCanYouDoDialog.Name:
                     return await this.beginWhatCanYouDoDialog(dc, onTurnProperty);
                 case NONE_INTENT:
@@ -176,7 +168,7 @@ module.exports = {
                     outcome.allowed = false;
                     outcome.reason = `Sorry! I'm unable to process that. You can say 'cancel' to cancel this conversation..`;
                 }
-            } else if (requestedOperation === CancelDialog.Name) {
+            } else if (requestedOperation === CANCEL_INTENT) {
                 if (activeDialog === undefined) {
                     outcome.allowed = false;
                     outcome.reason = `Sure, but there is nothing to cancel..`;
@@ -184,42 +176,7 @@ module.exports = {
             }
             return outcome;
         }
-        /**
-         * Helper method to begin who are you dialog.
-         *  
-         * @param {Object} dc dialog context
-         * @param {Object} onTurnProperty
-         */
-        async beginWhoAreYouDialog(dc, onTurnProperty) {
-            // Get user profile.
-            let userProfile = await this.userProfileAccessor.get(dc.context);
-            // Handle case where user is re-introducing themselves. 
-            // These utterances are defined in ../whoAreYou/resources/whoAreYou.lu 
-            let userNameInOnTurnProperty = (onTurnProperty.entities || []).filter(item => ((item.entityName == USER_NAME_ENTITY) || (item.entityName == USER_NAME_PATTERN_ANY_ENTITY)));
-            if (userNameInOnTurnProperty.length !== 0) {
-                // LUIS occasionally can trigger into this scenario due to {userName_patternAny} entity in the model. 
-                // Skip if that's the case.
-                if (!Array.isArray(userNameInOnTurnProperty[0].entityValue)) {
-                    let userName = userNameInOnTurnProperty[0].entityValue;
-                    // capitalize user name   
-                    userName = userName.charAt(0).toUpperCase() + userName.slice(1);
-                    await this.userProfileAccessor.set(dc.context, new UserProfile(userName));
-                    return await dc.context.sendActivity(`Hello ${userName}, Nice to meet you again! I'm the Contoso Cafe Bot.`);
-                } else {
-                    await dc.context.sendActivity(`Sorry, I do not know how to help you with that.`);
-                    return await dc.context.sendActivity(`Follow [this link](https://www.bing.com/search?q=${dc.context.activity.text}) to search the web!`);
-                }
-            }
-            // Begin the who are you dialog if we have an invalid or empty user name or if the user name was previously set to 'Human'
-            if (userProfile === undefined || userProfile.userName === '' || userProfile.userName === 'Human') {
-                await dc.context.sendActivity(`Hello, I'm the Contoso Cafe Bot.`);
-                // Begin user Profile dialog to ask user their name
-                return await dc.begin(WhoAreYouDialog.Name);
-            } else {
-                // Already have the user name. So just greet them.
-                return await dc.context.sendActivity(`Hello ${userProfile.userName}, Nice to meet you again! I'm the Contoso Cafe Bot.`);
-            }
-        }
+
         /**
          * Helper method to begin what can you do dialog.
          * 

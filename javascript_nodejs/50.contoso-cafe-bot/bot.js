@@ -31,7 +31,7 @@ module.exports = {
          * 
          * @param {ConversationState} conversation state object
          * @param {UserState} user state object
-         * @param {BotframeworkConfig} botConfig bot configuration
+         * @param {BotConfiguration} bot configuration
          * 
          */
         constructor (conversationState, userState, botConfig) {
@@ -54,15 +54,16 @@ module.exports = {
                 endpointKey: luisConfig.subscriptionKey
             });
 
-            // add main dialog
+            // add main dispatcher
             this.dialogs = new DialogSet(this.dialogAccessor);
             this.dialogs.add(new MainDispatcher(botConfig, this.onTurnAccessor, conversationState, userState));
         }
         /**
-         * On turn dispatcher. Responsible for processing turn input, gather relevant properties,
-         * and continues or begins main dialog.
+         * On turn dispatcher method. 
+         *   Responsible for processing turn input, gather relevant properties,
+         *   and continues or begins main dialog.
          * 
-         * @param {Object} context conversation context object
+         * @param {Context} conversation context object
          * 
          */
         async onTurn (context) {
@@ -77,8 +78,6 @@ module.exports = {
                     // Set the state with gathered properties (intent/ entities) through the onTurnAccessor
                     await this.onTurnAccessor.set(context, onTurnProperties);
                     
-                    // Do we have any outstanding dialogs? if so, continue them and get results
-                    // No active dialog? start a new main dialog
                     // Create dialog context.
                     const dc = await this.dialogs.createContext(context);
                     
@@ -92,15 +91,8 @@ module.exports = {
                     break;
                 }
                 case ActivityTypes.ConversationUpdate: {
-                    if (context.activity.membersAdded.length !== 0) {
-                        // Iterate over all new members added to the conversation
-                        // Greet anyone that was not the target (recipient) of this message
-                        // the 'bot' is the recipient for events from the channel,
-                        // turnContext.Activity.MembersAdded == turnContext.Activity.Recipient.Id indicates the
-                        // bot was added to the conversation.
-                        // TODO: Send welcome card the right way
-                        if(!['username', 'Bot'].includes(context.activity.membersAdded[0].name)) await this.welcomeUser(context);
-                    }
+                    // Welcome user.
+                    await this.welcomeUser(context);
                     break;
                 }
                 default: {
@@ -112,7 +104,13 @@ module.exports = {
         /**
          * Async helper method to get on turn properties from cards or NLU using https://LUIS.ai
          * 
-         * @param {Object} context conversation context object
+         * - All cards for this bot - 
+         *   1. Are adaptive cards. See https://adaptivecards.io to learn more.
+         *   2. All cards include an 'intent' field under 'data' section and can include entities recognized.
+         * - Bot also uses a dispatch LUIS model that includes trigger intents for all dialogs.
+         *   See ./dialogs/dispatcher/resources/cafeDispatchModel.lu for a description of the dispatch model.
+         * 
+         * @param {Context} context conversation context object
          * 
          */
         async detectIntentAndEntities (context) {
@@ -136,21 +134,37 @@ module.exports = {
             const LUISResults = await this.luisRecognizer.recognize(context);
 
             // Return new instance of on turn property from LUIS results.
+            // Leverages static fromLUISResults method
             return OnTurnProperty.fromLUISResults(LUISResults);
         }
         /**
-         * Async helper method to welcome the user.
+         * Async helper method to welcome all users that have joined the conversation.
          * 
-         * @param {Object} context conversation context object
+         * @param {Context} context conversation context object
          * 
          */
         async welcomeUser (context) {
-            // Welcome user.
-            await context.sendActivity(`Hello, I am the Contoso Cafe Bot!`);
-            await context.sendActivity(`I can help book a table, find cafe locations and more..`);
-            
-            // Send welcome card.
-            await context.sendActivity(MessageFactory.attachment(CardFactory.adaptiveCard(WelcomeCard)));
+            // Do we have any new members added to the conversation?
+            if (context.activity.membersAdded.length !== 0)
+            {
+                // Iterate over all new members added to the conversation
+                for (var idx in context.activity.membersAdded)
+                {
+                    // Greet anyone that was not the target (recipient) of this message
+                    // the 'bot' is the recipient for events from the channel,
+                    // context.activity.membersAdded == context.activity.recipient.Id indicates the
+                    // bot was added to the conversation.
+                    if (context.activity.membersAdded[idx].id !== context.activity.recipient.id)
+                    {
+                        // Welcome user.
+                        await context.sendActivity(`Hello, I am the Contoso Cafe Bot!`);
+                        await context.sendActivity(`I can help book a table and more..`);
+        
+                        // Send welcome card.
+                        await context.sendActivity(MessageFactory.attachment(CardFactory.adaptiveCard(WelcomeCard)));
+                    }
+                }
+            }            
         }
     }
 };

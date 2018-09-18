@@ -23,7 +23,7 @@
                         {
                             "type": "TextBlock",
                             "size": "Small",
-                            "text": "Hello, I'm the Contoso Cafe Bot. I can book a table, have a casual conversation, find cafe locations, answer questions you might have about contoso cafe and more..",
+                            "text": "Hello, I'm the Contoso Cafe Bot. I can book a table, have a casual conversation, answer questions you might have about contoso cafe and more..",
                             "wrap": true
                         }
                     ],

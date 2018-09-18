@@ -1,23 +1,11 @@
 > Construct the root dispatch LUIS model based on other .lu files
-
-# Find Cafe Locations
-- [Find Cafe Location intent](../../findCafeLocations/resources/findCafe.lu#Find-Cafe-Locations)
+> Check out https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown to learn more about .lu files and Ludown.
 
 # Cancel
-- [Cancel intent](../../cancel/resources/cancel.lu#Cancel)
-
-# Who are you
-- [Who are you intent](../../whoAreYou/resources/whoAreYou.lu#Who-are-you)
+- [Cancel intent](../../dispatcher/resources/cancel.lu#Cancel)
 
 # Help
 - [Help intent](../../help/resources/help.lu#?)
-
-# Book Table
-- [Book Table intent](../../bookTable/resources/bookTableTriggerIntent.lu#Book-Table)
-
-# Book Table
-> Add references to book table turn.n so these continue to be routed to book table dialog
-- [Book Table turn-N](../../bookTable/resources/turn-N.lu#GetLocationDateTimePartySize)
 
 # QnA
 > Add questions from QnA model to the dispatch LUIS model
@@ -33,3 +21,14 @@
 - what can you help me with?
 - what can you do for me?
 - what do you do?
+
+# Book Table
+- [Book Table intent](../../bookTable/resources/bookTableTriggerIntent.lu#Book-Table)
+
+# Book Table
+> Add references to book table turn.n so these continue to be routed to book table dialog
+- [Book Table turn-N](../../bookTable/resources/turn-N.lu#GetLocationDateTimePartySize)
+
+> Add this as a top level intent so 'My name is {name}' can work at parent level
+[Who are you intent](../../whoAreYou/resources/whoAreYou.lu)
+

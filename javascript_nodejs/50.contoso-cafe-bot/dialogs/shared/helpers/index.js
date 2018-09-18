@@ -1,5 +1,6 @@
-
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 module.exports = {
-    TurnResultHelper: require('./turnResult'),
-    LUIS_ENTITIES: require('./luisEntities')
+    LUIS_ENTITIES: require('./luisEntities'),
+    GenSuggestedQueries: require('./genSuggestedQueries').GenSuggestedQueries
 }

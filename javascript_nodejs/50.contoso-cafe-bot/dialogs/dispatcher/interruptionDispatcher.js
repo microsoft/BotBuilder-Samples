@@ -4,9 +4,7 @@ const { ComponentDialog, DialogSet } = require('botbuilder-dialogs');
 const { QnADialog } = require('../qna');
 const { ChitChatDialog } = require('../chitChat');
 const { HelpDialog } = require('../help');
-const { CancelDialog } = require('../cancel');
 const { WhatCanYouDoDialog } = require('../whatCanYouDo');
-const { FindCafeLocationsDialog } = require('../findCafeLocations');
 
 const NONE_INTENT = 'None';
 const WHO_ARE_YOU_DIALOG_NAME = 'Who_are_you';
@@ -20,12 +18,12 @@ module.exports = {
         /**
          * Constructor. 
          * 
-         * @param {Object} onTurnAccessor 
-         * @param {Object} conversationState 
-         * @param {Object} userProfileAccessor 
-         * @param {Object} botConfig 
+         * @param {StatePropertyAccessor} onTurnAccessor 
+         * @param {ConversationState} conversationState 
+         * @param {StatePropertyAccessor} userProfileAccessor 
+         * @param {BotConfiguration} botConfig 
          */
-        constructor(onTurnAccessor, conversationState, userProfileAccessor, botConfig, reservationsAccessor) {
+        constructor(onTurnAccessor, conversationState, userProfileAccessor, botConfig) {
             super (INTERRUPTION_DISPATCHER_DIALOG);
             
             if (!onTurnAccessor) throw ('Missing parameter. On turn property accessor is required.');
@@ -38,7 +36,6 @@ module.exports = {
 
             // add dialogs
             this.addDialog(new WhatCanYouDoDialog());
-            this.addDialog(new FindCafeLocationsDialog());
             this.addDialog(new QnADialog(botConfig, userProfileAccessor));
         }
         /**
@@ -78,9 +75,6 @@ module.exports = {
                 case ChitChatDialog.Name: 
                 case HelpDialog.Name: 
                     return await dc.begin(QnADialog.Name);
-                case FindCafeLocationsDialog.Name:
-                    return await dc.begin(FindCafeLocationsDialog.Name);
-                case CancelDialog.Name: 
                 case WhatCanYouDoDialog.Name:
                 case WHO_ARE_YOU_DIALOG_NAME: 
                 case BOOK_TABLE_DIALOG_NAME:

@@ -5,6 +5,9 @@
   "culture": "en-us",
   "intents": [
     {
+      "name": "Book Table"
+    },
+    {
       "name": "Cancel"
     },
     {
@@ -114,6 +117,10 @@
   "regex_entities": [],
   "prebuiltEntities": [
     {
+      "name": "datetimeV2",
+      "roles": []
+    },
+    {
       "name": "number",
       "roles": []
     }
@@ -122,11 +129,15 @@
   "model_features": [],
   "patterns": [
     {
-      "pattern": "call me {userName_patternAny}",
+      "pattern": "i'm {userName_patternAny}",
       "intent": "Who are you"
     },
     {
-      "pattern": "i'm {userName_patternAny}",
+      "pattern": "{userName_patternAny} is my name",
+      "intent": "Who are you"
+    },
+    {
+      "pattern": "you can call me {userName_patternAny}",
       "intent": "Who are you"
     },
     {
@@ -134,7 +145,7 @@
       "intent": "Who are you"
     },
     {
-      "pattern": "you can call me {userName_patternAny}",
+      "pattern": "call me {userName_patternAny}",
       "intent": "Who are you"
     },
     {
@@ -143,6 +154,16 @@
     }
   ],
   "utterances": [
+    {
+      "text": "3",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "3 guests",
+      "intent": "Book Table",
+      "entities": []
+    },
     {
       "text": "abort",
       "intent": "Cancel",
@@ -269,6 +290,41 @@
       "entities": []
     },
     {
+      "text": "book a table",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table at seatac",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 2 in redmond store for next thursday at 3pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 3",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 3 guests in seattle",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for 3 guests near microsoft for next thursday at 3pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "book a table for next thursday at 3pm please",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
       "text": "bye",
       "intent": "ChitChat",
       "entities": []
@@ -289,6 +345,11 @@
       "entities": []
     },
     {
+      "text": "can i get a table for this sunday at seattle?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
       "text": "can i trust you?",
       "intent": "ChitChat",
       "entities": []
@@ -299,8 +360,18 @@
       "entities": []
     },
     {
+      "text": "can you book a table for 3 guests?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
       "text": "can you fly?",
       "intent": "ChitChat",
+      "entities": []
+    },
+    {
+      "text": "can you get me a table",
+      "intent": "Book Table",
       "entities": []
     },
     {
@@ -316,6 +387,16 @@
     {
       "text": "can you hear me?",
       "intent": "ChitChat",
+      "entities": []
+    },
+    {
+      "text": "can you make it 6pm instead?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "can you please book a table for 2 guests for this weekend?",
+      "intent": "Book Table",
       "entities": []
     },
     {
@@ -484,6 +565,16 @@
       "entities": []
     },
     {
+      "text": "get a table for next thursday",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "get me a table for next wednesday",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
       "text": "getting tired of you",
       "intent": "ChitChat",
       "entities": []
@@ -584,8 +675,28 @@
       "entities": []
     },
     {
+      "text": "how about 2 guests?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
       "text": "how about free parking at your stores?",
       "intent": "QnA",
+      "entities": []
+    },
+    {
+      "text": "how about next thursday at 3pm?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "how about seattle?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "how about tomorrow?",
+      "intent": "Book Table",
       "entities": []
     },
     {
@@ -784,6 +895,21 @@
       "entities": []
     },
     {
+      "text": "i need to make a reservation",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "i need to reserve a table",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "i need to reserve a table for 2 in seattle",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
       "text": "i see",
       "intent": "ChitChat",
       "entities": []
@@ -811,6 +937,21 @@
     {
       "text": "i will not give you my name",
       "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "i would like to book a table",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "i would like to come in to redmond instead",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "i'd like to bring 3 guests",
+      "intent": "Book Table",
       "entities": []
     },
     {
@@ -854,6 +995,26 @@
       "entities": []
     },
     {
+      "text": "make it 5pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "need a table in redmond",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "next friday at 3pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "next saturday at 6pm and for 4 guests.",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
       "text": "nice to meet you",
       "intent": "ChitChat",
       "entities": []
@@ -861,6 +1022,11 @@
     {
       "text": "no",
       "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "no how about renton?",
+      "intent": "Book Table",
       "entities": []
     },
     {
@@ -874,8 +1040,18 @@
       "entities": []
     },
     {
+      "text": "no, how about portland?",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
       "text": "no, i cannot give you my name",
       "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "no, i'd like to come to seattle instead",
+      "intent": "Book Table",
       "entities": []
     },
     {
@@ -894,8 +1070,28 @@
       "entities": []
     },
     {
+      "text": "please help reserve a table for 5",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "redmond",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "reserve a table for 4 at sea",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
       "text": "say something funny",
       "intent": "ChitChat",
+      "entities": []
+    },
+    {
+      "text": "seattle please",
+      "intent": "Book Table",
       "entities": []
     },
     {
@@ -909,7 +1105,7 @@
       "entities": []
     },
     {
-      "text": "so what's your layout?",
+      "text": "so what's your store's layout?",
       "intent": "QnA",
       "entities": []
     },
@@ -921,6 +1117,11 @@
     {
       "text": "stop that",
       "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "store hours",
+      "intent": "QnA",
       "entities": []
     },
     {
@@ -994,6 +1195,26 @@
       "entities": []
     },
     {
+      "text": "timings",
+      "intent": "QnA",
+      "entities": []
+    },
+    {
+      "text": "tomorrow",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "tomorrow at 3 pm and i would like to bring 3 guests",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "tomorrow at 3pm",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
       "text": "typical layout of your coffee shops",
       "intent": "QnA",
       "entities": []
@@ -1019,13 +1240,13 @@
       "entities": []
     },
     {
-      "text": "what cafe locations are open today?",
-      "intent": "Find Cafe Locations",
+      "text": "what are your store hours",
+      "intent": "QnA",
       "entities": []
     },
     {
-      "text": "what can i say",
-      "intent": "Help",
+      "text": "what cafe locations are open today?",
+      "intent": "Find Cafe Locations",
       "entities": []
     },
     {
@@ -1099,6 +1320,11 @@
       "entities": []
     },
     {
+      "text": "what is the layout of your stores?",
+      "intent": "QnA",
+      "entities": []
+    },
+    {
       "text": "what is the meaning of life?",
       "intent": "ChitChat",
       "entities": []
@@ -1116,6 +1342,11 @@
     {
       "text": "what is your name?",
       "intent": "Who are you",
+      "entities": []
+    },
+    {
+      "text": "what is your store layout",
+      "intent": "QnA",
       "entities": []
     },
     {
@@ -1276,6 +1507,21 @@
     {
       "text": "will you marry me?",
       "intent": "ChitChat",
+      "entities": []
+    },
+    {
+      "text": "yes",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "yes go ahead",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
+      "text": "yes please go ahead with seattle",
+      "intent": "Book Table",
       "entities": []
     },
     {
