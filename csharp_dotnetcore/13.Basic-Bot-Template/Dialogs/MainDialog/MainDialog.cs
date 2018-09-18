@@ -91,29 +91,33 @@ namespace Microsoft.BotBuilderSamples
 
             // If any entities were updated, treat as interruption.
             // For example, "no my name is tony" will manifest as an update of the name to be "tony".
-            if (!await ProcessUpdateEntitiesAsync(luisResults.Entities, dc, cancellationToken))
+            var topScoringIntent = luisResults?.GetTopScoringIntent();
+
+            var topIntent = topScoringIntent.Value.intent;
+            if (luisResults.Entities != null && luisResults.Entities.HasValues)
             {
-                var topScoringIntent = luisResults?.GetTopScoringIntent();
-                var topIntent = topScoringIntent.Value.intent;
+                // LUIS detected entities.  In our model, that means we are updating one of our greeting properties.
+                topIntent = GreetingIntent;
+                dc.Context.TurnState.Add(GreetingDialog.LuisEntities, luisResults.Entities);
+            }
 
-                var interruptResult = InterruptionStatus.NoAction;
-                if (topIntent != null)
+            var interruptResult = InterruptionStatus.NoAction;
+            if (topIntent != null)
+            {
+                // See if there are any conversation interrupts we need to handle
+                switch (topIntent)
                 {
-                    // See if there are any conversation interrupts we need to handle
-                    switch (topIntent)
-                    {
-                        case GreetingIntent:
-                            await dc.BeginDialogAsync(nameof(GreetingDialog), null, cancellationToken);
-                            break;
+                    case GreetingIntent:
+                        await dc.BeginDialogAsync(nameof(GreetingDialog), null, cancellationToken);
+                        break;
 
-                        case HelpIntent:
-                            interruptResult = await OnMainHelpAsync(dc).ConfigureAwait(false);
-                            break;
+                    case HelpIntent:
+                        interruptResult = await OnMainHelpAsync(dc).ConfigureAwait(false);
+                        break;
 
-                        default:
-                            interruptResult = await OnConfusedAsync(dc).ConfigureAwait(false);
-                            break;
-                    }
+                    default:
+                        interruptResult = await OnConfusedAsync(dc).ConfigureAwait(false);
+                        break;
                 }
             }
         }
@@ -151,50 +155,6 @@ namespace Microsoft.BotBuilderSamples
 
             // Signal the conversation was interrupted and should immediately continue
             return InterruptionStatus.Interrupted;
-        }
-
-        // Handle updates to entities.
-        private async Task<bool> ProcessUpdateEntitiesAsync(JObject entities, DialogContext dc, CancellationToken cancellationToken)
-        {
-            var greetingState = await _greetingState.GetAsync(dc.Context, () => new GreetingState());
-
-            // Supported LUIS Entities
-            string[] userNameEntities = { "userName", "userName_paternAny" };
-            string[] userLocationEntities = { "userLocation", "userLocation_patternAny" };
-
-            var result = false;
-
-            if (entities != null && entities.HasValues)
-            {
-                // Update any entities
-                foreach (var name in userNameEntities)
-                {
-                    // check if we found valid slot values in entities returned from LUIS
-                    if (entities[name] != null)
-                    {
-                        greetingState.Name = (string)entities[name][0];
-                        result = true;
-                        await dc.Context.SendActivityAsync($"Ok, updating your name to be {greetingState.Name}.");
-                        break;
-                    }
-                }
-
-                foreach (var city in userLocationEntities)
-                {
-                    if (entities[city] != null)
-                    {
-                        greetingState.City = (string)entities[city][0];
-                        result = true;
-                        await dc.Context.SendActivityAsync($"Ok, updating your city to be {greetingState.City}.");
-                        break;
-                    }
-                }
-
-                // set the new values
-                await _greetingState.SetAsync(dc.Context, greetingState);
-            }
-
-            return result;
         }
 
         // Create an attachment message response.

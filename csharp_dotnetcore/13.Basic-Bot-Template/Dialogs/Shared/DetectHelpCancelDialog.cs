@@ -71,9 +71,13 @@ namespace Microsoft.BotBuilderSamples
 
             // If any entities were updated, treat as interruption.
             // For example, "no my name is tony" will manifest as an update of the name to be "tony".
-            if (await ProcessUpdateEntitiesAsync(luisResults.Entities, dc, cancellationToken))
+            if (luisResults.Entities != null && luisResults.Entities.HasValues)
             {
-                return InterruptionStatus.Interrupted;
+                dc.Context.TurnState.Add(GreetingDialog.LuisEntities, luisResults.Entities);
+                if (await OnUpdateEntitiesAsync(dc.Context, cancellationToken))
+                {
+                    return InterruptionStatus.Interrupted;
+                }
             }
 
             var topScoringIntent = luisResults?.GetTopScoringIntent();
@@ -99,10 +103,10 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <remarks>If a user types "no, my name is tony", in the LUIS model it will pass an entity.</remarks>
         /// <param name="entities">LUIS <see cref="RecognizerResult"/> entities.</param>
-        /// <param name="dc">The current <see cref="DialogContext"/>.</param>
+        /// <param name="turnContext">The current <see cref="ITurnContext"/>.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> to control cancellation of asynchronous tasks.</param>
         /// <returns>true if the process updated an entity, which is treated as an interruption.</returns>
-        protected virtual Task<bool> ProcessUpdateEntitiesAsync(JObject entities, DialogContext dc, CancellationToken cancellationToken)
+        protected virtual Task<bool> OnUpdateEntitiesAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             return Task.FromResult<bool>(false);
         }

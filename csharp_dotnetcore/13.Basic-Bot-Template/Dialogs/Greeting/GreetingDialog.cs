@@ -20,6 +20,9 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class GreetingDialog : DetectHelpCancelDialog
     {
+        // TurnState property
+        public const string LuisEntities = "LUIS.Entities";
+
         // User state for greeting dialog
         private const string GreetingStateProperty = "greetingState";
         private const string NameValue = "greetingName";
@@ -69,42 +72,46 @@ namespace Microsoft.BotBuilderSamples
         private BotServices BotServices { get; }
 
         // Handle updates to entities.
-        protected override async Task<bool> ProcessUpdateEntitiesAsync(JObject entities, DialogContext dc, CancellationToken cancellationToken)
+        protected override async Task<bool> OnUpdateEntitiesAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var greetingState = await GreetingStateAccessor.GetAsync(dc.Context, () => new GreetingState());
-
-            // Supported LUIS Entities
-            string[] userNameEntities = { "userName", "userName_paternAny" };
-            string[] userLocationEntities = { "userLocation", "userLocation_patternAny" };
+            var greetingState = await GreetingStateAccessor.GetAsync(turnContext, () => new GreetingState());
 
             var result = false;
-
-            if (entities != null && entities.HasValues)
+            if (turnContext.TurnState.ContainsKey(LuisEntities))
             {
-                // Update any entities
-                foreach (var name in userNameEntities)
-                {
-                    // check if we found valid slot values in entities returned from LUIS
-                    if (entities[name] != null)
-                    {
-                        greetingState.Name = (string)entities[name][0];
-                        result = true;
-                        break;
-                    }
-                }
+                // Supported LUIS Entities
+                string[] userNameEntities = { "userName", "userName_paternAny" };
+                string[] userLocationEntities = { "userLocation", "userLocation_patternAny" };
 
-                foreach (var city in userLocationEntities)
+                var entities = turnContext.TurnState[LuisEntities] as JObject;
+                if (entities != null && entities.HasValues)
                 {
-                    if (entities[city] != null)
+                    // Update any entities
+                    // Consider having a dialog confirm the update.
+                    foreach (var name in userNameEntities)
                     {
-                        greetingState.City = (string)entities[city][0];
-                        result = true;
-                        break;
+                        // check if we found valid slot values in entities returned from LUIS
+                        if (entities[name] != null)
+                        {
+                            greetingState.Name = (string)entities[name][0];
+                            result = true;
+                            break;
+                        }
                     }
-                }
 
-                // set the new values
-                await GreetingStateAccessor.SetAsync(dc.Context, greetingState);
+                    foreach (var city in userLocationEntities)
+                    {
+                        if (entities[city] != null)
+                        {
+                            greetingState.City = (string)entities[city][0];
+                            result = true;
+                            break;
+                        }
+                    }
+
+                    // set the new values
+                    await GreetingStateAccessor.SetAsync(turnContext, greetingState);
+                }
             }
 
             return result;
@@ -112,6 +119,9 @@ namespace Microsoft.BotBuilderSamples
 
         private async Task<DialogTurnResult> InitializeStateStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            // Check to see if there are entities that require updating.
+            await OnUpdateEntitiesAsync(stepContext.Context, cancellationToken);
+
             var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context, () => new GreetingState());
 
             stepContext.Values[NameValue] = greetingState.Name;
