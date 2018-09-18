@@ -84,6 +84,7 @@ namespace Microsoft.BotBuilderSamples
                 // Update any entities
                 foreach (var name in userNameEntities)
                 {
+                    // check if we found valid slot values in entities returned from LUIS
                     if (entities[name] != null)
                     {
                         greetingState.Name = (string)entities[name][0];
@@ -148,14 +149,15 @@ namespace Microsoft.BotBuilderSamples
                                                         CancellationToken cancellationToken)
         {
             // Save name if prompted for
+            var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context, () => new GreetingState());
             var args = stepContext.Result as string;
-            if (!string.IsNullOrWhiteSpace(args))
+            if (!string.IsNullOrWhiteSpace(args) && string.IsNullOrWhiteSpace(greetingState.Name))
             {
-                stepContext.Values[NameValue] = args;
+                greetingState.Name = args;
             }
 
             // Prompt for city if missing
-            if (string.IsNullOrWhiteSpace(stepContext.Values[CityValue] as string))
+            if (string.IsNullOrWhiteSpace(greetingState.City))
             {
                 var options = new PromptOptions
                 {
@@ -180,25 +182,17 @@ namespace Microsoft.BotBuilderSamples
             // Save city if it were prompted.
             var greeting = await GreetingStateAccessor.GetAsync(stepContext.Context, () => new GreetingState());
 
-            stepContext.Values[NameValue] = greeting.Name;
-
             var args = stepContext.Result as string;
-            if (!string.IsNullOrWhiteSpace(args))
+            if (string.IsNullOrWhiteSpace(greeting.City) && !string.IsNullOrWhiteSpace(args))
             {
-                stepContext.Values[CityValue] = args;
-                await stepContext.Context.SendActivityAsync($"Ok `{stepContext.Values[NameValue]}`, I've got you living in `{stepContext.Values[CityValue]}`.");
+                greeting.City = args;
+                await GreetingStateAccessor.SetAsync(stepContext.Context, greeting);
+                await stepContext.Context.SendActivityAsync($"Ok `{greeting.Name}`, I've got you living in `{greeting.City}`.");
                 await stepContext.Context.SendActivityAsync("I'll go ahead an update your profile with that information.");
-
-                var greetingState = new GreetingState()
-                {
-                    City = stepContext.Values[CityValue] as string,
-                    Name = stepContext.Values[NameValue] as string,
-                };
-                await GreetingStateAccessor.SetAsync(stepContext.Context, greetingState);
             }
             else
             {
-                await stepContext.Context.SendActivityAsync($"Hi `{stepContext.Values[NameValue]}`, living in `{stepContext.Values[CityValue]}`,"
+                await stepContext.Context.SendActivityAsync($"Hi `{greeting.Name}`, living in `{greeting.City}`,"
                     + " I understand greetings and asking for help!  Or start your connection over for a card.");
             }
 

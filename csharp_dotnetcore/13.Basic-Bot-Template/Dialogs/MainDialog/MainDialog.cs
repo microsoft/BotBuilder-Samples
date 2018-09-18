@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -42,8 +43,9 @@ namespace Microsoft.BotBuilderSamples
 
         private readonly BotServices _services;
         private readonly ILogger _logger;
+        private readonly IStatePropertyAccessor<GreetingState> _greetingState;
 
-        public MainDialog(BotServices services, UserState userState, ConversationState conversationState, ILoggerFactory loggerFactory)
+        public MainDialog(BotServices services, UserState userState, ILoggerFactory loggerFactory)
                     : base(nameof(MainDialog), loggerFactory)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -51,10 +53,12 @@ namespace Microsoft.BotBuilderSamples
             AddDialog(new GreetingDialog(services, userState, loggerFactory));
             AddDialog(new NamePrompt(nameof(NamePrompt)));
             AddDialog(new CityPrompt(nameof(CityPrompt)));
+            _greetingState = userState.CreateProperty<GreetingState>(GreetingDialog.GreetingStateName);
 
             // Create logger for this class.
             _logger = loggerFactory.CreateLogger<MainDialog>();
         }
+
 
         protected override async Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -85,26 +89,32 @@ namespace Microsoft.BotBuilderSamples
         {
             // Perform a call to LUIS to retrieve results for the current activity message.
             var luisResults = await _services.LuisServices[LuisKey].RecognizeAsync(dc.Context, cancellationToken).ConfigureAwait(false);
-            var topScoringIntent = luisResults?.GetTopScoringIntent();
-            var topIntent = topScoringIntent.Value.intent;
 
-            var interruptResult = InterruptionStatus.NoAction;
-            if (topIntent != null)
+            // If any entities were updated, treat as interruption.
+            // For example, "no my name is tony" will manifest as an update of the name to be "tony".
+            if (!await ProcessUpdateEntitiesAsync(luisResults.Entities, dc, cancellationToken))
             {
-                // See if there are any conversation interrupts we need to handle
-                switch (topIntent)
+                var topScoringIntent = luisResults?.GetTopScoringIntent();
+                var topIntent = topScoringIntent.Value.intent;
+
+                var interruptResult = InterruptionStatus.NoAction;
+                if (topIntent != null)
                 {
-                    case GreetingIntent:
-                        await dc.BeginAsync(nameof(GreetingDialog), null, cancellationToken);
-                        break;
+                    // See if there are any conversation interrupts we need to handle
+                    switch (topIntent)
+                    {
+                        case GreetingIntent:
+                            await dc.BeginAsync(nameof(GreetingDialog), null, cancellationToken);
+                            break;
 
-                    case HelpIntent:
-                        interruptResult = await OnMainHelpAsync(dc).ConfigureAwait(false);
-                        break;
+                        case HelpIntent:
+                            interruptResult = await OnMainHelpAsync(dc).ConfigureAwait(false);
+                            break;
 
-                    default:
-                        interruptResult = await OnConfusedAsync(dc).ConfigureAwait(false);
-                        break;
+                        default:
+                            interruptResult = await OnConfusedAsync(dc).ConfigureAwait(false);
+                            break;
+                    }
                 }
             }
         }
@@ -143,6 +153,52 @@ namespace Microsoft.BotBuilderSamples
             // Signal the conversation was interrupted and should immediately continue
             return InterruptionStatus.Interrupted;
         }
+
+        // Handle updates to entities.
+        private async Task<bool> ProcessUpdateEntitiesAsync(JObject entities, DialogContext dc, CancellationToken cancellationToken)
+        {
+
+            var greetingState = await _greetingState.GetAsync(dc.Context, () => new GreetingState());
+
+            // Supported LUIS Entities
+            string[] userNameEntities = { "userName", "userName_paternAny" };
+            string[] userLocationEntities = { "userLocation", "userLocation_patternAny" };
+
+            bool result = false;
+
+            if (entities != null && entities.HasValues)
+            {
+                // Update any entities
+                foreach (var name in userNameEntities)
+                {
+                    // check if we found valid slot values in entities returned from LUIS
+                    if (entities[name] != null)
+                    {
+                        greetingState.Name = (string)entities[name][0];
+                        result = true;
+                        await dc.Context.SendActivityAsync($"Ok, updating your name to be {greetingState.Name}.");
+                        break;
+                    }
+                }
+
+                foreach (var city in userLocationEntities)
+                {
+                    if (entities[city] != null)
+                    {
+                        greetingState.City = (string)entities[city][0];
+                        result = true;
+                        await dc.Context.SendActivityAsync($"Ok, updating your city to be {greetingState.City}.");
+                        break;
+                    }
+                }
+
+                // set the new values
+                await _greetingState.SetAsync(dc.Context, greetingState);
+            }
+
+            return result;
+        }
+
 
         // Create an attachment message response.
         private Activity CreateResponse(Activity activity, Attachment attachment)

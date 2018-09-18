@@ -79,7 +79,7 @@ namespace Microsoft.BotBuilderSamples
 
             // Create top-level dialog(s)
             _dialogs = new DialogSet(ConversationState.CreateProperty<DialogState>(nameof(BasicBot)));
-            _dialogs.Add(new MainDialog(services, UserState, ConversationState, loggerFactory));
+            _dialogs.Add(new MainDialog(services, UserState, loggerFactory));
         }
 
         /// <summary>
