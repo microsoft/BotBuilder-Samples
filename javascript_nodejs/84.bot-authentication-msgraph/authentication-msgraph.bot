@@ -1,0 +1,15 @@
+{
+    "name": "authentication-msgraph",
+    "description": "",
+    "secretKey": "",
+    "services": [
+        {
+            "appId": "",
+            "id": "",
+            "type": "endpoint",
+            "appPassword": "",
+            "endpoint": "",
+            "name": "authentication-msgraph"
+        }
+    ]
+}
