@@ -1,0 +1,116 @@
+> Entity Definitions
+$PREBUILT:datetimeV2
+$PREBUILT:number
+
+> Intent Definitions
+# Greeting
+- Hola
+- Hola
+- Buenos días
+- Buenas noches
+- Hola bot
+- Hola
+- Cómo estás
+- Cómo te va
+
+# Help
+- Ayuda
+- Ayúdame
+- ayuda por favor
+- Estoy atascado
+- No entiendo
+- Qué puedo decir
+- ¿Qué me puede ayudar con
+- ¿Qué puedes hacer
+- ¿Qué hago ahora
+- ¿por qué no funciona esto
+- Me puedes ayudar
+
+# Cancel
+- Parada
+- Aborta
+- Cancelar
+- Desprecio
+- No
+- No lo hagas
+- No hagas eso
+- me gustaría cancelar
+- Olvídalo
+- por favor, pare
+
+# Restart
+- puedo hacer eso de nuevo
+- Volver
+- Necesito cambiar algo
+- Reiniciar
+- empezar de
+- Deshacer
+
+# Escalate
+- ¿puedo hablar con una persona
+- Quiero hablar con un humano
+- hablar con un humano
+- Transfiera me por favor
+- soporte de contacto
+
+# ConfirmYes
+- Absolutamente
+- Seguro
+- Definitivamente
+- Seguro
+- Eso creo
+- Hagámoslo
+- vamos a hacer eso
+- Venga, sí
+- Sí, por favor
+- Bien
+- Vale
+- Claro
+- Sí
+- sí que sería genial gracias
+- Por qué no
+- sí que es cierto
+- Sí
+
+# ConfirmNo
+- de ninguna manera
+- Cerca
+- No
+- No, gracias
+- no
+- no está bien
+- No es posible
+- De nada
+- La verdad es que no
+- ahora no gracias
+
+# ConfirmMore
+- Más
+- me gustaría saber más
+- Muéstrame más
+- Más
+- más info
+- más información
+
+# Next
+- Avanzan
+- seguir adelante
+- ir al siguiente
+- Próxima
+- siguiente elemento
+- Mostrar siguiente
+
+# Goodbye
+- Buenas noches
+- Adiós
+- Adiós
+- Gracias
+- Bueno adiós
+- eso es todo gracias
+
+# None
+- mi botella de agua es verde
+- a las tortugas les gusta nadar en el océano
+- aviones de papel en el cielo
+
+> PhraseList
