@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,9 +16,9 @@ namespace EnterpriseBot
     /// </summary>
     public class EnterpriseBot : IBot
     {
-        private BotServices _services;
-        private ConversationState _conversationState;
-        private UserState _userState;
+        private readonly BotServices _services;
+        private readonly ConversationState _conversationState;
+        private readonly UserState _userState;
         private DialogSet _dialogs;
 
         /// <summary>
@@ -28,9 +29,9 @@ namespace EnterpriseBot
         /// <param name="userState">Bot user state.</param>
         public EnterpriseBot(BotServices botServices, ConversationState conversationState, UserState userState)
         {
-            _conversationState = conversationState;
-            _userState = userState;
-            _services = botServices;
+            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
+            _userState = userState ?? throw new ArgumentNullException(nameof(userState));
+            _services = botServices ?? throw new ArgumentNullException(nameof(botServices));
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(EnterpriseBot)));
             _dialogs.Add(new MainDialog(_services, _conversationState, _userState));
