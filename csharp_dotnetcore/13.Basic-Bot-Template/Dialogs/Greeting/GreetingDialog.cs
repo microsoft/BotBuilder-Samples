@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -67,6 +68,47 @@ namespace Microsoft.BotBuilderSamples
 
         private BotServices BotServices { get; }
 
+        // Handle updates to entities.
+        protected override async Task<bool> ProcessUpdateEntitiesAsync(JObject entities, DialogContext dc, CancellationToken cancellationToken)
+        {
+            var greetingState = await GreetingStateAccessor.GetAsync(dc.Context, () => new GreetingState());
+
+            // Supported LUIS Entities
+            string[] userNameEntities = { "userName", "userName_paternAny" };
+            string[] userLocationEntities = { "userLocation", "userLocation_patternAny" };
+
+            bool result = false;
+
+            if (entities != null && entities.HasValues)
+            {
+                // Update any entities
+                foreach (var name in userNameEntities)
+                {
+                    if (entities[name] != null)
+                    {
+                        greetingState.Name = (string)entities[name][0];
+                        result = true;
+                        break;
+                    }
+                }
+
+                foreach (var city in userLocationEntities)
+                {
+                    if (entities[city] != null)
+                    {
+                        greetingState.City = (string)entities[city][0];
+                        result = true;
+                        break;
+                    }
+                }
+
+                // set the new values
+                await GreetingStateAccessor.SetAsync(dc.Context, greetingState);
+            }
+
+            return result;
+        }
+
         private async Task<DialogTurnResult> InitializeStateStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context, () => new GreetingState());
@@ -120,7 +162,7 @@ namespace Microsoft.BotBuilderSamples
                     Prompt = new Activity
                     {
                         Type = ActivityTypes.Message,
-                        Text = $"`{stepContext.Values[NameValue]}`, what city do you live in?",
+                        Text = $"What city do you live in?",
                     },
                 };
                 return await stepContext.PromptAsync(nameof(CityPrompt), options, cancellationToken);
@@ -136,6 +178,10 @@ namespace Microsoft.BotBuilderSamples
                                                     CancellationToken cancellationToken)
         {
             // Save city if it were prompted.
+            var greeting = await GreetingStateAccessor.GetAsync(stepContext.Context, () => new GreetingState());
+
+            stepContext.Values[NameValue] = greeting.Name;
+
             var args = stepContext.Result as string;
             if (!string.IsNullOrWhiteSpace(args))
             {

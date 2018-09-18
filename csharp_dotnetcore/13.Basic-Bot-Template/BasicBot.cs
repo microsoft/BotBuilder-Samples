@@ -113,9 +113,6 @@ namespace Microsoft.BotBuilderSamples
             {
                 await dc.BeginAsync(nameof(MainDialog));
             }
-
-            await ConversationState.SaveChangesAsync(context);
-            await UserState.SaveChangesAsync(context);
         }
     }
 }
