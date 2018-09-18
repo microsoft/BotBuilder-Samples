@@ -4,10 +4,10 @@
     "secretKey": "",
     "services": [
         {
-            "appId": "",
+            "appId": "881cd8cc-4762-455f-a2ea-4dcdfcde74ef",
             "id": "",
             "type": "endpoint",
-            "appPassword": "",
+            "appPassword": "hchCUTK41$~seqdBQY261@;",
             "endpoint": "",
             "name": "authentication-msgraph"
         }

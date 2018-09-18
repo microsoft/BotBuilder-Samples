@@ -16,7 +16,7 @@ const env = require('dotenv').config({ path: ENV_FILE });
 
 // Create HTTP server.
 let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function () {
+server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${server.name} listening to ${server.url}.`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
     console.log(`\nTo talk to your bot, open authentication-msgraph.bot file in the Emulator.`);
@@ -46,6 +46,10 @@ const adapter = new BotFrameworkAdapter({
     appPassword: endpointConfig.appPassword || process.env.MicrosoftAppPassword
 });
 
+adapter.onTurnError = async(turnContext, error) => {
+    console.error(error);
+}
+
 // Define state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
 // Bots require a state storage system to persist the dialog and user state between messages.
 const memoryStorage = new MemoryStorage();
@@ -69,7 +73,7 @@ const graphAuthenticationBot = new GraphAuthenticationBot(conversationState);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async (turnContext) => {
+    adapter.processActivity(req, res, async(turnContext) => {
         await graphAuthenticationBot.onTurn(turnContext);
     });
 });
