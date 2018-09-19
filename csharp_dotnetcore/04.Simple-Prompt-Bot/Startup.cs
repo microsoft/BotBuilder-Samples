@@ -33,7 +33,10 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
-        /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
+        /// <param name="services">The <see cref="IServiceCollection"/> specifies the contract for a collection of service descriptors.</param>
+        /// <seealso cref="IStatePropertyAccessor{T}"/>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection"/>
+        /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBot<SimplePromptBot>(options =>
@@ -51,7 +54,9 @@ namespace Microsoft.BotBuilderSamples
                 // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
                 // Uncomment this line to use Azure Blob Storage
                 // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
-                // Create and add conversation state.
+
+                // Create Conversation State object.
+                // The Conversation State object is where we persist anything at the conversation-scope.
                 var convoState = new ConversationState(dataStore);
                 options.State.Add(convoState);
             });

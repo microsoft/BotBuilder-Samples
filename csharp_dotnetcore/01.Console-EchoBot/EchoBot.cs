@@ -10,6 +10,11 @@ namespace Console_EchoBot
 {
     /// <summary>
     /// Represents a bot that echo's back the original input from the user.
+    /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
+    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// each time they're requested. For each Activity received, a new instance of this
+    /// class is created. Objects that are expensive to construct, or have a lifetime
+    /// beyond the single turn, should be carefully managed.
     /// </summary>
     /// <remarks>A <see cref="BotAdapter"/> passes incoming activities from the user's
     /// channel to the bot's <see cref="OnTurnAsync(ITurnContext, CancellationToken)"/> method.
@@ -34,7 +39,7 @@ namespace Console_EchoBot
         /// <seealso cref="https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.ibot.onturn?view=botbuilder-dotnet-preview#Microsoft_Bot_IBot_OnTurn_Microsoft_Bot_Builder_ITurnContext_"/>
         public async Task OnTurnAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // This bot is only handling Messages
+            // This bot is only handling Message Activities
             if (context.Activity.Type == ActivityTypes.Message)
             {
                 // Echo back to the user whatever they typed.

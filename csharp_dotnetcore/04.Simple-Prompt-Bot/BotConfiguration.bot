@@ -3,13 +3,13 @@
     "description": "",
     "secretKey": "",
     "services": [
-        {
-            "appId": "",
-            "id": "http://localhost:1499/api/messages",
-            "type": "endpoint",
-            "appPassword": "",
-            "endpoint": "http://localhost:1499/api/messages",
-            "name": "http://localhost:1499/api/messages"
-        }
+      {
+        "appId": "",
+        "id": "http://localhost:3978/api/messages",
+        "type": "endpoint",
+        "appPassword": "",
+        "endpoint": "http://localhost:3978/api/messages",
+        "name": "http://localhost:3978/api/messages"
+      }
     ]
 }

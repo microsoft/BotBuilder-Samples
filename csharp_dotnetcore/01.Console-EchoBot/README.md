@@ -27,6 +27,10 @@ git clone https://github.com/microsoft/botbuilder-samples.git
 - Bring up a terminal, navigate to `BotBuilder-Samples\csharp_dotnetcore\01.Console-EchoBot` folder
 - Type 'dotnet run'.
 
+## Update packages
+- In Visual Studio right click on the solution and select "Restore NuGet Packages".
+  **Note:** this sample requires `Microsoft.Bot.Builder`.
+
 # Further reading
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Bot basics](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)

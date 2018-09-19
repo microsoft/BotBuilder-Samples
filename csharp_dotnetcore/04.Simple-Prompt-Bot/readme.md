@@ -1,4 +1,4 @@
-﻿This sample demonstrates a simple echo bot using state with ASP.Net Core 2.
+This sample demonstrates a the use of prompts with ASP.Net Core 2.
 
 # To try this sample
 - Clone the samples repository
@@ -8,17 +8,17 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 # Prerequisites
 ## Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\02.EchoBot-With-Counter`) and open EchoBotWithCounter.csproj in Visual Studio.
+- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\04.Simple-Prompt-Bot`) and open Simple-Prompt-Bot.csproj in Visual Studio.
 - Hit F5.
 
 ## Visual Studio Code
-- Open `BotBuilder-Samples\csharp_dotnetcore\02.EchoBot-With-Counter` sample folder.
-- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_dotnetcore\02.EchoBot-With-Counter` folder.
+- Open `BotBuilder-Samples\csharp_dotnetcore\04.Simple-Prompt-Bot` sample folder.
+- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_dotnetcore\04.Simple-Prompt-Bot` folder.
 - Type 'dotnet run'.
 
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
-  **Note:** this sample requires `Microsoft.Bot.Builder` and `Microsoft.Bot.Builder.Integration.AspNet.Core`.
+  **Note:** this sample requires `Microsoft.Bot.Builder`, `Microsoft.Bot.Builder.Dialogs` and `Microsoft.Bot.Builder.Integration.AspNet.Core`.
 
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot 
@@ -27,7 +27,7 @@ developers to test and debug their bots on localhost or running remotely through
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch the Bot Framework Emulator.
-- File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\02.EchoBot-With-Counter` folder.
+- File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\04.Simple-Prompt-Bot` folder.
 - Select `BotConfiguration.bot` file.
 
 # Further reading
