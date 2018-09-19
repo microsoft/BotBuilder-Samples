@@ -69,10 +69,6 @@ const memoryStorage = new MemoryStorage();
 // Create conversation state with the in-memory storage provider. 
 const conversationState = new ConversationState(memoryStorage);
 
-// Register conversation state as a middleware. The ConversationState middleware 
-// automatically reads and writes conversation state.
-adapter.use(conversationState);
-
 // Create a RichCardsBot which responds to a user with Rich Cards.
 const bot = new RichCardsBot(conversationState);
 

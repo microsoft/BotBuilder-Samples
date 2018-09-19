@@ -27,6 +27,8 @@ class RichCardsBot {
      * @param {ConversationState} conversationState 
      */
     constructor(conversationState) {
+        // Store the conversationState to be able to save state changes.
+        this.conversationState = conversationState;
         // Create a DialogState StatePropertyAccessor which is used to
         // persist state using dialogs.
         this.dialogState = conversationState.createProperty('dialogState');
@@ -61,7 +63,7 @@ class RichCardsBot {
             // existing Dialogs and prompt users.
             const dc = await this.dialogs.createContext(turnContext);
 
-            const results = await dc.continue();
+            const results = await dc.continueDialog();
             if (!turnContext.responded && results.status === DialogTurnStatus.empty) {
                 await turnContext.sendActivity('Welcome to the Rich Cards Bot!');
                 // Create the PromptOptions which contain the prompt and reprompt messages.
@@ -79,6 +81,7 @@ class RichCardsBot {
             } else if (results.status === DialogTurnStatus.complete) {
                 await this.sendCardResponse(turnContext, results);
             }
+            await this.conversationState.saveChanges(turnContext);
         }
     }
 
