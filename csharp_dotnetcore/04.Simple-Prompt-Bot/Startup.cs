@@ -17,6 +17,9 @@ using Microsoft.Extensions.Options;
 
 namespace Microsoft.BotBuilderSamples
 {
+    /// <summary>
+    /// The Startup class configures services and the app's request pipeline.
+    /// </summary>
     public class Startup
     {
         public Startup(IHostingEnvironment env)

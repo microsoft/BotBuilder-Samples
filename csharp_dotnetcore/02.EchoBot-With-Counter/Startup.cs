@@ -21,7 +21,7 @@ using Microsoft.Extensions.Options;
 namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// The startup class configures services and the app's request pipeline.
+    /// The Startup class configures services and the app's request pipeline.
     /// </summary>
     public class Startup
     {
