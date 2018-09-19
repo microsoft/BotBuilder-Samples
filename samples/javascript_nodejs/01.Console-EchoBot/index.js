@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const botbuilder = require('botbuilder');
 const path = require('path');
 const { ConsoleAdapter } = require('./consoleAdapter');
 
@@ -24,4 +23,4 @@ adapter.listen(async (context) => {
 // Emit a startup message with some instructions.
 console.log('> Console EchoBot is online. I will repeat any message you send me!');
 console.log('> Say "quit" to end.');
-console.log(''); // leave a blank line after instructions
+console.log(''); // Leave a blank line after instructions.
