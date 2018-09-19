@@ -6,9 +6,9 @@ After running the bot, to see it in action, visit `http://localhost:8080`.
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to javascript_es6\1.a.browser-echobot
+- In a terminal, navigate to javascript_es6\01.a.browser-echo
     ```bash
-    cd javascript_es6\1.a.browser-echobot
+    cd javascript_es6\01.a.browser-echo
     ```
 - Point to the MyGet feed 
     ```bash

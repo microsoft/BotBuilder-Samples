@@ -16,7 +16,7 @@ export class WebChatAdapter extends BotAdapter {
             connectionStatus$: new BehaviorSubject(ConnectionStatus.Online),
             activity$: this.activity$.share(),
             end() {
-                debugger
+                debugger;
             },
             postActivity: activity => {
                 const id = Date.now().toString();
@@ -27,9 +27,9 @@ export class WebChatAdapter extends BotAdapter {
                         channelId: 'WebChat'
                     }))
                     .then(() => id)
-                )
+                );
             }
-        }
+        };
     }
 
     /**
@@ -51,10 +51,10 @@ export class WebChatAdapter extends BotAdapter {
         sentActivities.forEach(activity => this.activity$.next(activity));
 
         return Promise.resolve(sentActivities.map(activity => {
-            id: activity.id
+            return { id: activity.id };
         }));
-    }    
-    
+    }
+
     /**
      * Registers the business logic for the adapter, it takes a handler that takes a TurnContext object as a parameter.
      * @param {function} logic The driver code of the developer's bot application. This code receives and responds to user messages.
@@ -66,7 +66,7 @@ export class WebChatAdapter extends BotAdapter {
 
     /**
      * Runs the bot's middleware pipeline in addition to any business logic, if `this.logic` is found.
-     * @param {Activity} activity 
+     * @param {Activity} activity
      */
     onReceive(activity) {
         const context = new TurnContext(this, activity);
@@ -74,6 +74,6 @@ export class WebChatAdapter extends BotAdapter {
         // Runs the middleware pipeline followed by any registered business logic.
         // If no business logic has been registered via processActivity, a default
         // value is provided as to not break the bot.
-        return this.runMiddleware(context, this.logic || function () { });
+        return this.runMiddleware(context, this.logic || function() { });
     }
 }

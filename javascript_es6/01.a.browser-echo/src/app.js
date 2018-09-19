@@ -17,10 +17,10 @@ App({
     botConnection: webChatAdapter.botConnection,
 }, document.getElementById('bot'));
 
-// Instantiate MemoryStorage for use with the ConversationState middleware.
+// Instantiate MemoryStorage for use with the ConversationState class.
 const memory = new MemoryStorage();
 
-// Add the instantiated storage into state middleware.
+// Add the instantiated storage into ConversationState.
 const conversationState = new ConversationState(memory);
 
 // Create a property to keep track of how many messages are received from the user.
