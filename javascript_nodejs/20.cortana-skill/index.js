@@ -79,7 +79,7 @@ const skill = new DiceRollerSkill(conversationState);
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (turnContext) => {
-        // Route the message to the bot's main handler.
+        // Route the message to the bots main handler.
         await skill.run(turnContext);        
     });
 });
