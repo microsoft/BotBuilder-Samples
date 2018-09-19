@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MessageRoutingBot.Dialogs.Cancel.Resources {
+namespace MessageRoutingBot.Dialogs.Greeting.Resources {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace MessageRoutingBot.Dialogs.Cancel.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class CancelStrings {
+    public class MainStrings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal CancelStrings() {
+        internal MainStrings() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace MessageRoutingBot.Dialogs.Cancel.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MessageRoutingBot.Dialogs.Cancel.Resources.CancelStrings", typeof(CancelStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MessageRoutingBot.Dialogs.Greeting.Resources.MainStrings", typeof(MainStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,27 +63,63 @@ namespace MessageRoutingBot.Dialogs.Cancel.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Ok, let&apos;s start over..
         /// </summary>
-        public static string CANCEL_CONFIRMED {
+        public static string CANCELLED {
             get {
-                return ResourceManager.GetString("CANCEL_CONFIRMED", resourceCulture);
+                return ResourceManager.GetString("CANCELLED", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ok, let&apos;s keep going..
+        ///   Looks up a localized string similar to What else can I help you with?.
         /// </summary>
-        public static string CANCEL_DENIED {
+        public static string COMPLETED {
             get {
-                return ResourceManager.GetString("CANCEL_DENIED", resourceCulture);
+                return ResourceManager.GetString("COMPLETED", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to cancel?.
+        ///   Looks up a localized string similar to I&apos;m sorry, I&apos;m not able to help with that..
         /// </summary>
-        public static string CANCEL_PROMPT {
+        public static string CONFUSED {
             get {
-                return ResourceManager.GetString("CANCEL_PROMPT", resourceCulture);
+                return ResourceManager.GetString("CONFUSED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hi there!.
+        /// </summary>
+        public static string GREETING {
+            get {
+                return ResourceManager.GetString("GREETING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hey, {0}!.
+        /// </summary>
+        public static string GREETING_WITH_NAME {
+            get {
+                return ResourceManager.GetString("GREETING_WITH_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This card can be used to display information to help your user interact with your bot. The buttons below can be used for sample queries or links to external sites..
+        /// </summary>
+        public static string HELP_TEXT {
+            get {
+                return ResourceManager.GetString("HELP_TEXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HELP.
+        /// </summary>
+        public static string HELP_TITLE {
+            get {
+                return ResourceManager.GetString("HELP_TITLE", resourceCulture);
             }
         }
     }

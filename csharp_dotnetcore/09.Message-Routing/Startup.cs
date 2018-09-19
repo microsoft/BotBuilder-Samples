@@ -6,7 +6,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
@@ -14,15 +13,18 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace MessageRoutingBot
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// The Startup class configures services and the app's request pipeline.
     /// </summary>
     public class Startup
     {
+        private ILoggerFactory _loggerFactory;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// This method gets called by the runtime. Use this method to add services to the container.
@@ -34,9 +36,11 @@ namespace MessageRoutingBot
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            this.Configuration = builder.Build();
+            Configuration = builder.Build();
         }
 
         /// <summary>
@@ -56,51 +60,39 @@ namespace MessageRoutingBot
             // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
             var botConfig = BotConfiguration.LoadAsync(@".\BotConfiguration.bot").GetAwaiter().GetResult();
             services.AddSingleton(sp => botConfig);
+            // Memory Storage is for local bot debugging only. When the bot
+            // is restarted, everything stored in memory will be gone.
+            IStorage dataStore = new MemoryStorage();
 
-            // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
-            var connectedServices = InitBotServices(botConfig);
-            services.AddSingleton(sp => connectedServices);
+            // For production bots use the Azure Blob or
+            // Azure CosmosDB storage providers, as seen below. To the Azure
+            // based storage providers, add the Microsoft.Bot.Builder.Azure
+            // Nuget package to your solution. That package is found at:
+            // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
+            // Uncomment this line to use Azure Blob Storage
+            // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
+            // Create and add conversation state.
+            var conversationState = new ConversationState(dataStore);
+            services.AddSingleton(conversationState);
 
-            // Initializes Bot Conversation and User State and adds a singleton that your Bot can access through dependency injection.
-            services.AddSingleton(sp =>
-            {
-                var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
-                var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
-                var userState = options.State.OfType<UserState>().FirstOrDefault();
-
-                var accessors = new MessageRoutingBotAccessors(conversationState, userState)
-                {
-                    ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
-                };
-
-                return accessors;
-            });
+            var userState = new UserState(dataStore);
+            services.AddSingleton(userState);
+            services.AddSingleton(new BotStateSet(userState, conversationState));
 
             services.AddBot<MessageRoutingBot>(options =>
             {
                 InitCredentialProvider(options);
 
-                // Catches any errors that occur during a conversation turn and logs them to AppInsights.
+                // Catches any errors that occur during a conversation turn and logs them to currently
+                // configured ILogger.
+                ILogger logger = _loggerFactory.CreateLogger<MessageRoutingBot>();
                 options.OnTurnError = async (context, exception) =>
                 {
+                    logger.LogError($"Exception caught : {exception}");
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
-                // Memory Storage is for local bot debugging only. When the bot
-                // is restarted, everything stored in memory will be gone.
-                IStorage dataStore = new MemoryStorage();
-
-                // For production bots use the Azure Blob or
-                // Azure CosmosDB storage providers, as seen below. To the Azure
-                // based storage providers, add the Microsoft.Bot.Builder.Azure
-                // Nuget package to your solution. That package is found at:
-                // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
-                // Uncomment this line to use Azure Blob Storage
-                // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
-                // Create and add conversation state.
-                var convoState = new ConversationState(dataStore);
-                options.State.Add(convoState);
-                options.Middleware.Add(new BotStateSet(options.State.ToArray()));
+                options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
             });
         }
 
@@ -109,8 +101,10 @@ namespace MessageRoutingBot
         /// </summary>
         /// <param name="app">Application Builder.</param>
         /// <param name="env">Hosting Environment.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to create logger object for tracing.</param>
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            _loggerFactory = loggerFactory;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -119,35 +113,6 @@ namespace MessageRoutingBot
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
-        }
-
-        /// <summary>
-        /// Initializes service clients which will be used throughout the bot code into a single object.
-        /// It is recommended that you add any additional service clients you may need into the <see cref="BotServices"/> object and initialize them here.
-        /// These services include AppInsights telemetry client, Luis Recognizers, QnAMaker instances, etc.</summary>
-        /// <param name="config">Bot configuration object based on .bot json file.</param>
-        /// <returns>BotServices object.</returns>
-        private BotServices InitBotServices(BotConfiguration config)
-        {
-            var connectedServices = new BotServices();
-
-            foreach (var service in config.Services)
-            {
-                switch (service.Type)
-                {
-                    case ServiceTypes.Luis:
-                        {
-                            var luis = service as LuisService;
-                            var luisApp = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.Region);
-                            var luisRecognizer = new LuisRecognizer(luisApp);
-
-                            connectedServices.LuisServices.Add(luis.Name, luisRecognizer);
-                            break;
-                        }
-                }
-            }
-
-            return connectedServices;
         }
 
         /// <summary>
