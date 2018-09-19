@@ -23,6 +23,8 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class SimplePromptBot : IBot
     {
+        private const string WelcomeText = "Welcome to Simple Prompt Bot. This bot will introduce you to prompts. Type anything to get started.";
+
         private readonly BotAccessors _accessors;
 
         /// <summary>
@@ -47,7 +49,7 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (turnContext == null)
@@ -55,40 +57,65 @@ namespace Microsoft.BotBuilderSamples
                 throw new ArgumentNullException(nameof(turnContext));
             }
 
-            // We are only interested in Message Activities.
-            if (turnContext.Activity.Type != ActivityTypes.Message)
+            // Processes Message Activities.
+            if (turnContext.Activity.Type == ActivityTypes.Message)
             {
-                return;
-            }
+                // Run the DialogSet - let the framework identify the current state of the dialog from
+                // the dialog stack and figure out what (if any) is the active dialog.
+                var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
+                var results = await dialogContext.ContinueDialogAsync(cancellationToken);
 
-            // Run the DialogSet - let the framework identify the current state of the dialog from
-            // the dialog stack and figure out what (if any) is the active dialog.
-            var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
-            var results = await dialogContext.ContinueAsync(cancellationToken);
-
-            // If the DialogTurnStatus is Empty we should start a new dialog.
-            if (results.Status == DialogTurnStatus.Empty)
-            {
-                // A prompt dialog can be started directly on the DialogContext. The prompt text is given in the PromptOptions.
-                await dialogContext.PromptAsync(
-                    "name",
-                    new PromptOptions { Prompt = MessageFactory.Text("Please enter your name.") },
-                    cancellationToken);
-            }
-
-            // We had a dialog run (it was the prompt). Now it is Complete.
-            else if (results.Status == DialogTurnStatus.Complete)
-            {
-                // Check for a result.
-                if (results.Result != null)
+                // If the DialogTurnStatus is Empty we should start a new dialog.
+                if (results.Status == DialogTurnStatus.Empty)
                 {
-                    // Finish by sending a message to the user. Next time ContinueAsync is called it will return DialogTurnStatus.Empty.
-                    await turnContext.SendActivityAsync(MessageFactory.Text($"Thank you, I have your name as '{results.Result}'."));
+                    // A prompt dialog can be started directly on the DialogContext. The prompt text is given in the PromptOptions.
+                    await dialogContext.PromptAsync(
+                        "name",
+                        new PromptOptions { Prompt = MessageFactory.Text("Please enter your name.") },
+                        cancellationToken);
                 }
+
+                // We had a dialog run (it was the prompt). Now it is Complete.
+                else if (results.Status == DialogTurnStatus.Complete)
+                {
+                    // Check for a result.
+                    if (results.Result != null)
+                    {
+                        // Finish by sending a message to the user. Next time ContinueAsync is called it will return DialogTurnStatus.Empty.
+                        await turnContext.SendActivityAsync(MessageFactory.Text($"Thank you, I have your name as '{results.Result}'."));
+                    }
+                }
+            }
+
+            // Processes ConversationUpdate Activities to welcome the user
+            if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                await SendWelcomeMessageAsync(turnContext, cancellationToken);
             }
 
             // Save the new turn count into the conversation state.
             await _accessors.ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
+        }
+
+        /// <summary>
+        /// Sends a welcome message to the user.
+        /// </summary>
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            foreach (var member in turnContext.Activity.MembersAdded)
+            {
+                if (member.Id != turnContext.Activity.Recipient.Id)
+                {
+                    var reply = turnContext.Activity.CreateReply();
+                    reply.Text = WelcomeText;
+                    await turnContext.SendActivityAsync(reply, cancellationToken);
+                }
+            }
         }
     }
 }
