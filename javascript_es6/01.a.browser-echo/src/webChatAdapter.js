@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { ConnectionStatus } from 'botframework-webchat';
-import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { BotAdapter, TurnContext } from 'botbuilder-core';
 
 /**

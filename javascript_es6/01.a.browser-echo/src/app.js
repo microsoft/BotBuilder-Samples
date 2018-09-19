@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { BotStateSet, ConversationState, MemoryStorage, UserState, ActivityTypes } from 'botbuilder-core';
+import { ActivityTypes, ConversationState, MemoryStorage } from 'botbuilder-core';
 import 'botframework-webchat/botchat.css';
 import { App } from 'botframework-webchat/built/App';
 import './css/app.css';
 import { WebChatAdapter } from './webChatAdapter';
 
-// Instantiate MemoryStorage for use with the ConversationState middleware.
-const memory = new MemoryStorage();
-
-// Create the custom WebChatAdapter and add the ConversationState middleware.
+// Create the custom WebChatAdapter.
 const webChatAdapter = new WebChatAdapter();
 
 // Connect our BotFramework-WebChat App instance with the DOM.
@@ -20,9 +17,11 @@ App({
     botConnection: webChatAdapter.botConnection,
 }, document.getElementById('bot'));
 
+// Instantiate MemoryStorage for use with the ConversationState middleware.
+const memory = new MemoryStorage();
+
 // Add the instantiated storage into state middleware.
 const conversationState = new ConversationState(memory);
-webChatAdapter.use(conversationState);
 
 // Create a property to keep track of how many messages are received from the user.
 const countProperty = conversationState.createProperty('turnCounter');
@@ -40,6 +39,7 @@ webChatAdapter.processActivity(async (turnContext) => {
     } else {
         await turnContext.sendActivity(`[${turnContext.activity.type} event detected]`);
     }
+    await conversationState.saveChanges(turnContext);
 });
 
 // Prevent Flash of Unstyled Content (FOUC): https://en.wikipedia.org/wiki/Flash_of_unstyled_content
