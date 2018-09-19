@@ -19,7 +19,7 @@ const CITY_PROMPT = 'cityPrompt';
 /**
  * Demonstrates the following concepts:
  *  Use a subclass of ComponentDialog to implement a mult-turn conversation
- *  Use a Waterfall dialog to model multi-turn conversation flow
+ *  Use a WaterfallDialog to model multi-turn conversation flow
  *  Use custom prompts to validate user input
  *  Store conversation and user state
  *
@@ -50,7 +50,7 @@ class Greeting extends ComponentDialog {
     this.greetingStateAccessor = greetingStateAccessor;
   }
   /**
-   * Waterfall Dialog step functions.
+   * WaterfallDialog step functions.
    *
    * Initialize our state.  See if the WaterfallDialog has state pass to it
    * If not, then just new up an empty GreetingState object
@@ -71,7 +71,7 @@ class Greeting extends ComponentDialog {
     return await step.next();
   }
   /**
-   * Waterfall Dialog step functions.
+   * WaterfallDialog step functions.
    *
    * Using a text prompt, prompt the user for their name.
    * Only prompt if we don't have this information already.
@@ -93,7 +93,7 @@ class Greeting extends ComponentDialog {
     }
   }
   /**
-   * Waterfall Dialog step functions.
+   * WaterfallDialog step functions.
    *
    * Using a text prompt, prompt the user for the city in which they live.
    * Only prompt if we don't have this information already.
@@ -117,7 +117,7 @@ class Greeting extends ComponentDialog {
     }
   }
   /**
-   * Waterfall Dialog step functions.
+   * WaterfallDialog step functions.
    *
    * Having all the data we need, simply display a summary back to the user.
    *

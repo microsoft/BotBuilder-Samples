@@ -168,7 +168,7 @@ namespace Microsoft.BotBuilderSamples
                     break;
                 default:
                     // The user has input a command that has not been handled yet,
-                    // begin the waterfall dialog to handle the input.
+                    // begin the WaterfallDialog to handle the input.
                     await dc.ContinueDialogAsync(cancellationToken);
                     if (!turnContext.Responded)
                     {
@@ -182,7 +182,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Waterfall dialog step to process the command sent by the user.
+        /// WaterfallDialog step to process the command sent by the user.
         /// </summary>
         /// <param name="dc">A <see cref="DialogContext"/> provides context for the current dialog.</param>
         /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>

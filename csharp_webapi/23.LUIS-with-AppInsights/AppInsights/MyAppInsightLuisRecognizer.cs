@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 namespace LuisBot.AppInsights
 {
     /// <summary>
-    /// MyAppInsightLuisRecognizer invokes the LUIS Recognizer and logs some results into Application Insights.
+    /// MyAppInsightLuisRecognizer invokes the LuisRecognizer and logs some results into Application Insights.
     /// Logs the Top Intent, Sentiment (label/score), (Optionally) Original Text, Conversation and ActivityID.
     /// The Custom Event name this logs is <see cref="MyLuisConstants.IntentPrefix"/> + "." + 'found intent name'
     /// For example, if intent name was "add_calender":
@@ -63,7 +63,7 @@ namespace LuisBot.AppInsights
                 throw new ArgumentNullException(nameof(turnContext));
             }
 
-            // Call LUIS Recognizer
+            // Call LuisRecognizer
             var recognizerResult = await base.RecognizeAsync(turnContext, cancellationToken);
 
             var conversationId = turnContext.Activity.Conversation.Id;

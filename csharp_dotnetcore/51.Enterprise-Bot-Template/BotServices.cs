@@ -106,9 +106,9 @@ namespace EnterpriseBot
         public TelemetryClient TelemetryClient { get; }
 
         /// <summary>
-        /// Gets the set of Dispatch LUIS Recognizer used.
+        /// Gets the set of Dispatch LuisRecognizer used.
         /// </summary>
-        /// <remarks>The Dispatch LUIS Recognizer should not be modified while the bot is running.</remarks>
+        /// <remarks>The Dispatch LuisRecognizer should not be modified while the bot is running.</remarks>
         /// <value>
         /// A <see cref="LuisRecognizer"/> client instance created based on configuration in the .bot file.
         /// </value>

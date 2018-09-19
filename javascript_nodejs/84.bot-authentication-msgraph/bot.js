@@ -168,7 +168,7 @@ class GraphAuthenticationBot {
                 await this.conversationState.saveChanges(dc.context);
 
                 // The user has input a command that has not been handled yet,
-                // begin the waterfall dialog to handle the input.
+                // begin the WaterfallDialog to handle the input.
                 await dc.continueDialog();
                 if (!dc.context.responded) {
                     await dc.beginDialog(this._graphDialogId, dc);
