@@ -1,14 +1,14 @@
-This sample demonstrates how to sub-class the Dialog class to create
-different bot control mechanism like simple slot filling.
+This sample demonstrates how to implement a Cortana Skill that properly handles EndOfConversation
+events.
 
 # To try this sample
 - Clone the repository
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to javascript_nodejs/21.custom-dialogs
+- In a terminal, navigate to javascript_nodejs/20.cortana-skill
     ```bash
-    cd javascript_nodejs/21.custom-dialogs
+    cd javascript_nodejs/20.cortana-skill
     ```
     - Point to the MyGet feed 
     ```bash
@@ -32,20 +32,21 @@ or running remotely through a tunnel.
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to javascript_nodejs/21.custom-dialogs
-- Select custom-dialogs.bot file
+- File -> Open Bot Configuration and navigate to javascript_nodejs/20.cortana-skill
+- Select cortana-skill.bot file
 
-# Custom Dialogs
+# Cortana Skills
 
-Botbuilder provides a built-in base class called `Dialog`. By subclassing Dialog, developers
-can create new ways to define and control dialog flows used by the bot. By adhering to the
-features of this class, developers will create custom dialogs that can be used side-by-side
-with other dialog types, as well as built-in or custom prompts.
+Cortana skills are just standard BotBuilder bots that require a few additional considerations specific to Cortana. 
 
-This example demonstrates a custom Dialog class called `SlotFillingDialog`, which takes a
-series of "slots" which define a value the bot needs to collect from the user, as well
-as the prompt it should use. The bot will iterate through all of the slots until they are
-all full, at which point the dialog completes.
+The first thing to understand about a Cortana skill is that Cortana follows a very rigid turn based model of speaking where the user sends a single message to the bot, then the bot sends a single reply to the user, then the user sends a message back to the bot, the bot then sends a reply, and so on. The important thing to note from the bots perspective is that once you've sent a message to the user you are not allowed to send another message to the user until they've replied. You can work around this to some extent using the `inputHint` property off the outgoing activity but in general your skill needs to conform to this back and forth conversation flow.
+
+Another thing unique to Cortana skills is the use of the `EndOfConversation` activity to indicate that the current skill invocation is finished. This activity can be sent from Cortana to the bot to indicate that the user closed the the Cortana window in the UI, and it can be sent from the bot to Cortana to indicate that the Cortana window should be closed. It's worth noting that Cortana in some cases will re-use the same conversation ID in-between skill invocations which can potentially lead to skills starting off in the wrong state so as a best practice your skill should include logic to clear its conversation state anytime an `EndOfConversation` activity is detected. The sample includes a `CortanaSkill` base class that you can derive your bots main dialog from 
+and automatically pickup the logic to clear your bots conversation state anytime an `EndOfConversation` activity is detected.
+
+Cortana skills tend to be more multi-modal in their use of both speech and text. You can use the activities `speak` field to send Cortana standard [Speech Synthesis Markup Language(SSML)](https://docs.microsoft.com/en-us/cortana/skills/speech-synthesis-markup-language) that should be spoken to the user. The sample includes a simple `ssml` module that helps make composing valid SSML easier.
+
+When creating skills targeted at Cortana for the desktop you'll want to fill in both the `text` and `speak` fields of the outgoing activity and you'll find the thing you want to show to the user and speak to the user are often quite different.  The sample includes a simple `Language Generation (LG)` module that simplifies composing activities containing both `text` and `speak` fields.  
 
 # Further reading
 - [Dialog class reference](https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/dialog)
