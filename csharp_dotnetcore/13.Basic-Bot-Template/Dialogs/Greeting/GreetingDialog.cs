@@ -14,7 +14,7 @@ namespace Microsoft.BotBuilderSamples
     /// <summary>
     /// Demonstrates the following concepts:
     /// - Use a subclass of ComponentDialog to implement a mult-turn conversation
-    /// - Use a Waterflow dialog to model multi-turn conversation flow
+    /// - Use a WaterfallDialog to model multi-turn conversation flow
     /// - Use custom prompts to validate user input
     /// - Store conversation and user state.
     /// </summary>

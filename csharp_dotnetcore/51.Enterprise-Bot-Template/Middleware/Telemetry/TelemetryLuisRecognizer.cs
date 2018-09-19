@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 namespace EnterpriseBot
 {
     /// <summary>
-    /// TelemetryLuisRecognizer invokes the Luis Recognizer and logs some results into Application Insights.
+    /// TelemetryLuisRecognizer invokes the LuisRecognizer and logs some results into Application Insights.
     /// Logs the Top Intent, Sentiment (label/score), (Optionally) Original Text
     /// Along with Conversation and ActivityID.
     /// The Custom Event name this logs is MyLuisConstants.IntentPrefix + "." + 'found intent name'
@@ -64,7 +64,7 @@ namespace EnterpriseBot
                 throw new ArgumentNullException(nameof(context));
             }
 
-            // Call Luis Recognizer
+            // Call LuisRecognizer
             var recognizerResult = await base.RecognizeAsync(context, ct);
 
             var conversationId = context.Activity.Conversation.Id;

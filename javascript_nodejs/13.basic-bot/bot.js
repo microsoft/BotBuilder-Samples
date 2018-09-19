@@ -32,8 +32,8 @@ const USER_LOCATION_ENTITIES = ['userLocation', 'userLocation_patternAny'];
 /**
  * Demonstrates the following concepts:
  *  Displaying a Welcome Card, using Adaptive Card technology
- *  Use LUIS to model Greetings, Help, and Cancel interations
- *  Use a Waterflow dialog to model multi-turn conversation flow
+ *  Use LUIS to model Greetings, Help, and Cancel interactions
+ *  Use a WaterfallDialog to model multi-turn conversation flow
  *  Use custom prompts to validate user input
  *  Store conversation and user state
  *  Handle conversation interruptions
@@ -55,7 +55,7 @@ class Bot {
         if (!userState) throw ('Missing parameter.  userState is required');
         if (!botConfig) throw ('Missing parameter.  botConfig is required');
 
-        // add the LUIS recogizer
+        // add the LuisRecognizer
         const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
         if (!luisConfig || !luisConfig.appId) throw ('Missing LUIS configuration. Please follow README.MD to create required LUIS applications.\n\n')
         this.luisRecognizer = new LuisRecognizer({
@@ -150,12 +150,12 @@ class Bot {
      * an interruptions due to a Help or Cancel intent
      *
      * @param {DialogContext} dc - dialog context
-     * @param {LuisResults} luisResults - LUIS recognizer results
+     * @param {LuisResults} luisResults - LuisRecognizer results
      */
     async isTurnInterrupted(dc, luisResults) {
         const topIntent = LuisRecognizer.topIntent(luisResults);
 
-        // see if there are anh conversation interrupts we need to handle
+        // see if there are any conversation interrupts we need to handle
         if (topIntent === CANCEL_INTENT) {
             if (dc.activeDialog) {
                 await dc.cancelAll();
@@ -177,7 +177,7 @@ class Bot {
     /**
      * Helper function to update greeting state with entities returned by LUIS.
      * 
-     * @param {LuisResults} luisResults - LUIS recognizer results
+     * @param {LuisResults} luisResults - LuisRecognizer results
      * @param {DialogContext} dc - dialog context
      */
     async updateGreetingState(luisResult, context) {

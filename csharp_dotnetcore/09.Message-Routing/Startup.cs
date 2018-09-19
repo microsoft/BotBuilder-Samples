@@ -124,7 +124,7 @@ namespace MessageRoutingBot
         /// <summary>
         /// Initializes service clients which will be used throughout the bot code into a single object.
         /// It is recommended that you add any additional service clients you may need into the <see cref="BotServices"/> object and initialize them here.
-        /// These services include AppInsights telemetry client, Luis Recognizers, QnAMaker instances, etc.</summary>
+        /// These services include AppInsights telemetry client, LuisRecognizers, QnAMaker instances, etc.</summary>
         /// <param name="config">Bot configuration object based on .bot json file.</param>
         /// <returns>BotServices object.</returns>
         private BotServices InitBotServices(BotConfiguration config)

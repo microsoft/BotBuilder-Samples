@@ -36,7 +36,7 @@ class homeAutomation {
         // home automation state
         this.state = new HomeAutomationState(convoState, userState);
         
-        // add recogizers
+        // add recognizers
         const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
         if(!luisConfig || !luisConfig.appId) throw (`Home automation LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
         this.luisRecognizer = new LuisRecognizer({
@@ -51,7 +51,7 @@ class homeAutomation {
      * @param {Object} context context object
      */
     async onTurn(context) {
-        // make call to LUIS recognizer to get home automation intent + entities
+        // make call to LuisRecognizer to get home automation intent + entities
         const homeAutoResults = await this.luisRecognizer.recognize(context);
         const topHomeAutoIntent = LuisRecognizer.topIntent(homeAutoResults);
         
@@ -67,7 +67,7 @@ class homeAutomation {
     }
     /**
      * 
-     * @param {Object} homeAutoResults results from LUIS recognizer
+     * @param {Object} homeAutoResults results from LuisRecognizer
      * @param {Object} context context object
      */
     async handleDeviceUpdate(homeAutoResults, context) {

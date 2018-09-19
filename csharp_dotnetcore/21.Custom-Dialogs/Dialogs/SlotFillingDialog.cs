@@ -12,7 +12,7 @@ using Microsoft.Bot.Schema;
 namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// This is an example of implementing a custom Dialog class. This is similar to the Waterfall dialog in the framework
+    /// This is an example of implementing a custom Dialog class. This is similar to the WaterfallDialog in the framework
     /// however it is based on a Dictionary rather than a sequential set of functions. The dialog is defined by a list of 'slots'
     /// each slot represents a property we want to gather and the dialog we will be using to collect it. Often the property
     /// is simply an atomic peice of data such as a number or a date. But sometimes the property is itself a complex object, in which
@@ -21,7 +21,7 @@ namespace Microsoft.BotBuilderSamples
     public class SlotFillingDialog : Dialog
     {
         // Custom dialogs might define their own custom state.
-        // Similarly to the Waterfall dialog we will have a set of values in the ConversationState. However, rather than persisting
+        // Similarly to the WaterfallDialog we will have a set of values in the ConversationState. However, rather than persisting
         // an index we will persist the last property we prompted for. This way when we resume this code following a prompt we will
         // have remembered what property we were filling.
         private const string SlotName = "slot";

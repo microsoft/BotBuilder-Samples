@@ -108,10 +108,10 @@ namespace NLP_With_Dispatch_Bot
                 {
                     case ServiceTypes.Luis:
                         {
-                            // Create a Luis Recognizer that is initialized and suitable for passing
+                            // Create a LuisRecognizer that is initialized and suitable for passing
                             // into the IBot-derived class (NlpDispatchBot).
                             // In this case, we're creating a custom class (wrapping the original
-                            // Luis Recognizer client) that logs the results of Luis Recognizer results
+                            // LuisRecognizer client) that logs the results of LuisRecognizer results
                             // into Application Insights for future anaysis.
                             var luis = (LuisService)service;
                             if (luis == null)
@@ -149,7 +149,7 @@ namespace NLP_With_Dispatch_Bot
                         // Create a Dispatch Recognizer that is initialized and suitable for passing
                         // into the IBot-derived class (NlpDispatchBot).
                         // In this case, we're creating a custom class (wrapping the original
-                        // Luis Recognizer client) that logs the results of Luis Recognizer results
+                        // LuisRecognizer client) that logs the results of LuisRecognizer results
                         // into Application Insights for future anaysis.
                         var dispatch = (DispatchService)service;
                         if (dispatch == null)
