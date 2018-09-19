@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 const { ActivityTypes } = require('botbuilder');
-const { MainDialog, DialogTurnStatus } = require('botbuilder-dialogs')
+const { ComponentDialog, DialogTurnStatus, DialogSet } = require('botbuilder-dialogs')
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
+const DEFAULT_DIALOG_ID = 'skill';
 
 /**
  * Abstract base class for the bots main skill class. Derived classes MUST implement an onRunTurn()
@@ -19,22 +20,36 @@ const DIALOG_STATE_PROPERTY = 'dialogState';
  * as a best practice you should clear your bots conversation state anytime an EndOfConversation 
  * activity is detected.
  */
-class CortanaSkill extends MainDialog {
+class CortanaSkill extends ComponentDialog {
     /**
      * Creates a new instance of the CortanaSkill class.
      * @param {conversationState} conversationState The bots conversation state object. 
      */
-    constructor(conversationState) {
-        super(conversationState.createProperty(DIALOG_STATE_PROPERTY));
+    constructor(conversationState, dialogId) {
+        super(dialogId || DEFAULT_DIALOG_ID);
 
         this.conversationState = conversationState;
+
+        // The skill is our bots root dialog so we need to create a dialog set and add ourselves
+        // to it. This dialog set will *only* contain the root dialog and is need to preserve our
+        // overall routing model.
+        const dialogState = conversationState.createProperty(DIALOG_STATE_PROPERTY); 
+        this.mainDialogSet = new DialogSet(dialogState);
+        this.mainDialogSet.add(this);
     }
 
-    async onBeginDialog(innerDC, options) {
-        return await this.onContinueDialog(innerDC);
+    /** Override base onBeginDialog() to call listenForEndOfConversation(). */
+    onBeginDialog(innerDC, options) {
+        return this.listenForEndOfConversation(innerDC, options);
     }
 
-    async onContinueDialog(innerDC) {
+    /** Override base onContinueDialog() to call listenForEndOfConversation(). */
+    onContinueDialog(innerDC) {
+        return this.listenForEndOfConversation(innerDC);    
+    }
+
+    /** Wrap onRunTurn() with logic to handle EndOfConversation events. */
+    async listenForEndOfConversation(innerDC, options) {
         // Process incoming or outgoing EndOfConversation events.
         let skillEnded = false;
         let result;
@@ -53,7 +68,7 @@ class CortanaSkill extends MainDialog {
             });
 
             // Run turn
-            result = await this.onRunTurn(innerDC);
+            result = await this.onRunTurn(innerDC, options);
         }
 
         // Check for end of skill and clear the conversation state if detected.
@@ -62,16 +77,47 @@ class CortanaSkill extends MainDialog {
             result = { status: DialogTurnStatus.cancelled };
         }
         return result;
-        
     }
 
     /**
-     * Abstract method that MUST be implemented by the derived skill class. Implementors should
-     * add logic for routing incoming requests to the skill.
-     * @param {DialogContext} dialogContext Dialog context for the current turn of conversation with the user.
+     * Routes the incoming activity to the skills dialogs. For complex skills with multiple dialogs 
+     * and that support features like interruption you'll want to override this method and provide
+     * your own conversation routing logic.
+     * @param {DialogContext} innerDC Dialog context for the current turn of conversation with the user.
+     * @param {object} options (Optional) options passed in for the first turn with the skill.
      */
-    async onRunTurn(dialogContext) {
-        throw new Error(`CortanaSkill.onRunTurn(): not implemented. The derived class MUST implement this method.`);
+    async onRunTurn(innerDC, options) {
+        // Attempt to continue the current dialog
+        let result = await innerDC.continueDialog();
+
+        // Start initial dialog if not running
+        if (result.status === DialogTurnStatus.empty && innerDC.context.activity.type === ActivityTypes.Message) {
+            result = await innerDC.beginDialog(this.initialDialogId, options);
+        }
+        return result;
+    }
+
+    /**
+     * Called from within the bots BotAdapter.processActivity() callback to route a 
+     * received activity to the appropriate dialog.
+     * @param {TurnContext} context Context for the current turn of conversation with the user.
+     * @param {object} options (Optional) options that can be used to configure the skill on the first turn of conversation with the user. 
+     */
+    async run(context, options) {
+        if (!context) {
+            throw new Error('CortanaSkill.run(): context is undefined or null');
+        }
+
+        // Create a dialog context and try to continue running the current dialog
+        const dc = await this.mainDialogSet.createContext(context);
+        let result = await dc.continueDialog();
+
+
+        // Start the main dialog if there wasn't a running one
+        if (result.status === DialogTurnStatus.empty) {
+            result = await dc.beginDialog(this.id, options);
+        }
+        return result;
     }
 }
 module.exports.CortanaSkill = CortanaSkill;

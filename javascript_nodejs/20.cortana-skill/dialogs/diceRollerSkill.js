@@ -36,57 +36,58 @@ class DiceRollerSkill extends CortanaSkill {
 
     /**
      * Implements the skills logic for routing incoming requests. 
-     * @param {DialogContext} dialogContext Dialog context for the current turn of conversation.  
+     * @param {DialogContext} innerDC Dialog context for the current turn of conversation.
+     * @param {object} options (Optional) options passed in for the first turn with the skill.
      */
-    async onRunTurn(dialogContext) {
+    async onRunTurn(innerDC, options) {
         // Check for interruptions
-        const activity = dialogContext.context.activity;
+        const activity = innerDC.context.activity;
         const isMessage = activity.type === ActivityTypes.Message;
         if (isMessage) {
             const utterance = activity.text || '';
             if (/(roll|role|throw|shoot).*(dice|die|dye|bones)/i.test(utterance) || /new game/i.test(utterance)) {
                 // Create a new game
-                return await beginRootDialog(dialogContext, CREATE_GAME_DIALOG);
+                return await beginRootDialog(innerDC, CREATE_GAME_DIALOG);
 
             } else if (/(roll|role|throw|shoot) again/i.test(utterance)) {
                 // Check for existing game
-                const game = await this.currentGameProperty.get(dialogContext.context);
+                const game = await this.currentGameProperty.get(innerDC.context);
                 if (game) {
                     // Roll again
-                    return await beginRootDialog(dialogContext, ROLL_AGAIN_DIALOG);
+                    return await beginRootDialog(innerDC, ROLL_AGAIN_DIALOG);
                 } else {
                     // Create a new game
-                    return await beginRootDialog(dialogContext, CREATE_GAME_DIALOG);
+                    return await beginRootDialog(innerDC, CREATE_GAME_DIALOG);
                 }
 
             } else if (/(play|start).*(craps)/i.test(utterance)) {
                 // Start a new game of craps
                 const game = createGame(GameTypes.craps);
-                await this.currentGameProperty.set(dialogContext.context, game);
+                await this.currentGameProperty.set(innerDC.context, game);
 
                 // Initiate a dice roll
-                return await beginRootDialog(dialogContext, ROLL_AGAIN_DIALOG);
+                return await beginRootDialog(innerDC, ROLL_AGAIN_DIALOG);
 
             } else if (/(help|hello|hi)/i.test(utterance)) {
                 // Show help card
-                return await beginRootDialog(dialogContext, HELP_DIALOG);
+                return await beginRootDialog(innerDC, HELP_DIALOG);
 
             } else if (/(cancel|close|goodbye)/i.test(utterance)) {
                 // Send EndOfConversation to end the current skill invocation
-                await dialogContext.context.sendActivity({
+                await innerDC.context.sendActivity({
                     type: ActivityTypes.EndOfConversation,
                     code: EndOfConversationCodes.UserCancelled
                 });
-                return await dialogContext.cancelAllDialogs();
+                return await innerDC.cancelAllDialogs();
             }
         }
 
         // Continue any current dialog
-        let result = await dialogContext.continueDialog();
+        let result = await innerDC.continueDialog();
         
         // Show help card as a fallback
         if (result.status === DialogTurnStatus.empty && isMessage) {
-            result = beginRootDialog(dialogContext, HELP_DIALOG);
+            result = beginRootDialog(innerDC, HELP_DIALOG);
         }
         return result;
     }
