@@ -135,6 +135,7 @@ namespace Microsoft.BotBuilderSamples
         /// Initializes the credential provider, using by default the <see cref="SimpleCredentialProvider"/>.
         /// </summary>
         /// <param name="options"><see cref="BotFrameworkOptions"/> for the current bot.</param>
+        /// <param name="services">The <see cref="IServiceCollection"/> specifies the contract for a collection of service descriptors.</param>
         private void InitCredentialProvider(BotFrameworkOptions options, IServiceCollection services)
         {
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
