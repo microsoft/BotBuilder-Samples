@@ -22,9 +22,6 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class EchoWithCounterBot : IBot
     {
-        private const string WelcomeText = @"Welcome to Echo Bot With Counter. This bot will introduce you to bot state.
-                                            Type anything to get started.";
-
         private readonly EchoBotAccessors _accessors;
         private readonly ILogger _logger;
 
@@ -61,6 +58,9 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="IMiddleware"/>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
+            // Handle Message activity type, which is the main activity type for shown within a conversational interface
+            // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
+            // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 // Get the conversation state from the turn context.
@@ -79,31 +79,9 @@ namespace Microsoft.BotBuilderSamples
                 var responseMessage = $"Turn {state.TurnCount}: You sent '{turnContext.Activity.Text}'\n";
                 await turnContext.SendActivityAsync(responseMessage);
             }
-
-            if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            else
             {
-                await SendWelcomeMessageAsync(turnContext, cancellationToken);
-            }
-        }
-
-        /// <summary>
-        /// Sends a welcome message to the user.
-        /// </summary>
-        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
-        /// for processing this conversation turn. </param>
-        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
-        /// or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
-        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
-        {
-            foreach (var member in turnContext.Activity.MembersAdded)
-            {
-                if (member.Id != turnContext.Activity.Recipient.Id)
-                {
-                    var reply = turnContext.Activity.CreateReply();
-                    reply.Text = WelcomeText;
-                    await turnContext.SendActivityAsync(reply, cancellationToken);
-                }
+                await turnContext.SendActivityAsync($"{ turnContext.Activity.Type } event detected");
             }
         }
     }
