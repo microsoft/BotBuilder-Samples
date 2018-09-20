@@ -1,14 +1,15 @@
 {
-  "name": "Using_Cards",
-  "secretKey": "",
+  "name": "Using Cards Sample",
   "services": [
     {
-      "appId": "",
-      "id": "http://localhost:3978/api/messages",
       "type": "endpoint",
-      "appPassword": "",
+      "name": "Sample",
       "endpoint": "http://localhost:3978/api/messages",
-      "name": "Using_Cards"
+      "appId": "",
+      "appPassword": "",
+      "id": "24"
     }
-  ]
+  ],
+  "padlock": "",
+  "version": "2.0"
 }

@@ -8,18 +8,20 @@ using Microsoft.Bot.Builder.Dialogs;
 namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// The accessors we will be using in the bot logic. Having a class like this just allows them to be easily
-    /// handed to the IBot instance through the dependency injection.
+    /// This class is created as a Singleton and passed into the IBot-derived constructor.
+    ///  - See <see cref="MultiTurnPromptsBot"/> constructor for how that is injected.
+    ///  - See the Startup.cs file for more details on creating the Singleton that gets
+    ///    injected into the constructor.
     /// </summary>
-    public class BotAccessors
+    public class MultiTurnPromptsBotAccessors
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BotAccessors"/> class.
+        /// Initializes a new instance of the <see cref="MultiTurnPromptsBotAccessors"/> class.
         /// Contains the <see cref="ConversationState"/> and associated <see cref="IStatePropertyAccessor{T}"/>.
         /// </summary>
         /// <param name="conversationState">The state object that stores the dialog state.</param>
         /// <param name="userState">The state object that stores the user state.</param>
-        public BotAccessors(ConversationState conversationState, UserState userState)
+        public MultiTurnPromptsBotAccessors(ConversationState conversationState, UserState userState)
         {
             ConversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             UserState = userState ?? throw new ArgumentNullException(nameof(userState));

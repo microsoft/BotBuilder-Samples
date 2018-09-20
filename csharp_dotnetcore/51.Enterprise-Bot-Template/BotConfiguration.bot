@@ -1,16 +1,15 @@
 {
-  "name": "EnterpriseBot",
-  "description": "",
+  "name": "Enterprise Bot Sample",
   "services": [
     {
       "type": "endpoint",
-      "id": "1",
-      "name": "development",
+      "name": "Sample",
+      "endpoint": "http://localhost:3978/api/messages",
       "appId": "",
       "appPassword": "",
-      "endpoint": "http://localhost:3978/api/messages"
+      "id": "24"
     }
   ],
-  "secretKey": "",
+  "padlock": "",
   "version": "2.0"
 }

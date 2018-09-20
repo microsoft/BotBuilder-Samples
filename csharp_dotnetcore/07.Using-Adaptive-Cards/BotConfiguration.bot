@@ -1,14 +1,15 @@
 {
-  "name": "UsingAdaptiveCardBot",
-  "secretKey": "",
+  "name": "Using Adaptive Cards Sample",
   "services": [
     {
-      "appId": "",
-      "id": "http://localhost:3978/api/messages",
       "type": "endpoint",
-      "appPassword": "",
+      "name": "Sample",
       "endpoint": "http://localhost:3978/api/messages",
-      "name": "UsingAdaptiveCardBot"
+      "appId": "",
+      "appPassword": "",
+      "id": "24"
     }
-  ]
+  ],
+  "padlock": "",
+  "version": "2.0"
 }

@@ -1,14 +1,15 @@
 {
-  "name": "HandlingAttachmentsBot",
-  "secretKey": "",
+  "name": "Handling Attachments Sample",
   "services": [
     {
-      "appId": "",
-      "id": "http://localhost:3978/api/messages",
       "type": "endpoint",
-      "appPassword": "",
+      "name": "Sample",
       "endpoint": "http://localhost:3978/api/messages",
-      "name": "HandlingAttachmentsBot"
+      "appId": "",
+      "appPassword": "",
+      "id": "24"
     }
-  ]
+  ],
+  "padlock": "",
+  "version": "2.0"
 }

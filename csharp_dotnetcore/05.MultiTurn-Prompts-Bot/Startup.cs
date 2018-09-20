@@ -17,14 +17,11 @@ using Microsoft.Extensions.Options;
 
 namespace Microsoft.BotBuilderSamples
 {
+    /// <summary>
+    /// The Startup class configures services and the app's request pipeline.
+    /// </summary>
     public class Startup
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940.
-        /// </summary>
-        /// <param name="env">Provides information about the <see cref="IHostingEnvironment"/> an application is running in.</param>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -34,26 +31,23 @@ namespace Microsoft.BotBuilderSamples
             Configuration = builder.Build();
         }
 
-        /// <summary>
-        /// Gets the <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
-        /// </summary>
-        /// <value>
-        /// The <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
-        /// </value>
         public IConfiguration Configuration { get; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
+        /// <seealso cref="IStatePropertyAccessor{T}"/>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection"/>
+        /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBot<MultiTurnPromptsBot>(options =>
             {
                 InitCredentialProvider(options);
 
-                // Memory Storage is for local bot debugging only. When the bot
-                // is restarted, anything stored in memory will be gone.
+                // The Memory Storage used here is for local bot debugging only. When the bot
+                // is restarted, everything stored in memory will be gone.
                 IStorage dataStore = new MemoryStorage();
 
                 // For production bots use the Azure Blob or
@@ -64,7 +58,8 @@ namespace Microsoft.BotBuilderSamples
                 // Uncomment this line to use Azure Blob Storage
                 // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
 
-                // Create and add conversation state.
+                // Create Conversation State object.
+                // The Conversation State object is where we persist anything at the conversation-scope.
                 var convoState = new ConversationState(dataStore);
                 options.State.Add(convoState);
 
@@ -73,7 +68,9 @@ namespace Microsoft.BotBuilderSamples
                 options.State.Add(userState);
             });
 
-            services.AddSingleton(sp =>
+            // Create and register state accesssors.
+            // Acessors created here are passed into the IBot-derived class on every turn.
+            services.AddSingleton<MultiTurnPromptsBotAccessors>(sp =>
             {
                 // We need to grab the conversationState we added on the options in the previous step
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
@@ -94,9 +91,9 @@ namespace Microsoft.BotBuilderSamples
                     throw new InvalidOperationException("UserState must be defined and added before adding user-scoped state accessors.");
                 }
 
-                // The dialogs will need a state store accessor. Creating it here once (on-demand) allows the dependency injection
-                // to hand it to our IBot class that is create per-request.
-                var accessors = new BotAccessors(conversationState, userState)
+                // Create the custom state accessor.
+                // State accessors enable other components to read and write individual properties of state.
+                var accessors = new MultiTurnPromptsBotAccessors(conversationState, userState)
                 {
                     ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
                     UserProfile = userState.CreateProperty<UserProfile>("UserProfile"),
@@ -106,11 +103,6 @@ namespace Microsoft.BotBuilderSamples
             });
         }
 
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        /// </summary>
-        /// <param name="app">The <see cref="IApplicationBuilder"/>.  This provides the mechanisms to configure an application's request pipeline.</param>
-        /// <param name="env">Provides information about the <see cref="IHostingEnvironment"/> an application is running in.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseDefaultFiles()
