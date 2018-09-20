@@ -2,6 +2,7 @@
     "name": "EchoBotWithCounter",
     "description": "Echo bot with counter sample.",
     "secretKey": "",
+    "padlock":  "",
     "services": [
       {
         "id": "http://localhost:3978/api/messages",
