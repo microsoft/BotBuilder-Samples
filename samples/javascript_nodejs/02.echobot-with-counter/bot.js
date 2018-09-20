@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// bot.js is your main bot dialog entry point for handilng activity types
+// bot.js is your bot's main entry point to handle incoming activities.
 
-// Import required Bot Builder
 const { ActivityTypes } = require('botbuilder');
 
 // Turn counter property
@@ -27,7 +26,7 @@ class EchoBot {
      * @param {TurnContext} on turn context object.
      */
     async onTurn(turnContext) {
-        // Handle Message activity type, which is the main activity type for shown within a conversational interface
+        // Handle message activity type. User's responses via text or speech or card interactions flow back to the bot as Message activity.
         // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
         // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
         if (turnContext.activity.type === ActivityTypes.Message) {
@@ -38,7 +37,7 @@ class EchoBot {
             // increment and set turn counter.
             await this.countProperty.set(turnContext, count);
         } else { 
-            // Generic hendler for all other activity types.
+            // Generic handler for all other activity types.
             await turnContext.sendActivity(`[${ turnContext.activity.type } event detected]`);
         }
         // Save state changes

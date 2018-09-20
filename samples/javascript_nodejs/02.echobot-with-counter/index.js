@@ -12,6 +12,9 @@ const { BotFrameworkAdapter, ConversationState, MemoryStorage } = require('botbu
 // Import required bot configuration.
 const { BotConfiguration } = require('botframework-config');
 
+// This bot's main dialog.
+const { EchoBot } = require('./bot');
+
 // Read botFilePath and botFileSecret from .env file
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -28,14 +31,14 @@ try {
     console.error(`\nError reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
     console.error(`\n - The botFileSecret is available under appsettings for your Azure Bot Service bot.`);
     console.error(`\n - If you are running this bot locally, consider adding a .env file with botFilePath and botFileSecret.`);
-    console.error(`\n - See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration.\n\n`);
+    console.error(`\n - See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.\n\n`);
     process.exit();
 }
 
 // For local development configuration as defined in .bot file
 const DEV_ENVIRONMENT = 'development';
 
-// Bot name as defined in .bot file or from runtime
+// Define name of the endpoint configuration section from the .bot file
 const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
 // Get bot endpoint configuration by service name
@@ -83,9 +86,6 @@ conversationState = new ConversationState(memoryStorage);
 //     storageAccountOrConnectionString: blobStorageConfig.connectionString,
 // });
 // conversationState = new ConversationState(blobStorage);
-
-// This bot's main dialog.
-const { EchoBot } = require('./bot');
 
 // Create the main dialog.
 const bot = new EchoBot(conversationState);
