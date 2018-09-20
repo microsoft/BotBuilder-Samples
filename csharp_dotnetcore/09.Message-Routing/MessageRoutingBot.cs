@@ -76,6 +76,8 @@ namespace Microsoft.BotBuilderSamples
                 if (interrupted)
                 {
                     // Bypass the dialog.
+                    await _conversationState.SaveChangesAsync(turnContext);
+                    await _userState.SaveChangesAsync(turnContext);
                     return;
                 }
 
