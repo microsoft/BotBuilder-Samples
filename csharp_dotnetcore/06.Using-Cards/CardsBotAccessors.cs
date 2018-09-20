@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
@@ -14,11 +15,14 @@ namespace Using_Cards
         /// <summary>
         /// The name of the dialog state.
         /// </summary>
+        /// <remarks>Accessors require a unique name.</remarks>
+        /// <value>The accessor name for the dialog state accessor.</value>
         public static readonly string DialogStateName = $"{nameof(CardsBotAccessors)}.DialogState";
 
         /// <summary>
-        /// Gets or Sets the DialogState accessor value.
+        /// Gets or sets the <see cref="ConversationState"/> object for the conversation.
         /// </summary>
-        public IStatePropertyAccessor<DialogState> ConversationDialogState { get; set; }
+        /// <value>The <see cref="ConversationState"/> object.</value>
+        public IStatePropertyAccessor<DialogState> ConversationState { get; set; }
     }
 }

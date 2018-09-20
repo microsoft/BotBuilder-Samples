@@ -23,12 +23,6 @@ namespace Using_Cards
     /// </summary>
     public class Startup
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940.
-        /// </summary>
-        /// <param name="env">Provides information about the <see cref="IHostingEnvironment"/> an application is running in.</param>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -38,18 +32,15 @@ namespace Using_Cards
             this.Configuration = builder.Build();
         }
 
-        /// <summary>
-        /// Gets the <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
-        /// </summary>
-        /// <value>
-        /// The <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
-        /// </value>
         public IConfiguration Configuration { get; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
+        /// <seealso cref="IStatePropertyAccessor{T}"/>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection"/>
+        /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBot<CardsBot>(options =>
@@ -67,16 +58,15 @@ namespace Using_Cards
                 // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
                 // Uncomment this line to use Azure Blob Storage
                 // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
-                // Create and add conversation state.
+
+                // Create Conversation State object.
+                // The Conversation State object is where we persist anything at the conversation-scope.
                 var convoState = new ConversationState(dataStore);
                 options.State.Add(convoState);
-
-                // The BotStateSet middleware forces state storage to auto-save when the bot is complete processing the message.
-                // Note: Developers may choose not to add all the state providers to this middleware if save is not required.
-                var stateSet = new BotStateSet(options.State.ToArray());
-                options.Middleware.Add(stateSet);
             });
 
+            // Create and register state accesssors.
+            // Acessors created here are passed into the IBot-derived class on every turn.
             services.AddSingleton<CardsBotAccessors>(sp =>
             {
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
@@ -98,7 +88,7 @@ namespace Using_Cards
                 // without having to pass the entire state object.
                 var accessors = new CardsBotAccessors
                 {
-                    ConversationDialogState =
+                    ConversationState =
                         conversationState.CreateProperty<DialogState>(CardsBotAccessors.DialogStateName),
                 };
 
@@ -106,13 +96,6 @@ namespace Using_Cards
             });
         }
 
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        /// </summary>
-        /// <param name="app">The <see cref="IApplicationBuilder"/>.  This provides the mechanisms to configure
-        /// an application's request pipeline.</param>
-        /// <param name="env">Provides information about the <see cref="IHostingEnvironment"/> an application
-        /// is running in.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseDefaultFiles()
