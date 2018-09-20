@@ -154,14 +154,15 @@ namespace WelcomeUser
         {
             var response = turnContext.Activity.CreateReply();
 
-            // Create a HeroCard to send to the usergit 
+            // Create a HeroCard to send to the user.
             var card = new HeroCard
             {
                 Title = "Welcome to Bot Framework!",
                 Text = @"Welcome to Welcome Users bot sample! This Introduction card 
                          is a great way to introduce your Bot to the user and suggest 
                          some things to get them started. We use this opportunity to 
-                         recommend a few next steps for learning more creating and deploying bots.",
+                         recommend a few next steps for learning more creating and
+                         deploying bots.",
                 Images = new List<CardImage>() {new CardImage("https://aka.ms/bf-welcome-card-image")},
                 Buttons = new List<CardAction>()
                 {
