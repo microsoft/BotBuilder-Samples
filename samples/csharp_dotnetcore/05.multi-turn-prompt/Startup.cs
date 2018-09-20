@@ -23,7 +23,6 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class Startup
     {
-        private ILoggerFactory _loggerFactory;
         private bool _isProduction = false;
 
         public Startup(IHostingEnvironment env)
@@ -63,13 +62,9 @@ namespace Microsoft.BotBuilderSamples
 
                 InitCredentialProvider(options, services, botConfig);
 
-                // Creates a logger for the application to use.
-                ILogger logger = _loggerFactory.CreateLogger<MultiTurnPromptsBot>();
-
                 // Catches any errors that occur during a conversation turn and logs them.
                 options.OnTurnError = async (context, exception) =>
                 {
-                    logger.LogError($"Exception caught : {exception}");
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
@@ -98,6 +93,7 @@ namespace Microsoft.BotBuilderSamples
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
                 var conversationState = new ConversationState(dataStore);
+                options.State.Add(conversationState);
 
                 // Create and add user state.
                 var userState = new UserState(dataStore);
