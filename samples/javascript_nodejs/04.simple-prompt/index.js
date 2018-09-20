@@ -27,7 +27,6 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 // .bot file path
 const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 
-console.log('reading config from ', BOT_FILE);
 let botConfig;
 try {
     // Read bot configuration from .bot file.
