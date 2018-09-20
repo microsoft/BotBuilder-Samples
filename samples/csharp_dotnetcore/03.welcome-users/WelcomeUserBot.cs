@@ -15,17 +15,34 @@ namespace WelcomeUser
 {
     /// <summary>
     /// Represents a bot that processes incoming activities.
-    /// For each interaction from the user, an instance of this class is created
-    /// and the OnTurnAsync method called.
-    /// Objects that are expensive to construct, or have a lifetime beyond a
-    /// single turn, should be carefully managed and cached.
+    /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
+    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// each time they're requested. For each Activity received, a new instance of this
+    /// class is created. Objects that are expensive to construct, or have a lifetime
+    /// beyond the single turn, should be carefully managed.
+    /// For example, the <see cref="MemoryStorage"/> object and associated
+    /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// </summary>
     public class WelcomeUserBot : IBot
     {
-        // generic message sent to user
-        private const string _genericMessage = @"This is a simple Welcome Bot sample. You can say 'intro' to 
-                                                 see the introduction card. If you are running this bot in the Bot 
-                                                 Framework Emulator, press the 'Start Over' button to simulate user joining a bot or a channel";
+        // Messages sent to the user.
+        private const string WelcomeMessage = @"This is a simple Welcome Bot sample.This bot will introduce you
+                                                to welcoming and greeting users. You can say 'intro' to see the
+                                                introduction card. If you are running this bot in the Bot Framework
+                                                Emulator, press the 'Start Over' button to simulate user joining
+                                                a bot or a channel";
+
+        private const string InfoMessage = @"You are seeing this message because the bot recieved atleast one
+                                            'ConversationUpdate' event, indicating you (and possibly others)
+                                            joined the conversation. If you are using the emulator, pressing
+                                            the 'Start Over' button to trigger this event again. The specifics
+                                            of the 'ConversationUpdate' event depends on the channel. You can
+                                            read more information at: 
+                                             https://aka.ms/about-botframewor-welcome-user";
+
+        private const string PatternMessage = @"It is a good pattern to use this event to send general greeting 
+                                              to user, explaning what your bot can do. In this example, the bot 
+                                              handles 'hello', 'hi', 'help' and 'intro. Try it now, type 'hi'";
 
         // The bot state accessor object. Use this to access specific state properties.
         private readonly WelcomeUserStateAccessors _welcomeUserStateAccessors;
@@ -55,8 +72,11 @@ namespace WelcomeUser
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = new CancellationToken())
         {
             // use state accessor to extract the didBotWelcomeUser flag
-            var didBotWelcomeUser = await _welcomeUserStateAccessors.DidBotWelcomedUser.GetAsync(turnContext, () => false);
+            var didBotWelcomeUser = await _welcomeUserStateAccessors.DidBotWelcomeUser.GetAsync(turnContext, () => false);
 
+            // Handle Message activity type, which is the main activity type for shown within a conversational interface
+            // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
+            // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 // Your bot should proactively send a welcome message to a personal chat the first time
@@ -64,7 +84,7 @@ namespace WelcomeUser
                 if (didBotWelcomeUser == false)
                 {
                     // Update user state flag to reflect bot handled first user interaction.
-                    await _welcomeUserStateAccessors.DidBotWelcomedUser.SetAsync(turnContext, true);
+                    await _welcomeUserStateAccessors.DidBotWelcomeUser.SetAsync(turnContext, true);
                     await _welcomeUserStateAccessors.UserState.SaveChangesAsync(turnContext);
 
                     // the channel should sends the user name in the 'From' object
@@ -88,13 +108,17 @@ namespace WelcomeUser
                             await SendIntroCardAsync(turnContext, cancellationToken);
                             break;
                         default:
-                            await turnContext.SendActivityAsync(_genericMessage, cancellationToken: cancellationToken);
+                            await turnContext.SendActivityAsync(WelcomeMessage, cancellationToken: cancellationToken);
                             break;
                     }
                 }
             }
 
             // Greet when users are added to the conversation.
+            // Note that all channels do not send the conversation update activity.
+            // If you find that this bot works in the emulator, but does not in
+            // another channel the reason is most likely that the channel does not
+            // send this activity.
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
                 if (turnContext.Activity.MembersAdded.Any())
@@ -108,18 +132,18 @@ namespace WelcomeUser
                         // bot was added to the conversation.
                         if (member.Id != turnContext.Activity.Recipient.Id)
                         {
-                            await turnContext.SendActivityAsync($"Hi there - {member.Name}. Welcome to the 'Welcome User' Bot. This bot will introduce you to welcoming and greeting users.", cancellationToken: cancellationToken);
-                            await turnContext.SendActivityAsync($"You are seeing this message because the bot recieved atleast one 'ConversationUpdate' event,indicating you (and possibly others) joined the conversation. If you are using the emulator, pressing the 'Start Over' button to trigger this event again. The specifics of the 'ConversationUpdate' event depends on the channel. You can read more information at https://aka.ms/about-botframewor-welcome-user", cancellationToken: cancellationToken);
-                            await turnContext.SendActivityAsync($"It is a good pattern to use this event to send general greeting to user, explaning what your bot can do. In this example, the bot handles 'hello', 'hi', 'help' and 'intro. Try it now, type 'hi'", cancellationToken: cancellationToken);
+                            await turnContext.SendActivityAsync($"Hi there - {member.Name}. {WelcomeMessage}", cancellationToken: cancellationToken);
+                            await turnContext.SendActivityAsync(InfoMessage, cancellationToken: cancellationToken);
+                            await turnContext.SendActivityAsync(PatternMessage, cancellationToken: cancellationToken);
                         }
                     }
                 }
             }
             else
             {
-                // Default behaivor for all other type of events.
-                var ev = turnContext.Activity.AsEventActivity();
-                await turnContext.SendActivityAsync($"Received event: {ev.Name}");
+                // Default behaivor for all other type of activities.
+                var activity = turnContext.Activity;
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} activity detected");
             }
 
             // save any state changes made to your state objects.
@@ -138,17 +162,21 @@ namespace WelcomeUser
         {
             var response = turnContext.Activity.CreateReply();
 
-            var introCard = File.ReadAllText(@".\Resources\IntroCard.json");
-
-            response.Attachments = new List<Attachment>
+            var card = new HeroCard();
+            card.Title = "Welcome to Bot Framework!";
+            card.Text = @"Welcome to Welcome Users bot sample! This Introduction card 
+                         is a great way to introduce your Bot to the user and suggest 
+                         some things to get them started. We use this opportunity to 
+                         recommend a few next steps for learning more creating and deploying bots.";
+            card.Images = new List<CardImage>() { new CardImage("https://aka.ms/bf-welcome-card-image") };
+            card.Buttons = new List<CardAction>()
             {
-                new Attachment()
-                {
-                    ContentType = "application/vnd.microsoft.card.adaptive",
-                    Content = JsonConvert.DeserializeObject(introCard),
-                },
+                new CardAction(ActionTypes.OpenUrl, "Get an overview", null, "Get an overview", "Get an overview", "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"),
+                new CardAction(ActionTypes.OpenUrl, "Ask a question", null, "Ask a question", "Ask a question", "https://stackoverflow.com/questions/tagged/botframework"),
+                new CardAction(ActionTypes.OpenUrl, "Learn how to deploy", null, "Learn how to deploy", "Learn how to deploy", "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"),
             };
 
+            response.Attachments = new List<Attachment>() { card.ToAttachment() };
             await turnContext.SendActivityAsync(response, cancellationToken);
         }
     }
