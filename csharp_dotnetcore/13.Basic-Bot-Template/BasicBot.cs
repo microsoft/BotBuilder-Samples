@@ -33,7 +33,7 @@ namespace Microsoft.BotBuilderSamples
         /// Key in the bot config (.bot file) for the LUIS instance.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
-        public static readonly string LuisKey = "BasicBotLUIS";
+        public static readonly string LuisConfiguration = "basic-bot-LUIS";
 
         private readonly IStatePropertyAccessor<GreetingState> _greetingStateAccessor;
         private readonly IStatePropertyAccessor<DialogState> _dialogStateAccessor;
@@ -56,9 +56,9 @@ namespace Microsoft.BotBuilderSamples
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
             // Verify LUIS configuration.
-            if (!_services.LuisServices.ContainsKey(LuisKey))
+            if (!_services.LuisServices.ContainsKey(LuisConfiguration))
             {
-                throw new InvalidOperationException($"The bot configuration does not contain a service type of `luis` with the name `{LuisKey}`.");
+                throw new InvalidOperationException($"The bot configuration does not contain a service type of `luis` with the id `{LuisConfiguration}`.");
             }
 
             Dialogs = new DialogSet(_dialogStateAccessor);
@@ -83,7 +83,7 @@ namespace Microsoft.BotBuilderSamples
             if (activity.Type == ActivityTypes.Message)
             {
                 // Perform a call to LUIS to retrieve results for the current activity message.
-                var luisResults = await _services.LuisServices[LuisKey].RecognizeAsync(dc.Context, cancellationToken).ConfigureAwait(false);
+                var luisResults = await _services.LuisServices[LuisConfiguration].RecognizeAsync(dc.Context, cancellationToken).ConfigureAwait(false);
 
                 // If any entities were updated, treat as interruption.
                 // For example, "no my name is tony" will manifest as an update of the name to be "tony".
