@@ -11,10 +11,11 @@ Most channels support rich content.  In this sample we explore the different typ
 ```bash
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
- ### Visual studio
+# Prerequisites
+## Visual studio
 - Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\06.Using-Cards\Using_Cards`) and open Using_Cards.csproj in Visual Studio 
 - Hit F5
- ### Visual studio code
+## Visual studio code
 - Open `BotBuilder-Samples\csharp_dotnetcore\06.Using_Cards` folder
 - Bring up a terminal, navigate to BotBuilder-Samples\csharp_dotnetcore\06.Using-Cards\Using_Cards
 - Type 'dotnet run'.
