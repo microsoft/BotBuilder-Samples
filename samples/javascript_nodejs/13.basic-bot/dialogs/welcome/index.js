@@ -3,4 +3,4 @@
 
 const WelcomeCard = require('./resources/welcomeCard.json');
 
-module.exports.WelcomeCard = WelcomeCard;
+exports.WelcomeCard = WelcomeCard;
