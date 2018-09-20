@@ -9,7 +9,7 @@ const ERROR = 1;
 const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = require('botbuilder');
 const { BotConfiguration } = require('botframework-config');
 
-const MainDialog = require('./dialogs/mainDialog');
+const SimplePromptBot = require('./bot');
 
 // Read botFilePath and botFileSecret from .env file
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
@@ -51,9 +51,29 @@ const adapter = new BotFrameworkAdapter({
     appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword
 });
 
+// Setup our global error handler.
+// For production bots use AppInsights, or a production-grade telemetry service to
+// log errors and other bot telemetry.
+// const { TelemetryClient } = require("applicationinsights");
+// Get AppInsights configuration by service name
+// const APPINSIGHTS_CONFIGURATION = 'appInsights';
+// const appInsightsConfig = botConfig.findServiceByNameOrId(APPINSIGHTS_CONFIGURATION);
+// const telemetryClient = new TelemetryClient(appInsightsConfig.instrumentationKey);
+
+adapter.onTurnError = async (turnContext, error) => {
+    // CAUTION: The sample simply logs the error to the console.
+    console.error(error);
+    // Tell the user something happened.
+    await turnContext.sendActivity('I encountered an error');
+
+    // For production bots, use AppInsights or similar telemetry system.
+    // For multi-turn dialog interactions, make sure we clear the conversation state.
+};
+
 // Define state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
 // A bot requires a some sort of state storage system to persist the dialog and user state between messages.
 const memoryStorage = new MemoryStorage();
+
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone.
 // For production bots use the Azure CosmosDB storage, or Azure Blob storage providers.
@@ -70,12 +90,12 @@ const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
 // Create the main dialog.
-const mainDlg = new MainDialog(conversationState, userState);
+const bot = new SimplePromptBot(conversationState, userState);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
         // route to main dialog.
-        await mainDlg.onTurn(context);
+        await bot.onTurn(context);
     });
 });

@@ -11,7 +11,7 @@ const HELLO_USER = 'hello_user';
 
 const NAME_PROMPT = 'name_prompt';
 
-class MainDialog {
+class SimplePromptBot {
     /**
      *
      * @param {Object} conversationState
@@ -90,11 +90,11 @@ class MainDialog {
 
             // Show menu if no response sent
             if (!turnContext.responded) {
-                var userName = await this.userName.get(dc.context,null);
+                var userName = await this.userName.get(dc.context, null);
                 if (userName) {
-                    await dc.beginDialog(HELLO_USER)
+                    await dc.beginDialog(HELLO_USER);
                 } else {
-                    await dc.beginDialog(WHO_ARE_YOU)
+                    await dc.beginDialog(WHO_ARE_YOU);
                 }
             }
         } else if (
@@ -113,4 +113,4 @@ class MainDialog {
     }
 }
 
-module.exports = MainDialog;
+module.exports = SimplePromptBot;
