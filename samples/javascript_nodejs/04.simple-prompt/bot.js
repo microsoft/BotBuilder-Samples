@@ -113,4 +113,4 @@ class SimplePromptBot {
     }
 }
 
-module.exports = SimplePromptBot;
+module.exports.SimplePromptBot = SimplePromptBot;

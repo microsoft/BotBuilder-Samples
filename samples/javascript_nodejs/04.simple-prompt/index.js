@@ -9,7 +9,8 @@ const ERROR = 1;
 const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = require('botbuilder');
 const { BotConfiguration } = require('botframework-config');
 
-const SimplePromptBot = require('./bot');
+// Import our custom bot class that provides a turn handling function.
+const { SimplePromptBot } = require('./bot');
 
 // Read botFilePath and botFileSecret from .env file
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
@@ -40,7 +41,7 @@ try {
 
 // bot name as defined in .bot file
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration .
-const BOT_CONFIGURATION = 'simple-prompt-bot';
+const BOT_CONFIGURATION = 'development';
 
 // Get bot endpoint configuration by service name
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);

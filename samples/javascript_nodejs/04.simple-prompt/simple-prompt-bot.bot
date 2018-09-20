@@ -4,7 +4,7 @@
     "services": [
         {
             "type": "endpoint",
-            "name": "simple-prompt-bot",
+            "name": "development",
             "id": "http://localhost:3978/api/messages",
             "appId": "",
             "appPassword": "",
