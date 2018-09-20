@@ -3,7 +3,6 @@
 
 const restify = require('restify');
 const path = require('path');
-const ERROR = 1;
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different part of a bot
 const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = require('botbuilder');
