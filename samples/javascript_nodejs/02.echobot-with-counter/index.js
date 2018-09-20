@@ -8,7 +8,7 @@ const { BotFrameworkAdapter, ConversationState, MemoryStorage } = require('botbu
 // Import required bot configuration.
 const { BotConfiguration } = require('botframework-config');
 // This bot's main dialog.
-const { Bot } = require('./bot');
+const { EchoBot } = require('./bot');
 
 // Read botFilePath and botFileSecret from .env file
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
@@ -77,7 +77,7 @@ conversationState = new ConversationState(memoryStorage);
 // conversationState = new ConversationState(blobStorage);
 
 // Create the main dialog.
-const bot = new Bot(conversationState);
+const bot = new EchoBot(conversationState);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
