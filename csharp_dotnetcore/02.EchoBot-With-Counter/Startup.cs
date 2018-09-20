@@ -36,12 +36,6 @@ namespace Microsoft.BotBuilderSamples
             Configuration = builder.Build();
         }
 
-        /// <summary>
-        /// Gets the configuration that represents a set of key/value application configuration properties.
-        /// </summary>
-        /// <value>
-        /// The <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
-        /// </value>
         public IConfiguration Configuration { get; }
 
         /// <summary>
@@ -74,7 +68,7 @@ namespace Microsoft.BotBuilderSamples
                 // based storage providers, add the Microsoft.Bot.Builder.Azure
                 // Nuget package to your solution. That package is found at:
                 // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
-                // Un-comment the following lines to use Azure Blob Storage
+                // Uncomment the following lines to use Azure Blob Storage
                 // //Storage configuration name or ID from the .bot file.
                 // const string StorageConfigurationId = "<STORAGE-NAME-OR-ID-FROM-BOT-FILE>";
                 // var blobConfig = botConfig.FindServiceByNameOrId(StorageConfigurationId);

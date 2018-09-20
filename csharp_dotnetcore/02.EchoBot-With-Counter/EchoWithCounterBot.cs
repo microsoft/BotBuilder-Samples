@@ -22,6 +22,9 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class EchoWithCounterBot : IBot
     {
+        private const string WelcomeText = @"Welcome to Echo Bot With Counter. This bot will introduce you to bot state.
+                                            Type anything to get started.";
+
         private readonly EchoBotAccessors _accessors;
         private readonly ILogger _logger;
 
@@ -66,7 +69,7 @@ namespace Microsoft.BotBuilderSamples
                 // Bump the turn count for this conversation.
                 state.TurnCount++;
 
-                // Set the property using the accessor
+                // Set the property using the accessor.
                 await _accessors.CounterState.SetAsync(turnContext, state);
 
                 // Save the new turn count into the conversation state.
@@ -75,6 +78,32 @@ namespace Microsoft.BotBuilderSamples
                 // Echo back to the user whatever they typed.
                 var responseMessage = $"Turn {state.TurnCount}: You sent '{turnContext.Activity.Text}'\n";
                 await turnContext.SendActivityAsync(responseMessage);
+            }
+
+            if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                await SendWelcomeMessageAsync(turnContext, cancellationToken);
+            }
+        }
+
+        /// <summary>
+        /// Sends a welcome message to the user.
+        /// </summary>
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            foreach (var member in turnContext.Activity.MembersAdded)
+            {
+                if (member.Id != turnContext.Activity.Recipient.Id)
+                {
+                    var reply = turnContext.Activity.CreateReply();
+                    reply.Text = WelcomeText;
+                    await turnContext.SendActivityAsync(reply, cancellationToken);
+                }
             }
         }
     }
