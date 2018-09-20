@@ -9,10 +9,6 @@ This sample shows how to send an Adaptive Card. This bot example uses [`restify`
     ```bash
     cd javascript_nodejs\07.using-adaptive-cards
     ```
-- Point to the myget feed 
-    ```bash
-    npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
-    ```
 - Install modules and start the bot
     ```bash
     npm i & npm start
@@ -20,10 +16,6 @@ This sample shows how to send an Adaptive Card. This bot example uses [`restify`
     Alternatively you can also use nodemon via
     ```bash
     npm i & npm run watch
-    ```
-- To reset registry, you can do
-    ```bash
-    npm config set registry https://registry.npmjs.org/
     ```
 
 # Testing the bot using Bot Framework Emulator
@@ -44,7 +36,6 @@ Adaptive Cards are supported by Bot Framework:
 - [Send an Adaptive card](https://docs.microsoft.com/en-us/azure/bot-service/nodejs/bot-builder-nodejs-send-rich-cards?view=azure-bot-service-3.0&viewFallbackFrom=azure-bot-service-4.0#send-an-adaptive-card)
 
 # Further reading
-
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Add media to messages](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-add-media-attachments?view=azure-bot-service-4.0&tabs=javascript)
 - [Rich card types](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-add-rich-cards?view=azure-bot-service-4.0)

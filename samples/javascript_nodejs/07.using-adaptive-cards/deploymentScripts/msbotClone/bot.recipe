@@ -4,7 +4,7 @@
     {
       "type": "endpoint",
       "id": "198",
-      "name": "using-adaptive-cards",
+      "name": "development",
       "url": "http://localhost:3978/api/messages"
     }
   ]
