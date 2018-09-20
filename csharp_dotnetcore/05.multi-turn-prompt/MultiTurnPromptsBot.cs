@@ -23,6 +23,8 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class MultiTurnPromptsBot : IBot
     {
+        private const string WelcomeText = "Welcome to MultiTurnPromptBot. This bot will introduce muliple turns using prompts.  Type anything to get started.";
+
         private readonly MultiTurnPromptsBotAccessors _accessors;
 
         /// <summary>
@@ -59,12 +61,16 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// This controls what happens when an activity gets sent to the bot.
+        /// Every conversation turn for our EchoBot will call this method.
         /// </summary>
-        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
-        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        /// <seealso cref="BotStateSet"/>
+        /// <seealso cref="ConversationState"/>
+        /// <seealso cref="IMiddleware"/>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (turnContext == null)
@@ -72,21 +78,23 @@ namespace Microsoft.BotBuilderSamples
                 throw new ArgumentNullException(nameof(turnContext));
             }
 
-            // We are only interested in Message Activities.
-            if (turnContext.Activity.Type != ActivityTypes.Message)
+            if (turnContext.Activity.Type == ActivityTypes.Message)
             {
-                return;
+                // Run the DialogSet - let the framework identify the current state of the dialog from
+                // the dialog stack and figure out what (if any) is the active dialog.
+                var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
+                var results = await dialogContext.ContinueDialogAsync(cancellationToken);
+
+                // If the DialogTurnStatus is Empty we should start a new dialog.
+                if (results.Status == DialogTurnStatus.Empty)
+                {
+                    await dialogContext.BeginDialogAsync("details", null, cancellationToken);
+                }
             }
 
-            // Run the DialogSet - let the framework identify the current state of the dialog from
-            // the dialog stack and figure out what (if any) is the active dialog.
-            var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
-            var results = await dialogContext.ContinueDialogAsync(cancellationToken);
-
-            // If the DialogTurnStatus is Empty we should start a new dialog.
-            if (results.Status == DialogTurnStatus.Empty)
+            if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
-                await dialogContext.BeginDialogAsync("details", null, cancellationToken);
+                await SendWelcomeMessageAsync(turnContext, cancellationToken);
             }
 
             // Save the dialog state into the conversation state.
@@ -94,6 +102,27 @@ namespace Microsoft.BotBuilderSamples
 
             // Save the user profile updates into the user state.
             await _accessors.UserState.SaveChangesAsync(turnContext, false, cancellationToken);
+        }
+
+        /// <summary>
+        /// Sends a welcome message to the user.
+        /// </summary>
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            foreach (var member in turnContext.Activity.MembersAdded)
+            {
+                if (member.Id != turnContext.Activity.Recipient.Id)
+                {
+                    var reply = turnContext.Activity.CreateReply();
+                    reply.Text = WelcomeText;
+                    await turnContext.SendActivityAsync(reply, cancellationToken);
+                }
+            }
         }
 
         /// <summary>

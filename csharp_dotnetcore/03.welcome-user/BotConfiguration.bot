@@ -1,14 +1,15 @@
 {
-  "name": "Welcome-Users",
-  "secretKey": "",
+  "name": "Welcome Users Sample",
   "services": [
     {
-      "appId": "",
-      "id": "98fd9150-a278-11e8-90fe-f92f88ed2f78",
       "type": "endpoint",
-      "appPassword": "",
+      "name": "Sample",
       "endpoint": "http://localhost:3978/api/messages",
-      "name": "Welcome-Users"
+      "appId": "",
+      "appPassword": "",
+      "id": "24"
     }
-  ]
+  ],
+  "padlock": "",
+  "version": "2.0"
 }

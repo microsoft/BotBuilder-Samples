@@ -1,15 +1,15 @@
 {
-    "name": "Custom-Dialog-Bot",
-    "description": "",
-    "secretKey": "",
-    "services": [
-      {
-        "appId": "",
-        "id": "http://localhost:2297/api/messages",
-        "type": "endpoint",
-        "appPassword": "",
-        "endpoint": "http://localhost:2297/api/messages",
-        "name": "http://localhost:2297/api/messages"
-      }
-    ]
+  "name": "Custom Dialogs Sample",
+  "services": [
+    {
+      "type": "endpoint",
+      "name": "Sample",
+      "endpoint": "http://localhost:3978/api/messages",
+      "appId": "",
+      "appPassword": "",
+      "id": "24"
+    }
+  ],
+  "padlock": "",
+  "version": "2.0"
 }

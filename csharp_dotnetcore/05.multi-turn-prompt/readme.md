@@ -1,4 +1,4 @@
-This sample demonstrates a the use of prompts with ASP.Net Core 2.
+This sample demonstrates a the use of multiple prompts with ASP.Net Core 2.
 
 # To try this sample
 - Clone the samples repository
@@ -8,12 +8,12 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 # Prerequisites
 ## Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\04.Simple-Prompt-Bot`) and open SimplePromptBot.csproj in Visual Studio.
+- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\05.multi-turn-prompt`) and open MultiTurnPromptsBot.csproj in Visual Studio.
 - Hit F5.
 
 ## Visual Studio Code
-- Open `BotBuilder-Samples\csharp_dotnetcore\04.Simple-Prompt-Bot` sample folder.
-- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_dotnetcore\04.Simple-Prompt-Bot` folder.
+- Open `BotBuilder-Samples\csharp_dotnetcore\05.multi-turn-prompt` sample folder.
+- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_dotnetcore\05.multi-turn-prompt` folder.
 - Type 'dotnet run'.
 
 ## Update packages
