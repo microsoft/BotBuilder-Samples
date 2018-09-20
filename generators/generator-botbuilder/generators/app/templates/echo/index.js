@@ -79,9 +79,6 @@ const memoryStorage = new MemoryStorage();
 // Create conversation state with in-memory storage provider.
 const conversationState = new ConversationState(memoryStorage);
 
-// Register conversation state as a middleware.
-adapter.use(conversationState);
-
 // Create the main dialog.
 const myBot = new MyBot(conversationState);
 
