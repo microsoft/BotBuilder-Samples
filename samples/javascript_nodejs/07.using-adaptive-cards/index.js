@@ -60,7 +60,7 @@ server.post('/api/messages', (req, res) => {
 
 // Catch-all for errors.
 adapter.onTurnError = async (turnContext, error) => {
-    // This check writes out errors to console log .vs. app insights.
+    // This check writes out errors to console log v.s. Application Insights.
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user.
     await turnContext.sendActivity(`Oops. Something went wrong!`);
