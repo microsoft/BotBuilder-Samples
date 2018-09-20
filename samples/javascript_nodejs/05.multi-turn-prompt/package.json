@@ -12,9 +12,9 @@
   "author": "Microsoft",
   "license": "MIT",
   "dependencies": {
-    "botbuilder": "^4.0.0-preview1.1302",
-    "botbuilder-dialogs": "^4.0.0-preview1.1302",
-    "botframework-config": "^4.0.0-preview1.1302",
+    "botbuilder": "^4.0.5",
+    "botbuilder-dialogs": "^4.0.5",
+    "botframework-config": "^4.0.5",
     "dotenv": "^6.0.0",
     "path": "^0.12.7",
     "restify": "^7.2.1"
