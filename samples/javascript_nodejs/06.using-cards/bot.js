@@ -4,7 +4,6 @@
 const { ActivityTypes, CardFactory } = require('botbuilder');
 const { ChoicePrompt,
         DialogSet,
-        DialogTurnResult,
         DialogTurnStatus,
         ListStyle } = require('botbuilder-dialogs');
 
@@ -88,8 +87,8 @@ class RichCardsBot {
      * Send a Rich Card response to the user based on their choice.
      *
      * This method is only called when a valid prompt response is parsed from the user's response to the ChoicePrompt.
-     * @param {TurnContext} turnContext
-     * @param {DialogTurnResult} dialogTurnResult
+     * @param {Object} turnContext
+     * @param {Object} dialogTurnResult
      */
     async sendCardResponse(turnContext, dialogTurnResult) {
         switch (dialogTurnResult.result.value) {
@@ -302,4 +301,4 @@ class RichCardsBot {
     }
 }
 
-exports.RichCardsBot = RichCardsBot;
+module.exports.RichCardsBot = RichCardsBot;
