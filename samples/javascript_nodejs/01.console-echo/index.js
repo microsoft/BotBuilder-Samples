@@ -13,7 +13,7 @@ require('dotenv').config({ path: ENV_FILE });
 const adapter = new ConsoleAdapter();
 
 // Import our bot class.
-const EchoBot = require('./bot');
+const { EchoBot } = require('./bot');
 const bot = new EchoBot();
 
 // A call to adapter.listen tells the adapter to start listening for incoming messages and events, known as "activities."

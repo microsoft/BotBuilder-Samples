@@ -19,4 +19,4 @@ class EchoBot {
     }
 }
 
-module.exports = EchoBot;
+module.exports.EchoBot = EchoBot;

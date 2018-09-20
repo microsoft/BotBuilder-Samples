@@ -9,17 +9,9 @@ This sample shows how to create a simple echo bot that you can talk to from the 
     ```bash
     cd samples/javascript_nodejs/01.console-echo
     ```
-    - Point to the MyGet feed 
-    ```bash
-    npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
-    ```
 - Install modules and start the bot
     ```bash
     npm i & npm start
-    ```
-- To reset registry, you can do
-    ```bash
-    npm config set registry https://registry.npmjs.org/
     ```
 
 # Testing the bot 
