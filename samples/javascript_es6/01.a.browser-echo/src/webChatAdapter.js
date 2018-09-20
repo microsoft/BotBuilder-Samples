@@ -16,7 +16,12 @@ export class WebChatAdapter extends BotAdapter {
             connectionStatus$: new BehaviorSubject(ConnectionStatus.Online),
             activity$: this.activity$.share(),
             end() {
-                debugger;
+                // The React component was called to unmount:
+                // https://github.com/Microsoft/BotFramework-WebChat/blob/57360e4df92e041d5b0fd4810c1abf96621b5283/src/Chat.tsx#L237-L247
+                // Developers will need to decide what behavior the component should implement.
+                // For this sample, this.botConnection.componentWillUnmount() and this.botConnection.end()
+                // is never called.
+                console.log('this.botConnection.componentWillUnmount() called.');
             },
             postActivity: activity => {
                 const id = Date.now().toString();

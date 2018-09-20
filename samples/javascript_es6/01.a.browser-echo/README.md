@@ -6,13 +6,9 @@ After running the bot, to see it in action, visit `http://localhost:8080`.
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to javascript_es6\01.a.browser-echo
+- In a terminal, navigate to samples/javascript_es6/01.a.browser-echo
     ```bash
-    cd javascript_es6\01.a.browser-echo
-    ```
-- Point to the MyGet feed 
-    ```bash
-    npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
+    cd samples/javascript_es6/01.a.browser-echo
     ```
 - Install modules and start the bot
     ```bash
