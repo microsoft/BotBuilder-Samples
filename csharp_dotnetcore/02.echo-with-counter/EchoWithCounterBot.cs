@@ -44,9 +44,9 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Every conversation turn for our Echo Bot will call this method.
-        /// There are no dialogs used, since it's "single turn" processing, meaning a single
-        /// request and response.
+        /// Every conversation turn for our Echo Bot will call this method. In here
+        /// the bot checks the <see cref="Activity"/> type to verify it's a <see cref="ActivityTypes.Message"/>
+        /// message, and then echoes the user's typing back to them with the numbers of turns.
         /// </summary>
         /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
@@ -58,6 +58,9 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="IMiddleware"/>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
+            // Handle Message activity type, which is the main activity type for a conversational interface
+            // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
+            // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 // Get the conversation state from the turn context.
@@ -66,7 +69,7 @@ namespace Microsoft.BotBuilderSamples
                 // Bump the turn count for this conversation.
                 state.TurnCount++;
 
-                // Set the property using the accessor
+                // Set the property using the accessor.
                 await _accessors.CounterState.SetAsync(turnContext, state);
 
                 // Save the new turn count into the conversation state.
@@ -75,6 +78,10 @@ namespace Microsoft.BotBuilderSamples
                 // Echo back to the user whatever they typed.
                 var responseMessage = $"Turn {state.TurnCount}: You sent '{turnContext.Activity.Text}'\n";
                 await turnContext.SendActivityAsync(responseMessage);
+            }
+            else
+            {
+                await turnContext.SendActivityAsync($"{ turnContext.Activity.Type } event detected");
             }
         }
     }
