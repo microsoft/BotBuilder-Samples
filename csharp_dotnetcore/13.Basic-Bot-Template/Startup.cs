@@ -84,17 +84,17 @@ namespace Microsoft.BotBuilderSamples
             // Nuget package to your solution. That package is found at:
             // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
             // Un-comment the following lines to use Azure Blob Storage
-            //// Storage configuration name or ID from the .bot file.
-            //const string StorageConfigurationId = "<STORAGE-NAME-OR-ID-FROM-BOT-FILE>";
-            //var blobConfig = botConfig.FindServiceByNameOrId(StorageConfigurationId);
-            //if (!(blobConfig is BlobStorageService blobStorageConfig))
-            //{
+            // // Storage configuration name or ID from the .bot file.
+            // const string StorageConfigurationId = "<STORAGE-NAME-OR-ID-FROM-BOT-FILE>";
+            // var blobConfig = botConfig.FindServiceByNameOrId(StorageConfigurationId);
+            // if (!(blobConfig is BlobStorageService blobStorageConfig))
+            // {
             //    throw new InvalidOperationException($"The .bot file does not contain an blob storage with name '{StorageConfigurationId}'.");
-            //}
-            //// Default container name.
-            //const string DefaultBotContainer = "<DEFAULT-CONTAINER>";
-            //var storageContainer = string.IsNullOrWhiteSpace(blobStorageConfig.Container) ? DefaultBotContainer : blobStorageConfig.Container;
-            //IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage(blobStorageConfig.ConnectionString, storageContainer);
+            // }
+            // // Default container name.
+            // const string DefaultBotContainer = "<DEFAULT-CONTAINER>";
+            // var storageContainer = string.IsNullOrWhiteSpace(blobStorageConfig.Container) ? DefaultBotContainer : blobStorageConfig.Container;
+            // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage(blobStorageConfig.ConnectionString, storageContainer);
 
             // Create and add conversation state.
             var conversationState = new ConversationState(dataStore);
