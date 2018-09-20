@@ -85,7 +85,8 @@ server.post('/api/messages', (req, res) => {
 });
 
 // Catch-all for errors.
-adapter.onTurnError = async (context, error) => {
+adapter.onTurnError = async (turnContext, error) => {
     console.error(`\n [onTurnError]: ${ error }`);
-    context.sendActivity(`Oops. Something went wrong!`);
+    await turnContext.sendActivity(`Oops. Something went wrong!`);
+    await conversationState.clear(turnContext);
 };
