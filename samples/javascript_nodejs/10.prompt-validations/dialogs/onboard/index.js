@@ -5,10 +5,10 @@ const { ComponentDialog, WaterfallDialog } = require('botbuilder-dialogs');
 const moment = require('moment');
 
 // Import a few specialized prompt classes.
-const NamePrompt = require('../../prompts/namePrompt');
-const AgePrompt = require('../../prompts/agePrompt');
-const DobPrompt = require('../../prompts/dobPrompt');
-const ColorPrompt = require('../../prompts/colorPrompt');
+const { AgePrompt } = require('../../prompts/agePrompt');
+const { ColorPrompt } = require('../../prompts/colorPrompt');
+const { DobPrompt } = require('../../prompts/dobPrompt');
+const { NamePrompt } = require('../../prompts/namePrompt');
 
 const START_DIALOG = 'start';
 const HELLO_USER = 'welcome_back';
@@ -133,4 +133,4 @@ class OnboardingDialog extends ComponentDialog {
     }
 }
 
-module.exports = OnboardingDialog;
+module.exports.OnboardingDialog = OnboardingDialog;
