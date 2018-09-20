@@ -3,13 +3,14 @@
 
 const { CardFactory } = require('botbuilder');
 
-// Adaptive Card content
-const FlightItineraryCard = require('./Resources/FlightItineraryCard.json');
-const ImageGalleryCard = require('./Resources/ImageGalleryCard.json');
-const LargeWeatherCard = require('./Resources/LargeWeatherCard.json');
-const RestaurantCard = require('./Resources/RestaurantCard.json');
-const SolitaireCard = require('./Resources/SolitaireCard.json');
+// Import AdaptiveCard content.
+const FlightItineraryCard = require('./resources/FlightItineraryCard.json');
+const ImageGalleryCard = require('./resources/ImageGalleryCard.json');
+const LargeWeatherCard = require('./resources/LargeWeatherCard.json');
+const RestaurantCard = require('./resources/RestaurantCard.json');
+const SolitaireCard = require('./resources/SolitaireCard.json');
 
+// Create array of AdaptiveCard content, this will be used to send a random card to the user.
 const CARDS = [
     FlightItineraryCard,
     ImageGalleryCard,
@@ -18,7 +19,7 @@ const CARDS = [
     SolitaireCard
 ];
 
-class MainDialog {
+class AdaptiveCardsBot {
     /**
      * 
      * @param {Object} context on turn context object.
@@ -38,4 +39,4 @@ class MainDialog {
     }
 }
 
-module.exports = MainDialog;
+exports.AdaptiveCardsBot = AdaptiveCardsBot;
