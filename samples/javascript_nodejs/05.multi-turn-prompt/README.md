@@ -12,17 +12,9 @@ store and retrieve values.
     ```bash
     cd samples/javascript_nodejs/05.multi-turn-prompt
     ```
-    - Point to the MyGet feed 
-    ```bash
-    npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
-    ```
 - Install modules and start the bot
     ```bash
     npm i & npm start
-    ```
-- To reset registry, you can do
-    ```bash
-    npm config set registry https://registry.npmjs.org/
     ```
 
 # Testing the bot using Bot Framework Emulator
@@ -35,6 +27,19 @@ developers to test and debug their bots on localhost or running remotely through
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to samples/javascript_nodejs/05.multi-turn-prompt folder
 - Select multi-turn-prompt.bot file
+
+# Deploy this bot to Azure
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+
+To install all Bot Builder tools - 
+```bash
+npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
+```
+
+To clone this bot, run
+```
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+```
 
 # Prompts
 A conversation between a bot and a user often involves asking (prompting) the user for information, parsing the user's response,

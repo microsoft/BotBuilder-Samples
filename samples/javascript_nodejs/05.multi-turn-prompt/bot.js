@@ -165,4 +165,4 @@ class MultiTurnBot {
     }
 }
 
-module.exports = MultiTurnBot;
+module.exports.MultiTurnBot = MultiTurnBot;
