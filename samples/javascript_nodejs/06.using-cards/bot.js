@@ -22,7 +22,7 @@ class RichCardsBot {
      * ConversationState instance.
      * The ConversationState is used to create a StatePropertyAccessor
      * which is needed to create a DialogSet that houses the ChoicePrompt.
-     * @param {ConversationState} conversationState
+     * @param {Object} conversationState
      */
     constructor(conversationState) {
         // Store the conversationState to be able to save state changes.
@@ -53,7 +53,7 @@ class RichCardsBot {
      * This check ensures that the bot only responds to Activities that
      * are of the "Message" type.
      *
-     * @param {TurnContext} turnContext
+     * @param {Object} turnContext
      */
     async onTurn(turnContext) {
         if (turnContext.activity.type === ActivityTypes.Message) {
