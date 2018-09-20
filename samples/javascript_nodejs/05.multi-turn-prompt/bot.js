@@ -14,7 +14,7 @@ const NAME_PROMPT = 'name_prompt';
 const CONFIRM_PROMPT = 'confirm_prompt';
 const AGE_PROMPT = 'age_prompt';
 
-class MainDialog {
+class MultiTurnBot {
     /**
      *
      * @param {ConversationState} conversationState A ConversationState object used to store the dialog state.
@@ -118,7 +118,7 @@ class MainDialog {
      */
     async onTurn(turnContext) {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
-        if (turnContext.activity.type === 'message') {
+        if (turnContext.activity.type === ActivityTypes.Message) {
             // Create a dialog context object.
             const dc = await this.dialogs.createContext(turnContext);
 
@@ -133,28 +133,39 @@ class MainDialog {
             }
 
             // If the bot has not yet responded, continue processing the current dialog.
-            await dc.continue();
+            await dc.continueDialog();
 
             // Start the sample dialog in response to any other input.
             if (!turnContext.responded) {
                 const user = await this.userProfile.get(dc.context, {});
                 if (user.name) {
-                    await dc.beginDialog(HELLO_USER)
+                    await dc.beginDialog(HELLO_USER);
                 } else {
-                    await dc.beginDialog(WHO_ARE_YOU)
+                    await dc.beginDialog(WHO_ARE_YOU);
                 }
             }
         } else if (
-            turnContext.activity.type === ActivityTypes.ConversationUpdate &&
-            turnContext.activity.membersAdded[0].name !== 'Bot'
+            turnContext.activity.type === ActivityTypes.ConversationUpdate
         ) {
-            // Send a "this is what the bot does" message.
-            const description = [
-                'I am a bot that demonstrates the TextPrompt and NumberPrompt classes',
-                'to collect your name and age, then store those values in UserState for later use.',
-                'Say anything to continue.'
-            ];
-            await turnContext.sendActivity(description.join(' '));
+            // Do we have any new members added to the conversation?
+            if (turnContext.activity.membersAdded.length !== 0) {
+                // Iterate over all new members added to the conversation
+                for (var idx in turnContext.activity.membersAdded) {
+                    // Greet anyone that was not the target (recipient) of this message.
+                    // Since the bot is the recipient for events from the channel,
+                    // context.activity.membersAdded === context.activity.recipient.Id indicates the
+                    // bot was added to the conversation, and the opposite indicates this is a user.
+                    if (turnContext.activity.membersAdded[idx].id !== turnContext.activity.recipient.id) {
+                        // Send a "this is what the bot does" message.
+                        const description = [
+                            'I am a bot that demonstrates the TextPrompt and NumberPrompt classes',
+                            'to collect your name and age, then store those values in UserState for later use.',
+                            'Say anything to continue.'
+                        ];
+                        await turnContext.sendActivity(description.join(' '));
+                    }
+                }
+            }
         }
 
         // Save changes to the user state.
@@ -165,4 +176,4 @@ class MainDialog {
     }
 }
 
-module.exports = MainDialog;
+module.exports.MultiTurnBot = MultiTurnBot;
