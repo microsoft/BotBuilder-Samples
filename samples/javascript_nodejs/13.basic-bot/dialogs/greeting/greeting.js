@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
+// greeting.js defines the greeting dialog
+
+// Import required Bot Builder
 const { ComponentDialog, WaterfallDialog, TextPrompt } = require('botbuilder-dialogs');
+
 // User state for greeting dialog
 const { UserProfile } = require('./userProfile');
 
@@ -8,7 +13,7 @@ const { UserProfile } = require('./userProfile');
 const CITY_LENGTH_MIN = 5;
 const NAME_LENGTH_MIN = 3;
 
-// Dialog IDs
+// Dialog IDs 
 const PROFILE_DIALOG = 'profileDialog';
 
 // Prompt IDs
@@ -37,6 +42,8 @@ class Greeting extends ComponentDialog {
         if (!userProfileAccessor) throw ('Missing parameter.  userProfileAccessor is required');
 
         // Add a water fall dialog with 4 steps.
+        // The order of step function registration is importent 
+        // as a water fall dialog executes steps registered in order
         this.addDialog(new WaterfallDialog(PROFILE_DIALOG, [
             this.initializeStateStep.bind(this),
             this.promptForNameStep.bind(this),
@@ -52,8 +59,8 @@ class Greeting extends ComponentDialog {
         this.userProfileAccessor = userProfileAccessor;
     }
     /**
-     * Waterfall Dialog step functions.
-     *
+     * Waterfall Dialog step functions. 
+     * 
      * Initialize our state.  See if the WaterfallDialog has state pass to it
      * If not, then just new up an empty UserProfile object
      *

@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// bot.js is your main bot dialog entry point for handilng activity types
+
+// Import required Bot Builder
 const { ActivityTypes, CardFactory } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { DialogSet, DialogTurnStatus } = require('botbuilder-dialogs');
 
+// Import dialogs
 const { UserProfile } = require('./dialogs/greeting/userProfile');
 const { WelcomeCard } = require('./dialogs/welcome');
 const { GreetingDialog } = require('./dialogs/greeting');
@@ -16,7 +20,7 @@ const GREETING_DIALOG = 'greetingDialog';
 const DIALOG_STATE_PROPERTY = 'dialogState';
 const USER_PROFILE_PROPERTY = 'userProfileProperty';
 
-// This is the LUIS service type entry in the .bot file.
+// LUIS service type entry as defined in the .bot file.
 const LUIS_CONFIGURATION = 'basic-bot-LUIS';
 
 // Supported LUIS Intents.
@@ -71,6 +75,7 @@ class BasicBot {
 
         // Create top-level dialog(s)
         this.dialogs = new DialogSet(this.dialogState);
+        // Add the Greeting dialog to the set
         this.dialogs.add(new GreetingDialog(GREETING_DIALOG, this.userProfileAccessor));
 
         this.conversationState = conversationState;
@@ -79,14 +84,17 @@ class BasicBot {
 
     /**
      * Driver code that does one of the following:
-     * 1. Display a welcome card upon startup
-     * 2. Use LUIS to recognize intents
+     * 1. Display a welcome card upon receiving ConversationUpdate activity 
+     * 2. Use LUIS to recognize intents for incoming user message
      * 3. Start a greeting dialog
      * 4. Optionally handle Cancel or Help interruptions
      *
      * @param {Context} context turn context from the adapter
      */
     async onTurn(context) {
+        // Handle Message activity type, which is the main activity type for shown within a conversational interface
+        // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
+        // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types        
         if (context.activity.type === ActivityTypes.Message) {
             let dialogResult;
             // Create a dialog context
@@ -102,7 +110,7 @@ class BasicBot {
             await this.updateUserProfile(results, context);
 
             // Based on LUIS topIntent, evaluate if we have an interruption.
-            // Interruption here refers to user looking for help/ cancel.
+            // Interruption here refers to user looking for help/ cancel existing dialog
             const interrupted = await this.isTurnInterrupted(dc, results);
             if (interrupted) {
                 if (dc.activeDialog !== undefined) {
@@ -110,15 +118,15 @@ class BasicBot {
                     dialogResult = await dc.repromptDialog();
                 } // Else: We dont have an active dialog so nothing to continue here.
             } else {
-                // this is not an interruption. So continue any active dialogs.
+                // No interruption. Continue any active dialogs.
                 dialogResult = await dc.continueDialog();
             }
 
-            // If no active dialog or no active dialog has responded,
+            // If no active dialog or no active dialog has responded, 
             if (!dc.context.responded) {
                 // Switch on return results from any active dialog.
                 switch (dialogResult.status) {
-                // dc.continue() returns DialogTurnStatus.empty if there are no active dialogs
+                // dc.continueDialog() returns DialogTurnStatus.empty if there are no active dialogs
                 case DialogTurnStatus.empty:
                     // Determine what we should do based on the top intent from LUIS.
                     switch (topIntent) {
@@ -145,7 +153,11 @@ class BasicBot {
                     break;
                 }
             }
-        } else if (context.activity.type === ActivityTypes.ConversationUpdate) {
+        }
+        // Handle ConversationUpdate activity type, which is used to indicates new members add to 
+        // the conversation. 
+        // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+        else if (context.activity.type === ActivityTypes.ConversationUpdate) {
             // Do we have any new members added to the conversation?
             if (context.activity.membersAdded.length !== 0) {
                 // Iterate over all new members added to the conversation
@@ -166,7 +178,7 @@ class BasicBot {
             }
         }
 
-        // persist state
+        // make sure to persist state at the end of a turn.
         await this.conversationState.saveChanges(context);
         await this.userState.saveChanges(context);
     }
@@ -184,7 +196,8 @@ class BasicBot {
         // see if there are anh conversation interrupts we need to handle
         if (topIntent === CANCEL_INTENT) {
             if (dc.activeDialog) {
-                await dc.cancelAll();
+                // cancel all active dialog (clean the stack)
+                await dc.cancelAllDialogs();
                 await dc.context.sendActivity(`Ok.  I've cancelled our last activity.`);
             } else {
                 await dc.context.sendActivity(`I don't have anything to cancel.`);
