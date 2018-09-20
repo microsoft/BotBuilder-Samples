@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, MessageFactory } = require('botbuilder');
+const { ActivityTypes, MessageFactory, TurnContext } = require('botbuilder');
 
 /**
  * A bot that responds to input from suggested actions.
@@ -11,7 +11,7 @@ class SuggestedActionsBot {
      * Every conversation turn for our SuggestedActionsbot will call this method.
      * There are no dialogs used, since it's "single turn" processing, meaning a single request and
      * response, with no stateful conversation.
-     * @param {Object} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async onTurn(turnContext) {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
@@ -39,7 +39,7 @@ class SuggestedActionsBot {
 
     /**
      * Send a welcome message along with suggested actions for the user to click.
-     * @param {Object} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async sendWelcomeMessage(turnContext) {
         const that = this;
@@ -73,7 +73,7 @@ class SuggestedActionsBot {
 
     /**
      * Send suggested actions to the user.
-     * @param {Object} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async sendSuggestedActions(turnContext) {
         var reply = MessageFactory.suggestedActions(['Red', 'Yellow', 'Blue'], 'What is the best color?');
