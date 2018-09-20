@@ -1,15 +1,15 @@
 {
-    "name": "<%= botName %>",
+    "name": "myChatBot",
     "version": "1.0.0",
-    "description": "<%= botDescription %>",
+    "description": "Demonstrate the core capabilties of the Microsoft Bot Framework",
     "author": "Microsoft Bot Builder Yeoman Generator",
     "license": "MIT",
-    "main": "<%= npmMain %>",
+    "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "<%= npmBuildCmd %>",
-        "start": "<%= npmRunCmd %>",
-        "watch": "<%= npmWatchCmd %>"
+        "build": "echo &#34;Error: no build specified&#34; &amp;&amp; exit 1",
+        "start": "node ./index.js",
+        "watch": "nodemon ./index.js"
       },
     "dependencies": {
         "botbuilder": "^4.0.5",

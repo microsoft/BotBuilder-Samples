@@ -1,0 +1,31 @@
+{
+    "name": "<%= botName %>",
+    "version": "0.1.0",
+    "description": "<%= botDescription %>",
+    "author": "Microsoft Bot Builder Generator",
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "<%= npmRunCmd %>",
+        "watch": "<%= npmWatchCmd %>"
+    },
+    "dependencies": {
+        "botbuilder": "^4.0.5",
+        "botbuilder-ai": "^4.0.5",
+        "botbuilder-core": "^4.0.5",
+        "botbuilder-dialogs": "^4.0.5",
+        "botframework-config": "^4.0.5",
+        "botframework-connector": "^4.0.5",
+        "botframework-schema": "^4.0.5",
+        "dotenv": "^2.0.0",
+        "fs-extra": "^7.0.0",
+        "read-text-file": "^1.1.0",
+        "restify": "^4.3.0"
+    },
+    "devDependencies": {
+        "nodemon": "^1.17.3",
+        "@types/node": "^6.0.52",
+        "@types/restify": "^2.0.35"
+    }
+}

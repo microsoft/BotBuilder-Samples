@@ -18,7 +18,7 @@ This sample shows how to create a simple echo bot with state. The bot maintains 
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration
-- Select <%= botName %>.bot file
+- Select myChatBot.bot file
 
 # Bot state
 A key to good bot design is to track the context of a conversation, so that your bot remembers things like the answers to previous questions. Depending on what your bot is used for, you may even need to keep track of conversation state or store user related information for longer than the lifetime of one given conversation.
@@ -41,7 +41,7 @@ npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
 
 To clone this bot, run
 ```
-msbot clone services -f deploymentScripts/msbotClone -n <%= botName %> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+msbot clone services -f deploymentScripts/msbotClone -n myChatBot -l <Azure-location> --subscriptionId <Azure-subscription-id>
 ```
 
 # Further reading

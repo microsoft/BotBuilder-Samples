@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "outDir": "./",
+        "noImplicitAny": false
+    },
+    "files": [
+        "bot.ts",
+        "app.ts"
+    ]
+}

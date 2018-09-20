@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-'use strict';
-
 const Generator = require('yeoman-generator');
 const _ = require("lodash");
 const extend = require("deep-extend");
@@ -10,6 +8,9 @@ const extend = require("deep-extend");
 const p = require('../../components/prompts');
 const t = require('../../components/templateWriter');
 
+/**
+ * Main Generator derivative.  This is what Yeoman calls to invoke our generator
+ */
 module.exports = class extends Generator {
     constructor(args, opts) {
         super(args, opts);

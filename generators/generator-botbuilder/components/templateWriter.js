@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-'use strict';
-
 const path = require("path");
 const _ = require("lodash");
 const mkdirp = require("mkdirp");
 
-//
-// create the folder for the generated bot code, if it doesn't exist
-//
+/**
+ * Create the folder for the generated bot code, if it doesn't exist
+ *
+ * @param {Generator} gen Yeoman's generator object
+ * @param {String} directoryName root folder for the generated code
+ */
 const makeProjectDirectory = (gen, directoryName) => {
     gen.log(path.basename(gen.destinationPath()));
     gen.log(directoryName);
@@ -20,14 +21,19 @@ const makeProjectDirectory = (gen, directoryName) => {
     }
 }
 
-//
-// based on the template, write the files common across the given template options
-//
+/**
+ * Based on the template, write the files common across the given template options
+ *
+ * @param {Generator} gen Yeoman's generator object
+ * @param {String} templatePath file path to write the generated code
+ */
 const writeCommonFiles = (gen, templatePath) => {
     const botName = gen.props.botName;
     const extension = _.toLower(gen.props.language) === "javascript" ? "js" : "ts";
-    const npmRunCmd = extension === 'js' ? `NODE_ENV=development node ./index.js` : `NODE_ENV=development tsc && node index.js`;
-    const npmWatchCmd = extension === 'js' ? `NODE_ENV=development nodemon ./index.js` : `NODE_ENV=development tsc && node index.js`;
+    const npmMain = extension === 'js' ? `index.js` : `./lib/index.js`;
+    const npmBuildCmd = extension === 'js' ? `echo "Error: no build specified" && exit 1` : `tsc`;
+    const npmRunCmd = extension === 'js' ? `node ./index.js` : `tsc && node index.js`;
+    const npmWatchCmd = extension === 'js' ? `nodemon ./index.js` : `tsc && node index.js`;
 
     // ensure our project directory exists before we start writing files into it
     makeProjectDirectory(gen, _.camelCase(gen.props.botName));
@@ -40,6 +46,8 @@ const writeCommonFiles = (gen, templatePath) => {
         {
             botName: gen.props.botName,
             botDescription: gen.props.description,
+            npmMain: npmMain,
+            npmBuildCmd: npmBuildCmd,
             npmRunCmd: npmRunCmd,
             npmWatchCmd: npmWatchCmd
         }
@@ -71,11 +79,15 @@ const writeCommonFiles = (gen, templatePath) => {
         }
     );
 
-    // if we're working in TypeScript, then add a tsconfig.json file
+    // determine what language we are working in, TypeScript or JavaScript
+    // and write language specific files now
     if (extension === 'ts') {
         gen.fs.copy(gen.templatePath(templatePath + 'tsconfig.json'), gen.destinationPath('tsconfig.json'));
+    } else {
+        gen.fs.copy(gen.templatePath(templatePath + '_eslintrc.js'), gen.destinationPath('.eslintrc.js'));
     }
 
+    // gen a readme with specifics to what was generated
     gen.fs.copyTpl(
         gen.templatePath(templatePath + "README.md"),
         gen.destinationPath("README.md"),
@@ -89,9 +101,12 @@ const writeCommonFiles = (gen, templatePath) => {
     );
 }
 
-//
-// write the files that are specific to the basic bot template
-//
+/**
+ * Write the files that are specific to the basic bot template
+ *
+ * @param {Generator} gen Yeoman's generator object
+ * @param {String} templatePath file path to write the generated code
+ */
 const writeBasicTemplateFiles = (gen, templatePath) => {
     const COGNITIVE_MODELS = 0;
     const DEPLOYMENT_SCRIPTS = 1;
@@ -159,52 +174,54 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     gen.fs.copy(sourcePath + 'greeting.lu', destinationPath + 'greeting.lu');
 }
 
-//
-// write the files that are specific to the echo bot template
-//
+/**
+ * Write the files that are specific to the echo bot template
+ *
+ * @param {Generator} gen Yeoman's generator object
+ * @param {String} templatePath file path to write the generated code
+ */
 const writeEchoTemplateFiles = (gen, templatePath) => {
     const DEPLOYMENT_SCRIPTS = 0;
-    const DIALOGS_MAIN = 1;
-    const DIALOGS_MAIN_RESOURCES = 2;
+    const DEPLOYMENT_MSBOT = 1;
+    const RESOURCES = 2;
     const folders = [
         'deploymentScripts/',
-        'dialogs/mainDialog/',
-        'dialogs/mainDialog/resources/'
+        'deploymentScripts/msbotClone/',
+        'resources/'
     ];
     const extension = _.toLower(gen.props.language) === "javascript" ? "js" : "ts";
     const srcFolder = _.toLower(gen.props.language) === "javascript" ? "" : "src/";
-    // create the echo bot folder structure
-    mkdirp.sync(folders[DEPLOYMENT_SCRIPTS]);
-    for(let cnt = 1; cnt < folders.length; ++cnt) {
+
+    // create the echo bot folder structure common to both languages
+    for(let cnt = 0; cnt < folders.length; ++cnt) {
         mkdirp.sync(srcFolder + folders[cnt]);
     }
+    // create a src directory if we are generating TypeScript
+    if (_.toLower(gen.props.language) === "typescript") {
+        mkdirp.sync(srcFolder + srcFolder);
+    }
 
-    // write out the deployment scripts and docs
-    let sourcePath = templatePath + folders[DEPLOYMENT_SCRIPTS];
-    let destinationPath = gen.destinationPath() + '/' + folders[DEPLOYMENT_SCRIPTS];
-    gen.fs.copy(sourcePath + 'DEPLOYMENT.md', destinationPath + 'DEPLOYMENT.md', {
-        process: function (content) {
-            var pattern = new RegExp('<%= botName %>', 'g');
-            return content.toString().replace(pattern, gen.props.botName.toString());
-        }
-    });
-    gen.fs.copy(sourcePath + 'azuredeploy.json', destinationPath + 'azuredeploy.json');
-    gen.fs.copy(sourcePath + 'azuredeploy.parameters.json', destinationPath + 'azuredeploy.parameters.json');
+    // write out the deployment scripts
+    let sourcePath = templatePath + folders[DEPLOYMENT_MSBOT];
+    let destinationPath = gen.destinationPath() + '/' + folders[DEPLOYMENT_MSBOT];
+    gen.fs.copy(sourcePath + 'bot.recipe', destinationPath + 'bot.recipe');
 
-    // write out the main dialog
-    sourcePath = templatePath + folders[DIALOGS_MAIN];
-    destinationPath = gen.destinationPath() + '/' + srcFolder + folders[DIALOGS_MAIN];
-    gen.fs.copy(sourcePath + `index.${extension}`, destinationPath + `index.${extension}`);
+    // write out the index.js and bot.js
+    destinationPath = gen.destinationPath() + '/' + srcFolder;
+    gen.fs.copy(gen.templatePath(templatePath + `index.${extension}`), destinationPath + `index.${extension}`);
+    gen.fs.copy(gen.templatePath(templatePath + `bot.${extension}`), destinationPath + `bot.${extension}`);
 
-    // write out the main dialog AI resource(s)
-    sourcePath = templatePath + folders[DIALOGS_MAIN_RESOURCES];
-    destinationPath = gen.destinationPath() + '/' + srcFolder + folders[DIALOGS_MAIN_RESOURCES];
+    // write out the  AI resource(s)
+    sourcePath = templatePath + folders[RESOURCES];
+    destinationPath = gen.destinationPath() + '/' + folders[RESOURCES];
     gen.fs.copy(sourcePath + `echo.chat`, destinationPath + `echo.chat`);
 }
 
-//
-// Write project files for Echo template
-//
+/**
+ * Write project files for Echo template
+ *
+ * @param {Generator} gen Yeoman's generator object
+ */
 module.exports.writeEchoProjectFiles = gen => {
     // do some simple sanity checking to ensure we're being
     // called correctly
@@ -220,9 +237,11 @@ module.exports.writeEchoProjectFiles = gen => {
     writeEchoTemplateFiles(gen, templatePath);
 }
 
-//
-// Write project files for Basic template
-//
+/**
+ * Write project files for Basic template
+ *
+ * @param {Generator} gen Yeoman's generator object
+ */
 module.exports.writeBasicProjectFiles = gen => {
     // do some simple sanity checking to ensure we're being
     // called correctly
