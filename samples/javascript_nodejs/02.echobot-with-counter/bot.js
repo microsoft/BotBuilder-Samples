@@ -25,10 +25,10 @@ class Bot {
         if (turnContext.activity.type === ActivityTypes.Message) {
             // read from state.
             let count = await this.countProperty.get(turnContext);
-            count = count === undefined ? 1 : count;
+            count = count === undefined ? 1 : ++count;
             await turnContext.sendActivity(`${ count }: You said "${ turnContext.activity.text }"`);
             // increment and set turn counter.
-            this.countProperty.set(turnContext, ++count);
+            await this.countProperty.set(turnContext, count);
         } else {
             await turnContext.sendActivity(`[${ turnContext.activity.type } event detected]`);
         }
