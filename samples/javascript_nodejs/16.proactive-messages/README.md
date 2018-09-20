@@ -35,6 +35,19 @@ Build run your bot locally and open two instances of the emulator.
 - File -> Open Bot Configuration and navigate to javascript_nodejs/17.proactive-messages
 - Select proactive-messages.bot file
 
+# Deploy this bot to Azure
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+
+To install all Bot Builder tools - 
+```bash
+npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
+```
+
+To clone this bot, run
+```
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+```
+
 # Proactive Messages
 In addition to responding to incoming messages, bots are frequently called on to send "proactive" messages
 based on activity, scheduled tasks, or external events.
