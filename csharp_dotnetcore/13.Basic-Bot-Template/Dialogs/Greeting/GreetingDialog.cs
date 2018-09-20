@@ -42,10 +42,10 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="botServices">Connected services used in processing.</param>
         /// <param name="botState">The <see cref="UserState"/> for storing properties at user-scope.</param>
         /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> that enables logging and tracing.</param>
-        public GreetingDialog(IStatePropertyAccessor<GreetingState> greetingStateAccessor, ILoggerFactory loggerFactory)
+        public GreetingDialog(IStatePropertyAccessor<GreetingState> userProfileStateAccessor, ILoggerFactory loggerFactory)
             : base(nameof(GreetingDialog))
         {
-            GreetingStateAccessor = greetingStateAccessor ?? throw new ArgumentNullException(nameof(greetingStateAccessor));
+            UserProfileAccessor = userProfileStateAccessor ?? throw new ArgumentNullException(nameof(userProfileStateAccessor));
 
             // Add control flow dialogs
             var waterfallSteps = new WaterfallStep[]
@@ -60,21 +60,21 @@ namespace Microsoft.BotBuilderSamples
             AddDialog(new TextPrompt(CityPrompt, ValidateCity));
         }
 
-        public IStatePropertyAccessor<GreetingState> GreetingStateAccessor { get; }
+        public IStatePropertyAccessor<GreetingState> UserProfileAccessor { get; }
 
         private async Task<DialogTurnResult> InitializeStateStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context, () => null);
+            var greetingState = await UserProfileAccessor.GetAsync(stepContext.Context, () => null);
             if (greetingState == null)
             {
                 var greetingStateOpt = stepContext.Options as GreetingState;
                 if (greetingStateOpt != null)
                 {
-                    await GreetingStateAccessor.SetAsync(stepContext.Context, greetingStateOpt);
+                    await UserProfileAccessor.SetAsync(stepContext.Context, greetingStateOpt);
                 }
                 else
                 {
-                    await GreetingStateAccessor.SetAsync(stepContext.Context, new GreetingState());
+                    await UserProfileAccessor.SetAsync(stepContext.Context, new GreetingState());
                 }
             }
 
@@ -85,7 +85,7 @@ namespace Microsoft.BotBuilderSamples
                                                 WaterfallStepContext stepContext,
                                                 CancellationToken cancellationToken)
         {
-            var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context);
+            var greetingState = await UserProfileAccessor.GetAsync(stepContext.Context);
 
             // if we have everything we need, greet user and return.
             if (greetingState != null && !string.IsNullOrWhiteSpace(greetingState.Name) && !string.IsNullOrWhiteSpace(greetingState.City))
@@ -117,13 +117,13 @@ namespace Microsoft.BotBuilderSamples
                                                         CancellationToken cancellationToken)
         {
             // Save name, if prompted.
-            var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context);
+            var greetingState = await UserProfileAccessor.GetAsync(stepContext.Context);
             var lowerCaseName = stepContext.Result as string;
             if (string.IsNullOrWhiteSpace(greetingState.Name) && lowerCaseName != null)
             {
                 // Capitalize and set name.
                 greetingState.Name = char.ToUpper(lowerCaseName[0]) + lowerCaseName.Substring(1);
-                await GreetingStateAccessor.SetAsync(stepContext.Context, greetingState);
+                await UserProfileAccessor.SetAsync(stepContext.Context, greetingState);
             }
 
             if (string.IsNullOrWhiteSpace(greetingState.City))
@@ -149,7 +149,7 @@ namespace Microsoft.BotBuilderSamples
                                                     CancellationToken cancellationToken)
         {
             // Save city, if prompted.
-            var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context);
+            var greetingState = await UserProfileAccessor.GetAsync(stepContext.Context);
 
             var lowerCaseCity = stepContext.Result as string;
             if (string.IsNullOrWhiteSpace(greetingState.City) &&
@@ -157,7 +157,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 // capitalize and set city
                 greetingState.City = char.ToUpper(lowerCaseCity[0]) + lowerCaseCity.Substring(1);
-                await GreetingStateAccessor.SetAsync(stepContext.Context, greetingState);
+                await UserProfileAccessor.SetAsync(stepContext.Context, greetingState);
             }
 
             return await GreetUser(stepContext);
@@ -213,7 +213,7 @@ namespace Microsoft.BotBuilderSamples
         private async Task<DialogTurnResult> GreetUser(WaterfallStepContext stepContext)
         {
             var context = stepContext.Context;
-            var greetingState = await GreetingStateAccessor.GetAsync(context);
+            var greetingState = await UserProfileAccessor.GetAsync(context);
 
             // Display their profile information and end dialog.
             await context.SendActivityAsync($"Hi {greetingState.Name}, from {greetingState.City}, nice to meet you!");
