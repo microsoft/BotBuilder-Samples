@@ -7,6 +7,9 @@ const DATE_LOW_BOUNDS = new Date('1918-08-24');
 const DATE_HIGH_BOUNDS = new Date('2018-08-24');
 
 // This is a custom DateTimePrompt that requires the date to be between DATE_LOW_BOUNDS and DATE_HIGH_BOUNDS.
+// This prompt is based on a powerful library of entity recognizers that can do much more than pull
+// a date from a string, and can help with input like "How about tonight at 8". Learn more below:
+// https://github.com/Microsoft/Recognizers-Text/tree/master/JavaScript/packages/recognizers-text-suite
 module.exports.DobPrompt = class DobPrompt extends DateTimePrompt {
     constructor(dialogId) {
         super(dialogId, async (prompt) => {
