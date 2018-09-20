@@ -1,4 +1,9 @@
-﻿Basic bot template that puts together cards, NLP (LUIS) with ASP.Net Core 2. 
+# basic-bot
+This bot has been created using [Microsoft Bot Framework](https://dev.botframework.com),
+- - Use [LUIS](https://luis.ai) to implement core AI capabilities
+- Implement a multi-turn conversation using Dialogs
+- Handle user interruptions for such things as Help or Cancel
+- Prompt for and validate requests for information from the user
 # To try this sample
 - Clone the samples repository
 ```bash
@@ -13,14 +18,10 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - In a command line  session:
 Navigate to sample:
 `cd BotBuilder-Samples\csharp_dotnetcore\13.Basic-Bot-Template`
-Install LUDown
-`npm i -g ludown'
-Create LUIS json model file (this will consume two .lu files combined into one model):
-`ludown parse toluis -l .\Dialogs -s -o .\CognitiveModels -n BasicBot`
 Install LUIS command line tool:
 `npm install -g luis-apis`
 Create a new LUIS application:
-`luis import application --in .\CognitiveModels\BasicBot.json --authoringKey "<Your Authoring Key>" 
+`luis import application --in .\CognitiveModels\basic-bot.luis --authoringKey "<Your Authoring Key>" 
 --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY`  
 ### Set up LUIS via Portal
 - Navigate to [LUIS portal](https://www.luis.ai).
