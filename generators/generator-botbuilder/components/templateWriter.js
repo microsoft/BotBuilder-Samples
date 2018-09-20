@@ -70,17 +70,6 @@ const writeCommonFiles = (gen, templatePath) => {
         }
     );
 
-
-    // MOVED INTO TEMPLATE SPECIFIC WRITERS
-    // // gen the main index file
-    // gen.fs.copyTpl(
-    //     gen.templatePath(templatePath + `index.${extension}`),
-    //     gen.destinationPath(`index.${extension}`),
-    //     {
-    //         botName: gen.props.botName
-    //     }
-    // );
-
     // determine what language we are working in, TypeScript or JavaScript
     // and write language specific files now
     if (extension === 'ts') {
@@ -211,7 +200,16 @@ const writeEchoTemplateFiles = (gen, templatePath) => {
 
     // write out the index.js and bot.js
     destinationPath = gen.destinationPath() + '/' + srcFolder;
-    gen.fs.copy(gen.templatePath(templatePath + `index.${extension}`), destinationPath + `index.${extension}`);
+
+    // gen the main index file
+    gen.fs.copyTpl(
+        gen.templatePath(templatePath + `index.${extension}`),
+        destinationPath + `index.${extension}`,
+        {
+            botName: gen.props.botName
+        }
+    );
+    // gen the main bot activity router
     gen.fs.copy(gen.templatePath(templatePath + `bot.${extension}`), destinationPath + `bot.${extension}`);
 
     // write out the  AI resource(s)
