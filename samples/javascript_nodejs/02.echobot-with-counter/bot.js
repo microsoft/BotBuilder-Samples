@@ -22,7 +22,7 @@ class EchoBot {
     }
     /**
      *
-     * Use onTuen to handle an incoming activity, received from a user, process it, and reply as needed
+     * Use onTurn to handle an incoming activity, received from a user, process it, and reply as needed
      *
      * @param {TurnContext} on turn context object.
      */
