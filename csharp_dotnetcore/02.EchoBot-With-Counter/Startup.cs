@@ -55,22 +55,7 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddBot<EchoWithCounterBot>(options =>
             {
-                var secretKey = Configuration.GetSection("botFileSecret")?.Value;
-                var botFilePath = Configuration.GetSection("botFilePath")?.Value;
-
-                // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
-                var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
-                services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
-
-                // Retrieve current endpoint.
-                var environment = _isProduction ? "production" : "development";
-                var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
-                if (!(service is EndpointService endpointService))
-                {
-                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
-                }
-
-                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+                InitCredentialProvider(options, services);
 
                 // Catches any errors that occur during a conversation turn and logs them.
                 ILogger logger = _loggerFactory.CreateLogger<EchoWithCounterBot>();
@@ -144,6 +129,31 @@ namespace Microsoft.BotBuilderSamples
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
+        }
+
+        /// <summary>
+        /// Initializes the credential provider, using by default the <see cref="SimpleCredentialProvider"/>.
+        /// </summary>
+        /// <param name="options"><see cref="BotFrameworkOptions"/> for the current bot.</param>
+        private void InitCredentialProvider(BotFrameworkOptions options, IServiceCollection services)
+        {
+            var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+
+            // Load the connected services from .bot file.
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+
+            // Retrieve current endpoint.
+            var environment = _isProduction ? "production" : "development";
+            var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+            var endpointService = service as EndpointService;
+            if (endpointService == null)
+            {
+                throw new InvalidOperationException("The .bot file does not contain an endpoint.");
+            }
+
+            options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
         }
     }
 }
