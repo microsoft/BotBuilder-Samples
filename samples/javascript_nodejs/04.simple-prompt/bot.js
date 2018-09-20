@@ -69,7 +69,7 @@ class SimplePromptBot {
      */
     async onTurn(turnContext) {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
-        if (turnContext.activity.type === 'message') {
+        if (turnContext.activity.type === ActivityTypes.Message) {
             // Create dialog context
             const dc = await this.dialogs.createContext(turnContext);
 
