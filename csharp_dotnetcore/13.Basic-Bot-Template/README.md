@@ -9,7 +9,10 @@ This bot has been created using [Microsoft Bot Framework](https://dev.botframewo
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
+- [Optional] Update the `appsettings.json` file under `BotBuilder-Samples\csharp_dotnetcore\13.Basic-Bot-Template` with your botFileSecret.  For Asure Bot Service bots, you can find the botFileSecret under application settings.
+
 ## Prerequisites
+
 ### Set up LUIS via Command Line
 - Navigate to [LUIS portal](https://www.luis.ai).
 - Click the `Sign in` button.
@@ -49,10 +52,28 @@ NOTE: Once you publish your app on LUIS portal for the first time, it takes some
 [Microsoft Bot Framework Emulator](https://aka.ms/botframework-emulator) is a desktop application that allows bot developers to test and debug
 their bots on localhost or running remotely through a tunnel.
 - Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator).
-### Connect to bot using Bot Framework Emulator **V4**
+### Connect to bot using Bot Framework Emulator
 - Launch the Bot Framework Emulator
 - File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\13.Basic-Bot-Template` folder
-- Select `BasicBot.bot` file
+- Select `BotConfiguration.bot` file
+
+# Deploy this bot to Azure
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+To install all Bot Builder tools - 
+```bash
+npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
+```
+To clone this bot, run
+```
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+```
 # Further reading
-- [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [LUIS Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)
+- [Bot Framework Documentation](https://docs.botframework.com)
+- [Bot basics](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
+- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [LUIS](https://luis.ai)
+- [Prompt Types](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0&tabs=javascript)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
+- [QnA Maker](https://qnamaker.ai)
+
