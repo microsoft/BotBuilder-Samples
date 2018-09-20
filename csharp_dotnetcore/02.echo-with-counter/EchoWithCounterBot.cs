@@ -44,7 +44,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Every Conversation turn for our Echo Bot will call this method. In here
+        /// Every conversation turn for our Echo Bot will call this method. In here
         /// the bot checks the <see cref="Activity"/> type to verify it's a <see cref="ActivityTypes.Message"/>
         /// message, and then echoes the user's typing back to them with the numbers of turns.
         /// </summary>
