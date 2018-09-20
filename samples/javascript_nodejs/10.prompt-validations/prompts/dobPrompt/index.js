@@ -7,7 +7,7 @@ const DATE_LOW_BOUNDS = new Date('1918-08-24');
 const DATE_HIGH_BOUNDS = new Date('2018-08-24');
 
 // This is a custom DateTimePrompt that requires the date to be between DATE_LOW_BOUNDS and DATE_HIGH_BOUNDS.
-module.exports = class DOBPrompt extends DateTimePrompt {
+module.exports.DobPrompt = class DobPrompt extends DateTimePrompt {
     constructor(dialogId) {
         super(dialogId, async (prompt) => {
             try {

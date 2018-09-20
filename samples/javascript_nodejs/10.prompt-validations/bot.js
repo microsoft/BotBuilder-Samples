@@ -4,7 +4,7 @@
 const { ActivityTypes } = require('botbuilder');
 const { DialogSet } = require('botbuilder-dialogs');
 
-const OnboardingDialog = require('../onboard');
+const { OnboardingDialog } = require('./dialogs/onboard');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
 
@@ -12,7 +12,7 @@ const USER_PROFILE_PROPERTY = 'user';
 
 const ONBOARD_USER = 'onboard_user';
 
-class MainDialog {
+class PromptBot {
     /**
      *
      * @param {ConversationState} conversationState A ConversationState object used to store dialog state.
@@ -64,7 +64,7 @@ class MainDialog {
             // If no response has been sent, start the onboarding dialog.
             if (!turnContext.responded) {
                 await dc.beginDialog(ONBOARD_USER);
-            } 
+            }
         } else if (
             turnContext.activity.type === ActivityTypes.ConversationUpdate &&
              turnContext.activity.membersAdded[0].name !== 'Bot'
@@ -86,4 +86,4 @@ class MainDialog {
     }
 }
 
-module.exports = MainDialog;
+module.exports.PromptBot = PromptBot;
