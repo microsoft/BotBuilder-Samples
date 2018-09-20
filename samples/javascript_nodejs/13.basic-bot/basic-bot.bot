@@ -5,12 +5,13 @@
         {
             "type": "endpoint",
             "name": "development",
-            "id": "http://localhost:3978/api/messages",
+            "id": "1",
             "appId": "",
             "appPassword": "",
             "endpoint": "http://localhost:3978/api/messages"
         }
     ],
-    "secretKey": "",
-    "version": "2.0"
+    "padlock": "",
+    "version": "2.0",
+    "secretKey": ""
 }

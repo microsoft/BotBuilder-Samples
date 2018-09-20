@@ -3,4 +3,4 @@
 
 const { GreetingDialog } = require('./greeting');
 
-module.exports.GreetingDialog = GreetingDialog;
+exports.GreetingDialog = GreetingDialog;
