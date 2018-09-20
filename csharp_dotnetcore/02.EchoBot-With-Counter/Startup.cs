@@ -2,13 +2,10 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
@@ -26,11 +23,14 @@ namespace Microsoft.BotBuilderSamples
     public class Startup
     {
         private ILoggerFactory _loggerFactory;
+        private bool _isProduction = false;
 
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -55,13 +55,19 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddBot<EchoWithCounterBot>(options =>
             {
-                // Load the connected services from .bot file.
-                var botConfig = BotConfiguration.Load(@".\BotConfiguration.bot");
-                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
-                var endpointService = service as EndpointService;
-                if (endpointService == null)
+                var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+                var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+
+                // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
+                var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+                services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+
+                // Retrieve current endpoint.
+                var environment = _isProduction ? "production" : "development";
+                var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+                if (!(service is EndpointService endpointService))
                 {
-                    throw new InvalidOperationException("The .bot file does not contain an endpoint.");
+                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
                 }
 
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
@@ -78,11 +84,23 @@ namespace Microsoft.BotBuilderSamples
                 // is restarted, everything stored in memory will be gone.
                 IStorage dataStore = new MemoryStorage();
 
-                // Other Storage.
-                // Consider Azure Blob storage as an option.
-                // To include add the Microsoft.Bot.Builder.Azure Nuget package to your solution. That package is found at:
-                //      https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
-                // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
+                // For production bots use the Azure Blob or
+                // Azure CosmosDB storage providers. For the Azure
+                // based storage providers, add the Microsoft.Bot.Builder.Azure
+                // Nuget package to your solution. That package is found at:
+                // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
+                // Un-comment the following lines to use Azure Blob Storage
+                // // Storage configuration name or ID from the .bot file.
+                // const string StorageConfigurationId = "<STORAGE-NAME-OR-ID-FROM-BOT-FILE>";
+                // var blobConfig = botConfig.FindServiceByNameOrId(StorageConfigurationId);
+                // if (!(blobConfig is BlobStorageService blobStorageConfig))
+                // {
+                //    throw new InvalidOperationException($"The .bot file does not contain an blob storage with name '{StorageConfigurationId}'.");
+                // }
+                // // Default container name.
+                // const string DefaultBotContainer = "<DEFAULT-CONTAINER>";
+                // var storageContainer = string.IsNullOrWhiteSpace(blobStorageConfig.Container) ? DefaultBotContainer : blobStorageConfig.Container;
+                // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage(blobStorageConfig.ConnectionString, storageContainer);
 
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
@@ -120,7 +138,9 @@ namespace Microsoft.BotBuilderSamples
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            _isProduction = env.IsProduction();
             _loggerFactory = loggerFactory;
+
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
