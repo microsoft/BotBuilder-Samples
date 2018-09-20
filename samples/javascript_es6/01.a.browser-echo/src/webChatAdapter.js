@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { ConnectionStatus } from 'botframework-webchat';
-import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { BotAdapter, TurnContext } from 'botbuilder-core';
 
 /**
@@ -16,7 +16,12 @@ export class WebChatAdapter extends BotAdapter {
             connectionStatus$: new BehaviorSubject(ConnectionStatus.Online),
             activity$: this.activity$.share(),
             end() {
-                debugger
+                // The React component was called to unmount:
+                // https://github.com/Microsoft/BotFramework-WebChat/blob/57360e4df92e041d5b0fd4810c1abf96621b5283/src/Chat.tsx#L237-L247
+                // Developers will need to decide what behavior the component should implement.
+                // For this sample, this.botConnection.componentWillUnmount() and this.botConnection.end()
+                // is never called.
+                console.log('this.botConnection.componentWillUnmount() called.');
             },
             postActivity: activity => {
                 const id = Date.now().toString();
@@ -27,9 +32,9 @@ export class WebChatAdapter extends BotAdapter {
                         channelId: 'WebChat'
                     }))
                     .then(() => id)
-                )
+                );
             }
-        }
+        };
     }
 
     /**
@@ -51,10 +56,10 @@ export class WebChatAdapter extends BotAdapter {
         sentActivities.forEach(activity => this.activity$.next(activity));
 
         return Promise.resolve(sentActivities.map(activity => {
-            id: activity.id
+            return { id: activity.id };
         }));
-    }    
-    
+    }
+
     /**
      * Registers the business logic for the adapter, it takes a handler that takes a TurnContext object as a parameter.
      * @param {function} logic The driver code of the developer's bot application. This code receives and responds to user messages.
@@ -66,7 +71,7 @@ export class WebChatAdapter extends BotAdapter {
 
     /**
      * Runs the bot's middleware pipeline in addition to any business logic, if `this.logic` is found.
-     * @param {Activity} activity 
+     * @param {Activity} activity
      */
     onReceive(activity) {
         const context = new TurnContext(this, activity);
@@ -74,6 +79,6 @@ export class WebChatAdapter extends BotAdapter {
         // Runs the middleware pipeline followed by any registered business logic.
         // If no business logic has been registered via processActivity, a default
         // value is provided as to not break the bot.
-        return this.runMiddleware(context, this.logic || function () { });
+        return this.runMiddleware(context, this.logic || function() { });
     }
 }
