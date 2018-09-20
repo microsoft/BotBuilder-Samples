@@ -23,7 +23,7 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class MultiTurnPromptsBot : IBot
     {
-        private readonly BotAccessors _accessors;
+        private readonly MultiTurnPromptsBotAccessors _accessors;
 
         /// <summary>
         /// The <see cref="DialogSet"/> that contains all the Dialogs that can be used at runtime.
@@ -34,7 +34,7 @@ namespace Microsoft.BotBuilderSamples
         /// Initializes a new instance of the <see cref="MultiTurnPromptsBot"/> class.
         /// </summary>
         /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
-        public MultiTurnPromptsBot(BotAccessors accessors)
+        public MultiTurnPromptsBot(MultiTurnPromptsBotAccessors accessors)
         {
             _accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
 
@@ -81,12 +81,12 @@ namespace Microsoft.BotBuilderSamples
             // Run the DialogSet - let the framework identify the current state of the dialog from
             // the dialog stack and figure out what (if any) is the active dialog.
             var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
-            var results = await dialogContext.ContinueAsync(cancellationToken);
+            var results = await dialogContext.ContinueDialogAsync(cancellationToken);
 
             // If the DialogTurnStatus is Empty we should start a new dialog.
             if (results.Status == DialogTurnStatus.Empty)
             {
-                await dialogContext.BeginAsync("details", null, cancellationToken);
+                await dialogContext.BeginDialogAsync("details", null, cancellationToken);
             }
 
             // Save the dialog state into the conversation state.
@@ -214,7 +214,7 @@ namespace Microsoft.BotBuilderSamples
             }
 
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is the end.
-            return await stepContext.EndAsync(cancellationToken);
+            return await stepContext.EndDialogAsync(cancellationToken: cancellationToken);
         }
     }
 }

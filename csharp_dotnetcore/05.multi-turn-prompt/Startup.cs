@@ -2,31 +2,26 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Microsoft.BotBuilderSamples
 {
-    /// <summary>
-    /// The Startup class configures services and the app's request pipeline.
-    /// </summary>
     public class Startup
     {
-        private ILoggerFactory _loggerFactory;
-
+        /// <summary>
+        /// The Startup class configures services and the app's request pipeline.
+        /// </summary>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -47,29 +42,12 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBot<EchoWithCounterBot>(options =>
+            services.AddBot<MultiTurnPromptsBot>(options =>
             {
-                // Load the connected services from .bot file.
-                var botConfig = BotConfiguration.Load(@".\BotConfiguration.bot");
-                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
-                var endpointService = service as EndpointService;
-                if (endpointService == null)
-                {
-                    throw new InvalidOperationException("The .bot file does not contain an endpoint.");
-                }
+                InitCredentialProvider(options);
 
-                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
-
-                // Catches any errors that occur during a conversation turn and logs them.
-                ILogger logger = _loggerFactory.CreateLogger<EchoWithCounterBot>();
-                options.OnTurnError = async (context, exception) =>
-                {
-                    logger.LogError($"Exception caught : {exception}");
-                    await context.SendActivityAsync("Sorry, it looks like something went wrong.");
-                };
-
-                // The Memory Storage used here is for local bot debugging only. When the bot
-                // is restarted, everything stored in memory will be gone.
+                // Memory Storage is for local bot debugging only. When the bot
+                // is restarted, anything stored in memory will be gone.
                 IStorage dataStore = new MemoryStorage();
 
                 // For production bots use the Azure Blob or
@@ -82,19 +60,23 @@ namespace Microsoft.BotBuilderSamples
 
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
-                var conversationState = new ConversationState(dataStore);
+                var convoState = new ConversationState(dataStore);
+                options.State.Add(convoState);
 
-                options.State.Add(conversationState);
+                // Create and add user state.
+                var userState = new UserState(dataStore);
+                options.State.Add(userState);
             });
 
             // Create and register state accesssors.
             // Acessors created here are passed into the IBot-derived class on every turn.
-            services.AddSingleton<EchoBotAccessors>(sp =>
+            services.AddSingleton<MultiTurnPromptsBotAccessors>(sp =>
             {
+                // We need to grab the conversationState we added on the options in the previous step
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
                 if (options == null)
                 {
-                    throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the state accessors");
+                    throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the State Accessors");
                 }
 
                 var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
@@ -103,20 +85,26 @@ namespace Microsoft.BotBuilderSamples
                     throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
                 }
 
+                var userState = options.State.OfType<UserState>().FirstOrDefault();
+                if (userState == null)
+                {
+                    throw new InvalidOperationException("UserState must be defined and added before adding user-scoped state accessors.");
+                }
+
                 // Create the custom state accessor.
                 // State accessors enable other components to read and write individual properties of state.
-                var accessors = new EchoBotAccessors(conversationState)
+                var accessors = new MultiTurnPromptsBotAccessors(conversationState, userState)
                 {
-                    CounterState = conversationState.CreateProperty<CounterState>(EchoBotAccessors.CounterStateName),
+                    ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
+                    UserProfile = userState.CreateProperty<UserProfile>("UserProfile"),
                 };
 
                 return accessors;
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            _loggerFactory = loggerFactory;
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
