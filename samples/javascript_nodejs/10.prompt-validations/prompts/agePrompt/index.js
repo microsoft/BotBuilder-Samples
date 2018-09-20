@@ -4,7 +4,7 @@
 const { NumberPrompt } = require('botbuilder-dialogs');
 
 // This is a custom NumberPrompt that requires the value to be between 1 and 99.
-module.exports = class AgePrompt extends NumberPrompt {
+module.exports.AgePrompt = class AgePrompt extends NumberPrompt {
     constructor(dialogId) {
         super(dialogId, async (prompt) => {
             if (!prompt.recognized.succeeded) {

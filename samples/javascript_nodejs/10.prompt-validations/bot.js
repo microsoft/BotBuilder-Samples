@@ -4,7 +4,7 @@
 const { ActivityTypes } = require('botbuilder');
 const { DialogSet } = require('botbuilder-dialogs');
 
-const OnboardingDialog = require('../onboard');
+const { OnboardingDialog } = require('./dialogs/onboard');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
 
@@ -12,7 +12,7 @@ const USER_PROFILE_PROPERTY = 'user';
 
 const ONBOARD_USER = 'onboard_user';
 
-class MainDialog {
+class PromptBot {
     /**
      *
      * @param {ConversationState} conversationState A ConversationState object used to store dialog state.
@@ -64,18 +64,29 @@ class MainDialog {
             // If no response has been sent, start the onboarding dialog.
             if (!turnContext.responded) {
                 await dc.beginDialog(ONBOARD_USER);
-            } 
+            }
         } else if (
-            turnContext.activity.type === ActivityTypes.ConversationUpdate &&
-             turnContext.activity.membersAdded[0].name !== 'Bot'
+            turnContext.activity.type === ActivityTypes.ConversationUpdate
         ) {
-            // Send a "this is what the bot does" message.
-            const description = [
-                'I am a bot that demonstrates the TextPrompt class to collect your name,',
-                'store it in UserState, and display it.',
-                'Say anything to continue.'
-            ];
-            await turnContext.sendActivity(description.join(' '));
+            // Do we have any new members added to the conversation?
+            if (turnContext.activity.membersAdded.length !== 0) {
+                // Iterate over all new members added to the conversation
+                for (var idx in turnContext.activity.membersAdded) {
+                    // Greet anyone that was not the target (recipient) of this message.
+                    // Since the bot is the recipient for events from the channel,
+                    // context.activity.membersAdded === context.activity.recipient.Id indicates the
+                    // bot was added to the conversation, and the opposite indicates this is a user.
+                    if (turnContext.activity.membersAdded[idx].id !== turnContext.activity.recipient.id) {
+                        // Send a "this is what the bot does" message.
+                        const description = [
+                            'I am a bot that demonstrates the TextPrompt class to collect your name,',
+                            'store it in UserState, and display it.',
+                            'Say anything to continue.'
+                        ];
+                        await turnContext.sendActivity(description.join(' '));
+                    }
+                }
+            }
         }
 
         // Save changes to the user state.
@@ -86,4 +97,4 @@ class MainDialog {
     }
 }
 
-module.exports = MainDialog;
+module.exports.PromptBot = PromptBot;
