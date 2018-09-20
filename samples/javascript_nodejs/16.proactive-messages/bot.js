@@ -5,7 +5,7 @@ const { ActivityTypes, TurnContext } = require('botbuilder');
 
 const JOBS_LIST = 'jobs';
 
-class MainDialog {
+class ProactiveBot {
     /**
      *
      * @param {BotState} botState A BotState object used to store information for the bot independent of user or conversation.
@@ -49,7 +49,7 @@ class MainDialog {
             if (!turnContext.responded) {
                 await turnContext.sendActivity(`Say "run" to start a job, or "done <job>" to complete one.`);
             }
-        } else if (turnContext.activity.type === 'event' && turnContext.activity.name === 'jobCompleted') {
+        } else if (turnContext.activity.type === ActivityTypes.Event && turnContext.activity.name === 'jobCompleted') {
             jobIdNumber = turnContext.activity.value;
             if (!isNaN(parseInt(jobIdNumber))) {
                 await this.completeJob(turnContext, jobIdNumber);
@@ -159,4 +159,4 @@ function isEmpty(obj) {
     return true;
 };
 
-module.exports = MainDialog;
+module.exports.ProactiveBot = ProactiveBot;
