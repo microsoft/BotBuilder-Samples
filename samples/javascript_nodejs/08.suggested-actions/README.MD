@@ -23,7 +23,7 @@ This sample shows how to use suggested actions. This bot example uses [`restify`
 # Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
+Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator).
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
