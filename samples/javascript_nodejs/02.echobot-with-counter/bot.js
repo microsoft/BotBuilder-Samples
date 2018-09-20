@@ -6,7 +6,7 @@ const { ActivityTypes } = require('botbuilder');
 // Turn counter property
 const TURN_COUNTER_PROPERTY = 'turnCounterProperty';
 
-class Bot {
+class EchoBot {
     /**
      *
      * @param {ConversationState} conversation state object
@@ -37,4 +37,4 @@ class Bot {
     }
 }
 
-exports.Bot = Bot;
+exports.EchoBot = EchoBot;
