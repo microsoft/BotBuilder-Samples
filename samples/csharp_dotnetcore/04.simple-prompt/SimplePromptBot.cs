@@ -25,7 +25,7 @@ namespace Microsoft.BotBuilderSamples
     {
         private const string WelcomeText = "Welcome to Simple Prompt Bot. This bot will introduce you to prompts. Type anything to get started.";
 
-        private readonly BotAccessors _accessors;
+        private readonly SimplePromptBotAccessors _accessors;
 
         /// <summary>
         /// The <see cref="DialogSet"/> that contains all the Dialogs that can be used at runtime.
@@ -36,7 +36,7 @@ namespace Microsoft.BotBuilderSamples
         /// Initializes a new instance of the <see cref="SimplePromptBot"/> class.
         /// </summary>
         /// <param name="accessors">The state accessors this instance will be needing at runtime.</param>
-        public SimplePromptBot(BotAccessors accessors)
+        public SimplePromptBot(SimplePromptBotAccessors accessors)
         {
             _accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
             _dialogs = new DialogSet(accessors.ConversationDialogState);

@@ -13,7 +13,6 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Microsoft.BotBuilderSamples
@@ -23,7 +22,6 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class Startup
     {
-        private ILoggerFactory _loggerFactory;
         private bool _isProduction = false;
 
         public Startup(IHostingEnvironment env)
@@ -54,7 +52,14 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddBot<SimplePromptBot>(options =>
             {
-                InitCredentialProvider(options, services);
+                var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+                var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+
+                // Load the connected services from .bot file.
+                var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+                services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+
+                InitCredentialProvider(options, services, botConfig);
 
                 // Memory Storage is for local bot debugging only. When the bot
                 // is restarted, everything stored in memory will be gone.
@@ -102,7 +107,7 @@ namespace Microsoft.BotBuilderSamples
 
                 // The dialogs will need a state store accessor. Creating it here once (on-demand) allows the dependency injection
                 // to hand it to our IBot class that is create per-request.
-                var accessors = new BotAccessors(conversationState)
+                var accessors = new SimplePromptBotAccessors(conversationState)
                 {
                     ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
                 };
@@ -123,15 +128,9 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="options"><see cref="BotFrameworkOptions"/> for the current bot.</param>
         /// <param name="services">The <see cref="IServiceCollection"/> specifies the contract for a collection of service descriptors.</param>
-        private void InitCredentialProvider(BotFrameworkOptions options, IServiceCollection services)
+        /// <param name="botConfig"> The <see cref="BotConfiguration"/> for the current bot.</param>
+        private void InitCredentialProvider(BotFrameworkOptions options, IServiceCollection services, BotConfiguration botConfig)
         {
-            var secretKey = Configuration.GetSection("botFileSecret")?.Value;
-            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
-
-            // Load the connected services from .bot file.
-            var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
-            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
-
             // Retrieve current endpoint.
             var environment = _isProduction ? "production" : "development";
             var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
