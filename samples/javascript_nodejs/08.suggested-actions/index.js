@@ -57,3 +57,9 @@ server.post('/api/messages', (req, res) => {
         await suggestedActionsBot.onTurn(context);
     });
 });
+
+// Catch-all for errors.
+adapter.onTurnError = async (context, error) => {
+    console.error(`\n [onTurnError]: ${ error }`);
+    context.sendActivity(`Oops. Something went wrong!`);
+};
