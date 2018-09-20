@@ -1,4 +1,5 @@
 > Greeting intent and utterances
+> See https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown to learn more about .lu files and the Ludown CLI tool.
 # Greeting
 - good evening
 - good morning
@@ -44,17 +45,17 @@
 - you can call me {userName=steve}
 
 > Add patterns with pattern.any entitiy
-- some people call me {userName_paternAny}
-- {userName_paternAny}.
-- i'm {userName_paternAny}
-- {userName_paternAny} is my name
-- my name is {userName_paternAny} and i'm from {userLocation_patternAny}
+- some people call me {userName_patternAny}
+- {userName_patternAny}.
+- i'm {userName_patternAny}
+- {userName_patternAny} is my name
+- my name is {userName_patternAny} and i'm from {userLocation_patternAny}
 - {userLocation_patternAny} is where i live
 - i'm from {userLocation_patternAny}
-- my name is {userName_paternAny}
+- my name is {userName_patternAny}
 - i reside in {userLocation_patternAny}
-- you can call me {userName_paternAny}
+- you can call me {userName_patternAny}
 - you can assume i live in {userLocation_patternAny}
-- call me {userName_paternAny}
+- call me {userName_patternAny}
 - i live in {userLocation_patternAny}
-- i'm {userName_paternAny}[,] [and i'm] from {userLocation_patternAny}
+- i'm {userName_patternAny}[,] [and i'm] from {userLocation_patternAny}
