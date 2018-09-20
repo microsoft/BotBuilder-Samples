@@ -14,7 +14,7 @@ namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// Demonstrates the following concepts:
-    /// - Use a subclass of ComponentDialog to implement a mult-turn conversation
+    /// - Use a subclass of ComponentDialog to implement a multi-turn conversation
     /// - Use a Waterflow dialog to model multi-turn conversation flow
     /// - Use custom prompts to validate user input
     /// - Store conversation and user state.
@@ -26,7 +26,11 @@ namespace Microsoft.BotBuilderSamples
         private const string NameValue = "greetingName";
         private const string CityValue = "greetingCity";
 
-        // Minimum lengh requirements for city and name
+        // Prompts names
+        private const string NamePrompt = "namePrompt";
+        private const string CityPrompt = "cityPrompt";
+
+        // Minimum length requirements for city and name
         private const int NameLengthMinValue = 3;
         private const int CityLengthMinValue = 5;
 
@@ -53,16 +57,9 @@ namespace Microsoft.BotBuilderSamples
                     DisplayGreetingStateStepAsync,
             };
             AddDialog(new WaterfallDialog(ProfileDialog, waterfallSteps));
-            AddDialog(new TextPrompt("NamePrompt", ValidateName));
-            AddDialog(new TextPrompt("CityPrompt", ValidateCity));
+            AddDialog(new TextPrompt(NamePrompt, ValidateName));
+            AddDialog(new TextPrompt(CityPrompt, ValidateCity));
         }
-
-        /// <summary>
-        /// Gets the <see cref="IStatePropertyAccessor{T}"/> name used for the <see cref="CounterState"/> accessor.
-        /// </summary>
-        /// <remarks>Accessors require a unique name.</remarks>
-        /// <value>The accessor name for the accessor.</value>
-        public static string GreetingStateName { get; } = $"{nameof(GreetingDialog)}.GreetingState";
 
         public IStatePropertyAccessor<GreetingState> GreetingStateAccessor { get; }
 
@@ -91,7 +88,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context);
 
-            // if we have everything we need, greet user and return
+            // if we have everything we need, greet user and return.
             if (greetingState != null && !string.IsNullOrWhiteSpace(greetingState.Name) && !string.IsNullOrWhiteSpace(greetingState.City))
             {
                 return await GreetUser(stepContext);
@@ -108,7 +105,7 @@ namespace Microsoft.BotBuilderSamples
                         Text = "What is your name?",
                     },
                 };
-                return await stepContext.PromptAsync("NamePrompt", opts);
+                return await stepContext.PromptAsync(NamePrompt, opts);
             }
             else
             {
@@ -120,12 +117,12 @@ namespace Microsoft.BotBuilderSamples
                                                         WaterfallStepContext stepContext,
                                                         CancellationToken cancellationToken)
         {
-            // save name, if prompted for
+            // Save name, if prompted.
             var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context);
             var lowerCaseName = stepContext.Result as string;
             if (string.IsNullOrWhiteSpace(greetingState.Name) && lowerCaseName != null)
             {
-                // capitalize and set name
+                // Capitalize and set name.
                 greetingState.Name = char.ToUpper(lowerCaseName[0]) + lowerCaseName.Substring(1);
                 await GreetingStateAccessor.SetAsync(stepContext.Context, greetingState);
             }
@@ -140,7 +137,7 @@ namespace Microsoft.BotBuilderSamples
                         Text = $"Hello {greetingState.Name}, what city do you live in?",
                     },
                 };
-                return await stepContext.PromptAsync("CityPrompt", opts);
+                return await stepContext.PromptAsync(CityPrompt, opts);
             }
             else
             {
@@ -152,7 +149,7 @@ namespace Microsoft.BotBuilderSamples
                                                     WaterfallStepContext stepContext,
                                                     CancellationToken cancellationToken)
         {
-            // Save city, if prompted for
+            // Save city, if prompted.
             var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context);
 
             var lowerCaseCity = stepContext.Result as string;
@@ -168,7 +165,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Validator function to verify if user meets required constraints.
+        /// Validator function to verify if the user name meets required constraints.
         /// </summary>
         /// <param name="promptContext">Context for this prompt.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
@@ -213,13 +210,13 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
-        // Helper function to greet user with information in greetingState.
+        // Helper function to greet user with information in GreetingState.
         private async Task<DialogTurnResult> GreetUser(WaterfallStepContext stepContext)
         {
             var context = stepContext.Context;
             var greetingState = await GreetingStateAccessor.GetAsync(context);
 
-            // Display to the user their profile information and end dialog
+            // Display their profile information and end dialog.
             await context.SendActivityAsync($"Hi {greetingState.Name}, from {greetingState.City}, nice to meet you!");
             return await stepContext.EndDialogAsync();
         }

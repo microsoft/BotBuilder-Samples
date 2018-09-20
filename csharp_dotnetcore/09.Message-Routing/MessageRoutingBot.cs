@@ -71,6 +71,14 @@ namespace Microsoft.BotBuilderSamples
                 // Recognize what the user said.
                 var topIntent = await GreetingHelpCancelRecognizer(turnContext, cancellationToken);
 
+                // Handle conversation interrupts first.
+                var interrupted = await IsTurnInterruptedAsync(dc, topIntent);
+                if (interrupted)
+                {
+                    // Bypass the dialog.
+                    return;
+                }
+
                 // Continue the current dialog
                 var dialogResult = await dc.ContinueDialogAsync();
 
@@ -86,9 +94,10 @@ namespace Microsoft.BotBuilderSamples
                                 case GreetingIntent:
                                     await dc.BeginDialogAsync(nameof(GreetingDialog));
                                     break;
+
                                 case NoneIntent:
                                 default:
-                                    // help or no intent identified, either way, let"s provide some help
+                                    // Help or no intent identified, either way, let's provide some help.
                                     // to the user
                                     await dc.Context.SendActivityAsync("I didn't understand what you just said to me.");
                                     break;
@@ -97,7 +106,7 @@ namespace Microsoft.BotBuilderSamples
                             break;
 
                         case DialogTurnStatus.Waiting:
-                            // The active dialog is waiting for a response from the user, so do nothing
+                            // The active dialog is waiting for a response from the user, so do nothing.
                             break;
 
                         case DialogTurnStatus.Complete:
@@ -114,13 +123,10 @@ namespace Microsoft.BotBuilderSamples
             {
                 if (activity.MembersAdded.Any())
                 {
-                    // Iterate over all new members added to the conversation
+                    // Iterate over all new members added to the conversation.
                     foreach (var member in activity.MembersAdded)
                     {
-                        // Greet anyone that was not the target (recipient) of this message
-                        // the "bot" is the recipient for events from the channel,
-                        // turnContext.Activity.MembersAdded == turnContext.Activity.Recipient.Id indicates the
-                        // bot was added to the conversation.
+                        // Greet anyone that was not the target (recipient) of this message.
                         // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
                         if (member.Id != activity.Recipient.Id)
                         {
@@ -131,6 +137,43 @@ namespace Microsoft.BotBuilderSamples
                     }
                 }
             }
+
+            await _conversationState.SaveChangesAsync(turnContext);
+            await _userState.SaveChangesAsync(turnContext);
+        }
+
+        // Determine if an interruption has occured before we dispatch to any active dialog.
+        private async Task<bool> IsTurnInterruptedAsync(DialogContext dc, string topIntent)
+        {
+            // See if there are any conversation interrupts we need to handle.
+            if (topIntent.Equals(CancelIntent))
+            {
+                if (dc.ActiveDialog != null)
+                {
+                    await dc.CancelAllDialogsAsync();
+                    await dc.Context.SendActivityAsync("Ok. I've cancelled our last activity.");
+                }
+                else
+                {
+                    await dc.Context.SendActivityAsync("I don't have anything to cancel.");
+                }
+
+                return true;        // Handled the interrupt.
+            }
+
+            if (topIntent.Equals(HelpIntent))
+            {
+                await dc.Context.SendActivityAsync("Let me try to provide some help.");
+                await dc.Context.SendActivityAsync("I understand greetings, being asked for help, or being asked to cancel what I am doing.");
+                if (dc.ActiveDialog != null)
+                {
+                    await dc.RepromptDialogAsync();
+                }
+
+                return true;        // Handled the interrupt.
+            }
+
+            return false;           // Did not handle the interrupt.
         }
 
         // Create an attachment message response.
@@ -141,7 +184,7 @@ namespace Microsoft.BotBuilderSamples
             return response;
         }
 
-        // Load attachment from file
+        // Load attachment from file.
         private Attachment CreateAdaptiveCardAttachment()
         {
             var adaptiveCard = File.ReadAllText(@".\Dialogs\Welcome\Resources\welcomeCard.json");

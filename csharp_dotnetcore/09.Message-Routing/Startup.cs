@@ -24,6 +24,7 @@ namespace Microsoft.BotBuilderSamples
     public class Startup
     {
         private ILoggerFactory _loggerFactory;
+        private bool _isProduction = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
@@ -57,31 +58,43 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+
             // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
-            var botConfig = BotConfiguration.LoadAsync(@".\BotConfiguration.bot").GetAwaiter().GetResult();
-            services.AddSingleton(sp => botConfig);
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+
+            // Load the connected services from .bot file.
+            var environment = _isProduction ? "production" : "development";
+            var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+            if (!(service is EndpointService endpointService))
+            {
+                throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+            }
+
             // Memory Storage is for local bot debugging only. When the bot
             // is restarted, everything stored in memory will be gone.
             IStorage dataStore = new MemoryStorage();
 
             // For production bots use the Azure Blob or
-            // Azure CosmosDB storage providers, as seen below. To the Azure
+            // Azure CosmosDB storage providers. For the Azure
             // based storage providers, add the Microsoft.Bot.Builder.Azure
             // Nuget package to your solution. That package is found at:
             // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
-            // Uncomment this line to use Azure Blob Storage
+            // Un-comment the following line to use Azure Blob Storage
             // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
+
             // Create and add conversation state.
             var conversationState = new ConversationState(dataStore);
             services.AddSingleton(conversationState);
 
             var userState = new UserState(dataStore);
             services.AddSingleton(userState);
-            services.AddSingleton(new BotStateSet(userState, conversationState));
 
             services.AddBot<MessageRoutingBot>(options =>
             {
-                InitCredentialProvider(options);
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Catches any errors that occur during a conversation turn and logs them to currently
                 // configured ILogger.
@@ -91,8 +104,6 @@ namespace Microsoft.BotBuilderSamples
                     logger.LogError($"Exception caught : {exception}");
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
-
-                options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
             });
         }
 
@@ -104,7 +115,9 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to create logger object for tracing.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            _isProduction = env.IsProduction();
             _loggerFactory = loggerFactory;
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -113,25 +126,6 @@ namespace Microsoft.BotBuilderSamples
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
-        }
-
-        /// <summary>
-        /// Initializes the credential provider, using by default the <see cref="SimpleCredentialProvider"/>.
-        /// </summary>
-        /// <param name="options"><see cref="BotFrameworkOptions"/> for the current bot.</param>
-        private static void InitCredentialProvider(BotFrameworkOptions options)
-        {
-            // Load the connected services from .bot file.
-            var botConfig = BotConfiguration.Load(@".\BotConfiguration.bot");
-
-            var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
-            var endpointService = service as EndpointService;
-            if (endpointService == null)
-            {
-                throw new InvalidOperationException("The .bot file does not contain an endpoint.");
-            }
-
-            options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
         }
     }
 }

@@ -6,30 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="CogSvcModels\**" />
-    <Compile Remove="DeploymentScripts\data\**" />
-    <Compile Remove="DeploymentScripts\Json\**" />
-    <Compile Remove="MainDialog\**" />
-    <Content Remove="CogSvcModels\**" />
-    <Content Remove="DeploymentScripts\data\**" />
-    <Content Remove="DeploymentScripts\Json\**" />
-    <Content Remove="MainDialog\**" />
-    <EmbeddedResource Remove="CogSvcModels\**" />
-    <EmbeddedResource Remove="DeploymentScripts\data\**" />
-    <EmbeddedResource Remove="DeploymentScripts\Json\**" />
-    <EmbeddedResource Remove="MainDialog\**" />
-    <None Remove="CogSvcModels\**" />
-    <None Remove="DeploymentScripts\data\**" />
-    <None Remove="DeploymentScripts\Json\**" />
-    <None Remove="MainDialog\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Dialogs\TestCancelDialog.cs" />
-    <Compile Remove="Dialogs\TestDialog.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="0.12.1-preview" />
@@ -49,31 +25,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Dialogs\Greeting\Resources\MainStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>MainStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Dialogs\SignIn\Resources\SignInStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SignInStrings.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Dialogs\Greeting\Resources\MainStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>MainStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\SignIn\Resources\SignInStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SignInStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
     <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="BotConfiguration.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
