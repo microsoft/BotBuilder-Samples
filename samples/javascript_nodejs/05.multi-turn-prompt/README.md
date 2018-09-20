@@ -8,9 +8,9 @@ store and retrieve values.
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to javascript_nodejs/05.multiturn-prompts-bot
+- In a terminal, navigate to samples/javascript_nodejs/05.multi-turn-prompt
     ```bash
-    cd javascript_nodejs/05.multiturn-prompts-bot
+    cd samples/javascript_nodejs/05.multi-turn-prompt
     ```
     - Point to the MyGet feed 
     ```bash
@@ -33,8 +33,8 @@ developers to test and debug their bots on localhost or running remotely through
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to javascript_nodejs/05.multiturn-prompts-bot folder
-- Select multiturn-prompts-bot.bot file
+- File -> Open Bot Configuration and navigate to samples/javascript_nodejs/05.multi-turn-prompt folder
+- Select multi-turn-prompt.bot file
 
 # Prompts
 A conversation between a bot and a user often involves asking (prompting) the user for information, parsing the user's response,

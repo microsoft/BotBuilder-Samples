@@ -1,10 +1,10 @@
 {
-    "name": "multiturn-prompts-bot",
+    "name": "multi-turn-prompt",
     "secretKey": "",
     "services": [
         {
             "type": "endpoint",
-            "name": "multiturn-prompts-bot",
+            "name": "multi-turn-prompt",
             "id": "http://localhost:3978/api/messages",
             "appId": "",
             "appPassword": "",

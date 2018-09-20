@@ -14,7 +14,7 @@ const NAME_PROMPT = 'name_prompt';
 const CONFIRM_PROMPT = 'confirm_prompt';
 const AGE_PROMPT = 'age_prompt';
 
-class MainDialog {
+class MultiTurnBot {
     /**
      *
      * @param {ConversationState} conversationState A ConversationState object used to store the dialog state.
@@ -133,15 +133,15 @@ class MainDialog {
             }
 
             // If the bot has not yet responded, continue processing the current dialog.
-            await dc.continue();
+            await dc.continueDialog();
 
             // Start the sample dialog in response to any other input.
             if (!turnContext.responded) {
                 const user = await this.userProfile.get(dc.context, {});
                 if (user.name) {
-                    await dc.beginDialog(HELLO_USER)
+                    await dc.beginDialog(HELLO_USER);
                 } else {
-                    await dc.beginDialog(WHO_ARE_YOU)
+                    await dc.beginDialog(WHO_ARE_YOU);
                 }
             }
         } else if (
@@ -165,4 +165,4 @@ class MainDialog {
     }
 }
 
-module.exports = MainDialog;
+module.exports = MultiTurnBot;

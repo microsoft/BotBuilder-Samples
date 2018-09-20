@@ -9,7 +9,7 @@ const CONFIG_ERROR = 1;
 const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
 const { BotConfiguration } = require('botframework-config');
 
-const MainDialog = require('./dialogs/mainDialog');
+const MultiTurnBot = require('./bot');
 
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
@@ -21,7 +21,7 @@ let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }.`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
-    console.log(`\nTo talk to your bot, open multiturn-prompts-bot.bot file in the emulator.`);
+    console.log(`\nTo talk to your bot, open multi-turn-prompt.bot file in the emulator.`);
 });
 
 // .bot file path
@@ -40,7 +40,7 @@ try {
 
 // Define the name of the bot, as specified in .bot file.
 // See https://aka.ms/about-bot-file to learn more about .bot files.
-const BOT_CONFIGURATION = 'multiturn-prompts-bot';
+const BOT_CONFIGURATION = 'multi-turn-prompt';
 
 // Load the configuration profile specific to this bot identity.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
@@ -51,6 +51,25 @@ const adapter = new BotFrameworkAdapter({
     appId: endpointConfig.appId || process.env.microsoftAppID,
     appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword
 });
+
+// Setup our global error handler.
+// For production bots use AppInsights, or a production-grade telemetry service to
+// log errors and other bot telemetry.
+// const { TelemetryClient } = require("applicationinsights");
+// Get AppInsights configuration by service name
+// const APPINSIGHTS_CONFIGURATION = 'appInsights';
+// const appInsightsConfig = botConfig.findServiceByNameOrId(APPINSIGHTS_CONFIGURATION);
+// const telemetryClient = new TelemetryClient(appInsightsConfig.instrumentationKey);
+
+adapter.onTurnError = async (turnContext, error) => {
+    // CAUTION: The sample simply logs the error to the console.
+    console.error(error);
+    // Tell the user something happened.
+    await turnContext.sendActivity('I encountered an error');
+
+    // For production bots, use AppInsights or similar telemetry system.
+    // For multi-turn dialog interactions, make sure we clear the conversation state.
+};
 
 // Define the state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
 // A bot requires a state storage system to persist the dialog and user state between messages.
@@ -72,12 +91,12 @@ const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
 // Create the main dialog, which serves as the bot's main handler.
-const mainDlg = new MainDialog(conversationState, userState);
+const bot = new MultiTurnBot(conversationState, userState);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (turnContext) => {
         // Route the message to the bot's main handler.
-        await mainDlg.onTurn(turnContext);
+        await bot.onTurn(turnContext);
     });
 });
