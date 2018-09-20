@@ -40,7 +40,7 @@ Create a new LUIS application:
 - Update [BotConfiguration.bot](BotConfiguration.bot) file with your Authoring Key.  
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
 NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
-- Update [BotConfiguration.bot](BotConfiguration.bot) file to ensure the `name` property on the `luis` service type is set to `BasicBotLUIS`.
+- Update [BotConfiguration.bot](BotConfiguration.bot) file to ensure the `Id` property on the `luis` service type is set to `basic-bot-LUIS`.
 ## Visual Studio
 - Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\13.Basic-Bot-Template`) and open `BasicBot.csproj` in Visual Studio.
 - Press F5.

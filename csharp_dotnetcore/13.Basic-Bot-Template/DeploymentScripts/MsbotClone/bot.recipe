@@ -9,8 +9,8 @@
     },
     {
       "type": "luis",
-      "id": "",
-      "name": "BasicBotLUIS"
+      "id": "basic-bot-LUIS",
+      "name": ""
     }
   ]
 }
