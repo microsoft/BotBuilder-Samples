@@ -1,9 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, CardFactory } = require('botbuilder');
+const { ActivityTypes,
+    CardFactory,
+    ConversationState,
+    TurnContext } = require('botbuilder');
 const { ChoicePrompt,
         DialogSet,
+        DialogTurnResult,
         DialogTurnStatus,
         ListStyle } = require('botbuilder-dialogs');
 
@@ -20,9 +24,9 @@ class RichCardsBot {
      *
      * The only argument taken (and required!) by this constructor is a
      * ConversationState instance.
-     * The ConversationState is used to create a StatePropertyAccessor
+     * The ConversationState is used to create a BotStatePropertyAccessor
      * which is needed to create a DialogSet that houses the ChoicePrompt.
-     * @param {Object} conversationState
+     * @param {ConversationState} conversationState The state that will contain the DialogState BotStatePropertyAccessor.
      */
     constructor(conversationState) {
         // Store the conversationState to be able to save state changes.
@@ -53,7 +57,7 @@ class RichCardsBot {
      * This check ensures that the bot only responds to Activities that
      * are of the "Message" type.
      *
-     * @param {Object} turnContext
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async onTurn(turnContext) {
         if (turnContext.activity.type === ActivityTypes.Message) {
@@ -87,8 +91,8 @@ class RichCardsBot {
      * Send a Rich Card response to the user based on their choice.
      *
      * This method is only called when a valid prompt response is parsed from the user's response to the ChoicePrompt.
-     * @param {Object} turnContext
-     * @param {Object} dialogTurnResult
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
+     * @param {DialogTurnResult} dialogTurnResult Contains the result from any called Dialogs and indicates the status of the DialogStack.
      */
     async sendCardResponse(turnContext, dialogTurnResult) {
         switch (dialogTurnResult.result.value) {
