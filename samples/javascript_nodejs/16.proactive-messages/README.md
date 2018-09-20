@@ -7,21 +7,13 @@ outbound messages.
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to javascript_nodejs/17.proactive-messages
+- In a terminal, navigate to samples/javascript_nodejs/16.proactive-messages
     ```bash
-    cd javascript_nodejs/17.proactive-messages
-    ```
-    - Point to the MyGet feed 
-    ```bash
-    npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
+    cd samples/javascript_nodejs/16.proactive-messages
     ```
 - Install modules and start the bot
     ```bash
     npm i & npm start
-    ```
-- To reset registry, you can do
-    ```bash
-    npm config set registry https://registry.npmjs.org/
     ```
 
 # Testing the bot using Bot Framework Emulator

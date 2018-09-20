@@ -5,7 +5,7 @@ const { ActivityTypes, TurnContext } = require('botbuilder');
 
 const JOBS_LIST = 'jobs';
 
-class MainDialog {
+class ProactiveBot {
     /**
      *
      * @param {BotState} botState A BotState object used to store information for the bot independent of user or conversation.
@@ -159,4 +159,4 @@ function isEmpty(obj) {
     return true;
 };
 
-module.exports = MainDialog;
+module.exports.ProactiveBot = ProactiveBot;
