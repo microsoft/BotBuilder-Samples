@@ -1,11 +1,11 @@
 {
     "name": "proactive-messages-bot",
-    "secretKey": "",
+    "padlock": "",
     "services": [
         {
             "type": "endpoint",
-            "name": "proactive-messages-bot",
-            "id": "http://localhost:3978/api/messages",
+            "name": "development",
+            "id": "1",
             "appId": "",
             "appPassword": "",
             "endpoint": "http://localhost:3978/api/messages"
