@@ -6,20 +6,33 @@ using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Microsoft.BotBuilderSamples
 {
+    /// <summary>
+    /// The Startup class configures services and the app's request pipeline.
+    /// </summary>
     public class Startup
     {
         private ILoggerFactory _loggerFactory;
         private bool _isProduction = false;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940.
+        /// </summary>
+        /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-2.1"/>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -31,54 +44,60 @@ namespace Microsoft.BotBuilderSamples
             Configuration = builder.Build();
         }
 
+        /// <summary>
+        /// Gets the configuration that represents a set of key/value application configuration properties.
+        /// </summary>
+        /// <value>
+        /// The <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
+        /// </value>
         public IConfiguration Configuration { get; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
-        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
         public void ConfigureServices(IServiceCollection services)
         {
-            // add botConfiguration singlton
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
-            var botConfig = BotConfiguration.Load(botFilePath ?? @".\BasicBot.bot", secretKey);
+
+            // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
 
-            // add BotServices singleton
+            // Add BotServices singleton.
+            // Create the connected services from .bot file.
             services.AddSingleton(sp => new BotServices(botConfig));
 
-            // The Memory Storage used here is for local bot debugging only. When the bot
+            // Retrieve current endpoint.
+            var environment = _isProduction ? "production" : "development";
+            var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+            if (!(service is EndpointService endpointService))
+            {
+                throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+            }
+
+            // Memory Storage is for local bot debugging only. When the bot
             // is restarted, everything stored in memory will be gone.
             IStorage dataStore = new MemoryStorage();
 
-            // Azure Blob storage.
-            // To replace with Azure Blob Storage, add the Microsoft.Bot.Builder.Azure Nuget package to your
-            // solution. The package is found at:
-            //      https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
+            // For production bots use the Azure Blob or
+            // Azure CosmosDB storage providers. For the Azure
+            // based storage providers, add the Microsoft.Bot.Builder.Azure
+            // Nuget package to your solution. That package is found at:
+            // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
+            // Un-comment the following line to use Azure Blob Storage
             // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
-            services.AddSingleton(dataStore);
-            var userState = new UserState(dataStore);
-            var conversationState = new ConversationState(dataStore);
 
-            services.AddSingleton(userState);
+            // Create and add conversation state.
+            var conversationState = new ConversationState(dataStore);
             services.AddSingleton(conversationState);
 
-            // The BotStateSet enables read() and write() in parallel on multiple BotState instances.
-            services.AddSingleton(new BotStateSet(userState, conversationState));
+            var userState = new UserState(dataStore);
+            services.AddSingleton(userState);
 
-            // add the bot with options
             services.AddBot<BasicBot>(options =>
             {
-                // Load the connected services from .bot file.
-                var environment = _isProduction ? "production" : "development";
-                var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
-                if (!(service is EndpointService endpointService))
-                {
-                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
-                }
-
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Catches any errors that occur during a conversation turn and logs them to currently
@@ -89,25 +108,25 @@ namespace Microsoft.BotBuilderSamples
                     logger.LogError($"Exception caught : {exception}");
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
-
-                // Automatically save state at the end of a turn.
-                options.Middleware
-                    .Add(new AutoSaveStateMiddleware(userState, conversationState));
             });
         }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
-        /// <param name="app">The application builder. This provides the mechanisms to configure the application request pipeline.</param>
-        /// <param name="env">Provides information about the web hosting environment.</param>
+        /// <param name="app">Application Builder.</param>
+        /// <param name="env">Hosting Environment.</param>
         /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to create logger object for tracing.</param>
-        /// <remarks>See <see cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-2.1"/> for
-        /// more information how environments are detected.</remarks>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             _isProduction = env.IsProduction();
             _loggerFactory = loggerFactory;
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();

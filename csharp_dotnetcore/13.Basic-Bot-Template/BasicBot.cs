@@ -1,114 +1,272 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// For each interaction from the user, an instance of this class is created and
-    /// the OnTurnAsync method is called.
-    /// This is a transient lifetime service.  Transient lifetime services are created
-    /// each time they're requested. For each <see cref="Activity"/> received, a new instance of this
-    /// class is created. Objects that are expensive to construct, or have a lifetime
-    /// beyond the single turn, should be carefully managed.
+    /// Main entry point and orchestration for bot.
     /// </summary>
-    /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
-    /// <seealso cref="https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.ibot?view=botbuilder-dotnet-preview"/>
     public class BasicBot : IBot
     {
         // Supported LUIS Intents
         public const string GreetingIntent = "Greeting";
+        public const string CancelIntent = "Cancel";
         public const string HelpIntent = "Help";
+        public const string NoneIntent = "None";
 
         /// <summary>
-        /// Key in the bot config (.bot file) for the LUIS instances.
+        /// Key in the bot config (.bot file) for the LUIS instance.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
         public static readonly string LuisKey = "BasicBotLUIS";
 
-        // Greeting Dialog ID
-        public static readonly string GreetingDialogId = "greetingDialog";
-
-        /// <summary>
-        /// Services configured from the .bot file.
-        /// </summary>
+        private readonly IStatePropertyAccessor<GreetingState> _greetingStateAccessor;
+        private readonly IStatePropertyAccessor<DialogState> _dialogStateAccessor;
+        private readonly UserState _userState;
+        private readonly ConversationState _conversationState;
         private readonly BotServices _services;
-
-        /// <summary>
-        /// Top level dialog(s).
-        /// </summary>
-        private readonly DialogSet _dialogs;
-
-        private readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicBot"/> class.
         /// </summary>
-        /// <param name="userState">The <see cref="UserState"/> for properties at user scope.</param>
-        /// <param name="conversationState">The <see cref="ConversationState"/> for properties at conversation scope.</param>
-        /// <param name="services">The <see cref="BotServices"/> which holds clients for external services.</param>
-        /// <param name="loggerFactory">A <see cref="ILoggerFactory"/> that hooked to the Azure App Service provider.</param>
-        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
-        /// <seealso cref="BotConfiguration"/>
-        public BasicBot(UserState userState, ConversationState conversationState, BotServices services, ILoggerFactory loggerFactory)
+        /// <param name="botServices">Bot services.</param>
+        /// <param name="accessors">Bot State Accessors.</param>
+        public BasicBot(BotServices services, UserState userState, ConversationState conversationState, ILoggerFactory loggerFactory)
         {
-            if (loggerFactory == null)
-            {
-                throw new System.ArgumentNullException(nameof(loggerFactory));
-            }
+            _services = services ?? throw new ArgumentNullException(nameof(services));
+            _userState = userState ?? throw new ArgumentNullException(nameof(userState));
+            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
 
-            ConversationState = conversationState ?? throw new System.ArgumentNullException(nameof(conversationState));
-            UserState = userState ?? throw new System.ArgumentNullException(nameof(userState));
-            _services = services ?? throw new System.ArgumentNullException(nameof(services));
+            _greetingStateAccessor = _userState.CreateProperty<GreetingState>(nameof(GreetingState));
+            _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
-            _logger = loggerFactory.CreateLogger<BasicBot>();
-            _logger.LogTrace("BasicBot turn start.");
-
+            // Verify LUIS configuration.
             if (!_services.LuisServices.ContainsKey(LuisKey))
             {
-                throw new System.ArgumentException($"Invalid configuration.  Please check your '.bot' file for a LUIS service named '{LuisKey}'.");
+                throw new InvalidOperationException($"The bot configuration does not contain a service type of `luis` with the name `{LuisKey}`.");
             }
 
-            // Create top-level dialog(s)
-            _dialogs = new DialogSet(ConversationState.CreateProperty<DialogState>(nameof(BasicBot)));
-            _dialogs.Add(new MainDialog(services, UserState, loggerFactory));
+            Dialogs = new DialogSet(_dialogStateAccessor);
+            Dialogs.Add(new GreetingDialog(_greetingStateAccessor, loggerFactory));
+        }
+
+        private DialogSet Dialogs { get; set; }
+
+        /// <summary>
+        /// Run every turn of the conversation. Handles orchestration of messages.
+        /// </summary>
+        /// <param name="turnContext">Bot Turn Context.</param>
+        /// <param name="cancellationToken">Task CancellationToken.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            var activity = turnContext.Activity;
+
+            // Create a dialog context
+            var dc = await Dialogs.CreateContextAsync(turnContext);
+
+            if (activity.Type == ActivityTypes.Message)
+            {
+                // Perform a call to LUIS to retrieve results for the current activity message.
+                var luisResults = await _services.LuisServices[LuisKey].RecognizeAsync(dc.Context, cancellationToken).ConfigureAwait(false);
+
+                // If any entities were updated, treat as interruption.
+                // For example, "no my name is tony" will manifest as an update of the name to be "tony".
+                var topScoringIntent = luisResults?.GetTopScoringIntent();
+
+                var topIntent = topScoringIntent.Value.intent;
+
+                // update greeting state with any entities captured
+                await UpdateGreetingState(luisResults, dc.Context);
+
+                // Handle conversation interrupts first.
+                var interrupted = await IsTurnInterruptedAsync(dc, topIntent);
+                if (interrupted)
+                {
+                    // Bypass the dialog.
+                    // Save state before the next turn.
+                    await _conversationState.SaveChangesAsync(turnContext);
+                    await _userState.SaveChangesAsync(turnContext);
+                    return;
+                }
+
+                // Continue the current dialog
+                var dialogResult = await dc.ContinueDialogAsync();
+
+                // if no one has responded,
+                if (!dc.Context.Responded)
+                {
+                    // examine results from active dialog
+                    switch (dialogResult.Status)
+                    {
+                        case DialogTurnStatus.Empty:
+                            switch (topIntent)
+                            {
+                                case GreetingIntent:
+                                    await dc.BeginDialogAsync(nameof(GreetingDialog));
+                                    break;
+
+                                case NoneIntent:
+                                default:
+                                    // Help or no intent identified, either way, let's provide some help.
+                                    // to the user
+                                    await dc.Context.SendActivityAsync("I didn't understand what you just said to me.");
+                                    break;
+                            }
+
+                            break;
+
+                        case DialogTurnStatus.Waiting:
+                            // The active dialog is waiting for a response from the user, so do nothing.
+                            break;
+
+                        case DialogTurnStatus.Complete:
+                            await dc.EndDialogAsync();
+                            break;
+
+                        default:
+                            await dc.CancelAllDialogsAsync();
+                            break;
+                    }
+                }
+            }
+            else if (activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                if (activity.MembersAdded.Any())
+                {
+                    // Iterate over all new members added to the conversation.
+                    foreach (var member in activity.MembersAdded)
+                    {
+                        // Greet anyone that was not the target (recipient) of this message.
+                        // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
+                        if (member.Id != activity.Recipient.Id)
+                        {
+                            var welcomeCard = CreateAdaptiveCardAttachment();
+                            var response = CreateResponse(activity, welcomeCard);
+                            await dc.Context.SendActivityAsync(response).ConfigureAwait(false);
+                        }
+                    }
+                }
+            }
+
+            await _conversationState.SaveChangesAsync(turnContext);
+            await _userState.SaveChangesAsync(turnContext);
+        }
+
+        // Determine if an interruption has occured before we dispatch to any active dialog.
+        private async Task<bool> IsTurnInterruptedAsync(DialogContext dc, string topIntent)
+        {
+            // See if there are any conversation interrupts we need to handle.
+            if (topIntent.Equals(CancelIntent))
+            {
+                if (dc.ActiveDialog != null)
+                {
+                    await dc.CancelAllDialogsAsync();
+                    await dc.Context.SendActivityAsync("Ok. I've cancelled our last activity.");
+                }
+                else
+                {
+                    await dc.Context.SendActivityAsync("I don't have anything to cancel.");
+                }
+
+                return true;        // Handled the interrupt.
+            }
+
+            if (topIntent.Equals(HelpIntent))
+            {
+                await dc.Context.SendActivityAsync("Let me try to provide some help.");
+                await dc.Context.SendActivityAsync("I understand greetings, being asked for help, or being asked to cancel what I am doing.");
+                if (dc.ActiveDialog != null)
+                {
+                    await dc.RepromptDialogAsync();
+                }
+
+                return true;        // Handled the interrupt.
+            }
+
+            return false;           // Did not handle the interrupt.
+        }
+
+        // Create an attachment message response.
+        private Activity CreateResponse(Activity activity, Attachment attachment)
+        {
+            var response = activity.CreateReply();
+            response.Attachments = new List<Attachment>() { attachment };
+            return response;
+        }
+
+        // Load attachment from file.
+        private Attachment CreateAdaptiveCardAttachment()
+        {
+            var adaptiveCard = File.ReadAllText(@".\Dialogs\Welcome\Resources\welcomeCard.json");
+            return new Attachment()
+            {
+                ContentType = "application/vnd.microsoft.card.adaptive",
+                Content = JsonConvert.DeserializeObject(adaptiveCard),
+            };
         }
 
         /// <summary>
-        /// Gets the <see cref="ConversationState"/> object for the conversation.
+        /// Helper function to update greeting state with entities returned by LUIS.
         /// </summary>
-        /// <value>The <see cref="ConversationState"/> object.</value>
-        public ConversationState ConversationState { get; }
-
-        /// <summary>
-        /// Gets the <see cref="UserState"/> object for the conversation.
-        /// </summary>
-        /// <value>The <see cref="UserState"/> object.</value>
-        public UserState UserState { get; }
-
-        /// <summary>
-        /// Every conversation turn for our Basic Bot will call this method.
-        /// </summary>
-        /// <param name="context">A <see cref="ITurnContext"/> containing all the data needed
-        /// for processing this conversation turn. </param>
-        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
-        /// or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
-        public async Task OnTurnAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
+        /// <param name="luisResult">LUIS recognizer <see cref="RecognizerResult"/>.</param>
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn.</param>
+        /// <returns>A task that represents the work queued to execute.</returns>
+        private async Task UpdateGreetingState(RecognizerResult luisResult, ITurnContext turnContext)
         {
-            // Run the DialogSet - let the framework identify the current state of the dialog from
-            // the dialog stack and figure out what (if any) is the active dialog.
-            var dc = await _dialogs.CreateContextAsync(context);
-            var dialogResult = await dc.ContinueDialogAsync();
-
-            if (dialogResult.Status == DialogTurnStatus.Empty)
+            if (luisResult.Entities != null && luisResult.Entities.HasValues)
             {
-                await dc.BeginDialogAsync(nameof(MainDialog));
+                // Get latest GreetingState
+                var greetingState = await _greetingStateAccessor.GetAsync(turnContext, () => new GreetingState());
+                var entities = luisResult.Entities;
+
+                // Supported LUIS Entities
+                string[] userNameEntities = { "userName", "userName_paternAny" };
+                string[] userLocationEntities = { "userLocation", "userLocation_patternAny" };
+
+                // Update any entities
+                // Note: Consider a confirm dialog, instead of just updating.
+                foreach (var name in userNameEntities)
+                {
+                    // Check if we found valid slot values in entities returned from LUIS.
+                    if (entities[name] != null)
+                    {
+                        // Capitalize and set new user name.
+                        var newName = (string)entities[name][0];
+                        greetingState.Name = char.ToUpper(newName[0]) + newName.Substring(1);
+                        break;
+                    }
+                }
+
+                foreach (var city in userLocationEntities)
+                {
+                    if (entities[city] != null)
+                    {
+                        // Captilize and set new city.
+                        var newCity = (string)entities[city][0];
+                        greetingState.City = char.ToUpper(newCity[0]) + newCity.Substring(1);
+                        break;
+                    }
+                }
+
+                // Set the new values into state.
+                await _greetingStateAccessor.SetAsync(turnContext, greetingState);
             }
         }
     }
