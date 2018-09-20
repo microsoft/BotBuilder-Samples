@@ -10,32 +10,6 @@
       "appId": "",
       "appPassword": "",
       "endpoint": "http://localhost:3978/api/messages"
-    },
-    {
-      "type": "luis",
-      "name": "BasicBotLUIS",
-      "id": "",
-      "appId": "224c252d-c89f-4854-a34b-fc0a0dda4cd7",
-      "authoringKey": "b70cd8ee0844421da97ec682498b025d",
-      "subscriptionKey": "b70cd8ee0844421da97ec682498b025d",
-      "version": "0.1",
-      "azureRegion": "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/224c252d-c89f-4854-a34b-fc0a0dda4cd7?subscription-key=b70cd8ee0844421da97ec682498b025d&timezoneOffset=-360&q=",
-	  "region": "westus"
-    },
-
-    {
-      "type": "appInsights",
-      "id": "3",
-      "name": "",
-      "tenantId": "",
-      "subscriptionId": "",
-      "resourceGroup": "",
-      "instrumentationKey": "1fad4214-4531-4c6a-90ab-22dfabae9e59",
-      "applicationId": "00000000-0000-0000-0000-000000000007",
-      "apiKeys": {
-        "key1": "testKey1",
-        "key2": "testKey2"
-      }
     }
   ]
 }
