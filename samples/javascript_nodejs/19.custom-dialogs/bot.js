@@ -69,7 +69,7 @@ class SampleBot {
     // then passes the aggregated results on to the next step.
     async startDialog(step) {
         return await step.beginDialog('slot-dialog');
-    }   
+    }
 
     // This is the second step of the WaterfallDialog.
     // It receives the results of the SlotFillingDialog and displays them.

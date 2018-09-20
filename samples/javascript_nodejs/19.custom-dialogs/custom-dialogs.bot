@@ -1,6 +1,6 @@
 {
     "name": "custom-dialogs",
-    "secretKey": "",
+    "padlock": "",
     "services": [
         {
             "type": "endpoint",

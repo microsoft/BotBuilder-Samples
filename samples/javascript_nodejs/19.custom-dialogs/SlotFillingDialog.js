@@ -21,7 +21,6 @@ class SlotFillingDialog extends Dialog {
     }
 
     async beginDialog(dc, options) {
-
         if (dc.context.activity.type !== ActivityTypes.Message) {
             return Dialog.EndOfTurn;
         }
