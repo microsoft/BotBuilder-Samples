@@ -44,9 +44,9 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Every conversation turn for our Echo Bot will call this method.
-        /// There are no dialogs used, since it's "single turn" processing, meaning a single
-        /// request and response.
+        /// Every Conversation turn for our Echo Bot will call this method. In here
+        /// the bot checks the <see cref="Activity"/> type to verify it's a <see cref="ActivityTypes.Message"/>
+        /// message, and then echoes the user's typing back to them with the numbers of turns.
         /// </summary>
         /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
