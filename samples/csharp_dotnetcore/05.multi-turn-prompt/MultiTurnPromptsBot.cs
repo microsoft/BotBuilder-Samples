@@ -78,6 +78,10 @@ namespace Microsoft.BotBuilderSamples
                 throw new ArgumentNullException(nameof(turnContext));
             }
 
+            // Handle Message activity type, which is the main activity type for shown within a conversational interface
+            // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
+            // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 // Run the DialogSet - let the framework identify the current state of the dialog from
