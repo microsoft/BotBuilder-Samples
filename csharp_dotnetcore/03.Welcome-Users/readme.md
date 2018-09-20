@@ -5,11 +5,10 @@
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-# Prerequisites
-## Visual Studio
+ ### Visual Studio
 - Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\03.Welcome-Users`) and open 3.Welcome-Users.csproj in Visual Studio 
 - Hit F5
-## Visual Studio Code
+ ### Visual Studio Code
 - Open `BotBuilder-Samples\csharp_dotnetcore\03.Welcome-Users` folder
 - Bring up a terminal, navigate to BotBuilder-Samples\csharp_dotnetcore\03.Welcome-Users
 - Type 'dotnet run'.
