@@ -6,7 +6,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
@@ -14,7 +13,6 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -58,21 +56,6 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            var secretKey = Configuration.GetSection("botFileSecret")?.Value;
-            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
-
-            // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
-            var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
-            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
-
-            // Load the connected services from .bot file.
-            var environment = _isProduction ? "production" : "development";
-            var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
-            if (!(service is EndpointService endpointService))
-            {
-                throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
-            }
-
             // Memory Storage is for local bot debugging only. When the bot
             // is restarted, everything stored in memory will be gone.
             IStorage dataStore = new MemoryStorage();
@@ -82,8 +65,18 @@ namespace Microsoft.BotBuilderSamples
             // based storage providers, add the Microsoft.Bot.Builder.Azure
             // Nuget package to your solution. That package is found at:
             // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
-            // Un-comment the following line to use Azure Blob Storage
-            // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
+            // Un-comment the following lines to use Azure Blob Storage
+            // // Storage configuration name or ID from the .bot file.
+            // const string StorageConfigurationId = "<STORAGE-NAME-OR-ID-FROM-BOT-FILE>";
+            // var blobConfig = botConfig.FindServiceByNameOrId(StorageConfigurationId);
+            // if (!(blobConfig is BlobStorageService blobStorageConfig))
+            // {
+            //    throw new InvalidOperationException($"The .bot file does not contain an blob storage with name '{StorageConfigurationId}'.");
+            // }
+            // // Default container name.
+            // const string DefaultBotContainer = "<DEFAULT-CONTAINER>";
+            // var storageContainer = string.IsNullOrWhiteSpace(blobStorageConfig.Container) ? DefaultBotContainer : blobStorageConfig.Container;
+            // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage(blobStorageConfig.ConnectionString, storageContainer);
 
             // Create and add conversation state.
             var conversationState = new ConversationState(dataStore);
@@ -94,7 +87,7 @@ namespace Microsoft.BotBuilderSamples
 
             services.AddBot<MessageRoutingBot>(options =>
             {
-                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+                InitCredentialProvider(options, services);
 
                 // Catches any errors that occur during a conversation turn and logs them to currently
                 // configured ILogger.
@@ -126,6 +119,32 @@ namespace Microsoft.BotBuilderSamples
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
+        }
+
+        /// <summary>
+        /// Initializes the credential provider, using by default the <see cref="SimpleCredentialProvider"/>.
+        /// </summary>
+        /// <param name="options"><see cref="BotFrameworkOptions"/> for the current bot.</param>
+        /// <param name="services">The <see cref="IServiceCollection"/> specifies the contract for a collection of service descriptors.</param>
+        private void InitCredentialProvider(BotFrameworkOptions options, IServiceCollection services)
+        {
+            var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+
+            // Load the connected services from .bot file.
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+
+            // Retrieve current endpoint.
+            var environment = _isProduction ? "production" : "development";
+            var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+            var endpointService = service as EndpointService;
+            if (endpointService == null)
+            {
+                throw new InvalidOperationException("The .bot file does not contain an endpoint.");
+            }
+
+            options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
         }
     }
 }

@@ -1,6 +1,7 @@
 {
     "name": "MessageRouting",
     "description": "",
+    "padlock":  "",
     "services": [
         {
             "type": "endpoint",
