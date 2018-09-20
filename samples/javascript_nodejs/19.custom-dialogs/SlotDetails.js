@@ -23,4 +23,4 @@ class SlotDetails {
     }
 }
 
-module.exports = SlotDetails;
+module.exports.SlotDetails = SlotDetails;

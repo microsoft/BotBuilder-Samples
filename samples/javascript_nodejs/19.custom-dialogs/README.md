@@ -6,21 +6,13 @@ different bot control mechanism like simple slot filling.
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to javascript_nodejs/21.custom-dialogs
+- In a terminal, navigate to samples/javascript_nodejs/19.custom-dialogs
     ```bash
-    cd javascript_nodejs/21.custom-dialogs
-    ```
-    - Point to the MyGet feed 
-    ```bash
-    npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
+    cd samples/javascript_nodejs/19.custom-dialogs
     ```
 - Install modules and start the bot
     ```bash
-    npm i & npm start
-    ```
-- To reset registry, you can do
-    ```bash
-    npm config set registry https://registry.npmjs.org/
+    npm i && npm start
     ```
 
 # Testing the bot using Bot Framework Emulator
@@ -34,6 +26,19 @@ or running remotely through a tunnel.
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to javascript_nodejs/21.custom-dialogs
 - Select custom-dialogs.bot file
+
+# Deploy this bot to Azure
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+
+To install all Bot Builder tools - 
+```bash
+npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
+```
+
+To clone this bot, run
+```
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+```
 
 # Custom Dialogs
 

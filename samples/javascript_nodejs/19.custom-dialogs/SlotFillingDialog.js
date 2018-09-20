@@ -20,9 +20,9 @@ class SlotFillingDialog extends Dialog {
         this.slots = slots;
     }
 
-    async dialogBegin(dc, options) {
+    async beginDialog(dc, options) {
         if (dc.context.activity.type !== ActivityTypes.Message) {
-            return await Dialog.EndOfTurn;
+            return Dialog.EndOfTurn;
         }
 
         // Initialize a spot to store these values.
@@ -32,7 +32,7 @@ class SlotFillingDialog extends Dialog {
         return await this.runPrompt(dc);
     }
 
-    async dialogContinue(dc) {
+    async continueDialog(dc) {
         // Skip non-message activities.
         if (dc.context.activity.type !== ActivityTypes.Message) {
             return Dialog.EndOfTurn;
@@ -42,7 +42,7 @@ class SlotFillingDialog extends Dialog {
         return await this.runPrompt(dc);
     }
 
-    async dialogResume(dc, reason, result) {
+    async resumeDialog(dc, reason, result) {
         // dialogResume is called whenever a prompt or child-dialog completes
         // and the parent dialog resumes.  Since every turn of a SlotFillingDialog
         // is a prompt, we know that whenever we resume, there is a value to capture.
@@ -71,7 +71,6 @@ class SlotFillingDialog extends Dialog {
         // If there are unfilled slots still left, prompt for the next one.
         if (unfilledSlot.length) {
             state[SlotName] = unfilledSlot[0].name;
-
             return await dc.prompt(unfilledSlot[0].promptId, unfilledSlot[0].options);
         } else {
             // If all the prompts are filled, we're done. Return the full state object,
@@ -81,4 +80,4 @@ class SlotFillingDialog extends Dialog {
     }
 }
 
-module.exports = SlotFillingDialog;
+module.exports.SlotFillingDialog = SlotFillingDialog;
