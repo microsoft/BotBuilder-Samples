@@ -49,7 +49,7 @@ class ProactiveBot {
             if (!turnContext.responded) {
                 await turnContext.sendActivity(`Say "run" to start a job, or "done <job>" to complete one.`);
             }
-        } else if (turnContext.activity.type === 'event' && turnContext.activity.name === 'jobCompleted') {
+        } else if (turnContext.activity.type === ActivityTypes.Event && turnContext.activity.name === 'jobCompleted') {
             jobIdNumber = turnContext.activity.value;
             if (!isNaN(parseInt(jobIdNumber))) {
                 await this.completeJob(turnContext, jobIdNumber);
