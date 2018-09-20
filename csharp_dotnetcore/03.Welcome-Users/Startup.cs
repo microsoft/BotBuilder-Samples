@@ -6,7 +6,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
@@ -23,13 +22,6 @@ namespace WelcomeUser
     /// </summary>
     public class Startup
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// This method is part of ASP.NET Core Application Statup code and gets called by the runtime.
-        /// Use this method to add services to the container.
-        /// For more information on how to configure your application, visit <see ref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup"/>.
-        /// </summary>
-        /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -39,19 +31,14 @@ namespace WelcomeUser
             Configuration = builder.Build();
         }
 
-        /// <summary>
-        /// Gets the configuration object.
-        /// </summary>
-        /// <value>
-        /// The IConfiguration that represents a set of key/value application configuration properties.
-        /// </value>
         public IConfiguration Configuration { get; }
 
         /// <summary>
-        /// This method gets called by ASP.NET Core runtime as part of initializaing your application
-        /// Use this method to add services to the container.
+        /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
-        /// <param name="services">Services.</param>
+        /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection"/>
+        /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBot<WelcomeUserBot>(options =>
@@ -66,13 +53,13 @@ namespace WelcomeUser
                 // as seen below. To include any of the Azure based storage providers,
                 // add the Microsoft.Bot.Builder.Azure  Nuget package to your solution. That package is found at:
                 // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
+                // Uncomment this line to use Azure Blob Storage
                 // IStorage Store = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
-                options.State.Add(new UserState(dataStore));
 
-                // To enable auto-saving of state, consider using the AutoSaveStateMiddlware.
-                // The AutoSaveStateMiddlware forces state storage to auto-save when the Bot has completed processing the message.
-                // Note: Developers may choose not to add all the State providers to this Middleware if save is not required.
-                // options.Middleware.Add(new AutoSaveStateMiddleware(options.State.ToArray()));
+                // Create User State object.
+                // The User State object is where we persist anything at the user-scope.
+                var userState = new UserState(dataStore);
+                options.State.Add(userState);
             });
 
             services.AddSingleton<WelcomeUserStateAccessors>(sp =>
@@ -89,9 +76,8 @@ namespace WelcomeUser
                     throw new InvalidOperationException("UserState must be defined and added before adding user-scoped state accessors.");
                 }
 
-                // Create custom state property accessors
-                // State property accessors enable components to read and write individual properties,
-                // without having to pass the entire State object.
+                // Create the custom state accessor.
+                // State accessors enable other components to read and write individual properties of state.
                 var accessors = new WelcomeUserStateAccessors(userState)
                 {
                     DidBotWelcomedUser = userState.CreateProperty<bool>("DidBotWelcomeState"),
@@ -101,11 +87,6 @@ namespace WelcomeUser
             });
         }
 
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        /// </summary>
-        /// <param name="app">The application builder. This provides the mechanisms to configure an application's request pipeline.</param>
-        /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseDefaultFiles()
