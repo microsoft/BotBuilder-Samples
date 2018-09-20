@@ -7,8 +7,8 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node ./index.js NODE_ENV=development",
-        "watch": "nodemon ./index.js NODE_ENV=development"
+        "start": "node ./index.js",
+        "watch": "nodemon ./index.js"
     },
     "dependencies": {
         "botbuilder": "^4.0.5",
