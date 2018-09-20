@@ -32,8 +32,8 @@ const writeCommonFiles = (gen, templatePath) => {
     const extension = _.toLower(gen.props.language) === "javascript" ? "js" : "ts";
     const npmMain = extension === 'js' ? `index.js` : `./lib/index.js`;
     const npmBuildCmd = extension === 'js' ? `echo "Error: no build specified" && exit 1` : `tsc`;
-    const npmRunCmd = extension === 'js' ? `node ./index.js` : `tsc && node index.js`;
-    const npmWatchCmd = extension === 'js' ? `nodemon ./index.js` : `tsc && node index.js`;
+    const npmRunCmd = extension === 'js' ? `node ./index.js` : `tsc && node ./lib/index.js`;
+    const npmWatchCmd = extension === 'js' ? `nodemon ./index.js` : `tsc && node ./lib/index.js`;
 
     // ensure our project directory exists before we start writing files into it
     makeProjectDirectory(gen, _.camelCase(gen.props.botName));
@@ -70,14 +70,16 @@ const writeCommonFiles = (gen, templatePath) => {
         }
     );
 
-    // gen the main index file
-    gen.fs.copyTpl(
-        gen.templatePath(templatePath + `index.${extension}`),
-        gen.destinationPath(`index.${extension}`),
-        {
-            botName: gen.props.botName
-        }
-    );
+
+    // MOVED INTO TEMPLATE SPECIFIC WRITERS
+    // // gen the main index file
+    // gen.fs.copyTpl(
+    //     gen.templatePath(templatePath + `index.${extension}`),
+    //     gen.destinationPath(`index.${extension}`),
+    //     {
+    //         botName: gen.props.botName
+    //     }
+    // );
 
     // determine what language we are working in, TypeScript or JavaScript
     // and write language specific files now
@@ -184,21 +186,22 @@ const writeEchoTemplateFiles = (gen, templatePath) => {
     const DEPLOYMENT_SCRIPTS = 0;
     const DEPLOYMENT_MSBOT = 1;
     const RESOURCES = 2;
+    const TS_SRC_FOLDER = "src/"
     const folders = [
         'deploymentScripts/',
         'deploymentScripts/msbotClone/',
         'resources/'
     ];
     const extension = _.toLower(gen.props.language) === "javascript" ? "js" : "ts";
-    const srcFolder = _.toLower(gen.props.language) === "javascript" ? "" : "src/";
+    const srcFolder = _.toLower(gen.props.language) === "javascript" ? "" : TS_SRC_FOLDER;
 
     // create the echo bot folder structure common to both languages
     for(let cnt = 0; cnt < folders.length; ++cnt) {
-        mkdirp.sync(srcFolder + folders[cnt]);
+        mkdirp.sync(folders[cnt]);
     }
     // create a src directory if we are generating TypeScript
     if (_.toLower(gen.props.language) === "typescript") {
-        mkdirp.sync(srcFolder + srcFolder);
+        mkdirp.sync(srcFolder);
     }
 
     // write out the deployment scripts
