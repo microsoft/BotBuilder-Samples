@@ -38,7 +38,7 @@ namespace Microsoft.BotBuilderSamples
 
                             var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.Region);
                             var recognizer = new LuisRecognizer(app);
-                            this.LuisServices.Add(luis.Name, recognizer);
+                            this.LuisServices.Add(luis.Id, recognizer);
                             break;
                         }
                 }

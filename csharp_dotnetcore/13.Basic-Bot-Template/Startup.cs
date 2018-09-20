@@ -86,8 +86,18 @@ namespace Microsoft.BotBuilderSamples
             // based storage providers, add the Microsoft.Bot.Builder.Azure
             // Nuget package to your solution. That package is found at:
             // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
-            // Un-comment the following line to use Azure Blob Storage
-            // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage("AzureBlobConnectionString", "containerName");
+            // Un-comment the following lines to use Azure Blob Storage
+            //// Storage configuration name or ID from the .bot file.
+            //const string StorageConfigurationId = "<STORAGE-NAME-OR-ID-FROM-BOT-FILE>";
+            //var blobConfig = botConfig.FindServiceByNameOrId(StorageConfigurationId);
+            //if (!(blobConfig is BlobStorageService blobStorageConfig))
+            //{
+            //    throw new InvalidOperationException($"The .bot file does not contain an blob storage with name '{StorageConfigurationId}'.");
+            //}
+            //// Default container name.
+            //const string DefaultBotContainer = "<DEFAULT-CONTAINER>";
+            //var storageContainer = string.IsNullOrWhiteSpace(blobStorageConfig.Container) ? DefaultBotContainer : blobStorageConfig.Container;
+            //IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage(blobStorageConfig.ConnectionString, storageContainer);
 
             // Create and add conversation state.
             var conversationState = new ConversationState(dataStore);
