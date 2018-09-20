@@ -81,7 +81,7 @@ namespace Microsoft.BotBuilderSamples
             }
             else
             {
-                await turnContext.SendActivityAsync($"{ turnContext.Activity.Type } event detected");
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected");
             }
         }
     }
