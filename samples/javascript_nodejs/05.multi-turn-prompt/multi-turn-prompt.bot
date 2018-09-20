@@ -1,6 +1,6 @@
 {
     "name": "multi-turn-prompt",
-    "secretKey": "",
+    "padLock": "",
     "services": [
         {
             "type": "endpoint",
