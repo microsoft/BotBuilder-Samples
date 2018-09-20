@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -13,20 +14,25 @@ namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// Demonstrates the following concepts:
-    /// - Use a subclass of ComponentDialog to implement a mult-turn conversation
+    /// - Use a subclass of ComponentDialog to implement a multi-turn conversation
     /// - Use a Waterflow dialog to model multi-turn conversation flow
     /// - Use custom prompts to validate user input
     /// - Store conversation and user state.
     /// </summary>
-    public class GreetingDialog : DetectHelpCancelDialog
+    public class GreetingDialog : ComponentDialog
     {
-        // TurnState property
-        public const string LuisEntities = "LUIS.Entities";
-
         // User state for greeting dialog
         private const string GreetingStateProperty = "greetingState";
         private const string NameValue = "greetingName";
         private const string CityValue = "greetingCity";
+
+        // Prompts names
+        private const string NamePrompt = "namePrompt";
+        private const string CityPrompt = "cityPrompt";
+
+        // Minimum length requirements for city and name
+        private const int NameLengthMinValue = 3;
+        private const int CityLengthMinValue = 5;
 
         // Dialog IDs
         private const string ProfileDialog = "profileDialog";
@@ -37,15 +43,10 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="botServices">Connected services used in processing.</param>
         /// <param name="botState">The <see cref="UserState"/> for storing properties at user-scope.</param>
         /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> that enables logging and tracing.</param>
-        public GreetingDialog(BotServices botServices, UserState botState, ILoggerFactory loggerFactory)
-            : this(botServices, botState.CreateProperty<GreetingState>(GreetingStateName), loggerFactory)
+        public GreetingDialog(IStatePropertyAccessor<GreetingState> greetingStateAccessor, ILoggerFactory loggerFactory)
+            : base(nameof(GreetingDialog))
         {
-        }
-
-        public GreetingDialog(BotServices botServices, IStatePropertyAccessor<GreetingState> greetingStateAccessor, ILoggerFactory loggerFactory)
-            : base(botServices, nameof(GreetingDialog), loggerFactory)
-        {
-            this.GreetingStateAccessor = greetingStateAccessor;
+            GreetingStateAccessor = greetingStateAccessor ?? throw new ArgumentNullException(nameof(greetingStateAccessor));
 
             // Add control flow dialogs
             var waterfallSteps = new WaterfallStep[]
@@ -56,76 +57,27 @@ namespace Microsoft.BotBuilderSamples
                     DisplayGreetingStateStepAsync,
             };
             AddDialog(new WaterfallDialog(ProfileDialog, waterfallSteps));
-            AddDialog(new NamePrompt(nameof(NamePrompt)));
-            AddDialog(new CityPrompt(nameof(CityPrompt)));
+            AddDialog(new TextPrompt(NamePrompt, ValidateName));
+            AddDialog(new TextPrompt(CityPrompt, ValidateCity));
         }
-
-        /// <summary>
-        /// Gets the <see cref="IStatePropertyAccessor{T}"/> name used for the <see cref="CounterState"/> accessor.
-        /// </summary>
-        /// <remarks>Accessors require a unique name.</remarks>
-        /// <value>The accessor name for the accessor.</value>
-        public static string GreetingStateName { get; } = $"{nameof(GreetingDialog)}.GreetingState";
 
         public IStatePropertyAccessor<GreetingState> GreetingStateAccessor { get; }
 
-        private BotServices BotServices { get; }
-
-        // Handle updates to entities.
-        protected override async Task<bool> OnUpdateEntitiesAsync(ITurnContext turnContext, CancellationToken cancellationToken)
-        {
-            var greetingState = await GreetingStateAccessor.GetAsync(turnContext, () => new GreetingState());
-
-            var result = false;
-            if (turnContext.TurnState.ContainsKey(LuisEntities))
-            {
-                // Supported LUIS Entities
-                string[] userNameEntities = { "userName", "userName_paternAny" };
-                string[] userLocationEntities = { "userLocation", "userLocation_patternAny" };
-
-                var entities = turnContext.TurnState[LuisEntities] as JObject;
-                if (entities != null && entities.HasValues)
-                {
-                    // Update any entities
-                    // Consider having a dialog confirm the update.
-                    foreach (var name in userNameEntities)
-                    {
-                        // check if we found valid slot values in entities returned from LUIS
-                        if (entities[name] != null)
-                        {
-                            greetingState.Name = (string)entities[name][0];
-                            result = true;
-                            break;
-                        }
-                    }
-
-                    foreach (var city in userLocationEntities)
-                    {
-                        if (entities[city] != null)
-                        {
-                            greetingState.City = (string)entities[city][0];
-                            result = true;
-                            break;
-                        }
-                    }
-
-                    // set the new values
-                    await GreetingStateAccessor.SetAsync(turnContext, greetingState);
-                }
-            }
-
-            return result;
-        }
-
         private async Task<DialogTurnResult> InitializeStateStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // Check to see if there are entities that require updating.
-            await OnUpdateEntitiesAsync(stepContext.Context, cancellationToken);
-
-            var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context, () => new GreetingState());
-
-            stepContext.Values[NameValue] = greetingState.Name;
-            stepContext.Values[CityValue] = greetingState.City;
+            var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context, () => null);
+            if (greetingState == null)
+            {
+                var greetingStateOpt = stepContext.Options as GreetingState;
+                if (greetingStateOpt != null)
+                {
+                    await GreetingStateAccessor.SetAsync(stepContext.Context, greetingStateOpt);
+                }
+                else
+                {
+                    await GreetingStateAccessor.SetAsync(stepContext.Context, new GreetingState());
+                }
+            }
 
             return await stepContext.NextAsync();
         }
@@ -134,19 +86,26 @@ namespace Microsoft.BotBuilderSamples
                                                 WaterfallStepContext stepContext,
                                                 CancellationToken cancellationToken)
         {
-            // Prompt for name if missing
-            if (string.IsNullOrWhiteSpace((string)stepContext.Values[NameValue]))
+            var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context);
+
+            // if we have everything we need, greet user and return.
+            if (greetingState != null && !string.IsNullOrWhiteSpace(greetingState.Name) && !string.IsNullOrWhiteSpace(greetingState.City))
             {
-                var options = new PromptOptions
+                return await GreetUser(stepContext);
+            }
+
+            if (string.IsNullOrWhiteSpace(greetingState.Name))
+            {
+                // prompt for name, if missing
+                var opts = new PromptOptions
                 {
                     Prompt = new Activity
                     {
                         Type = ActivityTypes.Message,
-                        Text = "What is your name ?",
+                        Text = "What is your name?",
                     },
                 };
-
-                return await stepContext.PromptAsync(nameof(NamePrompt), options).ConfigureAwait(false);
+                return await stepContext.PromptAsync(NamePrompt, opts);
             }
             else
             {
@@ -158,26 +117,27 @@ namespace Microsoft.BotBuilderSamples
                                                         WaterfallStepContext stepContext,
                                                         CancellationToken cancellationToken)
         {
-            // Save name if prompted for
-            var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context, () => new GreetingState());
-            var args = stepContext.Result as string;
-            if (!string.IsNullOrWhiteSpace(args) && string.IsNullOrWhiteSpace(greetingState.Name))
+            // Save name, if prompted.
+            var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context);
+            var lowerCaseName = stepContext.Result as string;
+            if (string.IsNullOrWhiteSpace(greetingState.Name) && lowerCaseName != null)
             {
-                greetingState.Name = args;
+                // Capitalize and set name.
+                greetingState.Name = char.ToUpper(lowerCaseName[0]) + lowerCaseName.Substring(1);
+                await GreetingStateAccessor.SetAsync(stepContext.Context, greetingState);
             }
 
-            // Prompt for city if missing
             if (string.IsNullOrWhiteSpace(greetingState.City))
             {
-                var options = new PromptOptions
+                var opts = new PromptOptions
                 {
                     Prompt = new Activity
                     {
                         Type = ActivityTypes.Message,
-                        Text = $"What city do you live in?",
+                        Text = $"Hello {greetingState.Name}, what city do you live in?",
                     },
                 };
-                return await stepContext.PromptAsync(nameof(CityPrompt), options, cancellationToken);
+                return await stepContext.PromptAsync(CityPrompt, opts);
             }
             else
             {
@@ -189,23 +149,75 @@ namespace Microsoft.BotBuilderSamples
                                                     WaterfallStepContext stepContext,
                                                     CancellationToken cancellationToken)
         {
-            // Save city if it were prompted.
-            var greeting = await GreetingStateAccessor.GetAsync(stepContext.Context, () => new GreetingState());
+            // Save city, if prompted.
+            var greetingState = await GreetingStateAccessor.GetAsync(stepContext.Context);
 
-            var args = stepContext.Result as string;
-            if (string.IsNullOrWhiteSpace(greeting.City) && !string.IsNullOrWhiteSpace(args))
+            var lowerCaseCity = stepContext.Result as string;
+            if (string.IsNullOrWhiteSpace(greetingState.City) &&
+                !string.IsNullOrWhiteSpace(lowerCaseCity))
             {
-                greeting.City = args;
-                await GreetingStateAccessor.SetAsync(stepContext.Context, greeting);
-                await stepContext.Context.SendActivityAsync($"Ok `{greeting.Name}`, I've got you living in `{greeting.City}`.");
-                await stepContext.Context.SendActivityAsync("I'll go ahead an update your profile with that information.");
+                // capitalize and set city
+                greetingState.City = char.ToUpper(lowerCaseCity[0]) + lowerCaseCity.Substring(1);
+                await GreetingStateAccessor.SetAsync(stepContext.Context, greetingState);
+            }
+
+            return await GreetUser(stepContext);
+        }
+
+        /// <summary>
+        /// Validator function to verify if the user name meets required constraints.
+        /// </summary>
+        /// <param name="promptContext">Context for this prompt.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        private async Task<bool> ValidateName(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
+        {
+            // Validate that the user entered a minimum length for their name.
+            var value = promptContext.Recognized.Value?.Trim() ?? string.Empty;
+            if (value.Length > NameLengthMinValue)
+            {
+                promptContext.Recognized.Value = value;
+                return true;
             }
             else
             {
-                await stepContext.Context.SendActivityAsync($"Hi `{greeting.Name}`, living in `{greeting.City}`,"
-                    + " I understand greetings and asking for help!  Or start your connection over for a card.");
+                await promptContext.Context.SendActivityAsync($"Names needs to be at least `{NameLengthMinValue}` characters long.").ConfigureAwait(false);
+                return false;
             }
+        }
 
+        /// <summary>
+        /// Validator function to verify if city meets required constraints.
+        /// </summary>
+        /// <param name="promptContext">Context for this prompt.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        private async Task<bool> ValidateCity(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
+        {
+            // Validate that the user entered a minimum lenght for their name
+            var value = promptContext.Recognized.Value?.Trim() ?? string.Empty;
+            if (value.Length > CityLengthMinValue)
+            {
+                promptContext.Recognized.Value = value;
+                return true;
+            }
+            else
+            {
+                await promptContext.Context.SendActivityAsync($"City names needs to be at least `{CityLengthMinValue}` characters long.").ConfigureAwait(false);
+                return false;
+            }
+        }
+
+        // Helper function to greet user with information in GreetingState.
+        private async Task<DialogTurnResult> GreetUser(WaterfallStepContext stepContext)
+        {
+            var context = stepContext.Context;
+            var greetingState = await GreetingStateAccessor.GetAsync(context);
+
+            // Display their profile information and end dialog.
+            await context.SendActivityAsync($"Hi {greetingState.Name}, from {greetingState.City}, nice to meet you!");
             return await stepContext.EndDialogAsync();
         }
     }

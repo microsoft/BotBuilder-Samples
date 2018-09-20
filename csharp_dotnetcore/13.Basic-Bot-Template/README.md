@@ -1,4 +1,4 @@
-Basic bot template that puts together cards, NLP (LUIS) with ASP.Net Core 2. 
+﻿Basic bot template that puts together cards, NLP (LUIS) with ASP.Net Core 2. 
 # To try this sample
 - Clone the samples repository
 ```bash
@@ -33,10 +33,10 @@ Create a new LUIS application:
     - SubscriptionKey = YYYYYYYYYYYY
     - Region =  westus
     The Version is listed on the page.
-- Update [LuisBot.bot](LuisBot.bot) file with your Authoring Key.  
+- Update [BotConfiguration.bot](BotConfiguration.bot) file with your Authoring Key.  
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
 NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
-- Update [LuisBot.bot](LuisBot.bot) file to ensure the name property is set to `BasicBot`.
+- Update [BotConfiguration.bot](BotConfiguration.bot) file to ensure the `name` property on the `luis` service type is set to `BasicBotLUIS`.
 ## Visual Studio
 - Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\13.Basic-Bot-Template`) and open `BasicBot.csproj` in Visual Studio.
 - Press F5.
