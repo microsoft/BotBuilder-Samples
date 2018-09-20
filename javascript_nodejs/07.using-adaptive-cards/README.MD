@@ -1,15 +1,13 @@
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
-
 This sample shows how to send an Adaptive Card. This bot example uses [`restify`](https://www.npmjs.com/package/restify) and [`dotenv`](https://www.npmjs.com/package/dotenv).
 
 # To try this sample
 - Clone the repository
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-sample.git
+    git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 - In a terminal, navigate to javascript_nodejs\07.using-adaptive-cards
     ```bash
-    cd javascript_nodejs\7.using-adaptive-cards
+    cd javascript_nodejs\07.using-adaptive-cards
     ```
 - Point to the myget feed 
     ```bash
@@ -31,7 +29,7 @@ This sample shows how to send an Adaptive Card. This bot example uses [`restify`
 # Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
+- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator)
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
@@ -48,6 +46,5 @@ Adaptive Cards are supported by Bot Framework:
 # Further reading
 
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [Bot State](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-storage-concept?view=azure-bot-service-4.0)
 - [Add media to messages](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-add-media-attachments?view=azure-bot-service-4.0&tabs=javascript)
 - [Rich card types](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-add-rich-cards?view=azure-bot-service-4.0)

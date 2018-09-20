@@ -19,22 +19,26 @@ const CARDS = [
     SolitaireCard
 ];
 
+/**
+ * A bot that sends AdaptiveCards to the user when it receives a message.
+ */
 class AdaptiveCardsBot {
     /**
-     * 
-     * @param {Object} context on turn context object.
+     * Every conversation turn for our AdaptiveCardsBot will call this method.
+     * There are no dialogs used, since it's "single turn" processing, meaning a single
+     * request and response, with no stateful conversation.
+     * @param turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async onTurn(context) {
-        // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+        // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         if (context.activity.type === 'message') {
-            const randomlySelectedCard = CARDS[Math.floor((Math.random() * CARDS.length-1) + 1)];
+            const randomlySelectedCard = CARDS[Math.floor((Math.random() * CARDS.length - 1) + 1)];
             await context.sendActivity({
                 text: 'Here is an Adaptive Card:',
                 attachments: [CardFactory.adaptiveCard(randomlySelectedCard)]
             });
-        }
-        else {
-            await context.sendActivity(`[${context.activity.type} event detected]`);
+        } else {
+            await context.sendActivity(`[${ context.activity.type } event detected]`);
         }
     }
 }
