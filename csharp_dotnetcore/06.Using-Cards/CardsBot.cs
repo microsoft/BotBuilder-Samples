@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AdaptiveCards;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -21,19 +22,30 @@ namespace Using_Cards
     /// We will demonstrate the use of each of these types in this project.
     /// Not all card types are supported on all channels.
     /// Please view the documentation in the ReadMe.md file in this project for more information.
+    /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
+    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// each time they're requested. For each Activity received, a new instance of this
+    /// class is created. Objects that are expensive to construct, or have a lifetime
+    /// beyond the single turn, should be carefully managed.
+    /// For example, the <see cref="MemoryStorage"/> object and associated
+    /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// </summary>
+    /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class CardsBot : IBot
     {
+        private const string WelcomeText = @"This bot will show you different types of Rich Cards.  
+                                           Please type anything to get started.";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsBot"/> class.
         /// In the constructor for the bot we are instantiating our <see cref="DialogSet"/>, giving our field a value,
         /// and adding our <see cref="WaterfallDialog"/> and <see cref="ChoicePrompt"/> to the dialog set.
         /// </summary>
-        /// <param name="accessors">State accessors for the bot.</param>
+        /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
         public CardsBot(CardsBotAccessors accessors)
         {
             this.Accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
-            this.Dialogs = new DialogSet(this.Accessors.ConversationDialogState);
+            this.Dialogs = new DialogSet(this.Accessors.ConversationState);
             this.Dialogs.Add(new WaterfallDialog("cardSelector", new WaterfallStep[] { ChoiceCardStepAsync, ShowCardStepAsync }));
             this.Dialogs.Add(new ChoicePrompt("cardPrompt"));
         }
@@ -45,10 +57,14 @@ namespace Using_Cards
         /// <summary>
         /// This controls what happens when an activity gets sent to the bot.
         /// </summary>
-        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
-        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        /// <seealso cref="BotStateSet"/>
+        /// <seealso cref="ConversationState"/>
+        /// <seealso cref="IMiddleware"/>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (turnContext == null)
@@ -60,32 +76,38 @@ namespace Using_Cards
             {
                 case ActivityTypes.Message:
                     var dc = await this.Dialogs.CreateContextAsync(turnContext, cancellationToken);
-                    await dc.ContinueAsync(cancellationToken);
+                    await dc.ContinueDialogAsync(cancellationToken);
 
                     if (!dc.Context.Responded)
                     {
-                        await dc.BeginAsync("cardSelector", cancellationToken: cancellationToken);
+                        await dc.BeginDialogAsync("cardSelector", cancellationToken: cancellationToken);
                     }
 
                     break;
                 case ActivityTypes.ConversationUpdate:
-                    // Send a welcome message to the user and tell them what actions they need to perform to use this bot
-                    if (turnContext.Activity.MembersAdded.Any())
-                    {
-                        foreach (var member in turnContext.Activity.MembersAdded)
-                        {
-                            if (member.Id != turnContext.Activity.Recipient.Id)
-                            {
-                                await turnContext.SendActivityAsync(
-                                    $"Welcome to CardBot {member.Name}. " +
-                                    $"This bot will show you different types of Rich Cards.  " +
-                                    $"Please type anything to get started.",
-                                    cancellationToken: cancellationToken);
-                            }
-                        }
-                    }
-
+                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Sends a welcome message to the user.
+        /// </summary>
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            foreach (var member in turnContext.Activity.MembersAdded)
+            {
+                if (member.Id != turnContext.Activity.Recipient.Id)
+                {
+                    var reply = turnContext.Activity.CreateReply();
+                    reply.Text = $"Welcome to CardBot {member.Name}. {WelcomeText}";
+                    await turnContext.SendActivityAsync(reply, cancellationToken);
+                }
             }
         }
 
@@ -93,14 +115,13 @@ namespace Using_Cards
         /// Prompts the user for intput by sending a <see cref="ChoicePrompt"/> so the user may select their
         /// choice from a list of options.
         /// </summary>
-        /// <param name="dc">A <see cref="DialogContext"/> provides context for the current dialog.</param>
         /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
-        private static async Task<DialogTurnResult> ChoiceCardStepAsync(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
+        private static async Task<DialogTurnResult> ChoiceCardStepAsync(WaterfallStepContext step, CancellationToken cancellationToken)
         {
-            return await dc.PromptAsync("cardPrompt", GenerateOptions(dc.Context.Activity), cancellationToken);
+            return await step.PromptAsync("cardPrompt", GenerateOptions(step.Context.Activity), cancellationToken);
         }
 
         /// <summary>
@@ -136,20 +157,19 @@ namespace Using_Cards
         /// This method uses the text of the activity to decide which type
         /// of card to resond with and reply with that card to the user.
         /// </summary>
-        /// <param name="dc">A <see cref="DialogContext"/> provides context for the current dialog.</param>
         /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="DialogTurnResult"/> indicating the turn has ended.</returns>
         /// <remarks>Related types <see cref="Attachment"/> and <see cref="AttachmentLayoutTypes"/>.</remarks>
-        private static async Task<DialogTurnResult> ShowCardStepAsync(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
+        private static async Task<DialogTurnResult> ShowCardStepAsync(WaterfallStepContext step, CancellationToken cancellationToken)
         {
             // Get the text from the activity to use to show the correct card
-            var text = dc.Context.Activity.Text.ToLowerInvariant().Split(' ')[0];
+            var text = step.Context.Activity.Text.ToLowerInvariant().Split(' ')[0];
 
             // Replay to the activity we received with an activity
             // .
-            var reply = dc.Context.Activity.CreateReply();
+            var reply = step.Context.Activity.CreateReply();
 
             // Cards are sent as Attackments in the Bot Framework.
             // So we need to create a list of attachments on the activity.
@@ -210,12 +230,12 @@ namespace Using_Cards
             }
 
             // Send the card(s) to the user as an attachment to the activity
-            await dc.Context.SendActivityAsync(reply, cancellationToken);
+            await step.Context.SendActivityAsync(reply, cancellationToken);
 
             // Give the user instructions about what to do next
-            await dc.Context.SendActivityAsync("Type anything to see another card.", cancellationToken: cancellationToken);
+            await step.Context.SendActivityAsync("Type anything to see another card.", cancellationToken: cancellationToken);
 
-            return await dc.EndAsync(cancellationToken: cancellationToken);
+            return await step.EndDialogAsync(cancellationToken: cancellationToken);
         }
 
         // The following methods are all used to generate cards
@@ -282,7 +302,7 @@ namespace Using_Cards
         /// </summary>
         /// <returns>A <see cref="ReceiptCard"/> the user can view and/or interact with.</returns>
         /// <remarks>Related types <see cref="CardImage"/>, <see cref="CardAction"/>,
-        /// <see cref="ActionTypes"/>, <see cref="ReceiptItem"/>, <see cref="Fact"/>.</remarks>
+        /// <see cref="ActionTypes"/>, <see cref="ReceiptItem"/>, and <see cref="Fact"/>.</remarks>
         private static ReceiptCard GetReceiptCard()
         {
             var receiptCard = new ReceiptCard
@@ -338,7 +358,7 @@ namespace Using_Cards
         /// </summary>
         /// <returns>A <see cref="AnimationCard"/> the user can view and/or interact with.</returns>
         /// <remarks>Related types <see cref="CardImage"/>, <see cref="CardAction"/>,
-        /// <see cref="ActionTypes"/> and <see cref="MediaUrl"/>, <see cref="ThumbnailUrl"/>.</remarks>
+        /// <see cref="ActionTypes"/>, <see cref="MediaUrl"/>, and <see cref="ThumbnailUrl"/>.</remarks>
         private static AnimationCard GetAnimationCard()
         {
             var animationCard = new AnimationCard
@@ -366,7 +386,7 @@ namespace Using_Cards
         /// </summary>
         /// <returns>A <see cref="VideoCard"/> the user can view and/or interact with.</returns>
         /// <remarks> Related types <see cref="CardAction"/>,
-        /// <see cref="ActionTypes"/> and <see cref="MediaUrl"/>, <see cref="ThumbnailUrl"/>.</remarks>
+        /// <see cref="ActionTypes"/>, <see cref="MediaUrl"/>, and <see cref="ThumbnailUrl"/>.</remarks>
         private static VideoCard GetVideoCard()
         {
             var videoCard = new VideoCard
@@ -407,7 +427,7 @@ namespace Using_Cards
         /// </summary>
         /// <returns>A <see cref="AudioCard"/> the user can listen to or interact with.</returns>
         /// <remarks> Related types <see cref="CardAction"/>,
-        /// <see cref="ActionTypes"/> and <see cref="MediaUrl"/>, <see cref="ThumbnailUrl"/>.</remarks>
+        /// <see cref="ActionTypes"/>, <see cref="MediaUrl"/>, and <see cref="ThumbnailUrl"/>.</remarks>
         private static AudioCard GetAudioCard()
         {
             var audioCard = new AudioCard
