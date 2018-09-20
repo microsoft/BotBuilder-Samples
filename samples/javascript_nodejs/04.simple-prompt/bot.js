@@ -11,7 +11,7 @@ const HELLO_USER = 'hello_user';
 
 const NAME_PROMPT = 'name_prompt';
 
-class MainDialog {
+class SimplePromptBot {
     /**
      *
      * @param {Object} conversationState
@@ -69,7 +69,7 @@ class MainDialog {
      */
     async onTurn(turnContext) {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
-        if (turnContext.activity.type === 'message') {
+        if (turnContext.activity.type === ActivityTypes.Message) {
             // Create dialog context
             const dc = await this.dialogs.createContext(turnContext);
 
@@ -90,19 +90,30 @@ class MainDialog {
 
             // Show menu if no response sent
             if (!turnContext.responded) {
-                var userName = await this.userName.get(dc.context,null);
+                var userName = await this.userName.get(dc.context, null);
                 if (userName) {
-                    await dc.beginDialog(HELLO_USER)
+                    await dc.beginDialog(HELLO_USER);
                 } else {
-                    await dc.beginDialog(WHO_ARE_YOU)
+                    await dc.beginDialog(WHO_ARE_YOU);
                 }
             }
         } else if (
-            turnContext.activity.type === ActivityTypes.ConversationUpdate &&
-            turnContext.activity.membersAdded[0].name !== 'Bot'
+            turnContext.activity.type === ActivityTypes.ConversationUpdate
         ) {
-            // send a "this is what the bot does" message
-            await turnContext.sendActivity('I am a bot that demonstrates the TextPrompt class to collect your name, store it in UserState, and display it. Say anything to continue.');
+            // Do we have any new members added to the conversation?
+            if (turnContext.activity.membersAdded.length !== 0) {
+                // Iterate over all new members added to the conversation
+                for (var idx in turnContext.activity.membersAdded) {
+                    // Greet anyone that was not the target (recipient) of this message.
+                    // Since the bot is the recipient for events from the channel,
+                    // context.activity.membersAdded === context.activity.recipient.Id indicates the
+                    // bot was added to the conversation, and the opposite indicates this is a user.
+                    if (turnContext.activity.membersAdded[idx].id !== turnContext.activity.recipient.id) {
+                        // Send a "this is what the bot does" message to this user.
+                        await turnContext.sendActivity('I am a bot that demonstrates the TextPrompt class to collect your name, store it in UserState, and display it. Say anything to continue.');
+                    }
+                }
+            }
         }
 
         // Save changes to the user name.
@@ -113,4 +124,4 @@ class MainDialog {
     }
 }
 
-module.exports = MainDialog;
+module.exports.SimplePromptBot = SimplePromptBot;
