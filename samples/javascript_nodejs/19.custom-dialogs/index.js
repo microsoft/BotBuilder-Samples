@@ -3,13 +3,12 @@
 
 const restify = require('restify');
 const path = require('path');
-const CONFIG_ERROR = 1;
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different part of a bot.
 const { BotFrameworkAdapter, ConversationState, MemoryStorage } = require('botbuilder');
 const { BotConfiguration } = require('botframework-config');
 
-const MainDialog = require('./dialogs/mainDialog');
+const { SampleBot } = require('./bot');
 
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
@@ -31,16 +30,20 @@ const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 // This includes information about the bot's endpoints and configuration.
 let botConfig;
 try {
+    // Read bot configuration from .bot file.
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
 } catch (err) {
-    console.log(`Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
-    console.log(err);
-    process.exit(CONFIG_ERROR);
+    console.error(`\nError reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
+    console.error(`\n - The botFileSecret is available under appsettings for your Azure Bot Service bot.`);
+    console.error(`\n - If you are running this bot locally, consider adding a .env file with botFilePath and botFileSecret.\n\n`);
+    process.exit();
 }
+
+const DEV_ENVIRONMENT = 'development';
 
 // Define the name of the bot, as specified in the .bot file.
 // See https://aka.ms/about-bot-file to learn more about .bot files.
-const BOT_CONFIGURATION = 'custom-dialogs';
+const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
 // Load the configuration profile specific to this bot identity.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
@@ -56,27 +59,40 @@ const adapter = new BotFrameworkAdapter({
 // A bot requires a state storage system to persist the dialog and user state between messages.
 const memoryStorage = new MemoryStorage();
 
-// CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
-// is restarted, anything stored in memory will be gone.
-// For production bots use the Azure Cosmos DB storage, or Azure Blob storage providers.
-// const { CosmosDbStorage } = require('botbuilder-azure');
-// const STORAGE_CONFIGURATION = 'cosmosDB'; // Cosmos DB configuration in your .bot file
-// const cosmosConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION);
-// const cosmosStorage = new CosmosDbStorage({serviceEndpoint: cosmosConfig.connectionString,
-//                                            authKey: ?,
-//                                            databaseId: cosmosConfig.database,
-//                                            collectionId: cosmosConfig.collection});
+// CAUTION: You must ensure your product environment has the NODE_ENV set
+//          to use the Azure Blob storage or Azure Cosmos DB providers.
+// const { BlobStorage } = require('botbuilder-azure');
+// Storage configuration name or ID from .bot file
+// const STORAGE_CONFIGURATION_ID = '<STORAGE-NAME-OR-ID-FROM-BOT-FILE>';
+// // Default container name
+// const DEFAULT_BOT_CONTAINER = '<DEFAULT-CONTAINER>';
+// // Get service configuration
+// const blobStorageConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION_ID);
+// const blobStorage = new BlobStorage({
+//     containerName: (blobStorageConfig.container || DEFAULT_BOT_CONTAINER),
+//     storageAccountOrConnectionString: blobStorageConfig.connectionString,
+// });
 
 // Create conversation state with in-memory storage provider.
 const conversationState = new ConversationState(memoryStorage);
 
-// Create the main dialog, which serves as the bot's main handler.
-const mainDlg = new MainDialog(conversationState);
+// Create the bot's main handler.
+const bot = new SampleBot(conversationState);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (turnContext) => {
         // Route the message to the bot's main handler.
-        await mainDlg.onTurn(turnContext);
+        await bot.onTurn(turnContext);
     });
 });
+
+// Catch-all for errors.
+adapter.onTurnError = async (context, error) => {
+    // This check writes out errors to console log .vs. app insights.
+    console.error(`\n [onTurnError]: ${ error }`);
+    // Send a message to the user
+    context.sendActivity(`Oops. Something went wrong!`);
+    // Clear out state
+    conversationState.clear(context);
+};

@@ -4,12 +4,12 @@
 const { ActivityTypes } = require('botbuilder');
 const { DialogSet, NumberPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 
-const SlotFillingDialog = require('./SlotFillingDialog');
-const SlotDetails = require('./SlotDetails');
+const { SlotFillingDialog } = require('./SlotFillingDialog');
+const { SlotDetails } = require('./SlotDetails');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
 
-class MainDialog {
+class SampleBot {
     /**
      * MainDialog defines the core business logic of this bot.
      * @param {ConversationState} conversationState A ConversationState object used to store dialog state.
@@ -42,7 +42,7 @@ class MainDialog {
         const slots = [
             new SlotDetails('fullname', 'fullname'),
             new SlotDetails('age', 'number', 'Please enter your age.'),
-            new SlotDetails('shoesize', 'shoesize', 'Please enter your show size.', 'You must enter a size between 0 and 16. Half sizes are acceptable.'),
+            new SlotDetails('shoesize', 'shoesize', 'Please enter your shoe size.', 'You must enter a size between 0 and 16. Half sizes are acceptable.'),
             new SlotDetails('address', 'address')
         ];
 
@@ -53,7 +53,7 @@ class MainDialog {
         this.dialogs.add(new SlotFillingDialog('fullname', fullnameSlots));
         this.dialogs.add(new TextPrompt('text'));
         this.dialogs.add(new NumberPrompt('number'));
-        this.dialogs.add(new NumberPrompt('shoesize', this.showSizeValidator));
+        this.dialogs.add(new NumberPrompt('shoesize', this.shoeSizeValidator));
         this.dialogs.add(new SlotFillingDialog('slot-dialog', slots));
 
         // Finally, add a 2-step WaterfallDialog that will initiate the SlotFillingDialog,
@@ -69,7 +69,7 @@ class MainDialog {
     // then passes the aggregated results on to the next step.
     async startDialog(step) {
         return await step.beginDialog('slot-dialog');
-    }   
+    }
 
     // This is the second step of the WaterfallDialog.
     // It receives the results of the SlotFillingDialog and displays them.
@@ -86,12 +86,12 @@ class MainDialog {
         const address = values['address'].values;
         await step.context.sendActivity(`Your address is: ${ address['street'] }, ${ address['city'] } ${ address['zip'] }`);
 
-        return await step.enDialog();
+        return await step.endDialog();
     }
 
     // Validate that the provided shoe size is between 0 and 16, and allow half steps.
     // This is used to instantiate a specialized NumberPrompt.
-    async showSizeValidator(prompt) {
+    async shoeSizeValidator(prompt) {
         if (prompt.recognized.succeeded) {
             const shoesize = prompt.recognized.value;
 
@@ -154,4 +154,4 @@ class MainDialog {
     }
 }
 
-module.exports = MainDialog;
+module.exports.SampleBot = SampleBot;

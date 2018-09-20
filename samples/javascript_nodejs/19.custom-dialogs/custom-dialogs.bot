@@ -1,11 +1,11 @@
 {
     "name": "custom-dialogs",
-    "secretKey": "",
+    "padlock": "",
     "services": [
         {
             "type": "endpoint",
-            "name": "custom-dialogs",
-            "id": "http://localhost:3978/api/messages",
+            "name": "development",
+            "id": "1",
             "appId": "",
             "appPassword": "",
             "endpoint": "http://localhost:3978/api/messages"
