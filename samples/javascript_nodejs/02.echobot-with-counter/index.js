@@ -77,13 +77,13 @@ conversationState = new ConversationState(memoryStorage);
 // conversationState = new ConversationState(blobStorage);
 
 // Create the main dialog.
-const mainDlg = new Bot(conversationState);
+const bot = new Bot(conversationState);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
         // route to main dialog.
-        await mainDlg.onTurn(context);
+        await bot.onTurn(context);
     });
 });
 
