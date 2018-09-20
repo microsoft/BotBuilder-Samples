@@ -17,7 +17,7 @@ The bot adapter encapsulates authentication processes and sends activities to an
 ```bash
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
-
+# Prerequisites
 ## Visual studio
 - Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\01.Console-EchoBot`) and open Console-EchoBot.csproj in Visual studio 
 - Hit F5
