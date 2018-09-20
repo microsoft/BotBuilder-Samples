@@ -14,15 +14,26 @@ namespace WelcomeUser.State
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WelcomeUserStateAccessors"/> class.
+        /// Contains the <see cref="UserState"/> and associated <see cref="IStatePropertyAccessor{T}"/>.
         /// </summary>
-        /// <param name="userState">A <see cref="UserState"/> object used to save sate.</param>
+        /// <param name="conversationState">The state object that stores the counter.</param>
         public WelcomeUserStateAccessors(UserState userState)
         {
             this.UserState = userState ?? throw new ArgumentNullException(nameof(userState));
         }
 
-        public IStatePropertyAccessor<bool> DidBotWelcomedUser { get; set; }
+        /// <summary>
+        /// Gets or sets the <see cref="IStatePropertyAccessor{T}"/> for DidBotWelcome.
+        /// </summary>
+        /// <value>
+        /// The accessor stores if the bot has welcomed the user or not.
+        /// </value>
+        public IStatePropertyAccessor<bool> DidBotWelcomeUser { get; set; }
 
+        /// <summary>
+        /// Gets the <see cref="UserState"/> object for the conversation.
+        /// </summary>
+        /// <value>The <see cref="UserState"/> object.</value>
         public UserState UserState { get; }
     }
 }
