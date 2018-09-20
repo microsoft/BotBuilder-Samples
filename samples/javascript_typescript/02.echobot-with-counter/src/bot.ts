@@ -3,27 +3,28 @@
 
 // bot.js is your bot's main entry point to handle incoming activities.
 
-const { ActivityTypes } = require('botbuilder');
+import { ActivityTypes, ConversationState, StatePropertyAccessor } from 'botbuilder';
 
 // Turn counter property
-const TURN_COUNTER_PROPERTY = 'turnCounterProperty';
+const TURN_COUNTER = 'turnCounterProperty';
 
-class EchoBot {
+export class EchoBot {
     /**
-     *
+     * 
      * @param {ConversationState} conversation state object
      */
-    constructor(conversationState) {
-        // Creates a new state accessor property.
-        // See https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors
-        this.countProperty = conversationState.createProperty(TURN_COUNTER_PROPERTY);
+    private readonly countAccessor: StatePropertyAccessor<number>;
+    private readonly conversationState: ConversationState;
+    constructor (conversationState) {
+        // creates a new state accessor property.see https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors 
+        this.countAccessor = conversationState.createProperty(TURN_COUNTER);
         this.conversationState = conversationState;
     }
     /**
-     *
+     * 
      * Use onTurn to handle an incoming activity, received from a user, process it, and reply as needed
-     *
-     * @param {TurnContext} on turn context object.
+     * 
+     * @param {TurnContext} context on turn context object.
      */
     async onTurn(turnContext) {
         // Handle message activity type. User's responses via text or speech or card interactions flow back to the bot as Message activity.
@@ -31,18 +32,17 @@ class EchoBot {
         // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
         if (turnContext.activity.type === ActivityTypes.Message) {
             // read from state.
-            let count = await this.countProperty.get(turnContext);
+            let count = await this.countAccessor.get(turnContext);
             count = count === undefined ? 1 : ++count;
             await turnContext.sendActivity(`${ count }: You said "${ turnContext.activity.text }"`);
             // increment and set turn counter.
-            await this.countProperty.set(turnContext, count);
-        } else {
+            await this.countAccessor.set(turnContext, count);
+        }
+        else {
             // Generic handler for all other activity types.
-            await turnContext.sendActivity(`[${ turnContext.activity.type } event detected]`);
+            await turnContext.sendActivity(`[${turnContext.activity.type} event detected]`);
         }
         // Save state changes
         await this.conversationState.saveChanges(turnContext);
     }
 }
-
-exports.EchoBot = EchoBot;
