@@ -15,7 +15,6 @@ const { Bot } = require('./bot');
 const ENV_FILE = path.join(__dirname, '.env');
 const env = require('dotenv').config({ path: ENV_FILE });
 
-const BOT_CONFIG_ERROR = 1;
 const DEV_ENVIRONMENT = 'development';
 
 // bot name as defined in .bot file
@@ -37,10 +36,10 @@ try {
     // Read bot configuration from .bot file.
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
 } catch (err) {
-    console.log(`\nError reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
-    console.log(`\n - The botFileSecret is available under appsettings for your Azure Bot Service bot.`);
-    console.log(`\n - If you are running this bot locally, consider adding a .env file with botFilePath and botFileSecret.\n\n`);
-    process.exit(BOT_CONFIG_ERROR);
+    console.error(`\nError reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
+    console.error(`\n - The botFileSecret is available under appsettings for your Azure Bot Service bot.`);
+    console.error(`\n - If you are running this bot locally, consider adding a .env file with botFilePath and botFileSecret.\n\n`);
+    process.exit();
 }
 
 // Get bot endpoint configuration by service name
@@ -61,6 +60,7 @@ let conversationState;
 // is restarted, anything stored in memory will be gone.
 const memoryStorage = new MemoryStorage();
 conversationState = new ConversationState(memoryStorage);
+
 // CAUTION: You must ensure your product environment has the NODE_ENV set
 //          to use the Azure Blob storage or Azure Cosmos DB providers.
 // const { BlobStorage } = require('botbuilder-azure');
@@ -90,7 +90,7 @@ server.post('/api/messages', (req, res) => {
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
-    console.log(`\n [Error]: ${ error }`);
+    console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
     context.sendActivity(`Oops. Something went wrong!`);
     // Clear out state

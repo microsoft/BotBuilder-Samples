@@ -37,4 +37,4 @@ class Bot {
     }
 }
 
-module.exports.Bot = Bot;
+exports.Bot = Bot;
