@@ -17,11 +17,11 @@ using Microsoft.Extensions.Options;
 
 namespace Microsoft.BotBuilderSamples
 {
+    /// <summary>
+    /// The Startup class configures services and the app's request pipeline.
+    /// </summary>
     public class Startup
     {
-        /// <summary>
-        /// The Startup class configures services and the app's request pipeline.
-        /// </summary>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -46,8 +46,8 @@ namespace Microsoft.BotBuilderSamples
             {
                 InitCredentialProvider(options);
 
-                // Memory Storage is for local bot debugging only. When the bot
-                // is restarted, anything stored in memory will be gone.
+                // The Memory Storage used here is for local bot debugging only. When the bot
+                // is restarted, everything stored in memory will be gone.
                 IStorage dataStore = new MemoryStorage();
 
                 // For production bots use the Azure Blob or
