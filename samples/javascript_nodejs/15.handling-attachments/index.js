@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { BotFrameworkAdapter } = require('botbuilder');
-const { BotConfiguration } = require('botframework-config');
 const path = require('path');
 const restify = require('restify');
+const { BotFrameworkAdapter } = require('botbuilder');
+const { BotConfiguration } = require('botframework-config');
 const { AttachmentsBot } = require('./bot');
 
 // Read botFilePath and botFileSecret from .env file.
