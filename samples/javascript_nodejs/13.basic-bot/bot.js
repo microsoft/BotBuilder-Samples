@@ -93,7 +93,7 @@ class BasicBot {
     async onTurn(context) {
         // Handle Message activity type, which is the main activity type for shown within a conversational interface
         // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
-        // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types        
+        // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
         if (context.activity.type === ActivityTypes.Message) {
             let dialogResult;
             // Create a dialog context
@@ -121,7 +121,7 @@ class BasicBot {
                 dialogResult = await dc.continueDialog();
             }
 
-            // If no active dialog or no active dialog has responded, 
+            // If no active dialog or no active dialog has responded,
             if (!dc.context.responded) {
                 // Switch on return results from any active dialog.
                 switch (dialogResult.status) {
@@ -150,7 +150,7 @@ class BasicBot {
             // Handle ConversationUpdate activity type, which is used to indicates new members add to
             // the conversation.
             // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
-        
+
             // Do we have any new members added to the conversation?
             if (context.activity.membersAdded.length !== 0) {
                 // Iterate over all new members added to the conversation
