@@ -27,7 +27,7 @@ Microsoft Bot Framework Emulator is a desktop application that allows bot develo
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples\03.Welcome-Users folder
+- File -> Open Bot Configuration and navigate to samples/javascript_nodejs/03.Welcome-Users folder
 - Select Welcome-Users.bot file
 
 # ConversationUpdate Activity Type
