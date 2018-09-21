@@ -4,7 +4,7 @@
     "services": [
         {
             "type": "endpoint",
-            "name": "attachments",
+            "name": "development",
             "id": "http://localhost:3978/api/messages",
             "appId": "",
             "appPassword": "",
