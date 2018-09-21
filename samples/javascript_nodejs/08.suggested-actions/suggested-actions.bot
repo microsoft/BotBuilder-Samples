@@ -1,0 +1,15 @@
+{
+    "name": "suggested-actions",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "development",
+            "endpoint": "http://localhost:3978/api/messages",
+            "appId": "",
+            "appPassword": "",
+            "id": "128"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0"
+}
