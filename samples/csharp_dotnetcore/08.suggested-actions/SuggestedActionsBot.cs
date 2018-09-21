@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 
-namespace Suggested_Actions
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// This bot will respond to the user's input with suggested actions.
@@ -23,16 +23,30 @@ namespace Suggested_Actions
     /// the user makes a selection. This prevents the user from tapping stale buttons
     /// within a conversation and simplifies bot development (since you will not need
     /// to account for that scenario).
+    /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
+    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// each time they're requested. For each Activity received, a new instance of this
+    /// class is created. Objects that are expensive to construct, or have a lifetime
+    /// beyond the single turn, should be carefully managed.
     /// </summary>
     public class SuggestedActionsBot : IBot
     {
+        public const string WelcomeText = @"This bot will introduce you to suggestedActions.
+                                            Please answer the question:";
+
         /// <summary>
-        /// This controls what happens when an activity gets sent to the bot.
+        /// Every conversation turn for our bot will call this method.
+        /// There are no dialogs used, since it's "single turn" processing, meaning a single
+        /// request and response.
         /// </summary>
-        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
-        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        /// <seealso cref="BotStateSet"/>
+        /// <seealso cref="ConversationState"/>
+        /// <seealso cref="IMiddleware"/>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (turnContext == null)
@@ -40,31 +54,33 @@ namespace Suggested_Actions
                 throw new ArgumentNullException(nameof(turnContext));
             }
 
-            switch (turnContext.Activity.Type)
+            // Handle Message activity type, which is the main activity type for shown within a conversational interface
+            // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
+            // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+            if (turnContext.Activity.Type == ActivityTypes.Message)
             {
-                case ActivityTypes.Message:
-                    // Extract the text from the message activity the user sent
-                    // Make this lowercase not accounting for culture in this case
-                    // so that there are fewer string variations which you will have
-                    // have to account for in your bot.
-                    var text = turnContext.Activity.Text.ToLowerInvariant();
+                // Extract the text from the message activity the user sent
+                // Make this lowercase not accounting for culture in this case
+                // so that there are fewer string variations which you will have
+                // have to account for in your bot.
+                var text = turnContext.Activity.Text.ToLowerInvariant();
 
-                    // Take the input from the user and create the appropriate response.
-                    var responseText = ProcessInput(text);
+                // Take the input from the user and create the appropriate response.
+                var responseText = ProcessInput(text);
 
-                    // Respond to the user.
-                    await turnContext.SendActivityAsync(responseText, cancellationToken: cancellationToken);
+                // Respond to the user.
+                await turnContext.SendActivityAsync(responseText, cancellationToken: cancellationToken);
 
-                    await SendSuggestedActionsAsync(turnContext, cancellationToken);
-                    break;
-                case ActivityTypes.ConversationUpdate:
-                    // Send a welcome message to the user and tell them what actions they may perform to use this bot
-                    if (turnContext.Activity.MembersAdded.Any())
-                    {
-                        await SendWelcomeMessageAsync(turnContext, cancellationToken);
-                    }
-
-                    break;
+                await SendSuggestedActionsAsync(turnContext, cancellationToken);
+            }
+            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                // Send a welcome message to the user and tell them what actions they may perform to use this bot
+                await SendWelcomeMessageAsync(turnContext, cancellationToken);
+            }
+            else
+            {
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected", cancellationToken: cancellationToken);
             }
         }
 
@@ -83,9 +99,7 @@ namespace Suggested_Actions
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     await turnContext.SendActivityAsync(
-                        $"Welcome to SuggestedActionsBot {member.Name}." +
-                        $" This bot will introduce you to suggestedActions." +
-                        $"  Please answer the question:",
+                        $"Welcome to SuggestedActionsBot {member.Name}. {WelcomeText}",
                         cancellationToken: cancellationToken);
                     await SendSuggestedActionsAsync(turnContext, cancellationToken);
                 }
@@ -96,7 +110,7 @@ namespace Suggested_Actions
         /// Given the text from the message activity the user sent, create the text for the response.
         /// </summary>
         /// <param name="text">The text that was input by the user.</param>
-        /// <returns>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
         private static string ProcessInput(string text)
         {
             const string colorText = "is the best color, I agree.";
@@ -133,7 +147,7 @@ namespace Suggested_Actions
         /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
         private static async Task SendSuggestedActionsAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             var reply = turnContext.Activity.CreateReply("What is your favorite color?");
