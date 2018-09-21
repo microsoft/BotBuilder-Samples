@@ -12,21 +12,7 @@ const { SuggestedActionsBot } = require('./bot');
 const ENV_FILE = path.join(__dirname, '.env');
 const env = require('dotenv').config({ path: ENV_FILE });
 
-const DEV_ENVIRONMENT = 'development';
-
-// Bot name as defined in .bot file.
-// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
-const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
-
-// Create HTTP server.
-let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function() {
-    console.log(`\n${ server.name } listening to ${ server.url }.`);
-    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
-    console.log(`\nTo talk to your bot, open suggested-actions.bot file in the Emulator.`);
-});
-
-// .bot file path.
+// Get the .bot file path.
 const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 let botConfig;
 try {
@@ -39,6 +25,13 @@ try {
     process.exit();
 }
 
+// For local development configuration as defined in .bot file.
+const DEV_ENVIRONMENT = 'development';
+
+// Bot name as defined in .bot file or from runtime.
+// See https://aka.ms/about-bot-file to learn more about .bot files.
+const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
+
 // Get bot endpoint configuration by service name.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
@@ -48,18 +41,32 @@ const adapter = new BotFrameworkAdapter({
     appPassword: endpointConfig.appPassword || process.env.MicrosoftAppPassword
 });
 
+// Catch-all for errors.
+adapter.onTurnError = async (turnContext, error) => {
+    console.error(`\n [onTurnError]: ${ error }`);
+    await turnContext.sendActivity(`Oops. Something went wrong!`);
+};
+
 // Create the SuggestedActionsBot.
-const suggestedActionsBot = new SuggestedActionsBot();
+let bot;
+try {
+    bot = new SuggestedActionsBot();
+} catch (err) {
+    console.error(`[botInitializationError]: ${ err }`);
+    process.exit();
+}
+
+// Create HTTP server.
+let server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, function() {
+    console.log(`\n${ server.name } listening to ${ server.url }.`);
+    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
+    console.log(`\nTo talk to your bot, open suggested-actions.bot file in the Emulator.`);
+});
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
-        await suggestedActionsBot.onTurn(context);
+        await bot.onTurn(context);
     });
 });
-
-// Catch-all for errors.
-adapter.onTurnError = async (context, error) => {
-    console.error(`\n [onTurnError]: ${ error }`);
-    context.sendActivity(`Oops. Something went wrong!`);
-};
