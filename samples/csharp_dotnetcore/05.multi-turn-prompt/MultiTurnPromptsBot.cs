@@ -95,10 +95,13 @@ namespace Microsoft.BotBuilderSamples
                     await dialogContext.BeginDialogAsync("details", null, cancellationToken);
                 }
             }
-
-            if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
                 await SendWelcomeMessageAsync(turnContext, cancellationToken);
+            }
+            else
+            {
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected", cancellationToken: cancellationToken);
             }
 
             // Save the dialog state into the conversation state.
