@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AdaptiveCards;
@@ -14,7 +13,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
 
-namespace Using_Cards
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// This bot will respond to the user's input with rich card content.
@@ -36,6 +35,10 @@ namespace Using_Cards
         private const string WelcomeText = @"This bot will show you different types of Rich Cards.  
                                            Please type anything to get started.";
 
+        private CardsBotAccessors _accessors;
+
+        private DialogSet _dialogs;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsBot"/> class.
         /// In the constructor for the bot we are instantiating our <see cref="DialogSet"/>, giving our field a value,
@@ -44,15 +47,11 @@ namespace Using_Cards
         /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
         public CardsBot(CardsBotAccessors accessors)
         {
-            this.Accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
-            this.Dialogs = new DialogSet(this.Accessors.ConversationState);
-            this.Dialogs.Add(new WaterfallDialog("cardSelector", new WaterfallStep[] { ChoiceCardStepAsync, ShowCardStepAsync }));
-            this.Dialogs.Add(new ChoicePrompt("cardPrompt"));
+            this._accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
+            this._dialogs = new DialogSet(accessors.ConversationDialogState);
+            this._dialogs.Add(new WaterfallDialog("cardSelector", new WaterfallStep[] { ChoiceCardStepAsync, ShowCardStepAsync }));
+            this._dialogs.Add(new ChoicePrompt("cardPrompt"));
         }
-
-        private CardsBotAccessors Accessors { get; }
-
-        private DialogSet Dialogs { get; }
 
         /// <summary>
         /// This controls what happens when an activity gets sent to the bot.
@@ -72,22 +71,30 @@ namespace Using_Cards
                 throw new ArgumentNullException(nameof(turnContext));
             }
 
-            switch (turnContext.Activity.Type)
+            // Handle Message activity type, which is the main activity type for shown within a conversational interface
+            // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
+            // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+            if (turnContext.Activity.Type == ActivityTypes.Message)
             {
-                case ActivityTypes.Message:
-                    var dc = await this.Dialogs.CreateContextAsync(turnContext, cancellationToken);
-                    await dc.ContinueDialogAsync(cancellationToken);
+                var dialogContext = await this._dialogs.CreateContextAsync(turnContext, cancellationToken);
+                var results = await dialogContext.ContinueDialogAsync(cancellationToken);
 
-                    if (!dc.Context.Responded)
-                    {
-                        await dc.BeginDialogAsync("cardSelector", cancellationToken: cancellationToken);
-                    }
-
-                    break;
-                case ActivityTypes.ConversationUpdate:
-                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
-                    break;
+                if (results.Status == DialogTurnStatus.Empty)
+                {
+                    await dialogContext.BeginDialogAsync("cardSelector", cancellationToken: cancellationToken);
+                }
             }
+            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
+            }
+            else
+            {
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected", cancellationToken: cancellationToken);
+            }
+
+            // Save the dialog state into the conversation state.
+            await _accessors.ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
 
         /// <summary>
@@ -118,7 +125,7 @@ namespace Using_Cards
         /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
+        /// <returns>A <see cref="DialogTurnResult"/> to communicate some flow control back to the containing WaterfallDialog.</returns>
         private static async Task<DialogTurnResult> ChoiceCardStepAsync(WaterfallStepContext step, CancellationToken cancellationToken)
         {
             return await step.PromptAsync("cardPrompt", GenerateOptions(step.Context.Activity), cancellationToken);
@@ -167,8 +174,7 @@ namespace Using_Cards
             // Get the text from the activity to use to show the correct card
             var text = step.Context.Activity.Text.ToLowerInvariant().Split(' ')[0];
 
-            // Replay to the activity we received with an activity
-            // .
+            // Replay to the activity we received with an activity.
             var reply = step.Context.Activity.CreateReply();
 
             // Cards are sent as Attackments in the Bot Framework.
@@ -246,7 +252,7 @@ namespace Using_Cards
         /// <returns>An <see cref="AdaptiveCard"/>.</returns>
         private static Attachment CreateAdaptiveCardAttachment()
         {
-            var adaptiveCardJson = File.ReadAllText(@".\adaptiveCard.json");
+            var adaptiveCardJson = File.ReadAllText(@".\Resources\adaptiveCard.json");
             var adaptiveCardAttachment = new Attachment()
             {
                 ContentType = "application/vnd.microsoft.card.adaptive",
