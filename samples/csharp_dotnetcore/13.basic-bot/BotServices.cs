@@ -36,7 +36,7 @@ namespace Microsoft.BotBuilderSamples
                                 throw new InvalidOperationException("The LUIS service is not configured correctly in your '.bot' file.");
                             }
 
-                            var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.Region);
+                            var app = new LuisApplication(luis.AppId, luis.AuthoringKey, luis.GetEndpoint());
                             var recognizer = new LuisRecognizer(app);
                             this.LuisServices.Add(luis.Name, recognizer);
                             break;
