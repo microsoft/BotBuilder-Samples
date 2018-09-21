@@ -42,32 +42,18 @@ class SuggestedActionsBot {
      * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async sendWelcomeMessage(turnContext) {
-        const that = this;
-
-        // Define a promise that will welcome the user.
-        async function welcomeUser(conversationMember) {
-            // Create welcome message to send to new conversation members.
-            const welcomeMessage = `Welcome to suggestedActionsBot ${ conversationMember.name }. ` +
-            `This bot will introduce you to Suggested Actions. ` +
-            `Please select an option:`;
-
-            // Greet anyone that was not the target (recipient) of this message.
-            // The bot is the recipient of all events from the channel, including all ConversationUpdate-type activities
-            // turnContext.activity.membersAdded !== turnContext.activity.recipient.id indicates
-            // a user was added to the conversation.
-            if (conversationMember.id !== this.activity.recipient.id) {
-                // Because the TurnContext was bound to this function, the bot can call
-                // `TurnContext.sendActivity` via `this.sendActivity`;
-                await this.sendActivity(welcomeMessage);
-                await that.sendSuggestedActions(this);
+        const activity = turnContext.activity;
+        if (activity.membersAdded) {
+            // Iterate over all new members added to the conversation.
+            for (const idx in activity.membersAdded) {
+                if (activity.membersAdded[idx].id !== activity.recipient.id) {
+                    const welcomeMessage = `Welcome to suggestedActionsBot ${ activity.membersAdded[idx].name }. ` +
+                        `This bot will introduce you to Suggested Actions. ` +
+                        `Please select an option:`;
+                    await turnContext.sendActivity(welcomeMessage);
+                    await this.sendSuggestedActions(turnContext);
+                }
             }
-        }
-
-        // If new members are added to the conversation, welcome them via `welcomeUser()`.
-        if (turnContext.activity && turnContext.activity.membersAdded) {
-            // Prepare Promises to greet the users.
-            const replyPromises = turnContext.activity.membersAdded.map(welcomeUser.bind(turnContext));
-            await Promise.all(replyPromises);
         }
     }
 
