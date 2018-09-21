@@ -10,7 +10,7 @@ const { BotFrameworkAdapter, ConversationState, MemoryStorage } = require('botbu
 // Import required bot configuration.
 const { BotConfiguration } = require('botframework-config');
 
-const { EchoBot } = require('./bot');
+const { WelcomeBot } = require('./bot');
 
 // Read botFilePath and botFileSecret from .env file
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
@@ -85,7 +85,7 @@ conversationState = new ConversationState(memoryStorage);
 // conversationState = new ConversationState(blobStorage);
 
 // Create the main dialog.
-const bot = new EchoBot(conversationState);
+const bot = new WelcomeBot(conversationState);
 
 // Create HTTP server
 let server = restify.createServer();
