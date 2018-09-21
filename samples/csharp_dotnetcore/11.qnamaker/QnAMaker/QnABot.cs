@@ -24,6 +24,9 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         public static readonly string QnAMakerKey = "QnABot";
 
+        private const string WelcomeText = @"This bot will introduce you to QnA Maker.
+                                            Ask a quesiton to get started.";
+
         /// <summary>
         /// Services configured from the ".bot" file.
         /// </summary>
@@ -47,27 +50,63 @@ namespace Microsoft.BotBuilderSamples
         /// There are no dialogs used, the sample only uses "single turn" processing,
         /// meaning a single request and response, with no stateful conversation.
         /// </summary>
-        /// <param name="context">A <see cref="ITurnContext"/> containing all the data needed
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
         /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>A task that represents the work queued to execute.</returns>
-        public async Task OnTurnAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        /// <seealso cref="BotStateSet"/>
+        /// <seealso cref="ConversationState"/>
+        /// <seealso cref="IMiddleware"/>
+        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (context.Activity.Type == ActivityTypes.Message)
+            // Handle Message activity type, which is the main activity type for shown within a conversational interface
+            // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
+            // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+            if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 // Check QnA Maker model
-                var response = await _services.QnAServices[QnAMakerKey].GetAnswersAsync(context);
+                var response = await _services.QnAServices[QnAMakerKey].GetAnswersAsync(turnContext);
                 if (response != null && response.Length > 0)
                 {
-                    await context.SendActivityAsync(response[0].Answer);
+                    await turnContext.SendActivityAsync(response[0].Answer, cancellationToken: cancellationToken);
                 }
                 else
                 {
                     var msg = @"No QnA Maker answers were found. This example uses a QnA Maker Knowledge Base that focuses on smart light bulbs. 
                         To see QnA Maker in action, ask the bot questions like 'Why won't it turn on?' or 'I need help'.";
 
-                    await context.SendActivityAsync(msg);
+                    await turnContext.SendActivityAsync(msg, cancellationToken: cancellationToken);
+                }
+            }
+            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                // Send a welcome & help message to the user.
+                await SendWelcomeMessageAsync(turnContext, cancellationToken);
+            }
+            else
+            {
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected", cancellationToken: cancellationToken);
+            }
+        }
+
+        /// <summary>
+        /// Greet new users as they are added to the conversation.
+        /// </summary>
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            foreach (var member in turnContext.Activity.MembersAdded)
+            {
+                if (member.Id != turnContext.Activity.Recipient.Id)
+                {
+                    await turnContext.SendActivityAsync(
+                        $"Welcome to AdaptiveCardsBot {member.Name}. {WelcomeText}",
+                        cancellationToken: cancellationToken);
                 }
             }
         }
