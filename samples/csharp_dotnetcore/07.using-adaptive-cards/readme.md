@@ -16,12 +16,14 @@ control the user experience. Card authors win because their content gets broader
 ```bash
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
- ### Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\07.Using-Adaptive-Cards`) and open Using_Adaptive_Cards.csproj in Visual Studio 
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\02.echo-with-counter` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+# Prerequisites
+## Visual Studio
+- Navigate to the samples folder (`BotBuilder-Samples\samples\csharp_dotnetcore\07.using-adaptive-cards`) and open AdaptiveCardsBot.csproj in Visual Studio 
 - Hit F5
- ### Visual Studio Code
-- Open `BotBuilder-Samples\csharp_dotnetcore\07.Using-Adaptive-Cards` folder
-- Bring up a terminal, navigate to BotBuilder-Samples\csharp_dotnetcore\07.Using-Adaptive-Cards\
+## Visual Studio Code
+- Open `BotBuilder-Samples\samples\csharp_dotnetcore\07.using-adaptive-cards` folder
+- Bring up a terminal, navigate to BotBuilder-Samples\samples\csharp_dotnetcore\07.using-adaptive-cards\
 - Type 'dotnet run'.
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
