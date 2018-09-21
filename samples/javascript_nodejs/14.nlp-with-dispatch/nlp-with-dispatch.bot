@@ -1,0 +1,45 @@
+{
+    "name": "nlp-with-dispatch",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "development",
+            "endpoint": "http://localhost:3978/api/messages",
+            "appId": "",
+            "appPassword": "",
+            "id": "1"
+        },
+        {
+            "type": "luis",
+            "name": "Home Automation",
+            "appId": "dee88fe8-30bf-42e0-b7c8-e390894f289b",
+            "version": "0.1",
+            "authoringKey": "a95d07785b374f0a9d7d40700e28a285",
+            "subscriptionKey": "a95d07785b374f0a9d7d40700e28a285",
+            "region": "westus",
+            "id": "7"
+        },
+        {
+            "type": "luis",
+            "name": "Weather",
+            "appId": "d1d37462-8023-4027-a9c4-98d98177a91d",
+            "version": "0.1",
+            "authoringKey": "a95d07785b374f0a9d7d40700e28a285",
+            "subscriptionKey": "a95d07785b374f0a9d7d40700e28a285",
+            "region": "westus",
+            "id": "50"
+        },
+        {
+            "type": "qna",
+            "name": "sample-qna",
+            "kbId": "2cb7003a-a0d7-45f8-b513-40721f287105",
+            "subscriptionKey": "d30ebbcc44ef4f07bae1a0e31b69f709",
+            "endpointKey": "0fa7f711-6a82-4155-9cf9-5c8168967df6",
+            "hostname": "https://contosocafeqnab8.azurewebsites.net/qnamaker",
+            "id": "201"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0"
+}
