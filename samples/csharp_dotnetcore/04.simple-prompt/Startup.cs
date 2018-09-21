@@ -13,6 +13,7 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Microsoft.BotBuilderSamples
@@ -22,6 +23,7 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class Startup
     {
+        private ILoggerFactory _loggerFactory;
         private bool _isProduction = false;
 
         public Startup(IHostingEnvironment env)
@@ -55,11 +57,22 @@ namespace Microsoft.BotBuilderSamples
                 var secretKey = Configuration.GetSection("botFileSecret")?.Value;
                 var botFilePath = Configuration.GetSection("botFilePath")?.Value;
 
-                // Load the connected services from .bot file.
+                // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
                 var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
                 services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
 
-                InitCredentialProvider(options, services, botConfig);
+                // Retrieve current endpoint.
+                var environment = _isProduction ? "production" : "development";
+                var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+                if (!(service is EndpointService endpointService))
+                {
+                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+                }
+
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+
+                // Creates a logger for the application to use.
+                ILogger logger = _loggerFactory.CreateLogger<SimplePromptBot>();
 
                 // Memory Storage is for local bot debugging only. When the bot
                 // is restarted, everything stored in memory will be gone.
@@ -116,31 +129,14 @@ namespace Microsoft.BotBuilderSamples
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            _isProduction = env.IsProduction();
+            _loggerFactory = loggerFactory;
+
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
-        }
-
-        /// <summary>
-        /// Initializes the credential provider, using by default the <see cref="SimpleCredentialProvider"/>.
-        /// </summary>
-        /// <param name="options"><see cref="BotFrameworkOptions"/> for the current bot.</param>
-        /// <param name="services">The <see cref="IServiceCollection"/> specifies the contract for a collection of service descriptors.</param>
-        /// <param name="botConfig"> The <see cref="BotConfiguration"/> for the current bot.</param>
-        private void InitCredentialProvider(BotFrameworkOptions options, IServiceCollection services, BotConfiguration botConfig)
-        {
-            // Retrieve current endpoint.
-            var environment = _isProduction ? "production" : "development";
-            var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
-            var endpointService = service as EndpointService;
-            if (endpointService == null)
-            {
-                throw new InvalidOperationException("The .bot file does not contain an endpoint.");
-            }
-
-            options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
         }
     }
 }
