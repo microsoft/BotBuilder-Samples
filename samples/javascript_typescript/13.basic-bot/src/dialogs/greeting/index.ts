@@ -2,6 +2,6 @@
 // Licensed under the MIT License.
 
 import { GreetingDialog } from './greeting';
-import { GreetingState } from './greetingState';
+import { UserProfile } from './userProfile';
 
-export { GreetingDialog, GreetingState };
+export { GreetingDialog, UserProfile };

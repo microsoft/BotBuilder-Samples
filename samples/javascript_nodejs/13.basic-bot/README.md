@@ -60,7 +60,7 @@ See [here](./deploymentScripts/DEPLOY.md) to learn more about deploying this bot
 
 ### Project Structure
 
-`index.js` references the bot and starts a Restify server. `bot.js` loads the dialog type you selected when running the generator and adds it as the default dialog. `dialogs.js` contains the list of sample dialogs.
+`index.js` references the bot and starts a Restify server. `bot.js` loads the dialog type you selected when running the generator and adds it as the default dialog. 
 
 ### Configuring the bot
 
