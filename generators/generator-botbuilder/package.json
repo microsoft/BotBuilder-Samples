@@ -23,10 +23,9 @@
     "dependencies": {
         "botbuilder": "^4.0.5",
         "lodash": "^4.17.11",
-        "yeoman-generator": "^1.0.0"
+        "yeoman-generator": "1.0.0"
     },
     "devDependencies": {
-        "nsp": "^3.2.1",
-        "yeoman-test": "^1.9.1"
+        "nsp": "^3.2.1"
     }
 }
