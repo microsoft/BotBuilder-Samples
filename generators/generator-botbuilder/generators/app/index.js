@@ -18,6 +18,7 @@ module.exports = class extends Generator {
         // configure the commandline options
         prompts.configureCommandlineOptions(this);
     }
+
     prompting() {
         // if we're told to not prompt, then pick what we need and return
         if(this.options.noprompt) {
@@ -60,9 +61,9 @@ module.exports = class extends Generator {
         }
     }
 
-    // install() {
-    //     this.installDependencies({ bower: false });
-    // }
+    install() {
+        this.installDependencies({ bower: false });
+    }
 
     end() {
         const thankYouMsg = "------------------- \n" +

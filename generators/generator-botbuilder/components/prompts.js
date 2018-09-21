@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// configureCommandlineOptions
-//  does the work to confiure the commandline options that this template will accept
-//  this is mostly made available so that we can run the template without user
-//  intervention.  e.g. automated test runs
+/**
+ * configureCommandlineOptions
+ * does the work to confiure the commandline options that this template will accept
+ * this is mostly made available so that we can run the template without user
+ * intervention.  e.g. automated test runs
+ * @param {Generator} gen Yeoman's generator object
+ */
 module.exports.configureCommandlineOptions = gen => {
   gen.option("botName", {
     desc: "The name you want to give to your bot",
@@ -33,10 +36,12 @@ module.exports.configureCommandlineOptions = gen => {
   gen.argument("noprompt", { type: Boolean, required: false });
 };
 
-//
-// getPrompts
-//  constructs an array of promps name/value pairs.  this is the input we need from the user
-// or passe into the commandline to successfully configure a new bot
+/**
+ * getPrompts
+ * constructs an array of promps name/value pairs.  this is the input we need from the user
+ * or passed into the command line to successfully configure a new bot
+ * @param {Object} options
+ */
 module.exports.getPrompts = options => {
   const prompts = [
     {
@@ -63,18 +68,6 @@ module.exports.getPrompts = options => {
       choices: ["Echo", "Basic"],
       default: (options.template ? options.template : "Basic")
     },
-    // {
-    //   name: "capabilities",
-    //   type: "checkbox",
-    //   message: "What capabilities would you like your bot to have?",
-    //   choices: [
-    //     { name: "Welcome", checked: true },
-    //     { name: "Version Card", checked: true },
-    //     { name: "Dialog", checked: true },
-    //     { name: "Debug Logging", checked: (options.mumble ? true : false) },
-    //     { name: "Azure AppInsights", checked: (options.mumble ? true : false) }
-    //   ]
-    // },
     {
       name: "finalConfirmation",
       type: "confirm",

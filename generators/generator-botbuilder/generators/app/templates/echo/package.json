@@ -7,7 +7,7 @@
     "main": "<%= npmMain %>",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "<%= npmBuildCmd %>",
+        "build-bot": "<%= npmBuildCmd %>",
         "start": "<%= npmRunCmd %>",
         "watch": "<%= npmWatchCmd %>"
       },

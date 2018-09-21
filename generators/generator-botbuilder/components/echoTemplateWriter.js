@@ -8,7 +8,6 @@ const mkdirp = require("mkdirp");
 const { commonFilesWriter } = require('./commonFilesWriter');
 
 const TEMPLATE_NAME = "echo";
-const TEMPLATE_PATH = "/echo/";
 
 /**
  * Write the files that are specific to the echo bot template
@@ -20,11 +19,11 @@ const writeEchoTemplateFiles = (gen, templatePath) => {
   const DEPLOYMENT_SCRIPTS = 0;
   const DEPLOYMENT_MSBOT = 1;
   const RESOURCES = 2;
-  const TS_SRC_FOLDER = "src/"
+  const TS_SRC_FOLDER = "src"
   const folders = [
-    'deploymentScripts/',
-    'deploymentScripts/msbotClone/',
-    'resources/'
+    'deploymentScripts',
+    path.join('deploymentScripts', 'msbotClone'),
+    'resources'
   ];
   const extension = _.toLower(gen.props.language) === "javascript" ? "js" : "ts";
   const srcFolder = _.toLower(gen.props.language) === "javascript" ? "" : TS_SRC_FOLDER;
@@ -35,32 +34,38 @@ const writeEchoTemplateFiles = (gen, templatePath) => {
   }
   // create a src directory if we are generating TypeScript
   if (_.toLower(gen.props.language) === "typescript") {
-    mkdirp.sync(srcFolder);
+    mkdirp.sync(TS_SRC_FOLDER);
   }
 
   // write out the deployment scripts
-  let sourcePath = templatePath + folders[DEPLOYMENT_MSBOT];
-  let destinationPath = gen.destinationPath() + '/' + folders[DEPLOYMENT_MSBOT];
-  gen.fs.copy(sourcePath + 'bot.recipe', destinationPath + 'bot.recipe');
+  let sourcePath = path.join(templatePath, folders[DEPLOYMENT_MSBOT]);
+  let destinationPath = path.join(gen.destinationPath(), folders[DEPLOYMENT_MSBOT]);
+  gen.fs.copy(path.join(sourcePath, 'bot.recipe'), path.join(destinationPath, 'bot.recipe'));
 
   // write out the index.js and bot.js
-  destinationPath = gen.destinationPath() + '/' + srcFolder;
+  destinationPath = path.join(gen.destinationPath(), srcFolder);
 
   // gen the main index file
   gen.fs.copyTpl(
-    gen.templatePath(templatePath + `index.${extension}`),
-    destinationPath + `index.${extension}`,
+    gen.templatePath(path.join(templatePath, `index.${extension}`)),
+    path.join(destinationPath, `index.${extension}`),
     {
       botName: gen.props.botName
     }
   );
   // gen the main bot activity router
-  gen.fs.copy(gen.templatePath(templatePath + `bot.${extension}`), destinationPath + `bot.${extension}`);
+  gen.fs.copy(
+    gen.templatePath(path.join(templatePath, `bot.${extension}`)),
+    path.join(destinationPath, `bot.${extension}`)
+  );
 
   // write out the  AI resource(s)
-  sourcePath = templatePath + folders[RESOURCES];
-  destinationPath = gen.destinationPath() + '/' + folders[RESOURCES];
-  gen.fs.copy(sourcePath + `echo.chat`, destinationPath + `echo.chat`);
+  sourcePath = path.join(templatePath, folders[RESOURCES]);
+  destinationPath = path.join(gen.destinationPath(), folders[RESOURCES]);
+  gen.fs.copy(
+    path.join(sourcePath, `echo.chat`),
+    path.join(destinationPath, `echo.chat`)
+  );
 }
 
 /**
@@ -72,9 +77,11 @@ module.exports.echoTemplateWriter = gen => {
   // do some simple sanity checking to ensure we're being
   // called correctly
   if (_.toLower(gen.props.template) !== TEMPLATE_NAME) {
-    throw new Error(`writeEchoProjectFiles called for wrong template: ${gen.props.template}`)
+    throw new Error(`writeEchoProjectFiles called for wrong template: ${gen.props.template}`);
   }
-  const templatePath = gen.templatePath() + TEMPLATE_PATH;
+
+  // build the path to the echo template source folder
+  const templatePath = path.join(gen.templatePath(), TEMPLATE_NAME);
 
   // write files common to all our template options
   commonFilesWriter(gen, templatePath);

@@ -12,7 +12,7 @@ The generator supports two different templates.  The features the generator prod
 | --------- | :-----: | :-----: |
 | Core bot message processing | X | X |
 | Send messages to the bot  | X | X |
-| Manage conversation and user state | X | X |
+| Manage bot state | X | X |
 | Choose between JavaScript or TypesScript programming language | X | X |
 | Support for local development and testing using the [Microsoft Bot Framework Emulator][3] | X | X |
 | AI-based greeting, using [LUIS][2] |  | X |
@@ -60,7 +60,7 @@ yo botbuilder
 ## Generator Commandline Options
 The generator supports a number of commandline options that can be used to change the generator's default options.
 
-| Commandline Option  | Description |
+| Command&nbsp;line&nbsp;Option  | Description |
 | ------------------- | ----------- |
 | --help, -h        | List help text for all supported command-line options |
 | --botname, -N     | The name given to the bot project |
