@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AdaptiveCards;
@@ -20,9 +19,17 @@ namespace Microsoft.BotBuilderSamples
     /// in a common and consistent way. A simple open card format enables
     /// an ecosystem of shared tooling, seamless integration between apps,
     /// and native cross-platform performance on any device.
+    /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
+    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// each time they're requested. For each Activity received, a new instance of this
+    /// class is created. Objects that are expensive to construct, or have a lifetime
+    /// beyond the single turn, should be carefully managed.
     /// </summary>
     public class AdaptiveCardsBot : IBot
     {
+        private const string WelcomeText = @"This bot will introduce you to AdaptiveCards.
+                                            Type anything to see an AdaptiveCard.";
+
         // This arrary contains the file location of our adaptive cards
         private readonly string[] _cards =
         {
@@ -47,34 +54,40 @@ namespace Microsoft.BotBuilderSamples
                 throw new ArgumentNullException(nameof(turnContext));
             }
 
-            switch (turnContext.Activity.Type)
+            // Handle Message activity type, which is the main activity type for shown within a conversational interface
+            // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
+            // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+            if (turnContext.Activity.Type == ActivityTypes.Message)
             {
-                case ActivityTypes.Message:
-                    Random r = new Random();
-                    var cardAttachment = CreateAdaptiveCardAttachment(this._cards[r.Next(0, this._cards.Length - 1)]);
-                    var reply = turnContext.Activity.CreateReply();
-                    reply.Attachments = new List<Attachment>() { cardAttachment };
-                    await turnContext.SendActivityAsync(reply, cancellationToken);
-                    await turnContext.SendActivityAsync("Please enter any text to see another card.", cancellationToken: cancellationToken);
-                    break;
-                case ActivityTypes.ConversationUpdate:
-                    // Send a welcome & help message to the user.
-                    if (turnContext.Activity.MembersAdded.Any())
-                    {
-                        await SendWelcomeMessageAsync(turnContext, cancellationToken);
-                    }
-
-                    break;
+                Random r = new Random();
+                var cardAttachment = CreateAdaptiveCardAttachment(this._cards[r.Next(0, this._cards.Length - 1)]);
+                var reply = turnContext.Activity.CreateReply();
+                reply.Attachments = new List<Attachment>() { cardAttachment };
+                await turnContext.SendActivityAsync(reply, cancellationToken);
+                await turnContext.SendActivityAsync("Please enter any text to see another card.", cancellationToken: cancellationToken);
+            }
+            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                // Send a welcome & help message to the user.
+                await SendWelcomeMessageAsync(turnContext, cancellationToken);
+            }
+            else
+            {
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected", cancellationToken: cancellationToken);
             }
         }
 
         /// <summary>
         /// Greet new users as they are added to the conversation.
         /// </summary>
-        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
-        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        /// <seealso cref="BotStateSet"/>
+        /// <seealso cref="ConversationState"/>
+        /// <seealso cref="IMiddleware"/>
         private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             foreach (var member in turnContext.Activity.MembersAdded)
@@ -82,9 +95,7 @@ namespace Microsoft.BotBuilderSamples
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     await turnContext.SendActivityAsync(
-                        $"Welcome to AdaptiveCardsBot {member.Name}." +
-                        $" This bot will introduce you to AdaptiveCards." +
-                        $" Type anything to see an AdaptiveCard.",
+                        $"Welcome to AdaptiveCardsBot {member.Name}. {WelcomeText}",
                         cancellationToken: cancellationToken);
                 }
             }
