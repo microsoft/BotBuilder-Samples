@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const Greeting = require('./greeting');
+const { GreetingDialog } = require('./greeting');
 
-module.exports = Greeting;
-
-
+exports.GreetingDialog = GreetingDialog;

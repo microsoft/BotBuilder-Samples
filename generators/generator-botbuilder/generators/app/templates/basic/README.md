@@ -1,53 +1,70 @@
-# <%= botName %> Bot
+# <%= botName %>
+<%= description %>
 
 This bot has been created using [Microsoft Bot Framework](https://dev.botframework.com),
 
-This bot is designed to do the following:
+This samples shows how to:
+- Use [LUIS](https://luis.ai) to implement core AI capabilities
+- Implement a multi-turn conversation using Dialogs
+- Handle user interruptions for such things as Help or Cancel
+- Prompt for and validate requests for information from the user
 
-<%= description %>
 
-## About the generator
+## To run this bot
+- In a terminal,
+  ```bash
+  cd <%= botName %>
+  ```
+- Install modules
+  ```bash
+  npm install
+  ```
+- Create [required services](./deploymentScripts/DEPLOYMENT.MD)
+- Run the sample
+  ```bash
+  <%= runCmd %>
+  ```
 
-The goal of the BotBuilder Yeoman generator is to both scaffold out a bot according to general best practices, and to provide some templates you can use when implementing commonly requested features and dialogs in your bot. As a result, you will notice that all dialogs are located in a folder called `dialogs`, and the one you chose when running the wizard becomes the default (or root) dialog. You are free to use the additional dialogs provided (or delete them) as you see fit.
+## Testing the bot using Bot Framework Emulator
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-One thing to note is it's not possible to completely generate a bot or dialog, as the questions you need to ask of your user will vary wildly depending on your scenario. As such, we hope we've given you a good starting point for building your bots with Bot Framework.
+- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator)
 
-### Dialogs
+### Connect to bot using Bot Framework Emulator v4
+- Launch Bot Framework Emulator
+- File -> Open Bot Configuration and navigate to `<%= botName %>` folder
+- Select `<%= botName %>.bot` file
 
-This generator provides the following dialogs:
-- Echo Dialog, for simple bots
+## Deploy this bot to Azure
+See [here](./deploymentScripts/DEPLOY.md) to learn more about deploying this bot to Azure and using the CLI tools to build the LUIS models this bot depends on.
 
-Each class has three properties to help simplify addition to an existing bot:
-- id: Used for the id
-- waterfall: The logic (or waterfall) for the dialog
-- name: The intent name for the dialog for triggering
+## Further Reading
+- [Bot Framework Documentation](https://docs.botframework.com)
+- [Bot basics](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
+- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [LUIS](https://luis.ai)
+- [Prompt Types](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0&tabs=javascript)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
+- [QnA Maker](https://qnamaker.ai)
 
-You can add a dialog to a bot with the following code:
-
-``` javascript
-// declare your dialog
-
-bot.dialog(dialog.id, dialog.waterfall).triggerAction({ matches: dialog.name });
-```
-
-By using this structure, it would be possible to dynamically load all of the dialogs in the `dialogs` folder, and then add them to the bot.
-
-## Getting Started
+## Additional Resources
 
 ### Dependencies
 
 - **[Restify](http://restify.com)** Used to host the web service for the bot, and for making REST calls
 - **[dotenv](https://github.com/motdotla/dotenv)** Used to manage environmental variables
 
-### Structure
+### Project Structure
 
-`index.<%= extension %>` references the bot and starts a Restify server. `bot.<%= extension %>` loads the dialog type you selected when running the generator and adds it as the default dialog. `dialogs.<%= extension %>` contains the list of sample dialogs.
+`index.<%= extension %>` references the bot and starts a Restify server. `bot.<%= extension %>` loads the main dialog router and determines how activities are processed.
 
 ### Configuring the bot
 
-Update `.env` with the appropriate keys:
-
-- App ID and Key for registered bots.
+Update `.env` with the appropriate keys botFilePath and botFileSecret.
+  - For Azure Bot Service bots, you can find the botFileSecret under application settings.
+  - If you use [MSBot CLI](https://github.com/microsoft/botbuilder-tools) to encrypt your bot file, the botFileSecret will be written out to the console window.
+  - If you used [Bot Framework Emulator **V4**](https://github.com/microsoft/botframework-emulator) to encrypt your bot file, the secret key will be available in bot settings.
 
 ### Running the bot
 
@@ -59,24 +76,4 @@ Update `.env` with the appropriate keys:
 ```
 <%= watchCmd %>
 ```
-
-## Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
-
-- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator)
-
-### Connect to bot using Bot Framework Emulator v4
-- Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to `javascript_nodejs/13.basic-bot` folder
-- Select `basic-bot.bot` file
-
-
-## Further Reading
-- [Bot Framework Documentation](https://docs.botframework.com)
-- [Bot basics](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
-- [LUIS](https://luis.ai)
-- [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
-- [QnA Maker](https://qnamaker.ai)
 

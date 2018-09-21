@@ -1,78 +1,111 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// Generated using the Microsoft Botbuilder generator.
-// See https://aka.ms/botbuildergenerator for more details.
-//
-// This bot was generated using the 'Basic' template.  This template uses
-// the following capabilities:
-//  An AI capable greeting using LUIS
-//  A Getting Started card using an Adaptive Card
-//  A multi-turn dialog interaction model
-//
+// index.js is used to setup and configure your bot
+
+// Import required pckages
 const path = require('path');
-const env = require('dotenv').config({ path: path.join(__dirname, '.env') });
 const restify = require('restify');
 
-const { BotFrameworkAdapter, BotStateSet, MemoryStorage, ConversationState, UserState } = require('botbuilder');
+// Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
+const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = require('botbuilder');
+// Import required bot configuration.
 const { BotConfiguration } = require('botframework-config');
 
-const Bot = require('./bot');
-const BOT_CONFIGURATION = '<%= botName %>';
-const BOT_CONFIGURATION_ERROR = 1;
+// This bot's main dialog.
+const { BasicBot } = require('./bot');
 
-// Create server
-let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function () {
-    console.log(`\n${server.name} listening to ${server.url}`);
-    console.log(`\nGet the Emulator: https://aka.ms/botframework-emulator`);
-    console.log(`\nTo talk to your bot, open the myChatBot.bot file in the Emulator`);
-});
+// Read botFilePath and botFileSecret from .env file
+// Note: Ensure you have a .env file and include botFilePath and botFileSecret.
+const ENV_FILE = path.join(__dirname, '.env');
+const env = require('dotenv').config({ path: ENV_FILE });
 
-// read bot configuration from .bot file.
-// See https://aka.ms/about-bot-file to learn more about bot file its use.
+// Get the .bot file path
+// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
+const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 let botConfig;
 try {
-    botConfig = BotConfiguration.loadSync(path.join(__dirname, process.env.botFilePath), process.env.botFileSecret);
+    // Read bot configuration from .bot file.
+    botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
 } catch (err) {
-    console.log(`Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
-    console.log(err);
-    process.exit(BOT_CONFIGURATION_ERROR);
+    console.error(`\nError reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
+    console.error(`\n - The botFileSecret is available under appsettings for your Azure Bot Service bot.`);
+    console.error(`\n - If you are running this bot locally, consider adding a .env file with botFilePath and botFileSecret.`);
+    console.error(`\n - See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.\n\n`);
+    process.exit();
 }
+
+// For local development configuration as defined in .bot file
+const DEV_ENVIRONMENT = 'development';
+
+// bot name as defined in .bot file or from runtime
+const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
 // Get bot endpoint configuration by service name
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
-// Create the adapter
+// Create adapter.
+// See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration .
 const adapter = new BotFrameworkAdapter({
     appId: endpointConfig.appId || process.env.microsoftAppID,
     appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword
 });
 
+// Catch-all for errors.
+adapter.onTurnError = async (context, error) => {
+    // This check writes out errors to console log
+    // NOTE: In production environment, you should consider logging this to Azure
+    //       application insights.
+    console.error(`\n [onTurnError]: ${error}`);
+    // Send a message to the user
+    await context.sendActivity(`Oops. Something went wrong!`);
+    // Clear out state
+    conversationState.clear(context);
+};
+
+// Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
+// A bot requires a state store to persist the dialog and user state between messages.
+let conversationState, userState;
+
+// For local development, in-memory storage is used.
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone.
 const memoryStorage = new MemoryStorage();
-// For production bots use the Azure CosmosDB storage, Azure Blob, or Azure Table storage provides.
-// const { CosmosDbStorage } = require('botbuilder-azure');
-// const STORAGE_CONFIGURATION = 'cosmosDB'; // this is the name of the cosmos DB configuration in your .bot file
-// const cosmosConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION);
-// const cosmosStorage = new CosmosDbStorage({serviceEndpoint: cosmosConfig.connectionString,
-//                                            authKey: ?,
-//                                            databaseId: cosmosConfig.database,
-//                                            collectionId: cosmosConfig.collection});
+conversationState = new ConversationState(memoryStorage);
+userState = new UserState(memoryStorage);
 
-// create conversation and user state with in-memory storage provider.
-const conversationState = new ConversationState(memoryStorage);
-const userState = new UserState(memoryStorage);
+// CAUTION: You must ensure your product environment has the NODE_ENV set
+//          to use the Azure Blob storage or Azure Cosmos DB providers.
 
-// Use the BotStateSet middleware to automatically read and write conversation and user state.
-// CONSIDER:  if only using userState, then switch to adapter.use(userState);
-adapter.use(new BotStateSet(conversationState, userState));
+// Add botbuilder-azure when using any Azure services.
+// const { BlobStorage } = require('botbuilder-azure');
+// // Get service configuration
+// const blobStorageConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION_ID);
+// const blobStorage = new BlobStorage({
+//     containerName: (blobStorageConfig.container || DEFAULT_BOT_CONTAINER),
+//     storageAccountOrConnectionString: blobStorageConfig.connectionString,
+// });
+// conversationState = new ConversationState(blobStorage);
+// userState = new UserState(blobStorage);
 
-// Create main dialog.
-const bot = new Bot(conversationState, userState, botConfig);
+// Create the main dialog.
+let bot;
+try {
+    bot = new BasicBot(conversationState, userState, botConfig);
+} catch (err) {
+    console.error(`[botInitializationError]: ${err}`);
+    process.exit();
+}
 
-// Listen for incoming requests
+// Create HTTP server
+let server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, function () {
+    console.log(`\n${server.name} listening to ${server.url}`);
+    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
+    console.log(`\nTo talk to your bot, open <%= botName %>.bot file in the Emulator`);
+});
+
+// Listen for incoming activities and route them to your bot main dialog.
 server.post('/api/messages', (req, res) => {
     // Route received a request to adapter for processing
     adapter.processActivity(req, res, async (turnContext) => {

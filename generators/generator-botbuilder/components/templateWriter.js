@@ -101,19 +101,23 @@ const writeCommonFiles = (gen, templatePath) => {
 const writeBasicTemplateFiles = (gen, templatePath) => {
     const COGNITIVE_MODELS = 0;
     const DEPLOYMENT_SCRIPTS = 1;
-    const DIALOGS_MAIN = 2;
-    const DIALOGS_MAIN_RESOURCES = 3;
-    const DIALOGS_GREETING = 4;
-    const DIALOGS_GREETING_RESOURCES = 5;
+    const DEPLOYMENT_MSBOT = 2;
+    const DIALOGS_GREETING = 3;
+    const DIALOGS_GREETING_RESOURCES = 4;
+    const DIALOGS_WELCOME = 5;
+    const DIALOGS_WELCOME_RESOURCES = 6;
+    const TS_SRC_FOLDER = "src/";
     const folders = [
         'cognitiveModels/',
         'deploymentScripts/',
-        'dialogs/mainDialog/',
-        'dialogs/mainDialog/resources/',
+        'deploymentScripts/msbotClone/',
         'dialogs/greeting/',
-        'dialogs/greeting/resources/'
+        'dialogs/greeting/resources/',
+        'dialogs/welcome/',
+        'dialogs/welcome/resources/',
     ];
     const extension = _.toLower(gen.props.language) === "javascript" ? "js" : "ts";
+    const srcFolder = _.toLower(gen.props.language) === "javascript" ? "" : TS_SRC_FOLDER;
 
     // create the basic bot folder structure
     for(let cnt = 0; cnt < folders.length; ++cnt) {
@@ -122,9 +126,9 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     // write out the LUIS model
     let sourcePath = templatePath + folders[COGNITIVE_MODELS];
     let destinationPath = gen.destinationPath() + '/' + folders[COGNITIVE_MODELS];
-    gen.fs.copy(sourcePath + 'greeting.luis',  destinationPath + 'greeting.luis');
+    gen.fs.copy(sourcePath + 'basicBot.luis',  destinationPath + 'basicBot.luis');
 
-    // write out the deployment scripts and docs
+    // write out the deployment msbot recipe and docs
     sourcePath = templatePath + folders[DEPLOYMENT_SCRIPTS];
     destinationPath = gen.destinationPath() + '/' + folders[DEPLOYMENT_SCRIPTS];
     gen.fs.copy(sourcePath + 'DEPLOYMENT.md', destinationPath + 'DEPLOYMENT.md', {
@@ -133,36 +137,65 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
             return content.toString().replace(pattern, gen.props.botName.toString());
         }
     });
-    gen.fs.copy(sourcePath + 'azuredeploy.json', destinationPath + 'azuredeploy.json');
-    gen.fs.copy(sourcePath + 'provision.sh', destinationPath + 'provision.sh');
-    gen.fs.copy(sourcePath + 'provision.cmd', destinationPath + 'provision.cmd');
+    // write out deployment resources
+    sourcePath = templatePath + folders[DEPLOYMENT_MSBOT];
+    destinationPath = gen.destinationPath() + '/' + folders[DEPLOYMENT_MSBOT];
+    gen.fs.copy(sourcePath + '34.luis', destinationPath + '34.luis');
+    gen.fs.copy(sourcePath + 'bot.recipe', destinationPath + 'bot.recipe');
 
-    // write out the main dialog
-    sourcePath = templatePath + folders[DIALOGS_MAIN];
-    destinationPath = gen.destinationPath() + '/' + folders[DIALOGS_MAIN];
-    gen.fs.copy(sourcePath + `index.${extension}`, destinationPath + `index.${extension}`);
-    gen.fs.copy(sourcePath + `mainState.${extension}`, destinationPath + `mainState.${extension}`);
-
-    // write out greeting dialog resources
-    sourcePath = templatePath + folders[DIALOGS_MAIN_RESOURCES];
-    destinationPath = gen.destinationPath() + '/' + folders[DIALOGS_MAIN_RESOURCES];
-    gen.fs.copy(sourcePath + 'botFrameworkWelcomeCard.json', destinationPath + 'botFrameworkWelcomeCard.json');
-
-    // write out greeting dialog
+    // write out the greeting dialog
     sourcePath = templatePath + folders[DIALOGS_GREETING];
-    destinationPath = gen.destinationPath() + '/' + folders[DIALOGS_GREETING];
+    destinationPath = gen.destinationPath() + '/' + srcFolder + folders[DIALOGS_GREETING];
     gen.fs.copyTpl(
-        sourcePath + `index.${extension}`,
+        sourcePath + `greeting.${extension}`,
+        destinationPath + `greeting.${extension}`,
+        {
+            botName: gen.props.botName
+        }
+    );
+    gen.fs.copy(sourcePath + `index.${extension}`, destinationPath + `index.${extension}`);
+    gen.fs.copy(sourcePath + `userProfile.${extension}`, destinationPath + `userProfile.${extension}`);
+
+    // list the greeting dialog resources
+    const greetingResources = [
+        'cancel.lu',
+        'greeting.chat',
+        'greeting.lu',
+        'help.lu',
+        'main.lu',
+        'none.lu',
+    ];
+    // write out greeting dialog resources
+    sourcePath = templatePath + folders[DIALOGS_GREETING_RESOURCES];
+    destinationPath = gen.destinationPath() + '/' + folders[DIALOGS_GREETING_RESOURCES];
+    for (let cnt = 0; cnt < greetingResources.length; cnt++) {
+        gen.fs.copy(sourcePath + greetingResources[cnt], destinationPath + greetingResources[cnt]);
+    }
+
+    // write out welcome named exports
+    sourcePath = templatePath + folders[DIALOGS_WELCOME];
+    destinationPath = gen.destinationPath() + '/' + srcFolder + folders[DIALOGS_WELCOME];
+    gen.fs.copy(sourcePath + `index.${extension}`, destinationPath + `index.${extension}`);
+
+    // write out welcome adaptive card
+    sourcePath = templatePath + folders[DIALOGS_WELCOME_RESOURCES];
+    destinationPath = gen.destinationPath() + '/' + folders[DIALOGS_WELCOME_RESOURCES];
+    gen.fs.copy(sourcePath + 'welcomeCard.json', destinationPath + 'welcomeCard.json');
+
+    // write out the index.js and bot.js
+    destinationPath = gen.destinationPath() + '/' + srcFolder;
+
+    // gen index and main dialog files
+    gen.fs.copyTpl(
+        gen.templatePath(templatePath + `index.${extension}`),
         destinationPath + `index.${extension}`,
         {
             botName: gen.props.botName
         }
     );
 
-    // write out greeting dialog resources
-    sourcePath = templatePath + folders[DIALOGS_GREETING_RESOURCES];
-    destinationPath = gen.destinationPath() + '/' + folders[DIALOGS_GREETING_RESOURCES];
-    gen.fs.copy(sourcePath + 'greeting.lu', destinationPath + 'greeting.lu');
+    // gen the main dialog file
+    gen.fs.copy(gen.templatePath(templatePath + `bot.${extension}`), destinationPath + `bot.${extension}`);
 }
 
 /**
