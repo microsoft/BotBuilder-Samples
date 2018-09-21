@@ -3,10 +3,10 @@
 
 const Generator = require('yeoman-generator');
 const _ = require("lodash");
-const extend = require("deep-extend");
 
-const p = require('../../components/prompts');
-const t = require('../../components/templateWriter');
+const prompts = require('../../components/prompts');
+const { basicTemplateWriter } = require('../../components/basicTemplateWriter');
+const { echoTemplateWriter } = require('../../components/echoTemplateWriter');
 
 /**
  * Main Generator derivative.  This is what Yeoman calls to invoke our generator
@@ -16,7 +16,7 @@ module.exports = class extends Generator {
         super(args, opts);
 
         // configure the commandline options
-        p.configureCommandlineOptions(this);
+        prompts.configureCommandlineOptions(this);
     }
     prompting() {
         // if we're told to not prompt, then pick what we need and return
@@ -44,9 +44,9 @@ module.exports = class extends Generator {
         this.log(greetingMsg);
 
         // let's ask the user for data before we generate the bot
-        const prompts = p.getPrompts(this.options);
+        const promptAnswers = prompts.getPrompts(this.options);
 
-        return this.prompt(prompts).then((props) => {
+        return this.prompt(promptAnswers).then((props) => {
             this.props = props;
             // this.log(JSON.stringify(this.props));
         });
@@ -54,9 +54,9 @@ module.exports = class extends Generator {
 
     writing() {
         if(_.toLower(this.props.template) === "echo") {
-            t.writeEchoProjectFiles(this);
+            echoTemplateWriter(this);
         } else {
-            t.writeBasicProjectFiles(this);
+            basicTemplateWriter(this);
         }
     }
 
