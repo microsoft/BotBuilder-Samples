@@ -11,7 +11,7 @@ Most channels support rich content.  In this sample we explore the different typ
 ```bash
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\02.echo-with-counter` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\06.using-card` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 # Prerequisites
 ## Visual Studio
 - Navigate to the samples folder (`BotBuilder-Samples\samples\csharp_dotnetcore\06.using-cards`) and open CardsBot.csproj in Visual Studio 
