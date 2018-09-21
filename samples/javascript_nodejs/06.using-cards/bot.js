@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, CardFactory } = require('botbuilder');
+const { ActivityTypes,
+    CardFactory,
+    ConversationState,
+    TurnContext } = require('botbuilder');
 const { ChoicePrompt,
         DialogSet,
         DialogTurnResult,
@@ -9,22 +12,21 @@ const { ChoicePrompt,
         ListStyle } = require('botbuilder-dialogs');
 
 /**
- * RichCardsBot prompts a user to select a Rich Card and then returns the card 
+ * RichCardsBot prompts a user to select a Rich Card and then returns the card
  * that matches the user's selection.
  */
 class RichCardsBot {
-    
     /**
      * Constructs the three pieces necessary for this bot to operate:
      * 1. StatePropertyAccessor
      * 2. DialogSet
      * 3. ChoicePrompt
-     * 
-     * The only argument taken (and required!) by this constructor is a 
+     *
+     * The only argument taken (and required!) by this constructor is a
      * ConversationState instance.
-     * The ConversationState is used to create a StatePropertyAccessor
+     * The ConversationState is used to create a BotStatePropertyAccessor
      * which is needed to create a DialogSet that houses the ChoicePrompt.
-     * @param {ConversationState} conversationState 
+     * @param {ConversationState} conversationState The state that will contain the DialogState BotStatePropertyAccessor.
      */
     constructor(conversationState) {
         // Store the conversationState to be able to save state changes.
@@ -36,10 +38,10 @@ class RichCardsBot {
         // Create a DialogSet that contains the ChoicePrompt.
         this.dialogs = new DialogSet(this.dialogState);
 
-        // Create the ChoicePrompt with a unique id of 'cardPrompt' which is 
-        // used to call the dialog in the bot's onTurn logic. 
+        // Create the ChoicePrompt with a unique id of 'cardPrompt' which is
+        // used to call the dialog in the bot's onTurn logic.
         const prompt = new ChoicePrompt('cardPrompt');
-        
+
         // Set the choice rendering to list and then add it to the bot's DialogSet.
         prompt.style = ListStyle.list;
         this.dialogs.add(prompt);
@@ -50,16 +52,16 @@ class RichCardsBot {
      * 1. Prompts the user if the user is not in the middle of a dialog.
      * 2. Reprompts a user when an invalid input is received.
      * 3. Sends back to the user a Rich Card response after a valid prompt reply.
-     * 
+     *
      * These three scenarios are preceeded by an Activity type check.
      * This check ensures that the bot only responds to Activities that
      * are of the "Message" type.
-     * 
-     * @param {TurnContext} turnContext 
+     *
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async onTurn(turnContext) {
         if (turnContext.activity.type === ActivityTypes.Message) {
-            // Construct a DialogContext instance which is used to resume any 
+            // Construct a DialogContext instance which is used to resume any
             // existing Dialogs and prompt users.
             const dc = await this.dialogs.createContext(turnContext);
 
@@ -76,7 +78,7 @@ class RichCardsBot {
 
                 // Prompt the user with the configured PromptOptions.
                 await dc.prompt('cardPrompt', promptOptions);
-            
+
             // The bot parsed a valid response from user's prompt response and so it must respond.
             } else if (results.status === DialogTurnStatus.complete) {
                 await this.sendCardResponse(turnContext, results);
@@ -87,10 +89,10 @@ class RichCardsBot {
 
     /**
      * Send a Rich Card response to the user based on their choice.
-     * 
+     *
      * This method is only called when a valid prompt response is parsed from the user's response to the ChoicePrompt.
-     * @param {TurnContext} turnContext
-     * @param {DialogTurnResult} dialogTurnResult 
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
+     * @param {DialogTurnResult} dialogTurnResult Contains the result from any called Dialogs and indicates the status of the DialogStack.
      */
     async sendCardResponse(turnContext, dialogTurnResult) {
         switch (dialogTurnResult.result.value) {
@@ -189,7 +191,7 @@ class RichCardsBot {
             }
         );
     }
-    
+
     createAudioCard() {
         return CardFactory.audioCard(
             'I am your father',
@@ -208,7 +210,7 @@ class RichCardsBot {
             }
         );
     }
-    
+
     createHeroCard() {
         return CardFactory.heroCard(
             'BotFramework Hero Card',
@@ -222,7 +224,7 @@ class RichCardsBot {
             ])
         );
     }
-    
+
     createReceiptCard() {
         return CardFactory.receiptCard({
             title: 'John Doe',
@@ -259,7 +261,7 @@ class RichCardsBot {
                     value: 'https://azure.microsoft.com/en-us/pricing/details/bot-service/'
                 }
             ])
-        })
+        });
     }
 
     createSignInCard() {
@@ -269,7 +271,7 @@ class RichCardsBot {
             'Sign in'
         );
     }
-    
+
     createThumbnailCard() {
         return CardFactory.thumbnailCard(
             'BotFramework Thumbnail Card',
@@ -283,9 +285,9 @@ class RichCardsBot {
                 subtitle: 'Your bots — wherever your users are talking.',
                 text: 'Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.'
             }
-        )
+        );
     }
-    
+
     createVideoCard() {
         return CardFactory.videoCard(
             '2018 Imagine Cup World Championship Intro',
@@ -299,8 +301,8 @@ class RichCardsBot {
                 subtitle: 'by Microsoft',
                 text: 'Microsoft\'s Imagine Cup has empowered student developers around the world to create and innovate on the world stage for the past 16 years. These innovations will shape how we live, work and play.'
             }
-        )
+        );
     }
 }
 
-module.exports = RichCardsBot;
+module.exports.RichCardsBot = RichCardsBot;
