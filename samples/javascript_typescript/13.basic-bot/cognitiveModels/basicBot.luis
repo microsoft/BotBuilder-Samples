@@ -723,6 +723,6 @@
   "luis_schema_version": "3.0.0",
   "versionId": "0.1",
   "name": "basic-bot-LUIS",
-  "desc": "A BotBuilder generated bot",
+  "desc": "'Basic",
   "culture": "en-us"
 }

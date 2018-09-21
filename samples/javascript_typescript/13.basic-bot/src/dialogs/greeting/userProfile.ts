@@ -5,7 +5,7 @@
  * Simple object used by the user state property accessor.
  * Used to store the user state.
  */
-class GreetingState {
+class UserProfile {
     // member variables
     public name: string;
     public city: string; 
@@ -17,9 +17,9 @@ class GreetingState {
      * @param city string
      */
     constructor(name?: string, city?: string) {
-      this.name = name ? name : undefined;
-      this.city = city ? city : undefined;
+      this.name = name || undefined;
+      this.city = city || undefined;
     }
   };  
   
-export { GreetingState };
+export { UserProfile };

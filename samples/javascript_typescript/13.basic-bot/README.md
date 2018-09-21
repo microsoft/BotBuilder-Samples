@@ -4,7 +4,7 @@ This bot has been created using [Microsoft Bot Framework](https://dev.botframewo
 
 This samples shows how to:
 - Use [LUIS](https://luis.ai) to implement core AI capabilities
-- Implement a multi-turn converstation using Dialogs
+- Implement a multi-turn conversation using Dialogs
 - Handle user interruptions for such things as Help or Cancel
 - Prompt for and validate requests for information from the user
 
@@ -14,15 +14,15 @@ This samples shows how to:
   ```bash
   git clone https://github.com/microsoft/botbuilder-samples.git
   ```
-- In a terminal, navigate to javascript_nodejs/13.basic-bot
+- In a terminal, 
   ```bash
-  cd javascript_nodejs/13.basic-bot
+  cd samples/javascript_typescript/13.basic-bot
   ```
 - Install modules
   ```bash
   npm install
   ```
-- Create [required services](./deploymentScripts/DEPLOYMENT.MD)
+- Create [required services](./deploymentScripts/DEPLOY.MD)
 - Run the sample
   ```bash
   npm start
@@ -35,8 +35,11 @@ This samples shows how to:
 
 ### Connect to bot using Bot Framework Emulator v4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to `javascript_nodejs/13.basic-bot` folder
+- File -> Open Bot Configuration and navigate to `samples/javascript_typescript/13.basic-bot` folder
 - Select `basic-bot.bot` file
+
+## Deploy this bot to Azure
+See [here](./deploymentScripts/DEPLOY.md) to learn more about deploying this bot to Azure and using the CLI tools to build the LUIS models this bot depends on.
 
 ## Further Reading
 - [Bot Framework Documentation](https://docs.botframework.com)
@@ -48,7 +51,6 @@ This samples shows how to:
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [QnA Maker](https://qnamaker.ai)
 
-
 ## Additional Resources
 
 ### Dependencies
@@ -58,13 +60,14 @@ This samples shows how to:
 
 ### Project Structure
 
-`index.js` references the bot and starts a Restify server. `bot.js` loads the dialog type you selected when running the generator and adds it as the default dialog. `dialogs.js` contains the list of sample dialogs.
+`index.ts` references the bot and starts a Restify server. `bot.ts` loads the dialog type you selected when running the generator and adds it as the default dialog. 
 
 ### Configuring the bot
 
-Update `.env` with the appropriate keys:
-
-- App ID and Key for registered bots.
+Update `.env` with the appropriate keys botFilePath and botFileSecret. 
+  - For Azure Bot Service bots, you can find the botFileSecret under application settings. 
+  - If you use [MSBot CLI](https://github.com/microsoft/botbuilder-tools) to encrypt your bot file, the botFileSecret will be written out to the console window. 
+  - If you used [Bot Framework Emulator **V4**](https://github.com/microsoft/botframework-emulator) to encrypt your bot file, the secret key will be available in bot settings. 
 
 ### Running the bot
 
