@@ -11,7 +11,7 @@ npm i -g msbot luis-apis ludown
 # Keeping track of service references using .bot file
 We highly recommend you can keep track of all the services your bot depends on in a .bot file. You can use either the `msbot` CLI tool or use [Bot Framework Emulator][7] to manage your .bot file.  This project was created with a bot file named [`<%= botName %>.bot`](../<%= botName %>.bot)
 
-# Configure all required servies
+# Configure all required services
 You can use [MSBOT][5] to create and configure the required services for this bot. To do this, simply run the following command from a terminal.
 You can get your LUIS authoring key by following steps [here][8] and get your Azure subscription ID by following steps [here][9].
 

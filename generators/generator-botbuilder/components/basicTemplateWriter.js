@@ -120,7 +120,6 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   // list the greeting dialog resources
   const greetingResources = [
     'cancel.lu',
-    'greeting.chat',
     'greeting.lu',
     'help.lu',
     'main.lu',

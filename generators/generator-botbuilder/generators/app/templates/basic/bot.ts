@@ -1,38 +1,33 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// bot.js is your main bot dialog entry point for handilng activity types
+import { ActivityTypes, CardFactory, ConversationState, RecognizerResult, StatePropertyAccessor, TurnContext, UserState } from 'botbuilder';
+import { DialogSet, DialogContext, DialogState, DialogTurnResult, DialogTurnStatus } from 'botbuilder-dialogs';
+import { LuisRecognizer } from 'botbuilder-ai';
 
-// Import required Bot Builder
-const { ActivityTypes, CardFactory } = require('botbuilder');
-const { LuisRecognizer } = require('botbuilder-ai');
-const { DialogSet, DialogTurnStatus } = require('botbuilder-dialogs');
-
-// Import dialogs
-const { UserProfile } = require('./dialogs/greeting/userProfile');
-const { WelcomeCard } = require('./dialogs/welcome');
-const { GreetingDialog } = require('./dialogs/greeting');
+import { WelcomeCard } from './dialogs/welcome';
+import { UserProfile, GreetingDialog } from './dialogs/greeting';
+import { BotConfiguration, LuisService } from 'botframework-config';
 
 // Greeting Dialog ID
 const GREETING_DIALOG = 'greetingDialog';
 
 // State Accessor Properties
 const DIALOG_STATE_PROPERTY = 'dialogState';
-const USER_PROFILE_PROPERTY = 'userProfileProperty';
+const USER_PROFILE_PROPERTY = 'greetingStateProperty';
 
-// LUIS service type entry as defined in the .bot file.
-// const LUIS_CONFIGURATION = 'basic-bot-LUIS';
+// this is the LUIS service type entry in the .bot file.
 const LUIS_CONFIGURATION = '<%= botName %>-LUIS';
 
 
-// Supported LUIS Intents.
+// Supported LUIS Intents
 const GREETING_INTENT = 'Greeting';
 const CANCEL_INTENT = 'Cancel';
 const HELP_INTENT = 'Help';
 const NONE_INTENT = 'None';
 
 // Supported LUIS Entities, defined in ./dialogs/greeting/resources/greeting.lu
-const USER_NAME_ENTITIES = ['userName', 'userName_patternAny'];
+const USER_NAME_ENTITIES = ['userName', 'userName_paternAny'];
 const USER_LOCATION_ENTITIES = ['userLocation', 'userLocation_patternAny'];
 
 /**
@@ -44,7 +39,15 @@ const USER_LOCATION_ENTITIES = ['userLocation', 'userLocation_patternAny'];
  *  Store conversation and user state
  *  Handle conversation interruptions
  */
-class BasicBot {
+export class BasicBot {
+
+  private userProfileAccessor: StatePropertyAccessor<UserProfile>;
+  private dialogState: StatePropertyAccessor<DialogState>;
+  private luisRecognizer: LuisRecognizer;
+  private readonly dialogs: DialogSet;
+  private conversationState: ConversationState;
+  private userState: UserState;
+
   /**
    * Constructs the three pieces necessary for this bot to operate:
    * 1. StatePropertyAccessor for conversation state
@@ -56,19 +59,20 @@ class BasicBot {
    * @param {UserState} userState property accessor
    * @param {BotConfiguration} botConfig contents of the .bot file
    */
-  constructor(conversationState, userState, botConfig) {
+  constructor(conversationState: ConversationState, userState: UserState, botConfig: BotConfiguration) {
     if (!conversationState) throw ('Missing parameter.  conversationState is required');
     if (!userState) throw ('Missing parameter.  userState is required');
     if (!botConfig) throw ('Missing parameter.  botConfig is required');
 
-    // Add the LUIS recognizer.
-    const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
+    // add the LUIS recogizer
+    let luisConfig: LuisService;
+    luisConfig = <LuisService>botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
     if (!luisConfig || !luisConfig.appId) throw ('Missing LUIS configuration. Please follow README.MD to create required LUIS applications.\n\n');
     this.luisRecognizer = new LuisRecognizer({
       applicationId: luisConfig.appId,
-      azureRegion: luisConfig.region,
       // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
-      endpointKey: luisConfig.authoringKey
+      endpointKey: luisConfig.authoringKey,
+      endpoint: luisConfig.getEndpoint()
     });
 
     // Create the property accessors for user and conversation state
@@ -77,7 +81,6 @@ class BasicBot {
 
     // Create top-level dialog(s)
     this.dialogs = new DialogSet(this.dialogState);
-    // Add the Greeting dialog to the set
     this.dialogs.add(new GreetingDialog(GREETING_DIALOG, this.userProfileAccessor));
 
     this.conversationState = conversationState;
@@ -93,12 +96,13 @@ class BasicBot {
    *
    * @param {Context} context turn context from the adapter
    */
-  async onTurn(context) {
+  public onTurn = async (context: TurnContext) => {
     // Handle Message activity type, which is the main activity type for shown within a conversational interface
     // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
-    // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+    // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
     if (context.activity.type === ActivityTypes.Message) {
-      let dialogResult;
+      let dialogResult: DialogTurnResult;
+
       // Create a dialog context
       const dc = await this.dialogs.createContext(context);
 
@@ -117,7 +121,7 @@ class BasicBot {
       if (interrupted) {
         if (dc.activeDialog !== undefined) {
           // issue a re-prompt on the active dialog
-          dialogResult = await dc.repromptDialog();
+          await dc.repromptDialog();
         } // Else: We dont have an active dialog so nothing to continue here.
       } else {
         // No interruption. Continue any active dialogs.
@@ -126,40 +130,32 @@ class BasicBot {
 
       // If no active dialog or no active dialog has responded,
       if (!dc.context.responded) {
-        // Switch on return results from any active dialog.
+        // examine results from active dialog
         switch (dialogResult.status) {
-          // dc.continueDialog() returns DialogTurnStatus.empty if there are no active dialogs
           case DialogTurnStatus.empty:
-            // Determine what we should do based on the top intent from LUIS.
             switch (topIntent) {
               case GREETING_INTENT:
                 await dc.beginDialog(GREETING_DIALOG);
                 break;
               case NONE_INTENT:
               default:
-                // None or no intent identified, either way, let's provide some help
+                // help or no intent identified, either way, let's provide some help
                 // to the user
                 await dc.context.sendActivity(`I didn't understand what you just said to me.`);
                 break;
             }
-            break;
-          case DialogTurnStatus.waiting:
-            // The active dialog is waiting for a response from the user, so do nothing.
-            break;
-          case DialogTurnStatus.complete:
-            // All child dialogs have ended. so do nothing.
-            break;
           default:
             // Unrecognized status from child dialog. Cancel all dialogs.
             await dc.cancelAllDialogs();
             break;
         }
       }
-    }
-    // Handle ConversationUpdate activity type, which is used to indicates new members add to
-    // the conversation.
-    // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
-    else if (context.activity.type === ActivityTypes.ConversationUpdate) {
+    } else if (context.activity.type === ActivityTypes.ConversationUpdate) {
+      // When activity type is "conversationUpdate" and the member joining the conversation is the bot
+      // we will send our Welcome Adaptive Card.  This will only be sent once, when the Bot joins conversation
+      // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
+      // Do we have any new members added to the conversation?
+
       // Do we have any new members added to the conversation?
       if (context.activity.membersAdded.length !== 0) {
         // Iterate over all new members added to the conversation
@@ -192,13 +188,12 @@ class BasicBot {
    * @param {DialogContext} dc - dialog context
    * @param {LuisResults} luisResults - LUIS recognizer results
    */
-  async isTurnInterrupted(dc, luisResults) {
+  private isTurnInterrupted = async (dc: DialogContext, luisResults: RecognizerResult) => {
     const topIntent = LuisRecognizer.topIntent(luisResults);
 
     // see if there are anh conversation interrupts we need to handle
     if (topIntent === CANCEL_INTENT) {
       if (dc.activeDialog) {
-        // cancel all active dialog (clean the stack)
         await dc.cancelAllDialogs();
         await dc.context.sendActivity(`Ok.  I've cancelled our last activity.`);
       } else {
@@ -221,14 +216,12 @@ class BasicBot {
    * @param {LuisResults} luisResults - LUIS recognizer results
    * @param {DialogContext} dc - dialog context
    */
-  async updateUserProfile(luisResult, context) {
+  private updateUserProfile = async (luisResult: RecognizerResult, context: TurnContext) => {
     // Do we have any entities?
     if (Object.keys(luisResult.entities).length !== 1) {
-      // get userProfile object using the accessor
+      // get greetingState object using the accessor
       let userProfile = await this.userProfileAccessor.get(context);
-      if (userProfile === undefined) {
-        userProfile = new UserProfile();
-      }
+      if (userProfile === undefined) userProfile = new UserProfile();
       // see if we have any user name entities
       USER_NAME_ENTITIES.forEach(name => {
         if (luisResult.entities[name] !== undefined) {
@@ -248,6 +241,4 @@ class BasicBot {
       await this.userProfileAccessor.set(context, userProfile);
     }
   }
-}
-
-module.exports.BasicBot = BasicBot;
+};

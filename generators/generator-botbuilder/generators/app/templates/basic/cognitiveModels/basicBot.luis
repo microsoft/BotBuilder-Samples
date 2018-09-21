@@ -651,23 +651,23 @@
   ],
   "patterns": [
     {
-      "pattern": "some people call me {userName_patternAny}",
+      "pattern": "some people call me {userName_paternAny}",
       "intent": "Greeting"
     },
     {
-      "pattern": "{userName_patternAny}.",
+      "pattern": "{userName_paternAny}.",
       "intent": "Greeting"
     },
     {
-      "pattern": "i'm {userName_patternAny}",
+      "pattern": "i'm {userName_paternAny}",
       "intent": "Greeting"
     },
     {
-      "pattern": "{userName_patternAny} is my name",
+      "pattern": "{userName_paternAny} is my name",
       "intent": "Greeting"
     },
     {
-      "pattern": "my name is {userName_patternAny} and i'm from {userLocation_patternAny}",
+      "pattern": "my name is {userName_paternAny} and i'm from {userLocation_patternAny}",
       "intent": "Greeting"
     },
     {
@@ -679,7 +679,7 @@
       "intent": "Greeting"
     },
     {
-      "pattern": "my name is {userName_patternAny}",
+      "pattern": "my name is {userName_paternAny}",
       "intent": "Greeting"
     },
     {
@@ -687,7 +687,7 @@
       "intent": "Greeting"
     },
     {
-      "pattern": "you can call me {userName_patternAny}",
+      "pattern": "you can call me {userName_paternAny}",
       "intent": "Greeting"
     },
     {
@@ -695,7 +695,7 @@
       "intent": "Greeting"
     },
     {
-      "pattern": "call me {userName_patternAny}",
+      "pattern": "call me {userName_paternAny}",
       "intent": "Greeting"
     },
     {
@@ -703,13 +703,13 @@
       "intent": "Greeting"
     },
     {
-      "pattern": "i'm {userName_patternAny}[,] [and i'm] from {userLocation_patternAny}",
+      "pattern": "i'm {userName_paternAny}[,] [and i'm] from {userLocation_patternAny}",
       "intent": "Greeting"
     }
   ],
   "patternAnyEntities": [
     {
-      "name": "userName_patternAny",
+      "name": "userName_paternAny",
       "explicitList": [],
       "roles": []
     },
@@ -723,6 +723,6 @@
   "luis_schema_version": "3.0.0",
   "versionId": "0.1",
   "name": "basic-bot-LUIS",
-  "desc": "Basic bot Bot Builder V4 sample.",
+  "desc": "'Basic",
   "culture": "en-us"
 }

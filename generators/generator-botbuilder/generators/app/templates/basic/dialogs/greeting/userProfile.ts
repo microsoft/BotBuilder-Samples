@@ -2,13 +2,24 @@
 // Licensed under the MIT License.
 
 /**
- * Simple user profile class.
+ * Simple object used by the user state property accessor.
+ * Used to store the user state.
  */
 class UserProfile {
-  constructor(name, city) {
+  // member variables
+  public name: string;
+  public city: string;
+  /**
+   * Constructor. Members initialized with undefined,
+   *  if no values provided via constructor
+   *
+   * @param name string
+   * @param city string
+   */
+  constructor(name?: string, city?: string) {
     this.name = name || undefined;
     this.city = city || undefined;
   }
 };
 
-exports.UserProfile = UserProfile;
+export { UserProfile };
