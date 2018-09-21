@@ -7,6 +7,6 @@
     },
     "files": [
         "bot.ts",
-        "app.ts"
+        "index.ts"
     ]
 }

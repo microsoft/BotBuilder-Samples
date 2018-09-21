@@ -33,8 +33,8 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
   const extension = _.toLower(gen.props.language) === "javascript" ? "js" : "ts";
   const npmMain = extension === 'js' ? `index.js` : `./lib/index.js`;
   const npmBuildCmd = extension === 'js' ? `exit 1` : `tsc`;
-  const npmRunCmd = extension === 'js' ? `node ./index.js` : `tsc && node ./lib/index.js`;
-  const npmWatchCmd = extension === 'js' ? `nodemon ./index.js` : `tsc && node ./lib/index.js`;
+  const npmRunCmd = extension === 'js' ? `node ./index.js` : "tsc && node ./lib/index.js";
+  const npmWatchCmd = extension === 'js' ? "nodemon ./index.js" : "tsc && node ./lib/index.js";
 
   // ensure our project directory exists before we start writing files into it
   makeProjectDirectory(gen, _.camelCase(gen.props.botName));
@@ -42,15 +42,12 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
   // write the project files common to all templates
   // do any text token processing where required
   gen.fs.copyTpl(
-    gen.templatePath(path.join(templatePath, "package.json")),
+    gen.templatePath(path.join(templatePath, "package.json." + extension)),
     gen.destinationPath("package.json"),
     {
       botName: gen.props.botName,
       botDescription: gen.props.description,
-      npmMain: npmMain,
-      npmBuildCmd: npmBuildCmd,
-      npmRunCmd: npmRunCmd,
-      npmWatchCmd: npmWatchCmd
+      npmMain: npmMain
     }
   );
   gen.fs.copy(

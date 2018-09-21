@@ -6,7 +6,9 @@ const { ActivityTypes } = require('botbuilder');
 // Turn counter property
 const TURN_COUNTER_PROPERTY = 'turnCounterProperty';
 
-class MyBot {
+export class MyBot {
+    public countProperty;
+    public conversationState;
   /**
    *
    * @param {ConversationState} conversation state object
@@ -37,5 +39,3 @@ class MyBot {
     await this.conversationState.saveChanges(turnContext);
   }
 }
-
-module.exports.MyBot = MyBot;
