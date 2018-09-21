@@ -22,7 +22,7 @@ This samples shows how to:
   ```bash
   npm install
   ```
-- Create [required services](./deploymentScripts/DEPLOYMENT.MD)
+- Create [required services](./deploymentScripts/DEPLOY.MD)
 - Run the sample
   ```bash
   npm start

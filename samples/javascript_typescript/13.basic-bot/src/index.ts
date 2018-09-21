@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// index.ts is used to set up and configure your bot.
-
-// Import required packages.
 import * as path from 'path';
 import * as restify from 'restify';
+import { config } from 'dotenv';
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 import { BotFrameworkAdapter, BotStateSet,  MemoryStorage, ConversationState, UserState, TurnContext } from 'botbuilder';
@@ -13,17 +11,16 @@ import { BotFrameworkAdapter, BotStateSet,  MemoryStorage, ConversationState, Us
 // Import required bot configuration.
 import { BotConfiguration, IEndpointService } from 'botframework-config';
 
-// This bot's main dialog.
 import { BasicBot } from './bot';
 
 // Read botFilePath and botFileSecret from .env file
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '..', '.env');
-const env = require('dotenv').config({ path: ENV_FILE });
+const loadFromEnv = config({ path: ENV_FILE });
 
-// Get the .bot file path
+// Get the .bot file path.
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
-const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
+const BOT_FILE = path.join(__dirname, '..', (process.env.botFilePath || ''));
 let botConfig: BotConfiguration;
 try {
     // Read bot configuration from .bot file.
@@ -39,10 +36,11 @@ try {
 // For local development configuration as defined in .bot file
 const DEV_ENVIRONMENT = 'development';
 
-// bot name as defined in .bot file or from runtime
+// Define name of the endpoint configuration section from the .bot file.
 const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
-// Get bot endpoint configuration by service name
+// Get bot endpoint configuration by service name.
+// Bot configuration as defined in .bot file.
 const endpointConfig = <IEndpointService>botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
 // Create adapter. 

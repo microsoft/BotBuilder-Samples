@@ -7,8 +7,8 @@
     "main": "index.js",
     "scripts": {
         "build-sample": "tsc",
-        "start": "tsc && node ./lib/index.js NODE_ENV=development",
-        "watch": "nodemon ./lib/index.js NODE_ENV=development",
+        "start": "tsc && node ./lib/index.js",
+        "watch": "tsc && nodemon ./lib/index.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
