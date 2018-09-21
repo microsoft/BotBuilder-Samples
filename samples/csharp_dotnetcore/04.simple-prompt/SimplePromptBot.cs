@@ -88,11 +88,14 @@ namespace Microsoft.BotBuilderSamples
                     }
                 }
             }
-
             // Processes ConversationUpdate Activities to welcome the user.
-            if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
                 await SendWelcomeMessageAsync(turnContext, cancellationToken);
+            }
+            else
+            {
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected", cancellationToken: cancellationToken);
             }
 
             // Save the new turn count into the conversation state.
