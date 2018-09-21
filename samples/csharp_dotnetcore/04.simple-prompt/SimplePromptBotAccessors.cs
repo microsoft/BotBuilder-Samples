@@ -13,14 +13,14 @@ namespace Microsoft.BotBuilderSamples
     ///  - See the Startup.cs file for more details on creating the Singleton that gets
     ///    injected into the constructor.
     /// </summary>
-    public class BotAccessors
+    public class SimplePromptBotAccessors
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BotAccessors"/> class.
+        /// Initializes a new instance of the <see cref="SimplePromptBotAccessors"/> class.
         /// Contains the <see cref="ConversationState"/> and associated <see cref="IStatePropertyAccessor{T}"/>.
         /// </summary>
         /// <param name="conversationState">The state object that stores the dialog state.</param>
-        public BotAccessors(ConversationState conversationState)
+        public SimplePromptBotAccessors(ConversationState conversationState)
         {
             ConversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
         }
