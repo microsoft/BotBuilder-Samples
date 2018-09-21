@@ -32,6 +32,7 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-2.1"/>
         public Startup(IHostingEnvironment env)
         {
+            _isProduction = env.IsProduction();
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -126,7 +127,6 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to create logger object for tracing.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            _isProduction = env.IsProduction();
             _loggerFactory = loggerFactory;
 
             if (env.IsDevelopment())
