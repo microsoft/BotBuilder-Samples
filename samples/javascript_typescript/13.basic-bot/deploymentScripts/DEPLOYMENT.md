@@ -26,7 +26,7 @@ The LUIS application created for this bot is described in a markdown based .lu f
 
 ```bash
 > cd javascript_nodejs/13.basic-bot
-> ludown parse toluis --in dialogs/resources/greeting.lu -o cognitiveModels --out greeting.luis
+> ludown parse toluis --in resources/greeting.lu -o cognitiveModels --out greeting.luis
 > msbot get service --name "basic-bot-LUIS" | luis rename version --newVersionId 0.1_old --stdin
 > msbot get service --name "basic-bot-LUIS" | luis import version --stdin --in cognitiveModels\greeting.luis
 > msbot get service --name "basic-bot-LUIS" | luis delete version --stdin --versionId 0.1_old

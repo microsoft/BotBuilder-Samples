@@ -8,7 +8,6 @@ const { ActivityTypes, CardFactory } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { DialogSet, DialogTurnStatus } = require('botbuilder-dialogs');
 
-// Import dialogs
 const { UserProfile } = require('./dialogs/greeting/userProfile');
 const { WelcomeCard } = require('./dialogs/welcome');
 const { GreetingDialog } = require('./dialogs/greeting');
@@ -84,7 +83,7 @@ class BasicBot {
 
     /**
      * Driver code that does one of the following:
-     * 1. Display a welcome card upon receiving ConversationUpdate activity 
+     * 1. Display a welcome card upon receiving ConversationUpdate activity
      * 2. Use LUIS to recognize intents for incoming user message
      * 3. Start a greeting dialog
      * 4. Optionally handle Cancel or Help interruptions
@@ -141,23 +140,17 @@ class BasicBot {
                         break;
                     }
                     break;
-                case DialogTurnStatus.waiting:
-                    // The active dialog is waiting for a response from the user, so do nothing.
-                    break;
-                case DialogTurnStatus.complete:
-                    // All child dialogs have ended. so do nothing.
-                    break;
                 default:
                     // Unrecognized status from child dialog. Cancel all dialogs.
                     await dc.cancelAllDialogs();
                     break;
                 }
             }
-        }
-        // Handle ConversationUpdate activity type, which is used to indicates new members add to 
-        // the conversation. 
-        // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
-        else if (context.activity.type === ActivityTypes.ConversationUpdate) {
+        } else if (context.activity.type === ActivityTypes.ConversationUpdate) {
+            // Handle ConversationUpdate activity type, which is used to indicates new members add to
+            // the conversation.
+            // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+        
             // Do we have any new members added to the conversation?
             if (context.activity.membersAdded.length !== 0) {
                 // Iterate over all new members added to the conversation
