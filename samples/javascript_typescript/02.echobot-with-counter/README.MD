@@ -5,14 +5,12 @@ This sample shows how to create a simple echo bot with state. The bot maintains 
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to javascript_ts\2.echobot-with-counter
+- In a terminal, 
     ```bash
-    cd javascript_ts\2.echobot-with-counter
+    cd samples/javascript_typescript/02.echobot-with-counter
     ```
-- Point to the MyGet feed 
-    ```bash
-    npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
-    ```
+- [Optional] Update the .env file under samples/javascript_typescript/02.echobot-with-counter with your botFileSecret
+    For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules and start the bot
     ```bash
     npm i & npm start
@@ -20,10 +18,6 @@ This sample shows how to create a simple echo bot with state. The bot maintains 
     Alternatively you can also use nodemon via
     ```bash
     npm i & npm run watch
-    ```
-- To reset registry, you can do
-    ```bash
-    npm config set registry https://registry.npmjs.org/
     ```
 
 # Testing the bot using Bot Framework Emulator
@@ -33,8 +27,8 @@ This sample shows how to create a simple echo bot with state. The bot maintains 
 
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples\2.echobot-with-state folder
-- Select echobot-with-state.bot file
+- File -> Open Bot Configuration and navigate to samples\javascript_typescript\02.echobot-with-state folder
+- Select echobot-with-counter.bot file
 
 # Bot state
 A key to good bot design is to track the context of a conversation, so that your bot remembers things like the answers to previous questions. Depending on what your bot is used for, you may even need to keep track of conversation state or store user related information for longer than the lifetime of one given conversation.
@@ -46,6 +40,19 @@ In this example, the bot's state is used to track number of messages.
     - Conversation properties help your bot keep track of the current conversation the bot is having with the user. If your bot needs to complete a sequence of steps or switch between conversation topics, you can use conversation properties to manage steps in a sequence or track the current topic. Since conversation properties reflect the state of the current conversation, you typically clear them at the end of a session, when the bot receives an end of conversation activity.
 
     - User properties can be used for many purposes, such as determining where the user's prior conversation left off or simply greeting a returning user by name. If you store a user's preferences, you can use that information to customize the conversation the next time you chat. For example, you might alert the user to a news article about a topic that interests her, or alert a user when an appointment becomes available. You should clear them if the bot receives a delete user data activity.
+
+# Deploy this bot to Azure
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+
+To install all Bot Builder tools - 
+```bash
+npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
+```
+
+To clone this bot, run
+```
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+```
 
 # Further reading
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
