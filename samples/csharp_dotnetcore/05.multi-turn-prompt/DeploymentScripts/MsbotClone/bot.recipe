@@ -3,8 +3,8 @@
   "resources": [
     {
       "type": "endpoint",
-      "id": "1",
-      "name": "development",
+      "id": "24",
+      "name": "Sample",
       "url": "http://localhost:3978/api/messages"
     }
   ]

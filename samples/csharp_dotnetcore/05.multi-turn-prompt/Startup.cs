@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
@@ -14,9 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using WelcomeUser.State;
 
-namespace WelcomeUser
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// The Startup class configures services and the app's request pipeline.
@@ -47,11 +47,12 @@ namespace WelcomeUser
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
+        /// <seealso cref="IStatePropertyAccessor{T}"/>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection"/>
         /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBot<WelcomeUserBot>(options =>
+            services.AddBot<MultiTurnPromptsBot>(options =>
             {
                 var secretKey = Configuration.GetSection("botFileSecret")?.Value;
                 var botFilePath = Configuration.GetSection("botFilePath")?.Value;
@@ -71,7 +72,7 @@ namespace WelcomeUser
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Creates a logger for the application to use.
-                ILogger logger = _loggerFactory.CreateLogger<WelcomeUserBot>();
+                ILogger logger = _loggerFactory.CreateLogger<MultiTurnPromptsBot>();
 
                 // Catches any errors that occur during a conversation turn and logs them.
                 options.OnTurnError = async (context, exception) =>
@@ -81,7 +82,7 @@ namespace WelcomeUser
                 };
 
                 // The Memory Storage used here is for local bot debugging only. When the bot
-                // is restarted, anything stored in memory will be gone.
+                // is restarted, everything stored in memory will be gone.
                 IStorage dataStore = new MemoryStorage();
 
                 // For production bots use the Azure Blob or
@@ -90,32 +91,43 @@ namespace WelcomeUser
                 // Nuget package to your solution. That package is found at:
                 // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
                 // Uncomment the following lines to use Azure Blob Storage
-                // //Storage configuration name or ID from the .bot file.
+                // Storage configuration name or ID from the .bot file.
                 // const string StorageConfigurationId = "<STORAGE-NAME-OR-ID-FROM-BOT-FILE>";
                 // var blobConfig = botConfig.FindServiceByNameOrId(StorageConfigurationId);
                 // if (!(blobConfig is BlobStorageService blobStorageConfig))
                 // {
                 //    throw new InvalidOperationException($"The .bot file does not contain an blob storage with name '{StorageConfigurationId}'.");
                 // }
-                // // Default container name.
+                // Default container name.
                 // const string DefaultBotContainer = "<DEFAULT-CONTAINER>";
                 // var storageContainer = string.IsNullOrWhiteSpace(blobStorageConfig.Container) ? DefaultBotContainer : blobStorageConfig.Container;
                 // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage(blobStorageConfig.ConnectionString, storageContainer);
 
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
+                var conversationState = new ConversationState(dataStore);
+                options.State.Add(conversationState);
+
+                // Create and add user state.
                 var userState = new UserState(dataStore);
                 options.State.Add(userState);
             });
 
             // Create and register state accesssors.
             // Acessors created here are passed into the IBot-derived class on every turn.
-            services.AddSingleton<WelcomeUserStateAccessors>(sp =>
+            services.AddSingleton<MultiTurnPromptsBotAccessors>(sp =>
             {
+                // We need to grab the conversationState we added on the options in the previous step
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
                 if (options == null)
                 {
                     throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the State Accessors");
+                }
+
+                var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
+                if (conversationState == null)
+                {
+                    throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
                 }
 
                 var userState = options.State.OfType<UserState>().FirstOrDefault();
@@ -126,9 +138,10 @@ namespace WelcomeUser
 
                 // Create the custom state accessor.
                 // State accessors enable other components to read and write individual properties of state.
-                var accessors = new WelcomeUserStateAccessors(userState)
+                var accessors = new MultiTurnPromptsBotAccessors(conversationState, userState)
                 {
-                    DidBotWelcomeUser = userState.CreateProperty<bool>("DidBotWelcomeState"),
+                    ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
+                    UserProfile = userState.CreateProperty<UserProfile>("UserProfile"),
                 };
 
                 return accessors;

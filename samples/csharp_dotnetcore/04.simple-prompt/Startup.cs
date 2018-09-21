@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
@@ -14,9 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using WelcomeUser.State;
 
-namespace WelcomeUser
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// The Startup class configures services and the app's request pipeline.
@@ -46,12 +46,13 @@ namespace WelcomeUser
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
-        /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
+        /// <param name="services">The <see cref="IServiceCollection"/> specifies the contract for a collection of service descriptors.</param>
+        /// <seealso cref="IStatePropertyAccessor{T}"/>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection"/>
         /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBot<WelcomeUserBot>(options =>
+            services.AddBot<SimplePromptBot>(options =>
             {
                 var secretKey = Configuration.GetSection("botFileSecret")?.Value;
                 var botFilePath = Configuration.GetSection("botFilePath")?.Value;
@@ -71,17 +72,10 @@ namespace WelcomeUser
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Creates a logger for the application to use.
-                ILogger logger = _loggerFactory.CreateLogger<WelcomeUserBot>();
+                ILogger logger = _loggerFactory.CreateLogger<SimplePromptBot>();
 
-                // Catches any errors that occur during a conversation turn and logs them.
-                options.OnTurnError = async (context, exception) =>
-                {
-                    logger.LogError($"Exception caught : {exception}");
-                    await context.SendActivityAsync("Sorry, it looks like something went wrong.");
-                };
-
-                // The Memory Storage used here is for local bot debugging only. When the bot
-                // is restarted, anything stored in memory will be gone.
+                // Memory Storage is for local bot debugging only. When the bot
+                // is restarted, everything stored in memory will be gone.
                 IStorage dataStore = new MemoryStorage();
 
                 // For production bots use the Azure Blob or
@@ -104,31 +98,31 @@ namespace WelcomeUser
 
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
-                var userState = new UserState(dataStore);
-                options.State.Add(userState);
+                var conversationState = new ConversationState(dataStore);
+
+                options.State.Add(conversationState);
             });
 
-            // Create and register state accesssors.
-            // Acessors created here are passed into the IBot-derived class on every turn.
-            services.AddSingleton<WelcomeUserStateAccessors>(sp =>
+            services.AddSingleton(sp =>
             {
+                // We need to grab the conversationState we added on the options in the previous step.
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
                 if (options == null)
                 {
                     throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the State Accessors");
                 }
 
-                var userState = options.State.OfType<UserState>().FirstOrDefault();
-                if (userState == null)
+                var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
+                if (conversationState == null)
                 {
-                    throw new InvalidOperationException("UserState must be defined and added before adding user-scoped state accessors.");
+                    throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
                 }
 
-                // Create the custom state accessor.
-                // State accessors enable other components to read and write individual properties of state.
-                var accessors = new WelcomeUserStateAccessors(userState)
+                // The dialogs will need a state store accessor. Creating it here once (on-demand) allows the dependency injection
+                // to hand it to our IBot class that is create per-request.
+                var accessors = new SimplePromptBotAccessors(conversationState)
                 {
-                    DidBotWelcomeUser = userState.CreateProperty<bool>("DidBotWelcomeState"),
+                    ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
                 };
 
                 return accessors;
