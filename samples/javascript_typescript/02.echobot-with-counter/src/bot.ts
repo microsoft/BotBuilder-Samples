@@ -1,27 +1,27 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// bot.js is your bot's main entry point to handle incoming activities.
-
 import { ActivityTypes, ConversationState, StatePropertyAccessor } from 'botbuilder';
 
 // Turn counter property
 const TURN_COUNTER = 'turnCounterProperty';
 
 export class EchoBot {
+    
+    private readonly countAccessor: StatePropertyAccessor<number>;
+    private readonly conversationState: ConversationState;
+
     /**
      * 
      * @param {ConversationState} conversation state object
      */
-    private readonly countAccessor: StatePropertyAccessor<number>;
-    private readonly conversationState: ConversationState;
     constructor (conversationState) {
-        // creates a new state accessor property.see https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors 
+        // Create a new state accessor property. See https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors.        
         this.countAccessor = conversationState.createProperty(TURN_COUNTER);
         this.conversationState = conversationState;
     }
+
     /**
-     * 
      * Use onTurn to handle an incoming activity, received from a user, process it, and reply as needed
      * 
      * @param {TurnContext} context on turn context object.

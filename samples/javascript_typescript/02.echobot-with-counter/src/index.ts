@@ -19,7 +19,7 @@ const ENV_FILE = path.join(__dirname, '..', '.env');
 const loadFromEnv = config({path: ENV_FILE});
 
 // Get the .bot file path
-// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.const BOT_FILE = path.join(__dirname, '..', (process.env.botFilePath || ''));
+// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
 const BOT_FILE = path.join(__dirname, '..', (process.env.botFilePath || ''));
 let botConfig;
 try {
@@ -33,13 +33,14 @@ try {
     process.exit();
 }
 
-// For local development configuration as defined in .bot file
+// For local development configuration as defined in .bot file.
 const DEV_ENVIRONMENT = 'development';
 
-// Define name of the endpoint configuration section from the .bot file
+// Define name of the endpoint configuration section from the .bot file.
 const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
-// Get bot endpoint configuration by service name
+// Get bot endpoint configuration by service name.
+// Bot configuration as defined in .bot file.
 const endpointConfig = <IEndpointService>botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
 // Create adapter. 
@@ -50,13 +51,14 @@ const adapter = new BotFrameworkAdapter({
 });
 
 // Catch-all for any unhandled errors in your bot.
-adapter.onTurnError = async (context, error) => {
+adapter.onTurnError = async (turnContext, error) => {
     // This check writes out errors to console log .vs. app insights.
     console.error(`\n [onTurnError]: ${ error }`);
-    // Send a message to the user
-    context.sendActivity(`Oops. Something went wrong!`);
-    // Clear out state
-    conversationState.clear(context);
+    // Send a message to the user.
+    turnContext.sendActivity(`Oops. Something went wrong!`);
+    // Clear out state and save changes so the user is not stuck in a bad state.
+    await conversationState.clear(turnContext);
+    await conversationState.saveChanges(turnContext);
 };
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
@@ -84,21 +86,21 @@ conversationState = new ConversationState(memoryStorage);
 // });
 // conversationState = new ConversationState(blobStorage);
 
-// Create the main dialog.
+// Create the EchoBot.
 const bot = new EchoBot(conversationState);
 
 // Create HTTP server
 let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
-    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-    console.log(`\nTo talk to your bot, open echoBot-with-counter.bot file in the Emulator`);
+    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
+    console.log(`\nTo talk to your bot, open echobot-with-counter.bot file in the Emulator.`);
 });
 
-// Listen for incoming activities and route them to your bot main dialog.
+// Listen for incoming activities and route them to your bot for processing.
 server.post('/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async (context) => {
-        // route to main dialog.
-        await bot.onTurn(context);
+    adapter.processActivity(req, res, async (turnContext) => {
+        // Call bot.onTurn() to handle all incoming messages.
+        await bot.onTurn(turnContext);
     });
 });
