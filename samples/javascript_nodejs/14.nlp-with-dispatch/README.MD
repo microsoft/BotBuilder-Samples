@@ -37,9 +37,24 @@ This sample relies on [LUIS](https://luis.ai), [QnA Maker](https://qnamaker.ai) 
 
 See [here](https://github.com/microsoft/botbuilder-tools) to learn more about the Bot Builder CLI tools used to configure required services.
 
+## Deploy this bot to Azure and configure services
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+
+To install all Bot Builder tools - 
+```bash
+npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
+```
+
+To clone this bot, run
+```
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+```
 Note: You can also manually import the LUIS and QnA Maker applications via the [LUIS.ai](https://luis.ai) and [QnAMaker.ai](https://qnamaker.ai) portals. See instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/what-is-luis) to import the LUIS models and [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base) to import the QnA Maker knowledge base. All models this sample relies on is [here](./cognitiveModels).
 
-## Configure the LUIS service
+**Alternately** you can configure the required services by following the steps below. 
+
+## Manually configure required services
+### Configure the LUIS service
 To create required LUIS applications for this sample bot, 
 - Create an account with [LUIS](https://luis.ai). If you already have an account, login to your account.
 - Click on your name on top right corner of the screen -> settings and grab your authoring key.
@@ -49,9 +64,9 @@ To create the LUIS application this bot needs and update the .bot file configura
 - Navigate to samples/javascript_nodejs/14.nlp-with-dispatch
 - Run the following command
 ```bash 
-> ludown parse toluis --in dialogs/homeAutomation/resources/homeautomation.lu -o cognitiveModels --out homeAutomation.luis -n "Home Automation" -d "Home Automation LUIS application - Bot Builder Samples" --verbose
+> ludown parse toluis --in resources/homeautomation.lu -o cognitiveModels --out homeAutomation.luis -n "Home Automation" -d "Home Automation LUIS application - Bot Builder Samples" --verbose
 
-> ludown parse toluis --in dialogs/weather/resources/weather.lu -o cognitiveModels --out weather.luis -n Weather -d "Weather LUIS application - Bot Builder Samples" --verbose
+> ludown parse toluis --in resources/weather.lu -o cognitiveModels --out weather.luis -n Weather -d "Weather LUIS application - Bot Builder Samples" --verbose
 
 > luis import application --in cognitiveModels/homeAutomation.luis --authoringKey <LUIS-AUTHORING-KEY> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
 
@@ -61,7 +76,7 @@ To create the LUIS application this bot needs and update the .bot file configura
 Note: You can create the LUIS applications in one of the [LUIS authoring regions](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-reference-regions). 
 You can use a different region (westus or westeurope or australiaeast) by specifying them as --region value in the commands above.
 
-## Train and publish the LUIS models 
+### Train and publish the LUIS models 
 You need to train and publish the LUIS models that were created for this sample to work. You can do so using the following CLI commands
 
 ```bash
@@ -71,7 +86,7 @@ You need to train and publish the LUIS models that were created for this sample 
 > msbot get "Weather" | luis publish version --stdin
 ```
 
-## Configure QnA Maker service
+### Configure QnA Maker service
 To create a new QnA Maker application for the bot, 
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a new QnA Maker Azure resource.
 - Navigate to your QnA Maker resource -> keys and copy the subscription key
@@ -81,18 +96,18 @@ To create the QnA Maker application and update the .bot file with the QnA Maker 
 - Navigate to samples/javascript_nodejs/14.nlp-with-dispatch
 - Run the following command
 ```bash
-> ludown parse toqna --in dialogs/qna/resources/sample-qna.lu -o cognitiveModels --out dispatch.qna --verbose
+> ludown parse toqna --in resources/sample-qna.lu -o cognitiveModels --out dispatch.qna --verbose
 
 > qnamaker create kb --in cognitiveModels/dispatch.qna --subscriptionKey d30ebbcc44ef4f07bae1a0e31b69f709 --msbot | msbot connect qna --stdin
 ```
-## Train and publish the QnA Maker KB
+### Train and publish the QnA Maker KB
 You need to train and publish the QnA Maker Knowledge Bases that were created for this sample to work. You can do so using the following CLI commands
 
 ```bash
 > msbot get "sample-qna" | qnamaker publish kb --stdin
 ```
 
-## Configure the Dispatch application
+### Configure the Dispatch application
 [Dispatch](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) is a CLI tool that enables you to create a dispatch NLP model across the different LUIS applications and/ or QnA Maker Knowledge Bases you have for your bot. For this sample, you would have already created 2 LUIS applications (Home Automation and Weather) and one QnA Maker Knowledge base. 
 
 To create a new dispatch model for these services and update the .bot file configuration, in a terminal,

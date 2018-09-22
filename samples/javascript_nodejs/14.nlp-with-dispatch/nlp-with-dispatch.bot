@@ -38,6 +38,20 @@
             "endpointKey": "0fa7f711-6a82-4155-9cf9-5c8168967df6",
             "hostname": "https://contosocafeqnab8.azurewebsites.net/qnamaker",
             "id": "201"
+        },
+        {
+            "type": "dispatch",
+            "name": "nlp-with-dispatchDispatch",
+            "appId": "3cdabe40-8315-4123-bc4d-3cbf3aff0fdc",
+            "authoringKey": "a95d07785b374f0a9d7d40700e28a285",
+            "version": "Dispatch",
+            "region": "westus",
+            "serviceIds": [
+                "7",
+                "50",
+                "201"
+            ],
+            "id": "161"
         }
     ],
     "padlock": "",
