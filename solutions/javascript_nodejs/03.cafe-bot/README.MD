@@ -36,76 +36,61 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 - Using [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) to create, configure and manage all required services.
 
 ## Scenarios covered via other samples
-- [Proactive messages](../17.proactive-messages)
-- [Multi-lingual conversations](../18.multi-lingual-bot)
-- [Bot authentication](../19.bot-authentication)
+- [Proactive messages](../../../samples/javascript_nodejs/16.proactive-messages)
+- [Multi-lingual conversations](../../../samples/javascript_nodejs/17.multi-lingual-conversations)
+- [Bot authentication](../../../samples/javascript_nodejs/18.bot-authentication)
 
 # To try this sample
 - Clone the repository
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to javascript_nodejs\50.contoso-cafe-bot
+- In a terminal, 
     ```bash
-    cd javascript_nodejs\50.contoso-cafe-bot
-    ```
-- Point to the MyGet feed 
-    ```bash
-    npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
-    ```
-- Install modules and start the bot
-    ```bash
-    npm i & npm start
-    ```
-- To reset registry, you can do
-    ```bash
-    npm config set registry https://registry.npmjs.org/
+    cd solutions/javascript_nodejs/03.cafe-bot
     ```
 - [Install required CLI tools](#Install-CLI-tools)
 - [Configure required services](#Configure-required-services)
 
+- Install modules and start the bot
+    ```bash
+    npm i & npm start
+    ```
+
 # Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://aka.ms/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator)
+- Install the Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to javascript_nodejs\50.contoso-cafe-bot.bot
-- Select qna-with-appinsights.bot file
+- File -> Open Bot Configuration and navigate to solutions/javascript_nodejs/03.cafe-bot/
+- Select contoso-cafe-bot.bot
 
 # Prerequisites
 ## Install CLI tools
 
 - Install [Node.js](https://nodejs.org/)
 - In a terminal
-- Point to the MyGet feed
-    ```bash
-    npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
-    ```
 - Install required tools
     ```bash
     npm i -g msbot chatdown ludown luis-cli qnamaker 
-    ```
-- To reset registry, you can do
-    ```bash
-    npm config set registry https://registry.npmjs.org/
     ```
 
 ## Configure required services
 1. Follow instructions [here](https://portal.azure.com) to create an Azure account. If you already have an account, sign in. Click on all services -> search for 'subscriptions' -> copy the subscription ID you would like to use from the Home > Subscriptions page.
 2. Follow instructions [here](https://www.luis.ai/home) to create a LUIS.ai account. If you already have an account, sign in. Click on your name on top right corner of the screen -> settings and grab your authoring key.
 3. To create and configure required LUIS and QnA Maker services, 
-    - In a terminal, navigate to javascript_nodejs\50.contoso-cafe-bot
+    - In a terminal,
         ```bash
-        cd javascript_nodejs\50.contoso-cafe-bot
+        cd solutions/javascript_nodejs/03.cafe-bot
         ```
     - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
         ```bash
-        msbot clone -n <YOUR-BOT-NAME> -f deploymentScripts/msbotClone -l <Bot service location> --luisAuthoringKey <Key from step \#2 above> --subscriptionId <Key from step \#1 above>
+        msbot clone -n <YOUR-BOT-NAME> -f deploymentScripts/msbotClone -l <Bot service location> --luisAuthoringKey <Key from step-2 above> --subscriptionId <Key from step-1 above>
         ```
 
-Optionally, you can use the LUIS, QnA Maker portals to manually import the models found under cognitiveModels folder of this sample. 
+Optionally, you can use the LUIS, QnA Maker portals to manually import the models found under **cognitiveModels** folder of this sample. 
 
 # Relevant commands for CLI tools
 ## Building and creating services
