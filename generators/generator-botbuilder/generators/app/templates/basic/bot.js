@@ -57,9 +57,9 @@ class BasicBot {
    * @param {BotConfiguration} botConfig contents of the .bot file
    */
   constructor(conversationState, userState, botConfig) {
-    if (!conversationState) throw ('Missing parameter.  conversationState is required');
-    if (!userState) throw ('Missing parameter.  userState is required');
-    if (!botConfig) throw ('Missing parameter.  botConfig is required');
+    if (!conversationState) throw new Error('Missing parameter.  conversationState is required');
+    if (!userState) throw new Error('Missing parameter.  userState is required');
+    if (!botConfig) throw new Error('Missing parameter.  botConfig is required');
 
     // Add the LUIS recognizer.
     const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);

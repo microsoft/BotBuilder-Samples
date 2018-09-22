@@ -53,13 +53,15 @@ try {
 // Get bot endpoint configuration by service name
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
-// Create adapter. See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration .
+// Create adapter.
+// See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration .
 const adapter = new BotFrameworkAdapter({
     appId: endpointConfig.appId || process.env.microsoftAppID,
     appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword
 });
 
-// Define state store for your bot. See https://aka.ms/about-bot-state to learn more about bot state.
+// Define state store for your bot.
+// See https://aka.ms/about-bot-state to learn more about bot state.
 const memoryStorage = new MemoryStorage();
 // CAUTION: You must ensure your product environment has the NODE_ENV set
 //          to use the Azure Blob storage or Azure Cosmos DB providers.

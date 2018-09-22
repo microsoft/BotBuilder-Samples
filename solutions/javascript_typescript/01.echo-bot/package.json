@@ -1,0 +1,22 @@
+{
+  "name": "echobot-with-counter-ts",
+  "version": "1.0.0",
+  "description": "Bot Builder v4 echo bot sample",
+  "main": "./lib/index.js",
+  "scripts": {
+    "build-sample": "tsc",
+    "start": "tsc && node ./lib/index.js",
+    "watch": "nodemon ./lib/index.js"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "dependencies": {
+    "botbuilder": "^4.0.5",
+    "botframework-config": "^4.0.5",
+    "dotenv": "^6.0.0",
+    "restify": "^6.3.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}
