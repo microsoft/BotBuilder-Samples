@@ -95,28 +95,9 @@ The table below describes the reasonable set of defaults used when `--noprompt` 
 | --template, -T     | `basic` |
 
 
-# Project Structure
-The generator creates slightly different project structures based on whether you generated your bot using the `echo` template or `basic` template and whether you selected JavaScript or TypeScript.
-
-## Echo generated capabilities
-If the project was generated using the `echo` template using JavaScript, then the project will consist of the following files:
-
-## TODO:  UPDATE THIS TABLE TO BE ACCURATE
-| File Name         | Description |
-| ----------------- | ----------- |
-| index.js/ts         | The main bot file.  Depending on the language you chose when generating your bot, the file will either be a JavaScript (.js) or a TypeScript (.ts) file.  This is the main file for processing messages sent to your bot and for sending message from your bot to your user. |
-| <bot name>.bot    | The .bot file contains configuration settings for your bot.  |
-| package.json      | Metadata relevant to a Nodejs built bot |
-| README.md         | A markdown file that contains additional data relevant to your bot.  This is a good file to read after you've generated a new bot.  It will contain additional information that will help you configure, run, and optionally deploy your bot. |
-
-
-## Basic generated capabilities
-If the project was generated using the `basic` template, then the project will consist of the following files:
-
-
 # Running your bot
 ## Running your bot locally
-Run your bot locally by typing the following in your console:
+To run your bot locally, type the following in your console:
 
 ```bash
 # From the directory that contains your bot
@@ -124,37 +105,26 @@ npm start
 ```
 
 ## Interacting with your bot using the emulator
-Launch the [Microsoft Bot Emulator][3] and connect the emulator to to `http://localhost:3978/api/messages`
+Launch the [Microsoft Bot Framework Emulator][3] and open the generated project's `.bot` file.
 
 Once the Emulator is connected, you can interact with and receive messages from your bot.
 
 ## Developing your bot locally
-It's often easeier to develop the capabilities of your bot locally, and to use the Microsoft Bot Emulator to test your changes.  When the generator generated your bot project it added a file watcher to the project.  When run, the watcher which will cause nodejs to reload the bot whenever any of the bot's files are changes.  Causing nodejs to reload your bot under these circumstances will ensure you are always running the latest version of your bot.  Enable the watch feature by typing the following in your conole:
+It's often easeier to develop the capabilities of your bot locally, and to use the Microsoft Bot Framework Emulator to test your changes.  When the generator generated your bot project it added a file watcher to the project.  When run, the watcher which will cause nodejs to reload the bot whenever any of the bot's files change.  Causing nodejs to reload your bot under these circumstances will ensure you are always running the latest version of your bot.  Enable the watch feature by typing the following in your conole:
 
 ```bash
 # From the directory that contains your bot
 npm run watch
 ```
-When you run the watch task, nodejs will reload your bot anytime a file in your project is changed.  When using the Emulator to interact with
+When you run the `watch` task, nodejs will reload your bot anytime a file in your project changes.  When using the Emulator to interact with
 your bot, you will need to click the Emulator's 'Start Over' tab in order to force the Emulator to also reload the latest version of your bot.
 
 
 
 # Deploying your bot to Microsoft Azure
-## TODO:  UPDATE THIS TABLE TO BE ACCURATE
-The generator adds a `deploymentScripts` folder to your project.  Within this folder there are shell scripts and a Microsoft Azure Resource Manager file.  The scripts provide the ability to provision resources on Microsoft Azure to host your bot, and scripts to deploy your bot to Azre.  Some of the files require some additional information in order to be able to deploy your bot to Microsoft Azure.  The steps below assume you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal][4].
+For bots generated using the `Basic` template, the generator will create a `DEPLOYMENT.md` file found in the `/deploymentScripts` folder.  This file provides instructions for how to deploy the bot to Microsoft Azure.  The deployment process assume you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal][4].
 
 If you are new to Microsoft Azure, please refer to [Getting started with Azure][5] for guidance on how to get started on Azure.
-
-## Getting your deployment script working
-The `deploy.js` file requires the following Azure account information before it can be run:
-
-## Running the deploy script
-```bash
-npm run deploy
-```
-
-
 
 
 
