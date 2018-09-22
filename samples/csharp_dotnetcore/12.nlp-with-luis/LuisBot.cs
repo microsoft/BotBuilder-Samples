@@ -4,6 +4,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples
@@ -35,7 +36,6 @@ namespace Microsoft.BotBuilderSamples
         /// Initializes a new instance of the <see cref="LuisBot"/> class.
         /// </summary>
         /// <param name="services">Services configured from the ".bot" file.</param>
-        /// <seealso cref="BotConfiguration"/>
         public LuisBot(BotServices services)
         {
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
