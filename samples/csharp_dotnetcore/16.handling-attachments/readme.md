@@ -13,7 +13,7 @@ The types of attachments that may be sent and recieved varies by channel. Additi
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
  ### Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\16.Handling-Attachments`) and open Handling_Attachments.csproj in Visual Studio 
+- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\16.Handling-Attachments`) and open HandlingAttachmentsBot.csproj in Visual Studio 
 - Hit F5
  ### Visual Studio Code
 - Open `BotBuilder-Samples\csharp_dotnetcore\16.Handling-Attachments` folder
