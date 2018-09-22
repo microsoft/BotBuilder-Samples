@@ -195,7 +195,6 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Waterfall dialog step to process the command sent by the user.
         /// </summary>
-        /// <param name="dc">A <see cref="DialogContext"/> provides context for the current dialog.</param>
         /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>
         /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
@@ -246,7 +245,6 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Waterfall step that will prompt the user to log in if they are not already.
         /// </summary>
-        /// <param name="dc">A <see cref="DialogContext"/> provides context for the current dialog.</param>
         /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
