@@ -26,10 +26,10 @@ module.exports = {
         constructor(onTurnAccessor, conversationState, userProfileAccessor, botConfig) {
             super(INTERRUPTION_DISPATCHER_DIALOG);
 
-            if (!onTurnAccessor) throw ('Missing parameter. On turn property accessor is required.');
-            if (!conversationState) throw ('Missing parameter. Conversation state is required.');
-            if (!userProfileAccessor) throw ('Missing parameter. User profile accessor is required.');
-            if (!botConfig) throw ('Missing parameter. Bot configuration is required.');
+            if (!onTurnAccessor) throw new Error('Missing parameter. On turn property accessor is required.');
+            if (!conversationState) throw new Error('Missing parameter. Conversation state is required.');
+            if (!userProfileAccessor) throw new Error('Missing parameter. User profile accessor is required.');
+            if (!botConfig) throw new Error('Missing parameter. Bot configuration is required.');
 
             // keep on turn accessor
             this.onTurnAccessor = onTurnAccessor;
@@ -65,7 +65,7 @@ module.exports = {
          */
         async interruptionDispatch(dc, options) {
             // See if interruption is allowed
-            if (options == undefined || options.intent === undefined) {
+            if (options === undefined || options.intent === undefined) {
                 await dc.context.sendActivity(`Sorry. I'm unable to do that right now. You can cancel the current conversation and start a new one`);
                 return await dc.end();
             }

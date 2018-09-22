@@ -90,7 +90,7 @@ module.exports = {
             //   and the user says something like 'call me {username}' or 'my name is {username}'.
 
             // Get user name entities from on turn property (from the cafe bot dispatcher LUIS model)
-            let userNameInOnTurnProperty = (onTurnProperty.entities || []).filter(item => ((item.entityName == USER_NAME_ENTITY) || (item.entityName == USER_NAME_PATTERN_ANY_ENTITY)));
+            let userNameInOnTurnProperty = (onTurnProperty.entities || []).filter(item => ((item.entityName === USER_NAME_ENTITY) || (item.entityName === USER_NAME_PATTERN_ANY_ENTITY)));
             if (userNameInOnTurnProperty.length !== 0) {
                 // get user name from on turn property
                 let userName = userNameInOnTurnProperty[0].entityValue[0];

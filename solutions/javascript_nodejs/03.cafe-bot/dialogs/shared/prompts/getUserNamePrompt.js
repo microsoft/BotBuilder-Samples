@@ -31,10 +31,10 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
      * @param {Object} conversationState conversations state
      */
     constructor(dialogId, botConfig, userProfileAccessor, conversationState, onTurnAccessor) {
-        if (!dialogId) throw ('Missing parameter. Dialog ID is required.');
-        if (!botConfig) throw ('Missing parameter. Bot configuration is required.');
-        if (!userProfileAccessor) throw ('Missing parameter. User profile property accessor is required.');
-        if (!conversationState) throw ('Missing parameter. Conversation state is required.');
+        if (!dialogId) throw new Error('Missing parameter. Dialog ID is required.');
+        if (!botConfig) throw new Error('Missing parameter. Bot configuration is required.');
+        if (!userProfileAccessor) throw new Error('Missing parameter. User profile property accessor is required.');
+        if (!conversationState) throw new Error('Missing parameter. Conversation state is required.');
         // Call super and provide a prompt validator
         super(dialogId, async (turnContext, step) => {
             const userProfile = await this.userProfileAccessor.get(turnContext);
@@ -63,7 +63,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
         this.onTurnAccessor = onTurnAccessor;
         // add recognizer
         const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
-        if (!luisConfig || !luisConfig.appId) throw (`Get User Profile LUIS configuration not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
+        if (!luisConfig || !luisConfig.appId) throw new Error(`Get User Profile LUIS configuration not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
         this.luisRecognizer = new LuisRecognizer({
             applicationId: luisConfig.appId,
             azureRegion: luisConfig.region,
@@ -92,7 +92,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
         if (onTurnProperty !== undefined) {
             if (onTurnProperty.entities.length !== 0) {
                 // find user name in on turn property
-                const userNameInOnTurnProperty = onTurnProperty.entities.find(item => item.entityName == USER_NAME);
+                const userNameInOnTurnProperty = onTurnProperty.entities.find(item => item.entityName === USER_NAME);
                 if (userNameInOnTurnProperty !== undefined) {
                     await this.updateUserProfileProperty(userNameInOnTurnProperty.entityValue, context);
                     return await super.dialogContinue(dc);

@@ -36,9 +36,9 @@ module.exports = {
          */
         constructor(botConfig, reservationsAccessor, onTurnAccessor, userProfileAccessor, conversationState) {
             super(BOOK_TABLE);
-            if (!botConfig) throw ('Need bot config');
-            if (!reservationsAccessor) throw ('Need reservations accessor');
-            if (!onTurnAccessor) throw ('Need on turn accessor');
+            if (!botConfig) throw new Error('Need bot config');
+            if (!reservationsAccessor) throw new Error('Need reservations accessor');
+            if (!onTurnAccessor) throw new Error('Need on turn accessor');
 
             this.reservationsAccessor = reservationsAccessor;
             this.onTurnAccessor = onTurnAccessor;
@@ -93,7 +93,7 @@ module.exports = {
             // set reservation
             this.reservationsAccessor.set(dc.context, reservationResult.newReservation);
 
-            // see if updadte reservtion resulted in errors, if so, report them to user.
+            // see if update reservation resulted in errors, if so, report them to user.
             if (reservationResult &&
                 reservationResult.status === reservationStatus.INCOMPLETE &&
                 reservationResult.outcome !== undefined &&

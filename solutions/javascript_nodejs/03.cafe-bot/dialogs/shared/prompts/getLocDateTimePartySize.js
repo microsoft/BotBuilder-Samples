@@ -27,10 +27,10 @@ module.exports = {
          * @param {StateAccessor} accessor for user profile property
          */
         constructor(dialogId, botConfig, reservationsAccessor, onTurnAccessor, userProfileAccessor) {
-            if (!dialogId) throw ('Need dialog ID');
-            if (!botConfig) throw ('Need bot configuration');
-            if (!reservationsAccessor) throw ('Need user reservation property accessor');
-            if (!onTurnAccessor) throw ('Need on turn property accessor');
+            if (!dialogId) throw new Error('Need dialog ID');
+            if (!botConfig) throw new Error('Need bot configuration');
+            if (!reservationsAccessor) throw new Error('Need user reservation property accessor');
+            if (!onTurnAccessor) throw new Error('Need on turn property accessor');
             // Call super and provide a prompt validator
             super(dialogId, async (turnContext, step) => {
                 // validation and prompting logic
@@ -75,9 +75,9 @@ module.exports = {
             this.onTurnAccessor = onTurnAccessor;
             this.userProfileAccessor = userProfileAccessor;
             this.qnaDialog = new QnADialog(botConfig, userProfileAccessor);
-            // add recogizers
+            // add recognizer
             const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
-            if (!luisConfig || !luisConfig.appId) throw (`Book Table Turn.N LUIS configuration not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
+            if (!luisConfig || !luisConfig.appId) throw new Error(`Book Table Turn.N LUIS configuration not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
             this.luisRecognizer = new LuisRecognizer({
                 applicationId: luisConfig.appId,
                 azureRegion: luisConfig.region,

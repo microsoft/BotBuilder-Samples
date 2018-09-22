@@ -51,7 +51,7 @@ class ReservationProperty {
      * @param {String} location reservation location
      */
     constructor(id, date, time, partySize, location, reservationConfirmed, needsChange, metaData) {
-        this.id = id || get_guid();
+        this.id = id || getGuid();
         this.date = date || '';
         this.time = time || '';
         this.dateLGString = '';
@@ -187,9 +187,9 @@ ReservationProperty.fromJSON = function(obj) {
  * Helper function to create a random guid
   * @returns {string} GUID
  */
-const get_guid = function() {
+const getGuid = function() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0; var v = c == 'x' ? r : (r & 0x3 | 0x8);
+        var r = Math.random() * 16 | 0; var v = c === 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
 };
@@ -203,10 +203,10 @@ const validate = function(onTurnProperty, returnResult, step) {
     if (onTurnProperty === undefined || onTurnProperty.entities.length === 0) return returnResult;
 
     // We only will pull number -> party size, datetimeV2 -> date and time, cafeLocation -> location.
-    let numberEntity = onTurnProperty.entities.find(item => item.entityName == PARTY_SIZE_ENTITY);
-    let dateTimeEntity = onTurnProperty.entities.find(item => item.entityName == DATE_TIME_ENTITY);
-    let locationEntity = onTurnProperty.entities.find(item => item.entityName == LOCATION_ENTITY);
-    let confirmationEntity = onTurnProperty.entities.find(item => item.entityName == CONFIRMATION_ENTITY);
+    let numberEntity = onTurnProperty.entities.find(item => item.entityName === PARTY_SIZE_ENTITY);
+    let dateTimeEntity = onTurnProperty.entities.find(item => item.entityName === DATE_TIME_ENTITY);
+    let locationEntity = onTurnProperty.entities.find(item => item.entityName === LOCATION_ENTITY);
+    let confirmationEntity = onTurnProperty.entities.find(item => item.entityName === CONFIRMATION_ENTITY);
 
     if (numberEntity !== undefined) {
         // We only accept MAX_PARTY_SIZE in a reservation.
@@ -273,7 +273,7 @@ const validate = function(onTurnProperty, returnResult, step) {
 
     // Accept confirmation entity if available only if we have a complete reservation
     if (confirmationEntity !== undefined) {
-        if (confirmationEntity.entityValue[0][0] == 'yes') {
+        if (confirmationEntity.entityValue[0][0] === 'yes') {
             returnResult.newReservation.reservationConfirmed = true;
             returnResult.newReservation.needsChange = undefined;
         } else {

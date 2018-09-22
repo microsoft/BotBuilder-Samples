@@ -9,7 +9,7 @@ const QNA_DIALOG = 'QnA';
 // Name of the QnA Maker service in the .bot file.
 const QNA_CONFIGURATION = 'cafeFaqChitChat';
 
-// CONSTS used in QnA Maker query.
+// CONST used in QnA Maker query.
 // See (https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-qna) for additional information
 const QNA_NUM_OF_RESULTS = 1;
 const QNA_CONFIDENCE_THRESHOLD = 0.5;
@@ -28,14 +28,14 @@ module.exports = {
         constructor(botConfig, userProfileAccessor, dialogId) {
             (dialogId === undefined) ? super(QNA_DIALOG) : super(dialogId);
 
-            if (!botConfig) throw ('Missing parameter. Bot Configuration is required');
-            if (!userProfileAccessor) throw ('Missing parameter. User profile property accessor is required');
+            if (!botConfig) throw new Error('Missing parameter. Bot Configuration is required');
+            if (!userProfileAccessor) throw new Error('Missing parameter. User profile property accessor is required');
 
             this.userProfileAccessor = userProfileAccessor;
 
-            // add recogizers
+            // add recognizer
             const qnaConfig = botConfig.findServiceByNameOrId(QNA_CONFIGURATION);
-            if (!qnaConfig || !qnaConfig.kbId) throw (`QnA Maker application information not found in .bot file. Please ensure you have all required QnA Maker applications created and available in the .bot file. See readme.md for additional information\n`);
+            if (!qnaConfig || !qnaConfig.kbId) throw new Error(`QnA Maker application information not found in .bot file. Please ensure you have all required QnA Maker applications created and available in the .bot file. See readme.md for additional information\n`);
             this.qnaRecognizer = new QnAMaker({
                 knowledgeBaseId: qnaConfig.kbId,
                 endpointKey: qnaConfig.endpointKey,

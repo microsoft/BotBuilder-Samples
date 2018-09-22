@@ -10,12 +10,12 @@ const { OnTurnProperty } = require('../shared/stateProperties');
 // dialog name
 const MAIN_DISPATCHER_DIALOG = 'MainDispatcherDialog';
 
-// consts for state properties
+// const for state properties
 const USER_PROFILE_PROPERTY = 'userProfile';
 const MAIN_DISPATCHER_STATE_PROPERTY = 'mainDispatcherState';
 const RESERVATION_PROPERTY = 'reservationProperty';
 
-// consts for cancel and none intent names
+// const for cancel and none intent names
 const NONE_INTENT = 'None';
 const CANCEL_INTENT = 'Cancel';
 
@@ -38,10 +38,10 @@ module.exports = {
         constructor(botConfig, onTurnAccessor, conversationState, userState) {
             super(MAIN_DISPATCHER_DIALOG);
 
-            if (!botConfig) throw ('Missing parameter. Bot Configuration is required.');
-            if (!onTurnAccessor) throw ('Missing parameter. On turn property accessor is required.');
-            if (!conversationState) throw ('Missing parameter. Conversation state is required.');
-            if (!userState) throw ('Missing parameter. User state is required.');
+            if (!botConfig) throw new Error('Missing parameter. Bot Configuration is required.');
+            if (!onTurnAccessor) throw new Error('Missing parameter. On turn property accessor is required.');
+            if (!conversationState) throw new Error('Missing parameter. Conversation state is required.');
+            if (!userState) throw new Error('Missing parameter. User state is required.');
 
             // Create state objects for user, conversation and dialog states.
             this.userProfileAccessor = conversationState.createProperty(USER_PROFILE_PROPERTY);
@@ -199,7 +199,7 @@ module.exports = {
             // Handle case when user interacted with the what can you do card.
             // What can you do card sends a custom data property with intent name, text value and possible entities.
             // See ../whatCanYouDo/resources/whatCanYouDoCard.json for card definition.
-            let queryProperty = (onTurnProperty.entities || []).filter(item => item.entityName == QUERY_PROPERTY);
+            let queryProperty = (onTurnProperty.entities || []).filter(item => item.entityName === QUERY_PROPERTY);
             if (queryProperty.length !== 0) {
                 let parsedJSON;
                 try {
@@ -211,7 +211,7 @@ module.exports = {
                     dc.context.activity.text = parsedJSON.text;
                     await dc.context.sendActivity(`You said: '${ dc.context.activity.text }'`);
                 }
-                // create a set a new onturn property
+                // create a set a new on turn property
                 await this.onTurnAccessor.set(dc.context, OnTurnProperty.fromCardInput(parsedJSON));
                 return await this.beginChildDialog(dc, parsedJSON);
             }

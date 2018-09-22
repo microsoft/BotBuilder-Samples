@@ -10,7 +10,7 @@ module.exports = {
          * @param {String} value entity value
          */
         constructor(name, value) {
-            if (!name || !value) throw ('Need name and value to create an entity');
+            if (!name || !value) throw new Error('Need name and value to create an entity');
             this.entityName = name;
             this.entityValue = value;
         }

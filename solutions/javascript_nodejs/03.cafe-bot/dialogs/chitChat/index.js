@@ -22,8 +22,8 @@ module.exports = {
          * @param {StatePropertyAccessor} user profile accessor
          */
         constructor(botConfig, userProfileAccessor) {
-            if (!botConfig) throw ('Missing parameter. Need bot configuration.');
-            if (!userProfileAccessor) throw ('Missing parameter. Need user profile property accessor');
+            if (!botConfig) throw new Error('Missing parameter. Need bot configuration.');
+            if (!userProfileAccessor) throw new Error('Missing parameter. Need user profile property accessor');
 
             super(botConfig, userProfileAccessor, CHITCHAT_INTENT_NAME);
         }
