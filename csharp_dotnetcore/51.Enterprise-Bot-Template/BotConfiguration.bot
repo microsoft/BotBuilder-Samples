@@ -1,0 +1,16 @@
+{
+  "name": "EnterpriseBot",
+  "description": "",
+  "services": [
+    {
+      "type": "endpoint",
+      "id": "1",
+      "name": "development",
+      "appId": "",
+      "appPassword": "",
+      "endpoint": "http://localhost:3978/api/messages"
+    }
+  ],
+  "secretKey": "",
+  "version": "2.0"
+}

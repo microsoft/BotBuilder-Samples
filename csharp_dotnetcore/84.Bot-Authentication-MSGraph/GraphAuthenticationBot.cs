@@ -80,10 +80,10 @@ namespace Microsoft.BotBuilderSamples
                     }
 
                     dc = await this._dialogs.CreateContextAsync(turnContext, cancellationToken);
-                    await dc.ContinueAsync(cancellationToken);
+                    await dc.ContinueDialogAsync(cancellationToken);
                     if (!turnContext.Responded)
                     {
-                        await dc.BeginAsync("graphDialog", cancellationToken: cancellationToken);
+                        await dc.BeginDialogAsync("graphDialog", cancellationToken: cancellationToken);
                     }
 
                     break;
@@ -158,7 +158,7 @@ namespace Microsoft.BotBuilderSamples
                     // The bot adapter encapsulates the authentication processes and sends
                     // activities to from the Bot Connector Service.
                     var botAdapter = (BotFrameworkAdapter)turnContext.Adapter;
-                    await botAdapter.SignOutUserAsync(turnContext, ConnectionSettingName, cancellationToken);
+                    await botAdapter.SignOutUserAsync(turnContext, ConnectionSettingName, cancellationToken: cancellationToken);
 
                     // Let the user know they are signed out.
                     await turnContext.SendActivityAsync("You are now signed out.", cancellationToken: cancellationToken);
@@ -169,10 +169,10 @@ namespace Microsoft.BotBuilderSamples
                 default:
                     // The user has input a command that has not been handled yet,
                     // begin the waterfall dialog to handle the input.
-                    await dc.ContinueAsync(cancellationToken);
+                    await dc.ContinueDialogAsync(cancellationToken);
                     if (!turnContext.Responded)
                     {
-                        await dc.BeginAsync("graphDialog", cancellationToken: cancellationToken);
+                        await dc.BeginDialogAsync("graphDialog", cancellationToken: cancellationToken);
                     }
 
                     break;
@@ -189,7 +189,7 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
-        private async Task<DialogTurnResult> ProcessStepAsync(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> ProcessStepAsync(WaterfallStepContext step, CancellationToken cancellationToken)
         {
             if (step.Result != null)
             {
@@ -201,35 +201,35 @@ namespace Microsoft.BotBuilderSamples
                 // If we have the token use the user is authenticated so we may use it to make API calls.
                 if (tokenResponse?.Token != null)
                 {
-                    var parts = this._stateAccessors.CommandState.GetAsync(dc.Context, cancellationToken: cancellationToken).Result.Split(' ');
+                    var parts = this._stateAccessors.CommandState.GetAsync(step.Context, cancellationToken: cancellationToken).Result.Split(' ');
                     string command = parts[0].ToLowerInvariant();
 
                     if (command == "me")
                     {
-                        await OAuthHelpers.ListMeAsync(dc.Context, tokenResponse);
+                        await OAuthHelpers.ListMeAsync(step.Context, tokenResponse);
                     }
                     else if (command.StartsWith("send"))
                     {
-                        await OAuthHelpers.SendMailAsync(dc.Context, tokenResponse, parts[1]);
+                        await OAuthHelpers.SendMailAsync(step.Context, tokenResponse, parts[1]);
                     }
                     else if (command.StartsWith("recent"))
                     {
-                        await OAuthHelpers.ListRecentMailAsync(dc.Context, tokenResponse);
+                        await OAuthHelpers.ListRecentMailAsync(step.Context, tokenResponse);
                     }
                     else
                     {
-                        await dc.Context.SendActivityAsync($"Your token is: {tokenResponse.Token}", cancellationToken: cancellationToken);
+                        await step.Context.SendActivityAsync($"Your token is: {tokenResponse.Token}", cancellationToken: cancellationToken);
                     }
 
-                    await this._stateAccessors.CommandState.DeleteAsync(dc.Context, cancellationToken);
+                    await this._stateAccessors.CommandState.DeleteAsync(step.Context, cancellationToken);
                 }
             }
             else
             {
-                await dc.Context.SendActivityAsync("We couldn't log you in. Please try again later.", cancellationToken: cancellationToken);
+                await step.Context.SendActivityAsync("We couldn't log you in. Please try again later.", cancellationToken: cancellationToken);
             }
 
-            return await dc.EndAsync(cancellationToken: cancellationToken);
+            return await step.EndDialogAsync(cancellationToken: cancellationToken);
         }
 
         /// <summary>
@@ -240,18 +240,18 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
-        private async Task<DialogTurnResult> PromptStepAsync(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> PromptStepAsync(WaterfallStepContext step, CancellationToken cancellationToken)
         {
-            var activity = dc.Context.Activity;
+            var activity = step.Context.Activity;
 
             // Set the context if the message is not the magic code.
             if (activity.Type == ActivityTypes.Message &&
                 !Regex.IsMatch(activity.Text, @"(\d{6})"))
             {
-                await this._stateAccessors.CommandState.SetAsync(dc.Context, activity.Text, cancellationToken);
+                await this._stateAccessors.CommandState.SetAsync(step.Context, activity.Text, cancellationToken);
             }
 
-            return await dc.BeginAsync("loginPrompt", cancellationToken: cancellationToken);
+            return await step.BeginDialogAsync("loginPrompt", cancellationToken: cancellationToken);
         }
     }
 }

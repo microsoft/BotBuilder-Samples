@@ -1,0 +1,15 @@
+{
+    "name": "using-cards",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "development",
+            "endpoint": "http://localhost:3978/api/messages",
+            "appId": "",
+            "appPassword": "",
+            "id": "90"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0"
+}
