@@ -18,6 +18,8 @@ This samples shows how to:
   ```bash
   cd samples/javascript_nodejs/13.basic-bot
   ```
+- [Optional] Update the .env file under samples/javascript_nodejs/08.suggested-actions with your botFileSecret
+    For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules
   ```bash
   npm install
