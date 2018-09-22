@@ -46,9 +46,9 @@ module.exports = {
         constructor(botConfig, conversationState, userProfileAccessor, onTurnAccessor, reservationAccessor) {
             super(WHO_ARE_YOU_DIALOG);
 
-            if (!botConfig) throw ('Missing parameter. Bot configuration is required.');
-            if (!userProfileAccessor) throw ('Missing parameter. User profile property accessor is required.');
-            if (!conversationState) throw ('Missing parameter. Conversation state is required.');
+            if (!botConfig) throw new Error('Missing parameter. Bot configuration is required.');
+            if (!userProfileAccessor) throw new Error('Missing parameter. User profile property accessor is required.');
+            if (!conversationState) throw new Error('Missing parameter. Conversation state is required.');
 
             // keep accessors for the steps to consume
             this.onTurnAccessor = onTurnAccessor;

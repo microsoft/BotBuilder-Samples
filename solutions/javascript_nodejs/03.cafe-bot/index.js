@@ -3,7 +3,7 @@
 
 // index.js is used to setup and configure your bot
 
-// Import required pckages
+// Import required packages
 const path = require('path');
 const restify = require('restify');
 
@@ -11,8 +11,6 @@ const restify = require('restify');
 const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = require('botbuilder');
 // Import required bot configuration.
 const { BotConfiguration } = require('botframework-config');
-
-// This bot's main dialog.
 const { CafeBot } = require('./bot');
 
 // Read botFilePath and botFileSecret from .env file
