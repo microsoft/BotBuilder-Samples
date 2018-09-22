@@ -84,10 +84,7 @@ class OAuthHelpers {
         var client = new SimpleGraphClient(tokenResponse.token);
         var messages = await client.getRecentMail();
 
-        /**
-         * Constructs and sends activities with information about the received `message`.
-         * @param {Object} message A `Message` result from the MS Graph API call.
-         */
+        // Constructs and sends activities with information about the received `message`.
         async function sendMessageInfo(message) {
             const from = message.from.emailAddress.name;
             const address = message.from.emailAddress.address;

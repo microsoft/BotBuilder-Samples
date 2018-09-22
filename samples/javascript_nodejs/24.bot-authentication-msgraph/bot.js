@@ -1,9 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActionTypes, ActivityTypes, CardFactory } = require('botbuilder');
-const { DialogContext, DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
+const { ActionTypes, ActivityTypes, CardFactory, ConversationState } = require('botbuilder');
+const { DialogContext, DialogSet, WaterfallDialog, WaterfallStepContext } = require('botbuilder-dialogs');
 const { OAuthHelpers, LOGIN_PROMPT } = require('./oauth-helpers');
+
+// The connection name here must match the the one from your
+// Bot Channels Registration on the settings blade in Azure.
+const CONNECTION_SETTING_NAME = process.env.CONNECTION_SETTING_NAME || '';
 
 /**
  * This bot uses OAuth to log the user in. The OAuth provider being demonstrated
@@ -37,10 +41,8 @@ class GraphAuthenticationBot {
         // Create a DialogSet that contains the OAuthPrompt.
         this.dialogs = new DialogSet(this.dialogState);
 
-        // The connection name here must match the the one from your
-        // Bot Channels Registration on the settings blade in Azure.
-        this.connectionSettingName = '';
-        this.dialogs.add(OAuthHelpers.prompt(this.connectionSettingName));
+        // Add an OAuthPrompt with the connection name as specified on the Bot's settings blade in Azure.
+        this.dialogs.add(OAuthHelpers.prompt(CONNECTION_SETTING_NAME));
 
         this._graphDialogId = 'graphDialog';
 
@@ -172,7 +174,7 @@ class GraphAuthenticationBot {
      * WaterfallDialogStep for storing commands and beginning the OAuthPrompt.
      * Saves the user's message as the command to execute if the message is not
      * a magic code.
-     * @param {Object} step WaterfallStepContext
+     * @param {WaterfallStepContext} step WaterfallStepContext
      */
     async promptStep(step) {
         const activity = step.context.activity;
@@ -185,7 +187,7 @@ class GraphAuthenticationBot {
 
     /**
      * WaterfallDialogStep to process the command sent by the user.
-     * @param {Object} step WaterfallStepContext
+     * @param {WaterfallStepContext} step WaterfallStepContext
      */
     async processStep(step) {
         // We do not need to store the token in the bot. When we need the token we can
