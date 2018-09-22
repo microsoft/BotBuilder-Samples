@@ -45,7 +45,7 @@ namespace Microsoft.BotBuilderSamples
                 throw new ArgumentNullException(nameof(content));
             }
 
-            var graphClient = this.GetAuthenticatedClient();
+            var graphClient = GetAuthenticatedClient();
             var recipients = new List<Recipient>
             {
                 new Recipient
@@ -76,7 +76,7 @@ namespace Microsoft.BotBuilderSamples
         // Gets mail for the user using the Microsoft Graph API
         public async Task<Message[]> GetRecentMailAsync()
         {
-            var graphClient = this.GetAuthenticatedClient();
+            var graphClient = GetAuthenticatedClient();
             var messages = await graphClient.Me.MailFolders.Inbox.Messages.Request().GetAsync();
             return messages.Take(5).ToArray();
         }
@@ -84,7 +84,7 @@ namespace Microsoft.BotBuilderSamples
         // Get information about the user.
         public async Task<User> GetMeAsync()
         {
-            var graphClient = this.GetAuthenticatedClient();
+            var graphClient = GetAuthenticatedClient();
             var me = await graphClient.Me.Request().GetAsync();
             return me;
         }
@@ -92,7 +92,7 @@ namespace Microsoft.BotBuilderSamples
         // gets information about the user's manager.
         public async Task<User> GetManagerAsync()
         {
-            var graphClient = this.GetAuthenticatedClient();
+            var graphClient = GetAuthenticatedClient();
             var manager = await graphClient.Me.Manager.Request().GetAsync() as User;
             return manager;
         }

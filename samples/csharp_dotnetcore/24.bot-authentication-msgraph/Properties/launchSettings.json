@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Bot_Authentication_MSGraph": {
+    "Bot-Authentication-MSGraph": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
