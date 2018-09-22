@@ -21,14 +21,15 @@ question, it will share that information with the user.
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\16.proactive-messages` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+# Prerequisites
 ## Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\17.Proactive-Messages`) and open `ProactiveBot.csproj` in Visual Studio.
+- Navigate to the samples folder (`botbuilder-samples\samples\csharp_dotnetcore\16.proactive-messages`) and open `ProactiveBot.csproj` in Visual Studio.
 - Press F5.
 
 ## Visual Studio Code
-- Open `BotBuilder-Samples\csharp_dotnetcore\17.Proactive-Messages` sample folder.
-- Bring up a console, navigate to `BotBuilder-Samples\csharp_dotnetcore\17.Proactive-Messages` folder.
+- Open `botbuilder-samples\samples\csharp_dotnetcore\16.proactive-messages` sample folder.
+- Bring up a console, navigate to `botbuilder-samples\samples\csharp_dotnetcore\16.proactive-messages` folder.
 - type `dotnet run`
 
 ## Testing the bot using Bot Framework Emulator
@@ -37,9 +38,20 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 ### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\17.Proactive-Messages` folder
+- File -> Open bot and navigate to `botbuilder-samples\samples\csharp_dotnetcore\16.proactive-messages` folder
 - Select `BotConfiguration.bot` file
 - Open two conversations in the emulator, see that the proactive message goes to the correct conversation
 
+# Deploy this bot to Azure
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+
+To install all Bot Builder tools - 
+```bash
+npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
+```
+To clone this bot, run
+```
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+```
 # Further reading
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
