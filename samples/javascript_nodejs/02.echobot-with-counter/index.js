@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// index.js is used to setup and configure your bot
-
-// Import required pckages
+// Import required packages
 const path = require('path');
 const restify = require('restify');
 
@@ -12,7 +10,6 @@ const { BotFrameworkAdapter, ConversationState, MemoryStorage } = require('botbu
 // Import required bot configuration.
 const { BotConfiguration } = require('botframework-config');
 
-// This bot's main dialog.
 const { EchoBot } = require('./bot');
 
 // Read botFilePath and botFileSecret from .env file
@@ -59,7 +56,9 @@ adapter.onTurnError = async (context, error) => {
     // Send a message to the user
     context.sendActivity(`Oops. Something went wrong!`);
     // Clear out state
-    conversationState.clear(context);
+    await conversationState.clear(context);
+    // Save state changes.
+    await conversationState.saveChanges(context);
 };
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
