@@ -1,9 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActionTypes, ActivityTypes, CardFactory } = require('botbuilder');
-const { DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
+const { ActionTypes, ActivityTypes, CardFactory, ConversationState } = require('botbuilder');
+const { DialogContext, DialogSet, WaterfallDialog, WaterfallStepContext } = require('botbuilder-dialogs');
 const { OAuthHelpers, LOGIN_PROMPT } = require('./oauth-helpers');
+
+// The connection name here must match the the one from your
+// Bot Channels Registration on the settings blade in Azure.
+const CONNECTION_SETTING_NAME = '';
 
 /**
  * This bot uses OAuth to log the user in. The OAuth provider being demonstrated
@@ -16,11 +20,11 @@ class GraphAuthenticationBot {
      * 1. StatePropertyAccessor
      * 2. DialogSet
      * 3. OAuthPrompt
-     * 
+     *
      * The arguments taken by this constructor are ConversationState, although any BotState
      * instance would suffice for this bot. `conversationState` is used to create a StatePropertyAccessor,
      *  which is needed to create a DialogSet. All botbuilder-dialogs `Prompts` need a DialogSet to operate.
-     * @param {ConversationState} conversationState 
+     * @param {ConversationState} conversationState The state that will contain the DialogState BotStatePropertyAccessor.
      */
     constructor(conversationState) {
         this.conversationState = conversationState;
@@ -37,10 +41,8 @@ class GraphAuthenticationBot {
         // Create a DialogSet that contains the OAuthPrompt.
         this.dialogs = new DialogSet(this.dialogState);
 
-        // The connection name here must match the the one from your
-        // Bot Channels Registration on the settings blade in Azure.
-        this.connectionSettingName = '';
-        this.dialogs.add(OAuthHelpers.prompt(this.connectionSettingName));
+        // Add an OAuthPrompt with the connection name as specified on the Bot's settings blade in Azure.
+        this.dialogs.add(OAuthHelpers.prompt(CONNECTION_SETTING_NAME));
 
         this._graphDialogId = 'graphDialog';
 
@@ -53,7 +55,7 @@ class GraphAuthenticationBot {
 
     /**
      * This controls what happens when an activity get sent to the bot.
-     * @param {String} turnContext Provides the turnContext for the turn of the bot.
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async onTurn(turnContext) {
         const dc = await this.dialogs.createContext(turnContext);
@@ -84,16 +86,19 @@ class GraphAuthenticationBot {
                 await this.sendWelcomeMessage(turnContext);
                 break;
             default:
-                await turnContext.sendActivity(`[${turnContext.activity.type}]-type activity detected.`);
+                await turnContext.sendActivity(`[${ turnContext.activity.type }]-type activity detected.`);
         }
+
+        await this.conversationState.saveChanges(turnContext);
     };
 
     /**
      * Creates a Hero Card that is sent as a welcome message to the user.
-     * @param {Object} turnContext 
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async sendWelcomeMessage(turnContext) {
-        if (turnContext.activity && turnContext.activity.membersAdded) {
+        const activity = turnContext.activity;
+        if (activity && activity.membersAdded) {
             const heroCard = CardFactory.heroCard(
                 'Welcome to GraphAuthenticationBot!',
                 CardFactory.images(['https://botframeworksamples.blob.core.windows.net/samples/aadlogo.png']),
@@ -126,26 +131,17 @@ class GraphAuthenticationBot {
                 ])
             );
 
-            async function welcomeUser(conversationMember) {
-                // Checks to see if the member added to the conversation is not the bot.
-                // The bot is the recipient of all ConversationUpdate-type activities.
-                if (conversationMember.id !== this.activity.recipient.id) {
-                    // Because the TurnContext was bound to this function, the bot can call
-                    // `TurnContext.sendActivity` via `this.sendActivity`.
-                    await this.sendActivity({ attachments: [heroCard] });
+            for (const idx in activity.membersAdded) {
+                if (activity.membersAdded[idx].id !== activity.recipient.id) {
+                    await turnContext.sendActivity({ attachments: [heroCard] });
                 }
             }
-
-            // Prepare Promises to reply to the user with information about the bot.
-            // The current TurnContext is bound so `replyForReceivedAttachments` can also send replies.
-            const welcomeMessages = turnContext.activity.membersAdded.map(welcomeUser.bind(turnContext));
-            await Promise.all(welcomeMessages);
         }
     }
 
     /**
      * Processes input and route to the appropriate step.
-     * @param {Object} dc DialogContext
+     * @param {DialogContext} dc DialogContext
      */
     async processInput(dc) {
         switch (dc.context.activity.text.toLowerCase()) {
@@ -180,7 +176,7 @@ class GraphAuthenticationBot {
      * WaterfallDialogStep for storing commands and beginning the OAuthPrompt.
      * Saves the user's message as the command to execute if the message is not
      * a magic code.
-     * @param {Object} step WaterfallStepContext
+     * @param {WaterfallStepContext} step WaterfallStepContext
      */
     async promptStep(step) {
         const activity = step.context.activity;
@@ -193,7 +189,7 @@ class GraphAuthenticationBot {
 
     /**
      * WaterfallDialogStep to process the command sent by the user.
-     * @param {Object} step WaterfallStepContext
+     * @param {WaterfallStepContext} step WaterfallStepContext
      */
     async processStep(step) {
         // We do not need to store the token in the bot. When we need the token we can
@@ -215,11 +211,11 @@ class GraphAuthenticationBot {
             if (command === 'me') {
                 await OAuthHelpers.listMe(step.context, tokenResponse);
             } else if (command === 'send') {
-                await OAuthHelpers.sendMail(step.context, tokenResponse, parts[1].toLowerCase())
+                await OAuthHelpers.sendMail(step.context, tokenResponse, parts[1].toLowerCase());
             } else if (command === 'recent') {
                 await OAuthHelpers.listRecentMail(step.context, tokenResponse);
             } else {
-                await step.context.sendActivity(`Your token is: ${tokenResponse.token}`);
+                await step.context.sendActivity(`Your token is: ${ tokenResponse.token }`);
             }
         } else {
             // Ask the user to try logging in later as they are not logged in.
