@@ -16,14 +16,24 @@ namespace Microsoft.BotBuilderSamples
     /// This bot uses OAuth to log the user in. The OAuth provider being demonstrated
     /// here is Azure Active Directory v2.0 (AADv2). Once logged in,the bot uses the
     /// Microsoft Graph API to demonstrate making calls to authenticated services.
+    /// Represents a bot that processes incoming activities.
+    /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
+    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// each time they're requested. For each Activity received, a new instance of this
+    /// class is created. Objects that are expensive to construct, or have a lifetime
+    /// beyond the single turn, should be carefully managed.
+    /// For example, the <see cref="MemoryStorage"/> object and associated
+    /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// </summary>
+    /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class GraphAuthenticationBot : IBot
     {
-        // Your connection name
+        // The connection name here must match the the one from
+        // your Bot Channels Registration on the settings blade in Azure.
         private const string ConnectionSettingName = "";
 
         // Instructions for the user with information about commands that this bot may handle.
-        private const string HelpText =
+        private const string WelcomeText =
             @"You can type 'send <recipient_email>' to send an email, 'recent' to view recent unread mail
             'me' to see information about yourself, or 'help' to view the commands
             again. Any other text will display your token.";
@@ -43,7 +53,7 @@ namespace Microsoft.BotBuilderSamples
             }
 
             _stateAccessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
-            _dialogs = new DialogSet(this._stateAccessors.ConversationDialogState);
+            _dialogs = new DialogSet(_stateAccessors.ConversationDialogState);
             _dialogs.Add(OAuthHelpers.Prompt(ConnectionSettingName));
             _dialogs.Add(new ChoicePrompt("choicePrompt"));
             _dialogs.Add(new WaterfallDialog("graphDialog", new WaterfallStep[] { PromptStepAsync, ProcessStepAsync }));
@@ -52,10 +62,11 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// This controls what happens when an <see cref="Activity"/> gets sent to the bot.
         /// </summary>
-        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
-        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             DialogContext dc = null;
@@ -79,7 +90,7 @@ namespace Microsoft.BotBuilderSamples
                         throw new InvalidOperationException("The Invoke type is only valid onthe MSTeams channel.");
                     }
 
-                    dc = await this._dialogs.CreateContextAsync(turnContext, cancellationToken);
+                    dc = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
                     await dc.ContinueDialogAsync(cancellationToken);
                     if (!turnContext.Responded)
                     {
@@ -102,7 +113,7 @@ namespace Microsoft.BotBuilderSamples
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     var reply = turnContext.Activity.CreateReply();
-                    reply.Text = HelpText;
+                    reply.Text = WelcomeText;
                     reply.Attachments = new List<Attachment> { CreateHeroCard(member.Id).ToAttachment() };
                     await turnContext.SendActivityAsync(reply, cancellationToken);
                 }
@@ -148,7 +159,7 @@ namespace Microsoft.BotBuilderSamples
         /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
         private async Task<DialogContext> ProcessInputAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var dc = await this._dialogs.CreateContextAsync(turnContext, cancellationToken);
+            var dc = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
             switch (turnContext.Activity.Text.ToLowerInvariant())
             {
                 case "signout":
@@ -164,7 +175,7 @@ namespace Microsoft.BotBuilderSamples
                     await turnContext.SendActivityAsync("You are now signed out.", cancellationToken: cancellationToken);
                     break;
                 case "help":
-                    await turnContext.SendActivityAsync(HelpText, cancellationToken: cancellationToken);
+                    await turnContext.SendActivityAsync(WelcomeText, cancellationToken: cancellationToken);
                     break;
                 default:
                     // The user has input a command that has not been handled yet,
@@ -201,7 +212,7 @@ namespace Microsoft.BotBuilderSamples
                 // If we have the token use the user is authenticated so we may use it to make API calls.
                 if (tokenResponse?.Token != null)
                 {
-                    var parts = this._stateAccessors.CommandState.GetAsync(step.Context, cancellationToken: cancellationToken).Result.Split(' ');
+                    var parts = _stateAccessors.CommandState.GetAsync(step.Context, cancellationToken: cancellationToken).Result.Split(' ');
                     string command = parts[0].ToLowerInvariant();
 
                     if (command == "me")
@@ -221,7 +232,7 @@ namespace Microsoft.BotBuilderSamples
                         await step.Context.SendActivityAsync($"Your token is: {tokenResponse.Token}", cancellationToken: cancellationToken);
                     }
 
-                    await this._stateAccessors.CommandState.DeleteAsync(step.Context, cancellationToken);
+                    await _stateAccessors.CommandState.DeleteAsync(step.Context, cancellationToken);
                 }
             }
             else
@@ -248,7 +259,7 @@ namespace Microsoft.BotBuilderSamples
             if (activity.Type == ActivityTypes.Message &&
                 !Regex.IsMatch(activity.Text, @"(\d{6})"))
             {
-                await this._stateAccessors.CommandState.SetAsync(step.Context, activity.Text, cancellationToken);
+                await _stateAccessors.CommandState.SetAsync(step.Context, activity.Text, cancellationToken);
             }
 
             return await step.BeginDialogAsync("loginPrompt", cancellationToken: cancellationToken);
