@@ -56,6 +56,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+
             // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
             var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
 
@@ -67,9 +68,6 @@ namespace Microsoft.BotBuilderSamples
 
             services.AddBot<QnABot>(options =>
             {
-                InitCredentialProvider(options);
-
-
                 services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
 
                 // Retrieve current endpoint.
@@ -190,25 +188,6 @@ namespace Microsoft.BotBuilderSamples
 
             var connectedServices = new BotServices(qnaServices);
             return connectedServices;
-        }
-
-        /// <summary>
-        /// Initializes the credential provider, using by default the <see cref="SimpleCredentialProvider"/>.
-        /// </summary>
-        /// <param name="options"><see cref="BotFrameworkOptions"/> for the current bot.</param>
-        private static void InitCredentialProvider(BotFrameworkOptions options)
-        {
-            // Load the connected services from .bot file.
-            var botConfig = BotConfiguration.Load(@".\BotConfiguration.bot");
-
-            var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
-            var endpointService = service as EndpointService;
-            if (endpointService == null)
-            {
-                throw new InvalidOperationException("The .bot file does not contain an endpoint.");
-            }
-
-            options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
         }
     }
 }
