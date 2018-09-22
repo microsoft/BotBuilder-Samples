@@ -20,6 +20,8 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.ibot?view=botbuilder-dotnet-preview"/>
     public class LuisBot : IBot
     {
+        private const string WelcomeText = "This bot will introduce you to natural language processing with LUIS. Type an utterance to get started";
+
         /// <summary>
         /// Key in the bot config (.bot file) for the LUIS instance.
         /// In the .bot file, multiple instances of LUIS can be configured.
@@ -35,7 +37,6 @@ namespace Microsoft.BotBuilderSamples
         /// Initializes a new instance of the <see cref="LuisBot"/> class.
         /// </summary>
         /// <param name="services">Services configured from the ".bot" file.</param>
-        /// <seealso cref="BotConfiguration"/>
         public LuisBot(BotServices services)
         {
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
@@ -50,21 +51,21 @@ namespace Microsoft.BotBuilderSamples
         /// There are no dialogs used, the sample only uses "single turn" processing,
         /// meaning a single request and response, with no stateful conversation.
         /// </summary>
-        /// <param name="context">A <see cref="ITurnContext"/> containing all the data needed
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
         /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
-        public async Task OnTurnAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (context.Activity.Type == ActivityTypes.Message)
+            if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 // Check LUIS model
-                var recognizerResult = await _services.LuisServices[LuisKey].RecognizeAsync(context, cancellationToken);
+                var recognizerResult = await _services.LuisServices[LuisKey].RecognizeAsync(turnContext, cancellationToken);
                 var topIntent = recognizerResult?.GetTopScoringIntent();
                 if (topIntent != null && topIntent.HasValue && topIntent.Value.intent != "None")
                 {
-                    await context.SendActivityAsync($"==>LUIS Top Scoring Intent: {topIntent.Value.intent}, Score: {topIntent.Value.score}\n");
+                    await turnContext.SendActivityAsync($"==>LUIS Top Scoring Intent: {topIntent.Value.intent}, Score: {topIntent.Value.score}\n");
                 }
                 else
                 {
@@ -73,7 +74,37 @@ namespace Microsoft.BotBuilderSamples
                             'Calendar.Add'
                             'Calendar.Find'
                             Try typing 'Add Event' or 'Show me tomorrow'.";
-                    await context.SendActivityAsync(msg);
+                    await turnContext.SendActivityAsync(msg);
+                }
+            }
+            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                // Send a welcome message to the user and tell them what actions they may perform to use this bot
+                await SendWelcomeMessageAsync(turnContext, cancellationToken);
+            }
+            else
+            {
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected", cancellationToken: cancellationToken);
+            }
+        }
+
+        /// <summary>
+        /// On a conversation update activity sent to the bot, the bot will
+        /// send a message to the any new user(s) that were added.
+        /// </summary>
+        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
+        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            foreach (var member in turnContext.Activity.MembersAdded)
+            {
+                if (member.Id != turnContext.Activity.Recipient.Id)
+                {
+                    await turnContext.SendActivityAsync(
+                        $"Welcome to LuisBot {member.Name}. {WelcomeText}",
+                        cancellationToken: cancellationToken);
                 }
             }
         }
