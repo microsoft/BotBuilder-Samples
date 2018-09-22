@@ -4,7 +4,7 @@
 const { Client } = require('@microsoft/microsoft-graph-client');
 
 /**
- * This class is a wrapper for the Microsoft Graph API. 
+ * This class is a wrapper for the Microsoft Graph API.
  * See: https://developer.microsoft.com/en-us/graph for more information.
  */
 class SimpleGraphClient {
@@ -25,9 +25,9 @@ class SimpleGraphClient {
 
     /**
      * Sends an email on the user's behalf.
-     * @param {*} toAddress 
-     * @param {*} subject 
-     * @param {*} content 
+     * @param {string} toAddress Email address of the email's recipient.
+     * @param {string} subject Subject of the email to be sent to the recipient.
+     * @param {string} content Email message to be sent to the recipient.
      */
     async sendMail(toAddress, subject, content) {
         if (!toAddress || !toAddress.trim()) {
@@ -40,10 +40,10 @@ class SimpleGraphClient {
             throw new Error('SimpleGraphClient.sendMail(): Invalid `content` parameter received.');
         }
 
-        // Create the message.
+        // Create the email.
         const mail = {
             body: {
-                content: content, // `Hi there! I had this message sent from a bot. - Your friend, ${graphData.displayName}!`,
+                content: content, // `Hi there! I had this message sent from a bot. - Your friend, ${ graphData.displayName }!`,
                 contentType: 'Text'
             },
             subject: subject, // `Message from a bot!`,
