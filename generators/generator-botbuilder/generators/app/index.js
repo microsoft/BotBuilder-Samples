@@ -49,29 +49,46 @@ module.exports = class extends Generator {
 
         return this.prompt(promptAnswers).then((props) => {
             this.props = props;
-            // this.log(JSON.stringify(this.props));
         });
     }
 
     writing() {
-        if(_.toLower(this.props.template) === "echo") {
-            echoTemplateWriter(this);
-        } else {
-            basicTemplateWriter(this);
+        // if the user confirmed their settings, then lets go ahead
+        // an install module dependencies
+        if(this.props.finalConfirmation === true) {
+            // the user confirmed that we should continue.
+            if (_.toLower(this.props.template) === "echo") {
+                echoTemplateWriter(this);
+            } else {
+                basicTemplateWriter(this);
+            }
         }
     }
 
     install() {
-        this.installDependencies({ bower: false });
+        // if the user confirmed their settings, then lets go ahead
+        // an install module dependencies
+        if (this.props.finalConfirmation === true) {
+            this.installDependencies({ bower: false });
+        }
     }
 
     end() {
-        const thankYouMsg = "------------------- \n" +
-            "Your new bot is ready!  \n" +
-            "Open the README.md file for more information. \n" +
-            "Thank you for using the Microsoft Bot Framework. \n" +
-            "\n< ** > The Bot Framework Team" ;
-        this.log(thankYouMsg);
+        if (this.props.finalConfirmation === true) {
+            const thankYouMsg = "------------------- \n" +
+                "Your new bot is ready!  \n" +
+                "Open the README.md to learn how to run your bot. \n" +
+                "Thank you for using the Microsoft Bot Framework. \n" +
+                "\n< ** > The Bot Framework Team";
+            this.log(thankYouMsg);
+        } else {
+            const noThankYouMsg = "------------------- \n" +
+                "Bot creation has been cancelled.  \n" +
+                "Thank you for using the Microsoft Bot Framework. \n" +
+                "\n< ** > The Bot Framework Team";
+            this.log(noThankYouMsg);
+        }
+
     }
 
 };
