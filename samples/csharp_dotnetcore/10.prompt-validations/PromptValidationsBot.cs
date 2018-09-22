@@ -23,6 +23,8 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class PromptValidationsBot : IBot
     {
+        private const string WelcomeText = "This bot will introduce you to prompt validations. Type anything to get started";
+
         private readonly BotAccessors _accessors;
 
         /// <summary>
@@ -56,40 +58,47 @@ namespace Microsoft.BotBuilderSamples
             }
 
             // We are only interested in Message Activities.
-            if (turnContext.Activity.Type != ActivityTypes.Message)
+            if (turnContext.Activity.Type == ActivityTypes.Message)
             {
-                return;
-            }
+                // Run the DialogSet - let the framework identify the current state of the dialog from
+                // the dialog stack and figure out what (if any) is the active dialog.
+                var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
+                var results = await dialogContext.ContinueDialogAsync(cancellationToken);
 
-            // Run the DialogSet - let the framework identify the current state of the dialog from
-            // the dialog stack and figure out what (if any) is the active dialog.
-            var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
-            var results = await dialogContext.ContinueAsync(cancellationToken);
-
-            // If the DialogTurnStatus is Empty we should start a new dialog.
-            if (results.Status == DialogTurnStatus.Empty)
-            {
-                // A prompt dialog can be started directly on from the DialogContext. The prompt text is given in the PromptOptions.
-                // We have defined a RetryPrompt here so this will be used. Otherwise the Prompt text will be repeated.
-                await dialogContext.PromptAsync(
-                    "name",
-                    new PromptOptions
-                    {
-                        Prompt = MessageFactory.Text("Please enter a name."),
-                        RetryPrompt = MessageFactory.Text("A name must be more than three characters in length. Please try again."),
-                    },
-                    cancellationToken);
-            }
-
-            // We had a dialog run (it was the prompt) now it is Complete.
-            else if (results.Status == DialogTurnStatus.Complete)
-            {
-                // Check for a result.
-                if (results.Result != null)
+                // If the DialogTurnStatus is Empty we should start a new dialog.
+                if (results.Status == DialogTurnStatus.Empty)
                 {
-                    // And finish by sending a message to the user. Next time ContinueAsync is called it will return DialogTurnStatus.Empty.
-                    await turnContext.SendActivityAsync(MessageFactory.Text($"Thank you, I have your name as '{results.Result}'."));
+                    // A prompt dialog can be started directly on from the DialogContext. The prompt text is given in the PromptOptions.
+                    // We have defined a RetryPrompt here so this will be used. Otherwise the Prompt text will be repeated.
+                    await dialogContext.PromptAsync(
+                        "name",
+                        new PromptOptions
+                        {
+                            Prompt = MessageFactory.Text("Please enter a name."),
+                            RetryPrompt = MessageFactory.Text("A name must be more than three characters in length. Please try again."),
+                        },
+                        cancellationToken);
                 }
+
+                // We had a dialog run (it was the prompt) now it is Complete.
+                else if (results.Status == DialogTurnStatus.Complete)
+                {
+                    // Check for a result.
+                    if (results.Result != null)
+                    {
+                        // And finish by sending a message to the user. Next time ContinueAsync is called it will return DialogTurnStatus.Empty.
+                        await turnContext.SendActivityAsync(MessageFactory.Text($"Thank you, I have your name as '{results.Result}'."), cancellationToken);
+                    }
+                }
+            }
+            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                // Send a welcome message to the user and tell them what actions they may perform to use this bot
+                await SendWelcomeMessageAsync(turnContext, cancellationToken);
+            }
+            else
+            {
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected", cancellationToken: cancellationToken);
             }
 
             // Save the new turn count into the conversation state.
@@ -102,7 +111,7 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="promptContext">The <see cref="PromptValidatorContext"/> gives the validator code access to the runtime, including the recognized value and the turn context.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>A an asynchronous Task of bool indicating validation success as true.</returns>
+        /// <returns>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
         public Task<bool> CustomPromptValidatorAsync(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
         {
             var result = promptContext.Recognized.Value;
@@ -123,6 +132,27 @@ namespace Microsoft.BotBuilderSamples
 
             // Note you are free to do async IO from within a validator. Here we had no need so just complete.
             return Task.FromResult(false);
+        }
+
+        /// <summary>
+        /// On a conversation update activity sent to the bot, the bot will
+        /// send a message to the any new user(s) that were added.
+        /// </summary>
+        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
+        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            foreach (var member in turnContext.Activity.MembersAdded)
+            {
+                if (member.Id != turnContext.Activity.Recipient.Id)
+                {
+                    await turnContext.SendActivityAsync(
+                        $"Welcome to PromptValidationBot {member.Name}. {WelcomeText}",
+                        cancellationToken: cancellationToken);
+                }
+            }
         }
     }
 }
