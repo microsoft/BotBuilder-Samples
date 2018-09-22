@@ -6,11 +6,16 @@ using Microsoft.Bot.Builder;
 namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// Defines <see cref="IStatePropertyAccessor{T}"/> for use with this bot.
+    /// This class is created as a Singleton and passed into the IBot-derived constructor.
+    ///  - See <see cref="ProactiveBot"/> constructor for how that is injected.
+    ///  - See the Startup.cs file for more details on creating the Singleton that gets
+    ///    injected into the constructor.
     /// </summary>
     public class ProactiveAccessors
     {
-        /// <summary>A unique ID to use for this property accessor.</summary>
+        /// <summary>
+        /// A unique ID to use for this property accessor.
+        /// </summary>
         public const string JobLogDataName = "ProactiveBot.JobLogAccessor";
 
         public ProactiveAccessors(JobState jobState)
@@ -18,8 +23,12 @@ namespace Microsoft.BotBuilderSamples
             JobState = jobState;
         }
 
-        /// <summary>Gets or sets the state property accessor for the job log.</summary>
-        /// <value>"Running" jobs (represented by <see cref="JobLog.JobData"/>).</value>
+        /// <summary>
+        /// Gets or sets the state property accessor for the job log.
+        /// </summary>
+        /// <value>
+        /// "Running" jobs (represented by <see cref="JobLog.JobData"/>).
+        /// </value>
         public IStatePropertyAccessor<JobLog> JobLogData { get; set; }
 
         /// <summary>

@@ -27,9 +27,11 @@ namespace Microsoft.BotBuilderSamples
                                           "Type 'done <jobNumber>' to complete a job.";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProactiveBot"/> class.</summary>
+        /// Initializes a new instance of the <see cref="ProactiveBot"/> class.
+        /// </summary>
         /// <param name="accessors">The state accessors for use with the bot.</param>
         /// <param name="endpointService">The <see cref="EndpointService"/> portion of the <see cref="BotConfiguration"/>.</param>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
         public ProactiveBot(ProactiveAccessors accessors, EndpointService endpointService)
         {
             StateAccessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
