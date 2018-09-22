@@ -30,7 +30,7 @@ The LUIS application created for this bot is described in a markdown based .lu f
 
 1. To parse the .lu files to a LUIS model:
     ```bash
-    > ludown parse toluis --in dialogs/greeting/resources/main.lu -o cognitiveModels/ --out basicBot.luis -n '"<%= botName %>-LUIS' -d 'Bot Builder V4 Basic Bot.' --verbose
+    > ludown parse toluis --in dialogs/greeting/resources/main.lu -o cognitiveModels/ --out basicBot.luis -n '<%= botName %>-LUIS' -d 'Bot Builder V4 Basic Bot.' --verbose
     ```
 2. To create a new LUIS application using the LUIS model generated in step 1 and update the .bot file with the LUIS service configuration:
     ```bash

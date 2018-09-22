@@ -182,9 +182,12 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   );
 
   // gen the main dialog file
-  gen.fs.copy(
+  gen.fs.copyTpl(
     gen.templatePath(path.join(templatePath, `bot.${extension}`)),
-    path.join(destinationPath, `bot.${extension}`)
+    path.join(destinationPath, `bot.${extension}`),
+    {
+      botName: gen.props.botName
+    }
   );
 }
 
