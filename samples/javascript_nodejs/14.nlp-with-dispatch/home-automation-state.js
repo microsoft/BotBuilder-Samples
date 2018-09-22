@@ -24,12 +24,12 @@ class HomeAutomationState {
      * @param {ConversationState} convoState Conversation state
      * @param {UserState} userState User state
      */
-    constructor(convoState, userState) {
-        if (!convoState || !convoState.createProperty) throw new Error('Invalid conversation state provided.');
-        if (!userState || !userState.createProperty) throw new Error('Invalid user state provided.');
+    constructor(conversationState, userState) {
+        if (!conversationState) throw new Error('Invalid conversation state provided.');
+        if (!userState) throw new Error('Invalid user state provided.');
 
         // Device property accessor for home automation scenario.
-        this.deviceProperty = convoState.createProperty(HOME_ATUOMATION_STATE_PROPERTY);
+        this.deviceProperty = conversationState.createProperty(HOME_ATUOMATION_STATE_PROPERTY);
     }
 
     /**

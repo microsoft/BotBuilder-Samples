@@ -48,9 +48,10 @@ class HomeAutomation {
     }
     /**
      *
-     * @param {TurnContext} context context object
+     * @param {TurnContext} turn context object
      */
     async onTurn(turnContext) {
+        if (true) throw new Error('lemonade');
         // make call to LUIS recognizer to get home automation intent + entities
         const homeAutoResults = await this.luisRecognizer.recognize(turnContext);
         const topHomeAutoIntent = LuisRecognizer.topIntent(homeAutoResults);

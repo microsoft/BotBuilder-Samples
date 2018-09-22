@@ -26,17 +26,17 @@ class QnA {
     }
     /**
      *
-     * @param {Object} context context object
+     * @param {TurnContext} turn context object
      */
-    async onTurn(context) {
+    async onTurn(turnContext) {
         // Call QnA Maker and get results.
-        const qnaResult = await this.qnaRecognizer.generateAnswer(context.activity.text, QNA_TOP_N, QNA_CONFIDENCE_THRESHOLD);
+        const qnaResult = await this.qnaRecognizer.generateAnswer(turnContext.activity.text, QNA_TOP_N, QNA_CONFIDENCE_THRESHOLD);
         if (!qnaResult || qnaResult.length === 0 || !qnaResult[0].answer) {
-            await context.sendActivity(`No answer found in QnA Maker KB.`);
+            await turnContext.sendActivity(`No answer found in QnA Maker KB.`);
             return;
         }
         // respond with qna result
-        await context.sendActivity(qnaResult[0].answer);
+        await turnContext.sendActivity(qnaResult[0].answer);
     }
 };
 

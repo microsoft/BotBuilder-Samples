@@ -17,7 +17,7 @@ const WEATHER_LUIS_CONFIGURATION = 'Weather';
 class Weather {
     /**
      *
-     * @param {Object} botConfig bot configuration from .bot file
+     * @param {BotConfiguration} bot configuration from .bot file
      */
     constructor(botConfig) {
         if (!botConfig) throw new Error('Need bot config');
@@ -34,11 +34,11 @@ class Weather {
     }
     /**
      *
-     * @param {Object} context context object
+     * @param {TurnContext} turn context object
      */
-    async onTurn(context) {
+    async onTurn(turnContext) {
         // Call weather LUIS model.
-        const weatherResults = await this.luisRecognizer.recognize(context);
+        const weatherResults = await this.luisRecognizer.recognize(turnContext);
         const topWeatherIntent = LuisRecognizer.topIntent(weatherResults);
         // Get location entity if available.
         const locationEntity = (LOCATION_ENTITY in weatherResults.entities) ? weatherResults.entities[LOCATION_ENTITY][0] : undefined;
@@ -46,14 +46,14 @@ class Weather {
         // Depending on intent, call "Turn On" or "Turn Off" or return unknown.
         switch (topWeatherIntent) {
         case GET_CONDITION_INTENT:
-            await context.sendActivity(`You asked for current weather condition in Location = ` + (locationEntity || locationPatternAnyEntity));
+            await turnContext.sendActivity(`You asked for current weather condition in Location = ` + (locationEntity || locationPatternAnyEntity));
             break;
         case GET_FORECAST_INTENT:
-            await context.sendActivity(`You asked for weather forecast in Location = ` + (locationEntity || locationPatternAnyEntity));
+            await turnContext.sendActivity(`You asked for weather forecast in Location = ` + (locationEntity || locationPatternAnyEntity));
             break;
         case NONE_INTENT:
         default:
-            await context.sendActivity(`Weather dialog cannot fulfill this request.`);
+            await turnContext.sendActivity(`Weather dialog cannot fulfill this request.`);
         }
     }
 };
