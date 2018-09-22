@@ -219,25 +219,16 @@ class AttachmentsBot {
      * @param {Object} turnContext 
      */
     async sendWelcomeMessage(turnContext) {
-        if (turnContext.activity && turnContext.activity.membersAdded) {
-            // Bing the current AttachmentsBot instance so the bot can call AttachmentsBot.displayOption()
-            const that = this;
-            async function welcomeUser(conversationMember) {
-                // Checks to see if the member added to the conversation is not the bot.
-                // The bot is the recipient of all ConversationUpdate-type activities.
-                if (conversationMember.id !== this.activity.recipient.id) {
-                    // Because the TurnContext was bound to this function, the bot can call
-                    // `TurnContext.sendActivity` via `this.sendActivity`;
-                    await this.sendActivity(`Welcome to AttachmentsBot ${conversationMember.name}.` +
-                        `This bot will introduce you to Attachments. Please select an option:`);
-                    await that.displayOptions(turnContext);
+        const activity = turnContext.activity;
+        if (activity.membersAdded) {
+            // Iterate over all new members added to the conversation.
+            for (const idx in activity.membersAdded) {
+                if (activity.membersAdded[idx].id !== activity.recipient.id) {
+                    await turnContext.sendActivity(`Welcome to AttachmentsBot ${conversationMember.name}.` +
+                    `This bot will introduce you to Attachments. Please select an option:`);
+                    await this.displayOptions(turnContext);
                 }
             }
-    
-            // Prepare Promises to reply to the user with information about saved attachments.
-            // The current TurnContext is bound so `replyForReceivedAttachments` can also send replies.
-            const replyPromises = successfulSaves.map(welcomeUser.bind(turnContext));
-            await Promise.all(replyPromises);
         }
     }
 }
