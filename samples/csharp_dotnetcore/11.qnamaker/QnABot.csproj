@@ -2,9 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <CodeAnalysisRuleSet>QnABot.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>BotBuilder.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
 
   <ItemGroup>
     <Content Include="BotConfiguration.bot">
@@ -12,14 +11,13 @@
     </Content>
   </ItemGroup>
 
-
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.0.0.38762" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.0.0.38762" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.0.0.38762" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.0.0.38762" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.0.5" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.0.5" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.0.5" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.0.5" />
     <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
   </ItemGroup>
@@ -27,6 +25,5 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
-
 
 </Project>
