@@ -27,7 +27,7 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class AuthenticationBot : IBot
     {
-        // The connection name here must match the the one from
+        // The connection name here must match the one from
         // your Bot Channels Registration on the settings blade in Azure.
         private const string ConnectionName = "";
 
@@ -35,7 +35,7 @@ namespace Microsoft.BotBuilderSamples
         private const string ConfirmPromptName = "confirmPrompt";
 
         private const string WelcomeText = @"This bot will introduce you to Authentication.
-                                        Type anything to get logged in. Type 'logout' to signout.
+                                        Type anything to get logged in. Type 'logout' to sign-out.
                                         Type 'help' to view this message again";
 
         private readonly AuthenticationBotAccessors _stateAccessors;
@@ -209,7 +209,7 @@ namespace Microsoft.BotBuilderSamples
                     cancellationToken);
             }
 
-            await step.Context.SendActivityAsync("Login was not sucessful please try again", cancellationToken: cancellationToken);
+            await step.Context.SendActivityAsync("Login was not successful please try again.", cancellationToken: cancellationToken);
             return Dialog.EndOfTurn;
         }
 
