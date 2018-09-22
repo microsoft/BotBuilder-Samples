@@ -1,0 +1,7 @@
+user=Vishwac
+bot=EchoBot
+
+user: Hi
+bot: 1: You said "Hi"
+user: Hello
+bot: 2: You said "Hello"
