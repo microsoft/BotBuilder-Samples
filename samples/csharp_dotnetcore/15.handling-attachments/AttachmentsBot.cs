@@ -12,9 +12,17 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
-namespace Handling_Attachments
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
+    /// Represents a bot that processes incoming activities.
+    /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
+    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// each time they're requested. For each Activity received, a new instance of this
+    /// class is created. Objects that are expensive to construct, or have a lifetime
+    /// beyond the single turn, should be carefully managed.
+    /// For example, the <see cref="MemoryStorage"/> object and associated
+    /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// This bot responds to the user's text input with an <see cref="Attachment"/> (in this example, an image)
     /// using various types of attachments. In this case, we are displaying an image from a file on the server,
     /// an image from an https url, and an uploaded image. In this project the user also has the option to upload
@@ -24,15 +32,22 @@ namespace Handling_Attachments
     /// sample we demonstrate sending a <see cref="HeroCard"/> and images as attachments. Also demonstrated is the
     /// ability of a bot to recieve file attachments.
     /// </summary>
+    /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class AttachmentsBot : IBot
     {
         /// <summary>
-        /// This controls what happens when an <see cref="Activity"/> gets sent to the bot.
+        /// Every conversation turn for our Echo Bot will call this method.
+        /// There are no dialogs used, since it's "single turn" processing, meaning a single
+        /// request and response.
         /// </summary>
-        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
-        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        /// <seealso cref="BotStateSet"/>
+        /// <seealso cref="ConversationState"/>
+        /// <seealso cref="IMiddleware"/>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (turnContext == null)
@@ -40,27 +55,25 @@ namespace Handling_Attachments
                 throw new ArgumentNullException(nameof(turnContext));
             }
 
-            switch (turnContext.Activity.Type)
+            if (turnContext.Activity.Type == ActivityTypes.Message)
             {
-                case ActivityTypes.Message:
+                // Take the input from the user and create the appropriate response.
+                var reply = ProcessInput(turnContext);
 
-                    // Take the input from the user and create the appropriate response.
-                    var reply = ProcessInput(turnContext);
+                // Respond to the user.
+                await turnContext.SendActivityAsync(reply, cancellationToken);
 
-                    // Respond to the user.
-                    await turnContext.SendActivityAsync(reply, cancellationToken);
-
-                    await DisplayOptionsAsync(turnContext, cancellationToken);
-
-                    break;
-                case ActivityTypes.ConversationUpdate:
-                    // Send a welcome message to the user and tell them what actions they may perform to use this bot.
-                    if (turnContext.Activity.MembersAdded.Any())
-                    {
-                        await SendWelcomeMessageAsync(turnContext, cancellationToken);
-                    }
-
-                    break;
+                await DisplayOptionsAsync(turnContext, cancellationToken);
+            }
+            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                // Send a welcome message to the user and tell them what actions they may perform to use this bot.
+                await SendWelcomeMessageAsync(turnContext, cancellationToken);
+            }
+            else
+            {
+                // Default behaivor for all other type of activities.
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} activity detected");
             }
         }
 
@@ -75,11 +88,11 @@ namespace Handling_Attachments
         {
             var reply = turnContext.Activity.CreateReply();
 
-            // Create a HeroCard with options for the user to choose to interact with the bot.
+            // Create a HeroCard with options for the user to interact with the bot.
             var card = new HeroCard
             {
                 Text = "You can upload an image or select one of the following choices",
-                Buttons = new List<CardAction>()
+                Buttons = new List<CardAction>
                 {
                     // Note that some channels require different values to be used in order to get buttons to display text.
                     // In this code the emulator is accounted for with the 'title' parameter, but in other channels you may
@@ -218,12 +231,12 @@ namespace Handling_Attachments
         /// </remarks>
         private static Attachment GetInlineAttachment()
         {
-            var imagePath = Path.Combine(Environment.CurrentDirectory, "architecture-resize.png");
+            var imagePath = Path.Combine(Environment.CurrentDirectory, @"Resources\architecture-resize.png");
             var imageData = Convert.ToBase64String(File.ReadAllBytes(imagePath));
 
             return new Attachment
             {
-                Name = "architecture-resize.png",
+                Name = "Resources\architecture-resize.png",
                 ContentType = "image/png",
                 ContentUrl = $"data:image/png;base64,{imageData}",
             };
@@ -245,7 +258,7 @@ namespace Handling_Attachments
                 throw new ArgumentNullException(nameof(conversationId));
             }
 
-            var imagePath = Path.Combine(Environment.CurrentDirectory, "architecture-resize.png");
+            var imagePath = Path.Combine(Environment.CurrentDirectory, @"Resources\architecture-resize.png");
 
             // Create a connector client to use to upload the image.
             using (var connector = new ConnectorClient(new Uri(serviceUrl)))
@@ -255,7 +268,7 @@ namespace Handling_Attachments
                     conversationId,
                     new AttachmentData
                     {
-                        Name = "architecture-resize.png",
+                        Name = @"Resources\architecture-resize.png",
                         OriginalBase64 = File.ReadAllBytes(imagePath),
                         Type = "image/png",
                     });
@@ -264,7 +277,7 @@ namespace Handling_Attachments
 
                 return new Attachment
                 {
-                    Name = "architecture-resize.png",
+                    Name = @"Resources\architecture-resize.png",
                     ContentType = "image/png",
                     ContentUrl = attachmentUri,
                 };
@@ -280,7 +293,7 @@ namespace Handling_Attachments
             // ContentUrl must be https.
             return new Attachment
             {
-                Name = "architecture-resize.png",
+                Name = @"Resources\architecture-resize.png",
                 ContentType = "image/png",
                 ContentUrl = "https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png",
             };
