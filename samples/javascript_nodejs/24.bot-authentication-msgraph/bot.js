@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActionTypes, ActivityTypes, CardFactory } = require('botbuilder');
-const { DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
+const { DialogContext, DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
 const { OAuthHelpers, LOGIN_PROMPT } = require('./oauth-helpers');
 
 /**
@@ -16,11 +16,11 @@ class GraphAuthenticationBot {
      * 1. StatePropertyAccessor
      * 2. DialogSet
      * 3. OAuthPrompt
-     * 
+     *
      * The arguments taken by this constructor are ConversationState, although any BotState
      * instance would suffice for this bot. `conversationState` is used to create a StatePropertyAccessor,
      *  which is needed to create a DialogSet. All botbuilder-dialogs `Prompts` need a DialogSet to operate.
-     * @param {ConversationState} conversationState 
+     * @param {ConversationState} conversationState The state that will contain the DialogState BotStatePropertyAccessor.
      */
     constructor(conversationState) {
         this.conversationState = conversationState;
@@ -53,7 +53,7 @@ class GraphAuthenticationBot {
 
     /**
      * This controls what happens when an activity get sent to the bot.
-     * @param {String} turnContext Provides the turnContext for the turn of the bot.
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async onTurn(turnContext) {
         const dc = await this.dialogs.createContext(turnContext);
@@ -84,16 +84,17 @@ class GraphAuthenticationBot {
                 await this.sendWelcomeMessage(turnContext);
                 break;
             default:
-                await turnContext.sendActivity(`[${turnContext.activity.type}]-type activity detected.`);
+                await turnContext.sendActivity(`[${ turnContext.activity.type }]-type activity detected.`);
         }
     };
 
     /**
      * Creates a Hero Card that is sent as a welcome message to the user.
-     * @param {Object} turnContext 
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async sendWelcomeMessage(turnContext) {
-        if (turnContext.activity && turnContext.activity.membersAdded) {
+        const activity = turnContext.activity;
+        if (activity && activity.membersAdded) {
             const heroCard = CardFactory.heroCard(
                 'Welcome to GraphAuthenticationBot!',
                 CardFactory.images(['https://botframeworksamples.blob.core.windows.net/samples/aadlogo.png']),
@@ -126,26 +127,17 @@ class GraphAuthenticationBot {
                 ])
             );
 
-            async function welcomeUser(conversationMember) {
-                // Checks to see if the member added to the conversation is not the bot.
-                // The bot is the recipient of all ConversationUpdate-type activities.
-                if (conversationMember.id !== this.activity.recipient.id) {
-                    // Because the TurnContext was bound to this function, the bot can call
-                    // `TurnContext.sendActivity` via `this.sendActivity`.
-                    await this.sendActivity({ attachments: [heroCard] });
+            for (const idx in activity.membersAdded) {
+                if (activity.membersAdded[idx].id !== activity.recipient.id) {
+                    await turnContext.sendActivity({ attachments: [heroCard] });
                 }
             }
-
-            // Prepare Promises to reply to the user with information about the bot.
-            // The current TurnContext is bound so `replyForReceivedAttachments` can also send replies.
-            const welcomeMessages = turnContext.activity.membersAdded.map(welcomeUser.bind(turnContext));
-            await Promise.all(welcomeMessages);
         }
     }
 
     /**
      * Processes input and route to the appropriate step.
-     * @param {Object} dc DialogContext
+     * @param {DialogContext} dc DialogContext
      */
     async processInput(dc) {
         switch (dc.context.activity.text.toLowerCase()) {
@@ -215,11 +207,11 @@ class GraphAuthenticationBot {
             if (command === 'me') {
                 await OAuthHelpers.listMe(step.context, tokenResponse);
             } else if (command === 'send') {
-                await OAuthHelpers.sendMail(step.context, tokenResponse, parts[1].toLowerCase())
+                await OAuthHelpers.sendMail(step.context, tokenResponse, parts[1].toLowerCase());
             } else if (command === 'recent') {
                 await OAuthHelpers.listRecentMail(step.context, tokenResponse);
             } else {
-                await step.context.sendActivity(`Your token is: ${tokenResponse.token}`);
+                await step.context.sendActivity(`Your token is: ${ tokenResponse.token }`);
             }
         } else {
             // Ask the user to try logging in later as they are not logged in.

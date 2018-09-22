@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes } = require('botbuilder');
+const { ActivityTypes, TokenResponse, TurnContext } = require('botbuilder');
 const { OAuthPrompt } = require('botbuilder-dialogs');
 const { SimpleGraphClient } = require('./simple-graph-client');
 
@@ -15,11 +15,10 @@ const LOGIN_PROMPT = 'loginPrompt';
  * https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference
  */
 class OAuthHelpers {
-
     /**
      * Enable the user to send an email via the bot.
-     * @param {Object} turnContext 
-     * @param {Object} tokenResponse 
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
+     * @param {TokenResponse} tokenResponse A response that includes a user token.
      * @param {string} emailAddress The email address of the recipient.
      */
     static async sendMail(turnContext, tokenResponse, emailAddress) {
@@ -36,15 +35,15 @@ class OAuthHelpers {
         await client.sendMail(
             emailAddress,
             `Message from a bot!`,
-            `Hi there! I had this message sent from a bot. - Your friend, ${me.displayName}`
+            `Hi there! I had this message sent from a bot. - Your friend, ${ me.displayName }`
         );
-        await turnContext.sendActivity(`I sent a message to ${emailAddress} from your account.`);
+        await turnContext.sendActivity(`I sent a message to ${ emailAddress } from your account.`);
     }
 
     /**
      * Displays information about the user in the bot.
-     * @param {Object} turnContext 
-     * @param {Object} tokenResponse 
+     *@param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
+     * @param {TokenResponse} tokenResponse A response that includes a user token.
      */
     static async listMe(turnContext, tokenResponse) {
         if (!turnContext) {
@@ -62,7 +61,7 @@ class OAuthHelpers {
 
             // Create the reply activity.
             let reply = { type: ActivityTypes.Message };
-            reply.text = `You are ${me.displayName} and you report to ${manager.displayName}.`;
+            reply.text = `You are ${ me.displayName } and you report to ${ manager.displayName }.`;
             await turnContext.sendActivity(reply);
         } catch (error) {
             throw error;
@@ -71,8 +70,8 @@ class OAuthHelpers {
 
     /**
      * Lists the user's collected email.
-     * @param {Object} turnContext 
-     * @param {Object} tokenResponse 
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
+     * @param {TokenResponse} tokenResponse A response that includes a user token.
      */
     static async listRecentMail(turnContext, tokenResponse) {
         if (turnContext === undefined) {
@@ -96,11 +95,10 @@ class OAuthHelpers {
             const messagePreview = message.bodyPreview;
             const email = {
                 type: ActivityTypes.Message,
-                text: 
-					`From: ${from}\n` +
-                    `Email: ${address}\n` +
-                    `Subject: ${subject}\n` +
-                    `Message: ${messagePreview}`
+                text: `From: ${ from }\n` +
+                    `Email: ${ address }\n` +
+                    `Subject: ${ subject }\n` +
+                    `Message: ${ messagePreview }`
             };
             await this.sendActivity(email);
         }
@@ -111,16 +109,16 @@ class OAuthHelpers {
 
     /**
      * Prompts the user to log in using the OAuth provider specified by the connection name.
-     * @param {string} connectionName 
+     * @param {string} connectionName The connectionName from Azure when the OAuth provider is created.
      */
     static prompt(connectionName) {
-        const loginPrompt = new OAuthPrompt(LOGIN_PROMPT, 
-		{
-            connectionName: connectionName,
-            text: 'Please login',
-            title: "Login",
-            timeout: 30000 // User has 5 minutes to login.
-        });
+        const loginPrompt = new OAuthPrompt(LOGIN_PROMPT,
+            {
+                connectionName: connectionName,
+                text: 'Please login',
+                title: 'Login',
+                timeout: 30000 // User has 5 minutes to login.
+            });
         return loginPrompt;
     }
 }
