@@ -14,25 +14,25 @@ namespace EnterpriseBot
     public class SignInDialog : ComponentDialog
     {
         // Constants
-        public const string Name = "signIn";
         public const string LoginPrompt = "loginPrompt";
 
         // Fields
         private static SignInResponses _responder = new SignInResponses();
 
         public SignInDialog(string connectionName)
-            : base(Name)
+            : base(nameof(SignInDialog))
         {
-            this.ConnectionName = connectionName;
+            InitialDialogId = nameof(SignInDialog);
+            ConnectionName = connectionName;
 
             var authenticate = new WaterfallStep[]
             {
-                this.AskToLogin,
-                this.FinishAuthDialog,
+                AskToLogin,
+                FinishAuthDialog,
             };
 
-            this.AddDialog(new WaterfallDialog(Name, authenticate));
-            this.AddDialog(new OAuthPrompt(LoginPrompt, new OAuthPromptSettings()
+            AddDialog(new WaterfallDialog(InitialDialogId, authenticate));
+            AddDialog(new OAuthPrompt(LoginPrompt, new OAuthPromptSettings()
             {
                 ConnectionName = ConnectionName,
                 Title = SignInStrings.TITLE,
@@ -40,34 +40,30 @@ namespace EnterpriseBot
             }));
         }
 
-        // Properties
         private string ConnectionName { get; set; }
 
-        private async Task<DialogTurnResult> AskToLogin(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
-        {
-            return await dc.PromptAsync(LoginPrompt, new PromptOptions());
-        }
+        private async Task<DialogTurnResult> AskToLogin(WaterfallStepContext sc, CancellationToken cancellationToken) => await sc.PromptAsync(LoginPrompt, new PromptOptions());
 
-        private async Task<DialogTurnResult> FinishAuthDialog(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> FinishAuthDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var activity = dc.Context.Activity;
-            if (step.Result != null)
+            var activity = sc.Context.Activity;
+            if (sc.Result != null)
             {
-                var tokenResponse = step.Result as TokenResponse;
+                var tokenResponse = sc.Result as TokenResponse;
 
                 if (tokenResponse?.Token != null)
                 {
-                    var user = await this.GetProfile(dc.Context, tokenResponse);
-                    await _responder.ReplyWith(dc.Context, SignInResponses.Succeeded, new { name = user.DisplayName });
-                    return await dc.EndAsync(tokenResponse);
+                    var user = await GetProfile(sc.Context, tokenResponse);
+                    await _responder.ReplyWith(sc.Context, SignInResponses.Succeeded, new { name = user.DisplayName });
+                    return await sc.EndAsync(tokenResponse);
                 }
             }
             else
             {
-                await _responder.ReplyWith(dc.Context, SignInResponses.Failed);
+                await _responder.ReplyWith(sc.Context, SignInResponses.Failed);
             }
 
-            return await dc.EndAsync();
+            return await sc.EndAsync();
         }
 
         private async Task<User> GetProfile(ITurnContext context, TokenResponse tokenResponse)

@@ -30,13 +30,16 @@ namespace EnterpriseBot
                 new DelegateAuthenticationProvider(
                     async (requestMessage) =>
                     {
-                        var accessToken = _token;
+                        await Task.Run(() =>
+                        {
+                            var accessToken = _token;
 
-                        // Append the access token to the request.
-                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+                            // Append the access token to the request.
+                            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
 
-                        // Get event times in the current time zone.
-                        requestMessage.Headers.Add("Prefer", "outlook.timezone=\"" + TimeZoneInfo.Local.Id + "\"");
+                            // Get event times in the current time zone.
+                            requestMessage.Headers.Add("Prefer", "outlook.timezone=\"" + TimeZoneInfo.Local.Id + "\"");
+                        });
                     }));
 
             return graphClient;

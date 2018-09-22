@@ -26,18 +26,18 @@ namespace EnterpriseBot
         {
             // check dispatch intent
             // TODO: use luis gen models
-            var luisService = _services.LuisServices[typeof(EnterpriseBot_General).Name];
-            var luisResult = await luisService.RecognizeAsync<EnterpriseBot_General>(dc.Context, cancellationToken);
+            var luisService = _services.LuisServices["MyEnterpriseBot-General"];
+            var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
             var intent = luisResult.TopIntent().intent;
 
             switch (intent)
             {
-                case EnterpriseBot_General.Intent.Cancel:
+                case General.Intent.Cancel:
                     {
                         return await OnCancel(dc);
                     }
 
-                case EnterpriseBot_General.Intent.Help:
+                case General.Intent.Help:
                     {
                         return await OnHelp(dc);
                     }
@@ -48,10 +48,10 @@ namespace EnterpriseBot
 
         protected virtual async Task<InterruptionStatus> OnCancel(DialogContext dc)
         {
-            if (dc.ActiveDialog.Id != CancelDialog.Name)
+            if (dc.ActiveDialog.Id != nameof(CancelDialog))
             {
                 // Don't start restart cancel dialog
-                await dc.BeginAsync(CancelDialog.Name);
+                await dc.BeginAsync(nameof(CancelDialog));
 
                 // Signal that the dialog is waiting on user response
                 return InterruptionStatus.Waiting;

@@ -64,11 +64,8 @@ namespace Microsoft.BotBuilderSamples
                 options.State.Add(convoState);
                 options.State.Add(userState);
 
-                // Add State to BotStateSet Middleware (that require auto-save)
-                // The BotStateSet Middleware forces state storage to auto-save when the Bot is complete processing the message.
-                // Note: Developers may choose not to add all the State providers to this Middleware if save is not required.
-                var stateSet = new BotStateSet(options.State.ToArray());
-                options.Middleware.Add(stateSet);
+                // Automatically save state at the end of the turn
+                options.Middleware.Add(new AutoSaveStateMiddleware(convoState, userState));
             });
 
             services.AddSingleton<GraphAuthenticationBotAccessors>(sp =>
