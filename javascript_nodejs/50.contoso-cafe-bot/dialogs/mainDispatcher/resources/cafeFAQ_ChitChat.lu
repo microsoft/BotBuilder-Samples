@@ -1,0 +1,6 @@
+> Include all .lu files recursively in this folder. Achieved via /**. /* would look for .lu files under that folder
+[Chit chat QnA](../../chitChat/resources/**)
+
+[QnA](../../qna/resources/**)
+
+[Help](../../help/resources/**)

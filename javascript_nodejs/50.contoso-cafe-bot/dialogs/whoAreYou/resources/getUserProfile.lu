@@ -1,0 +1,42 @@
+# Get user name
+- I'm {userName_patternAny}
+- my name is {userName_patternAny}
+- call me {userName_patternAny}
+- {userName_patternAny} is my name
+
+# Why do you ask
+- Why do you need my name?
+- Why do you ask?
+- Why?
+- why do you need user name?
+- first or last name?
+- first name?
+- why
+
+$attributeOfInterest:name=
+- user name
+- first name
+- last name
+- first
+- name
+
+# No Name
+- I will not give you my name
+- Sorry, no name for you
+- No, I cannot give you my name
+- I cannot give you my name
+- No
+- No way
+
+[entities](../../mainDispatcher/resources/entities.lu)
+
+> reference to cancel intent
+# Cancel
+- [Cancel intent](../../cancel/resources/cancel.lu#Cancel)
+
+> Add reference to top level dispatch intents to none intent so this child model does not fire
+# Interruptions
+- [Who are you intent](../../whoAreYou/resources/whoAreYou.lu#Who-are-you)
+- [Find Cafe Location intent](../../findCafeLocations/resources/findCafe.lu#Find-Cafe-Locations)
+> All questions from QnA will be added as utterances. #? can be used with wild cards as well.
+- [Chit chat QnA](../../chitChat/resources/*#?)

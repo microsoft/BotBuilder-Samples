@@ -1,0 +1,73 @@
+{
+    "type": "AdaptiveCard",
+    "horizontalAlignment": "Center",
+    "separator": true,
+    "height": "stretch",
+    "body": [
+        {
+            "type": "ColumnSet",
+            "horizontalAlignment": "Center",
+            "spacing": "large",
+            "height": "stretch",
+            "columns": [
+                {
+                    "type": "Column",
+                    "spacing": "large",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "size": "extraLarge",
+                            "weight": "bolder",
+                            "text": "Contoso Cafe"
+                        },
+                        {
+                            "type": "TextBlock",
+                            "size": "Medium",
+                            "text": "Hello, I'm the Cafe bot! How can I be of help today?",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "spacing": "small",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "horizontalAlignment": "center",
+                            "url": "http://contosocafeontheweb.azurewebsites.net/assets/contoso_logo_black.png",
+                            "size": "medium"
+                        }
+                    ],
+                    "width": "auto"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "What can you do?",
+            "data": {
+                "intent": "What_can_you_do"
+            }
+        },
+        {
+            "type": "Action.OpenUrl",
+            "title": "Learn More",
+            "url": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
+        },
+        {
+            "type": "Action.OpenUrl",
+            "title": "Ask a question",
+            "url": "https://stackoverflow.com/questions/tagged/botframework"
+        },
+        {
+            "type": "Action.OpenUrl",
+            "title": "Learn how to deploy",
+            "url": "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
+}

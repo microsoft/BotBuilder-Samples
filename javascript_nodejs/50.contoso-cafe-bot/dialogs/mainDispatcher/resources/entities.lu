@@ -1,0 +1,45 @@
+> Entity definitions
+$confirmationList:yes=
+- yeah
+- yup
+- sure
+- sounds good
+- oh yeah
+- affirmative
+- book it
+
+$confirmationList:no= 
+- no
+- no way
+- I'm not sure
+- do not do that
+- negative
+- nothing
+- nope
+- dont book it
+
+$PREBUILT:number
+
+$PREBUILT:datetimeV2
+
+$cafeLocation:seattle=
+- SEA
+- SeaTac
+- Tacoma
+- Space needle
+- downton seattle
+- washington
+- downtown
+
+$cafeLocation:redmond=
+- eastside
+- microsoft
+- east side
+
+$cafeLocation:renton=
+- Renton
+- Boeing
+- RNT
+
+$cafeLocation:bellevue=
+- downtown bellevue
