@@ -25,13 +25,15 @@ namespace Microsoft.BotBuilderSamples
 
         public Startup(IHostingEnvironment env)
         {
+            _isProduction = env.IsProduction();
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            this.Configuration = builder.Build();
+            Configuration = builder.Build();
         }
 
         /// <summary>
@@ -50,15 +52,15 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddBot<PromptValidationsBot>(options =>
             {
-                var secretKey = this.Configuration.GetSection("botFileSecret")?.Value;
-                var botFilePath = this.Configuration.GetSection("botFilePath")?.Value;
+                var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+                var botFilePath = Configuration.GetSection("botFilePath")?.Value;
 
                 // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
                 var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
                 services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
 
                 // Retrieve current endpoint.
-                var environment = this._isProduction ? "production" : "development";
+                var environment = _isProduction ? "production" : "development";
                 var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
                 if (!(service is EndpointService endpointService))
                 {
@@ -68,7 +70,7 @@ namespace Microsoft.BotBuilderSamples
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Creates a logger for the application to use.
-                ILogger logger = this._loggerFactory.CreateLogger<PromptValidationsBot>();
+                ILogger logger = _loggerFactory.CreateLogger<PromptValidationsBot>();
 
                 // Catches any errors that occur during a conversation turn and logs them.
                 options.OnTurnError = async (context, exception) =>
@@ -134,8 +136,7 @@ namespace Microsoft.BotBuilderSamples
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            this._isProduction = env.IsProduction();
-            this._loggerFactory = loggerFactory;
+            _loggerFactory = loggerFactory;
 
             app.UseDefaultFiles()
                 .UseStaticFiles()
