@@ -91,7 +91,7 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     path.join(destinationPath, 'basicBot.luis')
   );
 
-  // write out the deployment msbot recipe and docs
+  // write out the deployment doc
   sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_SCRIPTS]);
   destinationPath = path.join(gen.destinationPath(), destFolders[DEPLOYMENT_SCRIPTS]);
   gen.fs.copy(
@@ -103,6 +103,7 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
         return content.toString().replace(pattern, gen.props.botName.toString());
     }
   });
+
   // write out deployment resources
   sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_MSBOT]);
   destinationPath = path.join(gen.destinationPath(), destFolders[DEPLOYMENT_MSBOT]);
@@ -110,9 +111,12 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     path.join(sourcePath, '34.luis'),
     path.join(destinationPath, '34.luis')
   );
-  gen.fs.copy(
+  gen.fs.copyTpl(
     path.join(sourcePath, 'bot.recipe'),
-    path.join(destinationPath, 'bot.recipe')
+    path.join(destinationPath, 'bot.recipe'),
+    {
+      botName: gen.props.botName
+    }
   );
 
   // write out the greeting dialog
