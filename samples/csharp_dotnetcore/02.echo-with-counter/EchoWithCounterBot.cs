@@ -64,19 +64,19 @@ namespace Microsoft.BotBuilderSamples
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 // Get the conversation state from the turn context.
-                var state = await _accessors.CounterState.GetAsync(turnContext, () => new CounterState());
+                var oldState = await _accessors.CounterState.GetAsync(turnContext, () => new CounterState());
 
                 // Bump the turn count for this conversation.
-                state.TurnCount++;
+                var newState = new CounterState { TurnCount = oldState.TurnCount + 1 };
 
                 // Set the property using the accessor.
-                await _accessors.CounterState.SetAsync(turnContext, state);
+                await _accessors.CounterState.SetAsync(turnContext, newState);
 
                 // Save the new turn count into the conversation state.
                 await _accessors.ConversationState.SaveChangesAsync(turnContext);
 
                 // Echo back to the user whatever they typed.
-                var responseMessage = $"Turn {state.TurnCount}: You sent '{turnContext.Activity.Text}'\n";
+                var responseMessage = $"Turn {newState.TurnCount}: You sent '{turnContext.Activity.Text}'\n";
                 await turnContext.SendActivityAsync(responseMessage);
             }
             else
