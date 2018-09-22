@@ -1,15 +1,15 @@
 ﻿{
   "name": "ProactiveBot",
-  "description": "This sample demonstrates how to send proactive messages.",
-  "secretKey": "",
   "services": [
     {
-      "id": "http://localhost:3978/api/messages",
-      "name": "ProactiveBot",
       "type": "endpoint",
+      "name": "development",
+      "endpoint": "http://localhost:3978/api/messages",
       "appId": "",
       "appPassword": "",
-      "endpoint": "http://localhost:3978/api/messages"
+      "id": "1"
     }
-  ]
+  ],
+  "padlock": "",
+  "version": "2.0"
 }
