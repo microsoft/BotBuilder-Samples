@@ -148,7 +148,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
         default: {
             // Handle interruption.
             const onTurnProperty = await this.onTurnAccessor.get(dc.context);
-            return await dc.begin(InterruptionDispatcher, onTurnProperty);
+            return await dc.beginDialog(InterruptionDispatcher, onTurnProperty);
         }
         }
     }
@@ -162,7 +162,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
         await context.sendActivity(`No worries. Hello Human, nice to meet you!`);
         await context.sendActivity(`You can always say 'My name is <your name>' to introduce yourself to me.`);
         // End this dialog since user does not wish to proceed further.
-        return await dc.end(NO_USER_PROFILE);
+        return await dc.endDialog(NO_USER_PROFILE);
     }
     /**
      * Override dialogResume. This is used to handle user's response to confirm cancel prompt.
@@ -175,7 +175,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
         if (result) {
             // User said yes to cancel prompt.
             await dc.context.sendActivity(`Sure. I've cancelled that!`);
-            return await dc.cancelAll();
+            return await dc.cancelAllDialogs();
         } else {
             // User said no to cancel.
             return await super.dialogResume(dc, reason, result);

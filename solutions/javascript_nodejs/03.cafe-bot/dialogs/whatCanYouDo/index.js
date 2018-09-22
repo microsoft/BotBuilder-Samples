@@ -32,7 +32,7 @@ module.exports = {
         async dialogBegin(dc, options) {
             await dc.context.sendActivity({ attachments: [CardFactory.adaptiveCard(helpCard)] });
             await dc.context.sendActivity(`Pick a query from the card or you can use the suggestions below.`);
-            return await dc.end();
+            return await dc.endDialog();
         }
     }
 };

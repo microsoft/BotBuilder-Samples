@@ -55,49 +55,53 @@ class CafeBot {
         // add main dispatcher
         this.dialogs = new DialogSet(this.dialogAccessor);
         this.dialogs.add(new MainDispatcher(botConfig, this.onTurnAccessor, conversationState, userState));
+
+        this.conversationState = conversationState;
+        this.userState = userState;
     }
     /**
      * On turn dispatcher method.
      *   Responsible for processing turn input, gather relevant properties,
      *   and continues or begins main dialog.
      *
-     * @param {Context} conversation context object
+     * @param {TurnContext} Turn context object
      *
      */
-    async onTurn(context) {
+    async onTurn(turnContext) {
         // See https://aka.ms/about-bot-activity-message to learn more about message and other activity types.
-        switch (context.activity.type) {
-        case ActivityTypes.Message: {
+        switch (turnContext.activity.type) {
+        case ActivityTypes.Message:
             // Process on turn input (card or NLP) and gather new properties
             // OnTurnProperty object has processed information from the input message activity.
-            let onTurnProperties = await this.detectIntentAndEntities(context);
+            let onTurnProperties = await this.detectIntentAndEntities(turnContext);
             if (onTurnProperties === undefined) break;
 
             // Set the state with gathered properties (intent/ entities) through the onTurnAccessor
-            await this.onTurnAccessor.set(context, onTurnProperties);
+            await this.onTurnAccessor.set(turnContext, onTurnProperties);
 
             // Create dialog context.
-            const dc = await this.dialogs.createContext(context);
+            const dc = await this.dialogs.createContext(turnContext);
 
             // Continue outstanding dialogs.
-            await dc.continue();
+            await dc.continueDialog();
 
             // Begin main dialog if no outstanding dialogs/ no one responded
             if (!dc.context.responded) {
-                await dc.begin(MainDispatcher.Name);
+                await dc.beginDialog(MainDispatcher.Name);
             }
             break;
-        }
-        case ActivityTypes.ConversationUpdate: {
+        case ActivityTypes.ConversationUpdate:
             // Welcome user.
-            await this.welcomeUser(context);
+            await this.welcomeUser(turnContext);
             break;
-        }
-        default: {
+        default:
             // Handle other activity types as needed.
             break;
         }
-        }
+
+        // Persist state
+        await this.conversationState.saveChanges(turnContext);
+        await this.userState.saveChanges(turnContext);
     }
     /**
      * Async helper method to get on turn properties from cards or NLU using https://LUIS.ai
@@ -108,28 +112,28 @@ class CafeBot {
      * - Bot also uses a dispatch LUIS model that includes trigger intents for all dialogs.
      *   See ./dialogs/dispatcher/resources/cafeDispatchModel.lu for a description of the dispatch model.
      *
-     * @param {Context} context conversation context object
+     * @param {TurnContext} turn context object
      *
      */
-    async detectIntentAndEntities(context) {
+    async detectIntentAndEntities(turnContext) {
         // Handle card input (if any), update state and return.
-        if (context.activity.value !== undefined) {
-            return OnTurnProperty.fromCardInput(context.activity.value);
+        if (turnContext.activity.value !== undefined) {
+            return OnTurnProperty.fromCardInput(turnContext.activity.value);
         }
 
         // Acknowledge attachments from user.
-        if (context.activity.attachments && context.activity.attachments.length !== 0) {
-            await context.sendActivity(`Thanks for sending me that attachment. I'm still learning to process attachments.`);
+        if (turnContext.activity.attachments && turnContext.activity.attachments.length !== 0) {
+            await turnContext.sendActivity(`Thanks for sending me that attachment. I'm still learning to process attachments.`);
             return undefined;
         }
 
         // Nothing to do for this turn if there is no text specified.
-        if (context.activity.text === undefined || context.activity.text.trim() === '') {
+        if (turnContext.activity.text === undefined || turnContext.activity.text.trim() === '') {
             return;
         }
 
         // Call to LUIS recognizer to get intent + entities
-        const LUISResults = await this.luisRecognizer.recognize(context);
+        const LUISResults = await this.luisRecognizer.recognize(turnContext);
 
         // Return new instance of on turn property from LUIS results.
         // Leverages static fromLUISResults method
@@ -138,25 +142,25 @@ class CafeBot {
     /**
      * Async helper method to welcome all users that have joined the conversation.
      *
-     * @param {Context} context conversation context object
+     * @param {TurnContext} context conversation context object
      *
      */
-    async welcomeUser(context) {
+    async welcomeUser(turnContext) {
         // Do we have any new members added to the conversation?
-        if (context.activity.membersAdded.length !== 0) {
+        if (turnContext.activity.membersAdded.length !== 0) {
             // Iterate over all new members added to the conversation
-            for (var idx in context.activity.membersAdded) {
+            for (var idx in turnContext.activity.membersAdded) {
                 // Greet anyone that was not the target (recipient) of this message
                 // the 'bot' is the recipient for events from the channel,
-                // context.activity.membersAdded == context.activity.recipient.Id indicates the
+                // turnContext.activity.membersAdded == turnContext.activity.recipient.Id indicates the
                 // bot was added to the conversation.
-                if (context.activity.membersAdded[idx].id !== context.activity.recipient.id) {
+                if (turnContext.activity.membersAdded[idx].id !== turnContext.activity.recipient.id) {
                     // Welcome user.
-                    await context.sendActivity(`Hello, I am the Contoso Cafe Bot!`);
-                    await context.sendActivity(`I can help book a table and more..`);
+                    await turnContext.sendActivity(`Hello, I am the Contoso Cafe Bot!`);
+                    await turnContext.sendActivity(`I can help book a table and more..`);
 
                     // Send welcome card.
-                    await context.sendActivity(MessageFactory.attachment(CardFactory.adaptiveCard(WelcomeCard)));
+                    await turnContext.sendActivity(MessageFactory.attachment(CardFactory.adaptiveCard(WelcomeCard)));
                 }
             }
         }

@@ -67,19 +67,19 @@ module.exports = {
             // See if interruption is allowed
             if (options === undefined || options.intent === undefined) {
                 await dc.context.sendActivity(`Sorry. I'm unable to do that right now. You can cancel the current conversation and start a new one`);
-                return await dc.end();
+                return await dc.endDialog();
             }
             switch (options.intent) {
             // Help, ChitChat and QnA share the same QnA Maker model. So just call the QnA Dialog.
             case QnADialog.Name:
             case ChitChatDialog.Name:
             case HelpDialog.Name:
-                return await dc.begin(QnADialog.Name);
+                return await dc.beginDialog(QnADialog.Name);
             case WhatCanYouDoDialog.Name:
             case WHO_ARE_YOU_DIALOG_NAME:
             case BOOK_TABLE_DIALOG_NAME:
                 await dc.context.sendActivity(`Sorry. I'm unable to do that right now. You can cancel the current conversation and start a new one`);
-                return await dc.end();
+                return await dc.endDialog();
             case NONE_INTENT:
             default:
                 await dc.context.sendActivity(`I'm still learning.. Sorry, I do not know how to help you with that.`);

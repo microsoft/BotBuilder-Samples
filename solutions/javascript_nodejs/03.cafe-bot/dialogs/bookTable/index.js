@@ -122,15 +122,15 @@ module.exports = {
                     // Clear out the reservation property since this is a successful reservation completion.
                     this.reservationsAccessor.set(dc.context, undefined);
                 }
-                await dc.cancelAll();
+                await dc.cancelAllDialogs();
 
-                return await dc.end();
+                return await dc.endDialog();
             } else {
                 // User rejected cancellation.
                 // clear out state.
                 this.reservationsAccessor.set(dc.context, undefined);
                 await dc.context.sendActivity(`Ok..I've cancelled the reservation`);
-                return await dc.end();
+                return await dc.endDialog();
             }
         }
     }

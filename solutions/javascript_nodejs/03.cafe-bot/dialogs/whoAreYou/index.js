@@ -76,14 +76,13 @@ module.exports = {
         /**
          * Waterfall step to prompt for user's name
          *
-         * @param {DialogContext} Dialog context
          * @param {WaterfallStepContext} water fall step context
          */
-        async askForUserName(dc, step) {
+        async askForUserName(step) {
             // Get user profile.
-            let userProfile = await this.userProfileAccessor.get(dc.context);
+            let userProfile = await this.userProfileAccessor.get(step.context);
             // Get on turn properties.
-            const onTurnProperty = await this.onTurnAccessor.get(dc.context);
+            const onTurnProperty = await this.onTurnAccessor.get(step.context);
 
             // Handle case where user is re-introducing themselves.
             // This flow is triggered when we are not in the middle of who-are-you dialog
@@ -97,7 +96,7 @@ module.exports = {
                 // capitalize user name
                 userName = userName.charAt(0).toUpperCase() + userName.slice(1);
                 // set user name
-                await this.userProfileAccessor.set(dc.context, new UserProfile(userName));
+                await this.userProfileAccessor.set(step.context, new UserProfile(userName));
                 // End this step so we can greet the user.
                 return await step.next(HAVE_USER_NAME);
             }
@@ -107,29 +106,28 @@ module.exports = {
             //    if the user name was previously set to 'Human'
 
             if (userProfile === undefined || userProfile.userName === '' || userProfile.userName === 'Human') {
-                await dc.context.sendActivity(`Hello, I'm the Contoso Cafe Bot.`);
+                await step.context.sendActivity(`Hello, I'm the Contoso Cafe Bot.`);
                 // Begin the prompt to ask user their name
-                return await dc.prompt(ASK_USER_NAME_PROMPT, `What's your name?`);
+                return await step.prompt(ASK_USER_NAME_PROMPT, `What's your name?`);
             } else {
                 // Already have the user name. So just greet them.
-                await dc.context.sendActivity(`Hello ${ userProfile.userName }, Nice to meet you again! I'm the Contoso Cafe Bot.`);
+                await step.context.sendActivity(`Hello ${ userProfile.userName }, Nice to meet you again! I'm the Contoso Cafe Bot.`);
 
                 // End this dialog. We are skipping the next water fall step deliberately.
-                return await dc.end();
+                return await step.endDialog();
             }
         }
         /**
          * Waterfall step to finalize user's response and greet user.
          *
-         * @param {DialogContext} Dialog context
          * @param {WaterfallStepContext} water fall step context
          */
-        async greetUser(dc, step) {
+        async greetUser(step) {
             if (step.result) {
-                const userProfile = await this.userProfileAccessor.get(dc.context);
-                await dc.context.sendActivity(`Hey there ${ userProfile.userName }!, nice to meet you!`);
+                const userProfile = await this.userProfileAccessor.get(step.context);
+                await step.context.sendActivity(`Hey there ${ userProfile.userName }!, nice to meet you!`);
             }
-            return await dc.end();
+            return await step.endDialog();
         }
     }
 };

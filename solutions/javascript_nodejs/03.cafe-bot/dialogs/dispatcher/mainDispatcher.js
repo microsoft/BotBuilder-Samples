@@ -60,22 +60,22 @@ module.exports = {
         }
 
         /**
-         * Override onDialogBegin
+         * Override onBeginDialog
          *
-         * @param {Object} dc dialog context
+         * @param {DialogContext} dc dialog context
          * @param {Object} options dialog turn options
          */
-        async onDialogBegin(dc, options) {
+        async onBeginDialog(dc, options) {
             // Override default begin() logic with bot orchestration logic
             return await this.mainDispatch(dc);
         }
 
         /**
-         * Override onDialogContinue
+         * Override onContinueDialog
          *
-         * @param {Object} dc dialog context
+         * @param {DialogContext} dc dialog context
          */
-        async onDialogContinue(dc) {
+        async onContinueDialog(dc) {
             // Override default continue() logic with bot orchestration logic
             return await this.mainDispatch(dc);
         }
@@ -90,7 +90,7 @@ module.exports = {
          * 3. If results is no-match from outstanding dialog .OR. if there are no outstanding dialogs,
          *    decide which child dialog should begin and start it
          *
-         * @param {Object} dc dialog context
+         * @param {DialogContext} dialog context
          */
         async mainDispatch(dc) {
             // get on turn property through the property accessor
@@ -101,11 +101,11 @@ module.exports = {
             if (!reqOpStatus.allowed) {
                 await dc.context.sendActivity(reqOpStatus.reason);
                 // Nothing to do here. End main dialog.
-                return await dc.end();
+                return await dc.endDialog();
             }
 
             // continue outstanding dialogs
-            let dialogTurnResult = await dc.continue();
+            let dialogTurnResult = await dc.continueDialog();
 
             // This will only be empty if there is no active dialog in the stack.
             // Removing check for dialogTurnStatus here will break successful cancellation of child dialogs.
@@ -115,7 +115,7 @@ module.exports = {
                 dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty);
             }
 
-            if (dialogTurnResult === undefined) return await dc.end();
+            if (dialogTurnResult === undefined) return await dc.endDialog();
 
             // Examine result from dc.continue() or from the call to beginChildDialog().
             switch (dialogTurnResult.status) {
@@ -130,7 +130,7 @@ module.exports = {
             }
             case DialogTurnStatus.cancelled: {
                 // The active dialog's stack has been cancelled
-                await dc.cancelAll();
+                await dc.cancelAllDialogs();
                 break;
             }
             }
@@ -149,11 +149,11 @@ module.exports = {
             case QnADialog.Name:
             case ChitChatDialog.Name:
             case HelpDialog.Name:
-                return await dc.begin(QnADialog.Name);
+                return await dc.beginDialog(QnADialog.Name);
             case BookTableDialog.Name:
-                return await dc.begin(BookTableDialog.Name);
+                return await dc.beginDialog(BookTableDialog.Name);
             case WhoAreYouDialog.Name:
-                return await dc.begin(WhoAreYouDialog.Name);
+                return await dc.beginDialog(WhoAreYouDialog.Name);
             case WhatCanYouDoDialog.Name:
                 return await this.beginWhatCanYouDoDialog(dc, onTurnProperty);
             case NONE_INTENT:
@@ -192,8 +192,8 @@ module.exports = {
         /**
          * Helper method to begin what can you do dialog.
          *
-         * @param {Object} dc dialog context
-         * @param {Object} onTurnProperty
+         * @param {DialogContext} dc dialog context
+         * @param {OnTurnProperty} onTurnProperty
          */
         async beginWhatCanYouDoDialog(dc, onTurnProperty) {
             // Handle case when user interacted with the what can you do card.
@@ -215,7 +215,7 @@ module.exports = {
                 await this.onTurnAccessor.set(dc.context, OnTurnProperty.fromCardInput(parsedJSON));
                 return await this.beginChildDialog(dc, parsedJSON);
             }
-            return await dc.begin(WhatCanYouDoDialog.Name);
+            return await dc.beginDialog(WhatCanYouDoDialog.Name);
         }
     }
 };

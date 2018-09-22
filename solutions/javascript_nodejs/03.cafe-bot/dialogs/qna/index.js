@@ -59,7 +59,7 @@ module.exports = {
                 // respond with qna result
                 await dc.context.sendActivity(await this.userSalutation(dc.context) + qnaResult[0].answer);
             }
-            return await dc.end();
+            return await dc.endDialog();
         }
         /**
          * Async helper function to randomly include user salutation. Helps make bot's response feel more natural.

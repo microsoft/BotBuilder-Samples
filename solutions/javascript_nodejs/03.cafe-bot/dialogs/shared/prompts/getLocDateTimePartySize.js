@@ -172,7 +172,7 @@ module.exports = {
                 if (onTurnProperties.entities.length !== 0 || Object.keys(LUISResults.entities).length > 1) break;
                 // Handle interruption.
                 const onTurnProperty = await this.onTurnAccessor.get(dc.context);
-                return await dc.begin(INTERRUPTION_DISPATCHER, onTurnProperty);
+                return await dc.beginDialog(INTERRUPTION_DISPATCHER, onTurnProperty);
             }
             // set reservation property based on OnTurn properties
             this.reservationsAccessor.set(turnContext, updateResult.newReservation);
@@ -189,7 +189,7 @@ module.exports = {
             if (result) {
                 // User said yes to cancel prompt.
                 await dc.context.sendActivity(`Sure. I've cancelled that!`);
-                return await dc.cancelAll();
+                return await dc.cancelAllDialogs();
             } else {
                 // User said no to cancel.
                 return await super.dialogResume(dc, reason, result);
