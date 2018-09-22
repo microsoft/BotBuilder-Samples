@@ -38,9 +38,9 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="accessors">The state accessors this instance will be needing at runtime.</param>
         public PromptValidationsBot(BotAccessors accessors)
         {
-            this._accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
-            this._dialogs = new DialogSet(accessors.ConversationDialogState);
-            this._dialogs.Add(new TextPrompt("name", this.CustomPromptValidatorAsync));
+            _accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
+            _dialogs = new DialogSet(accessors.ConversationDialogState);
+            _dialogs.Add(new TextPrompt("name", CustomPromptValidatorAsync));
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 // Run the DialogSet - let the framework identify the current state of the dialog from
                 // the dialog stack and figure out what (if any) is the active dialog.
-                var dialogContext = await this._dialogs.CreateContextAsync(turnContext, cancellationToken);
+                var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
                 var results = await dialogContext.ContinueDialogAsync(cancellationToken);
 
                 // If the DialogTurnStatus is Empty we should start a new dialog.
@@ -102,7 +102,7 @@ namespace Microsoft.BotBuilderSamples
             }
 
             // Save the new turn count into the conversation state.
-            await this._accessors.ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
+            await _accessors.ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
 
         /// <summary>
