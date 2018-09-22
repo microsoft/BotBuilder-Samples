@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Web Chat: Customizing thru style options</title>
+    <script type="text/javascript" src="https://cdn.botframework.com/botframework-webchat/preview/botchat.js"></script>
+    <style>
+      html, body { height: 100% }
+      body { margin: 0 }
+
+      #webchat,
+      #webchat > * {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="webchat"></div>
+    <script>
+      const styleOptions = {
+        backgroundColor: 'Black',
+        bubbleBackground: '#222',
+        bubbleBorder: 'solid 1px #444',
+        bubbleBorderRadius: 20,
+        bubbleFromUserBackground: '#222',
+        bubbleFromUserBorder: 'solid 1px #444',
+        bubbleFromUserBorderRadius: 20,
+        bubbleFromUserTextColor: 'White',
+        bubbleTextColor: 'White'
+      };
+
+      window.WebChat.renderWebChat({
+        directLine: window.WebChat.createDirectLine({ secret: 'YOUR_BOT_SECRET_FROM_AZURE' }),
+        styleOptions
+      }, document.getElementById('webchat'));
+    </script>
+  </body>
+</html>
