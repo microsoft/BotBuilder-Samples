@@ -40,7 +40,13 @@ const writeEchoTemplateFiles = (gen, templatePath) => {
   // write out the deployment scripts
   let sourcePath = path.join(templatePath, folders[DEPLOYMENT_MSBOT]);
   let destinationPath = path.join(gen.destinationPath(), folders[DEPLOYMENT_MSBOT]);
-  gen.fs.copy(path.join(sourcePath, 'bot.recipe'), path.join(destinationPath, 'bot.recipe'));
+  gen.fs.copyTpl(
+    path.join(sourcePath, 'bot.recipe'),
+    path.join(destinationPath, 'bot.recipe'),
+    {
+      botName: gen.props.botName
+    }
+  );
 
   // write out the index.js and bot.js
   destinationPath = path.join(gen.destinationPath(), srcFolder);
