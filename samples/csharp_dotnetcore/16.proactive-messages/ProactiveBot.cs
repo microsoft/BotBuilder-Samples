@@ -20,8 +20,11 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class ProactiveBot : IBot
     {
-        /// <summary>The name of events that signal that a job has completed.</summary>
         public const string JobCompleteEventName = "jobComplete";
+
+        public const string WelcomeText = "Type 'run' or 'run job' to start a new job.\r\n" +
+                                          "Type 'show' or 'show jobs' to display the job log.\r\n" +
+                                          "Type 'done <jobNumber>' to complete a job.";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProactiveBot"/> class.</summary>
@@ -143,10 +146,25 @@ namespace Microsoft.BotBuilderSamples
 
                 if (!turnContext.Responded)
                 {
-                    await turnContext.SendActivityAsync(
-                        "Type `run` or `run job` to start a new job.\r\n" +
-                        "Type `show` or `show jobs` to display the job log.\r\n" +
-                        "Type `done <jobNumber>` to complete a job.");
+                    await turnContext.SendActivityAsync(WelcomeText);
+                }
+            }
+        }
+
+        /// <summary>
+        /// On a conversation update activity sent to the bot, the bot will
+        /// send a message to the any new user(s) that were added.
+        /// </summary>
+        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext)
+        {
+            foreach (var member in turnContext.Activity.MembersAdded)
+            {
+                if (member.Id != turnContext.Activity.Recipient.Id)
+                {
+                    await turnContext.SendActivityAsync($"Welcome to SuggestedActionsBot {member.Name}.\r\n{WelcomeText}");
                 }
             }
         }
@@ -165,6 +183,13 @@ namespace Microsoft.BotBuilderSamples
                     && !jobLog[timestamp].Completed)
                 {
                     await CompleteJobAsync(turnContext.Adapter, AppId, jobLog[timestamp]);
+                }
+            }
+            else if (turnContext.Activity.Type is ActivityTypes.ConversationUpdate)
+            {
+                if (turnContext.Activity.MembersAdded.Any())
+                {
+                    await SendWelcomeMessageAsync(turnContext);
                 }
             }
         }
