@@ -59,9 +59,9 @@ namespace Microsoft.BotBuilderSamples
             // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
-                // Extract the text from the message activity the user sent
+                // Extract the text from the message activity the user sent.
                 // Make this lowercase not accounting for culture in this case
-                // so that there are fewer string variations which you will have
+                // so that there are fewer string variations which you will
                 // have to account for in your bot.
                 var text = turnContext.Activity.Text.ToLowerInvariant();
 
