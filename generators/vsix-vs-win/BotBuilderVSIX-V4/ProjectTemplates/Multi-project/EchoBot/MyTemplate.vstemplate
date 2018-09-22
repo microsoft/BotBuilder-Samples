@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
     <Name>Bot Builder Echo Bot V4</Name>
-    <Description>Project template and extension to create bots using Microsoft Bot Framework</Description>
+    <Description>Echo Bot template for Microsoft Bot Builder V4 SDK.</Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>Bot Framework</ProjectSubType>
     <SortOrder>1000</SortOrder>
