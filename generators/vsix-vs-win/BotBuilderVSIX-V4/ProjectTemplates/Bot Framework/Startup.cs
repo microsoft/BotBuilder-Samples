@@ -27,6 +27,7 @@ namespace $safeprojectname$
 
         public Startup(IHostingEnvironment env)
         {
+            _isProduction = env.IsProduction();
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -140,7 +141,6 @@ namespace $safeprojectname$
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            _isProduction = env.IsProduction();
             _loggerFactory = loggerFactory;
 
             app.UseDefaultFiles()

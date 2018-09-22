@@ -27,7 +27,7 @@
       "type": "blob",
       "id": "5",
       "name": "$safeprojectname$-blob",
-      "container": "transcripts"
+      "container": "botstatestore"
     }
   ]
 }
