@@ -39,8 +39,8 @@ class Greeting extends ComponentDialog {
     super(dialogId);
 
     // validate what was passed in
-    if (!dialogId) throw ('Missing parameter.  dialogId is required');
-    if (!userProfileAccessor) throw ('Missing parameter.  userProfileAccessor is required');
+    if (!dialogId) throw new Error('Missing parameter.  dialogId is required');
+    if (!userProfileAccessor) throw new Error('Missing parameter.  userProfileAccessor is required');
 
     // Add a water fall dialog with 4 steps.
     // The order of step function registration is importent
