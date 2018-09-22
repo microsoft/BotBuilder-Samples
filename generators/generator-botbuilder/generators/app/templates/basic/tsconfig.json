@@ -1,12 +1,9 @@
 {
     "compilerOptions": {
+        "target": "ES6",
         "module": "commonjs",
-        "target": "es6",
-        "outDir": "./",
-        "noImplicitAny": false
-    },
-    "files": [
-        "bot.ts",
-        "index.ts"
-    ]
+        "sourceMap": true,
+        "outDir": "./lib",
+        "rootDir": "./src"
+    }
 }

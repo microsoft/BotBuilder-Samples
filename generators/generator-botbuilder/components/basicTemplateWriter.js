@@ -25,23 +25,23 @@ const getFolders = language => {
   let folders;
   if(_.toLower(language) === LANG_TS) {
     folders = [
-      'cognitiveModels/',
-      'deploymentScripts/',
-      'deploymentScripts/msbotClone/',
-      'src/dialogs/greeting/',
-      'resources/greeting/',
-      'src/dialogs/',
-      'resources/welcome/',
+      'cognitiveModels',
+      'deploymentScripts',
+      path.join('deploymentScripts', 'msbotClone'),
+      path.join('src', 'dialogs', 'greeting'),
+      path.join('resources', 'greeting'),
+      path.join('src', 'dialogs', 'welcome'),
+      path.join('resources', 'welcome')
     ];
   } else {
     folders = [
-      'cognitiveModels/',
-      'deploymentScripts/',
-      'deploymentScripts/msbotClone/',
-      'dialogs/greeting/',
-      'dialogs/greeting/resources/',
-      'dialogs/welcome/',
-      'dialogs/welcome/resources/',
+      'cognitiveModels',
+      'deploymentScripts',
+      path.join('deploymentScripts', 'msbotClone'),
+      path.join('dialogs', 'greeting'),
+      path.join('dialogs', 'greeting', 'resources'),
+      path.join('dialogs', 'welcome'),
+      path.join('dialogs', 'welcome', 'resources'),
     ];
   }
   return folders;
@@ -65,13 +65,13 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
 
   // get the folder strucure, based on language
   const srcFolders = [
-    'cognitiveModels/',
-    'deploymentScripts/',
-    'deploymentScripts/msbotClone/',
-    'dialogs/greeting/',
-    'dialogs/greeting/resources/',
-    'dialogs/welcome/',
-    'dialogs/welcome/resources/',
+    'cognitiveModels',
+    'deploymentScripts',
+    path.join('deploymentScripts', 'msbotClone'),
+    path.join('dialogs' , 'greeting'),
+    path.join('dialogs', 'greeting', 'resources'),
+    path.join('dialogs', 'welcome'),
+    path.join('dialogs', 'welcome', 'resources'),
   ];
   const destFolders = getFolders(_.toLower(gen.props.language));
 
@@ -84,38 +84,56 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   }
 
   // write out the LUIS model
-  let sourcePath = templatePath + srcFolders[COGNITIVE_MODELS];
-  let destinationPath = gen.destinationPath() + '/' + destFolders[COGNITIVE_MODELS];
-  gen.fs.copy(sourcePath + 'basicBot.luis', destinationPath + 'basicBot.luis');
+  let sourcePath = path.join(templatePath, srcFolders[COGNITIVE_MODELS]);
+  let destinationPath = path.join(gen.destinationPath(), destFolders[COGNITIVE_MODELS]);
+  gen.fs.copy(
+    path.join(sourcePath, 'basicBot.luis'),
+    path.join(destinationPath, 'basicBot.luis')
+  );
 
   // write out the deployment msbot recipe and docs
-  sourcePath = templatePath + srcFolders[DEPLOYMENT_SCRIPTS];
-  destinationPath = gen.destinationPath() + '/' + destFolders[DEPLOYMENT_SCRIPTS];
-  gen.fs.copy(sourcePath + 'DEPLOYMENT.md', destinationPath + 'DEPLOYMENT.md', {
-    process: function (content) {
-      var pattern = new RegExp('<%= botName %>', 'g');
-      return content.toString().replace(pattern, gen.props.botName.toString());
+  sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_SCRIPTS]);
+  destinationPath = path.join(gen.destinationPath(), destFolders[DEPLOYMENT_SCRIPTS]);
+  gen.fs.copy(
+    path.join(sourcePath, 'DEPLOYMENT.md'),
+    path.join(destinationPath, 'DEPLOYMENT.md'),
+    {
+      process: function (content) {
+        var pattern = new RegExp('<%= botName %>', 'g');
+        return content.toString().replace(pattern, gen.props.botName.toString());
     }
   });
   // write out deployment resources
-  sourcePath = templatePath + srcFolders[DEPLOYMENT_MSBOT];
-  destinationPath = gen.destinationPath() + '/' + destFolders[DEPLOYMENT_MSBOT];
-  gen.fs.copy(sourcePath + '34.luis', destinationPath + '34.luis');
-  gen.fs.copy(sourcePath + 'bot.recipe', destinationPath + 'bot.recipe');
+  sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_MSBOT]);
+  destinationPath = path.join(gen.destinationPath(), destFolders[DEPLOYMENT_MSBOT]);
+  gen.fs.copy(
+    path.join(sourcePath, '34.luis'),
+    path.join(destinationPath, '34.luis')
+  );
+  gen.fs.copy(
+    path.join(sourcePath, 'bot.recipe'),
+    path.join(destinationPath, 'bot.recipe')
+  );
 
   // write out the greeting dialog
-  sourcePath = templatePath + srcFolders[DIALOGS_GREETING];
-  destinationPath = gen.destinationPath() + '/' + destFolders[DIALOGS_GREETING];
+  sourcePath = path.join(templatePath, srcFolders[DIALOGS_GREETING]);
+  destinationPath = path.join(gen.destinationPath(), destFolders[DIALOGS_GREETING]);
   gen.fs.copyTpl(
-    sourcePath + `greeting.${extension}`,
-    destinationPath + `greeting.${extension}`,
+    path.join(sourcePath, `greeting.${extension}`),
+    path.join(destinationPath, `greeting.${extension}`),
     {
       botName: gen.props.botName
     }
   );
 
-  gen.fs.copy(sourcePath + `index.${extension}`, destinationPath + `index.${extension}`);
-  gen.fs.copy(sourcePath + `userProfile.${extension}`, destinationPath + `userProfile.${extension}`);
+  gen.fs.copy(
+    path.join(sourcePath, `index.${extension}`),
+    path.join(destinationPath, `index.${extension}`)
+  );
+  gen.fs.copy(
+    path.join(sourcePath, `userProfile.${extension}`),
+    path.join(destinationPath, `userProfile.${extension}`)
+  );
 
   // list the greeting dialog resources
   const greetingResources = [
@@ -126,38 +144,48 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     'none.lu',
   ];
   // write out greeting dialog resources
-  sourcePath = templatePath + srcFolders[DIALOGS_GREETING_RESOURCES];
-  destinationPath = gen.destinationPath() + '/' + destFolders[DIALOGS_GREETING_RESOURCES];
+  sourcePath = path.join(templatePath, srcFolders[DIALOGS_GREETING_RESOURCES]);
+  destinationPath = path.join(gen.destinationPath(), destFolders[DIALOGS_GREETING_RESOURCES]);
   for (let cnt = 0; cnt < greetingResources.length; cnt++) {
-    gen.fs.copy(sourcePath + greetingResources[cnt], destinationPath + greetingResources[cnt]);
+    gen.fs.copy(
+      path.join(sourcePath, greetingResources[cnt]),
+      path.join(destinationPath, greetingResources[cnt])
+    );
   }
 
-  // write out welcome named exports, optimization just for js template
-  if (_.toLower(gen.props.language) === "javascript") {
-    sourcePath = templatePath + srcFolders[DIALOGS_WELCOME];
-    destinationPath = gen.destinationPath() + '/' + destFolders[DIALOGS_WELCOME];
-    gen.fs.copy(sourcePath + `index.${extension}`, destinationPath + `index.${extension}`);
-  }
+  // write out welcome named exports, optimization
+  sourcePath = path.join(templatePath, srcFolders[DIALOGS_WELCOME]);
+  destinationPath = path.join(gen.destinationPath(), destFolders[DIALOGS_WELCOME]);
+  gen.fs.copy(
+    path.join(sourcePath, `index.${extension}`),
+    path.join(destinationPath, `index.${extension}`)
+  );
 
   // write out welcome adaptive card
-  sourcePath = templatePath + srcFolders[DIALOGS_WELCOME_RESOURCES];
-  destinationPath = gen.destinationPath() + '/' + destFolders[DIALOGS_WELCOME_RESOURCES];
-  gen.fs.copy(sourcePath + 'welcomeCard.json', destinationPath + 'welcomeCard.json');
+  sourcePath = path.join(templatePath, srcFolders[DIALOGS_WELCOME_RESOURCES]);
+  destinationPath = path.join(gen.destinationPath(), destFolders[DIALOGS_WELCOME_RESOURCES]);
+  gen.fs.copy(
+    path.join(sourcePath, 'welcomeCard.json'),
+    path.join(destinationPath, 'welcomeCard.json')
+  );
 
   // write out the index.js and bot.js
-  destinationPath = gen.destinationPath() + '/' + SRC_FOLDER;
+  destinationPath = path.join(gen.destinationPath(), SRC_FOLDER);
 
   // gen index and main dialog files
   gen.fs.copyTpl(
-    gen.templatePath(templatePath + `index.${extension}`),
-    destinationPath + `index.${extension}`,
+    gen.templatePath(path.join(templatePath, `index.${extension}`)),
+    path.join(destinationPath, `index.${extension}`),
     {
       botName: gen.props.botName
     }
   );
 
   // gen the main dialog file
-  gen.fs.copy(gen.templatePath(templatePath + `bot.${extension}`), destinationPath + `bot.${extension}`);
+  gen.fs.copy(
+    gen.templatePath(path.join(templatePath, `bot.${extension}`)),
+    path.join(destinationPath, `bot.${extension}`)
+  );
 }
 
 /**
@@ -171,7 +199,7 @@ module.exports.basicTemplateWriter = gen => {
   if (_.toLower(gen.props.template) !== TEMPLATE_NAME) {
     throw new Error(`basicTemplateWriter called for wrong template: ${gen.props.template}`);
   }
-  const templatePath = gen.templatePath() + TEMPLATE_PATH;
+  const templatePath = path.join(gen.templatePath(), TEMPLATE_PATH);
 
   // write files common to all template options
   commonFilesWriter(gen, templatePath);
