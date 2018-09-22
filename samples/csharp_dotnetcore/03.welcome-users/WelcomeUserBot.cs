@@ -37,11 +37,11 @@ namespace WelcomeUser
                                             joined the conversation. If you are using the emulator, pressing
                                             the 'Start Over' button to trigger this event again. The specifics
                                             of the 'ConversationUpdate' event depends on the channel. You can
-                                            read more information at: 
-                                             https://aka.ms/about-botframewor-welcome-user";
+                                            read more information at:
+                                             https://aka.ms/about-botframework-welcome-user";
 
-        private const string PatternMessage = @"It is a good pattern to use this event to send general greeting 
-                                              to user, explaning what your bot can do. In this example, the bot 
+        private const string PatternMessage = @"It is a good pattern to use this event to send general greeting
+                                              to user, explaning what your bot can do. In this example, the bot
                                               handles 'hello', 'hi', 'help' and 'intro. Try it now, type 'hi'";
 
         // The bot state accessor object. Use this to access specific state properties.
@@ -141,7 +141,7 @@ namespace WelcomeUser
             }
             else
             {
-                // Default behaivor for all other type of activities.                
+                // Default behaivor for all other type of activities.
                 await turnContext.SendActivityAsync($"{turnContext.Activity.Type} activity detected");
             }
 
@@ -163,9 +163,9 @@ namespace WelcomeUser
 
             var card = new HeroCard();
             card.Title = "Welcome to Bot Framework!";
-            card.Text = @"Welcome to Welcome Users bot sample! This Introduction card 
-                         is a great way to introduce your Bot to the user and suggest 
-                         some things to get them started. We use this opportunity to 
+            card.Text = @"Welcome to Welcome Users bot sample! This Introduction card
+                         is a great way to introduce your Bot to the user and suggest
+                         some things to get them started. We use this opportunity to
                          recommend a few next steps for learning more creating and deploying bots.";
             card.Images = new List<CardImage>() { new CardImage("https://aka.ms/bf-welcome-card-image") };
             card.Buttons = new List<CardAction>()
