@@ -60,9 +60,9 @@ export class BasicBot {
    * @param {BotConfiguration} botConfig contents of the .bot file
    */
   constructor(conversationState: ConversationState, userState: UserState, botConfig: BotConfiguration) {
-    if (!conversationState) throw ('Missing parameter.  conversationState is required');
-    if (!userState) throw ('Missing parameter.  userState is required');
-    if (!botConfig) throw ('Missing parameter.  botConfig is required');
+    if (!conversationState) throw new Error('Missing parameter.  conversationState is required');
+    if (!userState) throw new Error('Missing parameter.  userState is required');
+    if (!botConfig) throw new Error('Missing parameter.  botConfig is required');
 
     // add the LUIS recogizer
     let luisConfig: LuisService;
