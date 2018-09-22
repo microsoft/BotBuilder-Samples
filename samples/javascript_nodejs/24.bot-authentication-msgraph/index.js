@@ -39,7 +39,7 @@ const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
 // Create the adapter. See https://aka.ms/about-bot-adapter to learn more adapters.
 const adapter = new BotFrameworkAdapter({
-    appId: endpointConfig.appId || process.env.MicrosoftAppID,
+    appId: endpointConfig.appId || process.env.MicrosoftAppId,
     appPassword: endpointConfig.appPassword || process.env.MicrosoftAppPassword
 });
 
@@ -96,7 +96,7 @@ let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }.`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
-    console.log(`\nTo talk to your bot, open bot-authentication-msgraph.bot file in the Emulator.`);
+    console.log(`\nTo talk to your bot, open authentication-msgraph.bot file in the Emulator.`);
 });
 
 // Listen for incoming requests.

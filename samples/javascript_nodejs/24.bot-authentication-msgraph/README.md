@@ -26,7 +26,7 @@ The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissio
   ```
 - Update `authentication-msgraph.bot` with required configuration settings
   - App ID and Key for registered bots
-- Update `CONNECTION_SETTING_NAME` in `.env` or `bot.js` so the bot can perform OAuth calls through Azure Bot Service
+- Update `CONNECTION_SETTING_NAME` in `bot.js` so the bot can perform OAuth calls through Azure Bot Service
 - Run the sample
   ```bash
   npm start
