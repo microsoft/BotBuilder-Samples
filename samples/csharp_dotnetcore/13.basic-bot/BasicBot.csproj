@@ -30,8 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="BotConfiguration.bot">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="basic-bot.bot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

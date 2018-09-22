@@ -270,3 +270,4 @@ paket-files/
 .vscode/
 /javascript_nodejs/.DS_Store
 .DS_Store
+/samples/csharp_dotnetcore/13.basic-bot/basic-bot.bot
