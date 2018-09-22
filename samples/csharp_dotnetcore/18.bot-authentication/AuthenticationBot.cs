@@ -15,8 +15,16 @@ using Microsoft.Bot.Schema;
 namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// This bot will respond to user input with an <see cref="OAuthPrompt"./>.
+    /// Represents a bot that processes incoming activities.
+    /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
+    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// each time they're requested. For each Activity received, a new instance of this
+    /// class is created. Objects that are expensive to construct, or have a lifetime
+    /// beyond the single turn, should be carefully managed.
+    /// For example, the <see cref="MemoryStorage"/> object and associated
+    /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// </summary>
+    /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class AuthenticationBot : IBot
     {
         // The connection name here must match the the one from
@@ -26,34 +34,43 @@ namespace Microsoft.BotBuilderSamples
         private const string LoginPromptName = "loginPrompt";
         private const string ConfirmPromptName = "confirmPrompt";
 
-        private const string HelpText = @"This bot will introduce you to Authentication.
+        private const string WelcomeText = @"This bot will introduce you to Authentication.
                                         Type anything to get logged in. Type 'logout' to signout.
                                         Type 'help' to view this message again";
 
         private readonly AuthenticationBotAccessors _stateAccessors;
         private readonly DialogSet _dialogs;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthenticationBot"/> class.
+        /// </summary>
+        /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
         public AuthenticationBot(AuthenticationBotAccessors accessors)
         {
-            this._stateAccessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
-            this._dialogs = new DialogSet(this._stateAccessors.ConversationDialogState);
+            _stateAccessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
+            _dialogs = new DialogSet(_stateAccessors.ConversationDialogState);
 
             // Add the OAuth prompts and related dialogs into the dialog set
-            this._dialogs.Add(Prompt(ConnectionName));
-            this._dialogs.Add(new ConfirmPrompt(ConfirmPromptName));
-            this._dialogs.Add(new WaterfallDialog("authDialog", new WaterfallStep[] { PromptStepAsync, LoginStepAsync, DisplayTokenAsync }));
+            _dialogs.Add(Prompt(ConnectionName));
+            _dialogs.Add(new ConfirmPrompt(ConfirmPromptName));
+            _dialogs.Add(new WaterfallDialog("authDialog", new WaterfallStep[] { PromptStepAsync, LoginStepAsync, DisplayTokenAsync }));
         }
 
         /// <summary>
-        /// Process incoming activities.
+        /// Every conversation turn for our Echo Bot will call this method.
         /// </summary>
-        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
-        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        /// <seealso cref="BotStateSet"/>
+        /// <seealso cref="ConversationState"/>
+        /// <seealso cref="IMiddleware"/>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var dc = await this._dialogs.CreateContextAsync(turnContext, cancellationToken);
+            var dc = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
             if (turnContext == null)
             {
                 throw new ArgumentNullException(nameof(turnContext));
@@ -67,7 +84,7 @@ namespace Microsoft.BotBuilderSamples
                     var text = turnContext.Activity.Text.ToLowerInvariant();
                     if (text == "help")
                     {
-                        await turnContext.SendActivityAsync(HelpText, cancellationToken: cancellationToken);
+                        await turnContext.SendActivityAsync(WelcomeText, cancellationToken: cancellationToken);
                         break;
                     }
 
@@ -75,19 +92,18 @@ namespace Microsoft.BotBuilderSamples
                     {
                         // The bot adapter encapsulates the authentication processes.
                         var botAdapter = (BotFrameworkAdapter)turnContext.Adapter;
-                        await botAdapter.SignOutUserAsync(turnContext, ConnectionName, cancellationToken);
+                        await botAdapter.SignOutUserAsync(turnContext, ConnectionName, cancellationToken: cancellationToken);
                         await turnContext.SendActivityAsync("You have been signed out.", cancellationToken: cancellationToken);
-                        await turnContext.SendActivityAsync(HelpText, cancellationToken: cancellationToken);
+                        await turnContext.SendActivityAsync(WelcomeText, cancellationToken: cancellationToken);
                         break;
                     }
 
-                    await dc.ContinueAsync(cancellationToken);
+                    await dc.ContinueDialogAsync(cancellationToken);
 
                     if (!turnContext.Responded)
                     {
                         // Start the Login process.
-                        var result = await dc.BeginAsync("authDialog", cancellationToken: cancellationToken);
-                        var token = (TokenResponse)result.Result;
+                        await dc.BeginDialogAsync("authDialog", cancellationToken: cancellationToken);
                     }
 
                     break;
@@ -95,14 +111,14 @@ namespace Microsoft.BotBuilderSamples
                 case ActivityTypes.Invoke:
                     // This handles the MS Teams Invoke Activity sent when magic code is not used.
                     // See: https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/authentication/auth-oauth-card#getting-started-with-oauthcard-in-teams
-                    // The Teams manifest schema is found : https://docs.microsoft.com/en-us/microsoftteams/platform/resources/schema/manifest-schema
+                    // The Teams manifest schema is found here: https://docs.microsoft.com/en-us/microsoftteams/platform/resources/schema/manifest-schema
                     // It also handles the Event Activity sent from the emulator when the magic code is not used.
                     // See: https://blog.botframework.com/2018/08/28/testing-authentication-to-your-bot-using-the-bot-framework-emulator/
-                    dc = await this._dialogs.CreateContextAsync(turnContext, cancellationToken);
-                    await dc.ContinueAsync(cancellationToken);
+                    dc = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
+                    await dc.ContinueDialogAsync(cancellationToken);
                     if (!turnContext.Responded)
                     {
-                        await dc.BeginAsync("authDialog", cancellationToken: cancellationToken);
+                        await dc.BeginDialogAsync("authDialog", cancellationToken: cancellationToken);
                     }
 
                     break;
@@ -131,7 +147,7 @@ namespace Microsoft.BotBuilderSamples
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     await turnContext.SendActivityAsync(
-                        $"Welcome to AuthenticationBot {member.Name}. {HelpText}",
+                        $"Welcome to AuthenticationBot {member.Name}. {WelcomeText}",
                         cancellationToken: cancellationToken);
                 }
             }
@@ -159,33 +175,31 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// This <see cref="WaterfallStep"/> prompts the user to log in.
         /// </summary>
-        /// <param name="dc">A <see cref="DialogContext"/> provides context for the current dialog.</param>
         /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
-        private static async Task<DialogTurnResult> PromptStepAsync(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
+        private static async Task<DialogTurnResult> PromptStepAsync(WaterfallStepContext step, CancellationToken cancellationToken)
         {
-            return await dc.BeginAsync(LoginPromptName, cancellationToken: cancellationToken);
+            return await step.BeginDialogAsync(LoginPromptName, cancellationToken: cancellationToken);
         }
 
         /// <summary>
         /// In this step we check that a token was received and prompt the user as needed.
         /// </summary>
-        /// <param name="dc">A <see cref="DialogContext"/> provides context for the current dialog.</param>
         /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
-        private static async Task<DialogTurnResult> LoginStepAsync(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
+        private static async Task<DialogTurnResult> LoginStepAsync(WaterfallStepContext step, CancellationToken cancellationToken)
         {
             // Get the token from the previous step. Note that we could also have gotten the
             // token directly from the prompt itself. There is an example of this in the next method.
             var tokenResponse = (TokenResponse)step.Result;
             if (tokenResponse != null)
             {
-                await dc.Context.SendActivityAsync("You are now logged in.", cancellationToken: cancellationToken);
-                return await dc.PromptAsync(
+                await step.Context.SendActivityAsync("You are now logged in.", cancellationToken: cancellationToken);
+                return await step.PromptAsync(
                     ConfirmPromptName,
                     new PromptOptions
                     {
@@ -195,19 +209,18 @@ namespace Microsoft.BotBuilderSamples
                     cancellationToken);
             }
 
-            await dc.Context.SendActivityAsync("Login was not sucessful please try again", cancellationToken: cancellationToken);
+            await step.Context.SendActivityAsync("Login was not sucessful please try again", cancellationToken: cancellationToken);
             return Dialog.EndOfTurn;
         }
 
         /// <summary>
         /// Fetch the token and display it for the user if they asked to see it.
         /// </summary>
-        /// <param name="dc">A <see cref="DialogContext"/> provides context for the current dialog.</param>
         /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
-        private static async Task<DialogTurnResult> DisplayTokenAsync(DialogContext dc, WaterfallStepContext step, CancellationToken cancellationToken)
+        private static async Task<DialogTurnResult> DisplayTokenAsync(WaterfallStepContext step, CancellationToken cancellationToken)
         {
             var result = (bool)step.Result;
             if (result)
@@ -220,11 +233,11 @@ namespace Microsoft.BotBuilderSamples
                 //
                 // There is no reason to store the token locally in the bot because we can always just call
                 // the OAuth prompt to get the token or get a new token if needed.
-                var prompt = await dc.BeginAsync(LoginPromptName, cancellationToken: cancellationToken);
+                var prompt = await step.BeginDialogAsync(LoginPromptName, cancellationToken: cancellationToken);
                 var tokenResponse = (TokenResponse)prompt.Result;
                 if (tokenResponse != null)
                 {
-                    await dc.Context.SendActivityAsync($"Here is your token {tokenResponse.Token}", cancellationToken: cancellationToken);
+                    await step.Context.SendActivityAsync($"Here is your token {tokenResponse.Token}", cancellationToken: cancellationToken);
                 }
             }
 

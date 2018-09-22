@@ -13,16 +13,37 @@ updates also take steps towards an improved user experience by eliminating the m
 ```bash
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
- ### Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\19.Bot-Authentication`) and open Bot_Authentication.csproj in Visual Studio 
+- [Optional] Update the `appsettings.json` file under `BotBuilder-Samples\samples\csharp_dotnetcore\18.bot-authentication` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+## Visual Studio
+- Navigate to the samples folder (`BotBuilder-Samples\samples\csharp_dotnetcore\18.bot-authentication`) and open AuthenticationBot.csproj in Visual Studio 
 - Hit F5
- ### Visual Studio Code
+## Visual Studio Code
 - Open `BotBuilder-Samples\csharp_dotnetcore\7.Using-Adaptive-Cards` folder
-- Bring up a terminal, navigate to BotBuilder-Samples\csharp_dotnetcore\19.Bot-Authentication
+- Bring up a terminal, navigate to BotBuilder-Samples\samples\csharp_dotnetcore\18.bot-authentication
 - Type 'dotnet run'.
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
-  **Note:** this sample requires `Microsoft.Bot.Builder`, `Microsoft.Bot.Builder.Dialogs`, and `Microsoft.Bot.Builder.Integration.AspNet.Core`.
+
+## Testing the bot using Bot Framework Emulator
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot 
+developers to test and debug their bots on localhost or running remotely through a tunnel.
+- Install the Bot Framework emulator from [here](https://aka.ms/botframeworkemulator).
+
+## Connect to bot using Bot Framework Emulator **V4**
+- Launch the Bot Framework Emulator.
+- File -> Open bot and navigate to `botbuilder-samples\samples\csharp_dotnetcore\02.echo-with-counter` folder.
+- Select `BotConfiguration.bot` file.
+# Deploy this bot to Azure
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+
+To install all Bot Builder tools - 
+```bash
+npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
+```
+To clone this bot, run
+```
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+```
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Bot basics](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
