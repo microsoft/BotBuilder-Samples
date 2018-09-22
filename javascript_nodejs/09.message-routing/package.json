@@ -11,16 +11,15 @@
         "watch": "nodemon ./index.js NODE_ENV=development"
     },
     "dependencies": {
-        "botbuilder": "https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/botbuilder/-/4.0.0-preview1.1200.tgz",
-        "botbuilder-ai": "https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/botbuilder-ai/-/4.0.0-preview1.1200.tgz",
-        "botbuilder-dialogs": "https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/botbuilder-dialogs/-/4.0.0-preview1.1200.tgz",
-        "botframework-config": "https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/botframework-config/-/4.0.0-preview1.1200.tgz",
+        "botbuilder": "^4.0.5",
+        "botbuilder-dialogs": "^4.0.5",
+        "botframework-config": "^4.0.5",
         "dotenv": "^6.0.0",
         "restify": "^6.3.4"
     },
     "devDependencies": {
-        "nodemon": "^1.17.3",
-        "@types/node": "^6.0.52",
-        "@types/restify": "^2.0.35"
+        "@types/node": "^6.0.117",
+        "@types/restify": "^2.0.35",
+        "nodemon": "^1.18.4"
     }
 }
