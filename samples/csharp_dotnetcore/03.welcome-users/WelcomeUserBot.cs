@@ -141,8 +141,7 @@ namespace WelcomeUser
             }
             else
             {
-                // Default behaivor for all other type of activities.
-                var activity = turnContext.Activity;
+                // Default behaivor for all other type of activities.                
                 await turnContext.SendActivityAsync($"{turnContext.Activity.Type} activity detected");
             }
 
