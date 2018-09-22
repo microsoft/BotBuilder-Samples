@@ -8,12 +8,6 @@
         "email": "botframework@microsoft.com",
         "url": "http://dev.botframework.com"
     },
-<<<<<<< HEAD
-=======
-    "scripts": {
-        "prepublish": "nsp check"
-    },
->>>>>>> d4bd505d1991034381e354accea855da983a574f
     "files": [
         "app"
     ],
@@ -26,13 +20,6 @@
     "dependencies": {
         "botbuilder": "^4.0.5",
         "lodash": "^4.17.11",
-<<<<<<< HEAD
         "yeoman-generator": "^1.0.0"
-=======
-        "yeoman-generator": "1.0.0"
-    },
-    "devDependencies": {
-        "nsp": "^3.2.1"
->>>>>>> d4bd505d1991034381e354accea855da983a574f
     }
 }
