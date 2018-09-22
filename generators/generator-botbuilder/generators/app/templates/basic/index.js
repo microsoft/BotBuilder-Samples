@@ -44,7 +44,7 @@ const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 // Get bot endpoint configuration by service name
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
-// Create adapter. 
+// Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration .
 const adapter = new BotFrameworkAdapter({
     appId: endpointConfig.appId || process.env.microsoftAppID,
@@ -56,13 +56,11 @@ adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
-    console.error(`\n [onTurnError]: ${ error }`);
+    console.error(`\n [onTurnError]: ${error}`);
     // Send a message to the user
-    context.sendActivity(`Oops. Something went wrong!`);
+    await context.sendActivity(`Oops. Something went wrong!`);
     // Clear out state
-    await conversationState.clear(context);
-    // Save state changes.
-    await conversationState.saveChanges(context);
+    conversationState.clear(context);
 };
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
@@ -79,7 +77,7 @@ userState = new UserState(memoryStorage);
 // CAUTION: You must ensure your product environment has the NODE_ENV set
 //          to use the Azure Blob storage or Azure Cosmos DB providers.
 
-// Add botbuilder-azure when using any Azure services. 
+// Add botbuilder-azure when using any Azure services.
 // const { BlobStorage } = require('botbuilder-azure');
 // // Get service configuration
 // const blobStorageConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION_ID);
@@ -95,16 +93,16 @@ let bot;
 try {
     bot = new BasicBot(conversationState, userState, botConfig);
 } catch (err) {
-    console.error(`[botInitializationError]: ${ err }`);
+    console.error(`[botInitializationError]: ${err}`);
     process.exit();
 }
 
 // Create HTTP server
 let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function() {
-    console.log(`\n${ server.name } listening to ${ server.url }`);
+server.listen(process.env.port || process.env.PORT || 3978, function () {
+    console.log(`\n${server.name} listening to ${server.url}`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-    console.log(`\nTo talk to your bot, open basic-bot.bot file in the Emulator`);
+    console.log(`\nTo talk to your bot, open <%= botName %>.bot file in the Emulator`);
 });
 
 // Listen for incoming activities and route them to your bot main dialog.
@@ -115,5 +113,3 @@ server.post('/api/messages', (req, res) => {
         await bot.onTurn(turnContext);
     });
 });
-
-

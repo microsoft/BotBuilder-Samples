@@ -1,4 +1,5 @@
-# basic-bot
+# <%= botName %>
+<%= description %>
 
 This bot has been created using [Microsoft Bot Framework](https://dev.botframework.com),
 
@@ -9,17 +10,11 @@ This samples shows how to:
 - Prompt for and validate requests for information from the user
 
 
-## To try this sample
-- Clone the repository
+## To run this bot
+- In a terminal,
   ```bash
-  git clone https://github.com/microsoft/botbuilder-samples.git
+  cd <%= botName %>
   ```
-- In a terminal, 
-  ```bash
-  cd samples/javascript_nodejs/13.basic-bot
-  ```
-- [Optional] Update the .env file under samples/javascript_nodejs/08.suggested-actions with your botFileSecret
-    For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules
   ```bash
   npm install
@@ -27,7 +22,7 @@ This samples shows how to:
 - Create [required services](./deploymentScripts/DEPLOYMENT.MD)
 - Run the sample
   ```bash
-  npm start
+  <%= runCmd %>
   ```
 
 ## Testing the bot using Bot Framework Emulator
@@ -37,8 +32,8 @@ This samples shows how to:
 
 ### Connect to bot using Bot Framework Emulator v4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/13.basic-bot` folder
-- Select `basic-bot.bot` file
+- File -> Open Bot Configuration and navigate to `<%= botName %>` folder
+- Select `<%= botName %>.bot` file
 
 ## Deploy this bot to Azure
 See [here](./deploymentScripts/DEPLOY.md) to learn more about deploying this bot to Azure and using the CLI tools to build the LUIS models this bot depends on.
@@ -62,25 +57,23 @@ See [here](./deploymentScripts/DEPLOY.md) to learn more about deploying this bot
 
 ### Project Structure
 
-`index.js` references the bot and starts a Restify server. `bot.js` loads the dialog type you selected when running the generator and adds it as the default dialog. 
+`index.<%= extension %>` references the bot and starts a Restify server. `bot.<%= extension %>` loads the main dialog router and determines how activities are processed.
 
 ### Configuring the bot
 
-Update `.env` with the appropriate keys botFilePath and botFileSecret. 
-  - For Azure Bot Service bots, you can find the botFileSecret under application settings. 
-  - If you use [MSBot CLI](https://github.com/microsoft/botbuilder-tools) to encrypt your bot file, the botFileSecret will be written out to the console window. 
-  - If you used [Bot Framework Emulator **V4**](https://github.com/microsoft/botframework-emulator) to encrypt your bot file, the secret key will be available in bot settings. 
+Update `.env` with the appropriate keys botFilePath and botFileSecret.
+  - For Azure Bot Service bots, you can find the botFileSecret under application settings.
+  - If you use [MSBot CLI](https://github.com/microsoft/botbuilder-tools) to encrypt your bot file, the botFileSecret will be written out to the console window.
+  - If you used [Bot Framework Emulator **V4**](https://github.com/microsoft/botframework-emulator) to encrypt your bot file, the secret key will be available in bot settings.
 
 ### Running the bot
 
 ```
-node ./index.js
+<%= runCmd %>
 ```
 ### Developing the bot
 
 ```
-nodemon ./index.js
+<%= watchCmd %>
 ```
-
-
 
