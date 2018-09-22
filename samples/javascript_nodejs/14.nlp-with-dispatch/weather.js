@@ -7,24 +7,24 @@ const GET_CONDITION_INTENT = 'Get_Weather_Condition';
 const GET_FORECAST_INTENT = 'Get_Weather_Forecast';
 const NONE_INTENT = 'None';
 
-// LUIS entity names. 
+// LUIS entity names.
 const LOCATION_ENTITY = 'Location';
 const LOCATION_PATTERNANY_ENTITY = 'Location_PatternAny';
 
 // this is the LUIS service type entry in the .bot file.
-const WEATHER_LUIS_CONFIGURATION = 'weather.luis';
+const WEATHER_LUIS_CONFIGURATION = 'Weather';
 
 class Weather {
     /**
-     * 
-     * @param {Object} botConfig bot configuration from .bot file
+     *
+     * @param {BotConfiguration} bot configuration from .bot file
      */
     constructor(botConfig) {
-        if(!botConfig) throw ('Need bot config');
-        
+        if (!botConfig) throw new Error('Need bot config');
+
         // add recogizers
         const luisConfig = botConfig.findServiceByNameOrId(WEATHER_LUIS_CONFIGURATION);
-        if(!luisConfig || !luisConfig.appId) throw (`Weather LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
+        if (!luisConfig || !luisConfig.appId) throw new Error(`Weather LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
         this.luisRecognizer = new LuisRecognizer({
             applicationId: luisConfig.appId,
             azureRegion: luisConfig.region,
@@ -33,29 +33,29 @@ class Weather {
         });
     }
     /**
-     * 
-     * @param {Object} context context object
+     *
+     * @param {TurnContext} turn context object
      */
-    async onTurn(context) {
+    async onTurn(turnContext) {
         // Call weather LUIS model.
-        const weatherResults = await this.luisRecognizer.recognize(context);
+        const weatherResults = await this.luisRecognizer.recognize(turnContext);
         const topWeatherIntent = LuisRecognizer.topIntent(weatherResults);
         // Get location entity if available.
         const locationEntity = (LOCATION_ENTITY in weatherResults.entities) ? weatherResults.entities[LOCATION_ENTITY][0] : undefined;
         const locationPatternAnyEntity = (LOCATION_PATTERNANY_ENTITY in weatherResults.entities) ? weatherResults.entities[LOCATION_PATTERNANY_ENTITY][0] : undefined;
         // Depending on intent, call "Turn On" or "Turn Off" or return unknown.
-        switch(topWeatherIntent) {
-            case GET_CONDITION_INTENT: 
-                await context.sendActivity(`You asked for current weather condition in Location = ` + (locationEntity || locationPatternAnyEntity));
-                break;
-            case GET_FORECAST_INTENT: 
-                await context.sendActivity(`You asked for weather forecast in Location = ` + (locationEntity || locationPatternAnyEntity));
-                break;
-            case NONE_INTENT:
-            default:
-                await context.sendActivity(`Weather dialog cannot fulfill this request.`);
+        switch (topWeatherIntent) {
+        case GET_CONDITION_INTENT:
+            await turnContext.sendActivity(`You asked for current weather condition in Location = ` + (locationEntity || locationPatternAnyEntity));
+            break;
+        case GET_FORECAST_INTENT:
+            await turnContext.sendActivity(`You asked for weather forecast in Location = ` + (locationEntity || locationPatternAnyEntity));
+            break;
+        case NONE_INTENT:
+        default:
+            await turnContext.sendActivity(`Weather dialog cannot fulfill this request.`);
         }
     }
 };
 
-module.exports = Weather;
+module.exports.Weather = Weather;

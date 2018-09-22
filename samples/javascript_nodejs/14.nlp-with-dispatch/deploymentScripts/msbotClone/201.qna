@@ -1,9 +1,8 @@
 {
-  "urls": [],
-  "qnaList": [
+  "qnaDocuments": [
     {
-      "id": 0,
-      "answer": "Hello!\n",
+      "id": 1,
+      "answer": "Hello!",
       "source": "custom editorial",
       "questions": [
         "hi",
@@ -14,8 +13,8 @@
       "metadata": []
     },
     {
-      "id": 0,
-      "answer": "I am the LUIS-QnAMaker Dispatch bot! This sample demonstrates using several LUIS applications and QnA Maker knowledge base using dispatch.\n",
+      "id": 2,
+      "answer": "I am the LUIS-QnAMaker Dispatch bot! This sample demonstrates using several LUIS applications and QnA Maker knowledge base using dispatch.",
       "source": "custom editorial",
       "questions": [
         "What are you?",
@@ -27,6 +26,5 @@
       ],
       "metadata": []
     }
-  ],
-  "files": []
+  ]
 }
