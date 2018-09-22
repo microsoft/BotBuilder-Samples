@@ -1,0 +1,23 @@
+﻿{
+  "name": "conversation-history",
+  "services": [
+    {
+      "type": "endpoint",
+      "name": "development",
+      "endpoint": "http://localhost:3978/api/messages",
+      "appId": "",
+      "appPassword": "",
+      "id": "1"
+    },
+    {
+      "type": "blob",
+      "name": "blobstore",
+      "id": "4",
+      "connectionString": "DefaultEndpointsProtocol=https;AccountName=samplesignite;AccountKey=zN2KIyr4SwOJvOTirU1eboQGLLd9aHbQUpGhG0ZPoFLgH3/SwD8nJer6RnjOhA0hvY/iUqDKRK+6vY9vtxhB5w==;EndpointSuffix=core.windows.net",
+      "container": "botcontainer",
+      "version": "0.1"
+    }
+  ],
+  "padlock": "",
+  "version": "2.0"
+}
