@@ -24,15 +24,17 @@ const CITY_PROMPT = 'cityPrompt';
  *  Store conversation and user state
  *
  * @param {String} dialogId unique identifier for this dialog instance
- * @param {PropertyStateAccessor} greetingStateAccessor property accessor for user state
+ * @param {Object} greetingStateAccessor property accessor for user state
+ * @param {Object} userState user state
  */
 class Greeting extends ComponentDialog {
-    constructor(dialogId, greetingStateAccessor) {
+    constructor(dialogId, greetingStateAccessor, userState) {
         super(dialogId);
 
         // validate what was passed in
         if (!dialogId) throw ('Missing parameter.  dialogId is required');
         if (!greetingStateAccessor) throw ('Missing parameter.  greetingStateAccessor is required');
+        if (!userState) throw ('Missing parameter.  userState is required');
 
         // Add control flow dialogs
         this.addDialog(new WaterfallDialog(PROFILE_DIALOG, [
@@ -48,6 +50,7 @@ class Greeting extends ComponentDialog {
 
         // Save off our state accessor for later use
         this.greetingStateAccessor = greetingStateAccessor;
+        this.userState = userState;
     }
     /**
      * Waterfall Dialog step functions.
@@ -66,8 +69,8 @@ class Greeting extends ComponentDialog {
             } else {
                 await this.greetingStateAccessor.set(dc.context, new GreetingState());
             }
+            await this.userState.saveChanges(dc.context);
         }
-
         return await step.next();
     }
     /**
@@ -109,6 +112,7 @@ class Greeting extends ComponentDialog {
             // capitalize and set name
             greetingState.name = lowerCaseName.charAt(0).toUpperCase() + lowerCaseName.substr(1);
             await this.greetingStateAccessor.set(dc.context, greetingState);
+            await this.userState.saveChanges(dc.context);
         }
         if (!greetingState.city) {
             return await dc.prompt(CITY_PROMPT, `Hello ${greetingState.name}, what city do you live in?`);
@@ -132,6 +136,7 @@ class Greeting extends ComponentDialog {
             // capitalize and set city
             greetingState.city = lowerCaseCity.charAt(0).toUpperCase() + lowerCaseCity.substr(1);
             await this.greetingStateAccessor.set(dc.context, greetingState);
+            await this.userState.saveChanges(dc.context);
         }
         return await this.greetUser(dc);
     }

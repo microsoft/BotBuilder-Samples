@@ -1,0 +1,25 @@
+{
+    "name": "message-routing",
+    "version": "0.1.0",
+    "description": "A bot that demonstrates the basics of message routing, such as interruptions and cancellation.",
+    "author": "Microsoft Bot Framework Team",
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node ./index.js NODE_ENV=development",
+        "watch": "nodemon ./index.js NODE_ENV=development"
+    },
+    "dependencies": {
+        "botbuilder": "^4.0.5",
+        "botbuilder-dialogs": "^4.0.5",
+        "botframework-config": "^4.0.5",
+        "dotenv": "^6.0.0",
+        "restify": "^6.3.4"
+    },
+    "devDependencies": {
+        "@types/node": "^6.0.117",
+        "@types/restify": "^2.0.35",
+        "nodemon": "^1.18.4"
+    }
+}

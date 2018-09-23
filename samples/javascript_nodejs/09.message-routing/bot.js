@@ -47,7 +47,11 @@ class MessageRoutingBot {
 
         // Create top-level dialog(s)
         this.dialogs = new DialogSet(this.dialogState);
-        this.dialogs.add(new GreetingDialog(GREETING_DIALOG, this.greetingStateAccessor));
+        this.dialogs.add(new GreetingDialog(GREETING_DIALOG, this.greetingStateAccessor, userState));
+
+        
+        this.conversationState = conversationState;
+        this.userState = userState;
     }
 
     /**
@@ -73,7 +77,7 @@ class MessageRoutingBot {
             }
 
             // Continue the current dialog
-            const dialogResult = await dc.continue();
+            const dialogResult = await dc.continueDialog();
 
             // If no one has responded, 
             if (!dc.context.responded) {
@@ -82,7 +86,7 @@ class MessageRoutingBot {
                     case DialogTurnStatus.empty:
 
                         if (utterance === GREETING_UTTERANCE) {
-                            await dc.begin(GREETING_DIALOG);
+                            await dc.beginDialog(GREETING_DIALOG);
                         } else {
                             // Help or no intent identified, either way, let's provide some help
                             // to the user
@@ -92,10 +96,10 @@ class MessageRoutingBot {
                         // The active dialog is waiting for a response from the user, so do nothing
                         break;
                     case DialogTurnStcarlatus.complete:
-                        await dc.end();
+                        await dc.endDialog();
                         break;
                     default:
-                        await dc.cancelAll();
+                        await dc.cancelAllDialogs();
                         break;
                 }
             }
@@ -104,6 +108,9 @@ class MessageRoutingBot {
             // we will send a welcome message.
             await dc.context.sendActivity(`Welcome to the message routing bot! Try saying 'hello' to start talking, and use 'help' or 'cancel' at anytime to try interruption and cancellation.`);
         }
+        // Make sure to persist state at the end of a turn.
+        await this.userState.saveChanges(context);
+        await this.conversationState.saveChanges(context);
     }
 
     /**
@@ -119,7 +126,7 @@ class MessageRoutingBot {
         // see if there are any conversation interrupts we need to handle
         if (utterance === CANCEL_UTTERANCE) {
             if (dc.activeDialog) {
-                await dc.cancelAll();
+                await dc.cancelAllDialogs();
                 await dc.context.sendActivity(`Ok.  I've cancelled our last activity.`);
             } else {
                 await dc.context.sendActivity(`I don't have anything to cancel.`);
@@ -133,7 +140,7 @@ class MessageRoutingBot {
 
             if (dc.activeDialog) {
                 // We've shown help, reprompt again to continue where the dialog left over
-                dc.reprompt();
+                dc.repromptDialog();
             }
             return true;        // handled the interrupt
         }
