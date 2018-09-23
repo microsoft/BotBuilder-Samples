@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes } = require("botbuilder");
-const { MyAppInsightsQnAMaker } = require("./myAppInsightsQnAMaker");
+const { ActivityTypes, TurnContext } = require('botbuilder');
+const { MyAppInsightsQnAMaker } = require('./myAppInsightsQnAMaker');
 
 /**
  * A simple QnA Maker bot that responds to queries and uses custom middleware to send telemetry data to Application Insights.
@@ -22,7 +22,7 @@ class QnAMakerBot {
      * Every conversation turn for our QnA Bot will call this method.
      * There are no dialogs used, since it's "single turn" processing, meaning a single
      * request and response, with no stateful conversation.
-     * @param turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async onTurn(turnContext) {
         // By checking the incoming activity's type, the bot only calls QnA Maker in appropriate cases.

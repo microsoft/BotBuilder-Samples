@@ -3,4 +3,4 @@
 
 const { MyAppInsightsMiddleware } = require('./myAppInsightsMiddleware');
 
-exports.MyAppInsightsMiddleware = MyAppInsightsMiddleware;
+module.exports.MyAppInsightsMiddleware = MyAppInsightsMiddleware;
