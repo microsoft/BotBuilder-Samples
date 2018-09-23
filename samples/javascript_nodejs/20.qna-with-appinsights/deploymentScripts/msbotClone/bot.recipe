@@ -8,9 +8,9 @@
       "url": "http://localhost:3978/api/messages"
     },
     {
-      "type": "luis",
+      "type": "qna",
       "id": "34",
-      "name": "nlp-with-luis-LUIS"
+      "name": "qna-with-appinsights-LUIS"
     },
     {
       "type": "endpoint",
@@ -21,17 +21,17 @@
     {
       "type": "abs",
       "id": "3",
-      "name": "nlp-with-luis-abs"
+      "name": "qna-with-appinsights-abs"
     },
     {
       "type": "appInsights",
       "id": "4",
-      "name": "nlp-with-luis-insights"
+      "name": "qna-with-appinsights-insights"
     },
     {
       "type": "blob",
       "id": "5",
-      "name": "nlp-with-luis-blob",
+      "name": "qna-with-appinsights-blob",
       "container": "botstatestore"
     }
   ]
