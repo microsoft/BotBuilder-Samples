@@ -9,17 +9,15 @@ const DEFAULT_LANGUAGE = ENGLISH_LANGUAGE;
 
 /**
  * A simple bot that captures user preferred language and uses state to configure
- * user's language preference so that middleware translates accordingly when needed. 
+ * user's language preference so that middleware translates accordingly when needed.
  */
 class MultilingualBot {
-
     /**
      * Creates a Multilingual bot.
      * @param {Object} userState User state object.
      * @param {Object} languagePreferenceProperty Accessor for language preference property in the user state.
      */
-    constructor (userState, languagePreferenceProperty) {
-
+    constructor(userState, languagePreferenceProperty) {
         this.languagePreferenceProperty = languagePreferenceProperty;
         this.userState = userState;
     }
@@ -28,7 +26,7 @@ class MultilingualBot {
      * Every conversation turn for our MultilingualBot will call this method.
      * There are no dialogs used, since it's "single turn" processing, meaning a single request and
      * response, with no stateful conversation.
-     * @param {Object} turnContext on turn context object.
+     * @param {Object} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async onTurn(turnContext) {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
@@ -47,10 +45,10 @@ class MultilingualBot {
                 // selected language.
                 // If Spanish was selected by the user, the reply below will actually be shown in spanish to the user.
                 await this.languagePreferenceProperty.set(turnContext, text);
-                await turnContext.sendActivity(`Your current language code is: ${text}`);
+                await turnContext.sendActivity(`Your current language code is: ${ text }`);
             } else {
                 // Show the user the possible options for language. The translation middleware
-                // will pick up the language selected by the user and 
+                // will pick up the language selected by the user and
                 // translate messages both ways, i.e. user to bot and bot to user.
                 // Create an array with the supported languages.
                 const reply = MessageFactory.suggestedActions([SPANISH_LANGUAGE, ENGLISH_LANGUAGE], `Choose your language:`);
@@ -66,15 +64,15 @@ class MultilingualBot {
  * In a production bot, we would use the Microsoft Text Translation API language
  * detection feature, along with detecting language names.
  * For the purpose of the sample, we just assume that the user requests language
- * changes by responding with the language code through the suggested action presented 
+ * changes by responding with the language code through the suggested action presented
  * above or by typing it.
  * @param {string} utterance the current turn utterance.
  */
 function isLanguageChangeRequested(utterance) {
-    if(!utterance) {
+    if (!utterance) {
         return false;
     }
     return utterance === SPANISH_LANGUAGE || utterance === ENGLISH_LANGUAGE;
 }
 
-module.exports = MultilingualBot;
+module.exports.MultilingualBot = MultilingualBot;
