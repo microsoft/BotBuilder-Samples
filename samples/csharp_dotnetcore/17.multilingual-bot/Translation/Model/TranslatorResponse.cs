@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace MultiLingualBot.Translation.Model
+namespace Microsoft.BotBuilderSamples.Translation.Model
 {
     /// <summary>
     /// Array of translated results from Translator API v3.
