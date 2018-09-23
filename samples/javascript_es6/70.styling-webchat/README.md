@@ -10,7 +10,7 @@ This sample shows how to create a web page with customized [Web Chat](https://gi
    ```
 - In a terminal,
    ```sh
-   cd samples/javascript_es6/25.styling-webchat
+   cd samples/javascript_es6/70.styling-webchat
    ```
 - In [`index.html`](https://github.com/Microsoft/BotBuilder-Samples/tree/v4/samples/javascript_es6/25.styling-webchat), put your bot secret key by replacing `YOUR_BOT_SECRET_FROM_AZURE` with the key
 - Host it using [`serve`](https://npmjs.com/package/serve)
