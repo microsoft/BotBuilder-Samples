@@ -43,7 +43,7 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="options">This isn't used in this implementation but required for the contract. Potentially it could be used to pass in existing state - already filled slots for example.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A DialogTurnResult indicating the state of this dialog to the caller.</returns>
-        public override async Task<DialogTurnResult> DialogBeginAsync(DialogContext dialogContext, object options = null, CancellationToken cancellationToken = default(CancellationToken))
+        public override async Task<DialogTurnResult> BeginDialogAsync(DialogContext dialogContext, object options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (dialogContext == null)
             {
@@ -53,7 +53,7 @@ namespace Microsoft.BotBuilderSamples
             // Don't do anything for non-message activities.
             if (dialogContext.Context.Activity.Type != ActivityTypes.Message)
             {
-                return await dialogContext.EndAsync(new Dictionary<string, object>());
+                return await dialogContext.EndDialogAsync(new Dictionary<string, object>());
             }
 
             // Run prompt
@@ -66,7 +66,7 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="dialogContext">A handle on the runtime.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A DialogTurnResult indicating the state of this dialog to the caller.</returns>
-        public override async Task<DialogTurnResult> DialogContinueAsync(DialogContext dialogContext, CancellationToken cancellationToken = default(CancellationToken))
+        public override async Task<DialogTurnResult> ContinueDialogAsync(DialogContext dialogContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (dialogContext == null)
             {
@@ -91,7 +91,7 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="result">The result from the child dialog. For example this is the value from a prompt.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A DialogTurnResult indicating the state of this dialog to the caller.</returns>
-        public override async Task<DialogTurnResult> DialogResumeAsync(DialogContext dialogContext, DialogReason reason, object result, CancellationToken cancellationToken = default(CancellationToken))
+        public override async Task<DialogTurnResult> ResumeDialogAsync(DialogContext dialogContext, DialogReason reason, object result, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (dialogContext == null)
             {
@@ -147,12 +147,12 @@ namespace Microsoft.BotBuilderSamples
                 // If the slot contains prompt text create the PromptOptions.
 
                 // Run the child dialog
-                return dialogContext.BeginAsync(unfilledSlot.DialogId, unfilledSlot.Options, cancellationToken);
+                return dialogContext.BeginDialogAsync(unfilledSlot.DialogId, unfilledSlot.Options, cancellationToken);
             }
             else
             {
                 // No more slots to fill so end the dialog.
-                return dialogContext.EndAsync(state);
+                return dialogContext.EndDialogAsync(state);
             }
         }
     }
