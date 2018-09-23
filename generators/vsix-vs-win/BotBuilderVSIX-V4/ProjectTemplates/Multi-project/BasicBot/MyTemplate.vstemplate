@@ -45,9 +45,9 @@
             <ProjectItem ReplaceParameters="false" TargetFileName="welcomeCard.json">welcomeCard.json</ProjectItem>
           </Folder>
         </Folder>
-        <Folder Name="CognitiveModels" TargetFolderName="CognitiveModels">
+      </Folder>
+      <Folder Name="CognitiveModels" TargetFolderName="CognitiveModels">
           <ProjectItem ReplaceParameters="false" TargetFileName="basic-bot.luis">basic-bot.luis</ProjectItem>
-        </Folder>
       </Folder>
       <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="BasicBot.cs">BasicBot.cs</ProjectItem>
