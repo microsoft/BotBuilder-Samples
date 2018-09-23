@@ -7,7 +7,7 @@
         <MoreInfo>https://aka.ms/BotBuilderOverview</MoreInfo>
         <License>LICENSE.txt</License>
         <Icon>Template.ico</Icon>
-        <Tags>Bot, Bots, Bot Framework</Tags>
+        <Tags>Bot, Bots, Bot Framework, BotBuilder, Bot Builder, v4bot, sdkbot, botframework</Tags>
     </Metadata>
     <Installation InstalledByMsi="false">
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0]" />
