@@ -38,6 +38,7 @@ namespace Facebook_Events_Bot
         /// Initializes a new instance of the <see cref="FacebookEventsBot"/> class.
         /// </summary>
         /// <param name="accessors">The state accessors this instance will be needing at runtime.</param>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
         public FacebookEventsBot(BotAccessors accessors)
         {
             if (accessors == null)
