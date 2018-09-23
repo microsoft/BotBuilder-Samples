@@ -30,7 +30,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - In a terminal, navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\14.NLP-With-Dispatch`) 
 
     ```bash
-    cd BotBuilder-Samples\csharp_dotnetcore\14.NLP-With-Dispatch
+    cd BotBuilder-Samples\csharp_dotnetcore\samples\14.nlp-with-dispatch
     ```
 
 - Install required tools - to successfully setup and configure all services this bot depend on, you need to install the MSBOT, LUIS, QnAMaker, Ludown, Dispatch CLI tools. 
@@ -39,9 +39,27 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 - Configure required LUIS, QnA Maker and Dispatch services. See [here](#configure-services)
 
-## Configure Services
+# Configure Services
 
 This sample relies on [LUIS](https://luis.ai), [QnA Maker](https://qnamaker.ai) and [Dispatch](https://github.com/microsoft/botbuilder-tools//tree/master/packages/Dispatch) services. 
+
+## Deploy this bot to Azure and configure services
+
+You can use the MSBot Bot Builder CLI tool to clone and configure any services this sample depends on.
+
+To install all Bot Builder tools:
+```
+npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
+```
+To clone this bot, run:
+```
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+```
+Note: You can also manually import the LUIS and QnA Maker applications via the [LUIS.ai](https://luis.ai) and [QnAMaker.ai](https://qnamaker.ai) portals. See instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/what-is-luis) to import the LUIS models and [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base) to import the QnA Maker knowledge base. All models this sample relies on is [here](./cognitiveModels).
+
+**Alternately** you can configure the required services by following the steps below. 
+
+## Manually configure required services
 
 ### Configure the LUIS service
 
@@ -51,16 +69,16 @@ To create required LUIS applications for this sample bot,
 
 To create the LUIS application this bot needs and update the .bot file configuration, in a terminal, 
 - Clone this repository
-- Navigate to BotBuilder-Samples\csharp_dotnetcore\14.NlpWithDispatch
+- Navigate to BotBuilder-Samples\csharp_dotnetcore\samples\14.nlp-with-dispatch
 - Run the following commands
 ```bash 
-> ludown parse toluis --in Resources/homeautomation.lu -o CognitiveModels -n homeautomation.luis
+> ludown parse toluis --in resources/homeautomation.lu -o cognitiveModels --out homeAutomation.luis -n "Home Automation" -d "Home Automation LUIS application - Bot Builder Samples" --verbose
 
-> ludown parse toluis --in Resources/weather.lu -o CognitiveModels -n weather.luis
+> ludown parse toluis --in resources/weather.lu -o cognitiveModels --out weather.luis -n Weather -d "Weather LUIS application - Bot Builder Samples" --verbose
 
-> luis import application --in CognitiveModels\homeautomation.luis --authoringKey <YOUR-LUIS-AUTHORING-KEY> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect luis --stdin --name homeautomation.luis
+> luis import application --in cognitiveModels/homeAutomation.luis --authoringKey <LUIS-AUTHORING-KEY> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
 
-> luis import application --in CognitiveModels\weather.luis --authoringKey <YOUR-LUIS-AUTHORING-KEY> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect luis --stdin --name weather.luis
+> luis import application --in cognitiveModels/weather.luis --authoringKey <LUIS-AUTHORING-KEY> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
 ```
 
 If you decide to change the names passed to msbot such as weather.luis, then you need to update the constants in [NlpDispatchBot.cs](NlpDispatch/NlpDispatchBot.cs). For example, if you change homeautomation.luis to just home, you would update the HomeAutomationLuisKey variable to "home" and the homeAutomationDispatchKey to the intent name assigned by dispatcher, which in this case will be "l_home".
@@ -72,10 +90,10 @@ You can use a different region, such as westus, westeurope or australiaeast via 
 You need to train and publish the LUIS models that were created for this sample to work. You can do so using the following CLI commands
 
 ```bash
-> msbot get service --name homeautomation.luis | luis train version --wait --stdin
-> msbot get service --name homeautomation.luis | luis publish version --stdin
-> msbot get service --name weather.luis | luis train version --wait --stdin
-> msbot get service --name weather.luis | luis publish version --stdin
+> msbot get "Home Automation" | luis train version --wait --stdin
+> msbot get "Weather" | luis train version --stdin --wait
+> msbot get "Home Automation" | luis publish version --stdin
+> msbot get "Weather" | luis publish version --stdin
 ```
 
 ### Configure QnA Maker service
@@ -88,15 +106,15 @@ To create the QnA Maker application and update the .bot file with the QnA Maker 
 - Navigate to samples\14.NLP-With-Dispatch
 - Run the following commands
 ```bash
-> ludown parse toqna --in dialogs/qna/resources/sample-qna.lu -o cognitiveModels -n sample.qna
+> ludown parse toqna --in resources/sample-qna.lu -o cognitiveModels --out dispatch.qna --verbose
 
-> qnamaker create kb --in cognitiveModels\sample.qna --subscriptionKey <YOUR-QNA-SUBSCRIPTION-KEY> --msbot | msbot connect qna --stdin --name sample.qna
+> qnamaker create kb --in cognitiveModels/dispatch.qna --subscriptionKey d30ebbcc44ef4f07bae1a0e31b69f709 --msbot | msbot connect qna --stdin
 ```
 ### Train and publish the QnA Maker KB
 You need to train and publish the QnA Maker Knowledge Bases that were created for this sample to work. You can do so using the following CLI commands
 
 ```bash
-> msbot get service --name sample.qna | qnamaker publish kb --stdin
+> msbot get "sample-qna" | qnamaker publish kb --stdin
 ```
 
 ### Configure the Dispatch application
@@ -106,7 +124,7 @@ To create a new dispatch model for these services and update the .bot file confi
 - Navigate to samples\14.nlp-with-dispatch
 - Run the following commands
 ```bash
-> dispatch create -b BotConfiguration.bot | msbot connect dispatch --stdin --name bot-dispatch
+> dispatch create -b BotConfiguration.bot | msbot connect dispatch --stdin
 ```
 ### Securing keys in your .bot file
 Since your .bot file contains service Ids, subscription and authoring keys, its best to encrypt them. To encrypt the .bot file, run

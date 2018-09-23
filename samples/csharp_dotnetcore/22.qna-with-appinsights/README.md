@@ -14,6 +14,7 @@ In this sample, we demonstrate how to use the QnA Maker service to answer questi
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\12.nlp-with-luis` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 
 ## Prerequisites
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure)
@@ -30,12 +31,12 @@ Qna Maker CLI to deploy the model.
 
 
 ## Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\22.QnA-with-AppInsights`) and open QnABot.csproj in Visual Studio.
+- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\22.qna-with-appinsightss`) and open QnABot.csproj in Visual Studio.
 - Hit F5
 
 ## Visual Studio Code
-- Open `BotBuilder-Samples\csharp_dotnetcore\22.QnA-with-AppInsights` sample folder.
-- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_dotnetcore\22.QnA-with-AppInsights` folder.
+- Open `botbuilder-samples\samples\csharp_dotnetcore\22.qna-with-appinsightss` sample folder
+- Bring up a terminal, navigate to `botbuilder-samples\samples\csharp_dotnetcore\22.qna-with-appinsights` folder.
 - Type 'dotnet run'.
 
 ## Testing the bot using Bot Framework Emulator
@@ -43,10 +44,22 @@ Qna Maker CLI to deploy the model.
 
 - Install the Bot Framework Emulator from [here](https://aka.ms/botframeworkemulator).
 
-### Connect to bot using Bot Framework Emulator **V4**
+## Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator
-- File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\22.QnA-with-AppInsights` folder.
+- File -> Open bot and navigate to `BotBuilder-Samples\samples\csharp_dotnetcore\22.qna-with-appinsights` folder.
 - Select the BotConfiguration.bot file.
+
+# Deploy this bot to Azure
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+
+To install all Bot Builder tools - 
+```bash
+npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
+```
+To clone this bot, run
+```
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+```
 
 # Further reading
 

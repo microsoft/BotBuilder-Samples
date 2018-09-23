@@ -22,6 +22,8 @@ namespace NLP_With_Dispatch_Bot
     /// </summary>
     public class NlpDispatchBot : IBot
     {
+        private const string WelcomeText = "This bot will introduce you to Dispatch for QnA Maker and LUIS. Type a greeting, or a question about the weather to get started";
+
         /// <summary>
         /// Key in the Bot config (.bot file) for the Home Automation Luis instance.
         /// </summary>
@@ -99,6 +101,15 @@ namespace NLP_With_Dispatch_Bot
                     await DispatchToTopIntentAsync(context, topIntent, cancellationToken);
                 }
             }
+            else if (context.Activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                // Send a welcome message to the user and tell them what actions they may perform to use this bot
+                await SendWelcomeMessageAsync(context, cancellationToken);
+            }
+            else
+            {
+                await context.SendActivityAsync($"{context.Activity.Type} event detected", cancellationToken: cancellationToken);
+            }
         }
 
         /// <summary>
@@ -106,12 +117,12 @@ namespace NLP_With_Dispatch_Bot
         /// </summary>
         private async Task DispatchToTopIntentAsync(ITurnContext context, (string intent, double score)? topIntent, CancellationToken cancellationToken = default(CancellationToken))
         {
-            const string homeAutomationDispatchKey = "l_homeautomation-LUIS";
-            const string weatherDispatchKey = "l_weather-LUIS";
+            const string homeAutomationDispatchKey = "l_Home_Automation";
+            const string weatherDispatchKey = "l_Weather";
             const string noneDispatchKey = "None";
-            const string qnaDispatchKey = "q_sample_qna";
+            const string qnaDispatchKey = "q_sample-qna";
 
-            switch (topIntent.Value.intent.ToLowerInvariant())
+            switch (topIntent.Value.intent)
             {
                 case homeAutomationDispatchKey:
                     await DispatchToLuisModelAsync(context, HomeAutomationLuisKey);
@@ -170,6 +181,28 @@ namespace NLP_With_Dispatch_Bot
             if (result.Entities.Count > 0)
             {
                 await context.SendActivityAsync($"The following entities were found in the message:\n\n{string.Join("\n\n", result.Entities)}");
+            }
+        }
+
+
+        /// <summary>
+        /// On a conversation update activity sent to the bot, the bot will
+        /// send a message to the any new user(s) that were added.
+        /// </summary>
+        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
+        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            foreach (var member in turnContext.Activity.MembersAdded)
+            {
+                if (member.Id != turnContext.Activity.Recipient.Id)
+                {
+                    await turnContext.SendActivityAsync(
+                        $"Welcome to Dispatch bot {member.Name}. {WelcomeText}",
+                        cancellationToken: cancellationToken);
+                }
             }
         }
     }

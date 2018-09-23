@@ -1,0 +1,15 @@
+﻿{
+  "name": "LuisBot",
+  "description": "Language Understanding (LUIS) sample using Asp.Net Core 2",
+  "padlock": "",
+  "services": [
+    {
+      "id": "http://localhost:3978/api/messages",
+      "name": "LuisBot",
+      "type": "endpoint",
+      "appId": "",
+      "appPassword": "",
+      "endpoint": "http://localhost:3978/api/messages"
+    }
+  ]
+}
