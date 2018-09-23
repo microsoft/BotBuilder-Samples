@@ -45,10 +45,10 @@ module.exports = {
         /**
          * Override dialogBegin.
          *
-         * @param {Object} dc dialog context
+         * @param {DialogContext} dc dialog context
          * @param {Object} options options
          */
-        async dialogBegin(dc, options) {
+        async beginDialog(dc, options) {
             // Call QnA Maker and get results.
             const qnaResult = await this.qnaRecognizer.generateAnswer(dc.context.activity.text, QNA_NUM_OF_RESULTS, QNA_CONFIDENCE_THRESHOLD);
             if (!qnaResult || qnaResult.length === 0 || !qnaResult[0].answer) {
@@ -64,7 +64,7 @@ module.exports = {
         /**
          * Async helper function to randomly include user salutation. Helps make bot's response feel more natural.
          *
-         * @param {Object} context
+         * @param {TurnContext} context
          */
         async userSalutation(context) {
             let salutation = '';

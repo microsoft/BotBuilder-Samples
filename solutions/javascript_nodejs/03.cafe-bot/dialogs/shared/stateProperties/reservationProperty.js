@@ -196,7 +196,7 @@ const getGuid = function() {
 /**
  * Helper function to validate input and return results based on validation constraints
  *
- * @param {Object} onTurnProperty
+ * @param {OnTurnProperty} onTurnProperty
  * @param {ReservationResult} return result object
  */
 const validate = function(onTurnProperty, returnResult, step) {

@@ -26,9 +26,9 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
      * Constructor.
      * This is a custom TextPrompt that uses a LUIS model to handle turn.n conversations including interruptions.
      * @param {String} dialogId Dialog ID
-     * @param {Object} botConfig Bot configuration
-     * @param {Object} userProfileAccessor accessor for user profile property
-     * @param {Object} conversationState conversations state
+     * @param {BotConfiguration} botConfig Bot configuration
+     * @param {StatePropertyAccessor} userProfileAccessor accessor for user profile property
+     * @param {ConversationState} conversationState conversations state
      */
     constructor(dialogId, botConfig, userProfileAccessor, conversationState, onTurnAccessor) {
         if (!dialogId) throw new Error('Missing parameter. Dialog ID is required.');
@@ -36,25 +36,25 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
         if (!userProfileAccessor) throw new Error('Missing parameter. User profile property accessor is required.');
         if (!conversationState) throw new Error('Missing parameter. Conversation state is required.');
         // Call super and provide a prompt validator
-        super(dialogId, async (turnContext, step) => {
-            const userProfile = await this.userProfileAccessor.get(turnContext);
+        super(dialogId, async (promptValidatorContext) => {
+            const userProfile = await this.userProfileAccessor.get(promptValidatorContext.context);
             // Prompt validator
             // Examine if we have a user name and validate it.
             if (userProfile !== undefined && userProfile.userName !== undefined) {
                 // We can only accept user names that up to two words.
                 if (userProfile.userName.split(' ').length > 2) {
-                    await turnContext.sendActivity(`Sorry, I can only accept two words for a name.`);
-                    await turnContext.sendActivity(`You can always say 'My name is <your name>' to introduce yourself to me.`);
-                    await this.userProfileAccessor.set(turnContext, new UserProfile('Human'));
+                    await promptValidatorContext.context.sendActivity(`Sorry, I can only accept two words for a name.`);
+                    await promptValidatorContext.context.sendActivity(`You can always say 'My name is <your name>' to introduce yourself to me.`);
+                    await this.userProfileAccessor.set(promptValidatorContext.context, new UserProfile('Human'));
                     // set updated turn counter
-                    await this.turnCounterAccessor.set(turnContext, 0);
-                    step.end(NO_USER_PROFILE);
+                    await this.turnCounterAccessor.set(promptValidatorContext.context, 0);
+                    return NO_USER_PROFILE;
                 } else {
                     // capitalize user name
                     userProfile.userName = userProfile.userName.charAt(0).toUpperCase() + userProfile.userName.slice(1);
                     // Create user profile and set it to state.
-                    await this.userProfileAccessor.set(turnContext, userProfile);
-                    step.end(HAVE_USER_PROFILE);
+                    await this.userProfileAccessor.set(promptValidatorContext.context, userProfile);
+                    return HAVE_USER_PROFILE;
                 }
             }
         });
@@ -72,15 +72,15 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
         });
     }
     /**
-     * Override dialogContinue.
+     * Override continueDialog.
      *   The override enables
      *     Interruption to be kicked off from right within this dialog.
      *     Ability to leverage a dedicated LUIS model to provide flexible entity filling,
      *     corrections and contextual help.
      *
-     * @param {Object} dialog context
+     * @param {DialogContext} dialog context
      */
-    async dialogContinue(dc) {
+    async continueDialog(dc) {
         let context = dc.context;
         // Get turn counter
         let turnCounter = await this.turnCounterAccessor.get(context);
@@ -95,7 +95,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                 const userNameInOnTurnProperty = onTurnProperty.entities.find(item => item.entityName === USER_NAME);
                 if (userNameInOnTurnProperty !== undefined) {
                     await this.updateUserProfileProperty(userNameInOnTurnProperty.entityValue, context);
-                    return await super.dialogContinue(dc);
+                    return await super.continueDialog(dc);
                 }
             }
         }
@@ -124,23 +124,23 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
             // Find the user's name from LUIS entities list.
             if (USER_NAME in LUISResults.entities) {
                 await this.updateUserProfileProperty(LUISResults.entities[USER_NAME][0], context);
-                return await super.dialogContinue(dc);
+                return await super.continueDialog(dc);
             } else if (USER_NAME_PATTERN_ANY in LUISResults.entities) {
                 await this.updateUserProfileProperty(LUISResults.entities[USER_NAME_PATTERN_ANY][0], context);
-                return await super.dialogContinue(dc);
+                return await super.continueDialog(dc);
             } else {
                 await context.sendActivity(`Sorry, I didn't get that. What's your name?`);
-                return await super.dialogContinue(dc);
+                return await super.continueDialog(dc);
             }
         }
         case WHY_DO_YOU_ASK_INTENT: {
             await context.sendActivity(`I need your name to be able to address you correctly!`);
             await context.sendActivity(MessageFactory.suggestedActions([`I won't give you my name`], `What is your name?`));
-            return await super.dialogContinue(dc);
+            return await super.continueDialog(dc);
         }
         case NONE_INTENT: {
             await this.updateUserProfileProperty(context.activity.text, context);
-            return await super.dialogContinue(dc);
+            return await super.continueDialog(dc);
         } case CANCEL_INTENT: {
             // start confirmation prompt
             return await dc.prompt(CONFIRM_CANCEL_PROMPT, `Are you sure you want to cancel?`);
@@ -165,27 +165,27 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
         return await dc.endDialog(NO_USER_PROFILE);
     }
     /**
-     * Override dialogResume. This is used to handle user's response to confirm cancel prompt.
+     * Override resumeDialog. This is used to handle user's response to confirm cancel prompt.
      *
      * @param {DialogContext} dc
      * @param {DialogReason} reason
      * @param {Object} result
      */
-    async dialogResume(dc, reason, result) {
+    async resumeDialog(dc, reason, result) {
         if (result) {
             // User said yes to cancel prompt.
             await dc.context.sendActivity(`Sure. I've cancelled that!`);
             return await dc.cancelAllDialogs();
         } else {
             // User said no to cancel.
-            return await super.dialogResume(dc, reason, result);
+            return await super.resumeDialog(dc, reason, result);
         }
     }
     /**
      * Helper method to set user name
      *
      * @param {String} userName
-     * @param {Object} context
+     * @param {TurnContext} context
      */
     async updateUserProfileProperty(userName, context) {
         let userProfile = await this.userProfileAccessor.get(context);

@@ -28,11 +28,11 @@ module.exports = {
         /**
          * Constructor.
          *
-         * @param {Object} botConfig bot configuration
-         * @param {Object} accessor for reservations
-         * @param {Object} accessor for on turn
-         * @param {Object} accessor for the dialog
-         * @param {Object} conversation state object
+         * @param {BotConfiguration} botConfig bot configuration
+         * @param {StatePropertyAccessor} accessor for reservations
+         * @param {StatePropertyAccessor} accessor for on turn
+         * @param {StatePropertyAccessor} accessor for the dialog
+         * @param {ConversationState} conversation state object
          */
         constructor(botConfig, reservationsAccessor, onTurnAccessor, userProfileAccessor, conversationState) {
             super(BOOK_TABLE);

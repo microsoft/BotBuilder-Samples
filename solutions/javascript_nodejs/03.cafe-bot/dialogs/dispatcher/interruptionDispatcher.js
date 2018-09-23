@@ -41,7 +41,7 @@ module.exports = {
         /**
          * Override onDialogBegin
          *
-         * @param {Object} dc dialog context
+         * @param {DialogContext} dc dialog context
          * @param {Object} options dialog turn options
          */
         async onDialogBegin(dc, options) {
@@ -51,16 +51,16 @@ module.exports = {
         /**
          * Override onDialogContinue
          *
-         * @param {Object} dc dialog context
+         * @param {DialogContext} dialog context
          */
-        async onDialogContinue(dc) {
+        async onContinueDialog(dc) {
             // Override default continue() logic with interruption orchestration logic
             return await this.interruptionDispatch(dc);
         }
         /**
          * Helper method to dispatch on interruption.
          *
-         * @param {Object} dc
+         * @param {DialogContext} dc
          * @param {Object} options
          */
         async interruptionDispatch(dc, options) {

@@ -22,7 +22,7 @@ class OnTurnProperty {
  *
  * Static method to create an on turn property object from LUIS results
  *
- * @param {Object} LUISResults
+ * @param {RecognizerResults} LUISResults
  * @returns {OnTurnProperty}
  */
 OnTurnProperty.fromLUISResults = function(LUISResults) {

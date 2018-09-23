@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 const { MessageFactory } = require('botbuilder');
-const { DialogTurnStatus, TextPrompt } = require('botbuilder-dialogs');
+const { TextPrompt } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { Reservation, reservationStatusEnum, OnTurnProperty } = require('../stateProperties');
 const { QnADialog } = require('../../qna');
@@ -14,7 +14,8 @@ const NOCHANGE_INTENT = 'noChange';
 const INTERRUPTION_DISPATCHER = 'interruptionDispatcherDialog';
 const CONFIRM_CANCEL_PROMPT = 'confirmCancelPrompt';
 // LUIS service type entry for turn.n book table LUIS model in the .bot file.
-const LUIS_CONFIGURATION = 'cafeBotBookTableTurnN';
+const LUIS_CONFIGURATION = 'cafeBotBookTableTurnNModel';
+
 module.exports = {
     // This is a custom TextPrompt that uses a LUIS model to handle turn.n conversations including interruptions.
     GetLocationDateTimePartySizePrompt: class extends TextPrompt {
@@ -32,10 +33,10 @@ module.exports = {
             if (!reservationsAccessor) throw new Error('Need user reservation property accessor');
             if (!onTurnAccessor) throw new Error('Need on turn property accessor');
             // Call super and provide a prompt validator
-            super(dialogId, async (turnContext, step) => {
+            super(dialogId, async (promptValidatorContext) => {
                 // validation and prompting logic
                 // get reservation property
-                let reservationFromState = await this.reservationsAccessor.get(turnContext);
+                let reservationFromState = await this.reservationsAccessor.get(promptValidatorContext.context);
                 let newReservation;
                 if (reservationFromState === undefined) {
                     newReservation = new Reservation();
@@ -47,28 +48,29 @@ module.exports = {
                 if (newReservation.haveCompleteReservation) {
                     if (!newReservation.reservationConfirmed) {
                         if (newReservation.needsChange === true) {
-                            await turnContext.sendActivity(`What would you like to change?`);
+                            await promptValidatorContext.context.sendActivity(`What would you like to change?`);
                         } else {
                             // Greet user with name if we have the user profile set.
-                            const userProfile = await this.userProfileAccessor.get(turnContext);
+                            const userProfile = await this.userProfileAccessor.get(promptValidatorContext.context);
                             if (userProfile !== undefined && userProfile.userName !== '') {
-                                await turnContext.sendActivity('Alright ' + userProfile.userName + ', I have a table for ' + newReservation.confirmationReadOut());
+                                await promptValidatorContext.context.sendActivity('Alright ' + userProfile.userName + ', I have a table for ' + newReservation.confirmationReadOut());
                             } else {
-                                await turnContext.sendActivity('Ok. I have a table for ' + newReservation.confirmationReadOut());
+                                await promptValidatorContext.context.sendActivity('Ok. I have a table for ' + newReservation.confirmationReadOut());
                             }
-                            await turnContext.sendActivity(MessageFactory.suggestedActions(['Yes', 'No'], `Should I go ahead and book the table?`));
+                            await promptValidatorContext.context.sendActivity(MessageFactory.suggestedActions(['Yes', 'No'], `Should I go ahead and book the table?`));
                         }
                     } else {
-                        step.end(DialogTurnStatus.complete);
+                        // Have complete reservation.
+                        return true;
                     }
                 } else {
                     // readout what has been understood already
                     let groundedPropertiesReadout = newReservation.getGroundedPropertiesReadOut();
                     if (groundedPropertiesReadout !== '') {
-                        await turnContext.sendActivity(groundedPropertiesReadout);
+                        await promptValidatorContext.context.sendActivity(groundedPropertiesReadout);
                     }
                     // ask user for missing information
-                    await turnContext.sendActivity(newReservation.getMissingPropertyReadOut());
+                    await promptValidatorContext.context.sendActivity(newReservation.getMissingPropertyReadOut());
                 }
             });
             this.reservationsAccessor = reservationsAccessor;
@@ -86,7 +88,7 @@ module.exports = {
             });
         }
         /**
-         * Override dialogContinue.
+         * Override continueDialog.
          *   The override enables
          *     Interruption to be kicked off from right within this dialog.
          *     Ability to leverage a dedicated LUIS model to provide flexible entity filling,
@@ -94,7 +96,7 @@ module.exports = {
          *
          * @param {DialogContext} dialog context
          */
-        async dialogContinue(dc) {
+        async continueDialog(dc) {
             let turnContext = dc.context;
             let step = dc.activeDialog.state;
             // get reservation property
@@ -123,7 +125,7 @@ module.exports = {
                 this.reservationsAccessor.set(turnContext, updateResult.newReservation);
                 // return and do not continue if there is an error
                 await turnContext.sendActivity(updateResult.outcome[0].message);
-                return await super.dialogContinue(dc);
+                return await super.continueDialog(dc);
             }
             // call LUIS and get results
             const LUISResults = await this.luisRecognizer.recognize(turnContext);
@@ -146,7 +148,7 @@ module.exports = {
                 this.reservationsAccessor.set(turnContext, updateResult.newReservation);
                 // return and do not continue if there is an error.
                 await turnContext.sendActivity(updateResult.outcome[0].message);
-                return await super.dialogContinue(dc);
+                return await super.continueDialog(dc);
             }
             // Did user ask for help or said cancel or continuing the conversation?
             switch (topIntent) {
@@ -176,23 +178,23 @@ module.exports = {
             }
             // set reservation property based on OnTurn properties
             this.reservationsAccessor.set(turnContext, updateResult.newReservation);
-            return await super.dialogContinue(dc);
+            return await super.continueDialog(dc);
         }
         /**
-         * Override dialogResume. This is used to handle user's response to confirm cancel prompt.
+         * Override resumeDialog. This is used to handle user's response to confirm cancel prompt.
          *
          * @param {DialogContext} dc
          * @param {DialogReason} reason
          * @param {Object} result
          */
-        async dialogResume(dc, reason, result) {
+        async resumeDialog(dc, reason, result) {
             if (result) {
                 // User said yes to cancel prompt.
                 await dc.context.sendActivity(`Sure. I've cancelled that!`);
                 return await dc.cancelAllDialogs();
             } else {
                 // User said no to cancel.
-                return await super.dialogResume(dc, reason, result);
+                return await super.resumeDialog(dc, reason, result);
             }
         }
     }
