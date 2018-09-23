@@ -28,6 +28,8 @@ namespace Microsoft.BotBuilderSamples
 
         public Startup(IHostingEnvironment env)
         {
+            _isProduction = env.IsProduction();
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddEnvironmentVariables();
@@ -150,7 +152,6 @@ namespace Microsoft.BotBuilderSamples
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            _isProduction = env.IsProduction();
             _loggerFactory = loggerFactory;
 
             app.UseDefaultFiles()

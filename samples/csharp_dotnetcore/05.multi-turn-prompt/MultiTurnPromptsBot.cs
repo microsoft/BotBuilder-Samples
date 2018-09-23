@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -97,7 +98,10 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
-                await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                if (turnContext.Activity.MembersAdded.Any())
+                {
+                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                }
             }
             else
             {
