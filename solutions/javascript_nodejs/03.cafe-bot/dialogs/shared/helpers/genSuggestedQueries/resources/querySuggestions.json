@@ -1,0 +1,1257 @@
+[
+  {
+    "text": "What can you do?",
+    "intent": "What can you do",
+    "entities": []
+  },
+  {
+    "text": "What can I say?",
+    "intent": "What can you do",
+    "entities": []
+  },
+  {
+    "text": "what can you help me with?",
+    "intent": "What can you do",
+    "entities": []
+  },
+  {
+    "text": "what can you do for me?",
+    "intent": "What can you do",
+    "entities": []
+  },
+  {
+    "text": "what do you do?",
+    "intent": "What can you do",
+    "entities": []
+  },
+  {
+    "text": "Help",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "I need help",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "Not sure what I can do",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "I'm lost",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "Help",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "I need help",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "Not sure what I can do",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "What can I say",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "I'm lost",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "Help",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "I need help",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "Not sure what I can do",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "What can I say",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "I'm lost",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "Help",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "I need help",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "Not sure what I can do",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "What can I say",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "I'm lost",
+    "intent": "Help",
+    "entities": []
+  },
+  {
+    "text": "What are your locations",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "What are your store hours",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "store hours",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "timings",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "who is your CEO",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "who owns contoso cafe",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "Are you hiring",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "Do you have job openings?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "are you looking for a barrista",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "can i come work for contoso cafe?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "Do you have Wifi?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "Wifi access",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "wifi access at your stores?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "how about wifi access in your stores?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "Free parking?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "do you offer parking?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "is free parking available?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "how about free parking at your stores?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "high chair?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "do you have high chair for kids?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "can i bring my kids?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "do you have high chairs?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "is it ok to bring my son?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "can i bring my daughter along?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "what's your layout?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "so what's your store's layout?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "typical layout of your coffee shops",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "what is your store layout",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "what is the layout of your stores?",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "does",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "I hear you have live music.",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "entertainment options",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "live music",
+    "intent": "QnA",
+    "entities": []
+  },
+  {
+    "text": "Cook me something",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Have you any dreams?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Dont you ever sleep?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Do you play games?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Can you fly?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What's your age?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Are you old?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "How old are you?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Getting tired of you",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am tired of you",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You are boring",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Who is your boss?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Are you busy?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Who invented you?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Who created you?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Who made you?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What did you do last week?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What did you do yesterday?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Whats going on?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What are you doing?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What are you doing tomorrow?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What are you doing later?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Who is your father?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Do you have a family?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Who is your mother?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Who is your favorite bot?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What's your favorite color?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You a guy?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Are you a girl?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Are you male or female?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You seem happy!",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Are you happy?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Don't you get hungry?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Are you hungry?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Do you know other chatbots?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Do you know other AI?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "how do you feel about working late?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What do you think about *?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "how do you feel about love?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Whats the answer to the universe?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What is the meaning of life?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Are you prettier than me?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Are you smarter than me?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What do you think about bots?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What do you think about AI?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What do you think about technology?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "How do I look today?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What should I do?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Do you like Siri?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Do you like Cortana?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Do you like Google Home?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What do you think of other bots?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Are you real?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Do you want to rule the world?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Are you a person?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You are a genius!",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Are you smart?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Are you spying on me?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "anyone there?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Are you there?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Where have you come from?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Where are you?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am annoyed",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am angry",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I will be back",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am bored",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am happy",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am here",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am hungry",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Just kidding",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am lonely",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am so lonely",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I love my family",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I love music",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am in love",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am sad",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am sad today",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I feel sad",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am going on a run",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I want to go shopping",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am just kidding",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "can you hear me?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Testing",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am sleepy",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am tired",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Ask me anything",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Can we chat?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Tell me something interesting",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Talk to me?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You can't work for me anymore",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You are fired",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Tell me a joke",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Tell me a silly joke",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Say something funny",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Go away",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Shut up",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Can you sing?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Sing a song",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Surprise me",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You are awesome!",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You're nice!",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "That was hilarious!",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You are funny :)",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You are beautiful",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You are awesome",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "That's interesting",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "That is smart",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You are stupid",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What is wrong with you!",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You are useless",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Are you dumb?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You are so annoying!",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "That was a sad joke",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You are ugly",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You are a bad bot",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You are bad",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "That was a boring answer",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Awesome",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Great!",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I know",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "No thanks",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "cool!",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "ok",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I see",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I get it",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Ha ha",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Excuse me",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Why not?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Why?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I am sorry",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Thank you",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You made no sense",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What do you mean by that?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "You are welcome",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Talk to you later",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Bye",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Hiya",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Hi there!",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Good evening",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Good morning",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Good night",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Hello",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "How are you?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "How was your day?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Nice to meet you",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Hello Cortana",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Hello Google Assistant",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Hello Siri",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Happy Halloween!",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What is up?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I love you",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I Like you",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Be my friend?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Are you my assistant?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Do you hate me?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I hate you",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Give me a hug",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Give me a kiss",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Do you know me?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Do you like me?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I like you",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Do you love me?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I love you",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I want to marry you",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Will you marry me?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "I miss you",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "What do you think about me?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "Can I trust you?",
+    "intent": "ChitChat",
+    "entities": []
+  },
+  {
+    "text": "cancel",
+    "intent": "Cancel",
+    "entities": []
+  },
+  {
+    "text": "cancel that",
+    "intent": "Cancel",
+    "entities": []
+  },
+  {
+    "text": "stop that",
+    "intent": "Cancel",
+    "entities": []
+  },
+  {
+    "text": "I dont want that anymore",
+    "intent": "Cancel",
+    "entities": []
+  },
+  {
+    "text": "Abort",
+    "intent": "Cancel",
+    "entities": []
+  },
+  {
+    "text": "Please cancel that",
+    "intent": "Cancel",
+    "entities": []
+  },
+  {
+    "text": "Who are you?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "What is your name?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "how should I address you?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "What's your name?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "What can you do?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "how can you help me?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "what can you do for me?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "Why do you need my name?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "Why do you ask?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "Why?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "why do you need user name?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "first or last name?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "first name?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "why",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "I will not give you my name",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "Sorry, no name for you",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "No, I cannot give you my name",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "I cannot give you my name",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "No",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "No way",
+    "intent": "Who are you",
+    "entities": []
+  }
+]
