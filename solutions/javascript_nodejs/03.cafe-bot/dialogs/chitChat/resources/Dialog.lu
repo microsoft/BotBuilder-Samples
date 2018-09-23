@@ -1,0 +1,66 @@
+> Collection of chit chat interactions between user and bot. 
+> You can add additional questions or adapt the answer as you see fit. 
+> Check out https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown to learn more about .lu files and Ludown.
+
+
+> Dialog_Affirmation
+### ? Awesome
+- Great!
+- I know
+- No thanks
+- cool!
+- ok
+- I see
+- I get it
+```markdown
+    Great.
+```
+
+> Dialog_Laugh
+### ? Ha ha
+```markdown
+    It's always good to have a good laugh.
+```
+
+> Dialog_Polite
+### ? Excuse me
+```markdown
+    No problem.
+```
+> Dialog_Questions
+### ? Why not?
+- Why?
+```markdown
+    Sorry, I didn't get that.
+```
+
+> Dialog_Right
+### ? TBD
+```markdown
+    Great.
+```
+
+> Dialog_Sorry
+### ? I am sorry
+```markdown
+    It's alright.
+```
+
+> Dialog_ThankYou
+### ? Thank you
+```markdown
+    You're quite welcome.
+```
+
+> Dialog_WhatDoYouMean
+### ? You made no sense
+- What do you mean by that?
+```markdown
+    I think I may have lost my train of thought.
+```
+
+> Dialog_YouAreWelcome
+### ? You are welcome
+```markdown
+    Great.
+```

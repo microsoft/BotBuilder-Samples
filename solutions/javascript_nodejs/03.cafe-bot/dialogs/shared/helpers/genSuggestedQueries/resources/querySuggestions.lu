@@ -1,0 +1,27 @@
+> Check out https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown to learn more about .lu files and Ludown.
+
+> Construct possible examples of user queries using other .lu files.
+
+[Cancel intent](../../../../dispatcher/resources/cancel.lu)
+
+[Who are you intent](../../../../whoAreYou/resources/whoAreYou.lu)
+
+# Help
+- [Help intent](../../../../help/resources/help.lu#?)
+
+[Book Table intent](../../../../bookTable/resources/bookTableTriggerIntent.lu)
+
+# QnA
+> Add questions from QnA model to the dispatch LUIS model
+- [QnA](../../../../qna/resources/qna.lu#?)
+
+# ChitChat
+> Add questions from Chit Chat to the dispatch LUIS model
+- [Chit Chat](../../../../chitChat/resources/*#?)
+
+# What can you do
+- What can you do?
+- What can I say?
+- what can you help me with?
+- what can you do for me?
+- what do you do?
