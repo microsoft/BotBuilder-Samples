@@ -27,6 +27,8 @@ namespace Microsoft.BotBuilderSamples
 
         public Startup(IHostingEnvironment env)
         {
+            _isProduction = env.IsProduction();
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -92,7 +94,7 @@ namespace Microsoft.BotBuilderSamples
                 // Nuget package to your solution. That package is found at:
                 // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
                 // Uncomment the following lines to use Azure Blob Storage
-                // //Storage configuration name or ID from the .bot file.
+                // Storage configuration name or ID from the .bot file.
                 // const string StorageConfigurationId = "<STORAGE-NAME-OR-ID-FROM-BOT-FILE>";
                 // var blobConfig = botConfig.FindServiceByNameOrId(StorageConfigurationId);
                 // if (!(blobConfig is BlobStorageService blobStorageConfig))
@@ -140,7 +142,6 @@ namespace Microsoft.BotBuilderSamples
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            _isProduction = env.IsProduction();
             _loggerFactory = loggerFactory;
 
             app.UseDefaultFiles()
