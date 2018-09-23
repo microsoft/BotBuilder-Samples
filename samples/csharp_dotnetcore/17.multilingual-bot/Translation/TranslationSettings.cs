@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace MultiLingualBot.Translation
+namespace Microsoft.BotBuilderSamples.Translation
 {
     /// <summary>
     /// General translation settings and constants.

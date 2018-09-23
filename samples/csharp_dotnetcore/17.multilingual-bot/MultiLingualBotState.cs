@@ -3,7 +3,7 @@
 
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace MultiLingualBot
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// Custom state model can be defined here.

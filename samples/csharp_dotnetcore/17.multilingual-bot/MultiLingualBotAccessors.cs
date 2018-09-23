@@ -6,7 +6,7 @@ using System.Threading;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace MultiLingualBot
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// The accessors we will be using in the bot logic. Having a class like this just allows them to be easily
@@ -15,7 +15,7 @@ namespace MultiLingualBot
     public class MultiLingualBotAccessors
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BotAccessors"/> class.
+        /// Initializes a new instance of the <see cref="MultiLingualBotAccessors"/> class.
         /// Contains the <see cref="ConversationState"/> and associated <see cref="IStatePropertyAccessor{T}"/>.
         /// </summary>
         /// <param name="conversationState">The state object that stores the dialog state.</param>
@@ -29,8 +29,11 @@ namespace MultiLingualBot
         public IStatePropertyAccessor<DialogState> ConversationDialogState { get; set; }
 
         /// <summary>
-        /// User language preference to drive translation.
+        /// Gets or sets user language preference to drive translation.
         /// </summary>
+        /// <value>
+        /// User language preference.
+        /// </value>
         public IStatePropertyAccessor<string> LanguagePreference { get; set; }
 
         /// <summary>
