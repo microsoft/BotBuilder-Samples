@@ -42,26 +42,19 @@ const adapter = new BotFrameworkAdapter({
     appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword
 });
 
-// Setup our global error handler
-//
-// For production bots use AppInsights, or a production-grade telemetry service to
-// log errors and other bot telemetry.
-// const { TelemetryClient } = require("applicationinsights");
-// Get AppInsights configuration by service name
-// const APPINSIGHTS_CONFIGURATION = 'appInsights';
-// const appInsightsConfig = botConfig.findServiceByNameOrId(APPINSIGHTS_CONFIGURATION);
-// const telemetryClient = new TelemetryClient(appInsightsConfig.instrumentationKey);
-
-// adapter.onTurnError(async (turnContext, error) => {
-//     // CAUTION:  The sample simply logs the error to the console.
-//     console.error(error);
-//     // For production bots, use AppInsights or similar telemetry system.
-
-//     // tell the user something happen
-
-//     // for multi-turn dialog interactions,
-//     // make sure we clear the conversation state
-// });
+// Catch-all for errors.
+adapter.onTurnError = async (context, error) => {
+    // This check writes out errors to console log
+    // NOTE: In production environment, you should consider logging this to Azure
+    //       application insights.
+    console.error(`\n [onTurnError]: ${ error }`);
+    // Send a message to the user
+    context.sendActivity(`Oops. Something went wrong!`);
+    // Clear out state
+    await conversationState.clear(context);
+    // Save state changes.
+    await conversationState.saveChanges(context);
+};
 
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone.
