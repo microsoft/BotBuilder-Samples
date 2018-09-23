@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AdaptiveCards;
@@ -86,7 +87,10 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
+                if (turnContext.Activity.MembersAdded.Any())
+                {
                     await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                }
             }
             else
             {
