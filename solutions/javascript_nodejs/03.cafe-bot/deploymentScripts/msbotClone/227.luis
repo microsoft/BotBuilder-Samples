@@ -126,10 +126,6 @@
   "model_features": [],
   "patterns": [
     {
-      "pattern": "my [first] name [is] {userName_patternAny}",
-      "intent": "Who are you"
-    },
-    {
       "pattern": "you can call me {userName_patternAny}",
       "intent": "Who are you"
     },
@@ -142,11 +138,15 @@
       "intent": "Who are you"
     },
     {
+      "pattern": "call me {userName_patternAny}",
+      "intent": "Who are you"
+    },
+    {
       "pattern": "i'm {userName_patternAny}",
       "intent": "Who are you"
     },
     {
-      "pattern": "call me {userName_patternAny}",
+      "pattern": "my [first] name [is] {userName_patternAny}",
       "intent": "Who are you"
     }
   ],
@@ -933,11 +933,6 @@
     },
     {
       "text": "do you have a mom?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "do you have a name?",
       "intent": "ChitChat",
       "entities": []
     },
@@ -3037,11 +3032,6 @@
       "entities": []
     },
     {
-      "text": "what do you go by?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
       "text": "what do you like to eat?",
       "intent": "ChitChat",
       "entities": []
@@ -3178,11 +3168,6 @@
     },
     {
       "text": "what other bots do you know?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "what should i call you?",
       "intent": "ChitChat",
       "entities": []
     },

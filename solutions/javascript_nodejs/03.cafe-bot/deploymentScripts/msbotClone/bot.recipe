@@ -5,7 +5,7 @@
       "type": "endpoint",
       "id": "1",
       "name": "development",
-      "url": "http://localhost:3982/api/messages"
+      "url": "http://localhost:3978/api/messages"
     },
     {
       "type": "luis",
@@ -36,19 +36,18 @@
     {
       "type": "abs",
       "id": "3",
-      "name": "cafebot-abs"
+      "name": "EchoBot"
     },
     {
       "type": "appInsights",
       "id": "4",
-      "name": "cafebot-insights"
+      "name": "EchoBotInsights"
     },
     {
       "type": "blob",
       "id": "5",
-      "name": "cafebot-blob",
-      "container": "botstatestore"
+      "name": "EchoBotBlob",
+      "container": "transcripts"
     }
-
   ]
 }
