@@ -12,21 +12,15 @@ In this sample, we demonstrate how to call LUIS to extract the intents from a us
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to javascript_nodejs\23.luis-with-appinsights
+- In a terminal, navigate to samples/javascript_nodejs/21.luis-with-appinsights
     ```bash
-    cd javascript_nodejs\23.luis-with-appinsights
+    cd samples/javascript_nodejs/21.luis-with-appinsights
     ```
-- Point to the MyGet feed 
-    ```bash
-    npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
-    ```
+- [Optional] Update the .env file under samples/javascript_nodejs/21.luis-with-appinsights with your botFileSecret
+    For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules and start the bot
     ```bash
     npm i & npm start
-    ```
-- To reset registry, you can do
-    ```bash
-    npm config set registry https://registry.npmjs.org/
     ```
 
 # Testing the bot using Bot Framework Emulator
@@ -36,7 +30,7 @@ In this sample, we demonstrate how to call LUIS to extract the intents from a us
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to javascript_nodejs\23.luis-with-appinsights
+- File -> Open Bot Configuration and navigate to samples/javascript_nodejs/21.luis-with-appinsights
 - Select luis-with-appinsights.bot file
 
 ## Prerequisites
@@ -45,7 +39,7 @@ In this sample, we demonstrate how to call LUIS to extract the intents from a us
 - Click the `Sign in` button.
 - Click on `My Apps`.
 - Click on the `Import new app` button.
-- Click on the `Choose File` and select [reminders.json](cognitiveModels/reminders.json) from the `botbuilder-samples\javascript_nodejs\23.luis-with-appinsights\cognitiveModels` folder.
+- Click on the `Choose File` and select [reminders.json](cognitiveModels/reminders.json) from the `botbuilder-samples/samples/javascript_nodejs/21.luis-with-appinsights/cognitiveModels` folder.
 - Update [luis-with-appinsights.bot](luis-with-appinsights.bot) file with your AppId, SubscriptionKey, Region and Version. 
     You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
 	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
@@ -65,6 +59,19 @@ NOTE: Once you publish your app on LUIS portal for the first time, it takes some
 
 # LUIS
 Language Understanding service (LUIS) allows your application to understand what a person wants in their own words. LUIS uses machine learning to allow developers to build applications that can receive user input in natural language and extract meaning from it.
+
+# Deploy this bot to Azure
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+
+To install all Bot Builder tools - 
+```bash
+npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
+```
+
+To clone this bot, run
+```
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+```
 
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
