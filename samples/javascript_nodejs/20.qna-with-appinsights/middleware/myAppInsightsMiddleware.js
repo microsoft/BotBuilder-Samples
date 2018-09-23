@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { TelemetryClient } = require("applicationinsights");
+const { TelemetryClient } = require('applicationinsights');
+const { Activity, TurnContext } = require('botbuilder');
 
 /**
  * Middleware for logging incoming activitites into Application Insights.
@@ -34,14 +35,14 @@ class MyAppInsightsMiddleware {
 
     /**
      * Records incoming and outgoing activities to the Application Insights store.
-     * @param context Context for the current turn of conversation with the user.
-     * @param next Function to invoke at the end of the middleware chain.
+     * @param {TurnContext} turnContext Context for the current turn of conversation with the user.
+     * @param {Promise<void>} next Function to invoke at the end of the middleware chain.
      */
     async onTurn(turnContext, next) {
         if (turnContext.activity) {
             // Store the TelemetryClient on the TurnContext's turnState so MyAppInsightsQnAMaker can use it.
             turnContext.turnState.set(this.appInsightsServiceKey, this._telemetryClient);
-            
+
             const activity = turnContext.activity;
             // Set userId and sessionId tag values for the Application Insights Context object.
             if (activity.from && activity.from.id) {
@@ -55,7 +56,7 @@ class MyAppInsightsMiddleware {
             // Add activity specific information, e.g. user ID, conversation ID, to the Event's properties.
             msgReceivedEvent.properties = this.fillReceiveEventProperties(turnContext.activity);
             // Add handlers onto the context sendActivities, updateActivities, and deleteActivities methods.
-            // When calling any of these methods on the current context, a custom event will be sent 
+            // When calling any of these methods on the current context, a custom event will be sent
             // to Application Insights.
             turnContext.onSendActivities(async (turnContext, activities, nextSend) => {
                 const responses = await nextSend();
@@ -84,7 +85,7 @@ class MyAppInsightsMiddleware {
                 const msgUpdateEvent = { name: this.botMsgUpdateEvent, properties: this.fillUpdateEventProperties(turnContext.activity) };
                 this._telemetryClient.trackEvent(msgUpdateEvent);
             });
-            // After registering the onSendActivities, onDeleteActivity and onUpdateActivity handlers, send the msgReceivedEvent to Application Insights. 
+            // After registering the onSendActivities, onDeleteActivity and onUpdateActivity handlers, send the msgReceivedEvent to Application Insights.
             return new Promise((resolve, reject) => {
                 this._telemetryClient.trackEvent(msgReceivedEvent);
                 resolve();
@@ -100,7 +101,7 @@ class MyAppInsightsMiddleware {
     /**
      * Fills the Application Insights Custom Event properties for BotMessageReceived.
      * These properties are logged in the custom event when a new message is received from the user.
-     * @param activity The Receive activity whose properties are placed into the Application Insights custom event.
+     * @param {Activity} activity The Receive activity whose properties are placed into the Application Insights custom event.
      * @returns An object that is sent as "Properties" to Application Insights via the trackEvent method for the BotMessageReceived Message.
      */
     fillReceiveEventProperties(activity) {
@@ -119,7 +120,7 @@ class MyAppInsightsMiddleware {
     /**
      * Fills the Application Insights Custom Event properties for BotMessageSend.
      * These properties are logged in the custom event when a response message is sent by the Bot to the user.
-     * @param activity The Send activity whose properties are placed into the Application Insights custom event.
+     * @param {Activity} activity The Send activity whose properties are placed into the Application Insights custom event.
      * @returns An object that is sent as "Properties" to Applications Insights via the trackEvent method for the BotMessageSend Message.
      */
     fillSendEventProperties(activity) {
@@ -140,7 +141,7 @@ class MyAppInsightsMiddleware {
      * These properties are logged in the custom event when an activity message is updated by the Bot.
      * For example, if a card is interacted with by the use, and the card needs to be updated to reflect
      * some interaction.
-     * @param activity The Update activity whose properties are placed into the Application Insights custom event.
+     * @param {Activity} activity The Update activity whose properties are placed into the Application Insights custom event.
      * @returns An object that is sent as "Properties" to Application Insights via the trackEvent method for the BotMessageUpdate Message.
      */
     fillUpdateEventProperties(activity) {
@@ -159,8 +160,7 @@ class MyAppInsightsMiddleware {
      * - ConversationId: The unique identifier for a conversation.
      * - ConversationName: The name of a conversation.
      * - RecipientId: The unique id of the recipient.
-     *
-     * @param activity The activity whose properties are placed into the Application Insights custom event.
+     * @param {Activity} activity The activity whose properties are placed into the Application Insights custom event.
      */
     createBasicProperties(activity) {
         const properties = {
@@ -174,4 +174,4 @@ class MyAppInsightsMiddleware {
     }
 }
 
-exports.MyAppInsightsMiddleware = MyAppInsightsMiddleware;
+module.exports.MyAppInsightsMiddleware = MyAppInsightsMiddleware;
