@@ -11,18 +11,28 @@ Most channels support rich content.  In this sample we explore the different typ
 ```bash
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\06.using-card` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\06.using-cards` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 # Prerequisites
 ## Visual Studio
 - Navigate to the samples folder (`BotBuilder-Samples\samples\csharp_dotnetcore\06.using-cards`) and open CardsBot.csproj in Visual Studio 
 - Hit F5
 ## Visual Studio Code
 - Open `BotBuilder-Samples\samples\csharp_dotnetcore\06.using-cards` folder
-- Bring up a terminal, navigate to BotBuilder-Samples\samples\csharp_dotnetcore\06.Using-Cards
+- Bring up a terminal, navigate to BotBuilder-Samples\samples\csharp_dotnetcore\06.using-cards
 - Type 'dotnet run'.
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
-  **Note:** this sample requires `Microsoft.Bot.Builder`, `Microsoft.Bot.Builder.Dialogs`, and `Microsoft.Bot.Builder.Integration.AspNet.Core`.
+# Deploy this bot to Azure
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+
+To install all Bot Builder tools - 
+```bash
+npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
+```
+To clone this bot, run
+```
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+```
 # Further reading
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Bot basics](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
