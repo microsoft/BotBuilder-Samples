@@ -20,6 +20,8 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.ibot?view=botbuilder-dotnet-preview"/>
     public class LuisBot : IBot
     {
+        private const string WelcomeText = "This bot will introduce you to natural language processing with LUIS. Type an utterance to get started";
+
         /// <summary>
         /// Key in the bot config (.bot file) for the LUIS instance.
         /// In the .bot file, multiple instances of LUIS can be configured.
@@ -74,6 +76,36 @@ namespace Microsoft.BotBuilderSamples
                             'Calendar.Find'
                             Try typing 'Add Event' or 'Show me tomorrow'.";
                     await context.SendActivityAsync(msg);
+                }
+            }
+            else if (context.Activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                // Send a welcome message to the user and tell them what actions they may perform to use this bot
+                await SendWelcomeMessageAsync(context, cancellationToken);
+            }
+            else
+            {
+                await context.SendActivityAsync($"{context.Activity.Type} event detected", cancellationToken: cancellationToken);
+            }
+        }
+
+        /// <summary>
+        /// On a conversation update activity sent to the bot, the bot will
+        /// send a message to the any new user(s) that were added.
+        /// </summary>
+        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
+        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            foreach (var member in turnContext.Activity.MembersAdded)
+            {
+                if (member.Id != turnContext.Activity.Recipient.Id)
+                {
+                    await turnContext.SendActivityAsync(
+                        $"Welcome to LuisBot {member.Name}. {WelcomeText}",
+                        cancellationToken: cancellationToken);
                 }
             }
         }
