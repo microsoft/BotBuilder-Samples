@@ -29,7 +29,7 @@
 
     **NOTE**: By default your Luis Applications will be deployed to your free starter endpoint. An Azure LUIS service will be deployed along with your bot but you must manually add and publish to it from the luis.ai portal and update your key in the .bot file.
 
-5. Update your appsettings.json with your .bot file path and .bot file secret (if set).
+5. Update your `appsettings.json` with your .bot file path and .bot file secret (if set).
 
 6. There are two locations that need to be updated in the code.
 In the following files:

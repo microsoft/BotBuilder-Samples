@@ -77,17 +77,17 @@ namespace EnterpriseBot
 
                     case General.Intent.Cancel:
                         {
-                            // send cancelled response
+                            // Send cancelled response.
                             await _responder.ReplyWith(dc.Context, MainResponses.Cancelled);
 
-                            // Cancel any active dialogs on the stack
+                            // Cancel any active dialogs on the stack.
                             await dc.CancelAllDialogsAsync();
                             break;
                         }
 
                     case General.Intent.Escalate:
                         {
-                            // start escalate dialog
+                            // Start escalate dialog.
                             await dc.BeginDialogAsync(nameof(EscalateDialog));
                             break;
                         }
@@ -95,7 +95,7 @@ namespace EnterpriseBot
                     case General.Intent.None:
                     default:
                         {
-                            // No intent was identified, send confused message
+                            // No intent was identified, send confused message.
                             await _responder.ReplyWith(dc.Context, MainResponses.Confused);
                             break;
                         }
@@ -115,7 +115,7 @@ namespace EnterpriseBot
 
         protected override async Task CompleteAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // The active dialog's stack ended with a complete status
+            // The active dialogs stack ended with a complete status.
             await _responder.ReplyWith(innerDc.Context, MainResponses.Completed);
         }
     }

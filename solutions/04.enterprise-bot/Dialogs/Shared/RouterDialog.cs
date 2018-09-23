@@ -40,7 +40,7 @@ namespace EnterpriseBot
                                 {
                                     await CompleteAsync(innerDc);
 
-                                    // End active dialog
+                                    // End active dialog.
                                     await innerDc.EndDialogAsync();
                                     break;
                                 }

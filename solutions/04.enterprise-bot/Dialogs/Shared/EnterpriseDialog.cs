@@ -24,8 +24,7 @@ namespace EnterpriseBot
 
         protected override async Task<InterruptionStatus> OnDialogInterruptionAsync(DialogContext dc, CancellationToken cancellationToken)
         {
-            // check dispatch intent
-            // TODO: use luis gen models
+            // Check dispatch intent.
             var luisService = _services.LuisServices["<YOUR MSBOT NAME>_General"];
             var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
             var intent = luisResult.TopIntent().intent;
@@ -50,10 +49,10 @@ namespace EnterpriseBot
         {
             if (dc.ActiveDialog.Id != nameof(CancelDialog))
             {
-                // Don't start restart cancel dialog
+                // Don't start restart cancel dialog.
                 await dc.BeginDialogAsync(nameof(CancelDialog));
 
-                // Signal that the dialog is waiting on user response
+                // Signal that the dialog is waiting on user response.
                 return InterruptionStatus.Waiting;
             }
 
@@ -66,7 +65,7 @@ namespace EnterpriseBot
             var view = new MainResponses();
             await view.ReplyWith(dc.Context, MainResponses.Help);
 
-            // Signal the conversation was interrupted and should immediately continue
+            // Signal the conversation was interrupted and should immediately continue.
             return InterruptionStatus.Interrupted;
         }
     }
