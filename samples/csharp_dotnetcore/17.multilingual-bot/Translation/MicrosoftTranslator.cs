@@ -1,27 +1,26 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using MultiLingualBot.Translation.Model;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.BotBuilderSamples.Translation.Model;
+using Newtonsoft.Json;
 
-namespace MultiLingualBot.Translation
+namespace Microsoft.BotBuilderSamples.Translation
 {
     public class MicrosoftTranslator
     {
-        private const string host = "https://api.cognitive.microsofttranslator.com";
-        private const string path = "/translate?api-version=3.0";
-        private const string uriParams = "&to=";
-
-        private readonly string _key;
+        private const string Host = "https://api.cognitive.microsofttranslator.com";
+        private const string Path = "/translate?api-version=3.0";
+        private const string UriParams = "&to=";
 
         private static HttpClient _client = new HttpClient();
+
+        private readonly string _key;
 
         public MicrosoftTranslator(string key)
         {
@@ -37,7 +36,7 @@ namespace MultiLingualBot.Translation
 
             using (var request = new HttpRequestMessage())
             {
-                var uri = host + path + uriParams + targetLocale;
+                var uri = Host + Path + UriParams + targetLocale;
                 request.Method = HttpMethod.Post;
                 request.RequestUri = new Uri(uri);
                 request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
