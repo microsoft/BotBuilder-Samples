@@ -1,0 +1,16 @@
+{
+    "name": "contoso-cafe-bot",
+    "description": "",
+    "version": "2.0",
+    "secretKey": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "development",
+            "id": "1",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3982/api/messages"
+        }
+    ]
+}

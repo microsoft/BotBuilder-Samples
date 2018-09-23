@@ -1,0 +1,14 @@
+{
+    "name": "cortana-skill",
+    "secretKey": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "cortana-skill",
+            "id": "development",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3988/api/messages"
+        }
+    ]
+}
