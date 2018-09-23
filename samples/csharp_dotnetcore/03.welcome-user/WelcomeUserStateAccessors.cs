@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Bot.Builder;
 
-namespace WelcomeUser.State
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// This class holds a set of accessors (to specific properties) that the bot uses to access
