@@ -124,7 +124,7 @@ To create a new dispatch model for these services and update the .bot file confi
 - Navigate to samples\14.nlp-with-dispatch
 - Run the following commands
 ```bash
-> dispatch create -b nlp-with-dispatch.bot | msbot connect dispatch --stdin
+> dispatch create -b BotConfiguration.bot | msbot connect dispatch --stdin
 ```
 ### Securing keys in your .bot file
 Since your .bot file contains service Ids, subscription and authoring keys, its best to encrypt them. To encrypt the .bot file, run
