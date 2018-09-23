@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes } = require('botbuilder');
-const { LuisRecognizer } = require('botbuilder-ai');
+const { ActivityTypes, TurnContext } = require('botbuilder');
+const { LuisApplication, LuisPredictionOptions, LuisRecognizer } = require('botbuilder-ai');
 
 /**
  * A simple bot that responds to utterances with answers from the Language Understanding (LUIS) service.
  * If an answer is not found for an utterance, the bot responds with help.
  */
 class LuisBot {
-    
     /**
      * The LuisBot constructor requires one argument (`application`) which is used to create an instance of `LuisRecognizer`.
-     * @param {object} luisApplication The basic configuration needed to call LUIS. In this sample the configuration is retrieved from the .bot file.
-     * @param {object} luisPredictionOptions (Optional) Contains additional settings for configuring calls to LUIS.
+     * @param {LuisApplication} luisApplication The basic configuration needed to call LUIS. In this sample the configuration is retrieved from the .bot file.
+     * @param {LuisPredictionOptions} luisPredictionOptions (Optional) Contains additional settings for configuring calls to LUIS.
      */
     constructor(application, luisPredictionOptions, includeApiResults) {
         this.luisRecognizer = new LuisRecognizer(application, luisPredictionOptions, true);
@@ -23,7 +22,7 @@ class LuisBot {
      * Every conversation turn calls this method.
      * There are no dialogs used, since it's "single turn" processing, meaning a single request and
      * response, with no stateful conversation.
-     * @param {object} turnContext A TurnContext instance, containing all the data needed for processing the conversation turn.
+     * @param {TurnContext} turnContext A TurnContext instance, containing all the data needed for processing the conversation turn.
      */
     async onTurn(turnContext) {
         // By checking the incoming Activity type, the bot only calls LUIS in appropriate cases.
@@ -35,8 +34,7 @@ class LuisBot {
             const topIntent = results.luisResult.topScoringIntent;
 
             if (topIntent.intent !== 'None') {
-                await turnContext.sendActivity(`LUIS Top Scoring Intent: ${topIntent.intent}, Score: ${topIntent.score}`);
-
+                await turnContext.sendActivity(`LUIS Top Scoring Intent: ${ topIntent.intent }, Score: ${ topIntent.score }`);
             } else {
                 // If the top scoring intent was "None" tell the user no valid intents were found and provide help.
                 await turnContext.sendActivity(`No LUIS intents were found.
@@ -51,9 +49,9 @@ class LuisBot {
             await turnContext.sendActivity('Welcome to the NLP with LUIS sample! Send me a message and I will try to predict your intent.');
         } else if (turnContext.activity.type !== ActivityTypes.ConversationUpdate) {
             // Respond to all other Activity types.
-            await turnContext.sendActivity(`[${turnContext.activity.type}]-type activity detected.`);
+            await turnContext.sendActivity(`[${ turnContext.activity.type }]-type activity detected.`);
         }
     }
 }
 
-module.exports = LuisBot;
+module.exports.LuisBot = LuisBot;
