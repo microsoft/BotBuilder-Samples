@@ -62,8 +62,8 @@ class WelcomeBot {
                     });
                     break;
                 default :
-                    await turnContext.sendActivity(`This is a simple Welcome Bot sample. You can say 'intro' to 
-                                                        see the introduction card. If you are running this bot in the Bot 
+                    await turnContext.sendActivity(`This is a simple Welcome Bot sample. You can say 'intro' to
+                                                        see the introduction card. If you are running this bot in the Bot
                                                         Framework Emulator, press the 'Start Over' button to simulate user joining a bot or a channel`);
                 }
             }
@@ -97,7 +97,7 @@ class WelcomeBot {
                     await turnContext.sendActivity("You are seeing this message because the bot recieved atleast one 'ConversationUpdate'" +
                                             'event,indicating you (and possibly others) joined the conversation. If you are using the emulator, ' +
                                             "pressing the 'Start Over' button to trigger this event again. The specifics of the 'ConversationUpdate' " +
-                                            'event depends on the channel. You can read more information at https://aka.ms/about-botframewor-welcome-user');
+                                            'event depends on the channel. You can read more information at https://aka.ms/about-botframework-welcome-user');
                     await turnContext.sendActivity(`It is a good pattern to use this event to send general greeting to user, explaining what your bot can do. ` +
                                             `In this example, the bot handles 'hello', 'hi', 'help' and 'intro. ` +
                                             `Try it now, type 'hi'`);

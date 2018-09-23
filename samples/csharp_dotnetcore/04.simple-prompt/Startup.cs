@@ -74,6 +74,13 @@ namespace Microsoft.BotBuilderSamples
                 // Creates a logger for the application to use.
                 ILogger logger = _loggerFactory.CreateLogger<SimplePromptBot>();
 
+                // Catches any errors that occur during a conversation turn and logs them.
+                options.OnTurnError = async (context, exception) =>
+                {
+                    logger.LogError($"Exception caught : {exception}");
+                    await context.SendActivityAsync("Sorry, it looks like something went wrong.");
+                };
+
                 // Memory Storage is for local bot debugging only. When the bot
                 // is restarted, everything stored in memory will be gone.
                 IStorage dataStore = new MemoryStorage();
