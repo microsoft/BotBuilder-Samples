@@ -23,6 +23,8 @@ A more ellaborated next step would be to use the Microsoft Translator Text API t
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\18.multilingual-bot` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+# Prerequisites
 
 ## Microsoft Translator Text API
 
@@ -31,11 +33,11 @@ Paste the key in the ```translationKey``` placeholder within the appsettings.jso
 
 
 ## Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\18.Multi-Lingual-Bot`) and open MessageRoutingBot.csproj in Visual Studio 
+- Navigate to the samples folder (`botbuilder-samples\samples\csharp_dotnetcore\18.multilingual-bot`) and open MessageRoutingBot.csproj in Visual Studio 
 - Hit F5
 
 ## Visual Studio Code
-- Open `BotBuilder-Samples\csharp_dotnetcore\18.Multi-Lingual-Bot` sample folder.
+- Open `botbuilder-samples\samples\csharp_dotnetcore\18.multilingual-bot` sample folder.
 - Bring up a terminal, navigate to BotBuilder-Samples\18.Multi-Lingual-Bot folder
 - type 'dotnet run'
 
@@ -46,9 +48,20 @@ Paste the key in the ```translationKey``` placeholder within the appsettings.jso
 
 ### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\18.Multi-Lingual-Bot` folder
+- File -> Open bot and navigate to `botbuilder-samples\samples\csharp_dotnetcore\18.multilingual-bot` folder
 - Select MessageRouting.bot file
 
+# Deploy this bot to Azure
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+
+To install all Bot Builder tools - 
+```bash
+npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
+```
+To clone this bot, run
+```
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+```
 # Further reading
 
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
