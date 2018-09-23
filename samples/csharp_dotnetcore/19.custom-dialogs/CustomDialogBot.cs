@@ -26,7 +26,7 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class CustomDialogBot : IBot
     {
-        private const string WelcomeText = "Welcome to Simple Prompt Bot. This bot will introduce you to prompts. Type anything to get started.";
+        private const string WelcomeText = "Welcome to Custom Dialog Bot. This bot uses a custom dialog that executes a data driven flow.  Type anything to get started.";
 
         /// <summary>
         /// A handle on the property accessor and BotState used by the dialog state.
@@ -90,10 +90,14 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// This controls what happens when an activity gets sent to the bot.
         /// </summary>
-        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
-        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
-        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        /// <seealso cref="BotStateSet"/>
+        /// <seealso cref="ConversationState"/>
+        /// <seealso cref="IMiddleware"/>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (turnContext == null)
