@@ -1,8 +1,6 @@
 {
     "name": "contoso-cafe-bot",
     "description": "",
-    "version": "2.0",
-    "secretKey": "",
     "services": [
         {
             "type": "endpoint",
@@ -11,6 +9,48 @@
             "appId": "",
             "appPassword": "",
             "endpoint": "http://localhost:3982/api/messages"
+        },
+        {
+            "type": "luis",
+            "name": "cafeBotBookTableTurnNModel",
+            "appId": "cb30ee54-4176-4bb1-aa2f-f5b0bb0fe08a",
+            "version": "0.1",
+            "authoringKey": "be30825b782843dcbbe520ac5338f567",
+            "subscriptionKey": "be30825b782843dcbbe520ac5338f567",
+            "region": "westus",
+            "id": "95"
+        },
+        {
+            "type": "luis",
+            "name": "cafeDispatchModel",
+            "appId": "63b6e217-d73c-4cb1-b7a5-d3c060931b81",
+            "version": "0.1",
+            "authoringKey": "be30825b782843dcbbe520ac5338f567",
+            "subscriptionKey": "be30825b782843dcbbe520ac5338f567",
+            "region": "westus",
+            "id": "227"
+        },
+        {
+            "type": "luis",
+            "name": "getUserProfile",
+            "appId": "9f5627d6-3493-43bf-ae00-0ba595fc16e4",
+            "version": "0.1",
+            "authoringKey": "be30825b782843dcbbe520ac5338f567",
+            "subscriptionKey": "be30825b782843dcbbe520ac5338f567",
+            "region": "westus",
+            "id": "183"
+        },
+        {
+            "type": "qna",
+            "name": "cafeFaqChitChat",
+            "kbId": "f30029ce-700f-4ddf-96cc-f330fac137a1",
+            "subscriptionKey": "d30ebbcc44ef4f07bae1a0e31b69f709",
+            "endpointKey": "0fa7f711-6a82-4155-9cf9-5c8168967df6",
+            "hostname": "https://contosocafeqnab8.azurewebsites.net/qnamaker",
+            "id": "54"
         }
-    ]
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "secretKey": ""
 }
