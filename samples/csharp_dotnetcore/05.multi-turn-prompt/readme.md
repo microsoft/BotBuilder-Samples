@@ -28,7 +28,7 @@ developers to test and debug their bots on localhost or running remotely through
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch the Bot Framework Emulator.
-- File -> Open bot and navigate to `botbuilder-samples\samples\csharp_dotnetcore\04.Simple-Prompt-Bot` folder.
+- File -> Open bot and navigate to `botbuilder-samples\samples\csharp_dotnetcore\05.multi-turn-prompt` folder.
 - Select `BotConfiguration.bot` file.
 
 # Further reading

@@ -88,6 +88,7 @@ namespace Microsoft.BotBuilderSamples
                     }
                 }
             }
+
             // Processes ConversationUpdate Activities to welcome the user.
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
