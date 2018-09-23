@@ -1,5 +1,5 @@
 {
-  "name": "echobot-with-counter",
+  "name": "simple-prompt",
   "services": [
     {
       "type": "endpoint",
