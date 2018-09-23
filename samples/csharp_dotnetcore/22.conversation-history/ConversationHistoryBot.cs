@@ -1,15 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Builder.Azure;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -26,6 +26,9 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class ConversationHistoryBot : IBot
     {
+        private const string WelcomeText = "This bot will save a conversation transcript to Azure Blob Storage." +
+                                           " Type anything to get started and the bot will echo back what you type." +
+                                           " Type !history to save your transcript in Blob Storage.";
         private readonly AzureBlobTranscriptStore _transcriptStore;
 
         /// <summary>
@@ -61,6 +64,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 if (activity.Text == "!history")
                 {
+
                     // Download the activities from the Transcript (blob store) and send them over to the channel when a request to upload history arrives.
                     // This could be an event or a special message acctivity as above.
                     var connectorClient = turnContext.TurnState.Get<ConnectorClient>(typeof(IConnectorClient).FullName);
@@ -72,9 +76,9 @@ namespace Microsoft.BotBuilderSamples
                     {
                         var pagedTranscript = await _transcriptStore.GetTranscriptActivitiesAsync(activity.ChannelId, activity.Conversation.Id);
                         var activities = pagedTranscript.Items
-                                            .Where(a => a.Type == ActivityTypes.Message)
-                                            .Select(ia => (Activity)ia)
-                                            .ToList();
+                            .Where(a => a.Type == ActivityTypes.Message)
+                            .Select(ia => (Activity)ia)
+                            .ToList();
 
                         // DirectLine only allows the upload of at most 500 activities at a time. The limit of 1500 below is
                         // arbitrary and up to the Bot author to decide.
@@ -84,17 +88,45 @@ namespace Microsoft.BotBuilderSamples
                             throw new InvalidOperationException("Attempt to upload too many activities");
                         }
 
-                        var transcript = new Bot.Schema.Transcript(activities);
-                        await connectorClient.Conversations.SendConversationHistoryAsync(activity.Conversation.Id, transcript);
+                        var transcript = new Transcript(activities);
+
+                        await connectorClient.Conversations.SendConversationHistoryAsync(activity.Conversation.Id, transcript, cancellationToken: cancellationToken);
 
                         continuationToken = pagedTranscript.ContinuationToken;
                     }
                     while (continuationToken != null);
+
+                    await turnContext.SendActivityAsync("Transcript sent", cancellationToken: cancellationToken);
                 }
                 else
                 {
                     // Echo back to the user whatever they typed.
-                    await turnContext.SendActivityAsync($"You sent '{activity.Text}'\n");
+                    await turnContext.SendActivityAsync($"You sent '{activity.Text}'\n", cancellationToken: cancellationToken);
+                }
+            }
+            else if (activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                await SendWelcomeMessageAsync(turnContext, cancellationToken);
+            }
+        }
+
+        /// <summary>
+        /// On a conversation update activity sent to the bot, the bot will
+        /// send a message to the any new user(s) that were added.
+        /// </summary>
+        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
+        /// <param name="cancellationToken" >A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>>A <see cref="Task"/> representing the operation result of the Turn operation.</returns>
+        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            foreach (var member in turnContext.Activity.MembersAdded)
+            {
+                if (member.Id != turnContext.Activity.Recipient.Id)
+                {
+                    await turnContext.SendActivityAsync(
+                        $"Welcome to ConversationHistoryBot {member.Name}. {WelcomeText}",
+                        cancellationToken: cancellationToken);
                 }
             }
         }

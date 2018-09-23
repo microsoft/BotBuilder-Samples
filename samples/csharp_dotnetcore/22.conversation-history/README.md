@@ -5,17 +5,17 @@
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-
+- [Optional] Update the `BotConfiguration.bot` file under `botbuilder-samples\samples\csharp_dotnetcore\22.conversation-history` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 # Prerequisites
 ## Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\60.ConversationHistory`) and open ConversationHistory.csproj in Visual Studio.
-- Set the BLOB store connection-string in appsettings.json
+- Navigate to the samples folder (`botbuilder-samples\samples\csharp_dotnetcore\22.conversation-history`) and open ConversationHistory.csproj in Visual Studio.
+- Set the BLOB store connection-string in BotConfiguration.bot
 - Hit F5.
 
 ## Visual Studio Code
-- Open `BotBuilder-Samples\csharp_dotnetcore\60.ConversationHistory` sample folder.
-- Set the BLOB store connection-string in appsettings.json
-- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_dotnetcore\60.ConversationHistory` folder.
+- Open `botbuilder-samples\samples\csharp_dotnetcore\22.conversation-history` sample folder.
+- Set the BLOB store connection-string in BotConfiguration.bot
+- Bring up a terminal, navigate to `botbuilder-samples\samples\csharp_dotnetcore\22.conversation-history` folder.
 - Type 'dotnet run'.
 
 ## Testing the bot using Bot Framework Emulator
@@ -25,7 +25,7 @@ developers to test and debug their bots on localhost or running remotely through
 
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator.
-- File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\60.ConversationHistory` folder.
+- File -> Open bot and navigate to `botbuilder-samples\samples\csharp_dotnetcore\22.conversation-history` folder.
 - Select `ConversationHistory.bot` file.
 
 # Further reading
