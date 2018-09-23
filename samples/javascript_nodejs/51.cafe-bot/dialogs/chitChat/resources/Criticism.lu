@@ -1,0 +1,39 @@
+> Collection of chit chat interactions between user and bot. 
+> You can add additional questions or adapt the answer as you see fit. 
+> Check out https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown to learn more about .lu files and Ludown.
+
+
+> Criticism_Abusive
+### ? Go to hell
+- You are stupid
+```markdown
+    Moving on.
+```
+
+> Criticism_Bot
+### ? What is wrong with you!
+- You are useless
+- Are you dumb?
+- You are so annoying!
+```markdown
+    I try, but I don't always get it right.
+```
+
+> Criticism_Humor
+### ? That was a sad joke
+```markdown
+    Sometimes humor is tricky for bots.
+``` 
+
+> Criticism_Looks
+### ? You are ugly
+- You are a bad bot
+- You are bad
+```markdown
+    Noted.
+```
+> Criticism_Response
+### ? That was a boring answer
+```markdown
+    Sorry I wasn't helpful there.
+```

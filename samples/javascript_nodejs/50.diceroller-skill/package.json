@@ -1,0 +1,23 @@
+{
+  "name": "diceroller-skill-bot",
+  "description": "Bot Builder v4 Cortana skill sample",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "watch": "nodemon ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "dependencies": {
+    "botbuilder": "^4.0.6",
+    "botbuilder-dialogs": "^4.0.6",
+    "botframework-config": "^4.0.6",
+    "dotenv": "^6.0.0",
+    "path": "^0.12.7",
+    "restify": "^7.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}

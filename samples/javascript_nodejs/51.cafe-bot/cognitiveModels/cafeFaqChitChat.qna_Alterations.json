@@ -1,0 +1,29 @@
+{
+  "wordAlterations": [
+    {
+      "alterations": [
+        "father",
+        "dad",
+        "daddy",
+        "mommy",
+        "mom",
+        "mother",
+        "family",
+        "siblings"
+      ]
+    },
+    {
+      "alterations": [
+        "child",
+        "kid",
+        "kiddo",
+        "children",
+        "son",
+        "daughter",
+        "grand son",
+        "grand daughter",
+        "grandson"
+      ]
+    }
+  ]
+}
