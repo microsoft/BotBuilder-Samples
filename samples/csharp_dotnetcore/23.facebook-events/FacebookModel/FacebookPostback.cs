@@ -13,7 +13,7 @@ namespace Facebook_Events_Bot.FacebookModel
     public class FacebookPostback
     {
         /// <summary>
-        /// Payload of the PostBack. Could be an object depending on the object sent.
+        /// Gets or sets payload of the PostBack. Could be an object depending on the object sent.
         /// </summary>
         [JsonProperty("payload")]
         public string Payload { get; set; }
