@@ -21,7 +21,10 @@ namespace Facebook_Events_Bot
     /// each time they're requested. For each Activity received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
     /// beyond the single Turn, should be carefully managed.
+    /// For example, the <see cref="MemoryStorage"/> object and associated
+    /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// </summary>
+    /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class FacebookEventsBot : IBot
     {
         private const string DialogId = "question";
@@ -32,9 +35,10 @@ namespace Facebook_Events_Bot
         private readonly DialogSet _dialogs;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimplePromptBot"/> class.
+        /// Initializes a new instance of the <see cref="FacebookEventsBot"/> class.
         /// </summary>
         /// <param name="accessors">The state accessors this instance will be needing at runtime.</param>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
         public FacebookEventsBot(BotAccessors accessors)
         {
             if (accessors == null)
@@ -91,7 +95,7 @@ namespace Facebook_Events_Bot
                     case postBackOption:
                         {
                             var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
-                            var results = await dialogContext.ContinueAsync(cancellationToken);
+                            var results = await dialogContext.ContinueDialogAsync(cancellationToken);
 
                             var card = new HeroCard
                             {
