@@ -12,21 +12,15 @@ In this sample, we demonstrate how to use the QnA Maker service to answer questi
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to javascript_nodejs\22.qna-with-appinsights
+- In a terminal, navigate to samples/javascript_nodejs/20.qna-with-appinsights
     ```bash
-    cd javascript_nodejs\22.qna-with-appinsights
+    cd samples/javascript_nodejs/20.qna-with-appinsights
     ```
-- Point to the MyGet feed 
-    ```bash
-    npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
-    ```
+- [Optional] Update the .env file under samples/javascript_nodejs/20.qna-with-appinsights with your botFileSecret
+    For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules and start the bot
     ```bash
     npm i & npm start
-    ```
-- To reset registry, you can do
-    ```bash
-    npm config set registry https://registry.npmjs.org/
     ```
 
 # Testing the bot using Bot Framework Emulator
@@ -36,7 +30,7 @@ In this sample, we demonstrate how to use the QnA Maker service to answer questi
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to javascript_nodejs\22.qna-with-appinsights
+- File -> Open Bot Configuration and navigate to samples/javascript_nodejs/20.qna-with-appinsights
 - Select qna-with-appinsights.bot file
 
 ## Prerequisites
@@ -51,6 +45,19 @@ In this sample, we demonstrate how to use the QnA Maker service to answer questi
 QnA Maker enables you to power a question and answer service from your semi-structured content. 
 
 One of the basic requirements in writing your own Bot service is to seed it with questions and answers. In many cases, the questions and answers already exist in content like FAQ URLs/documents, product manuals, etc. With QnA Maker, users can query your application in a natural, conversational manner. QnA Maker uses machine learning to extract relevant question-answer pairs from your content. It also uses powerful matching and ranking algorithms to provide the best possible match between the user query and the questions.
+
+# Deploy this bot to Azure
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+
+To install all Bot Builder tools - 
+```bash
+npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
+```
+
+To clone this bot, run
+```
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+```
 
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
