@@ -1,4 +1,4 @@
-## Overview
+﻿## Overview
 
 This repository contains samples for the Microsoft **Bot Builder V4 SDK** - [dotnet SDK](/microsoft/botbuilder-dotnet), [JS SDK](/microsoft/botbuilder-js).
 
@@ -39,7 +39,6 @@ To use the samples clone our GitHub repository using Git.
 |20.Handling-End-Of-Conversation|Bot that demonstrates how to handle end of conversation events|:heavy_check_mark:||:heavy_check_mark:||
 |21.Custom-Dialogs|Demonstrates different ways to model conversations. Waterfall .vs. using your own dialog management|:heavy_check_mark:||:heavy_check_mark:||
 |50.Contoso-Café-Bot|A complete E2E Cafe bot that has all capabilities and includes best practices|:heavy_check_mark:||:heavy_check_mark:||
-|51.Enterprise-Bot-Template|Bot that includes scaffolding and references to commonly used services for an enterprise scale bot. Also used as the enterprise bot template|:heavy_check_mark:||:heavy_check_mark:|| 
 
 [Deploy Button]: https://azuredeploy.net/deploybutton.png
 [Deploy csharp_dotnetcore/2.echobot-with-counter]: https://azuredeploy.net?repository=https://github.com/microsoft/BotBuilder-Samples/tree/v4/csharp_dotnetcore/2.echobot-with-counter
