@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { LuisRecognizer } = require("botbuilder-ai");
+const { TurnContext } = require('botbuilder');
+const { LuisRecognizer } = require('botbuilder-ai');
 
 /**
  * Custom wrapper around LuisRecognizer from botbuilder-ai.
@@ -19,7 +20,7 @@ class MyAppInsightsLuisRecognizer extends LuisRecognizer {
     /**
      * Calls LUIS and then sends a custom Event to Application Insights with results that matched closest with the user's message.
      * Sends the top scoring intent to Application Insights.
-     * @param turnContext The TurnContext instance with the necessary information to perform the calls.
+     * @param {TurnContext} turnContext The TurnContext instance with the necessary information to perform the calls.
      */
     async recognize(turnContext) {
             // Call LuisRecognizer.recognize to retrieve results from LUIS.
@@ -53,7 +54,7 @@ class MyAppInsightsLuisRecognizer extends LuisRecognizer {
             }
 
             // Finish constructing the event.
-            const luisMsgEvent = { name: `LuisMessage.${topLuisIntent.intent}`,
+            const luisMsgEvent = { name: `LuisMessage.${ topLuisIntent.intent }`,
                 properties: telemetryProperties
             };
 
@@ -62,4 +63,5 @@ class MyAppInsightsLuisRecognizer extends LuisRecognizer {
             return results;
     }
 }
-exports.MyAppInsightsLuisRecognizer = MyAppInsightsLuisRecognizer;
+
+module.exports.MyAppInsightsLuisRecognizer = MyAppInsightsLuisRecognizer;

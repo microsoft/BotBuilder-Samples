@@ -12,9 +12,9 @@
   "license": "MIT",
   "dependencies": {
     "applicationinsights": "^1.0.4",
-    "botbuilder": "^4.0.0-preview1.1135",
-    "botbuilder-ai": "^4.0.0-preview1.1135",
-    "botframework-config": "^4.0.0-preview1.1102",
+    "botbuilder": "^4.0.6",
+    "botbuilder-ai": "^4.0.6",
+    "botframework-config": "^4.0.6",
     "dotenv": "^6.0.0",
     "restify": "^6.4.0"
   },

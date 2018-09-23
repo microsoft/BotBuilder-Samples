@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes } = require("botbuilder");
-const { MyAppInsightsLuisRecognizer } = require("./myAppInsightsLuisRecognizer");
+const { ActivityTypes, TurnContext } = require('botbuilder');
+const { MyAppInsightsLuisRecognizer } = require('./myAppInsightsLuisRecognizer');
 
 /**
  * A simple LUIS bot that responds to queries and uses custom middleware to send telemetry data to Application Insights.
@@ -17,13 +17,13 @@ class LuisBot {
      * @param logUserName A boolean indicating if the bot should send the username to Application Insights with the LUIS information.
      */
     constructor(application, options = {}, includeApiResults = false, logOriginalMessage = false, logUserName = false) {
-        this.luisRecognizer = new MyAppInsightsLuisRecognizer(application, options, logOriginalMessage, logUserName);
+        this.luisRecognizer = new MyAppInsightsLuisRecognizer(application, options, includeApiResults, logOriginalMessage, logUserName);
     }
     /**
      * Every conversation turn for our LuisBot will call this method.
      * There are no dialogs used, since it's "single turn" processing, meaning a single
      * request and response, with no stateful conversation.
-     * @param turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async onTurn(turnContext) {
         // By checking the incoming activity's type, the bot only calls LUIS in appropriate cases.
@@ -35,7 +35,7 @@ class LuisBot {
             const topIntent = results.luisResult.topScoringIntent;
 
             if (topIntent.intent !== 'None') {
-                await turnContext.sendActivity(`LUIS Top Scoring Intent: ${topIntent.intent}, Score: ${topIntent.score}`);
+                await turnContext.sendActivity(`LUIS Top Scoring Intent: ${ topIntent.intent }, Score: ${ topIntent.score }`);
 
             } else {
                 // If the top scoring intent was "None" tell the user no valid intents were found and provide help.
@@ -51,8 +51,9 @@ class LuisBot {
             await turnContext.sendActivity('Welcome to the NLP with LUIS sample! Send me a message and I will try to predict your intent.');
         } else if (turnContext.activity.type !== ActivityTypes.ConversationUpdate) {
             // Respond to all other Activity types.
-            await turnContext.sendActivity(`[${turnContext.activity.type}]-type activity detected.`);
+            await turnContext.sendActivity(`[${ turnContext.activity.type }]-type activity detected.`);
         }
     }
 }
-exports.LuisBot = LuisBot;
+
+module.exports.LuisBot = LuisBot;
