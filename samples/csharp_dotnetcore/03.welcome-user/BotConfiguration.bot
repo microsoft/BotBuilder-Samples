@@ -1,5 +1,5 @@
 {
-  "name": "Welcome Users Sample",
+  "name": "welcome-user",
   "services": [
     {
       "type": "endpoint",
@@ -7,7 +7,7 @@
       "endpoint": "http://localhost:3978/api/messages",
       "appId": "",
       "appPassword": "",
-      "id": "24"
+      "id": "1"
     }
   ],
   "padlock": "",

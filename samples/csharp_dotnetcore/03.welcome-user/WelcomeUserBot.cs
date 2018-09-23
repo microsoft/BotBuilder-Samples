@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
-using WelcomeUser.State;
 
-namespace WelcomeUser
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// Represents a bot that processes incoming activities.
