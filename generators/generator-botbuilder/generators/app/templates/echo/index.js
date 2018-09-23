@@ -91,7 +91,10 @@ adapter.onTurnError = async (context, error) => {
     // Send a message to the user
     context.sendActivity(`Oops. Something went wrong!`);
     // Clear out state
+    await conversationState.load(context);
     await conversationState.clear(context);
+    // Save state changes.
+    await conversationState.saveChanges(context);
 };
 
 // Listen for incoming requests.
