@@ -55,6 +55,36 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
+            // The Memory Storage used here is for local bot debugging only. When the bot
+            // is restarted, everything stored in memory will be gone.
+            IStorage dataStore = new MemoryStorage();
+
+            // For production bots use the Azure Blob or
+            // Azure CosmosDB storage providers. For the Azure
+            // based storage providers, add the Microsoft.Bot.Builder.Azure
+            // Nuget package to your solution. That package is found at:
+            // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
+            // Uncomment the following lines to use Azure Blob Storage
+            // //Storage configuration name or ID from the .bot file.
+            // const string StorageConfigurationId = "<STORAGE-NAME-OR-ID-FROM-BOT-FILE>";
+            // var blobConfig = botConfig.FindServiceByNameOrId(StorageConfigurationId);
+            // if (!(blobConfig is BlobStorageService blobStorageConfig))
+            // {
+            //    throw new InvalidOperationException($"The .bot file does not contain an blob storage with name '{StorageConfigurationId}'.");
+            // }
+            // // Default container name.
+            // const string DefaultBotContainer = "<DEFAULT-CONTAINER>";
+            // var storageContainer = string.IsNullOrWhiteSpace(blobStorageConfig.Container) ? DefaultBotContainer : blobStorageConfig.Container;
+            // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage(blobStorageConfig.ConnectionString, storageContainer);
+
+            // Create Job State object.
+            // The Job State object is where we persist anything at the job-scope.
+            // Note: It's independent of any user or conversation.
+            var jobState = new JobState(dataStore);
+
+            // Make it available to our bot
+            services.AddSingleton(sp => jobState);
+
             // Register the proactive bot.
             services.AddBot<ProactiveBot>(options =>
             {
@@ -85,33 +115,6 @@ namespace Microsoft.BotBuilderSamples
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
-                // The Memory Storage used here is for local bot debugging only. When the bot
-                // is restarted, everything stored in memory will be gone.
-                IStorage dataStore = new MemoryStorage();
-
-                // For production bots use the Azure Blob or
-                // Azure CosmosDB storage providers. For the Azure
-                // based storage providers, add the Microsoft.Bot.Builder.Azure
-                // Nuget package to your solution. That package is found at:
-                // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
-                // Uncomment the following lines to use Azure Blob Storage
-                // //Storage configuration name or ID from the .bot file.
-                // const string StorageConfigurationId = "<STORAGE-NAME-OR-ID-FROM-BOT-FILE>";
-                // var blobConfig = botConfig.FindServiceByNameOrId(StorageConfigurationId);
-                // if (!(blobConfig is BlobStorageService blobStorageConfig))
-                // {
-                //    throw new InvalidOperationException($"The .bot file does not contain an blob storage with name '{StorageConfigurationId}'.");
-                // }
-                // // Default container name.
-                // const string DefaultBotContainer = "<DEFAULT-CONTAINER>";
-                // var storageContainer = string.IsNullOrWhiteSpace(blobStorageConfig.Container) ? DefaultBotContainer : blobStorageConfig.Container;
-                // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage(blobStorageConfig.ConnectionString, storageContainer);
-
-                // Create Job State object.
-                // The Job State object is where we persist anything at the job-scope.
-                // It's independent of any user or conversation.
-                var jobState = new JobState(dataStore);
-                options.State.Add(jobState);
             });
 
             services.AddSingleton(sp =>
@@ -121,31 +124,6 @@ namespace Microsoft.BotBuilderSamples
                                       ?? throw new InvalidOperationException(".bot file 'endpoint' must be configured prior to running.");
 
                 return endpointService;
-            });
-
-            // Create and register the state accessors for use with this bot.
-            // Acessors created here are passed into the IBot-derived class on every turn.
-            services.AddSingleton(sp =>
-            {
-                var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
-                if (options == null)
-                {
-                    throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the state accessors");
-                }
-
-                var jobState = options.State.OfType<JobState>().FirstOrDefault();
-                if (jobState == null)
-                {
-                    throw new InvalidOperationException("JobState must be defined and added before adding conversation-scoped state accessors.");
-                }
-
-                // Create the custom state accessor.
-                // State accessors enable other components to read and write individual properties of state.
-                return new ProactiveAccessors(jobState)
-                {
-                    // Create the state property accessor for job data.
-                    JobLogData = jobState.CreateProperty<JobLog>(ProactiveAccessors.JobLogDataName),
-                };
             });
         }
 
