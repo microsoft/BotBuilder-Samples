@@ -24,20 +24,16 @@ namespace Microsoft.BotBuilderSamples
     public class Startup
     {
         private ILoggerFactory _loggerFactory;
+        private bool _isProduction = false;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940.
-        /// </summary>
-        /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
-        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-2.1"/>
-
-        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public Startup(IHostingEnvironment env)
         {
-            _loggerFactory = loggerFactory;
+            _isProduction = env.IsProduction();
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -59,18 +55,28 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
         public void ConfigureServices(IServiceCollection services)
         {
-            // Load the connected services from .bot file
-            var botConfig = BotConfiguration.Load(@".\BotConfiguration.bot");
-
-            // Initialize Bot Connected Services clients.
-            var connectedServices = InitBotServices(botConfig);
-            services.AddSingleton(sp => connectedServices);
-
-            services.AddSingleton(sp => botConfig);
-
             services.AddBot<QnABot>(options =>
             {
-                InitCredentialProvider(options);
+                var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+                var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+
+                // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
+                var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+                services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+
+                // Initialize Bot Connected Services clients.
+                var connectedServices = InitBotServices(botConfig);
+                services.AddSingleton(sp => connectedServices);
+
+                // Retrieve current endpoint.
+                var environment = _isProduction ? "production" : "development";
+                var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+                if (!(service is EndpointService endpointService))
+                {
+                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+                }
+
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Add MyAppInsightsLoggerMiddleware (logs activity messages into Application Insights)
                 var appInsightsLogger = new MyAppInsightsLoggerMiddleware(connectedServices.TelemetryClient.InstrumentationKey, logUserName: true, logOriginalMessage: true);
@@ -116,13 +122,10 @@ namespace Microsoft.BotBuilderSamples
             });
         }
 
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        /// </summary>
-        /// <param name="app">The application builder.  This provides the mechanisms to configure the application request pipeline.</param>
-        /// <param name="env">Provides information about the web hosting environment.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            _loggerFactory = loggerFactory;
+
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
@@ -212,25 +215,6 @@ namespace Microsoft.BotBuilderSamples
 
             var connectedServices = new BotServices(telemetryClient, qnaServices);
             return connectedServices;
-        }
-
-        /// <summary>
-        /// Initializes the credential provider, using by default the <see cref="SimpleCredentialProvider"/>.
-        /// </summary>
-        /// <param name="options"><see cref="BotFrameworkOptions"/> for the current bot.</param>
-        private static void InitCredentialProvider(BotFrameworkOptions options)
-        {
-            // Load the connected services from .bot file.
-            var botConfig = BotConfiguration.Load(@".\BotConfiguration.bot");
-
-            var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint");
-            var endpointService = service as EndpointService;
-            if (endpointService == null)
-            {
-                throw new InvalidOperationException("The .bot file does not contain an endpoint.");
-            }
-
-            options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
         }
     }
 }

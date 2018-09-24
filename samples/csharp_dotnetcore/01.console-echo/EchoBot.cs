@@ -31,7 +31,7 @@ namespace Console_EchoBot
         /// the bot checks the <see cref="Activity"/> type to verify it's a <see cref="ActivityTypes.Message"/>
         /// message, and then echoes the user's typing back to them.
         /// </summary>
-        /// <param name="context">Turn scoped <see cref="ITurnContext"/> containing all the data needed
+        /// <param name="turnContext">Turn scoped <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
@@ -49,7 +49,7 @@ namespace Console_EchoBot
             }
             else
             {
-                await turnContext.SendActivityAsync($"{ turnContext.Activity.Type } event detected");
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected");
             }
         }
     }
