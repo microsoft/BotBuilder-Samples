@@ -2,7 +2,7 @@
 
 This repository contains samples for the Microsoft **Bot Builder V4 SDK** - [dotnet SDK](/microsoft/botbuilder-dotnet), [JS SDK](/microsoft/botbuilder-js).
 
-Samples for the Bot Builder V3 SDK are available [here](/tree/v3).
+Samples for the Bot Builder V3 SDK are available [here](https://github.com/Microsoft/BotBuilder-Samples/tree/v3-sdk-samples).
 
 ## Resources
 Bot Builder provides the most comprehensive experience for building conversation applications and includes the following SDKs and tools:
