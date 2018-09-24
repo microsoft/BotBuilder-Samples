@@ -4,14 +4,6 @@ This repository contains samples for the Microsoft **Bot Builder V4 SDK** - [dot
 
 Samples for the Bot Builder V3 SDK are available [here](/tree/v3).
 
-Samples are organized per platform and are numbered to provide a suggested reading order.
-
-To use the samples clone this GitHub repository using Git.
-
-```bash
-    git clone https://github.com/Microsoft/BotBuilder-Samples.git
-    cd BotBuilder-Samples
-```
 ## Resources
 Bot Builder provides the most comprehensive experience for building conversation applications and includes the following SDKs and tools:
 
@@ -37,6 +29,18 @@ Bot Builder provides the most comprehensive experience for building conversation
 Please see [here](https://aka.ms/BotBuilderOverview) for an overview of the end-to-end bot development workflow. To get started, you can create a bot with [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart?view=azure-bot-service-4.0). Click [here](https://account.azure.com/signup) if you need a trial Azure subscription. 
 
 ## Samples list
+
+Samples are organized per platform and are numbered to provide a suggested reading order.
+
+To use the samples clone this GitHub repository using Git.
+
+```bash
+    git clone https://github.com/Microsoft/BotBuilder-Samples.git
+    cd BotBuilder-Samples
+```
+
+:runner: - Indicates planned and work in progress. 
+
 | Sample Name           | Description                                                                    | .NET CORE   | NodeJS      | .NET Web API | JS (es6)    | Typescript  |
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|-------------|
 |1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming the incoming message.                                                                                                 |[View][cs#1] |[View][js#1] | :runner:     |             |[View][ts#1] |
@@ -68,8 +72,6 @@ Please see [here](https://aka.ms/BotBuilderOverview) for an overview of the end-
 |51.cafe-bot            | A complete E2E Cafe bot that has all capabilities and includes best practices|:runner: |[View][js#51]|              |             | |
 |52.enterprise-bot      | Enterprise bot that demonstrates use of Dialogs, Template Manager, Dispatch across different services and implementing custom middleware.|[View][cs#52] |:runner: |              |             | |
 |70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
-
-:runner: - Indicates planned and work in progress. 
 
 [cs#1]:samples/csharp_dotnetcore/01.console-echo
 [cs#2]:samples/csharp_dotnetcore/02.echo-with-counter
