@@ -1,0 +1,32 @@
+{
+    "name": "enterprise-bot",
+    "version": "1.0.0",
+    "description": "",
+    "author": "Microsoft Bot Framework Team",
+    "license": "MIT",
+    "main": "lib/index.js",
+    "scripts": {
+        "build": "tsc --p tsconfig.json",
+        "start": "tsc && node ./lib/index.js NODE_ENV=development",
+        "watch": "nodemon ./lib/index.js NODE_ENV=development",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "applicationinsights": "^1.0.4",
+        "botbuilder": "^4.0.6",
+        "botbuilder-ai": "^4.0.6",
+        "botbuilder-azure": "^4.0.6",
+        "botbuilder-core": "^4.0.6",
+        "botbuilder-dialogs": "^4.0.6",
+        "botframework-config": "^4.0.6",
+        "botframework-schema": "^4.0.6",
+        "dotenv": "^6.0.0",
+        "restify": "^7.2.1"
+    },
+    "devDependencies": {
+        "@types/dotenv": "^4.0.3",
+        "@types/node": "^10.10.1",
+        "@types/restify": "^7.2.4",
+        "nodemon": "^1.18.4"
+    }
+}
