@@ -110,7 +110,6 @@ namespace Microsoft.BotBuilderSamples
             // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
-
                 // Run the DialogSet - let the framework identify the current state of the dialog from
                 // the dialog stack and figure out what (if any) is the active dialog.
                 var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
