@@ -1,1 +1,0 @@
-All generators and VSIX templates go here.
