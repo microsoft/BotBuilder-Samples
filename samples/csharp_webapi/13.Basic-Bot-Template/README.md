@@ -13,6 +13,9 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - In a command line  session:
 Navigate to sample:
 `cd BotBuilder-Samples\samples\csharp_webapi\13.Basic-Bot-Template`
+
+Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
+
 Install LUDown
 `npm i -g ludown'
 Create LUIS json model file (this will consume two .lu files combined into one model):

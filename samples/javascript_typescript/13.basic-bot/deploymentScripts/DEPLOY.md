@@ -4,6 +4,8 @@ This bot relies on the [LUIS.ai][1] cognitive service to function. This document
 # Install required tools
 To successfully setup and configure the services this bot depends on, you need to install the MSBOT, LUIS, and Ludown CLI tools.  See the documentation for the [Bot Framework CLI Tools][5] for additional information on what CLI tools are available to help you build your bot.
 
+Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
+
 ```bash
 npm i -g msbot luis-apis ludown
 ```

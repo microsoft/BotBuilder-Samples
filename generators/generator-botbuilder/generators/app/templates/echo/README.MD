@@ -38,6 +38,9 @@ In this example, the bot's state is used to track number of messages.
 You can use the [MSBot][5] Bot Builder CLI tool to clone and configure the services this sample depends on.
 
 To install all Bot Builder tools -
+
+Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
+
 ```bash
 npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
 ```
