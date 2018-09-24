@@ -73,6 +73,9 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 - Install [Node.js](https://nodejs.org/)
 - In a terminal
 - Install required tools
+
+    Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
+
     ```bash
     npm i -g msbot chatdown ludown luis-cli qnamaker 
     ```

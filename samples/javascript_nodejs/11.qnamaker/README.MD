@@ -46,6 +46,9 @@ One of the basic requirements in writing your own bot is to seed it with questio
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
 
 To install all Bot Builder tools - 
+
+Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
+
 ```bash
 npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
 ```
