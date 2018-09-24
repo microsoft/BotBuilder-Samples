@@ -12,6 +12,29 @@ To use the samples clone this GitHub repository using Git.
     git clone https://github.com/Microsoft/BotBuilder-Samples.git
     cd BotBuilder-Samples
 ```
+## Resources
+Bot Builder provides the most comprehensive experience for building conversation applications and includes the following SDKs and tools:
+
+- Bot Builder V4 SDK
+    - [**C#** (stable release)](https://github.com/microsoft/botbuilder-dotnet)
+    - [**JS** (stable release)](https://github.com/microsoft/botbuilder-js)
+    - [**Java** (preview release)](https://github.com/microsoft/botbuilder-java)
+    - [**Python** (preview release)](https://github.com/microsoft/botbuilder-python).
+- Bot Framework Emulator 
+    - [Bot Framework **V4 Emulator** (preview release)](https://github.com/microsoft/botframework-emulator).
+    - [Bot Frameowrk **V3 Emulator** (stable release)](https://github.com/Microsoft/BotFramework-Emulator/releases/tag/v3.5.36)
+- Bot Builder CLI tools (**stable release**)
+    - [Chatdown CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown)
+    - [MSBot CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot)
+    - [Ludown CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown)
+    - [LUIS CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUIS)
+    - [QnAMaker CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker)
+    - [Dispatch CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch)
+    - [LuisGen CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUISGen)
+- Bot Framework webchat
+    - [Available here](https://github.com/microsoft/botframework-webchat)
+
+Please see [here](https://aka.ms/BotBuilderOverview) for an overview of the end-to-end bot development workflow. To get started, you can create a bot with [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart?view=azure-bot-service-4.0). Click [here](https://account.azure.com/signup) if you need a trial Azure subscription. 
 
 ## Samples list
 | Sample Name           | Description                                                                    | .NET CORE   | NodeJS      | .NET Web API | JS (es6)    | Typescript  |
@@ -116,29 +139,6 @@ To use the samples clone this GitHub repository using Git.
 [js#50]:samples\javascript_nodejs\50.diceroller-skill
 [js#51]:samples\javascript_nodejs\51.cafe-bot
 
-## Resources
-Bot Builder provides the most comprehensive experience for building conversation applications and includes the following SDKs and tools:
-
-- Bot Builder V4 SDK
-    - [**C#** (stable release)](https://github.com/microsoft/botbuilder-dotnet)
-    - [**JS** (stable release)](https://github.com/microsoft/botbuilder-js)
-    - [**Java** (preview release)](https://github.com/microsoft/botbuilder-java)
-    - [**Python** (preview release)](https://github.com/microsoft/botbuilder-python).
-- Bot Framework Emulator 
-    - [Bot Framework **V4 Emulator** (preview release)](https://github.com/microsoft/botframework-emulator).
-    - [Bot Frameowrk **V3 Emulator** (stable release)](https://github.com/Microsoft/BotFramework-Emulator/releases/tag/v3.5.36)
-- Bot Builder CLI tools (**stable release**)
-    - [Chatdown CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown)
-    - [MSBot CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot)
-    - [Ludown CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown)
-    - [LUIS CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUIS)
-    - [QnAMaker CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker)
-    - [Dispatch CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch)
-    - [LuisGen CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUISGen)
-- Bot Framework webchat
-    - [Available here](https://github.com/microsoft/botframework-webchat)
-
-Please see [here](https://aka.ms/BotBuilderOverview) for an overview of the end-to-end bot development workflow. To get started, you can create a bot with [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart?view=azure-bot-service-4.0). Click [here](https://account.azure.com/signup) if you need a trial Azure subscription. 
 
 ## Contributing
 
