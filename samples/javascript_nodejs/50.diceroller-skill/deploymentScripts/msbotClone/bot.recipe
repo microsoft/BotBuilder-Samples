@@ -16,18 +16,18 @@
     {
       "type": "abs",
       "id": "3",
-      "name": "EchoBot"
+      "name": "diceroller-Bot"
     },
     {
       "type": "appInsights",
       "id": "4",
-      "name": "EchoBotInsights"
+      "name": "diceroller-Insights"
     },
     {
       "type": "blob",
       "id": "5",
-      "name": "EchoBotBlob",
-      "container": "transcripts"
+      "name": "diceroller-Blob",
+      "container": "botstatestore"
     }
   ]
 }
