@@ -1,5 +1,5 @@
 {
-  "name": "nlp-with-luis-ts",
+  "name": "nlp-with-luis",
   "version": "1.0.0",
   "description": "Bot Builder v4 sample using LUIS for NLP",
   "main": "./lib/index.js",
@@ -12,13 +12,15 @@
   "author": "Microsoft",
   "license": "MIT",
   "dependencies": {
-    "botbuilder": "^4.0.0-preview1.1140",
-    "botbuilder-ai": "^4.0.0-preview1.1140",
-    "botframework-config": "^4.0.0-preview1.1140",
+    "botbuilder": "^4.0.6",
+    "botbuilder-ai": "^4.0.6",
+    "botframework-config": "^4.0.6",
     "dotenv": "^6.0.0",
     "restify": "^7.2.1"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "tslint": "^5.11.0",
+    "tslint-microsoft-contrib": "^5.2.1"
   }
 }
