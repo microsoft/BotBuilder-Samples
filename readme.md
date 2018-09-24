@@ -71,73 +71,73 @@ Please see [here](https://aka.ms/BotBuilderOverview) for an overview of the end-
 
 :runner: - Indicates planned and work in progress. 
 
-[cs#1]:samples\csharp_dotnetcore\01.console-echo
-[cs#2]:samples\csharp_dotnetcore\02.echo-with-counter
-[cs#3]:samples\csharp_dotnetcore\03.welcome-user
-[cs#4]:samples\csharp_dotnetcore\04.simple-prompt
-[cs#5]:samples\csharp_dotnetcore\05.multi-turn-prompt
-[cs#6]:samples\csharp_dotnetcore\06.using-cards
-[cs#7]:samples\csharp_dotnetcore\07.using-adaptive-cards
-[cs#8]:samples\csharp_dotnetcore\08.suggested-actions
-[cs#9]:samples\csharp_dotnetcore\09.message-routing
-[cs#10]:samples\csharp_dotnetcore\10.prompt-validations
-[cs#11]:samples\csharp_dotnetcore\11.qnamaker
-[cs#12]:samples\csharp_dotnetcore\12.nlp-with-luis
-[cs#13]:samples\csharp_dotnetcore\13.basic-bot
-[cs#14]:samples\csharp_dotnetcore\14.nlp-with-dispatch
-[cs#15]:samples\csharp_dotnetcore\15.handling-attachments
-[cs#16]:samples\csharp_dotnetcore\16.proactive-messages
-[cs#17]:samples\csharp_dotnetcore\17.multilingual-bot
-[cs#18]:samples\csharp_dotnetcore\18.bot-authentication
-[cs#19]:samples\csharp_dotnetcore\19.custom-dialogs
-[cs#20]:samples\csharp_dotnetcore\20.qna-with-appinsights
-[cs#21]:samples\csharp_dotnetcore\21.luis-with-appinsights
-[cs#22]:samples\csharp_dotnetcore\22.conversation-history
-[cs#23]:samples\csharp_dotnetcore\23.facebook-events
-[cs#24]:samples\csharp_dotnetcore\24.bot-authentication-msgraph
-[cs#52]:samples\csharp_dotnetcore\52.enterprise-bot
+[cs#1]:samples/csharp_dotnetcore/01.console-echo
+[cs#2]:samples/csharp_dotnetcore/02.echo-with-counter
+[cs#3]:samples/csharp_dotnetcore/03.welcome-user
+[cs#4]:samples/csharp_dotnetcore/04.simple-prompt
+[cs#5]:samples/csharp_dotnetcore/05.multi-turn-prompt
+[cs#6]:samples/csharp_dotnetcore/06.using-cards
+[cs#7]:samples/csharp_dotnetcore/07.using-adaptive-cards
+[cs#8]:samples/csharp_dotnetcore/08.suggested-actions
+[cs#9]:samples/csharp_dotnetcore/09.message-routing
+[cs#10]:samples/csharp_dotnetcore/10.prompt-validations
+[cs#11]:samples/csharp_dotnetcore/11.qnamaker
+[cs#12]:samples/csharp_dotnetcore/12.nlp-with-luis
+[cs#13]:samples/csharp_dotnetcore/13.basic-bot
+[cs#14]:samples/csharp_dotnetcore/14.nlp-with-dispatch
+[cs#15]:samples/csharp_dotnetcore/15.handling-attachments
+[cs#16]:samples/csharp_dotnetcore/16.proactive-messages
+[cs#17]:samples/csharp_dotnetcore/17.multilingual-bot
+[cs#18]:samples/csharp_dotnetcore/18.bot-authentication
+[cs#19]:samples/csharp_dotnetcore/19.custom-dialogs
+[cs#20]:samples/csharp_dotnetcore/20.qna-with-appinsights
+[cs#21]:samples/csharp_dotnetcore/21.luis-with-appinsights
+[cs#22]:samples/csharp_dotnetcore/22.conversation-history
+[cs#23]:samples/csharp_dotnetcore/23.facebook-events
+[cs#24]:samples/csharp_dotnetcore/24.bot-authentication-msgraph
+[cs#52]:samples/csharp_dotnetcore/52.enterprise-bot
 
-[wa#2]:samples\csharp_webapi\02.echo-with-counter
-[wa#11]:samples\csharp_webapi\11.QnAMaker
-[wa#12]:samples\csharp_webapi\12.NLP-With-LUIS
-[wa#13]:samples\csharp_webapi\13.Basic-Bot-Template
+[wa#2]:samples/csharp_webapi/02.echo-with-counter
+[wa#11]:samples/csharp_webapi/11.QnAMaker
+[wa#12]:samples/csharp_webapi/12.NLP-With-LUIS
+[wa#13]:samples/csharp_webapi/13.Basic-Bot-Template
 
-[es#1a]:samples\javascript_es6\01.a.browser-echo
-[es#70]:samples\javascript_es6\70.styling-webchat
+[es#1a]:samples/javascript_es6/01.a.browser-echo
+[es#70]:samples/javascript_es6/70.styling-webchat
 
-[ts#1]:samples\javascript_typescript\01.console-echo
-[ts#2]:samples\javascript_typescript\02.echobot-with-counter
-[ts#11]:samples\javascript_typescript\11.qnamaker
-[ts#12]:samples\javascript_typescript\12.nlp-with-luis
-[ts#13]:samples\javascript_typescript\13.basic-bot
+[ts#1]:samples/javascript_typescript/01.console-echo
+[ts#2]:samples/javascript_typescript/02.echobot-with-counter
+[ts#11]:samples/javascript_typescript/11.qnamaker
+[ts#12]:samples/javascript_typescript/12.nlp-with-luis
+[ts#13]:samples/javascript_typescript/13.basic-bot
 
-[js#1]:samples\javascript_nodejs\01.console-echo
-[js#2]:samples\javascript_nodejs\02.echobot-with-counter
-[js#3]:samples\javascript_nodejs\03.welcome-users
-[js#4]:samples\javascript_nodejs\04.simple-prompt
-[js#5]:samples\javascript_nodejs\05.multi-turn-prompt
-[js#6]:samples\javascript_nodejs\06.using-cards
-[js#7]:samples\javascript_nodejs\07.using-adaptive-cards
-[js#8]:samples\javascript_nodejs\08.suggested-actions
-[js#9]:samples\javascript_nodejs\09.message-routing
-[js#10]:samples\javascript_nodejs\10.prompt-validations
-[js#11]:samples\javascript_nodejs\11.qnamaker
-[js#12]:samples\javascript_nodejs\12.nlp-with-luis
-[js#13]:samples\javascript_nodejs\13.basic-bot
-[js#14]:samples\javascript_nodejs\14.nlp-with-dispatch
-[js#15]:samples\javascript_nodejs\15.handling-attachments
-[js#16]:samples\javascript_nodejs\16.proactive-messages
-[js#17]:samples\javascript_nodejs\17.multilingual-conversations
+[js#1]:samples/javascript_nodejs/01.console-echo
+[js#2]:samples/javascript_nodejs/02.echobot-with-counter
+[js#3]:samples/javascript_nodejs/03.welcome-users
+[js#4]:samples/javascript_nodejs/04.simple-prompt
+[js#5]:samples/javascript_nodejs/05.multi-turn-prompt
+[js#6]:samples/javascript_nodejs/06.using-cards
+[js#7]:samples/javascript_nodejs/07.using-adaptive-cards
+[js#8]:samples/javascript_nodejs/08.suggested-actions
+[js#9]:samples/javascript_nodejs/09.message-routing
+[js#10]:samples/javascript_nodejs/10.prompt-validations
+[js#11]:samples/javascript_nodejs/11.qnamaker
+[js#12]:samples/javascript_nodejs/12.nlp-with-luis
+[js#13]:samples/javascript_nodejs/13.basic-bot
+[js#14]:samples/javascript_nodejs/14.nlp-with-dispatch
+[js#15]:samples/javascript_nodejs/15.handling-attachments
+[js#16]:samples/javascript_nodejs/16.proactive-messages
+[js#17]:samples/javascript_nodejs/17.multilingual-conversations
 
-[js#19]:samples\javascript_nodejs\19.custom-dialogs
-[js#20]:samples\javascript_nodejs\20.qna-with-appinsights
-[js#21]:samples\javascript_nodejs\21.luis-with-appinsights
+[js#19]:samples/javascript_nodejs/19.custom-dialogs
+[js#20]:samples/javascript_nodejs/20.qna-with-appinsights
+[js#21]:samples/javascript_nodejs/21.luis-with-appinsights
 
-[js#23]:samples\javascript_nodejs\23.facebook-events
-[js#24]:samples\javascript_nodejs\24.bot-authentication-msgraph
+[js#23]:samples/javascript_nodejs/23.facebook-events
+[js#24]:samples/javascript_nodejs/24.bot-authentication-msgraph
 
-[js#50]:samples\javascript_nodejs\50.diceroller-skill
-[js#51]:samples\javascript_nodejs\51.cafe-bot
+[js#50]:samples/javascript_nodejs/50.diceroller-skill
+[js#51]:samples/javascript_nodejs/51.cafe-bot
 
 
 ## Contributing
