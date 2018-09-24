@@ -9,8 +9,23 @@
     },
     {
       "type": "luis",
-      "id": "34",
-      "name": "basic-bot-LUIS"
+      "id": "95",
+      "name": "cafeBotBookTableTurnNModel"
+    },
+    {
+      "type": "luis",
+      "id": "227",
+      "name": "cafeDispatchModel"
+    },
+    {
+      "type": "luis",
+      "id": "183",
+      "name": "getUserProfile"
+    },
+    {
+      "type": "qna",
+      "id": "54",
+      "name": "cafeFaqChitChat"
     },
     {
       "type": "endpoint",
@@ -21,17 +36,17 @@
     {
       "type": "abs",
       "id": "3",
-      "name": "basic-Bot"
+      "name": "cafe-bot-abs"
     },
     {
       "type": "appInsights",
       "id": "4",
-      "name": "basic-Insights"
+      "name": "cafe-bot-Insights"
     },
     {
       "type": "blob",
       "id": "5",
-      "name": "basic-Blob",
+      "name": "cafe-bot-Blob",
       "container": "botstatestore"
     }
   ]

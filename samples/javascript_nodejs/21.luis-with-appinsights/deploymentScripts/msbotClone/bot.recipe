@@ -8,9 +8,9 @@
       "url": "http://localhost:3978/api/messages"
     },
     {
-      "type": "qna",
+      "type": "luis",
       "id": "34",
-      "name": "luis-with-appinsights-LUIS"
+      "name": "luis-with-appinsights-luis"
     },
     {
       "type": "endpoint",
