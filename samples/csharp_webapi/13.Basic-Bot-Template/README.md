@@ -12,7 +12,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Note your `Authoring Key` as you will need this later.
 - In a command line  session:
 Navigate to sample:
-`cd BotBuilder-Samples\csharp_webapi\13.Basic-Bot-Template`
+`cd BotBuilder-Samples\samples\csharp_webapi\13.Basic-Bot-Template`
 Install LUDown
 `npm i -g ludown'
 Create LUIS json model file (this will consume two .lu files combined into one model):
@@ -38,11 +38,11 @@ Create a new LUIS application:
 NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
 - Update [LuisBot.bot](LuisBot.bot) file to ensure the name property is set to `BasicBot`.
 ## Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_webapi\13.Basic-Bot-Template`) and open `BasicBot.csproj` in Visual Studio.
+- Navigate to the samples folder (`BotBuilder-Samples\samples\csharp_webapi\13.Basic-Bot-Template`) and open `BasicBot.csproj` in Visual Studio.
 - Press F5.
 ## Visual Studio Code
-- Open `BotBuilder-Samples\csharp_webapi\13.Basic-Bot-Template` sample folder.
-- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_webapi\13.Basic-Bot-Template` folder.
+- Open `BotBuilder-Samples\samples\csharp_webapi\13.Basic-Bot-Template` sample folder.
+- Bring up a terminal, navigate to `BotBuilder-Samples\samples\csharp_webapi\13.Basic-Bot-Template` folder.
 - Type 'dotnet run'.
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://aka.ms/botframework-emulator) is a desktop application that allows bot developers to test and debug
@@ -50,7 +50,7 @@ their bots on localhost or running remotely through a tunnel.
 - Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator).
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator
-- File -> Open bot and navigate to `BotBuilder-Samples\csharp_webapi\13.Basic-Bot-Template` folder
+- File -> Open bot and navigate to `BotBuilder-Samples\samples\csharp_webapi\13.Basic-Bot-Template` folder
 - Select `BasicBot.bot` file
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

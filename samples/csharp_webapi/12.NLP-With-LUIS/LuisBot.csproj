@@ -81,34 +81,29 @@
     <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.TelemetryCorrelation.1.0.3\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.CognitiveServices.Language.LUIS, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime.0.9.0-preview\lib\net452\Microsoft.Azure.CognitiveServices.Language.LUIS.dll</HintPath>
+    <Reference Include="Microsoft.Azure.CognitiveServices.Language.LUIS, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime.2.0.0\lib\net452\Microsoft.Azure.CognitiveServices.Language.LUIS.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring.2.0.0\lib\net452\Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Builder, Version=4.0.0.38905, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Builder.4.0.0.38905\lib\netstandard2.0\Microsoft.Bot.Builder.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Bot.Builder, Version=4.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Builder.4.0.7\lib\netstandard2.0\Microsoft.Bot.Builder.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Builder.AI.Luis, Version=4.0.0.38905, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Builder.AI.Luis.4.0.0.38905\lib\netstandard2.0\Microsoft.Bot.Builder.AI.Luis.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Bot.Builder.AI.Luis, Version=4.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Builder.AI.Luis.4.0.7\lib\netstandard2.0\Microsoft.Bot.Builder.AI.Luis.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Builder.Integration.AspNet.WebApi, Version=4.0.0.38905, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Builder.Integration.AspNet.WebApi.4.0.0.38905\lib\net461\Microsoft.Bot.Builder.Integration.AspNet.WebApi.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Builder.Integration.AspNet.WebApi, Version=4.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Builder.Integration.AspNet.WebApi.4.0.7\lib\net461\Microsoft.Bot.Builder.Integration.AspNet.WebApi.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Configuration, Version=4.0.0.38905, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Configuration.4.0.0.38905\lib\netstandard2.0\Microsoft.Bot.Configuration.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Configuration, Version=4.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Configuration.4.0.7\lib\netstandard2.0\Microsoft.Bot.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Connector, Version=4.0.0.38905, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Connector.4.0.0.38905\lib\netstandard2.0\Microsoft.Bot.Connector.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Bot.Connector, Version=4.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Connector.4.0.7\lib\netstandard2.0\Microsoft.Bot.Connector.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Schema, Version=4.0.0.38905, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Schema.4.0.0.38905\lib\netstandard2.0\Microsoft.Bot.Schema.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Bot.Schema, Version=4.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Schema.4.0.7\lib\netstandard2.0\Microsoft.Bot.Schema.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.Configuration, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -154,7 +149,7 @@
       <HintPath>..\..\packages\Microsoft.IdentityModel.Tokens.5.2.1\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Rest.ClientRuntime.2.3.12\lib\net452\Microsoft.Rest.ClientRuntime.dll</HintPath>
+      <HintPath>packages\Microsoft.Rest.ClientRuntime.2.3.13\lib\net452\Microsoft.Rest.ClientRuntime.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime.Azure, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Rest.ClientRuntime.Azure.3.3.13\lib\net452\Microsoft.Rest.ClientRuntime.Azure.dll</HintPath>

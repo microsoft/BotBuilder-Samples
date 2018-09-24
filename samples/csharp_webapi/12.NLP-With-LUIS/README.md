@@ -11,7 +11,7 @@ git clone https://github.com/Microsoft/botbuilder-dotnet.git
 - Click the `Sign in` button.
 - Click on `My Apps`.
 - Click on the `Import new app` button.
-- Click on the `Choose File` and select [LUIS-Reminders.json](LUIS-Reminders.json) from the `BotBuilder-Samples\csharp_webapi\12.NLP-With-LUIS\CognitiveModels` folder.
+- Click on the `Choose File` and select [LUIS-Reminders.json](LUIS-Reminders.json) from the `BotBuilder-Samples\samples\csharp_webapi\12.NLP-With-LUIS\CognitiveModels` folder.
 - Update [LuisBot.bot](LuisBot.bot) file with your AppId, SubscriptionKey, Region and Version. 
     You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
 
@@ -29,18 +29,18 @@ NOTE: Once you publish your app on LUIS portal for the first time, it takes some
   -  Follow instructions [here](https://docs.microsoft.com/en-us/azure/application-insights/app-insights-asp-net-core) to set up your Application Insights service.
   - Note: The Application Insights will automatically update the [appsettings.json](appsettings.json) file.
 ### Visual studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_webapi\12.NLP-With-LUIS`) and open `LuisBot.csproj` in Visual studio 
+- Navigate to the samples folder (`BotBuilder-Samples\samples\csharp_webapi\12.NLP-With-LUIS`) and open `LuisBot.csproj` in Visual studio 
 - Hit F5
 ### Visual studio code
-- Open `BotBuilder-Samples\csharp_webapi\12.NLP-With-LUIS` sample folder
-- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_webapi\12.NLP-With-LUIS` folder.
+- Open `BotBuilder-Samples\samples\csharp_webapi\12.NLP-With-LUIS` sample folder
+- Bring up a terminal, navigate to `BotBuilder-Samples\samples\csharp_webapi\12.NLP-With-LUIS` folder.
 - Type 'dotnet run'.
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 - Install the Bot Framework Emulator from [here](https://aka.ms/botframeworkemulator).
 ### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open bot and navigate to `BotBuilder-Samples\csharp_webapi\12.NLP-With-LUIS` folder
+- File -> Open bot and navigate to `BotBuilder-Samples\samples\csharp_webapi\12.NLP-With-LUIS` folder
 - Select LuisBot.bot file
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

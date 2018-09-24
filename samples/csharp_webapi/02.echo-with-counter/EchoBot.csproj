@@ -57,20 +57,20 @@
     <Reference Include="Microsoft.Azure.CognitiveServices.Language.LUIS, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime.0.9.0-preview\lib\net452\Microsoft.Azure.CognitiveServices.Language.LUIS.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Builder, Version=4.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Builder.4.0.6\lib\netstandard2.0\Microsoft.Bot.Builder.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Builder, Version=4.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Builder.4.0.7\lib\netstandard2.0\Microsoft.Bot.Builder.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Builder.Integration.AspNet.WebApi, Version=4.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Builder.Integration.AspNet.WebApi.4.0.6\lib\net461\Microsoft.Bot.Builder.Integration.AspNet.WebApi.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Builder.Integration.AspNet.WebApi, Version=4.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Builder.Integration.AspNet.WebApi.4.0.7\lib\net461\Microsoft.Bot.Builder.Integration.AspNet.WebApi.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Configuration, Version=4.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Configuration.4.0.6\lib\netstandard2.0\Microsoft.Bot.Configuration.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Configuration, Version=4.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Configuration.4.0.7\lib\netstandard2.0\Microsoft.Bot.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Connector, Version=4.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Connector.4.0.6\lib\netstandard2.0\Microsoft.Bot.Connector.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Connector, Version=4.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Connector.4.0.7\lib\netstandard2.0\Microsoft.Bot.Connector.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bot.Schema, Version=4.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bot.Schema.4.0.6\lib\netstandard2.0\Microsoft.Bot.Schema.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Schema, Version=4.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bot.Schema.4.0.7\lib\netstandard2.0\Microsoft.Bot.Schema.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.Configuration, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
