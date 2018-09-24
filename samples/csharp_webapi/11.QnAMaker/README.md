@@ -24,12 +24,12 @@ information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.
 
 
 ## Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_webapi\11.QnAMaker`) and open QnABot.csproj in Visual studio 
+- Navigate to the samples folder (`BotBuilder-Samples\samples\csharp_webapi\11.QnAMaker`) and open QnABot.csproj in Visual studio 
 - Hit F5
 
 ## Visual Studio Code
-- Open `BotBuilder-Samples\csharp_webapi\11.QnAMaker` sample folder.
-- Bring up a terminal, navigate to `BotBuilder-Samples\csharp_webapi\11.QnAMaker` folder.
+- Open `BotBuilder-Samples\samples\csharp_webapi\11.QnAMaker` sample folder.
+- Bring up a terminal, navigate to `BotBuilder-Samples\samples\csharp_webapi\11.QnAMaker` folder.
 - Type 'dotnet run'.
 
 ## Testing the bot using Bot Framework Emulator
@@ -38,7 +38,7 @@ information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.
 
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator
-- File -> Open bot and navigate to `BotBuilder-Samples\csharp_webapi\11.QnAMaker` folder.
+- File -> Open bot and navigate to `BotBuilder-Samples\samples\csharp_webapi\11.QnAMaker` folder.
 - Select the QnABot.bot file.
 
 # Further reading
