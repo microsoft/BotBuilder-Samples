@@ -13,8 +13,7 @@ Bot Builder provides the most comprehensive experience for building conversation
     - [**Java** (preview release)](https://github.com/microsoft/botbuilder-java)
     - [**Python** (preview release)](https://github.com/microsoft/botbuilder-python).
 - Bot Framework Emulator 
-    - [Bot Framework **V4 Emulator** (preview release)](https://github.com/microsoft/botframework-emulator).
-    - [Bot Frameowrk **V3 Emulator** (stable release)](https://github.com/Microsoft/BotFramework-Emulator/releases/tag/v3.5.36)
+    - [Bot Framework **V4 Emulator**](https://github.com/microsoft/botframework-emulator).
 - Bot Builder CLI tools (**stable release**)
     - [Chatdown CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown)
     - [MSBot CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot)
