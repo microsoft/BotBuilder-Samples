@@ -28,6 +28,8 @@ namespace Microsoft.BotBuilderSamples
 
         public Startup(IHostingEnvironment env)
         {
+            _isProduction = env.IsProduction();
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)

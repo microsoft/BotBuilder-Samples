@@ -29,6 +29,7 @@ namespace Microsoft.BotBuilderSamples
         private const string WelcomeText = "This bot will save a conversation transcript to Azure Blob Storage." +
                                            " Type anything to get started and the bot will echo back what you type." +
                                            " Type !history to save your transcript in Blob Storage.";
+
         private readonly AzureBlobTranscriptStore _transcriptStore;
 
         /// <summary>
@@ -64,7 +65,6 @@ namespace Microsoft.BotBuilderSamples
             {
                 if (activity.Text == "!history")
                 {
-
                     // Download the activities from the Transcript (blob store) and send them over to the channel when a request to upload history arrives.
                     // This could be an event or a special message acctivity as above.
                     var connectorClient = turnContext.TurnState.Get<ConnectorClient>(typeof(IConnectorClient).FullName);
