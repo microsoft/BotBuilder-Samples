@@ -184,7 +184,6 @@ namespace NLP_With_Dispatch_Bot
             }
         }
 
-
         /// <summary>
         /// On a conversation update activity sent to the bot, the bot will
         /// send a message to the any new user(s) that were added.
