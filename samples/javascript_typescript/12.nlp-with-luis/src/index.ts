@@ -42,7 +42,7 @@ const luisConfig = <ILuisService>botConfig.findServiceByNameOrId(LUIS_CONFIGURAT
 // Map the contents to the required format for `LuisRecognizer`.
 const luisApplication: LuisApplication = {
     applicationId: luisConfig.appId,
-    endpoint: `https://${ luisConfig.region }.api.cognitive.microsoft.com`,
+    endpoint: luisConfig.getEndpoint(),
     endpointKey: luisConfig.subscriptionKey
 }
 
