@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ActivityTypes, BotState, StatePropertyAccessor, TurnContext } from 'botbuilder';
+import { ActivityTypes, TurnContext } from 'botbuilder';
 import { QnAMaker, QnAMakerEndpoint, QnAMakerOptions, QnAMakerResult } from 'botbuilder-ai';
 
 /**
@@ -49,7 +49,7 @@ export class QnAMakerBot {
         
         // Respond to all other Activity types.
         } else if (turnContext.activity.type !== ActivityTypes.ConversationUpdate) {
-            await turnContext.sendActivity(`[${turnContext.activity.type}]-type activity detected.`);
+            await turnContext.sendActivity(`[${ turnContext.activity.type }]-type activity detected.`);
         }
     }
 }
