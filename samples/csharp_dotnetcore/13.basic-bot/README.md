@@ -14,24 +14,12 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
   - If you use [MSBot CLI](https://github.com/microsoft/botbuilder-tools) to encrypt your bot file, the botFileSecret will be written out to the console window.
   - If you used [Bot Framework Emulator **V4**](https://github.com/microsoft/botframework-emulator) to encrypt your bot file, the secret key will be available in bot settings. 
 
-## Prerequisites
-### Set up LUIS via Command Line
+- Create [required services](./deploymentScripts/DEPLOY.MD)
+
+## [Alternate to CLI] Set up LUIS via Portal
 - Navigate to [LUIS portal](https://www.luis.ai).
 - Click the `Sign in` button.
-- Click on your name in the upper right hand corner and the `Settings` drop down menu.
-- Note your `Authoring Key` as you will need this later.
-- In a command line  session:
-Navigate to sample:
-`cd BotBuilder-Samples\samples\csharp_dotnetcore\13.Basic-Bot-Template`
-Install LUIS command line tool:
-`npm install -g luis-apis`
-Create a new LUIS application:
-`luis import application --in .\CognitiveModels\basic-bot.luis --authoringKey "<Your Authoring Key>" 
---endpointBasePath https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY`  
-### Set up LUIS via Portal
-- Navigate to [LUIS portal](https://www.luis.ai).
-- Click the `Sign in` button.
-- Click on the `Choose File` and select [basic-bot.luis](basic-bot.luis) from the `BotBuilder-Samples\csharp_dotnetcore\13.Basic-Bot-Template\CognitiveModels` folder.
+- Click on the `Choose File` and select [basic-bot.json](basic-bot.json) from the `BotBuilder-Samples\csharp_dotnetcore\13.Basic-Bot-Template\CognitiveModels` folder.
 - Update [BasicBot.bot](BasicBot.bot) file with your AppId, SubscriptionKey, Region and Version. 
     You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
 	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
