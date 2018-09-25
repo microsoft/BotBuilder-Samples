@@ -33,6 +33,12 @@
     <Content Update="Dialogs\Welcome\Resources\welcomeCard.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Dialogs\WhatCanYouDo\Resources\whatCanYouDoCard.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\WhoAreYou\Resources\getNameCard.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

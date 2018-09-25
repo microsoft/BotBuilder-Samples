@@ -25,7 +25,7 @@ namespace Microsoft.BotBuilderSamples
         private readonly IStatePropertyAccessor<UserProfile> _userProfileAccessor;
 
         public QnADialog(BotServices services, IStatePropertyAccessor<UserProfile> userProfileAccessor, string dialogId = null)
-            : base(dialogId ?? nameof(QnADialog))
+            : base(Name)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _userProfileAccessor = userProfileAccessor ?? throw new ArgumentNullException(nameof(userProfileAccessor));

@@ -25,7 +25,7 @@ namespace Microsoft.BotBuilderSamples
         public OnTurnProperty()
         {
             Intent = null;
-            Entities = null;
+            Entities = new List<EntityProperty>();
         }
 
         public OnTurnProperty(string intent, List<EntityProperty> entities)
@@ -46,7 +46,13 @@ namespace Microsoft.BotBuilderSamples
             // Gather entity values if available. Uses a const list of LUIS entity names.
             foreach (var entity in luisEntities)
             {
-                onTurnProperties.Entities.Add(new EntityProperty(entity, (string)LUISResults.Entities[entity]));
+                var value = (string)LUISResults.Entities[entity];
+                if (value == null)
+                {
+                    continue;
+                }
+
+                onTurnProperties.Entities.Add(new EntityProperty(entity, value));
             }
 
             return onTurnProperties;

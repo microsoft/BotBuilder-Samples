@@ -36,9 +36,9 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 - Using [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) to create, configure and manage all required services.
 
 ## Scenarios covered via other samples
-- [Proactive messages](../../../samples/javascript_nodejs/16.proactive-messages)
-- [Multi-lingual conversations](../../../samples/javascript_nodejs/17.multi-lingual-conversations)
-- [Bot authentication](../../../samples/javascript_nodejs/18.bot-authentication)
+- [Proactive messages](../../../samples/csharp_dotnetcore/16.proactive-messages)
+- [Multi-lingual conversations](../../../samples/csharp_dotnetcore/17.multi-lingual-conversations)
+- [Bot authentication](../../../samples/csharp_dotnetcore/18.bot-authentication)
 
 # To try this sample
 - Clone the samples repository
@@ -81,14 +81,26 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 3. To create and configure required LUIS and QnA Maker services, 
     - In a terminal,
         ```bash
-        cd solutions/javascript_nodejs/03.cafe-bot
+        cd BotBuilder-Samples\samples\csharp_dotnetcore\51.cafe-bot
         ```
     - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
+    - Setup Azure Powershell (If you have never done so before).
+    - To login, run:
         ```bash
-        msbot clone -n <YOUR-BOT-NAME> -f deploymentScripts/msbotClone -l <Bot service location> --luisAuthoringKey <Key from step-2 above> --subscriptionId <Key from step-1 above>
+        Connect-AzureRmAccount
+        ```
+    - To select your Azure subscription, run:
+        ```bash
+        Select-AzureRmSubscription -Subscription "YOUR SUBSRIPTION"
+    - Set up your bot:
+        ```bash
+        msbot clone services --name <YOUR-BOT-NAME> --folder "DeploymentScripts/MsbotClone" --location <Bot service location - ie, "westus"> --luisAuthoringKey <Key from step-2 above> --subscriptionId <Key from step-1 above>
         ```
 
 Optionally, you can use the LUIS, QnA Maker portals to manually import the models found under **cognitiveModels** folder of this sample. 
+
+## Troubleshooting
+If you encounter errors during deployment, investigate using [Azure Portal](https://portal.azure.com) and look for a group with the same name as YOUR-BOT-NAME above.
 
 # Relevant commands for CLI tools
 ## Building and creating services

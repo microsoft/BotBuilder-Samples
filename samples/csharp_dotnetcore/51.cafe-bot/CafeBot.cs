@@ -1,11 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -26,14 +29,16 @@ namespace Microsoft.BotBuilderSamples
         public const string HelpIntent = "Help";
 
         // Conversation State properties
-        public const string OnTurnProperty = "onTurnStateProperty";
+        public const string OnTurnPropertyName = "onTurnStateProperty";
         public const string DialogStateProperty = "dialogStateProperty";
 
+        // The name of the bot you deployed.
+        public static readonly string MsBotName = "cafe66";
         /// <summary>
         /// Key in the bot config (.bot file) for the LUIS instances.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
-        public static readonly string LuisConfiguration = "cafeDispatchModel";
+        public static readonly string LuisConfiguration = MsBotName + "_" + "cafeDispatchModel";
 
         // Greeting Dialog ID
         public static readonly string GreetingDialogId = "greetingDialog";
@@ -74,7 +79,7 @@ namespace Microsoft.BotBuilderSamples
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
 
             // Create state property accessors.
-            _onTurnAccessor = conversationState.CreateProperty<OnTurnProperty>(OnTurnProperty);
+            _onTurnAccessor = conversationState.CreateProperty<OnTurnProperty>(OnTurnPropertyName);
             _dialogAccessor = conversationState.CreateProperty<DialogState>(DialogStateProperty);
 
             // Create logger
@@ -113,15 +118,103 @@ namespace Microsoft.BotBuilderSamples
         /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
         public async Task OnTurnAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // Run the DialogSet - let the framework identify the current state of the dialog from
-            // the dialog stack and figure out what (if any) is the active dialog.
-            var dc = await _dialogs.CreateContextAsync(context);
-            var dialogResult = await dc.ContinueDialogAsync();
-
-            if (dialogResult.Status == DialogTurnStatus.Empty)
+            // See https://aka.ms/about-bot-activity-message to learn more about message and other activity types.
+            switch (context.Activity.Type)
             {
-                await dc.BeginDialogAsync(nameof(MainDispatcher));
+                case ActivityTypes.Message:
+                    // Process on turn input (card or NLP) and gather new properties
+                    // OnTurnProperty object has processed information from the input message activity.
+                    var onTurnProperties = await DetectIntentAndEntities(context);
+                    if (onTurnProperties == null) break;
+
+                    // Set the state with gathered properties (intent/ entities) through the onTurnAccessor
+                    await _onTurnAccessor.SetAsync(context, onTurnProperties);
+
+                    // Create dialog context.
+                    var dc = await _dialogs.CreateContextAsync(context);
+
+                    // Continue outstanding dialogs.
+                    await dc.ContinueDialogAsync();
+
+                    // Begin main dialog if no outstanding dialogs/ no one responded
+                    if (!dc.Context.Responded)
+                    {
+                        await dc.BeginDialogAsync(nameof(MainDispatcher));
+                    }
+
+                    break;
+                case ActivityTypes.ConversationUpdate:
+                    // Welcome user.
+                    await WelcomeUser(context);
+                    break;
+                default:
+                    // Handle other activity types as needed.
+                    break;
             }
         }
+
+        private async Task<OnTurnProperty> DetectIntentAndEntities(ITurnContext turnContext)
+        {
+            // Handle card input (if any), update state and return.
+            if (turnContext.Activity.Value != null)
+            {
+                var response = JsonConvert.DeserializeObject<Dictionary<string, string>>(turnContext.Activity.Value as string);
+                return OnTurnProperty.FromCardInput(response);
+            }
+
+            // Acknowledge attachments from user.
+            if (turnContext.Activity.Attachments != null && turnContext.Activity.Attachments.Count > 0)
+            {
+                await turnContext.SendActivityAsync("Thanks for sending me that attachment. I'm still learning to process attachments.");
+                return null;
+            }
+
+            // Nothing to do for this turn if there is no text specified.
+            if (string.IsNullOrWhiteSpace(turnContext.Activity.Text) || string.IsNullOrWhiteSpace(turnContext.Activity.Text.Trim()))
+            {
+                return null;
+            }
+
+            // Call to LUIS recognizer to get intent + entities
+            var LUISResults = await _services.LuisServices[LuisConfiguration].RecognizeAsync(turnContext, default(CancellationToken));
+
+            // Return new instance of on turn property from LUIS results.
+            // Leverages static fromLUISResults method
+            return OnTurnProperty.FromLuisResults(LUISResults);
+        }
+
+        private async Task WelcomeUser(ITurnContext turnContext)
+        {
+            // Do we have any new members added to the conversation?
+            if (turnContext.Activity.MembersAdded.Count > 0)
+            {
+                // Iterate over all new members added to the conversation
+                foreach (var member in turnContext.Activity.MembersAdded)
+                {
+                    // Greet anyone that was not the target (recipient) of this message
+                    // the 'bot' is the recipient for events from the channel,
+                    // turnContext.activity.membersAdded == turnContext.activity.recipient.Id indicates the
+                    // bot was added to the conversation.
+                    if (member.Id != turnContext.Activity.Recipient.Id)
+                    {
+                        // Welcome user.
+                        await turnContext.SendActivityAsync("Hello, I am the Contoso Cafe Bot!");
+                        await turnContext.SendActivityAsync("I can help book a table and more..");
+
+                        // Send welcome card.
+                        await turnContext.SendActivityAsync(
+                            new Activity
+                            {
+                                Attachments = new List<Attachment>
+                                {
+                                    Helpers.CreateAdaptiveCardAttachment(@".\Dialogs\Welcome\Resources\welcomeCard.json"),
+                                },
+                            });
+                    }
+                }
+            }
+        }
+
     }
+
 }

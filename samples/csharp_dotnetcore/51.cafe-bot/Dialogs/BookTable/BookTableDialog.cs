@@ -29,7 +29,7 @@ namespace Microsoft.BotBuilderSamples
         private readonly BotServices _services;
 
         public BookTableDialog(BotServices services, IStatePropertyAccessor<ReservationProperty> reservationsAccessor, IStatePropertyAccessor<OnTurnProperty> onTurnAccessor, IStatePropertyAccessor<UserProfile> userProfileAccessor, ConversationState conversationState)
-            : base(nameof(BookTableDialog))
+            : base(Name)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
             ReservationsAccessor = reservationsAccessor ?? throw new ArgumentNullException(nameof(reservationsAccessor));
@@ -152,7 +152,7 @@ namespace Microsoft.BotBuilderSamples
             // Set the reservation.
             await ReservationsAccessor.SetAsync(context, reservationResult.NewReservation);
 
-            // see if updadte reservtion resulted in errors, if so, report them to user.
+            // See if update reservation resulted in errors, if so, report them to user.
             if (reservationResult != null &&
                 reservationResult.Status == ReservationStatus.Incomplete &&
                 reservationResult.Outcome != null &&
@@ -187,7 +187,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var context = stepContext.Context;
 
-            // report table booking based on confirmation outcome.
+            // Report table booking based on confirmation outcome.
             if (stepContext.Result != null)
             {
                 // User confirmed.

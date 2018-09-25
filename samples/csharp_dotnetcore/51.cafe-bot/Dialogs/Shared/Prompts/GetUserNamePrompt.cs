@@ -115,7 +115,7 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Attachments = new List<Attachment>
                         {
-                            Helpers.CreateAdaptiveCardAttachment(@"..\..\WhoAreYou\Resources\getUserNameCard.json"),
+                            Helpers.CreateAdaptiveCardAttachment(@".\Dialogs\WhoAreYou\Resources\getUserNameCard.json"),
                         },
                     });
             }

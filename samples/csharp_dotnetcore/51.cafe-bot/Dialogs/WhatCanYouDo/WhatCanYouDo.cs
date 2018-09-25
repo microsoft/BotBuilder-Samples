@@ -17,7 +17,7 @@ namespace Microsoft.BotBuilderSamples
         public const string Name = "What_can_you_do";
 
         public WhatCanYouDo()
-            : base(nameof(WhatCanYouDo))
+            : base(Name)
         {
         }
 
@@ -25,7 +25,7 @@ namespace Microsoft.BotBuilderSamples
         {
             await dc.Context.SendActivityAsync(new Activity()
             {
-                Attachments = new List<Attachment> { Helpers.CreateAdaptiveCardAttachment(@"..\..\WhatCanYouDo\Resources\whatCanYouDoCard.json") },
+                Attachments = new List<Attachment> { Helpers.CreateAdaptiveCardAttachment(@".\Dialogs\WhatCanYouDo\Resources\whatCanYouDoCard.json") },
             }).ConfigureAwait(false);
             await dc.Context.SendActivityAsync("Pick a query from the card or you can use the suggestions below.");
             return await dc.EndDialogAsync();

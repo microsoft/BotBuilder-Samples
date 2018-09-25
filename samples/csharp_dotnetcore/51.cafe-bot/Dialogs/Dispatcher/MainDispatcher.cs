@@ -114,10 +114,11 @@ namespace Microsoft.BotBuilderSamples
             var context = innerDc.Context;
 
             // get on turn property through the property accessor
-            var onTurnProperty = await _onTurnAccessor.GetAsync(context).ConfigureAwait(false);
+            var onTurnProperty = await _onTurnAccessor.GetAsync(context, () => new OnTurnProperty()).ConfigureAwait(false);
 
             // Evaluate if the requested operation is possible/ allowed.
-            var reqOpStatus = IsRequestedOperationPossible(innerDc.ActiveDialog.Id, onTurnProperty.Intent);
+            var activeDialog = (innerDc.ActiveDialog != null) ? innerDc.ActiveDialog.Id : string.Empty;
+            var reqOpStatus = IsRequestedOperationPossible(activeDialog, onTurnProperty.Intent);
             if (!reqOpStatus.allowed)
             {
                 await context.SendActivityAsync(reqOpStatus.reason);
@@ -135,7 +136,7 @@ namespace Microsoft.BotBuilderSamples
             if (!context.Responded && dialogTurnResult != null && dialogTurnResult.Status != DialogTurnStatus.Complete)
             {
                 // No one has responded so start the right child dialog.
-                dialogTurnResult = await this.BeginDialogAsync(innerDc, onTurnProperty);
+                dialogTurnResult = await BeginChildDialogAsync(innerDc, onTurnProperty);
             }
 
             if (dialogTurnResult == null) return await innerDc.EndDialogAsync();
@@ -159,6 +160,29 @@ namespace Microsoft.BotBuilderSamples
             }
 
             return dialogTurnResult;
+        }
+
+        protected async Task<DialogTurnResult> BeginChildDialogAsync(DialogContext dc, OnTurnProperty onTurnProperty)
+        {
+            switch (onTurnProperty.Intent)
+            {
+                // Help, ChitChat and QnA share the same QnA Maker model. So just call the QnA Dialog.
+                case QnADialog.Name:
+                case ChitChatDialog.Name:
+                case "Help":
+                    return await dc.BeginDialogAsync(QnADialog.Name);
+                case BookTableDialog.Name:
+                    return await dc.BeginDialogAsync(BookTableDialog.Name);
+                case WhoAreYouDialog.Name:
+                    return await dc.BeginDialogAsync(WhoAreYouDialog.Name);
+                case WhatCanYouDo.Name:
+                    return await dc.BeginDialogAsync(WhatCanYouDo.Name);
+                case "None":
+                default:
+                    await dc.Context.SendActivityAsync("I'm still learning.. Sorry, I do not know how to help you with that.");
+                    await dc.Context.SendActivityAsync($"Follow[this link](https://www.bing.com/search?q={dc.Context.Activity.Text}) to search the web!");
+                    return new DialogTurnResult(DialogTurnStatus.Empty);
+            }
         }
 
         /// <summary>

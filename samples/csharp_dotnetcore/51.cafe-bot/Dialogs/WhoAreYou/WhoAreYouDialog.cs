@@ -131,10 +131,10 @@ namespace Microsoft.BotBuilderSamples
             var context = stepContext.Context;
 
             // Get user profile.
-            var userProfile = await UserProfileAccessor.GetAsync(context);
+            var userProfile = await UserProfileAccessor.GetAsync(context, () => null);
 
             // Get on turn properties.
-            var onTurnProperty = await OnTurnAccessor.GetAsync(context);
+            var onTurnProperty = await OnTurnAccessor.GetAsync(context, () => null);
 
             // Handle case where user is re-introducing themselves.
             // This flow is triggered when we are not in the middle of who-are-you dialog
