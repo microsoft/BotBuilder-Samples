@@ -1,9 +1,14 @@
 import { QnAMaker, QnAMakerEndpoint, QnAMakerOptions, QnAMakerResult } from 'botbuilder-ai';
 import { TurnContext } from 'botbuilder';
+import { TelemetryLoggerMiddleware } from './telemetryLoggerMiddleware';
+import { TelemetryClient } from 'applicationinsights';
+import { QnATelemetryConstants } from './qnaTelemetryConstants';
 
 export class TelemetryQnAMaker extends QnAMaker {
+    public static readonly QnAMessageEvent: string = 'QnaMessage';
+
     private readonly _logOriginalMessage: boolean;
-    private readonly _logUsername: boolean;
+    private readonly _logUserName: boolean;
     private _options: { top: number, scoreThreshold: number } = { top: 1, scoreThreshold: 0.3 };
 
     /**
@@ -12,20 +17,62 @@ export class TelemetryQnAMaker extends QnAMaker {
     constructor(endpoint: QnAMakerEndpoint, options?: QnAMakerOptions, logUserName: boolean = false, logOriginalMessage: boolean = false) {
         super(endpoint, options);
         this._logOriginalMessage = logOriginalMessage;
-        this._logUsername = logUserName;
+        this._logUserName = logUserName;
         Object.assign(this._options, options);   
     }
 
     public get logOriginalMessage(): boolean { return this._logOriginalMessage; }
 
-    public get logUsername(): boolean { return this._logUsername; }
+    public get logUserName(): boolean { return this._logUserName; }
 
     public async getAnswersAsync(context: TurnContext): Promise<QnAMakerResult[]> {
         // Call Qna Maker
         const queryResults: QnAMakerResult[] = await super.generateAnswer(context.activity.text, this._options.top, this._options.scoreThreshold);
 
         // Find the Application Insights Telemetry Client
-        // TODO: add after TelemetryLoggerMiddleware
+        if (queryResults && context.turnState.has(TelemetryLoggerMiddleware.AppInsightsServiceKey)) {
+            const telemetryClient: TelemetryClient = context.turnState.get(TelemetryLoggerMiddleware.AppInsightsServiceKey);
+
+            const properties: { [key: string]: string } = {};
+            const metrics: { [key: string]: number } = {};
+
+            // Make it so we can correlate our reports with Activity or Conversation
+            properties[QnATelemetryConstants.ActivityIdProperty] = context.activity.id || '';
+            const conversationId: string = context.activity.conversation.id;
+            if (conversationId) {
+                properties[QnATelemetryConstants.ConversationIdProperty] = conversationId;
+            }
+
+            // For some customers, logging original text name within Application Insights might be an issue
+            const text: string = context.activity.text;
+            if (this.logOriginalMessage && text) {
+                properties[QnATelemetryConstants.OriginalQuestionProperty] = text;
+            }
+
+            // For some customers, logging user name within Application Insights might be an issue
+            const name: string = context.activity.from.name;
+            if (this.logUserName && name) {
+                properties[QnATelemetryConstants.UsernameProperty] = name;
+            }
+
+            // Fill in Qna Results (found or not)
+            if (queryResults.length > 0) {
+                const queryResult: QnAMakerResult = queryResults[0];
+                properties[QnATelemetryConstants.QuestionProperty] = Array.of(queryResult.questions).join(',');
+                properties[QnATelemetryConstants.AnswerProperty] = queryResult.answer;
+                metrics[QnATelemetryConstants.ScoreProperty] = queryResult.score;
+            } else {
+                properties[QnATelemetryConstants.QuestionProperty] = 'No Qna Question matched';
+                properties[QnATelemetryConstants.AnswerProperty] = 'No Qna Question matched';
+            }
+            
+            // Track the event
+            telemetryClient.trackEvent({
+                name: TelemetryQnAMaker.QnAMessageEvent,
+                properties: properties,
+                measurements: metrics
+            });
+        }
 
         return queryResults;
     }
