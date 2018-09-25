@@ -14,7 +14,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
   - If you use [MSBot CLI](https://github.com/microsoft/botbuilder-tools) to encrypt your bot file, the botFileSecret will be written out to the console window.
   - If you used [Bot Framework Emulator **V4**](https://github.com/microsoft/botframework-emulator) to encrypt your bot file, the secret key will be available in bot settings. 
 
-- Create [required services](./DeploymentScripts/DEPLOY.MD)
+- Create [required services](./DeploymentScripts/DEPLOY.md)
 
 ## [Alternate to CLI] Set up LUIS via Portal
 - Navigate to [LUIS portal](https://www.luis.ai).
