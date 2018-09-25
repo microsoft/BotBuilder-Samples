@@ -24,7 +24,6 @@ namespace Microsoft.BotBuilderSamples
         // LUIS service type entry for turn.n book table LUIS model in the .bot file.
         private readonly string LUIS_CONFIGURATION = "cafeBotBookTableTurnNModel";
 
-
         private readonly BotServices _botServices;
         private readonly IStatePropertyAccessor<UserProfile> _userProfileAccessor;
         private readonly IStatePropertyAccessor<OnTurnProperty> _onTurnAccessor;
@@ -44,8 +43,7 @@ namespace Microsoft.BotBuilderSamples
                     IStatePropertyAccessor<ReservationProperty> reservationsAccessor,
                     IStatePropertyAccessor<OnTurnProperty> onTurnAccessor,
                     IStatePropertyAccessor<UserProfile> userProfileAccessor,
-                    PromptValidator<string> validator = null
-            )
+                    PromptValidator<string> validator = null)
             : base(dialogId, validator)
         {
             _botServices = botServices ?? throw new ArgumentNullException(nameof(botServices));
@@ -122,6 +120,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 // set reservation property
                 await _reservationsAccessor.SetAsync(turnContext, updateResult.NewReservation);
+
                 // return and do not continue if there is an error.
                 await turnContext.SendActivityAsync(updateResult.Outcome[0].Message);
                 return await ContinueDialogAsync(dc);
@@ -162,7 +161,6 @@ namespace Microsoft.BotBuilderSamples
                     {
                         break;
                     }
-
 
                     // Handle interruption.
                     var onTurnProperty = await _onTurnAccessor.GetAsync(dc.Context);

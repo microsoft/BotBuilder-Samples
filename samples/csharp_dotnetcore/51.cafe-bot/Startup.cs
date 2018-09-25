@@ -108,7 +108,6 @@ namespace Microsoft.BotBuilderSamples
         /// more information how environments are detected.</remarks>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            
             _loggerFactory = loggerFactory;
             app.UseDefaultFiles()
                 .UseStaticFiles()

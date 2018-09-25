@@ -42,6 +42,7 @@ namespace Microsoft.BotBuilderSamples
                             LuisServices.Add(luis.Name, recognizer);
                             break;
                         }
+
                     case ServiceTypes.QnA:
                         {
                             // Create a QnA Maker that is initialized and suitable for passing
@@ -79,7 +80,6 @@ namespace Microsoft.BotBuilderSamples
 
                             break;
                         }
-
                 }
             }
         }

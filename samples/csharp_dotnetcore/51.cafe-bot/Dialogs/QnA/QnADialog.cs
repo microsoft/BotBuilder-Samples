@@ -16,7 +16,10 @@ namespace Microsoft.BotBuilderSamples
         // See (https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-qna) for additional information
         public const int QnaNumResults = 1;
         public const double QnaConfidenceThreshold = 0.5;
+
         public const string QNA_CONFIGURATION = "cafeFaqChitChat";
+
+        public const string Name = "QnA";
 
         private readonly BotServices _services;
         private readonly IStatePropertyAccessor<UserProfile> _userProfileAccessor;
@@ -54,6 +57,7 @@ namespace Microsoft.BotBuilderSamples
             if (userProfile == null && !string.IsNullOrWhiteSpace(userProfile.UserName))
             {
                 var userName = userProfile.UserName;
+
                 // see if we have user"s name
                 string[] userSalutationList = {
                     string.Empty,

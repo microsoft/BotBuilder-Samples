@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples
          *   
          */
         // Possible LUIS entities. You can refer to dialogs\dispatcher\resources\entities.lu for list of entities
-        public static string[] LuisEntities = { "confirmationList", "number", "datetime", "cafeLocation", "userName_patternAny", "userName" };
+        private static string[] LuisEntities = { "confirmationList", "number", "datetime", "cafeLocation", "userName_patternAny", "userName" };
 
         // Consts for LUIS entities.
         private static string partySizeEntity = LuisEntities[1];
@@ -44,6 +44,39 @@ namespace Microsoft.BotBuilderSamples
         private static string[] ReservationTimeConstraints = {        /* Time for reservations must be   */
             TimexCreator.Daytime,                         /* - daytime or                    */
         };
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReservationProperty"/> class.
+        /// </summary>
+        /// <param name="id">Reservation id.</param>
+        /// <param name="date">Reservation date.</param>
+        /// <param name="time">Reservation time.</param>
+        /// <param name="partySize">Numbe of guests in reservation.</param>
+        /// <param name="location">Location of reservation.</param>
+        /// <param name="reservationConfirmed">True if reservation confirmed; otherwise unconfirmed.</param>
+        /// <param name="needsChange">True if requires a modification.</param>
+        /// <param name="metaData">Additional data.</param>
+        public ReservationProperty(string id = null,
+            string date = null,
+            string time = null,
+            int partySize = 0,
+            string location = null,
+            bool reservationConfirmed = false,
+            bool needsChange = false,
+            object metaData = null)
+        {
+            Id = id ?? Guid.NewGuid().ToString();
+            Date = date ?? string.Empty;
+            Time = time ?? string.Empty;
+            DateLGString = string.Empty;
+            TimeLGString = string.Empty;
+            DateTimeLGString = string.Empty;
+            PartySize = partySize;
+            Location = location ?? string.Empty;
+            ReservationConfirmed = reservationConfirmed;
+            NeedsChange = needsChange;
+            MetaData = metaData;
+        }
 
         public string Id { get; }
 
@@ -67,42 +100,12 @@ namespace Microsoft.BotBuilderSamples
 
         public object MetaData { get; set; }
 
-        /**
-        * Reservation Property constructor.
-        * 
-        * @param {String} id reservation id
-        * @param {String} date reservation date
-        * @param {String} time reservation time
-        * @param {Number} partySize number of guests in reservation
-        * @param {String} location reservation location
-        */
-        public ReservationProperty(string id = null,
-            string date = null,
-            string time = null,
-            int partySize = 0,
-            string location = null,
-            bool reservationConfirmed = false,
-            bool needsChange = false,
-            object metaData = null)
+        public static ReservationResult FromOnTurnProperty(OnTurnProperty onTurnProperty)
         {
-            Id = id ?? Guid.NewGuid().ToString();
-            Date = date ?? string.Empty;
-            Time = time ?? string.Empty;
-            DateLGString = string.Empty;
-            TimeLGString = string.Empty;
-            DateTimeLGString = string.Empty;
-            PartySize = partySize;
-            Location = location ?? string.Empty;
-            ReservationConfirmed = reservationConfirmed;
-            NeedsChange = needsChange;
-            MetaData = metaData;
+            var returnResult = new ReservationResult(new ReservationProperty());
+            return Validate(onTurnProperty, returnResult);
         }
 
-        /**
-         * Helper method to evalute if we have all required properties filled.
-         * 
-         * @returns {Boolean} true if we have a complete reservation property
-         */
         public bool HaveCompleteReservation()
         {
             return !string.IsNullOrWhiteSpace(Id) &&
@@ -112,12 +115,6 @@ namespace Microsoft.BotBuilderSamples
                    !string.IsNullOrWhiteSpace(Location);
         }
 
-        /**
-         * Helper method to update Reservation property with information passed in via the onTurnProperty object
-         * 
-         * @param {OnTurnProperty}  
-         * @returns {ReservationResult}  
-         */
         public ReservationResult UpdateProperties(OnTurnProperty onTurnProperty)
         {
             var returnResult = new ReservationResult(this);
@@ -240,11 +237,6 @@ namespace Microsoft.BotBuilderSamples
          * @param {OnTurnProperty} 
          * @returns {ReservationResult} 
          */
-        public static ReservationResult FromOnTurnProperty(OnTurnProperty onTurnProperty)
-        {
-            var returnResult = new ReservationResult(new ReservationProperty());
-            return Validate(onTurnProperty, returnResult);
-        }
 
         /**
          * Helper function to validate input and return results based on validation constraints

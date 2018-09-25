@@ -22,10 +22,6 @@ namespace Microsoft.BotBuilderSamples
             "userName",
         };
 
-        public string Intent { get; set; }
-
-        public List<EntityProperty> Entities { get; set; }
-
         public OnTurnProperty()
         {
             Intent = null;
@@ -37,6 +33,10 @@ namespace Microsoft.BotBuilderSamples
             Intent = intent ?? throw new ArgumentNullException(nameof(intent));
             Entities = entities ?? throw new ArgumentNullException(nameof(entities));
         }
+
+        public string Intent { get; set; }
+
+        public List<EntityProperty> Entities { get; set; }
 
         public static OnTurnProperty FromLuisResults(RecognizerResult LUISResults)
         {

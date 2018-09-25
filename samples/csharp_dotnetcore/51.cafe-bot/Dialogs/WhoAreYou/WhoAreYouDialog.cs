@@ -81,6 +81,7 @@ namespace Microsoft.BotBuilderSamples
                 async (promptContext, cancellationToken) =>
                 {
                     var userProfile = await userProfileAccessor.GetAsync(promptContext.Context).ConfigureAwait(false);
+
                     // Prompt validator
                     // Examine if we have a user name and validate it.
                     if (userProfile != null && userProfile.UserName != null)

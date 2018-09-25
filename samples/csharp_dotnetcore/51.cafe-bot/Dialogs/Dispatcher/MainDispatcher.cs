@@ -67,6 +67,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 throw new ArgumentNullException(nameof(conversationState));
             }
+
             if (userState == null)
             {
                 throw new ArgumentNullException(nameof(userState));
@@ -98,29 +99,29 @@ namespace Microsoft.BotBuilderSamples
             return await MainDispatchAsync(innerDc);
         }
 
-        /**
-          * Main Dispatch 
-          * 
-          * This method examines the incoming turn property to determine  
-          * 1. If the requested operation is permissible - e.g. if user is in middle of a dialog, 
-          *     then an out of order reply should not be allowed.
-          * 2. Calls any outstanding dialogs to continue
-          * 3. If results is no-match from outstanding dialog .OR. if there are no outstanding dialogs,
-          *    decide which child dialog should begin and start it
-          * 
-          * @param {Object} dc dialog context
-          */
+        /// <summary>
+        /// This method examines the incoming turn property to determine:
+        /// 1. If the requested operation is permissible - e.g. if user is in middle of a dialog,
+        ///     then an out of order reply should not be allowed.
+        /// 2. Calls any outstanding dialogs to continue.
+        /// 3. If results is no-match from outstanding dialog .OR. if there are no outstanding dialogs,
+        ///    decide which child dialog should begin and start it.
+        /// </summary>
+        /// <param name="innerDc"></param>
+        /// <returns></returns>
         protected async Task<DialogTurnResult> MainDispatchAsync(DialogContext innerDc)
         {
             var context = innerDc.Context;
+
             // get on turn property through the property accessor
             var onTurnProperty = await _onTurnAccessor.GetAsync(context).ConfigureAwait(false);
 
             // Evaluate if the requested operation is possible/ allowed.
-            var reqOpStatus = await IsRequestedOperationPossible(innerDc.ActiveDialog.Id, onTurnProperty.Intent);
+            var reqOpStatus = IsRequestedOperationPossible(innerDc.ActiveDialog.Id, onTurnProperty.Intent);
             if (!reqOpStatus.allowed)
             {
                 await context.SendActivityAsync(reqOpStatus.reason);
+
                 // Nothing to do here. End main dialog.
                 return await innerDc.EndDialogAsync();
             }
@@ -129,7 +130,7 @@ namespace Microsoft.BotBuilderSamples
             var dialogTurnResult = await innerDc.ContinueDialogAsync();
 
             // This will only be empty if there is no active dialog in the stack.
-            // Removing check for dialogTurnStatus here will break successful cancellation of child dialogs. 
+            // Removing check for dialogTurnStatus here will break successful cancellation of child dialogs.
             // E.g. who are you -> cancel -> yes flow.
             if (!context.Responded && dialogTurnResult != null && dialogTurnResult.Status != DialogTurnStatus.Complete)
             {
@@ -160,15 +161,14 @@ namespace Microsoft.BotBuilderSamples
             return dialogTurnResult;
         }
 
-        /**
-         * Method to evaluate if the requested user operation is possible.
-         * User could be in the middle of a multi-turn dialog where interruption might not be possible or allowed.
-         * 
-         * @param {String} activeDialog
-         * @param {String} requestedOperation 
-         * @returns {Object} outcome object
-         */
-        protected async Task<(bool allowed, string reason)> IsRequestedOperationPossible(string activeDialog, string requestedOperation)
+        /// <summary>
+        /// Method to evaluate if the requested user operation is possible.
+        /// User could be in the middle of a multi-turn dialog where interruption might not be possible or allowed.
+        /// </summary>
+        /// <param name="activeDialog">The ActiveDialog.</param>
+        /// <param name="requestedOperation"></param>
+        /// <returns>Tuple of (bool allowed, string reason) whether the operation is allowed.</returns>
+        protected (bool allowed, string reason) IsRequestedOperationPossible(string activeDialog, string requestedOperation)
         {
             (bool allowed, string reason) outcome = (true, string.Empty);
 
@@ -193,12 +193,6 @@ namespace Microsoft.BotBuilderSamples
             return outcome;
         }
 
-        /**
-         * Helper method to begin what can you do dialog.
-         *
-         * @param {Object} dc dialog context
-         * @param {Object} onTurnProperty
-         */
         private async Task<DialogTurnResult> BeginWhatCanYouDoDialog(DialogContext innerDc, OnTurnProperty onTurnProperty)
         {
             var context = innerDc.Context;
@@ -214,7 +208,7 @@ namespace Microsoft.BotBuilderSamples
                 {
                     response = JsonConvert.DeserializeObject<Dictionary<string, string>>(queryProperty.ElementAtOrDefault(0).Value as string);
                 }
-                catch (Exception ex)
+                catch
                 {
                     await context.SendActivityAsync("Choose a query from the card drop down before you click `Let's talk!`");
                     return new DialogTurnResult(DialogTurnStatus.Empty, null);

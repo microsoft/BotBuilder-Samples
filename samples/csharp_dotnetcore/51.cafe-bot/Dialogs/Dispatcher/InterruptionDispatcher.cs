@@ -11,8 +11,8 @@ namespace Microsoft.BotBuilderSamples
 {
     public class InterruptionDispatcher : ComponentDialog
     {
-        private const string NONE_INTENT = "None";
-        private const string INTERRUPTION_DISPATCHER_DIALOG = "interruptionDispatcherDialog";
+        private const string NoneIntent = "None";
+        private const string InterruptionDispatchDialog = "interruptionDispatcherDialog";
 
         private IStatePropertyAccessor<OnTurnProperty> _onTurnAccessor;
         private ConversationState _conversationState;
@@ -32,7 +32,7 @@ namespace Microsoft.BotBuilderSamples
                     ConversationState conversationState,
                     IStatePropertyAccessor<UserProfile> userProfileAccessor,
                     BotServices botServices)
-            : base(INTERRUPTION_DISPATCHER_DIALOG)
+            : base(InterruptionDispatchDialog)
         {
             _onTurnAccessor = onTurnAccessor ?? throw new ArgumentNullException(nameof(onTurnAccessor));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
@@ -89,13 +89,13 @@ namespace Microsoft.BotBuilderSamples
             switch (results.Intent)
             {
                 // Help, ChitChat and QnA share the same QnA Maker model. So just call the QnA Dialog.
-                case nameof(QnADialog):
-                case nameof(ChitChatDialog):
-                //case nameof(HelpDialog):
+                case QnADialog.Name:
+                case ChitChatDialog.Name:
+                case "Help":
                     return await innerDc.BeginDialogAsync(nameof(QnADialog));
-                case nameof(WhatCanYouDo):
-                case nameof(WhoAreYouDialog):
-                case nameof(BookTableDialog):
+                case WhatCanYouDo.Name:
+                case WhoAreYouDialog.Name:
+                case BookTableDialog.Name:
                     await context.SendActivityAsync("Sorry. I'm unable to do that right now. You can cancel the current conversation and start a new one");
                     return await innerDc.EndDialogAsync();
                 default:
@@ -104,7 +104,5 @@ namespace Microsoft.BotBuilderSamples
                     return new DialogTurnResult(DialogTurnStatus.Waiting, null);
             }
         }
-
-
     }
 }

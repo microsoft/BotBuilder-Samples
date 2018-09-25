@@ -12,6 +12,10 @@ namespace Microsoft.BotBuilderSamples
 {
     public class WhatCanYouDo : Dialog
     {
+        // This dialog's name. Also matches the name of the intent from ../Dispatcher/Resources/cafeDispatchModel.lu
+        // LUIS recognizer replaces spaces ' ' with '_'. So intent name 'Who are you' is recognized as 'Who_are_you'.
+        public const string Name = "What_can_you_do";
+
         public WhatCanYouDo()
             : base(nameof(WhatCanYouDo))
         {

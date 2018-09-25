@@ -13,9 +13,10 @@ namespace Microsoft.BotBuilderSamples
 {
     public class BookTableDialog : ComponentDialog
     {
-        // This dialog"s name. Also matches the name of the intent from ../dispatcher/resources/cafeDispatchModel.lu
-        // LUIS recognizer replaces spaces " " with "_". So intent name "Who are you" is recognized as "Who_are_you".
-        public const string BookTable = "Book_Table";
+        // This dialog's name. Also matches the name of the intent from ../Dispatcher/Resources/cafeDispatchModel.lu
+        // LUIS recognizer replaces spaces ' ' with '_'. So intent name 'Who are you' is recognized as 'Who_are_you'.
+        public const string Name = "Book_Table";
+
         public const string BookTableWaterfall = "bookTableWaterfall";
         public const string GetLocationDialogState = "getLocDialogState";
         public const string ConfirmDialogState = "confirmDialogState";
@@ -115,9 +116,20 @@ namespace Microsoft.BotBuilderSamples
             AddDialog(new ConfirmPrompt(ConfirmCancelPrompt));
         }
 
+        public IStatePropertyAccessor<ReservationProperty> ReservationsAccessor { get; }
+
+        public IStatePropertyAccessor<OnTurnProperty> OnTurnAccessor { get; }
+
+        public object UserProfileAccessor { get; }
+
+        public IStatePropertyAccessor<DialogState> GetLocDialogAccessor { get; }
+
+        public IStatePropertyAccessor<DialogState> ConfirmDialogAccessor { get; }
+
         private async Task<DialogTurnResult> GetAllRequiredPropertiesAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var context = stepContext.Context;
+
             // Get current reservation from accessor
             var newReservation = await ReservationsAccessor.GetAsync(stepContext.Context, () => new ReservationProperty());
 
@@ -140,7 +152,7 @@ namespace Microsoft.BotBuilderSamples
             // Set the reservation.
             await ReservationsAccessor.SetAsync(context, reservationResult.NewReservation);
 
-            // see if updadte reservtion resulted in errors, if so, report them to user. 
+            // see if updadte reservtion resulted in errors, if so, report them to user.
             if (reservationResult != null &&
                 reservationResult.Status == ReservationStatus.Incomplete &&
                 reservationResult.Outcome != null &&
@@ -165,6 +177,7 @@ namespace Microsoft.BotBuilderSamples
                 {
                     Prompt = new Activity(text: reservationResult.NewReservation.GetMissingPropertyReadOut()),
                 };
+
                 // Start the prompt with the first missing piece of information.
                 return await stepContext.PromptAsync(GetLocationDateTimePartySizePrompt, options);
             }
@@ -202,15 +215,5 @@ namespace Microsoft.BotBuilderSamples
                 return await stepContext.EndDialogAsync();
             }
         }
-
-        public IStatePropertyAccessor<ReservationProperty> ReservationsAccessor { get; }
-
-        public IStatePropertyAccessor<OnTurnProperty> OnTurnAccessor { get; }
-
-        public object UserProfileAccessor { get; }
-
-        public IStatePropertyAccessor<DialogState> GetLocDialogAccessor { get; }
-
-        public IStatePropertyAccessor<DialogState> ConfirmDialogAccessor { get; }
     }
 }

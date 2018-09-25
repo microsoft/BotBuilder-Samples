@@ -8,6 +8,8 @@ namespace Microsoft.BotBuilderSamples
 {
     public class ChitChatDialog : QnADialog
     {
+        public new const string Name = "ChitChat";
+
         private readonly BotServices _botServices;
         private readonly IStatePropertyAccessor<UserProfile> _userProfileAccessor;
 

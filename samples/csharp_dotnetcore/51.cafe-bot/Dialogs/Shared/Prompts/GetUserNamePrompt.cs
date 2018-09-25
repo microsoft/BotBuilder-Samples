@@ -17,15 +17,18 @@ namespace Microsoft.BotBuilderSamples
     public class GetUserNamePrompt : TextPrompt
     {
         private const string InterruptionDispatcher = "interruptionDispatcherDialog";
+
         // LUIS service type entry for the get user profile LUIS model in the .bot file.
         private const string LUIS_CONFIGURATION = "getUserProfile";
-        // LUIS intent names from ./resources/getUserProfile.lu
+
+        // LUIS intent names from ./Resources/getUserProfile.lu
         private const string WHY_DO_YOU_ASK_INTENT = "Why_do_you_ask";
         private const string GET_USER_NAME_INTENT = "Get_user_name";
         private const string NO_NAME_INTENT = "No_Name";
         private const string NONE_INTENT = "None";
         private const string CANCEL_INTENT = "Cancel";
-        // User name entity from ./resources/getUserProfile.lu
+
+        // User name entity from ./Resources/getUserProfile.lu
         private const string USER_NAME = "userName";
         private const string USER_NAME_PATTERN_ANY = "userName_patternAny";
         private const string TURN_COUNTER_PROPERTY = "turnCounterProperty";
@@ -133,6 +136,7 @@ namespace Microsoft.BotBuilderSamples
                 // go with intent in onTurnProperty
                 topIntent = string.IsNullOrWhiteSpace(onTurnProperty.Intent) ? "None" : onTurnProperty.Intent;
             }
+
             // Did user ask for help or said they are not going to give us the name?
             switch (topIntent)
             {
