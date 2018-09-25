@@ -14,10 +14,11 @@ import * as path from 'path';
 import * as restify from 'restify';
 import { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState, TurnContext, AutoSaveStateMiddleware, TranscriptLoggerMiddleware } from 'botbuilder';
 import { BotConfiguration, IEndpointService, IBlobStorageService, BlobStorageService, ICosmosDBService } from 'botframework-config';
-import { Bot } from './bot';
+import { EnterpriseBot } from './enterpriseBot';
 
 // Read variables from .env file.
 import { config } from 'dotenv';
+import { BotServices } from './botServices';
 let envName: string = process.env.NODE_ENV || 'development';
 config({ path: path.join(__dirname, '..', `.env.${envName}`) });
 
@@ -121,9 +122,10 @@ adapter.use(new TranscriptLoggerMiddleware(transcriptStore));
 // Typing Middleware (automatically shows typing when the bot is responding/working) (not implemented https://github.com/Microsoft/botbuilder-js/issues/470)
 // adapter.use(new ShowTypingMiddleware());
 
-let bot: Bot;
+let bot: EnterpriseBot;
 try {
-    bot = new Bot(conversationState, userState, botConfig)
+    const services: BotServices = new BotServices(botConfig);
+    bot = new EnterpriseBot(services, conversationState, userState);
 } catch (err) {
     console.log(`Error: ${err}`);
     process.exit(BOT_CONFIGURATION_ERROR);

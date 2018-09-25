@@ -22,7 +22,8 @@
         "botframework-config": "^4.0.6",
         "botframework-schema": "^4.0.6",
         "dotenv": "^6.0.0",
-        "restify": "^7.2.1"
+        "restify": "^7.2.1",
+        "resx": "^1.2.0"
     },
     "devDependencies": {
         "@types/dotenv": "^4.0.3",

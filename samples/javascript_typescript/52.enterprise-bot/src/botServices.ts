@@ -4,7 +4,7 @@ import { TelemetryLuisRecognizer } from './middleware/telemetry/telemetryLuisRec
 import { TelemetryQnAMaker } from './middleware/telemetry/telemetryQnAMaker';
 import { LuisApplication, QnAMakerEndpoint } from 'botbuilder-ai';
 
-export class BotService {
+export class BotServices {
     private _authConnectionName: string = '';
     private _telemetryClient!: TelemetryClient;
     private _dispatchRecognizer!: TelemetryLuisRecognizer;
