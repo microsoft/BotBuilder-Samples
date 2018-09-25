@@ -60,7 +60,7 @@ export class TelemetryLoggerMiddleware implements Middleware {
             // Log the Application Insights Bot Message Received
             this._telemetryClient.trackEvent({
                 name: TelemetryLoggerMiddleware.BotMsgReceiveEvent,
-                properties: this.fillSendEventProperties(activity)
+                properties: this.fillReceiveEventProperties(activity)
             });
         }
 
@@ -84,7 +84,7 @@ export class TelemetryLoggerMiddleware implements Middleware {
 
             this._telemetryClient.trackEvent({
                 name: TelemetryLoggerMiddleware.BotMsgSendEvent,
-                properties: this.fillSendEventProperties(<Activity>activity)
+                properties: this.fillUpdateEventProperties(<Activity>activity)
             })
 
             return response;
@@ -102,7 +102,7 @@ export class TelemetryLoggerMiddleware implements Middleware {
 
             this._telemetryClient.trackEvent({
                 name: TelemetryLoggerMiddleware.BotMsgSendEvent,
-                properties: this.fillSendEventProperties(<Activity>deletedActivity)
+                properties: this.fillDeleteEventProperties(<Activity>deletedActivity)
             });
         });
 
