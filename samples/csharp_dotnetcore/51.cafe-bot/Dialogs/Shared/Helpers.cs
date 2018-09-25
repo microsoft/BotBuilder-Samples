@@ -12,29 +12,23 @@ namespace Microsoft.BotBuilderSamples
 {
     public static class Helpers
     {
-        private static readonly int DEFAULT_NUMBER_OF_SUGGESTIONS = 3;
-        private static readonly string[] PROMOTIONS_LIST = { "Book a table", "Who are you?", "Sing a song" };
+        private static readonly int DefaultNumberOfSuggestions = 3;
+        private static readonly string[] PromotionsList = { "Book a table", "Who are you?", "Sing a song" };
 
-        /**
-         * Helper method that returns an array of possible queries the user can issue.
-         *
-         * @param {Integer} numberOfSuggestions
-         * @returns {String []} of query suggestions
-         */
         public static string[] GenSuggestedQueries(List<string> dispatchLUISModel = null, int numberOfSuggestions = 0)
         {
             var suggestedQueries = new List<string> { "What can you do?" };
-            if (PROMOTIONS_LIST.Count() != 0)
+            if (PromotionsList.Count() != 0)
             {
                 var rnd = new Random();
-                var rndIdx = (int)Math.Floor(PROMOTIONS_LIST.Count() * rnd.NextDouble());
-                suggestedQueries.Add(PROMOTIONS_LIST.ElementAt(rndIdx));
+                var rndIdx = (int)Math.Floor(PromotionsList.Count() * rnd.NextDouble());
+                suggestedQueries.Add(PromotionsList.ElementAt(rndIdx));
             }
 
             var possibleUtterances = dispatchLUISModel;
             if (numberOfSuggestions == 0)
             {
-                numberOfSuggestions = DEFAULT_NUMBER_OF_SUGGESTIONS;
+                numberOfSuggestions = DefaultNumberOfSuggestions;
             }
 
             while (--numberOfSuggestions > 0 && possibleUtterances != null)
@@ -65,6 +59,5 @@ namespace Microsoft.BotBuilderSamples
                 Content = JsonConvert.DeserializeObject(adaptiveCard),
             };
         }
-
     }
 }

@@ -12,12 +12,11 @@ namespace Microsoft.BotBuilderSamples
 {
     public class QnADialog : Dialog
     {
-        // CONSTS used in QnA Maker query.
         // See (https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-qna) for additional information
         public const int QnaNumResults = 1;
         public const double QnaConfidenceThreshold = 0.5;
 
-        public const string QNA_CONFIGURATION = "cafeFaqChitChat";
+        public const string QnaConfiguration = "cafeFaqChitChat";
 
         public const string Name = "QnA";
 
@@ -34,7 +33,7 @@ namespace Microsoft.BotBuilderSamples
         public override async Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Call QnA Maker and get results.
-            var qnaResult = await _services.QnaServices[QNA_CONFIGURATION].GetAnswersAsync(dc.Context);
+            var qnaResult = await _services.QnaServices[QnaConfiguration].GetAnswersAsync(dc.Context);
             if (qnaResult == null || qnaResult.Count() > 0)
             {
                 // No answer found.
@@ -44,13 +43,13 @@ namespace Microsoft.BotBuilderSamples
             else
             {
                 // respond with qna result
-                await dc.Context.SendActivityAsync(await UserSalutation(dc.Context) + qnaResult[0].Answer);
+                await dc.Context.SendActivityAsync(await UserSalutationAsync(dc.Context) + qnaResult[0].Answer);
             }
 
             return await dc.EndDialogAsync();
         }
 
-        private async Task<string> UserSalutation(ITurnContext context)
+        private async Task<string> UserSalutationAsync(ITurnContext context)
         {
             var salutation = string.Empty;
             var userProfile = await _userProfileAccessor.GetAsync(context);
@@ -59,7 +58,8 @@ namespace Microsoft.BotBuilderSamples
                 var userName = userProfile.UserName;
 
                 // see if we have user"s name
-                string[] userSalutationList = {
+                string[] userSalutationList =
+                {
                     string.Empty,
                     string.Empty,
                     $"Well... {userName}, ",

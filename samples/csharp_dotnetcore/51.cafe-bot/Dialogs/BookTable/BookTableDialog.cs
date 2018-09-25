@@ -50,64 +50,65 @@ namespace Microsoft.BotBuilderSamples
             AddDialog(new WaterfallDialog(BookTableWaterfall, waterfallSteps));
 
             // Get location, date, time & party size prompt.
-            AddDialog(new GetLocationDateTimePartySizePrompt(GetLocationDateTimePartySizePrompt,
-                                                                  services,
-                                                                  reservationsAccessor,
-                                                                  onTurnAccessor,
-                                                                  userProfileAccessor,
-                                                                  async (promptValidatorContext, cancellationToken) =>
-                                                                  {
-                                                                      // validation and prompting logic
-                                                                      // get reservation property
-                                                                      var newReservation = await reservationsAccessor.GetAsync(promptValidatorContext.Context, () => new ReservationProperty());
+            AddDialog(new GetLocationDateTimePartySizePrompt(
+                                GetLocationDateTimePartySizePrompt,
+                                services,
+                                reservationsAccessor,
+                                onTurnAccessor,
+                                userProfileAccessor,
+                                async (promptValidatorContext, cancellationToken) =>
+                                {
+                                    // validation and prompting logic
+                                    // get reservation property
+                                    var newReservation = await reservationsAccessor.GetAsync(promptValidatorContext.Context, () => new ReservationProperty());
 
-                                                                      // if we have a valid reservation, end this prompt.
-                                                                      //  else get LG based on what's available in reservation property
-                                                                      if (newReservation.HaveCompleteReservation())
-                                                                      {
-                                                                          if (!newReservation.ReservationConfirmed)
-                                                                          {
-                                                                              if (newReservation.NeedsChange == true)
-                                                                              {
-                                                                                  await promptValidatorContext.Context.SendActivityAsync("What would you like to change ?");
-                                                                              }
-                                                                              else
-                                                                              {
-                                                                                  // Greet user with name if we have the user profile set.
-                                                                                  var userProfile = await userProfileAccessor.GetAsync(promptValidatorContext.Context, () => null);
+                                    // if we have a valid reservation, end this prompt.
+                                    //  else get LG based on what's available in reservation property
+                                    if (newReservation.HaveCompleteReservation())
+                                    {
+                                        if (!newReservation.ReservationConfirmed)
+                                        {
+                                            if (newReservation.NeedsChange == true)
+                                            {
+                                                await promptValidatorContext.Context.SendActivityAsync("What would you like to change ?");
+                                            }
+                                            else
+                                            {
+                                                // Greet user with name if we have the user profile set.
+                                                var userProfile = await userProfileAccessor.GetAsync(promptValidatorContext.Context, () => null);
 
-                                                                                  if (userProfile != null && !string.IsNullOrWhiteSpace(userProfile.UserName))
-                                                                                  {
-                                                                                      await promptValidatorContext.Context.SendActivityAsync($"Alright {userProfile.UserName} I have a table for {newReservation.ConfirmationReadOut()}");
-                                                                                  }
-                                                                                  else
-                                                                                  {
-                                                                                      await promptValidatorContext.Context.SendActivityAsync($"Ok. I have a table for {newReservation.ConfirmationReadOut()}");
-                                                                                  }
+                                                if (userProfile != null && !string.IsNullOrWhiteSpace(userProfile.UserName))
+                                                {
+                                                    await promptValidatorContext.Context.SendActivityAsync($"Alright {userProfile.UserName} I have a table for {newReservation.ConfirmationReadOut()}");
+                                                }
+                                                else
+                                                {
+                                                    await promptValidatorContext.Context.SendActivityAsync($"Ok. I have a table for {newReservation.ConfirmationReadOut()}");
+                                                }
 
-                                                                                  await promptValidatorContext.Context.SendActivityAsync(MessageFactory.SuggestedActions(new List<string> { "Yes", "No" }, "Should I go ahead and book the table?"));
-                                                                              }
-                                                                          }
-                                                                          else
-                                                                          {
-                                                                              // Have complete reservation.
-                                                                              return true;
-                                                                          }
-                                                                      }
-                                                                      else
-                                                                      {
-                                                                          // readout what has been understood already
-                                                                          var groundedPropertiesReadout = newReservation.GetGroundedPropertiesReadOut();
-                                                                          if (string.IsNullOrWhiteSpace(groundedPropertiesReadout))
-                                                                          {
-                                                                              await promptValidatorContext.Context.SendActivityAsync(groundedPropertiesReadout);
-                                                                          }
-                                                                      }
+                                                await promptValidatorContext.Context.SendActivityAsync(MessageFactory.SuggestedActions(new List<string> { "Yes", "No" }, "Should I go ahead and book the table?"));
+                                            }
+                                        }
+                                        else
+                                        {
+                                            // Have complete reservation.
+                                            return true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // readout what has been understood already
+                                        var groundedPropertiesReadout = newReservation.GetGroundedPropertiesReadOut();
+                                        if (string.IsNullOrWhiteSpace(groundedPropertiesReadout))
+                                        {
+                                            await promptValidatorContext.Context.SendActivityAsync(groundedPropertiesReadout);
+                                        }
+                                    }
 
-                                                                      // ask user for missing information
-                                                                      await promptValidatorContext.Context.SendActivityAsync(newReservation.GetMissingPropertyReadOut());
-                                                                      return false;
-                                                                  }));
+                                    // ask user for missing information
+                                    await promptValidatorContext.Context.SendActivityAsync(newReservation.GetMissingPropertyReadOut());
+                                    return false;
+                                }));
 
             // This dialog is interruptable. So add interruptionDispatcherDialog
             AddDialog(new InterruptionDispatcher(onTurnAccessor, conversationState, userProfileAccessor, services));
@@ -152,7 +153,7 @@ namespace Microsoft.BotBuilderSamples
             // Set the reservation.
             await ReservationsAccessor.SetAsync(context, reservationResult.NewReservation);
 
-            // See if update reservation resulted in errors, if so, report them to user.
+            // see if updadte reservtion resulted in errors, if so, report them to user.
             if (reservationResult != null &&
                 reservationResult.Status == ReservationStatus.Incomplete &&
                 reservationResult.Outcome != null &&
@@ -187,7 +188,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var context = stepContext.Context;
 
-            // Report table booking based on confirmation outcome.
+            // report table booking based on confirmation outcome.
             if (stepContext.Result != null)
             {
                 // User confirmed.

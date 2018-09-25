@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Newtonsoft.Json;
@@ -38,21 +39,31 @@ namespace Microsoft.BotBuilderSamples
 
         public List<EntityProperty> Entities { get; set; }
 
-        public static OnTurnProperty FromLuisResults(RecognizerResult LUISResults)
+        public static OnTurnProperty FromLuisResults(RecognizerResult luisResults)
         {
             var onTurnProperties = new OnTurnProperty();
-            onTurnProperties.Intent = LUISResults.GetTopScoringIntent().intent;
+            onTurnProperties.Intent = luisResults.GetTopScoringIntent().intent;
 
             // Gather entity values if available. Uses a const list of LUIS entity names.
             foreach (var entity in luisEntities)
             {
-                var value = (string)LUISResults.Entities[entity];
-                if (value == null)
+                dynamic value = luisResults.Entities[entity];
+                string strVal = null;
+                if (value is JArray)
                 {
+                    // ConfirmList is nested arrays.
+                    value = value.Children().FirstOrDefault().FirstOrDefault();
+                }
+
+                strVal = (string)value;
+
+                if (strVal == null)
+                {
+                    // Don't add empty entities.
                     continue;
                 }
 
-                onTurnProperties.Entities.Add(new EntityProperty(entity, value));
+                onTurnProperties.Entities.Add(new EntityProperty(entity, strVal));
             }
 
             return onTurnProperties;

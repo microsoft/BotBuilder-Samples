@@ -19,15 +19,16 @@ namespace Microsoft.BotBuilderSamples
         public const string Name = "Who_are_you";
 
         // User name entity from ../whoAreYou/resources/whoAreYou.lu
-        public readonly string USER_NAME_ENTITY = "userName";
-        public readonly string USER_NAME_PATTERN_ANY_ENTITY = "userName_patternAny";
+        private readonly string userNameEntity = "userName";
+
+        private readonly string userNamePatternAnyEntity = "userName_patternAny";
 
         // Names for dialogs and prompts
-        public readonly string ASK_USER_NAME_PROMPT = "askUserNamePrompt";
-        public readonly string DIALOG_START = "Who_are_you_start";
-        public readonly string CONFIRM_CANCEL_PROMPT = "confirmCancelPrompt";
+        private readonly string askUserNamePrompt = "askUserNamePrompt";
+        private readonly string dialogStart = "Who_are_you_start";
+        private readonly string confirmCancelPrompt = "confirmCancelPrompt";
 
-        private readonly bool HAVE_USER_NAME = true;
+        private readonly bool haveUserName = true;
 
         /**
            * Constructor.
@@ -38,7 +39,8 @@ namespace Microsoft.BotBuilderSamples
            * @param {StatePropertyAccessor} accessor for on turn property
            * @param {StatePropertyAccessor} accessor for reservation property
            */
-        public WhoAreYouDialog(BotServices botServices,
+        public WhoAreYouDialog(
+                        BotServices botServices,
                         ConversationState conversationState,
                         IStatePropertyAccessor<UserProfile> userProfileAccessor,
                         IStatePropertyAccessor<OnTurnProperty> onTurnAccessor,
@@ -66,13 +68,15 @@ namespace Microsoft.BotBuilderSamples
                                             AskForUserNameAsync,
                                             GreetUserAsync,
                                         };
-            AddDialog(new WaterfallDialog(DIALOG_START,
+            AddDialog(new WaterfallDialog(
+               dialogStart,
                waterfallSteps));
 
-            var turnCounterAccessor = conversationState.CreateProperty<int>("turnCounter");
+            var turnCounterAccessor = conversationState.CreateProperty<CounterState>("turnCounter");
 
-            // add get user name prompt
-            AddDialog(new GetUserNamePrompt(ASK_USER_NAME_PROMPT,
+            // Add get user name prompt.
+            AddDialog(new GetUserNamePrompt(
+                askUserNamePrompt,
                 botServices,
                 userProfileAccessor,
                 conversationState,
@@ -81,6 +85,7 @@ namespace Microsoft.BotBuilderSamples
                 async (promptContext, cancellationToken) =>
                 {
                     var userProfile = await userProfileAccessor.GetAsync(promptContext.Context).ConfigureAwait(false);
+                    var counter = await turnCounterAccessor.GetAsync(promptContext.Context).ConfigureAwait(false);
 
                     // Prompt validator
                     // Examine if we have a user name and validate it.
@@ -94,7 +99,7 @@ namespace Microsoft.BotBuilderSamples
                             await userProfileAccessor.SetAsync(promptContext.Context, new UserProfile("Human")).ConfigureAwait(false);
 
                             // set updated turn counter
-                            await turnCounterAccessor.SetAsync(promptContext.Context, 0).ConfigureAwait(false);
+                            await turnCounterAccessor.SetAsync(promptContext.Context, counter).ConfigureAwait(false);
                             return false;
                         }
                         else
@@ -107,16 +112,20 @@ namespace Microsoft.BotBuilderSamples
                             return true;
                         }
                     }
+
                     return false;
-                }
-                ));
+                }));
 
             // this dialog is interruptable, add interruptionDispatcherDialog
             AddDialog(new InterruptionDispatcher(onTurnAccessor, conversationState, userProfileAccessor, botServices));
 
             // when user decides to abandon this dialog, we need to confirm user action - add confirmation prompt
-            AddDialog(new ConfirmPrompt(CONFIRM_CANCEL_PROMPT));
+            AddDialog(new ConfirmPrompt(confirmCancelPrompt));
         }
+
+        public IStatePropertyAccessor<UserProfile> UserProfileAccessor { get; }
+
+        public IStatePropertyAccessor<OnTurnProperty> OnTurnAccessor { get; }
 
         /**
          * Waterfall step to prompt for user's name
@@ -131,17 +140,17 @@ namespace Microsoft.BotBuilderSamples
             var context = stepContext.Context;
 
             // Get user profile.
-            var userProfile = await UserProfileAccessor.GetAsync(context, () => null);
+            var userProfile = await UserProfileAccessor.GetAsync(context, () => new UserProfile(null, null));
 
             // Get on turn properties.
-            var onTurnProperty = await OnTurnAccessor.GetAsync(context, () => null);
+            var onTurnProperty = await OnTurnAccessor.GetAsync(context, () => new OnTurnProperty("None", new List<EntityProperty>()));
 
             // Handle case where user is re-introducing themselves.
             // This flow is triggered when we are not in the middle of who-are-you dialog
             //   and the user says something like 'call me {username}' or 'my name is {username}'.
 
             // Get user name entities from on turn property (from the cafe bot dispatcher LUIS model)
-            var userNameInOnTurnProperty = (onTurnProperty.Entities ?? new List<EntityProperty>()).Where(item => ((item.EntityName == USER_NAME_ENTITY) || (item.EntityName == USER_NAME_PATTERN_ANY_ENTITY)));
+            var userNameInOnTurnProperty = (onTurnProperty.Entities ?? new List<EntityProperty>()).Where(item => ((item.EntityName == userNameEntity) || (item.EntityName == userNamePatternAnyEntity)));
             if (userNameInOnTurnProperty.Count() > 0)
             {
                 // get user name from on turn property
@@ -154,7 +163,7 @@ namespace Microsoft.BotBuilderSamples
                 await UserProfileAccessor.SetAsync(context, new UserProfile(userName));
 
                 // End this step so we can greet the user.
-                return await stepContext.NextAsync(HAVE_USER_NAME);
+                return await stepContext.NextAsync(haveUserName);
             }
 
             // Prompt user for name if
@@ -163,6 +172,7 @@ namespace Microsoft.BotBuilderSamples
             if (userProfile == null || string.IsNullOrWhiteSpace(userProfile.UserName) || userProfile.UserName.Equals("Human", StringComparison.Ordinal))
             {
                 await context.SendActivityAsync("Hello, I'm the Contoso Cafe Bot.");
+
                 // Begin the prompt to ask user their name
                 var opts = new PromptOptions
                 {
@@ -172,7 +182,7 @@ namespace Microsoft.BotBuilderSamples
                         Text = "What's your name?",
                     },
                 };
-                return await stepContext.PromptAsync(ASK_USER_NAME_PROMPT, opts);
+                return await stepContext.PromptAsync(askUserNamePrompt, opts);
             }
             else
             {
@@ -193,7 +203,6 @@ namespace Microsoft.BotBuilderSamples
         private async Task<DialogTurnResult> GreetUserAsync(
                                                 WaterfallStepContext stepContext,
                                                 CancellationToken cancellationToken)
-
         {
             var context = stepContext.Context;
             if (stepContext.Result != null)
@@ -204,9 +213,5 @@ namespace Microsoft.BotBuilderSamples
 
             return await stepContext.EndDialogAsync();
         }
-
-        public IStatePropertyAccessor<UserProfile> UserProfileAccessor { get; }
-
-        public IStatePropertyAccessor<OnTurnProperty> OnTurnAccessor { get; }
     }
 }

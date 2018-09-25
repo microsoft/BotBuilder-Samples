@@ -10,7 +10,7 @@ namespace Microsoft.BotBuilderSamples
     {
         Success,
         Incomplete,
-        Unknown
+        Unknown,
     }
 
     public class ReservationOutcome
@@ -21,20 +21,13 @@ namespace Microsoft.BotBuilderSamples
             Entity = entity;
         }
 
-        public string Message { get; }
+        public string Entity { get; }
 
-        private readonly string Entity;
+        public string Message { get; }
     }
 
     public class ReservationResult
     {
-        /**
-         * Constructor.
-         *
-         * @param {reservationProperty} reservationProperty
-         * @param {Enum} status
-         * @param {Object []} outcome {message:"", property:""}
-         */
         public ReservationResult(ReservationProperty property, ReservationStatus status = ReservationStatus.Unknown, ReservationOutcome outcome = null)
         {
             NewReservation = property ?? throw new ArgumentNullException(nameof(property));

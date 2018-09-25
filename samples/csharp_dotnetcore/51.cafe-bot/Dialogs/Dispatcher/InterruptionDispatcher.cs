@@ -54,7 +54,7 @@ namespace Microsoft.BotBuilderSamples
         protected async override Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Override default begin() logic with interruption orchestration logic
-            return await InterruptionDispatch(innerDc, options);
+            return await InterruptionDispatchAsync(innerDc, options);
         }
 
         /**
@@ -65,7 +65,7 @@ namespace Microsoft.BotBuilderSamples
         protected async override Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Override default continue() logic with interruption orchestration logic
-            return await InterruptionDispatch(innerDc, null);
+            return await InterruptionDispatchAsync(innerDc, null);
         }
 
         /**
@@ -74,7 +74,7 @@ namespace Microsoft.BotBuilderSamples
          * @param {DialogContext} dc
          * @param {Object} options
          */
-        protected async Task<DialogTurnResult> InterruptionDispatch(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> InterruptionDispatchAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             // See if interruption is allowed
             var context = innerDc.Context;
@@ -92,7 +92,7 @@ namespace Microsoft.BotBuilderSamples
                 case QnADialog.Name:
                 case ChitChatDialog.Name:
                 case "Help":
-                    return await innerDc.BeginDialogAsync(nameof(QnADialog));
+                    return await innerDc.BeginDialogAsync(QnADialog.Name);
                 case WhatCanYouDo.Name:
                 case WhoAreYouDialog.Name:
                 case BookTableDialog.Name:

@@ -41,13 +41,7 @@ namespace Microsoft.BotBuilderSamples
         public const string ReservationProperty = "reservationProperty";
 
         // When user responds to what can you do card, a query property is set in response.
-        private const string QUERY_PROPERTY = "query";
-
-        /// <summary>
-        /// Key in the bot config (.bot file) for the LUIS instance.
-        /// In the .bot file, multiple instances of LUIS can be configured.
-        /// </summary>
-        public static readonly string LuisKey = "BasicBotLUIS";
+        private const string QueryProperty = "query";
 
         private readonly BotServices _services;
         private readonly ILogger _logger;
@@ -99,16 +93,12 @@ namespace Microsoft.BotBuilderSamples
             return await MainDispatchAsync(innerDc);
         }
 
-        /// <summary>
-        /// This method examines the incoming turn property to determine:
-        /// 1. If the requested operation is permissible - e.g. if user is in middle of a dialog,
-        ///     then an out of order reply should not be allowed.
-        /// 2. Calls any outstanding dialogs to continue.
-        /// 3. If results is no-match from outstanding dialog .OR. if there are no outstanding dialogs,
-        ///    decide which child dialog should begin and start it.
-        /// </summary>
-        /// <param name="innerDc"></param>
-        /// <returns></returns>
+        // This method examines the incoming turn property to determine:
+        // 1. If the requested operation is permissible - e.g. if user is in middle of a dialog,
+        //     then an out of order reply should not be allowed.
+        // 2. Calls any outstanding dialogs to continue.
+        // 3. If results is no-match from outstanding dialog .OR. if there are no outstanding dialogs,
+        //    decide which child dialog should begin and start it.
         protected async Task<DialogTurnResult> MainDispatchAsync(DialogContext innerDc)
         {
             var context = innerDc.Context;
@@ -139,7 +129,10 @@ namespace Microsoft.BotBuilderSamples
                 dialogTurnResult = await BeginChildDialogAsync(innerDc, onTurnProperty);
             }
 
-            if (dialogTurnResult == null) return await innerDc.EndDialogAsync();
+            if (dialogTurnResult == null)
+            {
+                return await innerDc.EndDialogAsync();
+            }
 
             // Examine result from dc.continue() or from the call to beginChildDialog().
             switch (dialogTurnResult.Status)
@@ -185,21 +178,16 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
-        /// <summary>
-        /// Method to evaluate if the requested user operation is possible.
-        /// User could be in the middle of a multi-turn dialog where interruption might not be possible or allowed.
-        /// </summary>
-        /// <param name="activeDialog">The ActiveDialog.</param>
-        /// <param name="requestedOperation"></param>
-        /// <returns>Tuple of (bool allowed, string reason) whether the operation is allowed.</returns>
+        // Method to evaluate if the requested user operation is possible.
+        // User could be in the middle of a multi-turn dialog where interruption might not be possible or allowed.
         protected (bool allowed, string reason) IsRequestedOperationPossible(string activeDialog, string requestedOperation)
         {
             (bool allowed, string reason) outcome = (true, string.Empty);
 
             // E.g. What_can_you_do is not possible when you are in the middle of Who_are_you dialog
-            if (requestedOperation.Equals(nameof(WhatCanYouDo)))
+            if (requestedOperation.Equals(WhatCanYouDo.Name))
             {
-                if (activeDialog.Equals(nameof(WhatCanYouDo)))
+                if (activeDialog.Equals(WhatCanYouDo.Name))
                 {
                     outcome.allowed = false;
                     outcome.reason = "Sorry! I'm unable to process that. You can say 'cancel' to cancel this conversation..";
@@ -217,14 +205,14 @@ namespace Microsoft.BotBuilderSamples
             return outcome;
         }
 
-        private async Task<DialogTurnResult> BeginWhatCanYouDoDialog(DialogContext innerDc, OnTurnProperty onTurnProperty)
+        private async Task<DialogTurnResult> BeginWhatCanYouDoDialogAsync(DialogContext innerDc, OnTurnProperty onTurnProperty)
         {
             var context = innerDc.Context;
 
             // Handle case when user interacted with what can you do card.
             // What can you do card sends a custom data property with intent name, text value and possible entities.
             // See ../WhatCanYouDo/Resources/whatCanYouDoCard.json for card definition.
-            var queryProperty = (onTurnProperty.Entities ?? new List<EntityProperty>()).Where(item => string.Compare(item.EntityName, QUERY_PROPERTY) == 0);
+            var queryProperty = (onTurnProperty.Entities ?? new List<EntityProperty>()).Where(item => string.Compare(item.EntityName, QueryProperty) == 0);
             if (queryProperty.Count() > 0)
             {
                 Dictionary<string, string> response;
@@ -249,7 +237,7 @@ namespace Microsoft.BotBuilderSamples
                 return await BeginDialogAsync(innerDc, response);
             }
 
-            return await innerDc.BeginDialogAsync(nameof(WhatCanYouDo));
+            return await innerDc.BeginDialogAsync(WhatCanYouDo.Name);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Microsoft.BotBuilderSamples
     {
         public EntityProperty(string name, string value)
         {
-            EntityName = name ?? throw new ArgumentNullException(nameof(name));
+            EntityName = name;
             Value = value;
         }
 

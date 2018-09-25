@@ -34,6 +34,7 @@ namespace Microsoft.BotBuilderSamples
 
         // The name of the bot you deployed.
         public static readonly string MsBotName = "cafe66";
+
         /// <summary>
         /// Key in the bot config (.bot file) for the LUIS instances.
         /// In the .bot file, multiple instances of LUIS can be configured.
@@ -124,8 +125,11 @@ namespace Microsoft.BotBuilderSamples
                 case ActivityTypes.Message:
                     // Process on turn input (card or NLP) and gather new properties
                     // OnTurnProperty object has processed information from the input message activity.
-                    var onTurnProperties = await DetectIntentAndEntities(context);
-                    if (onTurnProperties == null) break;
+                    var onTurnProperties = await DetectIntentAndEntitiesAsync(context);
+                    if (onTurnProperties == null)
+                    {
+                        break;
+                    }
 
                     // Set the state with gathered properties (intent/ entities) through the onTurnAccessor
                     await _onTurnAccessor.SetAsync(context, onTurnProperties);
@@ -145,15 +149,17 @@ namespace Microsoft.BotBuilderSamples
                     break;
                 case ActivityTypes.ConversationUpdate:
                     // Welcome user.
-                    await WelcomeUser(context);
+                    await WelcomeUserAsync(context);
                     break;
                 default:
                     // Handle other activity types as needed.
                     break;
             }
+            await ConversationState.SaveChangesAsync(context);
+            await UserState.SaveChangesAsync(context);
         }
 
-        private async Task<OnTurnProperty> DetectIntentAndEntities(ITurnContext turnContext)
+        private async Task<OnTurnProperty> DetectIntentAndEntitiesAsync(ITurnContext turnContext)
         {
             // Handle card input (if any), update state and return.
             if (turnContext.Activity.Value != null)
@@ -176,14 +182,14 @@ namespace Microsoft.BotBuilderSamples
             }
 
             // Call to LUIS recognizer to get intent + entities
-            var LUISResults = await _services.LuisServices[LuisConfiguration].RecognizeAsync(turnContext, default(CancellationToken));
+            var luisResults = await _services.LuisServices[LuisConfiguration].RecognizeAsync(turnContext, default(CancellationToken));
 
             // Return new instance of on turn property from LUIS results.
             // Leverages static fromLUISResults method
-            return OnTurnProperty.FromLuisResults(LUISResults);
+            return OnTurnProperty.FromLuisResults(luisResults);
         }
 
-        private async Task WelcomeUser(ITurnContext turnContext)
+        private async Task WelcomeUserAsync(ITurnContext turnContext)
         {
             // Do we have any new members added to the conversation?
             if (turnContext.Activity.MembersAdded.Count > 0)
@@ -200,21 +206,14 @@ namespace Microsoft.BotBuilderSamples
                         // Welcome user.
                         await turnContext.SendActivityAsync("Hello, I am the Contoso Cafe Bot!");
                         await turnContext.SendActivityAsync("I can help book a table and more..");
+                        var activity = turnContext.Activity.CreateReply();
+                        activity.Attachments = new List<Attachment> { Helpers.CreateAdaptiveCardAttachment(@".\Dialogs\Welcome\Resources\welcomeCard.json"), };
 
                         // Send welcome card.
-                        await turnContext.SendActivityAsync(
-                            new Activity
-                            {
-                                Attachments = new List<Attachment>
-                                {
-                                    Helpers.CreateAdaptiveCardAttachment(@".\Dialogs\Welcome\Resources\welcomeCard.json"),
-                                },
-                            });
+                        await turnContext.SendActivityAsync(activity);
                     }
                 }
             }
         }
-
     }
-
 }
