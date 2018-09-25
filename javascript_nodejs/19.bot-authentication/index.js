@@ -14,29 +14,26 @@ const CONFIG_ERROR = 1;
 const ENV_FILE = path.join(__dirname, '.env');
 const env = require('dotenv').config({ path: ENV_FILE });
 
-// Create HTTP server.
-let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function() {
-    console.log(`\n${server.name} listening to ${server.url}.`);
-    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
-    console.log(`\nTo talk to your bot, open bot-authentication.bot file in the Emulator.`);
-});
-
-// .bot file path.
+// Get the .bot file path.
+// See https://aka.ms/about-bot-file to learn more about .bot files.
 const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
-
-// Read bot configuration from .bot file. 
 let botConfig;
 try {
+    // Read bot configuration from .bot file.
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
 } catch (err) {
-    console.log(`Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
-    process.exit(CONFIG_ERROR);
+    console.error(`\nError reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
+    console.error(`\n - The botFileSecret is available under appsettings for your Azure Bot Service bot.`);
+    console.error(`\n - If you are running this bot locally, consider adding a .env file with botFilePath and botFileSecret.`);
+    console.error(`\n - See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.\n\n`);
+    process.exit();
 }
 
-// Bot name as defined in .bot file. 
-// See https://aka.ms/about-bot-file to learn more about .bot file usage and configuration.
-const BOT_CONFIGURATION = 'bot-authentication';
+// For local development configuration as defined in .bot file.
+const DEV_ENVIRONMENT = 'development';
+
+// Bot name as defined in .bot file or from runtime.
+const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
 // Get bot endpoint configuration by service name.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
@@ -45,6 +42,14 @@ const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 const adapter = new BotFrameworkAdapter({
     appId: endpointConfig.appId || process.env.MicrosoftAppId,
     appPassword: endpointConfig.appPassword || process.env.MicrosoftAppPassword
+});
+
+// Create HTTP server.
+let server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, function() {
+    console.log(`\n${server.name} listening to ${server.url}.`);
+    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
+    console.log(`\nTo talk to your bot, open bot-authentication.bot file in the Emulator.`);
 });
 
 // Define the state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.

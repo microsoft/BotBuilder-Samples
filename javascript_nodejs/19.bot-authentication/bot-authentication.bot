@@ -1,14 +1,15 @@
 {
     "name": "bot-authentication",
-    "secretKey": "",
     "services": [
         {
             "type": "endpoint",
-            "name": "bot-authentication",
-            "id": "http://localhost:3978/api/messages",
-            "appId": "",
-            "appPassword": "",
-            "endpoint": "http://localhost:3978/api/messages"
+            "name": "development",
+            "endpoint": "http://localhost:3978/api/messages",
+            "appId": "881cd8cc-4762-455f-a2ea-4dcdfcde74ef",
+            "appPassword": "hchCUTK41$~seqdBQY261@;",
+            "id": "74"
         }
-    ]
+    ],
+    "padlock": "",
+    "version": "2.0"
 }

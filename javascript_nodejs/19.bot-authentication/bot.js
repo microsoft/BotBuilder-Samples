@@ -20,7 +20,7 @@ const HELP_TEXT = ' Type anything to get logged in. Type \'logout\' to signout.'
 
 // The connection name here must match the the one from found in
 // your Bot Channels Registration on the settings blade in Azure.
-const CONNECTION_NAME = "";
+const CONNECTION_NAME = "AADv2Connection";
 
 // Create the settings for the OAuthPrompt.
 const OAUTH_SETTINGS = {
@@ -57,10 +57,13 @@ class AuthenticationBot {
         ]));
     }
 
+    // Waterfall step that prompts the user to login if they have not already or their token has expired.
     async oauthPrompt(step) {
         return await step.prompt(OAUTH_PROMPT);
     }
 
+    // Waterfall step that informs the user that they are logged in and asks
+    // the user if they would like to see their token via a prompt
     async loginResults(step) {
         let tokenResponse = step.result;
         if (tokenResponse != null) {
@@ -68,10 +71,13 @@ class AuthenticationBot {
             return await step.prompt(CONFIRM_PROMPT, 'Do you want to view your token?', ['yes', 'no']);
         }
 
+        // Something went wrong, inform the user they were not logged in
         await step.context.sendActivity("Login was not sucessful please try again");
         return await step.endDialog();
     }
 
+    // Waterfall step that will display the user's token. If the user's token is expired
+    // or they are not logged in this will prompt them to log in first.
     async displayToken(step) {
         const result = step.result.value;
         if (result === 'yes') {
@@ -98,8 +104,6 @@ class AuthenticationBot {
 
     /**
      * Every conversation turn for our AuthenticationBot will call this method.
-     * There are no dialogs used, since it's "single turn" processing, meaning a single request and
-     * response, with no stateful conversation.
      * @param {Object} turnContext on turn context object.
      */
     async onTurn(turnContext) {
@@ -110,16 +114,16 @@ class AuthenticationBot {
             const dc = await this.dialogs.createContext(turnContext);
             const text = turnContext.activity.text;
 
-            // Create an array with the valid color options.
+            // Create an array with the valid options.
             const validCommands = ['logout', 'help'];
             await dc.continueDialog();
 
-            // If the `text` is in the Array, a valid color was selected and send agreement. 
+            // If the user asks for help, send a message to them informing them of the operations they can perform.
             if (validCommands.includes(text)) {
                 if (text === 'help') {
                     await turnContext.sendActivity(HELP_TEXT);
                 }
-
+                // Log the user out
                 if (text === 'logout') {
                     let botAdapter = turnContext.adapter;
                     await botAdapter.signOutUser(turnContext, CONNECTION_NAME);
