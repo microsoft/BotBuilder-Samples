@@ -7,9 +7,9 @@ This sample shows how to use authentication in your bot using OAuth. This bot ex
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
-- In a console, navigate to javascript_nodejs\19.bot-authentication
+- In a console, navigate to samples\javascript_nodejs\18.bot-authentication
     ```bash
-    cd javascript_nodejs\19.bot-authentication
+    cd samples\javascript_nodejs\18.bot-authentication
     ```
 - Point to the MyGet feed 
     ```bash
@@ -35,7 +35,7 @@ Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emula
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to javascript_nodejs\19.bot-authentication folder
+- File -> Open Bot Configuration and navigate to samples\javascript_nodejs\18.bot-authentication folder
 - Select bot-authentication.bot file
 
 # Authentication
