@@ -13,6 +13,7 @@
     },
     "dependencies": {
         "applicationinsights": "^1.0.4",
+        "azure-cognitiveservices-contentmoderator": "^4.0.0",
         "botbuilder": "^4.0.6",
         "botbuilder-ai": "^4.0.6",
         "botbuilder-azure": "^4.0.6",
