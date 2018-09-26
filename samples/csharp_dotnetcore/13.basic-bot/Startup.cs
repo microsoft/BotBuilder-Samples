@@ -68,10 +68,11 @@ namespace Microsoft.BotBuilderSamples
             }
             catch
             {
-                var msg = "Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.\n" +
-                    " - The botFileSecret is available under appsettings for your Azure Bot Service bot.\n" +
-                    " - If you are running this bot locally, consider adding a appsettings.json file with botFilePath and botFileSecret.\n" +
-                    " - See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.\n\n";
+                var msg = @"Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.
+    - You can find the botFilePath and botFileSecret in the Azure App Service application settings.
+    - If you are running this bot locally, consider adding a appsettings.json file with botFilePath and botFileSecret.
+    - See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
+    ";
                 throw new InvalidOperationException(msg);
             }
 
