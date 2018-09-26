@@ -2,6 +2,7 @@ import { TemplateManager } from "../templateManager/templateManager";
 import { LanguageTemplateDictionary, DictionaryRenderer, TemplateFunction } from "../templateManager/dictionaryRenderer";
 import { TurnContext, Activity } from "botbuilder";
 import { ResourceParser } from '../shared/resourceParser';
+import { ActivityEx } from "../../utils/activityEx";
 const resourcesPath = require.resolve('./resources/mainResponses.resx');
 
 export class MainResponses extends TemplateManager {
@@ -37,7 +38,7 @@ export class MainResponses extends TemplateManager {
     }
 
     public static sendIntroCard(turnContext: TurnContext, data: any): Promise<Activity> {
-        const response = turnContext.activity;
+        const response = ActivityEx.createReply(turnContext.activity);
         //TODO create card
         return Promise.resolve(response);
     }
