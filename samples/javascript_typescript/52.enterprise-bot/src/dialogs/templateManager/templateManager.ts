@@ -45,11 +45,11 @@ export class TemplateManager {
     /// <param name="templateId"></param>
     /// <param name="data"></param>
     /// <returns></returns>
-    public async ReplyWith(turnContext: TurnContext, templateId: string, data: object | null = null): Promise<void> {
-        if (turnContext == null) throw new Error('turnContext is null');
+    public async ReplyWith(turnContext: TurnContext, templateId: string, data: any): Promise<void> {
+        if (!turnContext) throw new Error('turnContext is null');
 
         // apply template
-        let boundActivity: Activity | null = await this.RenderTemplate(turnContext, turnContext.activity.locale, templateId, data);
+        let boundActivity: Activity | undefined = await this.RenderTemplate(turnContext, templateId, turnContext.activity.locale, data);
         if (boundActivity != null) {
             await turnContext.sendActivity(boundActivity);
             return;
@@ -57,7 +57,6 @@ export class TemplateManager {
         
         return;
     }
-
 
     /// <summary>
     /// Render the template
@@ -67,11 +66,11 @@ export class TemplateManager {
     /// <param name="templateId"></param>
     /// <param name="data"></param>
     /// <returns></returns>
-    public async RenderTemplate(turnContext: TurnContext, language: string | undefined, templateId: string, data: object | null = null): Promise<Activity | null> {
+    public async RenderTemplate(turnContext: TurnContext, templateId: string, language?: string, data?: any): Promise<Activity | undefined> {
         let fallbackLocales = this._languageFallback;
 
-        if (!language) {
-            fallbackLocales.push(<string>language);
+        if (language) {
+            fallbackLocales.push(language);
         }
 
         fallbackLocales.push("default");
@@ -79,9 +78,9 @@ export class TemplateManager {
         // try each locale until successful
         for (let locale of fallbackLocales) {
             for (let renderer of this._templateRenderers) {
-                let templateOutput: object | null = await renderer.RenderTemplate(turnContext, locale, templateId, data);
-                if (templateOutput != null) {
-                    if (templateOutput instanceof String) {
+                let templateOutput = await renderer.RenderTemplate(turnContext, locale, templateId, data);
+                if (templateOutput) {
+                    if (typeof templateOutput === 'string' || templateOutput instanceof String) {
                         return <Activity>{ type: ActivityTypes.Message, text: <string>templateOutput };
                     }
                     else {
@@ -90,6 +89,6 @@ export class TemplateManager {
                 }
             }
         }
-        return null;
+        return undefined;
     }
 }

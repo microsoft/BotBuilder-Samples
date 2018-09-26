@@ -15,5 +15,5 @@ export interface ITemplateRenderer {
     /// <param name="templateId">tenmplate to render</param>
     /// <param name="data">data object to use to render</param>
     /// <returns></returns>
-    RenderTemplate(turnContext: TurnContext, language: string, templateId: string, data: object | null): Promise<object | null>;
+    RenderTemplate(turnContext: TurnContext, language: string, templateId: string, data: any): Promise<any>;
 }

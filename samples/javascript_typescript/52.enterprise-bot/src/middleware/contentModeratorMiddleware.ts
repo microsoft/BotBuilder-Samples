@@ -16,9 +16,6 @@ export class ContentModeratorMiddleware implements Middleware {
 
     private readonly _cmClient: ContentModeratorClient;
 
-    /**
-     *
-     */
     constructor(subscriptionKey: string, region: string) {
         this._subscriptionKey = subscriptionKey;
         this._region = region;

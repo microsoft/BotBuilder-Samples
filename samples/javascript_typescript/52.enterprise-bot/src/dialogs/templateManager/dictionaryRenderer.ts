@@ -4,10 +4,12 @@
 import { ITemplateRenderer } from './ITemplateRenderer';
 import { TurnContext } from 'botbuilder-core';
 
+export declare type TemplateFunction = (turnContext: TurnContext, data: any) => Promise<any>;
+
 /// <summary>
 /// Map of Template Ids-> Template Function()
 /// </summary>
-export declare type TemplateIdMap = Map<string, (turnContext: TurnContext, data: object) => object>;
+export declare type TemplateIdMap = Map<string, TemplateFunction>;
 
 /// <summary>
 /// Map of language -> template functions
@@ -33,18 +35,18 @@ export class DictionaryRenderer implements ITemplateRenderer {
         this._languages = templates;
     }
 
-    public RenderTemplate(turnContext: TurnContext, language: string, templateId: string, data: object): Promise<object | null> {
+    public RenderTemplate(turnContext: TurnContext, language: string, templateId: string, data: any): Promise<any> {
         let templates: TemplateIdMap | undefined = this._languages.get(language);
         if (templates) {
-            let template: ((turnContext: TurnContext, data: object) => object) | undefined = templates.get(templateId);
+            let template: TemplateFunction | undefined = templates.get(templateId);
             if (template) {
-                let result: object = template(turnContext, data);
-                if (result != null) {
-                    return Promise.resolve(result as object);
+                let result = template(turnContext, data);
+                if (result) {
+                    return result;
                 }
             }
         }
 
-        return Promise.resolve(null);
+        return Promise.resolve(undefined);
     }
 }
