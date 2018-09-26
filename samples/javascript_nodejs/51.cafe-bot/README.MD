@@ -99,23 +99,23 @@ Optionally, you can use the LUIS, QnA Maker portals to manually import the model
 ## Building and creating services
 - Parse .lu files into LUIS models
     ```bash
-    > ludown parse toluis --in dialogs\dispatcher\resources\cafeDispatchModel.lu -o cognitiveModels -n cafeDispatchModel.luis
-    > ludown parse toluis --in dialogs\bookTable\resources\turn-N.lu -o cognitiveModels -n cafeBotBookTableTurnN.luis
-    > ludown parse toluis --in dialogs\whoAreYou\resources\getUserProfile.lu -o cognitiveModels -n getUserProfile.luis
+    > ludown parse toluis --in dialogs/dispatcher/resources/cafeDispatchModel.lu -o cognitiveModels -n cafeDispatchModel.luis --verbose
+    > ludown parse toluis --in dialogs/bookTable/resources/turn-N.lu -o cognitiveModels -n cafeBotBookTableTurnN.luis --verbose
+    > ludown parse toluis --in dialogs/whoAreYou/resources/getUserProfile.lu -o cognitiveModels -n getUserProfile.luis --verbose
     ```
 - Parse .lu files into QnA Maker KB and QnA Maker alterations file
     ```bash
-    > ludown parse toqna --in dialogs\dispatcher\resources\cafeFAQ_ChitChat.lu --verbose -o cognitiveModels -n cafeFaqChitChat.qna -a
+    > ludown parse toqna --in dialogs/dispatcher/resources/cafeFAQ_ChitChat.lu -o cognitiveModels -n cafeFaqChitChat.qna -a --verbose
     ```
 - Import LUIS applications (Note: You don't need this if you have already run MSBOT clone)
     ```bash
-    > luis import application --in cognitiveModels\cafeDispatchModel.luis --authoringKey <Your LUIS authoring key> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect luis --stdin
-    > luis import application --in cognitiveModels\cafeBotBookTableTurnN.luis --authoringKey <Your LUIS authoring key> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect luis --stdin
-    > luis import application --in cognitiveModels\getUserProfile.luis --authoringKey <Your LUIS authoring key> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect luis --stdin
+    > luis import application --in cognitiveModels/cafeDispatchModel.luis --authoringKey <Your LUIS authoring key> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect luis --stdin
+    > luis import application --in cognitiveModels/cafeBotBookTableTurnN.luis --authoringKey <Your LUIS authoring key> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect luis --stdin
+    > luis import application --in cognitiveModels/getUserProfile.luis --authoringKey <Your LUIS authoring key> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect luis --stdin
     ```
 - Import QnA Maker KBs (Note: You don't need this if you have already run MSBOT clone)
     ```bash
-    > qnamaker create kb --in cognitiveModels\cafeFaqChitChat.qna --subscriptionKey <Your QnA Maker subscription key> --msbot | msbot connect qna --stdin
+    > qnamaker create kb --in cognitiveModels/cafeFaqChitChat.qna --subscriptionKey <Your QnA Maker subscription key> --msbot | msbot connect qna --stdin
     ```
 ## Updating and publishing LUIS models
 - Rename current LUIS version
@@ -124,7 +124,7 @@ Optionally, you can use the LUIS, QnA Maker portals to manually import the model
     ```
 - Import a LUIS application version
     ```bash
-    > msbot get cafeDispatchModel --secret <Key if your bot file is encrypted> | luis import version --stdin --in cognitiveModels\cafeDispatchModel.luis
+    > msbot get cafeDispatchModel --secret <Key if your bot file is encrypted> | luis import version --stdin --in cognitiveModels/cafeDispatchModel.luis
     ```
 - Deleting old LUIS application version
     ```bash
@@ -143,7 +143,7 @@ Optionally, you can use the LUIS, QnA Maker portals to manually import the model
 
 - Replace KB contents
     ```bash
-    > msbot get cafeFaqChitChat --secret <Key if your bot file is encrypted> | qnamaker replace kb --in cognitiveModels\cafeFaqChitChat.qna --stdin
+    > msbot get cafeFaqChitChat --secret <Key if your bot file is encrypted> | qnamaker replace kb --in cognitiveModels/cafeFaqChitChat.qna --stdin
     ```
 - Train and publish KB
     ```bash
@@ -151,5 +151,5 @@ Optionally, you can use the LUIS, QnA Maker portals to manually import the model
     ```
 - Replace QnA Maker alterations
     ```bash
-    > msbot get cafeFaqChitChat --secret <Key if your bot file is encrypted> | qnamaker replace alterations --in cognitiveModels\cafeFaqChitChat.qna_Alterations.json --stdin
+    > msbot get cafeFaqChitChat --secret <Key if your bot file is encrypted> | qnamaker replace alterations --in cognitiveModels/cafeFaqChitChat.qna_Alterations.json --stdin
     ```
