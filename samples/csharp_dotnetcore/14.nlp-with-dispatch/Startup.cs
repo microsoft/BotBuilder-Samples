@@ -157,8 +157,7 @@ namespace NLP_With_Dispatch_Bot
                             // In this case, we're creating a custom class (wrapping the original
                             // Luis Recognizer client) that logs the results of Luis Recognizer results
                             // into Application Insights for future anaysis.
-                            var luis = (LuisService)service;
-                            if (luis == null)
+                            if (!(service is LuisService luis))
                             {
                                 throw new InvalidOperationException("The LUIS service is not configured correctly in your '.bot' file.");
                             }
@@ -195,10 +194,9 @@ namespace NLP_With_Dispatch_Bot
                         // In this case, we're creating a custom class (wrapping the original
                         // Luis Recognizer client) that logs the results of Luis Recognizer results
                         // into Application Insights for future anaysis.
-                        var dispatch = (DispatchService)service;
-                        if (dispatch == null)
+                        if (!(service is DispatchService dispatch))
                         {
-                            throw new InvalidOperationException("The LUIS service is not configured correctly in your '.bot' file.");
+                            throw new InvalidOperationException("The Dispatch service is not configured correctly in your '.bot' file.");
                         }
 
                         if (string.IsNullOrWhiteSpace(dispatch.AppId))
@@ -235,8 +233,7 @@ namespace NLP_With_Dispatch_Bot
                             // In this case, we're creating a custom class (wrapping the original
                             // QnAMaker client) that logs the results of QnA Maker into Application
                             // Insights for future anaysis.
-                            var qna = (QnAMakerService)service;
-                            if (qna == null)
+                            if (!(service is QnAMakerService qna))
                             {
                                 throw new InvalidOperationException("The QnA service is not configured correctly in your '.bot' file.");
                             }
