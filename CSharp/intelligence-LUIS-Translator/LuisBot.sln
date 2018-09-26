@@ -10,7 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "README", "README", "{279E48
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.AI.Translation", "Microsoft.Bot.Builder.AI.Translation\Microsoft.Bot.Builder.AI.Translation.csproj", "{F01E00B1-A061-4B0D-B42F-3D856FEC67EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.AI.Translation.Tests", "Libraries\Tests\Microsoft.Bot.Builder.AI.Translation.Tests\Microsoft.Bot.Builder.AI.Translation.Tests.csproj", "{8A608D6B-A0AE-4DAE-A763-DFCC03B511D6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.AI.Translation", "Libraries\Microsoft.Bot.Builder.AI.Translation\Microsoft.Bot.Builder.AI.Translation.csproj", "{5215DDA7-B512-4F7F-B12C-AE53FC12752F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,14 +30,22 @@ Global
 		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F01E00B1-A061-4B0D-B42F-3D856FEC67EA}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
-		{F01E00B1-A061-4B0D-B42F-3D856FEC67EA}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
-		{F01E00B1-A061-4B0D-B42F-3D856FEC67EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F01E00B1-A061-4B0D-B42F-3D856FEC67EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F01E00B1-A061-4B0D-B42F-3D856FEC67EA}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{F01E00B1-A061-4B0D-B42F-3D856FEC67EA}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
-		{F01E00B1-A061-4B0D-B42F-3D856FEC67EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F01E00B1-A061-4B0D-B42F-3D856FEC67EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A608D6B-A0AE-4DAE-A763-DFCC03B511D6}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A608D6B-A0AE-4DAE-A763-DFCC03B511D6}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{8A608D6B-A0AE-4DAE-A763-DFCC03B511D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A608D6B-A0AE-4DAE-A763-DFCC03B511D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A608D6B-A0AE-4DAE-A763-DFCC03B511D6}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A608D6B-A0AE-4DAE-A763-DFCC03B511D6}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{8A608D6B-A0AE-4DAE-A763-DFCC03B511D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A608D6B-A0AE-4DAE-A763-DFCC03B511D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5215DDA7-B512-4F7F-B12C-AE53FC12752F}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{5215DDA7-B512-4F7F-B12C-AE53FC12752F}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{5215DDA7-B512-4F7F-B12C-AE53FC12752F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5215DDA7-B512-4F7F-B12C-AE53FC12752F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5215DDA7-B512-4F7F-B12C-AE53FC12752F}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{5215DDA7-B512-4F7F-B12C-AE53FC12752F}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{5215DDA7-B512-4F7F-B12C-AE53FC12752F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5215DDA7-B512-4F7F-B12C-AE53FC12752F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

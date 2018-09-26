@@ -192,8 +192,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Microsoft.Bot.Builder.AI.Translation\Microsoft.Bot.Builder.AI.Translation.csproj">
-      <Project>{f01e00b1-a061-4b0d-b42f-3d856fec67ea}</Project>
+    <ProjectReference Include="Libraries\Microsoft.Bot.Builder.AI.Translation\Microsoft.Bot.Builder.AI.Translation.csproj">
+      <Project>{5215dda7-b512-4f7f-b12c-ae53fc12752f}</Project>
       <Name>Microsoft.Bot.Builder.AI.Translation</Name>
     </ProjectReference>
   </ItemGroup>

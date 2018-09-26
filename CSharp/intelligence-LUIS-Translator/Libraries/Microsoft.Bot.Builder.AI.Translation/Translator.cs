@@ -17,7 +17,8 @@ namespace Microsoft.Bot.Builder.AI.Translation
 {
     /// <summary>
     /// Provides access to the Microsoft Translator Text API.
-    /// Uses api key and detect input language translate single sentence or array of sentences then apply translation post processing fix.
+    /// Uses API to detect text language and translate text from a source language to a target language.
+    /// Apply translation customizations through patterns and custom dictionary.
     /// </summary>
     public class Translator : ITranslator
     {
@@ -30,9 +31,6 @@ namespace Microsoft.Bot.Builder.AI.Translation
         /// Initializes a new instance of the <see cref="Translator"/> class.
         /// </summary>
         /// <param name="apiKey">Your subscription key for the Microsoft Translator Text API.</param>
-        /// <param name="preProcessor">The PreProcessor to use.</param>"
-        /// <param name="requestBuilder">The RequestBuilder to use.</param>
-        /// <param name="responseGenerator">The ResponseBuilder to use.</param>
         /// <param name="httpClient">An alternate HTTP client to use.</param>
         public Translator(string apiKey, HttpClient httpClient = null)
         {
@@ -51,47 +49,67 @@ namespace Microsoft.Bot.Builder.AI.Translation
         /// Initializes a new instance of the <see cref="Translator"/> class.
         /// </summary>
         /// <param name="apiKey">Your subscription key for the Microsoft Translator Text API.</param>
-        /// <param name="preProcessor">The PreProcessor to use.</param>"
-        /// <param name="requestBuilder">The RequestBuilder to use.</param>
-        /// <param name="responseGenerator">The ResponseBuilder to use.</param>
-        /// <param name="httpClient">An alternate HTTP client to use.</param>
         /// <param name="patterns">List of regex patterns, indexed by language identifier,
         /// that can be used to flag text that should not be translated.</param>
         /// /// <param name="userCustomDictonaries">Custom languages dictionary object, used to store all the different languages dictionaries
         /// configured by the user to overwrite the translator output to certain vocab by the custom dictionary translation.</param>
+        /// <param name="httpClient">An alternate HTTP client to use.</param>
         public Translator(string apiKey, Dictionary<string, List<string>> patterns, CustomDictionary userCustomDictonaries, HttpClient httpClient = null)
             : this(apiKey, httpClient)
         {
             InitializePostProcessors(patterns, userCustomDictonaries);
         }
 
+        /// <summary>
+        /// Detects the language of the input text.
+        /// </summary>
+        /// <param name="textToDetect">The text to translate.</param>
+        /// <returns>A task that represents the detection operation.
+        /// The task result contains the id of the detected language.</returns>
         public async Task<string> DetectAsync(string textToDetect)
         {
             textToDetect = _preProcessor.PreprocessMessage(textToDetect);
 
             var payload = new TranslatorRequestModel[] { new TranslatorRequestModel { Text = textToDetect } };
 
-            using (var request = _requestBuilder.GetDetectRequestMessage(payload))
+            using (var request = _requestBuilder.BuildDetectRequest(payload))
             {
                 var detectedLanguages = await _responseGenerator.GenerateDetectResponseAsync(request).ConfigureAwait(false);
                 return detectedLanguages.First().Language;
             }
         }
 
-        public async Task<ITranslatedDocument> TranslateAsync(string textToTranslate, string from, string to)
+        /// <summary>
+        /// Translates a single message from a source language to a target language.
+        /// </summary>
+        /// <param name="textToTranslate">The text to translate.</param>
+        /// <param name="sourceLanguage">The language code of the translation text. For example, "en" for English.</param>
+        /// <param name="targetLanguage">The language code to translate the text into.</param>
+        /// <returns>A task that represents the translation operation.
+        /// The task result contains the translated document.</returns>
+        public async Task<ITranslatedDocument> TranslateAsync(string textToTranslate, string sourceLanguage, string targetLanguage)
         {
-            var results = await TranslateArrayAsync(new string[] { textToTranslate }, from, to).ConfigureAwait(false);
+            var results = await TranslateArrayAsync(new string[] { textToTranslate }, sourceLanguage, targetLanguage).ConfigureAwait(false);
             return results.First();
         }
 
-        public async Task<List<ITranslatedDocument>> TranslateArrayAsync(string[] translateArraySourceTexts, string from, string to)
+        /// <summary>
+        /// Translates an array of strings from a source language to a target language.
+        /// </summary>
+        /// <param name="translateArraySourceTexts">The strings to translate.</param>
+        /// <param name="sourceLanguage">The language code of the translation text. For example, "en" for English.</param>
+        /// <param name="targetLanguage">The language code to translate the text into.</param>
+        /// <returns>A task that represents the translation operation.
+        /// The task result contains a list of the translated documents.</returns>
+        public async Task<List<ITranslatedDocument>> TranslateArrayAsync(string[] translateArraySourceTexts, string sourceLanguage, string targetLanguage)
         {
             var translatedDocuments = new List<ITranslatedDocument>();
             for (var srcTxtIndx = 0; srcTxtIndx < translateArraySourceTexts.Length; srcTxtIndx++)
             {
-                // Check for literal tag in input user message
                 var currentTranslatedDocument = new TranslatedDocument(translateArraySourceTexts[srcTxtIndx]);
                 translatedDocuments.Add(currentTranslatedDocument);
+
+                // Check for literal tag in input user message
                 _preProcessor.PreprocessMessage(currentTranslatedDocument.GetSourceMessage(), out var processedText, out var literanlNoTranslateList);
                 currentTranslatedDocument.SetSourceMessage(processedText);
                 translateArraySourceTexts[srcTxtIndx] = processedText;
@@ -100,7 +118,7 @@ namespace Microsoft.Bot.Builder.AI.Translation
 
             // list of translation request for the service
             var payload = translateArraySourceTexts.Select(s => new TranslatorRequestModel { Text = s });
-            using (var request = _requestBuilder.GetTranslateRequestMessage(from, to, payload))
+            using (var request = _requestBuilder.BuildTranslateRequest(sourceLanguage, targetLanguage, payload))
             {
                 var translatedResults = await _responseGenerator.GenerateTranslateResponseAsync(request).ConfigureAwait(false);
                 var sentIndex = 0;
@@ -132,13 +150,13 @@ namespace Microsoft.Bot.Builder.AI.Translation
                 }
 
                 // post process all translated documents
-                PostProcesseDocuments(translatedDocuments, from);
+                PostProcesseDocuments(translatedDocuments, sourceLanguage);
                 return translatedDocuments;
             }
         }
 
         /// <summary>
-        /// Initialize attached post processors according to what the user sent in the middle ware constructor.
+        /// Initialize attached post processors according to the availability of patterns and custom dictionary provided to the translator constructor.
         /// </summary>
         private void InitializePostProcessors(Dictionary<string, List<string>> patterns, CustomDictionary userCustomDictonaries)
         {

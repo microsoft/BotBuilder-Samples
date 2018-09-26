@@ -1,0 +1,21 @@
+[
+    {
+        "translations": [
+            {
+                "text": "My name is the state ",
+                "to": "en",
+                "alignment": {
+                    "proj": "0:2-0:1 4:6-3:6 8:10-8:9 12:13-11:13 14:17-15:19"
+                },
+                "sentLen": {
+                    "srcSentLen": [
+                        19
+                    ],
+                    "transSentLen": [
+                        20
+                    ]
+                }
+            }
+        ]
+    }
+]

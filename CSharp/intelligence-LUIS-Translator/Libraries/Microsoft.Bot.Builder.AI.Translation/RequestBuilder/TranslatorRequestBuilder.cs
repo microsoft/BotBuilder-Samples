@@ -15,6 +15,7 @@ namespace Microsoft.Bot.Builder.AI.Translation.RequestBuilder
     /// </summary>
     internal class TranslatorRequestBuilder : IRequestBuilder
     {
+        // TODO: Make it configurable
         private const string DetectUrl = "https://api.cognitive.microsofttranslator.com/detect?api-version=3.0";
         private const string TranslateUrl = "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&includeAlignment=true&includeSentenceLength=true";
         private readonly string _apiKey;
@@ -33,33 +34,45 @@ namespace Microsoft.Bot.Builder.AI.Translation.RequestBuilder
             _apiKey = apiKey;
         }
 
-        public HttpRequestMessage GetTranslateRequestMessage(string from, string to, IEnumerable<TranslatorRequestModel> translatorRequests)
+        /// <summary>
+        /// Build the HttpRequestMessage for translation.
+        /// </summary>
+        /// <param name="sourceLanguage">The language to translate from.</param>
+        /// <param name="targetLanguage">The language to translate to.</param>
+        /// <param name="translatorRequests">The requests to be translated.</param>
+        /// <returns>An HttpRequestMessage for the translator API.</returns>
+        public HttpRequestMessage BuildTranslateRequest(string sourceLanguage, string targetLanguage, IEnumerable<TranslatorRequestModel> translatorRequests)
         {
             if (translatorRequests == null || translatorRequests.ToList().Count < 1)
             {
                 throw new ArgumentNullException(nameof(translatorRequests));
             }
 
-            var query = $"&from={from}&to={to}";
+            var query = $"&from={sourceLanguage}&to={targetLanguage}";
             var requestUri = new Uri(TranslateUrl + query);
             return GetRequestMessage(requestUri, translatorRequests);
         }
 
-        public HttpRequestMessage GetDetectRequestMessage(IEnumerable<TranslatorRequestModel> translatorRequests)
+        /// <summary>
+        /// Builds the HttpRequestMessage for language detection.
+        /// </summary>
+        /// <param name="detectorRequests">The requests to be detected.</param>
+        /// <returns>An HttpRequestMessage for the detection API.</returns>
+        public HttpRequestMessage BuildDetectRequest(IEnumerable<TranslatorRequestModel> detectorRequests)
         {
-            if (translatorRequests == null || translatorRequests.ToList().Count < 1)
+            if (detectorRequests == null || detectorRequests.ToList().Count < 1)
             {
-                throw new ArgumentNullException(nameof(translatorRequests));
+                throw new ArgumentNullException(nameof(detectorRequests));
             }
 
             var requestUri = new Uri(DetectUrl);
-            return this.GetRequestMessage(requestUri, translatorRequests);
+            return GetRequestMessage(requestUri, detectorRequests);
         }
 
         /// <summary>
         /// Build HttpRequestMessage with its content.
         /// </summary>
-        /// <param name="requestUri">Uri of request.</param>
+        /// <param name="requestUri">Uri of request</param>
         /// <param name="translatorRequests">The models to be included in the content.</param>
         /// <returns>An HttpRequestMessage with its content.</returns>
         private HttpRequestMessage GetRequestMessage(Uri requestUri, IEnumerable<TranslatorRequestModel> translatorRequests)

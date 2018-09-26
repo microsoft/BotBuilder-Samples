@@ -16,6 +16,7 @@ namespace Microsoft.Bot.Builder.AI.Translation
         public const string NegativeValueAlignmentMapEntryErrorMessage = "Alignment map entry value can't be negative";
         public const string NotFoundTokenInSourceArray = "Token not found in the specified array, check the alignment information";
         public const string EmptyPatternsErrorMessage = "Patterns dictionary can't be empty";
+        public const string NullResponseErrorMessage = "Failed to obtain a response from the API";
 
         // information messages
         public const string MissingTranslatorEnvironmentVariablesMessage = "Missing Translator Environment variables - Skipping test";

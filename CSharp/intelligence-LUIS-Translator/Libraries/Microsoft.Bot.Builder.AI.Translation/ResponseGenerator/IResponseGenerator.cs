@@ -16,14 +16,16 @@ namespace Microsoft.Bot.Builder.AI.Translation.ResponseGenerator
         /// Generate the DetectedLanguageModel from the detection request.
         /// </summary>
         /// <param name="request">The HttpRequestMessage to use.</param>
-        /// <returns>An Enumerable of detected languages.</returns>
+        /// <returns>A task that represents the generation operation.
+        /// The task result contains the detected language models.</returns>
         Task<IEnumerable<DetectedLanguageModel>> GenerateDetectResponseAsync(HttpRequestMessage request);
 
         /// <summary>
         /// Generates the TranslatedResult from translation request.
         /// </summary>
         /// <param name="request">The HttpRequestMessage to use.</param>
-        /// <returns>An enumberable of the translated results.</returns>
+        /// <returns>A task that represents the generation operation.
+        /// The task result contains the translation results.</returns>
         Task<IEnumerable<TranslatedResult>> GenerateTranslateResponseAsync(HttpRequestMessage request);
     }
 }
