@@ -57,12 +57,29 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddBot<EchoWithCounterBot>(options =>
             {
+                // Creates a logger for the application to use.
+                ILogger logger = _loggerFactory.CreateLogger<EchoWithCounterBot>();
+
                 var secretKey = Configuration.GetSection("botFileSecret")?.Value;
                 var botFilePath = Configuration.GetSection("botFilePath")?.Value;
 
                 // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
-                var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
-                services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+                BotConfiguration botConfig = null;
+                try
+                {
+                    botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+                }
+                catch
+                {
+                    var msg = "Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.\n" +
+                        " - The botFileSecret is available under appsettings for your Azure Bot Service bot.\n" +
+                        " - If you are running this bot locally, consider adding a appsettings.json file with botFilePath and botFileSecret.\n" +
+                        " - See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.\n\n";
+                    logger.LogError(msg);
+                    throw new InvalidOperationException(msg);
+                }
+
+                services.AddSingleton(sp => botConfig);
 
                 // Retrieve current endpoint.
                 var environment = _isProduction ? "production" : "development";
@@ -73,9 +90,6 @@ namespace Microsoft.BotBuilderSamples
                 }
 
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
-
-                // Creates a logger for the application to use.
-                ILogger logger = _loggerFactory.CreateLogger<EchoWithCounterBot>();
 
                 // Catches any errors that occur during a conversation turn and logs them.
                 options.OnTurnError = async (context, exception) =>
