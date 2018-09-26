@@ -10,7 +10,6 @@ namespace EchoBotWithCounter
     /// <summary>
     /// Specifies the Unity configuration for the main container.
     /// </summary>
-    /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection"/>
     public static class UnityConfig
     {
         private static Lazy<IUnityContainer> container =
