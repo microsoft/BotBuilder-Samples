@@ -5,10 +5,10 @@
     <CodeAnalysisRuleSet>Custom-Dialog-Bot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="BotConfiguration.bot">
+ <ItemGroup>
+    <None Update="*.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

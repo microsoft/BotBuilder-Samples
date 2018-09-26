@@ -9,6 +9,11 @@
     <CodeAnalysisRuleSet>BotBuilder.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
+ <ItemGroup>
+    <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />

@@ -4,6 +4,12 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <CodeAnalysisRuleSet>BotBuilder.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  
+ <ItemGroup>
+    <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.0.3" />
