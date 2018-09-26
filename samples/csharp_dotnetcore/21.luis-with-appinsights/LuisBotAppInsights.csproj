@@ -5,13 +5,11 @@
 	<CodeAnalysisRuleSet>LuisBot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
-
-  <ItemGroup>
-    <Content Include="BotConfiguration.bot">
+ <ItemGroup>
+    <None Update="*.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
@@ -27,6 +25,5 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
-
 
 </Project>
