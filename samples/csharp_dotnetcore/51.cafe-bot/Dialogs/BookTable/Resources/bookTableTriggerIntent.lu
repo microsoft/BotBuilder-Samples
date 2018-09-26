@@ -1,0 +1,26 @@
+﻿> Intent and entity definitions for book table scenario
+> Check out https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown to learn more about .lu files and Ludown.
+
+# Book Table
+- book a table
+- i would like to book a table
+- book a table for 3
+- book a table for 2 in redmond store for next thursday at 3pm
+- book a table for 3 guests in seattle
+- book a table for next thursday at 3pm please
+- book a table for 3 guests near microsoft for next thursday at 3pm
+- can you book a table for 3 guests?
+- get me a table for next wednesday
+- book a table at seatac
+- can you please book a table for 2 guests for this weekend?
+- get a table for next thursday
+- reserve a table for 4 at SEA
+- can you get me a table
+- please help reserve a table for 5
+- can i get a table for this sunday at seattle?
+- need a table in redmond
+- I need to reserve a table
+- I need to make a reservation
+- I need to reserve a table for 2 in Seattle
+
+[ "entities", "ref" ](../../dispatcher/resources/entities.lu)

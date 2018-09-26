@@ -1,0 +1,24 @@
+﻿user=Vishwac
+bot=EchoBot
+
+user: Who are you?
+bot: Hi, I'm the cafe bot.
+bot: What's your name?
+user: Vishwac
+bot: Hello Vishwac, nice to meet you!
+
+user: Who are you?
+bot: Hi, I'm the cafe bot.
+bot: What's your name?
+user: Why do you need my name?
+bot: I need your name to be able to address you correctly!
+user: Vishwac
+bot: Hello Vishwac, nice to meet you!
+
+user: Who are you?
+bot: Hi, I'm the cafe bot.
+bot: What's your name?
+user: I will not give you my name
+bot: Hello Human, nice to meet you!
+bot: You can always say 'My name is your_name' to introduce yourself to me.
+

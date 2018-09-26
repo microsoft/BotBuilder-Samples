@@ -1,0 +1,53 @@
+﻿{
+  "version": "1.0",
+  "resources": [
+    {
+      "type": "endpoint",
+      "id": "1",
+      "name": "development",
+      "url": "http://localhost:3978/api/messages"
+    },
+    {
+      "type": "luis",
+      "id": "95",
+      "name": "cafeBotBookTableTurnNModel"
+    },
+    {
+      "type": "luis",
+      "id": "227",
+      "name": "cafeDispatchModel"
+    },
+    {
+      "type": "luis",
+      "id": "183",
+      "name": "getUserProfile"
+    },
+    {
+      "type": "qna",
+      "id": "54",
+      "name": "cafeFaqChitChat"
+    },
+    {
+      "type": "endpoint",
+      "id": "2",
+      "name": "production",
+      "url": "https://your-bot-url.azurewebsites.net/api/messages"
+    },
+    {
+      "type": "abs",
+      "id": "3",
+      "name": "EchoBot"
+    },
+    {
+      "type": "appInsights",
+      "id": "4",
+      "name": "EchoBotInsights"
+    },
+    {
+      "type": "blob",
+      "id": "5",
+      "name": "EchoBotBlob",
+      "container": "transcripts"
+    }
+  ]
+}
