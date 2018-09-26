@@ -3,6 +3,7 @@ import { DialogContext } from "botbuilder-dialogs";
 import { BotServices } from "../../botServices";
 import { ConversationState, UserState } from "botbuilder";
 import { MainResponses } from "./mainResponses";
+import { OnboardingState } from "../onboarding/onboardingState";
 
 export class MainDialog extends RouterDialog {
     private readonly _botServices: BotServices;
@@ -26,11 +27,19 @@ export class MainDialog extends RouterDialog {
         //this.addDialog(new EscalateDialog(this._botServices));
     }
 
-    protected route(innerDC: DialogContext): Promise<void> {
-        throw new Error("Method not implemented.");
+    protected async onStart(innerDC: DialogContext): Promise<void> {
+        const onboardingAccessor = this._userState.createProperty<OnboardingState>('OnboardingState');
+        const onboardingState = await onboardingAccessor.get(innerDC.context, undefined);
+
+        await this._responder.ReplyWith(innerDC.context, MainResponses.Intro);
+
+        if (onboardingState && onboardingState.name) {
+            // This is the first time the user is interacting with the bot, so gather onboarding information.
+            await innerDC.beginDialog('OnboardingDialog');
+        }
     }
 
-    protected onStart(innerDC: DialogContext): Promise<void> {
+    protected route(innerDC: DialogContext): Promise<void> {
         throw new Error("Method not implemented.");
     }
 

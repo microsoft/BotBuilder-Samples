@@ -45,7 +45,7 @@ export class TemplateManager {
     /// <param name="templateId"></param>
     /// <param name="data"></param>
     /// <returns></returns>
-    public async ReplyWith(turnContext: TurnContext, templateId: string, data: any): Promise<void> {
+    public async ReplyWith(turnContext: TurnContext, templateId: string, data?: any): Promise<void> {
         if (!turnContext) throw new Error('turnContext is null');
 
         // apply template

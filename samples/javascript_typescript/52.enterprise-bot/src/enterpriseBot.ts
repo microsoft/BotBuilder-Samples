@@ -3,7 +3,7 @@
 
 import { ConversationState, UserState, TurnContext } from 'botbuilder';
 import { BotServices } from './botServices';
-import { DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
+import { DialogSet, DialogTurnStatus, DialogState } from 'botbuilder-dialogs';
 import { MainDialog } from './dialogs/main/mainDialog';
 
 /**
@@ -30,7 +30,7 @@ export class EnterpriseBot {
         this._botServices = botServices;
         this._conversationState = conversationState;
         this._userState = userState;
-        this._dialogs = new DialogSet(this._conversationState.createProperty('EnterpriseBot'));
+        this._dialogs = new DialogSet(this._conversationState.createProperty<DialogState>('EnterpriseBot'));
         this._dialogs.add(new MainDialog(this._botServices, this._conversationState, this._userState));
     }
 
