@@ -5,13 +5,11 @@
     <CodeAnalysisRuleSet>BotBuilder.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
-
-  <ItemGroup>
-    <Content Include="BotConfiguration.bot">
+ <ItemGroup>
+    <None Update="*.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
@@ -22,6 +20,5 @@
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.0.7" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
   </ItemGroup>
-
 
 </Project>
