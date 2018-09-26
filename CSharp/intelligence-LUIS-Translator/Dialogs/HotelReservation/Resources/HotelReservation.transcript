@@ -1,0 +1,363 @@
+[
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "1",
+    "recipient": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "from": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "timestamp": "2018-09-10T08:42:23.100Z",
+    "type": "conversationUpdate",
+    "channelId": "chatdown",
+    "membersAdded": [
+      {
+        "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+        "name": "bot",
+        "role": "bot"
+      }
+    ],
+    "membersRemoved": []
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "2",
+    "recipient": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "from": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "text": "Hello and welcome to Luis Sample bot.",
+    "timestamp": "2018-09-10T08:42:25.100Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "3",
+    "recipient": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "from": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "text": "Bonjour mon nom est l'état",
+    "timestamp": "2018-09-10T08:42:27.100Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "5",
+    "recipient": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "from": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "timestamp": "2018-09-10T08:42:27.200Z",
+    "type": "typing",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "4",
+    "recipient": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "from": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "text": "Your input message after translation is Good morning my name is l'état",
+    "timestamp": "2018-09-10T08:42:29.200Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "6",
+    "recipient": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "from": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "text": "After using LUIS recognition:\nthe top intent was: Greeting, with score 0.3898115",
+    "timestamp": "2018-09-10T08:42:31.200Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "7",
+    "recipient": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "from": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "text": "Est-ce que vous pourrez m'aider?",
+    "timestamp": "2018-09-10T08:42:33.200Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "9",
+    "recipient": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "from": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "timestamp": "2018-09-10T08:42:33.300Z",
+    "type": "typing",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "8",
+    "recipient": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "from": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "text": "Your input message after translation is Can you help me ?",
+    "timestamp": "2018-09-10T08:42:35.300Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "10",
+    "recipient": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "from": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "text": "After using LUIS recognition:\nthe top intent was: Help, with score 0.948088944",
+    "timestamp": "2018-09-10T08:42:37.300Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "11",
+    "recipient": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "from": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "text": "Quels hôtels sont près de l'Incroyable Perle?",
+    "timestamp": "2018-09-10T08:42:39.300Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "13",
+    "recipient": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "from": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "timestamp": "2018-09-10T08:42:39.400Z",
+    "type": "typing",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "12",
+    "recipient": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "from": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "text": "Your input message after translation is Which hotels are close to l'Incroyable Perle ?",
+    "timestamp": "2018-09-10T08:42:41.400Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "14",
+    "recipient": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "from": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "text": "After using LUIS recognition:\nthe top intent was: SearchHotels, with score 0.9478803",
+    "timestamp": "2018-09-10T08:42:43.400Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "15",
+    "recipient": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "from": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "text": "Montre moi les revues du délicieux café",
+    "timestamp": "2018-09-10T08:42:45.400Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "17",
+    "recipient": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "from": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "timestamp": "2018-09-10T08:42:45.500Z",
+    "type": "typing",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "16",
+    "recipient": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "from": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "text": "Your input message after translation is Show me the reviews of the délicieux café",
+    "timestamp": "2018-09-10T08:42:47.500Z",
+    "type": "message",
+    "channelId": "chatdown"
+  },
+  {
+    "conversation": {
+      "id": "tNu3tuXHXAUbwYX/0VIdiFdX04M="
+    },
+    "id": "18",
+    "recipient": {
+      "id": "Et6pb+wgWTVmq3VpLJlJWWgzrck=",
+      "name": "user",
+      "role": "user"
+    },
+    "from": {
+      "id": "xx5yYdN6T2rkz7DL15CBMQojfmc=",
+      "name": "bot",
+      "role": "bot"
+    },
+    "text": "After using LUIS recognition:\nthe top intent was: ShowHotelsReviews, with score 0.839037955",
+    "timestamp": "2018-09-10T08:42:49.500Z",
+    "type": "message",
+    "channelId": "chatdown"
+  }
+]
