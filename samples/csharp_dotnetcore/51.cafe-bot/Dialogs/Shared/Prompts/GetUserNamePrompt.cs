@@ -17,7 +17,7 @@ namespace Microsoft.BotBuilderSamples
     public class GetUserNamePrompt : TextPrompt
     {
         // The name of the bot you deployed.
-        public static readonly string MsBotName = "cafe66";
+        public static readonly string MsBotName = "<YOUR_MSBOT_NAME>";
 
         /// <summary>
         /// Key in the bot config (.bot file) for the LUIS instances.
