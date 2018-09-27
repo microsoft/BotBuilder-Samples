@@ -1,13 +1,12 @@
-import { ComponentDialog, DialogContext, DialogTurnResult, Dialog } from "botbuilder-dialogs";
-import { RecognizerResult, TurnContext } from 'botbuilder';
-import { InterruptableDialog } from "./interruptableDialog";
-import { BotServices } from "../../botServices";
-// TODO: Enable when 'cancelResponse' is ready: import { CancelResponses } from "../cancel/cancelResponses";
-import { CancelDialog } from "../cancel/cancelDialog";
-import { TelemetryLuisRecognizer } from "../../middleware/telemetry/telemetryLuisRecognizer";
-import { LuisGeneral } from "./resources/LuisGeneral";
+import { RecognizerResult } from 'botbuilder';
 import { LuisRecognizer } from "botbuilder-ai";
+import { DialogContext } from "botbuilder-dialogs";
+import { BotServices } from "../../botServices";
+import { CancelDialog } from "../cancel/cancelDialog";
+// TODO: Enable when 'cancelResponse' is ready: import { CancelResponses } from "../cancel/cancelResponses";
+import { InterruptableDialog } from "./interruptableDialog";
 import { MainResponses } from "../main/mainResponses";
+import { TelemetryLuisRecognizer } from "../../middleware/telemetry/telemetryLuisRecognizer";
 
 export class EnterpriseDialog extends InterruptableDialog {
 
