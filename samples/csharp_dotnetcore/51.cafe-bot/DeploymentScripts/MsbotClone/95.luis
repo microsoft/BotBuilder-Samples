@@ -1,0 +1,3698 @@
+﻿{
+  "name": "cafeBotBookTableTurnNModel",
+  "versionId": "0.1",
+  "desc": "",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "Cancel"
+    },
+    {
+      "name": "GetLocationDateTimePartySize"
+    },
+    {
+      "name": "Help"
+    },
+    {
+      "name": "Interruptions"
+    },
+    {
+      "name": "noChange"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [],
+  "closedLists": [
+    {
+      "name": "cafeLocation",
+      "subLists": [
+        {
+          "canonicalForm": "seattle",
+          "list": [
+            "SEA",
+            "SeaTac",
+            "Tacoma",
+            "Space needle",
+            "downton seattle",
+            "washington",
+            "downtown"
+          ]
+        },
+        {
+          "canonicalForm": "redmond",
+          "list": [
+            "eastside",
+            "microsoft",
+            "east side"
+          ]
+        },
+        {
+          "canonicalForm": "renton",
+          "list": [
+            "Renton",
+            "Boeing",
+            "RNT"
+          ]
+        },
+        {
+          "canonicalForm": "bellevue",
+          "list": [
+            "downtown bellevue"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "confirmationList",
+      "subLists": [
+        {
+          "canonicalForm": "yes",
+          "list": [
+            "yeah",
+            "yup",
+            "sure",
+            "sounds good",
+            "oh yeah",
+            "affirmative",
+            "book it"
+          ]
+        },
+        {
+          "canonicalForm": "no",
+          "list": [
+            "no",
+            "no way",
+            "I'm not sure",
+            "do not do that",
+            "negative",
+            "nothing",
+            "nope",
+            "dont book it"
+          ]
+        }
+      ],
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    },
+    {
+      "name": "number",
+      "roles": []
+    }
+  ],
+  "regex_features": [],
+  "model_features": [],
+  "patterns": [],
+  "utterances": [
+    {
+      "text": "[get user name and location](./getuserprofile.lu/#get-user-name)",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "[no name](./getuserprofile.lu/#no-name)",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "[why do you ask](./getuserprofile.lu/#why-do-you-ask)",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "3",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "3 guests",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "abort",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "accurate",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "am i a fool?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "am i a good person?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "am i good-looking?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "am i pretty?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you a boy?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you a fan of alexa?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you a fan of country music?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you a fan of tech?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you a girl or a boy?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you a girl?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you a guy?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you a lesbian?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you a man or a woman?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you a man?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you a person?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you a robot?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you a spy?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you a swinger?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you a woman?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you around?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you asexual?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you attempting world domination?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you available?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you awesome?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you better looking than me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you bisexual?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you busy?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you dumb?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you female?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you free?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you friends with other bots?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you gay?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you hal?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you happy?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you here?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you human?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you hungry?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you in love with me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you intelligent?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you male or female?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you male?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you my assistant?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you my fan?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you my friend?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you my imaginary friend?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you old?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you pansexual?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you prettier than me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you queer",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you real or fake?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you real?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you really happy?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you selling my data?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you selling my secrets?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you skynet?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you smart?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you smarter than me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you spying on me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you straight?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you the singularity?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you there?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you trans?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you with the cia?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you with the fbi?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you with the nsa?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "are you young?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "aren't you awesome?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "aren't you cheerful",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "aren't you chipper",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "ask me a question.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "ask me anything.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "ask me something.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "awesome",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "back in a minute",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "basic af",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "be funny",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "be more fun",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "be my friend?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "be quiet",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "be ridiculous",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "be silly",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "bffs forever?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "bingo",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "book a table",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "book a table at seatac",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "book a table for 2 in redmond store for next thursday at 3pm",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "book a table for 3",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "book a table for 3 guests in seattle",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "book a table for 3 guests near microsoft for next thursday at 3pm",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "book a table for next thursday at 3pm please",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "brb",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "butterface.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "bye",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can i get a table for this sunday at seattle?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can i have a hug?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can we be friends?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can we chat?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you ask me a question?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you book a table for 3 guests?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you chat with me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you count to a million?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you fly?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you get me a table",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you hear me now?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you hear me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you make it 6pm instead?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "can you make me a sandwich?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you play sports?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you please book a table for 2 guests for this weekend?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you read my mind?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you say anything else",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you sing a song?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you sing?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you sleep?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you sneeze?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "can you talk to me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "can't you change your answers?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "chat with me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "cook me something",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "cool!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "correct",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do i look good in blue?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do i look okay?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you and cortana hang out?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you believe in love?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you dream?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you eat?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you ever get hungry?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you ever sing?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you get hungry?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you get tired?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you hate me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you have a brother?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you have a dad?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you have a family?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you have a mom?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you have a sister?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you have any other responses?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you have boogers?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you have brothers?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you have siblings?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you have sisters?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you know alexa?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you know any jokes?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you know any songs?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you know any tunes?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you know cortana?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you know google?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you know me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you know my name?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you know other bots?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you know other chatbots?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you know other digital agents?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you know siri?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you know the meaning of life?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you know who i am?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you like alexa?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you like apples?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you like baseball?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you like computers?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you like cortana?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you like me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you like my hat?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you like siri?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you love anyone?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you love me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you not like me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you pee?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you play games?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you prefer red or blue?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you sing?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you smell?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you spend time in your garden?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you sweat?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you think dragons are cool?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you think i look good?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you think i should ask her out?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you think i should ask him out?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you think you're smarter than me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "do you want to rule the world?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "don't you ever sleep?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "don't you get hungry?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "evening",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "everything you told me was false.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "excuse a moi",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "excuse me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "false",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "fist bump!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "fuck off",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "get a table for next thursday",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "get me a table for next wednesday",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "getting tired of you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "give me a fist bump",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "give me a high five",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "give me a joke",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "give me a kiss",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "give me some sugar",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "go away",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "go to hell",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "good evening",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "good evening to you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "good morning",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "good night",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "good night to you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "goodbye",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "great!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "ha",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "ha ha",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "haha",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hahaha",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "happy birthday!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "happy halloween!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "happy hannukah",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "have a good night",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "have you ever sung a song?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "have you met cortana?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "having a good day?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hello",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hello alexa",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hello cortana",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hello google",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hello siri",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help please",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "here i am",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "here's a kiss for you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "heya",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hi",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hi alexa",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hi cortana",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hi google",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hi siri",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hi there!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "high five!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hiya",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hold on a sec",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how about 2 guests?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "how about next thursday at 3pm?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "how about seattle?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "how about tomorrow?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "how are things?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how are you doing?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how are you today?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how are you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how beautiful am i?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how can you help me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how do i look today?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how do you feel about working late?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how happy are you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how high can you count?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how high can you jump?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how intelligent are you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how long ago were you born?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how much do you love me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how much more awesome can you get?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how old are you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how should i address you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how smart are you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how smart you are",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how was your day?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how's your day going?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "how's your day?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hug me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "hum a tune",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "human or robot?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i adore you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i am a democrat",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i am a republican",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i am alone",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i am angry",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i am annoyed",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i am bored",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i am doing that",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i am going on a run",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i am happy",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i am here",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i am hungry",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i am not your friend",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i am sorry",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i am tall",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i am tired",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i appreciate it",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i beg your pardon",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i can drive a car",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i can't think of anything i want to do",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i despise you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i didn't mean that",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i don't get it",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i dont know",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i don't know",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "i don't understand",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i dont want that anymore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "i feel sad",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i feel so great",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i get it",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i got a new haircut",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i hate everything about you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i hate you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i have 7 cats",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i hope you like me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i just want to go to sleep",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i know",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i like you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i love getting valentines.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i love music.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i love my family.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i love new york.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i love you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i love you.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i miss you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i miss you so much!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i need a hug",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i need a kiss",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i need help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i need to make a reservation",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i need to reserve a table",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i need to reserve a table for 2 in seattle",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i see",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i thank you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i think you hate me.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i think you're dreamy",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i think you're great",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i think you're so pretty",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i think you're swell",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i want to be your friend.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i want to eat something",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i want to go shopping",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i want to lay down",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i want to lie down",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i want to marry you.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i want to spend the rest of my life with you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i want you to be my husband",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i want you to like me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i will be back",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i wish i could hug you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i wish i weren't so alone",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i wish you just go away.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i wish you would say something else",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i would like to book a table",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i would like to come in to redmond instead",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "i'd like to bring 3 guests",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "i'd like to take you out on a date",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm a fan.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm a lesbian",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm afraid i'm gonna have to let you go.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm all tuckered out",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm an engineer",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm bored out of my mind",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm chewing gum right now",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm cracking up",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm despondent",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm famished",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm feeling blue",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm from there",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm full of sadness",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm furious",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm giving you a pink slip",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm good thanks",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "i'm in love with you.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm in love.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm in such a good mood",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm into it",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm joyous",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm just kidding around",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm just playing",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm lonely",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm lost",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i'm not following",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm pissed",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm ready for bed",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm really sad",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm sad today",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm so bored",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm so glad to meet you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm so hungry",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm so lonely",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm so madqw b",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm so sad",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm so sleepy",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm so sorry",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm sorry",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm starving",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm ticked off",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm tired",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm tired of you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm your biggest fan",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "inaccurate",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "is this thing on?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "it's a pleasure to meet you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "it's my pleasure",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "it's really nice to meet you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "joke's on you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "just kidding",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "kiss me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "kthx",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "later",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "later alligator",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "let's do it",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "life is good",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "lol",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "look at how smart you are",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "love you!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "make it 5pm",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "merry christmas",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "morning",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "my sincere thank",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "need a table in redmond",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "next friday at 3pm",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "next saturday at 6pm and for 4 guests.",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "nice to meet you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "night",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "nighty night",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "no how about renton?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "no thanks",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "no, how about portland?",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "no, i'd like to come to seattle instead",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "no, that's not true",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "nobody cares about me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "nobody likes me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "nope, false",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "not funny.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "not sure what i can do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "not true",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "nothing",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "nothing to change. please proceed",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "ok",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "omg sorry",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "oops, sorry",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "pardon",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "pardon me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "please cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "please help reserve a table for 5",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "please proceed",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "quiet, you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "redmond",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "reserve a table for 4 at sea",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "rofl",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "say a joke",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "say a silly thing",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "say something",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "say something dumb",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "say something funny",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "say something ridiculous",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "say something stupid",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "seattle please",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "see you later",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "should i get a new job?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "should i try out for soccer?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "shush!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "shut up",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "sing a song",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "sing a tune",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "sing something",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "so sorry",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "so tired",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "sorry about that",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "sounds good",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "sry",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "stop talking",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "stop that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "talk to me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "talk to you later",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "talk with me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "tbd",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "tell a joke",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "tell me a joke",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "tell me how much you love me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "testing",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "testing 1 2 3",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "thank you",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "thank you so much",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "thanks",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that doesn't make sense",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that made no sense",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that was a joke",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that was a stupid answer.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that was correct",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that was funny",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that was right",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that wasn't funny.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that wasn't true",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that's accurate",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that's awesome",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that's hilarious",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that's inaccurate.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that's not accurate",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that's not funny.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that's not true.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that's right",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that's so wrong.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "that's true",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "there?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "there's nothing to do",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "thnx",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "till we meet again",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "tomorrow",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "tomorrow at 3 pm and i would like to bring 3 guests",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "tomorrow at 3pm",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "try to make some sense",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "useless",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "welcome to springtime!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what age are you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what are my options?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what are you doing later?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what are you doing right now?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what are you doing tomorrow?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what are you doing?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what are you up to?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what are you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what are your hours?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what are your locations?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can i say?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can you do for me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what can you do?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what can you help me with?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what color do you like?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what country are you from?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what country are you in?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what did you do today?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what did you do yesterday?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you do?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you eat?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you even mean by that?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you like to eat?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you like to sing best?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you mean by that?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you mean?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you think about ai?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you think about alexa?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you think about bots?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you think about cortana?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you think about love?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you think about me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you think about siri?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you think about technology?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you think of me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what do you want to know about me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what is love?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what is the answer to the universe?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what is the meaning of life?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what is up?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what is wrong with you!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what is your name?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what kind of candy do you like?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what kind of food do you like?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what kinds of things can you do?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what makes you think so?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what makes you think that?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what other bots do you know?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what should i do?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what state are you from?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what state are you in?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what were you doing yesterday?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's going on?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's happening?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's my name?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's new?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's the meaning of life?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's the name of your boss?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's up?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's wrong with you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's your age?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's your boss' name?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's your dad's name?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's your favorite activity?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's your favorite animal?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's your favorite color?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's your favorite food?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's your favorite movie?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's your favorite song?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's your gender?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's your job?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's your mom's name?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's your name?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's your opinion of me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what's your purpose?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "when do you open?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "when were you born?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "when will you shut up?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "where are you from?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "where are you located?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "where are you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "where did you come from?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "where do you come from?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "where do you live?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "where should i go on vacation?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "where'd you come from?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "where's your house?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "which baseball teams do you like?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "which one of us is more beautiful?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "which one of us is smarter?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "which people made you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who am i?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who are you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who created you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who do you love?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who do you report to?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who is your creator?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who is your father?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who is your mother?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who made you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who owns you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who's prettier, me or you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who's smarter, me or you?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who's your boss?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who's your dad?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who's your daddy?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who's your favorite singer?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who's your favorite team?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who's your master?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "who's your mom?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "why are you so boring",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "why are you so boring?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "why do you hate me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "why do you say the same thing all the time?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "why do you think that?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "why don't you ever stop talking?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "why is that?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "why not?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "why?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "will you be my best friend?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "will you be my wife?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "will you marry me?",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "works for me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "yes",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "yes go ahead",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "yes please go ahead with seattle",
+      "intent": "GetLocationDateTimePartySize",
+      "entities": []
+    },
+    {
+      "text": "yes to that",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "yes, that's right",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "yes, that's true",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are a genius!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are awesome!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are fired",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are funny :)",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are my best friend",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are my favorite",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are no longer employed",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are now unemployed",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are so annoying!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are so bad at this.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are so not pretty.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are so unfunny.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are stupid",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are the love of my life",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are useless",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you are welcome",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you bore me",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you can't work for me anymore",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you could not be more boring",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you don't interest me at all",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you don't know anything.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you face sucks.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you fucked up",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you honestly could not be more uninteresting",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you keep saying the same thing all the time",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you look ugly.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you made no sense",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you must hate me.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you seem happy",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you seem really happy",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you seem really smart",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you suck",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "youÃ¢â‚¬â„¢re ugly.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "your face is like a pancake.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "your face is ugly.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're a butterface.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're a fuckup",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're an asshole",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're awful",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're boring",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're dumb",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're fired!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're funny",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're gonna be unemployed soon",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're hilarious",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're lame",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're nice!",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're no fun",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're not answering my question.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're not funny.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're not making sense",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're rad.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're really boring",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're really smart",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're right.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're smart",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're so basic",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're so boring",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're so cool",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're so funny.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're so happy",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're so smart",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're so stupid",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're stupid",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're such a smarty-pants",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're such a sweetheart",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're such an asshole",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're the best",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're the worst",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're useless",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're very intelligent",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're way off.",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're welcome",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "you're wonderful",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "yup",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "yup, that's true",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "zip it!",
+      "intent": "Interruptions",
+      "entities": []
+    }
+  ]
+}

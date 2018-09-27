@@ -1,0 +1,80 @@
+> Collection of chit chat interactions between user and bot. 
+> You can add additional questions or adapt the answer as you see fit. 
+> Check out https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown to learn more about .lu files and Ludown.
+
+
+> Greetings_Bye
+### ? Talk to you later
+- Bye
+```markdown
+    Bye for now.
+```
+
+> Greetings_Generic
+### ? Hiya
+- Hi there!
+```markdown
+    Hi.
+```
+
+> Greetings_GoodEvening
+### ? Good evening
+```markdown
+    Good evening.
+```
+
+> Greetings_GoodMorning
+### ? Good morning
+```markdown
+    Good morning.
+```
+
+> Greetings_GoodNight
+### ? Good night
+```markdown
+    Good night.
+```
+
+> Greetings_Hello
+### ? Hello
+```markdown
+    Hello. What can I do for you?
+```
+
+> Greetings_HowAreYou
+### ? How are you?
+```markdown
+    Great, thanks.
+```
+
+> Greetings_HowWasYourDay
+### ? How was your day?
+```markdown
+    Good, thanks.
+```
+
+> Greetings_NiceToMeetYou
+### ? Nice to meet you
+```markdown
+    Nice to meet you, too.
+```
+
+> Greetings_OtherBot
+### ? Hello Cortana
+- Hello Google Assistant
+- Hello Siri
+```markdown
+    That's not me, but hello.
+```
+
+> Greetings_Special
+### ? Happy Halloween!
+```markdown
+    Thank you.
+```
+
+> Greetings_WhatsUp
+### ? What is up?
+```markdown
+    Just staying busy.
+```

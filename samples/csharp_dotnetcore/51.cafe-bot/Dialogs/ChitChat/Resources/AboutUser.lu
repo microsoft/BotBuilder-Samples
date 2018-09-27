@@ -1,0 +1,98 @@
+> Collection of chit chat interactions between user and bot. 
+> You can add additional questions or adapt the answer as you see fit. 
+> Check out https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown to learn more about .lu files and Ludown.
+
+> User Angry
+### ? I am annoyed
+- I am angry
+```markdown
+    I'm sorry to hear that.
+```
+
+> User BeBack
+### ? I will be back
+```markdown
+    I'll be here.
+```
+
+> User Bored
+### ? I am bored
+```markdown
+    Well, let me know if there's anything I can do for you.
+```
+
+> User Happy
+### ? I am happy
+```markdown
+    I'm happy to hear that.
+```
+
+> User Here
+### ? I am here
+```markdown
+    Great!
+```
+
+> User Hungry
+### ? I am hungry
+```markdown
+    Maybe it's time for a snack.
+```
+
+> User Kidding
+### ? Just kidding
+```markdown
+    Got it.
+```
+
+> User Lonely
+### ? I am lonely
+- I am so lonely
+```markdown
+    I'm very sorry to hear that.
+```
+
+> User Loves
+### ? I love my family
+- I love music
+- I am in love 
+```markdown
+    And I love that you love stuff.
+```
+
+> User Sad
+### ? I am sad
+- I am sad today
+- I feel sad 
+```markdown
+    I'm sorry to hear that.
+```
+
+> User Statement
+### ? I am going on a run
+- I want to go shopping 
+- I am just kidding
+```markdown
+    Interesting.
+```
+
+> User Testing
+### ? can you hear me?  
+- Testing
+```markdown
+    Hello.
+```
+
+> User Tired
+### ? I am sleepy
+- I am tired
+```markdown
+    I hope you're able to get some rest soon.
+```
+
+
+
+
+
+
+
