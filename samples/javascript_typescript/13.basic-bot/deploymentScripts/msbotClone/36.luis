@@ -36,7 +36,7 @@
       "roles": []
     },
     {
-      "name": "userName_paternAny",
+      "name": "userName_patternAny",
       "explicitList": [],
       "roles": []
     }
@@ -47,11 +47,11 @@
   "model_features": [],
   "patterns": [
     {
-      "pattern": "my name is {userName_paternAny} and i'm from {userLocation_patternAny}",
+      "pattern": "my name is {userName_patternAny} and i'm from {userLocation_patternAny}",
       "intent": "Greeting"
     },
     {
-      "pattern": "i'm {userName_paternAny}[,] [and i'm] from {userLocation_patternAny}",
+      "pattern": "i'm {userName_patternAny}[,] [and i'm] from {userLocation_patternAny}",
       "intent": "Greeting"
     },
     {
@@ -59,11 +59,11 @@
       "intent": "Greeting"
     },
     {
-      "pattern": "some people call me {userName_paternAny}",
+      "pattern": "some people call me {userName_patternAny}",
       "intent": "Greeting"
     },
     {
-      "pattern": "my name is {userName_paternAny}",
+      "pattern": "my name is {userName_patternAny}",
       "intent": "Greeting"
     },
     {
@@ -71,7 +71,7 @@
       "intent": "Greeting"
     },
     {
-      "pattern": "i'm {userName_paternAny}",
+      "pattern": "i'm {userName_patternAny}",
       "intent": "Greeting"
     },
     {
@@ -87,19 +87,19 @@
       "intent": "Greeting"
     },
     {
-      "pattern": "{userName_paternAny} is my name",
+      "pattern": "{userName_patternAny} is my name",
       "intent": "Greeting"
     },
     {
-      "pattern": "{userName_paternAny}.",
+      "pattern": "{userName_patternAny}.",
       "intent": "Greeting"
     },
     {
-      "pattern": "call me {userName_paternAny}",
+      "pattern": "call me {userName_patternAny}",
       "intent": "Greeting"
     },
     {
-      "pattern": "you can call me {userName_paternAny}",
+      "pattern": "you can call me {userName_patternAny}",
       "intent": "Greeting"
     }
   ],
