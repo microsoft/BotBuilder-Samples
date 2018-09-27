@@ -75,8 +75,8 @@ adapter.onTurnError = async (turnContext, error) => {
 
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone.
-//const storage = new MemoryStorage();
-
+const storage = new MemoryStorage();
+/*
 // For production bots use the Azure CosmosDB storage, Azure Blob, or Azure Table storage provides.
 const CosmosDbStorage = require('botbuilder-azure').CosmosDbStorage;
 //import { CosmosDbStorage } from 'botbuilder-azure';
@@ -92,7 +92,7 @@ const storage = new CosmosDbStorage({
     databaseId: cosmosConfig.database,
     collectionId: cosmosConfig.collection
 });
-
+*/
 
 // create conversation and user state with in-memory storage provider.
 const conversationState = new ConversationState(storage);

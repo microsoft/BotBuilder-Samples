@@ -4,7 +4,7 @@ import { TurnContext, Activity, CardFactory, ActionTypes } from "botbuilder";
 import { ResourceParser } from '../shared/resourceParser';
 import { ActivityEx } from "../../utils/activityEx";
 const introCard = require('./resources/Intro.json');
-const resourcesPath = require.resolve('./resources/mainResponses.resx');
+const resourcesPath = require.resolve('./resources/MainStrings.resx');
 
 export class MainResponses extends TemplateManager {
     // Constants

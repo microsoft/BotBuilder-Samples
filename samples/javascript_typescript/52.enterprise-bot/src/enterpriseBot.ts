@@ -30,6 +30,7 @@ export class EnterpriseBot {
         this._botServices = botServices;
         this._conversationState = conversationState;
         this._userState = userState;
+
         this._dialogs = new DialogSet(this._conversationState.createProperty<DialogState>('EnterpriseBot'));
         this._dialogs.add(new MainDialog(this._botServices, this._conversationState, this._userState));
     }
@@ -39,8 +40,8 @@ export class EnterpriseBot {
      * 1. Nothing
      * @param {Context} context turn context from the adapter
      */
-    public onTurn = async (context: TurnContext) => {
-        const dc = await this._dialogs.createContext(context);
+    public async onTurn(turnContext: TurnContext): Promise<void> {
+        const dc = await this._dialogs.createContext(turnContext);
         const result = await dc.continueDialog();
 
         if (result.status === DialogTurnStatus.empty) {
