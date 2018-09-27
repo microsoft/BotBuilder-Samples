@@ -22,7 +22,7 @@ export class SignInResponses extends TemplateManager {
             [SignInResponses.SignInPrompt, SignInResponses.fromResources('PROMPT')],
             [SignInResponses.Failed, SignInResponses.fromResources('FAILED')],
             [SignInResponses.Succeeded, async (context: TurnContext, data: any) => {
-                const value = await SignInResponses.resources.get(name);
+                const value = await SignInResponses.resources.get('SUCCEEDED');
                 return value.replace('{0}', data.name);
             }]
         ])],
