@@ -44,6 +44,15 @@ const adapter = new BotFrameworkAdapter({
     appPassword: endpointConfig.appPassword || process.env.MicrosoftAppPassword
 });
 
+// adapter.onTurnError = async(turnContext, error) => {
+//     // Write out errors to console log.
+//     // NOTE: In production environment, you should consider logging this to Azure
+//     //       application insights.
+//     console.error(`\n [onTurnError]: ${ error }`);
+//     // Send a message to the user.
+//     await turnContext.sendActivity(`Oops. Something went wrong!`);
+// };
+
 // Create HTTP server.
 let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {

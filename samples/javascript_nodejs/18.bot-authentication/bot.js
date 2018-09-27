@@ -20,7 +20,7 @@ const HELP_TEXT = ' Type anything to get logged in. Type \'logout\' to signout.'
 
 // The connection name here must match the the one from found in
 // your Bot Channels Registration on the settings blade in Azure.
-const CONNECTION_NAME = "";
+const CONNECTION_NAME = "AADv2Connection";
 
 // Create the settings for the OAuthPrompt.
 const OAUTH_SETTINGS = {
@@ -107,7 +107,6 @@ class AuthenticationBot {
      * @param {Object} turnContext on turn context object.
      */
     async onTurn(turnContext) {
-
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         if (turnContext.activity.type === ActivityTypes.Message) {
             // Create a dialog context object.
