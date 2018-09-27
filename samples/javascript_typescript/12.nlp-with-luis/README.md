@@ -1,4 +1,4 @@
-This sample shows how to create a bot that uses Language Understanding (LUIS). This bot example uses [`restify`](https://www.npmjs.com/package/restify) and [`dotenv`](https://npmjs.com/package/dotenv). 
+This sample shows how to create a bot that uses Language Understanding (LUIS). This bot example uses [`restify`](https://www.npmjs.com/package/restify) and [`dotenv`](https://npmjs.com/package/dotenv).
 
 # Concepts introduced in this sample
 [Language Understanding (LUIS)](https://www.luis.ai) is a cloud-based API service that applies custom machine-learning intelligence to a user's conversational, natural language text to predict overall meaning, and pull out relevant, detailed information.
@@ -31,23 +31,30 @@ In this sample, we demonstrate how to call LUIS to extract the intents from a us
 - File -> Open Bot Configuration and navigate to samples/javascript_typescript/12.nlp-with-luis folder
 - Select nlp-with-luis.bot file
 
-## Prerequisites
+
+## Prerequisite
+### Install TypeScript
+In order to run this sample, you must have TypeScript installed.  To install TypeScript:
+- Navigate to the [TypeScript portal](https://www.typescriptlang.org).
+- Click the [Download](https://www.typescriptlang.org/#download-links) button.
+- Follow the installation instructions for your development environment.
+
 ### Set up LUIS
 - Navigate to [LUIS portal](https://www.luis.ai).
 - Click the `Sign in` button.
 - Click on `My Apps`.
 - Click on the `Import new app` button.
 - Click on the `Choose File` and select [Reminders.json](cognitiveModels/Reminders.json) from the `BotBuilder-Samples/samples/javascript_typescript/12.nlp-with-luis/cognitiveModels` folder.
-- Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your AppId, SubscriptionKey, Region and Version. 
+- Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your AppId, SubscriptionKey, Region and Version.
     You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
-	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
+	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q=
 
     - AppId = XXXXXXXXXXXXX
     - SubscriptionKey = YYYYYYYYYYYY
     - Region = westus
 
     The Version is listed on the page.
-- Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your Authoring Key.  
+- Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your Authoring Key.
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
 NOTE: Once you publish your app on LUIS portal for the first time, it may take some time to go live.
 
@@ -59,9 +66,9 @@ NOTE: Once you publish your app on LUIS portal for the first time, it may take s
 Language Understanding service (LUIS) allows your application to understand what a person wants in their own words. LUIS uses machine learning to allow developers to build applications that can receive user input in natural language and extract meaning from it.
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on.
 
-To install all Bot Builder tools - 
+To install all Bot Builder tools -
 
 Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
 

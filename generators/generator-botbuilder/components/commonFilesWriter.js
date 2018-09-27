@@ -80,16 +80,18 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
       gen.templatePath(path.join(templatePath, 'tsconfig.json')),
       gen.destinationPath('tsconfig.json')
     );
+    srcReadmePath = path.join(templatePath, "README.md.ts")
   } else {
     gen.fs.copy(
       gen.templatePath(path.join(templatePath, '_eslintrc.js')),
       gen.destinationPath('.eslintrc.js')
     );
+    srcReadmePath = path.join(templatePath, "README.md.js")
   }
 
   // gen a readme with specifics to what was generated
   gen.fs.copyTpl(
-    gen.templatePath(path.join(templatePath, "README.md")),
+    gen.templatePath(srcReadmePath),
     gen.destinationPath("README.md"),
     {
       botName: gen.props.botName,

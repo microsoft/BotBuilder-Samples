@@ -1,11 +1,11 @@
-This sample shows how to create a simple echo bot with state. The bot maintains a simple counter that increases with each message from the user. This bot example uses [`restify`](https://www.npmjs.com/package/restify). 
+This sample shows how to create a simple echo bot with state. The bot maintains a simple counter that increases with each message from the user. This bot example uses [`restify`](https://www.npmjs.com/package/restify).
 
 # To try this sample
 - Clone the repository
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, 
+- In a terminal,
     ```bash
     cd samples/javascript_typescript/02.echobot-with-counter
     ```
@@ -19,6 +19,13 @@ This sample shows how to create a simple echo bot with state. The bot maintains 
     ```bash
     npm i & npm run watch
     ```
+
+## Prerequisite
+### Install TypeScript
+In order to run this sample, you must have TypeScript installed.  To install TypeScript:
+- Navigate to the [TypeScript portal](https://www.typescriptlang.org).
+- Click the [Download](https://www.typescriptlang.org/#download-links) button.
+- Follow the installation instructions for your development environment.
 
 # Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
@@ -42,9 +49,9 @@ In this example, the bot's state is used to track number of messages.
     - User properties can be used for many purposes, such as determining where the user's prior conversation left off or simply greeting a returning user by name. If you store a user's preferences, you can use that information to customize the conversation the next time you chat. For example, you might alert the user to a news article about a topic that interests her, or alert a user when an appointment becomes available. You should clear them if the bot receives a delete user data activity.
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on.
 
-To install all Bot Builder tools - 
+To install all Bot Builder tools -
 
 Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
 

@@ -12,13 +12,13 @@
         "watch": "tsc && node ./lib/index.js"
       },
     "dependencies": {
-        "botbuilder": "^4.0.5",
-        "botbuilder-ai": "^4.0.5",
-        "botbuilder-core": "^4.0.5",
-        "botbuilder-dialogs": "^4.0.5",
-        "botframework-config": "^4.0.5",
-        "botframework-connector": "^4.0.5",
-        "botframework-schema": "^4.0.5",
+        "botbuilder": "^4.0.6",
+        "botbuilder-ai": "^4.0.6",
+        "botbuilder-core": "^4.0.6",
+        "botbuilder-dialogs": "^4.0.6",
+        "botframework-config": "^4.0.6",
+        "botframework-connector": "^4.0.6",
+        "botframework-schema": "^4.0.6",
         "dotenv": "^6.0.0",
         "restify": "^6.3.4"
     },
