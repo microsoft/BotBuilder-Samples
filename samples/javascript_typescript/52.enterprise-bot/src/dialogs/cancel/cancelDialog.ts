@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.import { CancelResponses } from './cancelResponeses';
+// Licensed under the MIT License
 
 import { CancelResponses } from './cancelResponses'
 import { ComponentDialog, DialogContext, WaterfallStepContext, DialogTurnResult, PromptOptions, WaterfallDialog, ConfirmPrompt } from 'botbuilder-dialogs';
