@@ -12,6 +12,7 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
+        "@microsoft/microsoft-graph-client": "^1.3.0",
         "applicationinsights": "^1.0.4",
         "azure-cognitiveservices-contentmoderator": "^4.0.0",
         "botbuilder": "^4.0.6",
@@ -26,6 +27,7 @@
         "resx": "^1.2.0"
     },
     "devDependencies": {
+        "@microsoft/microsoft-graph-types": "^1.5.0",
         "@types/dotenv": "^4.0.3",
         "@types/node": "^10.10.1",
         "@types/restify": "^7.2.4",

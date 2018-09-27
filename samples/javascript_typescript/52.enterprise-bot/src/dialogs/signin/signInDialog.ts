@@ -1,6 +1,8 @@
 import { ComponentDialog, WaterfallDialog, WaterfallStepContext, DialogTurnResult, OAuthPrompt } from "botbuilder-dialogs"
 import { TokenResponse, TurnContext } from "botbuilder";
 import { SignInResponses } from "./signInResponses";
+import { GraphClient } from "../../serviceClients/graphClient";
+import { User } from "@microsoft/microsoft-graph-types";
 
 export class SignInDialog extends ComponentDialog {
     private readonly loginPrompt: string = 'loginPrompt';
@@ -42,8 +44,8 @@ export class SignInDialog extends ComponentDialog {
         return await sc.endDialog();
     }
 
-    private getProfile(context: TurnContext, tokenResponse: TokenResponse): Promise<{ displayName: string }> {
-        // TODO Create GraphClient
-        return Promise.resolve({ displayName: 'user' });
+    private getProfile(context: TurnContext, tokenResponse: TokenResponse): Promise<User> {
+        const client: GraphClient = new GraphClient(tokenResponse.token);
+        return client.getMe();
     }
 }
