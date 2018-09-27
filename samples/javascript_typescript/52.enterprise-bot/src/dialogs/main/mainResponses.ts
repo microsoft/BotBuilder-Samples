@@ -27,7 +27,8 @@ export class MainResponses extends TemplateManager {
             [MainResponses.Completed, MainResponses.fromResources('COMPLETED')],
             [MainResponses.Confused, MainResponses.fromResources('CONFUSED')],
             [MainResponses.Greeting, MainResponses.fromResources('GREETING')],
-            [MainResponses.Help, (context: TurnContext, data: any) => MainResponses.sendHelpCard(context, data)]
+            [MainResponses.Help, (context: TurnContext, data: any) => MainResponses.sendHelpCard(context, data)],
+            [MainResponses.Intro, (context: TurnContext, data: any) => MainResponses.sendIntroCard(context, data)]
         ])],
         ['en', undefined],
         ['fr', undefined]
@@ -76,7 +77,7 @@ export class MainResponses extends TemplateManager {
                 }
             ]
         )];
-        
+
         return Promise.resolve(response);
     }
 }
