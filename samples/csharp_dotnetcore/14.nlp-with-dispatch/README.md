@@ -58,9 +58,19 @@ Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
 npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
 ```
 To clone this bot, run:
-```
-msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
-```
+    - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
+    - Setup Azure Powershell (If you have never done so before).
+    - To login, run:
+        ```bash
+        Connect-AzureRmAccount
+        ```
+    - To select your Azure subscription, run:
+        ```bash
+        Select-AzureRmSubscription -Subscription "YOUR SUBSRIPTION"
+    - Set up your bot:
+        ```bash
+        msbot clone services --name <YOUR-BOT-NAME> --folder "DeploymentScripts/MsbotClone" --location <Bot service location - ie, "westus"> --luisAuthoringKey <LUIS_AUTHORING> --subscriptionId <AZURE_SUBSCRIPTION>
+        ```
 Note: You can also manually import the LUIS and QnA Maker applications via the [LUIS.ai](https://luis.ai) and [QnAMaker.ai](https://qnamaker.ai) portals. See instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/what-is-luis) to import the LUIS models and [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base) to import the QnA Maker knowledge base. All models this sample relies on is [here](./cognitiveModels).
 
 **Alternately** you can configure the required services by following the steps below. 
@@ -78,13 +88,13 @@ To create the LUIS application this bot needs and update the .bot file configura
 - Navigate to BotBuilder-Samples\csharp_dotnetcore\samples\14.nlp-with-dispatch
 - Run the following commands
 ```bash 
-> ludown parse toluis --in resources/homeautomation.lu -o cognitiveModels --out homeAutomation.luis -n "Home Automation" -d "Home Automation LUIS application - Bot Builder Samples" --verbose
+> ludown parse toluis --in Resources/homeautomation.lu -o CognitiveModels --out homeAutomation.luis -n "Home Automation" -d "Home Automation LUIS application - Bot Builder Samples" --verbose
 
-> ludown parse toluis --in resources/weather.lu -o cognitiveModels --out weather.luis -n Weather -d "Weather LUIS application - Bot Builder Samples" --verbose
+> ludown parse toluis --in Resources/weather.lu -o CognitiveModels --out weather.luis -n Weather -d "Weather LUIS application - Bot Builder Samples" --verbose
 
-> luis import application --in cognitiveModels/homeAutomation.luis --authoringKey <LUIS-AUTHORING-KEY> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
+> luis import application --in CognitiveModels/homeAutomation.luis --authoringKey <LUIS-AUTHORING-KEY> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
 
-> luis import application --in cognitiveModels/weather.luis --authoringKey <LUIS-AUTHORING-KEY> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
+> luis import application --in CognitiveModels/weather.luis --authoringKey <LUIS-AUTHORING-KEY> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
 ```
 
 If you decide to change the names passed to msbot such as weather.luis, then you need to update the constants in [NlpDispatchBot.cs](NlpDispatch/NlpDispatchBot.cs). For example, if you change homeautomation.luis to just home, you would update the HomeAutomationLuisKey variable to "home" and the homeAutomationDispatchKey to the intent name assigned by dispatcher, which in this case will be "l_home".
