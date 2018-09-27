@@ -12,7 +12,7 @@ Bot Builder provides the most comprehensive experience for building conversation
     - [**JS** (stable release)](https://github.com/microsoft/botbuilder-js)
     - [**Java** (preview release)](https://github.com/microsoft/botbuilder-java)
     - [**Python** (preview release)](https://github.com/microsoft/botbuilder-python).
-- Bot Framework Emulator 
+- Bot Framework Emulator
     - [Bot Framework **V4 Emulator**](https://github.com/microsoft/botframework-emulator).
 - Bot Builder CLI tools (**stable release**)
     - [Chatdown CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown)
@@ -25,7 +25,7 @@ Bot Builder provides the most comprehensive experience for building conversation
 - Bot Framework webchat
     - [Available here](https://github.com/microsoft/botframework-webchat)
 
-Please see [here](https://aka.ms/BotBuilderOverview) for an overview of the end-to-end bot development workflow. To get started, you can create a bot with [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart?view=azure-bot-service-4.0). Click [here](https://account.azure.com/signup) if you need a trial Azure subscription. 
+Please see [here](https://aka.ms/BotBuilderOverview) for an overview of the end-to-end bot development workflow. To get started, you can create a bot with [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart?view=azure-bot-service-4.0). Click [here](https://account.azure.com/signup) if you need a trial Azure subscription.
 
 ## Samples list
 
@@ -38,7 +38,7 @@ To use the samples clone this GitHub repository using Git.
     cd BotBuilder-Samples
 ```
 
-:runner: - Indicates planned and work in progress. 
+:runner: - Indicates planned and work in progress.
 
 | Sample Name           | Description                                                                    | .NET CORE   | NodeJS      | .NET Web API | JS (es6)    | Typescript  |
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|-------------|
@@ -165,7 +165,7 @@ Security issues and bugs should be reported privately, via email, to the Microso
 
 Copyright (c) Microsoft Corporation. All rights reserved.
 
-Licensed under the [MIT](https://github.com/Microsoft/vscode/blob/master/LICENSE.txt) License.
+Licensed under the [MIT](/LICENSE.md) License.
 
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
