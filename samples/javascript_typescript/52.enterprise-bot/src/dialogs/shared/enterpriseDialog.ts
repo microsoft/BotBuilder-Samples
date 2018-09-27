@@ -3,7 +3,7 @@ import { LuisRecognizer } from "botbuilder-ai";
 import { DialogContext } from "botbuilder-dialogs";
 import { BotServices } from "../../botServices";
 import { CancelDialog } from "../cancel/cancelDialog";
-// TODO: Enable when 'cancelResponse' is ready: import { CancelResponses } from "../cancel/cancelResponses";
+import { CancelResponses } from "../cancel/cancelResponses";
 import { InterruptableDialog } from "./interruptableDialog";
 import { MainResponses } from "../main/mainResponses";
 import { TelemetryLuisRecognizer } from "../../middleware/telemetry/telemetryLuisRecognizer";
@@ -12,7 +12,7 @@ export class EnterpriseDialog extends InterruptableDialog {
 
     // Fields
     private readonly _services: BotServices;
-    // TODO: Enable when 'cancelResponse' is ready: private readonly _cancelResponder: CancelResponses;
+    private readonly _cancelResponder: CancelResponses = new CancelResponses();
     private readonly _mainResponder: MainResponses = new MainResponses();
 
     constructor(botServices: BotServices, dialogId: string) { 
