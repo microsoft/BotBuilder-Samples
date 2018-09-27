@@ -14,7 +14,7 @@ This samples shows how to:
   ```bash
   git clone https://github.com/microsoft/botbuilder-samples.git
   ```
-- In a terminal, 
+- In a terminal,
   ```bash
   cd samples/javascript_typescript/13.basic-bot
   ```
@@ -27,6 +27,13 @@ This samples shows how to:
   ```bash
   npm start
   ```
+
+## Prerequisite
+### Install TypeScript
+In order to run this sample, you must have TypeScript installed.  To install TypeScript:
+- Navigate to the [TypeScript portal](https://www.typescriptlang.org).
+- Click the [Download](https://www.typescriptlang.org/#download-links) button.
+- Follow the installation instructions for your development environment.
 
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
@@ -60,14 +67,14 @@ See [here](./deploymentScripts/DEPLOY.md) to learn more about deploying this bot
 
 ### Project Structure
 
-`index.ts` references the bot and starts a Restify server. `bot.ts` loads the dialog type you selected when running the generator and adds it as the default dialog. 
+`index.ts` references the bot and starts a Restify server. `bot.ts` loads the dialog type you selected when running the generator and adds it as the default dialog.
 
 ### Configuring the bot
 
-Update `.env` with the appropriate keys botFilePath and botFileSecret. 
-  - For Azure Bot Service bots, you can find the botFileSecret under application settings. 
-  - If you use [MSBot CLI](https://github.com/microsoft/botbuilder-tools) to encrypt your bot file, the botFileSecret will be written out to the console window. 
-  - If you used [Bot Framework Emulator **V4**](https://github.com/microsoft/botframework-emulator) to encrypt your bot file, the secret key will be available in bot settings. 
+Update `.env` with the appropriate keys botFilePath and botFileSecret.
+  - For Azure Bot Service bots, you can find the botFileSecret under application settings.
+  - If you use [MSBot CLI](https://github.com/microsoft/botbuilder-tools) to encrypt your bot file, the botFileSecret will be written out to the console window.
+  - If you used [Bot Framework Emulator **V4**](https://github.com/microsoft/botframework-emulator) to encrypt your bot file, the secret key will be available in bot settings.
 
 ### Running the bot
 

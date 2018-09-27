@@ -19,7 +19,7 @@ You can get your LUIS authoring key by following steps [here][8] and get your Az
 ```bash
 > cd <%= botName %>
 
-> msbot clone -n <YOUR BOT NAME> -f deploymentScripts/msbotClone --luisAuthoringKey <LUIS-KEY> --subscriptionId <AZURE-SUBSCRIPTION-ID>
+> msbot clone services -n <YOUR BOT NAME> -f deploymentScripts/msbotClone --luisAuthoringKey <LUIS-KEY> --subscriptionId <AZURE-SUBSCRIPTION-ID>
 ```
 
 # Using the CLI tools to create and configure services

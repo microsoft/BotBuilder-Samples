@@ -20,31 +20,31 @@ You can get your LUIS authoring key by following steps [here][8] and get your Az
 ```bash
 > cd samples/javascript_nodejs/13.basic-bot
 
-> msbot clone -n <YOUR BOT NAME> -f deploymentScripts/msbotClone --luisAuthoringKey <LUIS-KEY> --subscriptionId <AZURE-SUBSCRIPTION-ID>
+> msbot clone services -n <YOUR BOT NAME> -f deploymentScripts/msbotClone --luisAuthoringKey <LUIS-KEY> --subscriptionId <AZURE-SUBSCRIPTION-ID>
 ```
 
 # Using the CLI tools to create and configure services
-The LUIS application created for this bot is described in a markdown based .lu file(s) [here](../dialogs/greeting/resources/main.lu). To update your published LUIS application with any changes made to the .lu files,  run the following commands. 
+The LUIS application created for this bot is described in a markdown based .lu file(s) [here](../dialogs/greeting/resources/main.lu). To update your published LUIS application with any changes made to the .lu files,  run the following commands.
 
 ```bash
 > cd samples/javascript_nodejs/13.basic-bot
 ```
 
-1. To parse the .lu files to a LUIS model: 
+1. To parse the .lu files to a LUIS model:
     ```bash
     > ludown parse toluis --in resources/main.lu -o cognitiveModels/ --out basicBot.luis -n basic-bot-LUIS -d 'Basic bot Bot Builder V4 sample.' --verbose
     ```
-2. To create a new LUIS application using the LUIS model generated in step 1 and update the .bot file with the LUIS service configuration: 
+2. To create a new LUIS application using the LUIS model generated in step 1 and update the .bot file with the LUIS service configuration:
     ```bash
     > luis import application --in cognitiveModels/basicBot.luis --authoringKey <YOUR-LUIS-AUTHORING-KEY> --msbot --region <LUIS-AUTHORING-REGION> | msbot connect luis --stdin
     ```
     You can obtain your LUIS authoring key by following instructions [here][8]
     LUIS authoring regions are listed [here][10]. They can be one of westus | westeurope | australiaeast.
-3. To train the LUIS application, 
+3. To train the LUIS application,
     ```bash
     > msbot get basic-bot-LUIS | luis train version --wait --stdin
     ```
-4. To publish the LUIS application, 
+4. To publish the LUIS application,
     ```bash
     > msbot get basic-bot-LUIS | luis publish version --stdin
     ```
