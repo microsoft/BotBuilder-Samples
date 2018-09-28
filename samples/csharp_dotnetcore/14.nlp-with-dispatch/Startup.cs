@@ -59,27 +59,29 @@ namespace NLP_With_Dispatch_Bot
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection"/>
         public void ConfigureServices(IServiceCollection services)
         {
+            var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+
+            // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+
+            // Retrieve current endpoint.
+            var environment = _isProduction ? "production" : "development";
+            var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+            if (!(service is EndpointService endpointService))
+            {
+                throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+            }
+
+            var connectedServices = InitBotServices(botConfig);
+
+            services.AddSingleton(sp => connectedServices);
+
             services.AddBot<NlpDispatchBot>(options =>
             {
-                var secretKey = Configuration.GetSection("botFileSecret")?.Value;
-                var botFilePath = Configuration.GetSection("botFilePath")?.Value;
-
-                // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
-                var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
-                services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
-
-                // Retrieve current endpoint.
-                var environment = _isProduction ? "production" : "development";
-                var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
-                if (!(service is EndpointService endpointService))
-                {
-                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
-                }
 
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
-                var connectedServices = InitBotServices(botConfig);
-
-                services.AddSingleton(sp => connectedServices);
                 // Creates a logger for the application to use.
                 ILogger logger = _loggerFactory.CreateLogger<NlpDispatchBot>();
 
@@ -182,9 +184,9 @@ namespace NLP_With_Dispatch_Bot
                                 throw new InvalidOperationException("The Region ('region') is required to run this sample. Please update your '.bot' file.");
                             }
 
-                            var app = new LuisApplication(luis.AppId, luis.AuthoringKey, luis.Region);
+                            var app = new LuisApplication(luis.AppId, luis.AuthoringKey, luis.GetEndpoint());
                             var recognizer = new LuisRecognizer(app);
-                            luisServices.Add(luis.Name, recognizer);
+                            luisServices.Add(luis.Name.Split("_")[1], recognizer);
                             break;
                         }
 
@@ -219,11 +221,11 @@ namespace NLP_With_Dispatch_Bot
                             throw new InvalidOperationException("The Region ('region') is required to run this sample. Please update your '.bot' file.");
                         }
 
-                        var dispatchApp = new LuisApplication(dispatch.AppId, dispatch.AuthoringKey, dispatch.Region);
+                        var dispatchApp = new LuisApplication(dispatch.AppId, dispatch.AuthoringKey, dispatch.GetEndpoint());
 
                         // Since the Dispatch tool generates a LUIS model, we use LuisRecognizer to resolve dispatching of the incoming utterance
                         var dispatchARecognizer = new LuisRecognizer(dispatchApp);
-                        luisServices.Add(dispatch.Name, dispatchARecognizer);
+                        luisServices.Add(dispatch.Name.Split("_")[1], dispatchARecognizer);
                         break;
 
                     case ServiceTypes.QnA:
