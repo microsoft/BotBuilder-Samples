@@ -5,7 +5,7 @@
   "services": [
     {
       "type": "endpoint",
-      "name": "nlp-with-dispatch",
+      "name": "development",
       "id": "http://localhost:3978/api/messages",
       "appId": "",
       "appPassword": "",

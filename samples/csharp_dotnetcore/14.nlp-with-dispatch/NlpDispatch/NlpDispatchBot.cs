@@ -22,8 +22,6 @@ namespace NLP_With_Dispatch_Bot
     /// </summary>
     public class NlpDispatchBot : IBot
     {
-        private const string WelcomeText = "This bot will introduce you to Dispatch for QnA Maker and LUIS. Type a greeting, or a question about the weather to get started";
-
         /// <summary>
         /// Key in the Bot config (.bot file) for the Home Automation Luis instance.
         /// </summary>
@@ -44,6 +42,11 @@ namespace NLP_With_Dispatch_Bot
         /// In the .bot file, multiple instances of QnaMaker can be configured.
         /// </summary>
         public static readonly string QnAMakerKey = "sample.qna";
+
+        /// <summary>
+        /// welcome text for user.
+        /// </summary>
+        private const string WelcomeText = "This bot will introduce you to Dispatch for QnA Maker and LUIS. Type a greeting, or a question about the weather to get started";
 
         /// <summary>
         /// Services configured from the ".bot" file.

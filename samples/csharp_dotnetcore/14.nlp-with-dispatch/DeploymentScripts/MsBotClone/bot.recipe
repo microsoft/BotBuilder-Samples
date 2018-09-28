@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0",
   "resources": [
     {
@@ -6,6 +6,31 @@
       "id": "1",
       "name": "development",
       "url": "http://localhost:3978/api/messages"
+    },
+    {
+      "type": "luis",
+      "id": "7",
+      "name": "homeautomation.luis"
+    },
+    {
+      "type": "luis",
+      "id": "50",
+      "name": "weather.luis"
+    },
+    {
+      "type": "qna",
+      "id": "201",
+      "name": "sample.qna"
+    },
+    {
+      "type": "dispatch",
+      "id": "161",
+      "name": "bot-dispatch",
+      "serviceIds": [
+        "7",
+        "50",
+        "201"
+      ]
     },
     {
       "type": "endpoint",
@@ -16,17 +41,17 @@
     {
       "type": "abs",
       "id": "3",
-      "name": "dispatch-Bot"
+      "name": "Dispatch-Bot"
     },
     {
       "type": "appInsights",
       "id": "4",
-      "name": "dispatch-Insights"
+      "name": "Dispatch-Insights"
     },
     {
       "type": "blob",
       "id": "5",
-      "name": "dispatch-Blob",
+      "name": "Dispatch-Blob",
       "container": "botstatestore"
     }
   ]

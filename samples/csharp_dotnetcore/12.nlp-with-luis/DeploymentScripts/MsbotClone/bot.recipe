@@ -19,6 +19,11 @@
       "name": "luis-Bot"
     },
     {
+      "type": "luis",
+      "id": "50",
+      "name": "LuisBot"
+    },
+    {
       "type": "appInsights",
       "id": "4",
       "name": "luis-Insights"

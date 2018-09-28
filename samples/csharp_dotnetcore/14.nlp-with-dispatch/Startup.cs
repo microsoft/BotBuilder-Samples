@@ -183,7 +183,7 @@ namespace NLP_With_Dispatch_Bot
                                 throw new InvalidOperationException("The Region ('region') is required to run this sample. Please update your '.bot' file.");
                             }
 
-                            var app = new LuisApplication(luis.AppId, luis.AuthoringKey, luis.Region);
+                            var app = new LuisApplication(luis.AppId, luis.AuthoringKey, luis.GetEndpoint());
                             var recognizer = new LuisRecognizer(app);
                             luisServices.Add(luis.Name, recognizer);
                             break;
@@ -221,7 +221,7 @@ namespace NLP_With_Dispatch_Bot
                             throw new InvalidOperationException("The Region ('region') is required to run this sample. Please update your '.bot' file.");
                         }
 
-                        var dispatchApp = new LuisApplication(dispatch.AppId, dispatch.AuthoringKey, dispatch.Region);
+                        var dispatchApp = new LuisApplication(dispatch.AppId, dispatch.AuthoringKey, dispatch.GetEndpoint());
 
                         // Since the Dispatch tool generates a LUIS model, we use LuisRecognizer to resolve dispatching of the incoming utterance
                         var dispatchARecognizer = new LuisRecognizer(dispatchApp);

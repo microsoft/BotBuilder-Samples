@@ -19,6 +19,11 @@
       "name": "qna-Bot"
     },
     {
+      "type": "qna",
+      "id": "201",
+      "name": "QnABot"
+    },
+    {
       "type": "appInsights",
       "id": "4",
       "name": "qna-Insights"
