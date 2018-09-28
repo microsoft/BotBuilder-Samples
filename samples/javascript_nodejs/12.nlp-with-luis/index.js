@@ -10,7 +10,7 @@ const { LuisBot } = require('./bot');
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '.env');
-const env = require('dotenv').config({ path: ENV_FILE });
+require('dotenv').config({ path: ENV_FILE });
 
 // .bot file path.
 const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
@@ -42,7 +42,7 @@ const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
 // Map the contents to the required format for `LuisRecognizer`.
 const luisApplication = {
     applicationId: luisConfig.appId,
-    endpointKey: luisConfig.subscriptionKey,
+    endpointKey: luisConfig.subscriptionKey || luisConfig.authoringKey,
     azureRegion: luisConfig.region
 };
 
@@ -60,7 +60,7 @@ const adapter = new BotFrameworkAdapter({
 });
 
 // Catch-all for errors.
-adapter.onTurnError = async (turnContext, error) => {
+adapter.onTurnError = async(turnContext, error) => {
     console.error(`\n [onTurnError]: ${ error }`);
     await turnContext.sendActivity(`Oops. Something went wrong!`);
 };
@@ -84,7 +84,7 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async (turnContext) => {
+    adapter.processActivity(req, res, async(turnContext) => {
         await bot.onTurn(turnContext);
     });
 });
