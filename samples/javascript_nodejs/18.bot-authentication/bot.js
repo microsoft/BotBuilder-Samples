@@ -34,7 +34,6 @@ const OAUTH_SETTINGS = {
  * A bot that authenticates users using OAuth prompts.
  */
 class AuthenticationBot {
-
     /**
      * The constructor for the bot. 
      * @param {ConversationState} conversationState A ConversationState object used to store the dialog state.
@@ -176,4 +175,4 @@ class AuthenticationBot {
     }
 }
 
-module.exports = AuthenticationBot;
+module.exports.AuthenticationBot = AuthenticationBot;
