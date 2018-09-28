@@ -27,7 +27,7 @@ export class BotServices {
                     let dispatchApp: LuisApplication = {
                         applicationId: dispatch.appId,
                         endpointKey: dispatch.subscriptionKey,
-                        endpoint: dispatch.region
+                        endpoint: this.getLuisPath(dispatch.region)
                     };
                     this._dispatchRecognizer = new TelemetryLuisRecognizer(dispatchApp);
                     break;
@@ -37,7 +37,7 @@ export class BotServices {
                     let luisApp: LuisApplication = {
                         applicationId: luis.appId,
                         endpointKey: luis.subscriptionKey,
-                        endpoint: luis.region
+                        endpoint: this.getLuisPath(luis.region)
                     };
                     this._luisServices.set(luis.name, new TelemetryLuisRecognizer(luisApp));
                     break;
@@ -63,6 +63,10 @@ export class BotServices {
                 }
             }
         });
+    }
+
+    private getLuisPath(region: string): string {
+        return `https://${region}.api.cognitive.microsoft.com`;
     }
 
     public get authConnectionName(): string {

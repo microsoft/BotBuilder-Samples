@@ -5,8 +5,9 @@ export class ResourceParser {
     private static cache: Map<string, Map<string, string>> = new Map();
 
     public static getResource(resxPath: string): Promise<Map<string, string>> {
-        if (ResourceParser.cache.has(resxPath)) {
-            return Promise.resolve(ResourceParser.cache.get(resxPath) || new Map());
+        const result = ResourceParser.cache.get(resxPath);
+        if (result) {
+            return Promise.resolve(result);
         }
 
         return new Promise((resolve, reject) => {
@@ -14,15 +15,16 @@ export class ResourceParser {
                 if (err) {
                     reject(err);
                 } else {
-                    ResourceParser.cache.set(resxPath, res);
-                    resolve(res);
+                    const result = new Map(Object.entries(res));
+                    ResourceParser.cache.set(resxPath, result);
+                    resolve(result);
                 }
             });
         });
     }
 
     public static async get(resxPath: string, name: string): Promise<string> {
-        const resources = await ResourceParser.getResource(resxPath);
+        const resources: Map<string, string> = await ResourceParser.getResource(resxPath);
         if (resources.has(name)) {
             return resources.get(name) || '';
         }
