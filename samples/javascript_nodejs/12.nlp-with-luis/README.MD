@@ -45,10 +45,20 @@ In this sample, we demonstrate how to call LUIS to extract the intents from a us
 - Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your AppId, SubscriptionKey, Region and Version. 
     You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
 	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
-
-    - AppId = XXXXXXXXXXXXX
-    - SubscriptionKey = YYYYYYYYYYYY
-    - Region = westus
+    
+    you will have something similar to this in the services seciton of your .bot file to run this sample:
+    ```
+    {
+      "type": "luis",
+      "name": "LuisBot", //This has to match the value for `LUIS_CONFIGURATION` in the index.js file
+      "id": "",
+      "appId": "XXXXXXXXXXXXX", //<LUIS_APP_ID> 
+      "authoringKey": "", //<LUIS_AUTHORING_KEY> or
+      "subscriptionKey": "YYYYYYYYYYYY", //<LUIS_SUBSCRIPTION_KEY>
+      "version": "0.1",
+      "region": "westus"
+    },
+    ```
 
     The Version is listed on the page.
 - Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your Authoring Key.  
