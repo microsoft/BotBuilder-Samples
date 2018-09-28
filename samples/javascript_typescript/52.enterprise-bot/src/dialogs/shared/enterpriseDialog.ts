@@ -7,6 +7,7 @@ import { CancelResponses } from '../cancel/cancelResponses';
 import { InterruptableDialog } from './interruptableDialog';
 import { MainResponses } from '../main/mainResponses';
 import { TelemetryLuisRecognizer } from '../../middleware/telemetry/telemetryLuisRecognizer';
+import { InterruptionStatus } from './interruptableStatus';
 
 export class EnterpriseDialog extends InterruptableDialog {
 
@@ -24,7 +25,7 @@ export class EnterpriseDialog extends InterruptableDialog {
     
     protected async onDialogInterruption(dc: DialogContext): Promise<InterruptionStatus> {
         // Check dispatch intent.
-        const luisService: TelemetryLuisRecognizer | undefined = this._services.luisServices.get('<YOUR MSBOT NAME>_General');
+        const luisService: TelemetryLuisRecognizer | undefined = this._services.luisServices.get('dotnet_General');
         if (!luisService) return Promise.reject(new Error('Luis service not presented'));
         
         const luisResult: RecognizerResult = await luisService.recognize(dc.context);

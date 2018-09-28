@@ -7,6 +7,7 @@ import { OnboardingState } from '../onboarding/onboardingState';
 import { LuisRecognizer } from 'botbuilder-ai';
 import { OnboardingDialog } from '../onboarding/onboardingDialog';
 import { EscalateDialog } from '../escalate/escalateDialog';
+import { SignInDialog } from '../signin/signInDialog';
 
 export class MainDialog extends RouterDialog {
     private readonly _services: BotServices;
@@ -25,7 +26,7 @@ export class MainDialog extends RouterDialog {
         this._conversationState = conversationState;
         this._userState = userState;
 
-        this._onboardingAccessor = this._userState.createProperty('OnboardingState');
+        this._onboardingAccessor = this._userState.createProperty<OnboardingState>('OnboardingState');
 
         this.addDialog(new OnboardingDialog(this._services, this._onboardingAccessor));
         this.addDialog(new EscalateDialog(this._services));
@@ -36,7 +37,7 @@ export class MainDialog extends RouterDialog {
 
         await this._responder.ReplyWith(innerDC.context, MainResponses.Intro);
 
-        if (onboardingState && onboardingState.name) {
+        if (!onboardingState || !onboardingState.name) {
             // This is the first time the user is interacting with the bot, so gather onboarding information.
             await innerDC.beginDialog('OnboardingDialog');
         }

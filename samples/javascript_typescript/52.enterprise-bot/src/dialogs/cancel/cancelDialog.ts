@@ -19,7 +19,7 @@ export class CancelDialog extends ComponentDialog {
             CancelDialog.AskToCancel,
             CancelDialog.FinishCancelDialog];
 
-            this.addDialog(new WaterfallDialog(this.initialDialogId,cancel));
+            this.addDialog(new WaterfallDialog(this.initialDialogId, cancel));
             this.addDialog(new ConfirmPrompt(CancelDialog.CancelPrompt));
     }
 

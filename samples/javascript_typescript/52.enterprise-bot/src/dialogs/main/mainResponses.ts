@@ -72,7 +72,7 @@ export class MainResponses extends TemplateManager {
                 },
                 {
                     type: ActionTypes.OpenUrl,
-                    title: 'Test LUIS',
+                    title: 'Learn More',
                     value: 'https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0'
                 }
             ]

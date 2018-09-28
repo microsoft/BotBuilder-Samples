@@ -5,18 +5,21 @@ import { GraphClient } from '../../serviceClients/graphClient';
 import { User } from '@microsoft/microsoft-graph-types';
 
 export class SignInDialog extends ComponentDialog {
-    private readonly loginPrompt: string = 'loginPrompt';
+    private readonly _loginPrompt: string = 'loginPrompt';
     private readonly _connectionName: string;
     private readonly _responder: SignInResponses;
 
     constructor(connectionName: string) {
         super('SignInDialog');
-        this._connectionName = connectionName;
         this.initialDialogId = 'SignInDialog';
+        this._connectionName = connectionName;
         this._responder = new SignInResponses();
 
-        this.addDialog(new WaterfallDialog(this.initialDialogId, [this.askToLogin, this.finishAuthDialog]));
-        this.addDialog(new OAuthPrompt(this.loginPrompt, {
+        this.addDialog(new WaterfallDialog(this.initialDialogId, [
+            this.askToLogin.bind(this),
+            this.finishAuthDialog.bind(this)
+        ]));
+        this.addDialog(new OAuthPrompt(this._loginPrompt, {
             connectionName: this._connectionName,
             title: 'Sign In',
             text: 'Please sign in to access this bot.'
@@ -24,7 +27,7 @@ export class SignInDialog extends ComponentDialog {
     }
 
     private askToLogin(sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        return sc.prompt(this.loginPrompt, {});
+        return sc.prompt(this._loginPrompt, {});
     }
 
     private async finishAuthDialog(sc: WaterfallStepContext): Promise<DialogTurnResult> {

@@ -1,10 +1,9 @@
 import { StatePropertyAccessor, TurnContext } from 'botbuilder';
-import { WaterfallDialog, WaterfallStepContext, DialogTurnResult, PromptOptions, TextPrompt } from 'botbuilder-dialogs'
+import { WaterfallDialog, WaterfallStepContext, DialogTurnResult, TextPrompt } from 'botbuilder-dialogs'
 import { BotServices } from '../../botServices';
 import { OnboardingResponses } from './onboardingResponses';
 import { OnboardingState } from './onboardingState';
 import { EnterpriseDialog } from '../shared/enterpriseDialog';
-import { promises } from 'fs';
 
 export class OnboardingDialog extends EnterpriseDialog {
     private readonly NamePrompt: string = 'namePrompt';
@@ -21,7 +20,12 @@ export class OnboardingDialog extends EnterpriseDialog {
         this.initialDialogId = 'OnboardingDialog';
         this._responder = new OnboardingResponses()
         
-        this.addDialog(new WaterfallDialog(this.initialDialogId, [this.askForName, this.askForEmail, this.askForLocation, this.finishOnboardingDialog]));
+        this.addDialog(new WaterfallDialog<OnboardingState>(this.initialDialogId, [
+            this.askForName.bind(this),
+            this.askForEmail.bind(this),
+            this.askForLocation.bind(this),
+            this.finishOnboardingDialog.bind(this)
+        ]));
         this.addDialog(new TextPrompt(this.NamePrompt));
         this.addDialog(new TextPrompt(this.EmailPrompt));
         this.addDialog(new TextPrompt(this.LocationPrompt));
@@ -31,16 +35,22 @@ export class OnboardingDialog extends EnterpriseDialog {
     private async getStateFromAccessor(context: TurnContext): Promise<OnboardingState>  {
         const state: OnboardingState | undefined = await this._accessor.get(context);
         if(!state) {
-            return Promise.reject(new Error(`'State' not found in property accessor`));
+            const newState: OnboardingState = {
+                name: '',
+                email: '',
+                location: ''
+            };
+            await this._accessor.set(context, newState);
+            return newState;
         }
         return state;
     }
 
-    public async askForName(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+    public async askForName(sc: WaterfallStepContext<OnboardingState>): Promise<DialogTurnResult> {
         this._state = await this.getStateFromAccessor(sc.context);
 
         if (this._state.name) {
-            return await sc.next(this._state.name)
+            return await sc.next(this._state.name);
         } else {
             return await sc.prompt(this.NamePrompt, {
                 prompt: await this._responder.RenderTemplate(sc.context, OnboardingResponses.NamePrompt, 'en')
@@ -48,7 +58,7 @@ export class OnboardingDialog extends EnterpriseDialog {
         }
     }
 
-    public async askForEmail(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+    public async askForEmail(sc: WaterfallStepContext<OnboardingState>): Promise<DialogTurnResult> {
         this._state = await this.getStateFromAccessor(sc.context);
         this._state.name = sc.result;
         
@@ -63,7 +73,7 @@ export class OnboardingDialog extends EnterpriseDialog {
         }
     }
 
-    public async askForLocation(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+    public async askForLocation(sc: WaterfallStepContext<OnboardingState>): Promise<DialogTurnResult> {
         this._state = await this.getStateFromAccessor(sc.context);
         this._state.email = sc.result;
 
@@ -78,7 +88,7 @@ export class OnboardingDialog extends EnterpriseDialog {
         }
     }
 
-    public async finishOnboardingDialog(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+    public async finishOnboardingDialog(sc: WaterfallStepContext<OnboardingState>): Promise<DialogTurnResult> {
         this._state = await this.getStateFromAccessor(sc.context);
         this._state.location = sc.result;
 
