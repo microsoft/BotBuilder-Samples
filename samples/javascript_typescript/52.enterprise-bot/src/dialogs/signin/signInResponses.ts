@@ -1,6 +1,6 @@
-import { TemplateManager } from "../templateManager/templateManager";
-import { LanguageTemplateDictionary, DictionaryRenderer, TemplateFunction } from "../templateManager/dictionaryRenderer";
-import { TurnContext } from "botbuilder";
+import { TemplateManager } from '../templateManager/templateManager';
+import { LanguageTemplateDictionary, DictionaryRenderer, TemplateFunction } from '../templateManager/dictionaryRenderer';
+import { TurnContext } from 'botbuilder';
 import { ResourceParser } from '../shared/resourceParser';
 const resourcesPath = require.resolve('./resources/SignInStrings.resx');
 

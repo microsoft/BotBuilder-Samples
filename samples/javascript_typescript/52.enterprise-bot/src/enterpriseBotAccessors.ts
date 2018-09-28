@@ -1,5 +1,5 @@
-import { UserState, ConversationState, StatePropertyAccessor } from "botbuilder";
-import { DialogState } from "botbuilder-dialogs";
+import { UserState, ConversationState, StatePropertyAccessor } from 'botbuilder';
+import { DialogState } from 'botbuilder-dialogs';
 
 export class EnterpriseBotAccessors {
     private _userState: UserState;

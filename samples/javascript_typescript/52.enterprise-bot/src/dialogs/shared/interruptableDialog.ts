@@ -1,4 +1,4 @@
-import { ComponentDialog, Dialog, DialogContext, DialogTurnResult } from "botbuilder-dialogs";
+import { ComponentDialog, Dialog, DialogContext, DialogTurnResult } from 'botbuilder-dialogs';
 
 export abstract class InterruptableDialog extends ComponentDialog {
     constructor(dialogId: string) { super(dialogId); }

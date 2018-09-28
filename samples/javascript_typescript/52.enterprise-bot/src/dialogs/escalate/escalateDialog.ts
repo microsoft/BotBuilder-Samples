@@ -3,7 +3,7 @@
 
 import { EnterpriseDialog } from '../shared/enterpriseDialog';
 import { EscalateResponses } from './escalateResponses';
-import { BotServices } from "../../botServices";
+import { BotServices } from '../../botServices';
 import { WaterfallStepContext, DialogTurnResult, WaterfallDialog } from 'botbuilder-dialogs';
 
 export class EscalateDialog extends EnterpriseDialog {

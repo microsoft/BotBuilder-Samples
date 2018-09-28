@@ -73,7 +73,7 @@ export class TemplateManager {
             fallbackLocales.push(language);
         }
 
-        fallbackLocales.push("default");
+        fallbackLocales.push('default');
 
         // try each locale until successful
         for (let locale of fallbackLocales) {

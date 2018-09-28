@@ -1,5 +1,5 @@
-import { ComponentDialog, DialogContext, DialogTurnResult, Dialog, DialogTurnStatus } from "botbuilder-dialogs";
-import { Activity, ActivityTypes } from "botbuilder";
+import { ComponentDialog, DialogContext, DialogTurnResult, Dialog, DialogTurnStatus } from 'botbuilder-dialogs';
+import { Activity, ActivityTypes } from 'botbuilder';
 
 export abstract class RouterDialog extends ComponentDialog {
     constructor(dialogId: string) { super(dialogId); }

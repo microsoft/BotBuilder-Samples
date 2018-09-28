@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TemplateManager } from "../templateManager/templateManager";
-import { LanguageTemplateDictionary, DictionaryRenderer, TemplateFunction } from "../templateManager/dictionaryRenderer";
+import { TemplateManager } from '../templateManager/templateManager';
+import { LanguageTemplateDictionary, DictionaryRenderer, TemplateFunction } from '../templateManager/dictionaryRenderer';
 import { ResourceParser } from '../shared/resourceParser';
-import { TurnContext } from "botbuilder";
+import { TurnContext } from 'botbuilder';
 const resourcesPath = require.resolve('./resources/EscalateStrings.resx');
 
 export class EscalateResponses extends TemplateManager {

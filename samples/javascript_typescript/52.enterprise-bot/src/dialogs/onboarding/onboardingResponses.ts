@@ -1,7 +1,7 @@
-import { TurnContext } from "botbuilder";
+import { TurnContext } from 'botbuilder';
 import { ResourceParser } from '../shared/resourceParser';
-import { DictionaryRenderer, LanguageTemplateDictionary, TemplateFunction } from "../templateManager/dictionaryRenderer";
-import { TemplateManager } from "../templateManager/templateManager";
+import { DictionaryRenderer, LanguageTemplateDictionary, TemplateFunction } from '../templateManager/dictionaryRenderer';
+import { TemplateManager } from '../templateManager/templateManager';
 const resourcesPath = require.resolve('./resources/OnboardingStrings.resx');
 
 export class OnboardingResponses extends TemplateManager {
@@ -39,8 +39,8 @@ export class OnboardingResponses extends TemplateManager {
                 // return value.replace('{1}', data.Location);
             }],
         ])],
-        ["en", undefined],
-        ["fr", undefined]
+        ['en', undefined],
+        ['fr', undefined]
     ]);
     
     constructor() {

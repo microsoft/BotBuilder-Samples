@@ -1,12 +1,12 @@
-import { RouterDialog } from "../shared/routerDialog";
-import { DialogContext } from "botbuilder-dialogs";
-import { BotServices } from "../../botServices";
-import { ConversationState, UserState } from "botbuilder";
-import { MainResponses } from "./mainResponses";
-import { OnboardingState } from "../onboarding/onboardingState";
-import { LuisRecognizer } from "botbuilder-ai";
-import { OnboardingDialog } from "../onboarding/onboardingDialog";
-import { EscalateDialog } from "../escalate/escalateDialog";
+import { RouterDialog } from '../shared/routerDialog';
+import { DialogContext } from 'botbuilder-dialogs';
+import { BotServices } from '../../botServices';
+import { ConversationState, UserState } from 'botbuilder';
+import { MainResponses } from './mainResponses';
+import { OnboardingState } from '../onboarding/onboardingState';
+import { LuisRecognizer } from 'botbuilder-ai';
+import { OnboardingDialog } from '../onboarding/onboardingDialog';
+import { EscalateDialog } from '../escalate/escalateDialog';
 
 export class MainDialog extends RouterDialog {
     private readonly _services: BotServices;

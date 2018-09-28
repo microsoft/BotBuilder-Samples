@@ -1,10 +1,10 @@
-import { StatePropertyAccessor, TurnContext } from "botbuilder";
-import { WaterfallDialog, WaterfallStepContext, DialogTurnResult, PromptOptions, TextPrompt } from "botbuilder-dialogs"
-import { BotServices } from "../../botServices";
-import { OnboardingResponses } from "./onboardingResponses";
-import { OnboardingState } from "./onboardingState";
-import { EnterpriseDialog } from "../shared/enterpriseDialog";
-import { promises } from "fs";
+import { StatePropertyAccessor, TurnContext } from 'botbuilder';
+import { WaterfallDialog, WaterfallStepContext, DialogTurnResult, PromptOptions, TextPrompt } from 'botbuilder-dialogs'
+import { BotServices } from '../../botServices';
+import { OnboardingResponses } from './onboardingResponses';
+import { OnboardingState } from './onboardingState';
+import { EnterpriseDialog } from '../shared/enterpriseDialog';
+import { promises } from 'fs';
 
 export class OnboardingDialog extends EnterpriseDialog {
     private readonly NamePrompt: string = 'namePrompt';

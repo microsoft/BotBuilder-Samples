@@ -1,8 +1,8 @@
-import { TemplateManager } from "../templateManager/templateManager";
-import { LanguageTemplateDictionary, DictionaryRenderer, TemplateFunction } from "../templateManager/dictionaryRenderer";
-import { TurnContext, Activity, CardFactory, ActionTypes } from "botbuilder";
+import { TemplateManager } from '../templateManager/templateManager';
+import { LanguageTemplateDictionary, DictionaryRenderer, TemplateFunction } from '../templateManager/dictionaryRenderer';
+import { TurnContext, Activity, CardFactory, ActionTypes } from 'botbuilder';
 import { ResourceParser } from '../shared/resourceParser';
-import { ActivityEx } from "../../utils/activityEx";
+import { ActivityEx } from '../../utils/activityEx';
 const introCard = require('./resources/Intro.json');
 const resourcesPath = require.resolve('./resources/MainStrings.resx');
 

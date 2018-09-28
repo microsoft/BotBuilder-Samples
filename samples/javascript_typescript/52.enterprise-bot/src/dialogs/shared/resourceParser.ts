@@ -1,5 +1,5 @@
 const resx = require('resx');
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
 export class ResourceParser {
     private static cache: Map<string, Map<string, string>> = new Map();

@@ -6,7 +6,7 @@ import { ComponentDialog, DialogContext, WaterfallStepContext, DialogTurnResult,
 
 export class CancelDialog extends ComponentDialog {
     // Constants
-    public static readonly CancelPrompt: string = "cancelPrompt";
+    public static readonly CancelPrompt: string = 'cancelPrompt';
 
     // Fields
     private static _responder: CancelResponses;
@@ -26,7 +26,7 @@ export class CancelDialog extends ComponentDialog {
     public static async AskToCancel(sc: WaterfallStepContext): Promise<DialogTurnResult> {
         return await sc.prompt(
             CancelDialog.CancelPrompt,
-            <PromptOptions> { prompt : await CancelDialog._responder.RenderTemplate(sc.context, "en", CancelResponses._confirmPrompt)});
+            <PromptOptions> { prompt : await CancelDialog._responder.RenderTemplate(sc.context, 'en', CancelResponses._confirmPrompt)});
     }
 
     public static async FinishCancelDialog(sc: WaterfallStepContext): Promise<DialogTurnResult> {

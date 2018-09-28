@@ -1,4 +1,4 @@
-import { Activity, ActivityTypes } from "botbuilder";
+import { Activity, ActivityTypes } from 'botbuilder';
 
 export module ActivityEx {
     export function createReply(source: Activity, text?: string, locale?: string): Activity {

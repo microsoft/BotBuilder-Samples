@@ -1,8 +1,8 @@
-import { ComponentDialog, WaterfallDialog, WaterfallStepContext, DialogTurnResult, OAuthPrompt } from "botbuilder-dialogs"
-import { TokenResponse, TurnContext } from "botbuilder";
-import { SignInResponses } from "./signInResponses";
-import { GraphClient } from "../../serviceClients/graphClient";
-import { User } from "@microsoft/microsoft-graph-types";
+import { ComponentDialog, WaterfallDialog, WaterfallStepContext, DialogTurnResult, OAuthPrompt } from 'botbuilder-dialogs'
+import { TokenResponse, TurnContext } from 'botbuilder';
+import { SignInResponses } from './signInResponses';
+import { GraphClient } from '../../serviceClients/graphClient';
+import { User } from '@microsoft/microsoft-graph-types';
 
 export class SignInDialog extends ComponentDialog {
     private readonly loginPrompt: string = 'loginPrompt';

@@ -1,5 +1,5 @@
-import { User } from "@microsoft/microsoft-graph-types";
-import { Client, GraphError } from "@microsoft/microsoft-graph-client";
+import { User } from '@microsoft/microsoft-graph-types';
+import { Client, GraphError } from '@microsoft/microsoft-graph-client';
 
 export class GraphClient {
     private readonly _token: string;
