@@ -5,7 +5,7 @@ import { TemplateManager } from "../templateManager/templateManager";
 import { LanguageTemplateDictionary, DictionaryRenderer, TemplateFunction } from "../templateManager/dictionaryRenderer";
 import { ResourceParser } from '../shared/resourceParser';
 import { TurnContext } from "botbuilder";
-const resourcesPath = require.resolve('./resources/cancelStrings.resx');
+const resourcesPath = require.resolve('./resources/CancelStrings.resx');
 
 export class CancelResponses extends TemplateManager {
     // Constants

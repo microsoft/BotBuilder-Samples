@@ -5,7 +5,7 @@ import { TemplateManager } from "../templateManager/templateManager";
 import { LanguageTemplateDictionary, DictionaryRenderer, TemplateFunction } from "../templateManager/dictionaryRenderer";
 import { ResourceParser } from '../shared/resourceParser';
 import { TurnContext } from "botbuilder";
-const resourcesPath = require.resolve('./resources/escalateStrings.resx');
+const resourcesPath = require.resolve('./resources/EscalateStrings.resx');
 
 export class EscalateResponses extends TemplateManager {
     public static readonly SendPhone: string = 'sendPhone';

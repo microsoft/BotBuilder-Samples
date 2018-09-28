@@ -5,6 +5,8 @@ import { ConversationState, UserState } from "botbuilder";
 import { MainResponses } from "./mainResponses";
 import { OnboardingState } from "../onboarding/onboardingState";
 import { LuisRecognizer } from "botbuilder-ai";
+import { OnboardingDialog } from "../onboarding/onboardingDialog";
+import { EscalateDialog } from "../escalate/escalateDialog";
 
 export class MainDialog extends RouterDialog {
     private readonly _services: BotServices;
@@ -22,8 +24,8 @@ export class MainDialog extends RouterDialog {
         this._conversationState = conversationState;
         this._userState = userState;
 
-        //this.addDialog(new OnboardingDialog(this._botServices, this._userState.createProperty('OnboardingState')));
-        //this.addDialog(new EscalateDialog(this._botServices));
+        this.addDialog(new OnboardingDialog(this._services, this._userState.createProperty('OnboardingState')));
+        this.addDialog(new EscalateDialog(this._services));
     }
 
     protected async onStart(innerDC: DialogContext): Promise<void> {
