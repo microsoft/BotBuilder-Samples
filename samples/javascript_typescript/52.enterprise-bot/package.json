@@ -6,7 +6,10 @@
     "license": "MIT",
     "main": "lib/index.js",
     "scripts": {
-        "build": "tsc --p tsconfig.json",
+        "clean": "rimraf ./lib",
+        "copy-resources": "copyfiles --up 1 ./src/**/resources/*.resx ./lib",
+        "copy-templates": "copyfiles --up 1 ./src/**/resources/*.json ./lib",
+        "build": "tsc --p tsconfig.json && npm run copy-resources && npm run copy-templates",
         "start": "tsc && node ./lib/index.js NODE_ENV=development",
         "watch": "nodemon ./lib/index.js NODE_ENV=development",
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -31,6 +34,8 @@
         "@types/dotenv": "^4.0.3",
         "@types/node": "^10.10.1",
         "@types/restify": "^7.2.4",
-        "nodemon": "^1.18.4"
+        "copyfiles": "^2.1.0",
+        "nodemon": "^1.18.4",
+        "rimraf": "^2.6.2"
     }
 }
