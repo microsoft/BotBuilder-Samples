@@ -1,7 +1,7 @@
 import { RouterDialog } from '../shared/routerDialog';
 import { DialogContext } from 'botbuilder-dialogs';
 import { BotServices } from '../../botServices';
-import { ConversationState, UserState } from 'botbuilder';
+import { ConversationState, UserState, StatePropertyAccessor } from 'botbuilder';
 import { MainResponses } from './mainResponses';
 import { OnboardingState } from '../onboarding/onboardingState';
 import { LuisRecognizer } from 'botbuilder-ai';
@@ -13,6 +13,7 @@ export class MainDialog extends RouterDialog {
     private readonly _userState: UserState;
     private readonly _conversationState: ConversationState;
     private readonly _responder: MainResponses = new MainResponses();
+    private readonly _onboardingAccessor: StatePropertyAccessor<OnboardingState>;
 
     constructor(services: BotServices, conversationState: ConversationState, userState: UserState) {
         super('MainDialog');
@@ -24,13 +25,14 @@ export class MainDialog extends RouterDialog {
         this._conversationState = conversationState;
         this._userState = userState;
 
-        this.addDialog(new OnboardingDialog(this._services, this._userState.createProperty('OnboardingState')));
+        this._onboardingAccessor = this._userState.createProperty('OnboardingState');
+
+        this.addDialog(new OnboardingDialog(this._services, this._onboardingAccessor));
         this.addDialog(new EscalateDialog(this._services));
     }
 
     protected async onStart(innerDC: DialogContext): Promise<void> {
-        const onboardingAccessor = this._userState.createProperty<OnboardingState>('OnboardingState');
-        const onboardingState = await onboardingAccessor.get(innerDC.context, undefined);
+        const onboardingState = await this._onboardingAccessor.get(innerDC.context, undefined);
 
         await this._responder.ReplyWith(innerDC.context, MainResponses.Intro);
 
@@ -47,7 +49,7 @@ export class MainDialog extends RouterDialog {
 
         if (topIntent === 'l_General') {
             // If dispatch result is general luis model
-            const luisService = this._services.luisServices.get('<YOUR MS BOT NAME>_General');
+            const luisService = this._services.luisServices.get('dotnet_General');
             if (!luisService) return Promise.reject(new Error('Luis service not found'));
 
             const luisResult = await luisService.recognize(dc.context);
@@ -86,7 +88,7 @@ export class MainDialog extends RouterDialog {
                 }
             }
         } else if (topIntent === 'q_FAQ') {
-            const qnaService = this._services.qnaServices.get('EnterpriseBot-FAQ');
+            const qnaService = this._services.qnaServices.get('FAQ');
             if (!qnaService) return Promise.reject(new Error('QnA service not found'));
 
             const answers = await qnaService.getAnswersAsync(dc.context);
