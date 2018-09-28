@@ -26,7 +26,7 @@ const HELP_INTENT = 'Help';
 const NONE_INTENT = 'None';
 
 // Supported LUIS Entities, defined in ./dialogs/greeting/resources/greeting.lu
-const USER_NAME_ENTITIES = ['userName', 'userName_paternAny'];
+const USER_NAME_ENTITIES = ['userName', 'userName_patternAny'];
 const USER_LOCATION_ENTITIES = ['userLocation', 'userLocation_patternAny'];
 
 /**
