@@ -234,7 +234,7 @@ namespace Microsoft.BotBuilderSamples
                 var entities = luisResult.Entities;
 
                 // Supported LUIS Entities
-                string[] userNameEntities = { "userName", "userName_paternAny" };
+                string[] userNameEntities = { "userName", "userName_patternAny" };
                 string[] userLocationEntities = { "userLocation", "userLocation_patternAny" };
 
                 // Update any entities
