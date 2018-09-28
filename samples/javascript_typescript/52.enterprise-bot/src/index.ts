@@ -122,6 +122,19 @@ adapter.use(new TranscriptLoggerMiddleware(transcriptStore));
 // Typing Middleware (automatically shows typing when the bot is responding/working) (not implemented https://github.com/Microsoft/botbuilder-js/issues/470)
 // adapter.use(new ShowTypingMiddleware());
 
+// Content Moderation Middleware (analyzes incoming messages for inappropriate content including PII, profanity, etc.)
+/* TODO: Migrate to typescript
+var moderatorService = botConfig.Services.Where(s => s.Name == ContentModeratorMiddleware.ServiceName).FirstOrDefault();
+if (moderatorService != null)
+{
+    var moderator = moderatorService as GenericService;
+    var moderatorKey = moderator.Configuration["subscriptionKey"];
+    var moderatorRegion = moderator.Configuration["region"];
+    var moderatorMiddleware = new ContentModeratorMiddleware(moderatorKey, moderatorRegion);
+    options.Middleware.Add(moderatorMiddleware);
+}
+*/
+
 let bot: EnterpriseBot;
 try {
     const services: BotServices = new BotServices(botConfig);

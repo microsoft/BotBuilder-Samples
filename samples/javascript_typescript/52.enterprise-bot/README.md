@@ -1,10 +1,16 @@
-# basic-bot
+# Enterprise Bot Template
 
-This bot has been created using [Microsoft Bot Framework](https://dev.botframework.com),
+This bot has been created using [Microsoft Bot Framework](https://dev.botframework.com).
+
+## Concepts introduced in this sample
+- Dialogs
+- Template Manager
+- Dispatch
+- Middleware
 
 This samples shows how to:
 - Use [LUIS](https://luis.ai) to implement core AI capabilities
-- Implement a multi-turn converstation using Dialogs
+- Implement a multi-turn conversation using Dialogs
 - Handle user interruptions for such things as Help or Cancel
 - Prompt for and validate requests for information from the user
 
@@ -14,19 +20,62 @@ This samples shows how to:
   ```bash
   git clone https://github.com/microsoft/botbuilder-samples.git
   ```
-- In a terminal, navigate to javascript_nodejs/13.basic-bot
+- In a terminal, navigate to samples/javascript_typescript/52.enterprise-bot
   ```bash
-  cd javascript_nodejs/13.basic-bot
+  cd samples/javascript_typescript/52.enterprise-bot
   ```
 - Install modules
   ```bash
   npm install
   ```
+- Setup [Azure Powershell](https://docs.microsoft.com/en-us/powershell/azure/install-azurerm-ps?view=azurermps-6.9.0&viewFallbackFrom=azurermps-6.8.1)
+
+  - Login to Azure
+
+    ```bash
+    Connect-AzureRmAccount
+    ```
+    **NOTE**: You will be prompted for login with your Microsoft Account
+
+  - Select your Azure subscription
+
+    ```bash
+    Select-AzureRmSubscription -Subscription "subscription-name"
+    ```
+  
+
 - Create [required services](./deploymentScripts/DEPLOYMENT.MD)
 - Run the sample
   ```bash
   npm start
   ```
+## Enabling more scenarios
+
+### Authentication
+
+To enable authentication follow these steps:
+
+Register the SignInDialog in the MainDialog constructor
+    
+  ```typescript
+  this.addDialog(new SignInDialog(this._services.authConnectionName);
+  ```
+
+Add the following in your code at your desired location to test a simple login flow:
+  ```typescript
+  const signInResult = await dc.beginDialog('SignInDialog');
+  ```
+
+### Content Moderation
+Content moderation can be used to identify PII and adult content in the messages sent to the bot. To enable this functionality, go to the azure portal
+and create a new content moderator service. Collect your subscription key and region to configure your .bot file. 
+
+Uncomment the section of `Content Moderation Middleware` in the `index.ts` file to enable content moderation on every turn. 
+The result of content moderation can be accessed via your bot state 
+
+
+## Prerequisites
+- NodeJS & Node Package Manager
 
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
@@ -35,8 +84,8 @@ This samples shows how to:
 
 ### Connect to bot using Bot Framework Emulator v4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to `javascript_nodejs/13.basic-bot` folder
-- Select `basic-bot.bot` file
+- File -> Open Bot Configuration and navigate to `javascript_typescript/52.enterprise-bot` folder
+- Select your `.bot` file
 
 ## Further Reading
 - [Bot Framework Documentation](https://docs.botframework.com)
