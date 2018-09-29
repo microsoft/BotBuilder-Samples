@@ -48,7 +48,7 @@ module.exports = {
             if (!luisConfig || !luisConfig.appId) throw new Error(`Cafe Dispatch LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information.\n`);
             this.luisRecognizer = new LuisRecognizer({
                 applicationId: luisConfig.appId,
-                azureRegion: luisConfig.region,
+                endpoint: luisConfig.getEndpoint(),
                 // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
                 endpointKey: luisConfig.subscriptionKey
             });

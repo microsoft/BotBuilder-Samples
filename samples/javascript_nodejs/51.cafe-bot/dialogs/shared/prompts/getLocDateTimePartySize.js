@@ -4,7 +4,6 @@ const { MessageFactory } = require('botbuilder');
 const { TextPrompt } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { Reservation, reservationStatusEnum, OnTurnProperty } = require('../stateProperties');
-const { QnADialog } = require('../../qna');
 // Dialog name from ../../bookTable/resources/turn-N.lu
 const CONTINUE_PROMPT_INTENT = 'GetLocationDateTimePartySize';
 const HELP_INTENT = 'Help';
@@ -31,6 +30,7 @@ module.exports = {
             if (!botConfig) throw new Error('Need bot configuration');
             if (!reservationsAccessor) throw new Error('Need user reservation property accessor');
             if (!onTurnAccessor) throw new Error('Need on turn property accessor');
+
             // Call super and provide a prompt validator
             super(dialogId, async (validatorContext) => {
                 // validation and prompting logic
@@ -42,12 +42,13 @@ module.exports = {
                 } else {
                     newReservation = Reservation.fromJSON(reservationFromState);
                 }
-                // if we have a valid reservation, end this prompt.
-                //  else get LG based on what's available in reservation property
+                // If we have a valid reservation, end this prompt.
+                // Else get LG based on what's available in reservation property.
                 if (newReservation.haveCompleteReservation) {
                     if (!newReservation.reservationConfirmed) {
                         if (newReservation.needsChange === true) {
                             await validatorContext.context.sendActivity(`What would you like to change?`);
+                            await validatorContext.context.sendActivity(MessageFactory.suggestedActions(['No changes '], `You can say things like 'make it 6pm instead' or 'I'd like to come in to the Redmond store'...`));
                         } else {
                             // Greet user with name if we have the user profile set.
                             const userProfile = await this.userProfileAccessor.get(validatorContext.context);
@@ -59,11 +60,11 @@ module.exports = {
                             await validatorContext.context.sendActivity(MessageFactory.suggestedActions(['Yes', 'No', 'Cancel'], `Should I go ahead and book the table?`));
                         }
                     } else {
-                        // have all required information. Return true.
+                        // have all required information. Return true and complete the text prompt.
                         return true;
                     }
                 } else {
-                    // readout what has been understood already
+                    // readout any information captured so far.
                     let groundedPropertiesReadout = newReservation.getGroundedPropertiesReadOut();
                     if (groundedPropertiesReadout !== '') {
                         await validatorContext.context.sendActivity(groundedPropertiesReadout);
@@ -71,37 +72,24 @@ module.exports = {
                     // ask user for missing information
                     await validatorContext.context.sendActivity(newReservation.getMissingPropertyReadOut());
                 }
+                // We don't yet have everything we need. Return false.
                 return false;
             });
+
+            // Keep a copy of accessors for use within this class.
             this.reservationsAccessor = reservationsAccessor;
             this.onTurnAccessor = onTurnAccessor;
             this.userProfileAccessor = userProfileAccessor;
-            this.qnaDialog = new QnADialog(botConfig, userProfileAccessor);
+
             // add recognizer
             const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
             if (!luisConfig || !luisConfig.appId) throw new Error(`Book Table Turn.N LUIS configuration not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
             this.luisRecognizer = new LuisRecognizer({
                 applicationId: luisConfig.appId,
-                azureRegion: luisConfig.region,
+                endpoint: luisConfig.getEndpoint(),
                 // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
                 endpointKey: luisConfig.subscriptionKey
             });
-        }
-        async repromptDialog(context, instance) {
-            let reservationFromState = await this.reservationsAccessor.get(context);
-            let newReservation;
-            if (reservationFromState === undefined) {
-                newReservation = new Reservation();
-            } else {
-                newReservation = Reservation.fromJSON(reservationFromState);
-            }
-            if (!newReservation.haveCompleteReservation) {
-                instance.state.options.prompt = newReservation.getMissingPropertyReadOut();
-            } else {
-                await context.sendActivity('Ok. I have a table for ' + newReservation.confirmationReadOut());
-                instance.state.options.prompt = `Should I go ahead and book the table?`;
-            }
-            return await super.repromptDialog(context, instance);
         }
         /**
          * Override continueDialog.
@@ -122,8 +110,8 @@ module.exports = {
             } else {
                 newReservation = Reservation.fromJSON(reservationFromState);
             }
-            // Get on turn property. This has any entities that mainDispatcher,
-            //  or Bot might have captured in its LUIS model
+            // Get on turn property. This has any entities that mainDispatcher
+            // might have captured in its LUIS call or from card input
             const onTurnProperties = await this.onTurnAccessor.get(turnContext);
             // if on turn property has entities
             let updateResult;
@@ -142,7 +130,7 @@ module.exports = {
                 await turnContext.sendActivity(updateResult.outcome[0].message);
                 return await super.continueDialog(dc);
             }
-            // call LUIS and get results
+            // call LUIS (bookTableTurnN model) and get results
             const LUISResults = await this.luisRecognizer.recognize(turnContext);
             let topIntent = LuisRecognizer.topIntent(LUISResults);
             // If we dont have an intent match from LUIS, go with the intent available via
@@ -151,7 +139,7 @@ module.exports = {
                 // go with intent in onTurnProperty
                 topIntent = (onTurnProperties.intent || 'None');
             }
-            // update object with LUIS result
+            // update reservation object with LUIS result
             updateResult = newReservation.updateProperties(OnTurnProperty.fromLUISResults(LUISResults));
 
             // see if update reservation resulted in errors, if so, report them to user.
@@ -187,8 +175,8 @@ module.exports = {
                 return await dc.prompt(CONFIRM_CANCEL_PROMPT, `Are you sure you want to cancel?`);
             case INTERRUPTIONS_INTENT:
             default:
-                await dc.context.sendActivity(`Just so you know .. `);
-                await turnContext.sendActivity(updateResult.newReservation.helpReadOut());
+                // Provide contextual help before handling interruptions.
+                await dc.context.sendActivity('Just so you know .. ' + updateResult.newReservation.helpReadOut());
                 // if we picked up new entity values, do not treat this as an interruption
                 if (onTurnProperties.entities.length !== 0 || Object.keys(LUISResults.entities).length > 1) break;
                 // Handle interruption.
@@ -199,7 +187,8 @@ module.exports = {
             return await super.continueDialog(dc);
         }
         /**
-         * Override resumeDialog. This is used to handle user's response to confirm cancel prompt.
+         * Override resumeDialog.
+         * This is used to handle user's response to confirm cancel prompt.
          *
          * @param {DialogContext} dc
          * @param {DialogReason} reason
@@ -214,6 +203,29 @@ module.exports = {
                 // User said no to cancel.
                 return await super.resumeDialog(dc, reason, result);
             }
+        }
+        /**
+         * Over ride repromptDialog.
+         * This is useful to ensure the right re-prompt text is set before re-prompting.
+         * This method is called anytime a re-prompt is initiated.
+         * @param {TurnContext} turn context
+         * @param {DialogInstance} dialog instance
+         */
+        async repromptDialog(context, instance) {
+            let reservationFromState = await this.reservationsAccessor.get(context);
+            let newReservation;
+            if (reservationFromState === undefined) {
+                newReservation = new Reservation();
+            } else {
+                newReservation = Reservation.fromJSON(reservationFromState);
+            }
+            if (!newReservation.haveCompleteReservation) {
+                instance.state.options.prompt = newReservation.getMissingPropertyReadOut();
+            } else {
+                await context.sendActivity('Ok. I have a table for ' + newReservation.confirmationReadOut());
+                instance.state.options.prompt = `Should I go ahead and book the table?`;
+            }
+            return await super.repromptDialog(context, instance);
         }
     }
 };

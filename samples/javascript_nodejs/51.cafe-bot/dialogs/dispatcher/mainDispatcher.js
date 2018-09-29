@@ -67,7 +67,7 @@ module.exports = {
             if (!luisConfig || !luisConfig.appId) throw new Error(`Cafe Dispatch LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information.\n`);
             this.luisRecognizer = new LuisRecognizer({
                 applicationId: luisConfig.appId,
-                azureRegion: luisConfig.region,
+                endpoint: luisConfig.getEndpoint(),
                 // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
                 endpointKey: luisConfig.subscriptionKey
             });
@@ -109,21 +109,21 @@ module.exports = {
          * @param {DialogContext} dialog context
          */
         async mainDispatch(dc) {
+            let dialogTurnResult;
             // get on turn property through the property accessor
             let onTurnProperty = await this.onTurnAccessor.get(dc.context);
 
-            if (onTurnProperty !== undefined && onTurnProperty.intent !== '') {
-                // Evaluate if the requested operation is possible/ allowed.
-                const reqOpStatus = await this.isRequestedOperationPossible(dc.activeDialog, onTurnProperty.intent);
-                if (!reqOpStatus.allowed) {
-                    await dc.context.sendActivity(reqOpStatus.reason);
-                    // Nothing to do here. End main dialog.
-                    return await dc.endDialog();
-                }
+            // Evaluate if the requested operation is possible/ allowed.
+            const reqOpStatus = await this.isRequestedOperationPossible(dc.activeDialog, onTurnProperty.intent);
+            if (!reqOpStatus.allowed) {
+                await dc.context.sendActivity(reqOpStatus.reason);
+                // Initiate re-prompt for the active dialog.
+                await dc.repromptDialog();
+                return { status: DialogTurnStatus.waiting };
+            } else {
+                // continue any outstanding dialogs
+                dialogTurnResult = await dc.continueDialog();
             }
-
-            // continue outstanding dialogs
-            let dialogTurnResult = await dc.continueDialog();
 
             // This will only be empty if there is no active dialog in the stack.
             if (!dc.context.responded && dialogTurnResult !== undefined && dialogTurnResult.status !== DialogTurnStatus.complete) {
@@ -203,15 +203,17 @@ module.exports = {
          */
         async isRequestedOperationPossible(activeDialog, requestedOperation) {
             let outcome = { allowed: true, reason: '' };
-
-            // E.g. What_can_you_do is not possible when you are in the middle of Who_are_you dialog
-            if (requestedOperation === WhatCanYouDoDialog.Name) {
-                if (activeDialog === WhoAreYouDialog.Name) {
-                    outcome.allowed = false;
-                    outcome.reason = `Sorry! I'm unable to process that. You can say 'cancel' to cancel this conversation..`;
+            if (requestedOperation === undefined) return outcome;
+            if (activeDialog !== undefined && activeDialog.id !== undefined) {
+                // E.g. What_can_you_do is not possible when you are in the middle of Who_are_you dialog
+                if (requestedOperation === WhatCanYouDoDialog.Name) {
+                    if (activeDialog.id === WhoAreYouDialog.Name) {
+                        outcome.allowed = false;
+                        outcome.reason = `Sorry! I'm unable to process that. You can say 'cancel' to cancel this conversation..`;
+                    }
                 }
-            } else if (requestedOperation === CANCEL_INTENT) {
-                if (activeDialog === undefined) {
+            } else {
+                if (requestedOperation === CANCEL_INTENT) {
                     outcome.allowed = false;
                     outcome.reason = `Sure, but there is nothing to cancel..`;
                 }

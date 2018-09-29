@@ -35,8 +35,10 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
         if (!botConfig) throw new Error('Missing parameter. Bot configuration is required.');
         if (!userProfileAccessor) throw new Error('Missing parameter. User profile property accessor is required.');
         if (!conversationState) throw new Error('Missing parameter. Conversation state is required.');
+
         // Call super and provide a prompt validator
         super(dialogId, async (validatorContext) => {
+            // Get user profile through the accessor.
             const userProfile = await this.userProfileAccessor.get(validatorContext.context);
             // Get turn counter
             let turnCounter = await this.turnCounterAccessor.get(validatorContext.context);
@@ -62,6 +64,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                     return HAVE_USER_PROFILE;
                 }
             } else {
+                // Evaluate course of action based on the turn counter.
                 if (turnCounter >= 1) {
                     // We we need to get user's name right. Include a card.
                     await validatorContext.context.sendActivity({ attachments: [CardFactory.adaptiveCard(GetUserNameCard)] });
@@ -78,15 +81,18 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
             }
             return NO_USER_PROFILE;
         });
+
+        // Keep a copy of accessors.
         this.userProfileAccessor = userProfileAccessor;
         this.turnCounterAccessor = conversationState.createProperty(TURN_COUNTER_PROPERTY);
         this.onTurnAccessor = onTurnAccessor;
+
         // add recognizer
         const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
         if (!luisConfig || !luisConfig.appId) throw new Error(`Get User Profile LUIS configuration not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
         this.luisRecognizer = new LuisRecognizer({
             applicationId: luisConfig.appId,
-            azureRegion: luisConfig.region,
+            endpoint: luisConfig.getEndpoint(),
             // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
             endpointKey: luisConfig.subscriptionKey
         });
@@ -175,7 +181,8 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
         return await dc.endDialog(NO_USER_PROFILE);
     }
     /**
-     * Override resumeDialog. This is used to handle user's response to confirm cancel prompt.
+     * Override resumeDialog.
+     * This is used to handle user's response to confirm cancel prompt.
      *
      * @param {DialogContext} dc
      * @param {DialogReason} reason
