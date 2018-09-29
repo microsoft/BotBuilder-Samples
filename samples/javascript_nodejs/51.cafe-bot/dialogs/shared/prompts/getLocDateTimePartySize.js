@@ -87,6 +87,22 @@ module.exports = {
                 endpointKey: luisConfig.subscriptionKey
             });
         }
+        async repromptDialog(context, instance) {
+            let reservationFromState = await this.reservationsAccessor.get(context);
+            let newReservation;
+            if (reservationFromState === undefined) {
+                newReservation = new Reservation();
+            } else {
+                newReservation = Reservation.fromJSON(reservationFromState);
+            }
+            if (!newReservation.haveCompleteReservation) {
+                instance.state.options.prompt = newReservation.getMissingPropertyReadOut();
+            } else {
+                await context.sendActivity('Ok. I have a table for ' + newReservation.confirmationReadOut());
+                instance.state.options.prompt = `Should I go ahead and book the table?`;
+            }
+            return await super.repromptDialog(context, instance);
+        }
         /**
          * Override continueDialog.
          *   The override enables
@@ -176,8 +192,7 @@ module.exports = {
                 // if we picked up new entity values, do not treat this as an interruption
                 if (onTurnProperties.entities.length !== 0 || Object.keys(LUISResults.entities).length > 1) break;
                 // Handle interruption.
-                const onTurnProperty = await this.onTurnAccessor.get(dc.context);
-                return await dc.beginDialog(INTERRUPTION_DISPATCHER, onTurnProperty);
+                return await dc.beginDialog(INTERRUPTION_DISPATCHER, OnTurnProperty.fromLUISResults(LUISResults));
             }
             // set reservation property based on OnTurn properties
             this.reservationsAccessor.set(turnContext, updateResult.newReservation);

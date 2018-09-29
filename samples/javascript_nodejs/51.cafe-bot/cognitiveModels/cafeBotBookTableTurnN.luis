@@ -486,11 +486,6 @@
       "entities": []
     },
     {
-      "text": "What can you do?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
       "text": "how can you help me?",
       "intent": "Interruptions",
       "entities": []
@@ -2177,36 +2172,6 @@
     },
     {
       "text": "Life is good",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "What can you do?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "What can you help me with?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "What do you do?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "What's your purpose?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "How can you help me?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "What kinds of things can you do?",
       "intent": "Interruptions",
       "entities": []
     },

@@ -48,10 +48,14 @@ OnTurnProperty.fromCardInput = function(cardValue) {
     let onTurnProperties = new OnTurnProperty();
     for (var key in cardValue) {
         if (!cardValue.hasOwnProperty(key)) continue;
+        // we do not need to keep the 'text' in on turn property
+        if (key.toLowerCase().trim() === 'text') {
+            continue;
+        }
         if (key.toLowerCase().trim() === 'intent') {
             onTurnProperties.intent = cardValue[key];
         } else {
-            onTurnProperties.entities.push(new EntityProperty(key, cardValue[key]));
+            onTurnProperties.entities.push(new EntityProperty(key, [cardValue[key]]));
         }
     }
     return onTurnProperties;

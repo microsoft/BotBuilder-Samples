@@ -5,11 +5,16 @@ const { QnADialog } = require('../qna');
 const { ChitChatDialog } = require('../chitChat');
 const { HelpDialog } = require('../help');
 const { WhatCanYouDoDialog } = require('../whatCanYouDo');
+const { LuisRecognizer } = require('botbuilder-ai');
+const { OnTurnProperty } = require('../shared/stateProperties');
 
 const NONE_INTENT = 'None';
 const WHO_ARE_YOU_DIALOG_NAME = 'Who_are_you';
 const BOOK_TABLE_DIALOG_NAME = 'Book_Table';
 const INTERRUPTION_DISPATCHER_DIALOG = 'interruptionDispatcherDialog';
+
+// LUIS service type entry in the .bot file for dispatch.
+const LUIS_CONFIGURATION = 'cafeDispatchModel';
 
 module.exports = {
     InterruptionDispatcher: class extends ComponentDialog {
@@ -37,6 +42,16 @@ module.exports = {
             // add dialogs
             this.addDialog(new WhatCanYouDoDialog());
             this.addDialog(new QnADialog(botConfig, userProfileAccessor));
+
+            // add recognizer
+            const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
+            if (!luisConfig || !luisConfig.appId) throw new Error(`Cafe Dispatch LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information.\n`);
+            this.luisRecognizer = new LuisRecognizer({
+                applicationId: luisConfig.appId,
+                azureRegion: luisConfig.region,
+                // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
+                endpointKey: luisConfig.subscriptionKey
+            });
         }
         /**
          * Override onBeginDialog
@@ -64,12 +79,14 @@ module.exports = {
          * @param {Object} options
          */
         async interruptionDispatch(dc, options) {
-            // See if interruption is allowed
-            if (options === undefined || options.intent === undefined) {
-                await dc.context.sendActivity(`Sorry. I'm unable to do that right now. You can cancel the current conversation and start a new one`);
-                return await dc.endDialog();
-            }
-            switch (options.intent) {
+            // Call to LUIS recognizer to get intent + entities
+            const LUISResults = await this.luisRecognizer.recognize(dc.context);
+
+            // Return new instance of on turn property from LUIS results.
+            // Leverages static fromLUISResults method
+            let onTurnProperty = OnTurnProperty.fromLUISResults(LUISResults);
+
+            switch (onTurnProperty.intent) {
             // Help, ChitChat and QnA share the same QnA Maker model. So just call the QnA Dialog.
             case QnADialog.Name:
             case ChitChatDialog.Name:

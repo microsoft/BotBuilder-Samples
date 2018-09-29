@@ -102,7 +102,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
      */
     async continueDialog(dc) {
         let context = dc.context;
-        
+
         // See if we have card input. This would come in through onTurnProperty
         const onTurnProperty = await this.onTurnAccessor.get(context);
         if (onTurnProperty !== undefined) {
@@ -115,7 +115,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                 }
             }
         }
-        
+
         // call LUIS and get results
         const LUISResults = await this.luisRecognizer.recognize(context);
         let topIntent = LuisRecognizer.topIntent(LUISResults);

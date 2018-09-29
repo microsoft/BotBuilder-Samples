@@ -121,7 +121,7 @@ module.exports = {
                     return await dc.endDialog();
                 }
             }
-            
+
             // continue outstanding dialogs
             let dialogTurnResult = await dc.continueDialog();
 
@@ -136,7 +136,7 @@ module.exports = {
                     // Leverages static fromLUISResults method
                     onTurnProperty = OnTurnProperty.fromLUISResults(LUISResults);
                 }
-                
+
                 // No one has responded so start the right child dialog.
                 dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty);
             }
@@ -170,6 +170,10 @@ module.exports = {
          * @param {OnTurnProperty} onTurnProperty
          */
         async beginChildDialog(dc, onTurnProperty) {
+            // set on turn property with LUIS results
+            await this.onTurnAccessor.set(dc.context, onTurnProperty);
+
+            // Start appropriate child dialog based on intent
             switch (onTurnProperty.intent) {
             // Help, ChitChat and QnA share the same QnA Maker model. So just call the QnA Dialog.
             case QnADialog.Name:
@@ -238,8 +242,9 @@ module.exports = {
                     await dc.context.sendActivity(`You said: '${ dc.context.activity.text }'`);
                 }
                 // create a set a new on turn property
-                await this.onTurnAccessor.set(dc.context, OnTurnProperty.fromCardInput(parsedJSON));
-                return await this.beginChildDialog(dc, parsedJSON);
+                let newOnTurnProperty = OnTurnProperty.fromCardInput(parsedJSON);
+                await this.onTurnAccessor.set(dc.context, newOnTurnProperty);
+                return await this.beginChildDialog(dc, newOnTurnProperty);
             }
             return await dc.beginDialog(WhatCanYouDoDialog.Name);
         }
