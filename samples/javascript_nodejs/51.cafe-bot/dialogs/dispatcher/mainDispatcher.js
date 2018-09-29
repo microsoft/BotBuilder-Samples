@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 const { ComponentDialog, DialogSet, DialogTurnStatus } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
+const { LuisRecognizer } = require('botbuilder-ai');
 
 const { BookTableDialog, ChitChatDialog, HelpDialog, QnADialog, WhatCanYouDoDialog, WhoAreYouDialog } = require('../../dialogs');
 const { GenSuggestedQueries } = require('../shared/helpers');
@@ -9,6 +10,9 @@ const { OnTurnProperty } = require('../shared/stateProperties');
 
 // dialog name
 const MAIN_DISPATCHER_DIALOG = 'MainDispatcherDialog';
+
+// LUIS service type entry in the .bot file for dispatch.
+const LUIS_CONFIGURATION = 'cafeDispatchModel';
 
 // const for state properties
 const USER_PROFILE_PROPERTY = 'userProfile';
@@ -57,6 +61,16 @@ module.exports = {
             this.addDialog(new QnADialog(botConfig, this.userProfileAccessor));
             this.addDialog(new WhoAreYouDialog(botConfig, conversationState, this.userProfileAccessor, onTurnAccessor, this.reservationAccessor));
             this.addDialog(new BookTableDialog(botConfig, this.reservationAccessor, onTurnAccessor, this.userProfileAccessor, conversationState));
+
+            // add recognizer
+            const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
+            if (!luisConfig || !luisConfig.appId) throw new Error(`Cafe Dispatch LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information.\n`);
+            this.luisRecognizer = new LuisRecognizer({
+                applicationId: luisConfig.appId,
+                azureRegion: luisConfig.region,
+                // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
+                endpointKey: luisConfig.subscriptionKey
+            });
         }
 
         /**
@@ -85,32 +99,44 @@ module.exports = {
          *
          * This method examines the incoming turn property to determine
          * 1. If the requested operation is permissible - e.g. if user is in middle of a dialog,
-         *     then an out of order reply should not be allowed.
+         *    then an out of order reply should not be allowed.
          * 2. Calls any outstanding dialogs to continue
          * 3. If results is no-match from outstanding dialog .OR. if there are no outstanding dialogs,
-         *    decide which child dialog should begin and start it
+         *    decide which child dialog should begin and start it.
+         * 4. Bot also uses a dispatch LUIS model that includes trigger intents for all dialogs.
+         *    See ./resources/cafeDispatchModel.lu for a description of the dispatch model.
          *
          * @param {DialogContext} dialog context
          */
         async mainDispatch(dc) {
             // get on turn property through the property accessor
-            const onTurnProperty = await this.onTurnAccessor.get(dc.context);
+            let onTurnProperty = await this.onTurnAccessor.get(dc.context);
 
-            // Evaluate if the requested operation is possible/ allowed.
-            const reqOpStatus = await this.isRequestedOperationPossible(dc.activeDialog, onTurnProperty.intent);
-            if (!reqOpStatus.allowed) {
-                await dc.context.sendActivity(reqOpStatus.reason);
-                // Nothing to do here. End main dialog.
-                return await dc.endDialog();
+            if (onTurnProperty !== undefined && onTurnProperty.intent !== '') {
+                // Evaluate if the requested operation is possible/ allowed.
+                const reqOpStatus = await this.isRequestedOperationPossible(dc.activeDialog, onTurnProperty.intent);
+                if (!reqOpStatus.allowed) {
+                    await dc.context.sendActivity(reqOpStatus.reason);
+                    // Nothing to do here. End main dialog.
+                    return await dc.endDialog();
+                }
             }
-
+            
             // continue outstanding dialogs
             let dialogTurnResult = await dc.continueDialog();
 
             // This will only be empty if there is no active dialog in the stack.
-            // Removing check for dialogTurnStatus here will break successful cancellation of child dialogs.
-            // E.g. who are you -> cancel -> yes flow.
             if (!dc.context.responded && dialogTurnResult !== undefined && dialogTurnResult.status !== DialogTurnStatus.complete) {
+                // If incoming on turn property does not have an intent, call LUIS and get an intent.
+                if (onTurnProperty === undefined || onTurnProperty.intent === '') {
+                    // Call to LUIS recognizer to get intent + entities
+                    const LUISResults = await this.luisRecognizer.recognize(dc.context);
+
+                    // Return new instance of on turn property from LUIS results.
+                    // Leverages static fromLUISResults method
+                    onTurnProperty = OnTurnProperty.fromLUISResults(LUISResults);
+                }
+                
                 // No one has responded so start the right child dialog.
                 dialogTurnResult = await this.beginChildDialog(dc, onTurnProperty);
             }

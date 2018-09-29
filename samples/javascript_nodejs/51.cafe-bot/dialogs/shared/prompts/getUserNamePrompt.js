@@ -38,6 +38,11 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
         // Call super and provide a prompt validator
         super(dialogId, async (validatorContext) => {
             const userProfile = await this.userProfileAccessor.get(validatorContext.context);
+            // Get turn counter
+            let turnCounter = await this.turnCounterAccessor.get(validatorContext.context);
+            turnCounter = (turnCounter === undefined) ? 0 : ++turnCounter;
+            // set updated turn counter
+            await this.turnCounterAccessor.set(validatorContext.context, turnCounter);
             // Prompt validator
             // Examine if we have a user name and validate it.
             if (userProfile !== undefined && userProfile.userName !== undefined) {
@@ -48,12 +53,26 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                     await this.userProfileAccessor.set(validatorContext.context, new UserProfile('Human'));
                     // set updated turn counter
                     await this.turnCounterAccessor.set(validatorContext.context, 0);
-                    return NO_USER_PROFILE;
+                    return HAVE_USER_PROFILE;
                 } else {
                     // capitalize user name
                     userProfile.userName = userProfile.userName.charAt(0).toUpperCase() + userProfile.userName.slice(1);
                     // Create user profile and set it to state.
                     await this.userProfileAccessor.set(validatorContext.context, userProfile);
+                    return HAVE_USER_PROFILE;
+                }
+            } else {
+                if (turnCounter >= 1) {
+                    // We we need to get user's name right. Include a card.
+                    await validatorContext.context.sendActivity({ attachments: [CardFactory.adaptiveCard(GetUserNameCard)] });
+                    return NO_USER_PROFILE;
+                } else if (turnCounter >= 3) {
+                    // We are not going to spend more than 3 turns to get user's name.
+                    await validatorContext.context.sendActivity(`Sorry, unfortunately I'm not getting it :(`);
+                    await validatorContext.context.sendActivity(`You can always say 'My name is <your name>' to introduce yourself to me.`);
+                    await this.userProfileAccessor.set(validatorContext.context, new UserProfile('Human'));
+                    // set updated turn counter
+                    await this.turnCounterAccessor.set(validatorContext.context, 0);
                     return HAVE_USER_PROFILE;
                 }
             }
@@ -83,11 +102,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
      */
     async continueDialog(dc) {
         let context = dc.context;
-        // Get turn counter
-        let turnCounter = await this.turnCounterAccessor.get(context);
-        turnCounter = (turnCounter === undefined) ? 0 : ++turnCounter;
-        // set updated turn counter
-        await this.turnCounterAccessor.set(context, turnCounter);
+        
         // See if we have card input. This would come in through onTurnProperty
         const onTurnProperty = await this.onTurnAccessor.get(context);
         if (onTurnProperty !== undefined) {
@@ -100,14 +115,7 @@ module.exports = class GetUserNamePrompt extends TextPrompt {
                 }
             }
         }
-        if (turnCounter >= 1) {
-            // We we need to get user's name right. Include a card.
-            await dc.context.sendActivity({ attachments: [CardFactory.adaptiveCard(GetUserNameCard)] });
-            return await super.continueDialog(dc);
-        } else if (turnCounter >= 3) {
-            // We are not going to spend more than 3 turns to get user's name.
-            return await this.endGetUserNamePrompt(dc);
-        }
+        
         // call LUIS and get results
         const LUISResults = await this.luisRecognizer.recognize(context);
         let topIntent = LuisRecognizer.topIntent(LUISResults);

@@ -281,6 +281,41 @@
       "entities": []
     },
     {
+      "text": "cancel the reservation",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop the booking",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "I do not wish to proceed with the reservation",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "I do not want the table anymore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "I dont need the table anymore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "sorry, i dont need the reservation",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "sorry, i dont need the booking anymore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
       "text": "Help",
       "intent": "Help",
       "entities": []

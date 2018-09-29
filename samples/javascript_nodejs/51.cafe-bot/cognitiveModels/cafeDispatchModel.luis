@@ -247,6 +247,11 @@
       "entities": []
     },
     {
+      "text": "do you offer free wifi?",
+      "intent": "QnA",
+      "entities": []
+    },
+    {
       "text": "Free parking?",
       "intent": "QnA",
       "entities": []
