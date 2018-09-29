@@ -90,7 +90,7 @@ class CafeBot {
         await this.userState.saveChanges(turnContext);
     }
     /**
-     * Async helper method to get on turn properties from cards 
+     * Async helper method to get on turn properties from cards
      *
      * - All cards for this bot -
      *   1. Are adaptive cards. See https://adaptivecards.io to learn more.
