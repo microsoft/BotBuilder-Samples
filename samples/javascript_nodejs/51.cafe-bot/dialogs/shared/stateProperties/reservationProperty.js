@@ -83,9 +83,9 @@ class ReservationProperty {
      * @param {OnTurnProperty}
      * @returns {ReservationResult}
      */
-    updateProperties(onTurnProperty, step) {
+    updateProperties(onTurnProperty) {
         let returnResult = new ReservationResult(this);
-        return validate(onTurnProperty, returnResult, step);
+        return validate(onTurnProperty, returnResult);
     }
 
     /**
@@ -163,9 +163,9 @@ module.exports = ReservationProperty;
  * @param {OnTurnProperty}
  * @returns {ReservationResult}
  */
-ReservationProperty.fromOnTurnProperty = function(onTurnProperty, step) {
+ReservationProperty.fromOnTurnProperty = function(onTurnProperty) {
     let returnResult = new ReservationResult(new ReservationProperty());
-    return validate(onTurnProperty, returnResult, step);
+    return validate(onTurnProperty, returnResult);
 };
 
 /**
@@ -199,7 +199,7 @@ const getGuid = function() {
  * @param {Object} onTurnProperty
  * @param {ReservationResult} return result object
  */
-const validate = function(onTurnProperty, returnResult, step) {
+const validate = function(onTurnProperty, returnResult) {
     if (onTurnProperty === undefined || onTurnProperty.entities.length === 0) return returnResult;
 
     // We only will pull number -> party size, datetimeV2 -> date and time, cafeLocation -> location.

@@ -39,21 +39,21 @@ module.exports = {
             this.addDialog(new QnADialog(botConfig, userProfileAccessor));
         }
         /**
-         * Override onDialogBegin
+         * Override onBeginDialog
          *
          * @param {Object} dc dialog context
          * @param {Object} options dialog turn options
          */
-        async onDialogBegin(dc, options) {
+        async onBeginDialog(dc, options) {
             // Override default begin() logic with interruption orchestration logic
             return await this.interruptionDispatch(dc, options);
         }
         /**
-         * Override onDialogContinue
+         * Override onContinueDialog
          *
          * @param {Object} dc dialog context
          */
-        async onDialogContinue(dc) {
+        async onContinueDialog(dc) {
             // Override default continue() logic with interruption orchestration logic
             return await this.interruptionDispatch(dc);
         }

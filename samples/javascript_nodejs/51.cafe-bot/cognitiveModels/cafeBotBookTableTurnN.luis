@@ -1266,31 +1266,6 @@
       "entities": []
     },
     {
-      "text": "What's your name?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "What should I call you?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "Do you have a name?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "What do you go by?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "Who are you?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
       "text": "Who is your father?",
       "intent": "Interruptions",
       "entities": []

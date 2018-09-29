@@ -1127,31 +1127,6 @@
       "entities": []
     },
     {
-      "text": "What's your name?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "What should I call you?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "Do you have a name?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "What do you go by?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "Who are you?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
       "text": "Who is your father?",
       "intent": "ChitChat",
       "entities": []

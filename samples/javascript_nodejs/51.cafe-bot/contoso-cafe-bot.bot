@@ -10,7 +10,46 @@
             "id": "1",
             "appId": "",
             "appPassword": "",
-            "endpoint": "http://localhost:3982/api/messages"
+            "endpoint": "http://localhost:3978/api/messages"
+        },
+        {
+            "type": "luis",
+            "name": "cafeDispatchModel",
+            "appId": "c077413c-12e9-4341-909e-f74e16db3301",
+            "version": "0.1",
+            "authoringKey": "a95d07785b374f0a9d7d40700e28a285",
+            "subscriptionKey": "a95d07785b374f0a9d7d40700e28a285",
+            "region": "westus",
+            "id": "179"
+        },
+        {
+            "type": "luis",
+            "name": "cafeBotBookTableTurnN",
+            "appId": "fbcfe16b-d1ff-4ae7-9458-ec4f89f4cf6e",
+            "version": "0.1",
+            "authoringKey": "a95d07785b374f0a9d7d40700e28a285",
+            "subscriptionKey": "a95d07785b374f0a9d7d40700e28a285",
+            "region": "westus",
+            "id": "206"
+        },
+        {
+            "type": "luis",
+            "name": "getUserProfile",
+            "appId": "eaa01d27-ab78-45bd-a0d9-2d484eb22bbe",
+            "version": "0.1",
+            "authoringKey": "a95d07785b374f0a9d7d40700e28a285",
+            "subscriptionKey": "a95d07785b374f0a9d7d40700e28a285",
+            "region": "westus",
+            "id": "168"
+        },
+        {
+            "type": "qna",
+            "name": "cafeFaqChitChat",
+            "kbId": "803dfe4f-fda2-4c24-a80d-4ad1d3f1b43b",
+            "subscriptionKey": "82ec5a77c5af4b8eaabf9ce550bf06f6",
+            "endpointKey": "0120c782-55eb-4d6a-a6bb-66e0b545119e",
+            "hostname": "https://vk-test-qnamaker.azurewebsites.net/qnamaker",
+            "id": "244"
         }
     ]
 }

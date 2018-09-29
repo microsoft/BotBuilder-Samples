@@ -24,12 +24,12 @@ module.exports = {
             super(WHAT_CAN_YOU_DO_DIALOG);
         }
         /**
-         * Override dialogBegin.
+         * Override beginDialog.
          *
          * @param {DialogContext} dialog context
          * @param {Object} options
          */
-        async dialogBegin(dc, options) {
+        async beginDialog(dc, options) {
             await dc.context.sendActivity({ attachments: [CardFactory.adaptiveCard(helpCard)] });
             await dc.context.sendActivity(`Pick a query from the card or you can use the suggestions below.`);
             return await dc.endDialog();
