@@ -1,4 +1,4 @@
-Contoso cafe bot is a complete and fairly sophisticated sample that demonstrates various parts of the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-js) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) in action. 
+Contoso cafe bot is a complete and fairly sophisticated sample that demonstrates various parts of the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-dotnet) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) in action. 
 
 This sample relies on prior knowledge/ familiarity with the following tools and services 
 - [LUIS](https://luis.ai)
@@ -11,7 +11,7 @@ This sample relies on prior knowledge/ familiarity with the following tools and 
 - [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator)
 
 # Concepts covered in this sample
-Contoso cafe bot is a fairly sophisticated bot sample that uses the following concepts in the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-js) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) - 
+Contoso cafe bot is a fairly sophisticated bot sample that uses the following concepts in the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-dotnet) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) - 
 
 ## Scenarios demonstrated
 - Welcoming users
@@ -95,7 +95,7 @@ az account set --subscription "<YOUR SUBSCRIPTION>"
 
     - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
 ```bash
-msbot clone -n <YOUR-BOT-NAME> -f DeploymentScripts/msbotClone -l <Bot service location> --luisAuthoringKey <YOUR LUIS AUTHORING KEY>
+msbot clone --name <YOUR-BOT-NAME> --folder DeploymentScripts/msbotClone --location <Bot service location, ie "westus"> --luisAuthoringKey <YOUR LUIS AUTHORING KEY>
 ```
 
 Optionally, you can use the LUIS, QnA Maker portals to manually import the models found under **CognitiveModels** folder of this sample. 
@@ -125,7 +125,7 @@ cafeFaqChitChat --out cafeFaqChitChat.qna -a
     ```bash
     > qnamaker create kb --in CognitiveModels\cafeFaqChitChat.qna --subscriptionKey <YOUR QnA Maker Subscription Key> --msbot | msbot connect qna --stdin
     ```
-    **Note**: See [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-new-kb-nodejs) for instructions on setting up a Cognitive Service API account and fetching your QnA Maker subscription Key. 
+    **Note**: See [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/csharp) for instructions on setting up a Cognitive Service API account and fetching your QnA Maker subscription Key. 
 
 ## Train and publish LUIS models
 - Training a LUIS model
