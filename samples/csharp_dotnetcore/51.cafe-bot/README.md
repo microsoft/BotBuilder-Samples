@@ -79,25 +79,35 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 1. Follow instructions [here](https://portal.azure.com) to create an Azure account. If you already have an account, sign in. Click on all services -> search for 'subscriptions' -> copy the subscription ID you would like to use from the Home > Subscriptions page.
 2. Follow instructions [here](https://www.luis.ai/home) to create a LUIS.ai account. If you already have an account, sign in. Click on your name on top right corner of the screen -> settings and grab your authoring key.
 3. To create and configure required LUIS and QnA Maker services, 
-    - In a terminal,
-        ```bash
-        cd solutions/javascript_nodejs/03.cafe-bot
-        ```
-    - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
-        ```bash
-        msbot clone -n <YOUR-BOT-NAME> -f deploymentScripts/msbotClone -l <Bot service location> --luisAuthoringKey <Key from step-2 above> --subscriptionId <Key from step-1 above>
-        ```
+    - In a Powershell prompt,
+```bash
+cd BotBuilder-Samples\samples\csharp_dotnetcore\51.cafe-bot
+```
+    - To login, run:
+```bash
+Connect-AzureRmAccount
+```
+    - To select your Azure subscription, run:
+```bash
+Select-AzureRmSubscription -Subscription "<YOUR SUBSCRIPTION>"
+az account set --subscription "<YOUR SUBSCRIPTION>"
+```
 
-Optionally, you can use the LUIS, QnA Maker portals to manually import the models found under **cognitiveModels** folder of this sample. 
+    - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
+```bash
+msbot clone -n <YOUR-BOT-NAME> -f DeploymentScripts/msbotClone -l <Bot service location> --luisAuthoringKey <YOUR LUIS AUTHORING KEY>
+```
+
+Optionally, you can use the LUIS, QnA Maker portals to manually import the models found under **CognitiveModels** folder of this sample. 
 
 # Relevant commands for CLI tools
 ## Building and creating services
 - Parse .lu files into LUIS models
-    ```bash
+```bash
     > ludown parse toluis --in Dialogs\Dispatcher\Resources\cafeDispatchModel.lu -o cognitiveModels -n cafeDispatchModel --out cafeDispatchModel.luis
     > ludown parse toluis --in Dialogs\BookTable\Resources\turn-N.lu -o cognitiveModels -n cafeBotBookTableTurnNModel --out cafeBotBookTableTurnN.luis
     > ludown parse toluis --in Dialogs\WhoAreYou\Resources\getUserProfile.lu -o cognitiveModels -n getUserProfile --out getUserProfile.luis
-    ```
+```
 - Parse .lu files into QnA Maker KB and QnA Maker alterations file
     ```bash
     > ludown parse toqna --in Dialogs\Dispatcher\Resources\cafeFAQ_ChitChat.lu -o cognitiveModels -n
@@ -107,7 +117,7 @@ cafeFaqChitChat --out cafeFaqChitChat.qna -a
     ```bash
     > luis import application --in CognitiveModels\cafeDispatchModel.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
     > luis import application --in CognitiveModels\cafeBotBookTableTurnN.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
-    > luis import application --in CgnitiveModels\getUserProfile.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
+    > luis import application --in CognitiveModels\getUserProfile.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
     ```
     **Note**: LUIS authoring region can be one of westus or westeurope or australiaeast
 
