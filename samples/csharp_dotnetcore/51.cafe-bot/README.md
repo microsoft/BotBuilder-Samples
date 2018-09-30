@@ -36,9 +36,9 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 - Using [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) to create, configure and manage all required services.
 
 ## Scenarios covered via other samples
-- [Proactive messages](../../../samples/javascript_nodejs/16.proactive-messages)
-- [Multi-lingual conversations](../../../samples/javascript_nodejs/17.multi-lingual-conversations)
-- [Bot authentication](../../../samples/javascript_nodejs/18.bot-authentication)
+- [Proactive messages](../../../samples/csharp_dotnetcore/16.proactive-messages)
+- [Multi-lingual conversations](../../../samples/csharp_dotnetcore/17.multi-lingual-conversations)
+- [Bot authentication](../../../samples/csharp_dotnetcore/18.bot-authentication)
 
 # To try this sample
 - Clone the samples repository
