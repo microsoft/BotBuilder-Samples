@@ -9,22 +9,22 @@
     },
     {
       "type": "luis",
-      "id": "95",
-      "name": "cafeBotBookTableTurnNModel"
-    },
-    {
-      "type": "luis",
-      "id": "227",
+      "id": "179",
       "name": "cafeDispatchModel"
     },
     {
       "type": "luis",
-      "id": "183",
+      "id": "206",
+      "name": "cafeBotBookTableTurnN"
+    },
+    {
+      "type": "luis",
+      "id": "168",
       "name": "getUserProfile"
     },
     {
       "type": "qna",
-      "id": "54",
+      "id": "244",
       "name": "cafeFaqChitChat"
     },
     {
