@@ -15,7 +15,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Click on the `Choose File` and select [LUIS-Reminders.json](LUIS-Reminders.json) from the `botbuilder-samples\samples\csharp_dotnetcore\12.nlp-with-luis\CognitiveModels` folder.
 - Update [BotConfiguration.bot](BotConfiguration.bot) file with your AppId, SubscriptionKey, Region and Version. 
     You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
-	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
+	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/{LuisAppID}?subscription-key={LuisSubscriptionKey}&verbose=true&timezoneOffset=0&q= 
     
     you will have something similar to this in the services section of your .bot file to run this sample:
     ```
@@ -23,9 +23,9 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
       "type": "luis",
       "name": "LuisBot", //This has to match the value for `LUIS_CONFIGURATION` in the index.js file
       "id": "",
-      "appId": "XXXXXXXXXXXXX", //<LUIS_APP_ID> 
-      "authoringKey": "", //<LUIS_AUTHORING_KEY> or
-      "subscriptionKey": "YYYYYYYYYYYY", //<LUIS_SUBSCRIPTION_KEY>
+      "appId": "{LuisAppID}",
+      "authoringKey": "", //{LuisAuthoringKey} or
+      "subscriptionKey": "{LuisSubscriptionKey}"
       "version": "0.1",
       "region": "westus"
     },
