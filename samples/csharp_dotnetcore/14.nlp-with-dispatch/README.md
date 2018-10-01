@@ -27,7 +27,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 ## Install BotBuilder tools
 
-- In a terminal, navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/14.NLP-With-Dispatch`) 
+- In a terminal, navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/14.nlp-with-dispatch`) 
 
     ```bash
     cd botbuilder-samples/samples/csharp_dotnetcore/14.nlp-with-dispatch

@@ -19,11 +19,11 @@ git clone https://github.com/microsoft/botbuilder-samples.git
 - [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/07.using-adaptive-cards` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 # Prerequisites
 ## Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples/samples/csharp_dotnetcore/07.using-adaptive-cards`) and open AdaptiveCardsBot.csproj in Visual Studio 
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/07.using-adaptive-cards`) and open AdaptiveCardsBot.csproj in Visual Studio 
 - Hit F5
 ## Visual Studio Code
-- Open `BotBuilder-Samples/samples/csharp_dotnetcore/07.using-adaptive-cards` folder
-- Bring up a terminal, navigate to BotBuilder-Samples/samples/csharp_dotnetcore/07.using-adaptive-cards
+- Open `botbuilder-samples/samples/csharp_dotnetcore/07.using-adaptive-cards` folder
+- Bring up a terminal, navigate to botbuilder-samples/samples/csharp_dotnetcore/07.using-adaptive-cards
 - Type 'dotnet run'.
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
