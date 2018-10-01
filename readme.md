@@ -68,7 +68,7 @@ To use the samples clone this GitHub repository using Git.
 |23.facebook-events     | Integrate and consume Facebook specific payloads, such as post-backs, quick replies and opt-in events.|[View][cs#23] |[View][js#23] |              |             | |
 |24.bot-auth-msgraph    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[View][cs#24] |[View][js#24] |              |             | |
 |50.diceroller-skill    | This sample demonstrates how to implement a Cortana Skill that properly handles EndOfConversation events.|:runner: |[View][js#50] |              |             | |
-|51.cafe-bot            | A complete E2E Cafe bot that has all capabilities and includes best practices|:runner: |[View][js#51]|              |             | |
+|51.cafe-bot            | A complete E2E Cafe bot that has all capabilities and includes best practices|[View][cs#51]|[View][js#51]|              |             | |
 |52.enterprise-bot      | Enterprise bot that demonstrates use of Dialogs, Template Manager, Dispatch across different services and implementing custom middleware.|[View][cs#52] |:runner: |              |             | |
 |70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
 
@@ -96,6 +96,7 @@ To use the samples clone this GitHub repository using Git.
 [cs#22]:samples/csharp_dotnetcore/22.conversation-history
 [cs#23]:samples/csharp_dotnetcore/23.facebook-events
 [cs#24]:samples/csharp_dotnetcore/24.bot-authentication-msgraph
+[cs#51]:samples/csharp_dotnetcore/51.cafe-bot
 [cs#52]:samples/csharp_dotnetcore/52.enterprise-bot
 
 [wa#2]:samples/csharp_webapi/02.echo-with-counter
