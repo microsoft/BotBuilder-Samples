@@ -15,14 +15,14 @@ and simplifies bot development (since you will not need to account for that scen
 ```bash
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\08.suggested-actions` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/08.suggested-actions` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 # Prerequisites
 ## Visual studio
-- Navigate to the samples folder (`botbuilder-samples\samples\csharp_dotnetcore\08.suggested-actions`) and open Suggested_Actions.csproj in Visual Studio 
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/08.suggested-actions`) and open Suggested_Actions.csproj in Visual Studio 
 - Hit F5
 ## Visual studio code
-- Open `botbuilder-samples\samples\csharp_dotnetcore\08.suggested-actions` folder
-- Bring up a terminal, navigate to botbuilder-samples\samples\csharp_dotnetcore\08.suggested-actions
+- Open `botbuilder-samples/samples/csharp_dotnetcore/08.suggested-actions` folder
+- Bring up a terminal, navigate to botbuilder-samples/samples/csharp_dotnetcore/08.suggested-actions
 - Type 'dotnet run'.
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
