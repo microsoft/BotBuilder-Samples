@@ -23,7 +23,7 @@ A more ellaborated next step would be to use the Microsoft Translator Text API t
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\18.multilingual-bot` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 # Prerequisites
 
 ## Microsoft Translator Text API
@@ -33,12 +33,12 @@ Paste the key in the ```translationKey``` placeholder within the appsettings.jso
 
 
 ## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples\samples\csharp_dotnetcore\18.multilingual-bot`) and open MessageRoutingBot.csproj in Visual Studio 
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot`) and open MessageRoutingBot.csproj in Visual Studio 
 - Hit F5
 
 ## Visual Studio Code
-- Open `botbuilder-samples\samples\csharp_dotnetcore\18.multilingual-bot` sample folder.
-- Bring up a terminal, navigate to BotBuilder-Samples\18.Multi-Lingual-Bot folder
+- Open `botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot` sample folder.
+- Bring up a terminal, navigate to botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot folder
 - type 'dotnet run'
 
 ## Testing the bot using Bot Framework Emulator
@@ -48,7 +48,7 @@ Paste the key in the ```translationKey``` placeholder within the appsettings.jso
 
 ### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open bot and navigate to `botbuilder-samples\samples\csharp_dotnetcore\18.multilingual-bot` folder
+- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot` folder
 - Select MessageRouting.bot file
 
 # Deploy this bot to Azure
