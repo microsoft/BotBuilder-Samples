@@ -11,15 +11,15 @@ Since Bot Framework supports multiple Facebook pages for a single bot, we also s
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\23.facebook-events` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/23.facebook-events` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 # Prerequisites
 ## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples\samples\csharp_dotnetcore\23.facebook-events`) and open Facebook-Events-Bot.csproj in Visual Studio 
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/23.facebook-events`) and open Facebook-Events-Bot.csproj in Visual Studio 
 - Hit F5
 
 ## Visual Studio Code
-- Open `botbuilder-samples\samples\csharp_dotnetcore\23.facebook-events` sample folder.
-- Bring up a terminal, navigate to BotBuilder-Samples\81.Facebook-Events folder
+- Open `botbuilder-samples/samples/csharp_dotnetcore/23.facebook-events` sample folder.
+- Bring up a terminal, navigate to botbuilder-samples/samples/csharp_dotnetcore/23.Facebook-Events folder
 - type 'dotnet run'
 
 ## Testing the bot using Bot Framework Emulator
@@ -29,7 +29,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 ### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open bot and navigate to `botbuilder-samples\samples\csharp_dotnetcore\23.facebook-events` folder
+- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/23.facebook-events` folder
 - Select BotConfiguration.bot file
 
 ### Enable Facebook Channel

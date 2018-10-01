@@ -12,7 +12,7 @@ In this sample, we demonstrate how to use the QnA Maker service to answer questi
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\11.qnamaker` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 # Prerequisites
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure)
 to create a QnA Maker service.
@@ -24,12 +24,12 @@ information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.
 QnA Maker CLI to deploy the model.
 
 ## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples\samples\csharp_dotnetcore\11.qnamaker`) and open QnABot.csproj in Visual Studio .
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker`) and open QnABot.csproj in Visual Studio .
 - Hit F5
 
 ## Visual Studio Code
-- Open `botbuilder-samples\samples\csharp_dotnetcore\11.qnamaker` sample folder.
-- Bring up a terminal, navigate to `botbuilder-samples\samples\csharp_dotnetcore\11.qnamaker` folder.
+- Open `botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker` sample folder.
+- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker` folder.
 - Type 'dotnet run'.
 
 ## Update packages
@@ -39,11 +39,11 @@ QnA Maker CLI to deploy the model.
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator from [here](https://aka.ms/botframeworkemulator).
+- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator).
 
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator
-- File -> Open bot and navigate to `botbuilder-samples\samples\csharp_dotnetcore\11.qnamaker` folder.
+- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker` folder.
 - Select the BotConfiguration.bot file.
 
 # Further reading
