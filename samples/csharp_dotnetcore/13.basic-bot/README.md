@@ -9,7 +9,7 @@ This bot has been created using [Microsoft Bot Framework](https://dev.botframewo
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/13.Basic-Bot-Template` with your botFileSecret.  
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/13.basic-bot` with your botFileSecret.  
   - For Azure Bot Service bots, you can find the botFileSecret under application settings.
   - If you use [MSBot CLI](https://github.com/microsoft/botbuilder-tools) to encrypt your bot file, the botFileSecret will be written out to the console window.
   - If you used [Bot Framework Emulator **V4**](https://github.com/microsoft/botframework-emulator) to encrypt your bot file, the secret key will be available in bot settings. 
@@ -19,7 +19,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ## [Alternate to CLI] Set up LUIS via Portal
 - Navigate to [LUIS portal](https://www.luis.ai).
 - Click the `Sign in` button.
-- Click on the `Choose File` and select [basic-bot.json](basic-bot.json) from the `botbuilder-samples/csharp_dotnetcore/13.Basic-Bot-Template/CognitiveModels` folder.
+- Click on the `Choose File` and select [basic-bot.json](basic-bot.json) from the `botbuilder-samples/csharp_dotnetcore/13.basic-bot/CognitiveModels` folder.
 - Update [BasicBot.bot](BasicBot.bot) file with your AppId, SubscriptionKey, Region and Version. 
     You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
 	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
@@ -32,11 +32,11 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
 - Update [BotConfiguration.bot](BotConfiguration.bot) file to ensure the `Id` property on the `luis` service type is set to `basic-bot-LUIS`.
 ## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/13.Basic-Bot-Template`) and open `BasicBot.csproj` in Visual Studio.
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/13.basic-bot`) and open `BasicBot.csproj` in Visual Studio.
 - Press F5.
 ## Visual Studio Code
-- Open `BotBuilder-Samples/samples/csharp_dotnetcore/13.Basic-Bot-Template` sample folder.
-- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/13.Basic-Bot-Template` folder.
+- Open `botbuilder-samples/samples/csharp_dotnetcore/13.basic-bot` sample folder.
+- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/13.basic-bot` folder.
 - Type 'dotnet run'.
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://aka.ms/botframework-emulator) is a desktop application that allows bot developers to test and debug
@@ -44,7 +44,7 @@ their bots on localhost or running remotely through a tunnel.
 - Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator).
 ### Connect to bot using Bot Framework Emulator
 - Launch the Bot Framework Emulator
-- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/13.Basic-Bot-Template` folder
+- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/13.basic-bot` folder
 - Select `BotConfiguration.bot` file
 
 # Deploy this bot to Azure
