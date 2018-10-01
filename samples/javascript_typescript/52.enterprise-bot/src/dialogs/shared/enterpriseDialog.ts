@@ -29,7 +29,7 @@ export class EnterpriseDialog extends InterruptableDialog {
         if (!luisService) return Promise.reject(new Error('Luis service not presented'));
         
         const luisResult: RecognizerResult = await luisService.recognize(dc.context);
-        const intent: string = LuisRecognizer.topIntent(luisResult);
+        const intent: string = LuisRecognizer.topIntent(luisResult, undefined, 0.1);
         
         switch (intent) {
             case 'Cancel':
