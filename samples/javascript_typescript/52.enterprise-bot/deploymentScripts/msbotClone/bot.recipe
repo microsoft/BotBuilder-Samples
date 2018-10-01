@@ -14,8 +14,13 @@
       "container": "transcripts"
     },
     {
-      "type": "appInsights",
+      "type": "abs",
       "id": "3",
+      "name": "enterprise-bot"
+    },
+    {
+      "type": "appInsights",
+      "id": "4",
       "name": "EnterpriseBotInsights"
     },
     {
