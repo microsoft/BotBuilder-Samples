@@ -15,13 +15,24 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Click on the `Choose File` and select [LUIS-Reminders.json](LUIS-Reminders.json) from the `botbuilder-samples/samples/csharp_dotnetcore/12.nlp-with-luis/CognitiveModels` folder.
 - Update [BotConfiguration.bot](BotConfiguration.bot) file with your AppId, SubscriptionKey, Region and Version. 
     You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
-	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
-
-    - AppId = XXXXXXXXXXXXX
-    - SubscriptionKey = YYYYYYYYYYYY
-    - Region =  westus
+	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/{LuisAppID}?subscription-key={LuisSubscriptionKey}&verbose=true&timezoneOffset=0&q= 
+    
+    you will have something similar to this in the services section of your .bot file to run this sample:
+    ```
+    {
+      "type": "luis",
+      "name": "LuisBot", //This has to match the value for `LUIS_CONFIGURATION` in the index.js file
+      "id": "",
+      "appId": "{LuisAppID}",
+      "authoringKey": "", //{LuisAuthoringKey} or
+      "subscriptionKey": "{LuisSubscriptionKey}"
+      "version": "0.1",
+      "region": "westus"
+    },
+    ```
 
     The Version is listed on the page.
+    Note: Enter the either "authoringKey" OR "subscriptionKey", not both
 - Update [BotConfiguration.bot](BotConfiguration.bot) file with your Authoring Key.  
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
 NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
