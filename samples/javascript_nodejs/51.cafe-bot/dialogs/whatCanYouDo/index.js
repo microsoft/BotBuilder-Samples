@@ -2,13 +2,12 @@
 // Licensed under the MIT License.
 const { Dialog } = require('botbuilder-dialogs');
 const { CardFactory } = require('botbuilder');
-
+const { LUIS_INTENTS } = require('../shared/helpers');
 // Require the adaptive card.
 const helpCard = require('./resources/whatCanYouDoCard.json');
 
 // This dialog's name. Also matches the name of the intent from ../dispatcher/resources/cafeDispatchModel.lu
-// LUIS recognizer replaces spaces ' ' with '_'. So intent name 'Who are you' is recognized as 'Who_are_you'.
-const WHAT_CAN_YOU_DO_DIALOG = 'What_can_you_do';
+const WHAT_CAN_YOU_DO_DIALOG = LUIS_INTENTS.What_can_you_do;
 
 /**
  *

@@ -2,4 +2,5 @@
 // Licensed under the MIT License.
 
 const WelcomeCard = require('./resources/welcomeCard.json');
+
 exports.WelcomeCard = WelcomeCard;
