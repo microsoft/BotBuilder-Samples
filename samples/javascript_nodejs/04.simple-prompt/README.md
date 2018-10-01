@@ -21,7 +21,7 @@ This sample shows how to use the prompts classes included in `botbuilder-dialogs
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples\javascript_nodejs\04.simple-prompt-bot
+- File -> Open Bot Configuration and navigate to samples/javascript_nodejs/04.simple-prompt-bot
 - Select simple-prompt-bot.bot file
 
 # Deploy this bot to Azure

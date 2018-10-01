@@ -34,7 +34,7 @@ In order to run this sample, you must have TypeScript installed.  To install Typ
 
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples\javascript_typescript\02.echobot-with-state folder
+- File -> Open Bot Configuration and navigate to samples/javascript_typescript/02.echobot-with-state folder
 - Select echobot-with-counter.bot file
 
 # Bot state
