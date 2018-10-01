@@ -53,7 +53,7 @@ const adapter = new BotFrameworkAdapter({
 // log errors and other bot telemetry.
 import { TelemetryClient } from 'applicationinsights';
 // Get AppInsights configuration by service name
-const APPINSIGHTS_CONFIGURATION = 'appInsights';
+const APPINSIGHTS_CONFIGURATION = 'myBot-appins';
 const appInsightsConfig: IAppInsightsService = <IAppInsightsService>botConfig.findServiceByNameOrId(APPINSIGHTS_CONFIGURATION);
 if (!appInsightsConfig) {
     console.log('Please configure your AppInsights connection in your .bot file.');

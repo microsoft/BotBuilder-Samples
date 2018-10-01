@@ -50,7 +50,7 @@ export class MainDialog extends RouterDialog {
 
         if (topIntent === 'l_General') {
             // If dispatch result is general luis model
-            const luisService = this._services.luisServices.get(process.env.BOT_FILE_NAME || '.bot');
+            const luisService = this._services.luisServices.get(process.env.LUIS_GENERAL || '');
             if (!luisService) return Promise.reject(new Error('Luis service not found'));
 
             const luisResult = await luisService.recognize(dc.context);

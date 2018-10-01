@@ -25,7 +25,7 @@ export class EnterpriseDialog extends InterruptableDialog {
     
     protected async onDialogInterruption(dc: DialogContext): Promise<InterruptionStatus> {
         // Check dispatch intent.
-        const luisService: TelemetryLuisRecognizer | undefined = this._services.luisServices.get(process.env.BOT_FILE_NAME || '.bot');
+        const luisService: TelemetryLuisRecognizer | undefined = this._services.luisServices.get(process.env.LUIS_GENERAL || '');
         if (!luisService) return Promise.reject(new Error('Luis service not presented'));
         
         const luisResult: RecognizerResult = await luisService.recognize(dc.context);
