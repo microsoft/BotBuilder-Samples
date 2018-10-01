@@ -58,8 +58,6 @@ export class TelemetryLuisRecognizer extends LuisRecognizer {
                 properties[LuisTelemetryConstants.ConversationIdProperty] = conversationId;
             }
 
-            // TODO: Add Luis Entitites
-
             // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
             if (logOriginalMessage && context.activity.text) {
                 properties[LuisTelemetryConstants.QuestionProperty] = context.activity.text;
