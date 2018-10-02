@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-const resx = require('resx');
-import { readFileSync } from 'fs';
+const resx = require("resx");
+import { readFileSync } from "fs";
 
 export class ResourceParser {
-    private static cache: Map<string, Map<string, string>> = new Map();
 
     public static getResource(resxPath: string): Promise<Map<string, string>> {
         const result = ResourceParser.cache.get(resxPath);
@@ -14,7 +13,7 @@ export class ResourceParser {
         }
 
         return new Promise((resolve, reject) => {
-            resx.resx2js(readFileSync(resxPath, { encoding: 'utf8'}), (err: Error, res: Map<string, string>) => {
+            resx.resx2js(readFileSync(resxPath, { encoding: "utf8"}), (err: Error, res: Map<string, string>) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -29,10 +28,11 @@ export class ResourceParser {
     public static async get(resxPath: string, name: string): Promise<string> {
         const resources: Map<string, string> = await ResourceParser.getResource(resxPath);
         if (resources.has(name)) {
-            return resources.get(name) || '';
+            return resources.get(name) || "";
         }
         return Promise.reject(new Error(`Key '${name}' not found in ${resxPath}`));
     }
+    private static cache: Map<string, Map<string, string>> = new Map();
 
     private readonly _resxPath: string;
 

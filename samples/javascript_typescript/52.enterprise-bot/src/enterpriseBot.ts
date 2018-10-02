@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ConversationState, UserState, TurnContext } from 'botbuilder';
-import { BotServices } from './botServices';
-import { DialogSet, DialogTurnStatus, DialogState } from 'botbuilder-dialogs';
-import { MainDialog } from './dialogs/main/mainDialog';
+import { ConversationState, TurnContext, UserState } from "botbuilder";
+import { DialogSet, DialogState, DialogTurnStatus } from "botbuilder-dialogs";
+import { BotServices } from "./botServices";
+import { MainDialog } from "./dialogs/main/mainDialog";
 
 /**
  * Main entry point and orchestration for bot.
@@ -23,15 +23,15 @@ export class EnterpriseBot {
      * @param {UserState} userState Bot user state.
      */
     constructor(botServices: BotServices, conversationState: ConversationState, userState: UserState) {
-        if (!botServices) throw ('Missing parameter.  botServices is required');
-        if (!conversationState) throw ('Missing parameter.  conversationState is required');
-        if (!userState) throw ('Missing parameter.  userState is required');
+        if (!botServices) { throw new Error(("Missing parameter.  botServices is required")); }
+        if (!conversationState) { throw new Error(("Missing parameter.  conversationState is required")); }
+        if (!userState) { throw new Error(("Missing parameter.  userState is required")); }
 
         this._botServices = botServices;
         this._conversationState = conversationState;
         this._userState = userState;
 
-        this._dialogs = new DialogSet(this._conversationState.createProperty<DialogState>('EnterpriseBot'));
+        this._dialogs = new DialogSet(this._conversationState.createProperty<DialogState>("EnterpriseBot"));
         this._dialogs.add(new MainDialog(this._botServices, this._conversationState, this._userState));
     }
 
@@ -44,7 +44,7 @@ export class EnterpriseBot {
         const result = await dc.continueDialog();
 
         if (result.status === DialogTurnStatus.empty) {
-            await dc.beginDialog('MainDialog');
+            await dc.beginDialog("MainDialog");
         }
     }
 }

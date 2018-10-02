@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { ComponentDialog, DialogContext, DialogTurnResult, Dialog, DialogTurnStatus } from 'botbuilder-dialogs';
-import { Activity, ActivityTypes } from 'botbuilder';
+import { Activity, ActivityTypes } from "botbuilder";
+import { ComponentDialog, Dialog, DialogContext, DialogTurnResult, DialogTurnStatus } from "botbuilder-dialogs";
 
 export abstract class RouterDialog extends ComponentDialog {
     constructor(dialogId: string) { super(dialogId); }
-    
+
     protected onBeginDialog(innerDC: DialogContext): Promise<DialogTurnResult> {
         return this.onContinueDialog(innerDC);
     }
@@ -54,11 +54,11 @@ export abstract class RouterDialog extends ComponentDialog {
     protected complete(innerDC: DialogContext): Promise<void> {
         return Promise.resolve();
     }
-    
+
     protected onEvent(innerDC: DialogContext): Promise<void> {
         return Promise.resolve();
     }
-    
+
     protected onStart(innerDC: DialogContext): Promise<void> {
         return Promise.resolve();
     }

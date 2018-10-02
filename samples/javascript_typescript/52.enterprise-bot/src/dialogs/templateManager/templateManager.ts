@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ITemplateRenderer } from './ITemplateRenderer';
-import { Activity, ActivityTypes } from 'botframework-schema';
-import { TurnContext } from 'botbuilder-core';
+import { TurnContext } from "botbuilder-core";
+import { Activity, ActivityTypes } from "botframework-schema";
+import { ITemplateRenderer } from "./ITemplateRenderer";
 
 export class TemplateManager {
     private _templateRenderers: ITemplateRenderer[] = [];
     private _languageFallback: string[] = [];
-
-    constructor() { }
 
     /// <summary>
     /// Add a template engine for binding templates
     /// </summary>
     /// <param name="renderer"></param>
     public register(renderer: ITemplateRenderer): TemplateManager {
-        if (!this._templateRenderers.some(x => x == renderer))
+        if (!this._templateRenderers.some((x) => x === renderer)) {
             this._templateRenderers.push(renderer);
+        }
 
         return this;
     }
@@ -46,15 +45,15 @@ export class TemplateManager {
     /// <param name="data"></param>
     /// <returns></returns>
     public async replyWith(turnContext: TurnContext, templateId: string, data?: any): Promise<void> {
-        if (!turnContext) throw new Error('turnContext is null');
+        if (!turnContext) { throw new Error("turnContext is null"); }
 
         // apply template
-        let boundActivity: Activity | undefined = await this.renderTemplate(turnContext, templateId, turnContext.activity.locale, data);
+        const boundActivity: Activity | undefined = await this.renderTemplate(turnContext, templateId, turnContext.activity.locale, data);
         if (boundActivity != null) {
             await turnContext.sendActivity(boundActivity);
             return;
         }
-        
+
         return;
     }
 
@@ -67,23 +66,22 @@ export class TemplateManager {
     /// <param name="data"></param>
     /// <returns></returns>
     public async renderTemplate(turnContext: TurnContext, templateId: string, language?: string, data?: any): Promise<Activity | undefined> {
-        let fallbackLocales = this._languageFallback;
+        const fallbackLocales = this._languageFallback;
 
         if (language) {
             fallbackLocales.push(language);
         }
 
-        fallbackLocales.push('default');
+        fallbackLocales.push("default");
 
         // try each locale until successful
-        for (let locale of fallbackLocales) {
-            for (let renderer of this._templateRenderers) {
-                let templateOutput = await renderer.renderTemplate(turnContext, locale, templateId, data);
+        for (const locale of fallbackLocales) {
+            for (const renderer of this._templateRenderers) {
+                const templateOutput = await renderer.renderTemplate(turnContext, locale, templateId, data);
                 if (templateOutput) {
-                    if (typeof templateOutput === 'string' || templateOutput instanceof String) {
-                        return <Activity>{ type: ActivityTypes.Message, text: <string>templateOutput };
-                    }
-                    else {
+                    if (typeof templateOutput === "string" || templateOutput instanceof String) {
+                        return { type: ActivityTypes.Message, text: templateOutput as string } as Activity;
+                    } else {
                         return templateOutput as Activity;
                     }
                 }

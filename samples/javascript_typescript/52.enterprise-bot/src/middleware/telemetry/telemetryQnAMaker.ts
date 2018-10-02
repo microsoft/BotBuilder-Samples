@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { QnAMaker, QnAMakerEndpoint, QnAMakerOptions, QnAMakerResult } from 'botbuilder-ai';
-import { TurnContext } from 'botbuilder';
-import { TelemetryLoggerMiddleware } from './telemetryLoggerMiddleware';
-import { TelemetryClient } from 'applicationinsights';
-import { QnATelemetryConstants } from './qnaTelemetryConstants';
+import { TelemetryClient } from "applicationinsights";
+import { TurnContext } from "botbuilder";
+import { QnAMaker, QnAMakerEndpoint, QnAMakerOptions, QnAMakerResult } from "botbuilder-ai";
+import { QnATelemetryConstants } from "./qnaTelemetryConstants";
+import { TelemetryLoggerMiddleware } from "./telemetryLoggerMiddleware";
 
 /**
  * TelemetryQnaRecognizer invokes the Qna Maker and logs some results into Application Insights.
@@ -13,7 +13,7 @@ import { QnATelemetryConstants } from './qnaTelemetryConstants';
  * The Custom Event name this logs is "QnaMessage"
  */
 export class TelemetryQnAMaker extends QnAMaker {
-    public static readonly QnAMessageEvent: string = 'QnaMessage';
+    public static readonly QnAMessageEvent: string = "QnaMessage";
 
     private readonly _logOriginalMessage: boolean;
     private readonly _logUserName: boolean;
@@ -30,7 +30,7 @@ export class TelemetryQnAMaker extends QnAMaker {
         super(endpoint, options);
         this._logOriginalMessage = logOriginalMessage;
         this._logUserName = logUserName;
-        Object.assign(this._options, options);   
+        Object.assign(this._options, options);
     }
 
     /**
@@ -55,7 +55,7 @@ export class TelemetryQnAMaker extends QnAMaker {
             const metrics: { [key: string]: number } = {};
 
             // Make it so we can correlate our reports with Activity or Conversation
-            properties[QnATelemetryConstants.ActivityIdProperty] = context.activity.id || '';
+            properties[QnATelemetryConstants.ActivityIdProperty] = context.activity.id || "";
             const conversationId: string = context.activity.conversation.id;
             if (conversationId) {
                 properties[QnATelemetryConstants.ConversationIdProperty] = conversationId;
@@ -76,19 +76,19 @@ export class TelemetryQnAMaker extends QnAMaker {
             // Fill in Qna Results (found or not)
             if (queryResults.length > 0) {
                 const queryResult: QnAMakerResult = queryResults[0];
-                properties[QnATelemetryConstants.QuestionProperty] = Array.of(queryResult.questions).join(',');
+                properties[QnATelemetryConstants.QuestionProperty] = Array.of(queryResult.questions).join(",");
                 properties[QnATelemetryConstants.AnswerProperty] = queryResult.answer;
                 metrics[QnATelemetryConstants.ScoreProperty] = queryResult.score;
             } else {
-                properties[QnATelemetryConstants.QuestionProperty] = 'No Qna Question matched';
-                properties[QnATelemetryConstants.AnswerProperty] = 'No Qna Question matched';
+                properties[QnATelemetryConstants.QuestionProperty] = "No Qna Question matched";
+                properties[QnATelemetryConstants.AnswerProperty] = "No Qna Question matched";
             }
-            
+
             // Track the event
             telemetryClient.trackEvent({
+                measurements: metrics,
                 name: TelemetryQnAMaker.QnAMessageEvent,
-                properties: properties,
-                measurements: metrics
+                properties,
             });
         }
 

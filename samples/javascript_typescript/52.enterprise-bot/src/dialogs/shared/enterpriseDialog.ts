@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { RecognizerResult } from 'botbuilder';
-import { LuisRecognizer } from 'botbuilder-ai';
-import { DialogContext } from 'botbuilder-dialogs';
-import { BotServices } from '../../botServices';
-import { CancelDialog } from '../cancel/cancelDialog';
-import { CancelResponses } from '../cancel/cancelResponses';
-import { InterruptableDialog } from './interruptableDialog';
-import { MainResponses } from '../main/mainResponses';
-import { TelemetryLuisRecognizer } from '../../middleware/telemetry/telemetryLuisRecognizer';
-import { InterruptionStatus } from './interruptableStatus';
+import { RecognizerResult } from "botbuilder";
+import { LuisRecognizer } from "botbuilder-ai";
+import { DialogContext } from "botbuilder-dialogs";
+import { BotServices } from "../../botServices";
+import { TelemetryLuisRecognizer } from "../../middleware/telemetry/telemetryLuisRecognizer";
+import { CancelDialog } from "../cancel/cancelDialog";
+import { CancelResponses } from "../cancel/cancelResponses";
+import { MainResponses } from "../main/mainResponses";
+import { InterruptableDialog } from "./interruptableDialog";
+import { InterruptionStatus } from "./interruptableStatus";
 
 export class EnterpriseDialog extends InterruptableDialog {
 
@@ -19,25 +19,25 @@ export class EnterpriseDialog extends InterruptableDialog {
     private readonly _cancelResponder: CancelResponses = new CancelResponses();
     private readonly _mainResponder: MainResponses = new MainResponses();
 
-    constructor(botServices: BotServices, dialogId: string) { 
-        super(dialogId); 
-        
+    constructor(botServices: BotServices, dialogId: string) {
+        super(dialogId);
+
         this._services = botServices;
         this.addDialog(new CancelDialog());
     }
-    
+
     protected async onDialogInterruption(dc: DialogContext): Promise<InterruptionStatus> {
         // Check dispatch intent.
-        const luisService: TelemetryLuisRecognizer | undefined = this._services.luisServices.get(process.env.LUIS_GENERAL || '');
-        if (!luisService) return Promise.reject(new Error('Luis service not presented'));
-        
+        const luisService: TelemetryLuisRecognizer | undefined = this._services.luisServices.get(process.env.LUIS_GENERAL || "");
+        if (!luisService) { return Promise.reject(new Error("Luis service not presented")); }
+
         const luisResult: RecognizerResult = await luisService.recognize(dc.context);
         const intent: string = LuisRecognizer.topIntent(luisResult, undefined, 0.1);
-        
+
         switch (intent) {
-            case 'Cancel':
+            case "Cancel":
             return await this.onCancel(dc);
-            case 'Help':
+            case "Help":
             return await this.onHelp(dc);
         }
 
@@ -45,9 +45,9 @@ export class EnterpriseDialog extends InterruptableDialog {
     }
 
     protected async onCancel(dc: DialogContext): Promise<InterruptionStatus> {
-        if (dc.activeDialog && dc.activeDialog.id != 'CancelDialog') {
+        if (dc.activeDialog && dc.activeDialog.id !== "CancelDialog") {
             // Don't start restart cancel dialog.
-            await dc.beginDialog('CancelDialog');
+            await dc.beginDialog("CancelDialog");
 
             // Signal that the dialog is waiting on user response.
             return InterruptionStatus.Waiting;
