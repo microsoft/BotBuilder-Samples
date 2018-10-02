@@ -152,7 +152,7 @@ class GraphAuthenticationBot {
                 // The bot adapter encapsulates the authentication processes and sends
                 // activities to from the Bot Connector Service.
                 const botAdapter = dc.context.adapter;
-                await botAdapter.signOutUser(dc.context, this.connectionSettingName);
+                await botAdapter.signOutUser(dc.context, CONNECTION_SETTING_NAME);
                 // Let the user know they are signed out.
                 await dc.context.sendActivity('You are now signed out.');
                 break;
