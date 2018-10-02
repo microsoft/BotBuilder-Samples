@@ -10,7 +10,7 @@
         "copy-resources": "copyfiles --up 1 ./src/**/resources/*.resx ./lib",
         "copy-templates": "copyfiles --up 1 ./src/**/resources/*.json ./lib",
         "build": "tsc --p tsconfig.json && npm run copy-resources && npm run copy-templates",
-        "start": "tsc && node ./lib/index.js NODE_ENV=development",
+        "start": "npm run build && node ./lib/index.js NODE_ENV=development",
         "watch": "nodemon ./lib/index.js NODE_ENV=development",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
