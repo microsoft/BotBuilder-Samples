@@ -58,10 +58,10 @@ you will have something similar to this in the services section of your .bot fil
       "version": "0.1",
       "region": "westus"
     },
-    ```
+```
 
-    The Version is listed on the page.
-    Note: Enter the either "authoringKey" OR "subscriptionKey", not both
+The Version is listed on the page.
+Note: Enter the either "authoringKey" OR "subscriptionKey", not both
     
 - Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your Authoring Key.  
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
