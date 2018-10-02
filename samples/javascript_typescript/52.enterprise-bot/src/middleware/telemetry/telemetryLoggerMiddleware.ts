@@ -5,18 +5,33 @@ import { Middleware, TurnContext, Activity, ResourceResponse, ActivityTypes } fr
 import { TelemetryClient } from 'applicationinsights';
 import { TelemetryConstants } from './telemetryConstants';
 
+/**
+ * Middleware for logging incoming, outgoing, updated or deleted Activity messages into Application Insights.
+ * In addition, registers the telemetry client in the context so other Application Insights
+ * components can log telemetry.
+ * If this Middleware is removed, all the other sample components don't log (but still operate).
+ */
 export class TelemetryLoggerMiddleware implements Middleware {
     public static readonly AppInsightsServiceKey: string = 'TelemetryLoggerMiddleware.AppInsightsContext';
-    // Application Insights Custom Event name, logged when new message is received from the user
+
+    /**
+     * Application Insights Custom Event name, logged when new message is received from the user
+     */
     public static readonly BotMsgReceiveEvent: string = 'BotMessageReceived';
 
-    // Application Insights Custom Event name, logged when a message is sent out from the bot
+    /**
+     * Application Insights Custom Event name, logged when a message is sent out from the bot
+     */
     public static readonly BotMsgSendEvent: string = 'BotMessageSend';
 
-    // Application Insights Custom Event name, logged when a message is updated by the bot (rare case)
+    /**
+     * Application Insights Custom Event name, logged when a message is updated by the bot (rare case)
+     */
     public static readonly BotMsgUpdateEvent: string = 'BotMessageUpdate';
 
-    // Application Insights Custom Event name, logged when a message is deleted by the bot (rare case)
+    /**
+     * Application Insights Custom Event name, logged when a message is deleted by the bot (rare case)
+     */
     public static readonly BotMsgDeleteEvent: string = 'BotMessageDelete';
 
     private readonly _telemetryClient: TelemetryClient;
@@ -24,9 +39,12 @@ export class TelemetryLoggerMiddleware implements Middleware {
     private readonly _logOriginalMessage: boolean;
 
     /**
-     *
+     * Initializes a new instance of the TelemetryLoggerMiddleware class.
+     * @param {string} instrumentationKey The Application Insights instrumentation key.  See Application Insights for more information.
+     * @param {boolean} logUserName (Optional) Enable/Disable logging user name within Application Insights.
+     * @param {boolean} logOriginalMessage (Optional) Enable/Disable logging original message name within Application Insights.
      */
-    constructor(instrumentationKey: string, logUserName: boolean = false, logOriginalMessage: boolean = false, ) {
+    constructor(instrumentationKey: string, logUserName: boolean = false, logOriginalMessage: boolean = false) {
         if (!instrumentationKey) {
             throw new Error('instrumentationKey not found');
         }
@@ -36,10 +54,21 @@ export class TelemetryLoggerMiddleware implements Middleware {
         this._logOriginalMessage = logOriginalMessage;
     }
 
+    /**
+     * Gets a value indicating whether indicates whether to log the user name into the BotMessageReceived event.
+     */
     public get logOriginalMessage(): boolean { return this._logOriginalMessage; }
 
+    /**
+     * Gets a value indicating whether indicates whether to log the original message into the BotMessageReceived event.
+     */
     public get logUserName(): boolean { return this._logUserName; }
 
+    /**
+     * Records incoming and outgoing activities to the Application Insights store.
+     * @param {TurnContext} context The context object for this turn.
+     * @param {() => Promise<void>} next The delegate to call to continue the bot middleware pipeline
+     */
     public async onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
         if (context === null) {
             throw new Error('context is null');

@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
+/**
+ * The Application Insights property names that we're logging.
+ */
 export class LuisTelemetryConstants {
     public static readonly IntentPrefix: string = 'LuisIntent';  // Application Insights Custom Event name (with Intent)
     public static readonly IntentProperty: string = 'Intent';

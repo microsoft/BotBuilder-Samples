@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
+/**
+ * The Application Insights property names that we're logging.
+ */
 export class QnATelemetryConstants {
     public static readonly ActivityIdProperty: string = 'ActivityId';
     public static readonly UsernameProperty: string = 'Username';

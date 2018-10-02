@@ -7,20 +7,20 @@ import { DialogSet, DialogTurnStatus, DialogState } from 'botbuilder-dialogs';
 import { MainDialog } from './dialogs/main/mainDialog';
 
 /**
- * Demonstrates the following concepts:
- * 
+ * Main entry point and orchestration for bot.
  */
 export class EnterpriseBot {
     private readonly _botServices: BotServices;
     private readonly _conversationState: ConversationState;
     private readonly _userState: UserState;
     private readonly _dialogs: DialogSet;
+
     /**
-     * Constructs the three pieces necessary for this bot to operate:
-     *
-     * @param {ConversationState} conversationState property accessor
-     * @param {UserState} userState property accessor
-     * @param {BotConfiguration} botConfig contents of the .bot file
+     * Constructs the three pieces necessary for this bot to operate.
+     * @constructor
+     * @param {BotServices} botServices Services included in the bot (LUIS, QnA, Dispatcher, etc...).
+     * @param {ConversationState} conversationState Bot conversation state.
+     * @param {UserState} userState Bot user state.
      */
     constructor(botServices: BotServices, conversationState: ConversationState, userState: UserState) {
         if (!botServices) throw ('Missing parameter.  botServices is required');
@@ -36,9 +36,8 @@ export class EnterpriseBot {
     }
 
     /**
-     * Driver code that does one of the following:
-     * 1. Nothing
-     * @param {Context} context turn context from the adapter
+     * Run every turn of the conversation. Handles orchestration of messages.
+     * @param {TurnContext} turnContext Turn context from the adapter.
      */
     public async onTurn(turnContext: TurnContext): Promise<void> {
         const dc = await this._dialogs.createContext(turnContext);

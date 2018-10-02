@@ -7,12 +7,24 @@ import { TelemetryLoggerMiddleware } from './telemetryLoggerMiddleware';
 import { TelemetryClient } from 'applicationinsights';
 import { LuisTelemetryConstants } from './luisTelemetryConstants';
 
+/**
+ * TelemetryLuisRecognizer invokes the Luis Recognizer and logs some results into Application Insights.
+ * Logs the Top Intent, Sentiment (label/score), (Optionally) Original Text Along with Conversation
+ * and ActivityID.
+ * The Custom Event name this logs is MyLuisConstants.IntentPrefix + "." + 'found intent name'
+ * For example, if intent name was "add_calender": LuisIntent.add_calendar
+ */
 export class TelemetryLuisRecognizer extends LuisRecognizer {
     private readonly _logOriginalMessage: boolean;
     private readonly _logUsername: boolean;
 
     /**
-     *
+     * Initializes a new instance of the TelemetryLuisRecognizer class.
+     * @param {LuisApplication} application The LUIS application to use to recognize text.
+     * @param {LuisPredictionOptions} predictionOptions The LUIS prediction options to use.
+     * @param {boolean} includeApiResults TRUE to include raw LUIS API response.
+     * @param {boolean} logOriginalMessage TRUE to include original user message.
+     * @param {boolean} logUserName TRUE to include user name.
      */
     constructor(application: LuisApplication, predictionOptions?: LuisPredictionOptions, includeApiResults: boolean = false, logOriginalMessage: boolean = false, logUserName: boolean = false) {
         super(application, predictionOptions, includeApiResults);
@@ -20,10 +32,21 @@ export class TelemetryLuisRecognizer extends LuisRecognizer {
         this._logUsername = logUserName;    
     }
 
+    /**
+     * Gets a value indicating whether determines whether to log the Activity message text that came from the user.
+     */
     public get logOriginalMessage(): boolean { return this._logOriginalMessage; }
 
+    /**
+     * Gets a value indicating whether determines whether to log the User name.
+     */
     public get logUsername(): boolean { return this._logUsername; }
 
+    /**
+     * Analyze the current message text and return results of the analysis (Suggested actions and intents).
+     * @param {TurnContext} context Context object containing information for a single turn of conversation with a user.
+     * @param {boolean} logOriginalMessage Determines if the original message is logged into Application Insights. This is a privacy consideration.
+     */
     public async recognize(context: TurnContext, logOriginalMessage: boolean = false): Promise<RecognizerResult> {
         if (context === null) {
             throw new Error('context is null');

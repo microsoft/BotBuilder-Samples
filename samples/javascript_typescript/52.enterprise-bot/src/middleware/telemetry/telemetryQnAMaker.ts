@@ -7,6 +7,11 @@ import { TelemetryLoggerMiddleware } from './telemetryLoggerMiddleware';
 import { TelemetryClient } from 'applicationinsights';
 import { QnATelemetryConstants } from './qnaTelemetryConstants';
 
+/**
+ * TelemetryQnaRecognizer invokes the Qna Maker and logs some results into Application Insights.
+ * Logs the score, and (optionally) questionAlong with Conversation and ActivityID.
+ * The Custom Event name this logs is "QnaMessage"
+ */
 export class TelemetryQnAMaker extends QnAMaker {
     public static readonly QnAMessageEvent: string = 'QnaMessage';
 
@@ -15,7 +20,11 @@ export class TelemetryQnAMaker extends QnAMaker {
     private _options: { top: number, scoreThreshold: number } = { top: 1, scoreThreshold: 0.3 };
 
     /**
-     *
+     * Initializes a new instance of the TelemetryQnAMaker class.
+     * @param {QnAMakerEndpoint} endpoint The endpoint of the knowledge base to query.
+     * @param {QnAMakerOptions} options The options for the QnA Maker knowledge base.
+     * @param {boolean} logUserName The flag to include username in logs.
+     * @param {boolean} logOriginalMessage The flag to include original message in logs.
      */
     constructor(endpoint: QnAMakerEndpoint, options?: QnAMakerOptions, logUserName: boolean = false, logOriginalMessage: boolean = false) {
         super(endpoint, options);
@@ -24,8 +33,14 @@ export class TelemetryQnAMaker extends QnAMaker {
         Object.assign(this._options, options);   
     }
 
+    /**
+     * Gets a value indicating whether determines whether to log the Activity message text that came from the user.
+     */
     public get logOriginalMessage(): boolean { return this._logOriginalMessage; }
 
+    /**
+     * Gets a value indicating whether determines whether to log the User name.
+     */
     public get logUserName(): boolean { return this._logUserName; }
 
     public async getAnswersAsync(context: TurnContext): Promise<QnAMakerResult[]> {

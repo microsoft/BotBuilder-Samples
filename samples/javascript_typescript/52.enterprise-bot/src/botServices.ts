@@ -7,6 +7,11 @@ import { TelemetryLuisRecognizer } from './middleware/telemetry/telemetryLuisRec
 import { TelemetryQnAMaker } from './middleware/telemetry/telemetryQnAMaker';
 import { LuisApplication, QnAMakerEndpoint } from 'botbuilder-ai';
 
+/**
+ * Represents references to external services.
+ * For example, LUIS services are kept here as a singleton. This external service is configured
+ * using the BotConfiguration class.
+ */
 export class BotServices {
     private _authConnectionName: string = '';
     private _telemetryClient!: TelemetryClient;
@@ -14,6 +19,11 @@ export class BotServices {
     private _luisServices: Map<string, TelemetryLuisRecognizer>;
     private _qnaServices: Map<string, TelemetryQnAMaker>;
 
+    /**
+     * Initializes a new instance of the BotServices class.
+     * @constructor
+     * @param {BotConfiguration} config The BotConfiguration instance for the bot.
+     */
     constructor(config: BotConfiguration) {
         this._luisServices = new Map<string, TelemetryLuisRecognizer>();
         this._qnaServices = new Map<string, TelemetryQnAMaker>();
@@ -72,22 +82,46 @@ export class BotServices {
         return `https://${region}.api.cognitive.microsoft.com`;
     }
 
+    /**
+     * Gets the set of the Authentication Connection Name for the Bot application.
+     * The Authentication Connection Name  should not be modified while the bot is running.
+     */
     public get authConnectionName(): string {
         return this._authConnectionName;
     }
 
+    /**
+     * Gets the set of AppInsights Telemetry Client used.
+     * The AppInsights Telemetry Client should not be modified while the bot is running.
+     */
     public get telemetryClient(): TelemetryClient {
         return this._telemetryClient;
     }
 
+    /**
+     * Gets the set of Dispatch LUIS Recognizer used.
+     * The Dispatch LUIS Recognizer should not be modified while the bot is running.
+     */
     public get dispatchRecognizer(): TelemetryLuisRecognizer {
         return this._dispatchRecognizer;
     }
 
+    /**
+     * Gets the set of LUIS Services used.
+     * Given there can be multiple TelemetryLuisRecognizer services used in a single bot,
+     * LuisServices is represented as a dictionary. This is also modeled in the ".bot" file
+     * since the elements are named.
+     */
     public get luisServices(): Map<string, TelemetryLuisRecognizer> {
         return this._luisServices;
     }
 
+    /**
+     * Gets the set of QnAMaker Services used.
+     * Given there can be multiple TelemetryQnAMaker services used in a single bot,
+     * QnAServices is represented as a dictionary. This is also modeled in the ".bot" file
+     * since the elements are named.
+     */
     public get qnaServices(): Map<string, TelemetryQnAMaker> {
         return this._qnaServices;
     }

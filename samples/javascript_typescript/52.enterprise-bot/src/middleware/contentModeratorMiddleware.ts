@@ -7,14 +7,28 @@ import { Screen } from 'azure-cognitiveservices-contentmoderator/lib/models';
 import { CognitiveServicesCredentials } from 'ms-rest-azure';
 import { Readable } from 'stream';
 
+/**
+ * Middleware component to run Content Moderator Service on all incoming activities.
+ */
 export class ContentModeratorMiddleware implements Middleware {
-    // Key for Text Moderator result in Bot Context dictionary.
+    /**
+     * Key for Text Moderator result in Bot Context dictionary.
+     */
     public static readonly ServiceName: string = 'ContentModerator';
-    // Key for Text Moderator result in Bot Context dictionary.
+
+    /**
+     * Key for Text Moderator result in Bot Context dictionary.
+     */
     public static readonly TextModeratorResultKey: string = 'TextModeratorResult';
 
     private readonly _cmClient: ContentModeratorClient;
 
+    /**
+     * Initializes a new instance of the ContentModeratorMiddleware class.
+     * @constructor
+     * @param {string} subscriptionKey Azure Service Key.
+     * @param {string} region Azure Service Region.
+     */
     constructor(subscriptionKey: string, region: string) {
         this._cmClient = new ContentModeratorClient(new CognitiveServicesCredentials(subscriptionKey), `https://${region}.api.cognitive.microsoft.com`);
     }
