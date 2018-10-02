@@ -69,7 +69,7 @@ To use the samples clone this GitHub repository using Git.
 |24.bot-auth-msgraph    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[View][cs#24] |[View][js#24] |              |             | |
 |50.diceroller-skill    | This sample demonstrates how to implement a Cortana Skill that properly handles EndOfConversation events.|:runner: |[View][js#50] |              |             | |
 |51.cafe-bot            | A complete E2E Cafe bot that has all capabilities and includes best practices|[View][cs#51]|[View][js#51]|              |             | |
-|52.enterprise-bot      | Enterprise bot that demonstrates use of Dialogs, Template Manager, Dispatch across different services and implementing custom middleware.|[View][cs#52] |:runner: |              |             | |
+|52.enterprise-bot      | Enterprise bot that demonstrates use of Dialogs, Template Manager, Dispatch across different services and implementing custom middleware.| [View][cs#52] |           |              |             | [View][ts#52] |
 |70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
 
 [cs#1]:samples/csharp_dotnetcore/01.console-echo
@@ -112,6 +112,7 @@ To use the samples clone this GitHub repository using Git.
 [ts#11]:samples/javascript_typescript/11.qnamaker
 [ts#12]:samples/javascript_typescript/12.nlp-with-luis
 [ts#13]:samples/javascript_typescript/13.basic-bot
+[ts#52]:samples/javascript_typescript/52.enterprise-bot
 
 [js#1]:samples/javascript_nodejs/01.console-echo
 [js#2]:samples/javascript_nodejs/02.echobot-with-counter
