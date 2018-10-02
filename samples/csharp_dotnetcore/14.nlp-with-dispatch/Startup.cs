@@ -186,7 +186,7 @@ namespace NLP_With_Dispatch_Bot
 
                             var app = new LuisApplication(luis.AppId, luis.AuthoringKey, luis.GetEndpoint());
                             var recognizer = new LuisRecognizer(app);
-                            luisServices.Add(luis.Name.Split("_")[1], recognizer);
+                            luisServices.Add(luis.Name.Split("_").LastOrDefault(), recognizer);
                             break;
                         }
 
@@ -225,7 +225,7 @@ namespace NLP_With_Dispatch_Bot
 
                         // Since the Dispatch tool generates a LUIS model, we use LuisRecognizer to resolve dispatching of the incoming utterance
                         var dispatchARecognizer = new LuisRecognizer(dispatchApp);
-                        luisServices.Add(dispatch.Name.Split("_")[1], dispatchARecognizer);
+                        luisServices.Add(dispatch.Name.Split("_").Last(), dispatchARecognizer);
                         break;
 
                     case ServiceTypes.QnA:
