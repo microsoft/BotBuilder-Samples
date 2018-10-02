@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License
+
 import { Middleware, TurnContext, ActivityTypes } from 'botbuilder';
 import { ContentModeratorClient } from 'azure-cognitiveservices-contentmoderator';
 import { Screen } from 'azure-cognitiveservices-contentmoderator/lib/models';

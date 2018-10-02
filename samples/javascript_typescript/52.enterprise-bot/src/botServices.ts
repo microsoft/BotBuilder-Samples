@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License
+
 import { TelemetryClient } from 'applicationinsights';
 import { BotConfiguration, ServiceTypes, GenericService, AppInsightsService, DispatchService, LuisService, QnaMakerService } from 'botframework-config';
 import { TelemetryLuisRecognizer } from './middleware/telemetry/telemetryLuisRecognizer';

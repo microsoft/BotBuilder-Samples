@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License
+
 export class TelemetryConstants {
     public static readonly ActivityIDProperty: string = 'ActivityId';
     public static readonly ChannelProperty: string = 'Channel';

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License
+
 import { User } from '@microsoft/microsoft-graph-types';
 import { Client, GraphError } from '@microsoft/microsoft-graph-client';
 

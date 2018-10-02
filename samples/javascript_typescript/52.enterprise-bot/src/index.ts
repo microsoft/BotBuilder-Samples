@@ -1,15 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// Generated using the Microsoft Botbuilder generator.
-// See https://aka.ms/botbuildergenerator for more details.
-//
-// This bot was generated using the 'Basic' template.  This template uses
-// the following capabilities:
-//  An AI capable greeting using LUIS
-//  A Getting Started card using an Adaptive Card
-//  A multi-turn dialog interaction model
-//
 import * as path from 'path';
 import * as restify from 'restify';
 import { BotFrameworkAdapter, ConversationState, UserState, TurnContext, AutoSaveStateMiddleware, TranscriptLoggerMiddleware } from 'botbuilder';

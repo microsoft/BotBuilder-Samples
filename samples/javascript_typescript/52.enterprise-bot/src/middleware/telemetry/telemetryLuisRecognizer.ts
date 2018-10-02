@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License
+
 import { LuisRecognizer, LuisApplication, LuisPredictionOptions } from 'botbuilder-ai';
 import { RecognizerResult, TurnContext } from 'botbuilder';
 import { TelemetryLoggerMiddleware } from './telemetryLoggerMiddleware';

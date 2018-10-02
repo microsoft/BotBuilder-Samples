@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License
+
 import { StatePropertyAccessor, TurnContext } from 'botbuilder';
 import { WaterfallDialog, WaterfallStepContext, DialogTurnResult, TextPrompt } from 'botbuilder-dialogs'
 import { BotServices } from '../../botServices';

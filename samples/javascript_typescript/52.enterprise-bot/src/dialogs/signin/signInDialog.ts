@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License
+
 import { ComponentDialog, WaterfallDialog, WaterfallStepContext, DialogTurnResult, OAuthPrompt } from 'botbuilder-dialogs'
 import { TokenResponse, TurnContext } from 'botbuilder';
 import { SignInResponses } from './signInResponses';

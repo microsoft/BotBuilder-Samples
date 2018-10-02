@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License
+
 import { RouterDialog } from '../shared/routerDialog';
 import { DialogContext } from 'botbuilder-dialogs';
 import { BotServices } from '../../botServices';

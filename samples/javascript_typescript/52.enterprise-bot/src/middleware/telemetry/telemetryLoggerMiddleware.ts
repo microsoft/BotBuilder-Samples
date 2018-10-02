@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License
+
 import { Middleware, TurnContext, Activity, ResourceResponse, ActivityTypes } from 'botbuilder';
 import { TelemetryClient } from 'applicationinsights';
 import { TelemetryConstants } from './telemetryConstants';
