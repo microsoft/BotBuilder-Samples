@@ -1,4 +1,4 @@
-﻿Basic bot template that puts together cards, NLP (LUIS) with ASP.Net Core 2. 
+﻿Basic bot template that puts together cards, NLP (LUIS) with ASP.Net Core 2.
 # To try this sample
 - Clone the samples repository
 ```bash
@@ -23,20 +23,20 @@ Create LUIS json model file (this will consume two .lu files combined into one m
 Install LUIS command line tool:
 `npm install -g luis-apis`
 Create a new LUIS application:
-`luis import application --in .\CognitiveModels\BasicBot.json --authoringKey "<Your Authoring Key>" 
---endpointBasePath https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY`  
+`luis import application --in .\CognitiveModels\BasicBot.json --authoringKey "<Your Authoring Key>"
+--endpointBasePath https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY`
 ### Set up LUIS via Portal
 - Navigate to [LUIS portal](https://www.luis.ai).
 - Click the `Sign in` button.
-- Click on the `Choose File` and select [basic-bot.luis](basic-bot.luis) from the `BotBuilder-Samples\csharp_webapi\13.Basic-Bot-Template\CognitiveModels` folder.
-- Update [BasicBot.bot](BasicBot.bot) file with your AppId, SubscriptionKey, Region and Version. 
+- Click on the `Choose File` and select [basic-bot.json](basic-bot.json) from the `BotBuilder-Samples\csharp_webapi\13.Basic-Bot-Template\CognitiveModels` folder.
+- Update [BasicBot.bot](BasicBot.bot) file with your AppId, SubscriptionKey, Region and Version.
     You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
-	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
+	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q=
     - AppId = XXXXXXXXXXXXX
     - SubscriptionKey = YYYYYYYYYYYY
     - Region =  westus
     The Version is listed on the page.
-- Update [LuisBot.bot](LuisBot.bot) file with your Authoring Key.  
+- Update [LuisBot.bot](LuisBot.bot) file with your Authoring Key.
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
 NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
 - Update [LuisBot.bot](LuisBot.bot) file to ensure the name property is set to `BasicBot`.
