@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, TurnContext } = require('botbuilder');
+const { ActivityTypes } = require('botbuilder');
 const { ChoicePrompt, DialogSet, OAuthPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 
 // Name of the dialog state used in the constructor.
@@ -35,7 +35,7 @@ const OAUTH_SETTINGS = {
  */
 class AuthenticationBot {
     /**
-     * The constructor for the bot. 
+     * The constructor for the bot.
      * @param {ConversationState} conversationState A ConversationState object used to store the dialog state.
      */
     constructor(conversationState) {
@@ -59,7 +59,7 @@ class AuthenticationBot {
 
     /**
      * Waterfall step that prompts the user to login if they have not already or their token has expired.
-     * @param {WaterfallStepContext} step 
+     * @param {WaterfallStepContext} step
      */
     async oauthPrompt(step) {
         return await step.prompt(OAUTH_PROMPT);
@@ -68,7 +68,7 @@ class AuthenticationBot {
     /**
      * Waterfall step that informs the user that they are logged in and asks
      * the user if they would like to see their token via a prompt
-     * @param {WaterfallStepContext} step 
+     * @param {WaterfallStepContext} step
      */
     async loginResults(step) {
         let tokenResponse = step.result;
@@ -86,7 +86,7 @@ class AuthenticationBot {
      *
      * Waterfall step that will display the user's token. If the user's token is expired
      * or they are not logged in this will prompt them to log in first.
-     * @param {WaterfallStepContext} step 
+     * @param {WaterfallStepContext} step
      */
     async displayToken(step) {
         const result = step.result.value;
@@ -137,7 +137,7 @@ class AuthenticationBot {
                     let botAdapter = turnContext.adapter;
                     await botAdapter.signOutUser(turnContext, CONNECTION_NAME);
                     await turnContext.sendActivity('You have been signed out.');
-                    await turnContext.sendActivity(HELP_TEXT)
+                    await turnContext.sendActivity(HELP_TEXT);
                 }
             } else {
                 if (!turnContext.responded) {
@@ -150,7 +150,7 @@ class AuthenticationBot {
 
             for (let index = 0; index < members.length; index++) {
                 const member = members[index];
-                if (member.id != turnContext.activity.recipient.id) {
+                if (member.id !== turnContext.activity.recipient.id) {
                     const welcomeMessage = `Welcome to AuthenticationBot ${ member.name }. ` + HELP_TEXT;
                     await turnContext.sendActivity(welcomeMessage);
                 }
