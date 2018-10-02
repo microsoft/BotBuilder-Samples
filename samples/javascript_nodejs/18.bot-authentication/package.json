@@ -1,0 +1,30 @@
+{
+    "name": "19.bot-authentication",
+    "version": "1.0.0",
+    "description": "Bot Builder v4 Bot Authentication sample",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "eslint": "./node_modules/.bin/eslint .",
+        "watch": "nodemon index.js"
+    },
+    "author": "Microsoft",
+    "license": "MIT",
+    "dependencies": {
+        "botbuilder": "^4.0.6",
+        "botbuilder-dialogs": "^4.0.6",
+        "botframework-config": "^4.0.6",
+        "dotenv": "^6.0.0",
+        "restify": "^7.2.1"
+    },
+    "devDependencies": {
+        "eslint": "^5.5.0",
+        "eslint-config-standard": "^12.0.0",
+        "eslint-plugin-import": "^2.14.0",
+        "eslint-plugin-node": "^7.0.1",
+        "eslint-plugin-promise": "^4.0.1",
+        "eslint-plugin-standard": "^4.0.0",
+        "nodemon": "^1.18.4"
+    }
+}
