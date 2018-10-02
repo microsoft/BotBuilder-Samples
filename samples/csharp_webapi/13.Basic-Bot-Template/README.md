@@ -29,7 +29,7 @@ Create a new LUIS application:
 - Navigate to [LUIS portal](https://www.luis.ai).
 - Click the `Sign in` button.
 - Click on the `Choose File` and select [basic-bot.json](basic-bot.json) from the `BotBuilder-Samples\csharp_webapi\13.Basic-Bot-Template\CognitiveModels` folder.
-- Update [BasicBot.bot](BasicBot.bot) file with your AppId, SubscriptionKey, Region and Version.
+- Update [BotConfiguration.bot](BotConfiguration.bot) file with your AppId, SubscriptionKey, Region and Version.
     You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
 	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q=
     - AppId = XXXXXXXXXXXXX
