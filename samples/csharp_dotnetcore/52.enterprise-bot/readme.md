@@ -25,7 +25,7 @@
 
 4. Run the following command from the project directory:
  
-    `msbot clone services --name "<NAME>" --luisAuthoringKey "<YOUR AUTHORING KEY>" --folder "DeploymentScripts\msbotClone" --location "westus" --verbose`
+    `msbot clone services --name "<NAME>" --luisAuthoringKey "<YOUR AUTHORING KEY>" --folder "DeploymentScripts/msbotClone" --location "westus" --verbose`
 
     **NOTE**: By default your Luis Applications will be deployed to your free starter endpoint. An Azure LUIS service will be deployed along with your bot but you must manually add and publish to it from the luis.ai portal and update your key in the .bot file.
 

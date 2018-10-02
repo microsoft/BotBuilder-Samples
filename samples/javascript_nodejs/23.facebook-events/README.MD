@@ -30,7 +30,7 @@ Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emula
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to javascript_nodejs\81.facebook-events folder
+- File -> Open Bot Configuration and navigate to samples/javascript_nodejs/23.facebook-events folder
 - Select facebook-events.bot file
 
 # Deploy this bot to Azure

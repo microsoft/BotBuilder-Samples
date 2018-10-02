@@ -21,15 +21,15 @@ question, it will share that information with the user.
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\16.proactive-messages` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 # Prerequisites
 ## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples\samples\csharp_dotnetcore\16.proactive-messages`) and open `ProactiveBot.csproj` in Visual Studio.
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages`) and open `ProactiveBot.csproj` in Visual Studio.
 - Press F5.
 
 ## Visual Studio Code
-- Open `botbuilder-samples\samples\csharp_dotnetcore\16.proactive-messages` sample folder.
-- Bring up a console, navigate to `botbuilder-samples\samples\csharp_dotnetcore\16.proactive-messages` folder.
+- Open `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` sample folder.
+- Bring up a console, navigate to `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` folder.
 - type `dotnet run`
 
 ## Testing the bot using Bot Framework Emulator
@@ -38,7 +38,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 ### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open bot and navigate to `botbuilder-samples\samples\csharp_dotnetcore\16.proactive-messages` folder
+- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` folder
 - Select `BotConfiguration.bot` file
 - Open two conversations in the emulator, see that the proactive message goes to the correct conversation
 

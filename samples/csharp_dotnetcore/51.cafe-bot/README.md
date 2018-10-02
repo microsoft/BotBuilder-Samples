@@ -47,11 +47,11 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 ```
 ## Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\samples\csharp_dotnetcore\51.cafe-bot`) and open `CafeBot.csproj` in Visual Studio.
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/51.cafe-bot`) and open `CafeBot.csproj` in Visual Studio.
 - Press F5.
 ## Visual Studio Code
-- Open `BotBuilder-Samples\csharp_dotnetcore\51.cafe-bot` sample folder.
-- Bring up a terminal, navigate to `BotBuilder-Samples\samples\csharp_dotnetcore\51.cafe-bot` folder.
+- Open `botbuilder-samples/samples/csharp_dotnetcore/51.cafe-bot` sample folder.
+- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/51.cafe-bot` folder.
 - Type 'dotnet run'.
 
 
@@ -62,7 +62,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to `BotBuilder-Samples\samples\csharp_dotnetcore\51.cafe-bot`
+- File -> Open Bot Configuration and navigate to `botbuilder-samples/samples/csharp_dotnetcore/51.cafe-bot`
 - Select CafeBot.bot
 
 # Prerequisites
@@ -103,27 +103,27 @@ Optionally, you can use the LUIS, QnA Maker portals to manually import the model
 # Relevant commands for CLI tools
 ## Building and creating services
 - Parse .lu files into LUIS models
-```bash
-    > ludown parse toluis --in Dialogs\Dispatcher\Resources\cafeDispatchModel.lu -o cognitiveModels -n cafeDispatchModel --out cafeDispatchModel.luis
-    > ludown parse toluis --in Dialogs\BookTable\Resources\turn-N.lu -o cognitiveModels -n cafeBotBookTableTurnNModel --out cafeBotBookTableTurnN.luis
-    > ludown parse toluis --in Dialogs\WhoAreYou\Resources\getUserProfile.lu -o cognitiveModels -n getUserProfile --out getUserProfile.luis
-```
+    ```bash
+    > ludown parse toluis --in Dialogs/Dispatcher/Resources/cafeDispatchModel.lu -o cognitiveModels -n cafeDispatchModel --out cafeDispatchModel.luis
+    > ludown parse toluis --in Dialogs/BookTable/Resources/turn-N.lu -o cognitiveModels -n cafeBotBookTableTurnNModel --out cafeBotBookTableTurnN.luis
+    > ludown parse toluis --in Dialogs/WhoAreYou/Resources/getUserProfile.lu -o cognitiveModels -n getUserProfile --out getUserProfile.luis
+    ```
 - Parse .lu files into QnA Maker KB and QnA Maker alterations file
     ```bash
-    > ludown parse toqna --in Dialogs\Dispatcher\Resources\cafeFAQ_ChitChat.lu -o cognitiveModels -n
+    > ludown parse toqna --in Dialogs/Dispatcher/Resources/cafeFAQ_ChitChat.lu -o cognitiveModels -n
 cafeFaqChitChat --out cafeFaqChitChat.qna -a
     ```
 - Import LUIS applications (Note: You don't need this if you have already run MSBOT clone)
     ```bash
-    > luis import application --in CognitiveModels\cafeDispatchModel.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
-    > luis import application --in CognitiveModels\cafeBotBookTableTurnN.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
-    > luis import application --in CognitiveModels\getUserProfile.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
+    > luis import application --in CognitiveModels/cafeDispatchModel.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
+    > luis import application --in CognitiveModels/cafeBotBookTableTurnN.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
+    > luis import application --in CgnitiveModels/getUserProfile.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
     ```
     **Note**: LUIS authoring region can be one of westus or westeurope or australiaeast
 
 - Import QnA Maker KBs (Note: You don't need this if you have already run MSBOT clone)
     ```bash
-    > qnamaker create kb --in CognitiveModels\cafeFaqChitChat.qna --subscriptionKey <YOUR QnA Maker Subscription Key> --msbot | msbot connect qna --stdin
+    > qnamaker create kb --in CognitiveModels/cafeFaqChitChat.qna --subscriptionKey <YOUR QnA Maker Subscription Key> --msbot | msbot connect qna --stdin
     ```
     **Note**: See [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/csharp) for instructions on setting up a Cognitive Service API account and fetching your QnA Maker subscription Key. 
 
@@ -148,7 +148,7 @@ cafeFaqChitChat --out cafeFaqChitChat.qna -a
     ```
 - Replace QnA Maker alterations
     ```bash
-    > msbot get cafeFaqChitChat | qnamaker replace alterations --in CognitiveModels\cafeFaqChitChat.qna_Alterations.json --stdin
+    > msbot get cafeFaqChitChat | qnamaker replace alterations --in CognitiveModels/cafeFaqChitChat.qna_Alterations.json --stdin
     ```
 
 ## Updating and publishing LUIS models
@@ -158,7 +158,7 @@ cafeFaqChitChat --out cafeFaqChitChat.qna -a
     ```
 - Import a LUIS application version
     ```bash
-    > msbot get cafeDispatchModel | luis import version --stdin --in CognitiveModels\cafeDispatchModel.luis
+    > msbot get cafeDispatchModel | luis import version --stdin --in CognitiveModels/cafeDispatchModel.luis
     ```
 - Deleting old LUIS application version
     ```bash
@@ -169,5 +169,5 @@ cafeFaqChitChat --out cafeFaqChitChat.qna -a
 
 - Replace KB contents
     ```bash
-    > msbot get cafeFaqChitChat | qnamaker replace kb --in CognitiveModels\cafeFaqChitChat.qna --stdin
+    > msbot get cafeFaqChitChat | qnamaker replace kb --in CognitiveModels/cafeFaqChitChat.qna --stdin
     ```

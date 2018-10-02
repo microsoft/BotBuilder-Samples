@@ -7,9 +7,9 @@ This sample shows how to create a bot that uses Rich Cards. This bot example use
     ```
 - In a terminal, 
     ```bash
-    cd samples\javascript_nodejs\06.using-cards
+    cd samples/javascript_nodejs/06.using-cards
     ```
-- [Optional] Update the .env file under samples\javascript_nodejs\06.using-cards with your botFileSecret
+- [Optional] Update the .env file under samples/javascript_nodejs/06.using-cards with your botFileSecret
     For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules and start the bot
     ```bash
@@ -27,7 +27,7 @@ This sample shows how to create a bot that uses Rich Cards. This bot example use
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples\javascript_nodejs\06.using-cards folder
+- File -> Open Bot Configuration and navigate to samples/javascript_nodejs/06.using-cards folder
 - Select using-cards.bot file
 
 # Rich Cards
