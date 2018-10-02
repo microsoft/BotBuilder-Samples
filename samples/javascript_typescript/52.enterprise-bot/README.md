@@ -8,12 +8,6 @@ This bot has been created using [Microsoft Bot Framework](https://dev.botframewo
 - Dispatch
 - Middleware
 
-This samples shows how to:
-- Use [LUIS](https://luis.ai) to implement core AI capabilities
-- Implement a multi-turn conversation using Dialogs
-- Handle user interruptions for such things as Help or Cancel
-- Prompt for and validate requests for information from the user
-
 
 ## To try this sample
 - Clone the repository
@@ -45,6 +39,7 @@ This samples shows how to:
   
 
 - Create [required services](./deploymentScripts/DEPLOYMENT.MD)
+- Configure your services in `.env.develpment`
 - Run the sample
   ```bash
   npm start
@@ -70,9 +65,14 @@ Add the following in your code at your desired location to test a simple login f
 Content moderation can be used to identify PII and adult content in the messages sent to the bot. To enable this functionality, go to the azure portal
 and create a new content moderator service. Collect your subscription key and region to configure your .bot file. 
 
-Uncomment the section of `Content Moderation Middleware` in the `index.ts` file to enable content moderation on every turn. 
-The result of content moderation can be accessed via your bot state 
+Add your Content Moderator name to the `.env` file using `CONTENT_MODERATOR_NAME` key. With this middleware enable, all messages will be analyzed for inappropriate content, like PII, profanity, etc. The result of content moderation can be accessed via your bot state using the following code:
+  ```typescript
+  onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
+        const screenResult: Screen = context.turnState.get(ContentModeratorMiddleware.TextModeratorResultKey);
 
+        // Use screenResult to take action over sensible content in messages.
+  }
+  ```
 
 ## Prerequisites
 - NodeJS & Node Package Manager
@@ -107,7 +107,11 @@ The result of content moderation can be accessed via your bot state
 
 ### Project Structure
 
-`index.js` references the bot and starts a Restify server. `bot.js` loads the dialog type you selected when running the generator and adds it as the default dialog. `dialogs.js` contains the list of sample dialogs.
+- `index.ts` references the bot and starts a Restify server.
+- `enterpriseBot.ts` loads the dialogs to run.
+- `botServices.ts` generates the services that are used in the bot and are declared in your `.bot` configuration file.
+- `/dialogs` folder contains the dialogs presented in this sample.
+- `/middleware` folder contains the Content Moderator middleware and all telemetry related classes.
 
 ### Configuring the bot
 
@@ -118,12 +122,12 @@ Update `.env` with the appropriate keys:
 ### Running the bot
 
 ```
-node ./index.js
+npm run start
 ```
 ### Developing the bot
 
 ```
-nodemon ./index.js
+nodemon ./lib/index.js
 ```
 
 

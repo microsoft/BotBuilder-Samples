@@ -1,7 +1,7 @@
 # How To Deploy
 This bot relies on the [LUIS][1] cognitive service to function. This document will show how to use simple command line tools to setup LUIS for use with this bot.
 
-# Install required tools
+## Install required tools
 To successfully setup and configure the services this bot depends on, you need to install the MSBOT, LUIS, and Ludown CLI tools.  See the documentation for the [Bot Framework CLI Tools][5] for additional information on what CLI tools are available to help you build your bot.
 
 ```bash
@@ -14,15 +14,15 @@ az extension remove -n botservice
 az extension add-n botservice
 ```
 
-# Keeping track of service references using .bot file
-We highly recommend you can keep track of all the services your bot depends on in a .bot file. You can use either the `msbot` CLI tool or use [Bot Framework Emulator][7] to manage your .bot file.
+## Keeping track of service references using .bot file
+We highly recommend you can keep track of all the services your bot depends on in a `.bot` file. You can use either the `msbot` CLI tool or use [Bot Framework Emulator][7] to manage your `.bot` file.
 
-# Configure all required servies
+## Configure all required servies
 You can use [MSBOT][5] to create and configure the required services for this bot. To do this, simply run the following command from a terminal.
 You can get your LUIS authoring key by following steps [here][8] and get your Azure subscription ID by following steps [here][9].
 
 ```bash
-> cd javascript_typescript/52.enterprise-bot
+> cd ./samples/javascript_typescript/52.enterprise-bot
 
 > msbot clone services --name <YOUR BOT NAME> --luisAuthoringKey <LUIS-KEY> --folder deploymentScripts/msbotClone --location westus --verbose
 ```
