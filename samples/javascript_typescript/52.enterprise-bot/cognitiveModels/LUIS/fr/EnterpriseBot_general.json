@@ -1,0 +1,502 @@
+{
+  "intents": [
+    {
+      "name": "Greeting"
+    },
+    {
+      "name": "Help"
+    },
+    {
+      "name": "Cancel"
+    },
+    {
+      "name": "Restart"
+    },
+    {
+      "name": "Escalate"
+    },
+    {
+      "name": "ConfirmYes"
+    },
+    {
+      "name": "ConfirmNo"
+    },
+    {
+      "name": "ConfirmMore"
+    },
+    {
+      "name": "Next"
+    },
+    {
+      "name": "Goodbye"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "Salut",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Salut",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Bonjour",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Bonsoir",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Bonjour bot",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Salut",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Comment vas-tu",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Comment vas-tu aujourd'hui",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Aide",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Aide-moi",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "aide s'il vous plaît",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Je suis coincé",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Je ne comprends pas",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "que puis-je dire",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "que pouvez-vous m'aider avec",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "que pouvez-vous faire",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "que dois-je faire maintenant",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Pourquoi cela ne fonctionne-t-il pas",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Est-ce que vous pouvez m'aider",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Arrêter",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Annuler",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Annuler",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Mépris",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Ne pas",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Fais pas ça",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Fais pas ça",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Je voudrais annuler",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "C'est pas grave",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "s'il vous plaît arrêter",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "puis-je recommencer",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "Retour",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "J'ai besoin de changer quelque chose",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "Redémarrer",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "recommencer",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "Annuler",
+      "intent": "Restart",
+      "entities": []
+    },
+    {
+      "text": "puis-je parler à une personne",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Je veux parler à un humain",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "parler à un humain",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Transférez-moi svp",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Contacter le support technique",
+      "intent": "Escalate",
+      "entities": []
+    },
+    {
+      "text": "Absolument",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "Sûr",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "Certainement",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "Sans aucun doute",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "Je pense",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "Allons-y",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "faisons ça",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "Oh oui",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "Oui s'il vous plaît",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "OK",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "Bien",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "sure chose",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "Oui",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "Oui ce serait un grand merci",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "Pourquoi pas",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "Yep c'est vrai",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "Yup",
+      "intent": "ConfirmYes",
+      "entities": []
+    },
+    {
+      "text": "en aucun cas",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "Proche",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "Non",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "Non merci",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "Pas",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "non, c'est bon",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "Pas question",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "Pas du tout",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "Pas vraiment",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "pas en ce moment Merci",
+      "intent": "ConfirmNo",
+      "entities": []
+    },
+    {
+      "text": "Plus",
+      "intent": "ConfirmMore",
+      "entities": []
+    },
+    {
+      "text": "Je voudrais en savoir plus",
+      "intent": "ConfirmMore",
+      "entities": []
+    },
+    {
+      "text": "Montrez-moi plus",
+      "intent": "ConfirmMore",
+      "entities": []
+    },
+    {
+      "text": "Plus",
+      "intent": "ConfirmMore",
+      "entities": []
+    },
+    {
+      "text": "plus d'infos",
+      "intent": "ConfirmMore",
+      "entities": []
+    },
+    {
+      "text": "plus d'information",
+      "intent": "ConfirmMore",
+      "entities": []
+    },
+    {
+      "text": "Avance",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "aller de l'avant",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "aller à la prochaine",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Prochaine",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "point suivant",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "afficher suivant",
+      "intent": "Next",
+      "entities": []
+    },
+    {
+      "text": "Bonne nuit",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "Au revoir",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "Au revoir",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "Ok merci",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "Ok salut",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "C'est tout Merci",
+      "intent": "Goodbye",
+      "entities": []
+    },
+    {
+      "text": "ma bouteille d'eau est verte",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "les tortues aiment nager dans l'océan",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "avions de papier dans le ciel",
+      "intent": "None",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    },
+    {
+      "name": "number",
+      "roles": []
+    }
+  ],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "general",
+  "desc": "",
+  "culture": "fr-fr"
+}
