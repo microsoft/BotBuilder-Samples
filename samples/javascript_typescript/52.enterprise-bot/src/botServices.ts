@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { TelemetryClient } from 'applicationinsights';
-import { BotConfiguration, ServiceTypes, GenericService, AppInsightsService, DispatchService, LuisService, QnaMakerService } from 'botframework-config';
-import { TelemetryLuisRecognizer } from './middleware/telemetry/telemetryLuisRecognizer';
-import { TelemetryQnAMaker } from './middleware/telemetry/telemetryQnAMaker';
-import { LuisApplication, QnAMakerEndpoint } from 'botbuilder-ai';
+import { TelemetryClient } from "applicationinsights";
+import { LuisApplication, QnAMakerEndpoint } from "botbuilder-ai";
+import { AppInsightsService, BotConfiguration, DispatchService, GenericService, LuisService, QnaMakerService, ServiceTypes } from "botframework-config";
+import { TelemetryLuisRecognizer } from "./middleware/telemetry/telemetryLuisRecognizer";
+import { TelemetryQnAMaker } from "./middleware/telemetry/telemetryQnAMaker";
 
 /**
  * Represents references to external services.
@@ -13,7 +13,7 @@ import { LuisApplication, QnAMakerEndpoint } from 'botbuilder-ai';
  * using the BotConfiguration class.
  */
 export class BotServices {
-    private _authConnectionName: string = '';
+    private _authConnectionName: string = "";
     private _telemetryClient!: TelemetryClient;
     private _dispatchRecognizer!: TelemetryLuisRecognizer;
     private _luisServices: Map<string, TelemetryLuisRecognizer>;
@@ -28,48 +28,48 @@ export class BotServices {
         this._luisServices = new Map<string, TelemetryLuisRecognizer>();
         this._qnaServices = new Map<string, TelemetryQnAMaker>();
 
-        config.services.forEach(service => {
+        config.services.forEach((service) => {
             switch (service.type) {
                 case ServiceTypes.AppInsights: {
-                    let appInsights: AppInsightsService = <AppInsightsService>service;
+                    const appInsights: AppInsightsService = service as AppInsightsService;
                     this._telemetryClient = new TelemetryClient(appInsights.instrumentationKey);
                     break;
                 }
                 case ServiceTypes.Dispatch: {
-                    let dispatch: DispatchService = <DispatchService>service;
-                    let dispatchApp: LuisApplication = {
+                    const dispatch: DispatchService = service as DispatchService;
+                    const dispatchApp: LuisApplication = {
                         applicationId: dispatch.appId,
+                        endpoint: this.getLuisPath(dispatch.region),
                         endpointKey: dispatch.subscriptionKey,
-                        endpoint: this.getLuisPath(dispatch.region)
                     };
                     this._dispatchRecognizer = new TelemetryLuisRecognizer(dispatchApp);
                     break;
                 }
                 case ServiceTypes.Luis: {
-                    let luis: LuisService = <LuisService>service;
-                    let luisApp: LuisApplication = {
+                    const luis: LuisService = service as LuisService;
+                    const luisApp: LuisApplication = {
                         applicationId: luis.appId,
+                        endpoint: this.getLuisPath(luis.region),
                         endpointKey: luis.subscriptionKey,
-                        endpoint: this.getLuisPath(luis.region)
                     };
                     this._luisServices.set(luis.name, new TelemetryLuisRecognizer(luisApp));
                     break;
                 }
                 case ServiceTypes.QnA: {
-                    let qna: QnaMakerService = <QnaMakerService>service;
-                    let qnaEndpoint: QnAMakerEndpoint = {
-                        knowledgeBaseId: qna.kbId,
+                    const qna: QnaMakerService = service as QnaMakerService;
+                    const qnaEndpoint: QnAMakerEndpoint = {
                         endpointKey: qna.endpointKey,
-                        host: qna.hostname
+                        host: qna.hostname,
+                        knowledgeBaseId: qna.kbId,
                     };
                     this._qnaServices.set(qna.name, new TelemetryQnAMaker(qnaEndpoint));
                     break;
                 }
                 case ServiceTypes.Generic: {
-                    if (service.name === 'Authentication') {
-                        let authentication: GenericService = <GenericService> service;
-                        if (authentication.configuration['Azure Active Directory v2']) {
-                            this._authConnectionName = authentication.configuration['Azure Active Directory v2'];
+                    if (service.name === "Authentication") {
+                        const authentication: GenericService = service as GenericService;
+                        if (authentication.configuration["Azure Active Directory v2"]) {
+                            this._authConnectionName = authentication.configuration["Azure Active Directory v2"];
                         }
                     }
                     break;

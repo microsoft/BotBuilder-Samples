@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { RouterDialog } from '../shared/routerDialog';
-import { DialogContext } from 'botbuilder-dialogs';
-import { BotServices } from '../../botServices';
-import { ConversationState, UserState, StatePropertyAccessor } from 'botbuilder';
-import { MainResponses } from './mainResponses';
-import { OnboardingState } from '../onboarding/onboardingState';
-import { LuisRecognizer } from 'botbuilder-ai';
-import { OnboardingDialog } from '../onboarding/onboardingDialog';
-import { EscalateDialog } from '../escalate/escalateDialog';
+import { ConversationState, StatePropertyAccessor, UserState } from "botbuilder";
+import { LuisRecognizer } from "botbuilder-ai";
+import { DialogContext } from "botbuilder-dialogs";
+import { BotServices } from "../../botServices";
+import { EscalateDialog } from "../escalate/escalateDialog";
+import { OnboardingDialog } from "../onboarding/onboardingDialog";
+import { OnboardingState } from "../onboarding/onboardingState";
+import { RouterDialog } from "../shared/routerDialog";
+import { MainResponses } from "./mainResponses";
 
 export class MainDialog extends RouterDialog {
     private readonly _services: BotServices;
@@ -19,16 +19,16 @@ export class MainDialog extends RouterDialog {
     private readonly _onboardingAccessor: StatePropertyAccessor<OnboardingState>;
 
     constructor(services: BotServices, conversationState: ConversationState, userState: UserState) {
-        super('MainDialog');
-        if (!services) throw ('Missing parameter.  botServices is required');
-        if (!conversationState) throw ('Missing parameter.  conversationState is required');
-        if (!userState) throw ('Missing parameter.  userState is required');
+        super("MainDialog");
+        if (!services) { throw new Error(("Missing parameter.  botServices is required")); }
+        if (!conversationState) { throw new Error(("Missing parameter.  conversationState is required")); }
+        if (!userState) { throw new Error(("Missing parameter.  userState is required")); }
 
         this._services = services;
         this._conversationState = conversationState;
         this._userState = userState;
 
-        this._onboardingAccessor = this._userState.createProperty<OnboardingState>('OnboardingState');
+        this._onboardingAccessor = this._userState.createProperty<OnboardingState>("OnboardingState");
 
         this.addDialog(new OnboardingDialog(this._services, this._onboardingAccessor));
         this.addDialog(new EscalateDialog(this._services));
@@ -41,7 +41,7 @@ export class MainDialog extends RouterDialog {
 
         if (!onboardingState || !onboardingState.name) {
             // This is the first time the user is interacting with the bot, so gather onboarding information.
-            await innerDC.beginDialog('OnboardingDialog');
+            await innerDC.beginDialog("OnboardingDialog");
         }
     }
 
@@ -50,10 +50,10 @@ export class MainDialog extends RouterDialog {
         const dispatchResult = await this._services.dispatchRecognizer.recognize(dc.context);
         const topIntent = LuisRecognizer.topIntent(dispatchResult);
 
-        if (topIntent === 'l_General') {
+        if (topIntent === "l_General") {
             // If dispatch result is general luis model
-            const luisService = this._services.luisServices.get(process.env.LUIS_GENERAL || '');
-            if (!luisService) return Promise.reject(new Error('Luis service not found'));
+            const luisService = this._services.luisServices.get(process.env.LUIS_GENERAL || "");
+            if (!luisService) { return Promise.reject(new Error("Luis service not found")); }
 
             const luisResult = await luisService.recognize(dc.context);
 
@@ -61,17 +61,17 @@ export class MainDialog extends RouterDialog {
 
             // switch on general intents
             switch (generalIntent) {
-                case 'Greeting': {
+                case "Greeting": {
                     // Send greeting response
                     await this._responder.replyWith(dc.context, MainResponses.Greeting);
                     break;
                 }
-                case 'Help': {
+                case "Help": {
                     // Send help response
                     await this._responder.replyWith(dc.context, MainResponses.Help);
                     break;
                 }
-                case 'Cancel': {
+                case "Cancel": {
                     // Send cancelled response.
                     await this._responder.replyWith(dc.context, MainResponses.Cancelled);
 
@@ -79,9 +79,9 @@ export class MainDialog extends RouterDialog {
                     await dc.cancelAllDialogs();
                     break;
                 }
-                case 'Escalate': {
+                case "Escalate": {
                     // Start escalate dialog.
-                    await dc.beginDialog('EscalateDialog');
+                    await dc.beginDialog("EscalateDialog");
                     break;
                 }
                 default: {
@@ -90,9 +90,9 @@ export class MainDialog extends RouterDialog {
                     break;
                 }
             }
-        } else if (topIntent === 'q_FAQ') {
-            const qnaService = this._services.qnaServices.get('FAQ');
-            if (!qnaService) return Promise.reject(new Error('QnA service not found'));
+        } else if (topIntent === "q_FAQ") {
+            const qnaService = this._services.qnaServices.get("FAQ");
+            if (!qnaService) { return Promise.reject(new Error("QnA service not found")); }
 
             const answers = await qnaService.getAnswersAsync(dc.context);
 

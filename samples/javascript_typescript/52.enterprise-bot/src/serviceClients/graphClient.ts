@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { User } from '@microsoft/microsoft-graph-types';
-import { Client, GraphError } from '@microsoft/microsoft-graph-client';
+import { Client, GraphError } from "@microsoft/microsoft-graph-client";
+import { User } from "@microsoft/microsoft-graph-types";
 
 export class GraphClient {
     private readonly _token: string;
@@ -14,9 +14,9 @@ export class GraphClient {
     public getMe(): Promise<User> {
         return new Promise((resolve, reject) => {
             const client = this.getAuthenticatedClient();
-            client.api('/me').select('displayName')
+            client.api("/me").select("displayName")
             .get((err: GraphError, res: User) => {
-                if (err) return reject(err);
+                if (err) { return reject(err); }
                 return resolve(res);
             });
         });
@@ -26,7 +26,7 @@ export class GraphClient {
         return Client.init({
             authProvider: (done) => {
                 done(null, this._token);
-            }
+            },
         });
     }
 }

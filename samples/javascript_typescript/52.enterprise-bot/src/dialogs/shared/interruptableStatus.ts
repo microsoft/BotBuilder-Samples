@@ -9,5 +9,5 @@ export enum InterruptionStatus {
     Waiting,
 
     /** Indicates that no interruption action is required. */
-    NoAction
+    NoAction,
 }

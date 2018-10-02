@@ -5,20 +5,20 @@
 * Changes may cause incorrect behavior and will be lost if the code is
 * regenerated.
 * </auto-generated>
-*/ 
-import {DateTimeSpec, IntentData, InstanceData, NumberWithUnits} from 'botbuilder-ai';
+*/
+import {IntentData} from "botbuilder-ai";
 
-export interface _Intents { 
+export interface _Intents {
     l_General: IntentData;
     None: IntentData;
     q_FAQ: IntentData;
-};
+}
 
 export interface _Instance {
 }
 
 export interface _Entities {
-    $instance : _Instance;
+    $instance: _Instance;
 }
 
 export interface LuisDispatch {

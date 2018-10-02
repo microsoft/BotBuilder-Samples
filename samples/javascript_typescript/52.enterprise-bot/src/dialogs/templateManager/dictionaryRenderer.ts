@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ITemplateRenderer } from './ITemplateRenderer';
-import { TurnContext } from 'botbuilder-core';
+import { TurnContext } from "botbuilder-core";
+import { ITemplateRenderer } from "./ITemplateRenderer";
 
 export declare type TemplateFunction = (turnContext: TurnContext, data: any) => Promise<any>;
 
@@ -22,7 +22,7 @@ export declare type LanguageTemplateDictionary = Map<string, TemplateIdMap | und
 ///       "en" : {
 ///         "templateId": (context, data) => $"your name  is {data.name}",
 ///         "templateId": (context, data) => { return new Activity(); }
-///     }`  
+///     }`
 ///  }
 ///  }
 ///   To use, simply register with templateManager
@@ -36,11 +36,11 @@ export class DictionaryRenderer implements ITemplateRenderer {
     }
 
     public renderTemplate(turnContext: TurnContext, language: string, templateId: string, data: any): Promise<any> {
-        let templates: TemplateIdMap | undefined = this._languages.get(language);
+        const templates: TemplateIdMap | undefined = this._languages.get(language);
         if (templates) {
-            let template: TemplateFunction | undefined = templates.get(templateId);
+            const template: TemplateFunction | undefined = templates.get(templateId);
             if (template) {
-                let result = template(turnContext, data);
+                const result = template(turnContext, data);
                 if (result) {
                     return result;
                 }

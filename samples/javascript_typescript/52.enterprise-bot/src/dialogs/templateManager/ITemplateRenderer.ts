@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TurnContext } from 'botbuilder-core';
+import { TurnContext } from "botbuilder-core";
 
 /// <summary>
 /// Defines interface for data binding to template and rendering a string

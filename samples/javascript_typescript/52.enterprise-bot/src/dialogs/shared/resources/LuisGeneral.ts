@@ -5,10 +5,10 @@
 * Changes may cause incorrect behavior and will be lost if the code is
 * regenerated.
 * </auto-generated>
-*/ 
-import {DateTimeSpec, IntentData, InstanceData, NumberWithUnits} from 'botbuilder-ai';
+*/
+import {DateTimeSpec, InstanceData, IntentData} from "botbuilder-ai";
 
-export interface _Intents { 
+export interface _Intents {
     Cancel: IntentData;
     ConfirmMore: IntentData;
     ConfirmNo: IntentData;
@@ -20,7 +20,7 @@ export interface _Intents {
     Next: IntentData;
     None: IntentData;
     Restart: IntentData;
-};
+}
 
 export interface _Instance {
     datetime?: InstanceData[];
@@ -32,7 +32,7 @@ export interface _Entities {
     // Built-in entities
     datetime?: DateTimeSpec[];
     number?: number[];
-    $instance : _Instance;
+    $instance: _Instance;
 }
 
 export interface LuisGeneral {
