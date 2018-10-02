@@ -14,13 +14,15 @@ export class EscalateDialog extends EnterpriseDialog {
         super(botServices, EscalateDialog.name);
         this.initialDialogId = EscalateDialog.name;
 
-        let escalate = [EscalateDialog.SendPhone];
+        let escalate = [
+            EscalateDialog.SendPhone.bind(this)
+        ];
 
         this.addDialog(new WaterfallDialog(this.initialDialogId, escalate));
     }
 
     private static async SendPhone(sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        await EscalateDialog._responder.ReplyWith(sc.context, EscalateResponses.SendPhone);
+        await EscalateDialog._responder.replyWith(sc.context, EscalateResponses.SendPhone);
         return await sc.endDialog();
     }
 }

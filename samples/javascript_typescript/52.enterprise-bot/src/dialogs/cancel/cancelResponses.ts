@@ -32,6 +32,6 @@ export class CancelResponses extends TemplateManager {
 
     constructor() {
         super();
-        this.Register(new DictionaryRenderer(CancelResponses._responseTemplates));
+        this.register(new DictionaryRenderer(CancelResponses._responseTemplates));
     }
 }

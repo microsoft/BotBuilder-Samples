@@ -7,7 +7,6 @@ import { OnboardingState } from '../onboarding/onboardingState';
 import { LuisRecognizer } from 'botbuilder-ai';
 import { OnboardingDialog } from '../onboarding/onboardingDialog';
 import { EscalateDialog } from '../escalate/escalateDialog';
-import { SignInDialog } from '../signin/signInDialog';
 
 export class MainDialog extends RouterDialog {
     private readonly _services: BotServices;
@@ -35,7 +34,7 @@ export class MainDialog extends RouterDialog {
     protected async onStart(innerDC: DialogContext): Promise<void> {
         const onboardingState = await this._onboardingAccessor.get(innerDC.context, undefined);
 
-        await this._responder.ReplyWith(innerDC.context, MainResponses.Intro);
+        await this._responder.replyWith(innerDC.context, MainResponses.Intro);
 
         if (!onboardingState || !onboardingState.name) {
             // This is the first time the user is interacting with the bot, so gather onboarding information.
@@ -61,17 +60,17 @@ export class MainDialog extends RouterDialog {
             switch (generalIntent) {
                 case 'Greeting': {
                     // Send greeting response
-                    await this._responder.ReplyWith(dc.context, MainResponses.Greeting);
+                    await this._responder.replyWith(dc.context, MainResponses.Greeting);
                     break;
                 }
                 case 'Help': {
                     // Send help response
-                    await this._responder.ReplyWith(dc.context, MainResponses.Help);
+                    await this._responder.replyWith(dc.context, MainResponses.Help);
                     break;
                 }
                 case 'Cancel': {
                     // Send cancelled response.
-                    await this._responder.ReplyWith(dc.context, MainResponses.Cancelled);
+                    await this._responder.replyWith(dc.context, MainResponses.Cancelled);
 
                     // Cancel any active dialogs on the stack.
                     await dc.cancelAllDialogs();
@@ -84,7 +83,7 @@ export class MainDialog extends RouterDialog {
                 }
                 default: {
                     // No intent was identified, send confused message.
-                    await this._responder.ReplyWith(dc.context, MainResponses.Confused);
+                    await this._responder.replyWith(dc.context, MainResponses.Confused);
                     break;
                 }
             }
@@ -102,6 +101,6 @@ export class MainDialog extends RouterDialog {
 
     protected complete(innerDC: DialogContext): Promise<void> {
         // The active dialogs stack ended with a complete status.
-        return this._responder.ReplyWith(innerDC.context, MainResponses.Completed);
+        return this._responder.replyWith(innerDC.context, MainResponses.Completed);
     }
 }

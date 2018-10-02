@@ -35,8 +35,6 @@ export class OnboardingResponses extends TemplateManager {
             [OnboardingResponses.HaveLocation, async (context: TurnContext, data: any) => {
                 const value = await OnboardingResponses.resources.get('HAVE_LOCATION');
                 return value.replace('{0}', data.name).replace('{1}', data.location);
-                // value = value.replace('{0}', data.Name);
-                // return value.replace('{1}', data.Location);
             }],
         ])],
         ['en', undefined],
@@ -45,6 +43,6 @@ export class OnboardingResponses extends TemplateManager {
     
     constructor() {
         super();
-        this.Register(new DictionaryRenderer(OnboardingResponses._responseTemplates));
+        this.register(new DictionaryRenderer(OnboardingResponses._responseTemplates));
     }
 }

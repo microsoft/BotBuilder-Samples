@@ -36,12 +36,12 @@ export class SignInDialog extends ComponentDialog {
 
             if (tokenResponse.token) {
                 const user = await this.getProfile(sc.context, tokenResponse);
-                await this._responder.ReplyWith(sc.context, SignInResponses.Succeeded, { name: user.displayName });
+                await this._responder.replyWith(sc.context, SignInResponses.Succeeded, { name: user.displayName });
                 return await sc.endDialog(tokenResponse);
             }
 
         } else {
-            await this._responder.ReplyWith(sc.context, SignInResponses.Failed);
+            await this._responder.replyWith(sc.context, SignInResponses.Failed);
         }
         
         return await sc.endDialog();

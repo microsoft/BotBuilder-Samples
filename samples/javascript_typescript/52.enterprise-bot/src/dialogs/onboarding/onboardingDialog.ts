@@ -53,7 +53,7 @@ export class OnboardingDialog extends EnterpriseDialog {
             return await sc.next(this._state.name);
         } else {
             return await sc.prompt(this.NamePrompt, {
-                prompt: await this._responder.RenderTemplate(sc.context, OnboardingResponses.NamePrompt, 'en')
+                prompt: await this._responder.renderTemplate(sc.context, OnboardingResponses.NamePrompt, 'en')
             });
         }
     }
@@ -62,13 +62,13 @@ export class OnboardingDialog extends EnterpriseDialog {
         this._state = await this.getStateFromAccessor(sc.context);
         this._state.name = sc.result;
         
-        await this._responder.ReplyWith(sc.context, OnboardingResponses.HaveName, { name: this._state.name });
+        await this._responder.replyWith(sc.context, OnboardingResponses.HaveName, { name: this._state.name });
 
         if(this._state.email) {
             return await sc.next(this._state.email);
         } else {
             return await sc.prompt(this.EmailPrompt, {
-                prompt: await this._responder.RenderTemplate(sc.context, OnboardingResponses.EmailPrompt, 'en')
+                prompt: await this._responder.renderTemplate(sc.context, OnboardingResponses.EmailPrompt, 'en')
             });
         }
     }
@@ -77,13 +77,13 @@ export class OnboardingDialog extends EnterpriseDialog {
         this._state = await this.getStateFromAccessor(sc.context);
         this._state.email = sc.result;
 
-        await this._responder.ReplyWith(sc.context, OnboardingResponses.HaveEmail, { email: this._state.email });
+        await this._responder.replyWith(sc.context, OnboardingResponses.HaveEmail, { email: this._state.email });
 
         if(this._state.location) {
             return await sc.next(this._state.location);
         } else {
             return await sc.prompt(this.LocationPrompt, {
-                prompt: await this._responder.RenderTemplate(sc.context, OnboardingResponses.LocationPrompt, 'en')
+                prompt: await this._responder.renderTemplate(sc.context, OnboardingResponses.LocationPrompt, 'en')
             });
         }
     }
@@ -92,7 +92,7 @@ export class OnboardingDialog extends EnterpriseDialog {
         this._state = await this.getStateFromAccessor(sc.context);
         this._state.location = sc.result;
 
-        await this._responder.ReplyWith(sc.context, OnboardingResponses.HaveLocation, { name: this._state.name, location: this._state.location });
+        await this._responder.replyWith(sc.context, OnboardingResponses.HaveLocation, { name: this._state.name, location: this._state.location });
 
         return await sc.endDialog();
     }

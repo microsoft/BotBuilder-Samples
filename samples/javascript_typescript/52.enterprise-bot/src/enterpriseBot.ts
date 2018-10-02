@@ -48,4 +48,4 @@ export class EnterpriseBot {
             await dc.beginDialog('MainDialog');
         }
     }
-};
+}

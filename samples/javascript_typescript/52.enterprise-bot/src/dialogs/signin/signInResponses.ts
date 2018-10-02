@@ -32,6 +32,6 @@ export class SignInResponses extends TemplateManager {
 
     constructor() {
         super();
-        this.Register(new DictionaryRenderer(SignInResponses._responseTemplates));
+        this.register(new DictionaryRenderer(SignInResponses._responseTemplates));
     }
 }

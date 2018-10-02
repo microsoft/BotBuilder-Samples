@@ -18,7 +18,7 @@ export class EscalateResponses extends TemplateManager {
 
     private static readonly _responseTemplates: LanguageTemplateDictionary = new Map([
         ['default', new Map([
-            [ EscalateResponses.SendPhone, EscalateResponses.fromResources('PHONE_INFO')],
+            [EscalateResponses.SendPhone, EscalateResponses.fromResources('PHONE_INFO')],
         ])],
         ['en', undefined],
         ['fr', undefined]
@@ -26,6 +26,6 @@ export class EscalateResponses extends TemplateManager {
 
     constructor() {
         super();
-        this.Register(new DictionaryRenderer(EscalateResponses._responseTemplates));
+        this.register(new DictionaryRenderer(EscalateResponses._responseTemplates));
     }
 }

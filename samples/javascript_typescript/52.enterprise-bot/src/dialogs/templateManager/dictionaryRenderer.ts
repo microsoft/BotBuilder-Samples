@@ -26,7 +26,7 @@ export declare type LanguageTemplateDictionary = Map<string, TemplateIdMap | und
 ///  }
 ///  }
 ///   To use, simply register with templateManager
-///   templateManager.Register(new DictionaryRenderer(myTemplates))
+///   templateManager.register(new DictionaryRenderer(myTemplates))
 /// </summary>
 export class DictionaryRenderer implements ITemplateRenderer {
     private _languages: LanguageTemplateDictionary;
@@ -35,7 +35,7 @@ export class DictionaryRenderer implements ITemplateRenderer {
         this._languages = templates;
     }
 
-    public RenderTemplate(turnContext: TurnContext, language: string, templateId: string, data: any): Promise<any> {
+    public renderTemplate(turnContext: TurnContext, language: string, templateId: string, data: any): Promise<any> {
         let templates: TemplateIdMap | undefined = this._languages.get(language);
         if (templates) {
             let template: TemplateFunction | undefined = templates.get(templateId);
