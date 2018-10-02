@@ -14,7 +14,7 @@ const { AuthenticationBot } = require('./bot');
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '.env');
-const env = require('dotenv').config({ path: ENV_FILE });
+require('dotenv').config({ path: ENV_FILE });
 
 // Get the .bot file path.
 // See https://aka.ms/about-bot-file to learn more about .bot files.
@@ -46,7 +46,7 @@ const adapter = new BotFrameworkAdapter({
     appPassword: endpointConfig.appPassword || process.env.MicrosoftAppPassword
 });
 
-adapter.onTurnError = async(context, error) => {
+adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
@@ -62,7 +62,7 @@ adapter.onTurnError = async(context, error) => {
 // Create HTTP server.
 let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
-    console.log(`\n${server.name} listening to ${ server.url }.`);
+    console.log(`\n${ server.name } listening to ${ server.url }.`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
     console.log(`\nTo talk to your bot, open bot-authentication.bot file in the Emulator.`);
 });
@@ -71,7 +71,7 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 // A bot requires a state storage system to persist the dialog and user state between messages.
 const memoryStorage = new MemoryStorage();
 
-// Add botbuilder-azure when using any Azure services. 
+// Add botbuilder-azure when using any Azure services.
 // const { BlobStorage } = require('botbuilder-azure');
 // // Get service configuration
 // const blobStorageConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION_ID);
@@ -80,15 +80,15 @@ const memoryStorage = new MemoryStorage();
 //     storageAccountOrConnectionString: blobStorageConfig.connectionString,
 // });
 
-// Create conversation state with in-memory storage provider. 
+// Create conversation state with in-memory storage provider.
 const conversationState = new ConversationState(memoryStorage);
 
 // Create the bot that will handle incoming messages.
 const authenticationBot = new AuthenticationBot(conversationState);
 
-// Listen for incoming requests. 
+// Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async(context) => {
+    adapter.processActivity(req, res, async (context) => {
         await authenticationBot.onTurn(context);
     });
 });
