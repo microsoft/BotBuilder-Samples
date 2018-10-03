@@ -5,6 +5,8 @@ const path = require("path");
 const _ = require("lodash");
 const mkdirp = require("mkdirp");
 
+const pkg = require('../package.json');
+
 /**
  * Create the folder for the generated bot code, if it doesn't exist
  *
@@ -47,6 +49,7 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
     {
       botName: gen.props.botName,
       botDescription: gen.props.description,
+      version: pkg.version,
       npmMain: npmMain
     }
   );
