@@ -13,13 +13,13 @@ updates also take steps towards an improved user experience by eliminating the m
 ```bash
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `BotBuilder-Samples\samples\csharp_dotnetcore\18.bot-authentication` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/18.bot-authentication` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 ## Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\samples\csharp_dotnetcore\18.bot-authentication`) and open AuthenticationBot.csproj in Visual Studio 
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/18.bot-authentication`) and open AuthenticationBot.csproj in Visual Studio 
 - Hit F5
 ## Visual Studio Code
-- Open `BotBuilder-Samples\csharp_dotnetcore\7.Using-Adaptive-Cards` folder
-- Bring up a terminal, navigate to BotBuilder-Samples\samples\csharp_dotnetcore\18.bot-authentication
+- Open `botbuilder-samples/samples/csharp_dotnetcore/18.bot-authentication` folder
+- Bring up a terminal, navigate to botbuilder-samples/samples/csharp_dotnetcore/18.bot-authentication
 - Type 'dotnet run'.
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
@@ -31,7 +31,7 @@ developers to test and debug their bots on localhost or running remotely through
 
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator.
-- File -> Open bot and navigate to `botbuilder-samples\samples\csharp_dotnetcore\02.echo-with-counter` folder.
+- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/18.bot-authentication` folder.
 - Select `BotConfiguration.bot` file.
 # Deploy this bot to Azure
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 

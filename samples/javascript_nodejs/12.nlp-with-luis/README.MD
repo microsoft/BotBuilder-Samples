@@ -41,27 +41,27 @@ In this sample, we demonstrate how to call LUIS to extract the intents from a us
 - Click the `Sign in` button.
 - Click on `My Apps`.
 - Click on the `Import new app` button.
-- Click on the `Choose File` and select [Reminders.json](cognitiveModels/Reminders.json) from the `BotBuilder-Samples\javascript_nodejs\12.nlp-with-luis\cognitiveModels` folder.
+- Click on the `Choose File` and select [Reminders.json](cognitiveModels/Reminders.json) from the `BotBuilder-Samples/javascript_nodejs/12.nlp-with-luis/cognitiveModels` folder.
 - Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your AppId, SubscriptionKey, Region and Version. 
     You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
-	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
-    
-    you will have something similar to this in the services section of your .bot file to run this sample:
-    ```
+https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/{LuisAppID}?subscription-key={LuisSubscriptionKey}&verbose=true&timezoneOffset=0&q= 
+     
+you will have something similar to this in the services section of your .bot file to run this sample:
+```
     {
       "type": "luis",
       "name": "LuisBot", //This has to match the value for `LUIS_CONFIGURATION` in the index.js file
       "id": "",
-      "appId": "XXXXXXXXXXXXX", //<LUIS_APP_ID> 
-      "authoringKey": "", //<LUIS_AUTHORING_KEY> or
-      "subscriptionKey": "YYYYYYYYYYYY", //<LUIS_SUBSCRIPTION_KEY>
+      "appId": "{LuisAppID}",
+      "authoringKey": "", //{LuisAuthoringKey} or
+      "subscriptionKey": "{LuisSubscriptionKey}"
       "version": "0.1",
       "region": "westus"
     },
-    ```
+```
 
-    The Version is listed on the page.
-    Note: Enter the either "authoringKey" OR "subscriptionKey", not both
+The Version is listed on the page.
+Note: Enter the either "authoringKey" OR "subscriptionKey", not both
     
 - Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your Authoring Key.  
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.

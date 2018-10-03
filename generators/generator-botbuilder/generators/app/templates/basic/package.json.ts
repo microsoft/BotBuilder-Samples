@@ -2,7 +2,7 @@
     "name": "<%= botName %>",
     "version": "1.0.0",
     "description": "<%= botDescription %>",
-    "author": "Microsoft Bot Builder Yeoman Generator",
+    "author": "Microsoft Bot Builder Yeoman Generator v<%= version %>",
     "license": "MIT",
     "main": "<%= npmMain %>",
     "scripts": {

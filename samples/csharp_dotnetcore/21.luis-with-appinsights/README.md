@@ -5,7 +5,7 @@
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\23.luis-with-appsinsights` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\21.luis-with-appsinsights` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 
 ## Prerequisites
 ### Set up LUIS
@@ -33,12 +33,12 @@ NOTE: Once you publish your app on LUIS portal for the first time, it takes some
   - Note: The Application Insights will automatically update the [appsettings.json](appsettings.json) file.
 
 ### Visual Studio
-- Navigate to the samples folder (`botbuilder-samples\samples\csharp_dotnetcore\12.nlp-with-luis`) and open `LuisBotAllInsights.csproj` in Visual Studio 
+- Navigate to the samples folder (`botbuilder-samples\samples\csharp_dotnetcore\21.luis-with-appsinsights`) and open `LuisBotAllInsights.csproj` in Visual Studio 
 - Hit F5
 
 ### Visual Studio Code
-- Open `botbuilder-samples\samples\csharp_dotnetcore\23.luis-with-appsinsights` sample folder
-- Bring up a terminal, navigate to `botbuilder-samples\samples\csharp_dotnetcore\23.luis-with-appsinsights` folder.
+- Open `botbuilder-samples\samples\csharp_dotnetcore\21.luis-with-appsinsights` sample folder
+- Bring up a terminal, navigate to `botbuilder-samples\samples\csharp_dotnetcore\21.luis-with-appsinsights` folder.
 - Type 'dotnet run'.
 
 ## Testing the bot using Bot Framework Emulator
@@ -48,7 +48,7 @@ NOTE: Once you publish your app on LUIS portal for the first time, it takes some
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch the Bot Framework Emulator
-- File -> Open bot and navigate to `BotBuilder-Samples\csharp_dotnetcore\23.LUIS-with-AppInsights` folder.
+- File -> Open bot and navigate to `botbuilder-samples\samples\csharp_dotnetcore\21.luis-with-appsinsights` folder.
 - Select BotConfiguration.bot file.
 
 # Deploy this bot to Azure

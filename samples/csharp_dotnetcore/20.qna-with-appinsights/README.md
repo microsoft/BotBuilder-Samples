@@ -14,7 +14,7 @@ In this sample, we demonstrate how to use the QnA Maker service to answer questi
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\12.nlp-with-luis` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/20.qna-with-appinsights` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 
 ## Prerequisites
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure)
@@ -31,12 +31,12 @@ Qna Maker CLI to deploy the model.
 
 
 ## Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\csharp_dotnetcore\22.qna-with-appinsightss`) and open QnABot.csproj in Visual Studio.
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/20.qna-with-appinsights`) and open QnABot.csproj in Visual Studio.
 - Hit F5
 
 ## Visual Studio Code
-- Open `botbuilder-samples\samples\csharp_dotnetcore\22.qna-with-appinsightss` sample folder
-- Bring up a terminal, navigate to `botbuilder-samples\samples\csharp_dotnetcore\22.qna-with-appinsights` folder.
+- Open `botbuilder-samples/samples/csharp_dotnetcore/20.qna-with-appinsights` sample folder
+- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/20.qna-with-appinsights` folder.
 - Type 'dotnet run'.
 
 ## Testing the bot using Bot Framework Emulator
@@ -46,7 +46,7 @@ Qna Maker CLI to deploy the model.
 
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator
-- File -> Open bot and navigate to `BotBuilder-Samples\samples\csharp_dotnetcore\22.qna-with-appinsights` folder.
+- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/20.qna-with-appinsights` folder.
 - Select the BotConfiguration.bot file.
 
 # Deploy this bot to Azure

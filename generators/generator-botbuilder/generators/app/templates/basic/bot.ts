@@ -130,9 +130,11 @@ export class BasicBot {
 
       // If no active dialog or no active dialog has responded,
       if (!dc.context.responded) {
-        // examine results from active dialog
+        // Switch on return results from any active dialog.
         switch (dialogResult.status) {
+          // dc.continueDialog() returns DialogTurnStatus.empty if there are no active dialogs
           case DialogTurnStatus.empty:
+            // Determine what we should do based on the top intent from LUIS.
             switch (topIntent) {
               case GREETING_INTENT:
                 await dc.beginDialog(GREETING_DIALOG);
@@ -144,18 +146,24 @@ export class BasicBot {
                 await dc.context.sendActivity(`I didn't understand what you just said to me.`);
                 break;
             }
+            break;
+          case DialogTurnStatus.waiting:
+            // The active dialog is waiting for a response from the user, so do nothing.
+            break;
+          case DialogTurnStatus.complete:
+            // All child dialogs have ended. so do nothing.
+            break;
           default:
             // Unrecognized status from child dialog. Cancel all dialogs.
             await dc.cancelAllDialogs();
             break;
         }
       }
-    } else if (context.activity.type === ActivityTypes.ConversationUpdate) {
-      // When activity type is "conversationUpdate" and the member joining the conversation is the bot
-      // we will send our Welcome Adaptive Card.  This will only be sent once, when the Bot joins conversation
-      // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
-      // Do we have any new members added to the conversation?
-
+    } 
+    // Handle ConversationUpdate activity type, which is used to indicates new members add to
+    // the conversation.
+    // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+    else if (context.activity.type === ActivityTypes.ConversationUpdate) {
       // Do we have any new members added to the conversation?
       if (context.activity.membersAdded.length !== 0) {
         // Iterate over all new members added to the conversation
@@ -194,6 +202,7 @@ export class BasicBot {
     // see if there are anh conversation interrupts we need to handle
     if (topIntent === CANCEL_INTENT) {
       if (dc.activeDialog) {
+        // cancel all active dialog (clean the stack)
         await dc.cancelAllDialogs();
         await dc.context.sendActivity(`Ok.  I've cancelled our last activity.`);
       } else {

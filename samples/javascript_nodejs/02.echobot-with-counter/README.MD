@@ -7,9 +7,9 @@ This sample shows how to create a simple echo bot with state. The bot maintains 
     ```
 - In a terminal, 
     ```bash
-    cd samples\javascript_nodejs\02.echobot-with-counter
+    cd samples/javascript_nodejs/02.echobot-with-counter
     ```
-- [Optional] Update the .env file under samples\javascript_nodejs\02.echobot-with-counter with your botFileSecret
+- [Optional] Update the .env file under samples/javascript_nodejs/02.echobot-with-counter with your botFileSecret
     For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules and start the bot
     ```bash
@@ -27,7 +27,7 @@ This sample shows how to create a simple echo bot with state. The bot maintains 
 
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples\javascript_nodejs\02.echobot-with-state folder
+- File -> Open Bot Configuration and navigate to samples/javascript_nodejs/02.echobot-with-state folder
 - Select echobot-with-counter.bot file
 
 # Bot state
