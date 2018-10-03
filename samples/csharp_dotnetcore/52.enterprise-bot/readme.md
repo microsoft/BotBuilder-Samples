@@ -67,7 +67,7 @@ The result of content moderation can be accessed via your bot state
     if (moderatorService != null)
     {
         var moderator = moderatorService as GenericService;
-        var moderatorKey = moderator.Configuration["subscriptionKey"];
+        var moderatorKey = moderator.Configuration["key"];
         var moderatorRegion = moderator.Configuration["region"];
         var moderatorMiddleware = new ContentModeratorMiddleware(moderatorKey, moderatorRegion);
         options.Middleware.Add(moderatorMiddleware);
