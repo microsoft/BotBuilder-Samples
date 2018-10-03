@@ -61,7 +61,7 @@ namespace Microsoft.BotBuilderSamples
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 Random r = new Random();
-                var cardAttachment = CreateAdaptiveCardAttachment(this._cards[r.Next(0, this._cards.Length - 1)]);
+                var cardAttachment = CreateAdaptiveCardAttachment(this._cards[r.Next(this._cards.Length)]);
                 var reply = turnContext.Activity.CreateReply();
                 reply.Attachments = new List<Attachment>() { cardAttachment };
                 await turnContext.SendActivityAsync(reply, cancellationToken);
