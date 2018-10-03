@@ -4,6 +4,7 @@
 const Generator = require('yeoman-generator');
 const _ = require("lodash");
 
+const pkg = require('../../package.json');
 const prompts = require('../../components/prompts');
 const { basicTemplateWriter } = require('../../components/basicTemplateWriter');
 const { echoTemplateWriter } = require('../../components/echoTemplateWriter');
@@ -41,7 +42,7 @@ module.exports = class extends Generator {
         }
 
         // give the user some data before we start asking them questions
-        const greetingMsg = `Welcome to the botbuilder generator.  \nMore detailed documentation can be found at https://aka.ms/botbuilder-generator`;
+        const greetingMsg = `Welcome to the botbuilder generator v${pkg.version}.  \nMore detailed documentation can be found at https://aka.ms/botbuilder-generator`;
         this.log(greetingMsg);
 
         // let's ask the user for data before we generate the bot
