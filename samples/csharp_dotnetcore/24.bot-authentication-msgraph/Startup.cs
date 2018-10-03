@@ -139,7 +139,7 @@ namespace Microsoft.BotBuilderSamples
                 // Create Custom State Property Accessors
                 // State Property Accessors enable components to read and write individual
                 // properties, without having to pass the entire State object.
-                var accessors = new GraphAuthenticationBotAccessors
+                var accessors = new GraphAuthenticationBotAccessors(conversationState, userState)
                 {
                     CommandState = userState.CreateProperty<string>(GraphAuthenticationBotAccessors.CommandStateName),
                     ConversationDialogState = conversationState.CreateProperty<DialogState>(GraphAuthenticationBotAccessors.DialogStateName),
