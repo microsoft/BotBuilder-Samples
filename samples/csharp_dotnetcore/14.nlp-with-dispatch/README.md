@@ -58,19 +58,20 @@ Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
 npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
 ```
 To clone this bot, run:
-    - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
-    - Setup Azure Powershell (If you have never done so before).
-    - To login, run:
-        ```bash
-        Connect-AzureRmAccount
-        ```
-    - To select your Azure subscription, run:
-        ```bash
-        Select-AzureRmSubscription -Subscription "YOUR SUBSRIPTION"
-    - Set up your bot:
-        ```bash
-        msbot clone services --name <YOUR-BOT-NAME> --folder "DeploymentScripts/MsbotClone" --location <Bot service location - ie, "westus"> --luisAuthoringKey <LUIS_AUTHORING> --subscriptionId <AZURE_SUBSCRIPTION>
-        ```
+- Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
+- Setup Azure Powershell (If you have never done so before).
+- To login, run:
+    ```bash
+    Connect-AzureRmAccount
+    ```
+- To select your Azure subscription, run:
+    ```bash
+    Select-AzureRmSubscription -Subscription "YOUR SUBSRIPTION"
+    ```
+- Set up your bot:
+    ```bash
+    msbot clone services --name <YOUR-BOT-NAME> --folder "DeploymentScripts/MsbotClone" --location <Bot service location - ie, "westus"> --luisAuthoringKey <LUIS_AUTHORING> --subscriptionId <AZURE_SUBSCRIPTION>
+    ```
 Note: You can also manually import the LUIS and QnA Maker applications via the [LUIS.ai](https://luis.ai) and [QnAMaker.ai](https://qnamaker.ai) portals. See instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/what-is-luis) to import the LUIS models and [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base) to import the QnA Maker knowledge base. All models this sample relies on is [here](./cognitiveModels).
 
 **Alternately** you can configure the required services by following the steps below. 
