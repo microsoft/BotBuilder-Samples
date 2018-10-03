@@ -89,8 +89,7 @@ namespace Microsoft.BotBuilderSamples
                     {
                         throw new InvalidOperationException("The Invoke type is only valid onthe MSTeams channel.");
                     }
-                    var parts = _stateAccessors.CommandState.GetAsync(turnContext, () => string.Empty, cancellationToken: cancellationToken).Result.Split(' ');
-                    string command = parts[0].ToLowerInvariant();
+
                     dc = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
                     await dc.ContinueDialogAsync(cancellationToken);
                     if (!turnContext.Responded)
