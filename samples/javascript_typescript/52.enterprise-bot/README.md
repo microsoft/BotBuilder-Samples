@@ -38,7 +38,7 @@ This bot has been created using [Microsoft Bot Framework](https://dev.botframewo
     ```
   
 
-- Create [required services](./deploymentScripts/DEPLOYMENT.MD)
+- Create [required services](./deploymentScripts/DEPLOYMENT.md)
 - Configure your services in `.env.develpment`
 - Run the sample
   ```bash
