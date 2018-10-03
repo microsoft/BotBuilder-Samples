@@ -25,13 +25,13 @@ including Windows, Office 365, and Azure.
 ```bash
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\24.bot-authentication-msgraph` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 ## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples\samples\csharp_dotnetcore\24.bot-authentication-msgraph`) and open BotAuthenticationMSGraph.csproj in Visual Studio 
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph`) and open BotAuthenticationMSGraph.csproj in Visual Studio 
 - Hit F5
 ## Visual Studio Code
-- Open `botbuilder-samples\samples\csharp_dotnetcore\24.bot-authentication-msgraph\` folder
-- Bring up a terminal, navigate to botbuilder-samples\samples\csharp_dotnetcore\24.bot-authentication-msgraph
+- Open `botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph` folder
+- Bring up a terminal, navigate to botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph
 - Type 'dotnet run'.
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
@@ -42,7 +42,7 @@ developers to test and debug their bots on localhost or running remotely through
 
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator.
-- File -> Open bot and navigate to `botbuilder-samples\samples\csharp_dotnetcore\02.echo-with-counter` folder.
+- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph` folder.
 - Select `BotConfiguration.bot` file.
 # Deploy this bot to Azure
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 

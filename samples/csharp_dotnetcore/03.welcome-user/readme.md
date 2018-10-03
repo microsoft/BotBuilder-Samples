@@ -5,15 +5,15 @@
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples\samples\csharp_dotnetcore\WelcomeUser.csproj` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/WelcomeUser.csproj` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 
 # Prerequisites
 ## Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\samples\csharp_dotnetcore\03.welcome-user`) and open WelcomeUser.csproj in Visual Studio 
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/03.welcome-user`) and open WelcomeUser.csproj in Visual Studio 
 - Hit F5
 ## Visual Studio Code
-- Open `BotBuilder-Samples\samples\csharp_dotnetcore\03.welcome-user` folder
-- Bring up a terminal, navigate to BotBuilder-Samples\samples\csharp_dotnetcore\03.welcome-user
+- Open `botbuilder-samples/samples/csharp_dotnetcore/03.welcome-user` folder
+- Bring up a terminal, navigate to botbuilder-samples/samples/csharp_dotnetcore/03.welcome-user
 - Type 'dotnet run'.
 
 # Testing the bot using Bot Framework Emulator V4
@@ -23,7 +23,7 @@ Microsoft Bot Framework Emulator is a desktop application that allows bot develo
 
 ## Connect to bot using Bot Framework Emulator V4
 Launch Bot Framework Emulator
-File -> Open Bot Configuration and navigate to samples\03.welcome-user folder
+File -> Open Bot Configuration and navigate to botbuilder-samples/samples/csharp_dotnetcore/03.welcome-user folder
 Select BotConfiguration.bot file
 
 # ConversationUpdate Activity Type

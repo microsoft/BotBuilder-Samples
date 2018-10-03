@@ -16,11 +16,6 @@ After running the bot, to see it in action, visit `http://localhost:8080`.
     ```
 - To see the bot in action, visit `http://localhost:8080` in a browser.
 
-- To reset registry, you can do
-    ```bash
-    npm config set registry https://registry.npmjs.org/
-    ```
-
 # Adapters
 Developers can use the [BotAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter) abstract base class to implement their own custom adapters.
 Implementing a custom adapter allows users to connect bots to channels not supported by the [Bot Framework](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0).
