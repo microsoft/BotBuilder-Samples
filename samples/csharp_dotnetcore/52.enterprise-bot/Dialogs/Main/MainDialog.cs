@@ -103,7 +103,7 @@ namespace EnterpriseBot
             }
             else if (intent == Dispatch.Intent.q_FAQ)
             {
-                var qnaService = _services.QnAServices["EnterpriseBot-FAQ"];
+                var qnaService = _services.QnAServices["<YOUR_QNA_SERVICE_NAME>"];
                 var answers = await qnaService.GetAnswersAsync(dc.Context);
 
                 if (answers != null && answers.Count() > 0)
