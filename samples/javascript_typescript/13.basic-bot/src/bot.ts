@@ -99,7 +99,6 @@ export class BasicBot {
         // Handle Message activity type, which is the main activity type for shown within a conversational interface
         // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
         // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types        
-
         if (context.activity.type === ActivityTypes.Message) {
             let dialogResult: DialogTurnResult;
 
@@ -130,9 +129,11 @@ export class BasicBot {
 
             // If no active dialog or no active dialog has responded, 
             if (!dc.context.responded) {
-                // examine results from active dialog
+                // Switch on return results from any active dialog.
                 switch (dialogResult.status) {
+                    // dc.continueDialog() returns DialogTurnStatus.empty if there are no active dialogs
                     case DialogTurnStatus.empty:
+                        // Determine what we should do based on the top intent from LUIS.
                         switch (topIntent) {
                             case GREETING_INTENT:
                                 await dc.beginDialog(GREETING_DIALOG);
@@ -144,6 +145,13 @@ export class BasicBot {
                                 await dc.context.sendActivity(`I didn't understand what you just said to me.`);
                                 break;
                         }
+                        break;
+                    case DialogTurnStatus.waiting:
+                        // The active dialog is waiting for a response from the user, so do nothing.
+                        break;
+                    case DialogTurnStatus.complete:
+                        // All child dialogs have ended. so do nothing.
+                        break;            
                     default:
                         // Unrecognized status from child dialog. Cancel all dialogs.
                         await dc.cancelAllDialogs();
