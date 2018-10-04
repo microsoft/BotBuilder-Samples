@@ -9,15 +9,15 @@ This sample shows how to create a simple echo bot with state. The bot maintains 
     ```bash
     cd samples/javascript_typescript/02.echobot-with-counter
     ```
-- [Optional] Update the .env file under samples/javascript_typescript/02.echobot-with-counter with your botFileSecret
-    For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the .env file under `samples/javascript_typescript/02.echobot-with-counter` with your `botFileSecret`.
+   For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
 - Install modules and start the bot
     ```bash
-    npm i & npm start
+    npm i && npm start
     ```
     Alternatively you can also use nodemon via
     ```bash
-    npm i & npm run watch
+    npm i && npm run watch
     ```
 
 ## Prerequisite
@@ -30,12 +30,12 @@ In order to run this sample, you must have TypeScript installed.  To install Typ
 # Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
+- Install the Bot Framework emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples/javascript_typescript/02.echobot-with-state folder
-- Select echobot-with-counter.bot file
+- File -> Open Bot Configuration and navigate to `samples/javascript_typescript/02.echobot-with-state` folder
+- Select `echobot-with-counter.bot` file
 
 # Bot state
 A key to good bot design is to track the context of a conversation, so that your bot remembers things like the answers to previous questions. Depending on what your bot is used for, you may even need to keep track of conversation state or store user related information for longer than the lifetime of one given conversation.
