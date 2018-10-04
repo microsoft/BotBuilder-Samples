@@ -25,11 +25,12 @@ git clone https://github.com/microsoft/botbuilder-samples.git
 ## Visual studio code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/01.console-echo` folder
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/01.console-echo` folder
-- Type 'dotnet run'.
+- Type `dotnet run`.
 
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
   **Note:** this sample requires `Microsoft.Bot.Builder`.
+- In Visual Studio Code type `dotnet restore`
 
 # Further reading
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
