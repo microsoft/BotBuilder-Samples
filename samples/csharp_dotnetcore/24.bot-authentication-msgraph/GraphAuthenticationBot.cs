@@ -211,7 +211,7 @@ namespace Microsoft.BotBuilderSamples
                 // If we have the token use the user is authenticated so we may use it to make API calls.
                 if (tokenResponse?.Token != null)
                 {
-                    var parts = _stateAccessors.CommandState.GetAsync(step.Context, cancellationToken: cancellationToken).Result.Split(' ');
+                    var parts = _stateAccessors.CommandState.GetAsync(step.Context, () => string.Empty, cancellationToken: cancellationToken).Result.Split(' ');
                     string command = parts[0].ToLowerInvariant();
 
                     if (command == "me")
@@ -258,6 +258,7 @@ namespace Microsoft.BotBuilderSamples
                 !Regex.IsMatch(activity.Text, @"(\d{6})"))
             {
                 await _stateAccessors.CommandState.SetAsync(step.Context, activity.Text, cancellationToken);
+                await _stateAccessors.UserState.SaveChangesAsync(step.Context, cancellationToken: cancellationToken);
             }
 
             return await step.BeginDialogAsync("loginPrompt", cancellationToken: cancellationToken);
