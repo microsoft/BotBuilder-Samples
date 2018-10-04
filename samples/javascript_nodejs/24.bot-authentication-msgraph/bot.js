@@ -160,14 +160,11 @@ class GraphAuthenticationBot {
                 await dc.context.sendActivity(this.helpMessage);
                 break;
             default:
-                await this.commandState.set(dc.context, dc.context.activity.text);
-                await this.conversationState.saveChanges(dc.context);
-
                 // The user has input a command that has not been handled yet,
                 // begin the waterfall dialog to handle the input.
                 await dc.continueDialog();
                 if (!dc.context.responded) {
-                    await dc.beginDialog(this._graphDialogId, dc);
+                    await dc.beginDialog(this._graphDialogId);
                 }
         }
     };
@@ -183,6 +180,7 @@ class GraphAuthenticationBot {
 
         if (activity.type === ActivityTypes.Message && !(/\d{6}/).test(activity.text)) {
             await this.commandState.set(step.context, activity.text);
+            await this.conversationState.saveChanges(step.context);
         }
         return await step.beginDialog(LOGIN_PROMPT);
     }
@@ -199,19 +197,16 @@ class GraphAuthenticationBot {
 
         // If the user is authenticated the bot can use the token to make API calls.
         if (tokenResponse !== undefined) {
-            let parts;
-
-            if (!step.context.activity.text) {
-                parts = await this.commandState.get(step.context);
-                parts = parts.split(' ');
-            } else {
-                parts = (step.context.activity.text).split(' ');
+            let parts = await this.commandState.get(step.context);
+            
+            if (!parts) {
+                parts = step.context.activity.text;
             }
-            const command = parts[0].toLowerCase();
+            const command = parts.split(' ')[0].toLowerCase();
             if (command === 'me') {
                 await OAuthHelpers.listMe(step.context, tokenResponse);
             } else if (command === 'send') {
-                await OAuthHelpers.sendMail(step.context, tokenResponse, parts[1].toLowerCase());
+                await OAuthHelpers.sendMail(step.context, tokenResponse, parts.split(' ')[1].toLowerCase());
             } else if (command === 'recent') {
                 await OAuthHelpers.listRecentMail(step.context, tokenResponse);
             } else {
