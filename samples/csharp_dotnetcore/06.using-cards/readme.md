@@ -18,16 +18,24 @@ git clone https://github.com/microsoft/botbuilder-samples.git
 - Hit F5
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/06.using-cards` folder
-- Bring up a terminal, navigate to botbuilder-samples/samples/csharp_dotnetcore/06.using-cards
-- Type 'dotnet run'.
+- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/06.using-cards`
+- Type `dotnet run`.
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
+- In Visual Studio Code type `dotnet restore`
+## Testing the bot using Bot Framework Emulator
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot 
+developers to test and debug their bots on localhost or running remotely through a tunnel.
+- Install the [Bot Framework emulator](https://aka.ms/botframeworkemulator).
+
+## Connect to bot using Bot Framework Emulator **V4**
+- Launch the Bot Framework Emulator.
+- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/06.using-cards` folder.
+- Select `BotConfiguration.bot` file.
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher.
 
-To install all Bot Builder tools - 
-
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
+To install all Bot Builder tools
 
 ```bash
 npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
