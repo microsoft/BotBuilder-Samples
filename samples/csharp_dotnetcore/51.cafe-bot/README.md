@@ -1,4 +1,4 @@
-Contoso cafe bot is a complete and fairly sophisticated sample that demonstrates various parts of the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-js) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) in action. 
+Contoso cafe bot is a complete and fairly sophisticated sample that demonstrates various parts of the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-dotnet) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) in action. 
 
 This sample relies on prior knowledge/ familiarity with the following tools and services 
 - [LUIS](https://luis.ai)
@@ -11,7 +11,7 @@ This sample relies on prior knowledge/ familiarity with the following tools and 
 - [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator)
 
 # Concepts covered in this sample
-Contoso cafe bot is a fairly sophisticated bot sample that uses the following concepts in the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-js) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) - 
+Contoso cafe bot is a fairly sophisticated bot sample that uses the following concepts in the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-dotnet) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) - 
 
 ## Scenarios demonstrated
 - Welcoming users
@@ -36,9 +36,9 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 - Using [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) to create, configure and manage all required services.
 
 ## Scenarios covered via other samples
-- [Proactive messages](../../../samples/javascript_nodejs/16.proactive-messages)
-- [Multi-lingual conversations](../../../samples/javascript_nodejs/17.multi-lingual-conversations)
-- [Bot authentication](../../../samples/javascript_nodejs/18.bot-authentication)
+- [Proactive messages](../../../samples/csharp_dotnetcore/16.proactive-messages)
+- [Multi-lingual conversations](../../../samples/csharp_dotnetcore/17.multi-lingual-conversations)
+- [Bot authentication](../../../samples/csharp_dotnetcore/18.bot-authentication)
 
 # To try this sample
 - Clone the samples repository
@@ -79,16 +79,26 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 1. Follow instructions [here](https://portal.azure.com) to create an Azure account. If you already have an account, sign in. Click on all services -> search for 'subscriptions' -> copy the subscription ID you would like to use from the Home > Subscriptions page.
 2. Follow instructions [here](https://www.luis.ai/home) to create a LUIS.ai account. If you already have an account, sign in. Click on your name on top right corner of the screen -> settings and grab your authoring key.
 3. To create and configure required LUIS and QnA Maker services, 
-    - In a terminal,
-        ```bash
-        cd solutions/javascript_nodejs/03.cafe-bot
-        ```
-    - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
-        ```bash
-        msbot clone -n <YOUR-BOT-NAME> -f deploymentScripts/msbotClone -l <Bot service location> --luisAuthoringKey <Key from step-2 above> --subscriptionId <Key from step-1 above>
-        ```
+    - In a Powershell prompt,
+```bash
+cd BotBuilder-Samples\samples\csharp_dotnetcore\51.cafe-bot
+```
+    - To login, run:
+```bash
+Connect-AzureRmAccount
+```
+    - To select your Azure subscription, run:
+```bash
+Select-AzureRmSubscription -Subscription "<YOUR SUBSCRIPTION>"
+az account set --subscription "<YOUR SUBSCRIPTION>"
+```
 
-Optionally, you can use the LUIS, QnA Maker portals to manually import the models found under **cognitiveModels** folder of this sample. 
+    - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
+```bash
+msbot clone --name <YOUR-BOT-NAME> --folder DeploymentScripts/msbotClone --location <Bot service location, ie "westus"> --luisAuthoringKey <YOUR LUIS AUTHORING KEY>
+```
+
+Optionally, you can use the LUIS, QnA Maker portals to manually import the models found under **CognitiveModels** folder of this sample. 
 
 # Relevant commands for CLI tools
 ## Building and creating services
@@ -115,7 +125,7 @@ cafeFaqChitChat --out cafeFaqChitChat.qna -a
     ```bash
     > qnamaker create kb --in CognitiveModels/cafeFaqChitChat.qna --subscriptionKey <YOUR QnA Maker Subscription Key> --msbot | msbot connect qna --stdin
     ```
-    **Note**: See [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-new-kb-nodejs) for instructions on setting up a Cognitive Service API account and fetching your QnA Maker subscription Key. 
+    **Note**: See [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/csharp) for instructions on setting up a Cognitive Service API account and fetching your QnA Maker subscription Key. 
 
 ## Train and publish LUIS models
 - Training a LUIS model
