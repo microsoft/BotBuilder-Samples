@@ -10,31 +10,30 @@ In this sample, we demonstrate how to call LUIS to extract the intents from a us
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
-- In a console, navigate to samples/javascript_typescript/12.nlp-with-luis
+- In a console, navigate to `samples/javascript_typescript/12.nlp-with-luis`
     ```bash
     cd samples/javascript_typescript/12.nlp-with-luis
     ```
-- [Optional] Update the .env file under samples/javascript_typescript/12.nlp-with-luis with your botFileSecret
-    For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the .env file under `samples/javascript_typescript/12.nlp-with-luis` with your `botFileSecret`. For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
 - Install modules and start the bot
     ```bash
-    npm i & npm start
+    npm i && npm start
     ```
 
 # Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator)
+- Install the Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples/javascript_typescript/12.nlp-with-luis folder
-- Select nlp-with-luis.bot file
+- File -> Open Bot Configuration and navigate to `samples/javascript_typescript/12.nlp-with-luis` folder
+- Select `nlp-with-luis.bot` file
 
 
 ## Prerequisite
 ### Install TypeScript
-In order to run this sample, you must have TypeScript installed.  To install TypeScript:
+In order to run this sample, you must have TypeScript installed. To install TypeScript:
 - Navigate to the [TypeScript portal](https://www.typescriptlang.org).
 - Click the [Download](https://www.typescriptlang.org/#download-links) button.
 - Follow the installation instructions for your development environment.
@@ -45,9 +44,11 @@ In order to run this sample, you must have TypeScript installed.  To install Typ
 - Click on `My Apps`.
 - Click on the `Import new app` button.
 - Click on the `Choose File` and select [Reminders.json](cognitiveModels/Reminders.json) from the `BotBuilder-Samples/samples/javascript_typescript/12.nlp-with-luis/cognitiveModels` folder.
-- Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your AppId, SubscriptionKey, Region and Version.
-    You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
-	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q=
+- Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your `AppId`, `SubscriptionKey`, `Region` and `Version`.
+    You can find this information under the `Manage` tab in the `Keys and Endpoints` sub-menu for your LUIS application at [LUIS portal](https://www.luis.ai). 
+    
+    For example, for
+	`https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q=`
 
     - AppId = XXXXXXXXXXXXX
     - SubscriptionKey = YYYYYYYYYYYY
@@ -83,11 +84,9 @@ In order to run this sample, you must have TypeScript installed.  To install Typ
 Language Understanding service (LUIS) allows your application to understand what a person wants in their own words. LUIS uses machine learning to allow developers to build applications that can receive user input in natural language and extract meaning from it.
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on.
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher.
 
-To install all Bot Builder tools -
-
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
+To install all Bot Builder tools
 
 ```bash
 npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
