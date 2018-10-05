@@ -23,7 +23,7 @@ In this sample, we demonstrate how to call LUIS to extract the intents from a us
 # Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
@@ -46,6 +46,9 @@ In order to run this sample, you must have TypeScript installed. To install Type
 - Click on the `Choose File` and select [Reminders.json](cognitiveModels/Reminders.json) from the `BotBuilder-Samples/samples/javascript_typescript/12.nlp-with-luis/cognitiveModels` folder.
 - Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your `AppId`, `SubscriptionKey`, `Region` and `Version`.
     You can find this information under the `Manage` tab in the `Keys and Endpoints` sub-menu for your LUIS application at [LUIS portal](https://www.luis.ai). 
+    - The `AppID` can be found in "Application Information"
+    - The `SubscriptionKey` can be found in "Keys and Endpoints", under the `Key 1` column
+    - The `region` can be found in "Keys and Endpoints", under the `Region` column
     
     For example, for
 	`https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q=`
@@ -93,7 +96,7 @@ npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
 ```
 
 To clone this bot, run
-```
+```bash
 msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
 ```
 
