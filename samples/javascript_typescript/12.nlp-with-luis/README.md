@@ -49,13 +49,6 @@ In order to run this sample, you must have TypeScript installed. To install Type
     - The `AppID` can be found in "Application Information"
     - The `SubscriptionKey` can be found in "Keys and Endpoints", under the `Key 1` column
     - The `region` can be found in "Keys and Endpoints", under the `Region` column
-    
-    For example, for
-	`https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q=`
-
-    - AppId = XXXXXXXXXXXXX
-    - SubscriptionKey = YYYYYYYYYYYY
-    - Region = westus
 
     The Version is listed on the page. [See an example .bot service configuration for using LUIS here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js#configure-your-bot-to-use-your-luis-app).    
 - Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your Authoring Key.
