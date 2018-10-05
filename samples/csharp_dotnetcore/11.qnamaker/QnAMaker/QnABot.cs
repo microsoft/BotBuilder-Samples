@@ -25,7 +25,7 @@ namespace Microsoft.BotBuilderSamples
         public static readonly string QnAMakerKey = "QnABot";
 
         private const string WelcomeText = @"This bot will introduce you to QnA Maker.
-                                            Ask a quesiton to get started.";
+                                            Ask a question to get started.";
 
         /// <summary>
         /// Services configured from the ".bot" file.
