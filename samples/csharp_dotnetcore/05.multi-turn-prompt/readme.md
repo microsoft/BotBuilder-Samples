@@ -31,32 +31,6 @@ developers to test and debug their bots on localhost or running remotely through
 - Launch the Bot Framework Emulator.
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/05.multi-turn-prompt` folder.
 - Select `BotConfiguration.bot` file.
-# Use Azure Blob Storage or Azure CosmosDB
-
-##### In Visual Studio
-
-Add the `Microsoft.Bot.Builder.Azure` Nuget package to your solution. That package is found at https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/.
-
-For the Azure Blob Storage uncomment the following code from `Startup.cs`
-
-```c#
-const string StorageConfigurationId = "<STORAGE-NAME-OR-ID-FROM-BOT-FILE>";
-var blobConfig = botConfig.FindServiceByNameOrId(StorageConfigurationId);
-if (!(blobConfig is BlobStorageService blobStorageConfig))
-{
-	throw new InvalidOperationException($"The .bot file does not contain an blob storage with name '{StorageConfigurationId}'.");
-}
-// Default container name.
-const string DefaultBotContainer = "<DEFAULT-CONTAINER>";
-var storageContainer = string.IsNullOrWhiteSpace(blobStorageConfig.Container) ? DefaultBotContainer : blobStorageConfig.Container;
-IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage(blobStorageConfig.ConnectionString, storageContainer);
-
-// Create Conversation State object.
-// The Conversation State object is where we persist anything at the conversation-scope.
-var userState = new UserState(dataStore);
-options.State.Add(userState);
-```
-
 # Deploy this bot to Azure
 
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher.
