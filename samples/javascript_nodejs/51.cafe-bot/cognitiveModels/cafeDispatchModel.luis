@@ -3732,6 +3732,11 @@
       "entities": []
     },
     {
+      "text": "book a table for 2 in seattle",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
       "text": "tomorrow at 3 pm and I would like to bring 3 guests",
       "intent": "Book Table",
       "entities": []

@@ -241,6 +241,31 @@
       "entities": []
     },
     {
+      "text": "This looks good. Thanks",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "I think this is good. Let's book the table",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "Let's book the table",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "no change",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "nothing to change",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
       "text": "what are my options?",
       "intent": "Help",
       "entities": []
@@ -462,6 +487,11 @@
     },
     {
       "text": "I need to reserve a table for 2 in Seattle",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "book a table for 2 in seattle",
       "intent": "Interruptions",
       "entities": []
     },

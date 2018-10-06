@@ -50,8 +50,9 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
     cd samples/javascript_nodejs/51.cafe-bot
     ```
 - [Install required CLI tools](#Install-CLI-tools)
-- [Configure required services](#Configure-required-services)
-
+- Configure required services
+    - [Using MSBOT CLI](#Configure-required-services-using-msbot)
+    - [Manually import models using Ludown, LUIS and QnA Maker CLI](#building-and-creating-services)
 - Install modules and start the bot
     ```bash
     npm i & npm start
@@ -70,17 +71,14 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 # Prerequisites
 ## Install CLI tools
 
-- Install [Node.js](https://nodejs.org/)
+Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
+
 - In a terminal
-- Install required tools
-
-    Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
-
     ```bash
     npm i -g msbot chatdown ludown luis-apis qnamaker 
     ```
 
-## Configure required services
+## Configure required services using MSBOT
 1. Follow instructions [here](https://portal.azure.com) to create an Azure account. If you already have an account, sign in. Click on all services -> search for 'subscriptions' -> copy the subscription ID you would like to use from the Home > Subscriptions page.
 2. Follow instructions [here](https://www.luis.ai/home) to create a LUIS.ai account. If you already have an account, sign in. Click on your name on top right corner of the screen -> settings and grab your authoring key.
 3. To create and configure required LUIS and QnA Maker services, 
@@ -134,13 +132,17 @@ Optionally, you can use the LUIS, QnA Maker portals to manually import the model
     ```
 - Train and publish QnA Maker KB
     ```bash
-    > msbot get cafeFaqChitChat --secret <Key if your bot file is encrypted> | qnamaker publish kb --stdin
+    > msbot get cafeFaqChitChat | qnamaker publish kb --stdin
     ```
 - Replace QnA Maker alterations
     ```bash
-    > msbot get cafeFaqChitChat --secret <Key if your bot file is encrypted> | qnamaker replace alterations --in cognitiveModels/cafeFaqChitChat.qna_Alterations.json --stdin
+    > msbot get cafeFaqChitChat | qnamaker replace alterations --in cognitiveModels/cafeFaqChitChat.qna_Alterations.json --stdin
     ```
-## Updating and publishing LUIS models as you make changes to .lu files..
+
+## Making updates to the models 
+
+Any time you change .lu files, you can update and publish the LUIS and QnA Maker models using the following commands. You can also script and automate the CLI tools to match your development workflow. See [here](./deploymentScripts/updateModels.bat) for an example.
+
 - Parse .lu files into LUIS models
     ```bash
     > ludown parse toluis --in dialogs/dispatcher/resources/cafeDispatchModel.lu -o cognitiveModels -n cafeDispatchModel.luis --verbose

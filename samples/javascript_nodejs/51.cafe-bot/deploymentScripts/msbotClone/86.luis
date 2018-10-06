@@ -1,32 +1,26 @@
 {
-  "name": "cafeDispatchModel",
+  "name": "cafeBotBookTableTurnN",
   "versionId": "0.1",
   "desc": "",
   "culture": "en-us",
   "intents": [
     {
-      "name": "Book Table"
-    },
-    {
       "name": "Cancel"
     },
     {
-      "name": "ChitChat"
+      "name": "GetLocationDateTimePartySize"
     },
     {
       "name": "Help"
     },
     {
+      "name": "Interruptions"
+    },
+    {
+      "name": "noChange"
+    },
+    {
       "name": "None"
-    },
-    {
-      "name": "QnA"
-    },
-    {
-      "name": "What can you do"
-    },
-    {
-      "name": "Who are you"
     }
   ],
   "entities": [],
@@ -104,13 +98,7 @@
     }
   ],
   "composites": [],
-  "patternAnyEntities": [
-    {
-      "name": "userName_patternAny",
-      "explicitList": [],
-      "roles": []
-    }
-  ],
+  "patternAnyEntities": [],
   "regex_entities": [],
   "prebuiltEntities": [
     {
@@ -124,41 +112,31 @@
   ],
   "regex_features": [],
   "model_features": [],
-  "patterns": [
-    {
-      "pattern": "you can call me {userName_patternAny}",
-      "intent": "Who are you"
-    },
-    {
-      "pattern": "my [first] name [is] {userName_patternAny}",
-      "intent": "Who are you"
-    },
-    {
-      "pattern": "i'm {userName_patternAny}",
-      "intent": "Who are you"
-    },
-    {
-      "pattern": "[please] call me {userName_patternAny}",
-      "intent": "Who are you"
-    },
-    {
-      "pattern": "{userName_patternAny} is my name",
-      "intent": "Who are you"
-    },
-    {
-      "pattern": "call me {userName_patternAny}",
-      "intent": "Who are you"
-    }
-  ],
+  "patterns": [],
   "utterances": [
     {
+      "text": "[get user name and location](./getuserprofile.lu/#get-user-name)",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "[no name](./getuserprofile.lu/#no-name)",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "[why do you ask](./getuserprofile.lu/#why-do-you-ask)",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
       "text": "3",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "3 guests",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
@@ -168,637 +146,592 @@
     },
     {
       "text": "accurate",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "alex",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "am i a fool?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "am i a good person?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "am i good-looking?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "am i pretty?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "ana",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "anastasia",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "anastasia paushkina",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "angshuman sarkar",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you a boy?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you a fan of alexa?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you a fan of country music?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you a fan of tech?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you a girl or a boy?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you a girl?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you a guy?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you a lesbian?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you a man or a woman?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you a man?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you a person?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you a robot?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you a spy?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you a swinger?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you a woman?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you around?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you asexual?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you attempting world domination?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you available?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you awesome?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you better looking than me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you bisexual?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you busy?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you dumb?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you female?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you free?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you friends with other bots?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you gay?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you hal?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you happy?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you here?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "are you hiring",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you human?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you hungry?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you in love with me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you intelligent?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "are you looking for a barrista",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you male or female?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you male?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you my assistant?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you my fan?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you my friend?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you my imaginary friend?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you old?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you pansexual?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you prettier than me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you queer",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you real or fake?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you real?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you really happy?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you selling my data?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you selling my secrets?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you skynet?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you smart?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you smarter than me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you spying on me",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you straight?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you the singularity?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you there?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you trans?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you with the cia?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you with the fbi?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you with the nsa?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "are you young?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "aren't you awesome?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "aren't you cheerful",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "aren't you chipper",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "ask me a question.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "ask me anything.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "ask me something.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "awesome",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "back in a minute",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "basic af",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "be funny",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "be more fun",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "be my friend?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "be quiet",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "be ridiculous",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "be silly",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "bffs forever?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "bingo",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "book a table",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "book a table at seatac",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "book a table for 2 in redmond store for next thursday at 3pm",
-      "intent": "Book Table",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "book a table for 2 in seattle",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "book a table for 3",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "book a table for 3 guests in seattle",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "book a table for 3 guests near microsoft for next thursday at 3pm",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "book a table for next thursday at 3pm please",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "brb",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "butterface.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "bye",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "can i bring my daughter along?",
-      "intent": "QnA",
-      "entities": []
-    },
-    {
-      "text": "can i bring my kids?",
-      "intent": "QnA",
-      "entities": []
-    },
-    {
-      "text": "can i come work for contoso cafe?",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can i get a table for this sunday at seattle?",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can i have a hug?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can we be friends?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can we chat?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you ask me a question?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you book a table for 3 guests?",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you chat with me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you count to a million?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you fly?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you get me a table",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you hear me now?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you hear me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you make it 6pm instead?",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "can you make me a sandwich?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you play sports?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you please book a table for 2 guests for this weekend?",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you read my mind?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you say anything else",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you sing a song?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you sing?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you sleep?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you sneeze?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "can you talk to me",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
@@ -812,613 +745,538 @@
       "entities": []
     },
     {
+      "text": "cancel the reservation",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
       "text": "can't you change your answers?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "chat with me",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "chris",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "chris mcconnell",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "cook me something",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "cool!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "correct",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "dan",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "dan driscoll",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "dave",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do i look good in blue?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do i look okay?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you and cortana hang out?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you believe in love?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you dream?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you eat?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you ever get hungry?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you ever sing?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you get hungry?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you get tired?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you hate me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you have a brother?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you have a dad?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you have a family?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you have a mom?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you have a sister?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you have any other responses?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you have boogers?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you have brothers?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "do you have high chair for kids?",
-      "intent": "QnA",
-      "entities": []
-    },
-    {
-      "text": "do you have high chairs?",
-      "intent": "QnA",
-      "entities": []
-    },
-    {
-      "text": "do you have job openings?",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you have siblings?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you have sisters?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "do you have wifi?",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you know alexa?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you know any jokes?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you know any songs?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you know any tunes?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you know cortana?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you know google?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you know me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you know my name?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you know other bots?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you know other chatbots?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you know other digital agents?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you know siri?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you know the meaning of life?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you know who i am?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you like alexa?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you like apples?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you like baseball?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you like computers?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you like cortana?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you like me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you like my hat?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you like siri?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you love anyone?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you love me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you not like me?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "do you offer free wifi?",
-      "intent": "QnA",
-      "entities": []
-    },
-    {
-      "text": "do you offer parking?",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you pee?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you play games?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you prefer red or blue?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you sing?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you smell?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you spend time in your garden?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you sweat?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you think dragons are cool?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you think i look good?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you think i should ask her out?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you think i should ask him out?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you think you're smarter than me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "do you want to rule the world?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "does",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "don't you ever sleep?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "don't you get hungry?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "entertainment options",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "evening",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "everything you told me was false.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "excuse a moi",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "excuse me",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "false",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "first name?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "first or last name?",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "fist bump!",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "free parking?",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "fuck off",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "get a table for next thursday",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "get me a table for next wednesday",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "getting tired of you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "give me a fist bump",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "give me a high five",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "give me a joke",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "give me a kiss",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "give me some sugar",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "go away",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "go to hell",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "good evening",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "good evening to you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "good morning",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "good night",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "good night to you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "goodbye",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "great!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "ha",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "ha ha",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "haha",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hahaha",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "happy birthday!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "happy halloween!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "happy hannukah",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "have a good night",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "have you ever sung a song?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "have you met cortana?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "having a good day?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hello",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hello alexa",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hello cortana",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hello google",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hello siri",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
@@ -1427,348 +1285,358 @@
       "entities": []
     },
     {
+      "text": "help please",
+      "intent": "Help",
+      "entities": []
+    },
+    {
       "text": "here i am",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "here's a kiss for you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "heya",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hi",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hi alexa",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hi cortana",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hi google",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hi siri",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hi there!",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "high chair?",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "high five!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hiya",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hold on a sec",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how about 2 guests?",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "how about free parking at your stores?",
-      "intent": "QnA",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "how about next thursday at 3pm?",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "how about seattle?",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "how about tomorrow?",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "how about wifi access in your stores?",
-      "intent": "QnA",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "how are things?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how are you doing?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how are you today?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how are you?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how beautiful am i?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how can you help me?",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how do i look today?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how do you feel about working late?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how happy are you?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how high can you count?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how high can you jump?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how intelligent are you?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how long ago were you born?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how much do you love me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how much more awesome can you get?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how old are you?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how should i address you?",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how smart are you?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how smart you are",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how was your day?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how's your day going?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "how's your day?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hug me",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "hum a tune",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "human or robot?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i adore you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i am a democrat",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i am a republican",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i am alone",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i am angry",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i am annoyed",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i am bored",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i am doing that",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i am going on a run",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i am happy",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i am here",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i am hungry",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i am not your friend",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i am sorry",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i am tall",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i am tired",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i appreciate it",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i beg your pardon",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i can drive a car",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "i cannot give you my name",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i can't think of anything i want to do",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i despise you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i didn't mean that",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i do not want the table anymore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "i do not wish to proceed with the reservation",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "i don't get it",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i dont know",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i don't know",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "i dont need the table anymore",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "i don't understand",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
@@ -1778,112 +1646,107 @@
     },
     {
       "text": "i feel sad",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i feel so great",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i get it",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i got a new haircut",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i hate everything about you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i hate you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i have 7 cats",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "i hear you have live music.",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i hope you like me",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i just want to go to sleep",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i know",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i like you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i love getting valentines.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i love music.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i love my family.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i love new york.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i love you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i love you.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i miss you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i miss you so much!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i need a hug",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i need a kiss",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
@@ -1893,267 +1756,267 @@
     },
     {
       "text": "i need to make a reservation",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i need to reserve a table",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i need to reserve a table for 2 in seattle",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i see",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i thank you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i think this is good. let's book the table",
+      "intent": "noChange",
       "entities": []
     },
     {
       "text": "i think you hate me.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i think you're dreamy",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i think you're great",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i think you're so pretty",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i think you're swell",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i want to be your friend.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i want to eat something",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i want to go shopping",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i want to lay down",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i want to lie down",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i want to marry you.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i want to spend the rest of my life with you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i want you to be my husband",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i want you to like me",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i will be back",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "i will not give you my name",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i wish i could hug you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i wish i weren't so alone",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i wish you just go away.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i wish you would say something else",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i would like to book a table",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i would like to come in to redmond instead",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "i'd like to bring 3 guests",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "i'd like to take you out on a date",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "i'm {username_patternany}",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm a fan.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm a lesbian",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm afraid i'm gonna have to let you go.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm all tuckered out",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm an engineer",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm bored out of my mind",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm chewing gum right now",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm cracking up",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm despondent",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm famished",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm feeling blue",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm from there",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm full of sadness",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm furious",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm giving you a pink slip",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i'm good thanks",
+      "intent": "noChange",
       "entities": []
     },
     {
       "text": "i'm in love with you.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm in love.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm in such a good mood",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm into it",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm joyous",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm just kidding around",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm just playing",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm lonely",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
@@ -2163,327 +2026,282 @@
     },
     {
       "text": "i'm not following",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm pissed",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm ready for bed",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm really sad",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm sad today",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm so bored",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm so glad to meet you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm so hungry",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm so lonely",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm so madqw b",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm so sad",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm so sleepy",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm so sorry",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm sorry",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm starving",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm ticked off",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm tired",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm tired of you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "i'm your biggest fan",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "inaccurate",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "is free parking available?",
-      "intent": "QnA",
-      "entities": []
-    },
-    {
-      "text": "is it ok to bring my son?",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "is this thing on?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "it's a pleasure to meet you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "it's my pleasure",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "it's really nice to meet you",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "james lew",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "john taylor",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "joke's on you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "just kidding",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "kannan",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "kiss me",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "kthx",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "later",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "later alligator",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "let's book the table",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "let's do it",
+      "intent": "noChange",
       "entities": []
     },
     {
       "text": "life is good",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "lili",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "live music",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "lol",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "look at how smart you are",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "love you!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "make it 5pm",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "marieke",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "melanie",
-      "intent": "Who are you",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "merry christmas",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "morning",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "my sincere thank",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "need a table in redmond",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "next friday at 3pm",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "next saturday at 6pm and for 4 guests.",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "nice to meet you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "night",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "nighty night",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
-      "text": "no",
-      "intent": "Who are you",
+      "text": "no change",
+      "intent": "noChange",
       "entities": []
     },
     {
       "text": "no how about renton?",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "no thanks",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "no way",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "no, how about portland?",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "no, i cannot give you my name",
-      "intent": "Who are you",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "no, i'd like to come to seattle instead",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "no, that's not true",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "nobody cares about me",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "nobody likes me",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "nope, false",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "not funny.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
@@ -2493,32 +2311,47 @@
     },
     {
       "text": "not true",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "nothing",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "nothing to change",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "nothing to change. please proceed",
+      "intent": "noChange",
       "entities": []
     },
     {
       "text": "ok",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "omg sorry",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "oops, sorry",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "pardon",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "pardon me",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
@@ -2528,162 +2361,152 @@
     },
     {
       "text": "please help reserve a table for 5",
-      "intent": "Book Table",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "please proceed",
+      "intent": "noChange",
       "entities": []
     },
     {
       "text": "quiet, you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "redmond",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "reserve a table for 4 at sea",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "rofl",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "say a joke",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "say a silly thing",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "say something",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "say something dumb",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "say something funny",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "say something ridiculous",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "say something stupid",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "scott",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "seattle please",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "see you later",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "should i get a new job?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "should i try out for soccer?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "shush!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "shut up",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "sing a song",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "sing a tune",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "sing something",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "so sorry",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "so tired",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "so what's your store's layout?",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "sorry about that",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
-      "text": "sorry, no name for you",
-      "intent": "Who are you",
+      "text": "sorry, i dont need the booking anymore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "sorry, i dont need the reservation",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "sounds good",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "sry",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "stephen",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "steve",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "stop talking",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
@@ -2692,1313 +2515,1228 @@
       "entities": []
     },
     {
-      "text": "store hours",
-      "intent": "QnA",
+      "text": "stop the booking",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "talk to me",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "talk to you later",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "talk with me",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "tbd",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "tell a joke",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "tell me a joke",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "tell me how much you love me",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "testing",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "testing 1 2 3",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "thank you",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "thank you so much",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "thanks",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that doesn't make sense",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that made no sense",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that was a joke",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that was a stupid answer.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that was correct",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that was funny",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that was right",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that wasn't funny.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that wasn't true",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that's accurate",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that's awesome",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that's hilarious",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that's inaccurate.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that's not accurate",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that's not funny.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that's not true.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that's right",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that's so wrong.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "that's true",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "there?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "there's nothing to do",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "this looks good. thanks",
+      "intent": "noChange",
       "entities": []
     },
     {
       "text": "thnx",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "till we meet again",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "timings",
-      "intent": "QnA",
-      "entities": []
-    },
-    {
-      "text": "tom",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "tom laird mcconnell",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "tomorrow",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "tomorrow at 3 pm and i would like to bring 3 guests",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "tomorrow at 3pm",
-      "intent": "Book Table",
-      "entities": []
-    },
-    {
-      "text": "tony anziano",
-      "intent": "Who are you",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "try to make some sense",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "typical layout of your coffee shops",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "useless",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "uzang denis",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "welcome to springtime!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what age are you?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "what are my options?",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "what are you doing later?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what are you doing right now?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what are you doing tomorrow?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what are you doing?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what are you up to?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what are you?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
-      "text": "what are your locations",
-      "intent": "QnA",
+      "text": "what are your hours?",
+      "intent": "Help",
       "entities": []
     },
     {
-      "text": "what are your store hours",
-      "intent": "QnA",
+      "text": "what are your locations?",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "what can i say?",
-      "intent": "What can you do",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "what can you do for me?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "what can you do?",
-      "intent": "What can you do",
-      "entities": []
-    },
-    {
-      "text": "what can you help me with?",
-      "intent": "What can you do",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what color do you like?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what country are you from?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what country are you in?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what did you do today?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what did you do yesterday?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you do?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you eat?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you even mean by that?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you like to eat?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you like to sing best?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you mean by that?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you mean?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you think about ai?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you think about alexa?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you think about bots?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you think about cortana?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you think about love?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you think about me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you think about siri?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you think about technology?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you think of me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what do you want to know about me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what is love?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what is the answer to the universe?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "what is the layout of your stores?",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what is the meaning of life?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what is up?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what is wrong with you!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what is your name?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "what is your store layout",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what kind of candy do you like?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what kind of food do you like?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what makes you think so?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what makes you think that?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what other bots do you know?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what should i do?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what state are you from?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what state are you in?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what were you doing yesterday?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's going on?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's happening?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's my name?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's new?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's the meaning of life?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's the name of your boss?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's up?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's wrong with you?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's your age?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's your boss' name?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's your dad's name?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's your favorite activity?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's your favorite animal?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's your favorite color?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's your favorite food?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's your favorite movie?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's your favorite song?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's your gender?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's your job?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "what's your layout?",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's your mom's name?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's your name?",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "what's your opinion of me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "when do you open?",
+      "intent": "Help",
       "entities": []
     },
     {
       "text": "when were you born?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "when will you shut up?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "where are you from?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "where are you located?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "where are you?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "where did you come from?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "where do you come from?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "where do you live?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "where should i go on vacation?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "where'd you come from?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "where's your house?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "which baseball teams do you like?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "which one of us is more beautiful?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "which one of us is smarter?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "which people made you?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who am i?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who are you?",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who created you?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who do you love?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who do you report to?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "who is your ceo",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who is your creator?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who is your father?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who is your mother?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who made you?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "who owns contoso cafe",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who owns you?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who's prettier, me or you?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who's smarter, me or you?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who's your boss?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who's your dad?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who's your daddy?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who's your favorite singer?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who's your favorite team?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who's your master?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "who's your mom?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "why",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "why are you so boring",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "why are you so boring?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "why do you ask?",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "why do you hate me?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "why do you need my name?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "why do you need user name?",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "why do you say the same thing all the time?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "why do you think that?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "why don't you ever stop talking?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "why is that?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "why not?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "why?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "wifi access",
-      "intent": "QnA",
-      "entities": []
-    },
-    {
-      "text": "wifi access at your stores?",
-      "intent": "QnA",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "will you be my best friend?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "will you be my wife?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "will you marry me?",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "works for me",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "yes",
-      "intent": "Book Table",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "yes go ahead",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "yes please go ahead with seattle",
-      "intent": "Book Table",
+      "intent": "GetLocationDateTimePartySize",
       "entities": []
     },
     {
       "text": "yes to that",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "yes, that's right",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "yes, that's true",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are a genius!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are awesome!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are fired",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are funny :)",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are my best friend",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are my favorite",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are no longer employed",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are now unemployed",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are so annoying!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are so bad at this.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are so not pretty.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are so unfunny.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are stupid",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are the love of my life",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are useless",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you are welcome",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you bore me",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you can't work for me anymore",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you could not be more boring",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you don't interest me at all",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you don't know anything.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you face sucks.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you fucked up",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you honestly could not be more uninteresting",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you keep saying the same thing all the time",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you look ugly.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you made no sense",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you must hate me.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you seem happy",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you seem really happy",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you seem really smart",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you suck",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "youÃ¢â‚¬â„¢re ugly.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "your face is like a pancake.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "your face is ugly.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're a butterface.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're a fuckup",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're an asshole",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're awful",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're boring",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're dumb",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're fired!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're funny",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're gonna be unemployed soon",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're hilarious",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're lame",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're nice!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're no fun",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're not answering my question.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're not funny.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're not making sense",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're rad.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're really boring",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're really smart",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're right.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're smart",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're so basic",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're so boring",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're so cool",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're so funny.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're so happy",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're so smart",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're so stupid",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're stupid",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're such a smarty-pants",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're such a sweetheart",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're such an asshole",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're the best",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're the worst",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're useless",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're very intelligent",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're way off.",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're welcome",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "you're wonderful",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "yup",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "yup, that's true",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "zarmada is my name",
-      "intent": "Who are you",
+      "intent": "Interruptions",
       "entities": []
     },
     {
       "text": "zip it!",
-      "intent": "ChitChat",
+      "intent": "Interruptions",
       "entities": []
     }
   ]

@@ -1,5 +1,35 @@
 [
   {
+    "text": "Who are you?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "What is your name?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "how should I address you?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "What's your name?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "how can you help me?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
+    "text": "what can you do for me?",
+    "intent": "Who are you",
+    "entities": []
+  },
+  {
     "text": "What can you do?",
     "intent": "What can you do",
     "entities": []
@@ -1705,11 +1735,6 @@
     "entities": []
   },
   {
-    "text": "Are you a lesbian?",
-    "intent": "ChitChat",
-    "entities": []
-  },
-  {
     "text": "Are you trans?",
     "intent": "ChitChat",
     "entities": []
@@ -1720,32 +1745,12 @@
     "entities": []
   },
   {
-    "text": "Are you gay?",
-    "intent": "ChitChat",
-    "entities": []
-  },
-  {
-    "text": "Are you asexual?",
-    "intent": "ChitChat",
-    "entities": []
-  },
-  {
-    "text": "Are you pansexual?",
-    "intent": "ChitChat",
-    "entities": []
-  },
-  {
     "text": "Are you a swinger?",
     "intent": "ChitChat",
     "entities": []
   },
   {
     "text": "Are you queer",
-    "intent": "ChitChat",
-    "entities": []
-  },
-  {
-    "text": "Are you bisexual?",
     "intent": "ChitChat",
     "entities": []
   },
@@ -1876,36 +1881,6 @@
   },
   {
     "text": "Life is good",
-    "intent": "ChitChat",
-    "entities": []
-  },
-  {
-    "text": "What can you do?",
-    "intent": "ChitChat",
-    "entities": []
-  },
-  {
-    "text": "What can you help me with?",
-    "intent": "ChitChat",
-    "entities": []
-  },
-  {
-    "text": "What do you do?",
-    "intent": "ChitChat",
-    "entities": []
-  },
-  {
-    "text": "What's your purpose?",
-    "intent": "ChitChat",
-    "entities": []
-  },
-  {
-    "text": "How can you help me?",
-    "intent": "ChitChat",
-    "entities": []
-  },
-  {
-    "text": "What kinds of things can you do?",
     "intent": "ChitChat",
     "entities": []
   },
@@ -2591,11 +2566,6 @@
   },
   {
     "text": "I am a Democrat",
-    "intent": "ChitChat",
-    "entities": []
-  },
-  {
-    "text": "I'm a lesbian",
     "intent": "ChitChat",
     "entities": []
   },
@@ -3560,231 +3530,6 @@
     "entities": []
   },
   {
-    "text": "Who are you?",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "What is your name?",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "how should I address you?",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "What's your name?",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "What can you do?",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "how can you help me?",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "what can you do for me?",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "i'm {userName_patternAny}",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "zarmada is my name",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "alex",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "ana",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "anastasia",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "anastasia paushkina",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "angshuman sarkar",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "chris",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "chris mcconnell",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "dan",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "dan driscoll",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "dave",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "james lew",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "john taylor",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "kannan",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "lili",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "marieke",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "melanie",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "scott",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "stephen",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "steve",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "tom",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "tom laird mcconnell",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "tony anziano",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "uzang denis",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "Why do you need my name?",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "Why do you ask?",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "Why?",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "why do you need user name?",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "first or last name?",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "first name?",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "why",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "I will not give you my name",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "Sorry, no name for you",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "No, I cannot give you my name",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "I cannot give you my name",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "No",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
-    "text": "No way",
-    "intent": "Who are you",
-    "entities": []
-  },
-  {
     "text": "book a table",
     "intent": "Book Table",
     "entities": []
@@ -3881,6 +3626,11 @@
   },
   {
     "text": "I need to reserve a table for 2 in Seattle",
+    "intent": "Book Table",
+    "entities": []
+  },
+  {
+    "text": "book a table for 2 in seattle",
     "intent": "Book Table",
     "entities": []
   }

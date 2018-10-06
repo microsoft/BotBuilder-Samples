@@ -1,8 +1,6 @@
 {
     "name": "contoso-cafe-bot",
     "description": "",
-    "version": "2.0",
-    "secretKey": "",
     "services": [
         {
             "type": "endpoint",
@@ -12,5 +10,8 @@
             "appPassword": "",
             "endpoint": "http://localhost:3978/api/messages"
         }
-    ]
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "secretKey": ""
 }
