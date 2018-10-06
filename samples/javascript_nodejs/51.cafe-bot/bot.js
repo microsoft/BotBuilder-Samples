@@ -38,7 +38,7 @@ class CafeBot {
         this.onTurnAccessor = conversationState.createProperty(ON_TURN_PROPERTY);
         this.dialogAccessor = conversationState.createProperty(DIALOG_STATE_PROPERTY);
 
-        // add main dispatcher
+        // Add main dispatcher.
         this.dialogs = new DialogSet(this.dialogAccessor);
         this.dialogs.add(new MainDispatcher(botConfig, this.onTurnAccessor, conversationState, userState));
 
@@ -46,9 +46,9 @@ class CafeBot {
         this.userState = userState;
     }
     /**
-     * On turn dispatcher method.
+     * On turn method.
      *   Responsible for processing turn input, gather relevant properties,
-     *   and continues or begins main dialog.
+     *   and continues or begins main dispatcher.
      *
      * @param {TurnContext} Turn context object
      *
@@ -57,12 +57,12 @@ class CafeBot {
         // See https://aka.ms/about-bot-activity-message to learn more about message and other activity types.
         switch (turnContext.activity.type) {
         case ActivityTypes.Message:
-            // Process on turn input (card or NLP) and gather new properties
-            // OnTurnProperty object has processed information from the input message activity.
+            // Process card input.
+            // All cards used in this sample are adaptive cards and contain a custom intent + entity payload.
             let onTurnProperties = await this.detectIntentAndEntitiesFromCardInput(turnContext);
             if (onTurnProperties === undefined) break;
 
-            // Set the state with gathered properties (intent/ entities) through the onTurnAccessor
+            // Set the state with gathered properties (intent/ entities) through the onTurnAccessor.
             await this.onTurnAccessor.set(turnContext, onTurnProperties);
 
             // Create dialog context.
@@ -71,7 +71,7 @@ class CafeBot {
             // Continue outstanding dialogs.
             await dc.continueDialog();
 
-            // Begin main dialog if no outstanding dialogs/ no one responded
+            // Begin main dialog if no outstanding dialogs/ no one responded.
             if (!dc.context.responded) {
                 await dc.beginDialog(MainDispatcher.Name);
             }
@@ -85,7 +85,8 @@ class CafeBot {
             break;
         }
 
-        // Persist state
+        // Persist state.
+        // Hint: You can get around explicitly persisting state by using the autoStateSave middleware.
         await this.conversationState.saveChanges(turnContext);
         await this.userState.saveChanges(turnContext);
     }
@@ -129,8 +130,8 @@ class CafeBot {
             // Iterate over all new members added to the conversation
             for (var idx in turnContext.activity.membersAdded) {
                 // Greet anyone that was not the target (recipient) of this message
-                // the 'bot' is the recipient for events from the channel,
-                // turnContext.activity.membersAdded == turnContext.activity.recipient.Id indicates the
+                // 'bot' is the recipient for events from the channel,
+                // turnContext.activity.membersAdded === turnContext.activity.recipient.Id indicates the
                 // bot was added to the conversation.
                 if (turnContext.activity.membersAdded[idx].id !== turnContext.activity.recipient.id) {
                     // Welcome user.
