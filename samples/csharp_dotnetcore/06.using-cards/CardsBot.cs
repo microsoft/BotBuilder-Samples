@@ -33,7 +33,7 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class CardsBot : IBot
     {
-        private const string WelcomeText = @"This bot will show you different types of Rich Cards.  
+        private const string WelcomeText = @"This bot will show you different types of Rich Cards.
                                            Please type anything to get started.";
 
         private CardsBotAccessors _accessors;
@@ -123,7 +123,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Prompts the user for intput by sending a <see cref="ChoicePrompt"/> so the user may select their
+        /// Prompts the user for input by sending a <see cref="ChoicePrompt"/> so the user may select their
         /// choice from a list of options.
         /// </summary>
         /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>
