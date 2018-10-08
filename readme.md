@@ -1,6 +1,6 @@
 ## Overview
 
-This repository contains samples for the Microsoft **Bot Builder V4 SDK** - [dotnet SDK](/microsoft/botbuilder-dotnet), [JS SDK](/microsoft/botbuilder-js).
+This repository contains samples for the Microsoft **Bot Builder V4 SDK** - [dotnet SDK](https://github.com/Microsoft/botbuilder-dotnet), [JS SDK](https://github.com//microsoft/botbuilder-js).
 
 Samples for the Bot Builder V3 SDK are available [here](https://github.com/Microsoft/BotBuilder-Samples/tree/v3-sdk-samples).
 
@@ -42,11 +42,11 @@ To use the samples clone this GitHub repository using Git.
 
 | Sample Name           | Description                                                                    | .NET CORE   | NodeJS      | .NET Web API | JS (es6)    | Typescript  |
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|-------------|
-|1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming the incoming message.                                                                                                 |[View][cs#1] |[View][js#1] | :runner:     |             |[View][ts#1] |
+|1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming message.                                                                                                 |[View][cs#1] |[View][js#1] | :runner:     |             |[View][ts#1] |
 |1.a.browser-echo       | Introduces browser adapter                                                     |             |             |              |[View][es#1a]|             |
 |2.echo-with-counter    | Demonstrates how to use state. Shows commented out code for all natively supported storage providers. Storage providers should include InMemory and Blob storage.                                                                                            |[View][cs#2] |[View][js#2] |[View][wa#2]  |             |[View][ts#2] |
 |3.welcome-user         | Introduces activity types and providing a welcome message on conversation update activity. |[View][cs#3] |[View][js#3] |              | | |
-|4.simple-prompt        | Demonstrates prompt pattern by prompting user for a property. Introduces user state .vs. conversation state. Ask for name and prints back those information. Uses sequence dialogs if available or default option is to use waterfall dialogs            |[View][cs#4] |[View][js#4] |              |             | |
+|4.simple-prompt        | Demonstrates prompt pattern by prompting user for a property. Introduces user state .vs. conversation state. Ask for name and prints back that information. Uses sequence dialogs if available or default option is to use waterfall dialogs            |[View][cs#4] |[View][js#4] |              |             | |
 |5.multi-turn-prompt    | Demonstrates more complex pattern by prompting user for multiple properties. Ask for name, age and prints back that information. Uses sequence dialogs if available or default option is to use waterfall dialogs.                                              |[View][cs#5] |[View][js#5] |              |             | |
 |6.using-cards          | Introduces all card types including thumbnail, audio, media etc. Builds on Welcoming user + multi-prompt bot by presenting a card with buttons in welcome message that route to appropriate dialog.                                                        |[View][cs#6] |[View][js#6] |              |             | |
 |7.using-adaptive-cards | Introduces adaptive cards - demonstrates how the multi-turn dialog can be augmented to also use a card to get user input for name and age. |[View][cs#7] |[View][js#7] |              |             | |
