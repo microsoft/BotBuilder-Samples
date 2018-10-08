@@ -15,7 +15,7 @@ class QnA {
     constructor(botConfig) {
         if (!botConfig) throw new Error('Need bot config');
 
-        // add recogizers
+        // add recognizers
         const qnaConfig = botConfig.findServiceByNameOrId(QNA_CONFIGURATION);
         if (!qnaConfig || !qnaConfig.kbId) throw new Error(`QnA Maker application information not found in .bot file. Please ensure you have all required QnA Maker applications created and available in the .bot file. See readme.md for additional information\n`);
         this.qnaRecognizer = new QnAMaker({
