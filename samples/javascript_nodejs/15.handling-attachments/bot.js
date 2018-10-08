@@ -54,7 +54,7 @@ class AttachmentsBot {
      * @param {Object} turnContext 
      */
     async handleIncomingAttachment(turnContext) {
-        // Prepare Promsies to download each attachment and then exceute each Promise.
+        // Prepare Promises to download each attachment and then execute each Promise.
         const promises = turnContext.activity.attachments.map(this.downloadAttachmentAndWrite);
         const successfulSaves = await Promise.all(promises);
 
@@ -64,7 +64,7 @@ class AttachmentsBot {
             if (localAttachmentData) {
                 // Because the TurnContext was bound to this function, the bot can call
                 // `TurnContext.sendActivity` via `this.sendActivity`;
-                await this.sendActivity(`Attachment "${localAttachmentData.fileName}"` +
+                await this.sendActivity(`Attachment "${localAttachmentData.fileName}" ` +
                     `has been received and saved to "${localAttachmentData.localPath}".`);
             } else {
                 await this.sendActivity('Attachment was not successfully saved to disk.');
@@ -167,7 +167,7 @@ class AttachmentsBot {
      * Returns an inline attachment.
      */
     getInlineAttachment() {
-        const imageData = fs.readFileSync(path.join(__dirname, '\\resources\\architecture-resize.png'));
+        const imageData = fs.readFileSync(path.join(__dirname, '/resources/architecture-resize.png'));
         const base64Image = new Buffer(imageData).toString('base64');
 
         return {
@@ -194,7 +194,7 @@ class AttachmentsBot {
      * @param {Object} turnContext 
      */
     async getUploadedAttachment(turnContext) {
-        const imageData = fs.readFileSync(path.join(__dirname, '\\resources\\architecture-resize.png'));
+        const imageData = fs.readFileSync(path.join(__dirname, '/resources/architecture-resize.png'));
         const connector = turnContext.adapter.createConnectorClient(turnContext.activity.serviceUrl);
         const conversationId = turnContext.activity.conversation.id;
         const response = await connector.conversations.uploadAttachment(conversationId, {
