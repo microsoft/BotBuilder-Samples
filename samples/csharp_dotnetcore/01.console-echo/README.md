@@ -20,7 +20,7 @@ git clone https://github.com/microsoft/botbuilder-samples.git
 # Prerequisites
 ## Visual studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/01.console-echo`) and open Console-EchoBot.csproj in Visual studio 
-- Hit F5
+- Run the project (press `F5` key)
 
 ## Visual studio code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/01.console-echo` folder
