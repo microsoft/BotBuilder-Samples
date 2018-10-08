@@ -4,6 +4,7 @@
 A bot is an app that users interact with in a conversational way using text, graphics (cards), or speech. It may be a simple question and answer dialog,
 or a sophisticated bot that allows people to interact with services in an intelligent manner using pattern matching,
 state tracking and artificial intelligence techniques well-integrated with existing business services.
+
 ## Attachments
 A message exchange between user and bot may contain cards and media attachments, such as images, video, audio, and files.
 The types of attachments that may be sent and recieved varies by channel. Additionally, a bot may also recieve file attachments.
@@ -16,11 +17,11 @@ git clone https://github.com/microsoft/botbuilder-samples.git
 # Prerequisites
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/15.handling-attachments`) and open HandlingAttachmentsBot.csproj in Visual Studio 
-- Hit F5
+- Run the project (press `F5` key)
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/15.handling-attachments` folder
 - Bring up a terminal, navigate to botbuilder-samples/samples/csharp_dotnetcore/15.handling-attachments
-- Type 'dotnet run'.
+- Type `dotnet run`.
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
   **Note:** this sample requires `Microsoft.Bot.Builder`, `Microsoft.Bot.Connector`, and `Microsoft.Bot.Builder.Integration.AspNet.Core`.
