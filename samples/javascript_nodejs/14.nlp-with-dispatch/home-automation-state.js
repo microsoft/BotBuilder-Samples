@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-const HOME_ATUOMATION_STATE_PROPERTY = 'homeAutomation.state';
+const HOME_AUTOMATION_STATE_PROPERTY = 'homeAutomation.state';
 
 class DeviceState {
     /**
@@ -29,7 +29,7 @@ class HomeAutomationState {
         if (!userState) throw new Error('Invalid user state provided.');
 
         // Device property accessor for home automation scenario.
-        this.deviceProperty = conversationState.createProperty(HOME_ATUOMATION_STATE_PROPERTY);
+        this.deviceProperty = conversationState.createProperty(HOME_AUTOMATION_STATE_PROPERTY);
     }
 
     /**
