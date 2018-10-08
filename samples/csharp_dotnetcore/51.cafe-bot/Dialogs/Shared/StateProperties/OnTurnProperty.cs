@@ -52,7 +52,10 @@ namespace Microsoft.BotBuilderSamples
                 if (value is JArray)
                 {
                     // ConfirmList is nested arrays.
-                    value = value.Children().FirstOrDefault().FirstOrDefault();
+                    
+                    //TODO: Review fix:
+                    value = (from val in (JArray)value
+                              select val).FirstOrDefault();
                 }
 
                 strVal = (string)value;
