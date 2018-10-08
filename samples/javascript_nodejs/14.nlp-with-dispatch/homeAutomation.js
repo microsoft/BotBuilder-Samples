@@ -29,14 +29,14 @@ class HomeAutomation {
      * @param {BotConfiguration} botConfig bot configuration from .bot file
      */
     constructor(convoState, userState, botConfig) {
-        if (!convoState) throw new Error('Need converstaion state');
+        if (!convoState) throw new Error('Need conversation state');
         if (!userState) throw new Error('Need user state');
         if (!botConfig) throw new Error('Need bot config');
 
         // home automation state
         this.state = new HomeAutomationState(convoState, userState);
 
-        // add recogizers
+        // add recognizers
         const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
         if (!luisConfig || !luisConfig.appId) throw new Error(`Home automation LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
         this.luisRecognizer = new LuisRecognizer({
