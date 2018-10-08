@@ -23,13 +23,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 # Deploy this bot to Azure
 
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on.  Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher.
-
-To install all Bot Builder tools
-
-```bash
-npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
-```
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
 
 To clone this bot, run
 
