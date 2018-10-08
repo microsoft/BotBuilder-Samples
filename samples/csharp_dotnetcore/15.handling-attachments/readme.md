@@ -20,9 +20,26 @@ git clone https://github.com/microsoft/botbuilder-samples.git
 - Run the project (press `F5` key)
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/15.handling-attachments` folder
-- Bring up a terminal, navigate to botbuilder-samples/samples/csharp_dotnetcore/15.handling-attachments
+- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/15.handling-attachments`
 - Type `dotnet run`.
+## Testing the bot using Bot Framework Emulator
+
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+
+- Install the [Bot Framework emulator](https://aka.ms/botframeworkemulator).
+
+## Connect to bot using Bot Framework Emulator **V4**
+
+- Launch the Bot Framework Emulator.
+- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/06.using-cards` folder.
+- Select `BotConfiguration.bot` file.
+
+# Deploy this bot to Azure
+
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
+
 ## Update packages
+
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
   **Note:** this sample requires `Microsoft.Bot.Builder`, `Microsoft.Bot.Connector`, and `Microsoft.Bot.Builder.Integration.AspNet.Core`.
 # Further reading
