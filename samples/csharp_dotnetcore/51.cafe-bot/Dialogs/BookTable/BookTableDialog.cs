@@ -162,12 +162,7 @@ namespace Microsoft.BotBuilderSamples
                 // Start the prompt with the initial feedback based on update results.
                 var options = new PromptOptions()
                 {
-                    /* Had to change this to fix an issue with the bot emulator. The emulator was
-                       receiving a message from the bot that was missing the 'message' type in the JSON object.*/
-
-                       //TODO: Review 
                     Prompt = MessageFactory.Text(reservationResult.Outcome[0].Message),
-                    //Prompt = new Activity(text: reservationResult.Outcome[0].Message),
                 };
                 return await stepContext.PromptAsync(GetLocationDateTimePartySizePrompt, options);
             }
@@ -181,12 +176,7 @@ namespace Microsoft.BotBuilderSamples
 
                 var options = new PromptOptions()
                 {
-                    /* Had to change this to fix an issue with the bot emulator. The emulator was
-                       receiving a message from the bot that was missing the 'message' type in the JSON object.*/
-                       
-                       //TODO: Review 
                     Prompt = MessageFactory.Text(reservationResult.NewReservation.GetMissingPropertyReadOut()),
-                    //Prompt = new Activity(text: reservationResult.NewReservation.GetMissingPropertyReadOut()),
                 };
 
                 // Start the prompt with the first missing piece of information.
