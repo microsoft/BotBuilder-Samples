@@ -52,8 +52,6 @@ namespace Microsoft.BotBuilderSamples
                 if (value is JArray)
                 {
                     // ConfirmList is nested arrays.
-                    
-                    //TODO: Review fix:
                     value = (from val in (JArray)value
                               select val).FirstOrDefault();
                 }
