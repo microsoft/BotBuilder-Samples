@@ -13,7 +13,7 @@ This sample shows how to send outgoing attachments and how to save attachments t
     For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules and start the bot
     ```bash
-    npm i & npm start
+    npm i && npm start
     ```
 
 # Testing the bot using Bot Framework Emulator
