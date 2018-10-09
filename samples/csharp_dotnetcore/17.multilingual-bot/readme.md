@@ -10,7 +10,7 @@ The API uses the most modern neural machine translation technology, as well as o
 ## Overview
 
 In this sample, we create a simple bot that prompts user for their preferred language, and stores the user's preferred language selection in the user state. 
-We also create a middleware that reads user preferred language, and if it is different from the default language (English), calls the Microsoft Translator Text API to translate to and from the user's preferred langugage.
+We also create a middleware that reads user preferred language, and if it is different from the default language (English), calls the Microsoft Translator Text API to translate to and from the user's preferred language.
 This means that the bot always receives utterances in English, while users writes and gets responses in their selected language.
 
 Note that this is a very simple example, but shows very powerful principles. 
@@ -49,7 +49,7 @@ Paste the key in the ```translationKey``` placeholder within the appsettings.jso
 ### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot` folder
-- Select MessageRouting.bot file
+- Select `MultiLingualBot.bot` file
 
 # Deploy this bot to Azure
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
