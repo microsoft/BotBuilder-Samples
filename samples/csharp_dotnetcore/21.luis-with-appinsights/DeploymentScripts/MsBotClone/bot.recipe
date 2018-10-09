@@ -1,33 +1,26 @@
-﻿{
+{
   "version": "1.0",
   "resources": [
     {
       "type": "endpoint",
-      "id": "1",
+      "id": "http://localhost:3978/api/messages",
       "name": "development",
       "url": "http://localhost:3978/api/messages"
     },
     {
-      "type": "endpoint",
-      "id": "2",
-      "name": "production",
-      "url": "https://your-bot-url.azurewebsites.net/api/messages"
-    },
-    {
-      "type": "abs",
+      "type": "luis",
       "id": "3",
-      "name": "luis-with-appinsights-Bot"
+      "name": "LuisBot"
     },
     {
       "type": "appInsights",
-      "id": "4",
-      "name": "luis-with-appinsights-Insights"
+      "id": "2",
+      "name": ""
     },
     {
-      "type": "blob",
-      "id": "5",
-      "name": "luis-with-appinsights-Blob",
-      "container": "botstatestore"
+      "type": "abs",
+      "id": "1",
+      "name": "LuisBot"
     }
   ]
 }
