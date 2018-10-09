@@ -5,7 +5,7 @@ const { TelemetryClient } = require('applicationinsights');
 const { Activity, TurnContext } = require('botbuilder');
 
 /**
- * Middleware for logging incoming activitites into Application Insights.
+ * Middleware for logging incoming activities into Application Insights.
  * In addition, registers a service so other components can log telemetry.
  * If this component is not registered, visibility within the Bot is not logged.
  */
