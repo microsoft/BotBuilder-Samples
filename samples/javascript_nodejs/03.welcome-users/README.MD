@@ -38,15 +38,7 @@ Bots that are added directly by a user, are mostly personal (1:1) conversation b
 Your bot may proactively send a welcome message to a personal chat the first time a user initiates a personal chat with your bot. Use `UserState` to persist a flag indicating first user interaction with a bot. 
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
-
-To install all Bot Builder tools - 
-
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
-
-```bash
-npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
-```
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
 
 To clone this bot, run
 ```
