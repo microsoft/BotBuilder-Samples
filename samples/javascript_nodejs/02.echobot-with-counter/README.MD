@@ -13,11 +13,11 @@ This sample shows how to create a simple echo bot with state. The bot maintains 
     For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules and start the bot
     ```bash
-    npm i & npm start
+    npm i && npm start
     ```
     Alternatively you can also use nodemon via
     ```bash
-    npm i & npm run watch
+    npm i && npm run watch
     ```
 
 # Testing the bot using Bot Framework Emulator
@@ -42,11 +42,9 @@ In this example, the bot's state is used to track number of messages.
     - User properties can be used for many purposes, such as determining where the user's prior conversation left off or simply greeting a returning user by name. If you store a user's preferences, you can use that information to customize the conversation the next time you chat. For example, you might alert the user to a news article about a topic that interests her, or alert a user when an appointment becomes available. You should clear them if the bot receives a delete user data activity.
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher.
 
-To install all Bot Builder tools - 
-
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
+To install all Bot Builder tools
 
 ```bash
 npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
