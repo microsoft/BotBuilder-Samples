@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, CardFactory } = require('botbuilder');
+const { ActivityTypes } = require('botbuilder');
 const { DialogSet, DialogTurnStatus } = require('botbuilder-dialogs');
 
-const { GreetingState } = require('./dialogs/greeting/greetingState');
 const { GreetingDialog } = require('./dialogs/greeting');
 
 // Greeting Dialog ID
