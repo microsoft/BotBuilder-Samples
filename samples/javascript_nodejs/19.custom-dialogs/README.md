@@ -14,6 +14,10 @@ different bot control mechanism like simple slot filling.
     ```bash
     npm i && npm start
     ```
+    Alternatively you can also use nodemon via
+    ```bash
+    npm i && npm run watch
+    ```
 
 # Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is
@@ -45,7 +49,7 @@ msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-loc
 
 # Custom Dialogs
 
-Botbuilder provides a built-in base class called `Dialog`. By subclassing Dialog, developers
+BotBuilder provides a built-in base class called `Dialog`. By subclassing Dialog, developers
 can create new ways to define and control dialog flows used by the bot. By adhering to the
 features of this class, developers will create custom dialogs that can be used side-by-side
 with other dialog types, as well as built-in or custom prompts.
