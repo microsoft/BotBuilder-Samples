@@ -9,6 +9,7 @@ Samples are organized into groups and designed to illustrate task-focused sample
 
     git clone https://github.com/Microsoft/BotBuilder-Samples.git
     cd BotBuilder-Samples
+    git checkout v3-sdk-samples
 
 ## Core
 These examples show the basic techniques needed to build a great bot.
