@@ -21,7 +21,7 @@ let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3988, function () {
     console.log(`\n${server.name} listening to ${server.url}.`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
-    console.log(`\nTo talk to your bot, open custom-dialogs.bot file in the emulator.`);
+    console.log(`\nTo talk to your bot, open diceroller-skill.bot file in the emulator.`);
 });
 
 // .bot file path
