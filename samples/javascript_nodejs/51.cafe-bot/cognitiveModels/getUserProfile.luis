@@ -565,6 +565,11 @@
       "entities": []
     },
     {
+      "text": "book a table for 2 in seattle",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
       "text": "Awesome",
       "intent": "Interruptions",
       "entities": []

@@ -1,5 +1,5 @@
 {
-  "name": "cafeBotBookTableTurnNModel",
+  "name": "cafeBotBookTableTurnN",
   "versionId": "0.1",
   "desc": "",
   "culture": "en-us",
@@ -580,6 +580,11 @@
       "entities": []
     },
     {
+      "text": "book a table for 2 in seattle",
+      "intent": "Interruptions",
+      "entities": []
+    },
+    {
       "text": "book a table for 3",
       "intent": "Interruptions",
       "entities": []
@@ -736,6 +741,11 @@
     },
     {
       "text": "cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel the reservation",
       "intent": "Cancel",
       "entities": []
     },
@@ -1595,6 +1605,16 @@
       "entities": []
     },
     {
+      "text": "i do not want the table anymore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "i do not wish to proceed with the reservation",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
       "text": "i don't get it",
       "intent": "Interruptions",
       "entities": []
@@ -1607,6 +1627,11 @@
     {
       "text": "i don't know",
       "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "i dont need the table anymore",
+      "intent": "Cancel",
       "entities": []
     },
     {
@@ -1752,6 +1777,11 @@
     {
       "text": "i thank you",
       "intent": "Interruptions",
+      "entities": []
+    },
+    {
+      "text": "i think this is good. let's book the table",
+      "intent": "noChange",
       "entities": []
     },
     {
@@ -2145,6 +2175,11 @@
       "entities": []
     },
     {
+      "text": "let's book the table",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
       "text": "let's do it",
       "intent": "noChange",
       "entities": []
@@ -2220,6 +2255,11 @@
       "entities": []
     },
     {
+      "text": "no change",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
       "text": "no how about renton?",
       "intent": "GetLocationDateTimePartySize",
       "entities": []
@@ -2276,6 +2316,11 @@
     },
     {
       "text": "nothing",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
+      "text": "nothing to change",
       "intent": "noChange",
       "entities": []
     },
@@ -2440,6 +2485,16 @@
       "entities": []
     },
     {
+      "text": "sorry, i dont need the booking anymore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "sorry, i dont need the reservation",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
       "text": "sounds good",
       "intent": "Interruptions",
       "entities": []
@@ -2456,6 +2511,11 @@
     },
     {
       "text": "stop that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop the booking",
       "intent": "Cancel",
       "entities": []
     },
@@ -2625,6 +2685,11 @@
       "entities": []
     },
     {
+      "text": "this looks good. thanks",
+      "intent": "noChange",
+      "entities": []
+    },
+    {
       "text": "thnx",
       "intent": "Interruptions",
       "entities": []
@@ -2721,16 +2786,6 @@
     },
     {
       "text": "what can you do for me?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what can you do?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what can you help me with?",
       "intent": "Interruptions",
       "entities": []
     },
@@ -2885,11 +2940,6 @@
       "entities": []
     },
     {
-      "text": "what kinds of things can you do?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
       "text": "what makes you think so?",
       "intent": "Interruptions",
       "entities": []
@@ -3031,11 +3081,6 @@
     },
     {
       "text": "what's your opinion of me?",
-      "intent": "Interruptions",
-      "entities": []
-    },
-    {
-      "text": "what's your purpose?",
       "intent": "Interruptions",
       "entities": []
     },

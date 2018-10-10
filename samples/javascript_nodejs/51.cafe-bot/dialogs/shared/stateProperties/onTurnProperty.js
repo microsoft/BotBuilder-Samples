@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 const { LuisRecognizer } = require('botbuilder-ai');
-const { LUIS_ENTITIES } = require('../helpers');
+const { LUIS_ENTITIES_LIST } = require('../helpers');
 const { EntityProperty } = require('./entityProperty');
 /**
  * On turn property class.
+ *   On turn property captures intent and entities from card based input or
+ *   NLP results from LUIS.ai
  */
 class OnTurnProperty {
     /**
@@ -29,7 +31,7 @@ OnTurnProperty.fromLUISResults = function(LUISResults) {
     let onTurnProperties = new OnTurnProperty();
     onTurnProperties.intent = LuisRecognizer.topIntent(LUISResults);
     // Gather entity values if available. Uses a const list of LUIS entity names.
-    LUIS_ENTITIES.forEach(luisEntity => {
+    LUIS_ENTITIES_LIST.forEach(luisEntity => {
         if (luisEntity in LUISResults.entities) {
             onTurnProperties.entities.push(new EntityProperty(luisEntity, LUISResults.entities[luisEntity]));
         }
@@ -48,10 +50,14 @@ OnTurnProperty.fromCardInput = function(cardValue) {
     let onTurnProperties = new OnTurnProperty();
     for (var key in cardValue) {
         if (!cardValue.hasOwnProperty(key)) continue;
+        // we do not need to keep the 'text' in on turn property
+        if (key.toLowerCase().trim() === 'text') {
+            continue;
+        }
         if (key.toLowerCase().trim() === 'intent') {
             onTurnProperties.intent = cardValue[key];
         } else {
-            onTurnProperties.entities.push(new EntityProperty(key, cardValue[key]));
+            onTurnProperties.entities.push(new EntityProperty(key, [cardValue[key]]));
         }
     }
     return onTurnProperties;
