@@ -11,7 +11,7 @@ namespace Microsoft.BotBuilderSamples
     /// <summary>
     /// For each interaction from the user, an instance of this class is created and
     /// the OnTurnAsync method is called.
-    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// This is a Transient lifetime service. Transient lifetime services are created
     /// each time they're requested. For each Activity received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
     /// beyond the single Turn, should be carefully managed.
@@ -25,7 +25,7 @@ namespace Microsoft.BotBuilderSamples
         public static readonly string QnAMakerKey = "QnABot";
 
         private const string WelcomeText = @"This bot will introduce you to QnA Maker.
-                                            Ask a quesiton to get started.";
+                                            Ask a question to get started.";
 
         /// <summary>
         /// Services configured from the ".bot" file.
