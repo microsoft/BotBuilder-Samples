@@ -4,14 +4,14 @@
 const { ActivityTypes } = require('botbuilder');
 const { DialogSet, NumberPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 
-const { SlotFillingDialog } = require('./SlotFillingDialog');
-const { SlotDetails } = require('./SlotDetails');
+const { SlotFillingDialog } = require('./slotFillingDialog');
+const { SlotDetails } = require('./slotDetails');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
 
 class SampleBot {
     /**
-     * MainDialog defines the core business logic of this bot.
+     * SampleBot defines the core business logic of this bot.
      * @param {ConversationState} conversationState A ConversationState object used to store dialog state.
      */
     constructor(conversationState) {
