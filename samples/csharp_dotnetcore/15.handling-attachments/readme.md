@@ -7,7 +7,7 @@ state tracking and artificial intelligence techniques well-integrated with exist
 
 ## Attachments
 A message exchange between user and bot may contain cards and media attachments, such as images, video, audio, and files.
-The types of attachments that may be sent and recieved varies by channel. Additionally, a bot may also recieve file attachments.
+The types of attachments that may be sent and received varies by channel. Additionally, a bot may also receive file attachments.
 ## To try this sample
 - Clone the repository.
 ```bash
