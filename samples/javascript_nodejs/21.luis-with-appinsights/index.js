@@ -55,7 +55,7 @@ const luisApplication = {
 const logMessage = true;
 const logName = true;
 
-// Map the contents of appInsightsConfig to a consumable format for MyAppInsightsMiddleawre.
+// Map the contents of appInsightsConfig to a consumable format for MyAppInsightsMiddleware.
 const appInsightsSettings = {
     instrumentationKey: appInsightsConfig.instrumentationKey,
     logOriginalMessage: logMessage,
