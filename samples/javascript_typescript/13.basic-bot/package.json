@@ -8,7 +8,7 @@
     "scripts": {
         "build-sample": "tsc",
         "start": "tsc && node ./lib/index.js",
-        "watch": "tsc && nodemon ./lib/index.js",
+        "watch": "nodemon -e ts --exec \"npm start\"",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
