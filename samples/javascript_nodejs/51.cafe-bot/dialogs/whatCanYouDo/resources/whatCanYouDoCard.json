@@ -51,7 +51,7 @@
             "choices": [
                 {
                     "title": "book a table for 2 in seattle",
-                    "value": " {\"intent\": \"Book_Table\", \"cafeLocation\": \"seattle\", \"number\": \"2\", \"text\": \"book a table for 2 in seattle\"}"
+                    "value": " {\"intent\": \"Book_Table\", \"number\": \"2\", \"text\": \"book a table for 2\"}"
                 },
                 {
                     "title": "tell me a joke",
