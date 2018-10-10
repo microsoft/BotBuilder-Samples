@@ -255,7 +255,7 @@ namespace Microsoft.BotBuilderSamples
                 {
                     if (entities[city] != null)
                     {
-                        // Captilize and set new city.
+                        // Capitalize and set new city.
                         var newCity = (string)entities[city][0];
                         greetingState.City = char.ToUpper(newCity[0]) + newCity.Substring(1);
                         break;
