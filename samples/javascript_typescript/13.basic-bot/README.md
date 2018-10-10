@@ -5,7 +5,7 @@ This bot has been created using [Microsoft Bot Framework](https://dev.botframewo
 This samples shows how to:
 - Use [LUIS](https://luis.ai) to implement core AI capabilities
 - Implement a multi-turn conversation using Dialogs
-- Handle user interruptions for such things as Help or Cancel
+- Handle user interruptions for such things as 'Help' or 'Cancel'
 - Prompt for and validate requests for information from the user
 
 
