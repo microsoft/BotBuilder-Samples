@@ -45,7 +45,7 @@ const appInsightsConfig = botConfig.findServiceByNameOrId(APP_INSIGHTS_CONFIGURA
 // Map the contents of luisConfig to a consumable format for our MyAppInsightsLuisRecognizer class.
 const luisApplication = {
     applicationId: luisConfig.appId,
-    endpointKey: luisConfig.endpointKey,
+    endpointKey: luisConfig.subscriptionKey || luisConfig.authoringKey,
     endpoint: luisConfig.getEndpoint()
 };
 
