@@ -64,7 +64,7 @@ namespace Microsoft.BotBuilderSamples
             BotConfiguration botConfig = null;
             try
             {
-                botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+                botConfig = BotConfiguration.Load(botFilePath, secretKey);
             }
             catch
             {
@@ -85,6 +85,12 @@ namespace Microsoft.BotBuilderSamples
             // Retrieve current endpoint.
             var environment = _isProduction ? "production" : "development";
             var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+            if (service == null && _isProduction)
+            {
+                // Attempt to load development environment
+                service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == "development").FirstOrDefault();
+            }
+
             if (!(service is EndpointService endpointService))
             {
                 throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
@@ -126,6 +132,7 @@ namespace Microsoft.BotBuilderSamples
                 // Catches any errors that occur during a conversation turn and logs them to currently
                 // configured ILogger.
                 ILogger logger = _loggerFactory.CreateLogger<BasicBot>();
+
                 options.OnTurnError = async (context, exception) =>
                 {
                     logger.LogError($"Exception caught : {exception}");
