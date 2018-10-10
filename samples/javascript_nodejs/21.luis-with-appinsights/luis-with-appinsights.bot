@@ -16,7 +16,7 @@
             "name": "reminders",
             "appId": "",
             "subscriptionKey": "",
-            "endpointKey": "",
+            "authoringKey": "",
             "region": ""
         },
         {
