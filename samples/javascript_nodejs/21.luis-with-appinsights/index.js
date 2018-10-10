@@ -46,7 +46,7 @@ const appInsightsConfig = botConfig.findServiceByNameOrId(APP_INSIGHTS_CONFIGURA
 const luisApplication = {
     applicationId: luisConfig.appId,
     endpointKey: luisConfig.endpointKey,
-    ednpoint: `https://${luisConfig.region}.api.cognitive.microsoft.com`
+    endpoint: luisConfig.getEndpoint()
 };
 
 // Create two variables to indicate whether or not the bot should include messages' text and usernames when
