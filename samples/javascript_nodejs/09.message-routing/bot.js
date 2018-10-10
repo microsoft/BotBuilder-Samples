@@ -21,7 +21,7 @@ const HELP_UTTERANCE = 'help';
 /**
  * Demonstrates the following concepts:
  *  Displaying a Welcome Card, using Adaptive Card technology
- *  Use LUIS to model Greetings, Help, and Cancel interations
+ *  Use LUIS to model Greetings, Help, and Cancel interactions
  *  Use a Waterflow dialog to model multi-turn conversation flow
  *  Use custom prompts to validate user input
  *  Store conversation and user state
@@ -135,7 +135,7 @@ class MessageRoutingBot {
             await dc.context.sendActivity(`I understand greetings, being asked for help, or being asked to cancel what I am doing.`);
 
             if (dc.activeDialog) {
-                // We've shown help, reprompt again to continue where the dialog left over
+                // We've shown help, re-prompt again to continue where the dialog left over
                 await dc.repromptDialog();
             }
             return true;        // handled the interrupt
