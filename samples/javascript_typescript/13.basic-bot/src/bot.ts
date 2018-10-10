@@ -63,7 +63,7 @@ export class BasicBot {
         if (!userState) throw ('Missing parameter.  userState is required');
         if (!botConfig) throw ('Missing parameter.  botConfig is required');
 
-        // add the LUIS recogizer
+        // add the LUIS recognizer
         let luisConfig: LuisService;
         luisConfig = <LuisService>botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
         if (!luisConfig || !luisConfig.appId) throw ('Missing LUIS configuration. Please follow README.MD to create required LUIS applications.\n\n');
