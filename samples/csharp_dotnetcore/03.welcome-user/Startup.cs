@@ -59,7 +59,7 @@ namespace Microsoft.BotBuilderSamples
 
                 // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
                 var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
-                services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+                services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. ({botConfig})"));
 
                 // Retrieve current endpoint.
                 var environment = _isProduction ? "production" : "development";
@@ -109,8 +109,8 @@ namespace Microsoft.BotBuilderSamples
                 options.State.Add(userState);
             });
 
-            // Create and register state accesssors.
-            // Acessors created here are passed into the IBot-derived class on every turn.
+            // Create and register state accessors.
+            // Accessors created here are passed into the IBot-derived class on every turn.
             services.AddSingleton<WelcomeUserStateAccessors>(sp =>
             {
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
