@@ -67,7 +67,7 @@ namespace Microsoft.BotBuilderSamples
 
             services.AddBot<QnABot>(options =>
             {
-                services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+                services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. ({botConfig})"));
 
                 // Retrieve current endpoint.
                 var environment = _isProduction ? "production" : "development";
@@ -130,7 +130,7 @@ namespace Microsoft.BotBuilderSamples
 
         /// <summary>
         /// Initialize the bot's references to external services.
-        /// For example, the Qna Maker instance is created here. This external service is configured
+        /// For example, the QnA Maker instance is created here. This external service is configured
         /// using the <see cref="BotConfiguration"/> class (based on the contents of your ".bot" file).
         /// </summary>
         /// <param name="config">The <see cref="BotConfiguration"/> object based on your ".bot" file.</param>

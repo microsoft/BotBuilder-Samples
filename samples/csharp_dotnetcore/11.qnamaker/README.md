@@ -25,12 +25,12 @@ QnA Maker CLI to deploy the model.
 
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker`) and open QnABot.csproj in Visual Studio .
-- Hit F5
+- Run the project (press `F5` key)
 
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker` sample folder.
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker` folder.
-- Type 'dotnet run'.
+- Type `dotnet run`.
 
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
@@ -44,7 +44,7 @@ QnA Maker CLI to deploy the model.
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker` folder.
-- Select the BotConfiguration.bot file.
+- Select the `BotConfiguration.bot` file.
 
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

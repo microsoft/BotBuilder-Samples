@@ -33,7 +33,7 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class CardsBot : IBot
     {
-        private const string WelcomeText = @"This bot will show you different types of Rich Cards.  
+        private const string WelcomeText = @"This bot will show you different types of Rich Cards.
                                            Please type anything to get started.";
 
         private CardsBotAccessors _accessors;
@@ -123,7 +123,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Prompts the user for intput by sending a <see cref="ChoicePrompt"/> so the user may select their
+        /// Prompts the user for input by sending a <see cref="ChoicePrompt"/> so the user may select their
         /// choice from a list of options.
         /// </summary>
         /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>
@@ -166,7 +166,7 @@ namespace Microsoft.BotBuilderSamples
 
         /// <summary>
         /// This method uses the text of the activity to decide which type
-        /// of card to resond with and reply with that card to the user.
+        /// of card to respond with and reply with that card to the user.
         /// </summary>
         /// <param name="step">A <see cref="WaterfallStepContext"/> provides context for the current waterfall step.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
@@ -178,10 +178,10 @@ namespace Microsoft.BotBuilderSamples
             // Get the text from the activity to use to show the correct card
             var text = step.Context.Activity.Text.ToLowerInvariant().Split(' ')[0];
 
-            // Replay to the activity we received with an activity.
+            // Reply to the activity we received with an activity.
             var reply = step.Context.Activity.CreateReply();
 
-            // Cards are sent as Attackments in the Bot Framework.
+            // Cards are sent as Attachments in the Bot Framework.
             // So we need to create a list of attachments on the activity.
             reply.Attachments = new List<Attachment>();
 

@@ -126,19 +126,11 @@
   "model_features": [],
   "patterns": [
     {
-      "pattern": "you can call me {userName_patternAny}",
-      "intent": "Who are you"
-    },
-    {
-      "pattern": "[please] call me {userName_patternAny}",
-      "intent": "Who are you"
-    },
-    {
       "pattern": "{userName_patternAny} is my name",
       "intent": "Who are you"
     },
     {
-      "pattern": "call me {userName_patternAny}",
+      "pattern": "you can call me {userName_patternAny}",
       "intent": "Who are you"
     },
     {
@@ -146,7 +138,15 @@
       "intent": "Who are you"
     },
     {
+      "pattern": "[please] call me {userName_patternAny}",
+      "intent": "Who are you"
+    },
+    {
       "pattern": "my [first] name [is] {userName_patternAny}",
+      "intent": "Who are you"
+    },
+    {
+      "pattern": "call me {userName_patternAny}",
       "intent": "Who are you"
     }
   ],
@@ -637,6 +637,11 @@
       "entities": []
     },
     {
+      "text": "book a table for 2 in seattle",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
       "text": "book a table for 3",
       "intent": "Book Table",
       "entities": []
@@ -1109,6 +1114,11 @@
     {
       "text": "do you not like me?",
       "intent": "ChitChat",
+      "entities": []
+    },
+    {
+      "text": "do you offer free wifi?",
+      "intent": "QnA",
       "entities": []
     },
     {
@@ -2983,12 +2993,12 @@
     },
     {
       "text": "what can you do?",
-      "intent": "Who are you",
+      "intent": "What can you do",
       "entities": []
     },
     {
       "text": "what can you help me with?",
-      "intent": "ChitChat",
+      "intent": "What can you do",
       "entities": []
     },
     {
@@ -3152,11 +3162,6 @@
       "entities": []
     },
     {
-      "text": "what kinds of things can you do?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
       "text": "what makes you think so?",
       "intent": "ChitChat",
       "entities": []
@@ -3303,11 +3308,6 @@
     },
     {
       "text": "what's your opinion of me?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "what's your purpose?",
       "intent": "ChitChat",
       "entities": []
     },

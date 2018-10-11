@@ -23,22 +23,17 @@ git clone https://github.com/microsoft/botbuilder-samples.git
 - Hit F5
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/07.using-adaptive-cards` folder
-- Bring up a terminal, navigate to botbuilder-samples/samples/csharp_dotnetcore/07.using-adaptive-cards
-- Type 'dotnet run'.
+- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/07.using-adaptive-cards`
+- Type `dotnet run`.
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
+- In Visual Studio Code type `dotnet restore`
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
 
-To install all Bot Builder tools - 
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
 
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
-
-```bash
-npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
-```
 To clone this bot, run
-```
+```bash
 msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
 ```
 # Further reading
@@ -47,3 +42,4 @@ msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-loc
 - [Channels and Bot Connector service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Adaptive Cards](https://adaptivecards.io/)
+

@@ -50,8 +50,9 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
     cd samples/javascript_nodejs/51.cafe-bot
     ```
 - [Install required CLI tools](#Install-CLI-tools)
-- [Configure required services](#Configure-required-services)
-
+- Configure required services
+    - [Using MSBOT CLI](#Configure-required-services-using-msbot)
+    - [Manually import models using Ludown, LUIS and QnA Maker CLI](#building-and-creating-services)
 - Install modules and start the bot
     ```bash
     npm i & npm start
@@ -70,17 +71,14 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 # Prerequisites
 ## Install CLI tools
 
-- Install [Node.js](https://nodejs.org/)
+Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
+
 - In a terminal
-- Install required tools
-
-    Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
-
     ```bash
-    npm i -g msbot chatdown ludown luis-cli qnamaker 
+    npm i -g msbot chatdown ludown luis-apis qnamaker 
     ```
 
-## Configure required services
+## Configure required services using MSBOT
 1. Follow instructions [here](https://portal.azure.com) to create an Azure account. If you already have an account, sign in. Click on all services -> search for 'subscriptions' -> copy the subscription ID you would like to use from the Home > Subscriptions page.
 2. Follow instructions [here](https://www.luis.ai/home) to create a LUIS.ai account. If you already have an account, sign in. Click on your name on top right corner of the screen -> settings and grab your authoring key.
 3. To create and configure required LUIS and QnA Maker services, 
@@ -90,7 +88,7 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
         ```
     - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
         ```bash
-        msbot clone -n <YOUR-BOT-NAME> -f deploymentScripts/msbotClone -l <Bot service location> --luisAuthoringKey <Key from step-2 above> --subscriptionId <Key from step-1 above>
+        msbot clone services -n <YOUR-BOT-NAME> -f deploymentScripts/msbotClone -l <Bot service location> --luisAuthoringKey <Key from step-2 above> --subscriptionId <Key from step-1 above>
         ```
 
 Optionally, you can use the LUIS, QnA Maker portals to manually import the models found under **cognitiveModels** folder of this sample. 
@@ -107,22 +105,59 @@ Optionally, you can use the LUIS, QnA Maker portals to manually import the model
     ```bash
     > ludown parse toqna --in dialogs/dispatcher/resources/cafeFAQ_ChitChat.lu -o cognitiveModels -n cafeFaqChitChat.qna -a --verbose
     ```
-- Import LUIS applications (Note: You don't need this if you have already run MSBOT clone)
+- Import LUIS applications and update the .bot file with LUIS service references:
+    - Follow instructions [here](https://www.luis.ai/home) to create a LUIS.ai account. If you already have an account, sign in. Click on your name on top right corner of the screen -> settings and grab your authoring key.
+    - LUIS-AUTHORING-REGION can be one of [westus|westeurope|australiaeast]. See [here](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) for more information.
     ```bash
-    > luis import application --in cognitiveModels/cafeDispatchModel.luis --authoringKey <Your LUIS authoring key> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect luis --stdin
-    > luis import application --in cognitiveModels/cafeBotBookTableTurnN.luis --authoringKey <Your LUIS authoring key> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect luis --stdin
-    > luis import application --in cognitiveModels/getUserProfile.luis --authoringKey <Your LUIS authoring key> --endpointBasePath https://westus.api.cognitive.microsoft.com/luis/api/v2.0 --msbot | msbot connect luis --stdin
+    > luis import application --in cognitiveModels/cafeDispatchModel.luis --authoringKey <Your LUIS authoring key> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
+    > luis import application --in cognitiveModels/cafeBotBookTableTurnN.luis --authoringKey <Your LUIS authoring key> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
+    > luis import application --in cognitiveModels/getUserProfile.luis --authoringKey <Your LUIS authoring key> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
     ```
 - Import QnA Maker KBs (Note: You don't need this if you have already run MSBOT clone)
+    - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-new-kb-nodejs#prerequisites) to create a QnA Maker subscription and copy your QnA Maker subscription key.
     ```bash
     > qnamaker create kb --in cognitiveModels/cafeFaqChitChat.qna --subscriptionKey <Your QnA Maker subscription key> --msbot | msbot connect qna --stdin
     ```
-## Updating and publishing LUIS models
+- Train LUIS model
+    ```bash
+    > msbot get cafeDispatchModel | luis train version --wait --stdin
+    > msbot get cafeBotBookTableTurnN | luis train version --wait --stdin
+    > msbot get getUserProfile | luis train version --wait --stdin
+    ```
+- Publish LUIS models
+    ```bash
+    > msbot get cafeDispatchModel | luis publish version --stdin
+    > msbot get cafeBotBookTableTurnN | luis publish version --stdin
+    > msbot get getUserProfile | luis publish version --stdin
+    ```
+- Train and publish QnA Maker KB
+    ```bash
+    > msbot get cafeFaqChitChat | qnamaker publish kb --stdin
+    ```
+- Replace QnA Maker alterations
+    ```bash
+    > msbot get cafeFaqChitChat | qnamaker replace alterations --in cognitiveModels/cafeFaqChitChat.qna_Alterations.json --stdin
+    ```
+
+## Making updates to the models 
+
+Any time you change .lu files, you can update and publish the LUIS and QnA Maker models using the following commands. You can also script and automate the CLI tools to match your development workflow. See [here](./deploymentScripts/updateModels.bat) for an example.
+
+- Parse .lu files into LUIS models
+    ```bash
+    > ludown parse toluis --in dialogs/dispatcher/resources/cafeDispatchModel.lu -o cognitiveModels -n cafeDispatchModel.luis --verbose
+    > ludown parse toluis --in dialogs/bookTable/resources/turn-N.lu -o cognitiveModels -n cafeBotBookTableTurnN.luis --verbose
+    > ludown parse toluis --in dialogs/whoAreYou/resources/getUserProfile.lu -o cognitiveModels -n getUserProfile.luis --verbose
+    ```
+- Parse .lu files into QnA Maker KB and QnA Maker alterations file
+    ```bash
+    > ludown parse toqna --in dialogs/dispatcher/resources/cafeFAQ_ChitChat.lu -o cognitiveModels -n cafeFaqChitChat.qna -a --verbose
+    ```
 - Rename current LUIS version
     ```bash
     > msbot get cafeDispatchModel --secret <Key if your bot file is encrypted> | luis rename version --newVersionId 0.1_old --stdin
     ```
-- Import a LUIS application version
+- Import a LUIS new application version
     ```bash
     > msbot get cafeDispatchModel --secret <Key if your bot file is encrypted> | luis import version --stdin --in cognitiveModels/cafeDispatchModel.luis
     ```

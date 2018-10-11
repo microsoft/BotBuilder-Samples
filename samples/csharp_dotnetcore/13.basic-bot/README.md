@@ -2,7 +2,7 @@
 This bot has been created using [Microsoft Bot Framework](https://dev.botframework.com),
 - - Use [LUIS](https://luis.ai) to implement core AI capabilities
 - Implement a multi-turn conversation using Dialogs
-- Handle user interruptions for such things as Help or Cancel
+- Handle user interruptions for such things as `Help` or `Cancel`
 - Prompt for and validate requests for information from the user
 # To try this sample
 - Clone the samples repository
@@ -20,24 +20,22 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Navigate to [LUIS portal](https://www.luis.ai).
 - Click the `Sign in` button.
 - Click on the `Choose File` and select [basic-bot.json](basic-bot.json) from the `botbuilder-samples/csharp_dotnetcore/13.basic-bot/CognitiveModels` folder.
-- Update [BasicBot.bot](BasicBot.bot) file with your AppId, SubscriptionKey, Region and Version. 
-    You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
-	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
-    - AppId = XXXXXXXXXXXXX
-    - SubscriptionKey = YYYYYYYYYYYY
-    - Region =  westus
-    The Version is listed on the page.
+- Update [BotConfiguration.bot](BotConfiguration.bot) file with your AppId, SubscriptionKey, Region and Version. 
+    You can find this information under "Manage" tab for your LUIS application at [LUIS portal](https://www.luis.ai).
+    - The `AppID` can be found in "Application Information"
+    - The `SubscriptionKey` can be found in "Keys and Endpoints", under the `Key 1` column
+    - The `region` can be found in "Keys and Endpoints", under the `Region` column
 - Update [BotConfiguration.bot](BotConfiguration.bot) file with your Authoring Key.  
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
-NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
+    NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
 - Update [BotConfiguration.bot](BotConfiguration.bot) file to ensure the `Id` property on the `luis` service type is set to `basic-bot-LUIS`.
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/13.basic-bot`) and open `BasicBot.csproj` in Visual Studio.
-- Press F5.
+- Run the project (press `F5` key)
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/13.basic-bot` sample folder.
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/13.basic-bot` folder.
-- Type 'dotnet run'.
+- Type `dotnet run`.
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://aka.ms/botframework-emulator) is a desktop application that allows bot developers to test and debug
 their bots on localhost or running remotely through a tunnel.
@@ -48,16 +46,11 @@ their bots on localhost or running remotely through a tunnel.
 - Select `BotConfiguration.bot` file
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
-To install all Bot Builder tools - 
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
 
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
+To clone this bot, run
 
 ```bash
-npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
-```
-To clone this bot, run
-```
 msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
 ```
 # Further reading

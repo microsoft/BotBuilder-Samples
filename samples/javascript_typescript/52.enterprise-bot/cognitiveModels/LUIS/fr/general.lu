@@ -1,0 +1,116 @@
+> Entity Definitions
+$PREBUILT:datetimeV2
+$PREBUILT:number
+
+> Intent Definitions
+# Greeting
+- Salut
+- Salut
+- Bonjour
+- Bonsoir
+- Bonjour bot
+- Salut
+- Comment vas-tu
+- Comment vas-tu aujourd'hui
+
+# Help
+- Aide
+- Aide-moi
+- aide s'il vous plaît
+- Je suis coincé
+- Je ne comprends pas
+- que puis-je dire
+- que pouvez-vous m'aider avec
+- que pouvez-vous faire
+- que dois-je faire maintenant
+- Pourquoi cela ne fonctionne-t-il pas
+- Est-ce que vous pouvez m'aider
+
+# Cancel
+- Arrêter
+- Annuler
+- Annuler
+- Mépris
+- Ne pas
+- Fais pas ça
+- Fais pas ça
+- Je voudrais annuler
+- C'est pas grave
+- s'il vous plaît arrêter
+
+# Restart
+- puis-je recommencer
+- Retour
+- J'ai besoin de changer quelque chose
+- Redémarrer
+- recommencer
+- Annuler
+
+# Escalate
+- puis-je parler à une personne
+- Je veux parler à un humain
+- parler à un humain
+- Transférez-moi svp
+- Contacter le support technique
+
+# ConfirmYes
+- Absolument
+- Sûr
+- Certainement
+- Sans aucun doute
+- Je pense
+- Allons-y
+- faisons ça
+- Oh oui
+- Oui s'il vous plaît
+- OK
+- Bien
+- sure chose
+- Oui
+- Oui ce serait un grand merci
+- Pourquoi pas
+- Yep c'est vrai
+- Yup
+
+# ConfirmNo
+- en aucun cas
+- Proche
+- Non
+- Non merci
+- Pas
+- non, c'est bon
+- Pas question
+- Pas du tout
+- Pas vraiment
+- pas en ce moment Merci
+
+# ConfirmMore
+- Plus
+- Je voudrais en savoir plus
+- Montrez-moi plus
+- Plus
+- plus d'infos
+- plus d'information
+
+# Next
+- Avance
+- aller de l'avant
+- aller à la prochaine
+- Prochaine
+- point suivant
+- afficher suivant
+
+# Goodbye
+- Bonne nuit
+- Au revoir
+- Au revoir
+- Ok merci
+- Ok salut
+- C'est tout Merci
+
+# None
+- ma bouteille d'eau est verte
+- les tortues aiment nager dans l'océan
+- avions de papier dans le ciel
+
+> PhraseList

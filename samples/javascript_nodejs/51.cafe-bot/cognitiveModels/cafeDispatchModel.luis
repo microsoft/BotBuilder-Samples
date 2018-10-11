@@ -247,6 +247,11 @@
       "entities": []
     },
     {
+      "text": "do you offer free wifi?",
+      "intent": "QnA",
+      "entities": []
+    },
+    {
       "text": "Free parking?",
       "intent": "QnA",
       "entities": []
@@ -1127,31 +1132,6 @@
       "entities": []
     },
     {
-      "text": "What's your name?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "What should I call you?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "Do you have a name?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "What do you go by?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "Who are you?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
       "text": "Who is your father?",
       "intent": "ChitChat",
       "entities": []
@@ -2028,36 +2008,6 @@
     },
     {
       "text": "Life is good",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "What can you do?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "What can you help me with?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "What do you do?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "What's your purpose?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "How can you help me?",
-      "intent": "ChitChat",
-      "entities": []
-    },
-    {
-      "text": "What kinds of things can you do?",
       "intent": "ChitChat",
       "entities": []
     },
@@ -3782,6 +3732,11 @@
       "entities": []
     },
     {
+      "text": "book a table for 2 in seattle",
+      "intent": "Book Table",
+      "entities": []
+    },
+    {
       "text": "tomorrow at 3 pm and I would like to bring 3 guests",
       "intent": "Book Table",
       "entities": []
@@ -3913,11 +3868,6 @@
     },
     {
       "text": "What's your name?",
-      "intent": "Who are you",
-      "entities": []
-    },
-    {
-      "text": "What can you do?",
       "intent": "Who are you",
       "entities": []
     },

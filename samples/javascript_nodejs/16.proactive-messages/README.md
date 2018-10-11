@@ -2,6 +2,19 @@ This sample demonstrates how to send proactive messages to users by
 capturing a conversation reference, then using it later to initialize
 outbound messages.
 
+# Concepts introduced in this sample
+Typically, each message that a bot sends to the user directly relates to the user's prior input. In some cases,
+a bot may need to send the user a message that is not directly related to the current topic of conversation. These
+types of messages are called proactive messages.
+
+Proactive messages can be useful in a variety of scenarios. If a bot sets a timer or reminder, it will need to
+notify the user when the time arrives. Or, if a bot receives a notification from an external system, it may need
+to communicate that information to the user immediately. For example, if the user has previously asked the bot to
+monitor the price of a product, the bot can alert the user if the price of the product has dropped by 20%. Or,
+if a bot requires some time to compile a response to the user's question, it may inform the user of the delay
+and allow the conversation to continue in the meantime. When the bot finishes compiling the response to the
+question, it will share that information with the user.
+
 # To try this sample
 - Clone the repository
     ```bash
