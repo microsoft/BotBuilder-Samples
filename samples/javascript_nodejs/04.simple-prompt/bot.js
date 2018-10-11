@@ -45,7 +45,7 @@ class SimplePromptBot {
 
     // The first step in this waterfall asks the user for their name.
     async askForName(dc) {
-        return await dc.prompt(NAME_PROMPT, `What is your name, human?`);
+        await dc.prompt(NAME_PROMPT, `What is your name, human?`);
     }
 
     // The second step in this waterfall collectsparame the response, stores it in
@@ -53,14 +53,14 @@ class SimplePromptBot {
     async collectAndDisplayName(step) {
         await this.userName.set(step.context, step.result);
         await step.context.sendActivity(`Got it. You are ${ step.result }.`);
-        return await step.endDialog();
+        await step.endDialog();
     }
 
     // This step loads the user's name from state and displays it.
     async displayName(step) {
         const userName = await this.userName.get(step.context, null);
         await step.context.sendActivity(`Your name is ${ userName }.`);
-        return await step.endDialog();
+        await step.endDialog();
     }
 
     /**
