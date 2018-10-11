@@ -55,7 +55,7 @@ const qnaEndpointSettings = {
 const logMessage = true;
 const logName = true;
 
-// Map the contents of appInsightsConfig to a consumable format for MyAppInsightsMiddleawre.
+// Map the contents of appInsightsConfig to a consumable format for MyAppInsightsMiddleware.
 const appInsightsSettings = {
     instrumentationKey: appInsightsConfig.instrumentationKey,
     logOriginalMessage: logMessage,
@@ -94,7 +94,7 @@ let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }.`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
-    console.log(`\nTo talk to your bot, open qnamaker-with-app-insights.bot file in the emulator.`);
+    console.log(`\nTo talk to your bot, open qna-with-appinsights.bot file in the emulator.`);
 });
 
 // Listen for incoming requests.
