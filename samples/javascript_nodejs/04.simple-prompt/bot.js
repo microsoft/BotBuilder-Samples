@@ -44,8 +44,8 @@ class SimplePromptBot {
     }
 
     // The first step in this waterfall asks the user for their name.
-    async askForName(dc, step) {
-        return await dc.prompt(NAME_PROMPT, `What is your name, human?`);
+    async askForName(dc) {
+        await dc.prompt(NAME_PROMPT, `What is your name, human?`);
     }
 
     // The second step in this waterfall collects the response, stores it in
@@ -53,14 +53,14 @@ class SimplePromptBot {
     async collectAndDisplayName(step) {
         await this.userName.set(step.context, step.result);
         await step.context.sendActivity(`Got it. You are ${ step.result }.`);
-        return await step.endDialog();
+        await step.endDialog();
     }
 
     // This step loads the user's name from state and displays it.
     async displayName(step) {
         const userName = await this.userName.get(step.context, null);
         await step.context.sendActivity(`Your name is ${ userName }.`);
-        return await step.endDialog();
+        await step.endDialog();
     }
 
     /**
@@ -90,7 +90,7 @@ class SimplePromptBot {
 
             // Show menu if no response sent
             if (!turnContext.responded) {
-                var userName = await this.userName.get(dc.context, null);
+                const userName = await this.userName.get(dc.context, null);
                 if (userName) {
                     await dc.beginDialog(HELLO_USER);
                 } else {
@@ -103,7 +103,7 @@ class SimplePromptBot {
             // Do we have any new members added to the conversation?
             if (turnContext.activity.membersAdded.length !== 0) {
                 // Iterate over all new members added to the conversation
-                for (var idx in turnContext.activity.membersAdded) {
+                for (let idx in turnContext.activity.membersAdded) {
                     // Greet anyone that was not the target (recipient) of this message.
                     // Since the bot is the recipient for events from the channel,
                     // context.activity.membersAdded === context.activity.recipient.Id indicates the

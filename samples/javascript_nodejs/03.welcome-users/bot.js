@@ -33,7 +33,7 @@ class WelcomeBot {
         if (turnContext.activity.type === ActivityTypes.Message) {
             // Read UserState. If the 'DidBotWelcomedUser' does not exist (first time ever for a user)
             // set the default to false.
-            let didBotWelcomedUser = await this.welcomedUserProperty.get(turnContext, false);
+            const didBotWelcomedUser = await this.welcomedUserProperty.get(turnContext, false);
 
             // Your bot should proactively send a welcome message to a personal chat the first time
             // (and only the first time) a user initiates a personal chat with your bot.
@@ -87,7 +87,7 @@ class WelcomeBot {
         // Do we have any new members added to the conversation?
         if (turnContext.activity.membersAdded.length !== 0) {
             // Iterate over all new members added to the conversation
-            for (var idx in turnContext.activity.membersAdded) {
+            for (let idx in turnContext.activity.membersAdded) {
                 // Greet anyone that was not the target (recipient) of this message.
                 // Since the bot is the recipient for events from the channel,
                 // context.activity.membersAdded === context.activity.recipient.Id indicates the
