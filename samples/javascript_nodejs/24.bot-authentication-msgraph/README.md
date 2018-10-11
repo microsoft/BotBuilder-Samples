@@ -4,7 +4,7 @@ This bot has been created using [Microsoft Bot Framework](https://docs.microsoft
 
 This sample uses the bot authentication capabilities of Azure Bot Service. In this sample we are assuming the OAuth 2 provider
 is Azure Active Directory v2 (AADv2) and are utilizing the Microsoft Graph API to retrieve data about the
-user. [Check here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-authentication?view=azure-bot-service-4.0) for information about getting an AADv2
+user. [Check here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp) for information about getting an AADv2
 application setup for use in Azure Bot Service.
 The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference) used in this sample are the following:
 - `email`
