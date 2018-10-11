@@ -44,7 +44,7 @@ class SimplePromptBot {
     }
 
     // The first step in this waterfall asks the user for their name.
-    async askForName(dc, step) {
+    async askForName(dc) {
         return await dc.prompt(NAME_PROMPT, `What is your name, human?`);
     }
 
