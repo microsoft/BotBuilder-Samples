@@ -22,6 +22,11 @@ git clone https://github.com/microsoft/botbuilder-samples.git
 - Open `botbuilder-samples/samples/csharp_dotnetcore/15.handling-attachments` folder
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/15.handling-attachments`
 - Type `dotnet run`.
+## Update packages
+
+- In Visual Studio right click on the solution and select "Restore NuGet Packages".
+- In Visual Studio Code type `dotnet restore`
+
 ## Testing the bot using Bot Framework Emulator
 
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
@@ -35,14 +40,16 @@ git clone https://github.com/microsoft/botbuilder-samples.git
 - Select `BotConfiguration.bot` file.
 
 # Deploy this bot to Azure
-
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
 
-## Update packages
+To clone this bot, run
 
-- In Visual Studio right click on the solution and select "Restore NuGet Packages".
-  **Note:** this sample requires `Microsoft.Bot.Builder`, `Microsoft.Bot.Connector`, and `Microsoft.Bot.Builder.Integration.AspNet.Core`.
-# Further reading
+```bash
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+```
+
+## Further reading
+
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Bot Basics](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
