@@ -13,7 +13,7 @@ namespace Microsoft.BotBuilderSamples
     /// <summary>
     /// Represents a bot that processes incoming activities.
     /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
-    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// This is a Transient lifetime service. Transient lifetime services are created
     /// each time they're requested. For each Activity received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
     /// beyond the single turn, should be carefully managed.
@@ -29,7 +29,7 @@ namespace Microsoft.BotBuilderSamples
                                                 Emulator, press the 'Start Over' button to simulate user joining
                                                 a bot or a channel";
 
-        private const string InfoMessage = @"You are seeing this message because the bot recieved atleast one
+        private const string InfoMessage = @"You are seeing this message because the bot received at least one
                                             'ConversationUpdate' event, indicating you (and possibly others)
                                             joined the conversation. If you are using the emulator, pressing
                                             the 'Start Over' button to trigger this event again. The specifics
@@ -38,7 +38,7 @@ namespace Microsoft.BotBuilderSamples
                                              https://aka.ms/about-botframework-welcome-user";
 
         private const string PatternMessage = @"It is a good pattern to use this event to send general greeting
-                                              to user, explaning what your bot can do. In this example, the bot
+                                              to user, explaining what your bot can do. In this example, the bot
                                               handles 'hello', 'hi', 'help' and 'intro. Try it now, type 'hi'";
 
         // The bot state accessor object. Use this to access specific state properties.
@@ -88,11 +88,11 @@ namespace Microsoft.BotBuilderSamples
                     var userName = turnContext.Activity.From.Name;
 
                     await turnContext.SendActivityAsync($"You are seeing this message because this was your first message ever to this bot.", cancellationToken: cancellationToken);
-                    await turnContext.SendActivityAsync($"It is a good practice to welcome the user and provdie personal greeting. For example, welcome {userName}.", cancellationToken: cancellationToken);
+                    await turnContext.SendActivityAsync($"It is a good practice to welcome the user and provide personal greeting. For example, welcome {userName}.", cancellationToken: cancellationToken);
                 }
                 else
                 {
-                    // This example hardcodes specific uterances. You should use LUIS or QnA for more advance language understanding.
+                    // This example hardcodes specific utterances. You should use LUIS or QnA for more advance language understanding.
                     var text = turnContext.Activity.Text.ToLowerInvariant();
                     switch (text)
                     {
@@ -138,7 +138,7 @@ namespace Microsoft.BotBuilderSamples
             }
             else
             {
-                // Default behaivor for all other type of activities.
+                // Default behavior for all other type of activities.
                 await turnContext.SendActivityAsync($"{turnContext.Activity.Type} activity detected");
             }
 
