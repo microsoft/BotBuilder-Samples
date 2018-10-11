@@ -48,7 +48,7 @@ class SimplePromptBot {
         await dc.prompt(NAME_PROMPT, `What is your name, human?`);
     }
 
-    // The second step in this waterfall collectsparame the response, stores it in
+    // The second step in this waterfall collects the response, stores it in
     // the state accessor, then displays it.
     async collectAndDisplayName(step) {
         await this.userName.set(step.context, step.result);
@@ -90,7 +90,7 @@ class SimplePromptBot {
 
             // Show menu if no response sent
             if (!turnContext.responded) {
-                var userName = await this.userName.get(dc.context, null);
+                const userName = await this.userName.get(dc.context, null);
                 if (userName) {
                     await dc.beginDialog(HELLO_USER);
                 } else {
