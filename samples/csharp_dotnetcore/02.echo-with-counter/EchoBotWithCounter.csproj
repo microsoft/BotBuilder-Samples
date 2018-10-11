@@ -25,6 +25,26 @@
     <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="2.1.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
   </ItemGroup>
+  
+  <Target Name="ValidatePublish" BeforeTargets="BeforePublish">
+    <Exec Command="Scripts\PrePublishValidate.cmd" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Message Text="The exit code is $(ErrorCode)" />
+    <Error Text="Your bot configuration is incorrect.  Please see README.md for instructions on how to get set up with this bot." Condition="'$(ErrorCode)'&gt;'0'" />
+  </Target>
+
+
+  <ItemGroup>
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 
 </Project>

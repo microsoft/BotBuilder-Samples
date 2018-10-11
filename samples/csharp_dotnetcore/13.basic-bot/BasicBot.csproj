@@ -28,8 +28,17 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
+  
+  <Target Name="ValidatePublish" BeforeTargets="BeforePublish">
+    <Exec Command="Scripts\PrePublishValidate.cmd" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Message Text="The exit code is $(ErrorCode)" />
+    <Error Text="Your bot configuration is incorrect.  Please see the Build Output window and https://aka.ms/botAzureDeploy for more details." Condition="'$(ErrorCode)'&gt;'0'" />
+  </Target>
 
- <ItemGroup>
+
+  <ItemGroup>
     <None Update="*.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
