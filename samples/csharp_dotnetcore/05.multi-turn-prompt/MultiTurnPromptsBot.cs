@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class MultiTurnPromptsBot : IBot
     {
-        private const string WelcomeText = "Welcome to MultiTurnPromptBot. This bot will introduce muliple turns using prompts.  Type anything to get started.";
+        private const string WelcomeText = "Welcome to MultiTurnPromptBot. This bot will introduce multiple turns using prompts.  Type anything to get started.";
 
         private readonly MultiTurnPromptsBotAccessors _accessors;
 
