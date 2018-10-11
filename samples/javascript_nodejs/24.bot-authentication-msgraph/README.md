@@ -6,8 +6,14 @@ This sample uses the bot authentication capabilities of Azure Bot Service. In th
 is Azure Active Directory v2 (AADv2) and are utilizing the Microsoft Graph API to retrieve data about the
 user. [Check here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-authentication?view=azure-bot-service-4.0) for information about getting an AADv2
 application setup for use in Azure Bot Service.
-The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference) used in this sample are
-`OpenId email Mail.Send.Shared Mail.Read profile User.Read User.ReadBasic.All`.
+The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference) used in this sample are the following:
+- `email`
+- `Mail.Read`
+- `Mail.Send.Shared`
+- `openid`
+- `profile`
+- `User.Read`
+- `User.ReadBasic.All`
 
 ## To try this sample
 - Clone the repository
