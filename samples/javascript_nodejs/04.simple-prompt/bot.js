@@ -48,7 +48,7 @@ class SimplePromptBot {
         return await dc.prompt(NAME_PROMPT, `What is your name, human?`);
     }
 
-    // The second step in this waterfall collects the response, stores it in
+    // The second step in this waterfall collectsparame the response, stores it in
     // the state accessor, then displays it.
     async collectAndDisplayName(step) {
         await this.userName.set(step.context, step.result);
@@ -103,7 +103,7 @@ class SimplePromptBot {
             // Do we have any new members added to the conversation?
             if (turnContext.activity.membersAdded.length !== 0) {
                 // Iterate over all new members added to the conversation
-                for (var idx in turnContext.activity.membersAdded) {
+                for (let idx in turnContext.activity.membersAdded) {
                     // Greet anyone that was not the target (recipient) of this message.
                     // Since the bot is the recipient for events from the channel,
                     // context.activity.membersAdded === context.activity.recipient.Id indicates the
