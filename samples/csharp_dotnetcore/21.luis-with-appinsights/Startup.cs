@@ -33,6 +33,8 @@ namespace Microsoft.BotBuilderSamples
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -47,27 +49,27 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
         public void ConfigureServices(IServiceCollection services)
         {
+            var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+
+            // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\<YOUR BOT CONFIGURATION>.bot", secretKey);
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+
+            // Retrieve current endpoint.
+            var environment = _isProduction ? "production" : "development";
+            var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+            if (!(service is EndpointService endpointService))
+            {
+                throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+            }
+
+            var connectedServices = InitBotServices(botConfig);
+            services.AddSingleton(sp => connectedServices);
+
             services.AddBot<LuisBot>(options =>
             {
-                var secretKey = Configuration.GetSection("botFileSecret")?.Value;
-                var botFilePath = Configuration.GetSection("botFilePath")?.Value;
-
-                // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
-                var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
-                services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
-
-                // Retrieve current endpoint.
-                var environment = _isProduction ? "production" : "development";
-                var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
-                if (!(service is EndpointService endpointService))
-                {
-                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
-                }
-
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
-
-                var connectedServices = InitBotServices(botConfig);
-                services.AddSingleton(sp => connectedServices);
 
                 // Add MyAppInsightsLoggerMiddleware (logs activity messages into Application Insights)
                 var appInsightsLogger = new MyAppInsightsLoggerMiddleware(connectedServices.TelemetryClient.InstrumentationKey, logUserName: true, logOriginalMessage: true);
@@ -175,7 +177,7 @@ namespace Microsoft.BotBuilderSamples
                                 throw new InvalidOperationException("The Region ('region') is required to run this sample.  Please update your '.bot' file.");
                             }
 
-                            var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.Region);
+                            var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
                             var recognizer = new MyAppInsightLuisRecognizer(app);
                             luisServices.Add(LuisBot.LuisKey, recognizer);
                             break;
