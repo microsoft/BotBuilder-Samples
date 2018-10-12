@@ -7,13 +7,13 @@ const fs = require('fs');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, MemoryStorage, ConversationState, TranscriptLoggerMiddleware } = require('botbuilder');
+const { BotFrameworkAdapter, MemoryStorage, UserState, ConversationState, TranscriptLoggerMiddleware } = require('botbuilder');
 const { CustomLogger } = require('./CustomLogger');
 // Import required bot configuration.
 const { BotConfiguration } = require('botframework-config');
 
 // This bot's main dialog.
-const { MyBot } = require('./bot');
+const { LoggerBot } = require('./bot');
 
 // Read botFilePath and botFileSecret from .env file
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
@@ -29,7 +29,7 @@ const DEV_ENVIRONMENT = 'development';
 // bot name as defined in .bot file
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
 const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
-const logDir = process.env.logFilePath;
+const logDir = process.env.transcriptsPath;
 
 if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir);
@@ -87,9 +87,10 @@ const memoryStorage = new MemoryStorage();
 
 // Create conversation state with in-memory storage provider.
 const conversationState = new ConversationState(memoryStorage);
+const userState = new UserState(memoryStorage);
 
 // Create the main dialog.
-const myBot = new MyBot(conversationState);
+const loggerBot = new LoggerBot(conversationState, userState);
 
 adapter.use(logger);
 
@@ -110,7 +111,6 @@ adapter.onTurnError = async (context, error) => {
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
         // Route to main dialog.
-        await myBot.onTurn(context);
+        await loggerBot.onTurn(context);
     });
 });
-

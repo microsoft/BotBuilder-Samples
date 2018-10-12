@@ -13,9 +13,10 @@
     },
     "dependencies": {
         "botbuilder": "^4.0.6",
+        "botbuilder-dialogs": "^4.0.6",
         "botframework-config": "^4.0.6",
-        "cryptiles": "^4.1.2",
         "dotenv": "^6.0.0",
+        "node-fetch": "^2.2.0",
         "restify": "^6.3.4"
     },
     "devDependencies": {
