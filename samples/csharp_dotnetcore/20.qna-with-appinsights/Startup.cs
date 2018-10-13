@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
-using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
@@ -55,19 +54,19 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
         public void ConfigureServices(IServiceCollection services)
         {
+            var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+
+            // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+
+            // Initialize Bot Connected Services clients.
+            var connectedServices = InitBotServices(botConfig);
+            services.AddSingleton(sp => connectedServices);
+
             services.AddBot<QnABot>(options =>
             {
-                var secretKey = Configuration.GetSection("botFileSecret")?.Value;
-                var botFilePath = Configuration.GetSection("botFilePath")?.Value;
-
-                // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
-                var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
-                services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
-
-                // Initialize Bot Connected Services clients.
-                var connectedServices = InitBotServices(botConfig);
-                services.AddSingleton(sp => connectedServices);
-
                 // Retrieve current endpoint.
                 var environment = _isProduction ? "production" : "development";
                 var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
