@@ -6,6 +6,7 @@ namespace EnterpriseBot
     public static class TelemetryConstants
     {
         public const string ActivityIDProperty = "ActivityId";
+        public const string ReplyActivityIDProperty = "ReplyActivityId";
         public const string ChannelProperty = "Channel";
         public const string FromIdProperty = "FromId";
         public const string FromNameProperty = "FromName";
