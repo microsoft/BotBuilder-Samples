@@ -3,8 +3,10 @@
 
 using System;
 using System.Collections.Generic;
+using EnterpriseBot.Middleware.Telemetry;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Configuration;
@@ -35,7 +37,8 @@ namespace EnterpriseBot
                         {
                             var appInsights = service as AppInsightsService;
                             var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
-                            TelemetryClient = new TelemetryClient(telemetryConfig);
+                            telemetryConfig.TelemetryInitializers.Add(new OperationCorrelationTelemetryInitializer());
+                            TelemetryClient = new TelemetryClient();
                             break;
                         }
 
