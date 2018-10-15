@@ -47,7 +47,7 @@ namespace Microsoft.BotBuilderSamples
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botConfig = BotConfiguration.Load(botFilePath ?? @".\CafeBot.bot", secretKey);
-            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. botFilePath: {botFilePath}"));
 
             // add BotServices singleton
             services.AddSingleton(sp => new BotServices(botConfig));
@@ -88,7 +88,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 // Load the connected services from .bot file.
                 var environment = _isProduction ? "production" : "development";
-                var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
                 if (!(service is EndpointService endpointService))
                 {
                     throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
