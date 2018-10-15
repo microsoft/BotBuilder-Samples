@@ -17,6 +17,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Asp_Mvc_Bot
 {
@@ -37,15 +38,13 @@ namespace Asp_Mvc_Bot
             Converters = new List<JsonConverter> { new Iso8601TimeSpanConverter() },
         });
 
-        private readonly BotFrameworkOptions _options;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="BotControllerBase"/> class.
         /// </summary>
         /// <param name="options">The <see cref="BotFrameworkOptions"/> to use.</param>
         protected BotControllerBase(BotFrameworkOptions options = null)
         {
-            _options = options ?? new BotFrameworkOptions();
+            Options = options ?? new BotFrameworkOptions();
         }
 
         /// <summary>
@@ -63,7 +62,7 @@ namespace Asp_Mvc_Bot
                 throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{name}'.");
             }
 
-            _options = new BotFrameworkOptions
+            Options = new BotFrameworkOptions
             {
                 CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword),
                 OnTurnError = async (context, exception) =>
@@ -73,6 +72,14 @@ namespace Asp_Mvc_Bot
             };
         }
 
+        /// <summary>
+        /// Gets a <see cref="BotFrameworkOptions"/> object.
+        /// </summary>
+        /// <value>
+        /// The <see cref="BotFrameworkOptions"/> object used to create the adapter.
+        /// </value>
+        protected BotFrameworkOptions Options { get; }
+
         [HttpPost]
         public async Task PostAsync()
         {
@@ -80,10 +87,17 @@ namespace Asp_Mvc_Bot
 
             using (var bodyReader = new JsonTextReader(new StreamReader(Request.Body, Encoding.UTF8)))
             {
+                var obj = JObject.Load(bodyReader);
+
+                var json = obj.ToString();
+            }
+
+            using (var bodyReader = new JsonTextReader(new StreamReader(Request.Body, Encoding.UTF8)))
+            {
                 activity = BotMessageSerializer.Deserialize<Activity>(bodyReader);
             }
 
-            var botFrameworkAdapter = new BotFrameworkAdapter(_options.CredentialProvider);
+            var botFrameworkAdapter = new BotFrameworkAdapter(Options.CredentialProvider);
 
             var invokeResponse = await botFrameworkAdapter.ProcessActivityAsync(
                 Request.Headers["Authorization"],

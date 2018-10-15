@@ -44,6 +44,10 @@ namespace Asp_Mvc_Bot
             {
                 return OnConversationUpdateActivityAsync(turnContext, cancellationToken);
             }
+            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                return OnConversationUpdateActivityAsync(turnContext, cancellationToken);
+            }
             else
             {
                 return OnOtherActivityAsync(turnContext, cancellationToken);

@@ -20,6 +20,10 @@ namespace Asp_Mvc_Bot.Controllers
         public Bot3Controller(BotConfiguration botConfig)
             : base(botConfig, "bot3 development")
         {
+            Options.OnTurnError = async (context, exception) =>
+            {
+                await context.SendActivityAsync("Sorry, it looks like something went wrong in bot3.");
+            };
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext turnContext, CancellationToken cancellationToken)
