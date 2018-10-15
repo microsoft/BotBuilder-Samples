@@ -59,6 +59,7 @@ namespace Asp_Mvc_Bot
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

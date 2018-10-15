@@ -17,7 +17,6 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Asp_Mvc_Bot
 {
@@ -84,13 +83,6 @@ namespace Asp_Mvc_Bot
         public async Task PostAsync()
         {
             var activity = default(Activity);
-
-            using (var bodyReader = new JsonTextReader(new StreamReader(Request.Body, Encoding.UTF8)))
-            {
-                var obj = JObject.Load(bodyReader);
-
-                var json = obj.ToString();
-            }
 
             using (var bodyReader = new JsonTextReader(new StreamReader(Request.Body, Encoding.UTF8)))
             {

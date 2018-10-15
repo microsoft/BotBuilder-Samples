@@ -78,11 +78,14 @@ namespace Asp_Mvc_Bot
         /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
         protected virtual async Task OnConversationUpdateActivityAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            foreach (var member in turnContext.Activity.MembersAdded)
+            if (turnContext.Activity.MembersAdded != null)
             {
-                if (member.Id != turnContext.Activity.Recipient.Id)
+                foreach (var member in turnContext.Activity.MembersAdded)
                 {
-                    await OnMemberAddedAsync(member, turnContext, cancellationToken);
+                    if (member.Id != turnContext.Activity.Recipient.Id)
+                    {
+                        await OnMemberAddedAsync(member, turnContext, cancellationToken);
+                    }
                 }
             }
         }
