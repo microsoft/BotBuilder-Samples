@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console-EchoBot", "01.console-echo\Console-EchoBot.csproj", "{ECFF9720-28CF-4F7D-896B-DA489D1032EA}"
 EndProject
@@ -52,6 +52,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnterpriseBot", "52.enterprise-bot\EnterpriseBot.csproj", "{194FBDB6-8E6D-4B0F-A7E6-7BA83D7F1062}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CafeBot", "51.cafe-bot\CafeBot.csproj", "{BC6F0831-92C8-4E32-801E-50972C1BD36A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureSearchBot", "25.azure-search\AzureSearchBot.csproj", "{40EA3843-C05F-4B1A-BADA-9473F571531C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -159,6 +161,10 @@ Global
 		{BC6F0831-92C8-4E32-801E-50972C1BD36A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC6F0831-92C8-4E32-801E-50972C1BD36A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC6F0831-92C8-4E32-801E-50972C1BD36A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40EA3843-C05F-4B1A-BADA-9473F571531C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40EA3843-C05F-4B1A-BADA-9473F571531C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40EA3843-C05F-4B1A-BADA-9473F571531C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40EA3843-C05F-4B1A-BADA-9473F571531C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,33 @@
+{
+  "version": "1.0",
+  "resources": [
+    {
+      "type": "endpoint",
+      "id": "1",
+      "name": "development",
+      "url": "http://localhost:3978/api/messages"
+    },
+    {
+      "type": "endpoint",
+      "id": "2",
+      "name": "production",
+      "url": "https://your-bot-url.azurewebsites.net/api/messages"
+    },
+    {
+      "type": "abs",
+      "id": "3",
+      "name": "Botv4AzureSearch-abs"
+    },
+    {
+      "type": "appInsights",
+      "id": "4",
+      "name": "Botv4AzureSearch-insights"
+    },
+    {
+      "type": "blob",
+      "id": "5",
+      "name": "Botv4AzureSearch-blob",
+      "container": "botstatestore"
+    }
+  ]
+}
