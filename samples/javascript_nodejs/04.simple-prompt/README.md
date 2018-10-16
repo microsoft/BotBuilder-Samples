@@ -11,7 +11,7 @@ This sample shows how to use the prompts classes included in `botbuilder-dialogs
     ```
 - Install modules and start the bot
     ```bash
-    npm i & npm start
+    npm i && npm start
     ```
 
 # Testing the bot using Bot Framework Emulator

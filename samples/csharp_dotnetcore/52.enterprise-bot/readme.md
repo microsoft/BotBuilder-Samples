@@ -31,15 +31,19 @@
 
 5. Update your `appsettings.json` with your .bot file path and .bot file secret (if set).
 
-6. There are two locations that need to be updated in the code.
+6. There are two locations that need to be updated in the code to resolve the LUIS service.
 In the following files:
     MainDialog.cs
     EnterpriseDialog.cs
 The following line needs to be updated in both files:
     var luisService = _services.LuisServices[<YOUR MS BOT NAME>_General];
 The <YOUR MS BOT NAME> must be replaced with the <NAME> provided in step 4 above.
+
+7. Check the QnAService name in your `.bot` file and update the following line in MainDialog.cs.
+    var qnaService = _services.QnAServices[<YOUR_QNA_SERVICE_NAME>];
+The <YOUR_QNA_SERVICE_NAME> must be replaced with the <NAME> of your QnA service.
     
-7. Run your bot project and type "hi" to verify your services are correctly configured
+8. Run your bot project and type "hi" to verify your services are correctly configured
 
 
 ## Enabling more scenarios
@@ -67,7 +71,7 @@ The result of content moderation can be accessed via your bot state
     if (moderatorService != null)
     {
         var moderator = moderatorService as GenericService;
-        var moderatorKey = moderator.Configuration["subscriptionKey"];
+        var moderatorKey = moderator.Configuration["key"];
         var moderatorRegion = moderator.Configuration["region"];
         var moderatorMiddleware = new ContentModeratorMiddleware(moderatorKey, moderatorRegion);
         options.Middleware.Add(moderatorMiddleware);

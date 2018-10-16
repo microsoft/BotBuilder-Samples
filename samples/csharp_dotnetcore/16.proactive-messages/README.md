@@ -21,20 +21,29 @@ question, it will share that information with the user.
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` with your botFileSecret. For Azure Bot Service bots, you can find the botFileSecret under application settings.
 # Prerequisites
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages`) and open `ProactiveBot.csproj` in Visual Studio.
-- Press F5.
+- In Visual Studio right click on the solution and select "Restore NuGet Packages".
+- Run the project (press `F5` key)
 
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` sample folder.
 - Bring up a console, navigate to `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` folder.
-- type `dotnet run`
+- In the Visual Studio Code terminal type `dotnet restore`
+- Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 - Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator).
+
+Build run your bot locally and open two instances of the emulator.
+
+1. In the first emulator, type "run" to simulate a job being added to the queue.
+1. Copy the job number from the emulator log.
+1. In the second emulator, type "done <jobNumber>", where "<jobNumber>" is the job number, without the angle brackets, that you copied in the previous step. This will cause the bot to complete the job.
+1. Note that the bot sends a message proactively to the user in the first emulator when the job is completed.
 
 ### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
@@ -43,17 +52,10 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Open two conversations in the emulator, see that the proactive message goes to the correct conversation
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
 
-To install all Bot Builder tools - 
-
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
-
-```bash
-npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
-```
 To clone this bot, run
-```
+```bash
 msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
 ```
 # Further reading

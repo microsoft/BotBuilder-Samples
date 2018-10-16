@@ -13,7 +13,7 @@ This sample shows how to send outgoing attachments and how to save attachments t
     For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules and start the bot
     ```bash
-    npm i & npm start
+    npm i && npm start
     ```
 
 # Testing the bot using Bot Framework Emulator
@@ -28,7 +28,7 @@ This sample shows how to send outgoing attachments and how to save attachments t
 
 # Attachments
 A message exchange between user and bot may contain cards and media attachments, such as images, video, audio, and files.
-The types of attachments that may be sent and recieved varies by channel. Additionally, a bot may also recieve file attachments.
+The types of attachments that may be sent and received varies by channel. Additionally, a bot may also receive file attachments.
 
 # Deploy this bot to Azure
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 

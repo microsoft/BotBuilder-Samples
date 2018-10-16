@@ -45,8 +45,8 @@ const appInsightsConfig = botConfig.findServiceByNameOrId(APP_INSIGHTS_CONFIGURA
 // Map the contents of luisConfig to a consumable format for our MyAppInsightsLuisRecognizer class.
 const luisApplication = {
     applicationId: luisConfig.appId,
-    endpointKey: luisConfig.endpointKey,
-    ednpoint: `https://${luisConfig.region}.api.cognitive.microsoft.com`
+    endpointKey: luisConfig.subscriptionKey || luisConfig.authoringKey,
+    endpoint: luisConfig.getEndpoint()
 };
 
 // Create two variables to indicate whether or not the bot should include messages' text and usernames when
@@ -55,7 +55,7 @@ const luisApplication = {
 const logMessage = true;
 const logName = true;
 
-// Map the contents of appInsightsConfig to a consumable format for MyAppInsightsMiddleawre.
+// Map the contents of appInsightsConfig to a consumable format for MyAppInsightsMiddleware.
 const appInsightsSettings = {
     instrumentationKey: appInsightsConfig.instrumentationKey,
     logOriginalMessage: logMessage,

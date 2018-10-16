@@ -3,42 +3,46 @@
 
 // Using text recognizer package to perform timex operations.
 var { TimexProperty, creator, resolver } = require('@microsoft/recognizers-text-data-types-timex-expression').default;
-
 const { ReservationOutcome, ReservationResult, reservationStatus } = require('./createReservationPropertyResult');
 const { LUIS_ENTITIES } = require('../helpers');
 
 // Consts for LUIS entities.
-const PARTY_SIZE_ENTITY = LUIS_ENTITIES[1];
-const DATE_TIME_ENTITY = LUIS_ENTITIES[2];
-const LOCATION_ENTITY = LUIS_ENTITIES[3];
-const CONFIRMATION_ENTITY = 'confirmationList';
+const PARTY_SIZE_ENTITY = LUIS_ENTITIES.number;
+const DATE_TIME_ENTITY = LUIS_ENTITIES.datetime;
+const LOCATION_ENTITY = LUIS_ENTITIES.cafeLocation;
+const CONFIRMATION_ENTITY = LUIS_ENTITIES.confirmationList;
+
 const FOUR_WEEKS = '4';
 const MAX_PARTY_SIZE = 10;
 
 // Date constraints for reservations
-const reservationDateConstraints = [ /* Date for reservations must be        */
-    creator.thisWeek, /* - a date in this week .OR.           */
-    creator.nextWeeksFromToday(FOUR_WEEKS) /* - a date in the next 4 weeks .AND.   */
+/* Date for reservations must be:
+    - a date in this week .OR.
+    - a date in the next 4 weeks
+*/
+const reservationDateConstraints = [
+    creator.thisWeek,
+    creator.nextWeeksFromToday(FOUR_WEEKS)
 ];
 
 // Time constraints for reservations
-const reservationTimeConstraints = [ /* Time for reservations must be   */
-    creator.daytime /* - daytime or                    */
+// Time for reservations must be daytime
+const reservationTimeConstraints = [
+    creator.daytime
 ];
 
 /**
  * Reservation property class.
- *   This is a self contained class that exposes a bunch of public methods to
- *     evaluate if we have a complete instance (all required properties filled in)
- *     generate reply text
- *       based on missing properties
- *       with all information that's already been captured
- *       to confirm reservation
- *       to provide contextual help
- *   Also exposes two static methods to construct a reservations object based on
- *     LUIS results object
- *     arbitrary object
- *
+ * - This is a self contained class that exposes a bunch of public methods to
+ *   evaluate if we have a complete instance (all required properties filled in)
+ * - Generate reply text
+ *     - based on missing properties
+ *     - with all information that's already been captured
+ *     - to confirm reservation
+ *     - to provide contextual help
+ * - Also exposes two static methods to construct a reservations object based on
+ *     - LUIS results object
+ *     - arbitrary object
  */
 class ReservationProperty {
     /**
@@ -65,7 +69,7 @@ class ReservationProperty {
     }
 
     /**
-     * Helper method to evalute if we have all required properties filled.
+     * Helper method to evaluate if we have all required properties filled.
      *
      * @returns {Boolean} true if we have a complete reservation property
      */
@@ -83,9 +87,9 @@ class ReservationProperty {
      * @param {OnTurnProperty}
      * @returns {ReservationResult}
      */
-    updateProperties(onTurnProperty, step) {
+    updateProperties(onTurnProperty) {
         let returnResult = new ReservationResult(this);
-        return validate(onTurnProperty, returnResult, step);
+        return validate(onTurnProperty, returnResult);
     }
 
     /**
@@ -163,9 +167,9 @@ module.exports = ReservationProperty;
  * @param {OnTurnProperty}
  * @returns {ReservationResult}
  */
-ReservationProperty.fromOnTurnProperty = function(onTurnProperty, step) {
+ReservationProperty.fromOnTurnProperty = function(onTurnProperty) {
     let returnResult = new ReservationResult(new ReservationProperty());
-    return validate(onTurnProperty, returnResult, step);
+    return validate(onTurnProperty, returnResult);
 };
 
 /**
@@ -184,7 +188,7 @@ ReservationProperty.fromJSON = function(obj) {
  * HELPERS
  */
 /**
- * Helper function to create a random guid
+ * Helper function to create a random GUID
   * @returns {string} GUID
  */
 const getGuid = function() {
@@ -199,7 +203,7 @@ const getGuid = function() {
  * @param {Object} onTurnProperty
  * @param {ReservationResult} return result object
  */
-const validate = function(onTurnProperty, returnResult, step) {
+const validate = function(onTurnProperty, returnResult) {
     if (onTurnProperty === undefined || onTurnProperty.entities.length === 0) return returnResult;
 
     // We only will pull number -> party size, datetimeV2 -> date and time, cafeLocation -> location.

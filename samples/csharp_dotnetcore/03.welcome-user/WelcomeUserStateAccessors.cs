@@ -16,7 +16,7 @@ namespace Microsoft.BotBuilderSamples
         /// Initializes a new instance of the <see cref="WelcomeUserStateAccessors"/> class.
         /// Contains the <see cref="UserState"/> and associated <see cref="IStatePropertyAccessor{T}"/>.
         /// </summary>
-        /// <param name="conversationState">The state object that stores the counter.</param>
+        /// <param name="userState">The state object that stores the counter.</param>
         public WelcomeUserStateAccessors(UserState userState)
         {
             this.UserState = userState ?? throw new ArgumentNullException(nameof(userState));

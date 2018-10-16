@@ -1,6 +1,7 @@
 > Entity definitions
 > Check out https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown to learn more about .lu files and Ludown.
 
+> List entities
 $confirmationList:yes=
 - yeah
 - yup
@@ -20,6 +21,7 @@ $confirmationList:no=
 - nope
 - dont book it
 
+> Pre built entities 
 $PREBUILT:number
 
 $PREBUILT:datetimeV2

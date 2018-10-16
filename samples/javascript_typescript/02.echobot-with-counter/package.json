@@ -6,7 +6,7 @@
   "scripts": {
     "build-sample": "tsc",
     "start": "tsc && node ./lib/index.js",
-    "watch": "nodemon ./lib/index.js"
+    "watch": "nodemon -e ts --exec \"npm start\""
   },
   "author": "Microsoft",
   "license": "MIT",

@@ -17,7 +17,7 @@ namespace Microsoft.BotBuilderSamples
     /// <summary>
     /// Represents a bot that processes incoming activities.
     /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
-    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// This is a Transient lifetime service. Transient lifetime services are created
     /// each time they're requested. For each Activity received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
     /// beyond the single turn, should be carefully managed.
@@ -25,12 +25,12 @@ namespace Microsoft.BotBuilderSamples
     /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// This bot responds to the user's text input with an <see cref="Attachment"/> (in this example, an image)
     /// using various types of attachments. In this case, we are displaying an image from a file on the server,
-    /// an image from an https url, and an uploaded image. In this project the user also has the option to upload
-    /// an <see cref="Attachment"/> to the bot. The <see cref="Attachment"/> saves to the the same directory as the
+    /// an image from an HTTP URL, and an uploaded image. In this project the user also has the option to upload
+    /// an <see cref="Attachment"/> to the bot. The <see cref="Attachment"/> saves to the same directory as the
     /// AttachmentBot.cs file. A message exchange between user and bot may contain media attachments, such as images,
-    /// video, audio, and files. The types of attachments that can be sent and recieved varies by channel. In this
+    /// video, audio, and files. The types of attachments that can be sent and received varies by channel. In this
     /// sample we demonstrate sending a <see cref="HeroCard"/> and images as attachments. Also demonstrated is the
-    /// ability of a bot to recieve file attachments.
+    /// ability of a bot to receive file attachments.
     /// </summary>
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class AttachmentsBot : IBot
@@ -72,7 +72,7 @@ namespace Microsoft.BotBuilderSamples
             }
             else
             {
-                // Default behaivor for all other type of activities.
+                // Default behavior for all other type of activities.
                 await turnContext.SendActivityAsync($"{turnContext.Activity.Type} activity detected");
             }
         }
@@ -145,7 +145,7 @@ namespace Microsoft.BotBuilderSamples
             if (activity.Attachments != null && activity.Attachments.Any())
             {
                 // We know the user is sending an attachment as there is at least one item
-                // in the Attachements list.
+                // in the Attachments list.
                 HandleIncomingAttachment(activity, reply);
             }
             else
@@ -158,7 +158,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Adds an attachment to the 'reply' paramter that is passed in.
+        /// Adds an attachment to the 'reply' parameter that is passed in.
         /// </summary>
         private static void HandleOutgoingAttachment(IMessageActivity activity, IMessageActivity reply)
         {
@@ -170,7 +170,7 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (activity.Text.StartsWith("2"))
             {
-                reply.Text = "This is an attachment from a https url.";
+                reply.Text = "This is an attachment from a HTTP URL.";
                 reply.Attachments = new List<Attachment>() { GetInternetAttachment() };
             }
             else if (activity.Text.StartsWith("3"))
@@ -215,7 +215,7 @@ namespace Microsoft.BotBuilderSamples
                 }
 
                 reply.Text = $"Attachment \"{activity.Attachments[0].Name}\"" +
-                             $" has been recieved and saved to \"{localFileName}\"";
+                             $" has been received and saved to \"{localFileName}\"";
             }
         }
 
@@ -285,12 +285,12 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Creates an <see cref="Attachment"/> to be sent from the bot to the user from a https url.
+        /// Creates an <see cref="Attachment"/> to be sent from the bot to the user from a HTTP URL.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the operation result.</returns>
         private static Attachment GetInternetAttachment()
         {
-            // ContentUrl must be https.
+            // ContentUrl must be HTTPS.
             return new Attachment
             {
                 Name = @"Resources\architecture-resize.png",

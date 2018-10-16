@@ -21,7 +21,7 @@ namespace Microsoft.BotBuilderSamples
     /// an ecosystem of shared tooling, seamless integration between apps,
     /// and native cross-platform performance on any device.
     /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
-    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// This is a Transient lifetime service. Transient lifetime services are created
     /// each time they're requested. For each Activity received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
     /// beyond the single turn, should be carefully managed.
@@ -31,7 +31,7 @@ namespace Microsoft.BotBuilderSamples
         private const string WelcomeText = @"This bot will introduce you to AdaptiveCards.
                                             Type anything to see an AdaptiveCard.";
 
-        // This arrary contains the file location of our adaptive cards
+        // This array contains the file location of our adaptive cards
         private readonly string[] _cards =
         {
             @".\Resources\FlightItineraryCard.json",

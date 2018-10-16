@@ -85,6 +85,13 @@ namespace Microsoft.BotBuilderSamples
                 // Retrieve current endpoint.
                 var environment = _isProduction ? "production" : "development";
                 var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+                if (service == null && _isProduction)
+                {
+                    // Attempt to load development environment
+                    service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == "development").FirstOrDefault();
+                    logger.LogWarning("Attempting to load development endpoint in production environment.");
+                }
+
                 if (!(service is EndpointService endpointService))
                 {
                     throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
@@ -128,8 +135,8 @@ namespace Microsoft.BotBuilderSamples
                 options.State.Add(conversationState);
             });
 
-            // Create and register state accesssors.
-            // Acessors created here are passed into the IBot-derived class on every turn.
+            // Create and register state accessors.
+            // Accessors created here are passed into the IBot-derived class on every turn.
             services.AddSingleton<EchoBotAccessors>(sp =>
             {
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
