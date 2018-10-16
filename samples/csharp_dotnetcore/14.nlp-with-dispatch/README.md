@@ -137,6 +137,8 @@ Your project may be configured to rely on this secret and you should update it a
 
 ### Configure the LUIS service
 
+To create LUIS Subscription Keys for this bot, follow these [instructions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-azure-subscription).
+
 To create required LUIS applications for this sample bot, 
 - Create an account with [LUIS](https://luis.ai). If you already have an account, login to your account.
 - Click on your name on top right corner of the screen -> settings and grab your authoring key.
@@ -215,7 +217,8 @@ This will generate a strong key, encrypt the bot file and print the key. Please 
 Any time the bot file is encrypted, make sure to set the botFileSecret environment variable this sample relies on (either through the .env file or other means).
 
 ## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/14.nlp-with-dispatch`) and open NLP-With-Dispatch-Bot.csproj in Visual Studio 
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/14.nlp-with-dispatch`) and open NLP-With-Dispatch-Bot.csproj in Visual Studio
+- Select the "NLP-With-Dispatch-Bot" from the dropdown menu of Startup Projects
 - Hit F5
 
 ## Visual Studio Code
