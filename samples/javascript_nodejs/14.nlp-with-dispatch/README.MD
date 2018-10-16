@@ -122,7 +122,7 @@ You need to train and publish the LUIS models that were created for this sample 
 
 ```bash
 > msbot get "Home Automation" | luis train version --wait --stdin
-> msbot get "Weather" | luis train version --stdin --wait
+> msbot get "Weather" | luis train version --wait --stdin
 > msbot get "Home Automation" | luis publish version --stdin
 > msbot get "Weather" | luis publish version --stdin
 ```
@@ -157,6 +157,9 @@ To create a new dispatch model for these services and update the .bot file confi
 ```bash
 > dispatch create -b nlp-with-dispatch.bot | msbot connect dispatch --stdin
 ```
+
+Then go into your bot file and for the `"dispatch"`-type service with the name `"nlp-with-dispatchDispatch"`, add a `"subscriptionKey"` with your preferred LUIS Key. You can use the `"subscriptionKey"` that's found under the `"luis"`-type services.
+
 ## Securing keys in your .bot file
 Since your .bot file contains service IDs, subscription and authoring keys, its best to encrypt them. To encrypt the .bot file, you can run
 
