@@ -575,6 +575,10 @@
     {
       "pattern": "turn off {Device_PatternAny} in {Room_PatternAny}",
       "intent": "HomeAutomation"
+    },
+    {
+      "pattern": "turn off [the] {Device_PatternAny}",
+      "intent": "HomeAutomation"
     }
   ],
   "patternAnyEntities": [
