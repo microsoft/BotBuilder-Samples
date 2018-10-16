@@ -15,7 +15,7 @@ namespace QnABot
     public class BotConfig
     {
         /// <summary>
-        /// Register the bot framwork with Asp.net.
+        /// Register the bot framework with Asp.net.
         /// </summary>
         /// <param name="config">Represents the configuration of the HttpServer.</param>
         public static void Register(HttpConfiguration config)
