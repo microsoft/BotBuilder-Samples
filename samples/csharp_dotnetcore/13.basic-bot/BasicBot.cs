@@ -30,7 +30,7 @@ namespace Microsoft.BotBuilderSamples
         /// Key in the bot config (.bot file) for the LUIS instance.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
-        public static readonly string LuisConfiguration = "basic-bot-LUIS";
+        public static readonly string LuisConfiguration = < YOUR_BOT_NAME > + "_basic-bot-LUIS";
 
         private readonly IStatePropertyAccessor<GreetingState> _greetingStateAccessor;
         private readonly IStatePropertyAccessor<DialogState> _dialogStateAccessor;
@@ -165,7 +165,7 @@ namespace Microsoft.BotBuilderSamples
             await _userState.SaveChangesAsync(turnContext);
         }
 
-        // Determine if an interruption has occured before we dispatch to any active dialog.
+        // Determine if an interruption has occurred before we dispatch to any active dialog.
         private async Task<bool> IsTurnInterruptedAsync(DialogContext dc, string topIntent)
         {
             // See if there are any conversation interrupts we need to handle.
@@ -174,7 +174,7 @@ namespace Microsoft.BotBuilderSamples
                 if (dc.ActiveDialog != null)
                 {
                     await dc.CancelAllDialogsAsync();
-                    await dc.Context.SendActivityAsync("Ok. I've cancelled our last activity.");
+                    await dc.Context.SendActivityAsync("Ok. I've canceled our last activity.");
                 }
                 else
                 {
@@ -255,7 +255,7 @@ namespace Microsoft.BotBuilderSamples
                 {
                     if (entities[city] != null)
                     {
-                        // Captilize and set new city.
+                        // Capitalize and set new city.
                         var newCity = (string)entities[city][0];
                         greetingState.City = char.ToUpper(newCity[0]) + newCity.Substring(1);
                         break;

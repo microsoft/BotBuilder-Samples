@@ -23,7 +23,7 @@ namespace $safeprojectname$
     public class Startup
     {
         private ILoggerFactory _loggerFactory;
-        private bool _isProduction = false;
+        private readonly bool _isProduction;
 
         public Startup(IHostingEnvironment env)
         {
@@ -65,7 +65,7 @@ namespace $safeprojectname$
 
                 // Retrieve current endpoint.
                 var environment = _isProduction ? "production" : "development";
-                var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
                 if (!(service is EndpointService endpointService))
                 {
                     throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
@@ -112,8 +112,8 @@ namespace $safeprojectname$
                 options.State.Add(conversationState);
             });
 
-            // Create and register state accesssors.
-            // Acessors created here are passed into the IBot-derived class on every turn.
+            // Create and register state accessors.
+            // Accessors created here are passed into the IBot-derived class on every turn.
             services.AddSingleton<EchoBotAccessors>(sp =>
             {
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;

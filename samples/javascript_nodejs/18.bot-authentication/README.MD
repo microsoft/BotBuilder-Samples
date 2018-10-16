@@ -11,11 +11,11 @@ This sample shows how to use authentication in your bot using OAuth. This bot ex
     ```
 - Install modules and start the bot
     ```bash
-    npm i & npm start
+    npm i && npm start
     ```
     Alternatively you can also use nodemon via
     ```bash
-    npm i & npm run watch
+    npm i && npm run watch
     ```
 
 # Testing the bot using Bot Framework Emulator

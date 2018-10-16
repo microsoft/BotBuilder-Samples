@@ -4,14 +4,14 @@ const { ComponentDialog, ConfirmPrompt, WaterfallDialog } = require('botbuilder-
 const { GetUserNamePrompt } = require('../shared/prompts');
 const { InterruptionDispatcher } = require('../dispatcher/interruptionDispatcher');
 const { UserProfile } = require('../shared/stateProperties');
+const { LUIS_INTENTS, LUIS_ENTITIES } = require('../shared/helpers');
 
 // This dialog's name. Matches the name of the LUIS intent from ../dispatcher/resources/cafeDispatchModel.lu
-// LUIS recognizer replaces spaces ' ' with '_'. So intent name 'Who are you' is recognized as 'Who_are_you'.
-const WHO_ARE_YOU_DIALOG = 'Who_are_you';
+const WHO_ARE_YOU_DIALOG = LUIS_INTENTS.Who_are_you;
 
 // User name entity from ../whoAreYou/resources/whoAreYou.lu
-const USER_NAME_ENTITY = 'userName';
-const USER_NAME_PATTERN_ANY_ENTITY = 'userName_patternAny';
+const USER_NAME_ENTITY = LUIS_ENTITIES.user_name_simple;
+const USER_NAME_PATTERN_ANY_ENTITY = LUIS_ENTITIES.user_name_patternAny;
 
 // Names for dialogs and prompts
 const ASK_USER_NAME_PROMPT = 'askUserNamePrompt';
@@ -50,27 +50,27 @@ module.exports = {
             if (!userProfileAccessor) throw new Error('Missing parameter. User profile property accessor is required.');
             if (!conversationState) throw new Error('Missing parameter. Conversation state is required.');
 
-            // keep accessors for the steps to consume
+            // Keep accessors for the steps to consume.
             this.onTurnAccessor = onTurnAccessor;
             this.userProfileAccessor = userProfileAccessor;
 
-            // add dialogs
+            // Add water fall dialog with two steps.
             this.addDialog(new WaterfallDialog(DIALOG_START, [
                 this.askForUserName.bind(this),
                 this.greetUser.bind(this)
             ]));
 
-            // add get user name prompt
+            // Add get user name prompt
             this.addDialog(new GetUserNamePrompt(ASK_USER_NAME_PROMPT,
                 botConfig,
                 userProfileAccessor,
                 conversationState,
                 onTurnAccessor));
 
-            // this dialog is interruptable, add interruptionDispatcherDialog
+            // This dialog is multi-turn capable and also interruptable. Add interruptionDispatcherDialog
             this.addDialog(new InterruptionDispatcher(onTurnAccessor, conversationState, userProfileAccessor, botConfig, reservationAccessor));
 
-            // when user decides to abandon this dialog, we need to confirm user action - add confirmation prompt
+            // When user decides to abandon this dialog, we need to confirm user action. Add confirmation prompt.
             this.addDialog(new ConfirmPrompt(CONFIRM_CANCEL_PROMPT));
         }
         /**
@@ -89,7 +89,9 @@ module.exports = {
             //   and the user says something like 'call me {username}' or 'my name is {username}'.
 
             // Get user name entities from on turn property (from the cafe bot dispatcher LUIS model)
-            let userNameInOnTurnProperty = (onTurnProperty.entities || []).filter(item => ((item.entityName === USER_NAME_ENTITY) || (item.entityName === USER_NAME_PATTERN_ANY_ENTITY)));
+            let userNameInOnTurnProperty = (onTurnProperty.entities || []).filter(item => (
+                (item.entityName === USER_NAME_ENTITY) ||
+                (item.entityName === USER_NAME_PATTERN_ANY_ENTITY)));
             if (userNameInOnTurnProperty.length !== 0) {
                 // get user name from on turn property
                 let userName = userNameInOnTurnProperty[0].entityValue[0];

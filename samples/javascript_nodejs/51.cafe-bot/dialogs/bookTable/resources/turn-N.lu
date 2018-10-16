@@ -33,6 +33,11 @@
 - nothing to change. please proceed
 - let's do it
 - I don't know
+- This looks good. Thanks
+- I think this is good. Let's book the table
+- Let's book the table
+- no change
+- nothing to change
 
 [entities ref](../../dispatcher/resources/entities.lu)
 
@@ -51,6 +56,13 @@
 
 # Cancel
 - [Cancel intent](../../dispatcher/resources/cancel.lu#Cancel)
+- cancel the reservation
+- stop the booking
+- I do not wish to proceed with the reservation
+- I do not want the table anymore
+- I dont need the table anymore
+- sorry, i dont need the reservation
+- sorry, i dont need the booking anymore
 
 > Add reference to top level dispatch intents to none intent so this child model does not fire
 # Interruptions

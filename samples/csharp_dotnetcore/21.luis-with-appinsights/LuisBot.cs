@@ -26,7 +26,7 @@ namespace Microsoft.BotBuilderSamples
         /// Key in the bot config (.bot file) for the LUIS instance.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
-        public static readonly string LuisKey = "LuisBot";
+        public static readonly string LuisKey = <YOUR_BOT_NAME> + "_LuisBot";
 
         /// <summary>
         /// Services configured from the ".bot" file.

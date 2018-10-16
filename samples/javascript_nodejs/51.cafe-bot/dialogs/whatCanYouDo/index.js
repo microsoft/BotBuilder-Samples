@@ -2,13 +2,12 @@
 // Licensed under the MIT License.
 const { Dialog } = require('botbuilder-dialogs');
 const { CardFactory } = require('botbuilder');
-
+const { LUIS_INTENTS } = require('../shared/helpers');
 // Require the adaptive card.
 const helpCard = require('./resources/whatCanYouDoCard.json');
 
 // This dialog's name. Also matches the name of the intent from ../dispatcher/resources/cafeDispatchModel.lu
-// LUIS recognizer replaces spaces ' ' with '_'. So intent name 'Who are you' is recognized as 'Who_are_you'.
-const WHAT_CAN_YOU_DO_DIALOG = 'What_can_you_do';
+const WHAT_CAN_YOU_DO_DIALOG = LUIS_INTENTS.What_can_you_do;
 
 /**
  *
@@ -24,12 +23,12 @@ module.exports = {
             super(WHAT_CAN_YOU_DO_DIALOG);
         }
         /**
-         * Override dialogBegin.
+         * Override beginDialog.
          *
          * @param {DialogContext} dialog context
          * @param {Object} options
          */
-        async dialogBegin(dc, options) {
+        async beginDialog(dc, options) {
             await dc.context.sendActivity({ attachments: [CardFactory.adaptiveCard(helpCard)] });
             await dc.context.sendActivity(`Pick a query from the card or you can use the suggestions below.`);
             return await dc.endDialog();

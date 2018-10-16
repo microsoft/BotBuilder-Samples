@@ -29,15 +29,16 @@ information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.
 - (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the
 Qna Maker CLI to deploy the model.
 
-
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/20.qna-with-appinsights`) and open QnABot.csproj in Visual Studio.
-- Hit F5
+- In Visual Studio right click on the solution and select "Restore NuGet Packages".
+- Run the project (press `F5` key)
 
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/20.qna-with-appinsights` sample folder
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/20.qna-with-appinsights` folder.
-- Type 'dotnet run'.
+- In the Visual Studio Code terminal type `dotnet restore`.
+- Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
@@ -50,17 +51,10 @@ Qna Maker CLI to deploy the model.
 - Select the BotConfiguration.bot file.
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
 
-To install all Bot Builder tools - 
-
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
-
-```bash
-npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
-```
 To clone this bot, run
-```
+```bash
 msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
 ```
 

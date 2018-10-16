@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-const { MessageFactory } = require('botbuilder');
 const { ComponentDialog, ConfirmPrompt, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
 const GetLocDateTimePartySizePrompt = require('../shared/prompts/getLocDateTimePartySize').GetLocationDateTimePartySizePrompt;
 const { Reservation } = require('../shared/stateProperties');
@@ -69,9 +68,13 @@ module.exports = {
             this.addDialog(new ConfirmPrompt(CONFIRM_CANCEL_PROMPT));
         }
 
-        async getAllRequiredProperties(dc, step) {
+        /**
+         *
+         * @param {WaterfallStepContext} step context
+         */
+        async getAllRequiredProperties(stepContext) {
             // Get current reservation from accessor
-            let reservationFromState = await this.reservationsAccessor.get(dc.context);
+            let reservationFromState = await this.reservationsAccessor.get(stepContext.context);
             let newReservation;
 
             if (reservationFromState === undefined) {
@@ -80,18 +83,21 @@ module.exports = {
                 newReservation = Reservation.fromJSON(reservationFromState);
             }
             // Get on turn (includes LUIS entities captured by parent)
-            const onTurnProperty = await this.onTurnAccessor.get(dc.context);
+            const onTurnProperty = await this.onTurnAccessor.get(stepContext.context);
             let reservationResult;
             if (onTurnProperty !== undefined) {
                 if (newReservation !== undefined) {
                     // update reservation object and gather results.
-                    reservationResult = newReservation.updateProperties(onTurnProperty, step);
+                    reservationResult = newReservation.updateProperties(onTurnProperty);
                 } else {
-                    reservationResult = Reservation.fromOnTurnProperty(onTurnProperty, step);
+                    reservationResult = Reservation.fromOnTurnProperty(onTurnProperty);
                 }
             }
             // set reservation
-            this.reservationsAccessor.set(dc.context, reservationResult.newReservation);
+            this.reservationsAccessor.set(stepContext.context, reservationResult.newReservation);
+
+            let groundedProperties = reservationResult.newReservation.getGroundedPropertiesReadOut();
+            if (groundedProperties !== '') await stepContext.context.sendActivity(groundedProperties);
 
             // see if update reservation resulted in errors, if so, report them to user.
             if (reservationResult &&
@@ -99,38 +105,37 @@ module.exports = {
                 reservationResult.outcome !== undefined &&
                 reservationResult.outcome.length !== 0) {
                 // Start the prompt with the initial feedback based on update results.
-                return await dc.prompt(GET_LOCATION_DATE_TIME_PARTY_SIZE_PROMPT, reservationResult.outcome[0].message);
+                return await stepContext.prompt(GET_LOCATION_DATE_TIME_PARTY_SIZE_PROMPT, reservationResult.outcome[0].message);
             } else {
-                if (reservationResult.newReservation.haveCompleteReservation) {
-                    await dc.context.sendActivity('Ok. I have a table for ' + reservationResult.newReservation.confirmationReadOut());
-                    await dc.context.sendActivity(MessageFactory.suggestedActions(['Yes', 'No'], `Should I go ahead and book the table?`));
-                }
-                // Start the prompt with the first missing piece of information.
-                return await dc.prompt(GET_LOCATION_DATE_TIME_PARTY_SIZE_PROMPT, reservationResult.newReservation.getMissingPropertyReadOut());
+                return await stepContext.prompt(GET_LOCATION_DATE_TIME_PARTY_SIZE_PROMPT, reservationResult.newReservation.getMissingPropertyReadOut());
             }
         }
 
-        async bookTable(dc, step) {
+        /**
+         *
+         * @param {WaterfallStepConext} step context
+         */
+        async bookTable(stepContext) {
             // report table booking based on confirmation outcome.
-            if (step.result) {
+            if (stepContext.result) {
                 // User confirmed.
                 // Get current reservation from accessor
-                let reservationFromState = await this.reservationsAccessor.get(dc.context);
-                await dc.context.sendActivity(`Sure. I've booked the table for ` + reservationFromState.confirmationReadOut());
+                let reservationFromState = await this.reservationsAccessor.get(stepContext.context);
+                await stepContext.context.sendActivity(`Sure. I've booked the table for ` + reservationFromState.confirmationReadOut());
                 // TODO: Book the table.
-                if (step.result === DialogTurnStatus.complete) {
+                if (stepContext.result === DialogTurnStatus.complete) {
                     // Clear out the reservation property since this is a successful reservation completion.
-                    this.reservationsAccessor.set(dc.context, undefined);
+                    this.reservationsAccessor.set(stepContext.context, undefined);
                 }
-                await dc.cancelAllDialogs();
+                await stepContext.cancelAllDialogs();
 
-                return await dc.endDialog();
+                return await stepContext.endDialog();
             } else {
                 // User rejected cancellation.
                 // clear out state.
-                this.reservationsAccessor.set(dc.context, undefined);
-                await dc.context.sendActivity(`Ok..I've cancelled the reservation`);
-                return await dc.endDialog();
+                this.reservationsAccessor.set(stepContext.context, undefined);
+                await stepContext.context.sendActivity(`Ok..I've cancelled the reservation`);
+                return await stepContext.endDialog();
             }
         }
     }

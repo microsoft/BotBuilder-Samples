@@ -12,7 +12,7 @@ After running the bot, to see it in action, visit `http://localhost:8080`.
     ```
 - Install modules and start the bot
     ```bash
-    npm i & npm start
+    npm i && npm start
     ```
 - To see the bot in action, visit `http://localhost:8080` in a browser.
 

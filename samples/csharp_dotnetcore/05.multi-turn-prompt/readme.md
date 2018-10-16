@@ -15,11 +15,12 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/05.multi-turn-prompt` sample folder.
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/05.multi-turn-prompt` folder.
-- Type 'dotnet run'.
+- Type `dotnet run`.
 
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
   **Note:** this sample requires `Microsoft.Bot.Builder`, `Microsoft.Bot.Builder.Dialogs` and `Microsoft.Bot.Builder.Integration.AspNet.Core`.
+- In Visual Studio Code type `dotnet restore`
 
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot 
@@ -31,17 +32,12 @@ developers to test and debug their bots on localhost or running remotely through
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/05.multi-turn-prompt` folder.
 - Select `BotConfiguration.bot` file.
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
 
-To install all Bot Builder tools - 
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
 
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
+To clone this bot, run
 
 ```bash
-npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
-```
-To clone this bot, run
-```
 msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
 ```
 # Further reading

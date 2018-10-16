@@ -22,5 +22,6 @@
 - I need to reserve a table
 - I need to make a reservation
 - I need to reserve a table for 2 in Seattle
+- book a table for 2 in seattle
 
 [entities ref](../../dispatcher/resources/entities.lu)

@@ -162,7 +162,7 @@ namespace Microsoft.BotBuilderSamples
                 // Start the prompt with the initial feedback based on update results.
                 var options = new PromptOptions()
                 {
-                    Prompt = new Activity(text: reservationResult.Outcome[0].Message),
+                    Prompt = MessageFactory.Text(reservationResult.Outcome[0].Message),
                 };
                 return await stepContext.PromptAsync(GetLocationDateTimePartySizePrompt, options);
             }
@@ -176,7 +176,7 @@ namespace Microsoft.BotBuilderSamples
 
                 var options = new PromptOptions()
                 {
-                    Prompt = new Activity(text: reservationResult.NewReservation.GetMissingPropertyReadOut()),
+                    Prompt = MessageFactory.Text(reservationResult.NewReservation.GetMissingPropertyReadOut()),
                 };
 
                 // Start the prompt with the first missing piece of information.
