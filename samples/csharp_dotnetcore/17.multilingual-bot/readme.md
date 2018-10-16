@@ -2,7 +2,7 @@
 
 Translation Middleware: We create a translation middleware than can translate text from bot to user and from user to bot, allowing the creation of multi-lingual bots. 
 The middleware is driven by user state. This means that users can specify their language preference, and the middleware automatically will intercept messages back and forth and present them to the user in their preferred language.
-Users can change their language preference anytime, and since this gets written to the user state, the middleware will read this state and instantly modify its behavior to honor the newly selected preferred langugage.
+Users can change their language preference anytime, and since this gets written to the user state, the middleware will read this state and instantly modify its behavior to honor the newly selected preferred language.
 
 The [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/), Microsoft Translator Text API is a cloud-based machine translation service. With this API you can translate text in near real-time from any app or service through a simple REST API call. 
 The API uses the most modern neural machine translation technology, as well as offering statistical machine translation technology.
@@ -14,8 +14,8 @@ We also create a middleware that reads user preferred language, and if it is dif
 This means that the bot always receives utterances in English, while users writes and gets responses in their selected language.
 
 Note that this is a very simple example, but shows very powerful principles. 
-The translation middleware allows us to intercept and traslate messages, and the user preferences stored in the user state at the application level allows us to influence the middleware behavior.
-A more ellaborated next step would be to use the Microsoft Translator Text API to detect language, and if the user changes language, automatically switch to that language, without explicitly prompting but running detection on every step.
+The translation middleware allows us to intercept and translate messages, and the user preferences stored in the user state at the application level allows us to influence the middleware behavior.
+A more elaborated next step would be to use the Microsoft Translator Text API to detect language, and if the user changes language, automatically switch to that language, without explicitly prompting but running detection on every step.
 
 # To try this sample
 
