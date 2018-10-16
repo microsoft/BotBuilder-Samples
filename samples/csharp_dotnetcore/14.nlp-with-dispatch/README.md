@@ -66,6 +66,8 @@ msbot init --name "<NAME>" --endpoint http://localhost:3978/api/messages
 
 Note: Where `"<NAME>"` is the name of your choosing. For this walkthrough, the name used is the name of this sample: "nlp-with-dispatch".
 
+Then set the `"botFilePath"` value in [appsettings.json](appsettings.json) with the name of your .bot file.
+
 After creating the .bot file, it is recommended to change the name of the endpoint service from the name of the bot to `"development"`. This is for local development and testing purposes. An example of the modified `"endpoint"`-type service can be found below:
 ```json
 {
@@ -144,13 +146,13 @@ To create the LUIS application this bot needs and update the .bot file configura
 - Navigate to botbuilder-samples/csharp_dotnetcore/samples/14.nlp-with-dispatch
 - Run the following commands
 ```bash 
-> ludown parse toluis --in Resources/homeautomation.lu -o CognitiveModels --out homeautomation.luis -n "Home Automation" -d "Home Automation LUIS application - Bot Builder Samples" --verbose
+ludown parse toluis --in Resources/homeautomation.lu -o CognitiveModels --out homeautomation.luis -n "Home Automation" -d "Home Automation LUIS application - Bot Builder Samples" --verbose
 
-> ludown parse toluis --in Resources/weather.lu -o CognitiveModels --out weather.luis -n Weather -d "Weather LUIS application - Bot Builder Samples" --verbose
+ludown parse toluis --in Resources/weather.lu -o CognitiveModels --out weather.luis -n Weather -d "Weather LUIS application - Bot Builder Samples" --verbose
 
-> luis import application --in CognitiveModels/homeautomation.luis --authoringKey <LUIS-AUTHORING-KEY> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
+luis import application --in CognitiveModels/homeautomation.luis --authoringKey <LUIS-AUTHORING-KEY> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
 
-> luis import application --in CognitiveModels/weather.luis --authoringKey <LUIS-AUTHORING-KEY> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
+luis import application --in CognitiveModels/weather.luis --authoringKey <LUIS-AUTHORING-KEY> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
 ```
 
 If you decide to change the names passed to msbot such as weather.luis, then you need to update the constants in [NlpDispatchBot.cs](NlpDispatch/NlpDispatchBot.cs). For example, if you change homeautomation.luis to just home, you would update the HomeAutomationLuisKey variable to "home" and the homeAutomationDispatchKey to the intent name assigned by dispatcher, which in this case will be "l_home".
@@ -162,10 +164,10 @@ You can use a different region, such as westus, westeurope or australiaeast via 
 You need to train and publish the LUIS models that were created for this sample to work. You can do so using the following CLI commands
 
 ```bash
-> msbot get "Home Automation" | luis train version --wait --stdin
-> msbot get "Weather" | luis train version --wait --stdin 
-> msbot get "Home Automation" | luis publish version --stdin
-> msbot get "Weather" | luis publish version --stdin
+msbot get "Home Automation" | luis train version --wait --stdin
+msbot get "Weather" | luis train version --wait --stdin 
+msbot get "Home Automation" | luis publish version --stdin
+msbot get "Weather" | luis publish version --stdin
 ```
 
 ### Configure QnA Maker service
@@ -178,15 +180,15 @@ To create the QnA Maker application and update the .bot file with the QnA Maker 
 - Navigate to samples/csharp_dotnetcore/14.nlp-with-dispatch
 - Run the following commands
 ```bash
-> ludown parse toqna --in resources/sample-qna.lu -o cognitiveModels --out dispatch.qna --verbose
+ludown parse toqna --in resources/sample-qna.lu -o cognitiveModels --out dispatch.qna --verbose
 
-> qnamaker create kb --in cognitiveModels/dispatch.qna --subscriptionKey <QNA-MAKER-SUBSCRIPTION-KEY> --msbot | msbot connect qna --stdin
+qnamaker create kb --in cognitiveModels/dispatch.qna --subscriptionKey <QNA-MAKER-SUBSCRIPTION-KEY> --msbot | msbot connect qna --stdin
 ```
 ### Train and publish the QnA Maker KB
 You need to train and publish the QnA Maker Knowledge Bases that were created for this sample to work. You can do so using the following CLI commands
 
 ```bash
-> msbot get "sample-qna" | qnamaker publish kb --stdin
+msbot get "sample-qna" | qnamaker publish kb --stdin
 ```
 
 ### Configure the Dispatch application
@@ -196,7 +198,7 @@ To create a new dispatch model for these services and update the .bot file confi
 - Navigate to samples/csharp_dotnetcore/14.nlp-with-dispatch
 - Run the following commands
 ```bash
-> dispatch create -b nlp-with-dispatch.bot | msbot connect dispatch --stdin
+dispatch create -b nlp-with-dispatch.bot | msbot connect dispatch --stdin
 ```
 - Then update the dispatch service in your bot to have a `"subscriptionKey"`. You can use the subscription key from one of the other LUIS services in the .bot file.
 
@@ -206,6 +208,8 @@ Since your .bot file contains service Ids, subscription and authoring keys, its 
 ```bash
 msbot secret -n
 ```
+
+Then set the `"botFileSecret"` value in [appsettings.json](appsettings.json) with the secret output from `msbot secret -n`.
 
 This will generate a strong key, encrypt the bot file and print the key. Please keep this key securely.
 Any time the bot file is encrypted, make sure to set the botFileSecret environment variable this sample relies on (either through the .env file or other means).
