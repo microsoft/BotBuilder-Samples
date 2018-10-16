@@ -18,7 +18,7 @@ In this sample, we demonstrate how to use the QnA Maker service to answer questi
     For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules and start the bot
     ```bash
-    npm i & npm start
+    npm i && npm start
     ```
 
 # Testing the bot using Bot Framework Emulator

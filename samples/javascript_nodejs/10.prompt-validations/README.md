@@ -14,7 +14,7 @@ demonstrates using the `ComponentDialog` class to encapsulate related sub-dialog
     ```
 - Install modules and start the bot
     ```bash
-    npm i & npm start
+    npm i && npm start
     ```
 
 # Testing the bot using Bot Framework Emulator
