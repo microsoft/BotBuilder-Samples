@@ -11,6 +11,7 @@ using AdaptiveCards;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
+using Remotion.Linq.Parsing.Structure.IntermediateModel;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -69,7 +70,7 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
-                if (turnContext.Activity.MembersAdded.Any())
+                if (turnContext.Activity.MembersAdded != null)
                 {
                     await SendWelcomeMessageAsync(turnContext, cancellationToken);
                 }

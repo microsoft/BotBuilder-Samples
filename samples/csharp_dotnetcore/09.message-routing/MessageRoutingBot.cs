@@ -123,7 +123,7 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (activity.Type == ActivityTypes.ConversationUpdate)
             {
-                if (activity.MembersAdded.Any())
+                if (activity.MembersAdded != null)
                 {
                     // Iterate over all new members added to the conversation.
                     foreach (var member in activity.MembersAdded)

@@ -4,6 +4,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples
@@ -52,21 +53,21 @@ namespace Microsoft.BotBuilderSamples
         /// There are no dialogs used, the sample only uses "single turn" processing,
         /// meaning a single request and response, with no stateful conversation.
         /// </summary>
-        /// <param name="context">A <see cref="ITurnContext"/> containing all the data needed
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
         /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
-        public async Task OnTurnAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (context.Activity.Type == ActivityTypes.Message)
+            if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 // Check LUIS model
-                var recognizerResult = await _services.LuisServices[LuisKey].RecognizeAsync(context, cancellationToken);
+                var recognizerResult = await _services.LuisServices[LuisKey].RecognizeAsync(turnContext, cancellationToken);
                 var topIntent = recognizerResult?.GetTopScoringIntent();
                 if (topIntent != null && topIntent.HasValue && topIntent.Value.intent != "None")
                 {
-                    await context.SendActivityAsync($"==>LUIS Top Scoring Intent: {topIntent.Value.intent}, Score: {topIntent.Value.score}\n");
+                    await turnContext.SendActivityAsync($"==>LUIS Top Scoring Intent: {topIntent.Value.intent}, Score: {topIntent.Value.score}\n");
                 }
                 else
                 {
@@ -75,17 +76,20 @@ namespace Microsoft.BotBuilderSamples
                             'Calendar.Add'
                             'Calendar.Find'
                             Try typing 'Add Event' or 'Show me tomorrow'.";
-                    await context.SendActivityAsync(msg);
+                    await turnContext.SendActivityAsync(msg);
                 }
             }
-            else if (context.Activity.Type == ActivityTypes.ConversationUpdate)
+            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
                 // Send a welcome message to the user and tell them what actions they may perform to use this bot
-                await SendWelcomeMessageAsync(context, cancellationToken);
+                if (turnContext.Activity.MembersAdded != null)
+                {
+                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                }
             }
             else
             {
-                await context.SendActivityAsync($"{context.Activity.Type} event detected", cancellationToken: cancellationToken);
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected", cancellationToken: cancellationToken);
             }
         }
 
