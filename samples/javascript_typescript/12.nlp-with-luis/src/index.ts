@@ -5,7 +5,7 @@ import * as path from 'path';
 import * as restify from 'restify';
 import { BotFrameworkAdapter } from 'botbuilder';
 import { LuisApplication, LuisPredictionOptions } from 'botbuilder-ai';
-import { BotConfiguration, IEndpointService, ILuisService } from 'botframework-config';
+import { BotConfiguration, IEndpointService, LuisService } from 'botframework-config';
 import { LuisBot } from './bot';
 
 // Read botFilePath and botFileSecret from .env file.
@@ -33,11 +33,11 @@ const DEV_ENVIRONMENT = 'development';
 const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
 // Language Understanding (LUIS) service name as defined in the .bot file.
-const LUIS_CONFIGURATION = '';
+const LUIS_CONFIGURATION = 'luis';
 
 // Get endpoint and LUIS configurations by service name.
 const endpointConfig = <IEndpointService>botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
-const luisConfig = <ILuisService>botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
+const luisConfig = <LuisService>botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
 
 // Map the contents to the required format for `LuisRecognizer`.
 const luisApplication: LuisApplication = {
