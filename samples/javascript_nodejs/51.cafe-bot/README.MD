@@ -55,7 +55,7 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
     - [Manually import models using Ludown, LUIS and QnA Maker CLI](#building-and-creating-services)
 - Install modules and start the bot
     ```bash
-    npm i & npm start
+    npm i && npm start
     ```
 
 # Testing the bot using Bot Framework Emulator

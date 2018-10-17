@@ -36,8 +36,9 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageRoutingBot"/> class.
         /// </summary>
-        /// <param name="botServices">Bot services.</param>
-        /// <param name="accessors">Bot State Accessors.</param>
+        /// <param name="userState">The state object that stores the user state.</param>
+        /// <param name="conversationState">The state object that stores the dialog state.</param>
+        /// <param name="loggerFactory">Logger factory.</param>
         public MessageRoutingBot(UserState userState, ConversationState conversationState, ILoggerFactory loggerFactory)
         {
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
@@ -143,7 +144,7 @@ namespace Microsoft.BotBuilderSamples
             await _userState.SaveChangesAsync(turnContext);
         }
 
-        // Determine if an interruption has occured before we dispatch to any active dialog.
+        // Determine if an interruption has occurred before we dispatch to any active dialog.
         private async Task<bool> IsTurnInterruptedAsync(DialogContext dc, string topIntent)
         {
             // See if there are any conversation interrupts we need to handle.
@@ -152,7 +153,7 @@ namespace Microsoft.BotBuilderSamples
                 if (dc.ActiveDialog != null)
                 {
                     await dc.CancelAllDialogsAsync();
-                    await dc.Context.SendActivityAsync("Ok. I've cancelled our last activity.");
+                    await dc.Context.SendActivityAsync("Ok. I've canceled our last activity.");
                 }
                 else
                 {

@@ -13,11 +13,11 @@ This sample shows how to use suggested actions. This bot example uses [`restify`
     For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules and start the bot
     ```bash
-    npm i & npm start
+    npm i && npm start
     ```
     Alternatively you can also use nodemon via
     ```bash
-    npm i & npm run watch
+    npm i && npm run watch
     ```
 
 # Testing the bot using Bot Framework Emulator

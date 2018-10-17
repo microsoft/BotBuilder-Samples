@@ -39,7 +39,7 @@ const console = require('console');
 class ConsoleAdapter extends botbuilderCore.BotAdapter {
     /**
      * Creates a new ConsoleAdapter instance.
-     * @param reference (Optional) reference used to customize the address information of activites sent from the adapter.
+     * @param reference (Optional) reference used to customize the address information of activities sent from the adapter.
      */
     constructor(reference) {
         super();

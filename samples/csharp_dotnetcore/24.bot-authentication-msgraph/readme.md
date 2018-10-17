@@ -1,9 +1,15 @@
 ﻿This sample uses the bot authentication capabilities of Azure Bot Service. In this sample we are assuming the OAuth 2 provider
 is Azure Active Directory v2 (AADv2) and are utilizing the Microsoft Graph API to retrieve data about the
-user. [Check here for](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-authentication?view=azure-bot-service-4.0) information about getting an AADv2
+user. [Check here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp) for information about getting an AADv2
 application setup for use in Azure Bot Service.
-The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference) used in this sample are
-'OpenId' 'email' 'Mail.Send.Shared' 'Mail.Read' 'profile' 'User.Read' 'User.ReadBasic.All'.
+The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference) used in this sample are the following:
+- `email`
+- `Mail.Read`
+- `Mail.Send.Shared`
+- `openid`
+- `profile`
+- `User.Read`
+- `User.ReadBasic.All`
 # Concepts introduced in this sample
 ## What is a bot?
 A bot is an app that users interact with in a conversational way using text, graphics (cards), or speech. It may be a simple question and answer dialog,
@@ -25,16 +31,17 @@ including Windows, Office 365, and Azure.
 ```bash
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- Update `ConnectionSettingName` in `GraphAuthenticationBot.cs` so the bot can perform OAuth calls through Azure Bot Service
+- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph` with your botFileSecret. For Azure Bot Service bots, you can find the botFileSecret under application settings.
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph`) and open BotAuthenticationMSGraph.csproj in Visual Studio 
-- Hit F5
+- In Visual Studio right click on the solution and select "Restore NuGet Packages".
+- Run the project (press `F5` key)
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph` folder
-- Bring up a terminal, navigate to botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph
-- Type 'dotnet run'.
-## Update packages
-- In Visual Studio right click on the solution and select "Restore NuGet Packages".
+- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph`
+- In the Visual Studio Code terminal type `dotnet restore`
+- Type `dotnet run`.
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot 
 developers to test and debug their bots on localhost or running remotely through a tunnel.
@@ -45,17 +52,10 @@ developers to test and debug their bots on localhost or running remotely through
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph` folder.
 - Select `BotConfiguration.bot` file.
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
 
-To install all Bot Builder tools - 
-
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
-
-```bash
-npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
-```
 To clone this bot, run
-```
+```bash
 msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
 ```
 # Further reading
