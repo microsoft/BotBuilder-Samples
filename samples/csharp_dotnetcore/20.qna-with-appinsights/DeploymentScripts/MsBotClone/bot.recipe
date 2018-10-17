@@ -12,6 +12,11 @@
       "id": "2",
       "name": "production",
       "url": "https://your-bot-url.azurewebsites.net/api/messages"
+    }, 
+    {
+      "type": "qna",
+      "id": "34",
+      "name": "qna-with-insights-QnAMaker"
     },
     {
       "type": "abs",
