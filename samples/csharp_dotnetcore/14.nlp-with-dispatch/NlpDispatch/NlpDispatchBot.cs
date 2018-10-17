@@ -27,23 +27,23 @@ namespace NLP_With_Dispatch_Bot
         /// <summary>
         /// Key in the Bot config (.bot file) for the Home Automation Luis instance.
         /// </summary>
-        public const string HomeAutomationLuisKey = "Home Automation";
+        private const string HomeAutomationLuisKey = "Home Automation";
 
         /// <summary>
         /// Key in the Bot config (.bot file) for the Weather Luis instance.
         /// </summary>
-        public const string WeatherLuisKey = "Weather";
+        private const string WeatherLuisKey = "Weather";
 
         /// <summary>
         /// Key in the Bot config (.bot file) for the Dispatch.
         /// </summary>
-        public const string DispatchKey = "nlp-with-dispatchDispatch";
+        private const string DispatchKey = "nlp-with-dispatchDispatch";
 
         /// <summary>
         /// Key in the Bot config (.bot file) for the QnaMaker instance.
         /// In the .bot file, multiple instances of QnaMaker can be configured.
         /// </summary>
-        public const string QnAMakerKey = "sample-qna";
+        private const string QnAMakerKey = "sample-qna";
 
         /// <summary>
         /// Services configured from the ".bot" file.
