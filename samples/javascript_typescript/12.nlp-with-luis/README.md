@@ -73,6 +73,8 @@ In order to run this sample, you must have TypeScript installed.  To install Typ
 }
 ```
 
+- Update [index.ts](src/index.ts) and set the `LUIS_CONFIGURATION` value to match the `name` field in your service declaration.
+
 ### (Optional) Install `ludown` and `luis`
 - Install the `ludown` CLI tool [here](https://aka.ms/using-ludown) to help describe language understanding components for your bot.
 - Install the `luis` CLI tool [here](https://aka.ms/using-luis-cli) to create and manage your LUIS applications.
