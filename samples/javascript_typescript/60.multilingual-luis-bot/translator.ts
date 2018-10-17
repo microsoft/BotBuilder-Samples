@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import * as request from 'request-promise-native';
 import { promises } from 'fs';
 
@@ -31,52 +34,29 @@ export class MicrosoftTranslator {
     apiKey: string;
     postProcessor: TranslatorPostProcessor;
 
-    constructor(apiKey: string) {
+    constructor(apiKey: string, noTranslatePatterns?: {[id: string] : string[]}, wordDictionary?: { [id: string]: string }) {
         this.apiKey = apiKey;
         this.postProcessor = new TranslatorPostProcessor();
-    }
-
-    public setPostProcessorTemplate(noTranslatePatterns: string[], wordDictionary?: { [id: string]: string }) {
         this.postProcessor = new TranslatorPostProcessor(noTranslatePatterns, wordDictionary);
+
     }
 
-    private getAccessToken(): Promise<string> {
-        
-        return request({
-            url: `https://api.cognitive.microsoft.com/sts/v1.0/issueToken?Subscription-Key=${this.apiKey}`,
-            method: 'POST'
-        })
-        .then(result => Promise.resolve(result))
-    }
-
-    private entityMap: any = {
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': '&quot;',
-        "'": '&#39;',
-        "/": '&#x2F;'
+    public detect = async (text: string): Promise<object> => {
+        let uri: any = "https://api.cognitive.microsofttranslator.com/detect?api-version=3.0";
+        let translationRequest = new TranslationRequest();
+        translationRequest.Text = text;
+        const response = await request({
+            url: uri,
+            method: 'POST',
+            headers: {
+                'Ocp-Apim-Subscription-Key': this.apiKey,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify([translationRequest]),
+        });
+        let detectedLanguage = JSON.parse(response);
+        return detectedLanguage;
     };
-    
-    private escapeHtml(source: string) {
-        return String(source).replace(/[&<>"'\/]/g, s => this.entityMap[s]);
-    }
-
-    public detect(text: string): Promise<string> {
-        let uri: any = "http://api.microsofttranslator.com/v2/Http.svc/Detect";
-        let query: any = `?text=${encodeURI(text)}`;
-        return this.getAccessToken()
-        .then(accessToken => {
-            return request({
-                url: uri + query,
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + accessToken
-                }
-            })
-        })
-        .then(lang => Promise.resolve(lang.replace(/<[^>]*>/g, '')))
-    }
 
     public translateArray = async (options: TranslateArrayOptions):  Promise<object> => {
 		try {
@@ -85,13 +65,14 @@ export class MicrosoftTranslator {
             let texts = options.texts;
             let orgTexts = [];
             let translationRequests = [];
+            let results = [];
             texts.forEach((text, index, array) => {
-                orgTexts.push(text);
-                let escapedText =(text);
-                texts[index] = escapedText;
-                let translationRequest = new TranslationRequest();
-                translationRequest.Text = escapedText;
-                translationRequests.push(translationRequest);
+                let normalizedText = text.trim();
+                    orgTexts.push(normalizedText);
+                    texts[index] = normalizedText;
+                    let translationRequest = new TranslationRequest();
+                    translationRequest.Text = normalizedText;
+                    translationRequests.push(translationRequest);
             });
             let uri: any = `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&includeAlignment=true&includeSentenceLength=true&from=${from}&to=${to}`;
 			const response = await request({
@@ -104,22 +85,16 @@ export class MicrosoftTranslator {
 				body: JSON.stringify(translationRequests),
             });
             let translations = JSON.parse(response);
-            let results = [];
             translations.forEach((traslationModel, index, array) => {
                                 let translation = traslationModel.translations[0].text;
-                                let alignment = traslationModel.translations[0].alignment.proj;
-                                translation = this.postProcessor.fixTranslation(orgTexts[index], alignment, translation);
+                                if(traslationModel.translations[0].alignment){
+                                    let alignment = traslationModel.translations[0].alignment.proj;
+                                    translation = this.postProcessor.fixTranslation(orgTexts[index], alignment, translation, from);
+                                }
                                 let result: TranslationResult = { translatedText: translation };
                                  results.push(result);
                             });
-            // Array.from(elements).forEach((element, index, array) => {
-            //                 let translation = element.getElementsByTagName('TranslatedText')[0].textContent as string;
-            //                 let alignment = element.getElementsByTagName('Alignment')[0].textContent as string;
-            //                 translation = this.postProcessor.fixTranslation(orgTexts[index], alignment, translation);
-            //                 let result: TranslationResult = { translatedText: translation };
-            //                 results.push(result);
-            //             });
-			return Promise.resolve(results);
+			return results;
 		} catch (e) {
 			switch (e.statusCode) {
 				case 401:
@@ -129,50 +104,6 @@ export class MicrosoftTranslator {
 			}
 		}
     };
-    
-    // public translateArray(options: TranslateArrayOptions): Promise<TranslationResult[]> {
-    //     let from = options.from;
-    //     let to = options.to;
-    //     let texts = options.texts;
-    //     let orgTexts = [];
-    //     texts.forEach((text, index, array) => {
-    //         orgTexts.push(text);
-    //         let escapedText = this.escapeHtml(text);
-    //         texts[index] = escapedText;
-    //     });
-        
-    //     let uri: any = `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&includeAlignment=true&includeSentenceLength=true&from=${from}&to=${to}`;
-    //     let body: any = JSON.stringify(texts);
-        
-        
-    //     return this.getAccessToken()
-    //     .then(accessToken => {
-    //         return request({
-    //             url: uri,
-    //             method: 'POST',
-    //             headers: {
-    //                 'Ocp-Apim-Subscription-Key': this.apiKey,
-    //                 'Content-Type': 'text/json'
-    //             },
-    //             body: body,
-                
-    //         })
-    //     })
-    //     .then(response => {
-    //         let results: JSON.parse( response );
-    //         let parser = new DOMParser();
-    //         let responseObj = parser.parseFromString(response);
-    //         let elements = responseObj.getElementsByTagName("TranslateArray2Response");
-    //         Array.from(elements).forEach((element, index, array) => {
-    //             let translation = element.getElementsByTagName('TranslatedText')[0].textContent as string;
-    //             let alignment = element.getElementsByTagName('Alignment')[0].textContent as string;
-    //             translation = this.postProcessor.fixTranslation(orgTexts[index], alignment, translation);
-    //             let result: TranslationResult = { translatedText: translation };
-    //             results.push(result);
-    //         });
-    //         return Promise.resolve(results);
-    //     })
-    // }
 }
 
 
@@ -180,13 +111,12 @@ export class MicrosoftTranslator {
  * @private
  */
 class TranslatorPostProcessor {
-    noTranslatePatterns: string[];
-    wordDictionary: { [id: string]: string};
+    noTranslatePatterns: { [languageId : string] : string[]};
+    wordDictionary: { [id: string]: string };
 
-    constructor(noTranslatePatterns?: string[], wordDictionary?: { [id: string]: string }) {
-        this.noTranslatePatterns = [];
+    constructor(noTranslatePatterns?: { [languageId : string] : string[]}, wordDictionary?: { [id: string]: string }) {
+        this.noTranslatePatterns = {};
         this.wordDictionary = wordDictionary;
-        this.noTranslatePatterns.push("mon nom est (.+)");
         
         if (wordDictionary) {
             Object.keys(this.wordDictionary).forEach(word => {
@@ -200,12 +130,18 @@ class TranslatorPostProcessor {
         }
 
         if(noTranslatePatterns) {
-            noTranslatePatterns.forEach(pattern => {
-                if (pattern.indexOf('(') == -1) {
-                    pattern = `(${pattern})`;
-                }
-                this.noTranslatePatterns.push(pattern);
-            });
+            for(var key in noTranslatePatterns) {
+                noTranslatePatterns[key].forEach((pattern, index, array) => {
+                    if(!(key in this.noTranslatePatterns)){
+                        this.noTranslatePatterns[key] = [];
+                    }
+                    if (pattern.indexOf('(') == -1) {
+                        pattern = `(${pattern})`;
+                    }
+                    this.noTranslatePatterns[key][index] = pattern;
+                });
+               
+            }
         }  
     }
 
@@ -305,22 +241,24 @@ class TranslatorPostProcessor {
         return targetWords;
     }
 
-    public fixTranslation(sourceMessage: string, alignment: string, targetMessage: string): string {
+    public fixTranslation(sourceMessage: string, alignment: string, targetMessage: string, languageId : string): string {
         let numericMatches = sourceMessage.match(/[0-9]+/g);
         let containsNum = numericMatches != null;
         
-        if ((!containsNum && this.noTranslatePatterns.length == 0 && !this.wordDictionary) || alignment.trim() == '') {
+        if ((!containsNum && (!this.noTranslatePatterns || !this.noTranslatePatterns[languageId] || this.noTranslatePatterns[languageId].length == 0) && !this.wordDictionary) || alignment.trim() == '') {
             return targetMessage;
         }
 
         let toBeReplaced: string[] = [];
-        this.noTranslatePatterns.forEach(pattern => {
-            let regExp = new RegExp(pattern, "i");
-            let matches = sourceMessage.match(regExp);
-            if (matches != null) {
-                toBeReplaced.push(pattern);
-            }
-        });
+        if(this.noTranslatePatterns[languageId]){
+            this.noTranslatePatterns[languageId].forEach(pattern => {
+                let regExp = new RegExp(pattern, "i");
+                let matches = sourceMessage.match(regExp);
+                if (matches != null) {
+                    toBeReplaced.push(pattern);
+                }
+            });
+        }
 
         let toBeReplacedByDictionary: string [] = [];
         if (this.wordDictionary) {
@@ -350,6 +288,7 @@ class TranslatorPostProcessor {
                 let newChrLengthFromMatch = 0;
                 let srcIndx = -1;
                 let newNoTranslateArrayLength = 1;
+                var sourceMessageCharacters = sourceMessage.split('');
 
                 srcWords.forEach(wrd => {
                     if (chrIndx == noTranslateStartChrIndex) {
@@ -360,12 +299,25 @@ class TranslatorPostProcessor {
                             return;
                         }
                         newNoTranslateArrayLength++;
-                        newChrLengthFromMatch += srcWords[wrdIndx].length + 1;
+                        // newChrLengthFromMatch += srcWords[wrdIndx].length + 1;
+                        newChrLengthFromMatch += srcWords[wrdIndx].length;
                     }
-                    chrIndx += wrd.length + 1;
+                    if (chrIndx + wrd.length < sourceMessageCharacters.length && sourceMessageCharacters[chrIndx + wrd.length] == ' ')
+                    {
+                        chrIndx += wrd.length + 1;
+                    }
+                    else{
+                        chrIndx += wrd.length;
+                    }
                     wrdIndx++;
+
+                    if (srcIndx == -1)
+                    {
+                        return;
+                    }
                 });
-                                
+                     
+                
                 let wrdNoTranslate = srcWords.slice(srcIndx, srcIndx + newNoTranslateArrayLength)
                 
                 wrdNoTranslate.forEach(srcWrds => {
@@ -376,82 +328,18 @@ class TranslatorPostProcessor {
             });
         }
         
-        if (toBeReplacedByDictionary.length > 0) {
-            toBeReplacedByDictionary.forEach(word => {
-                let regExp = new RegExp(word, "i");
-                let match = regExp.exec(sourceMessage);
-                
-                let noTranslateStartChrIndex = match.index;
-                
-                let noTranslateMatchLength = match[0].length;
-                
-                let wrdIndx = 0;
-                let chrIndx = 0;
-                let newChrLengthFromMatch = 0;
-                let srcIndx = -1;
-                let newNoTranslateArrayLength = 1;
-
-                srcWords.forEach(wrd => {
-                    chrIndx += wrd.length + 1;
-                    wrdIndx++;
-                    if (chrIndx == noTranslateStartChrIndex) {
-                        srcIndx = wrdIndx;
-                        return;
-                    }
-                });
-                
-                let wrdNoTranslate = srcWords.slice(srcIndx, srcIndx + 1)
-                
-                wrdNoTranslate.forEach(srcWrds => {
-                    trgWords = this.replaceWordInDictionary(alignMap, srcWords, trgWords, srcIndx);
-                    srcIndx++;
-                });
-                
+        if(this.wordDictionary){
+            srcWords.forEach((wrd, index, Array) => {
+                if (wrd.toLowerCase() in this.wordDictionary){
+                    const replacementWord = this.wordDictionary[wrd.toLowerCase()];
+                    trgWords[alignMap[index]] = replacementWord;
+                } else if (wrd.toUpperCase() in this.wordDictionary){
+                    const replacementWord = this.wordDictionary[wrd.toUpperCase()];
+                    trgWords[alignMap[index]] = replacementWord;
+                }
             });
         }
-
-        console.log(toBeReplacedByDictionary);
         
-        if (toBeReplacedByDictionary.length > 0) {
-            toBeReplacedByDictionary.forEach(word => {
-                let regExp = new RegExp(word, "i");
-                let match = regExp.exec(sourceMessage);
-                
-                let noTranslateStartChrIndex = match.index;
-                
-                let noTranslateMatchLength = match[0].length;
-                
-                let wrdIndx = 0;
-                let chrIndx = 0;
-                let newChrLengthFromMatch = 0;
-                let srcIndx = -1;
-                let newNoTranslateArrayLength = 1;
-
-                srcWords.forEach(wrd => {
-                    chrIndx += wrd.length + 1;
-                    wrdIndx++;
-                    if (chrIndx == noTranslateStartChrIndex) {
-                        srcIndx = wrdIndx;
-                        return;
-                    }
-                });
-                
-                let wrdNoTranslate = srcWords.slice(srcIndx, srcIndx + 1)
-                
-                wrdNoTranslate.forEach(srcWrds => {
-                    trgWords = this.replaceWordInDictionary(alignMap, srcWords, trgWords, srcIndx);
-                    srcIndx++;
-                });
-                
-            });
-        }
-
-        if (containsNum) {
-            numericMatches.forEach(numericMatch => {
-                let srcIndx = srcWords.findIndex(wrd => wrd == numericMatch)
-                trgWords = this.keepSrcWrdInTranslation(alignMap, srcWords, trgWords, srcIndx);
-            });
-        }
         return this.join(" ", trgWords);
     }
 }

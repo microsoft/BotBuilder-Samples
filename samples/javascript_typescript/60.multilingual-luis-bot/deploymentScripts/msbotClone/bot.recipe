@@ -16,17 +16,17 @@
     {
       "type": "abs",
       "id": "3",
-      "name": "multi-lingual-Bot"
+      "name": "luis-bot-translator"
     },
     {
       "type": "appInsights",
       "id": "4",
-      "name": "multi-lingual-Insights"
+      "name": "luis-bot-translator"
     },
     {
       "type": "blob",
       "id": "5",
-      "name": "multi-lingual-Blob",
+      "name": "luis-bot-translator"
       "container": "botstatestore"
     }
   ]

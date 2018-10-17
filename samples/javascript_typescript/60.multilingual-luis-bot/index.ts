@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const path = require('path');
-const restify = require('restify');
-const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
-const { BotConfiguration } = require('botframework-config');
-const { MultilingualBot } = require('./bot');
-const { TranslatorMiddleware } = require('./translator-middleware');
-const { LuisBot } = require('./luis-bot');
+import * as path from 'path';
+import * as restify from 'restify';
+import { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } from 'botbuilder';
+import { BotConfiguration } from 'botframework-config';
+import { TranslatorMiddleware } from './translator-middleware';
+import { LuisBot } from './bot';
 
 // Used to create the BotStatePropertyAccessor for storing the user's language preference.
 const LANGUAGE_PREFERENCE = 'language_preference';
@@ -40,7 +39,7 @@ const DEV_ENVIRONMENT = 'development';
 const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
 // Language Understanding (LUIS) service name as defined in the .bot file.
-const LUIS_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);;
+const LUIS_CONFIGURATION = (process.env.LUIS_ENVIRONMENT || DEV_ENVIRONMENT);;
 
 // Get bot endpoint configuration by service name.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
@@ -49,9 +48,9 @@ const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
 // Map the contents to the required format for `LuisRecognizer`.
 const luisApplication = {
     applicationId: luisConfig.appId,
-    endpointKey: luisConfig.subscriptionKey || luisConfig.authoringKey,
-    azureRegion: luisConfig.region
-};
+    endpoint: luisConfig.endpoint,
+    endpointKey: luisConfig.subscriptionKey
+}
 
 // Create configuration for LuisRecognizer's runtime behavior.
 const luisPredictionOptions = {
@@ -66,7 +65,7 @@ const adapter = new BotFrameworkAdapter({
     appPassword: endpointConfig.appPassword || process.env.MicrosoftAppPassword
 });
 
-// Catch-all for errors.
+// // Catch-all for errors.
 adapter.onTurnError = async (turnContext, error) => {
     // This check writes out errors to console log.
     // NOTE: In production environment, you should consider logging this to Azure
@@ -75,8 +74,8 @@ adapter.onTurnError = async (turnContext, error) => {
     // Send a message to the user.
     await turnContext.sendActivity(`Oops. Something went wrong!`);
 
-    // Load and then clear out state. This is to prevent the user from being stuck
-    // in a conversation due to bad state.
+//     // Load and then clear out state. This is to prevent the user from being stuck
+//     // in a conversation due to bad state.
     await conversationState.load(turnContext);
     conversationState.clear(turnContext);
     await conversationState.saveChanges(turnContext);
@@ -107,18 +106,19 @@ userState = new UserState(memoryStorage);
 // conversationState = new ConversationState(blobStorage);
 // userState = new UserState(blobStorage);
 
-const languagePreferenceProperty = userState.createProperty(LANGUAGE_PREFERENCE);
+var noTranslatePatterns = {
+    "fr":[
+        "près de (.+)",
+        "revues du (.+)",
+        "mon nom est (.+)"
+    ]
+};
 
-// adapter.use(new TranslatorMiddleware(languagePreferenceProperty, process.env.translatorKey));
+var customLanguageDictionary = {
+    "Bonjour": "Greetings"
+};
 
-// Create the MultilingualBot.
-// let bot;
-// try {
-//     bot = new MultilingualBot(userState, languagePreferenceProperty);
-// } catch (err) {
-//     console.error(`[botInitializationError]: ${ err }`);
-//     process.exit();
-// }
+adapter.use(new TranslatorMiddleware("en", process.env.translatorKey, noTranslatePatterns, customLanguageDictionary));
 
 // Create the LuisBot.
 let bot;

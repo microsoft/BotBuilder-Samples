@@ -9,6 +9,16 @@
             "appId": "",
             "appPassword": "",
             "id": "35"
+        },
+        {
+            "type": "luis",
+            "id": "basic-bot-LUIS",
+            "name": "basic-bot-LUIS",
+            "version": "0.1",
+            "appId": "",
+            "authoringKey": "",
+            "subscriptionKey": "",
+            "endpoint": ""
         }
     ],
     "padlock": "",
