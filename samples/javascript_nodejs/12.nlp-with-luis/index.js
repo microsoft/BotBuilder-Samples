@@ -48,7 +48,7 @@ const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
 const luisApplication = {
     applicationId: luisConfig.appId,
     endpointKey: luisConfig.subscriptionKey || luisConfig.authoringKey,
-    azureRegion: luisConfig.region
+    endpoint: luisConfig.getEndpoint()
 };
 
 // Create configuration for LuisRecognizer's runtime behavior.
