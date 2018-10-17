@@ -79,36 +79,39 @@ namespace NLP_With_Dispatch_Bot
         /// There are no dialogs used, since it's "single turn" processing, meaning a single
         /// request and response, with no stateful conversation.
         /// </summary>
-        /// <param name="context">A <see cref="ITurnContext"/> containing all the data needed
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
         /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
-        public async Task OnTurnAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (context.Activity.Type == ActivityTypes.Message && !context.Responded)
+            if (turnContext.Activity.Type == ActivityTypes.Message && !turnContext.Responded)
             {
                 // Get the intent recognition result
-                var recognizerResult = await _services.LuisServices[DispatchKey].RecognizeAsync(context, cancellationToken);
+                var recognizerResult = await _services.LuisServices[DispatchKey].RecognizeAsync(turnContext, cancellationToken);
                 var topIntent = recognizerResult?.GetTopScoringIntent();
 
                 if (topIntent == null)
                 {
-                    await context.SendActivityAsync("Unable to get the top intent.");
+                    await turnContext.SendActivityAsync("Unable to get the top intent.");
                 }
                 else
                 {
-                    await DispatchToTopIntentAsync(context, topIntent, cancellationToken);
+                    await DispatchToTopIntentAsync(turnContext, topIntent, cancellationToken);
                 }
             }
-            else if (context.Activity.Type == ActivityTypes.ConversationUpdate)
+            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
                 // Send a welcome message to the user and tell them what actions they may perform to use this bot
-                await SendWelcomeMessageAsync(context, cancellationToken);
+                if (turnContext.Activity.MembersAdded != null)
+                {
+                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                }
             }
             else
             {
-                await context.SendActivityAsync($"{context.Activity.Type} event detected", cancellationToken: cancellationToken);
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected", cancellationToken: cancellationToken);
             }
         }
 
