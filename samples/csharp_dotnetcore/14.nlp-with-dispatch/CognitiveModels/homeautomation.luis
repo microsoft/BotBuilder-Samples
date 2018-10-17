@@ -1,4 +1,4 @@
-﻿{
+{
   "intents": [
     {
       "name": "HomeAutomation"
@@ -597,7 +597,7 @@
   ],
   "luis_schema_version": "3.0.0",
   "versionId": "0.1",
-  "name": "homeautomation.luis",
-  "desc": "",
+  "name": "Home Automation",
+  "desc": "Home Automation LUIS application - Bot Builder Samples",
   "culture": "en-us"
 }
