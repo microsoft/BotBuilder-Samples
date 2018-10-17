@@ -41,7 +41,7 @@ In this sample, we demonstrate how to call LUIS to extract the intents from a us
 - Click the `Sign in` button.
 - Click on `My Apps`.
 - Click on the `Import new app` button.
-- Click on the `Choose File` and select [Reminders.json](cognitiveModels/Reminders.json) from the `BotBuilder-Samples/javascript_nodejs/12.nlp-with-luis/cognitiveModels` folder.
+- Click on the `Choose File` and select [reminders.json](cognitiveModels/reminders.json) from the `BotBuilder-Samples/javascript_nodejs/12.nlp-with-luis/cognitiveModels` folder.
 - Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your AppId, SubscriptionKey, Region and Version. 
     You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
 https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/{LuisAppID}?subscription-key={LuisSubscriptionKey}&verbose=true&timezoneOffset=0&q=
