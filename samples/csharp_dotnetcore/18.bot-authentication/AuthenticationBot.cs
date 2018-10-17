@@ -124,7 +124,7 @@ namespace Microsoft.BotBuilderSamples
                     break;
                 case ActivityTypes.ConversationUpdate:
                     // Send a welcome & help message to the user.
-                    if (turnContext.Activity.MembersAdded.Any())
+                    if (turnContext.Activity.MembersAdded != null)
                     {
                         await SendWelcomeMessageAsync(turnContext, cancellationToken);
                     }

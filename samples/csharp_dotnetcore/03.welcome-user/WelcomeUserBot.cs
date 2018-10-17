@@ -118,7 +118,7 @@ namespace Microsoft.BotBuilderSamples
             // send this activity.
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
-                if (turnContext.Activity.MembersAdded.Any())
+                if (turnContext.Activity.MembersAdded != null)
                 {
                     // Iterate over all new members added to the conversation
                     foreach (var member in turnContext.Activity.MembersAdded)

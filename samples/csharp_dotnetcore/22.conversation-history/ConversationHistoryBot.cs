@@ -106,7 +106,10 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (activity.Type == ActivityTypes.ConversationUpdate)
             {
-                await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                if (activity.MembersAdded != null)
+                {
+                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                }
             }
         }
 

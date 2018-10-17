@@ -117,25 +117,25 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
-        public async Task OnTurnAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             // See https://aka.ms/about-bot-activity-message to learn more about message and other activity types.
-            switch (context.Activity.Type)
+            switch (turnContext.Activity.Type)
             {
                 case ActivityTypes.Message:
                     // Process on turn input (card or NLP) and gather new properties.
                     // OnTurnProperty object has processed information from the input message activity.
-                    var onTurnProperties = await DetectIntentAndEntitiesAsync(context);
+                    var onTurnProperties = await DetectIntentAndEntitiesAsync(turnContext);
                     if (onTurnProperties == null)
                     {
                         break;
                     }
 
                     // Set the state with gathered properties (intent/ entities) through the onTurnAccessor.
-                    await _onTurnAccessor.SetAsync(context, onTurnProperties);
+                    await _onTurnAccessor.SetAsync(turnContext, onTurnProperties);
 
                     // Create dialog context.
-                    var dc = await _dialogs.CreateContextAsync(context);
+                    var dc = await _dialogs.CreateContextAsync(turnContext);
 
                     // Continue outstanding dialogs.
                     await dc.ContinueDialogAsync();
@@ -148,17 +148,19 @@ namespace Microsoft.BotBuilderSamples
 
                     break;
                 case ActivityTypes.ConversationUpdate:
-                    // Welcome user.
-                    await WelcomeUserAsync(context);
+                    if (turnContext.Activity.MembersAdded != null)
+                    {
+                        await SendWelcomeMessageAsync(turnContext);
+                    }
                     break;
                 default:
                     // Handle other activity types as needed.
-                    await context.SendActivityAsync($"{context.Activity.Type} event detected");
+                    await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected");
                     break;
             }
 
-            await ConversationState.SaveChangesAsync(context);
-            await UserState.SaveChangesAsync(context);
+            await ConversationState.SaveChangesAsync(turnContext);
+            await UserState.SaveChangesAsync(turnContext);
         }
 
         private async Task<OnTurnProperty> DetectIntentAndEntitiesAsync(ITurnContext turnContext)
@@ -191,7 +193,7 @@ namespace Microsoft.BotBuilderSamples
             return OnTurnProperty.FromLuisResults(luisResults);
         }
 
-        private async Task WelcomeUserAsync(ITurnContext turnContext)
+        private async Task SendWelcomeMessageAsync(ITurnContext turnContext)
         {
             // Check to see if any new members were added to the conversation.
             if (turnContext.Activity.MembersAdded.Count > 0)

@@ -99,8 +99,10 @@ namespace Microsoft.BotBuilderSamples
 
                     break;
                 case ActivityTypes.ConversationUpdate:
-                    // Send a HeroCard as a welcome message when a new user joins the conversation.
-                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                    if (turnContext.Activity.MembersAdded != null)
+                    {
+                        await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                    }
 
                     break;
             }
