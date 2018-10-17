@@ -104,7 +104,10 @@ namespace NLP_With_Dispatch_Bot
             else if (context.Activity.Type == ActivityTypes.ConversationUpdate)
             {
                 // Send a welcome message to the user and tell them what actions they may perform to use this bot
-                await SendWelcomeMessageAsync(context, cancellationToken);
+                if (context.Activity.MembersAdded != null)
+                {
+                    await SendWelcomeMessageAsync(context, cancellationToken);
+                }
             }
             else
             {
