@@ -33,7 +33,12 @@ const DEV_ENVIRONMENT = 'development';
 const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
 // Language Understanding (LUIS) service name as defined in the .bot file.
-const LUIS_CONFIGURATION = 'luis';
+const LUIS_CONFIGURATION = '';
+
+if (!LUIS_CONFIGURATION) {
+    console.error('Make sure to update the index.ts file with a LUIS_CONFIGURATION name that matches your .bot file.');
+    process.exit();
+}
 
 // Get endpoint and LUIS configurations by service name.
 const endpointConfig = <IEndpointService>botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
