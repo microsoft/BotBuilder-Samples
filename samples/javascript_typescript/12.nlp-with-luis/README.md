@@ -53,10 +53,27 @@ In order to run this sample, you must have TypeScript installed.  To install Typ
     - SubscriptionKey = YYYYYYYYYYYY
     - Region = westus
 
-    The Version is listed on the page.
+    The Version is listed on the page. [See an example .bot service configuration for using LUIS here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js#configure-your-bot-to-use-your-luis-app).    
 - Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your Authoring Key.
-    You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
-NOTE: Once you publish your app on LUIS portal for the first time, it may take some time to go live.
+    You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option. Add this to your .bot file's service configuration as `authoringKey`.
+    
+    NOTE: Once you publish your app on LUIS portal for the first time, it may take some time to go live.
+- Your .bot file should now include an item in the services array that looks like this:
+
+```javascript
+{
+    "type":"luis",
+    "name":"<some name>",
+    "appId":"<an app id>",
+    "version":"<a version number>",
+    "authoringKey":"<your authoring key>",
+    "subscriptionKey":"<your subscription key>",
+    "region":"<region>",
+    "id":"<some number>"
+}
+```
+
+- Update [index.ts](src/index.ts) and set the `LUIS_CONFIGURATION` value to match the `name` field in your service declaration.
 
 ### (Optional) Install `ludown` and `luis`
 - Install the `ludown` CLI tool [here](https://aka.ms/using-ludown) to help describe language understanding components for your bot.
@@ -82,5 +99,6 @@ msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-loc
 ```
 
 # Further reading
+- [Using LUIS for Language Understanding](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js)
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [LUIS documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)
