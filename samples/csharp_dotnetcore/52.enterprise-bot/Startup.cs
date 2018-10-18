@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using EnterpriseBot.Middleware.Telemetry;
 using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,16 +52,15 @@ namespace EnterpriseBot
                     o.RequestCollectionOptions.InjectResponseHeaders = true;
                     o.RequestCollectionOptions.TrackExceptions = true;
                });
+            services.AddSingleton<ITelemetryInitializer>(new OperationCorrelationTelemetryInitializer());
 
-            IServiceProvider serviceProvider = services.BuildServiceProvider();
-            _loggerFactory.AddApplicationInsights(serviceProvider, LogLevel.Information);
             _logger = _loggerFactory.CreateLogger<Startup>();
             _logger.LogInformation($"Configuring services for {nameof(EnterpriseBot)}.  IsProduction: {_isProduction}.");
 
             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
-            var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", botFileSecret);
+            var botConfig = BotConfiguration.Load(botFilePath, botFileSecret);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
 
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
@@ -137,6 +137,9 @@ namespace EnterpriseBot
         /// <param name="env">Hosting Environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // Uncomment to disable Application Insights.
+            // var configuration = app.ApplicationServices.GetService<Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration>();
+            // configuration.DisableTelemetry = true;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

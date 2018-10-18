@@ -36,8 +36,6 @@ namespace EnterpriseBot
                     case ServiceTypes.AppInsights:
                         {
                             var appInsights = service as AppInsightsService;
-                            var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
-                            telemetryConfig.TelemetryInitializers.Add(new OperationCorrelationTelemetryInitializer());
                             TelemetryClient = new TelemetryClient();
                             break;
                         }

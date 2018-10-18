@@ -25,8 +25,8 @@ namespace EnterpriseBot
         protected override async Task<InterruptionStatus> OnDialogInterruptionAsync(DialogContext dc, CancellationToken cancellationToken)
         {
             // Check dispatch intent.
-            var luisService = _services.LuisServices["<YOUR MSBOT NAME>_General"];
-            var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+            var luisService = _services.LuisServices["General"];
+            var luisResult = await luisService.RecognizeAsync<General>(dc.Context, true, cancellationToken);
             var intent = luisResult.TopIntent().intent;
 
             switch (intent)
