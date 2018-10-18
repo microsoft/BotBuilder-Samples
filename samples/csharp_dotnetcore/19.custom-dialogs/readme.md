@@ -8,13 +8,13 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/19.custom-dialogs` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 # Prerequisites
 ## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/19.custom-dialogs`) and open Custom-Dialogs.csproj in Visual Studio.
-- Hit F5.
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/19.custom-dialogs`) and open `Custom-Dialogs.csproj` in Visual Studio.
+- Run the project (press `F5` key).
 
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/19.custom-dialogs` sample folder.
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/19.custom-dialogs` folder.
-- Type 'dotnet run'.
+- Type `dotnet run`.
 
 ## Update packages
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
@@ -29,17 +29,10 @@ developers to test and debug their bots on localhost or running remotely through
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/19.custom-dialogs` folder.
 - Select `BotConfiguration.bot` file.
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
 
-To install all Bot Builder tools - 
-
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
-
-```bash
-npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
-```
 To clone this bot, run
-```
+```bash
 msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
 ```
 # Further reading

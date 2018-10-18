@@ -12,11 +12,11 @@ using Microsoft.Bot.Schema;
 namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// This is an example of implementing a custom Dialog class. This is similar to the Waterfall dialog in the framework
-    /// however it is based on a Dictionary rather than a sequential set of functions. The dialog is defined by a list of 'slots'
+    /// This is an example of implementing a custom Dialog class. This is similar to the Waterfall dialog in the framework;
+    /// however, it is based on a Dictionary rather than a sequential set of functions. The dialog is defined by a list of 'slots',
     /// each slot represents a property we want to gather and the dialog we will be using to collect it. Often the property
-    /// is simply an atomic peice of data such as a number or a date. But sometimes the property is itself a complex object, in which
-    /// case we can use the slot dialog to collect that compount property.
+    /// is simply an atomic piece of data such as a number or a date. But sometimes the property is itself a complex object, in which
+    /// case we can use the slot dialog to collect that compound property.
     /// </summary>
     public class SlotFillingDialog : Dialog
     {
@@ -126,7 +126,7 @@ namespace Microsoft.BotBuilderSamples
 
         /// <summary>
         /// This helper function contains the core logic of this dialog. The main idea is to compare the state we have gathered with the
-        /// list of slots we have been asked to fill. When we find an empty slot we exectute the corresponding prompt.
+        /// list of slots we have been asked to fill. When we find an empty slot we execute the corresponding prompt.
         /// </summary>
         /// <param name="dialogContext">A handle on the runtime.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
