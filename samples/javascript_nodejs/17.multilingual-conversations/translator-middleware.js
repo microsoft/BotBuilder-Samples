@@ -57,7 +57,7 @@ class TranslatorMiddleware {
      */
     async translate(text, to) {
         // Check to make sure "en" is not translated to "in"
-        if (text.toLowerCase() === ENGLISH_LANGUAGE) {
+        if (text.toLowerCase() === ENGLISH_LANGUAGE || text.toLowerCase() === SPANISH_LANGUAGE) {
             return text;
         }
 
