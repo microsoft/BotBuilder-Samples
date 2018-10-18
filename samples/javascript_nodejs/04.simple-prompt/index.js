@@ -81,7 +81,7 @@ const bot = new SimplePromptBot(conversationState, userState);
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
-        // Route theincoming activity to the main bot turn handler.
+        // Route the incoming activity to the main bot turn handler.
         await bot.onTurn(context);
     });
 });
