@@ -26,7 +26,7 @@
         "What should I call you?"
       ],
       "metadata": []
-    }
+    },
     {
       "id": 2,
       "answer": "Email us at service@contoso.com.\r\n",
@@ -36,7 +36,7 @@
 		"help"
       ],
       "metadata": []
-    }
+    },
     {
       "id": 3,
       "answer": "The simplest way to troubleshoot your smart light is to turn it off and on.\r\n",
@@ -46,7 +46,7 @@
 		"Not working!"
       ],
       "metadata": []
-    }
+    },
     {
       "id": 4,
       "answer": "When you upgrade, you need to disable Bluetooth, then re-enable it. After re-enable, re-pair your light with the app.\r\n",
