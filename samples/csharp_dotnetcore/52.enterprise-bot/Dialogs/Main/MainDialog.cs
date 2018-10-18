@@ -47,14 +47,14 @@ namespace EnterpriseBot
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Check dispatch result
-            var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, CancellationToken.None);
+            var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc.Context, true, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
             if (intent == Dispatch.Intent.l_General)
             {
                 // If dispatch result is general luis model
-                var luisService = _services.LuisServices["<YOUR MS BOT NAME>_General"];
-                var result = await luisService.RecognizeAsync<General>(dc.Context, CancellationToken.None);
+                var luisService = _services.LuisServices["General"];
+                var result = await luisService.RecognizeAsync<General>(dc.Context, true, CancellationToken.None);
 
                 var generalIntent = result?.TopIntent().intent;
 
@@ -103,7 +103,7 @@ namespace EnterpriseBot
             }
             else if (intent == Dispatch.Intent.q_FAQ)
             {
-                var qnaService = _services.QnAServices["<YOUR_QNA_SERVICE_NAME>"];
+                var qnaService = _services.QnAServices["FAQ"];
                 var answers = await qnaService.GetAnswersAsync(dc.Context);
 
                 if (answers != null && answers.Count() > 0)

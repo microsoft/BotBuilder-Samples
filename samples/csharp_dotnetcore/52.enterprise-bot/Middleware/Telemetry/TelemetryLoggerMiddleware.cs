@@ -50,8 +50,7 @@ namespace EnterpriseBot
                 throw new ArgumentNullException(nameof(instrumentationKey));
             }
 
-            var telemetryConfiguration = config ?? new TelemetryConfiguration(instrumentationKey);
-            _telemetryClient = new TelemetryClient(telemetryConfiguration);
+            _telemetryClient = new TelemetryClient();
             LogUserName = logUserName;
             LogOriginalMessage = logOriginalMessage;
         }

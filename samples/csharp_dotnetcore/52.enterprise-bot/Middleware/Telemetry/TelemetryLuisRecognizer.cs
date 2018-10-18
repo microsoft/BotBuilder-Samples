@@ -74,7 +74,6 @@ namespace EnterpriseBot
 
             // Call Luis Recognizer
             var recognizerResult = await RecognizeAsync(context, cancellationToken);
-
             var conversationId = context.Activity.Conversation.Id;
 
             // Find the Telemetry Client
