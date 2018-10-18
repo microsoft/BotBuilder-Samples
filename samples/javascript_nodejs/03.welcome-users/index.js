@@ -6,7 +6,7 @@ const path = require('path');
 const restify = require('restify');
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, ConversationState, MemoryStorage } = require('botbuilder');
+const { BotFrameworkAdapter, UserState, MemoryStorage } = require('botbuilder');
 // Import required bot configuration.
 const { BotConfiguration } = require('botframework-config');
 
@@ -56,20 +56,20 @@ adapter.onTurnError = async (context, error) => {
     // Send a message to the user
     context.sendActivity(`Oops. Something went wrong!`);
     // Clear out state
-    await conversationState.clear(context);
+    await userState.clear(context);
     // Save state changes.
-    await conversationState.saveChanges(context);
+    await userState.saveChanges(context);
 };
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
 // A bot requires a state store to persist the dialog and user state between messages.
-let conversationState;
+let userState;
 
 // For local development, in-memory storage is used.
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone.
 const memoryStorage = new MemoryStorage();
-conversationState = new ConversationState(memoryStorage);
+userState = new UserState(memoryStorage);
 
 // CAUTION: You must ensure your product environment has the NODE_ENV set
 //          to use the Azure Blob storage or Azure Cosmos DB providers.
@@ -84,17 +84,17 @@ conversationState = new ConversationState(memoryStorage);
 //     containerName: (blobStorageConfig.container || DEFAULT_BOT_CONTAINER),
 //     storageAccountOrConnectionString: blobStorageConfig.connectionString,
 // });
-// conversationState = new ConversationState(blobStorage);
+// userState = new userState(blobStorage);
 
 // Create the main dialog.
-const bot = new WelcomeBot(conversationState);
+const bot = new WelcomeBot(userState);
 
 // Create HTTP server
 let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-    console.log(`\nTo talk to your bot, open echoBot-with-counter.bot file in the Emulator`);
+    console.log(`\nTo talk to your bot, open welcome-users.bot file in the Emulator`);
 });
 
 // Listen for incoming activities and route them to your bot main dialog.
