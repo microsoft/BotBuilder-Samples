@@ -37,7 +37,7 @@ class SimplePromptBot {
             this.collectAndDisplayName.bind(this)
         ]));
 
-        // Create a dialog that displays a user name after it has been collceted.
+        // Create a dialog that displays a user name after it has been collected.
         this.dialogs.add(new WaterfallDialog(HELLO_USER, [
             this.displayName.bind(this)
         ]));
