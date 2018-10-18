@@ -1,7 +1,7 @@
 {
-    "name": "loggerbot",
+    "name": "transcript-loggerbot",
     "version": "1.0.0",
-    "description": "Demonstrate the transcript logging middleware in the nodejs SDK.",
+    "description": "Demonstrates the transcript logging middleware's ability to create emulator compatible transcripts in the nodejs SDK.",
     "author": "Microsoft Bot Builder Yeoman Generator v4.0.10",
     "license": "MIT",
     "main": "index.js",
