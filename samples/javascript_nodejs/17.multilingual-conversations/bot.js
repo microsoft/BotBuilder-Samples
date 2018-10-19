@@ -71,13 +71,19 @@ function isLanguageChangeRequested(utterance, currentLanguage) {
 
     // If the utterance is empty or the utterance is not a supported language code,
     // then there is no language change requested
-    if (!utterance || !isSupportedLanguageCode(utterance)) {
+    if (!utterance) {
+        return false;
+    }
+
+    const cleanedUpUtterance = utterance.toLowerCase().trim();
+
+    if (!isSupportedLanguageCode(cleanedUpUtterance)) {
         return false;
     }
 
     // We know that the utterance is a language code. If the code sent in the utterance
     // is different from the current language, then a change was indeed requested
-    return utterance !== currentLanguage;
+    return cleanedUpUtterance !== currentLanguage;
 }
 
 /**
