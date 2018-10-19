@@ -48,7 +48,7 @@ class MessageRoutingBot {
         this.dialogs = new DialogSet(this.dialogState);
         this.dialogs.add(new GreetingDialog(GREETING_DIALOG, this.greetingStateAccessor, userState));
 
-        
+
         this.conversationState = conversationState;
         this.userState = userState;
     }
@@ -65,62 +65,59 @@ class MessageRoutingBot {
         // Create a dialog context
         const dc = await this.dialogs.createContext(context);
 
-        if(context.activity.type === ActivityTypes.Message) {
-            
+        if (context.activity.type === ActivityTypes.Message) {
+
+            // Normalizes all user's text inputs
             const utterance = context.activity.text.trim().toLowerCase();
 
             // handle conversation interrupts first
             const interrupted = await this.isTurnInterrupted(dc, utterance);
-            if(interrupted) {
-                return;
-            }
+            if (!interrupted) {
+                // Continue the current dialog
+                const dialogResult = await dc.continueDialog();
 
-            // Continue the current dialog
-            const dialogResult = await dc.continueDialog();
+                // If no one has responded,
+                if (!dc.context.responded) {
+                    // Examine results from active dialog
+                    switch (dialogResult.status) {
+                        case DialogTurnStatus.empty:
 
-            // If no one has responded, 
-            if (!dc.context.responded) {
-                // Examine results from active dialog
-                switch (dialogResult.status) {
-                    case DialogTurnStatus.empty:
-
-                        if (utterance === GREETING_UTTERANCE) {
-                            await dc.beginDialog(GREETING_DIALOG);
-                        } else {
-                            // Help or no intent identified, either way, let's provide some help
-                            // to the user
-                            await dc.context.sendActivity(`I didn't understand what you just said to me. Try saying 'hello', 'help' or 'cancel'.`);
-                        }
-                    case DialogTurnStatus.waiting:
-                        // The active dialog is waiting for a response from the user, so do nothing
-                        break;
-                    case DialogTurnStcarlatus.complete:
-                        await dc.endDialog();
-                        break;
-                    default:
-                        await dc.cancelAllDialogs();
-                        break;
+                            if (utterance === GREETING_UTTERANCE) {
+                                await dc.beginDialog(GREETING_DIALOG);
+                            } else {
+                                // Help or no intent identified, either way, let's provide some help
+                                // to the user
+                                await dc.context.sendActivity(`I didn't understand what you just said to me. Try saying 'hello', 'help' or 'cancel'.`);
+                            }
+                        case DialogTurnStatus.waiting:
+                            // The active dialog is waiting for a response from the user, so do nothing
+                            break;
+                        case DialogTurnStatus.complete:
+                            await dc.endDialog();
+                            break;
+                        default:
+                            await dc.cancelAllDialogs();
+                            break;
+                    }
                 }
             }
+            // Make sure to persist state at the end of a turn.
+            await this.userState.saveChanges(context);
+            await this.conversationState.saveChanges(context);
         } else if (context.activity.type === 'conversationUpdate' && context.activity.membersAdded[0].name === 'Bot') {
             // When activity type is "conversationUpdate" and the member joining the conversation is the bot
             // we will send a welcome message.
             await dc.context.sendActivity(`Welcome to the message routing bot! Try saying 'hello' to start talking, and use 'help' or 'cancel' at anytime to try interruption and cancellation.`);
         }
-        // Make sure to persist state at the end of a turn.
-        await this.userState.saveChanges(context);
-        await this.conversationState.saveChanges(context);
     }
 
     /**
      * Determine whether a turn is interrupted and handle interruption based off user's utterance.
      *
      * @param {DialogContext} dc - dialog context
-     * @param {string} utterance - user's utterance
+     * @param {string} utterance - user's utterance is normalized via the .trim().toLowerCase() calls
      */
     async isTurnInterrupted(dc, utterance) {
-
-        utterance = utterance.trim().toLowerCase();
 
         // see if there are any conversation interrupts we need to handle
         if (utterance === CANCEL_UTTERANCE) {
@@ -139,7 +136,7 @@ class MessageRoutingBot {
 
             if (dc.activeDialog) {
                 // We've shown help, reprompt again to continue where the dialog left over
-                dc.repromptDialog();
+                await dc.repromptDialog();
             }
             return true;        // handled the interrupt
         }
