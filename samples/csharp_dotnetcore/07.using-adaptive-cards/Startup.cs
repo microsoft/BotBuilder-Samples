@@ -61,7 +61,7 @@ namespace Microsoft.BotBuilderSamples
 
                 // Retrieve current endpoint.
                 var environment = _isProduction ? "production" : "development";
-                var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
                 if (!(service is EndpointService endpointService))
                 {
                     throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");

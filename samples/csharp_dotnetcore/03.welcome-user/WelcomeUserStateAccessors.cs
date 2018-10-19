@@ -19,8 +19,15 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="userState">The state object that stores the counter.</param>
         public WelcomeUserStateAccessors(UserState userState)
         {
-            this.UserState = userState ?? throw new ArgumentNullException(nameof(userState));
+            UserState = userState ?? throw new ArgumentNullException(nameof(userState));
         }
+
+        /// <summary>
+        /// Gets the <see cref="IStatePropertyAccessor{T}"/> name used for the <see cref="BotBuilderSamples.WelcomeUserState"/> accessor.
+        /// </summary>
+        /// <remarks>Accessors require a unique name.</remarks>
+        /// <value>The accessor name for the WelcomeUser state.</value>
+        public static string WelcomeUserName { get; } = $"{nameof(WelcomeUserStateAccessors)}.WelcomeUserState";
 
         /// <summary>
         /// Gets or sets the <see cref="IStatePropertyAccessor{T}"/> for DidBotWelcome.
@@ -28,7 +35,7 @@ namespace Microsoft.BotBuilderSamples
         /// <value>
         /// The accessor stores if the bot has welcomed the user or not.
         /// </value>
-        public IStatePropertyAccessor<bool> DidBotWelcomeUser { get; set; }
+        public IStatePropertyAccessor<WelcomeUserState> WelcomeUserState { get; set; }
 
         /// <summary>
         /// Gets the <see cref="UserState"/> object for the conversation.
