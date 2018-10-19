@@ -21,7 +21,7 @@ namespace BasicBot
     /// <remarks>
     /// The <see cref="MainDialog"/> responsibility is to:
     /// - Start message.
-    ///   Display the inital message the user sees when they begin a conversation.
+    ///   Display the initial message the user sees when they begin a conversation.
     /// - Help.
     ///   Provide the user about the commands the bot can process.
     /// - Start other dialogs to perform more complex operations.

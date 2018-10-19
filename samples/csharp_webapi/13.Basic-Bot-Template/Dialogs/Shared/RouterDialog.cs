@@ -10,7 +10,7 @@ using Microsoft.Bot.Schema;
 namespace BasicBot
 {
     /// <summary>
-    /// The <see cref="RouterDialog"/> is the entrpoint or "main" dialog.
+    /// The <see cref="RouterDialog"/> is the entry point or "main" dialog.
     /// </summary>
     /// <remarks>
     /// The <see cref="RouterDialog"/> is the first dialog that runs when a user begins a conversation.
