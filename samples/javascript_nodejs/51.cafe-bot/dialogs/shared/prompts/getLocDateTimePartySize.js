@@ -205,7 +205,7 @@ module.exports = {
             }
         }
         /**
-         * Over ride re-prompt Dialog.
+         * Over ride reprompt Dialog.
          * This is useful to ensure the right re-prompt text is set before re-prompting.
          * This method is called anytime a re-prompt is initiated.
          * @param {TurnContext} turn context
