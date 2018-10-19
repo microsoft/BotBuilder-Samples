@@ -20,7 +20,7 @@ You can get your LUIS authoring key by following steps [here][8] and get your Az
 ```bash
 > cd samples/javascript_nodejs/13.basic-bot
 
-> msbot clone services -n <YOUR BOT NAME> -f deploymentScripts/msbotClone --luisAuthoringKey <LUIS-KEY> --subscriptionId <AZURE-SUBSCRIPTION-ID>
+> msbot clone services -n <YOUR BOT NAME> -f deploymentScripts/msbotClone --luisAuthoringKey <LUIS-KEY> --subscriptionId <AZURE-SUBSCRIPTION-ID> --location <LOCATION>
 ```
 
 # Using the CLI tools to create and configure services
@@ -48,6 +48,7 @@ The LUIS application created for this bot is described in a markdown based .lu f
     ```bash
     > msbot get basic-bot-LUIS | luis publish version --stdin
     ```
+5. Set the `LUIS_CONFIGURATION` value in [`bot.js`](../bot.js). An example of a LUIS configuration [can be found here.](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js#configure-your-bot-to-use-your-luis-app)
 
 See [Bot Builder tools](https://github.com/microsoft/botbuilder-tools) to learn more about the Bot Builder CLI tools.
 

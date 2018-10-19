@@ -87,7 +87,7 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
-                if (turnContext.Activity.MembersAdded.Any())
+                if (turnContext.Activity.MembersAdded != null)
                 {
                     await SendWelcomeMessageAsync(turnContext, cancellationToken);
                 }

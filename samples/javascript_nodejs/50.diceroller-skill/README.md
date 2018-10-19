@@ -16,7 +16,7 @@ events.
     ```
 - Install modules and start the bot
     ```bash
-    npm i & npm start
+    npm i && npm start
     ```
 - To reset registry, you can do
     ```bash
