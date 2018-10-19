@@ -36,9 +36,7 @@ class MultilingualBot {
             // Get the user language preference from the user state.
             const userLanguage = await this.languagePreferenceProperty.get(turnContext, DEFAULT_LANGUAGE);
 
-            const shouldTranslate = userLanguage !== DEFAULT_LANGUAGE;
-
-            if (isLanguageChangeRequested(text)) {
+            if (isLanguageChangeRequested(text, userLanguage)) {
                 // If the user requested a language change through the suggested actions with values "es" or "en",
                 // simply change the user's language preference in the user state.
                 // The translation middleware will catch this setting and translate both ways to the user's
@@ -67,8 +65,32 @@ class MultilingualBot {
  * changes by responding with the language code through the suggested action presented
  * above or by typing it.
  * @param {string} utterance the current turn utterance.
+ * @param {string} currentLanguage the current user language.
  */
-function isLanguageChangeRequested(utterance) {
+function isLanguageChangeRequested(utterance, currentLanguage) {
+
+    // If the utterance is empty or the utterance is not a supported language code,
+    // then there is no language change requested
+    if (!utterance) {
+        return false;
+    }
+
+    const cleanedUpUtterance = utterance.toLowerCase().trim();
+
+    if (!isSupportedLanguageCode(cleanedUpUtterance)) {
+        return false;
+    }
+
+    // We know that the utterance is a language code. If the code sent in the utterance
+    // is different from the current language, then a change was indeed requested
+    return cleanedUpUtterance !== currentLanguage;
+}
+
+/**
+ * Checks whether the utterance from the user is one of the 2 supported language codes in this sample
+ * @param {string} utterance the current turn utterance.
+ */
+function isSupportedLanguageCode(utterance) {
     if (!utterance) {
         return false;
     }
