@@ -115,7 +115,7 @@ class MessageRoutingBot {
      * Determine whether a turn is interrupted and handle interruption based off user's utterance.
      *
      * @param {DialogContext} dc - dialog context
-     * @param {string} utterance - user's utterance
+     * @param {string} utterance - user's utterance is normalized via the .trim().toLowerCase() calls
      */
     async isTurnInterrupted(dc, utterance) {
 
