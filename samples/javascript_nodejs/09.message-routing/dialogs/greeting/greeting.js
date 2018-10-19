@@ -142,14 +142,17 @@ class Greeting extends ComponentDialog {
      * @param {PromptValidatorContext} prompt context for this prompt
      */
     async validateName(prompt) {
-        // Validate that the user entered a minimum lenght for their name
+        // Validate that the user entered a minimum length for their name
         prompt.activeDialog = await this.greetingStateAccessor;
         prompt.context = await prompt.context;
         const value = (prompt.recognized.value || '').trim();
         if (value.length >= NAME_LENGTH_MIN) {
+            // Returns true if the user's name meets the required length
             return true;
         } else {
+            // Returns false if the user's name fails to meet the required length
             await prompt.context.sendActivity(`Names need to be at least ${NAME_LENGTH_MIN} characters long.`);
+            return false;
         }
     }
     /**
@@ -158,24 +161,27 @@ class Greeting extends ComponentDialog {
      * @param {PromptValidatorContext} prompt context for this prompt
      */
     async validateCity(prompt) {
-        // Validate that the user entered a minimum lenght for their name
+        // Validate that the user entered a minimum length for their name
         const value = (prompt.recognized.value || '').trim();
         if (value.length >= CITY_LENGTH_MIN) {
+            // Returns true if the user's city meets the required length
             return true;
         } else {
+            // Returns false if the user's city fails to meet the required length
             await prompt.context.sendActivity(`City names needs to be at least ${CITY_LENGTH_MIN} characters long.`);
+            return false;
         }
     }
     /**
      * Helper function to greet user with information in greetingState.
      *
-     * @param {DialogContext} dc context for this dialog
+     * @param {WaterfallStepContext} step context for this dialog
      */
-    async greetUser(dc) {
-        const greetingState = await this.greetingStateAccessor.get(dc.context);
+    async greetUser(step) {
+        const greetingState = await this.greetingStateAccessor.get(step.context);
         // Display to the user their profile information and end dialog
-        await dc.context.sendActivity(`Hi ${greetingState.name}, from ${greetingState.city}, nice to meet you!`);
-        return await dc.endDialog();
+        await step.context.sendActivity(`Hi ${greetingState.name}, from ${greetingState.city}, nice to meet you!`);
+        return await step.endDialog();
     }
 }
 
