@@ -76,7 +76,7 @@ namespace Microsoft.BotBuilderSamples
                 throw new InvalidOperationException(msg);
             }
 
-            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. botFilePath: {botFilePath}"));
 
             // Add BotServices singleton.
             // Create the connected services from .bot file.
@@ -84,7 +84,7 @@ namespace Microsoft.BotBuilderSamples
 
             // Retrieve current endpoint.
             var environment = _isProduction ? "production" : "development";
-            var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+            var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
             if (service == null && _isProduction)
             {
                 // Attempt to load development environment
