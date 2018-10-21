@@ -2,121 +2,114 @@
 // Licensed under the MIT License.
 
 const assert = require('assert');
-const {MicrosoftTranslator, TranslateArrayOptions} = require('../translator');
+const { MicrosoftTranslator, TranslateArrayOptions } = require('../translator');
 const translatorKey = process.env.translatorKey;
 
 describe('MicrosoftTranslator', function () {
     this.timeout(20000);
-    
-    if (!translatorKey) 
-    {
+
+    if (!translatorKey) {
         console.warn('WARNING: skipping MicrosoftTranslator test suite because TRANSLATORKEY environment letiable is not defined');
         return;
     }
 
-    it('should translate en to fr and support html tags in sentences', async()=> {
-        
-        let translationOptions = new TranslateArrayOptions();
-        translationOptions.from = "en";
-        translationOptions.to = "fr";
-        translationOptions.texts = ["greetings <br> My friends"];
-
-        let translator = new MicrosoftTranslator(translatorKey);
+    it('should translate en to fr and support html tags in sentences', async () => {
+        const translationOptions = {
+            from: "en",
+            to: "fr",
+            texts: ["greetings <br> My friends"]
+        }
+        const translator = new MicrosoftTranslator(translatorKey);
         const translationResult = await translator.translateArray(translationOptions);
         assert.equal(translationResult[0].translatedText, "salutations <br> mes amis");
     });
 
-    it('should handle punctuations', async()=> {
-        
-        let translationOptions = new TranslateArrayOptions();
-        translationOptions.from = "en";
-        translationOptions.to = "fr";
-        translationOptions.texts = ['0: You said "hello"'];
-
-        let translator = new MicrosoftTranslator(translatorKey);
+    it('should handle punctuations', async () => {
+        const translationOptions = {
+            from: "en",
+            to: "fr",
+            texts: ['0: You said "hello"']
+        }
+        const translator = new MicrosoftTranslator(translatorKey);
         const translationResult = await translator.translateArray(translationOptions);
         assert.equal(translationResult[0].translatedText, '0 : vous avez dit " Bonjour "');
     });
 
-    it('should not translate no translate texts and numbers', async()=> {
-        
-        let translationOptions = new TranslateArrayOptions();
-        translationOptions.from = "fr";
-        translationOptions.to = "en";
-        translationOptions.texts = ['Bonjour Jean mon ami 2018'];
-        let noTranslatePatterns = {
-                                    "fr" : ['Bonjour (Jean mon ami)']
-                                };
-        let translator = new MicrosoftTranslator(translatorKey, noTranslatePatterns);
+    it('should not translate no translate texts and numbers', async () => {
+        const translationOptions = {
+            from: "fr",
+            to: "en",
+            texts: ['Bonjour Jean mon ami 2018']
+        }
+        const noTranslatePatterns = {
+            "fr": ['Bonjour (Jean mon ami)']
+        };
+        const translator = new MicrosoftTranslator(translatorKey, noTranslatePatterns);
         const translationResult = await translator.translateArray(translationOptions);
         assert.equal(translationResult[0].translatedText, 'Hello Jean mon ami 2018');
     });
 
-    it('should handle empty messages', async()=> {
-        
-        let translationOptions = new TranslateArrayOptions();
-        translationOptions.from = "fr";
-        translationOptions.to = "en";
-        translationOptions.texts = ['\n\n'];
-        let translator = new MicrosoftTranslator(translatorKey);
-
+    it('should handle empty messages', async () => {
+        const translationOptions = {
+            from: "fr",
+            to: "en",
+            texts: ['\n\n']
+        }
+        const translator = new MicrosoftTranslator(translatorKey);
         const translationResult = await translator.translateArray(translationOptions);
         assert.equal(translationResult[0].translatedText, '');
     });
 
-    it('should handle no translate texts with no groups', async()=> {
-        
-        let translationOptions = new TranslateArrayOptions();
-        translationOptions.from = "fr";
-        translationOptions.to = "en";
-        translationOptions.texts = ['Bonjour Jean mon ami'];
-        let noTranslatePatterns = { "fr" : ['Jean mon ami'] };
-        let translator = new MicrosoftTranslator(translatorKey, noTranslatePatterns);
-
+    it('should handle no translate texts with no groups', async () => {
+        const translationOptions = {
+            from: "fr",
+            to: "en",
+            texts: ['Bonjour Jean mon ami']
+        }
+        const noTranslatePatterns = { "fr": ['Jean mon ami'] };
+        const translator = new MicrosoftTranslator(translatorKey, noTranslatePatterns);
         const translationResult = await translator.translateArray(translationOptions);
         assert.equal(translationResult[0].translatedText, 'Hello Jean mon ami');
     });
-    
-    it('should handle special cases in no translates - 1', async()=> {
-        
-        let translationOptions = new TranslateArrayOptions();
-        translationOptions.from = "es";
-        translationOptions.to = "en";
-        translationOptions.texts = ['mi perro se llama Enzo'];
-        let noTranslatePatterns = { "es" : ['perr[oa]', 'Hi']};
-        let translator = new MicrosoftTranslator(translatorKey, noTranslatePatterns);
 
+    it('should handle special cases in no translates - 1', async () => {
+        const translationOptions = {
+            from: "es",
+            to: "en",
+            texts: ['mi perro se llama Enzo']
+        }
+        const noTranslatePatterns = { "es": ['perr[oa]', 'Hi'] };
+        const translator = new MicrosoftTranslator(translatorKey, noTranslatePatterns);
         const translationResult = await translator.translateArray(translationOptions);
         assert.equal(translationResult[0].translatedText, "My perro's name is Enzo");
     });
-    
-    it('should handle special cases in no translates - 2', async()=> {
-        
-        let translationOptions = new TranslateArrayOptions();
-        translationOptions.from = "fr";
-        translationOptions.to = "en";
-        translationOptions.texts = ["mon nom est l'etat"];
-        let noTranslatePatterns = { "fr" : ['mon nom est (.+)']};
-        let translator = new MicrosoftTranslator(translatorKey, noTranslatePatterns);
 
+    it('should handle special cases in no translates - 2', async () => {
+        const translationOptions = {
+            from: "fr",
+            to: "en",
+            texts: ["mon nom est l'etat"]
+        }
+        const noTranslatePatterns = { "fr": ['mon nom est (.+)'] };
+        const translator = new MicrosoftTranslator(translatorKey, noTranslatePatterns);
         const translationResult = await translator.translateArray(translationOptions);
         assert.equal(translationResult[0].translatedText, "My name is l'etat");
     });
 
-    it('should use dictionary', async()=> {
-        
-        let translationOptions = new TranslateArrayOptions();
-        translationOptions.from = "en";
-        translationOptions.to = "fr";
-        translationOptions.texts = ["I want to stay in a royal room"];
-        let wordDictionary = { 'room': 'lieu', 'royal': 'régalien' };
-        let translator = new MicrosoftTranslator(translatorKey, null, wordDictionary);
+    it('should use dictionary', async () => {
+        const translationOptions = {
+            from: "en",
+            to: "fr",
+            texts: ["I want to stay in a royal room"]
+        }
+        const wordDictionary = { 'room': 'lieu', 'royal': 'régalien' };
+        const translator = new MicrosoftTranslator(translatorKey, null, wordDictionary);
         const translationResult = await translator.translateArray(translationOptions);
         assert.equal(translationResult[0].translatedText, "Je veux rester dans une lieu régalien");
     });
 
-    it('should detect language', async()=> {
-        let translator = new MicrosoftTranslator(translatorKey);
+    it('should detect language', async () => {
+        const translator = new MicrosoftTranslator(translatorKey);
         const detectedLanguage = await translator.detect("hello world");
         assert.equal(detectedLanguage[0].language, "en");
     });

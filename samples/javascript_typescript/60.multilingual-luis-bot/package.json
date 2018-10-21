@@ -11,10 +11,13 @@
   "author": "Microsoft",
   "license": "MIT",
   "dependencies": {
+    "@types/mocha": "^5.2.5",
     "botbuilder": "^4.0.6",
     "botbuilder-ai": "^4.0.6",
     "botframework-config": "^4.0.6",
     "dotenv": "^6.1.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
     "request-promise-native": "^1.0.5",
     "restify": "^6.3.4"
   },
