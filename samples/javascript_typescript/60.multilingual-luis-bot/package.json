@@ -4,7 +4,7 @@
   "description": "Bot Builder v4 Multilingual sample",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node src/index.js",
     "test": "tsc && nyc mocha tests/",
     "watch": "nodemon index.js"
   },
@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/mocha": "^5.2.5",
-    "botbuilder": "^4.0.6",
+    "botbuilder": "^4.0.8",
     "botbuilder-ai": "^4.0.6",
     "botframework-config": "^4.0.6",
     "dotenv": "^6.1.0",

@@ -12,8 +12,8 @@
         },
         {
             "type": "luis",
-            "id": "basic-bot-LUIS",
-            "name": "basic-bot-LUIS",
+            "id": "",
+            "name": "",
             "version": "0.1",
             "appId": "",
             "authoringKey": "",

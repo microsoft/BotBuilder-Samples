@@ -13,7 +13,7 @@ const LANGUAGE_PREFERENCE = 'language_preference';
 
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
-const ENV_FILE = path.join(__dirname, '.env');
+const ENV_FILE = path.join(__dirname, '../.env');
 const env = require('dotenv').config({ path: ENV_FILE });
 
 // Get the .bot file path.

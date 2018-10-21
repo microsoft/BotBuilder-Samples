@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 const assert = require('assert');
-const { MicrosoftTranslator, TranslateArrayOptions } = require('../translator');
+const { MicrosoftTranslator, TranslateArrayOptions } = require('../src/translator');
 const translatorKey = process.env.translatorKey;
 
 describe('MicrosoftTranslator', function () {
     this.timeout(20000);
 
     if (!translatorKey) {
-        console.warn('WARNING: skipping MicrosoftTranslator test suite because TRANSLATORKEY environment letiable is not defined');
+        console.warn('WARNING: skipping MicrosoftTranslator test suite because TRANSLATORKEY environment variable is not defined');
         return;
     }
 
