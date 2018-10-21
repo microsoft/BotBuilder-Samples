@@ -35,6 +35,11 @@ const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 // Language Understanding (LUIS) service name as defined in the .bot file.
 const LUIS_CONFIGURATION = '';
 
+if (!LUIS_CONFIGURATION) {
+    console.error('Make sure to update the index.js file with a LUIS_CONFIGURATION name that matches your .bot file.');
+    process.exit();
+}
+
 // Get endpoint and LUIS configurations by service name.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
@@ -43,7 +48,7 @@ const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
 const luisApplication = {
     applicationId: luisConfig.appId,
     endpointKey: luisConfig.subscriptionKey || luisConfig.authoringKey,
-    azureRegion: luisConfig.region
+    endpoint: luisConfig.getEndpoint()
 };
 
 // Create configuration for LuisRecognizer's runtime behavior.

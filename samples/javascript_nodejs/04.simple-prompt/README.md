@@ -5,7 +5,7 @@ This sample shows how to use the prompts classes included in `botbuilder-dialogs
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to samples/javascript_nodejs/04.simple-prompt
+- In a terminal, navigate to `samples/javascript_nodejs/04.simple-prompt`
     ```bash
     cd samples/javascript_nodejs/04.simple-prompt
     ```
@@ -21,22 +21,14 @@ This sample shows how to use the prompts classes included in `botbuilder-dialogs
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples/javascript_nodejs/04.simple-prompt-bot
-- Select simple-prompt-bot.bot file
+- File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/04.simple-prompt-bot`
+- Select `simple-prompt-bot.bot` file
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
-
-To install all Bot Builder tools - 
-
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
-
-```bash
-npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
-```
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
 
 To clone this bot, run
-```
+```bash
 msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
 ```
 

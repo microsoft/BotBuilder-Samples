@@ -67,8 +67,11 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
-                // Send a welcome message to the user and tell them what actions they may perform to use this bot.
-                await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                if (turnContext.Activity.MembersAdded != null)
+                {
+                    // Send a welcome message to the user and tell them what actions they may perform to use this bot
+                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                }
             }
             else
             {

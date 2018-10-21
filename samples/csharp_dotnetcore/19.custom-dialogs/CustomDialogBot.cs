@@ -125,7 +125,7 @@ namespace Microsoft.BotBuilderSamples
             // Processes ConversationUpdate Activities to welcome the user.
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
-                if (turnContext.Activity.MembersAdded.Any())
+                if (turnContext.Activity.MembersAdded != null)
                 {
                     await SendWelcomeMessageAsync(turnContext, cancellationToken);
                 }
@@ -137,6 +137,27 @@ namespace Microsoft.BotBuilderSamples
 
             // Save the dialog state into the conversation state.
             await _accessors.ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
+        }
+
+        /// <summary>
+        /// Sends a welcome message to the user.
+        /// </summary>
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            foreach (var member in turnContext.Activity.MembersAdded)
+            {
+                if (member.Id != turnContext.Activity.Recipient.Id)
+                {
+                    var reply = turnContext.Activity.CreateReply();
+                    reply.Text = WelcomeText;
+                    await turnContext.SendActivityAsync(reply, cancellationToken);
+                }
+            }
         }
 
         /// <summary>
@@ -198,27 +219,6 @@ namespace Microsoft.BotBuilderSamples
 
             // Remember to call EndAsync to indicate to the runtime that this is the end of our waterfall.
             return await stepContext.EndDialogAsync();
-        }
-
-        /// <summary>
-        /// Sends a welcome message to the user.
-        /// </summary>
-        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
-        /// for processing this conversation turn. </param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
-        /// or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
-        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
-        {
-            foreach (var member in turnContext.Activity.MembersAdded)
-            {
-                if (member.Id != turnContext.Activity.Recipient.Id)
-                {
-                    var reply = turnContext.Activity.CreateReply();
-                    reply.Text = WelcomeText;
-                    await turnContext.SendActivityAsync(reply, cancellationToken);
-                }
-            }
         }
     }
 }

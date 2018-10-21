@@ -64,11 +64,11 @@ namespace NLP_With_Dispatch_Bot
 
             // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
             var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
-            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. botFilePath: {botFilePath}"));
 
             // Retrieve current endpoint.
             var environment = _isProduction ? "production" : "development";
-            var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+            var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
             if (!(service is EndpointService endpointService))
             {
                 throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
@@ -186,7 +186,7 @@ namespace NLP_With_Dispatch_Bot
 
                             var app = new LuisApplication(luis.AppId, luis.AuthoringKey, luis.GetEndpoint());
                             var recognizer = new LuisRecognizer(app);
-                            luisServices.Add(luis.Name.Split("_").LastOrDefault(), recognizer);
+                            luisServices.Add(luis.Name, recognizer);
                             break;
                         }
 
@@ -225,7 +225,7 @@ namespace NLP_With_Dispatch_Bot
 
                         // Since the Dispatch tool generates a LUIS model, we use LuisRecognizer to resolve dispatching of the incoming utterance
                         var dispatchARecognizer = new LuisRecognizer(dispatchApp);
-                        luisServices.Add(dispatch.Name.Split("_").Last(), dispatchARecognizer);
+                        luisServices.Add(dispatch.Name, dispatchARecognizer);
                         break;
 
                     case ServiceTypes.QnA:

@@ -94,7 +94,7 @@ class WelcomeBot {
                 // bot was added to the conversation, and the opposite indicates this is a user.
                 if (turnContext.activity.membersAdded[idx].id !== turnContext.activity.recipient.id) {
                     await turnContext.sendActivity(`Welcome to the 'Welcome User' Bot. This bot will introduce you to welcoming and greeting users.`);
-                    await turnContext.sendActivity("You are seeing this message because the bot recieved atleast one 'ConversationUpdate'" +
+                    await turnContext.sendActivity("You are seeing this message because the bot received at least one 'ConversationUpdate'" +
                                             'event,indicating you (and possibly others) joined the conversation. If you are using the emulator, ' +
                                             "pressing the 'Start Over' button to trigger this event again. The specifics of the 'ConversationUpdate' " +
                                             'event depends on the channel. You can read more information at https://aka.ms/about-botframework-welcome-user');

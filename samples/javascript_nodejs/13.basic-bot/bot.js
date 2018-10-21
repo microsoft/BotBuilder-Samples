@@ -20,7 +20,12 @@ const DIALOG_STATE_PROPERTY = 'dialogState';
 const USER_PROFILE_PROPERTY = 'userProfileProperty';
 
 // LUIS service type entry as defined in the .bot file.
-const LUIS_CONFIGURATION = 'basic-bot-LUIS';
+const LUIS_CONFIGURATION = '';
+
+if (!LUIS_CONFIGURATION) {
+    console.error('Make sure to update the index.js file with a LUIS_CONFIGURATION name that matches your .bot file.');
+    process.exit();
+}
 
 // Supported LUIS Intents.
 const GREETING_INTENT = 'Greeting';

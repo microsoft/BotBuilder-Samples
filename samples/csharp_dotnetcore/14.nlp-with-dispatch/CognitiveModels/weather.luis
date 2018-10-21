@@ -1,4 +1,4 @@
-﻿{
+{
   "intents": [
     {
       "name": "None"
@@ -309,7 +309,7 @@
   "prebuiltEntities": [],
   "luis_schema_version": "3.0.0",
   "versionId": "0.1",
-  "name": "weather.luis",
-  "desc": "",
+  "name": "Weather",
+  "desc": "Weather LUIS application - Bot Builder Samples",
   "culture": "en-us"
 }

@@ -84,7 +84,7 @@ namespace Microsoft.BotBuilderSamples
 
                 // Retrieve current endpoint.
                 var environment = _isProduction ? "production" : "development";
-                var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
                 if (service == null && _isProduction)
                 {
                     // Attempt to load development environment

@@ -56,8 +56,10 @@ class TranslatorMiddleware {
      * @param {string} to Two character langauge code, e.g. "en", "es"
      */
     async translate(text, to) {
-        // Check to make sure "en" is not translated to "in"
-        if (text.toLowerCase() === ENGLISH_LANGUAGE) {
+        // Check to make sure "en" is not translated to "in", or "es" to "it"
+        // In a production bot scenario, this would be replaced for a method call that detects
+        // language names in utterances.
+        if (text.toLowerCase() === ENGLISH_LANGUAGE || text.toLowerCase() === SPANISH_LANGUAGE) {
             return text;
         }
 

@@ -41,31 +41,36 @@ In this sample, we demonstrate how to call LUIS to extract the intents from a us
 - Click the `Sign in` button.
 - Click on `My Apps`.
 - Click on the `Import new app` button.
-- Click on the `Choose File` and select [Reminders.json](cognitiveModels/Reminders.json) from the `BotBuilder-Samples/javascript_nodejs/12.nlp-with-luis/cognitiveModels` folder.
+- Click on the `Choose File` and select [reminders.json](cognitiveModels/reminders.json) from the `BotBuilder-Samples/javascript_nodejs/12.nlp-with-luis/cognitiveModels` folder.
 - Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your AppId, SubscriptionKey, Region and Version. 
     You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
-https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/{LuisAppID}?subscription-key={LuisSubscriptionKey}&verbose=true&timezoneOffset=0&q= 
-     
-you will have something similar to this in the services section of your .bot file to run this sample:
-```
-    {
-      "type": "luis",
-      "name": "LuisBot", //This has to match the value for `LUIS_CONFIGURATION` in the index.js file
-      "id": "",
-      "appId": "{LuisAppID}",
-      "authoringKey": "", //{LuisAuthoringKey} or
-      "subscriptionKey": "{LuisSubscriptionKey}"
-      "version": "0.1",
-      "region": "westus"
-    },
-```
+https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/{LuisAppID}?subscription-key={LuisSubscriptionKey}&verbose=true&timezoneOffset=0&q=
 
-The Version is listed on the page.
-Note: Enter the either "authoringKey" OR "subscriptionKey", not both
-    
+    The Version is listed on the page.
+    Note: Enter the either "authoringKey" OR "subscriptionKey", not both.
+    [See an example .bot service configuration for using LUIS here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js#configure-your-bot-to-use-your-luis-app).    
+
+- Update [index.js](index.js) and set the `LUIS_CONFIGURATION` value to match the `name` field in your service declaration.
+
 - Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your Authoring Key.  
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
-NOTE: Once you publish your app on LUIS portal for the first time, it may take some time to go live.
+
+    NOTE: Once you publish your app on LUIS portal for the first time, it may take some time to go live.
+
+- Your .bot file should now include an item in the services array that looks like this:
+
+```javascript
+{
+    "type":"luis",
+    "name":"<some name>",
+    "appId":"<an app id>",
+    "version":"<a version number>",
+    "authoringKey":"<your authoring key>",
+    "subscriptionKey":"<your subscription key>",
+    "region":"<region>",
+    "id":"<some number>"
+}
+```
 
 ### (Optional) Install `ludown` and `luis`
 - Install the `ludown` CLI tool [here](https://aka.ms/using-ludown) to help describe language understanding components for your bot.
@@ -91,5 +96,6 @@ msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-loc
 ```
 
 # Further reading
+- [Using LUIS for Language Understanding](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js)
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [LUIS documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)
