@@ -109,7 +109,7 @@ namespace BasicBot
             if (dc.ActiveDialog != null)
             {
                 await dc.CancelAllDialogsAsync().ConfigureAwait(false);
-                await dc.Context.SendActivityAsync("Ok. I've cancelled our last activity.");
+                await dc.Context.SendActivityAsync("Ok. I've canceled our last activity.");
             }
             else
             {
