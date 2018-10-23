@@ -90,11 +90,11 @@ This specification outlines the requirements for botbuilder samples.
 
 # Concepts introduced in this sample
 <DESCRIPTION OF THE CONCEPTS>
-
-#Services used in this sample
-<INTRODUCE SERVICES>
+-    Services used in this sample
+    <INTRODUCE SERVICES>
 
 # To try this sample
+
 
 ## Prerequisites
 
@@ -102,15 +102,13 @@ This specification outlines the requirements for botbuilder samples.
 -   <Required TOOLS WITH MINIMUM VERSION NUMBERS>
 
 ### Clone the repo
--	<STEPS TO CLONE REPO AND GET SETUP>
+-	<STEPS TO CLONE REPO>
 
 NOTE: <ANY NOTES ABOUT THE PREREQUISITES OR ALTERNATE THINGS TO CONSIDER TO GET SET UP>
 
-## Ways to get started with Bot Framework Samples
+## Configure Services
 
-### MSBot
-
-### AZ CLI
+### Using CLI Tools
 
 ### Use portals (Manual)
 <BOT FILE EXAMPLE>
@@ -133,6 +131,16 @@ NOTE: <ANY NOTES ABOUT THE PREREQUISITES OR ALTERNATE THINGS TO CONSIDER TO GET 
 - Launch Bot Framework Emulator
 - File -> Open bot 
 - Navigate to .bot file
+
+
+##Deploy to Azure
+
+### Using CLI Tools
+
+### Deploy from Visual Studio
+
+### Deprovision your bot
+-    <STEPS TO DEPROVISION>
 
 # Further reading
 -	<LINKS TO ADDITIONAL READING>
