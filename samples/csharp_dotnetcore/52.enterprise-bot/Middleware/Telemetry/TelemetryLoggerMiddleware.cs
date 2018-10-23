@@ -50,10 +50,9 @@ namespace EnterpriseBot
                 throw new ArgumentNullException(nameof(instrumentationKey));
             }
 
-            var telemetryConfiguration = config ?? new TelemetryConfiguration(instrumentationKey);
-            this._telemetryClient = new TelemetryClient(telemetryConfiguration);
-            this.LogUserName = logUserName;
-            this.LogOriginalMessage = logOriginalMessage;
+            _telemetryClient = new TelemetryClient();
+            LogUserName = logUserName;
+            LogOriginalMessage = logOriginalMessage;
         }
 
         /// <summary>
@@ -86,7 +85,7 @@ namespace EnterpriseBot
         {
             BotAssert.ContextNotNull(context);
 
-            context.TurnState.Add(TelemetryLoggerMiddleware.AppInsightsServiceKey, this._telemetryClient);
+            context.TurnState.Add(TelemetryLoggerMiddleware.AppInsightsServiceKey, _telemetryClient);
 
             // log incoming activity at beginning of turn
             if (context.Activity != null)
@@ -96,16 +95,16 @@ namespace EnterpriseBot
                 // Context properties for App Insights
                 if (!string.IsNullOrEmpty(activity.Conversation.Id))
                 {
-                    this._telemetryClient.Context.Session.Id = activity.Conversation.Id;
+                    _telemetryClient.Context.Session.Id = activity.Conversation.Id;
                 }
 
                 if (!string.IsNullOrEmpty(activity.From.Id))
                 {
-                    this._telemetryClient.Context.User.Id = activity.From.Id;
+                    _telemetryClient.Context.User.Id = activity.From.Id;
                 }
 
                 // Log the Application Insights Bot Message Received
-                this._telemetryClient.TrackEvent(BotMsgReceiveEvent, this.FillReceiveEventProperties(activity));
+                _telemetryClient.TrackEvent(BotMsgReceiveEvent, this.FillReceiveEventProperties(activity));
             }
 
             // hook up onSend pipeline
@@ -116,7 +115,7 @@ namespace EnterpriseBot
 
                 foreach (var activity in activities)
                 {
-                    this._telemetryClient.TrackEvent(BotMsgSendEvent, this.FillSendEventProperties(activity));
+                    _telemetryClient.TrackEvent(BotMsgSendEvent, this.FillSendEventProperties(activity));
                 }
 
                 return responses;
@@ -128,7 +127,7 @@ namespace EnterpriseBot
                 // run full pipeline
                 var response = await nextUpdate().ConfigureAwait(false);
 
-                this._telemetryClient.TrackEvent(BotMsgUpdateEvent, this.FillUpdateEventProperties(activity));
+                _telemetryClient.TrackEvent(BotMsgUpdateEvent, this.FillUpdateEventProperties(activity));
 
                 return response;
             });
@@ -147,7 +146,7 @@ namespace EnterpriseBot
                 .ApplyConversationReference(reference, isIncoming: false)
                 .AsMessageDeleteActivity();
 
-                this._telemetryClient.TrackEvent(BotMsgDeleteEvent, this.FillDeleteEventProperties(deleteActivity));
+                _telemetryClient.TrackEvent(BotMsgDeleteEvent, this.FillDeleteEventProperties(deleteActivity));
             });
 
             if (nextTurn != null)
@@ -175,13 +174,13 @@ namespace EnterpriseBot
                 };
 
             // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
-            if (this.LogUserName && !string.IsNullOrWhiteSpace(activity.From.Name))
+            if (LogUserName && !string.IsNullOrWhiteSpace(activity.From.Name))
             {
                 properties.Add(TelemetryConstants.FromNameProperty, activity.From.Name);
             }
 
             // For some customers, logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
-            if (this.LogOriginalMessage && !string.IsNullOrWhiteSpace(activity.Text))
+            if (LogOriginalMessage && !string.IsNullOrWhiteSpace(activity.Text))
             {
                 properties.Add(TelemetryConstants.TextProperty, activity.Text);
             }
@@ -199,7 +198,8 @@ namespace EnterpriseBot
         {
             var properties = new Dictionary<string, string>()
                 {
-                    { TelemetryConstants.ActivityIDProperty, activity.Id },
+                    { TelemetryConstants.ActivityIDProperty, activity.ReplyToId },
+                    { TelemetryConstants.ReplyActivityIDProperty, activity.Id },
                     { TelemetryConstants.ChannelProperty, activity.ChannelId },
                     { TelemetryConstants.RecipientIdProperty, activity.Recipient.Id },
                     { TelemetryConstants.ConversationIdProperty, activity.Conversation.Id },
@@ -208,13 +208,13 @@ namespace EnterpriseBot
                 };
 
             // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
-            if (this.LogUserName && !string.IsNullOrWhiteSpace(activity.Recipient.Name))
+            if (LogUserName && !string.IsNullOrWhiteSpace(activity.Recipient.Name))
             {
                 properties.Add(TelemetryConstants.RecipientNameProperty, activity.Recipient.Name);
             }
 
             // For some customers, logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
-            if (this.LogOriginalMessage && !string.IsNullOrWhiteSpace(activity.Text))
+            if (LogOriginalMessage && !string.IsNullOrWhiteSpace(activity.Text))
             {
                 properties.Add(TelemetryConstants.TextProperty, activity.Text);
             }
@@ -243,7 +243,7 @@ namespace EnterpriseBot
                 };
 
             // For some customers, logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
-            if (this.LogOriginalMessage && !string.IsNullOrWhiteSpace(activity.Text))
+            if (LogOriginalMessage && !string.IsNullOrWhiteSpace(activity.Text))
             {
                 properties.Add(TelemetryConstants.TextProperty, activity.Text);
             }

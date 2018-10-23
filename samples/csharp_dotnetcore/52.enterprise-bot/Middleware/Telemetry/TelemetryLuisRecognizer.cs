@@ -50,14 +50,22 @@ namespace EnterpriseBot
         /// <value>If true, will log the user name into the AppInsight Custom Event for Luis intents.</value>
         public bool LogUsername { get; }
 
+        public async Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
+            where T : IRecognizerConvert, new()
+        {
+            var result = new T();
+            result.Convert(await RecognizeAsync(turnContext, logOriginalMessage, cancellationToken).ConfigureAwait(false));
+            return result;
+        }
+
         /// <summary>
         /// Analyze the current message text and return results of the analysis (Suggested actions and intents).
         /// </summary>
         /// <param name="context">Context object containing information for a single turn of conversation with a user.</param>
-        /// <param name="ct">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="logOriginalMessage">Determines if the original message is logged into Application Insights.  This is a privacy consideration.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The LUIS results of the analysis of the current message text in the current turn's context activity.</returns>
-        public async Task<RecognizerResult> RecognizeAsync(ITurnContext context, CancellationToken ct, bool logOriginalMessage = false)
+        public async Task<RecognizerResult> RecognizeAsync(ITurnContext context, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (context == null)
             {
@@ -65,8 +73,7 @@ namespace EnterpriseBot
             }
 
             // Call Luis Recognizer
-            var recognizerResult = await base.RecognizeAsync(context, ct);
-
+            var recognizerResult = await RecognizeAsync(context, cancellationToken);
             var conversationId = context.Activity.Conversation.Id;
 
             // Find the Telemetry Client

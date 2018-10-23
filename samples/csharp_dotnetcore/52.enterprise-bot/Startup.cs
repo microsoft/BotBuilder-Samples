@@ -3,8 +3,13 @@
 
 using System;
 using System.Linq;
+using EnterpriseBot.Middleware.Telemetry;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DependencyCollector;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
@@ -12,17 +17,21 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace EnterpriseBot
 {
     public class Startup
     {
+        private ILoggerFactory _loggerFactory;
+        private ILogger _logger;
         private bool _isProduction = false;
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             _isProduction = env.IsProduction();
-            
+            _loggerFactory = loggerFactory;
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -36,10 +45,22 @@ namespace EnterpriseBot
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Enable distributed tracing.
+            services.AddApplicationInsightsTelemetry(o =>
+                {
+                    o.RequestCollectionOptions.EnableW3CDistributedTracing = true;
+                    o.RequestCollectionOptions.InjectResponseHeaders = true;
+                    o.RequestCollectionOptions.TrackExceptions = true;
+               });
+            services.AddSingleton<ITelemetryInitializer>(new OperationCorrelationTelemetryInitializer());
+
+            _logger = _loggerFactory.CreateLogger<Startup>();
+            _logger.LogInformation($"Configuring services for {nameof(EnterpriseBot)}.  IsProduction: {_isProduction}.");
+
             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
-            var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", botFileSecret);
+            var botConfig = BotConfiguration.Load(botFilePath, botFileSecret);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
 
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
@@ -68,6 +89,8 @@ namespace EnterpriseBot
             // Add the bot with options
             services.AddBot<EnterpriseBot>(options =>
             {
+                _logger.LogInformation($"Adding bot {nameof(EnterpriseBot)}");
+
                 // Load the connected services from .bot file.
                 var environment = _isProduction ? "production" : "development";
                 var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
@@ -103,6 +126,7 @@ namespace EnterpriseBot
                 options.Middleware.Add(typingMiddleware);
 
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
+                _logger.LogTrace($"Bot added successfully.");
             });
         }
 
@@ -113,6 +137,14 @@ namespace EnterpriseBot
         /// <param name="env">Hosting Environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // Uncomment to disable Application Insights.
+            // var configuration = app.ApplicationServices.GetService<Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration>();
+            // configuration.DisableTelemetry = true;
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
