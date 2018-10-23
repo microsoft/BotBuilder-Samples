@@ -85,33 +85,54 @@ This specification outlines the requirements for botbuilder samples.
 ```markdown
 <INSERT AT MOST ONE PARAGRAPH DESCRIPTION OF WHAT THIS SAMPLE DOES> 
 
+# Table of Contents
+<LINKS TO SECTIONS OF THE README>
+
 # Concepts introduced in this sample
 <DESCRIPTION OF THE CONCEPTS>
 
+#Services used in this sample
+<INTRODUCE SERVICES>
 
 # To try this sample
--	<STEPS TO CLONE REPO AND GET SETUP>
+
 ## Prerequisites
--	<REQUIRED TOOLS, VERSIONS>
--	<STEPS TO GET SET UP WITH THE SAMPLE. E.g. RUN AN INCLUDED SCRIPT OR MANUALLY DO SOMETHING ETC>
+
+###	Required Tools
+-   <Required TOOLS WITH MINIMUM VERSION NUMBERS>
+
+### Clone the repo
+-	<STEPS TO CLONE REPO AND GET SETUP>
 
 NOTE: <ANY NOTES ABOUT THE PREREQUISITES OR ALTERNATE THINGS TO CONSIDER TO GET SET UP>
 
-## Visual studio
+## Ways to get started with Bot Framework Samples
+
+### MSBot
+
+### AZ CLI
+
+### Use portals (Manual)
+<BOT FILE EXAMPLE>
+
+##Run the Sample
+
+### Visual studio
 -	<STEPS TO RUN THIS SAMPLE FROM VISUAL STUDIO>
 
-## Visual studio code
+### Visual studio code
 -	<STEPS TO RUN THIS SAMPLE FROM VISUAL STUDIO CODE>
+
 
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
-## Connect to bot using Bot Framework Emulator **V4**
+### Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
-- File -> Open bot and navigate to samples\8.AspNetCore-LUIS-Bot folder
-- Select AspNetCore-LUIS-Bot.bot file
+- File -> Open bot 
+- Navigate to .bot file
 
 # Further reading
 -	<LINKS TO ADDITIONAL READING>
@@ -123,8 +144,8 @@ NOTE: <ANY NOTES ABOUT THE PREREQUISITES OR ALTERNATE THINGS TO CONSIDER TO GET 
 -	Samples should use published packages, available on NuGet or npmjs
 -	Each sample sits in its own folder
 -	Each sample folder is named as “\<\#\>. \<KEY SCENARIO INTRODUCED BY THE SAMPLE\>”
--	Each solution/ project is named as “\<KEY SCENARIO INTRODUCED BY THE SAMPLE\>”
--	C# - each sample has its own solution file
+-	Each project is named as “\<KEY SCENARIO INTRODUCED BY THE SAMPLE\>”
+
 
 ## Static Code Analysis
 
