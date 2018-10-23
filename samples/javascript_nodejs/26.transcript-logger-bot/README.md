@@ -1,4 +1,4 @@
-# transcriptloggerBot
+# transcriptLoggerBot
 This bot demonstrates the transcript logging middleware in the nodejs SDK. The files `CustomLogger.d.ts` and `CustomLogger.js` contain a custom implementation of the logging middleware.
 This implementation contains an object that saves ongoing conversations and writes them to a file after the end state of the conversation has been reached via a value "endOfInput" set on the last message in the `bot.js` file.
 
