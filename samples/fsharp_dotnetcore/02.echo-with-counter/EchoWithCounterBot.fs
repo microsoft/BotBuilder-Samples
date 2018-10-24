@@ -6,7 +6,7 @@ open System.Threading.Tasks
 open Microsoft.Bot.Builder
 open Microsoft.Bot.Schema
 open Microsoft.Extensions.Logging
-open FSharp.Control.Tasks.V2
+open FSharp.Control.Tasks.V2.ContextInsensitive
 
 
 
