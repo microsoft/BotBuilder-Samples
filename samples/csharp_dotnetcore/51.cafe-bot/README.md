@@ -1,7 +1,7 @@
 Contoso cafe bot is a complete and fairly sophisticated sample that demonstrates various parts of the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-dotnet) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) in action. 
 
-This sample relies on prior knowledge/ familiarity with the following tools and services 
-- [LUIS](https://luis.ai)
+This sample relies on prior knowledge / familiarity with the following tools and services 
+- [LUIS](https://www.luis.ai)
 - [QnA Maker](https://qnamaker.ai)
 - [Ludown CLI tool](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown)
 - [LUIS CLI tool](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUIS)
@@ -31,7 +31,7 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 - Managing user and conversation state
 
 ## Services and tools demonstrated
-- Using [LUIS](https://luis.ai) for Natural Language Processing
+- Using [LUIS](https://www.luis.ai) for Natural Language Processing
 - Using [QnA Maker](https://qnamaker.ai) for FAQ, chit-chat, getting help and other single-turn conversations
 - Using [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) to create, configure and manage all required services.
 
@@ -44,15 +44,14 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 - Clone the samples repository
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
-
 ```
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/51.cafe-bot`) and open `CafeBot.csproj` in Visual Studio.
-- Press F5.
+- Run the project (press `F5` key)
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/51.cafe-bot` sample folder.
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/51.cafe-bot` folder.
-- Type 'dotnet run'.
+- Type `dotnet run`.
 
 
 # Testing the bot using Bot Framework Emulator
@@ -63,7 +62,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to `botbuilder-samples/samples/csharp_dotnetcore/51.cafe-bot`
-- Select CafeBot.bot
+- Select `CafeBot.bot`.
 
 # Prerequisites
 ## Install CLI tools
@@ -83,19 +82,22 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ```bash
 cd BotBuilder-Samples\samples\csharp_dotnetcore\51.cafe-bot
 ```
-    - To login, run:
+ - - To login, run:	
+
 ```bash
 Connect-AzureRmAccount
 ```
-    - To select your Azure subscription, run:
+- - To select your Azure subscription, run:
+
 ```bash
 Select-AzureRmSubscription -Subscription "<YOUR SUBSCRIPTION>"
 az account set --subscription "<YOUR SUBSCRIPTION>"
 ```
 
-    - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
+- - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
+
 ```bash
-msbot clone --name <YOUR-BOT-NAME> --folder DeploymentScripts/msbotClone --location <Bot service location, ie "westus"> --luisAuthoringKey <YOUR LUIS AUTHORING KEY>
+msbot clone services --name <YOUR-BOT-NAME> --folder DeploymentScripts/msbotClone --location <Bot service location, ie "westus"> --luisAuthoringKey <YOUR LUIS AUTHORING KEY>
 ```
 
 Optionally, you can use the LUIS, QnA Maker portals to manually import the models found under **CognitiveModels** folder of this sample. 
