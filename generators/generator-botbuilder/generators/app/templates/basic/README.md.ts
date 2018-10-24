@@ -34,7 +34,7 @@ In order to run this sample, you must have TypeScript installed.  To install Typ
 - Follow the installation instructions for your development environment.
 
 ## Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator][4] is a desktop application that allows bot developers to test and debug their bots on running locally or  or running remotely in Microsoft Azure.
+[Microsoft Bot Framework Emulator][4] is a desktop application that allows bot developers to test and debug their bots running locally or running remotely in Microsoft Azure.
 
 - Install the Bot Framework Emulator from [here][5]
 
