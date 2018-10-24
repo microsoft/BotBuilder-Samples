@@ -18,7 +18,7 @@ const CITY_PROMPT = 'cityPrompt';
 
 /**
  * Demonstrates the following concepts:
- *  Use a subclass of ComponentDialog to implement a mult-turn conversation
+ *  Use a subclass of ComponentDialog to implement a multi-turn conversation
  *  Use a Waterflow dialog to model multi-turn conversation flow
  *  Use custom prompts to validate user input
  *  Store conversation and user state

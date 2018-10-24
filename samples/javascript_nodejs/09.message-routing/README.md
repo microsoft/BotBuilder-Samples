@@ -11,12 +11,12 @@ This samples shows how to:
   ```bash
   git clone https://github.com/microsoft/botbuilder-samples.git
   ```
-- In a terminal, navigate to javascript_nodejs/09.message-routing
+- In a terminal, navigate to `javascript_nodejs/09.message-routing`
   ```bash
   cd javascript_nodejs/09.message-routing
   ```
-  - [Optional] Update the .env file under samples/javascript_nodejs/09.message-routing with your botFileSecret
-    For Azure Bot Service bots, you can find the botFileSecret under application settings.
+  - [Optional] Update the `.env` file under `samples/javascript_nodejs/09.message-routing` with your `botFileSecret`
+    For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
 - Install modules
   ```bash
   npm install
