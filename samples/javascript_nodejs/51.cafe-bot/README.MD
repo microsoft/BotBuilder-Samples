@@ -65,8 +65,8 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples/javascript_nodejs/51.cafe-bot/
-- Select contoso-cafe-bot.bot
+- File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/51.cafe-bot/`
+- Select `contoso-cafe-bot.bot`
 
 # Prerequisites
 ## Install CLI tools
@@ -95,17 +95,17 @@ Optionally, you can use the LUIS, QnA Maker portals to manually import the model
 
 # Relevant commands for CLI tools
 ## Building and creating services
-- Parse .lu files into LUIS models
+- Parse `.lu` files into LUIS models
     ```bash
     > ludown parse toluis --in dialogs/dispatcher/resources/cafeDispatchModel.lu -o cognitiveModels -n cafeDispatchModel.luis --verbose
     > ludown parse toluis --in dialogs/bookTable/resources/turn-N.lu -o cognitiveModels -n cafeBotBookTableTurnN.luis --verbose
     > ludown parse toluis --in dialogs/whoAreYou/resources/getUserProfile.lu -o cognitiveModels -n getUserProfile.luis --verbose
     ```
-- Parse .lu files into QnA Maker KB and QnA Maker alterations file
+- Parse `.lu` files into QnA Maker KB and QnA Maker alterations file
     ```bash
     > ludown parse toqna --in dialogs/dispatcher/resources/cafeFAQ_ChitChat.lu -o cognitiveModels -n cafeFaqChitChat.qna -a --verbose
     ```
-- Import LUIS applications and update the .bot file with LUIS service references:
+- Import LUIS applications and update the `.bot` file with LUIS service references:
     - Follow instructions [here](https://www.luis.ai/home) to create a LUIS.ai account. If you already have an account, sign in. Click on your name on top right corner of the screen -> settings and grab your authoring key.
     - LUIS-AUTHORING-REGION can be one of [westus|westeurope|australiaeast]. See [here](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) for more information.
     ```bash
@@ -141,15 +141,15 @@ Optionally, you can use the LUIS, QnA Maker portals to manually import the model
 
 ## Making updates to the models 
 
-Any time you change .lu files, you can update and publish the LUIS and QnA Maker models using the following commands. You can also script and automate the CLI tools to match your development workflow. See [here](./deploymentScripts/updateModels.bat) for an example.
+Any time you change `.lu` files, you can update and publish the LUIS and QnA Maker models using the following commands. You can also script and automate the CLI tools to match your development workflow. See [here](./deploymentScripts/updateModels.bat) for an example.
 
-- Parse .lu files into LUIS models
+- Parse `.lu` files into LUIS models
     ```bash
     > ludown parse toluis --in dialogs/dispatcher/resources/cafeDispatchModel.lu -o cognitiveModels -n cafeDispatchModel.luis --verbose
     > ludown parse toluis --in dialogs/bookTable/resources/turn-N.lu -o cognitiveModels -n cafeBotBookTableTurnN.luis --verbose
     > ludown parse toluis --in dialogs/whoAreYou/resources/getUserProfile.lu -o cognitiveModels -n getUserProfile.luis --verbose
     ```
-- Parse .lu files into QnA Maker KB and QnA Maker alterations file
+- Parse `.lu` files into QnA Maker KB and QnA Maker alterations file
     ```bash
     > ludown parse toqna --in dialogs/dispatcher/resources/cafeFAQ_ChitChat.lu -o cognitiveModels -n cafeFaqChitChat.qna -a --verbose
     ```
