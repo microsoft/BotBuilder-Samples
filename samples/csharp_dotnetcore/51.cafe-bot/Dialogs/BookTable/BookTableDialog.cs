@@ -170,7 +170,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 if (reservationResult.NewReservation.HaveCompleteReservation())
                 {
-                    await context.SendActivityAsync("Ok. I have a table for " + reservationResult.NewReservation.ConfirmationReadOut());
+                    await context.SendActivityAsync($"Ok. I have a table for {reservationResult.NewReservation.ConfirmationReadOut()}");
                     await context.SendActivityAsync(MessageFactory.SuggestedActions(new List<string> { "Yes", "No" }, "Should I go ahead and book the table ?"));
                 }
 
