@@ -31,7 +31,7 @@ namespace Microsoft.BotBuilderSamples
             _userProfileAccessor = userProfileAccessor ?? throw new ArgumentNullException(nameof(userProfileAccessor));
             _botServices = botServices ?? throw new ArgumentNullException(nameof(botServices));
 
-            // add dialogs
+            // Add dialogs
             AddDialog(new WhatCanYouDo());
             AddDialog(new QnADialog(botServices, userProfileAccessor));
         }

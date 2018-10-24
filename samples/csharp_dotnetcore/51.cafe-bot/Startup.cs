@@ -49,11 +49,11 @@ namespace Microsoft.BotBuilderSamples
             var botConfig = BotConfiguration.Load(botFilePath ?? @".\CafeBot.bot", secretKey);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. botFilePath: {botFilePath}"));
 
-            // add BotServices singleton
+            // Add BotServices singleton
             services.AddSingleton(sp => new BotServices(botConfig));
 
-            // The Memory Storage used here is for local bot debugging only. When the bot
-            // is restarted, everything stored in memory will be gone.
+            // The Memory Storage used here is for local bot debugging only.
+            // When the bot is restarted, everything stored in memory will be gone.
             IStorage dataStore = new MemoryStorage();
 
             // For production bots use the Azure Blob or
@@ -83,7 +83,7 @@ namespace Microsoft.BotBuilderSamples
             // The BotStateSet enables read() and write() in parallel on multiple BotState instances.
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
-            // add the bot with options
+            // Add the bot with options
             services.AddBot<CafeBot>(options =>
             {
                 // Load the connected services from .bot file.

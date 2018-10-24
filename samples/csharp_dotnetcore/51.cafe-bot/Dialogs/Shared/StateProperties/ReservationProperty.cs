@@ -38,7 +38,7 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="id">Reservation id.</param>
         /// <param name="date">Reservation date.</param>
         /// <param name="time">Reservation time.</param>
-        /// <param name="partySize">Numbe of guests in reservation.</param>
+        /// <param name="partySize">Number of guests in reservation.</param>
         /// <param name="location">Location of reservation.</param>
         /// <param name="reservationConfirmed">True if reservation confirmed; otherwise unconfirmed.</param>
         /// <param name="needsChange">True if requires a modification.</param>
@@ -304,7 +304,7 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (string.IsNullOrWhiteSpace(Date))
             {
-                return "I can help you reserve a table up to 4 weeks from today..You can say \"tomorrow\", \"next sunday at 3pm\"...";
+                return "I can help you reserve a table up to 4 weeks from today... You can say \"tomorrow\", \"next Sunday at 3pm\"...";
             }
             else if (string.IsNullOrWhiteSpace(Time))
             {
@@ -312,7 +312,7 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (PartySize == 0)
             {
-                return "I can help you book a table for up to 10 guests..";
+                return "I can help you book a table for up to 10 guests...";
             }
 
             return string.Empty;
