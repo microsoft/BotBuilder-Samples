@@ -34,7 +34,7 @@ namespace Microsoft.BotBuilderSamples
         {
             // Call QnA Maker and get results.
             var qnaResult = await _services.QnaServices[QnaConfiguration].GetAnswersAsync(dc.Context);
-            if (qnaResult == null || qnaResult.Count() > 0)
+            if (qnaResult == null || qnaResult.Count() <= 0)
             {
                 // No answer found.
                 await dc.Context.SendActivityAsync("I'm still learning.. Sorry, I do not know how to help you with that.");
