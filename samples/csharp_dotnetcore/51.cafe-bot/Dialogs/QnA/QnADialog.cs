@@ -37,12 +37,12 @@ namespace Microsoft.BotBuilderSamples
             if (qnaResult == null || qnaResult.Count() <= 0)
             {
                 // No answer found.
-                await dc.Context.SendActivityAsync("I'm still learning.. Sorry, I do not know how to help you with that.");
+                await dc.Context.SendActivityAsync("I'm still learning... Sorry, I do not know how to help you with that.");
                 await dc.Context.SendActivityAsync("Follow[this link](https://www.bing.com/search?q=${dc.context.activity.text}) to search the web!");
             }
             else
             {
-                // Respond with qna result.
+                // Respond with QnA result.
                 await dc.Context.SendActivityAsync(await UserSalutationAsync(dc.Context) + qnaResult[0].Answer);
             }
 

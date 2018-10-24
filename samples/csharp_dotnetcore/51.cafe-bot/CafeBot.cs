@@ -15,7 +15,7 @@ namespace Microsoft.BotBuilderSamples
     /// <summary>
     /// For each interaction from the user, an instance of this class is created and
     /// the OnTurnAsync method is called.
-    /// This is a transient lifetime service.  Transient lifetime services are created
+    /// This is a transient lifetime service. Transient lifetime services are created
     /// each time they"re requested. For each <see cref="Activity"/> received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
     /// beyond the single turn, should be carefully managed.
@@ -89,7 +89,7 @@ namespace Microsoft.BotBuilderSamples
 
             if (!_services.LuisServices.ContainsKey(LuisConfiguration))
             {
-                throw new System.ArgumentException($"Invalid configuration.  Please check your '.bot' file for a LUIS service named {LuisConfiguration}.");
+                throw new System.ArgumentException($"Invalid configuration. Please check your '.bot' file for a LUIS service named {LuisConfiguration}.");
             }
 
             // Create top-level dialog.

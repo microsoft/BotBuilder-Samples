@@ -38,7 +38,7 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="id">Reservation id.</param>
         /// <param name="date">Reservation date.</param>
         /// <param name="time">Reservation time.</param>
-        /// <param name="partySize">Numbe of guests in reservation.</param>
+        /// <param name="partySize">Number of guests in reservation.</param>
         /// <param name="location">Location of reservation.</param>
         /// <param name="reservationConfirmed">True if reservation confirmed; otherwise unconfirmed.</param>
         /// <param name="needsChange">True if requires a modification.</param>
@@ -103,7 +103,7 @@ namespace Microsoft.BotBuilderSamples
 
             // We only will pull number -> party size, datetimeV2 -> date and time, cafeLocation -> location.
             var numberEntity = onTurnProperty.Entities.Find(item => item.EntityName.Equals(PartySizeEntity));
-            var dateTimeEntity = onTurnProperty.Entities.Find(item => item.EntityName.Equals(ReservationProperty.DateTimeEntity));
+            var dateTimeEntity = onTurnProperty.Entities.Find(item => item.EntityName.Equals(DateTimeEntity));
             var locationEntity = onTurnProperty.Entities.Find(item => item.EntityName.Equals(LocationEntity));
             var confirmationEntity = onTurnProperty.Entities.Find(item => item.EntityName.Equals(ConfirmationEntity));
 
@@ -144,7 +144,7 @@ namespace Microsoft.BotBuilderSamples
                             // Validation failed!
                             returnResult.Outcome.Add(new ReservationOutcome(
                                 $"Sorry. {returnResult.NewReservation.DateLGString} does not work.  "
-                                + "I can only make reservations for the next 4 weeks.", ReservationProperty.DateTimeEntity));
+                                + "I can only make reservations for the next 4 weeks.", DateTimeEntity));
                             returnResult.NewReservation.Date = string.Empty;
                             returnResult.Status = ReservationStatus.Incomplete;
                         }
@@ -166,7 +166,7 @@ namespace Microsoft.BotBuilderSamples
                         if (validtime != null || (validtime.Count == 0))
                         {
                             // Validation failed!
-                            returnResult.Outcome.Add(new ReservationOutcome("Sorry, that time does not work. I can only make reservations that are in the daytime (6AM - 6PM)", ReservationProperty.DateTimeEntity));
+                            returnResult.Outcome.Add(new ReservationOutcome("Sorry, that time does not work. I can only make reservations that are in the daytime (6AM - 6PM)", DateTimeEntity));
                             returnResult.NewReservation.Time = string.Empty;
                             returnResult.Status = ReservationStatus.Incomplete;
                         }
@@ -304,7 +304,7 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (string.IsNullOrWhiteSpace(Date))
             {
-                return "I can help you reserve a table up to 4 weeks from today..You can say \"tomorrow\", \"next sunday at 3pm\"...";
+                return "I can help you reserve a table up to 4 weeks from today... You can say \"tomorrow\", \"next Sunday at 3pm\"...";
             }
             else if (string.IsNullOrWhiteSpace(Time))
             {
@@ -312,7 +312,7 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (PartySize == 0)
             {
-                return "I can help you book a table for up to 10 guests..";
+                return "I can help you book a table for up to 10 guests...";
             }
 
             return string.Empty;

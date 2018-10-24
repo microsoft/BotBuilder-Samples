@@ -23,7 +23,7 @@ namespace Microsoft.BotBuilderSamples
 
         public const string ConfirmCancelPrompt = "confirmCancelPrompt";
 
-        // Turn.N here refers to all back and forth conversations beyond the initial trigger until the book table dialog is completed or cancelled.
+        // Turn.N here refers to all back and forth conversations beyond the initial trigger until the book table dialog is completed or canceled.
         public const string GetLocationDateTimePartySizePrompt = "getLocationDateTimePartySize";
 
         private readonly BotServices _services;
@@ -36,17 +36,17 @@ namespace Microsoft.BotBuilderSamples
             OnTurnAccessor = onTurnAccessor ?? throw new ArgumentNullException(nameof(onTurnAccessor));
             UserProfileAccessor = userProfileAccessor ?? throw new ArgumentNullException(nameof(userProfileAccessor));
 
-            // create accessors for child dialogs
+            // Create accessors for child dialogs
             GetLocDialogAccessor = conversationState.CreateProperty<DialogState>(GetLocationDialogState);
             ConfirmDialogAccessor = conversationState.CreateProperty<DialogState>(ConfirmDialogState);
 
-            // add dialogs
+            // Add dialogs
             // Water fall book table dialog
             var waterfallSteps = new WaterfallStep[]
-              {
-                    GetAllRequiredPropertiesAsync,
-                    BookTableAsync,
-              };
+            {
+                GetAllRequiredPropertiesAsync,
+                BookTableAsync,
+            };
             AddDialog(new WaterfallDialog(BookTableWaterfall, waterfallSteps));
 
             // Get location, date, time & party size prompt.
@@ -105,7 +105,7 @@ namespace Microsoft.BotBuilderSamples
                                         }
                                     }
 
-                                    // ask user for missing information
+                                    // Ask user for missing information
                                     await promptValidatorContext.Context.SendActivityAsync(newReservation.GetMissingPropertyReadOut());
                                     return false;
                                 }));
@@ -153,7 +153,7 @@ namespace Microsoft.BotBuilderSamples
             // Set the reservation.
             await ReservationsAccessor.SetAsync(context, reservationResult.NewReservation);
 
-            // see if updadte reservtion resulted in errors, if so, report them to user.
+            // see if update reservation resulted in errors, if so, report them to user.
             if (reservationResult != null &&
                 reservationResult.Status == ReservationStatus.Incomplete &&
                 reservationResult.Outcome != null &&
@@ -211,7 +211,7 @@ namespace Microsoft.BotBuilderSamples
                 // User rejected cancellation.
                 // Clear out state.
                 await ReservationsAccessor.SetAsync(context, null);
-                await context.SendActivityAsync("Ok.. I've cancelled the reservation.");
+                await context.SendActivityAsync("Ok... I've canceled the reservation.");
                 return await stepContext.EndDialogAsync();
             }
         }

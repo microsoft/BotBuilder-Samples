@@ -3,14 +3,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -74,7 +72,7 @@ namespace Microsoft.BotBuilderSamples
             var turnCounter = await _turnCounterAccessor.GetAsync(context, () => new CounterState());
             turnCounter.TurnCount = ++turnCounter.TurnCount;
 
-            // set updated turn counter
+            // Set updated turn counter
             await _turnCounterAccessor.SetAsync(context, turnCounter);
 
             // See if we have card input. This would come in through onTurnProperty
@@ -100,7 +98,7 @@ namespace Microsoft.BotBuilderSamples
 
             if (turnCounter.TurnCount >= 1)
             {
-                // We we need to get user's name right. Include a card.
+                // We need to get user's name right. Include a card.
                 var activity = dc.Context.Activity.CreateReply();
                 activity.Attachments = new List<Attachment> { Helpers.CreateAdaptiveCardAttachment(@".\Dialogs\WhoAreYou\Resources\getNameCard.json"), };
                 await context.SendActivityAsync(activity);
@@ -111,7 +109,7 @@ namespace Microsoft.BotBuilderSamples
                 return await EndGetUserNamePromptAsync(dc);
             }
 
-            // call LUIS and get results
+            // Call LUIS and get results
             var luisResults = await _botServices.LuisServices[LuisConfiguration].RecognizeAsync(context, cancellationToken);
 
             var topLuisIntent = luisResults.GetTopScoringIntent();
@@ -119,7 +117,7 @@ namespace Microsoft.BotBuilderSamples
 
             if (string.IsNullOrWhiteSpace(topIntent))
             {
-                // go with intent in onTurnProperty
+                // Go with intent in onTurnProperty
                 topIntent = string.IsNullOrWhiteSpace(onTurnProperty.Intent) ? "None" : onTurnProperty.Intent;
             }
 
@@ -127,7 +125,7 @@ namespace Microsoft.BotBuilderSamples
             switch (topIntent)
             {
                 case NoNameIntent:
-                    // set user name in profile to Human
+                    // Set user name in profile to Human
                     await _userProfileAccessor.SetAsync(context, new UserProfile("Human"));
                     return await EndGetUserNamePromptAsync(dc);
                 case GetUserNameIntent:
@@ -160,7 +158,7 @@ namespace Microsoft.BotBuilderSamples
                     return await base.ContinueDialogAsync(dc);
 
                 case CancelIntent:
-                    // start confirmation prompt
+                    // Start confirmation prompt
                     var opts = new PromptOptions
                     {
                         Prompt = new Activity
@@ -183,7 +181,7 @@ namespace Microsoft.BotBuilderSamples
             if (result == null)
             {
                 // User said yes to cancel prompt.
-                await dc.Context.SendActivityAsync("Sure. I've cancelled that!");
+                await dc.Context.SendActivityAsync("Sure. I've canceled that!");
                 return await dc.CancelAllDialogsAsync();
             }
             else
