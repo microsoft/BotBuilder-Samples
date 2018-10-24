@@ -11,7 +11,7 @@ namespace Microsoft.BotBuilderSamples
     /// <summary>
     /// For each interaction from the user, an instance of this class is created and
     /// the OnTurnAsync method is called.
-    /// This is a transient lifetime service.  Transient lifetime services are created
+    /// This is a transient lifetime service. Transient lifetime services are created
     /// each time they're requested. For each <see cref="Activity"/> received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
     /// beyond the single turn, should be carefully managed.
@@ -20,13 +20,13 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.ibot?view=botbuilder-dotnet-preview"/>
     public class LuisBot : IBot
     {
-        private const string WelcomeText = "This bot will introduce you to natural language processing with LUIS. Type an utterance to get started";
-
         /// <summary>
         /// Key in the bot config (.bot file) for the LUIS instance.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
         public static readonly string LuisKey = "LuisBot";
+
+        private const string WelcomeText = "This bot will introduce you to natural language processing with LUIS. Type an utterance to get started";
 
         /// <summary>
         /// Services configured from the ".bot" file.
@@ -42,7 +42,7 @@ namespace Microsoft.BotBuilderSamples
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
             if (!_services.LuisServices.ContainsKey(LuisKey))
             {
-                throw new System.ArgumentException($"Invalid configuration.  Please check your '.bot' file for a LUIS service named '{LuisKey}'.");
+                throw new System.ArgumentException($"Invalid configuration. Please check your '.bot' file for a LUIS service named '{LuisKey}'.");
             }
         }
 
