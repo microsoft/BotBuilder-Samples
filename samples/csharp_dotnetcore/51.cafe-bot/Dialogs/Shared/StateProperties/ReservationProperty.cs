@@ -112,7 +112,7 @@ namespace Microsoft.BotBuilderSamples
                 // We only accept MaxPartySize in a reservation.
                 if (int.Parse(numberEntity.Value as string) > MaxPartySize)
                 {
-                    returnResult.Outcome.Add(new ReservationOutcome("Sorry. " + int.Parse(numberEntity.Value as string) + " does not work. I can only accept up to 10 guests in a reservation.", PartySizeEntity));
+                    returnResult.Outcome.Add(new ReservationOutcome($"Sorry. {int.Parse(numberEntity.Value as string)} does not work. I can only accept up to 10 guests in a reservation.", PartySizeEntity));
                     returnResult.Status = ReservationStatus.Incomplete;
                 }
                 else
@@ -292,7 +292,7 @@ namespace Microsoft.BotBuilderSamples
         public string ConfirmationReadOut()
         {
             var today = DateTime.Now;
-            return PartySize + " at our " + Location + " store for " + new TimexProperty(Date + "T" + Time).ToNaturalLanguage(today) + ".";
+            return $"{PartySize} at our {Location} store for {new TimexProperty(Date + "T" + Time).ToNaturalLanguage(today)}.";
         }
 
         // Helper to generate help read out string.

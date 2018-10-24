@@ -23,7 +23,7 @@ namespace Microsoft.BotBuilderSamples
         /// Key in the bot config (.bot file) for the LUIS instances.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
-        public static readonly string LuisConfiguration = MsBotName + "_" + "getUserProfile";
+        public static readonly string LuisConfiguration = $"{MsBotName}_getUserProfile";
 
         // Dialog name
         private const string InterruptionDispatcher = "interruptionDispatcherDialog";

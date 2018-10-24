@@ -25,7 +25,7 @@ namespace Microsoft.BotBuilderSamples
         private const string ConfirmCancelPrompt = "confirmCancelPrompt";
 
         // LUIS service type entry for turn.n book table LUIS model in the .bot file.
-        private static readonly string LuisConfiguration = MsBotName + "_" + "cafeBotBookTableTurnNModel";
+        private static readonly string LuisConfiguration = $"{MsBotName}_cafeBotBookTableTurnNModel";
 
         private readonly BotServices _botServices;
         private readonly IStatePropertyAccessor<UserProfile> _userProfileAccessor;
