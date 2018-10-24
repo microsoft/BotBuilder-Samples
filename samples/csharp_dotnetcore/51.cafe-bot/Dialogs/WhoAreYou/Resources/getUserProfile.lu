@@ -2,7 +2,7 @@
 > Check out https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown to learn more about .lu files and Ludown.
 
 # Get user name
-- i'm {userName_patternAny}
+- I'm {userName_patternAny}
 - you can call me {userName_patternAny}
 - {userName_patternAny}
 - my name is {userName_patternAny}
