@@ -50,10 +50,10 @@ class RichCardsBot {
     /**
      * Driver code that does one of the following:
      * 1. Prompts the user if the user is not in the middle of a dialog.
-     * 2. Reprompts a user when an invalid input is received.
+     * 2. Re-prompts a user when an invalid input is received.
      * 3. Sends back to the user a Rich Card response after a valid prompt reply.
      *
-     * These three scenarios are preceeded by an Activity type check.
+     * These three scenarios are preceded by an Activity type check.
      * This check ensures that the bot only responds to Activities that
      * are of the "Message" type.
      *
@@ -68,7 +68,7 @@ class RichCardsBot {
             const results = await dc.continueDialog();
             if (!turnContext.responded && results.status === DialogTurnStatus.empty) {
                 await turnContext.sendActivity('Welcome to the Rich Cards Bot!');
-                // Create the PromptOptions which contain the prompt and reprompt messages.
+                // Create the PromptOptions which contain the prompt and re-prompt messages.
                 // PromptOptions also contains the list of choices available to the user.
                 const promptOptions = {
                     prompt: 'Please select a card:',
