@@ -219,7 +219,7 @@ namespace Microsoft.BotBuilderSamples
                 }
                 catch
                 {
-                    await context.SendActivityAsync("Choose a query from the card drop down before you click `Let's talk!`");
+                    await context.SendActivityAsync("Choose a query from the card drop down before you click 'Let's talk!'");
                     return new DialogTurnResult(DialogTurnStatus.Empty, null);
                 }
 
