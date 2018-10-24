@@ -17,7 +17,7 @@ namespace Facebook_Events_Bot
     /// <summary>
     /// Represents a bot that processes incoming activities.
     /// For each interaction from the user, an instance of this class is called.
-    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// This is a Transient lifetime service. Transient lifetime services are created
     /// each time they're requested. For each Activity received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
     /// beyond the single Turn, should be carefully managed.
