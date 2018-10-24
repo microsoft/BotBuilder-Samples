@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples
     /// within a conversation and simplifies bot development (since you will not need
     /// to account for that scenario).
     /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
-    /// This is a Transient lifetime service.  Transient lifetime services are created
+    /// This is a Transient lifetime service. Transient lifetime services are created
     /// each time they're requested. For each Activity received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
     /// beyond the single turn, should be carefully managed.
@@ -56,7 +56,7 @@ namespace Microsoft.BotBuilderSamples
 
             // Handle Message activity type, which is the main activity type for shown within a conversational interface
             // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
-            // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+            // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 // Extract the text from the message activity the user sent.
