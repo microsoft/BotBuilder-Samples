@@ -82,7 +82,7 @@ After creating the `.bot` file, it is recommended to change the name of the endp
 ```
 
 To clone this bot, perform the following:
-- Collect your Luis Authoring Key from the the [LUIS portal](https://www.luis.ai) by selecting your name in the top right corner. Save this key for the next step.
+- Collect your Luis Authoring Key from the [LUIS portal](https://www.luis.ai) by selecting your name in the top right corner. Save this key for the next step.
 
 - Run the following command from the project directory:
 ```bash
