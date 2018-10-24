@@ -17,19 +17,19 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure)
 to create a QnA Maker service.
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/tutorials/migrate-knowledge-base) to import the [sample.qna](CognitiveModels/sample.qna) to your newly created QnA Maker service.
-- Update [QnABot.bot](QnABot.bot) with your kbid (KnowledgeBase Id) and endpointKey in the "qna" services section. You can find this
+- Update [QnABot.bot](QnABot.bot) with your `kbid` (KnowledgeBase Id) and `endpointKey` in the "qna" services section. You can find this
 information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://www.qnamaker.ai)
 - (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the Qna Maker CLI to deploy the model.
 
 
 ## Visual Studio
-- Navigate to the samples folder (`BotBuilder-Samples\samples\csharp_webapi\11.QnAMaker`) and open QnABot.csproj in Visual studio 
-- Hit F5
+- Navigate to the samples folder (`BotBuilder-Samples\samples\csharp_webapi\11.QnAMaker`) and open `QnABot.csproj` in Visual studio 
+- Run the project (press `F5` key) 
 
 ## Visual Studio Code
 - Open `BotBuilder-Samples\samples\csharp_webapi\11.QnAMaker` sample folder.
 - Bring up a terminal, navigate to `BotBuilder-Samples\samples\csharp_webapi\11.QnAMaker` folder.
-- Type 'dotnet run'.
+- Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
@@ -38,7 +38,7 @@ information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator
 - File -> Open bot and navigate to `BotBuilder-Samples\samples\csharp_webapi\11.QnAMaker` folder.
-- Select the QnABot.bot file.
+- Select the `QnABot.bot` file.
 
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
