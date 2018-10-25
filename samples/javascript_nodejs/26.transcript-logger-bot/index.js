@@ -35,8 +35,7 @@ try {
         fs.mkdirSync(logDir);
     }
 } catch (err) {
-    console.log("Unable to create directory to store log files, please make sure your .env file has been set up properly and includes config for 'transcriptsPath'");
-    console.log(err.message);
+    console.log("Unable to create directory to store log files. \n\nPlease make sure your .env file has been set up properly and includes config for 'transcriptsPath'");
 }
 // Create HTTP server
 let server = restify.createServer();
