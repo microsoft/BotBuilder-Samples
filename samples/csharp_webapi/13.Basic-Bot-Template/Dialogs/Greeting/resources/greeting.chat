@@ -1,0 +1,9 @@
+user=Vishwac
+bot=BasicBot
+
+user: hi
+bot: What is your name?
+user: my name is vishwac
+bot: Hello Vishwac, what city do you live in? 
+user: I'm from seattle
+bot: Hi Vishwac, from Seattle, nice to meet you! 
