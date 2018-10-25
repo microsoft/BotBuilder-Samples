@@ -6,11 +6,11 @@ events.
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to samples/javascript_nodejs/50.diceroller-skill
+- In a terminal, navigate to `samples/javascript_nodejs/50.diceroller-skill`
     ```bash
     cd samples/javascript_nodejs/50.diceroller-skill
     ```
-    - Point to the MyGet feed 
+- Point to the MyGet feed 
     ```bash
     npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
     ```
@@ -32,8 +32,8 @@ or running remotely through a tunnel.
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples/javascript_nodejs/50.diceroller-skill
-- Select diceroller-skill.bot file
+- File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/50.diceroller-skill`
+- Select `diceroller-skill.bot` file
 
 # Cortana Skills
 
@@ -49,15 +49,7 @@ Cortana skills tend to be more multi-modal in their use of both speech and text.
 When creating skills targeted at Cortana for the desktop you'll want to fill in both the `text` and `speak` fields of the outgoing activity and you'll find the thing you want to show to the user and speak to the user are often quite different.  The sample includes a simple `Language Generation (LG)` module that simplifies composing activities containing both `text` and `speak` fields.  
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
-
-To install all Bot Builder tools - 
-
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
-
-```bash
-npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
-```
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
 
 To clone this bot, run
 ```

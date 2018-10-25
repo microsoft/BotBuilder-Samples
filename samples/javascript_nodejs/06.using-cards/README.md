@@ -27,8 +27,8 @@ This sample shows how to create a bot that uses Rich Cards. This bot example use
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples/javascript_nodejs/06.using-cards folder
-- Select using-cards.bot file
+- File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/06.using-cards` folder
+- Select `using-cards.bot` file
 
 # Rich Cards
 A key to good bot design is to send interactive media, such as Rich Cards. There are several different types of Rich Cards, which are as follows:
@@ -37,22 +37,14 @@ A key to good bot design is to send interactive media, such as Rich Cards. There
 - Audio Card
 - Hero Card
 - Receipt Card
-- Signin Card
+- Sign In Card
 - Thumbnail Card
 - Video Card
 
 When [designing the user experience](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-user-experience?view=azure-bot-service-4.0#cards) developers should consider adding visual elements such as Rich Cards.
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
-
-To install all Bot Builder tools - 
-
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
-
-```bash
-npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
-```
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
 
 To clone this bot, run
 ```
