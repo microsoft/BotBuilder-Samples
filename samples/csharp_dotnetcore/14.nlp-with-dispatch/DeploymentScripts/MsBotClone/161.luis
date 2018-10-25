@@ -73,7 +73,7 @@
       "entities": []
     },
     {
-      "text": "forecast in celcius",
+      "text": "forecast in celsius",
       "intent": "l_Weather",
       "entities": []
     },
