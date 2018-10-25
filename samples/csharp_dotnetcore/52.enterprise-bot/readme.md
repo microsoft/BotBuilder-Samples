@@ -1,95 +1,87 @@
-﻿# Enterprise Bot Template
 
+# Enterprise Bot Template - Deploying your Bot
 
-## Concepts introduced in this sample
-- Dialogs
-- Template Manager
-- Dispatch
-- Middleware
-
-
-## To try this sample
-1. Install the Bot CLI Tools
-
-    `npm install -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen`
-  
-2. Setup Azure Powershell (If you have never done so before)
-    - To login, run:
-            
-        `Connect-AzureRmAccount' to login
-    - To select your Azure subscription, run:
-
-        `Select-AzureRmSubscription -Subscription "subscription-name"`
- 
-3. Collect your Luis Authoring Key from the the luis.ai portal by selecting your name in the top right corner. Save this key for the next step.
-
-4. Run the following command from the project directory:
- 
-    `msbot clone services --name "<NAME>" --luisAuthoringKey "<YOUR AUTHORING KEY>" --folder "DeploymentScripts/msbotClone" --location "westus" --verbose`
-
-    **NOTE**: By default your Luis Applications will be deployed to your free starter endpoint. An Azure LUIS service will be deployed along with your bot but you must manually add and publish to it from the luis.ai portal and update your key in the .bot file.
-
-5. Update your `appsettings.json` with your .bot file path and .bot file secret (if set).
-
-6. There are two locations that need to be updated in the code to resolve the LUIS service.
-In the following files:
-    MainDialog.cs
-    EnterpriseDialog.cs
-The following line needs to be updated in both files:
-    var luisService = _services.LuisServices[<YOUR MS BOT NAME>_General];
-The <YOUR MS BOT NAME> must be replaced with the <NAME> provided in step 4 above.
-
-7. Check the QnAService name in your `.bot` file and update the following line in MainDialog.cs.
-    var qnaService = _services.QnAServices[<YOUR_QNA_SERVICE_NAME>];
-The <YOUR_QNA_SERVICE_NAME> must be replaced with the <NAME> of your QnA service.
-    
-8. Run your bot project and type "hi" to verify your services are correctly configured
-
-
-## Enabling more scenarios
-### Authentication
-To enable authentication follow these steps:.....
-
-Register the SignInDialog in the MainDialog constructor
-    
-    AddDialog(new SignInDialog(_services.AuthConnectionName));
-
-
-Add the following in your code at your desired location to test a simple login flow:
-    
-    var signInResult = await dc.BeginAsync(SignInDialog.Name);
-
-### Content Moderation
-Content moderation can be used to identify PII and adult content in the messages sent to the bot. To enable this functionality, go to the azure portal
-and create a new content moderator service. Collect your subscription key and region to configure your .bot file. 
-
-Add the following code to the bottom of your service.AddBot<>() method in startup to enable content moderation on every turn. 
-The result of content moderation can be accessed via your bot state 
-    
-    // Content Moderation Middleware (analyzes incoming messages for inappropriate content including PII, profanity, etc.)
-    var moderatorService = botConfig.Services.Where(s => s.Name == ContentModeratorMiddleware.ServiceName).FirstOrDefault();
-    if (moderatorService != null)
-    {
-        var moderator = moderatorService as GenericService;
-        var moderatorKey = moderator.Configuration["key"];
-        var moderatorRegion = moderator.Configuration["region"];
-        var moderatorMiddleware = new ContentModeratorMiddleware(moderatorKey, moderatorRegion);
-        options.Middleware.Add(moderatorMiddleware);
-    }
-
-Access the middleware result by calling this from within your dialog stack
-        
-    var cm = dc.Context.TurnState.Get<Microsoft.CognitiveServices.ContentModerator.Models.Screen>(ContentModeratorMiddleware.TextModeratorResultKey);
-
+> [!NOTE]
+> This topics applies to v4 version of the SDK. 
 
 ## Prerequisites
-- NodeJS & Node Package Manager
 
-## Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+- Ensure the [Node Package manager](https://nodejs.org/en/) is installed.
 
-- Install the Bot Framework emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you've used the tools before to ensure you have the latest versions.
 
-## Connect to bot using Bot Framework Emulator V4
-- Launch Bot Framework Emulator
-- File -> Open bot and navigate to your .bot file
+```shell
+npm install -g ludown luis-apis qnamaker botdispatch msbot luisgen chatdown
+```
+
+- Install the Azure Command Line Tools (CLI) from [here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
+
+- Install the AZ Extension for Bot Service
+```shell
+az extension add -n botservice
+```
+
+## Configuration
+
+1. Retrieve your LUIS Authoring Key
+   - Go to https://www.luis.ai and signin.
+   - Once signed in click on your name in the top right hand corner.
+   - Choose Settings and make a note of the Authoring Key for the next step.
+
+## Deployment
+
+>If you have multiple Azure subscriptions and want to ensure the deployment selects the correct one, run the following commands before continuing.
+
+ Follow the browser login process into your Azure Account
+```shell
+az login
+az account list
+az account set --subscription "YOUR_SUBSCRIPTION_NAME"
+```
+
+Enterprise Template Bots require the following dependencies for end to end operation.
+- Azure Web App
+- Azure Storage Account (Transcripts)
+- Azure Application Insights (Telemetry)
+- Azure CosmosDb (State)
+- Azure Cognitive Services - Language Understanding
+- Azure Cognitive Services - QnAMaker (including Azure Search, Azure Web App)
+- Azure Cognitive Services - Content Moderator (optional manual step)
+
+Your new Bot project has a deployment recipe enabling the `msbot clone services` command to automate deployment of all the above services into your Azure subscription and ensure the .bot file in your project is updated with all of the services including keys enabling seamless operation of your Bot.
+
+> Once deployed, review the Pricing Tiers for the created services and adjust to suit your scenario.
+
+The README.md within your created project contains an example msbot clone services command line updated with your created Bot name and a generic version is shown below. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope).
+
+```shell
+msbot clone services --name "YOUR_BOT_NAME" --luisAuthoringKey "YOUR_AUTHORING_KEY" --folder "DeploymentScripts\msbotClone" --location "westus"
+```
+
+Once this is complete ensure that you make a note of the .bot file secret provided as this will be required for later steps. At this time, take the secret and update the `botFileSecret` entry in your `appsettings.json` file. This will ensure your Bot can decrypt the secrets.
+
+Update your appsettings.json file with the .bot file path, .bot file secret, and AppInsights intrumentation key (this can be found in the generated .bot file).
+    
+        {
+          "botFilePath": ".\\YOUR_BOT_NAME.bot",
+          "botFileSecret": "YOUR_BOT_KEY",
+          "ApplicationInsights": {
+            "InstrumentationKey": "YOUR_INSTRUMENTATION_KEY"
+          }
+        }
+## Testing
+
+Once complete, run your bot project within your development envrionment and open the Bot Framework Emulator. Within the Emulator, choose Open Bot from teh File menu and navigate to the .bot file in your directory.
+
+Then type ```hi``` to verify everything is working.
+
+## Deploy to Azure
+
+Testing can be performed end to end locally, when your ready to deploy your Bot to Azure for additional testing you can use the following command to publish the source code
+
+```shell
+az bot publish --name "YOUR_BOT_NAME" --resource-group "YOUR_BOT_NAME"
+```
+
+## Next Steps
+Find more documentation for enabling more scenarios and further customization [here](http://aka.ms/ent_docs).
