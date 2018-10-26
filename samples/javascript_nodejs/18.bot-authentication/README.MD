@@ -34,10 +34,11 @@ This sample uses bot authentication capabilities in Azure Bot Service, providing
 # Deploy this bot to Azure
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
 
-To install all Bot Builder tools - 
+## Prerequisites
+- [Azure Command line](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) version 2.0.49 or higher
+- [Node.js](https://nodejs.org/) version 8.12.0 or higher
 
-Ensure you have [Node.js](https://nodejs.org/) version 8.12.0 or higher
-
+To install all Bot Builder command line tools
 ```bash
 npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
 ```
