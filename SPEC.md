@@ -114,10 +114,10 @@ This specification outlines the requirements for botbuilder samples.
 
 ## Run the Sample
 
-### Visual studio
+### Visual Studio
 - <STEPS TO RUN THIS SAMPLE FROM VISUAL STUDIO>
 
-### Visual studio code
+### Visual Studio Code
 - <STEPS TO RUN THIS SAMPLE FROM VISUAL STUDIO CODE>
 
 ## Testing the bot using Bot Framework Emulator
