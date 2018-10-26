@@ -49,8 +49,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facebook-Events-Bot", "23.f
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotAuthenticationMSGraph", "24.bot-authentication-msgraph\BotAuthenticationMSGraph.csproj", "{3434227D-B8F8-41D0-8465-310099349C61}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnterpriseBot", "52.enterprise-bot\EnterpriseBot.csproj", "{194FBDB6-8E6D-4B0F-A7E6-7BA83D7F1062}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CafeBot", "51.cafe-bot\CafeBot.csproj", "{BC6F0831-92C8-4E32-801E-50972C1BD36A}"
 EndProject
 Global
@@ -151,10 +149,6 @@ Global
 		{3434227D-B8F8-41D0-8465-310099349C61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3434227D-B8F8-41D0-8465-310099349C61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3434227D-B8F8-41D0-8465-310099349C61}.Release|Any CPU.Build.0 = Release|Any CPU
-		{194FBDB6-8E6D-4B0F-A7E6-7BA83D7F1062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{194FBDB6-8E6D-4B0F-A7E6-7BA83D7F1062}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{194FBDB6-8E6D-4B0F-A7E6-7BA83D7F1062}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{194FBDB6-8E6D-4B0F-A7E6-7BA83D7F1062}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BC6F0831-92C8-4E32-801E-50972C1BD36A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BC6F0831-92C8-4E32-801E-50972C1BD36A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC6F0831-92C8-4E32-801E-50972C1BD36A}.Release|Any CPU.ActiveCfg = Release|Any CPU
