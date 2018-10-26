@@ -10,7 +10,8 @@ This bot example uses [restify](https://www.npmjs.com/package/restify).
 # To run the bot
 - Install modules and start the bot
     ```bash
-    npm i & npm start
+    npm i 
+    npm start
     ```
     Alternatively you can also use nodemon via
     ```bash
