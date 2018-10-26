@@ -60,7 +60,7 @@ To use the samples clone this GitHub repository using Git.
 |15.handling-attachments| Demonstrates how to listen for/handle user provided attachments                |[View][cs#15]|[View][js#15]|              |             | |
 |16.proactive-messages  | Demonstrates how to send proactive messages to users                           |[View][cs#16]|[View][js#16]|              |             | |
 |17.multilingual-bot    | Using translate middleware to support a multi-lingual bot. Demonstrates custom middleware. |[View][cs#17]|[View][js#17]|              |             | |
-|18.bot-authentication  | Bot that demonstrates how to integration with OAuth providers                  |[View][cs#18]|  :runner:   |              |             | |
+|18.bot-authentication  | Bot that demonstrates how to integration with OAuth providers                  |[View][cs#18]|  [View][js#18]   |              |             | |
 |19.custom-dialogs      | Demonstrates different ways to model conversations. Waterfall .vs. using your own dialog management |[View][cs#19]|[View][js#19]|              |             | |
 |20.qna-with-appinsights| Demonstrates how to use QnA Maker and Azure Application insights               |[View][cs#20]|[View][js#20]|:runner:      |             | |
 |21.luis-appinsights    | Demonstrates how to use LUIS and Azure Application insights                    |[View][cs#21]|[View][js#21]|:runner:      |             | |
@@ -131,7 +131,7 @@ To use the samples clone this GitHub repository using Git.
 [js#15]:samples/javascript_nodejs/15.handling-attachments
 [js#16]:samples/javascript_nodejs/16.proactive-messages
 [js#17]:samples/javascript_nodejs/17.multilingual-conversations
-
+[cs#18]:samples/javascript_nodejs/18.bot-authentication
 [js#19]:samples/javascript_nodejs/19.custom-dialogs
 [js#20]:samples/javascript_nodejs/20.qna-with-appinsights
 [js#21]:samples/javascript_nodejs/21.luis-with-appinsights
