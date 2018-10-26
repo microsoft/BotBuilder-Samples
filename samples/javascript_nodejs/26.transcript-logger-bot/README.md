@@ -7,7 +7,8 @@ This bot has been created using [Microsoft Bot Framework][10], it shows how to c
 # To run the bot
 - Install modules and start the bot
     ```bash
-    npm i & npm start
+    npm i
+    npm start
     ```
     Alternatively you can also use nodemon via
     ```bash
