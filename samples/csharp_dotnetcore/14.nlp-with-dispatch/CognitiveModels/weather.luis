@@ -160,12 +160,12 @@
       ]
     },
     {
-      "text": "forecast in celcius",
+      "text": "forecast in celsius",
       "intent": "Get Weather Forecast",
       "entities": []
     },
     {
-      "text": "get the forcast for me",
+      "text": "get the forecast for me",
       "intent": "Get Weather Forecast",
       "entities": []
     },
