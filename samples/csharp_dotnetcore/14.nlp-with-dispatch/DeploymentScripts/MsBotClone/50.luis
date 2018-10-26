@@ -61,7 +61,7 @@
   ],
   "utterances": [
     {
-      "text": "current weather ?",
+      "text": "current weather?",
       "intent": "Get Weather Condition",
       "entities": []
     },
@@ -115,7 +115,7 @@
       ]
     },
     {
-      "text": "get the forcast for me",
+      "text": "get the forecast for me",
       "intent": "Get Weather Forecast",
       "entities": []
     },
@@ -202,7 +202,7 @@
       ]
     },
     {
-      "text": "was last year about this time as wet as it is now in the south ?",
+      "text": "was last year about this time as wet as it is now in the south?",
       "intent": "Get Weather Condition",
       "entities": [
         {
@@ -213,7 +213,7 @@
       ]
     },
     {
-      "text": "what is the rain volume in sonoma county ?",
+      "text": "what is the rain volume in sonoma county?",
       "intent": "Get Weather Condition",
       "entities": [
         {
@@ -224,7 +224,7 @@
       ]
     },
     {
-      "text": "what is the weather in redmond ?",
+      "text": "what is the weather in redmond?",
       "intent": "Get Weather Forecast",
       "entities": [
         {
@@ -235,7 +235,7 @@
       ]
     },
     {
-      "text": "what is the weather today at 10 day durham ?",
+      "text": "what is the weather today at 10 day durham?",
       "intent": "Get Weather Forecast",
       "entities": [
         {
@@ -257,7 +257,7 @@
       ]
     },
     {
-      "text": "what will the weather be tomorrow in new york ?",
+      "text": "what will the weather be tomorrow in new york?",
       "intent": "Get Weather Forecast",
       "entities": [
         {
@@ -268,7 +268,7 @@
       ]
     },
     {
-      "text": "what's the weather going to be like in hawaii ?",
+      "text": "what's the weather going to be like in hawaii?",
       "intent": "Get Weather Forecast",
       "entities": [
         {

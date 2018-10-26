@@ -24,7 +24,7 @@ namespace LuisBot
         /// <summary>
         /// Gets the set of LUIS Services used.
         /// Given there can be multiple <see cref="LuisRecognizer"/> services used in a single bot,
-        /// LuisServices is represented as a dictionary.  This is also modeled in the
+        /// LuisServices is represented as a dictionary. This is also modeled in the
         /// ".bot" file since the elements are named.
         /// </summary>
         /// <remarks>The LUIS services collection should not be modified while the bot is running.</remarks>

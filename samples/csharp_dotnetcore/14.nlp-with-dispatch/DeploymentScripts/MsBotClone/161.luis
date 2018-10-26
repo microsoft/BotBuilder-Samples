@@ -43,7 +43,7 @@
       "entities": []
     },
     {
-      "text": "current weather ?",
+      "text": "current weather?",
       "intent": "l_Weather",
       "entities": []
     },
@@ -73,7 +73,7 @@
       "entities": []
     },
     {
-      "text": "forecast in celcius",
+      "text": "forecast in celsius",
       "intent": "l_Weather",
       "entities": []
     },
@@ -93,7 +93,7 @@
       "entities": []
     },
     {
-      "text": "get the forcast for me",
+      "text": "get the forecast for me",
       "intent": "l_Weather",
       "entities": []
     },
@@ -313,7 +313,7 @@
       "entities": []
     },
     {
-      "text": "was last year about this time as wet as it is now in the south ?",
+      "text": "was last year about this time as wet as it is now in the south?",
       "intent": "l_Weather",
       "entities": []
     },
@@ -328,17 +328,17 @@
       "entities": []
     },
     {
-      "text": "what is the rain volume in sonoma county ?",
+      "text": "what is the rain volume in sonoma county?",
       "intent": "l_Weather",
       "entities": []
     },
     {
-      "text": "what is the weather in redmond ?",
+      "text": "what is the weather in redmond?",
       "intent": "l_Weather",
       "entities": []
     },
     {
-      "text": "what is the weather today at 10 day durham ?",
+      "text": "what is the weather today at 10 day durham?",
       "intent": "l_Weather",
       "entities": []
     },
@@ -358,7 +358,7 @@
       "entities": []
     },
     {
-      "text": "what will the weather be tomorrow in new york ?",
+      "text": "what will the weather be tomorrow in new york?",
       "intent": "l_Weather",
       "entities": []
     },
