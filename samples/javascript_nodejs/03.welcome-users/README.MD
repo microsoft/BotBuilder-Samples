@@ -9,8 +9,8 @@ This sample creates an echo bot that also welcomes user when they join the conve
     ```bash
     cd samples/javascript_nodejs/03.welcome-users
     ```
-- [Optional] Update the .env file under samples/javascript_nodejs/08.suggested-actions with your botFileSecret
-    For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `.env` file under `samples/javascript_nodejs/03.welcome-users` with your `botFileSecret`
+    For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
 - Install modules and start the bot
     ```bash
     npm i && npm start
@@ -27,7 +27,7 @@ Microsoft Bot Framework Emulator is a desktop application that allows bot develo
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/03.Welcome-Users` folder
+- File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/03.welcome-users` folder
 - Select `welcome-users.bot` file
 
 # ConversationUpdate Activity Type
