@@ -43,7 +43,7 @@ class Greeting extends ComponentDialog {
     if (!userProfileAccessor) throw new Error('Missing parameter.  userProfileAccessor is required');
 
     // Add a water fall dialog with 4 steps.
-    // The order of step function registration is importent
+    // The order of step function registration is important
     // as a water fall dialog executes steps registered in order
     this.addDialog(new WaterfallDialog(PROFILE_DIALOG, [
       this.initializeStateStep.bind(this),

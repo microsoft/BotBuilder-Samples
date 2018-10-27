@@ -20,7 +20,7 @@ const ENV_FILE = path.join(__dirname, '..', '.env');
 const env = config({ path: ENV_FILE });
 
 // bot endpoint name as defined in .bot file
-// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration .
+// See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
 const DEV_ENVIRONMENT = 'development';
 
 // bot name as defined in .bot file
@@ -53,7 +53,7 @@ try {
 const endpointConfig = <IEndpointService>botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
 // Create adapter.
-// See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration .
+// See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration.
 const adapter = new BotFrameworkAdapter({
     appId: endpointConfig.appId || process.env.microsoftAppID,
     appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword

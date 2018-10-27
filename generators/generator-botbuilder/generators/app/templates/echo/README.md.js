@@ -66,4 +66,4 @@ msbot clone services -f deploymentScripts/msbotClone -n myChatBot -l <Azure-loca
 [7]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-storage-concept?view=azure-bot-service-4.0
 [8]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-storage?view=azure-bot-service-4.0&tabs=jsechoproperty%2Ccsetagoverwrite%2Ccsetag
 [9]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.0&tabs=js
-[10] https://dev.botframework.com
+[10]: https://dev.botframework.com
