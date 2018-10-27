@@ -51,6 +51,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotAuthenticationMSGraph", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CafeBot", "51.cafe-bot\CafeBot.csproj", "{BC6F0831-92C8-4E32-801E-50972C1BD36A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelBot", "25.complex-dialogs\HotelBot\HotelBot.csproj", "{D0349728-0C93-4A0C-8228-BA46D0032761}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DinnerBot", "26.handle-interruptions\DinnerBot\DinnerBot.csproj", "{359CE457-62C4-410C-A0A7-0398EF5606EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +157,14 @@ Global
 		{BC6F0831-92C8-4E32-801E-50972C1BD36A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC6F0831-92C8-4E32-801E-50972C1BD36A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC6F0831-92C8-4E32-801E-50972C1BD36A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0349728-0C93-4A0C-8228-BA46D0032761}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0349728-0C93-4A0C-8228-BA46D0032761}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0349728-0C93-4A0C-8228-BA46D0032761}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0349728-0C93-4A0C-8228-BA46D0032761}.Release|Any CPU.Build.0 = Release|Any CPU
+		{359CE457-62C4-410C-A0A7-0398EF5606EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{359CE457-62C4-410C-A0A7-0398EF5606EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{359CE457-62C4-410C-A0A7-0398EF5606EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{359CE457-62C4-410C-A0A7-0398EF5606EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
