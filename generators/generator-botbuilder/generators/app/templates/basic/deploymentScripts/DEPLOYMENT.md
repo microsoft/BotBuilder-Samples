@@ -59,3 +59,4 @@ See [Bot Builder tools](https://github.com/microsoft/botbuilder-tools) to learn 
 [7]: https://www.github.com/microsoft/botframework-emulator
 [8]: https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-account-settings
 [9]: https://blogs.msdn.microsoft.com/mschray/2016/03/18/getting-your-azure-subscription-guid-new-portal/
+[10]: https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions#publishing-regions
