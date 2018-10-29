@@ -129,16 +129,6 @@ Your project may be configured to rely on this secret and you should update it a
      ```c#
      const WEATHER_LUIS_CONFIGURATION = '<NAME>_Weather';
      ```
-
-    - Update Line 46, `"QnAMakerKey"`:
-
-      Update the following line to set your QnA Maker's application name.
-
-      ```c#
-      private const string QnAMakerKey = "<QnA-NAME>_sample-qna";
-      ```
-
-
 **Alternately** you can configure the required services by following the steps below. 
 
 ## Manually configure required services
