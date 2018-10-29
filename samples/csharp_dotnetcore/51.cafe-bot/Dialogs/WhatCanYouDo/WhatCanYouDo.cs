@@ -17,7 +17,7 @@ namespace Microsoft.BotBuilderSamples
         public const string Name = "What_can_you_do";
 
         public WhatCanYouDo()
-            : base(Name)
+        : base(Name)
         {
         }
 

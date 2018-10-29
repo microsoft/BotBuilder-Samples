@@ -25,19 +25,11 @@ developers to test and debug their bots on localhost or running remotely through
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples/javascript_nodejs/05.multi-turn-prompt folder
-- Select multi-turn-prompt.bot file
+- File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/05.multi-turn-prompt` folder
+- Select `multi-turn-prompt.bot` file
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
-
-To install all Bot Builder tools - 
-
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
-
-```bash
-npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
-```
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
 
 To clone this bot, run
 ```

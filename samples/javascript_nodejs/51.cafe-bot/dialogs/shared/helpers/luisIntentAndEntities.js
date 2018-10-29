@@ -12,7 +12,7 @@ const LUIS_ENTITIES = {
     cafeLocation: 'cafeLocation',
     confirmationList: 'confirmationList'
 };
-// List of all intnts this bot will recognize. THis includes intents from the following LUIS models:
+// List of all intents this bot will recognize. THis includes intents from the following LUIS models:
 //  1. Main dispatcher - see dialogs\dispatcher\resources\cafeDispatchModel.lu
 //  2. getUserProfile model - see dialogs\whoAreYou\resources\getUserProfile.lu
 //  3. cafeBookTableTurnN model - see dialogs\bookTable\resources\turn-N.lu

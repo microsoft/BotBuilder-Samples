@@ -97,7 +97,7 @@ To use the samples clone this GitHub repository using Git.
 [cs#23]:samples/csharp_dotnetcore/23.facebook-events
 [cs#24]:samples/csharp_dotnetcore/24.bot-authentication-msgraph
 [cs#51]:samples/csharp_dotnetcore/51.cafe-bot
-[cs#52]:samples/csharp_dotnetcore/52.enterprise-bot
+[cs#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
 
 [wa#2]:samples/csharp_webapi/02.echo-with-counter
 [wa#11]:samples/csharp_webapi/11.QnAMaker
@@ -112,7 +112,7 @@ To use the samples clone this GitHub repository using Git.
 [ts#11]:samples/javascript_typescript/11.qnamaker
 [ts#12]:samples/javascript_typescript/12.nlp-with-luis
 [ts#13]:samples/javascript_typescript/13.basic-bot
-[ts#52]:samples/javascript_typescript/52.enterprise-bot
+[ts#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
 
 [js#1]:samples/javascript_nodejs/01.console-echo
 [js#2]:samples/javascript_nodejs/02.echobot-with-counter

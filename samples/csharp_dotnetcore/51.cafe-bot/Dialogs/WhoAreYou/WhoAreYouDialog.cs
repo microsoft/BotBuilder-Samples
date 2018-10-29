@@ -14,7 +14,7 @@ namespace Microsoft.BotBuilderSamples
 {
     public class WhoAreYouDialog : ComponentDialog
     {
-        // This dialog"s name. Matches the name of the LUIS intent from ../dispatcher/resources/cafeDispatchModel.lu
+        // This dialog's name. Matches the name of the LUIS intent from ../dispatcher/resources/cafeDispatchModel.lu
         // LUIS recognizer replaces spaces " " with "_". So intent name "Who are you" is recognized as "Who_are_you".
         public const string Name = "Who_are_you";
 
@@ -45,7 +45,7 @@ namespace Microsoft.BotBuilderSamples
                         IStatePropertyAccessor<UserProfile> userProfileAccessor,
                         IStatePropertyAccessor<OnTurnProperty> onTurnAccessor,
                         IStatePropertyAccessor<ReservationProperty> reservationAccessor)
-            : base(Name)
+        : base(Name)
         {
             if (botServices == null)
             {
@@ -59,15 +59,15 @@ namespace Microsoft.BotBuilderSamples
 
             UserProfileAccessor = userProfileAccessor ?? throw new ArgumentNullException(nameof(userProfileAccessor));
 
-            // keep accessors for the steps to consume
+            // Keep accessors for the steps to consume
             OnTurnAccessor = onTurnAccessor ?? throw new ArgumentNullException(nameof(onTurnAccessor));
 
-            // add dialogs
+            // Add dialogs
             var waterfallSteps = new WaterfallStep[]
-                                        {
-                                            AskForUserNameAsync,
-                                            GreetUserAsync,
-                                        };
+            {
+                AskForUserNameAsync,
+                GreetUserAsync,
+            };
             AddDialog(new WaterfallDialog(
                dialogStart,
                waterfallSteps));
@@ -98,13 +98,13 @@ namespace Microsoft.BotBuilderSamples
                             await promptContext.Context.SendActivityAsync("You can always say 'My name is <your name>' to introduce yourself to me.");
                             await userProfileAccessor.SetAsync(promptContext.Context, new UserProfile("Human")).ConfigureAwait(false);
 
-                            // set updated turn counter
+                            // Set updated turn counter
                             await turnCounterAccessor.SetAsync(promptContext.Context, counter).ConfigureAwait(false);
                             return false;
                         }
                         else
                         {
-                            // capitalize user name
+                            // Capitalize user name
                             userProfile.UserName = char.ToUpper(userProfile.UserName[0]) + userProfile.UserName.Substring(1);
 
                             // Create user profile and set it to state.
@@ -116,10 +116,10 @@ namespace Microsoft.BotBuilderSamples
                     return false;
                 }));
 
-            // this dialog is interruptable, add interruptionDispatcherDialog
+            // This dialog is interruptable, add interruptionDispatcherDialog
             AddDialog(new InterruptionDispatcher(onTurnAccessor, conversationState, userProfileAccessor, botServices));
 
-            // when user decides to abandon this dialog, we need to confirm user action - add confirmation prompt
+            // When user decides to abandon this dialog, we need to confirm user action - add confirmation prompt
             AddDialog(new ConfirmPrompt(confirmCancelPrompt));
         }
 
@@ -147,19 +147,19 @@ namespace Microsoft.BotBuilderSamples
 
             // Handle case where user is re-introducing themselves.
             // This flow is triggered when we are not in the middle of who-are-you dialog
-            //   and the user says something like 'call me {username}' or 'my name is {username}'.
+            // and the user says something like 'call me {username}' or 'my name is {username}'.
 
             // Get user name entities from on turn property (from the cafe bot dispatcher LUIS model)
             var userNameInOnTurnProperty = (onTurnProperty.Entities ?? new List<EntityProperty>()).Where(item => ((item.EntityName == userNameEntity) || (item.EntityName == userNamePatternAnyEntity)));
             if (userNameInOnTurnProperty.Count() > 0)
             {
-                // get user name from on turn property
+                // Get user name from on turn property
                 var userName = userNameInOnTurnProperty.First().Value as string;
 
-                // capitalize user name
+                // Capitalize user name
                 userName = char.ToUpper(userName[0]) + userName.Substring(1);
 
-                // set user name
+                // Set user name
                 await UserProfileAccessor.SetAsync(context, new UserProfile(userName));
 
                 // End this step so we can greet the user.
@@ -167,8 +167,8 @@ namespace Microsoft.BotBuilderSamples
             }
 
             // Prompt user for name if
-            //    we have an invalid or empty user name or
-            //    if the user name was previously set to 'Human'
+            // we have an invalid or empty user name or
+            // if the user name was previously set to 'Human'
             if (userProfile == null || string.IsNullOrWhiteSpace(userProfile.UserName) || userProfile.UserName.Equals("Human", StringComparison.Ordinal))
             {
                 await context.SendActivityAsync("Hello, I'm the Contoso Cafe Bot.");

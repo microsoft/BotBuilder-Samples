@@ -3,10 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples
@@ -73,7 +70,7 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Static method to create an on turn property object from card input.
         /// </summary>
-        /// <param name="cardValue">context.activity.value from a card interaction</param>
+        /// <param name="cardValues">context.activity.value from a card interaction</param>
         /// <returns>OnTurnProperty.</returns>
         public static OnTurnProperty FromCardInput(Dictionary<string, string> cardValues)
         {

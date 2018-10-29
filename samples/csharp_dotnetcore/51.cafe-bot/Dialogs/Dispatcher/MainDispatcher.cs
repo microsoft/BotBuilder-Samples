@@ -3,16 +3,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -22,7 +19,7 @@ namespace Microsoft.BotBuilderSamples
     /// <remarks>
     /// The <see cref="MainDialog"/> responsibility is to:
     /// - Start message.
-    ///   Display the inital message the user sees when they begin a conversation.
+    ///   Display the initial message the user sees when they begin a conversation.
     /// - Help.
     ///   Provide the user about the commands the bot can process.
     /// - Start other dialogs to perform more complex operations.
@@ -75,7 +72,7 @@ namespace Microsoft.BotBuilderSamples
             _mainDispatcherAccessor = conversationState.CreateProperty<DialogState>(MainDispatcherStateProperty);
             _reservationAccessor = conversationState.CreateProperty<ReservationProperty>(ReservationProperty);
 
-            // add dialogs
+            // Add dialogs
             _dialogs = new DialogSet(_mainDispatcherAccessor);
             AddDialog(new WhatCanYouDo());
             AddDialog(new QnADialog(services, _userProfileAccessor));
@@ -147,7 +144,7 @@ namespace Microsoft.BotBuilderSamples
                     break;
 
                 case DialogTurnStatus.Cancelled:
-                    // The active dialog"s stack has been cancelled
+                    // The active dialog's stack has been canceled
                     await innerDc.CancelAllDialogsAsync();
                     break;
             }
@@ -173,7 +170,7 @@ namespace Microsoft.BotBuilderSamples
                 case "None":
                 default:
                     await dc.Context.SendActivityAsync("I'm still learning.. Sorry, I do not know how to help you with that.");
-                    await dc.Context.SendActivityAsync($"Follow[this link](https://www.bing.com/search?q={dc.Context.Activity.Text}) to search the web!");
+                    await dc.Context.SendActivityAsync($"Follow [this link](https://www.bing.com/search?q={dc.Context.Activity.Text}) to search the web!");
                     return new DialogTurnResult(DialogTurnStatus.Empty);
             }
         }
@@ -190,7 +187,7 @@ namespace Microsoft.BotBuilderSamples
                 if (activeDialog.Equals(WhatCanYouDo.Name))
                 {
                     outcome.allowed = false;
-                    outcome.reason = "Sorry! I'm unable to process that. You can say 'cancel' to cancel this conversation..";
+                    outcome.reason = "Sorry! I'm unable to process that. You can say 'cancel' to cancel this conversation.";
                 }
             }
             else if (requestedOperation.Equals(CancelIntent))
@@ -198,7 +195,7 @@ namespace Microsoft.BotBuilderSamples
                 if (string.IsNullOrWhiteSpace(activeDialog))
                 {
                     outcome.allowed = false;
-                    outcome.reason = "Sure, but there is nothing to cancel..";
+                    outcome.reason = "Sure, but there is nothing to cancel...";
                 }
             }
 
@@ -222,7 +219,7 @@ namespace Microsoft.BotBuilderSamples
                 }
                 catch
                 {
-                    await context.SendActivityAsync("Choose a query from the card drop down before you click `Let's talk!`");
+                    await context.SendActivityAsync("Choose a query from the card drop down before you click 'Let's talk!'");
                     return new DialogTurnResult(DialogTurnStatus.Empty, null);
                 }
 

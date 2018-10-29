@@ -10,13 +10,13 @@ namespace BasicBot
     /// </summary>
     public class CityPrompt : TextPrompt
     {
-        // Minimum lengh requirements for city and name
+        // Minimum length requirements for city and name
         private const int CityLengthMinValue = 5;
 
         public CityPrompt(string dialogId)
             : base(dialogId, async (promptContext, cancellationToken) =>
             {
-                // Validate that the user entered a minimum lenght for their name
+                // Validate that the user entered a minimum length for their name
                 var value = promptContext.Recognized.Value?.Trim() ?? string.Empty;
                 if (value.Length > CityLengthMinValue)
                 {

@@ -8,7 +8,7 @@ demonstrates using the `ComponentDialog` class to encapsulate related sub-dialog
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to samples/javascript_nodejs/10.prompt-validations
+- In a terminal, navigate to `samples/javascript_nodejs/10.prompt-validations`
     ```bash
     cd samples/javascript_nodejs/10.prompt-validations
     ```
@@ -26,19 +26,11 @@ or running remotely through a tunnel.
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to javascript_nodejs/10.prompt-validations
-- Select prompt-validations-bot.bot file
+- File -> Open Bot Configuration and navigate to `javascript_nodejs/10.prompt-validations`
+- Select `prompt-validations-bot.bot` file
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
-
-To install all Bot Builder tools - 
-
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
-
-```bash
-npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
-```
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md). 
 
 To clone this bot, run
 ```
