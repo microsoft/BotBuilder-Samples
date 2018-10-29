@@ -2,7 +2,11 @@
 This bot demonstrates the transcript logging middleware in the nodejs SDK. The files `CustomLogger.d.ts` and `CustomLogger.js` contain a custom implementation of the logging middleware.
 This implementation contains an object that saves ongoing conversations and writes them to a file after the end state of the conversation has been reached via a value "endOfInput" set on the last message in the `bot.js` file.
 
-This bot has been created using [Microsoft Bot Framework][10], it shows how to create a simple echo bot with state. The bot maintains a simple counter that increases with each message from the user. This bot example uses [`restify`][1].
+ This bot has been created using [Microsoft Bot Framework][10], and demonstrates how to create a bot that stores transcript logs of the conversation. 
+ 
+In this example, the bot creates a new folder in the project directory called `logs` and the conversations' transcripts are saved as `.log` files after the user has chatted with the bot. The bot also logs the conversation to the terminal as the user chats with it.
+
+ This bot example uses [restify](https://www.npmjs.com/package/restify).
 
 # To run the bot
 - Install modules and start the bot
