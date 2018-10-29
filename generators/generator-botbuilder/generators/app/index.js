@@ -84,7 +84,7 @@ module.exports = class extends Generator {
             this.log(thankYouMsg);
         } else {
             const noThankYouMsg = "------------------- \n" +
-                "Bot creation has been cancelled.  \n" +
+                "Bot creation has been canceled.  \n" +
                 "Thank you for using the Microsoft Bot Framework. \n" +
                 "\n< ** > The Bot Framework Team";
             this.log(noThankYouMsg);

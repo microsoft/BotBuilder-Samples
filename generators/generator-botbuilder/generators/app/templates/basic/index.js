@@ -3,7 +3,7 @@
 
 // index.js is used to setup and configure your bot
 
-// Import required pckages
+// Import required packages
 const path = require('path');
 const restify = require('restify');
 
