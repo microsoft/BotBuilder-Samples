@@ -30,7 +30,7 @@ namespace Microsoft.BotBuilderSamples
         /// Key in the bot config (.bot file) for the LUIS instance.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
-        public static readonly string LuisConfiguration = < YOUR_BOT_NAME > + "_basic-bot-LUIS";
+        public static readonly string LuisConfiguration = "YOUR_LUIS_SERVICE_NAME";
 
         private readonly IStatePropertyAccessor<GreetingState> _greetingStateAccessor;
         private readonly IStatePropertyAccessor<DialogState> _dialogStateAccessor;
