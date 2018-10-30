@@ -6,7 +6,7 @@ The interesting thing about TIMEX expressions is that they can represent various
 full calendar date because we haven't said which May 29th - it could be this year, last year, any year in fact.
 TIMEX has other features such as the ability to represent ranges, date ranges, time ranges and even date-time ranges.
 
-## Where do I get TIMEX expressions from?
+## Where do TIMEX expressions come from?
 TIMEX expressions are produced as part of the output of running a DateTimeRecognizer against some natural language input. As the same
 Recognizers are run in LUIS the result returned in the JSON from a call to LUIS also contains the TIMEX expressions.
 
