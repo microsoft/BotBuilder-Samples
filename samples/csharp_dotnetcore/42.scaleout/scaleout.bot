@@ -1,0 +1,24 @@
+{
+    "name": "scaleout",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:2513/api/messages",
+            "id": "e4467c40-d17a-11e8-94e1-b3f4055614e9",
+            "name": "http://localhost:2513/api/messages"
+        },
+        {
+            "type": "endpoint",
+            "endpoint": "http://localhost:4008/api/messages",
+            "name": "test",
+            "id": "172"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "path": "C:\\private\\ScaleoutBot\\ScaleoutBot\\scaleout.bot",
+    "overrides": null
+}
