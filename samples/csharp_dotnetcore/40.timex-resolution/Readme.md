@@ -13,12 +13,18 @@ Recognizers are run in LUIS the result returned in the JSON from a call to LUIS 
 ## What can the library do?
 It turns out that TIMEX expressions are not that simple to work with in code. This library attempts to address that. One helpful way to
 think about a TIMEX expression is as a partially filled property bag. The properties might be such things as "day of week" or "year."
-Basically the more properties we have captured in the expression the less ambiguity we have. The library can do various things:
+Basically the more properties we have captured in the expression the less ambiguity we have.
+
+The library can do various things:
 - Parse TIMEX expressions to give you the properties contained there in.
 - Generate TIMEX expressions based on setting raw properties.
 - Generate natural language from the TIMEX expression. (This is logically the reverse of the Recognizer.)
 - Resolve TIMEX expressions to produce example date-times. (This produces the same result as the Recognizer (and therefore LUIS)).
 - Evaluate TIMEX expressions against constraints such that new more precise TIMEX expressions are produced.
+
+## Where is the source code?
+The TIMEX expression library is contained in the same GitHub repo as the recognizers. Refer to the further reading section below.
+
 
 # To try this sample
 - Clone the repository
@@ -47,3 +53,4 @@ git clone https://github.com/microsoft/botbuilder-samples.git
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [TIMEX] (https://en.wikipedia.org/wiki/TimeML#TIMEX3)
 - [ISO 8601] (https://en.wikipedia.org/wiki/ISO_8601)
+- [Recognizers Text] (https://github.com/Microsoft/recognizers-text)
