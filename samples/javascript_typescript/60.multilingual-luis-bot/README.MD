@@ -81,7 +81,7 @@ In order to run this sample, you must have TypeScript installed.  To install Typ
 }
 ```
 
-- Update [index.ts](src/index.ts) and set the `LUIS_CONFIGURATION` value to match the `name` field in your service declaration.
+- Update [index.ts](src/index.ts) and set the `LUIS_CONFIGURATION` value to match the `name` or `id` field in your service declaration.
 
 ## Creating a custom middleware
 
