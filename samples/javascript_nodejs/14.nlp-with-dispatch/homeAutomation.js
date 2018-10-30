@@ -19,7 +19,7 @@ const ROOM_PATTERNANY_ENTITY = 'Room_PatternAny';
 const { HomeAutomationState } = require('./home-automation-state');
 
 // this is the LUIS service type entry in the .bot file.
-const LUIS_CONFIGURATION = 'YK-10-29-mutantEBC_Home Automation';
+const LUIS_CONFIGURATION = 'Home Automation';
 
 class HomeAutomation {
     /**
