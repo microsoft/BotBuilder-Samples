@@ -18,8 +18,10 @@ namespace ScaleoutBot
             //var accountName = "<ACCOUNT-NAME>";
             //var accountKey = "<ACCOUNT-KEY>";
             //var container = "dialogs";
-            //services.AddSingleton<IStore>(new BlobStore(accountName, accountKey, container));
+            //services.AddScoped<IStore>(_ => new BlobStore(accountName, accountKey, container));
+
             services.AddSingleton<IStore>(new MemoryStore());
+           
             services.AddSingleton<Dialog>(new RootDialog());
 
             services.AddBot<MyBot>(options =>
