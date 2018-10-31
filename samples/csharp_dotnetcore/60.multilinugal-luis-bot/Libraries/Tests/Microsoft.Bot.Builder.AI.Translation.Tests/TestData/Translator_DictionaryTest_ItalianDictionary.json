@@ -1,0 +1,21 @@
+[
+    {
+        "translations": [
+            {
+                "text": "I want to take a picture in the room",
+                "to": "en",
+                "alignment": {
+                    "proj": "0:5-0:0 0:5-2:5 7:10-10:13 12:14-15:15 16:19-17:23 21:25-25:26 21:25-28:30 27:32-32:35"
+                },
+                "sentLen": {
+                    "srcSentLen": [
+                        33
+                    ],
+                    "transSentLen": [
+                        36
+                    ]
+                }
+            }
+        ]
+    }
+]

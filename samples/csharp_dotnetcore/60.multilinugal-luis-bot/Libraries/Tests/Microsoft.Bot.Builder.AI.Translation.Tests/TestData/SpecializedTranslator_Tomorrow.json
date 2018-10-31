@@ -1,0 +1,21 @@
+[
+    {
+        "translations": [
+            {
+                "text": "For tomorrow",
+                "to": "en",
+                "alignment": {
+                    "proj": "0:3-0:2 5:10-4:11"
+                },
+                "sentLen": {
+                    "srcSentLen": [
+                        11
+                    ],
+                    "transSentLen": [
+                        12
+                    ]
+                }
+            }
+        ]
+    }
+]
