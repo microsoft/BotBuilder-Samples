@@ -9,7 +9,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "tsc",
         "start": "tsc && node ./lib/index.js",
-        "watch": "tsc && node ./lib/index.js"
+        "watch": "concurrently --kill-others \"tsc -w\" \"nodemon ./lib/index.js\""
       },
     "dependencies": {
         "botbuilder": "^4.0.6",
@@ -18,6 +18,7 @@
         "restify": "^6.3.4"
     },
     "devDependencies": {
+        "concurrently": "^4.0.1",
         "eslint": "^5.6.0",
         "eslint-config-standard": "^12.0.0",
         "eslint-plugin-import": "^2.14.0",
