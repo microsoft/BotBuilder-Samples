@@ -25,12 +25,14 @@ export class WebChatAdapter extends BotAdapter {
             },
             postActivity: activity => {
                 const id = Date.now().toString();
-                return Observable.fromPromise(this
-                    .onReceive(Object.assign({}, activity, {
+
+                return Observable.fromPromise(
+                    this.onReceive({
+                        ...activity,
                         id,
                         conversation: { id: 'bot' },
                         channelId: 'WebChat'
-                    }))
+                    })
                     .then(() => id)
                 );
             }
