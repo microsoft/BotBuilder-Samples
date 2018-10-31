@@ -89,8 +89,11 @@ Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
         ```
     - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
         ```bash
-        msbot clone services -n <YOUR-BOT-NAME> -f deploymentScripts/msbotClone -l <Bot service location> --luisAuthoringKey <Key from step-2 above> --subscriptionId <Key from step-1 above> --noDecorate
+        msbot clone services -n <YOUR-BOT-NAME> -f deploymentScripts/msbotClone -l <Bot service location> --luisAuthoringKey <Key from step-2 above> --subscriptionId <Key from step-1 above> --noDecorate --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
         ```
+
+**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
+
 
 Optionally, you can use the LUIS, QnA Maker portals to manually import the models found under **cognitiveModels** folder of this sample. 
 
