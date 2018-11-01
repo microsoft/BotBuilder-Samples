@@ -217,7 +217,7 @@ Once you are finished, your .bot file should look similar to this:
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator.
 - From the *File* menu, select *Open Bot Configuration*.
-- Navigate to your `.bot` file
+- Navigate to your `.bot` file.
 
 ## Deploy to Azure
 
