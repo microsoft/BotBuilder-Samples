@@ -234,7 +234,7 @@ msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-loc
 ```bash
 az group delete --name {RESOURCE GROUP NAME}
 ```
-- Azure Portal
+- To deprovision your bot using the Azure Portal:
     - Search for your resource group in the Azure portal
     - Click on the "..." to the left side of the resource group
     - Select delete and follow the prompt
