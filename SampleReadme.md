@@ -36,7 +36,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 npm install -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen
 ```
 #### Create a .bot File
-To create a .bot file use the init command of MS bot
+To create a .bot file, use the `init` command of MS bot.
 ```bash
 msbot init --name {NAME OF YOUR BOT} --endpoint {ENDPOINT FOR YOUR BOT}
 ```
