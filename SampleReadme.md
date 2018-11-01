@@ -206,7 +206,7 @@ Once you are finished, your .bot file should look similar to this:
 
 ### Visual Studio Code
 - Open the `botbuilder-samples/samples/csharp_dotnetcore/{SAMPLE NAME}` sample folder.
-- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/{SAMPLE NAME}` folder.
+- Bring up a terminal, navigate to the `botbuilder-samples/samples/csharp_dotnetcore/{SAMPLE NAME}` folder, and enter `dotnet run`.
 - Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator
