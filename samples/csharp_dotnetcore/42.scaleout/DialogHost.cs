@@ -12,10 +12,10 @@ using Newtonsoft.Json.Linq;
 namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
-    /// The essential code for running a dialog. Th eexecution of the dialog is treated here as a pure function call.
-    /// The input being the existing or old state and the inbound Activity and the result being the updated or new state
+    /// The essential code for running a dialog. The execution of the dialog is treated here as a pure function call.
+    /// The input being the existing (or old) state and the inbound Activity and the result being the updated (or new) state
     /// and the Activities that should be sent. The assumption is that this code can be re-run without causing any
-    /// unintended or harmful side-effects. For example, any outbound service calls made directly from the
+    /// unintended or harmful side-effects, for example, any outbound service calls made directly from the
     /// dialog implementation should be idempotent.
     /// </summary>
     public static class DialogHost
