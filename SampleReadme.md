@@ -202,7 +202,7 @@ Once you are finished, your .bot file should look similar to this:
 
 ### Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/{SAMPLE NAME}`) and open {SAMPLE NAME}.csproj in Visual Studio .
-- Run the project (press `F5` key)
+- Run the project (press `F5` key).
 
 ### Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/{SAMPLE NAME}` sample folder.
