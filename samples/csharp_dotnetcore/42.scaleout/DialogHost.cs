@@ -59,7 +59,8 @@ namespace Microsoft.BotBuilderSamples
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 // If we have some state, deserialize it. (This mimics the shape produced by BotState.cs.)
-                var dialogState = state?[nameof(DialogState)]?.ToObject<DialogState>(StateJsonSerializer);
+                var dialogStateProperty = state?[nameof(DialogState)];
+                var dialogState = dialogStateProperty?.ToObject<DialogState>(StateJsonSerializer);
 
                 // A custom accessor is used to pass a handle on the state to the dialog system.
                 var accessor = new RefAccessor<DialogState>(dialogState);

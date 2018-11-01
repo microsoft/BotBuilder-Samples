@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,8 +16,8 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class ScaleoutBot : IBot
     {
-        private IStore _store;
-        private Dialog _rootDialog;
+        private readonly IStore _store;
+        private readonly Dialog _rootDialog;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ScaleoutBot"/> class.
@@ -25,8 +26,8 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="rootDialog">The root dialog to run. Created through the dependency injection.</param>
         public ScaleoutBot(IStore store, Dialog rootDialog)
         {
-            _store = store;
-            _rootDialog = rootDialog;
+            _store = store ?? throw new ArgumentNullException(nameof(store));
+            _rootDialog = rootDialog ?? throw new ArgumentNullException(nameof(rootDialog));
         }
 
         /// <summary>

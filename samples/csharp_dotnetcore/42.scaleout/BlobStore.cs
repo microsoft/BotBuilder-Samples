@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
@@ -15,10 +16,25 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class BlobStore : IStore
     {
-        private CloudBlobContainer _container;
+        private readonly CloudBlobContainer _container;
 
         public BlobStore(string accountName, string accountKey, string containerName)
         {
+            if (string.IsNullOrWhiteSpace(accountName))
+            {
+                throw new ArgumentException(nameof(accountName));
+            }
+
+            if (string.IsNullOrWhiteSpace(accountKey))
+            {
+                throw new ArgumentException(nameof(accountKey));
+            }
+
+            if (string.IsNullOrWhiteSpace(containerName))
+            {
+                throw new ArgumentException(nameof(containerName));
+            }
+
             var storageCredentials = new StorageCredentials(accountName, accountKey);
             var cloudStorageAccount = new CloudStorageAccount(storageCredentials, useHttps: true);
             var client = cloudStorageAccount.CreateCloudBlobClient();
@@ -27,6 +43,11 @@ namespace Microsoft.BotBuilderSamples
 
         public async Task<(JObject content, string etag)> LoadAsync(string key)
         {
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException(nameof(key));
+            }
+
             var blob = _container.GetBlockBlobReference(key);
             try
             {
@@ -44,6 +65,16 @@ namespace Microsoft.BotBuilderSamples
 
         public async Task<bool> SaveAsync(string key, JObject obj, string etag)
         {
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException(nameof(key));
+            }
+
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+
             var blob = _container.GetBlockBlobReference(key);
             blob.Properties.ContentType = "application/json";
             var content = obj.ToString();
