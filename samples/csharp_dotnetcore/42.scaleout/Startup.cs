@@ -65,6 +65,10 @@ namespace Microsoft.BotBuilderSamples
             {
                 var secretKey = Configuration.GetSection("botFileSecret")?.Value;
                 var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+                if (!File.Exists(botFilePath))
+                {
+                    throw new FileNotFoundException($"The .bot configuration file was not found. botFilePath: {botFilePath}");
+                }
 
                 // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
                 var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
