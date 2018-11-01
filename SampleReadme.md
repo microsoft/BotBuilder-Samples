@@ -51,7 +51,7 @@ msbot init --name {NAME OF YOUR BOT} --endpoint {ENDPOINT FOR YOUR BOT}
 msbot connect appinsights 
 ```
 **NOTE** If you already have an app insights application, you will need to add options to the command which can be found [here](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/MSBot/docs/add-services.md#connecting-to-azure-appinsights-service).
-In this case the command might look something like this
+In this case the command might look something like this:
 ```bash
 msbot connect appinsights --name {YOUR APP NAME} --tenantId {YOUR TENANT ID} --subscriptionId {YOUYR SUBSCRIPTION ID} --resourceGroup {YOUR RESOURCE GROUP NAME} --serviceName {YOUR SERVICE NAME} --instrumentationKey {YOUR INSTRUMENTATION KEY} --applicationId {YOUR APP INSIGHT APPLICATION ID}
 ```
