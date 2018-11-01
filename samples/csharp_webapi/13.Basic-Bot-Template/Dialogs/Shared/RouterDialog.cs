@@ -10,13 +10,13 @@ using Microsoft.Bot.Schema;
 namespace BasicBot
 {
     /// <summary>
-    /// The <see cref="RouterDialog"/> is the entrpoint or "main" dialog.
+    /// The <see cref="RouterDialog"/> is the entry point or "main" dialog.
     /// </summary>
     /// <remarks>
     /// The <see cref="RouterDialog"/> is the first dialog that runs when a user begins a conversation.
     /// Derived classes typically perform the following:
     /// - Start message.
-    ///   Display the inital message the user sees when they begin a conversation.
+    ///   Display the initial message the user sees when they begin a conversation.
     /// - Help.
     ///   Provide the user about the commands the bot can process.
     /// - Start other dialogs to perform more complex operations.

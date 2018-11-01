@@ -7,7 +7,7 @@ import { StatePropertyAccessor, TurnContext } from 'botbuilder';
 // User state for greeting dialog
 import { UserProfile } from './userProfile';
 
-// Minimum lengh requirements for city and name
+// Minimum length requirements for city and name
 const CITY_LENGTH_MIN = 5;
 const NAME_LENGTH_MIN = 3;
 
@@ -43,7 +43,7 @@ export class GreetingDialog extends ComponentDialog {
     if (!userProfileAccessor) throw ('Missing parameter.  userProfileAccessor is required');
 
     // Add a water fall dialog with 4 steps.
-    // The order of step function registration is importent
+    // The order of step function registration is important
     // as a water fall dialog executes steps registered in order
     this.addDialog(new WaterfallDialog<UserProfile>(PROFILE_DIALOG, [
       this.initializeStateStep.bind(this),
@@ -144,7 +144,7 @@ export class GreetingDialog extends ComponentDialog {
    * @param {PromptValidatorContext} validation context for this validator.
    */
   private validateName = async (validatorContext: PromptValidatorContext<String>) => {
-    // Validate that the user entered a minimum lenght for their name
+    // Validate that the user entered a minimum length for their name
     const value = (validatorContext.recognized.value || '').trim();
     if (value.length >= NAME_LENGTH_MIN) {
       return VALIDATION_SUCCEEDED;
@@ -159,7 +159,7 @@ export class GreetingDialog extends ComponentDialog {
    * @param {PromptValidatorContext} validation context for this validator.
    */
   private validateCity = async (validatorContext: PromptValidatorContext<String>) => {
-    // Validate that the user entered a minimum lenght for their name
+    // Validate that the user entered a minimum length for their name
     const value = (validatorContext.recognized.value || '').trim();
     if (value.length >= CITY_LENGTH_MIN) {
       return VALIDATION_SUCCEEDED;

@@ -8,7 +8,7 @@ This samples shows how to:
 - Implement a multi-turn conversation using Dialogs
 - Handle user interruptions for such things as Help or Cancel
 - Prompt for and validate requests for information from the user
-- Demonstrate how to handle any unexptected errors
+- Demonstrate how to handle any unexpected errors
 
 
 ## To run this bot
@@ -63,7 +63,7 @@ See [DEPLOYMENT.md][3] to learn more about deploying this bot to Azure and using
 
 The generator created a `.env` file with the two necessary keys `botFilePath` and `botFileSecret`.  The `botFilePath` key is set to `<%= botName %>.bot`.  All of the services and their respective configuration settings are stored in the .bot file.
   - For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
-  - It is recommended that you encrypt your bot file before you commit it to your souce control system and/or before you deploy your bot to Azure or similar hosting service.  There are two ways to encrypt your `<%= botName %>.bot` file.  You can use [MSBot CLI][15] to encrypt your bot file or you can use [Bot Framework Emulator **V4**][16] to encrypt your bot file.  Both options will product a `botFileSecret` for you.  You will need to remember this in order to decrypt your .bot file.
+  - It is recommended that you encrypt your bot file before you commit it to your source control system and/or before you deploy your bot to Azure or similar hosting service.  There are two ways to encrypt your `<%= botName %>.bot` file.  You can use [MSBot CLI][15] to encrypt your bot file or you can use [Bot Framework Emulator **V4**][16] to encrypt your bot file.  Both options will product a `botFileSecret` for you.  You will need to remember this in order to decrypt your .bot file.
 
 ### Running the bot
 

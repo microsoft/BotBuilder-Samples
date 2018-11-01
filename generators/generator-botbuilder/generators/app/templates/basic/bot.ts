@@ -64,7 +64,7 @@ export class BasicBot {
     if (!userState) throw new Error('Missing parameter.  userState is required');
     if (!botConfig) throw new Error('Missing parameter.  botConfig is required');
 
-    // add the LUIS recogizer
+    // add the LUIS recognizer
     let luisConfig: LuisService;
     luisConfig = <LuisService>botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
     if (!luisConfig || !luisConfig.appId) throw ('Missing LUIS configuration. Please follow README.MD to create required LUIS applications.\n\n');
@@ -122,7 +122,7 @@ export class BasicBot {
         if (dc.activeDialog !== undefined) {
           // issue a re-prompt on the active dialog
           await dc.repromptDialog();
-        } // Else: We dont have an active dialog so nothing to continue here.
+        } // Else: We don't have an active dialog so nothing to continue here.
       } else {
         // No interruption. Continue any active dialogs.
         dialogResult = await dc.continueDialog();
@@ -199,7 +199,7 @@ export class BasicBot {
   private isTurnInterrupted = async (dc: DialogContext, luisResults: RecognizerResult) => {
     const topIntent = LuisRecognizer.topIntent(luisResults);
 
-    // see if there are anh conversation interrupts we need to handle
+    // see if there are any conversation interrupts we need to handle
     if (topIntent === CANCEL_INTENT) {
       if (dc.activeDialog) {
         // cancel all active dialog (clean the stack)

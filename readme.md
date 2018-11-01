@@ -67,6 +67,8 @@ To use the samples clone this GitHub repository using Git.
 |22.conversation-history| Demonstrates the use of SendConversationHistoryAsync API to upload conversation history stored in the conversation Transcript.|[View][cs#22]|:runner:|              |             | |
 |23.facebook-events     | Integrate and consume Facebook specific payloads, such as post-backs, quick replies and opt-in events.|[View][cs#23] |[View][js#23] |              |             | |
 |24.bot-auth-msgraph    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[View][cs#24] |[View][js#24] |              |             | |
+|25.bot-logging    | This bot demonstrates the logging middleware in the nodejs SDK| |[View][js#25] |              |             | |
+|26.bot-transcript-logging    | This bot demonstrates the transcript logging middleware in the nodejs SDK| |[View][js#26] |              |             | |
 |50.diceroller-skill    | This sample demonstrates how to implement a Cortana Skill that properly handles EndOfConversation events.|:runner: |[View][js#50] |              |             | |
 |51.cafe-bot            | A complete E2E Cafe bot that has all capabilities and includes best practices|[View][cs#51]|[View][js#51]|              |             | |
 |52.enterprise-bot      | Enterprise bot that demonstrates use of Dialogs, Template Manager, Dispatch across different services and implementing custom middleware.| [View][cs#52] |           |              |             | [View][ts#52] |
