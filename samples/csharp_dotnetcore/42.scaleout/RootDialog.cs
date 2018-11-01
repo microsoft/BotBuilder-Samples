@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace ScaleoutBot
+namespace Microsoft.BotBuilderSamples
 {
+    /// <summary>
+    /// This is an example root dialog. Replace this with your applications.
+    /// </summary>
     public class RootDialog : ComponentDialog
     {
         public RootDialog()
@@ -19,20 +22,22 @@ namespace ScaleoutBot
 
         private static WaterfallDialog CreateWaterfall()
         {
-            return new WaterfallDialog("root-waterfall", new WaterfallStep[] { Step1, Step2, Step3 });
+            return new WaterfallDialog("root-waterfall", new WaterfallStep[] { Step1Async, Step2Async, Step3Async });
         }
 
-        private static async Task<DialogTurnResult> Step1(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private static async Task<DialogTurnResult> Step1Async(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             return await stepContext.PromptAsync("number", new PromptOptions { Prompt = MessageFactory.Text("Enter a number.") }, cancellationToken);
         }
-        private static async Task<DialogTurnResult> Step2(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+
+        private static async Task<DialogTurnResult> Step2Async(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var first = (long)stepContext.Result;
             stepContext.Values["first"] = first;
             return await stepContext.PromptAsync("number", new PromptOptions { Prompt = MessageFactory.Text($"I have {first} now enter another number") }, cancellationToken);
         }
-        private static async Task<DialogTurnResult> Step3(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+
+        private static async Task<DialogTurnResult> Step3Async(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var first = (long)stepContext.Values["first"];
             var second = (long)stepContext.Result;

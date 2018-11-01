@@ -7,9 +7,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 
-namespace ScaleoutBot
+namespace Microsoft.BotBuilderSamples
 {
-    public class RefAccessor<T> : IStatePropertyAccessor<T> where T : class
+    /// <summary>
+    /// This is an accessor for any object. By definition objects (as opposed to values)
+    /// are returned by reference in the GetAsync call on the accessor. As such the SetAsync
+    /// call is never used. The actual act of saving any state to an external store therefore
+    /// cannot be encapsulated in the Accessor implementation itself. And so to facilitate this
+    /// the state itself is available as a public property on this class. The reason its here is
+    /// because the caller of the constructor could pass in null for the state, in which case
+    /// the factory provided on the GetAsync call will be used.
+    /// </summary>
+    /// <typeparam name="T">The type of the object this Accessor Gets.</typeparam>
+    public class RefAccessor<T> : IStatePropertyAccessor<T>
+        where T : class
     {
         public RefAccessor(T value)
         {
@@ -19,11 +30,6 @@ namespace ScaleoutBot
         public T Value { get; private set; }
 
         public string Name => nameof(T);
-
-        public Task DeleteAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            throw new NotImplementedException();
-        }
 
         public Task<T> GetAsync(ITurnContext turnContext, Func<T> defaultValueFactory = null, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -38,12 +44,20 @@ namespace ScaleoutBot
                     Value = defaultValueFactory();
                 }
             }
+
             return Task.FromResult(Value);
+        }
+
+        #region Not Implemented
+        public Task DeleteAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            throw new NotImplementedException();
         }
 
         public Task SetAsync(ITurnContext turnContext, T value, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }

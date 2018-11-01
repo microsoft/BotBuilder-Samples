@@ -7,14 +7,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace ScaleoutBot
+namespace Microsoft.BotBuilderSamples
 {
+    /// <summary>
+    /// A thread safe implementation of the IStore abstraction intended for testing.
+    /// </summary>
     public class MemoryStore : IStore
     {
-        IDictionary<string, (JObject, string)> _store = new Dictionary<string, (JObject, string)>();
-        SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
+        private IDictionary<string, (JObject, string)> _store = new Dictionary<string, (JObject, string)>();
+        private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
 
-        public async Task<(JObject content, string eTag)> LoadAsync(string key)
+        public async Task<(JObject content, string etag)> LoadAsync(string key)
         {
             try
             {
@@ -24,6 +27,7 @@ namespace ScaleoutBot
                 {
                     return value;
                 }
+
                 return new ValueTuple<JObject, string>(null, null);
             }
             finally
@@ -45,6 +49,7 @@ namespace ScaleoutBot
                         return false;
                     }
                 }
+
                 _store[key] = (content, Guid.NewGuid().ToString());
                 return true;
             }

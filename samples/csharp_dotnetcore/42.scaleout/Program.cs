@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace ScaleoutBot
+namespace Microsoft.BotBuilderSamples
 {
     public class Program
     {

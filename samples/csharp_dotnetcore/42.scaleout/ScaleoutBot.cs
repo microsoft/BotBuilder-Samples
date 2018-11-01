@@ -1,26 +1,43 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace ScaleoutBot
+namespace Microsoft.BotBuilderSamples
 {
-    public class MyBot : IBot
+    /// <summary>
+    /// Represents a bot that processes incoming Activities.
+    /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
+    /// </summary>
+    public class ScaleoutBot : IBot
     {
         private IStore _store;
         private Dialog _rootDialog;
 
-        public MyBot(IStore store, Dialog rootDialog)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScaleoutBot"/> class.
+        /// </summary>
+        /// <param name="store">The store we will be using. Created through dependency injection.</param>
+        /// <param name="rootDialog">The root dialog to run. Created through the dependency injection.</param>
+        public ScaleoutBot(IStore store, Dialog rootDialog)
         {
             _store = store;
             _rootDialog = rootDialog;
         }
 
+        /// <summary>
+        /// This bot runs Dialogs that send message Activites in a way that can be scaled out with a multi-machine deployment.
+        /// The bot logic makes use of the standard HTTP ETag/If-Match mechanism for optimistic locking. This mechanism
+        /// is commonly supported on cloud storage technologies from multiple vendors including teh Azure Blob Storage
+        /// service. A full implementation against Azure Blob Storage is included in this sample.
+        /// </summary>
+        /// <param name="turnContext">The ITurnContext object created by the integration layer.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A task.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Create the storage key for this conversation.
@@ -46,6 +63,7 @@ namespace ScaleoutBot
                         // This is an actual send on the TurnContext we were given and so will actual do a send this time.
                         await turnContext.SendActivitiesAsync(activities);
                     }
+
                     break;
                 }
             }
