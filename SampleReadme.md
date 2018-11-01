@@ -31,7 +31,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ## Configure Services
 
 ### Using CLI Tools
-- If you have not already you can install all of the Bot Builder Tools with this command 
+- If you have not already, you can install all of the Bot Builder Tools with this command:
 ```bash
 npm install -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen
 ```
