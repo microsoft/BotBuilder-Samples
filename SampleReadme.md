@@ -78,7 +78,125 @@ msbot secret --new
 **NOTES:** 
 - More info and options regarding encrypting you .bot file [here](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/MSBot/docs/bot-file-encryption.md)
 ### Manual Setup Using Portal(s)
-<BOT FILE EXAMPLE>
+If you would not like to use the CLI tools to create your .bot file you can manually create one then copy and paste your ID's and keys in from the portals for the services used.
+
+When you are complete yout .bot file will look like this:
+```javascript
+{
+    "name": "",
+    "description": "",
+    "services": [
+        {
+            "type": "abs",
+            "id": "100",
+            "name": "",
+            "tenantId": "7",
+            "subscriptionId": "",
+            "resourceGroup": "",
+            "serviceName": "",
+            "appId": ""
+        },
+      {
+        "type": "endpoint",
+        "id": "1",
+        "name": "development",
+        "appId": "",
+        "appPassword": "",
+        "endpoint": "http://localhost:3978/api/messages"
+      },
+        {
+            "type": "blob",
+            "id": "2",
+            "name": "",
+            "serviceName": "",
+            "tenantId": "",
+            "subscriptionId": "",
+            "resourceGroup": "ent67",
+            "connectionString": "",
+            "container": ""
+        },
+        {
+            "type": "appInsights",
+            "tenantId": "",
+            "subscriptionId": "",
+            "resourceGroup": "",
+            "name": "",
+            "serviceName": "",
+            "instrumentationKey": "",
+            "applicationId": "",
+            "apiKeys": {},
+            "id": "3"
+        },
+        {
+            "type": "cosmosdb",
+            "id": "8",
+            "name": "",
+            "serviceName": "",
+            "tenantId": "",
+            "subscriptionId": "",
+            "resourceGroup": "",
+            "endpoint": "https://ent67.documents.azure.com:443/",
+            "key": "",
+            "database": "",
+            "collection": ""
+        },
+        {
+            "type": "generic",
+            "id": "5",
+            "name": "ContentModerator",
+            "url": "",
+            "configuration": {
+                "key": "",
+                "region": ""
+            }
+        },
+        {
+            "type": "generic",
+            "id": "364",
+            "name": "Authentication",
+            "url": "",
+            "configuration": {
+                "Azure Active Directory v2": ""
+            }
+        },
+        {
+            "type": "luis",
+            "name": "",
+            "appId": "",
+            "authoringKey": "",
+            "subscriptionKey": "",
+            "version": "0.1",
+            "region": "westus",
+            "id": "120"
+        },
+        {
+            "type": "qna",
+            "name": "",
+            "id": "85",
+            "kbId": "",
+            "subscriptionKey": "",
+            "endpointKey": "",
+            "hostname": "https://{APP NAME}.azurewebsites.net/qnamaker"
+        },
+        {
+            "type": "dispatch",
+            "serviceIds": [
+                "120",
+                "85"
+            ],
+            "name": "",
+            "appId": "",
+            "authoringKey": "",
+            "subscriptionKey": "",
+            "version": "Dispatch",
+            "region": "westus",
+            "id": "152"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0"
+}
+```
 
 ## Run this Sample
 
