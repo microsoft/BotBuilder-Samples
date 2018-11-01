@@ -101,7 +101,7 @@ namespace Microsoft.BotBuilderSamples
             var context = innerDc.Context;
 
             // Get on turn property through the property accessor.
-            var onTurnProperty = await _onTurnAccessor.GetAsync(context, () => new OnTurnProperty()).ConfigureAwait(false);
+            var onTurnProperty = await _onTurnAccessor.GetAsync(context, () => new OnTurnProperty());
 
             // Evaluate if the requested operation is possible/ allowed.
             var activeDialog = (innerDc.ActiveDialog != null) ? innerDc.ActiveDialog.Id : string.Empty;
