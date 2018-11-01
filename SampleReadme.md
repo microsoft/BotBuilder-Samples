@@ -76,7 +76,7 @@ msbot connect luis --name "My Luis Model" --appId {APP-ID} --version v0.1 --auth
 msbot secret --new
 ```
 **NOTES:** 
-- More info and options regarding encrypting you .bot file [here](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/MSBot/docs/bot-file-encryption.md)
+- More information about and options for encrypting your .bot file can be found [here](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/MSBot/docs/bot-file-encryption.md).
 ### Manual Setup Using Portal(s)
 If you would not like to use the CLI tools to create your .bot file you can manually create one then copy and paste your ID's and keys in from the portals for the services used.
 
