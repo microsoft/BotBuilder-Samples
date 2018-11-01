@@ -66,9 +66,9 @@ class BasicBot {
     if (!luisConfig || !luisConfig.appId) throw ('Missing LUIS configuration. Please follow README.MD to create required LUIS applications.\n\n');
     this.luisRecognizer = new LuisRecognizer({
       applicationId: luisConfig.appId,
-      azureRegion: luisConfig.region,
       // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
-      endpointKey: luisConfig.authoringKey
+      endpointKey: luisConfig.authoringKey,
+      endpoint: luisConfig.getEndpoint()
     });
 
     // Create the property accessors for user and conversation state
