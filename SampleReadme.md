@@ -236,7 +236,7 @@ az group delete --name {RESOURCE GROUP NAME}
 ```
 - To deprovision your bot using the Azure Portal:
     - Search for your resource group in the Azure portal.
-    - Click on the "..." to the left side of the resource group
+    - Click on the "..." to the left side of the resource group.
     - Select delete and follow the prompt
 
 # Further Reading
