@@ -84,12 +84,19 @@ class HomeAutomation {
         // Find any additional device properties specified.
         const deviceProperties = findEntities(DEVICE_PROPERTY_ENTITY, homeAutoResults.entities);
         const numberProperties = findEntities(NUMBER_ENTITY, homeAutoResults.entities);
-        // Update device state.
-        await this.state.setDevice((devices || devicesPatternAny), (rooms || roomsPatternAny), operations[0], (deviceProperties || numberProperties), context);
-        await context.sendActivity(`You reached the "HomeAutomation" dialog.`);
-        await context.sendActivity(`Here's the current snapshot of your prior operations`);
-        // read out operations list
-        await context.sendActivity(await this.state.getDevices(context));
+
+        if (operations === undefined) {
+            await context.sendActivity(`You reached the "HomeAutomation" dialog. However you need to specific an operation, for example turn on bedroom light`);
+        }
+        else {
+            // Update device state.
+            await this.state.setDevice((devices || devicesPatternAny), (rooms || roomsPatternAny), operations[0], (deviceProperties || numberProperties), context);
+            await context.sendActivity(`You reached the "HomeAutomation" dialog.`);
+            await context.sendActivity(`Here's the current snapshot of your prior operations`);
+            // read out operations list
+            await context.sendActivity(await this.state.getDevices(context));
+        }
+
     }
 };
 

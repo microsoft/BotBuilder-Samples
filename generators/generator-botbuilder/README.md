@@ -3,10 +3,10 @@ Yeoman generator for [Microsoft Bot Framework][1].  Will let you quickly set up 
 using core AI capabilities.
 
 # About
-generator-botbuilder will help you build new converstational AI bots using the [Microsoft Bot Framework][1].
+generator-botbuilder will help you build new conversational AI bots using the [Microsoft Bot Framework][1].
 
 # Features
-The generator supports two different templates.  The features the generator produces depends on the template you choose.  The `Echo` template produces a "Hello World!" capable bot.  It is the simpliest bot you can write, providing the minimal features required by a bot.  The `Basic` template builds on the capabilities of the `Echo` template and add features typically found in most every bot.  Here is a table that shows what features exist in the different templates.
+The generator supports two different templates.  The features the generator produces depends on the template you choose.  The `Echo` template produces a "Hello World!" capable bot.  It is the simplest bot you can write, providing the minimal features required by a bot.  The `Basic` template builds on the capabilities of the `Echo` template and add features typically found in most every bot.  Here is a table that shows what features exist in the different templates.
 
 |  Feature  |  Echo   |  Basic  |
 | --------- | :-----: | :-----: |
@@ -66,8 +66,8 @@ The generator supports a number of commandline options that can be used to chang
 | --botname, -N     | The name given to the bot project |
 | --description, -D | A brief bit of text that describes the purpose of your bot |
 | --language, -L    | The programming language the generator should use to generate the project.  Supported options are JavaScript or TypeScript. |
-| --template, -T    | The template used to generate your project.  Supported options are `echo` which is the simpliest bot you can build, or `basic` which contains a core set of AI capabilities demonstrating basic bot functionality. |
-| --noprompt        | If passed on the command-line, will tell the generator to *not* prompt the user for any information.  This option is intented to allow automated bot generation for testing purposes. *NOTE* when using the --noprompt option, if no template is specified, the `basic` template is used.|
+| --template, -T    | The template used to generate your project.  Supported options are `echo` which is the simplest bot you can build, or `basic` which contains a core set of AI capabilities demonstrating basic bot functionality. |
+| --noprompt        | If passed on the command-line, will tell the generator to *not* prompt the user for any information.  This option is intended to allow automated bot generation for testing purposes. *NOTE* when using the --noprompt option, if no template is specified, the `basic` template is used.|
 
 ## Generating a project using --noprompt
 In the following example, all required options are specified on the command-line.  In addition, passing the `--noprompt` option will cause the
@@ -90,7 +90,7 @@ The table below describes the reasonable set of defaults used when `--noprompt` 
 | Commandline Option | Description |
 | ------------------ | ----------- |
 | --botname, -N      | `myChatBot` |
-| --description, -D  | `Demonstrate the core capabilties of the Microsoft Bot Framework` |
+| --description, -D  | `Demonstrate the core capabilities of the Microsoft Bot Framework` |
 | --language, -L     | `JavaScript` |
 | --template, -T     | `basic` |
 
@@ -110,7 +110,7 @@ Launch the [Microsoft Bot Framework Emulator][3] and open the generated project'
 Once the Emulator is connected, you can interact with and receive messages from your bot.
 
 ## Developing your bot locally
-It's often easeier to develop the capabilities of your bot locally, and to use the Microsoft Bot Framework Emulator to test your changes.  When the generator generated your bot project it added a file watcher to the project.  When run, the watcher which will cause nodejs to reload the bot whenever any of the bot's files change.  Causing nodejs to reload your bot under these circumstances will ensure you are always running the latest version of your bot.  Enable the watch feature by typing the following in your conole:
+It's often easier to develop the capabilities of your bot locally, and to use the Microsoft Bot Framework Emulator to test your changes.  When the generator generated your bot project it added a file watcher to the project.  When run, the watcher which will cause nodejs to reload the bot whenever any of the bot's files change.  Causing nodejs to reload your bot under these circumstances will ensure you are always running the latest version of your bot.  Enable the watch feature by typing the following in your console:
 
 ```bash
 # From the directory that contains your bot

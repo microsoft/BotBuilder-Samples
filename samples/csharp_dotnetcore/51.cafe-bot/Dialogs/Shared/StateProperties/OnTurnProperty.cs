@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Bot.Builder;
 using Newtonsoft.Json.Linq;
 

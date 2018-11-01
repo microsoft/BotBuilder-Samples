@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// bot.js is your main bot dialog entry point for handilng activity types
+// bot.js is your main bot dialog entry point for handling activity types
 
 // Import required Bot Builder
 const { ActivityTypes, CardFactory } = require('botbuilder');
@@ -66,9 +66,9 @@ class BasicBot {
     if (!luisConfig || !luisConfig.appId) throw ('Missing LUIS configuration. Please follow README.MD to create required LUIS applications.\n\n');
     this.luisRecognizer = new LuisRecognizer({
       applicationId: luisConfig.appId,
-      azureRegion: luisConfig.region,
       // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
-      endpointKey: luisConfig.authoringKey
+      endpointKey: luisConfig.authoringKey,
+      endpoint: luisConfig.getEndpoint()
     });
 
     // Create the property accessors for user and conversation state
@@ -118,7 +118,7 @@ class BasicBot {
         if (dc.activeDialog !== undefined) {
           // issue a re-prompt on the active dialog
           dialogResult = await dc.repromptDialog();
-        } // Else: We dont have an active dialog so nothing to continue here.
+        } // Else: We don't have an active dialog so nothing to continue here.
       } else {
         // No interruption. Continue any active dialogs.
         dialogResult = await dc.continueDialog();
@@ -195,7 +195,7 @@ class BasicBot {
   async isTurnInterrupted(dc, luisResults) {
     const topIntent = LuisRecognizer.topIntent(luisResults);
 
-    // see if there are anh conversation interrupts we need to handle
+    // see if there are any conversation interrupts we need to handle
     if (topIntent === CANCEL_INTENT) {
       if (dc.activeDialog) {
         // cancel all active dialog (clean the stack)

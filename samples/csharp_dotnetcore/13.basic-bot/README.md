@@ -57,12 +57,12 @@ Your project may be configured to rely on this secret and you should update it a
             ...
 ```
 
- 7. Update <YOUR_BOT_NAME> in `BasicBot.cs'.
+ 7. Update "YOUR_LUIS_SERVICE_NAME" in `BasicBot.cs'.
  ```dotnet
      public class BasicBot : IBot
     {
        ...
-        public static readonly string LuisConfiguration = <YOUR_BOT_NAME> +  "basic-bot-LUIS";
+        public static readonly string LuisConfiguration = "YOUR_LUIS_SERVICE_NAME";
  ```
  8. Right click on the generated bot configuration file, click "Properties".
   - Ensure "Copy to Output Directory" is set to "Copy always".

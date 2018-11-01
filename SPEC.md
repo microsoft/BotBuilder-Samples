@@ -90,21 +90,20 @@ This specification outlines the requirements for botbuilder samples.
 
 # Concepts introduced in this sample
 <DESCRIPTION OF THE CONCEPTS>
--    Services used in this sample
-    <INTRODUCE SERVICES>
+- Services used in this sample
+- - <INTRODUCE SERVICES>
 
 # To try this sample
-
 
 ## Prerequisites
 
 ###	Required Tools
--   <Required TOOLS WITH MINIMUM VERSION NUMBERS>
+- <Required TOOLS WITH MINIMUM VERSION NUMBERS>
 
 ### Clone the repo
--	<STEPS TO CLONE REPO>
+- <STEPS TO CLONE REPO>
 
-NOTE: <ANY NOTES ABOUT THE PREREQUISITES OR ALTERNATE THINGS TO CONSIDER TO GET SET UP>
+**NOTE:** <ANY NOTES ABOUT THE PREREQUISITES OR ALTERNATE THINGS TO CONSIDER TO GET SET UP>
 
 ## Configure Services
 
@@ -113,14 +112,13 @@ NOTE: <ANY NOTES ABOUT THE PREREQUISITES OR ALTERNATE THINGS TO CONSIDER TO GET 
 ### Use portals (Manual)
 <BOT FILE EXAMPLE>
 
-##Run the Sample
+## Run the Sample
 
-### Visual studio
--	<STEPS TO RUN THIS SAMPLE FROM VISUAL STUDIO>
+### Visual Studio
+- <STEPS TO RUN THIS SAMPLE FROM VISUAL STUDIO>
 
-### Visual studio code
--	<STEPS TO RUN THIS SAMPLE FROM VISUAL STUDIO CODE>
-
+### Visual Studio Code
+- <STEPS TO RUN THIS SAMPLE FROM VISUAL STUDIO CODE>
 
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
@@ -129,21 +127,20 @@ NOTE: <ANY NOTES ABOUT THE PREREQUISITES OR ALTERNATE THINGS TO CONSIDER TO GET 
 
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
-- File -> Open bot 
-- Navigate to .bot file
+- From the *File* menu select *Open Bot Configuration*
+- Navigate to your `.bot` file
 
-
-##Deploy to Azure
+## Deploy to Azure
 
 ### Using CLI Tools
 
 ### Deploy from Visual Studio
 
 ### Deprovision your bot
--    <STEPS TO DEPROVISION>
+- <STEPS TO DEPROVISION>
 
 # Further reading
--	<LINKS TO ADDITIONAL READING>
+- <LINKS TO ADDITIONAL READING>
 ```
 
 ## Samples repo structure, naming conventions

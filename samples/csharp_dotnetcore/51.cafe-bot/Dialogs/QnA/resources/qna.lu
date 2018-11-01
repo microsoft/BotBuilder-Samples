@@ -1,0 +1,82 @@
+> QnA Pairs for cafe bot
+> Check out https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown to learn more about .lu files and Ludown.
+
+## ? What are your locations
+```markdown
+We have Cafe locations in Redmond, Seattle, Renton and Bellevue
+```
+
+## ? What are your store hours
+- store hours
+- timings
+```markdown
+Most cafe locations are open 8AM through 10PM local Pacific time. 
+```
+
+## ? who is your CEO
+- who owns contoso cafe
+```markdown
+Joshua Newmann is the CEO of Contoso Cafe
+```
+
+## ? Are you hiring
+- Do you have job openings?
+- are you looking for a barrista
+- can i come work for contoso cafe?
+```markdown
+You bet, we always are. Please visit http://contosocafe.com/careers
+```
+
+## ? Do you have Wifi?
+- Wifi access
+- wifi access at your stores? 
+- how about wifi access in your stores? 
+- do you offer free wifi?
+```markdown
+Absolutely. All our stores offer free wi-fi so you can stay connected and enjoy a cup of coffee! 
+```
+
+## ? Free parking?
+- do you offer parking? 
+- is free parking available? 
+- how about free parking at your stores? 
+```markdown
+Yes. All our stores offer free parking for guests.
+```
+
+## ? high chair?
+- do you have high chair for kids? 
+- can i bring my kids?
+- do you have high chairs?
+- is it ok to bring my son?
+- can i bring my daughter along?
+```markdown
+Guests all age are welcome at Contoso Cafe! We offer convenient seating for all age groups and can provide high chairs if needed. We are more than happy to accommodate your needs while you are here. Just let one of the staff know! 
+```
+> Alterations
+$child : qna-alterations=
+- kid
+- kiddo
+- children
+- son
+- daughter
+- grand son
+- grand daughter
+- grandson
+
+## ? what's your layout?
+- so what's your store's layout? 
+- typical layout of your coffee shops
+- what is your store layout
+- what is the layout of your stores?
+- does 
+```markdown
+Sure.  We have general seating area that can accommodate up to 50 guests at a time. We also feature comfortable coaches, chairs, tables and barstools in our cafe.  Oh and we have electrical outlets just about everywhere we could possible shove them.
+```
+
+## ? I hear you have live music.  
+- entertainment options
+- live music
+```markdown
+We try to.  Know a great local musician that wants to play on a Friday night?  Have them call our Seattle store at 425-707-9088 and ask for Vishwac.
+```

@@ -12,7 +12,7 @@ Use the Dispatch model in cases when:
 # To try this sample
 - Clone the repository
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-js.git
+    git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 - In a terminal, 
     ```bash

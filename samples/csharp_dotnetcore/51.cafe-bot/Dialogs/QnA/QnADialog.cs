@@ -38,7 +38,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 // No answer found.
                 await dc.Context.SendActivityAsync("I'm still learning... Sorry, I do not know how to help you with that.");
-                await dc.Context.SendActivityAsync("Follow[this link](https://www.bing.com/search?q=${dc.context.activity.text}) to search the web!");
+                await dc.Context.SendActivityAsync($"Follow[this link](https://www.bing.com/search?q={dc.Context.Activity.Text}) to search the web!");
             }
             else
             {

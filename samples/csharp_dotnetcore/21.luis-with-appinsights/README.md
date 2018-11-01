@@ -53,12 +53,12 @@ Your project may be configured to rely on this secret and you should update it a
             ...
 ```
 
- 7. Update <YOUR_BOT_NAME> in `botbuilder-samples\samples\csharp_dotnetcore\21.luis-with-appsinsights\LuisBot.cs'.
+ 7. Update "YOUR_LUIS_SERVICE_NAME" in `botbuilder-samples\samples\csharp_dotnetcore\21.luis-with-appsinsights\LuisBot.cs'.
  ```dotnet
      public class LuisBot : IBot
     {
        ...
-        public static readonly string LuisKey = <YOUR_BOT_NAME> + "_LuisBot";
+        public static readonly string LuisKey = "YOUR_LUIS_SERVICE_NAME";
  ```
  8. Right click on the generated bot configuration file, click "Properties".
   - Ensure "Copy to Output Directory" is set to "Copy always".
