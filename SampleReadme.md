@@ -212,7 +212,7 @@ Once you are finished, your .bot file should look similar to this:
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the Bot Framework emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases).
 
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
