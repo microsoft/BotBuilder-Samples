@@ -180,7 +180,7 @@ namespace NLP_With_Dispatch_Bot
         {
             if (!string.IsNullOrEmpty(context.Activity.Text))
             {
-                var results = await _services.QnAServices[appName].GetAnswersAsync(context).ConfigureAwait(false);
+                var results = await _services.QnAServices[appName].GetAnswersAsync(context);
                 if (results.Any())
                 {
                     await context.SendActivityAsync(results.First().Answer, cancellationToken: cancellationToken);
