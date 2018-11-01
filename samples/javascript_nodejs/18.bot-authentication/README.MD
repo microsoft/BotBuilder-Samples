@@ -45,7 +45,9 @@ npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
 
 To clone this bot, run
 ```
-msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id> --sdkLanguage Node 
+az bot show --msbot | msbot connect bot --stdin
+az bot publish --code-dir . --proj-file ""
 ```
 
 # Further reading
