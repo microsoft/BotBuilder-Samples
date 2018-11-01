@@ -80,7 +80,7 @@ msbot secret --new
 ### Manual Setup Using Portal(s)
 If you would not like to use the CLI tools to create your .bot file, you can manually create one and copy and paste your ID's and keys in from the portals for the services used.
 
-When you are complete yout .bot file will look like this:
+Once you are finished, your .bot file should look similar to this:
 ```javascript
 {
     "name": "",
