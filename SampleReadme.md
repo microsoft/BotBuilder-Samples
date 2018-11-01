@@ -230,7 +230,7 @@ msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-loc
 - Select publish
 - Follow the steps in the prompt
 ### Deprovision your bot
-- Using CLI Tools 
+- To deprovision your bot using the CLI tools :
 ```bash
 az group delete --name {RESOURCE GROUP NAME}
 ```
