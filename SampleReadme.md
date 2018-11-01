@@ -42,7 +42,7 @@ msbot init --name {NAME OF YOUR BOT} --endpoint {ENDPOINT FOR YOUR BOT}
 ```
 **NOTES:** 
 - This sample is preconfigured to use http://localhost:3978/api/messages as the endpoint for local development.
-- For additional options when generating a .bot file see [here](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/MSBot/docs/create-bot.md)
+- For additional options when generating a .bot file, see [here](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/MSBot/docs/create-bot.md).
 #### Add Services
 **NOTE** If you want to add these services and provision the resources all in one step please see the [Deploy to Azure](#deploy-to-azure) Section
 
