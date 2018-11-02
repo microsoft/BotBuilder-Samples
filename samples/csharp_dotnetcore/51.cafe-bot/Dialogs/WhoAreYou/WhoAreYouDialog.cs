@@ -84,8 +84,8 @@ namespace Microsoft.BotBuilderSamples
                 turnCounterAccessor,
                 async (promptContext, cancellationToken) =>
                 {
-                    var userProfile = await userProfileAccessor.GetAsync(promptContext.Context).ConfigureAwait(false);
-                    var counter = await turnCounterAccessor.GetAsync(promptContext.Context).ConfigureAwait(false);
+                    var userProfile = await userProfileAccessor.GetAsync(promptContext.Context);
+                    var counter = await turnCounterAccessor.GetAsync(promptContext.Context);
 
                     // Prompt validator
                     // Examine if we have a user name and validate it.
@@ -96,10 +96,10 @@ namespace Microsoft.BotBuilderSamples
                         {
                             await promptContext.Context.SendActivityAsync("Sorry, I can only accept two words for a name.");
                             await promptContext.Context.SendActivityAsync("You can always say 'My name is <your name>' to introduce yourself to me.");
-                            await userProfileAccessor.SetAsync(promptContext.Context, new UserProfile("Human")).ConfigureAwait(false);
+                            await userProfileAccessor.SetAsync(promptContext.Context, new UserProfile("Human"));
 
                             // Set updated turn counter
-                            await turnCounterAccessor.SetAsync(promptContext.Context, counter).ConfigureAwait(false);
+                            await turnCounterAccessor.SetAsync(promptContext.Context, counter);
                             return false;
                         }
                         else
@@ -108,7 +108,7 @@ namespace Microsoft.BotBuilderSamples
                             userProfile.UserName = char.ToUpper(userProfile.UserName[0]) + userProfile.UserName.Substring(1);
 
                             // Create user profile and set it to state.
-                            await userProfileAccessor.SetAsync(promptContext.Context, userProfile).ConfigureAwait(false);
+                            await userProfileAccessor.SetAsync(promptContext.Context, userProfile);
                             return true;
                         }
                     }

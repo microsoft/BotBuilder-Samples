@@ -8,6 +8,11 @@
       "url": "http://localhost:3978/api/messages"
     },
     {
+      "type": "qna",
+      "id": "34",
+      "name": "qnamaker-QNA"
+    },
+    {
       "type": "endpoint",
       "id": "2",
       "name": "production",

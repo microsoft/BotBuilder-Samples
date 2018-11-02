@@ -1,0 +1,32 @@
+{
+    "name": "asp-mvc-bot",
+    "description": "",
+    "services": [
+      {
+        "type": "endpoint",
+        "name": "bot1 development",
+        "endpoint": "http://localhost:3978/bot1",
+        "appId": "",
+        "appPassword": "",
+        "id": "1"
+      },
+      {
+        "type": "endpoint",
+        "name": "bot2 development",
+        "endpoint": "http://localhost:3978/bot2",
+        "appId": "",
+        "appPassword": "",
+        "id": "2"
+      },
+      {
+        "type": "endpoint",
+        "name": "bot3 development",
+        "endpoint": "http://localhost:3978/bot3",
+        "appId": "",
+        "appPassword": "",
+        "id": "3"
+      }
+    ],
+    "padlock": "",
+    "version": "2.0"
+}

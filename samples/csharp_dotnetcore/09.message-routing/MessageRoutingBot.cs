@@ -134,7 +134,7 @@ namespace Microsoft.BotBuilderSamples
                         {
                             var welcomeCard = CreateAdaptiveCardAttachment();
                             var response = CreateResponse(activity, welcomeCard);
-                            await dc.Context.SendActivityAsync(response).ConfigureAwait(false);
+                            await dc.Context.SendActivityAsync(response);
                         }
                     }
                 }
