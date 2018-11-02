@@ -131,8 +131,6 @@ namespace Microsoft.BotBuilderSamples
                 return Task.FromResult(true);
             }
 
-            // Not calling End indicates validation failure. This will trigger a RetryPrompt if one has been defined.
-
             // Note you are free to do async IO from within a validator. Here we had no need so just complete.
             return Task.FromResult(false);
         }
