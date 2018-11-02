@@ -181,7 +181,7 @@ namespace Microsoft.BotBuilderSamples
             }
             else
             {
-                await promptContext.Context.SendActivityAsync($"Names needs to be at least `{NameLengthMinValue}` characters long.").ConfigureAwait(false);
+                await promptContext.Context.SendActivityAsync($"Names needs to be at least `{NameLengthMinValue}` characters long.");
                 return false;
             }
         }
@@ -204,7 +204,7 @@ namespace Microsoft.BotBuilderSamples
             }
             else
             {
-                await promptContext.Context.SendActivityAsync($"City names needs to be at least `{CityLengthMinValue}` characters long.").ConfigureAwait(false);
+                await promptContext.Context.SendActivityAsync($"City names needs to be at least `{CityLengthMinValue}` characters long.");
                 return false;
             }
         }
