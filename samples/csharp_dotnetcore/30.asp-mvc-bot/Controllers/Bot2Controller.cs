@@ -18,7 +18,7 @@ namespace Microsoft.BotBuilderSamples
     [Route("bot2")]
     public class Bot2Controller : BotControllerBase
     {
-        private BotConfiguration _botConfig;
+        private readonly BotConfiguration _botConfig;
 
         public Bot2Controller(BotConfiguration botConfig)
         {
