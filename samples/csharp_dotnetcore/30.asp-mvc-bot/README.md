@@ -1,6 +1,7 @@
 ﻿This sample demonstrates a how to build a bot with ASP.Net Core 2 MVC. Each bot is implemented as an MVC Controller.
 
-Other than the obvious advantages of simplicity and familiarity, this arrangement allows the application to leverage more of ASP framework including such things as [routing](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-2.1). It is also easy to free mix and match bot implementation with more typical web development, and significantly, it is easy to host multiple bots running at different endpoints in the same project.
+Other than the obvious advantages of simplicity and familiarity, this arrangement allows the application to leverage more of ASP framework including such things as [routing](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-2.1).
+It is also easy to freely mix and match bot implementation with more typical web development, and significantly, it is easy to host multiple bots running at different endpoints in the same project.
 
 This approach aligns with the regular ASP development methodology. For example, [dependency injection](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1) is something the application developer can opt into over time rather than being forced into on day one.
 
