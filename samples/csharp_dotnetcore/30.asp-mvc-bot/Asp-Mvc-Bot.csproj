@@ -13,8 +13,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.0.7" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.0.7" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.1.1" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.1.1" />
     <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />

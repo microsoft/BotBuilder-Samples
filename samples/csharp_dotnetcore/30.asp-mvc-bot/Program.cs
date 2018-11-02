@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Asp_Mvc_Bot
+namespace Microsoft.BotBuilderSamples
 {
     public class Program
     {

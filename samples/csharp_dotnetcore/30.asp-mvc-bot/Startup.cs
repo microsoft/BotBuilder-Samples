@@ -8,7 +8,7 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Asp_Mvc_Bot
+namespace Microsoft.BotBuilderSamples
 {
     public class Startup
     {

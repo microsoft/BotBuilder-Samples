@@ -5,10 +5,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 
-namespace Asp_Mvc_Bot.Controllers
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// This is just a regular MVC Controller with the Bot Builder specific code moved into a base class.
@@ -17,13 +18,16 @@ namespace Asp_Mvc_Bot.Controllers
     [Route("bot3")]
     public class Bot3Controller : BotActivityControllerBase
     {
+        private BotConfiguration _botConfig;
+
         public Bot3Controller(BotConfiguration botConfig)
-            : base(botConfig, "bot3 development")
         {
-            Options.OnTurnError = async (context, exception) =>
-            {
-                await context.SendActivityAsync("Sorry, it looks like something went wrong in bot3.");
-            };
+            _botConfig = botConfig;
+        }
+
+        protected override IAdapterIntegration CreateAdapter()
+        {
+            return AdapterFactory.Create(_botConfig, "bot3");
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext turnContext, CancellationToken cancellationToken)

@@ -4,11 +4,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Integration;
-using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 
-namespace Asp_Mvc_Bot
+namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// It is common practice to switch on the type of inbound Activity in the bot logic. This class implements that
@@ -16,16 +14,6 @@ namespace Asp_Mvc_Bot
     /// </summary>
     public class BotActivityControllerBase : BotControllerBase
     {
-        protected BotActivityControllerBase(BotFrameworkOptions options = null)
-            : base(options)
-        {
-        }
-
-        protected BotActivityControllerBase(BotConfiguration botConfig, string name)
-            : base(botConfig, name)
-        {
-        }
-
         /// <summary>
         /// This is an implementation of OnTurnAsync that provides the typical switch on Activity type.
         /// </summary>

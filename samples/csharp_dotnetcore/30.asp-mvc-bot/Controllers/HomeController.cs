@@ -3,7 +3,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace Asp_Mvc_Bot.Controllers
+namespace Microsoft.BotBuilderSamples
 {
     public class HomeController : Controller
     {
