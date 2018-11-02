@@ -28,7 +28,7 @@ You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Build
 To clone this bot, run
 
 ```bash
-msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id> --appId <APP-ID> --appSecret <APP-SECRET>
 ```
 
 # Testing the bot using Bot Framework Emulator V4
