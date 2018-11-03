@@ -69,6 +69,9 @@ To use the samples clone this GitHub repository using Git.
 |24.bot-auth-msgraph    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[View][cs#24] |[View][js#24] |              |             | |
 |25.bot-logging    | This bot demonstrates the logging middleware in the nodejs SDK| |[View][js#25] |              |             | |
 |26.bot-transcript-logging    | This bot demonstrates the transcript logging middleware in the nodejs SDK| |[View][js#26] |              |             | |
+|30.asp-mvc-bot         | Demonstrates how to build a bot as an ASP.NET MVC Controller |[View][cs#30] ||              | | |
+|40.timex-resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[View][cs#40] |:runner:|              | | |
+|42.scaleout            | Demonstrates how you can build your own state solution from the ground up that supports scaled out deployment with ETag based optimistic locking. |[View][cs#42] |:runner:|              | | |
 |50.diceroller-skill    | This sample demonstrates how to implement a Cortana Skill that properly handles EndOfConversation events.|:runner: |[View][js#50] |              |             | |
 |51.cafe-bot            | A complete E2E Cafe bot that has all capabilities and includes best practices|[View][cs#51]|[View][js#51]|              |             | |
 |52.enterprise-bot      | Enterprise bot that demonstrates use of Dialogs, Template Manager, Dispatch across different services and implementing custom middleware.| [View][cs#52] |           |              |             | [View][ts#52] |
@@ -98,6 +101,9 @@ To use the samples clone this GitHub repository using Git.
 [cs#22]:samples/csharp_dotnetcore/22.conversation-history
 [cs#23]:samples/csharp_dotnetcore/23.facebook-events
 [cs#24]:samples/csharp_dotnetcore/24.bot-authentication-msgraph
+[cs#30]:samples/csharp_dotnetcore/30.asp-mvc-bot
+[cs#40]:samples/csharp_dotnetcore/40.timex-resolution
+[cs#42]:samples/csharp_dotnetcore/42.scaleout
 [cs#51]:samples/csharp_dotnetcore/51.cafe-bot
 [cs#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
 
@@ -140,6 +146,9 @@ To use the samples clone this GitHub repository using Git.
 
 [js#23]:samples/javascript_nodejs/23.facebook-events
 [js#24]:samples/javascript_nodejs/24.bot-authentication-msgraph
+
+[js#25]:samples/javascript_nodejs/25.logger-bot
+[js#26]:samples/javascript_nodejs/26.transcript-logger-bot
 
 [js#50]:samples/javascript_nodejs/50.diceroller-skill
 [js#51]:samples/javascript_nodejs/51.cafe-bot
