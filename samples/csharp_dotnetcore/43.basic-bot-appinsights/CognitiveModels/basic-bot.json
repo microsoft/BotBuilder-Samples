@@ -1,0 +1,729 @@
+﻿{
+  "intents": [
+    {
+      "name": "Cancel"
+    },
+    {
+      "name": "Greeting"
+    },
+    {
+      "name": "Help"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [
+    {
+      "name": "userName",
+      "roles": []
+    },
+    {
+      "name": "userLocation",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "please cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "quit",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "abort",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "don't do it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "don't do that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "i would like to cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "i will not give you my name",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "i won't give you my name",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no way, I won't give you my location",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "I'm not going to tell you where i live",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "I will not give you my location or name",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "no way",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "please stop",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "I'm bailing",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "good evening",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "good morning",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hello",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hello bot",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hey",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hey there",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hi",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hi bot",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hiya",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "how are you",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "how are you today",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "what's your name",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "who am i speaking to",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "who am i speaking with",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "who are you",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "yo",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "call me scott",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 8,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "dan",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "delhi",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 0,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "dhaka",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 0,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "i live in london",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 10,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "i reside in san francisco",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 12,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "i'm from georgia",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 9,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "i'm john from cairo",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 4,
+          "endPos": 7
+        },
+        {
+          "entity": "userLocation",
+          "startPos": 14,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "i'm lauren, and i'm from madrid",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 4,
+          "endPos": 9
+        },
+        {
+          "entity": "userLocation",
+          "startPos": 25,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "i'm lili",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 4,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "melanie",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "mumbai",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 0,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "my location is new york",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 15,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "my name is maria and i'm from sydney",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 11,
+          "endPos": 15
+        },
+        {
+          "entity": "userLocation",
+          "startPos": 30,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "my name is tom",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 11,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "paris",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 0,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "portland",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 0,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "seattle is my current city",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "shangai",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "tony is my name",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "toronto",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "vishwac is my name",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 0,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "you can assume i live in cairo",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userLocation",
+          "startPos": 25,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "you can call me steve",
+      "intent": "Greeting",
+      "entities": [
+        {
+          "entity": "userName",
+          "startPos": 16,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "what can you do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I'm lost",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "lost",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "confused",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "frustrated",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what are your capabilities",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help me",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "how do I interact with you",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help please",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i'm stuck",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i don't understand",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can I say",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can you help me with",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what do i do now",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "why doesn't this work",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "can you help me",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "spaghetti",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "gnocchi",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "her cat has no teeth",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "world wide pants",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i'd rather be riding my bike",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Cook me something",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Have you any dreams?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Dont you ever sleep?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Do you play games?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Can you fly?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "What's your age?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Are you old?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "How old are you?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Getting tired of you",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "I am tired of you",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "You are boring",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Who is your boss?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Are you busy?",
+      "intent": "None",
+      "entities": []
+    }
+  ],
+  "patterns": [
+
+    {
+      "pattern": "some people call me {userName_patternAny}",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "{userName_patternAny}.",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "i'm {userName_patternAny}",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "{userName_patternAny} is my name",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "my name is {userName_patternAny} and i'm from {userLocation_patternAny}",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "{userLocation_patternAny} is where i live",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "i'm from {userLocation_patternAny}",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "my name is {userName_patternAny}",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "i reside in {userLocation_patternAny}",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "you can call me {userName_patternAny}",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "you can assume i live in {userLocation_patternAny}",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "call me {userName_patternAny}",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "i live in {userLocation_patternAny}",
+      "intent": "Greeting"
+    },
+    {
+      "pattern": "i'm {userName_patternAny}[,] [and i'm] from {userLocation_patternAny}",
+      "intent": "Greeting"
+    }
+  ],
+  "patternAnyEntities": [
+    {
+      "name": "userName_patternAny",
+      "explicitList": [],
+      "roles": []
+    },
+    {
+      "name": "userLocation_patternAny",
+      "explicitList": [],
+      "roles": []
+    }
+  ],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "basic-bot-LUIS",
+  "desc": "A BotBuilder generated bot",
+  "culture": "en-us"
+}
