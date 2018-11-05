@@ -4,6 +4,8 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using BasicBot.Middleware.Telemetry;
+using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -95,6 +97,12 @@ namespace Microsoft.BotBuilderSamples
 
             if (string.IsNullOrWhiteSpace(greetingState.Name))
             {
+                // Log waterfall step
+                if (stepContext.Context.TurnState.TryGetValue(TelemetryLoggerMiddleware.AppInsightsServiceKey, out var telemetryClient))
+                {
+                    ((TelemetryClient)telemetryClient).TrackWaterfallStep(stepContext, stepFriendlyName: "Name");
+                }
+
                 // prompt for name, if missing
                 var opts = new PromptOptions
                 {
@@ -128,6 +136,12 @@ namespace Microsoft.BotBuilderSamples
 
             if (string.IsNullOrWhiteSpace(greetingState.City))
             {
+                // Log waterfall step
+                if (stepContext.Context.TurnState.TryGetValue(TelemetryLoggerMiddleware.AppInsightsServiceKey, out var telemetryClient))
+                {
+                    ((TelemetryClient)telemetryClient).TrackWaterfallStep(stepContext, stepFriendlyName: "City");
+                }
+
                 var opts = new PromptOptions
                 {
                     Prompt = new Activity
@@ -158,6 +172,12 @@ namespace Microsoft.BotBuilderSamples
                 // capitalize and set city
                 greetingState.City = char.ToUpper(lowerCaseCity[0]) + lowerCaseCity.Substring(1);
                 await UserProfileAccessor.SetAsync(stepContext.Context, greetingState);
+            }
+
+            // Log waterfall step for conversion!
+            if (stepContext.Context.TurnState.TryGetValue(TelemetryLoggerMiddleware.AppInsightsServiceKey, out var telemetryClient))
+            {
+                ((TelemetryClient)telemetryClient).TrackWaterfallStep(stepContext, stepFriendlyName: "GreetingComplete");
             }
 
             return await GreetUser(stepContext);
