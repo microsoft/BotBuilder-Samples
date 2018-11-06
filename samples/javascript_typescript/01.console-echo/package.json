@@ -12,11 +12,11 @@
   "author": "Microsoft",
   "license": "MIT",
   "dependencies": {
-    "botbuilder": "^4.0.6",
+    "botbuilder": "^4.1.5",
     "readline": "^1.3.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4",
+    "nodemon": "^1.18.6",
     "tslint": "^5.11.0",
     "tslint-microsoft-contrib": "^5.2.1"
   }

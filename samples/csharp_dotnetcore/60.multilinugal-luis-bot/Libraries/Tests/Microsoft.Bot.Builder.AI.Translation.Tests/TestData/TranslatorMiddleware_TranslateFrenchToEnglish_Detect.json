@@ -1,0 +1,22 @@
+[
+    {
+        "language": "fr",
+        "score": 1,
+        "isTranslationSupported": true,
+        "isTransliterationSupported": false,
+        "alternatives": [
+            {
+                "language": "ca",
+                "score": 1,
+                "isTranslationSupported": true,
+                "isTransliterationSupported": false
+            },
+            {
+                "language": "ro",
+                "score": 1,
+                "isTranslationSupported": true,
+                "isTransliterationSupported": false
+            }
+        ]
+    }
+]

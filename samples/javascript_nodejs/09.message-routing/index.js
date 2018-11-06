@@ -49,7 +49,7 @@ adapter.onTurnError = async (context, error) => {
     //       application insights.
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
-    context.sendActivity(`Oops. Something went wrong!`);
+    await context.sendActivity(`Oops. Something went wrong!`);
     // Clear out state
     await conversationState.clear(context);
     // Save state changes.
