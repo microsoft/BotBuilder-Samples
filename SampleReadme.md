@@ -7,18 +7,18 @@
 [Deploy to Azure](#deploy-to-azure)
 [Further Reading](#further-reading)
 
-# Concepts introduced in this sample
-<DESCRIPTION OF THE CONCEPTS>
 
-- Services used in this sample
+# Services used in this sample
 - [LUIS](https://luis.ai) for Natural Language Processing
+    -<name of model> model: <description of model, summarizing intents and entities recognized>
 - [QnA Maker](https://qnamaker.ai) for FAQ, chit-chat, getting help and other single-turn conversations
-- [Dispatch](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0&tabs=csharp) For multiple QnA and/or LUIS applications
-- [AppInsights](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-analytics?view=azure-bot-service-4.0) For Telemetry in your Bot
+    - <name of kb> knowledge base: <summary of questions it answers>
+- [Dispatch](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0&tabs=csharp) for multiple QnA and/or LUIS applications
+- [AppInsights](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-analytics?view=azure-bot-service-4.0) for Telemetry in your Bot
 
 # Prerequisites
 
-###	Required Tools
+###	Tools
 - [.NET Core SDK](https://www.microsoft.com/net/download/dotnet-core/2.1) version 2.1.403 or higher
 - [Node.js](https://www.microsoft.com/net/download/dotnet-core/2.1) version 8.5 or higher 
 - [Azure CLI tools](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) (Optional)
@@ -29,7 +29,7 @@
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 ## Configure Services
-
+**NOTE:**You can add services provision and deploy all in one step if you use the `msbot clone` command see [Using CLI Tools](using-cli-tools) in the [Deploy to Azure](deploy-to-azure) section
 ### Using CLI Tools
 - If you have not already, you can install all of the Bot Builder Tools with this command:
 ```bash
@@ -40,7 +40,7 @@ To create a .bot file, use the `init` command of MS bot.
 ```bash
 msbot init --name {NAME OF YOUR BOT} --endpoint {ENDPOINT FOR YOUR BOT}
 ```
-**NOTES:** 
+**NOTE:** 
 - This sample is preconfigured to use http://localhost:3978/api/messages as the endpoint for local development.
 - For additional options when generating a .bot file, see [here](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/MSBot/docs/create-bot.md).
 #### Add Services
@@ -57,12 +57,12 @@ msbot connect appinsights --name {YOUR APP NAME} --tenantId {YOUR TENANT ID} --s
 ```
 ##### [Dispatch](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/MSBot/docs/add-services.md#connecting-to-bot-dispatch)
 ```bash
-msbot connect dispatch --name {DISPATCH NAME} --appId {YOUR LUIS APP ID FOR DISPATCH} --version {VERSION NUMBER (ex: 0.1)} --subscriptionKey {YOUR SUBSCRIPTION KEY} ----authoringKey {YOUR AUTHORING KEY}
+msbot connect dispatch --name {DISPATCH NAME} --appId {YOUR LUIS APP ID FOR DISPATCH} --version {VERSION NUMBER (example: 0.1)} --subscriptionKey {YOUR SUBSCRIPTION KEY} ----authoringKey {YOUR AUTHORING KEY}
 ```
 
 ##### [QnA Maker](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/MSBot/docs/add-services.md#connecting-to-qna-maker-knowledge-base)
 ```bash
-msbot connect qna --secret EncryptItPlease --name "{QnA APP NAME}" --kbId {KB-ID} --subscriptionKey {KEY} --endpointKey {ENDPOINT-KEY} --hostname "https://{YOUR SITE}.azurewebsites.net"
+msbot connect qna --secret {EncryptItPlease} --name "{QnA APP NAME}" --kbId {KB-ID} --subscriptionKey {KEY} --endpointKey {ENDPOINT-KEY} --hostname "https://{YOUR SITE}.azurewebsites.net"
 ```
 
 ##### [LUIS](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/MSBot/docs/add-services.md#connecting-to-luis-application)
@@ -223,8 +223,20 @@ Once you are finished, your .bot file should look similar to this:
 
 ### Using CLI Tools
 ```bash
-msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> --noDecorate -l <Azure-location> --subscriptionId <Azure-subscription-id>
 ```
+**NOTES:**
+- Be sure to set you .bot file to be copied to output directory setting it in the properties
+    1. Right click the file in solution explorer and select properties
+    2. Set the "Copy to Output Directory" property to **Copy Always**
+- The value that is used in the `-n <BOT-NAME>` parameter will have to be used in the `appSettings.json` file 
+```json
+{
+  "botFilePath": "<BOT-NAME>.bot",
+  "botFileSecret": ""
+}
+```
+
 ### Deploy from Visual Studio
 - Right click on the project in viasual studio
 - Select publish
