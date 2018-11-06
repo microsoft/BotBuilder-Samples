@@ -1,0 +1,18 @@
+[
+    {
+        "translations": [
+            {
+                "text": "Hello",
+                "to": "en",
+                "sentLen": {
+                    "srcSentLen": [
+                        4
+                    ],
+                    "transSentLen": [
+                        5
+                    ]
+                }
+            }
+        ]
+    }
+]
