@@ -55,7 +55,7 @@ adapter.onTurnError = async (turnContext, error) => {
     // Load and then clear out state. This is to prevent the user from being stuck
     // in a conversation due to bad state.
     await conversationState.load(turnContext);
-    conversationState.clear(turnContext);
+    await conversationState.clear(turnContext);
     await conversationState.saveChanges(turnContext);
 };
 
