@@ -75,7 +75,6 @@ To use the samples clone this GitHub repository using Git.
 |50.diceroller-skill    | This sample demonstrates how to implement a Cortana Skill that properly handles EndOfConversation events.|:runner: |[View][js#50] |              |             | |
 |51.cafe-bot            | A complete E2E Cafe bot that has all capabilities and includes best practices|[View][cs#51]|[View][js#51]|              |             | |
 |52.enterprise-bot      | Enterprise bot that demonstrates use of Dialogs, Template Manager, Dispatch across different services and implementing custom middleware.| [View][cs#52] |           |              |             | [View][ts#52] |
-|60.multilinugal-luis-bot      | Luis connected bot with multilingual feature using microsoft translator and implementing custom middleware for translation .| [View][cs#60] |           |              |             | :runner |
 |70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
 
 [cs#1]:samples/csharp_dotnetcore/01.console-echo
@@ -107,7 +106,6 @@ To use the samples clone this GitHub repository using Git.
 [cs#42]:samples/csharp_dotnetcore/42.scaleout
 [cs#51]:samples/csharp_dotnetcore/51.cafe-bot
 [cs#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
-[cs#60]:samples/csharp_dotnetcore/60.multilinugal-luis-bot
 
 [wa#2]:samples/csharp_webapi/02.echo-with-counter
 [wa#11]:samples/csharp_webapi/11.QnAMaker
