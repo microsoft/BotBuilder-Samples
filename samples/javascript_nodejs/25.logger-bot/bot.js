@@ -37,7 +37,7 @@ class LoggerBot {
         this.dialogs.add(new NumberPrompt(AGE_PROMPT, async (prompt) => {
             if (prompt.recognized.succeeded) {
                 if (prompt.recognized.value <= 0) {
-                    await prompt.context.sendActivity(`Your age can't be less than zero.`);
+                    await prompt.context.sendActivity(`Your age can't be less than or equal to zero.`);
                     return false;
                 } else {
                     return true;
