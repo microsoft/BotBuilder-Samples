@@ -12,11 +12,11 @@ This bot example uses [restify](https://www.npmjs.com/package/restify).
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to samples/javascript_nodejs/25.logger-bot
+- In a terminal, navigate to ```samples/javascript_nodejs/25.logger-bot```
     ```bash
     cd samples/javascript_nodejs/25.logger-bot
     ```
-- [Optional] Update the .env file under samples/javascript_nodejs/25.logger-bot with your botFileSecret For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the .env file under ```samples/javascript_nodejs/25.logger-bot``` with your botFileSecret For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules and start the bot
     ```bash
     npm i 
@@ -49,12 +49,10 @@ In this example, the bot's state is used to track number of messages.
     - User properties can be used for many purposes, such as determining where the user's prior conversation left off or simply greeting a returning user by name. If you store a user's preferences, you can use that information to customize the conversation the next time you chat. For example, you might alert the user to a news article about a topic that interests her, or alert a user when an appointment becomes available. You should clear them if the bot receives a delete user data activity.
 
 # Deploy this bot to Azure
-You can use the [MSBot][5] Bot Builder CLI tool to clone and configure the services this sample depends on.
-
-To install all Bot Builder tools, follow these [instructions][11].
+You can use the [MSBot][5] Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools][11]
 
 To clone this bot, run
-```
+```bash
 msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id> --appId <App-Id> --appSecret <App-Secret>
 ```
 **NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal][12]
@@ -76,5 +74,5 @@ msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-loc
 [8]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-storage?view=azure-bot-service-4.0&tabs=jsechoproperty%2Ccsetagoverwrite%2Ccsetag
 [9]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.0&tabs=js
 [10]: https://dev.botframework.com
-[11]: https://github.com/southworkscom/BotBuilder-Samples/blob/master/Installing_CLI_tools.md#install-cli-tools
+[11]: ../../../Installing_CLI_tools.md
 [12]: https://apps.dev.microsoft.com/
