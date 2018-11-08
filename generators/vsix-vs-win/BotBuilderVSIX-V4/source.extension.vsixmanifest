@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="BotBuilderV4.fbe0fc50-a6f1-4500-82a2-189314b7bea2" Version="2" Language="en-US" Publisher="Microsoft" />
+        <Identity Id="BotBuilderV4.fbe0fc50-a6f1-4500-82a2-189314b7bea2" Version="1.0" Language="en-US" Publisher="Microsoft" />
         <DisplayName>Bot Builder V4 SDK Template for Visual Studio</DisplayName>
         <Description xml:space="preserve">Template to create conversational bots using Microsoft Bot Framework. It uses Bot Framework V4 SDK</Description>
         <MoreInfo>https://aka.ms/BotBuilderOverview</MoreInfo>
