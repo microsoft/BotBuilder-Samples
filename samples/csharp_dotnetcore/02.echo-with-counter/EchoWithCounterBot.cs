@@ -12,10 +12,9 @@ namespace Microsoft.BotBuilderSamples
     /// <summary>
     /// Represents a bot that processes incoming activities.
     /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
-    /// This is a Transient lifetime service.  Transient lifetime services are created
-    /// each time they're requested. For each Activity received, a new instance of this
-    /// class is created. Objects that are expensive to construct, or have a lifetime
-    /// beyond the single turn, should be carefully managed.
+    /// This is a Transient lifetime service. Transient lifetime services are created
+    /// each time they're requested. Objects that are expensive to construct, or have a lifetime
+    /// beyond a single turn, should be carefully managed.
     /// For example, the <see cref="MemoryStorage"/> object and associated
     /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// </summary>
