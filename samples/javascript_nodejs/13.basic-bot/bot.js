@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// bot.js is your main bot dialog entry point for handilng activity types
+// bot.js is your main bot dialog entry point for handling activity types
 
 // Import required Bot Builder
 const { ActivityTypes, CardFactory } = require('botbuilder');
