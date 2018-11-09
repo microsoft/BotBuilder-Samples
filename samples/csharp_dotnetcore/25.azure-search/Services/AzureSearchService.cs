@@ -1,4 +1,7 @@
-﻿using Botv4AzureSearch.Models;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Botv4AzureSearch.Models;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 using System;
