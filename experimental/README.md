@@ -28,7 +28,7 @@ Experimental samples are organized per platform.
 |bot translation library| The sample shows how to use the library through Middleware to support multilingual interaction with bots in general and LUIS bots in particular.                                                                                                 | | | |[View][ts#1] |
 
 
-[cs#1]:samples/csharp_dotnetcore/01.console-echo
+[cs#1]:csharp_dotnetcore/MultilingualLuisBot
 
 [wa#2]:samples/csharp_webapi/02.echo-with-counter
 
