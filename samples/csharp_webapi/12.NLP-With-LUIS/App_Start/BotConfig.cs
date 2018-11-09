@@ -87,7 +87,7 @@ namespace LuisBot
                                 throw new InvalidOperationException("The Region ('region') is required to run this sample.  Please update your '.bot' file.");
                             }
 
-                            var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.Region);
+                            var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
                             var recognizer = new LuisRecognizer(app);
                             luisServices.Add(LuisBot.LuisKey, recognizer);
                             break;
