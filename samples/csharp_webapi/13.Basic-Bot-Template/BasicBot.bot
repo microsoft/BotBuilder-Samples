@@ -1,0 +1,67 @@
+﻿{
+    "name": "BasicBot",
+    "description": "",
+    "services": [
+        {
+            "type": "abs",
+            "id": "3",
+            "name": "",
+            "tenantId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "subscriptionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "resourceGroup": "",
+            "serviceName": "",
+            "appId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+        },
+        {
+            "type": "endpoint",
+            "id": "1",
+            "name": "development",
+            "appId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "appPassword": "",
+            "endpoint": "http://localhost:3978/api/messages"
+        },
+        {
+            "type": "luis",
+            "name": "basic-bot-LUIS",
+            "appId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "authoringKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "subscriptionKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "version": "",
+            "region": "",
+            "id": "34"
+        },
+        {
+            "type": "endpoint",
+            "id": "2",
+            "name": "production",
+            "appId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "appPassword": "",
+            "endpoint": ""
+        },
+        {
+            "type": "appInsights",
+            "tenantId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "subscriptionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "resourceGroup": "",
+            "name": "",
+            "serviceName": "",
+            "instrumentationKey": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "applicationId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "apiKeys": {},
+            "id": "4"
+        },
+        {
+            "type": "blob",
+            "id": "5",
+            "name": "",
+            "serviceName": "",
+            "tenantId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "subscriptionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "resourceGroup": "",
+            "connectionString": "",
+            "container": ""
+        }
+    ],
+    "padlock": "",
+    "version": "2.0"
+}

@@ -31,7 +31,7 @@ namespace BasicBot
         /// <remarks>A common LUIS model is used for both interruptions and greetings.
         /// A distinct LUIS model and/or other method(s) (ie, QnA) could be used here to determine
         /// interruptions.</remarks>
-        public static readonly string LuisKey = "BasicBotLUIS";
+        public static readonly string LuisKey = "basic-bot-LUIS";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DetectHelpCancelDialog"/> class.

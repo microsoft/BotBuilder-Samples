@@ -242,7 +242,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="appsettings.json" />
-    <Content Include="BasicBot.bot" />
+    <Content Include="BasicBot.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="BasicBot.ruleset" />
     <Content Include="CognitiveModels\basic-bot.luis" />
     <Content Include="Dialogs\Welcome\Resources\welcomeCard.json" />

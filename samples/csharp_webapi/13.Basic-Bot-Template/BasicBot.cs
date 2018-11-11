@@ -28,7 +28,7 @@ namespace BasicBot
         /// Key in the bot config (.bot file) for the LUIS instances.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
-        public static readonly string LuisKey = "BasicBotLUIS";
+        public static readonly string LuisKey = "basic-bot-LUIS";
 
         // Greeting Dialog ID
         public static readonly string GreetingDialogId = "greetingDialog";
