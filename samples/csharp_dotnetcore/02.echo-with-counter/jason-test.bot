@@ -1,0 +1,57 @@
+{
+    "name": "jason-test",
+    "description": "",
+    "services": [
+        {
+            "type": "abs",
+            "id": "3",
+            "name": "jason-test",
+            "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "subscriptionId": "0389857f-2464-451b-ac83-5f54d565b1a7",
+            "resourceGroup": "jason-test",
+            "serviceName": "jason-test",
+            "appId": "0e206583-0423-4566-aec2-0dce00ce03d2"
+        },
+        {
+            "type": "endpoint",
+            "id": "1",
+            "name": "development",
+            "appId": "0e206583-0423-4566-aec2-0dce00ce03d2",
+            "appPassword": "zCdmS4EFtNizs+L40UUD7w==!jf29SMa6MhueQmJlOrY+m+4QP0nna+RH1KBv73hZj/w=",
+            "endpoint": "http://localhost:3978/api/messages"
+        },
+        {
+            "type": "endpoint",
+            "id": "2",
+            "name": "production",
+            "appId": "0e206583-0423-4566-aec2-0dce00ce03d2",
+            "appPassword": "tErh/D1GQIVAdii5e9TFLw==!tKBndEFGIhbVOuNpey90FoZilZ7/Hkav43DrwDvNOfI=",
+            "endpoint": "https://jasontestysaz.azurewebsites.net/api/messages"
+        },
+        {
+            "type": "appInsights",
+            "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "subscriptionId": "0389857f-2464-451b-ac83-5f54d565b1a7",
+            "resourceGroup": "jason-test",
+            "name": "jason-testxk4m52",
+            "serviceName": "jason-testxk4m52",
+            "instrumentationKey": "0sRIpSdRATrDZXJ9sQdzvQ==!WywzEkZet0BzP8UhrastdI+RIjs5TmjXMGd7gn9iNM1nFgJygXmhyeGHZ0KpmFIc",
+            "applicationId": "ec6f9da8-2b0d-45ac-a9b3-73b3d3542bcd",
+            "apiKeys": {},
+            "id": "4"
+        },
+        {
+            "type": "blob",
+            "id": "5",
+            "name": "jasontestxiwd",
+            "serviceName": "jasontestxiwd",
+            "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "subscriptionId": "0389857f-2464-451b-ac83-5f54d565b1a7",
+            "resourceGroup": "jason-test",
+            "connectionString": "dUt4P/EIVnxXNO/cqrA+sA==!HbuWBKiiq0fibd+9zNrdHVy6HPAMMGBuSSKAHjylmvzaCslxXGe1jlGc85Z8h4XBEX0S61O2aWDdE2IB+BOTnE3RBHt0wvdI7E7lcur0F7aoloUEphukgIdGKc1GB8F6ZsaENHk5zmwy5AiPNcFQjwWS9MMCmU+KKzeqyRWsh3wyfyz84TQ/cgT4iwkqvpXTUO8JJUa+D4Z0G4BHHEcjq47ns0Q161OAvOFbk/S1qLVdyS0KXuQQ8BVqP5fYhKD+",
+            "container": "botstatestore"
+        }
+    ],
+    "padlock": "9NAaJCc5uNIWNfR5QnlyrQ==!EvnOcP5Y5l9Rz3miZj+GqBfkA8qH04491xPeEXyfr9yZfKph+5+y590Hm8irMpj4",
+    "version": "2.0"
+}

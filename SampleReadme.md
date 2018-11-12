@@ -28,8 +28,9 @@
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-## Configure Services
+## Provision Services
 **NOTE:**You can add services provision and deploy all in one step if you use the `msbot clone` command see [Using CLI Tools](using-cli-tools) in the [Deploy to Azure](deploy-to-azure) section
+
 ### Using CLI Tools
 - If you have not already, you can install all of the Bot Builder Tools with this command:
 ```bash
@@ -38,8 +39,14 @@ npm install -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen
 #### Create a .bot File
 To create a .bot file, use the `init` command of MS bot.
 ```bash
-msbot init --name {NAME OF YOUR BOT} --endpoint {ENDPOINT FOR YOUR BOT}
+msbot init --name "{ENDPOINT NAME (ex. development)" --endpoint {ENDPOINT FOR YOUR BOT}
 ```
+(Optional) If you plan on deploying this bot you will need to add another endpoint service named production:
+
+```bash
+msbot connect endpoint --name "{ENDPOINT NAME (ex. production)}" --appId {APP-ID} --appPassword {YOUR BOT PW} --endpoint http://{YOUR BOT}.azurewebsites.com/api/messages
+```
+
 **NOTE:** 
 - This sample is preconfigured to use http://localhost:3978/api/messages as the endpoint for local development.
 - For additional options when generating a .bot file, see [here](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/MSBot/docs/create-bot.md).
@@ -60,12 +67,16 @@ msbot connect appinsights --name {YOUR APP NAME} --tenantId {YOUR TENANT ID} --s
 msbot connect dispatch --name {DISPATCH NAME} --appId {YOUR LUIS APP ID FOR DISPATCH} --version {VERSION NUMBER (example: 0.1)} --subscriptionKey {YOUR SUBSCRIPTION KEY} ----authoringKey {YOUR AUTHORING KEY}
 ```
 
-##### [QnA Maker](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/MSBot/docs/add-services.md#connecting-to-qna-maker-knowledge-base)
+##### [QnA Maker]
+[Here]() you can find steps to manually set up QnA Maker without the CLI tools
+(https://github.com/Microsoft/botbuilder-tools/blob/master/packages/MSBot/docs/add-services.md#connecting-to-qna-maker-knowledge-base)
 ```bash
 msbot connect qna --secret {EncryptItPlease} --name "{QnA APP NAME}" --kbId {KB-ID} --subscriptionKey {KEY} --endpointKey {ENDPOINT-KEY} --hostname "https://{YOUR SITE}.azurewebsites.net"
 ```
 
 ##### [LUIS](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/MSBot/docs/add-services.md#connecting-to-luis-application)
+[Here]() you can find steps to manually set up Luis without the CLI tools
+
 ```bash
 msbot connect luis --name "My Luis Model" --appId {APP-ID} --version v0.1 --authoringKey {AUTHORING-KEY}
 ```

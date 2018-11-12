@@ -84,6 +84,7 @@ namespace Microsoft.BotBuilderSamples
                 {
                     await dialogContext.BeginDialogAsync("cardSelector", cancellationToken: cancellationToken);
                 }
+                
             }
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
@@ -243,9 +244,10 @@ namespace Microsoft.BotBuilderSamples
             await step.Context.SendActivityAsync(reply, cancellationToken);
 
             // Give the user instructions about what to do next
-            await step.Context.SendActivityAsync("Type anything to see another card.", cancellationToken: cancellationToken);
-
-            return await step.EndDialogAsync(cancellationToken: cancellationToken);
+            //await step.Context.SendActivityAsync("Type anything to see another card.", cancellationToken: cancellationToken);
+            
+            await step.EndDialogAsync(cancellationToken: cancellationToken);
+            return await step.PromptAsync("cardPrompt", GenerateOptions(step.Context.Activity), cancellationToken);
         }
 
         // The following methods are all used to generate cards
