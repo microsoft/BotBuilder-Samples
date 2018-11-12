@@ -17,7 +17,7 @@ In this example, the bot creates a new folder in the project directory called `l
     ```bash
     cd samples/javascript_nodejs/26.bot-transcript-logging
     ```
-- [Optional] Update the .env file under `samples/javascript_nodejs/26.bot-transcript-logging` with your botFileSecret For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `.env` file under `samples/javascript_nodejs/26.bot-transcript-logging` with your `botFileSecret` For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
 - Install modules and start the bot
     ```bash
     npm i
