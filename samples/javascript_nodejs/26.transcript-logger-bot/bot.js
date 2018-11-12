@@ -37,7 +37,7 @@ class LoggerBot {
         this.dialogs.add(new NumberPrompt(AGE_PROMPT, async (prompt) => {
             if (prompt.recognized.succeeded) {
                 if (prompt.recognized.value <= 0) {
-                    await prompt.context.sendActivity(`Your age can't be less than zero.`);
+                    await prompt.context.sendActivity(`Your age can't be less than or equal to zero.`);
                     return false;
                 } else {
                     return true;
@@ -78,8 +78,8 @@ class LoggerBot {
     // Otherwise, the bot will skip the age step.
     async promptForAge(step) {
         if (step.result && step.result.value === 'yes') {
-            return await step.prompt(AGE_PROMPT, `What is your age?`,
-                {
+            return await step.prompt(AGE_PROMPT, {
+                    prompt: `What is your age?`,
                     retryPrompt: 'Sorry, please specify your age as a positive number or say cancel.'
                 }
             );
