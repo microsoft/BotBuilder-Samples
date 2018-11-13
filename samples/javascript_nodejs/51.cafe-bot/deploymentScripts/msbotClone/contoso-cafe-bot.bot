@@ -1,0 +1,16 @@
+{
+    "name": "CafeBot",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "id": "1",
+            "name": "development",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3978/api/messages"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0"
+}
