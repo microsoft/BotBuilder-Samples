@@ -10,7 +10,7 @@ const { QnAMakerBot } = require('./bot');
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '.env');
-const env = require('dotenv').config({ path: ENV_FILE });
+require('dotenv').config({ path: ENV_FILE });
 
 console.log(process.env.botFilePath);
 
@@ -69,7 +69,6 @@ try {
     console.error(`[botInitializationError]: ${ err }`);
     process.exit();
 }
-
 
 // Create HTTP server.
 let server = restify.createServer();

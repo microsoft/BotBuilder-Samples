@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { Middleware, TurnContext, ConversationState, BotStatePropertyAccessor } = require('botbuilder');
 const fetch = require('node-fetch');
 
 const ENGLISH_LANGUAGE = 'en';
@@ -12,7 +11,7 @@ class TranslatorMiddleware {
     /**
      * Creates a translation middleware.
      * @param {BotStatePropertyAccessor} languagePreferenceProperty Accessor for language preference property in the user state.
-     * * @param {string} translatorKey Microsoft Text Translation API key.
+     * @param {string} translatorKey Microsoft Text Translation API key.
      */
     constructor(languagePreferenceProperty, translatorKey) {
         this.languagePreferenceProperty = languagePreferenceProperty;

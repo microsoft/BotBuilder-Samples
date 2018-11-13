@@ -7,12 +7,9 @@ const axios = require('axios');
 const fs = require('fs');
 
 /**
- * A bot that is able to send and receive attachments. 
+ * A bot that is able to send and receive attachments.
  */
 class AttachmentsBot {
-    constructor() {
-    }
-
     /**
      * Every conversation turn for our AttachmentsBot will call this method.
      * There are no dialogs used, since it's "single turn" processing, meaning a single
@@ -32,7 +29,6 @@ class AttachmentsBot {
 
             // Send a HeroCard with potential options for the user to select.
             await this.displayOptions(turnContext);
-
         } else if (turnContext.activity.type === ActivityTypes.ConversationUpdate &&
             turnContext.activity.recipient.id !== turnContext.activity.membersAdded[0].id) {
             // If the Activity is a ConversationUpdate, send a greeting message to the user.
@@ -41,17 +37,16 @@ class AttachmentsBot {
 
             // Send a HeroCard with potential options for the user to select.
             await this.displayOptions(turnContext);
-
         } else if (turnContext.activity.type !== ActivityTypes.ConversationUpdate) {
             // Respond to all other Activity types.
-            await turnContext.sendActivity(`[${turnContext.activity.type}]-type activity detected.`);
+            await turnContext.sendActivity(`[${ turnContext.activity.type }]-type activity detected.`);
         }
     }
 
     /**
      * Saves incoming attachments to disk by calling `this.downloadAttachmentAndWrite()` and
      * responds to the user with information about the saved attachment or an error.
-     * @param {Object} turnContext 
+     * @param {Object} turnContext
      */
     async handleIncomingAttachment(turnContext) {
         // Prepare Promises to download each attachment and then execute each Promise.
@@ -64,8 +59,8 @@ class AttachmentsBot {
             if (localAttachmentData) {
                 // Because the TurnContext was bound to this function, the bot can call
                 // `TurnContext.sendActivity` via `this.sendActivity`;
-                await this.sendActivity(`Attachment "${localAttachmentData.fileName}" ` +
-                    `has been received and saved to "${localAttachmentData.localPath}".`);
+                await this.sendActivity(`Attachment "${ localAttachmentData.fileName }" ` +
+                    `has been received and saved to "${ localAttachmentData.localPath }".`);
             } else {
                 await this.sendActivity('Attachment was not successfully saved to disk.');
             }
@@ -79,7 +74,7 @@ class AttachmentsBot {
 
     /**
      * Downloads attachment to the disk.
-     * @param {Object} attachment 
+     * @param {Object} attachment
      */
     async downloadAttachmentAndWrite(attachment) {
         // Retrieve the attachment via the attachment's contentUrl.
@@ -94,10 +89,8 @@ class AttachmentsBot {
                 if (fsError) {
                     throw fsError;
                 }
-
             });
-        }
-        catch (error) {
+        } catch (error) {
             console.error(error);
             return undefined;
         }
@@ -106,13 +99,13 @@ class AttachmentsBot {
         return {
             fileName: attachment.name,
             localPath: localFileName
-        }
+        };
     }
 
     /**
      * Responds to user with either an attachment or a default message indicating
      * an unexpected input was received.
-     * @param {Object} turnContext 
+     * @param {Object} turnContext
      */
     async handleOutgoingAttachment(turnContext) {
         const reply = { type: ActivityTypes.Message };
@@ -120,7 +113,7 @@ class AttachmentsBot {
         // Look at the user input, and figure out what type of attachment to send.
         // If the input matches one of the available choices, populate reply with
         // the available attachments.
-        // If the choice does not match with a valid choice, inform the user of 
+        // If the choice does not match with a valid choice, inform the user of
         // possible options.
         const firstChar = turnContext.activity.text[0];
         if (firstChar === '1') {
@@ -141,7 +134,7 @@ class AttachmentsBot {
 
     /**
      * Sends a HeroCard with choices of attachments.
-     * @param {Object} turnContext 
+     * @param {Object} turnContext
      */
     async displayOptions(turnContext) {
         const reply = { type: ActivityTypes.Message };
@@ -168,13 +161,13 @@ class AttachmentsBot {
      */
     getInlineAttachment() {
         const imageData = fs.readFileSync(path.join(__dirname, '/resources/architecture-resize.png'));
-        const base64Image = new Buffer(imageData).toString('base64');
+        const base64Image = Buffer.from(imageData).toString('base64');
 
         return {
             name: 'architecture-resize.png',
             contentType: 'image/png',
-            contentUrl: `data:image/png;base64,${base64Image}`
-        }
+            contentUrl: `data:image/png;base64,${ base64Image }`
+        };
     }
 
     /**
@@ -186,12 +179,12 @@ class AttachmentsBot {
             name: 'architecture-resize.png',
             contentType: 'image/png',
             contentUrl: 'https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png'
-        }
+        };
     }
 
     /**
      * Returns an attachment that has been uploaded to the channel's blob storage.
-     * @param {Object} turnContext 
+     * @param {Object} turnContext
      */
     async getUploadedAttachment(turnContext) {
         const imageData = fs.readFileSync(path.join(__dirname, '/resources/architecture-resize.png'));
@@ -205,31 +198,12 @@ class AttachmentsBot {
 
         // Retrieve baseUri from ConnectorClient for... something.
         const baseUri = connector.baseUri;
-        const attachmentUri = baseUri + (baseUri.endsWith('/') ? '' : '/') + `v3/attachments/${encodeURI(response.id)}/views/original`;
+        const attachmentUri = baseUri + (baseUri.endsWith('/') ? '' : '/') + `v3/attachments/${ encodeURI(response.id) }/views/original`;
         return {
             name: 'architecture-resize.png',
             contentType: 'image/png',
             contentUrl: attachmentUri
-        }
-    }
-
-    /**
-     * Sends welcome messages to conversation members when they join the conversation.
-     * Messages are only sent to conversation members who aren't the bot.
-     * @param {Object} turnContext 
-     */
-    async sendWelcomeMessage(turnContext) {
-        const activity = turnContext.activity;
-        if (activity.membersAdded) {
-            // Iterate over all new members added to the conversation.
-            for (const idx in activity.membersAdded) {
-                if (activity.membersAdded[idx].id !== activity.recipient.id) {
-                    await turnContext.sendActivity(`Welcome to AttachmentsBot ${conversationMember.name}.` +
-                    `This bot will introduce you to Attachments. Please select an option:`);
-                    await this.displayOptions(turnContext);
-                }
-            }
-        }
+        };
     }
 }
 
