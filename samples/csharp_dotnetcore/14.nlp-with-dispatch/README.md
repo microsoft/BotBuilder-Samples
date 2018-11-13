@@ -217,14 +217,16 @@ Then set the `"botFileSecret"` value in [appsettings.json](appsettings.json) wit
 This will generate a strong key, encrypt the bot file and print the key. Please keep this key securely.
 Any time the bot file is encrypted, make sure to set the botFileSecret environment variable this sample relies on (either through the .env file or other means).
 
+# Running Locally
+
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/14.nlp-with-dispatch`) and open `NLP-With-Dispatch-Bot.csproj` in Visual Studio
 - Select the "NLP-With-Dispatch-Bot" from the dropdown menu of Startup Projects
 - Run the project (press `F5` key)
 
-## Visual Studio Code
-- Open `botbuilder-samples/samples/csharp_dotnetcore/14.nlp-with-dispatch` sample folder.
-- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/14.nlp-with-dispatch` folder
+## .NET Core CLI
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
+- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/14.nlp-with-dispatch` folder
 - type `dotnet run`
 
 ## Testing the bot using Bot Framework Emulator

@@ -25,13 +25,16 @@ The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissio
 - `profile`
 
 With the OAuth 2 provider configured, please update `ConnectionName` in `AuthenticationBot.cs` so the bot can perform OAuth calls through Azure Bot Service.
+
+# Running Locally
+
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/18.bot-authentication`) and open `AuthenticationBot.csproj` in Visual Studio 
-- In Visual Studio right click on the solution and select "Restore NuGet Packages".
 - Run the project (press `F5` key)
-## Visual Studio Code
+
+## .NET Core CLI
 - Open `botbuilder-samples/samples/csharp_dotnetcore/18.bot-authentication` folder
-- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/18.bot-authentication`
+- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/18.bot-authentication`
 - Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator
