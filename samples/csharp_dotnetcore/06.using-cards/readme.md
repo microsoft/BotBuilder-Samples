@@ -20,7 +20,6 @@ git clone https://github.com/microsoft/botbuilder-samples.git
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/06.using-cards` folder
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/06.using-cards`
-- In the Visual Studio Code terminal type `dotnet restore`
 - Type `dotnet run`.
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot 

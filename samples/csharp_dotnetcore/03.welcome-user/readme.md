@@ -16,11 +16,6 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/03.welcome-user`
 - Type `dotnet run`.
 
-## Update packages
-
-- In Visual Studio right click on the solution and select "Restore NuGet Packages".
-- In Visual Studio Code type `dotnet restore`
-
 # Deploy this bot to Azure
 
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).

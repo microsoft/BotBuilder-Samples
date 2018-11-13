@@ -25,13 +25,11 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 # Prerequisites
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages`) and open `ProactiveBot.csproj` in Visual Studio.
-- In Visual Studio right click on the solution and select "Restore NuGet Packages".
 - Run the project (press `F5` key)
 
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` sample folder.
 - Bring up a console, navigate to `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` folder.
-- In the Visual Studio Code terminal type `dotnet restore`
 - Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator

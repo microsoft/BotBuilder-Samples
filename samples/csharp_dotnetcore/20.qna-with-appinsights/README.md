@@ -31,13 +31,11 @@ Qna Maker CLI to deploy the model.
 
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/20.qna-with-appinsights`) and open QnABot.csproj in Visual Studio.
-- In Visual Studio right click on the solution and select "Restore NuGet Packages".
 - Run the project (press `F5` key)
 
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/20.qna-with-appinsights` sample folder
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/20.qna-with-appinsights` folder.
-- In the Visual Studio Code terminal type `dotnet restore`.
 - Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator
