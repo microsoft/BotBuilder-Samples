@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Version Condition=" '$(PackageVersion)' == '' ">4.0.0-local</Version>
+		<Version Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</Version>
+		<PackageVersion Condition=" '$(PackageVersion)' == '' ">4.0.0-local</PackageVersion>
+		<PackageVersion Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</PackageVersion>
+		<Configurations>Debug;Release;Documentation;Debug - NuGet Packages;</Configurations>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<SignAssembly>true</SignAssembly>
+		<DelaySign>true</DelaySign>
+		<AssemblyOriginatorKeyFile>..\..\build\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<PackageId>Microsoft.Bot.Builder.AI.Translation</PackageId>
+		<Description>Classes for using Translation Cognitive Services on the Microsoft Bot Builder SDK</Description>
+		<Summary>This library implements C# classes for building bots using Microsoft Cognitive services.</Summary>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Company>Microsoft</Company>
+		<Authors>microsoft,BotFramework,nugetbotbuilder</Authors>
+		<Product>Microsoft Bot Builder SDK</Product>
+		<Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+		<PackageProjectUrl>https://github.com/Microsoft/botbuilder-dotnet</PackageProjectUrl>
+		<PackageIconUrl>http://docs.botframework.com/images/bot_icon.png</PackageIconUrl>
+		<PackageLicenseUrl>https://github.com/Microsoft/BotBuilder/blob/master/LICENSE</PackageLicenseUrl>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<RepositoryUrl>https://github.com/Microsoft/botbuilder-dotnet</RepositoryUrl>
+		<LicenseUrl>https://github.com/Microsoft/BotBuilder-dotnet/blob/master/LICENSE</LicenseUrl>
+		<RepositoryType />
+		<PackageTags>bots;ai;botframework;botbuilder</PackageTags>
+		<NeutralLanguage />
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Documentation|AnyCPU'">
+		<DocumentationFile>bin\$(Configuration)\netstandard2.0\Microsoft.Bot.Builder.AI.Translation.xml</DocumentationFile>		
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\$(Configuration)\netstandard2.0\Microsoft.Bot.Builder.AI.Translation.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup>
+	  <CodeAnalysisRuleSet>Microsoft.Bot.Builder.AI.Translation.ruleset</CodeAnalysisRuleSet>
+	  <ApplicationIcon />
+	  <Win32Resource />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.Bot.Builder" Condition=" '$(PackageVersion)' == '' " Version="4.0.0-local" />
+		<PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="1.0.8.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+		<PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.1" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
+	</ItemGroup>
+</Project>
