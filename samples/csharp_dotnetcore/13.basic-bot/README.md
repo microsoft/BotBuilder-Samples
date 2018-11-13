@@ -95,13 +95,17 @@ Your project may be configured to rely on this secret and you should update it a
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
     NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
 - Update [BotConfiguration.bot](BotConfiguration.bot) file to ensure the `Id` property on the `luis` service type is set to `basic-bot-LUIS`.
+# Running Locally
+
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/13.basic-bot`) and open `BasicBot.csproj` in Visual Studio.
 - Run the project (press `F5` key)
-## Visual Studio Code
-- Open `botbuilder-samples/samples/csharp_dotnetcore/13.basic-bot` sample folder.
-- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/13.basic-bot` folder.
+
+## .NET Core CLI
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
+- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/13.basic-bot` folder.
 - Type `dotnet run`.
+
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://aka.ms/botframework-emulator) is a desktop application that allows bot developers to test and debug
 their bots on localhost or running remotely through a tunnel.

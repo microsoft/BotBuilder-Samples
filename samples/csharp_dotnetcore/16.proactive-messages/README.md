@@ -23,12 +23,13 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 - [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` with your botFileSecret. For Azure Bot Service bots, you can find the botFileSecret under application settings.
 # Prerequisites
+
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages`) and open `ProactiveBot.csproj` in Visual Studio.
 - Run the project (press `F5` key)
 
-## Visual Studio Code
-- Open `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` sample folder.
+## .NET Core CLI
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
 - Bring up a console, navigate to `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` folder.
 - Type `dotnet run`.
 
