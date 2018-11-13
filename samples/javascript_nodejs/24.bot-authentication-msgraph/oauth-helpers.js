@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, TokenResponse, TurnContext } = require('botbuilder');
+const { ActivityTypes } = require('botbuilder');
 const { OAuthPrompt } = require('botbuilder-dialogs');
 const { SimpleGraphClient } = require('./simple-graph-client');
 

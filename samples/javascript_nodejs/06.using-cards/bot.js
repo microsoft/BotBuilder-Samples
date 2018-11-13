@@ -1,15 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes,
-    CardFactory,
-    ConversationState,
-    TurnContext } = require('botbuilder');
-const { ChoicePrompt,
-        DialogSet,
-        DialogTurnResult,
-        DialogTurnStatus,
-        ListStyle } = require('botbuilder-dialogs');
+const { ActivityTypes, CardFactory } = require('botbuilder');
+const { ChoicePrompt, DialogSet, DialogTurnStatus, ListStyle } = require('botbuilder-dialogs');
 
 /**
  * RichCardsBot prompts a user to select a Rich Card and then returns the card
@@ -96,40 +89,40 @@ class RichCardsBot {
      */
     async sendCardResponse(turnContext, dialogTurnResult) {
         switch (dialogTurnResult.result.value) {
-            case 'Animation Card':
-                await turnContext.sendActivity({ attachments: [this.createAnimationCard()] });
-                break;
-            case 'Audio Card':
-                await turnContext.sendActivity({ attachments: [this.createAudioCard()] });
-                break;
-            case 'Hero Card':
-                await turnContext.sendActivity({ attachments: [this.createHeroCard()] });
-                break;
-            case 'Receipt Card':
-                await turnContext.sendActivity({ attachments: [this.createReceiptCard()] });
-                break;
-            case 'Signin Card':
-                await turnContext.sendActivity({ attachments: [this.createSignInCard()] });
-                break;
-            case 'Thumbnail Card':
-                await turnContext.sendActivity({ attachments: [this.createThumbnailCard()] });
-                break;
-            case 'Video Card':
-                await turnContext.sendActivity({ attachments: [this.createVideoCard()] });
-                break;
-            case 'All Cards':
-                await turnContext.sendActivities([
-                    { attachments: [this.createAnimationCard()] },
-                    { attachments: [this.createAudioCard()] },
-                    { attachments: [this.createHeroCard()] },
-                    { attachments: [this.createReceiptCard()] },
-                    { attachments: [this.createSignInCard()] },
-                    { attachments: [this.createThumbnailCard()] },
-                    { attachments: [this.createVideoCard()] }
-                ]);
-                break;
-            default:
-                await turnContext.sendActivity('An invalid selection was parsed. No corresponding Rich Cards were found.');
+        case 'Animation Card':
+            await turnContext.sendActivity({ attachments: [this.createAnimationCard()] });
+            break;
+        case 'Audio Card':
+            await turnContext.sendActivity({ attachments: [this.createAudioCard()] });
+            break;
+        case 'Hero Card':
+            await turnContext.sendActivity({ attachments: [this.createHeroCard()] });
+            break;
+        case 'Receipt Card':
+            await turnContext.sendActivity({ attachments: [this.createReceiptCard()] });
+            break;
+        case 'Signin Card':
+            await turnContext.sendActivity({ attachments: [this.createSignInCard()] });
+            break;
+        case 'Thumbnail Card':
+            await turnContext.sendActivity({ attachments: [this.createThumbnailCard()] });
+            break;
+        case 'Video Card':
+            await turnContext.sendActivity({ attachments: [this.createVideoCard()] });
+            break;
+        case 'All Cards':
+            await turnContext.sendActivities([
+                { attachments: [this.createAnimationCard()] },
+                { attachments: [this.createAudioCard()] },
+                { attachments: [this.createHeroCard()] },
+                { attachments: [this.createReceiptCard()] },
+                { attachments: [this.createSignInCard()] },
+                { attachments: [this.createThumbnailCard()] },
+                { attachments: [this.createVideoCard()] }
+            ]);
+            break;
+        default:
+            await turnContext.sendActivity('An invalid selection was parsed. No corresponding Rich Cards were found.');
         }
     }
 

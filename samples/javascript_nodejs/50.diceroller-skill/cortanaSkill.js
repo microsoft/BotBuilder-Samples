@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityTypes } = require('botbuilder');
-const { ComponentDialog, DialogTurnStatus, DialogSet } = require('botbuilder-dialogs')
+const { ComponentDialog, DialogTurnStatus, DialogSet } = require('botbuilder-dialogs');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
 const DEFAULT_DIALOG_ID = 'skill';
@@ -10,20 +10,20 @@ const DEFAULT_DIALOG_ID = 'skill';
 /**
  * Abstract base class for the bots main skill class. Derived classes MUST implement an onRunTurn()
  * method and then add their skills dialogs using this.addDialog().
- * 
+ *
  * This base class adds logic to clear the bots conversation state anytime an EndOfConversation
  * activity is sent or received.  Cortana will send an EndOfConversation activity should the client
- * end the current skill (user closes window) and the bot/skill can send an EndOfConversation 
- * activity anytime they wish to end the current skill. 
- * 
- * In some cases Cortana will re-use the same conversationId for the next invocation of the skill so 
- * as a best practice you should clear your bots conversation state anytime an EndOfConversation 
+ * end the current skill (user closes window) and the bot/skill can send an EndOfConversation
+ * activity anytime they wish to end the current skill.
+ *
+ * In some cases Cortana will re-use the same conversationId for the next invocation of the skill so
+ * as a best practice you should clear your bots conversation state anytime an EndOfConversation
  * activity is detected.
  */
 class CortanaSkill extends ComponentDialog {
     /**
      * Creates a new instance of the CortanaSkill class.
-     * @param {conversationState} conversationState The bots conversation state object. 
+     * @param {conversationState} conversationState The bots conversation state object.
      */
     constructor(conversationState, dialogId) {
         super(dialogId || DEFAULT_DIALOG_ID);
@@ -33,7 +33,7 @@ class CortanaSkill extends ComponentDialog {
         // The skill is our bots root dialog so we need to create a dialog set and add ourselves
         // to it. This dialog set will *only* contain the root dialog and is need to preserve our
         // overall routing model.
-        const dialogState = conversationState.createProperty(DIALOG_STATE_PROPERTY); 
+        const dialogState = conversationState.createProperty(DIALOG_STATE_PROPERTY);
         this.mainDialogSet = new DialogSet(dialogState);
         this.mainDialogSet.add(this);
     }
@@ -45,7 +45,7 @@ class CortanaSkill extends ComponentDialog {
 
     /** Override base onContinueDialog() to call listenForEndOfConversation(). */
     onContinueDialog(innerDC) {
-        return this.listenForEndOfConversation(innerDC);    
+        return this.listenForEndOfConversation(innerDC);
     }
 
     /** Wrap onRunTurn() with logic to handle EndOfConversation events. */
@@ -80,7 +80,7 @@ class CortanaSkill extends ComponentDialog {
     }
 
     /**
-     * Routes the incoming activity to the skills dialogs. For complex skills with multiple dialogs 
+     * Routes the incoming activity to the skills dialogs. For complex skills with multiple dialogs
      * and that support features like interruption you'll want to override this method and provide
      * your own conversation routing logic.
      * @param {DialogContext} innerDC Dialog context for the current turn of conversation with the user.
@@ -98,10 +98,10 @@ class CortanaSkill extends ComponentDialog {
     }
 
     /**
-     * Called from within the bots BotAdapter.processActivity() callback to route a 
+     * Called from within the bots BotAdapter.processActivity() callback to route a
      * received activity to the appropriate dialog.
      * @param {TurnContext} context Context for the current turn of conversation with the user.
-     * @param {object} options (Optional) options that can be used to configure the skill on the first turn of conversation with the user. 
+     * @param {object} options (Optional) options that can be used to configure the skill on the first turn of conversation with the user.
      */
     async run(context, options) {
         if (!context) {
@@ -112,7 +112,6 @@ class CortanaSkill extends ComponentDialog {
         const dc = await this.mainDialogSet.createContext(context);
         let result = await dc.continueDialog();
 
-
         // Start the main dialog if there wasn't a running one
         if (result.status === DialogTurnStatus.empty) {
             result = await dc.beginDialog(this.id, options);
@@ -120,4 +119,5 @@ class CortanaSkill extends ComponentDialog {
         return result;
     }
 }
+
 module.exports.CortanaSkill = CortanaSkill;

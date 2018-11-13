@@ -11,7 +11,7 @@ const { MyAppInsightsMiddleware } = require('./middleware');
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, './.env');
-const env = require('dotenv').config({ path: ENV_FILE });
+require('dotenv').config({ path: ENV_FILE });
 
 // Get the .bot file path.
 const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));

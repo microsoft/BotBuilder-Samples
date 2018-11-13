@@ -12,7 +12,7 @@ const resources = {
  * Format a `message` activity using resource strings in a locale file.
  * @param {string} locale Locale of the resource file to use.
  * @param {string} resourceId ID of the resource string to lookup.
- * @param {object} args (Optional) map of named arguments to replace within the resource string. 
+ * @param {object} args (Optional) map of named arguments to replace within the resource string.
  */
 function formatMessage(locale, resourceId, args) {
     const text = getText(locale, resourceId, args);
@@ -22,11 +22,11 @@ function formatMessage(locale, resourceId, args) {
 module.exports.formatMessage = formatMessage;
 
 /**
- * Retrieves a text string from a resource file and optionally substitute ${arg_names} within the 
- * string.  
+ * Retrieves a text string from a resource file and optionally substitute ${arg_names} within the
+ * string.
  * @param {string} locale Locale of the resource file to use.
  * @param {string} resourceId ID of the resource string to lookup.
- * @param {object} args (Optional) map of named arguments to replace within the resource string. 
+ * @param {object} args (Optional) map of named arguments to replace within the resource string.
  */
 function getText(locale, resourceId, args) {
     // Lookup resource
@@ -41,7 +41,7 @@ function getText(locale, resourceId, args) {
         // Substitute args within the text string
         if (args) {
             for (const key in args) {
-                const match = new RegExp(`\\\${${key}}`, 'g');
+                const match = new RegExp(`\\\${${ key }}`, 'g');
                 output = output.replace(match, args[key]);
             }
         }
