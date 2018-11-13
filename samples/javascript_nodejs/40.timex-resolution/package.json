@@ -1,0 +1,15 @@
+{
+  "name": "timex-resolution",
+  "version": "1.0.0",
+  "description": "Examples of how to use the Timex expression library. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "dependencies": {
+    "@microsoft/recognizers-text-data-types-timex-expression": "^1.1.4",
+    "@microsoft/recognizers-text-date-time": "^1.1.4"
+  }
+}
