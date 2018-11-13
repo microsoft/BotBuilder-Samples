@@ -1,0 +1,21 @@
+[
+    {
+        "translations": [
+            {
+                "text": "Hi 20-10",
+                "to": "en",
+                "alignment": {
+                    "proj": "0:4-0:1 6:10-3:7"
+                },
+                "sentLen": {
+                    "srcSentLen": [
+                        11
+                    ],
+                    "transSentLen": [
+                        8
+                    ]
+                }
+            }
+        ]
+    }
+]

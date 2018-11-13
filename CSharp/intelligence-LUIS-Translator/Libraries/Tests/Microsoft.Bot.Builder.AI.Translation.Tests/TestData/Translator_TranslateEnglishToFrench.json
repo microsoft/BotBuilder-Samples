@@ -1,0 +1,18 @@
+[
+    {
+        "translations": [
+            {
+                "text": "Salut",
+                "to": "fr",
+                "sentLen": {
+                    "srcSentLen": [
+                        5
+                    ],
+                    "transSentLen": [
+                        5
+                    ]
+                }
+            }
+        ]
+    }
+]
