@@ -68,7 +68,6 @@ class MultilingualBot {
  * @param {string} currentLanguage the current user language.
  */
 function isLanguageChangeRequested(utterance, currentLanguage) {
-
     // If the utterance is empty or the utterance is not a supported language code,
     // then there is no language change requested
     if (!utterance) {

@@ -47,7 +47,7 @@ class ProactiveBot {
             }
 
             if (!turnContext.responded) {
-                await turnContext.sendActivity(`Say "run" to start a job, "show" to view the jobs running, or "done <job>" to complete one.`);
+                await turnContext.sendActivity(`Say "run" to start a job, "show" to view running jobs, or "done <job number>" to complete a job.`);
             }
         } else if (turnContext.activity.type === ActivityTypes.Event && turnContext.activity.name === 'jobCompleted') {
             jobIdNumber = turnContext.activity.value;

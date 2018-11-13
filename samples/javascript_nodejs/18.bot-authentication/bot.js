@@ -41,7 +41,7 @@ class AuthenticationBot {
     constructor(conversationState) {
         this.conversationState = conversationState;
 
-        // Create a new state accessor property. 
+        // Create a new state accessor property.
         // See https://aka.ms/about-bot-state-accessors to learn more about bot state and state accessors.
         this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
         this.dialogs = new DialogSet(this.dialogState);

@@ -33,8 +33,11 @@ You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Build
 
 To clone this bot, run
 ```
-msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
 ```
+
+**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
+
 
 # Prompts
 A conversation between a bot and a user often involves asking (prompting) the user for information, parsing the user's response,

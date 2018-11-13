@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, TurnContext } = require('botbuilder');
+const { ActivityTypes } = require('botbuilder');
 const { MyAppInsightsQnAMaker } = require('./myAppInsightsQnAMaker');
 
 /**
@@ -43,7 +43,7 @@ class QnAMakerBot {
             await turnContext.sendActivity(`Welcome to the QnA Maker sample! Ask me a question and I will try to answer it.`);
         } else if (turnContext.activity.type !== ActivityTypes.ConversationUpdate) {
             // Respond to all other Activity types.
-            await turnContext.sendActivity(`[${turnContext.activity.type}]-type activity detected.`);
+            await turnContext.sendActivity(`[${ turnContext.activity.type }]-type activity detected.`);
         }
     }
 }

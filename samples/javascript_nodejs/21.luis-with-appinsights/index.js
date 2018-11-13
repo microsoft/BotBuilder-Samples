@@ -11,13 +11,13 @@ const { MyAppInsightsMiddleware } = require('./middleware');
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, './.env');
-const env = require('dotenv').config({ path: ENV_FILE });
+require('dotenv').config({ path: ENV_FILE });
 
 // Get the .bot file path.
 const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 let botConfig;
 try {
-    // Read bot configuration from .bot file. 
+    // Read bot configuration from .bot file.
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
 } catch (err) {
     console.error(`\nError reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
@@ -79,7 +79,7 @@ adapter.use(new MyAppInsightsMiddleware(appInsightsSettings));
 
 // Catch-all for errors.
 adapter.onTurnError = async (turnContext, error) => {
-    console.error(`\n [onTurnError]: ${error}`);
+    console.error(`\n [onTurnError]: ${ error }`);
     await turnContext.sendActivity(`Oops. Something went wrong!`);
 };
 
@@ -96,14 +96,14 @@ try {
         logMessage,
         logName);
 } catch (err) {
-    console.error(`[botInitializationError]: ${err}`);
+    console.error(`[botInitializationError]: ${ err }`);
     process.exit();
 }
 
 // Create HTTP server.
 let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function () {
-    console.log(`\n${server.name} listening to ${server.url}.`);
+server.listen(process.env.port || process.env.PORT || 3978, function() {
+    console.log(`\n${ server.name } listening to ${ server.url }.`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
     console.log(`\nTo talk to your bot, open luis-with-appinsights.bot file in the emulator.`);
 });

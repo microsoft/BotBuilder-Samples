@@ -99,7 +99,7 @@ export class BasicBot {
   public onTurn = async (context: TurnContext) => {
     // Handle Message activity type, which is the main activity type for shown within a conversational interface
     // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
-    // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+    // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
     if (context.activity.type === ActivityTypes.Message) {
       let dialogResult: DialogTurnResult;
 

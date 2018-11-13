@@ -32,9 +32,9 @@ class Greeting extends ComponentDialog {
         super(dialogId);
 
         // validate what was passed in
-        if (!dialogId) throw ('Missing parameter.  dialogId is required');
-        if (!greetingStateAccessor) throw ('Missing parameter.  greetingStateAccessor is required');
-        if (!userState) throw ('Missing parameter.  userState is required');
+        if (!dialogId) throw new Error('Missing parameter.  dialogId is required');
+        if (!greetingStateAccessor) throw new Error('Missing parameter.  greetingStateAccessor is required');
+        if (!userState) throw new Error('Missing parameter.  userState is required');
 
         // Add control flow dialogs
         this.addDialog(new WaterfallDialog(PROFILE_DIALOG, [
@@ -112,7 +112,7 @@ class Greeting extends ComponentDialog {
             await this.userState.saveChanges(step.context);
         }
         if (!greetingState.city) {
-            return await step.prompt(CITY_PROMPT, `Hello ${greetingState.name}, what city do you live in?`);
+            return await step.prompt(CITY_PROMPT, `Hello ${ greetingState.name }, what city do you live in?`);
         } else {
             return await step.next();
         }
@@ -151,7 +151,7 @@ class Greeting extends ComponentDialog {
             return true;
         } else {
             // Returns false if the user's name fails to meet the required length
-            await prompt.context.sendActivity(`Names need to be at least ${NAME_LENGTH_MIN} characters long.`);
+            await prompt.context.sendActivity(`Names need to be at least ${ NAME_LENGTH_MIN } characters long.`);
             return false;
         }
     }
@@ -168,7 +168,7 @@ class Greeting extends ComponentDialog {
             return true;
         } else {
             // Returns false if the user's city fails to meet the required length
-            await prompt.context.sendActivity(`City names needs to be at least ${CITY_LENGTH_MIN} characters long.`);
+            await prompt.context.sendActivity(`City names needs to be at least ${ CITY_LENGTH_MIN } characters long.`);
             return false;
         }
     }
@@ -180,7 +180,7 @@ class Greeting extends ComponentDialog {
     async greetUser(step) {
         const greetingState = await this.greetingStateAccessor.get(step.context);
         // Display to the user their profile information and end dialog
-        await step.context.sendActivity(`Hi ${greetingState.name}, from ${greetingState.city}, nice to meet you!`);
+        await step.context.sendActivity(`Hi ${ greetingState.name }, from ${ greetingState.city }, nice to meet you!`);
         return await step.endDialog();
     }
 }

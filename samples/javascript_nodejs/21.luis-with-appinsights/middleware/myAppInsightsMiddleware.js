@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 const { TelemetryClient } = require('applicationinsights');
-const { TurnContext } = require('botbuilder');
 
 /**
  * Middleware for logging incoming activities into Application Insights.
