@@ -16,9 +16,6 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/04.simple-prompt` folder.
 - Type `dotnet run`.
 
-## Update packages
-- In Visual Studio right click on the solution and select "Restore NuGet Packages".
-- In Visual Studio Code type `dotnet restore`
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot 
 developers to test and debug their bots on localhost or running remotely through a tunnel.

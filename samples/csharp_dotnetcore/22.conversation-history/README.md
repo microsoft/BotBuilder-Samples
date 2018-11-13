@@ -20,7 +20,6 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Open `botbuilder-samples/samples/csharp_dotnetcore/22.conversation-history` sample folder.
 - Set the BLOB store connection-string in BotConfiguration.bot
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/22.conversation-history` folder.
-- In the Visual Studio Code terminal type `dotnet restore`
 - Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator

@@ -32,7 +32,6 @@ With the OAuth 2 provider configured, please update `ConnectionName` in `Authent
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/18.bot-authentication` folder
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/18.bot-authentication`
-- In the Visual Studio Code terminal type `dotnet restore`
 - Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator
