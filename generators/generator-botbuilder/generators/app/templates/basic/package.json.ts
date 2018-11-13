@@ -10,7 +10,7 @@
         "build": "tsc",
         "start": "tsc && node ./lib/index.js",
         "watch": "tsc && node ./lib/index.js"
-      },
+    },
     "dependencies": {
         "botbuilder": "^4.1.5",
         "botbuilder-ai": "^4.1.5",
