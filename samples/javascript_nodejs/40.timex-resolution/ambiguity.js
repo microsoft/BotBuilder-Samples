@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 const Recognizers = require('@microsoft/recognizers-text-date-time');
 
