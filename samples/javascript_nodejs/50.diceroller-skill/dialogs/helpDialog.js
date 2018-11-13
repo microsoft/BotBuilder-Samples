@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { CardFactory, MessageFactory, InputHints } = require('botbuilder');
-const { Dialog } = require('botbuilder-dialogs')
+const { Dialog } = require('botbuilder-dialogs');
 const { getText } = require('../lg');
 const ssml = require('../ssml');
 
@@ -10,11 +10,10 @@ const ssml = require('../ssml');
  * Single turn dialog that will send the user a help card.
  */
 class HelpDialog extends Dialog {
-
     /**
-     * Abstract method called when the dialog is started. 
+     * Abstract method called when the dialog is started.
      * @param {DialogContext} dc Dialog context for the current turn of conversation.
-     * @param {object} options (Optional) options passed to the dialog in the DialogContext.beginDialog() call. 
+     * @param {object} options (Optional) options passed to the dialog in the DialogContext.beginDialog() call.
      */
     async beginDialog(dc, options) {
         // Format help card and message
@@ -28,4 +27,5 @@ class HelpDialog extends Dialog {
         return await dc.endDialog();
     }
 }
+
 module.exports.HelpDialog = HelpDialog;

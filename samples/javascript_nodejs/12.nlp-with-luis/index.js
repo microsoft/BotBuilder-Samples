@@ -65,7 +65,7 @@ const adapter = new BotFrameworkAdapter({
 });
 
 // Catch-all for errors.
-adapter.onTurnError = async(turnContext, error) => {
+adapter.onTurnError = async (turnContext, error) => {
     console.error(`\n [onTurnError]: ${ error }`);
     await turnContext.sendActivity(`Oops. Something went wrong!`);
 };
@@ -89,7 +89,7 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async(turnContext) => {
+    adapter.processActivity(req, res, async (turnContext) => {
         await bot.onTurn(turnContext);
     });
 });

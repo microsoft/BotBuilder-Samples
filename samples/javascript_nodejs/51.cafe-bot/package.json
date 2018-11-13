@@ -4,12 +4,17 @@
   "description": "Bot Builder v4 example that demonstrates a complete cafe bot sample",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./index.js",
-    "watch": "nodemon ./index.js"
+    "watch": "nodemon ./index.js",
+    "eslint": "./node_modules/.bin/eslint .",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Microsoft",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
+  },
   "dependencies": {
     "@microsoft/recognizers-text-data-types-timex-expression": "1.1.4",
     "botbuilder": "^4.1.5",
@@ -21,7 +26,7 @@
     "restify": "^7.2.2"
   },
   "devDependencies": {
-    "eslint": "^5.8.0",
+    "eslint": "^5.9.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^8.0.0",

@@ -81,7 +81,7 @@ class SampleBot {
         const fullname = values['fullname'].values;
         await step.context.sendActivity(`Your name is ${ fullname['first'] } ${ fullname['last'] }.`);
 
-        await step.context.sendActivity(`You wear a size ${ values['shoesize'] } shoe.`);
+        await step.context.sendActivity(`You wear a size ${ values['shoesize'] } shoes.`);
 
         const address = values['address'].values;
         await step.context.sendActivity(`Your address is: ${ address['street'] }, ${ address['city'] } ${ address['zip'] }`);

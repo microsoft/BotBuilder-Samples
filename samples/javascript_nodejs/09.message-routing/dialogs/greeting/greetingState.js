@@ -6,10 +6,10 @@
  * Used to store the user state.
  */
 class GreetingState {
-  constructor(name, city) {
-    this.name = name ? name : undefined;
-    this.city = city ? city : undefined;
-  }
+    constructor(name, city) {
+        this.name = name;
+        this.city = city;
+    }
 }
 
 module.exports.GreetingState = GreetingState;

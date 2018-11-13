@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, MessageFactory, TurnContext } = require('botbuilder');
+const { ActivityTypes, MessageFactory } = require('botbuilder');
 
 /**
  * A bot that responds to input from suggested actions.
