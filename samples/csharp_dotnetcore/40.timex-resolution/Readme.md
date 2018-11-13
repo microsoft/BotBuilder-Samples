@@ -31,14 +31,15 @@ The TIMEX expression library is contained in the same GitHub repo as the recogni
 ```bash
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
-# Prerequisites
+# Running Locally
+
 ## Visual studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/40.timex-resolution`) and open Timex-Resolution.csproj in Visual studio 
 - Run the project (press `F5` key)
 
-## Visual studio code
-- Open `botbuilder-samples/samples/csharp_dotnetcore/40.timex-resolution` folder
-- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/40.timex-resolution` folder
+## .NET Core CLI
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
+- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/40.timex-resolution` folder
 - Type `dotnet run`.
 
 # Further reading

@@ -33,14 +33,18 @@ git clone https://github.com/microsoft/botbuilder-samples.git
 ```
 - Update `ConnectionSettingName` in `GraphAuthenticationBot.cs` so the bot can perform OAuth calls through Azure Bot Service
 - [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph` with your botFileSecret. For Azure Bot Service bots, you can find the botFileSecret under application settings.
+
+# Running Locally
+
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph`) and open BotAuthenticationMSGraph.csproj in Visual Studio 
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
 - Run the project (press `F5` key)
-## Visual Studio Code
-- Open `botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph` folder
-- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph`
+## .NET Core CLI
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
+- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/24.bot-authentication-msgraph`
 - Type `dotnet run`.
+
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot 
 developers to test and debug their bots on localhost or running remotely through a tunnel.

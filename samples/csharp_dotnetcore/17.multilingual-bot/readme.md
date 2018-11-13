@@ -27,18 +27,18 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 # Prerequisites
 
 ## Microsoft Translator Text API
-
 To consume the Microsoft Translator Text API, first obtain a key following the instructions in the [Microsoft Translator Text API documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup). 
 Paste the key in the ```translationKey``` placeholder within the appsettings.json file.
 
+# Running Locally
 
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot`) and open MessageRoutingBot.csproj in Visual Studio 
 - Run the project (press `F5` key)
 
-## Visual Studio Code
-- Open `botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot` sample folder.
-- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot folder`
+## .NET Core CLI
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
+- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot folder`
 - type `dotnet run`
 
 ## Testing the bot using Bot Framework Emulator

@@ -5,14 +5,17 @@
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 - [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/10.prompt-validations` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
-# Prerequisites
+# Running Locally
+
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/10.prompt-validations`) and open `PromptValidationsBot.csproj` in Visual Studio.
 - Run the project (press `F5` key).
-## Visual Studio Code
-- Open `botbuilder-samples/samples/csharp_dotnetcore/04.simple-prompt` sample folder.
-- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/10.prompt-validations` folder.
+
+## .NET Core CLI
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
+- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/10.prompt-validations` folder.
 - Type `dotnet run`.
+
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot 
 developers to test and debug their bots on localhost or running remotely through a tunnel.
