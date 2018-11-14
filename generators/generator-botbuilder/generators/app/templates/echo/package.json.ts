@@ -10,7 +10,7 @@
         "build": "tsc",
         "start": "tsc && node ./lib/index.js",
         "watch": "concurrently --kill-others \"tsc -w\" \"nodemon ./lib/index.js\""
-      },
+    },
     "dependencies": {
         "botbuilder": "^4.1.5",
         "botframework-config": "^4.1.5",

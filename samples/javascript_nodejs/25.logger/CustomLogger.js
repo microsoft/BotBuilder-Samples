@@ -15,7 +15,7 @@ class CustomLogger {
         if (!activity) {
             throw new Error('Activity is required.');
         }
-        var logText = util.format('\n Activity Recieved: %s \n', util.inspect(activity));
+        var logText = util.format('\n Activity Received: %s \n', util.inspect(activity));
         console.log(logText);
 
         if (activity.conversation) {

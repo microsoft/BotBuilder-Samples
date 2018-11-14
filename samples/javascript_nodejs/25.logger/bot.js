@@ -37,7 +37,7 @@ class LoggerBot {
         this.dialogs.add(new NumberPrompt(AGE_PROMPT, async (prompt) => {
             if (prompt.recognized.succeeded) {
                 if (prompt.recognized.value <= 0) {
-                    await prompt.context.sendActivity(`Your age can't be less than zero.`);
+                    await prompt.context.sendActivity(`Your age can't be less than or equal to zero.`);
                     return false;
                 } else {
                     return true;
@@ -105,9 +105,9 @@ class LoggerBot {
     async displayProfile(step) {
         const user = await this.userProfile.get(step.context, {});
         if (user.age) {
-            await step.context.sendActivity({ value: 'endOfInput', text: `Your name is ${ user.name } and you are ${ user.age } years old.` });
+            await step.context.sendActivity(`Your name is ${ user.name } and you are ${ user.age } years old.`);
         } else {
-            await step.context.sendActivity({ value: 'endOfInput', text: `Your name is ${ user.name } and you did not share your age.` });
+            await step.context.sendActivity(`Your name is ${ user.name } and you did not share your age.`);
         }
         return await step.endDialog();
     }
@@ -158,8 +158,10 @@ class LoggerBot {
                     if (turnContext.activity.membersAdded[idx].id !== turnContext.activity.recipient.id) {
                         // Send a "this is what the bot does" message.
                         const description = [
-                            'I am a bot that demonstrates the TextPrompt and NumberPrompt classes',
+                            'I am a bot that demonstrates custom logging.',
+                            'We will have a short conversation where I ask a few questions ',
                             'to collect your name and age, then store those values in UserState for later use.',
+                            'after this you will be able to find a log of the conversation in the folder set by the transcriptsPath environment variable',
                             'Say anything to continue.'
                         ];
                         await turnContext.sendActivity(description.join(' '));

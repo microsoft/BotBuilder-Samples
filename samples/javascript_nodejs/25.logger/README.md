@@ -1,22 +1,30 @@
-# transcriptLoggerBot
+# loggerBot
 This bot demonstrates the transcript logging middleware in the nodejs SDK. The files `CustomLogger.d.ts` and `CustomLogger.js` contain a custom implementation of the logging middleware.
-This implementation contains an object that saves ongoing conversations and writes them to a file after the end state of the conversation has been reached via a value "endOfInput" set on the last message in the `bot.js` file.
 
- This bot has been created using [Microsoft Bot Framework][10], and demonstrates how to create a bot that stores transcript logs of the conversation. 
- 
+This bot has been created using [Microsoft Bot Framework][10], and demonstrates how to create a bot that stores transcript logs of the conversation. 
+
 In this example, the bot creates a new folder in the project directory called `logs` and the conversations' transcripts are saved as `.log` files after the user has chatted with the bot. The bot also logs the conversation to the terminal as the user chats with it.
 
- This bot example uses [restify](https://www.npmjs.com/package/restify).
+This bot example uses [restify](https://www.npmjs.com/package/restify).
 
-# To run the bot
+# To try this sample
+- Clone the repository
+    ```bash
+    git clone https://github.com/microsoft/botbuilder-samples.git
+    ```
+- In a terminal, navigate to ```samples/javascript_nodejs/25.logger-bot```
+    ```bash
+    cd samples/javascript_nodejs/25.logger-bot
+    ```
+- [Optional] Update the .env file under ```samples/javascript_nodejs/25.logger-bot``` with your botFileSecret For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules and start the bot
     ```bash
-    npm i
+    npm i 
     npm start
     ```
     Alternatively you can also use nodemon via
     ```bash
-    npm i & npm run watch
+    npm i && npm run watch
     ```
 
 # Testing the bot using Bot Framework Emulator
@@ -41,23 +49,13 @@ In this example, the bot's state is used to track number of messages.
     - User properties can be used for many purposes, such as determining where the user's prior conversation left off or simply greeting a returning user by name. If you store a user's preferences, you can use that information to customize the conversation the next time you chat. For example, you might alert the user to a news article about a topic that interests her, or alert a user when an appointment becomes available. You should clear them if the bot receives a delete user data activity.
 
 # Deploy this bot to Azure
-You can use the [MSBot][5] Bot Builder CLI tool to clone and configure the services this sample depends on.
-
-To install all Bot Builder tools -
-
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
-
-```bash
-npm i -g msbot chatdown ludown qnamaker luis-apis botdispatch luisgen
-```
+You can use the [MSBot][5] Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools][11]
 
 To clone this bot, run
+```bash
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id> --appId <App-Id> --appSecret <App-Secret>
 ```
-msbot clone services -f deploymentScripts/msbotClone -n myChatBot -l <Azure-location> --subscriptionId <Azure-subscription-id> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
-```
-
-**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
-
+**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal][12]
 
 # Further reading
 - [Azure Bot Service Introduction][6]
@@ -76,3 +74,5 @@ msbot clone services -f deploymentScripts/msbotClone -n myChatBot -l <Azure-loca
 [8]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-storage?view=azure-bot-service-4.0&tabs=jsechoproperty%2Ccsetagoverwrite%2Ccsetag
 [9]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.0&tabs=js
 [10]: https://dev.botframework.com
+[11]: ../../../Installing_CLI_tools.md
+[12]: https://apps.dev.microsoft.com/

@@ -271,3 +271,4 @@ paket-files/
 .vscode/
 /javascript_nodejs/.DS_Store
 .DS_Store
+generators/generator-botbuilder/.npmrc

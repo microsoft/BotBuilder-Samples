@@ -70,7 +70,7 @@ To use the samples clone this GitHub repository using Git.
 |25.bot-logging    | This bot demonstrates the logging middleware in the nodejs SDK| |[View][js#25] |              |             | |
 |26.bot-transcript-logging    | This bot demonstrates the transcript logging middleware in the nodejs SDK| |[View][js#26] |              |             | |
 |30.asp-mvc-bot         | Demonstrates how to build a bot as an ASP.NET MVC Controller |[View][cs#30] ||              | | |
-|40.timex-resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[View][cs#40] |:runner:|              | | |
+|40.timex-resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[View][cs#40] |[View][js#40]|              | | |
 |42.scaleout            | Demonstrates how you can build your own state solution from the ground up that supports scaled out deployment with ETag based optimistic locking. |[View][cs#42] |:runner:|              | | |
 |50.diceroller-skill    | This sample demonstrates how to implement a Cortana Skill that properly handles EndOfConversation events.|:runner: |[View][js#50] |              |             | |
 |51.cafe-bot            | A complete E2E Cafe bot that has all capabilities and includes best practices|[View][cs#51]|[View][js#51]|              |             | |
@@ -151,6 +151,8 @@ To use the samples clone this GitHub repository using Git.
 
 [js#25]:samples/javascript_nodejs/25.logger-bot
 [js#26]:samples/javascript_nodejs/26.transcript-logger-bot
+
+[js#40]:samples/javascript_nodejs/40.timex-resolution
 
 [js#50]:samples/javascript_nodejs/50.diceroller-skill
 [js#51]:samples/javascript_nodejs/51.cafe-bot

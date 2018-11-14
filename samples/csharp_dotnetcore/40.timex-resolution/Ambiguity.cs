@@ -82,7 +82,7 @@ namespace Microsoft.BotBuilderSamples
             // Run the recognizer.
             var results = DateTimeRecognizer.RecognizeDateTime("It will be ready Wednesday at 5 o'clock.", Culture.English);
 
-            // We should find two results in this example.
+            // We should find a single result in this example.
             foreach (var result in results)
             {
                 // The resolution includes four example values: backwards and forward in the calendar and then AM and PM.
