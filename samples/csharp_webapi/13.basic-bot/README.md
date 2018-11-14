@@ -36,10 +36,10 @@ Create a new LUIS application:
     - The `SubscriptionKey` can be found in "Keys and Endpoints", under the `Key 1` column 
     - The `region` can be found in "Keys and Endpoints", under the `Region` column 
     The Version is listed on the page.
-- Update [LuisBot.bot](LuisBot.bot) file with your Authoring Key.  
+- Update [basic-bot.bot](basic-bot.bot) file with your Authoring Key.  
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
 NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
-- Update [LuisBot.bot](LuisBot.bot) file to ensure the name property is set to `BasicBot`.
+- Update [basic-bot.bot](basic-bot.bot) file to ensure the name property is set to `BasicBot`.
 ## Visual Studio
 - Navigate to the samples folder (`BotBuilder-Samples/samples/csharp_webapi/13.Basic-Bot-Template`) and open `BasicBot.csproj` in Visual Studio.
 - Run the project (press `F5` key).
@@ -54,7 +54,7 @@ their bots on localhost or running remotely through a tunnel.
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator
 - File -> Open bot and navigate to `BotBuilder-Samples/samples/csharp_webapi/13.Basic-Bot-Template` folder
-- Select `BasicBot.bot` file
+- Select `basic-bot.bot` file
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [LUIS Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)

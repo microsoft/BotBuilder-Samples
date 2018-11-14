@@ -237,7 +237,7 @@ Any time the bot file is encrypted, make sure to set the botFileSecret environme
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/14.nlp-with-dispatch` folder
-- Select `BotConfiguration.bot` file
+- Select `nlp-with-dispatch.bot` file
 
 # Further reading
 

@@ -56,7 +56,7 @@ Your project may be configured to rely on this secret and you should update it a
         {
             ...
 
-            var botConfig = BotConfiguration.Load(botFilePath ??  @".\<YOUR BOT CONFIGURATION>.bot"..);
+            var botConfig = BotConfiguration.Load(botFilePath ??  @".\basic-bot.bot"..);
             ...
 ```
 
@@ -77,7 +77,7 @@ Your project may be configured to rely on this secret and you should update it a
 
 ```bash
 {
-    "botFilePath": "<YOUR BOT CONFIG>.bot",
+    "botFilePath": "basic-bot.bot",
     "botFileSecret": "<YOUR BOT SECRET>"
 }
 ```
@@ -86,15 +86,15 @@ Your project may be configured to rely on this secret and you should update it a
 - Navigate to [LUIS portal](https://www.luis.ai).
 - Click the `Sign in` button.
 - Click on the `Choose File` and select [basic-bot.json](basic-bot.json) from the `botbuilder-samples/csharp_dotnetcore/13.basic-bot/CognitiveModels` folder.
-- Update [BotConfiguration.bot](BotConfiguration.bot) file with your AppId, SubscriptionKey, Region and Version. 
+- Update [basic-bot.bot](basic-bot.bot) file with your AppId, SubscriptionKey, Region and Version. 
     You can find this information under "Manage" tab for your LUIS application at [LUIS portal](https://www.luis.ai).
     - The `AppID` can be found in "Application Information"
     - The `SubscriptionKey` can be found in "Keys and Endpoints", under the `Key 1` column
     - The `region` can be found in "Keys and Endpoints", under the `Region` column
-- Update [BotConfiguration.bot](BotConfiguration.bot) file with your Authoring Key.  
+- Update [basic-bot.bot](basic-bot.bot) file with your Authoring Key.  
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
     NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
-- Update [BotConfiguration.bot](BotConfiguration.bot) file to ensure the `Id` property on the `luis` service type is set to `basic-bot-LUIS`.
+- Update [basic-bot.bot](basic-bot.bot) file to ensure the `Id` property on the `luis` service type is set to `basic-bot-LUIS`.
 # Running Locally
 
 ## Visual Studio
@@ -113,7 +113,7 @@ their bots on localhost or running remotely through a tunnel.
 ### Connect to bot using Bot Framework Emulator
 - Launch the Bot Framework Emulator
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/13.basic-bot` folder
-- Select `BotConfiguration.bot` file
+- Select `basic-bot.bot` file
 
 # Deploy this bot to Azure
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).

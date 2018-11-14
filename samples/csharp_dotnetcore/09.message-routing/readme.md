@@ -23,7 +23,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/09.message-routing` folder
-- Select `BotConfiguration.bot` file
+- Select `message-routing.bot` file
 # Deploy this bot to Azure
 
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).

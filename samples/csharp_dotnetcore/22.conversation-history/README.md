@@ -5,22 +5,22 @@
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `BotConfiguration.bot` file under `botbuilder-samples/samples/csharp_dotnetcore/22.conversation-history` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+- [Optional] Update the `conversation-history.bot` file under `botbuilder-samples/samples/csharp_dotnetcore/22.conversation-history` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 
 # Running Locally
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/storage/common/storage-quickstart-create-account?tabs=portal) to create a Blob Storage service.
-- Update [`BotConfiguration.bot`](BotConfiguration.bot) with your `connectionString` for Blob service. Also you need to update the `StorageConfigurationId` from [Startup.cs](Startup.cs) with the Blob service name.
+- Update [`conversation-history.bot`](conversation-history.bot) with your `connectionString` for Blob service. Also you need to update the `StorageConfigurationId` from [Startup.cs](Startup.cs) with the Blob service name.
 > You can find your storage account's connection strings in the Azure portal. Navigate to SETTINGS > Access keys in your storage account's menu blade to see connection strings for both primary and secondary access keys.
 
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/22.conversation-history`) and open ConversationHistory.csproj in Visual Studio.
-- Set the BLOB store connection-string in BotConfiguration.bot
+- Set the BLOB store connection-string in conversation-history.bot
 - Run the project (press `F5` key)
 
 ## .NET Core CLI
 - Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
 - Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/22.conversation-history` folder.
-- Set the BLOB store connection-string in BotConfiguration.bot
+- Set the BLOB store connection-string in conversation-history.bot
 - Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator

@@ -47,7 +47,7 @@ Build run your bot locally and open two instances of the emulator.
 ### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` folder
-- Select `BotConfiguration.bot` file
+- Select `proactive-messages.bot` file
 - Open two conversations in the emulator, see that the proactive message goes to the correct conversation
 
 # Deploy this bot to Azure
