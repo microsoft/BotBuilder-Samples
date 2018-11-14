@@ -1,5 +1,5 @@
 {
-    "name": "BasicBot",
+    "name": "qna-with-appinsights",
     "description": "",
     "services": [
         {

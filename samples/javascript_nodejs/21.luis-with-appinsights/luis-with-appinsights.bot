@@ -1,5 +1,5 @@
 {
-    "name": "BasicBot",
+    "name": "luis-with-appinsights",
     "description": "",
     "services": [
         {
