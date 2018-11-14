@@ -107,7 +107,7 @@ To use the samples clone this GitHub repository using Git.
 [cs#42]:samples/csharp_dotnetcore/42.scaleout
 [cs#51]:samples/csharp_dotnetcore/51.cafe-bot
 [cs#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
-[cs#60]:samples/csharp_dotnetcore/60.multilinugal-luis-bot
+[cs#60]:experimental/csharp_dotnetcore/60.multilinugal-luis-bot
 
 [wa#2]:samples/csharp_webapi/02.echo-with-counter
 [wa#11]:samples/csharp_webapi/11.QnAMaker
@@ -123,6 +123,7 @@ To use the samples clone this GitHub repository using Git.
 [ts#12]:samples/javascript_typescript/12.nlp-with-luis
 [ts#13]:samples/javascript_typescript/13.basic-bot
 [ts#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
+[ts#60]:experimental/javascript_typescript/60.multilingual-luis-bot
 
 [js#1]:samples/javascript_nodejs/01.console-echo
 [js#2]:samples/javascript_nodejs/02.echobot-with-counter
