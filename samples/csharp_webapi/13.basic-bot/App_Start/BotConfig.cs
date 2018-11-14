@@ -30,7 +30,7 @@ namespace BasicBot
             config.MapBotFramework(botConfig =>
             {
                 // Load Connected Services from .bot file
-                var path = HostingEnvironment.MapPath(@"~/BasicBot.bot");
+                var path = HostingEnvironment.MapPath(@"~/basic-bot.bot");
                 var botConfigurationFile = BotConfiguration.Load(path);
                 var service = botConfigurationFile.Services.Where(s => s.Type == "endpoint" && s.Name == "development").FirstOrDefault();
                 if (!(service is EndpointService endpointService))

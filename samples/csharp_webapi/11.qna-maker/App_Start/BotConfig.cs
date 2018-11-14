@@ -23,7 +23,7 @@ namespace QnABot
             config.MapBotFramework(botConfig =>
             {
                 // Load Connected Services from .bot file
-                var path = HostingEnvironment.MapPath(@"~/QnABot.bot");
+                var path = HostingEnvironment.MapPath(@"~/qna-maker.bot");
                 var botConfigurationFile = BotConfiguration.Load(path);
                 var endpointService = (EndpointService)botConfigurationFile.Services.First(s => s.Type == "endpoint");
 
