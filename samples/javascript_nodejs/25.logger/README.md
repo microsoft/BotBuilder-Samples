@@ -35,7 +35,7 @@ This bot example uses [restify](https://www.npmjs.com/package/restify).
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration
-- Select `loggerBot.bot` file
+- Select `logger.bot` file
 
 # Bot state
 A key to good bot design is to track the context of a conversation, so that your bot remembers things like the answers to previous questions. Depending on what your bot is used for, you may even need to keep track of conversation state or store user related information for longer than the lifetime of one given conversation.

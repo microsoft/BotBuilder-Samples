@@ -24,7 +24,7 @@ This sample shows how to send outgoing attachments and how to save attachments t
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/15.handling-attachments` folder
-- Select `attachments.bot` file
+- Select `handling-attachments.bot` file
 
 # Attachments
 A message exchange between user and bot may contain cards and media attachments, such as images, video, audio, and files.
