@@ -14,18 +14,17 @@ The types of attachments that may be sent and received varies by channel. Additi
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
 - [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/15.handling-attachments` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
-# Prerequisites
+
+# Running Locally
+
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/15.handling-attachments`) and open HandlingAttachmentsBot.csproj in Visual Studio 
 - Run the project (press `F5` key)
-## Visual Studio Code
-- Open `botbuilder-samples/samples/csharp_dotnetcore/15.handling-attachments` folder
-- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/15.handling-attachments`
-- Type `dotnet run`.
-## Update packages
 
-- In Visual Studio right click on the solution and select "Restore NuGet Packages".
-- In Visual Studio Code type `dotnet restore`
+## .NET Core CLI
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
+- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/15.handling-attachments`
+- Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator
 

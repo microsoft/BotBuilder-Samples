@@ -12,7 +12,7 @@ module.exports.configureCommandlineOptions = gen => {
   gen.option("botName", {
     desc: "The name you want to give to your bot",
     type: String,
-    default: "myChatBot",
+    default: "my-chat-bot",
     alias: "N"
   });
   gen.option("description", {
@@ -47,7 +47,7 @@ module.exports.getPrompts = options => {
     {
       name: "botName",
       message: `What's the name of your bot?`,
-      default: (options.botname ? options.botname : "myChatBot")
+      default: (options.botname ? options.botname : "my-chat-bot")
     },
     {
       name: "description",

@@ -25,15 +25,15 @@ Experimental samples are organized per platform.
 
 | Sample Name           | Description                                                                    | .NET CORE   | NodeJS      | .NET Web API | Typescript  |
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|
-|bot translation library| The sample shows how to use the library through Middleware to support multilingual interaction with bots in general and LUIS bots in particular.                                                                                                 | | | |[View][ts#1] |
+|bot translation library| The sample shows how to use the library through Middleware to support multilingual interaction with bots in general and LUIS bots in particular.                                                                                                 |[View][cs#1] |  |  |  |
 
 
 [cs#1]:csharp_dotnetcore/MultilingualLuisBot
 
-[wa#2]:samples/csharp_webapi/02.echo-with-counter
+[wa#2]:csharp_webapi/#
 
-[ts#1]:javascript_typescript/multi-lingual-luis-bot
+[ts#1]:javascript_typescript/#
 
-[js#1]:samples/javascript_nodejs/01.console-echo
+[js#1]:samples/javascript_nodejs/#
 
 

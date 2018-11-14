@@ -10,7 +10,7 @@
         "build": "echo \"Error: no build specified\" && exit 1",
         "start": "node ./index.js",
         "watch": "nodemon ./index.js"
-      },
+    },
     "dependencies": {
         "botbuilder": "^4.1.5",
         "botframework-config": "^4.1.5",

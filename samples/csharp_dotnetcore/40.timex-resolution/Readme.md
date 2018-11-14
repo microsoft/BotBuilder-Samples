@@ -31,20 +31,16 @@ The TIMEX expression library is contained in the same GitHub repo as the recogni
 ```bash
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
-# Prerequisites
+# Running Locally
+
 ## Visual studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/40.timex-resolution`) and open Timex-Resolution.csproj in Visual studio 
 - Run the project (press `F5` key)
 
-## Visual studio code
-- Open `botbuilder-samples/samples/csharp_dotnetcore/40.timex-resolution` folder
-- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/40.timex-resolution` folder
+## .NET Core CLI
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
+- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/40.timex-resolution` folder
 - Type `dotnet run`.
-
-## Update packages
-- In Visual Studio right click on the solution and select "Restore NuGet Packages".
-  **Note:** this sample requires `Microsoft.Recognizers.Text.DataTypes.TimexExpression` and `Microsoft.Recognizers.Text.DateTime`.
-- In Visual Studio Code type `dotnet restore`
 
 # Further reading
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

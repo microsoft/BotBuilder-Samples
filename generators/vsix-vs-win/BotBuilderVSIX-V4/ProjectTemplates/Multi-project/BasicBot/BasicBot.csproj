@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <CodeAnalysisRuleSet>BasicBot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,10 +18,6 @@
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.1.5" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.1.5" />
     <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

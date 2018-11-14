@@ -18,16 +18,18 @@ and simplifies bot development (since you will not need to account for that scen
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
 - [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/08.suggested-actions` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
-# Prerequisites
+
+# Running Locally
+
 ## Visual studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/08.suggested-actions`) and open `SuggestedActionsBot.csproj` in Visual Studio 
 - Run the project (press `F5` key)
-## Visual studio code
-- Open `botbuilder-samples/samples/csharp_dotnetcore/08.suggested-actions` folder
-- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/08.suggested-actions`
+
+## .NET Core CLI
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x).
+- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/08.suggested-actions`
 - Type `dotnet run`.
-## Update packages
-- In Visual Studio right click on the solution and select "Restore NuGet Packages".
+
 # Deploy this bot to Azure
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
 

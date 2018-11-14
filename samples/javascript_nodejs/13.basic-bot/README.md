@@ -24,7 +24,7 @@ This samples shows how to:
   ```bash
   npm install
   ```
-- Create [required services](./deploymentScripts/DEPLOY.MD)
+- Create [required services](./deploymentScripts/DEPLOY.md)
 - Run the sample
   ```bash
   npm start
