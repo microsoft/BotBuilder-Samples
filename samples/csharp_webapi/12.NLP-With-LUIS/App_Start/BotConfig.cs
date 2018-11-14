@@ -28,7 +28,7 @@ namespace LuisBot
             config.MapBotFramework(botConfig =>
             {
                 // Load Connected Services from .bot file
-                var path = HostingEnvironment.MapPath(@"~/LuisBot.bot");
+                var path = HostingEnvironment.MapPath(@"~/nlp-with-luis.bot");
                 var botConfigurationFile = BotConfiguration.Load(path);
                 var endpointService = (EndpointService)botConfigurationFile.Services.First(s => s.Type == "endpoint");
 
