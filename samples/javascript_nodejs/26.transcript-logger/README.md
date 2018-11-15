@@ -13,11 +13,11 @@ In this example, the bot creates a new folder in the project directory called `l
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to `samples/javascript_nodejs/26.bot-transcript-logging`
+- In a terminal, navigate to `samples/javascript_nodejs/26.transcript-logger`
     ```bash
     cd samples/javascript_nodejs/26.bot-transcript-logging
     ```
-- [Optional] Update the `.env` file under `samples/javascript_nodejs/26.bot-transcript-logging` with your `botFileSecret` For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
+- [Optional] Update the `.env` file under `samples/javascript_nodejs/26.transcript-logger` with your `botFileSecret` For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
 - Install modules and start the bot
     ```bash
     npm i
@@ -36,7 +36,7 @@ In this example, the bot creates a new folder in the project directory called `l
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration
-- Select `loggerBot.bot` file
+- Select `transcript-logger.bot` file
 
 # Bot state
 A key to good bot design is to track the context of a conversation, so that your bot remembers things like the answers to previous questions. Depending on what your bot is used for, you may even need to keep track of conversation state or store user related information for longer than the lifetime of one given conversation.

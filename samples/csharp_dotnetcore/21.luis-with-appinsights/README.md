@@ -52,7 +52,7 @@ Your project may be configured to rely on this secret and you should update it a
         {
             ...
 
-            var botConfig = BotConfiguration.Load(botFilePath ??  @".\<YOUR BOT CONFIGURATION>.bot"..);
+            var botConfig = BotConfiguration.Load(botFilePath ??  @".\luis-with-appinsights.bot"..);
             ...
 ```
 
@@ -85,7 +85,7 @@ Your project may be configured to rely on this secret and you should update it a
 - Click on `My Apps`.
 - Click on the `Import new app` button.
 - Click on the `Choose File` and select [LUIS-Reminders.json](LUIS-Reminders.json) from the `botbuilder-samples\samples\csharp_dotnetcore\23.luis-with-appinsights\CognitiveModels` folder.
-- Update [BotConfiguration.bot](BotConfiguration.bot) file with your AppId, SubscriptionKey, Region and Version. 
+- Update [luis-with-appinsights.bot](luis-with-appinsights.bot) file with your AppId, SubscriptionKey, Region and Version. 
     You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
 	https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/XXXXXXXXXXXXX?subscription-key=YYYYYYYYYYYY&verbose=true&timezoneOffset=0&q= 
 
@@ -94,7 +94,7 @@ Your project may be configured to rely on this secret and you should update it a
     - Region =  westus
 
     The Version is listed on the page.
-- Update [BotConfiguration.bot](BotConfiguration.bot) file with your Authoring Key.  
+- Update [luis-with-appinsights.bot](luis-with-appinsights.bot) file with your Authoring Key.  
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
 NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
 ### (Optional) Install LUDown
@@ -122,7 +122,7 @@ NOTE: Once you publish your app on LUIS portal for the first time, it takes some
 ## Connect to bot using Bot Framework Emulator V4
 - Launch the Bot Framework Emulator
 - File -> Open bot and navigate to `botbuilder-samples\samples\csharp_dotnetcore\21.luis-with-appsinsights` folder.
-- Select BotConfiguration.bot file.
+- Select luis-with-appinsights.bot file.
 
 # Deploy this bot to Azure
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 

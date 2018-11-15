@@ -18,7 +18,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 to create a QnA Maker service.
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/tutorials/migrate-knowledge-base) to
 import the [smartLightFAQ.tsv](CognitiveModels/smartLightFAQ.tsv) to your newly created QnA Maker service.
-- Update [BotConfiguration.bot](BotConfiguration.bot) with your kbid (KnowledgeBase Id) and endpointKey in the "qna" services section. You can find this
+- Update [qnamaker.bot](qnamaker.bot) with your kbid (KnowledgeBase Id) and endpointKey in the "qna" services section. You can find this
 information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://www.qnamaker.ai)
 - (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the
 QnA Maker CLI to deploy the model.
@@ -42,7 +42,7 @@ QnA Maker CLI to deploy the model.
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker` folder.
-- Select the `BotConfiguration.bot` file.
+- Select the `qnamaker.bot` file.
 
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

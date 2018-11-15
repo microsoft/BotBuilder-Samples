@@ -32,7 +32,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/23.facebook-events` folder
-- Select `BotConfiguration.bot` file
+- Select `facebook-events.bot` file
 
 ### Enable Facebook Channel
 

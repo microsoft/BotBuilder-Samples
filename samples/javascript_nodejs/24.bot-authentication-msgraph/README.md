@@ -30,7 +30,7 @@ The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissio
   ```bash
   npm i
   ```
-- Update `authentication-msgraph.bot` with required configuration settings
+- Update `bot-authentication-msgraph.bot` with required configuration settings
   - App ID and Key for registered bots
 - Update `CONNECTION_SETTING_NAME` in `bot.js` so the bot can perform OAuth calls through Azure Bot Service
 - Run the sample
@@ -48,7 +48,7 @@ The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissio
 ### Connect to bot using Bot Framework Emulator v4
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/24.bot-authentication-msgraph` folder
-- Select `authentication-msgraph.bot` file
+- Select `bot-authentication-msgraph.bot` file
 
 ## Additional Resources
 
@@ -62,7 +62,7 @@ The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissio
 Update `.env` with the appropriate keys:
 
 - App ID and Key for registered bots.
-- botFilePath and botFileSecret from `authentication-msgraph.bot` file
+- botFilePath and botFileSecret from `bot-authentication-msgraph.bot` file
 
 ## Further Reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

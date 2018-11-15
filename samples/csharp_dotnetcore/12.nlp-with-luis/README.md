@@ -18,7 +18,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 - Click on the `Choose File` and select [LUIS-Reminders.json](LUIS-Reminders.json) from the `botbuilder-samples/samples/csharp_dotnetcore/12.nlp-with-luis/CognitiveModels` folder.
 
-- Update [BotConfiguration.bot](BotConfiguration.bot) file with your AppId, SubscriptionKey, Region and Version. 
+- Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your AppId, SubscriptionKey, Region and Version. 
     You can find this information under "Manage" tab for your LUIS application at [LUIS portal](https://www.luis.ai).
 
     - The `AppID` can be found in "Application Information"
@@ -44,7 +44,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
     The Version is listed on the page.
     Note: Enter the either `authoringKey` OR `subscriptionKey`, not both
 
-- Update [BotConfiguration.bot](BotConfiguration.bot) file with your Authoring Key.  
+- Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your Authoring Key.  
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
     NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
 ### (Optional) Install LUDown
@@ -67,7 +67,7 @@ their bots on localhost or running remotely through a tunnel.
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/12.nlp-with-luis` folder
-- Select `BotConfiguration.bot` file
+- Select `nlp-with-luis.bot` file
 # Deploy this bot to Azure
 
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).

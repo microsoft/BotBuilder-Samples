@@ -24,7 +24,7 @@ developers to test and debug their bots on localhost or running remotely through
 ## Connect to bot using Bot Framework Emulator V4
 - Launch the Bot Framework Emulator.
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/10.prompt-validations` folder.
-- Select `BotConfiguration.bot` file.
+- Select `prompt-validations.bot` file.
  # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Bot Storage](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-state?view=azure-bot-service-3.0&viewFallbackFrom=azure-bot-service-4.0)

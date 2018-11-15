@@ -26,7 +26,7 @@ developers to test and debug their bots on localhost or running remotely through
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator.
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/04.simple-prompt` folder.
-- Select `BotConfiguration.bot` file.
+- Select `simple-prompt.bot` file.
 # Deploy this bot to Azure
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher.
 

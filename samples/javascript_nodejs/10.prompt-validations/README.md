@@ -27,7 +27,7 @@ or running remotely through a tunnel.
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to `javascript_nodejs/10.prompt-validations`
-- Select `prompt-validations-bot.bot` file
+- Select `prompt-validations.bot` file
 
 # Deploy this bot to Azure
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md). 
