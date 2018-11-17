@@ -239,7 +239,7 @@ namespace Microsoft.BotBuilderSamples
 
             return new Attachment
             {
-                Name = "Resources\architecture-resize.png",
+                Name = @"Resources\architecture-resize.png",
                 ContentType = "image/png",
                 ContentUrl = $"data:image/png;base64,{imageData}",
             };
