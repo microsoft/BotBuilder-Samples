@@ -89,7 +89,7 @@ The table below describes the reasonable set of defaults used when `--noprompt` 
 
 | Commandline Option | Description |
 | ------------------ | ----------- |
-| --botname, -N      | `myChatBot` |
+| --botname, -N      | `my-chat-bot` |
 | --description, -D  | `Demonstrate the core capabilities of the Microsoft Bot Framework` |
 | --language, -L     | `JavaScript` |
 | --template, -T     | `basic` |
