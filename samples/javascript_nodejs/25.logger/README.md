@@ -19,8 +19,7 @@ This bot example uses [restify](https://www.npmjs.com/package/restify).
 - [Optional] Update the .env file under ```samples/javascript_nodejs/25.logger-bot``` with your botFileSecret For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules and start the bot
     ```bash
-    npm i 
-    npm start
+    npm i && npm start
     ```
     Alternatively you can also use nodemon via
     ```bash
