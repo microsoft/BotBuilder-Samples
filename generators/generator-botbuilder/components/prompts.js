@@ -47,7 +47,7 @@ module.exports.getPrompts = options => {
     {
       name: "botName",
       message: `What's the name of your bot?`,
-      default: (options.botname ? options.botname : "my-chat-bot")
+      default: (options.botName ? options.botName : "my-chat-bot")
     },
     {
       name: "description",
