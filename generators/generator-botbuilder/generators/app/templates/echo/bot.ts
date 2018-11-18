@@ -34,7 +34,7 @@ export class MyBot {
             // read from state.
             let count = await this.countAccessor.get(turnContext);
             count = count === undefined ? 1 : ++count;
-            await turnContext.sendActivity(`${ count }: You said "${ turnContext.activity.text }"`);
+            await turnContext.sendActivity(`${ count }: You said '${ turnContext.activity.text }'`);
             // increment and set turn counter.
             await this.countAccessor.set(turnContext, count);
         }

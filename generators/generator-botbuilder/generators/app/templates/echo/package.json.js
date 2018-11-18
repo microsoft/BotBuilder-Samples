@@ -2,15 +2,19 @@
     "name": "<%= botName %>",
     "version": "1.0.0",
     "description": "<%= botDescription %>",
-    "author": "Microsoft Bot Builder Yeoman Generator v<%= version %>",
+    "author": "Generated using Microsoft Bot Builder Yeoman generator v<%= version %>",
     "license": "MIT",
     "main": "<%= npmMain %>",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "echo \"Error: no build specified\" && exit 1",
         "start": "node ./index.js",
-        "watch": "nodemon ./index.js"
+        "watch": "nodemon ./index.js",
+        "eslint": "./node_modules/.bin/eslint .",
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com"
+    },    
     "dependencies": {
         "botbuilder": "^4.1.5",
         "botframework-config": "^4.1.5",

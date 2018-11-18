@@ -2,13 +2,13 @@
     "name": "<%= botName %>",
     "version": "1.0.0",
     "description": "<%= botDescription %>",
-    "author": "Generated using Microsoft Bot Builder Yeoman generator v<%= version %>",
+    "author": "Microsoft Bot Builder Yeoman Generator v<%= version %>",
     "license": "MIT",
     "main": "<%= npmMain %>",
     "scripts": {
-        "build": "tsc",
-        "start": "tsc && node ./lib/index.js",
-        "watch": "concurrently --kill-others \"tsc -w\" \"nodemon ./lib/index.js\""
+        "start": "node ./index.js",
+        "watch": "nodemon ./index.js",
+        "eslint": "./node_modules/.bin/eslint .",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -22,9 +22,12 @@
         "restify": "^7.2.2"
     },
     "devDependencies": {
-        "concurrently": "^4.0.1",
-        "nodemon": "^1.18.6",
-        "tslint": "^5.11.0",
-        "tslint-microsoft-contrib": "^5.2.1"
+        "eslint": "^5.8.0",
+        "eslint-config-standard": "^12.0.0",
+        "eslint-plugin-import": "^2.14.0",
+        "eslint-plugin-node": "^8.0.0",
+        "eslint-plugin-promise": "^4.0.1",
+        "eslint-plugin-standard": "^4.0.0",
+        "nodemon": "^1.18.6"
     }
 }

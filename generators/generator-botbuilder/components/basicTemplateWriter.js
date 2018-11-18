@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const path = require("path");
-const _ = require("lodash");
-const mkdirp = require("mkdirp");
+const path = require('path');
+const _ = require('lodash');
+const mkdirp = require('mkdirp');
 
 const { commonFilesWriter } = require('./commonFilesWriter');
 
-const TEMPLATE_NAME = "basic";
-const TEMPLATE_PATH = "/basic/";
+const TEMPLATE_NAME = 'basic';
+const TEMPLATE_PATH = '/basic/';
 
-const LANG_JS = "javascript";
-const LANG_TS = "typescript";
+const LANG_JS = 'javascript';
+const LANG_TS = 'typescript';
 
 /**
  *
- * @param {String} language either "javascript" or "typescript"
+ * @param {String} language either 'javascript' or 'typescript'
  */
 const getFolders = language => {
   if(!language || (_.toLower(language) !== LANG_JS && _.toLower(language) !== LANG_TS)) {
@@ -61,7 +61,7 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   const DIALOGS_GREETING_RESOURCES = 4;
   const DIALOGS_WELCOME = 5;
   const DIALOGS_WELCOME_RESOURCES = 6;
-  const TS_SRC_FOLDER = "src/";
+  const TS_SRC_FOLDER = 'src/';
 
   // get the folder strucure, based on language
   const srcFolders = [
@@ -75,8 +75,8 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   ];
   const destFolders = getFolders(_.toLower(gen.props.language));
 
-  const extension = _.toLower(gen.props.language) === "javascript" ? "js" : "ts";
-  const SRC_FOLDER = _.toLower(gen.props.language) === "javascript" ? "" : TS_SRC_FOLDER;
+  const extension = _.toLower(gen.props.language) === 'javascript' ? 'js' : 'ts';
+  const SRC_FOLDER = _.toLower(gen.props.language) === 'javascript' ? '' : TS_SRC_FOLDER;
 
   // create the basic bot folder structure
   for (let cnt = 0; cnt < destFolders.length; ++cnt) {
