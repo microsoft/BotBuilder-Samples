@@ -166,7 +166,7 @@ namespace Microsoft.BotBuilderSamples
                 case WhoAreYouDialog.Name:
                     return await dc.BeginDialogAsync(WhoAreYouDialog.Name);
                 case WhatCanYouDo.Name:
-                    return await dc.BeginDialogAsync(WhatCanYouDo.Name);
+                    return await BeginWhatCanYouDoDialogAsync(dc, onTurnProperty);
                 case "None":
                 default:
                     await dc.Context.SendActivityAsync("I'm still learning.. Sorry, I do not know how to help you with that.");

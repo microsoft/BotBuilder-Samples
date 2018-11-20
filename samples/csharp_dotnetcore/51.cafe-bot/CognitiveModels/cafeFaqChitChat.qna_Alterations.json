@@ -1,5 +1,17 @@
-﻿{
+{
   "wordAlterations": [
+    {
+      "alterations": [
+        "father",
+        "dad",
+        "daddy",
+        "mommy",
+        "mom",
+        "mother",
+        "family",
+        "siblings"
+      ]
+    },
     {
       "alterations": [
         "child",

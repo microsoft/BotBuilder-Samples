@@ -13,9 +13,6 @@ namespace Microsoft.BotBuilderSamples
 {
     public class GetLocationDateTimePartySizePrompt : TextPrompt
     {
-        // The name of the bot you deployed.
-        public static readonly string MsBotName = "cafe66";
-
         private const string ContinuePromptIntent = "GetLocationDateTimePartySize";
         private const string HelpIntent = "Help";
         private const string CancelIntent = "Cancel";
@@ -25,7 +22,7 @@ namespace Microsoft.BotBuilderSamples
         private const string ConfirmCancelPrompt = "confirmCancelPrompt";
 
         // LUIS service type entry for turn.n book table LUIS model in the .bot file.
-        private static readonly string LuisConfiguration = $"{MsBotName}_cafeBotBookTableTurnNModel";
+        private static readonly string LuisConfiguration = $"cafeBotBookTableTurnNModel";
 
         private readonly BotServices _botServices;
         private readonly IStatePropertyAccessor<UserProfile> _userProfileAccessor;
@@ -77,7 +74,7 @@ namespace Microsoft.BotBuilderSamples
 
                 // Return and do not continue if there is an error.
                 await turnContext.SendActivityAsync(updateResult.Outcome[0].Message);
-                return await ContinueDialogAsync(dc);
+                return await base.ContinueDialogAsync(dc);
             }
 
             // Call LUIS and get results.
@@ -107,7 +104,7 @@ namespace Microsoft.BotBuilderSamples
 
                 // Return and do not continue if there is an error.
                 await turnContext.SendActivityAsync(updateResult.Outcome[0].Message);
-                return await ContinueDialogAsync(dc);
+                return await base.ContinueDialogAsync(dc);
             }
 
             // Did user ask for help or said cancel or continuing the conversation?
@@ -153,12 +150,12 @@ namespace Microsoft.BotBuilderSamples
 
             // Set reservation property based on OnTurn properties.
             await _reservationsAccessor.SetAsync(turnContext, updateResult.NewReservation);
-            return await ContinueDialogAsync(dc);
+            return await base.ContinueDialogAsync(dc);
         }
 
         public async override Task<DialogTurnResult> ResumeDialogAsync(DialogContext dc, DialogReason reason, object result, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (result != null)
+            if ((bool)result != false)
             {
                 // User said yes to cancel prompt.
                 await dc.Context.SendActivityAsync("Sure. I've canceled that!");
