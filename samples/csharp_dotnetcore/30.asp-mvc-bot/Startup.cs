@@ -31,7 +31,7 @@ namespace Microsoft.BotBuilderSamples
             BotConfiguration botConfig = null;
             try
             {
-                botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+                botConfig = BotConfiguration.Load(botFilePath ?? @".\asp-mvc-bot.bot", secretKey);
             }
             catch
             {
