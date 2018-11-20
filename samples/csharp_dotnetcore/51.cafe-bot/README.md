@@ -116,14 +116,13 @@ Optionally, you can use the LUIS, QnA Maker portals to manually import the model
     ```
 - Parse .lu files into QnA Maker KB and QnA Maker alterations file
     ```bash
-    > ludown parse toqna --in Dialogs/Dispatcher/Resources/cafeFAQ_ChitChat.lu -o cognitiveModels -n
-cafeFaqChitChat --out cafeFaqChitChat.qna -a
+    > ludown parse toqna --in Dialogs/Dispatcher/Resources/cafeFAQ_ChitChat.lu -o cognitiveModels -n cafeFaqChitChat --out cafeFaqChitChat.qna -a
     ```
 - Import LUIS applications (Note: You don't need this if you have already run MSBOT clone)
     ```bash
     > luis import application --in CognitiveModels/cafeDispatchModel.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
     > luis import application --in CognitiveModels/cafeBotBookTableTurnN.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
-    > luis import application --in CgnitiveModels/getUserProfile.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
+    > luis import application --in CognitiveModels/getUserProfile.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
     ```
     **Note**: LUIS authoring region can be one of westus or westeurope or australiaeast
 
