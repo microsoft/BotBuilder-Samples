@@ -87,19 +87,18 @@ cd BotBuilder-Samples\samples\csharp_dotnetcore\51.cafe-bot
  - - To login, run:	
 
 ```bash
-Connect-AzureRmAccount
+az login
 ```
 - - To select your Azure subscription, run:
 
 ```bash
-Select-AzureRmSubscription -Subscription "<YOUR SUBSCRIPTION>"
 az account set --subscription "<YOUR SUBSCRIPTION>"
 ```
 
 - - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
 
 ```bash
-msbot clone services --name <YOUR-BOT-NAME> --folder DeploymentScripts/msbotClone --location <Bot service location, ie "westus"> --luisAuthoringKey <YOUR LUIS AUTHORING KEY> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
+msbot clone services --noDecorate --name <YOUR-BOT-NAME> --folder DeploymentScripts/msbotClone --location <Bot service location, ie "westus"> --luisAuthoringKey <YOUR LUIS AUTHORING KEY> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
 ```
 
 **NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
@@ -117,14 +116,13 @@ Optionally, you can use the LUIS, QnA Maker portals to manually import the model
     ```
 - Parse .lu files into QnA Maker KB and QnA Maker alterations file
     ```bash
-    > ludown parse toqna --in Dialogs/Dispatcher/Resources/cafeFAQ_ChitChat.lu -o cognitiveModels -n
-cafeFaqChitChat --out cafeFaqChitChat.qna -a
+    > ludown parse toqna --in Dialogs/Dispatcher/Resources/cafeFAQ_ChitChat.lu -o cognitiveModels -n cafeFaqChitChat --out cafeFaqChitChat.qna -a
     ```
 - Import LUIS applications (Note: You don't need this if you have already run MSBOT clone)
     ```bash
     > luis import application --in CognitiveModels/cafeDispatchModel.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
     > luis import application --in CognitiveModels/cafeBotBookTableTurnN.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
-    > luis import application --in CgnitiveModels/getUserProfile.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
+    > luis import application --in CognitiveModels/getUserProfile.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
     ```
     **Note**: LUIS authoring region can be one of westus or westeurope or australiaeast
 
