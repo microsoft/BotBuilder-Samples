@@ -79,12 +79,12 @@ Update `.env` with the appropriate keys botFilePath and botFileSecret.
 ### Running the bot
 
 ```
-node ./index.js
+npm start
 ```
 ### Developing the bot
 
 ```
-nodemon ./index.js
+npm run watch
 ```
 
 

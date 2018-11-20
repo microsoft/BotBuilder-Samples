@@ -23,15 +23,14 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 - [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` with your botFileSecret. For Azure Bot Service bots, you can find the botFileSecret under application settings.
 # Prerequisites
+
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages`) and open `ProactiveBot.csproj` in Visual Studio.
-- In Visual Studio right click on the solution and select "Restore NuGet Packages".
 - Run the project (press `F5` key)
 
-## Visual Studio Code
-- Open `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` sample folder.
+## .NET Core CLI
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
 - Bring up a console, navigate to `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` folder.
-- In the Visual Studio Code terminal type `dotnet restore`
 - Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator
@@ -48,7 +47,7 @@ Build run your bot locally and open two instances of the emulator.
 ### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` folder
-- Select `BotConfiguration.bot` file
+- Select `proactive-messages.bot` file
 - Open two conversations in the emulator, see that the proactive message goes to the correct conversation
 
 # Deploy this bot to Azure
@@ -56,7 +55,10 @@ You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Build
 
 To clone this bot, run
 ```bash
-msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
 ```
+
+**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
+
 # Further reading
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

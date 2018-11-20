@@ -5,22 +5,22 @@
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `BotConfiguration.bot` file under `botbuilder-samples/samples/csharp_dotnetcore/22.conversation-history` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
-## Prerequisites
+- [Optional] Update the `conversation-history.bot` file under `botbuilder-samples/samples/csharp_dotnetcore/22.conversation-history` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+
+# Running Locally
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/storage/common/storage-quickstart-create-account?tabs=portal) to create a Blob Storage service.
-- Update [`BotConfiguration.bot`](BotConfiguration.bot) with your `connectionString` for Blob service. Also you need to update the `StorageConfigurationId` from [Startup.cs](Startup.cs) with the Blob service name.
+- Update [`conversation-history.bot`](conversation-history.bot) with your `connectionString` for Blob service. Also you need to update the `StorageConfigurationId` from [Startup.cs](Startup.cs) with the Blob service name.
 > You can find your storage account's connection strings in the Azure portal. Navigate to SETTINGS > Access keys in your storage account's menu blade to see connection strings for both primary and secondary access keys.
+
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/22.conversation-history`) and open ConversationHistory.csproj in Visual Studio.
-- Set the BLOB store connection-string in BotConfiguration.bot
-- In Visual Studio right click on the solution and select "Restore NuGet Packages".
+- Set the BLOB store connection-string in conversation-history.bot
 - Run the project (press `F5` key)
 
-## Visual Studio Code
-- Open `botbuilder-samples/samples/csharp_dotnetcore/22.conversation-history` sample folder.
-- Set the BLOB store connection-string in BotConfiguration.bot
-- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/22.conversation-history` folder.
-- In the Visual Studio Code terminal type `dotnet restore`
+## .NET Core CLI
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
+- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/22.conversation-history` folder.
+- Set the BLOB store connection-string in conversation-history.bot
 - Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator
@@ -38,8 +38,11 @@ You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Build
 
 To clone this bot, run
 ```bash
-msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
 ```
+
+**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
+
 
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

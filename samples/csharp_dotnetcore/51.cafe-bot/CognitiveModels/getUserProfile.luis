@@ -1,4 +1,4 @@
-﻿{
+{
   "intents": [
     {
       "name": "Get user name"
@@ -49,7 +49,7 @@
             "negative",
             "nothing",
             "nope",
-            "dont book it"
+            "don't book it"
           ]
         }
       ],
@@ -101,7 +101,7 @@
   "regex_features": [],
   "utterances": [
     {
-      "text": "i'm {userName_patternAny}",
+      "text": "I'm {userName_patternAny}",
       "intent": "Get user name",
       "entities": []
     },
@@ -450,7 +450,7 @@
       "entities": []
     },
     {
-      "text": "I dont want that anymore",
+      "text": "I don't want that anymore",
       "intent": "Cancel",
       "entities": []
     },
@@ -657,7 +657,7 @@
   ],
   "patterns": [
     {
-      "pattern": "i'm {userName_patternAny}",
+      "pattern": "I'm {userName_patternAny}",
       "intent": "Get user name"
     },
     {

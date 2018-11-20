@@ -36,9 +36,9 @@ class MessageRoutingBot {
      * @param {BotConfiguration} botConfig contents of the .bot file
      */
     constructor(conversationState, userState, botConfig) {
-        if (!conversationState) throw ('Missing parameter.  conversationState is required');
-        if (!userState) throw ('Missing parameter.  userState is required');
-        if (!botConfig) throw ('Missing parameter.  botConfig is required');
+        if (!conversationState) throw new Error('Missing parameter.  conversationState is required');
+        if (!userState) throw new Error('Missing parameter.  userState is required');
+        if (!botConfig) throw new Error('Missing parameter.  botConfig is required');
 
         // Create the property accessors for user and conversation state
         this.greetingStateAccessor = userState.createProperty(GREETING_STATE_PROPERTY);
@@ -47,8 +47,6 @@ class MessageRoutingBot {
         // Create top-level dialog(s)
         this.dialogs = new DialogSet(this.dialogState);
         this.dialogs.add(new GreetingDialog(GREETING_DIALOG, this.greetingStateAccessor, userState));
-
-
         this.conversationState = conversationState;
         this.userState = userState;
     }
@@ -66,7 +64,6 @@ class MessageRoutingBot {
         const dc = await this.dialogs.createContext(context);
 
         if (context.activity.type === ActivityTypes.Message) {
-
             // Normalizes all user's text inputs
             const utterance = context.activity.text.trim().toLowerCase();
 
@@ -80,24 +77,24 @@ class MessageRoutingBot {
                 if (!dc.context.responded) {
                     // Examine results from active dialog
                     switch (dialogResult.status) {
-                        case DialogTurnStatus.empty:
-
-                            if (utterance === GREETING_UTTERANCE) {
-                                await dc.beginDialog(GREETING_DIALOG);
-                            } else {
-                                // Help or no intent identified, either way, let's provide some help
-                                // to the user
-                                await dc.context.sendActivity(`I didn't understand what you just said to me. Try saying 'hello', 'help' or 'cancel'.`);
-                            }
-                        case DialogTurnStatus.waiting:
-                            // The active dialog is waiting for a response from the user, so do nothing
-                            break;
-                        case DialogTurnStatus.complete:
-                            await dc.endDialog();
-                            break;
-                        default:
-                            await dc.cancelAllDialogs();
-                            break;
+                    case DialogTurnStatus.empty:
+                        if (utterance === GREETING_UTTERANCE) {
+                            await dc.beginDialog(GREETING_DIALOG);
+                        } else {
+                            // Help or no intent identified, either way, let's provide some help
+                            // to the user
+                            await dc.context.sendActivity(`I didn't understand what you just said to me. Try saying 'hello', 'help' or 'cancel'.`);
+                        }
+                        break;
+                    case DialogTurnStatus.waiting:
+                        // The active dialog is waiting for a response from the user, so do nothing
+                        break;
+                    case DialogTurnStatus.complete:
+                        await dc.endDialog();
+                        break;
+                    default:
+                        await dc.cancelAllDialogs();
+                        break;
                     }
                 }
             }
@@ -118,7 +115,6 @@ class MessageRoutingBot {
      * @param {string} utterance - user's utterance is normalized via the .trim().toLowerCase() calls
      */
     async isTurnInterrupted(dc, utterance) {
-
         // see if there are any conversation interrupts we need to handle
         if (utterance === CANCEL_UTTERANCE) {
             if (dc.activeDialog) {
@@ -127,7 +123,8 @@ class MessageRoutingBot {
             } else {
                 await dc.context.sendActivity(`I don't have anything to cancel.`);
             }
-            return true;        // handled the interrupt
+            // handled the interrupt
+            return true;
         }
 
         if (utterance === HELP_UTTERANCE) {
@@ -138,9 +135,11 @@ class MessageRoutingBot {
                 // We've shown help, re-prompt again to continue where the dialog left over
                 await dc.repromptDialog();
             }
-            return true;        // handled the interrupt
+            // handled the interrupt
+            return true;
         }
-        return false;           // did not handle the interrupt
+        // did not handle the interrupt
+        return false;
     }
 }
 

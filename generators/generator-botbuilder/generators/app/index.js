@@ -38,6 +38,9 @@ module.exports = class extends Generator {
             if (!this.props.template || (_.toLower(this.props.template) !== "echo" && _.toLower(this.props.template) !== "basic")) {
               throw new Error("Must specify a template when using --noprompt argument.  Use --template or -T");
             }
+            // if passed --noprompt and we have all the required props, then set final confirmation to true
+            // so we can go forward and create the new bot
+            this.props.finalConfirmation = true;            
             return;
         }
 

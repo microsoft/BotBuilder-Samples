@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, TurnContext } = require('botbuilder');
-const { QnAMaker, QnAMakerEndpoint, QnAMakerOptions } = require('botbuilder-ai');
+const { ActivityTypes } = require('botbuilder');
+const { QnAMaker } = require('botbuilder-ai');
 
 /**
  * A simple bot that responds to utterances with answers from QnA Maker.

@@ -13,14 +13,14 @@ This sample also demonstrates how the inheritance mechanism of object-oriented p
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 - [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/30.asp-mvc-bot` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
-# Prerequisites
+# Running Locally
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/30.asp-mvc-bot`) and open EchoBotWithCounter.csproj in Visual Studio.
 - Run the project (press `F5` key).
 
-## Visual Studio Code
-- Open `botbuilder-samples/samples/csharp_dotnetcore/30.asp-mvc-bot` sample folder.
-- Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/30.asp-mvc-bot` folder.
+## .NET Core CLI
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
+- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/30.asp-mvc-bot` folder.
 - Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator
@@ -31,7 +31,7 @@ developers to test and debug their bots on localhost or running remotely through
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator.
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/30.asp-mvc-bot` folder.
-- Select `BotConfiguration.bot` file.
+- Select `asp-mvc-bot.bot` file.
 
 # Deploy this bot to Azure
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).

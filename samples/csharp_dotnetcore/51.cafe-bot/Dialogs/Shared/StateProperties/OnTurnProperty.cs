@@ -45,24 +45,13 @@ namespace Microsoft.BotBuilderSamples
             // Gather entity values if available. Uses a const list of LUIS entity names.
             foreach (var entity in luisEntities)
             {
-                dynamic value = luisResults.Entities[entity];
-                string strVal = null;
-                if (value is JArray)
+                var value = luisResults.Entities.SelectTokens(entity).FirstOrDefault();
+                if (value == null)
                 {
-                    // ConfirmList is nested arrays.
-                    value = (from val in (JArray)value
-                              select val).FirstOrDefault();
-                }
-
-                strVal = (string)value;
-
-                if (strVal == null)
-                {
-                    // Don't add empty entities.
                     continue;
                 }
 
-                onTurnProperties.Entities.Add(new EntityProperty(entity, strVal));
+                onTurnProperties.Entities.Add(new EntityProperty(entity, value));
             }
 
             return onTurnProperties;

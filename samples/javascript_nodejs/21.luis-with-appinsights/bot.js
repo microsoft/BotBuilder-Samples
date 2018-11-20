@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, TurnContext } = require('botbuilder');
+const { ActivityTypes } = require('botbuilder');
 const { MyAppInsightsLuisRecognizer } = require('./myAppInsightsLuisRecognizer');
 
 /**
@@ -36,7 +36,6 @@ class LuisBot {
 
             if (topIntent.intent !== 'None') {
                 await turnContext.sendActivity(`LUIS Top Scoring Intent: ${ topIntent.intent }, Score: ${ topIntent.score }`);
-
             } else {
                 // If the top scoring intent was "None" tell the user no valid intents were found and provide help.
                 await turnContext.sendActivity(`No LUIS intents were found.

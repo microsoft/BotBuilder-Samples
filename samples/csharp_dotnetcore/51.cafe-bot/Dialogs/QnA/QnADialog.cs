@@ -52,7 +52,7 @@ namespace Microsoft.BotBuilderSamples
         private async Task<string> UserSalutationAsync(ITurnContext context)
         {
             var salutation = string.Empty;
-            var userProfile = await _userProfileAccessor.GetAsync(context);
+            var userProfile = await _userProfileAccessor.GetAsync(context, () => new UserProfile(string.Empty));
             if (userProfile == null && !string.IsNullOrWhiteSpace(userProfile.UserName))
             {
                 var userName = userProfile.UserName;

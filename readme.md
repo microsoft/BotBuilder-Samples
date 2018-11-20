@@ -70,7 +70,7 @@ To use the samples clone this GitHub repository using Git.
 |25.bot-logging    | This bot demonstrates the logging middleware in the nodejs SDK| |[View][js#25] |              |             | |
 |26.bot-transcript-logging    | This bot demonstrates the transcript logging middleware in the nodejs SDK| |[View][js#26] |              |             | |
 |30.asp-mvc-bot         | Demonstrates how to build a bot as an ASP.NET MVC Controller |[View][cs#30] ||              | | |
-|40.timex-resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[View][cs#40] |:runner:|              | | |
+|40.timex-resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[View][cs#40] |[View][js#40]|              | | |
 |42.scaleout            | Demonstrates how you can build your own state solution from the ground up that supports scaled out deployment with ETag based optimistic locking. |[View][cs#42] |:runner:|              | | |
 |50.diceroller-skill    | This sample demonstrates how to implement a Cortana Skill that properly handles EndOfConversation events.|:runner: |[View][js#50] |              |             | |
 |51.cafe-bot            | A complete E2E Cafe bot that has all capabilities and includes best practices|[View][cs#51]|[View][js#51]|              |             | |
@@ -107,7 +107,7 @@ To use the samples clone this GitHub repository using Git.
 [cs#42]:samples/csharp_dotnetcore/42.scaleout
 [cs#51]:samples/csharp_dotnetcore/51.cafe-bot
 [cs#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
-[cs#60]:samples/csharp_dotnetcore/60.multilinugal-luis-bot
+[cs#60]:experimental/csharp_dotnetcore/60.multilinugal-luis-bot
 
 [wa#2]:samples/csharp_webapi/02.echo-with-counter
 [wa#11]:samples/csharp_webapi/11.QnAMaker
@@ -123,6 +123,7 @@ To use the samples clone this GitHub repository using Git.
 [ts#12]:samples/javascript_typescript/12.nlp-with-luis
 [ts#13]:samples/javascript_typescript/13.basic-bot
 [ts#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
+[ts#60]:experimental/javascript_typescript/60.multilingual-luis-bot
 
 [js#1]:samples/javascript_nodejs/01.console-echo
 [js#2]:samples/javascript_nodejs/02.echobot-with-counter
@@ -151,6 +152,8 @@ To use the samples clone this GitHub repository using Git.
 
 [js#25]:samples/javascript_nodejs/25.logger-bot
 [js#26]:samples/javascript_nodejs/26.transcript-logger-bot
+
+[js#40]:samples/javascript_nodejs/40.timex-resolution
 
 [js#50]:samples/javascript_nodejs/50.diceroller-skill
 [js#51]:samples/javascript_nodejs/51.cafe-bot
