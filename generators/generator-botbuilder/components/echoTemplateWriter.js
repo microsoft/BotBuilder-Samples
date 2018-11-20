@@ -6,8 +6,10 @@ const _ = require('lodash');
 const mkdirp = require('mkdirp');
 
 const { commonFilesWriter } = require('./commonFilesWriter');
+const { BOT_TEMPLATE_NAME_SIMPLE } = require('./constants');
 
-const TEMPLATE_NAME = 'echo';
+// generators/app/templates folder name
+const GENERATOR_TEMPLATE_NAME = 'echo';
 
 /**
  * Write the files that are specific to the echo bot template
@@ -82,12 +84,12 @@ const writeEchoTemplateFiles = (gen, templatePath) => {
 module.exports.echoTemplateWriter = gen => {
   // do some simple sanity checking to ensure we're being
   // called correctly
-  if (_.toLower(gen.props.template) !== TEMPLATE_NAME) {
+  if (_.toLower(gen.props.template) !== _.toLower(BOT_TEMPLATE_NAME_SIMPLE)) {
     throw new Error(`writeEchoProjectFiles called for wrong template: ${gen.props.template}`);
   }
 
   // build the path to the echo template source folder
-  const templatePath = path.join(gen.templatePath(), TEMPLATE_NAME);
+  const templatePath = path.join(gen.templatePath(), GENERATOR_TEMPLATE_NAME);
 
   // write files common to all our template options
   commonFilesWriter(gen, templatePath);

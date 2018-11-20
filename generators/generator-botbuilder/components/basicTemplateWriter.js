@@ -6,9 +6,11 @@ const _ = require('lodash');
 const mkdirp = require('mkdirp');
 
 const { commonFilesWriter } = require('./commonFilesWriter');
+const { BOT_TEMPLATE_NAME_CORE } = require('./constants');
 
-const TEMPLATE_NAME = 'basic';
-const TEMPLATE_PATH = '/basic/';
+// generators/app/templates folder name
+const GENERATOR_TEMPLATE_NAME = 'basic';
+const GENERATOR_TEMPLATE_PATH = '/basic/';
 
 const LANG_JS = 'javascript';
 const LANG_TS = 'typescript';
@@ -203,10 +205,10 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
 module.exports.basicTemplateWriter = gen => {
   // do some simple sanity checking to ensure we're being
   // called correctly
-  if (_.toLower(gen.props.template) !== TEMPLATE_NAME) {
+  if (_.toLower(gen.props.template) !== _.toLower(BOT_TEMPLATE_NAME_CORE)) {
     throw new Error(`basicTemplateWriter called for wrong template: ${gen.props.template}`);
   }
-  const templatePath = path.join(gen.templatePath(), TEMPLATE_PATH);
+  const templatePath = path.join(gen.templatePath(), GENERATOR_TEMPLATE_PATH);
 
   // write files common to all template options
   commonFilesWriter(gen, templatePath);
