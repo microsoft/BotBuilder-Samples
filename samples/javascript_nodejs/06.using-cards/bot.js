@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, CardFactory } = require('botbuilder');
+const { AttachmentLayoutTypes, ActivityTypes, CardFactory } = require('botbuilder');
 const { ChoicePrompt, DialogSet, DialogTurnStatus, ListStyle } = require('botbuilder-dialogs');
 
 /**
@@ -111,15 +111,18 @@ class RichCardsBot {
             await turnContext.sendActivity({ attachments: [this.createVideoCard()] });
             break;
         case 'All Cards':
-            await turnContext.sendActivities([
-                { attachments: [this.createAnimationCard()] },
-                { attachments: [this.createAudioCard()] },
-                { attachments: [this.createHeroCard()] },
-                { attachments: [this.createReceiptCard()] },
-                { attachments: [this.createSignInCard()] },
-                { attachments: [this.createThumbnailCard()] },
-                { attachments: [this.createVideoCard()] }
-            ]);
+                await turnContext.sendActivity({
+                    attachments: [this.createVideoCard(),
+                        this.createAnimationCard(),
+                        this.createAudioCard(),
+                        this.createHeroCard(),
+                        this.createReceiptCard(),
+                        this.createSignInCard(),
+                        this.createThumbnailCard(),
+                        this.createVideoCard()
+                    ],
+                    attachmentLayout: AttachmentLayoutTypes.Carousel
+                });
             break;
         default:
             await turnContext.sendActivity('An invalid selection was parsed. No corresponding Rich Cards were found.');
