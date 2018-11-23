@@ -24,7 +24,7 @@
         "botframework-connector": "^4.1.5",
         "botframework-schema": "^4.1.5",
         "dotenv": "^6.1.0",
-        "restify": "^7.2.2"
+        "restify": "^7.2.3"
     },
     "devDependencies": {
         "eslint": "^5.8.0",

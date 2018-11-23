@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as path from 'path';
 import * as restify from 'restify';
 
 // Import required bot services.
@@ -21,16 +20,16 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
 // See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration.
 const adapter = new BotFrameworkAdapter();
 
-// Create the main dialog.
-const myBot = new MyBot();
-
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
-    context.sendActivity(`Oops. Something went wrong!`);
+    await context.sendActivity(`Oops. Something went wrong!`);
 };
+
+// Create the main dialog.
+const myBot = new MyBot();
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {

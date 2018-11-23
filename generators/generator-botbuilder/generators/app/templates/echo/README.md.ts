@@ -4,18 +4,8 @@
 This bot has been created using [Microsoft Bot Framework][1], it shows how to create a simple bot that accepts input from the user and echoes it back.
 
 ## Prerequisites
-### Install TypeScript
-In order to run this sample, you must have TypeScript installed.  To install TypeScript:
-- Navigate to the [TypeScript portal][2].
-- Click the [Download][3] button.
-- Follow the installation instructions for your development environment.
-
-### Install tslint (optional, but recommended)
-```bash
-npm i -g tslint
-```
-
-Ensure you have [Node.js][4] version 8.5 or higher installed.  To determine if Node.js is installed run the following from a shell window.
+- [Node.js][4]
+Ensure [Node.js][4] version 8.5 or higher installed.  To determine if Node.js is installed run the following from a shell window.
 ```bash
 node --version
 ```
@@ -94,6 +84,7 @@ Would you like to perform this operation? [y/n]
 - [msbot CLI][9]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
+- [TypeScript][2]
 - [Restify][30]
 - [dotenv][31]
 

@@ -4,18 +4,8 @@
 This bot has been created using [Microsoft Bot Framework][1].
 
 ## Prerequisites
-### Install TypeScript
-In order to run this sample, you must have TypeScript installed.  To install TypeScript:
-- Navigate to the [TypeScript portal][2].
-- Click the [Download][3] button.
-- Follow the installation instructions for your development environment.
-
-### Install tslint (optional, but recommended)
-```bash
-npm i -g tslint
-```
-
-Ensure you have [Node.js][4] version 8.5 or higher installed.  To determine if Node.js is installed run the following from a shell window.
+- [Node.js][4]
+Ensure [Node.js][4] version 8.5 or higher installed.  To determine if Node.js is installed run the following from a shell window.
 ```bash
 node --version
 ```
@@ -27,7 +17,7 @@ npm i && npm start
 ```
 Alternatively you can also run the watch script which will reload the bot when source code changes are detected.
 ```bash
-npm i && npm run watch
+npm i && npm run build && npm run watch
 ```
 
 # Testing the bot using Bot Framework Emulator **v4**
@@ -50,8 +40,8 @@ npm i && npm run watch
 - [msbot CLI][9]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
+- [TypeScript][2]
 - [Restify][30]
-- [dotenv][31]
 
 [1]: https://dev.botframework.com
 [2]: https://www.typescriptlang.org
@@ -68,5 +58,4 @@ npm i && npm run watch
 [21]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
 [22]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0
 [30]: https://www.npmjs.com/package/restify
-[31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0

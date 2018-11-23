@@ -11,7 +11,6 @@ class MyBot {
     async onTurn(turnContext) {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         if (turnContext.activity.type === ActivityTypes.Message) {
-            // read from state.
             await turnContext.sendActivity(`You said '${ turnContext.activity.text }'`);
         } else {
             await turnContext.sendActivity(`[${ turnContext.activity.type } event detected]`);

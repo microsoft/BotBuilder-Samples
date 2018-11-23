@@ -17,14 +17,8 @@ module.exports.BOT_TEMPLATE_NOPROMPT_SIMPLE = 'Echo';
 module.exports.BOT_TEMPLATE_NOPROMPT_CORE = 'Basic';
 
 // programming language name options
-module.exports.BOT_LANG_NAME_CSHARP = 'C#';
 module.exports.BOT_LANG_NAME_JAVASCRIPT = 'JavaScript';
 module.exports.BOT_LANG_NAME_TYPESCRIPT = 'TypeScript';
-
-// programming language choice prompt values
-module.exports.BOT_LANG_VALUE_CSHARP = 1;
-module.exports.BOT_LANG_VALUE_JAVASCRIPT = 2;
-module.exports.BOT_LANG_VALUE_TYPESCRIPT = 3;
 
 // class names for template generated code
 module.exports.BOT_CLASS_EMPTY = 'EmptyBot';

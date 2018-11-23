@@ -12,11 +12,12 @@ This samples shows how to:
 
 
 ## Prerequisites
-
-Ensure you have [Node.js][4] version 8.5 or higher installed.  To determine if Node.js is installed run the following from a shell window.
+- [Node.js][4]
+Ensure [Node.js][4] version 8.5 or higher installed.  To determine if Node.js is installed run the following from a shell window.
 ```bash
 node --version
 ```
+
 # To run the bot
 Install modules and start the bot.
 ```bash

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const path = require('path');
 const _ = require('lodash');
 const mkdirp = require('mkdirp');
+const path = require('path');
 
 const { commonFilesWriter } = require('./commonFilesWriter');
 const { BOT_TEMPLATE_NAME_CORE, BOT_TEMPLATE_NOPROMPT_CORE } = require('./constants');
@@ -78,6 +78,9 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
 
   const extension = _.toLower(gen.props.language) === 'javascript' ? 'js' : 'ts';
   const SRC_FOLDER = _.toLower(gen.props.language) === 'javascript' ? '' : TS_SRC_FOLDER;
+  // if we're generating JS, then keep the json extension
+  // if we're generating TS, then we need the extension to be js or tsc will complain (tsc v3.1.6)
+  const cardExtension = _.toLower(gen.props.language) === 'javascript' ? 'json' : 'js';
 
   // create the basic bot folder structure
   for (let cnt = 0; cnt < destFolders.length; ++cnt) {
@@ -171,7 +174,7 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   destinationPath = path.join(gen.destinationPath(), destFolders[DIALOGS_WELCOME_RESOURCES]);
   gen.fs.copy(
     path.join(sourcePath, 'welcomeCard.json'),
-    path.join(destinationPath, 'welcomeCard.json')
+    path.join(destinationPath, `welcomeCard.${ cardExtension }`)
   );
 
   // write out the index.js and bot.js

@@ -2,7 +2,7 @@
     "name": "<%= botname %>",
     "version": "1.0.0",
     "description": "<%= botDescription %>",
-    "author": "Microsoft Bot Builder Yeoman Generator v<%= version %>",
+    "author": "Generated using Microsoft Bot Builder Yeoman generator v<%= version %>",
     "license": "MIT",
     "main": "<%= npmMain %>",
     "scripts": {
@@ -17,9 +17,7 @@
     },
     "dependencies": {
         "botbuilder": "^4.1.5",
-        "botframework-config": "^4.1.5",
-        "dotenv": "^6.1.0",
-        "restify": "^7.2.2"
+        "restify": "^7.2.3"
     },
     "devDependencies": {
         "eslint": "^5.8.0",

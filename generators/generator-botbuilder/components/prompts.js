@@ -8,12 +8,8 @@ const {
   BOT_HELP_URL_EMPTY,
   BOT_HELP_URL_SIMPLE,
   BOT_HELP_URL_CORE,
-  BOT_LANG_NAME_CSHARP,
   BOT_LANG_NAME_JAVASCRIPT,
-  BOT_LANG_NAME_TYPESCRIPT,
-  BOT_LANG_VALUE_CSHARP,
-  BOT_LANG_VALUE_JAVASCRIPT,
-  BOT_LANG_VALUE_TYPESCRIPT
+  BOT_LANG_NAME_TYPESCRIPT
   } = require('./constants');
 
 /**
@@ -36,7 +32,7 @@ module.exports.configureCommandlineOptions = gen => {
     default: 'Demonstrate the core capabilities of the Microsoft Bot Framework',
     alias: 'D'
   });
-  const langDesc = `The programming language you want to use. (${BOT_LANG_NAME_JAVASCRIPT} | ${BOT_LANG_NAME_TYPESCRIPT} | ${BOT_LANG_NAME_CSHARP})`;
+  const langDesc = `The programming language you want to use. (${BOT_LANG_NAME_JAVASCRIPT} | ${BOT_LANG_NAME_TYPESCRIPT})`;
   gen.option('language', {
     desc: langDesc,
     type: String,
@@ -82,9 +78,6 @@ module.exports.getPrompts = options => {
         },
         {
           name: BOT_LANG_NAME_TYPESCRIPT
-        },
-        {
-          name: BOT_LANG_NAME_CSHARP
         }
       ],
       default: (options.language ? options.language : BOT_LANG_NAME_JAVASCRIPT)

@@ -4,7 +4,8 @@
 This bot has been created using [Microsoft Bot Framework][1].
 
 ## Prerequisites
-Ensure you have [Node.js][4] version 8.5 or higher installed.  To determine if Node.js is installed run the following from a shell window.
+- [Node.js][4]
+Ensure [Node.js][4] version 8.5 or higher installed.  To determine if Node.js is installed run the following from a shell window.
 ```bash
 node --version
 ```
@@ -40,7 +41,6 @@ npm i && npm run watch
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
 - [Restify][30]
-- [dotenv][31]
 
 [1]: https://dev.botframework.com
 [2]: https://www.typescriptlang.org
@@ -57,5 +57,4 @@ npm i && npm run watch
 [21]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
 [22]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0
 [30]: https://www.npmjs.com/package/restify
-[31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
