@@ -6,11 +6,10 @@ const _ = require('lodash');
 const mkdirp = require('mkdirp');
 
 const { commonFilesWriter } = require('./commonFilesWriter');
-const { BOT_TEMPLATE_NAME_EMPTY } = require('./constants');
+const { BOT_TEMPLATE_NAME_EMPTY, BOT_TEMPLATE_NOPROMPT_EMPTY } = require('./constants');
 
 // generators/app/templates folder name
 const GENERATOR_TEMPLATE_NAME = 'empty';
-
 
 /**
  * Write the files that are specific to the empty bot template
@@ -59,7 +58,7 @@ const writeEmptyTemplateFiles = (gen, templatePath) => {
     gen.templatePath(path.join(templatePath, `index.${extension}`)),
     path.join(destinationPath, `index.${extension}`),
     {
-      botName: gen.props.botName
+      botname: gen.props.botname
     }
   );
   // gen the main bot activity router
@@ -85,8 +84,9 @@ const writeEmptyTemplateFiles = (gen, templatePath) => {
 module.exports.emptyTemplateWriter = gen => {
   // do some simple sanity checking to ensure we're being
   // called correctly
-  if (_.toLower(gen.props.template) !== _.toLower(BOT_TEMPLATE_NAME_EMPTY)) {
-    throw new Error(`writeEmptyProjectFiles called for wrong template: ${gen.props.template}`);
+  const template = _.toLower(gen.props.template)
+  if (template !== _.toLower(BOT_TEMPLATE_NAME_EMPTY) && template !== _.toLower(BOT_TEMPLATE_NOPROMPT_EMPTY)) {
+    throw new Error(`basicTemplateWriter called for wrong template: ${ gen.props.template }`);
   }
 
   // build the path to the echo template source folder

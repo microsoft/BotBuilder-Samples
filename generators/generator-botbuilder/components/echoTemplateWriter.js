@@ -6,7 +6,7 @@ const _ = require('lodash');
 const mkdirp = require('mkdirp');
 
 const { commonFilesWriter } = require('./commonFilesWriter');
-const { BOT_TEMPLATE_NAME_SIMPLE } = require('./constants');
+const { BOT_TEMPLATE_NAME_SIMPLE,  BOT_TEMPLATE_NOPROMPT_SIMPLE } = require('./constants');
 
 // generators/app/templates folder name
 const GENERATOR_TEMPLATE_NAME = 'echo';
@@ -46,7 +46,7 @@ const writeEchoTemplateFiles = (gen, templatePath) => {
     path.join(sourcePath, 'bot.recipe'),
     path.join(destinationPath, 'bot.recipe'),
     {
-      botName: gen.props.botName
+      botname: gen.props.botname
     }
   );
 
@@ -58,7 +58,7 @@ const writeEchoTemplateFiles = (gen, templatePath) => {
     gen.templatePath(path.join(templatePath, `index.${extension}`)),
     path.join(destinationPath, `index.${extension}`),
     {
-      botName: gen.props.botName
+      botname: gen.props.botname
     }
   );
   // gen the main bot activity router
@@ -84,8 +84,9 @@ const writeEchoTemplateFiles = (gen, templatePath) => {
 module.exports.echoTemplateWriter = gen => {
   // do some simple sanity checking to ensure we're being
   // called correctly
-  if (_.toLower(gen.props.template) !== _.toLower(BOT_TEMPLATE_NAME_SIMPLE)) {
-    throw new Error(`writeEchoProjectFiles called for wrong template: ${gen.props.template}`);
+  const template = _.toLower(gen.props.template)
+  if (template !== _.toLower(BOT_TEMPLATE_NAME_SIMPLE) && template !== _.toLower(BOT_TEMPLATE_NOPROMPT_SIMPLE)) {
+    throw new Error(`writeEchoProjectFiles called for wrong template: ${ gen.props.template }`);
   }
 
   // build the path to the echo template source folder

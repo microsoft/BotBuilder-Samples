@@ -6,11 +6,10 @@ const _ = require('lodash');
 const mkdirp = require('mkdirp');
 
 const { commonFilesWriter } = require('./commonFilesWriter');
-const { BOT_TEMPLATE_NAME_CORE } = require('./constants');
+const { BOT_TEMPLATE_NAME_CORE, BOT_TEMPLATE_NOPROMPT_CORE } = require('./constants');
 
 // generators/app/templates folder name
 const GENERATOR_TEMPLATE_NAME = 'basic';
-const GENERATOR_TEMPLATE_PATH = '/basic/';
 
 const LANG_JS = 'javascript';
 const LANG_TS = 'typescript';
@@ -21,7 +20,7 @@ const LANG_TS = 'typescript';
  */
 const getFolders = language => {
   if(!language || (_.toLower(language) !== LANG_JS && _.toLower(language) !== LANG_TS)) {
-    throw new Error(`basicTemplateWriter.getFolders called for invalid language: ${language}`);
+    throw new Error(`basicTemplateWriter.getFolders called for invalid language: ${ language }`);
   }
 
   let folders;
@@ -101,8 +100,8 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     path.join(destinationPath, 'DEPLOYMENT.md'),
     {
       process: function (content) {
-        var pattern = new RegExp('<%= botName %>', 'g');
-        return content.toString().replace(pattern, gen.props.botName.toString());
+        var pattern = new RegExp('<%= botname %>', 'g');
+        return content.toString().replace(pattern, gen.props.botname.toString());
     }
   });
 
@@ -117,7 +116,7 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     path.join(sourcePath, 'bot.recipe'),
     path.join(destinationPath, 'bot.recipe'),
     {
-      botName: gen.props.botName
+      botname: gen.props.botname
     }
   );
 
@@ -128,7 +127,7 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     path.join(sourcePath, `greeting.${extension}`),
     path.join(destinationPath, `greeting.${extension}`),
     {
-      botName: gen.props.botName
+      botname: gen.props.botname
     }
   );
 
@@ -183,7 +182,7 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     gen.templatePath(path.join(templatePath, `index.${extension}`)),
     path.join(destinationPath, `index.${extension}`),
     {
-      botName: gen.props.botName
+      botname: gen.props.botname
     }
   );
 
@@ -192,7 +191,7 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     gen.templatePath(path.join(templatePath, `bot.${extension}`)),
     path.join(destinationPath, `bot.${extension}`),
     {
-      botName: gen.props.botName
+      botname: gen.props.botname
     }
   );
 }
@@ -205,10 +204,11 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
 module.exports.basicTemplateWriter = gen => {
   // do some simple sanity checking to ensure we're being
   // called correctly
-  if (_.toLower(gen.props.template) !== _.toLower(BOT_TEMPLATE_NAME_CORE)) {
-    throw new Error(`basicTemplateWriter called for wrong template: ${gen.props.template}`);
+  const template = _.toLower(gen.props.template)
+  if (template !== _.toLower(BOT_TEMPLATE_NAME_CORE) && template !== _.toLower(BOT_TEMPLATE_NOPROMPT_CORE)) {
+    throw new Error(`basicTemplateWriter called for wrong template: ${ gen.props.template }`);
   }
-  const templatePath = path.join(gen.templatePath(), GENERATOR_TEMPLATE_PATH);
+  const templatePath = path.join(gen.templatePath(), GENERATOR_TEMPLATE_NAME);
 
   // write files common to all template options
   commonFilesWriter(gen, templatePath);

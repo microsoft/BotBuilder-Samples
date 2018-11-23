@@ -8,18 +8,18 @@ generator-botbuilder will help you build new conversational AI bots using the [M
 # Features
 The generator supports two different templates.  The features the generator produces depends on the template you choose.  The `Echo` template produces a "Hello World!" capable bot.  It is the simplest bot you can write, providing the minimal features required by a bot.  The `Basic` template builds on the capabilities of the `Echo` template and add features typically found in most every bot.  Here is a table that shows what features exist in the different templates.
 
-|  Feature  |  Echo   |  Basic  |
-| --------- | :-----: | :-----: |
-| Core bot message processing | X | X |
-| Send messages to the bot  | X | X |
-| Manage bot state | X | X |
-| Choose between JavaScript or TypesScript programming language | X | X |
-| Support for local development and testing using the [Microsoft Bot Framework Emulator][3] | X | X |
-| AI-based greeting, using [LUIS][2] |  | X |
-| Use Dialogs to manage conversation flow |  | X |
-| Display a welcome card using Adaptive Card technology |  | X |
-| Handle user interruptions | | X |
-| Optionally deploy your bot to Microsoft Azure | X | X |
+|  Feature  |  Empty  |  Echo   |  Basic  |
+| --------- | :-----: | :-----: | :-----: |
+| Core bot message processing |  | X | X |
+| Send messages to the bot  |  | X | X |
+| Manage bot state |  |  | X |
+| Generate code in JavaScript, TypesScript or C# | X | X | X |
+| Support for local development and testing using the [Microsoft Bot Framework Emulator][3] | X | X | X |
+| AI-based greeting, using [LUIS][2] |  |  | X |
+| Use Dialogs to manage conversation flow |  |  | X |
+| Display a welcome card using Adaptive Card technology |  |  | X |
+| Handle user interruptions |  |  | X |
+| Optionally deploy your bot to Microsoft Azure |  | X | X |
 
 ## Dependencies
 * [dotenv][6] for managing environmental variables
@@ -47,7 +47,8 @@ yo botbuilder --help
 
 
 # Usage
-You can create a bot by running the generator in either interactive mode, or noprompt mode.  Interactive mode will prompt you for the information the generator needs to generate a new bot.  In noprompt mode the generator will generate a new bot using a reasonable set of default options.  The user will not be prompted for information when running the generator in noprompt mode.
+You can create a bot by running the generator in either interactive mode, or `--noprompt` mode.  Interactive mode will prompt you for the information needed
+by the generator to create a new bot.  In `--noprompt` mode the generator will generate a new bot using a reasonable set of default options.  The user will not be prompted for information when running the generator in `--noprompt` mode.
 
 ## Creating a new bot project, interactively
 When the generator is run interactively, it will prompt the user for all the information required to create a new bot.
@@ -75,7 +76,7 @@ generator to create a new bot project without asking you to verify any of the op
 
 ```bash
 # Run the generator
-yo botbuilder -N "myFirstBot" -D "A bot that demonstrates core AI capabilities" -L "JavaScript" -T "Basic" --noprompt
+yo botbuilder -N "my-first-bot" -D "A bot that demonstrates core AI capabilities" -L "JavaScript" -T "Basic" --noprompt
 ```
 ### Generating a project using default options
 In the following example, a new bot based off of the `basic` template is generated using a reasonable set of defaults.
@@ -120,13 +121,13 @@ When you run the `watch` task, nodejs will reload your bot anytime a file in you
 your bot, you will need to click the Emulator's 'Start Over' tab in order to force the Emulator to also reload the latest version of your bot.
 
 
-
 # Deploying your bot to Microsoft Azure
 For bots generated using the `Basic` template, the generator will create a `DEPLOYMENT.md` file found in the `/deploymentScripts` folder.  This file provides instructions for how to deploy the bot to Microsoft Azure.  The deployment process assume you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal][4].
 
 If you are new to Microsoft Azure, please refer to [Getting started with Azure][5] for guidance on how to get started on Azure.
 
-
+# Logging issues and providing feedback
+Issues and feedback about the botbuilder generator can be submitted through the project's [GitHub issues][12] page.
 
 
 [1]: https://dev.botframework.com
@@ -140,3 +141,4 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 [9]: http://yeoman.io
 [10]: https://www.npmjs.com
 [11]: https://nodejs.org/en/
+[12]: https://github.com/Microsoft/botbuilder-samples/issues

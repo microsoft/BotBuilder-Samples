@@ -31,7 +31,7 @@ const makeProjectDirectory = (gen, directoryName) => {
  */
 // const writeCommonFiles = (gen, templatePath) => {
 module.exports.commonFilesWriter = (gen, templatePath) => {
-  const botName = gen.props.botName;
+  const botname = gen.props.botname;
   const extension = _.toLower(gen.props.language) === 'javascript' ? 'js' : 'ts';
   const npmMain = extension === 'js' ? `index.js` : `./lib/index.js`;
   const npmBuildCmd = extension === 'js' ? `exit 1` : `tsc`;
@@ -40,7 +40,7 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
 
 
   // ensure our project directory exists before we start writing files into it
-  makeProjectDirectory(gen, _.kebabCase(gen.props.botName));
+  makeProjectDirectory(gen, _.kebabCase(gen.props.botname));
 
   // write the project files common to all templates
   // do any text token processing where required
@@ -48,7 +48,7 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
     gen.templatePath(path.join(templatePath, 'package.json.' + extension)),
     gen.destinationPath('package.json'),
     {
-      botName: gen.props.botName,
+      botname: gen.props.botname,
       botDescription: gen.props.description,
       version: pkg.version,
       npmMain: npmMain
@@ -61,10 +61,10 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
 
   gen.fs.copy(
     gen.templatePath(path.join(templatePath, `botName.bot`)),
-    gen.destinationPath(`${gen.props.botName}.bot`), {
+    gen.destinationPath(`${gen.props.botname}.bot`), {
     process: function (content) {
-      var pattern = new RegExp('<%= botName %>', 'g');
-      return content.toString().replace(pattern, botName.toString());
+      var pattern = new RegExp('<%= botname %>', 'g');
+      return content.toString().replace(pattern, botname.toString());
     }
   });
 
@@ -73,7 +73,7 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
     gen.templatePath(path.join(templatePath, '_env')),
     gen.destinationPath('.env'),
     {
-      botFileName: gen.props.botName
+      botFileName: gen.props.botname
     }
   );
 
@@ -83,6 +83,10 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
     gen.fs.copy(
       gen.templatePath(path.join(templatePath, 'tsconfig.json')),
       gen.destinationPath('tsconfig.json')
+    );
+    gen.fs.copy(
+      gen.templatePath(path.join(templatePath, 'tslint.json')),
+      gen.destinationPath('tslint.json')
     );
     srcReadmePath = path.join(templatePath, 'README.md.ts')
   } else {
@@ -98,7 +102,7 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
     gen.templatePath(srcReadmePath),
     gen.destinationPath('README.md'),
     {
-      botName: gen.props.botName,
+      botname: gen.props.botname,
       description: gen.props.description,
       runCmd: npmRunCmd,
       watchCmd: npmWatchCmd,

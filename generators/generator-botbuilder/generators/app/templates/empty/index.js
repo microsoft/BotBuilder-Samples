@@ -1,22 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const path = require('path');
 const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, MemoryStorage, ConversationState } = require('botbuilder');
-
-// Import required bot configuration.
-const { BotConfiguration } = require('botframework-config');
+const { BotFrameworkAdapter } = require('botbuilder');
 
 // This bot's main dialog.
 const { MyBot } = require('./bot');
 
 // Create HTTP server
-let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function () {
+const server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log(`\n${ server.name } listening to ${ server.url }`);
 });
 
@@ -30,7 +26,7 @@ const myBot = new MyBot();
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
-    console.error(`\n [onTurnError]: ${error}`);
+    console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
     context.sendActivity(`Oops. Something went wrong!`);
 };
@@ -42,4 +38,3 @@ server.post('/api/messages', (req, res) => {
         await myBot.onTurn(context);
     });
 });
-

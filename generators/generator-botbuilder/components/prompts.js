@@ -4,10 +4,10 @@
 const {
   BOT_TEMPLATE_NAME_EMPTY,
   BOT_TEMPLATE_NAME_SIMPLE,
-  BOT_TEMPLATE_NAME_CORE, 
+  BOT_TEMPLATE_NAME_CORE,
   BOT_HELP_URL_EMPTY,
   BOT_HELP_URL_SIMPLE,
-  BOT_HELP_URL_CORE,  
+  BOT_HELP_URL_CORE,
   BOT_LANG_NAME_CSHARP,
   BOT_LANG_NAME_JAVASCRIPT,
   BOT_LANG_NAME_TYPESCRIPT,
@@ -24,7 +24,7 @@ const {
  * @param {Generator} gen Yeoman's generator object
  */
 module.exports.configureCommandlineOptions = gen => {
-  gen.option('botName', {
+  gen.option('botname', {
     desc: 'The name you want to give to your bot',
     type: String,
     default: 'my-chat-bot',
@@ -63,7 +63,7 @@ module.exports.configureCommandlineOptions = gen => {
 module.exports.getPrompts = options => {
   const prompts = [
     {
-      name: 'botName',
+      name: 'botname',
       message: `What's the name of your bot?`,
       default: (options.botName ? options.botName : 'my-chat-bot')
     },
@@ -79,7 +79,7 @@ module.exports.getPrompts = options => {
       choices: [
         {
           name: BOT_LANG_NAME_JAVASCRIPT
-        }, 
+        },
         {
           name: BOT_LANG_NAME_TYPESCRIPT
         },
@@ -97,11 +97,11 @@ module.exports.getPrompts = options => {
         {
           name: `${BOT_TEMPLATE_NAME_EMPTY} - ${BOT_HELP_URL_EMPTY}`,
           value: BOT_TEMPLATE_NAME_EMPTY,
-        }, 
+        },
         {
           name: `${BOT_TEMPLATE_NAME_SIMPLE} - ${BOT_HELP_URL_SIMPLE}`,
-          value: BOT_TEMPLATE_NAME_SIMPLE        
-        }, 
+          value: BOT_TEMPLATE_NAME_SIMPLE
+        },
         {
           name: `${BOT_TEMPLATE_NAME_CORE} - ${BOT_HELP_URL_CORE}`,
           value: BOT_TEMPLATE_NAME_CORE

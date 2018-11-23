@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as restify from 'restify';
 import * as path from 'path';
-import { config } from 'dotenv';
+import * as restify from 'restify';
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-import { BotFrameworkAdapter, MemoryStorage, ConversationState } from 'botbuilder';
+import { BotFrameworkAdapter } from 'botbuilder';
 
 // This bot's main dialog.
 import { MyBot } from './bot';
 
 // Create HTTP server.
-let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function () {
-    console.log(`\n${server.name} listening to ${server.url}`);
+const server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, () => {
+    console.log(`\n${ server.name } listening to ${ server.url }`);
 });
 
 // Create adapter.
@@ -28,11 +27,10 @@ const myBot = new MyBot();
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
-    console.error(`\n [onTurnError]: ${error}`);
+    console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
     context.sendActivity(`Oops. Something went wrong!`);
 };
-
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
@@ -41,4 +39,3 @@ server.post('/api/messages', (req, res) => {
         await myBot.onTurn(context);
     });
 });
-

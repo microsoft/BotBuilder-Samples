@@ -1,5 +1,5 @@
 {
-    "name": "<%= botName %>",
+    "name": "<%= botname %>",
     "services": [
         {
             "type": "endpoint",
