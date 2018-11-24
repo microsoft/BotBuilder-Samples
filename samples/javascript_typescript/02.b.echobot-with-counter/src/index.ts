@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as restify from 'restify';
-import * as path from 'path';
 import { config } from 'dotenv';
+import * as path from 'path';
+import * as restify from 'restify';
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 import { BotFrameworkAdapter, ConversationState, MemoryStorage } from 'botbuilder';
@@ -41,13 +41,13 @@ const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
 // Get bot endpoint configuration by service name.
 // Bot configuration as defined in .bot file.
-const endpointConfig = <IEndpointService>botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
+const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION) as IEndpointService;
 
-// Create adapter. 
+// Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about to learn more about bot adapter.
 const adapter = new BotFrameworkAdapter({
     appId: endpointConfig.appId || process.env.microsoftAppID,
-    appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword
+    appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword,
 });
 
 // Catch-all for any unhandled errors in your bot.
@@ -55,7 +55,7 @@ adapter.onTurnError = async (turnContext, error) => {
     // This check writes out errors to console log .vs. app insights.
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user.
-    turnContext.sendActivity(`Oops. Something went wrong!`);
+    await turnContext.sendActivity(`Oops. Something went wrong!`);
     // Clear out state and save changes so the user is not stuck in a bad state.
     await conversationState.clear(turnContext);
     await conversationState.saveChanges(turnContext);
@@ -90,8 +90,8 @@ conversationState = new ConversationState(memoryStorage);
 const bot = new EchoBot(conversationState);
 
 // Create HTTP server
-let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function() {
+const server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
     console.log(`\nTo talk to your bot, open echobot-with-counter.bot file in the Emulator.`);
