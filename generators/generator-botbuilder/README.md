@@ -6,7 +6,8 @@ using core AI capabilities.
 generator-botbuilder will help you build new conversational AI bots using the [Microsoft Bot Framework v4][1].
 
 # Templates
-The generator supports three different template options.  The table below canhelp guide which template is right for you.
+The generator supports three different template options.  The table below can help guide which template is right for you.
+
 |  Template  |  Description  |
 | ---------- |  ---------  |
 | Empty | A good template if you are familiar with Bot Framework v4, and simple want a basic skeleton project.  Also a good option if you want to take sample code from the documentation and paste it into a minimal bot in order to learn. |
@@ -14,7 +15,7 @@ The generator supports three different template options.  The table below canhel
 | Basic | Our most advanced template, the Basic template provides 6 core features every bot is likely to have.  This template covers the basic features of a Conversational-AI bot using LUIS[2].  See the **Basic Bot Features** table below for more details. |
 
 ## How to Choose a Template
-| Template | Use This Template When... |
+| Template | When This Template is a Good Choice |
 | -------- | -------- |
 | Echo   | You are new to Bot Framework v4 and want a working bot with minimal features. |
 | Basic  | You understand some of the core concepts of Bot Framework v4 and are beyond the concepts introduced in the Echo template.  You're familiar with or are ready to learn concepts such as language understanding using LUIS, managing multi-turn conversations with Dialogs, handling user initiated Dialog interruptions, and using Adaptive Cards to welcome your users. |
@@ -26,6 +27,7 @@ The Echo bot template is slightly more than the a classic "Hello World!" example
 
 ### Basic Template
 The Basic bot template consists of set of core features most every bot is likely to have.  Building off of the core message processing features found in the Empty template, this template adds a number of more sophisticated features.  The table below lists these features and provides links to additional documentation.
+
 | Basic Bot Features | Description |
 | ------------------ | ----------- |
 | [Send and receive messages][40] | The primary way your bot will communicate with users, and likewise receive communication, is through message activities. Some messages may simply consist of plain text, while others may contain richer content such as cards or attachments. |
