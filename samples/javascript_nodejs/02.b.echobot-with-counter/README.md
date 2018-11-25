@@ -1,15 +1,15 @@
-This sample shows how to create a simple echo bot with state. The bot maintains a simple counter that increases with each message from the user. This bot example uses [`restify`](https://www.npmjs.com/package/restify). 
+This sample shows how to create a simple echo bot with state. The bot maintains a simple counter that increases with each message from the user. This bot example uses [`restify`](https://www.npmjs.com/package/restify).
 
 # To try this sample
 - Clone the repository
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, 
+- In a terminal,
     ```bash
-    cd samples/javascript_nodejs/02.echobot-with-counter
+    cd samples/javascript_nodejs/02.b.echobot-with-counter
     ```
-- [Optional] Update the .env file under samples/javascript_nodejs/02.echobot-with-counter with your botFileSecret
+- [Optional] Update the .env file under samples/javascript_nodejs/02.b.echobot-with-counter with your botFileSecret
     For Azure Bot Service bots, you can find the botFileSecret under application settings.
 - Install modules and start the bot
     ```bash
