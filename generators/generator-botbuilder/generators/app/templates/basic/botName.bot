@@ -1,5 +1,5 @@
 {
-  "name": "<%= botName %>",
+  "name": "<%= botname %>",
   "secretKey": "",
   "services": [
     {

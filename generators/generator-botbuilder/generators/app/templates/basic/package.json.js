@@ -1,15 +1,19 @@
 {
-    "name": "<%= botName %>",
+    "name": "<%= botname %>",
     "version": "1.0.0",
     "description": "<%= botDescription %>",
-    "author": "Microsoft Bot Builder Yeoman Generator v<%= version %>",
+    "author": "Generated using Microsoft Bot Builder Yeoman generator v<%= version %>",
     "license": "MIT",
     "main": "<%= npmMain %>",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "echo \"Error: no build specified\" && exit 1",
         "start": "node ./index.js",
-        "watch": "nodemon ./index.js"
+        "watch": "nodemon ./index.js",
+        "lint": "./node_modules/.bin/eslint .",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com"
     },
     "dependencies": {
         "botbuilder": "^4.1.5",
@@ -20,7 +24,7 @@
         "botframework-connector": "^4.1.5",
         "botframework-schema": "^4.1.5",
         "dotenv": "^6.1.0",
-        "restify": "^7.2.2"
+        "restify": "^7.2.3"
     },
     "devDependencies": {
         "eslint": "^5.8.0",

@@ -16,17 +16,17 @@
     {
       "type": "abs",
       "id": "3",
-      "name": "<%= botName %>-abs"
+      "name": "<%= botname %>-abs"
     },
     {
       "type": "appInsights",
       "id": "4",
-      "name": "<%= botName %>-insights"
+      "name": "<%= botname %>-insights"
     },
     {
       "type": "blob",
       "id": "5",
-      "name": "<%= botName %>-blob",
+      "name": "<%= botname %>-blob",
       "container": "botstatestore"
     }
   ]

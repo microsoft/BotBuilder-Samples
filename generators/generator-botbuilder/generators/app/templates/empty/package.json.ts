@@ -6,9 +6,10 @@
     "license": "MIT",
     "main": "<%= npmMain %>",
     "scripts": {
-        "start": "node ./index.js",
-        "watch": "nodemon ./index.js",
-        "lint": "./node_modules/.bin/eslint .",
+        "build": "node_modules/typescript/bin/tsc --build",
+        "start": "node_modules/typescript/bin/tsc --build && node ./lib/index.js",
+        "watch": "concurrently --kill-others \"node_modules/typescript/bin/tsc -w\" \"nodemon ./lib/index.js\"",
+        "lint": "node_modules/tslint/bin/tslint -c tslint.json 'src/**/*.ts'",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -17,17 +18,13 @@
     },
     "dependencies": {
         "botbuilder": "^4.1.5",
-        "botframework-config": "^4.1.5",
-        "dotenv": "^6.1.0",
         "restify": "^7.2.3"
     },
     "devDependencies": {
-        "eslint": "^5.8.0",
-        "eslint-config-standard": "^12.0.0",
-        "eslint-plugin-import": "^2.14.0",
-        "eslint-plugin-node": "^8.0.0",
-        "eslint-plugin-promise": "^4.0.1",
-        "eslint-plugin-standard": "^4.0.0",
-        "nodemon": "^1.18.6"
+        "@types/restify": "7.2.6",
+        "concurrently": "^4.0.1",
+        "nodemon": "^1.18.6",
+        "tslint": "^5.11.0",
+        "typescript": "^3.1.6"
     }
 }

@@ -1,15 +1,20 @@
 {
-    "name": "<%= botName %>",
+    "name": "<%= botname %>",
     "version": "1.0.0",
     "description": "<%= botDescription %>",
-    "author": "Microsoft Bot Builder Yeoman Generator v<%= version %>",
+    "author": "Generated using Microsoft Bot Builder Yeoman generator v<%= version %>",
     "license": "MIT",
     "main": "<%= npmMain %>",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsc",
-        "start": "tsc && node ./lib/index.js",
-        "watch": "concurrently --kill-others \"tsc -w\" \"nodemon ./lib/index.js\""
+        "build": "node_modules/typescript/bin/tsc --build",
+        "start": "node_modules/typescript/bin/tsc --build && node ./lib/index.js",
+        "watch": "concurrently --kill-others \"node_modules/typescript/bin/tsc -w\" \"nodemon ./lib/index.js\"",
+        "lint": "node_modules/tslint/bin/tslint -c tslint.json 'src/**/*.ts'",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com"
     },
     "dependencies": {
         "botbuilder": "^4.1.5",
@@ -20,18 +25,14 @@
         "botframework-connector": "^4.1.5",
         "botframework-schema": "^4.1.5",
         "dotenv": "^6.1.0",
-        "restify": "^7.2.2"
+        "restify": "^7.2.3"
     },
     "devDependencies": {
+        "@types/dotenv": "6.1.0",
+        "@types/restify": "7.2.6",
         "concurrently": "^4.0.1",
-        "eslint": "^5.8.0",
-        "eslint-config-standard": "^12.0.0",
-        "eslint-plugin-import": "^2.14.0",
-        "eslint-plugin-node": "^8.0.0",
-        "eslint-plugin-promise": "^4.0.1",
-        "eslint-plugin-standard": "^4.0.0",
         "nodemon": "^1.18.6",
-        "@types/node": "10.12.2",
-        "@types/restify": "7.2.6"
+        "tslint": "^5.11.0",
+        "typescript": "^3.1.6"
     }
 }
