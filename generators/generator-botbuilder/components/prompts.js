@@ -32,7 +32,7 @@ module.exports.configureCommandlineOptions = gen => {
     default: 'Demonstrate the core capabilities of the Microsoft Bot Framework',
     alias: 'D'
   });
-  const langDesc = `The programming language you want to use. (${BOT_LANG_NAME_JAVASCRIPT} | ${BOT_LANG_NAME_TYPESCRIPT})`;
+  const langDesc = `The programming language use by the project. (${BOT_LANG_NAME_JAVASCRIPT} | ${BOT_LANG_NAME_TYPESCRIPT})`;
   gen.option('language', {
     desc: langDesc,
     type: String,
@@ -47,7 +47,12 @@ module.exports.configureCommandlineOptions = gen => {
     default: BOT_TEMPLATE_NAME_SIMPLE,
     alias: 'T'
   });
-  gen.argument('noprompt', { type: Boolean, required: false });
+  gen.argument('noprompt', {
+    desc: 'Do not prompt for any information or confirmation',
+    type: Boolean,
+    required: false,
+    default: false
+  });
 };
 
 /**
