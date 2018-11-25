@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const path = require("path");
-const _ = require("lodash");
-const mkdirp = require("mkdirp");
+const path = require('path');
+const _ = require('lodash');
+const mkdirp = require('mkdirp');
 
 const pkg = require('../package.json');
 
@@ -31,23 +31,24 @@ const makeProjectDirectory = (gen, directoryName) => {
  */
 // const writeCommonFiles = (gen, templatePath) => {
 module.exports.commonFilesWriter = (gen, templatePath) => {
-  const botName = gen.props.botName;
-  const extension = _.toLower(gen.props.language) === "javascript" ? "js" : "ts";
+  const botname = gen.props.botname;
+  const extension = _.toLower(gen.props.language) === 'javascript' ? 'js' : 'ts';
   const npmMain = extension === 'js' ? `index.js` : `./lib/index.js`;
   const npmBuildCmd = extension === 'js' ? `exit 1` : `tsc`;
-  const npmRunCmd = extension === 'js' ? `node ./index.js` : "tsc && node ./lib/index.js";
-  const npmWatchCmd = extension === 'js' ? "nodemon ./index.js" : "tsc && node ./lib/index.js";
+  const npmRunCmd = extension === 'js' ? `node ./index.js` : 'tsc && node ./lib/index.js';
+  const npmWatchCmd = extension === 'js' ? 'nodemon ./index.js' : "concurrently --kill-others \"tsc -w\" \"nodemon ./lib/index.js\"";
+
 
   // ensure our project directory exists before we start writing files into it
-  makeProjectDirectory(gen, _.camelCase(gen.props.botName));
+  makeProjectDirectory(gen, _.kebabCase(gen.props.botname));
 
   // write the project files common to all templates
   // do any text token processing where required
   gen.fs.copyTpl(
-    gen.templatePath(path.join(templatePath, "package.json." + extension)),
-    gen.destinationPath("package.json"),
+    gen.templatePath(path.join(templatePath, 'package.json.' + extension)),
+    gen.destinationPath('package.json'),
     {
-      botName: gen.props.botName,
+      botname: gen.props.botname,
       botDescription: gen.props.description,
       version: pkg.version,
       npmMain: npmMain
@@ -60,10 +61,10 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
 
   gen.fs.copy(
     gen.templatePath(path.join(templatePath, `botName.bot`)),
-    gen.destinationPath(`${gen.props.botName}.bot`), {
+    gen.destinationPath(`${gen.props.botname}.bot`), {
     process: function (content) {
-      var pattern = new RegExp('<%= botName %>', 'g');
-      return content.toString().replace(pattern, botName.toString());
+      var pattern = new RegExp('<%= botname %>', 'g');
+      return content.toString().replace(pattern, botname.toString());
     }
   });
 
@@ -72,7 +73,7 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
     gen.templatePath(path.join(templatePath, '_env')),
     gen.destinationPath('.env'),
     {
-      botFileName: gen.props.botName
+      botFileName: gen.props.botname
     }
   );
 
@@ -83,21 +84,25 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
       gen.templatePath(path.join(templatePath, 'tsconfig.json')),
       gen.destinationPath('tsconfig.json')
     );
-    srcReadmePath = path.join(templatePath, "README.md.ts")
+    gen.fs.copy(
+      gen.templatePath(path.join(templatePath, 'tslint.json')),
+      gen.destinationPath('tslint.json')
+    );
+    srcReadmePath = path.join(templatePath, 'README.md.ts')
   } else {
     gen.fs.copy(
       gen.templatePath(path.join(templatePath, '_eslintrc.js')),
       gen.destinationPath('.eslintrc.js')
     );
-    srcReadmePath = path.join(templatePath, "README.md.js")
+    srcReadmePath = path.join(templatePath, 'README.md.js')
   }
 
   // gen a readme with specifics to what was generated
   gen.fs.copyTpl(
     gen.templatePath(srcReadmePath),
-    gen.destinationPath("README.md"),
+    gen.destinationPath('README.md'),
     {
-      botName: gen.props.botName,
+      botname: gen.props.botname,
       description: gen.props.description,
       runCmd: npmRunCmd,
       watchCmd: npmWatchCmd,
