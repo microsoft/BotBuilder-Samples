@@ -44,7 +44,7 @@ To use the samples clone this GitHub repository using Git.
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|-------------|
 |1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming message.                                                                                                 |[View][cs#1] |[View][js#1] | :runner:     |             |[View][ts#1] |
 |1.a.browser-echo       | Introduces browser adapter                                                     |             |             |              |[View][es#1a]|             |
-|2.echo-with-counter    | Demonstrates how to use state. Shows commented out code for all natively supported storage providers. Storage providers should include InMemory and Blob storage.                                                                                            |[View][cs#2] |[View][js#2] |[View][wa#2]  |             |[View][ts#2] |
+|2.echo-with-counter    | Demonstrates how to use state. Shows commented out code for all natively supported storage providers. Storage providers should include InMemory and Blob storage.                                                                                            |[View][cs#2b] |[View][js#2b]|[View][wa#2b] |           |[View][ts#2b] |
 |3.welcome-user         | Introduces activity types and provides a welcome message on conversation update activity. |[View][cs#3] |[View][js#3] |              | | |
 |4.simple-prompt        | Demonstrates prompt pattern by prompting user for a property. Introduces user state .vs. conversation state. Ask for name and prints back that information. Uses sequence dialogs if available or default option is to use waterfall dialogs            |[View][cs#4] |[View][js#4] |              |             | |
 |5.multi-turn-prompt    | Demonstrates more complex pattern by prompting user for multiple properties. Ask for name, age and prints back that information. Uses sequence dialogs if available or default option is to use waterfall dialogs.                                              |[View][cs#5] |[View][js#5] |              |             | |
@@ -79,7 +79,8 @@ To use the samples clone this GitHub repository using Git.
 |70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
 
 [cs#1]:samples/csharp_dotnetcore/01.console-echo
-[cs#2]:samples/csharp_dotnetcore/02.echo-with-counter
+[cs#2a]:samples/csharp_dotnetcore/02.a.echobot
+[cs#2b]:samples/csharp_dotnetcore/02.b.echo-with-counter
 [cs#3]:samples/csharp_dotnetcore/03.welcome-user
 [cs#4]:samples/csharp_dotnetcore/04.simple-prompt
 [cs#5]:samples/csharp_dotnetcore/05.multi-turn-prompt
