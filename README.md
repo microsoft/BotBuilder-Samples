@@ -142,7 +142,7 @@ To use the samples clone this GitHub repository using Git.
 [js#15]:samples/javascript_nodejs/15.handling-attachments
 [js#16]:samples/javascript_nodejs/16.proactive-messages
 [js#17]:samples/javascript_nodejs/17.multilingual-conversations
-[cs#18]:samples/javascript_nodejs/18.bot-authentication
+[js#18]:samples/javascript_nodejs/18.bot-authentication
 [js#19]:samples/javascript_nodejs/19.custom-dialogs
 [js#20]:samples/javascript_nodejs/20.qna-with-appinsights
 [js#21]:samples/javascript_nodejs/21.luis-with-appinsights

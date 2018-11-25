@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console-EchoBot", "01.console-echo\Console-EchoBot.csproj", "{ECFF9720-28CF-4F7D-896B-DA489D1032EA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoBotWithCounter", "02.echo-with-counter\EchoBotWithCounter.csproj", "{A4C98E5F-CF1B-47C3-A5EC-302D6039F2F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoBotWithCounter", "02.b.echo-with-counter\EchoBotWithCounter.csproj", "{A4C98E5F-CF1B-47C3-A5EC-302D6039F2F3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WelcomeUser", "03.welcome-user\WelcomeUser.csproj", "{AD38EDAD-B5FC-4B2E-A694-D400C6762E9B}"
 EndProject

@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QnABot", "11.QnAMaker\QnABot.csproj", "{F58B5B66-832F-4830-BC80-D0EC749DC030}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EchoBot", "02.echo-with-counter\EchoBot.csproj", "{BE6048C3-CCA2-4184-B8DA-15389FA3F512}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EchoBot", "02.b.echo-with-counter\EchoBot.csproj", "{BE6048C3-CCA2-4184-B8DA-15389FA3F512}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicBot", "13.Basic-Bot-Template\BasicBot.csproj", "{18F803A1-2F91-4597-BDE2-C60573DAC2BA}"
 EndProject
