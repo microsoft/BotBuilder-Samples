@@ -42,9 +42,10 @@ To use the samples clone this GitHub repository using Git.
 
 | Sample Name           | Description                                                                    | .NET CORE   | NodeJS      | .NET Web API | JS (es6)    | Typescript  |
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|-------------|
-|1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming message.                                                                                                 |[View][cs#1] |[View][js#1] | :runner:     |             |[View][ts#1] |
+|1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming message.                                                                                                 |[View][cs#1] |[View][js#1] |      |             |[View][ts#1] |
 |1.a.browser-echo       | Introduces browser adapter                                                     |             |             |              |[View][es#1a]|             |
-|2.echo-with-counter    | Demonstrates how to use state. Shows commented out code for all natively supported storage providers. Storage providers should include InMemory and Blob storage.                                                                                            |[View][cs#2] |[View][js#2] |[View][wa#2]  |             |[View][ts#2] |
+|2.a.echobot            | Demonstrates how to receive and send messages.                                 | :runner: |[View][js#2a]| :runner: |           |[View][ts#2a] |
+|2.b.echo-with-counter  | Demonstrates how to use state. Shows commented out code for all natively supported storage providers. Storage providers should include InMemory and Blob storage.                                                                                            |[View][cs#2b] |[View][js#2b]|[View][wa#2b] |           |[View][ts#2b] |
 |3.welcome-user         | Introduces activity types and provides a welcome message on conversation update activity. |[View][cs#3] |[View][js#3] |              | | |
 |4.simple-prompt        | Demonstrates prompt pattern by prompting user for a property. Introduces user state .vs. conversation state. Ask for name and prints back that information. Uses sequence dialogs if available or default option is to use waterfall dialogs            |[View][cs#4] |[View][js#4] |              |             | |
 |5.multi-turn-prompt    | Demonstrates more complex pattern by prompting user for multiple properties. Ask for name, age and prints back that information. Uses sequence dialogs if available or default option is to use waterfall dialogs.                                              |[View][cs#5] |[View][js#5] |              |             | |
@@ -60,10 +61,10 @@ To use the samples clone this GitHub repository using Git.
 |15.handling-attachments| Demonstrates how to listen for/handle user provided attachments                |[View][cs#15]|[View][js#15]|              |             | |
 |16.proactive-messages  | Demonstrates how to send proactive messages to users                           |[View][cs#16]|[View][js#16]|              |             | |
 |17.multilingual-bot    | Using translate middleware to support a multi-lingual bot. Demonstrates custom middleware. |[View][cs#17]|[View][js#17]|              |             | |
-|18.bot-authentication  | Bot that demonstrates how to integration with OAuth providers                  |[View][cs#18]|  :runner:   |              |             | |
+|18.bot-authentication  | Bot that demonstrates how to integration with OAuth providers                  |[View][cs#18]|[View][js#18]|              |             | |
 |19.custom-dialogs      | Demonstrates different ways to model conversations. Waterfall .vs. using your own dialog management |[View][cs#19]|[View][js#19]|              |             | |
-|20.qna-with-appinsights| Demonstrates how to use QnA Maker and Azure Application insights               |[View][cs#20]|[View][js#20]|:runner:      |             | |
-|21.luis-appinsights    | Demonstrates how to use LUIS and Azure Application insights                    |[View][cs#21]|[View][js#21]|:runner:      |             | |
+|20.qna-with-appinsights| Demonstrates how to use QnA Maker and Azure Application insights               |[View][cs#20]|[View][js#20]|      |             | |
+|21.luis-appinsights    | Demonstrates how to use LUIS and Azure Application insights                    |[View][cs#21]|[View][js#21]|      |             | |
 |22.conversation-history| Demonstrates the use of SendConversationHistoryAsync API to upload conversation history stored in the conversation Transcript.|[View][cs#22]|:runner:|              |             | |
 |23.facebook-events     | Integrate and consume Facebook specific payloads, such as post-backs, quick replies and opt-in events.|[View][cs#23] |[View][js#23] |              |             | |
 |24.bot-auth-msgraph    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[View][cs#24] |[View][js#24] |              |             | |
@@ -75,11 +76,11 @@ To use the samples clone this GitHub repository using Git.
 |50.diceroller-skill    | This sample demonstrates how to implement a Cortana Skill that properly handles EndOfConversation events.|:runner: |[View][js#50] |              |             | |
 |51.cafe-bot            | A complete E2E Cafe bot that has all capabilities and includes best practices|[View][cs#51]|[View][js#51]|              |             | |
 |52.enterprise-bot      | Enterprise bot that demonstrates use of Dialogs, Template Manager, Dispatch across different services and implementing custom middleware.| [View][cs#52] |           |              |             | [View][ts#52] |
-|60.multilinugal-luis-bot      | Luis connected bot with multilingual feature using microsoft translator and implementing custom middleware for translation .| [View][cs#60] |           |              |             | :runner |
 |70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
 
 [cs#1]:samples/csharp_dotnetcore/01.console-echo
-[cs#2]:samples/csharp_dotnetcore/02.echo-with-counter
+[cs#2a]:samples/csharp_dotnetcore/02.a.echobot
+[cs#2b]:samples/csharp_dotnetcore/02.b.echo-with-counter
 [cs#3]:samples/csharp_dotnetcore/03.welcome-user
 [cs#4]:samples/csharp_dotnetcore/04.simple-prompt
 [cs#5]:samples/csharp_dotnetcore/05.multi-turn-prompt
@@ -109,7 +110,8 @@ To use the samples clone this GitHub repository using Git.
 [cs#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
 [cs#60]:experimental/csharp_dotnetcore/60.multilinugal-luis-bot
 
-[wa#2]:samples/csharp_webapi/02.echo-with-counter
+[wa#2a]:samples/csharp_webapi/02.a.echobot
+[wa#2b]:samples/csharp_webapi/02.b.echo-with-counter
 [wa#11]:samples/csharp_webapi/11.QnAMaker
 [wa#12]:samples/csharp_webapi/12.NLP-With-LUIS
 [wa#13]:samples/csharp_webapi/13.Basic-Bot-Template
@@ -118,7 +120,8 @@ To use the samples clone this GitHub repository using Git.
 [es#70]:samples/javascript_es6/70.styling-webchat
 
 [ts#1]:samples/javascript_typescript/01.console-echo
-[ts#2]:samples/javascript_typescript/02.echobot-with-counter
+[ts#2a]:samples/javascript_typescript/02.a.echobot
+[ts#2b]:samples/javascript_typescript/02.b.echobot-with-counter
 [ts#11]:samples/javascript_typescript/11.qnamaker
 [ts#12]:samples/javascript_typescript/12.nlp-with-luis
 [ts#13]:samples/javascript_typescript/13.basic-bot
@@ -126,7 +129,8 @@ To use the samples clone this GitHub repository using Git.
 [ts#60]:experimental/javascript_typescript/60.multilingual-luis-bot
 
 [js#1]:samples/javascript_nodejs/01.console-echo
-[js#2]:samples/javascript_nodejs/02.echobot-with-counter
+[js#2a]:samples/javascript_nodejs/02.a.echobot
+[js#2b]:samples/javascript_nodejs/02.b.echobot-with-counter
 [js#3]:samples/javascript_nodejs/03.welcome-users
 [js#4]:samples/javascript_nodejs/04.simple-prompt
 [js#5]:samples/javascript_nodejs/05.multi-turn-prompt
@@ -142,7 +146,7 @@ To use the samples clone this GitHub repository using Git.
 [js#15]:samples/javascript_nodejs/15.handling-attachments
 [js#16]:samples/javascript_nodejs/16.proactive-messages
 [js#17]:samples/javascript_nodejs/17.multilingual-conversations
-
+[js#18]:samples/javascript_nodejs/18.bot-authentication
 [js#19]:samples/javascript_nodejs/19.custom-dialogs
 [js#20]:samples/javascript_nodejs/20.qna-with-appinsights
 [js#21]:samples/javascript_nodejs/21.luis-with-appinsights
