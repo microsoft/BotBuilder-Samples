@@ -28,7 +28,7 @@ The Echo bot template is slightly more than the a classic "Hello World!" example
 ### Basic Template
 The Basic bot template consists of set of core features most every bot is likely to have.  Building off of the core message processing features found in the Empty template, this template adds a number of more sophisticated features.  The table below lists these features and provides links to additional documentation.
 
-| Basic Bot Features | Description |
+| Basic&nbsp;Bot&nbsp;Features | Description |
 | ------------------ | ----------- |
 | [Send and receive messages][40] | The primary way your bot will communicate with users, and likewise receive communication, is through message activities. Some messages may simply consist of plain text, while others may contain richer content such as cards or attachments. |
 | [Proactive messaging][41] using [Adaptive Cards][42] | The primary goal when creating any bot is to engage your user in a meaningful conversation. One of the best ways to achieve this goal is to ensure that from the moment a user first connects to your bot, they understand your bot’s main purpose and capabilities.  We refer to this as "welcoming the user."  The Basic template uses an [Adaptive Card][42] to implement this behavior.  |
