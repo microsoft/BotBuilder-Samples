@@ -37,6 +37,9 @@ The Basic bot template consists of set of core features most every bot is likely
 | [Managing conversation state][45] | A key to good bot design is to track the context of a conversation, so that your bot remembers things like the answers to previous questions. |
 | [How to handle user-initiated interruptions][46] | While you may think that your users will follow your defined conversation flow step by step, chances are good that they will change their minds or ask a question in the middle of the process instead of answering the question. Handling interruptions means making sure your bot is prepared to handle situations like this. |
 
+### Empty Template
+The Empty bot template is the minimal skeleton code for a bot.  It provides a stub `onTurn` handlers but does not perform any actions.  If you are experienced writing bots with Bot Framework v4 and want the minimum scaffolding, the Empty template is for you.
+
 
 # Features by Template
 |  Feature  |  Empty  |  Echo   |  Basic  |

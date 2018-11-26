@@ -1,7 +1,7 @@
 {
   "name": "timex-resolution",
   "version": "1.0.0",
-  "description": "Examples of how to use the Timex expression library. ",
+  "description": "Bot Builder v4 Timex expression library sample",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
