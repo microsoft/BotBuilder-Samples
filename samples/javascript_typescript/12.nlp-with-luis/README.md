@@ -39,23 +39,28 @@ In order to run this sample, you must have TypeScript installed.  To install Typ
 - Click the [Download](https://www.typescriptlang.org/#download-links) button.
 - Follow the installation instructions for your development environment.
 
-### Set up LUIS
 - Navigate to [LUIS portal](https://www.luis.ai).
 - Click the `Sign in` button.
 - Click on `My Apps`.
 - Click on the `Import new app` button.
-- Click on the `Choose File` and select [Reminders.json](cognitiveModels/Reminders.json) from the `BotBuilder-Samples/samples/javascript_typescript/12.nlp-with-luis/cognitiveModels` folder.
-- Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your AppId, SubscriptionKey, Region and Version.
-    You can find this information under "Publish" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for
-    - The `AppID` can be found in "Application Information"
-    - The `SubscriptionKey` can be found in "Keys and Endpoints", under the `Key 1` column
-    - The `region` can be found in "Keys and Endpoints", under the `Region` column
+- Click on the `Choose File` and select [reminders.json](cognitiveModels/reminders.json) from the `BotBuilder-Samples/javascript_nodejs/12.nlp-with-luis/cognitiveModels` folder.
+- Provide a name for the LUIS app
+- Click on the `Train` button. To train your language model.
+- Click on the `Publish` button.  To publish your trained language model.
+- Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your AppId, SubscriptionKey, Region and Version. 
+    You can find this information under "Keys and Endpoint" tab for your LUIS application at [LUIS portal](https://www.luis.ai).  For example, for https://westus.settingsapi.cognitive.microsoft.com/luis/v2.0/apps/{LuisAppID}?subscription-key={LuisSubscriptionKey}&verbose=true&timezoneOffset=0&q=
 
-    The Version is listed on the page. [See an example .bot service configuration for using LUIS here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js#configure-your-bot-to-use-your-luis-app).    
-- Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your Authoring Key.
-    You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option. Add this to your .bot file's service configuration as `authoringKey`.
-    
+    The Version is listed on the page.
+    Note: Enter either the "authoringKey" OR "subscriptionKey", not both.
+    [See an example .bot service configuration for using LUIS here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js#configure-your-bot-to-use-your-luis-app).    
+
+- Update [index.js](index.js) and set the `LUIS_CONFIGURATION` value to match the `name` field in your service declaration.
+
+- Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your Authoring Key.  
+    You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
+
     NOTE: Once you publish your app on LUIS portal for the first time, it may take some time to go live.
+
 - Your .bot file should now include an item in the services array that looks like this:
 
 ```javascript

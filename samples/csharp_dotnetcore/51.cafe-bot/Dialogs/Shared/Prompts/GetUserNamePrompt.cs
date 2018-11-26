@@ -14,14 +14,11 @@ namespace Microsoft.BotBuilderSamples
 {
     public class GetUserNamePrompt : TextPrompt
     {
-        // The name of the bot you deployed.
-        public static readonly string MsBotName = "cafe66";
-
         /// <summary>
         /// Key in the bot config (.bot file) for the LUIS instances.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
-        public static readonly string LuisConfiguration = $"{MsBotName}_getUserProfile";
+        public static readonly string LuisConfiguration = $"getUserProfile";
 
         // Dialog name
         private const string InterruptionDispatcher = "interruptionDispatcherDialog";

@@ -62,7 +62,7 @@ namespace Microsoft.BotBuilderSamples
             }
 
             // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
-            var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\qnamaker.bot", secretKey);
 
             // Initialize Bot Connected Services clients.
             var connectedServices = InitBotServices(botConfig);

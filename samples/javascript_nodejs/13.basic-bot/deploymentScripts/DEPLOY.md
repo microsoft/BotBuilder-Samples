@@ -36,7 +36,7 @@ The LUIS application created for this bot is described in a markdown based .lu f
     ```
 2. To create a new LUIS application using the LUIS model generated in step 1 and update the .bot file with the LUIS service configuration:
     ```bash
-    > luis import application --in cognitiveModels/basicBot.luis --authoringKey <YOUR-LUIS-AUTHORING-KEY> --msbot --endpointRegion --region <LUIS-AUTHORING-REGION> | msbot connect luis --stdin
+    > luis import application --in cognitiveModels/basicBot.luis --authoringKey <YOUR-LUIS-AUTHORING-KEY> --msbot --endpointRegion --region <LUIS-AUTHORING-REGION> --appName <APP-NAME> | msbot connect luis --stdin
     ```
     You can obtain your LUIS authoring key by following instructions [here][8]
     LUIS authoring regions are listed [here][10]. They can be one of westus | westeurope | australiaeast.

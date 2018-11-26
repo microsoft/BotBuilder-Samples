@@ -46,7 +46,7 @@ namespace Microsoft.BotBuilderSamples
             // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
-            var botConfig = BotConfiguration.Load(botFilePath ?? @".\CafeBot.bot", secretKey);
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\cafe-bot.bot", secretKey);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. botFilePath: {botFilePath}"));
 
             // Add BotServices singleton

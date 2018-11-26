@@ -20,6 +20,6 @@ class UserProfile {
     this.name = name || undefined;
     this.city = city || undefined;
   }
-};
+}
 
 export { UserProfile };

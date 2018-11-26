@@ -48,6 +48,19 @@ const adapter = new BotFrameworkAdapter({
     appPassword: endpointConfig.appPassword || process.env.MicrosoftAppPassword
 });
 
+// Catch-all for errors.
+adapter.onTurnError = async (turnContext, error) => {
+    // This check writes out errors to console log v.s. Application Insights.
+    console.error(`\n [onTurnError]: ${ error }`);
+    // Send a message to the user.
+    await turnContext.sendActivity(`Oops. Something went wrong!`);
+    // Clear out state
+    await conversationState.load(context);
+    await conversationState.clear(context);
+    // Save state changes.
+    await conversationState.saveChanges(context);
+};
+
 // Create the AdaptiveCardsBot.
 const adaptiveCardsBot = new AdaptiveCardsBot();
 
@@ -57,11 +70,3 @@ server.post('/api/messages', (req, res) => {
         await adaptiveCardsBot.onTurn(context);
     });
 });
-
-// Catch-all for errors.
-adapter.onTurnError = async (turnContext, error) => {
-    // This check writes out errors to console log v.s. Application Insights.
-    console.error(`\n [onTurnError]: ${ error }`);
-    // Send a message to the user.
-    await turnContext.sendActivity(`Oops. Something went wrong!`);
-};

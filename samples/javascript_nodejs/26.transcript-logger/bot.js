@@ -79,9 +79,9 @@ class LoggerBot {
     async promptForAge(step) {
         if (step.result && step.result.value === 'yes') {
             return await step.prompt(AGE_PROMPT, {
-                    prompt: `What is your age?`,
-                    retryPrompt: 'Sorry, please specify your age as a positive number or say cancel.'
-                }
+                prompt: `What is your age?`,
+                retryPrompt: 'Sorry, please specify your age as a positive number or say cancel.'
+            }
             );
         } else {
             return await step.next(-1);

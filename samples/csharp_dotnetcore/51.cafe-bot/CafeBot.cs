@@ -32,14 +32,11 @@ namespace Microsoft.BotBuilderSamples
         public const string OnTurnPropertyName = "onTurnStateProperty";
         public const string DialogStateProperty = "dialogStateProperty";
 
-        // The name of the bot you deployed.
-        public static readonly string MsBotName = "cafe66";
-
         /// <summary>
         /// Key in the bot config (.bot file) for the LUIS instances.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
-        public static readonly string LuisConfiguration = MsBotName + "_" + "cafeDispatchModel";
+        public static readonly string LuisConfiguration = "cafeDispatchModel";
 
         // Greeting Dialog ID.
         public static readonly string GreetingDialogId = "greetingDialog";
@@ -152,6 +149,7 @@ namespace Microsoft.BotBuilderSamples
                     {
                         await SendWelcomeMessageAsync(turnContext);
                     }
+
                     break;
                 default:
                     // Handle other activity types as needed.

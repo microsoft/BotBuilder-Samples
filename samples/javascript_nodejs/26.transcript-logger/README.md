@@ -1,5 +1,5 @@
 # transcriptLoggerBot
-This bot demonstrates the transcript logging middleware in the nodejs SDK. The files `CustomLogger.d.ts` and `CustomLogger.js` contain a custom implementation of the logging middleware.
+This bot demonstrates the transcript logging middleware in the nodejs SDK. The file `customLogger.js` contains a custom implementation of the logging middleware.
 This implementation contains an object that saves ongoing conversations and writes them to a file after the end state of the conversation has been reached via a value "endOfInput" set on the last message in the `bot.js` file.
 
  This bot has been created using [Microsoft Bot Framework][10], and demonstrates how to create a bot that stores transcript logs of the conversation. 
@@ -20,8 +20,7 @@ In this example, the bot creates a new folder in the project directory called `l
 - [Optional] Update the `.env` file under `samples/javascript_nodejs/26.transcript-logger` with your `botFileSecret` For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
 - Install modules and start the bot
     ```bash
-    npm i
-    npm start
+    npm i && npm start
     ```
     Alternatively you can also use nodemon via
     ```bash
