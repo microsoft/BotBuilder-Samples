@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityTypes } = require('botbuilder');
-const { TextPrompt, DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
+const { DialogSet, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
 const USER_NAME_PROP = 'user_name';
@@ -18,7 +18,8 @@ class SimplePromptBot {
      * @param {Object} userState
      */
     constructor(conversationState, userState) {
-        // creates a new state accessor property. see https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors
+        // creates a new state accessor property.
+        // See https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors
         this.conversationState = conversationState;
         this.userState = userState;
 
@@ -73,16 +74,6 @@ class SimplePromptBot {
             // Create dialog context
             const dc = await this.dialogs.createContext(turnContext);
 
-            const utterance = (turnContext.activity.text || '').trim().toLowerCase();
-            if (utterance === 'cancel') {
-                if (dc.activeDialog) {
-                    await dc.cancelAllDialogs();
-                    await dc.context.sendActivity(`Ok... Cancelled.`);
-                } else {
-                    await dc.context.sendActivity(`Nothing to cancel.`);
-                }
-            }
-
             // Continue the current dialog
             if (!turnContext.responded) {
                 await dc.continueDialog();
@@ -97,9 +88,7 @@ class SimplePromptBot {
                     await dc.beginDialog(WHO_ARE_YOU);
                 }
             }
-        } else if (
-            turnContext.activity.type === ActivityTypes.ConversationUpdate
-        ) {
+        } else if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
             // Do we have any new members added to the conversation?
             if (turnContext.activity.membersAdded.length !== 0) {
                 // Iterate over all new members added to the conversation
