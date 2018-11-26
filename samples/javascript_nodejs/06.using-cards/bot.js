@@ -111,18 +111,18 @@ class RichCardsBot {
             await turnContext.sendActivity({ attachments: [this.createVideoCard()] });
             break;
         case 'All Cards':
-                await turnContext.sendActivity({
-                    attachments: [this.createVideoCard(),
-                        this.createAnimationCard(),
-                        this.createAudioCard(),
-                        this.createHeroCard(),
-                        this.createReceiptCard(),
-                        this.createSignInCard(),
-                        this.createThumbnailCard(),
-                        this.createVideoCard()
-                    ],
-                    attachmentLayout: AttachmentLayoutTypes.Carousel
-                });
+            await turnContext.sendActivity({
+                attachments: [this.createVideoCard(),
+                    this.createAnimationCard(),
+                    this.createAudioCard(),
+                    this.createHeroCard(),
+                    this.createReceiptCard(),
+                    this.createSignInCard(),
+                    this.createThumbnailCard(),
+                    this.createVideoCard()
+                ],
+                attachmentLayout: AttachmentLayoutTypes.Carousel
+            });
             break;
         default:
             await turnContext.sendActivity('An invalid selection was parsed. No corresponding Rich Cards were found.');

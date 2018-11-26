@@ -1,12 +1,12 @@
 {
   "name": "proactive-messaging-bot",
   "version": "1.0.0",
-  "description": "Bot Builder v4 sample with proactive messaging",
+  "description": "Bot Builder v4 proactive messaging sample",
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
     "watch": "nodemon ./index.js",
-    "eslint": "./node_modules/.bin/eslint .",
+    "lint": "./node_modules/.bin/eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Microsoft",
@@ -23,7 +23,7 @@
     "fetch-ponyfill": "^6.0.2",
     "moment": "^2.22.2",
     "path": "^0.12.7",
-    "restify": "^7.2.2"
+    "restify": "^7.2.3"
   },
   "devDependencies": {
     "eslint": "^5.9.0",

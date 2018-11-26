@@ -1,12 +1,12 @@
 {
     "name": "transcript-logger-bot",
     "version": "1.0.0",
-    "description": "Demonstrates the transcript logging middleware's ability to create emulator compatible transcripts in the nodejs SDK.",
+    "description": "Bot Builder v4 transcript logging middleware emulator compatible transcripts sample",
     "main": "index.js",
     "scripts": {
         "start": "node ./index.js",
         "watch": "nodemon ./index.js",
-        "eslint": "./node_modules/.bin/eslint .",
+        "lint": "./node_modules/.bin/eslint .",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Microsoft",
@@ -21,7 +21,7 @@
         "botframework-config": "^4.1.5",
         "dotenv": "^6.1.0",
         "node-fetch": "^2.2.1",
-        "restify": "^7.2.2"
+        "restify": "^7.2.3"
     },
     "devDependencies": {
         "eslint": "^5.9.0",
