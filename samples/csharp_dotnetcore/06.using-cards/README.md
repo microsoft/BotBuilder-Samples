@@ -15,16 +15,16 @@ git clone https://github.com/microsoft/botbuilder-samples.git
 
 # Running Locally
 ## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/06.using-cards`) and open CardsBot.csproj in Visual Studio 
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/06.using-cards`) and open CardsBot.csproj in Visual Studio
 - Run the project (press `F5` key)
 
 ## .NET Core CLI
-- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/dotnet/core/tools/?tabs=netcore2x).
 - Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/06.using-cards`
 - Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot 
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot
 developers to test and debug their bots on localhost or running remotely through a tunnel.
 - Install the [Bot Framework emulator](https://aka.ms/botframeworkemulator).
 
@@ -43,8 +43,8 @@ msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-loc
 **NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
 
 # Further reading
-- [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [Bot basics](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [Channels and Bot Connector service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
-- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
-- [Rich cards](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-add-rich-card-attachments?view=azure-bot-service-4.0)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction)
+- [Bot basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
+- [Channels and Bot Connector service](https://docs.microsoft.com/azure/bot-service/bot-concepts)
+- [Activity processing](https://docs.microsoft.com/azure/bot-service/bot-builder-concept-activity-processing)
+- [Rich cards](https://docs.microsoft.com/azure/bot-service/bot-builder-howto-add-media-attachments?view=azure-bot-service-4.0&tabs=csharp#send-a-hero-card)
