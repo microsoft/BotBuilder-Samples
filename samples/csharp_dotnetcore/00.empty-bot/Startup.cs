@@ -51,7 +51,7 @@ namespace Microsoft.BotBuilderSamples
                 var secretKey = Configuration.GetSection("botFileSecret")?.Value;
 
                 // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
-                var botConfig = BotConfiguration.Load(@".\BotConfiguration.bot", secretKey);                
+                var botConfig = BotConfiguration.Load(@".\empty.bot", secretKey);                
                 services.AddSingleton(sp => botConfig);
 
                 // Retrieve current endpoint.

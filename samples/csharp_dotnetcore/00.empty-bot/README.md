@@ -1,4 +1,4 @@
-﻿This sample demonstrates a simple "Hello World" bot with ASP.Net Core 2.
+﻿This sample is an empty bot skeleton that returns "Hello World" for all requests.
 
 # To try this sample
 - Clone the samples repository
@@ -25,7 +25,7 @@ developers to test and debug their bots on localhost or running remotely through
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator.
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/00.empty-bot` folder.
-- Select `BotConfiguration.bot` file.
+- Select `empty.bot` file.
 
 
 # Deploy this bot to Azure

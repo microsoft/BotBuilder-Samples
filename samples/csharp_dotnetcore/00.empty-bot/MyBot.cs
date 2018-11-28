@@ -28,9 +28,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Every conversation turn for our Echo Bot will call this method.
-        /// There are no dialogs used, since it's "single turn" processing, meaning a single
-        /// request and response.
+        /// Every conversation turn calls this method.
         /// </summary>
         /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
@@ -39,7 +37,6 @@ namespace Microsoft.BotBuilderSamples
         /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
         /// <seealso cref="BotStateSet"/>
         /// <seealso cref="ConversationState"/>
-        /// <seealso cref="IMiddleware"/>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Handle Message activity type, which is the main activity type for shown within a conversational interface
