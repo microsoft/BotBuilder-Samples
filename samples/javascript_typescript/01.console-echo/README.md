@@ -9,9 +9,13 @@ This sample shows how to create a simple echo bot that you can talk to from the 
     ```bash
     cd samples/javascript_typescript/01.console-echo
     ```
-- Install modules and start the bot
+- Install modules
     ```bash
-    npm i && npm start
+    npm i
+    ```
+- Start the bot
+    ```bash
+    npm start
     ```
 
 ## Prerequisite
