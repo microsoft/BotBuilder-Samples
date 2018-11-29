@@ -16,7 +16,7 @@
 /*/web.config
 
 # JS/ TS/ es6 env files
-# /*/*.env
+/*/*.env
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
