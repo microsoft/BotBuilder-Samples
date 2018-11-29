@@ -31,6 +31,7 @@ Start the bot.
 npm start
 ```
 Alternatively you can also run the watch script which will reload the bot when source code changes are detected.
+
 Install modules
 ```bash
 npm i

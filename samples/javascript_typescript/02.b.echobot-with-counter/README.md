@@ -10,22 +10,29 @@ This sample shows how to create a simple echo bot with state. The bot maintains 
     cd samples/javascript_typescript/02.b.echobot-with-counter
     ```
 - [Optional] Update the .env file under `samples/javascript_typescript/02.b.echobot-with-counter` with your `botFileSecret`.
-   For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
-- Install modules and start the bot
-    ```bash
-    npm i && npm start
-    ```
-    Alternatively you can also use nodemon via
-    ```bash
-    npm i && npm run watch
-    ```
+For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
 
-## Prerequisite
-### Install TypeScript
-In order to run this sample, you must have TypeScript installed.  To install TypeScript:
-- Navigate to the [TypeScript portal](https://www.typescriptlang.org).
-- Click the [Download](https://www.typescriptlang.org/#download-links) button.
-- Follow the installation instructions for your development environment.
+## Prerequisites
+- [Node.js][4]
+Ensure [Node.js][4] version 8.5 or higher installed.  To determine if Node.js is installed run the following from a shell window.
+```bash
+node --version
+```
+# To run the bot
+Install modules
+```bash
+npm i
+```
+Start the bot.
+```bash
+npm start
+```
+Alternatively you can also run the watch script which will reload the bot when source code changes are detected.
+
+Start the bot using a file watcher.
+```bash
+npm run watch
+```
 
 # Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
