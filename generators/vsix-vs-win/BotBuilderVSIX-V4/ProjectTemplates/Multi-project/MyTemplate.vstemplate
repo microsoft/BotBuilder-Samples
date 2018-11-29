@@ -1,19 +1,22 @@
 <VSTemplate Version="2.0.0" Type="ProjectGroup"
     xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
-    <TemplateData>
-        <Name>Microsoft Bot Builder V4 SDK</Name>
-        <Description>Project template and extension to create bots using Microsoft Bot Framework</Description>
-        <Icon>vstg0001.png</Icon>
-        <ProjectType>CSharp</ProjectType>
-    </TemplateData>
-    <TemplateContent>
-        <ProjectCollection>
-            <ProjectTemplateLink ProjectName="Bot Builder Echo Bot V4">
-                EchoBot\MyTemplate.vstemplate
-            </ProjectTemplateLink>
-            <ProjectTemplateLink ProjectName="Bot Builder Basic Bot V4">
-                BasicBot\MyTemplate.vstemplate
-            </ProjectTemplateLink>
-        </ProjectCollection>
-    </TemplateContent>
+  <TemplateData>
+    <Name>Microsoft Bot Builder V4 SDK</Name>
+    <Description>Project template and extension to create bots using Microsoft Bot Framework</Description>
+    <Icon>vstg0001.png</Icon>
+    <ProjectType>CSharp</ProjectType>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectCollection>
+      <ProjectTemplateLink ProjectName="Bot Builder Echo Bot V4">
+        EchoBot\MyTemplate.vstemplate
+      </ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="Bot Builder Basic Bot V4">
+        BasicBot\MyTemplate.vstemplate
+      </ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="Bot Builder Empty Bot V4">
+        EmptyBot\MyTemplate.vstemplate
+      </ProjectTemplateLink>
+    </ProjectCollection>
+  </TemplateContent>
 </VSTemplate>

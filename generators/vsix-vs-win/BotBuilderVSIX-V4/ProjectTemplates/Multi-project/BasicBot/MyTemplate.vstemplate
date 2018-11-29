@@ -50,8 +50,7 @@
           <ProjectItem ReplaceParameters="false" TargetFileName="basic-bot.luis">basic-bot.luis</ProjectItem>
       </Folder>
       <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="BasicBot.cs">BasicBot.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="BasicBot.ruleset">BasicBot.ruleset</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="BasicBot.cs">BasicBot.cs</ProjectItem>      
       <ProjectItem ReplaceParameters="true" TargetFileName="BotConfiguration.bot">BotConfiguration.bot</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="BotServices.cs">BotServices.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>

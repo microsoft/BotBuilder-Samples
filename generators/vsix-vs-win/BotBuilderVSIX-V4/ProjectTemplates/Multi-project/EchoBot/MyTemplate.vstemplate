@@ -1,12 +1,12 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>Bot Builder Echo Bot V4</Name>
+    <Name>BotBuilder EchoBot</Name>
     <Description>Echo Bot template for Microsoft Bot Builder V4 SDK.</Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>Bot Framework</ProjectSubType>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
-    <DefaultName>Bot Builder Echo Bot V4</DefaultName>
+    <DefaultName>EchoBot</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LocationField>Enabled</LocationField>
     <CreateInPlace>true</CreateInPlace>
@@ -17,25 +17,26 @@
   <TemplateContent>
     <Project TargetFileName="EchoBotWithCounter.csproj" File="EchoBotWithCounter.csproj" ReplaceParameters="true">
       <Folder Name="Properties" TargetFolderName="Properties">
-        <ProjectItem ReplaceParameters="true" TargetFileName="launchSettings.json">launchSettings.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true">launchSettings.json</ProjectItem>
       </Folder>
       <Folder Name="wwwroot" TargetFolderName="wwwroot">
-        <ProjectItem ReplaceParameters="true" TargetFileName="default.htm">default.htm</ProjectItem>
+        <ProjectItem ReplaceParameters="true">default.htm</ProjectItem>
       </Folder>
       <Folder Name="DeploymentScripts" TargetFolderName="DeploymentScripts">
         <Folder Name="MsbotClone" TargetFolderName="MsbotClone">
-          <ProjectItem ReplaceParameters="true" TargetFileName="bot.recipe">bot.recipe</ProjectItem>
+          <ProjectItem ReplaceParameters="true">bot.recipe</ProjectItem>
         </Folder>
       </Folder>
-      <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="BotConfiguration.bot">BotConfiguration.bot</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="CounterState.cs">CounterState.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="EchoBotAccessors.cs">EchoBotAccessors.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="EchoBotWithCounter.ruleset">EchoBotWithCounter.ruleset</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="EchoWithCounterBot.cs">EchoWithCounterBot.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="false" TargetFileName="README.md">README.md</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="Startup.cs">Startup.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true">appsettings.json</ProjectItem>      
+      <ProjectItem ReplaceParameters="true">CounterState.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true">Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true">Startup.cs</ProjectItem>
+
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.bot">BotConfiguration.bot</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Accessors.cs">EchoBotAccessors.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Bot.cs">EchoWithCounterBot.cs</ProjectItem>
+
+      <ProjectItem>README.md</ProjectItem>
     </Project>
   </TemplateContent>
 </VSTemplate>
