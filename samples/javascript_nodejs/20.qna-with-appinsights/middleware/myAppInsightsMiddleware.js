@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { Activity, TurnContext } = require('botbuilder');
-
 /**
  * Middleware for logging incoming activities into Application Insights.
  * In addition, registers a service so other components can log telemetry.
