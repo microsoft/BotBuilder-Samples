@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { TelemetryClient } = require('applicationinsights');
+const { Activity, TurnContext } = require('botbuilder');
 
 /**
  * Middleware for logging incoming activities into Application Insights.
@@ -9,7 +9,28 @@ const { TelemetryClient } = require('applicationinsights');
  * If this component is not registered, visibility within the Bot is not logged.
  */
 class MyAppInsightsMiddleware {
-    constructor(settings) {
+
+    /*
+     * Application Insights Custom Event name, logged when new message is received from the user.
+     */
+    botMsgReceivedEvent = "BotMessageReceived";
+
+    /*
+     * Application Insights Custom Event name, logged when a message is sent out from the bot.
+     */
+    botMsgSendEvent = "BotMessageSend";
+
+    /*
+     * Application Insights Custom Event name, logged when a message is updated by the bot (rare case).
+     */
+    botMsgUpdateEvent = "BotMessageUpdate";
+
+    /*
+     * Application Insights Custom Event name, logged when a message is deleted by the bot (rare case).
+     */
+    botMsgDeleteEvent = "BotMessageDelete";
+
+    constructor(telemetryClient, settings) {
         // Indicates whether or not to log the user name into the BotMessageReceived event. Defaults to false.
         this.logUserName = false;
 
@@ -29,7 +50,7 @@ class MyAppInsightsMiddleware {
         if (settings.logOriginalMessage) {
             this.logOriginalMessage = settings.logOriginalMessage;
         }
-        this._telemetryClient = new TelemetryClient(settings.instrumentationKey);
+        this._telemetryClient = telemetryClient;
     }
 
     /**
@@ -43,13 +64,7 @@ class MyAppInsightsMiddleware {
             turnContext.turnState.set(this.appInsightsServiceKey, this._telemetryClient);
 
             const activity = turnContext.activity;
-            // Set userId and sessionId tag values for the Application Insights Context object.
-            if (activity.from && activity.from.id) {
-                this._telemetryClient.context.keys.userId = activity.from.id;
-            }
-            if (activity.conversation && activity.conversation.id) {
-                this._telemetryClient.context.keys.sessionId = activity.conversation.id;
-            }
+
             // Construct the EventTelemetry object.
             const msgReceivedEvent = { name: this.botMsgReceivedEvent };
             // Add activity specific information, e.g. user ID, conversation ID, to the Event's properties.
@@ -107,11 +122,12 @@ class MyAppInsightsMiddleware {
         const properties = Object.assign({}, this.createBasicProperties(activity), { Locale: activity.locale });
         // For some customers, logging user name within Application Insights might be an issue so we have provided a config setting to enable this feature
         if (this.logUserName && activity.from.name) {
-            properties.FromName = activity.from.name;
+            properties.fromId = activity.from.id;
+            properties.fromName = activity.from.name;
         }
         // For some customers, logging the utterances within Application Insights might be an issue so we have provided a config setting to enable this feature
         if (this.logOriginalMessage && activity.text) {
-            properties.TextProperty = activity.text;
+            properties.text = activity.text;
         }
         return properties;
     }
@@ -126,11 +142,11 @@ class MyAppInsightsMiddleware {
         const properties = Object.assign({}, this.createBasicProperties(activity), { Locale: activity.locale });
         // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to enable this feature.
         if (this.logUserName && !!activity.recipient.name) {
-            properties.RecipientName = activity.recipient.name;
+            properties.recipientName = activity.recipient.name;
         }
         // For some customers, logging the utterances within Application Insights might be an issue so have provided a config setting to enable this feature.
         if (this.logOriginalMessage && !!activity.text) {
-            properties.Text = activity.text;
+            properties.text = activity.text;
         }
         return properties;
     }
@@ -147,7 +163,7 @@ class MyAppInsightsMiddleware {
         const properties = Object.assign({}, this.createBasicProperties(activity), { Locale: activity.locale });
         // For some customers, logging the utterances within Application Insights might be an issue so have provided a config setting to enable this feature.
         if (this.logOriginalMessage && !!activity.text) {
-            properties.Text = activity.text;
+            properties.text = activity.text;
         }
         return properties;
     }
@@ -163,11 +179,11 @@ class MyAppInsightsMiddleware {
      */
     createBasicProperties(activity) {
         const properties = {
-            ActivityId: activity.id,
-            Channel: activity.channelId,
-            ConversationId: activity.conversation.id,
-            ConversationName: activity.conversation.name,
-            RecipientId: activity.recipient
+            activityId: activity.id,
+            channel: activity.channelId,
+            conversationId: activity.conversation.id,
+            conversationName: activity.conversation.name,
+            recipientId: activity.recipient
         };
         return properties;
     }
