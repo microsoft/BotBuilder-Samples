@@ -4,6 +4,7 @@
 const path = require('path');
 const restify = require('restify');
 const { BotFrameworkAdapter } = require('botbuilder');
+const { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } = require('botbuilder-applicationinsights');
 const { BotConfiguration } = require('botframework-config');
 const { LuisBot } = require('./bot');
 const { MyAppInsightsMiddleware } = require('./middleware');
@@ -11,13 +12,13 @@ const { MyAppInsightsMiddleware } = require('./middleware');
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, './.env');
-require('dotenv').config({ path: ENV_FILE });
+const env = require('dotenv').config({ path: ENV_FILE });
 
 // Get the .bot file path.
 const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 let botConfig;
 try {
-    // Read bot configuration from .bot file.
+    // Read bot configuration from .bot file. 
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
 } catch (err) {
     console.error(`\nError reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
@@ -57,10 +58,13 @@ const logName = true;
 
 // Map the contents of appInsightsConfig to a consumable format for MyAppInsightsMiddleware.
 const appInsightsSettings = {
-    instrumentationKey: appInsightsConfig.instrumentationKey,
     logOriginalMessage: logMessage,
     logUserName: logName
 };
+
+// Create an Application Insights telemetry client.
+const appInsightsClient = new ApplicationInsightsTelemetryClient(appInsightsConfig.instrumentationKey);
+
 
 // Indicate that the base LuisRecognizer class should include the raw LUIS results.
 const includeApiResults = true;
@@ -75,11 +79,11 @@ const adapter = new BotFrameworkAdapter({
 // This will send to Application Insights all incoming Message-type activities.
 // It also stores in TurnContext.TurnState an `applicationinsights` TelemetryClient instance.
 // This cached TelemetryClient is used by the custom class MyAppInsightsLuisRecognizer.
-adapter.use(new MyAppInsightsMiddleware(appInsightsSettings));
+adapter.use(new MyAppInsightsMiddleware(appInsightsClient, appInsightsSettings));
 
 // Catch-all for errors.
 adapter.onTurnError = async (turnContext, error) => {
-    console.error(`\n [onTurnError]: ${ error }`);
+    console.error(`\n [onTurnError]: ${error}`);
     await turnContext.sendActivity(`Oops. Something went wrong!`);
 };
 
@@ -96,14 +100,19 @@ try {
         logMessage,
         logName);
 } catch (err) {
-    console.error(`[botInitializationError]: ${ err }`);
+    console.error(`[botInitializationError]: ${err}`);
     process.exit();
 }
 
 // Create HTTP server.
 let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function() {
-    console.log(`\n${ server.name } listening to ${ server.url }.`);
+
+// Enable the Application Insights middleware, which helps correlate all activity
+// based on the incoming request.
+server.use(ApplicationInsightsWebserverMiddleware);
+
+server.listen(process.env.port || process.env.PORT || 3978, function () {
+    console.log(`\n${server.name} listening to ${server.url}.`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
     console.log(`\nTo talk to your bot, open luis-with-appinsights.bot file in the emulator.`);
 });
