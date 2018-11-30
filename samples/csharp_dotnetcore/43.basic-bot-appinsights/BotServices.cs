@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using BasicBot.Middleware.Telemetry;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Configuration;
 
@@ -37,7 +38,7 @@ namespace Microsoft.BotBuilderSamples
                             }
 
                             var app = new LuisApplication(luis.AppId, luis.AuthoringKey, luis.GetEndpoint());
-                            var recognizer = new LuisRecognizer(app);
+                            var recognizer = new TelemetryLuisRecognizer(app);
                             LuisServices.Add(luis.Name, recognizer);
                             break;
                         }
@@ -47,7 +48,7 @@ namespace Microsoft.BotBuilderSamples
 
         /// <summary>
         /// Gets the set of LUIS Services used.
-        /// Given there can be multiple <see cref="LuisRecognizer"/> services used in a single bot,
+        /// Given there can be multiple <see cref="TelemetryLuisRecognizer"/> services used in a single bot,
         /// LuisServices is represented as a dictionary.  This is also modeled in the
         /// ".bot" file since the elements are named.
         /// </summary>
@@ -55,6 +56,6 @@ namespace Microsoft.BotBuilderSamples
         /// <value>
         /// A <see cref="LuisRecognizer"/> client instance created based on configuration in the .bot file.
         /// </value>
-        public Dictionary<string, LuisRecognizer> LuisServices { get; } = new Dictionary<string, LuisRecognizer>();
+        public Dictionary<string, TelemetryLuisRecognizer> LuisServices { get; } = new Dictionary<string, TelemetryLuisRecognizer>();
     }
 }

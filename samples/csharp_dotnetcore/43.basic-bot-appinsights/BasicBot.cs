@@ -7,7 +7,9 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
@@ -43,7 +45,7 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="botServices">Bot services.</param>
         /// <param name="accessors">Bot State Accessors.</param>
-        public BasicBot(BotServices services, UserState userState, ConversationState conversationState, ILoggerFactory loggerFactory)
+        public BasicBot(BotServices services, UserState userState, ConversationState conversationState, IBotTelemetryClient telemetryClient)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
@@ -59,7 +61,7 @@ namespace Microsoft.BotBuilderSamples
             }
 
             Dialogs = new DialogSet(_dialogStateAccessor);
-            Dialogs.Add(new GreetingDialog(_greetingStateAccessor, loggerFactory));
+            Dialogs.Add(new GreetingDialog(_greetingStateAccessor, telemetryClient));
         }
 
         private DialogSet Dialogs { get; set; }
@@ -80,7 +82,7 @@ namespace Microsoft.BotBuilderSamples
             if (activity.Type == ActivityTypes.Message)
             {
                 // Perform a call to LUIS to retrieve results for the current activity message.
-                var luisResults = await _services.LuisServices[LuisConfiguration].RecognizeAsync(dc.Context, cancellationToken);
+                var luisResults = await _services.LuisServices[LuisConfiguration].RecognizeAsync(dc.Context, true, dc.ActiveDialog?.Id, cancellationToken);
 
                 // If any entities were updated, treat as interruption.
                 // For example, "no my name is tony" will manifest as an update of the name to be "tony".

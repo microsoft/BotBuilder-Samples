@@ -5,10 +5,13 @@ using System;
 using System.IO;
 using System.Linq;
 using BasicBot.Middleware.Telemetry;
+using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.ApplicationInsights;
+using Microsoft.Bot.Builder.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
@@ -32,10 +35,12 @@ namespace Microsoft.BotBuilderSamples
         /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940.
         /// </summary>
         /// <param name="env">Provides information about the web hosting environment an application is running in.</param>
+        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to create logger object for tracing.</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-2.1"/>
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             _isProduction = env.IsProduction();
+            _loggerFactory = loggerFactory;
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -60,22 +65,6 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="services">Specifies the contract for a <see cref="IServiceCollection"/> of service descriptors.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            // Enable distributed tracing.
-            services.AddMemoryCache();
-            services.AddTransient<TelemetrySaveBodyASPMiddleware>();
-            services.AddSingleton<ITelemetryInitializer>(new OperationCorrelationTelemetryInitializer());
-            //services.AddSingleton<TelemetryBodyCache>();
-            services.AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>();
-
-            services.AddApplicationInsightsTelemetry(o =>
-            {
-                o.RequestCollectionOptions.EnableW3CDistributedTracing = true;
-                o.RequestCollectionOptions.InjectResponseHeaders = true;
-                o.RequestCollectionOptions.TrackExceptions = true;
-                //o.EnableHeartbeat = true;
-                //o.DeveloperMode = true;
-            });
-
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             if (!File.Exists(botFilePath))
@@ -100,6 +89,9 @@ namespace Microsoft.BotBuilderSamples
             }
 
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. botFilePath: {botFilePath}"));
+
+                // Add Application Insights
+                services.AddBotApplicationInsights(botConfig);
 
             // Add BotServices singleton.
             // Create the connected services from .bot file.
@@ -147,16 +139,18 @@ namespace Microsoft.BotBuilderSamples
 
             var userState = new UserState(dataStore);
             services.AddSingleton(userState);
-
             services.AddBot<BasicBot>(options =>
             {
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
-                // Telemetry Middleware (logs activity messages in Application Insights)
-                var appInsightsService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.AppInsights) ?? throw new Exception("Please configure your AppInsights connection in your .bot file.");
-                var instrumentationKey = (appInsightsService as AppInsightsService).InstrumentationKey;
-                var appInsightsLogger = new TelemetryLoggerMiddleware(instrumentationKey, logUserName: true, logOriginalMessage: true);
-                options.Middleware.Add(appInsightsLogger);
+                // Use sample Telemetry Middleware (logs activity messages in Application Insights)
+                var appInsightsService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.AppInsights);
+                if (appInsightsService != null)
+                {
+                    var instrumentationKey = (appInsightsService as AppInsightsService).InstrumentationKey;
+                    var appInsightsLogger = new TelemetryLoggerMiddleware(instrumentationKey, logUserName: true, logOriginalMessage: true);
+                    options.Middleware.Add(appInsightsLogger);
+                }
 
                 // Catches any errors that occur during a conversation turn and logs them to currently
                 // configured ILogger.
@@ -175,12 +169,12 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="app">Application Builder.</param>
         /// <param name="env">Hosting Environment.</param>
-        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to create logger object for tracing.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            _loggerFactory = loggerFactory;
+            // Add tracing capture.
+            _loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Information);
 
-            app.UseMiddleware<TelemetrySaveBodyASPMiddleware>()
+            app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();

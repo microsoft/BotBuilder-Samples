@@ -44,7 +44,7 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="botServices">Connected services used in processing.</param>
         /// <param name="botState">The <see cref="UserState"/> for storing properties at user-scope.</param>
         /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> that enables logging and tracing.</param>
-        public GreetingDialog(IStatePropertyAccessor<GreetingState> userProfileStateAccessor, ILoggerFactory loggerFactory)
+        public GreetingDialog(IStatePropertyAccessor<GreetingState> userProfileStateAccessor, IBotTelemetryClient telemetryClient)
             : base(nameof(GreetingDialog))
         {
             UserProfileAccessor = userProfileStateAccessor ?? throw new ArgumentNullException(nameof(userProfileStateAccessor));
@@ -57,7 +57,7 @@ namespace Microsoft.BotBuilderSamples
                     PromptForCityStepAsync,
                     DisplayGreetingStateStepAsync,
             };
-            AddDialog(new WaterfallDialog(ProfileDialog, waterfallSteps));
+            AddDialog(new WaterfallDialog(ProfileDialog, waterfallSteps) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(NamePrompt, ValidateName));
             AddDialog(new TextPrompt(CityPrompt, ValidateCity));
         }
@@ -97,12 +97,6 @@ namespace Microsoft.BotBuilderSamples
 
             if (string.IsNullOrWhiteSpace(greetingState.Name))
             {
-                // Log waterfall step
-                if (stepContext.Context.TurnState.TryGetValue(TelemetryLoggerMiddleware.AppInsightsServiceKey, out var telemetryClient))
-                {
-                    ((TelemetryClient)telemetryClient).TrackWaterfallStep(stepContext, stepFriendlyName: "Name");
-                }
-
                 // prompt for name, if missing
                 var opts = new PromptOptions
                 {
@@ -136,12 +130,6 @@ namespace Microsoft.BotBuilderSamples
 
             if (string.IsNullOrWhiteSpace(greetingState.City))
             {
-                // Log waterfall step
-                if (stepContext.Context.TurnState.TryGetValue(TelemetryLoggerMiddleware.AppInsightsServiceKey, out var telemetryClient))
-                {
-                    ((TelemetryClient)telemetryClient).TrackWaterfallStep(stepContext, stepFriendlyName: "City");
-                }
-
                 var opts = new PromptOptions
                 {
                     Prompt = new Activity
@@ -172,12 +160,6 @@ namespace Microsoft.BotBuilderSamples
                 // capitalize and set city
                 greetingState.City = char.ToUpper(lowerCaseCity[0]) + lowerCaseCity.Substring(1);
                 await UserProfileAccessor.SetAsync(stepContext.Context, greetingState);
-            }
-
-            // Log waterfall step for conversion!
-            if (stepContext.Context.TurnState.TryGetValue(TelemetryLoggerMiddleware.AppInsightsServiceKey, out var telemetryClient))
-            {
-                ((TelemetryClient)telemetryClient).TrackWaterfallStep(stepContext, stepFriendlyName: "GreetingComplete");
             }
 
             return await GreetUser(stepContext);
