@@ -18,12 +18,12 @@ namespace $safeprojectname$
     /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// </summary>
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
-    public class MyBot : IBot
+    public class $safeprojectname$Bot : IBot
     {                
         /// <summary>
-        /// Initializes a new instance of the <see cref="MyBot"/> class.
+        /// Initializes a new instance of the class.
         /// </summary>                        
-        public MyBot()
+        public $safeprojectname$Bot()
         {
         }
 

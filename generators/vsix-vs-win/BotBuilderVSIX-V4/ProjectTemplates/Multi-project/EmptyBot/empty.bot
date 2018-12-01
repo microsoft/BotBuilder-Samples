@@ -1,5 +1,5 @@
 ﻿{
-  "name": "empty",
+  "name": "$safeprojectname$",
   "services": [
     {
       "type": "endpoint",

@@ -46,12 +46,12 @@ namespace $safeprojectname$
         /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBot<MyBot>(options =>
+            services.AddBot<$safeprojectname$Bot> (options =>
             {
                 var secretKey = Configuration.GetSection("botFileSecret")?.Value;
 
                 // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
-                var botConfig = BotConfiguration.Load(@".\empty.bot", secretKey);                
+                var botConfig = BotConfiguration.Load(@".\$safeprojectname$.bot", secretKey);                
                 services.AddSingleton(sp => botConfig);
 
                 // Retrieve current endpoint.
