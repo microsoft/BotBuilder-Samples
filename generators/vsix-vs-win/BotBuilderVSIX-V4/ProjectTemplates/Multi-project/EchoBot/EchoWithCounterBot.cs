@@ -20,26 +20,26 @@ namespace $safeprojectname$
     /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// </summary>
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
-    public class EchoWithCounterBot : IBot
+    public class $safeprojectname$Bot : IBot
     {
-        private readonly EchoBotAccessors _accessors;
+        private readonly $safeprojectname$Accessors _accessors;
         private readonly ILogger _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EchoWithCounterBot"/> class.
+        /// Initializes a new instance of the class.
         /// </summary>
         /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
         /// <param name="loggerFactory">A <see cref="ILoggerFactory"/> that is hooked to the Azure App Service provider.</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
-        public EchoWithCounterBot(EchoBotAccessors accessors, ILoggerFactory loggerFactory)
+        public $safeprojectname$Bot($safeprojectname$Accessors accessors, ILoggerFactory loggerFactory)
         {
             if (loggerFactory == null)
             {
                 throw new System.ArgumentNullException(nameof(loggerFactory));
             }
 
-            _logger = loggerFactory.CreateLogger<EchoWithCounterBot>();
-            _logger.LogTrace("EchoBot turn start.");
+            _logger = loggerFactory.CreateLogger<$safeprojectname$Bot>();
+            _logger.LogTrace("Turn start.");
             _accessors = accessors ?? throw new System.ArgumentNullException(nameof(accessors));
         }
 

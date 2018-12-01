@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "BasicBot": {
+    "$safeprojectname$": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
