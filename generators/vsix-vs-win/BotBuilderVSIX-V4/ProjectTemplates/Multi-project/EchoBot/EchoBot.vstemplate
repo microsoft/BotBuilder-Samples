@@ -15,7 +15,7 @@
     <PreviewImage></PreviewImage>
   </TemplateData>
   <TemplateContent>
-    <Project TargetFileName="$safeprojectname$.csproj" File="EchoBotWithCounter.csproj" ReplaceParameters="true">
+    <Project File="EchoBotWithCounter.csproj" ReplaceParameters="true">
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true">launchSettings.json</ProjectItem>
       </Folder>
@@ -31,7 +31,7 @@
       <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Accessors.cs">EchoBotAccessors.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Bot.cs">EchoWithCounterBot.cs</ProjectItem>
 
-      <ProjectItem>README.md</ProjectItem>
+      <ProjectItem ReplaceParameters="true">README.md</ProjectItem>
     </Project>
   </TemplateContent>
 </VSTemplate>

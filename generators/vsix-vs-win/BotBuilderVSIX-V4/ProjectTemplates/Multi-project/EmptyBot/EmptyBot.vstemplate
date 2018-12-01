@@ -15,7 +15,7 @@
     <PreviewImage></PreviewImage>
   </TemplateData>
   <TemplateContent>
-    <Project TargetFileName="$safeprojectname$.csproj" File="EmptyBot.csproj" ReplaceParameters="true">   
+    <Project File="EmptyBot.csproj" ReplaceParameters="true">
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true">launchSettings.json</ProjectItem>
       </Folder>
