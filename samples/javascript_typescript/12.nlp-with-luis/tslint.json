@@ -7,7 +7,6 @@
     "rules": {
         "max-line-length": [false],
         "no-console": [false, "log", "error"],
-        "no-var-requires": false,
         "quotemark": [true, "single"]
     },
     "rulesDirectory": []

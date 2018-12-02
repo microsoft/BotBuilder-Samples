@@ -1,31 +1,40 @@
-This sample shows how to create a bot that uses Rich Cards. This bot example uses [`restify`](https://www.npmjs.com/package/restify) and [`dotenv`](https://www.npmjs.com/package/dotenv). 
+# using cards
+Bot Framework v4 using cards bot sample
+
+This sample shows how to create a bot that uses rich cards.
+
+## Prerequisites
+- [Node.js][4] version 8.5 or higher
+
+```bash
+# determine node version
+node --version
+```
 
 # To try this sample
 - Clone the repository
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, 
+- In a terminal, navigate to `samples/javascript_nodejs/06.using-cards`
     ```bash
     cd samples/javascript_nodejs/06.using-cards
     ```
-- [Optional] Update the .env file under samples/javascript_nodejs/06.using-cards with your botFileSecret
-    For Azure Bot Service bots, you can find the botFileSecret under application settings.
-- Install modules and start the bot
+- Install modules
     ```bash
-    npm i && npm start
+    npm install
     ```
-    Alternatively you can also use nodemon via
+- Start the bot
     ```bash
-    npm i && npm run watch
+    npm start
     ```
 
-# Testing the bot using Bot Framework Emulator
+# Testing the bot using Bot Framework Emulator **v4**
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator)
+- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
 
-## Connect to bot using Bot Framework Emulator V4
+## Connect to bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/06.using-cards` folder
 - Select `using-cards.bot` file

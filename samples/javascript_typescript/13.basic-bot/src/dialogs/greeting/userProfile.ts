@@ -8,11 +8,11 @@
 class UserProfile {
     // member variables
     public name: string;
-    public city: string; 
+    public city: string;
     /**
      * Constructor. Members initialized with undefined,
      *  if no values provided via constructor
-     * 
+     *
      * @param name string
      * @param city string
      */
@@ -20,6 +20,6 @@ class UserProfile {
       this.name = name || undefined;
       this.city = city || undefined;
     }
-  };  
-  
+  }
+
 export { UserProfile };

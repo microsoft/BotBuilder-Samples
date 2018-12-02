@@ -1,4 +1,7 @@
-﻿This sample shows code to manipulate TIMEX expressions.
+﻿# timex resolution
+
+This sample shows code to manipulate TIMEX expressions.
+
 # Concepts introduced in this sample
 ## What is a TIMEX expression?
 A TIMEX expression is an alpha-numeric expression derived in outline from the standard date-time representation ISO 8601.
@@ -28,15 +31,21 @@ The TIMEX expression library is contained in the same GitHub repo as the recogni
 
 # To try this sample
 - Clone the repository
-```bash
-git clone https://github.com/microsoft/botbuilder-samples.git
-```
-
-- This is a Node console application, navigate to the samples folder (`botbuilder-samples/samples/javascript_nodejs/40.timex-resolution`) and run.
-
-```
-node index.js
-```
+    ```bash
+    git clone https://github.com/microsoft/botbuilder-samples.git
+    ```
+- In a terminal, navigate to `samples/javascript_nodejs/40.timex-resolution`
+    ```bash
+    cd samples/javascript_nodejs/40.timex-resolution
+    ```
+- Install modules
+    ```bash
+    npm install
+    ```
+- Start the bot
+    ```bash
+    npm start
+    ```
 
 # Further reading
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

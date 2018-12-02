@@ -1,31 +1,38 @@
-This sample shows how to create a simple echo bot with state. The bot maintains a simple counter that increases with each message from the user. This bot example uses [`restify`](https://www.npmjs.com/package/restify).
+# echobot-with-counter
+Bot Builder v4 echo bot with counter sample
+
+This bot has been created using [Microsoft Bot Framework][1], it shows how to maintain state during a conversation.  The bot maintains a simple counter that increases with each message from the user.
+
+## Prerequisites
+- [Node.js][4]
+
+Ensure [Node.js][4] version 8.5 or higher installed.  To determine if Node.js is installed run the following from a shell window.
+
+```bash
+node --version
+```
 
 # To try this sample
 - Clone the repository
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal,
+- In a console, navigate to `samples/javascript_typescript/02.b.echobot-with-counter`
     ```bash
     cd samples/javascript_typescript/02.b.echobot-with-counter
     ```
-- [Optional] Update the .env file under `samples/javascript_typescript/02.b.echobot-with-counter` with your `botFileSecret`.
-   For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
-- Install modules and start the bot
+
+- Install modules
     ```bash
-    npm i && npm start
+    npm install
     ```
-    Alternatively you can also use nodemon via
+- Start the bot
     ```bash
-    npm i && npm run watch
+    npm start
     ```
 
-## Prerequisite
-### Install TypeScript
-In order to run this sample, you must have TypeScript installed.  To install TypeScript:
-- Navigate to the [TypeScript portal](https://www.typescriptlang.org).
-- Click the [Download](https://www.typescriptlang.org/#download-links) button.
-- Follow the installation instructions for your development environment.
+- [Optional] Update the .env file under `samples/javascript_typescript/02.b.echobot-with-counter` with your `botFileSecret`.
+For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
 
 # Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.

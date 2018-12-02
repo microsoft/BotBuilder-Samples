@@ -3,33 +3,35 @@ Bot Builder v4 echo bot sample
 
 This bot has been created using [Microsoft Bot Framework][1], it shows how to create a simple bot that accepts input from the user and echoes it back.
 
-# To try this sample
-- Clone the repository
-```bash
-git clone https://github.com/microsoft/botbuilder-samples.git
-```
-- In a terminal,
-```bash
-cd samples/javascript_typescript/02.a.echobot
-```
-- [Optional] Update the .env file under `samples/javascript_typescript/02.a.echobot` with your `botFileSecret`.
-For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
-
 ## Prerequisites
 - [Node.js][4]
+
 Ensure [Node.js][4] version 8.5 or higher installed.  To determine if Node.js is installed run the following from a shell window.
+
 ```bash
 node --version
 ```
-# To run the bot
-Install modules and start the bot.
-```bash
-npm i && npm start
-```
-Alternatively you can also run the watch script which will reload the bot when source code changes are detected.
-```bash
-npm i && npm run build && npm run watch
-```
+
+# To try this sample
+- Clone the repository
+    ```bash
+    git clone https://github.com/microsoft/botbuilder-samples.git
+    ```
+- In a console, navigate to `samples/javascript_typescript/02.a.echobot`
+    ```bash
+    cd samples/javascript_typescript/02.a.echobot
+    ```
+- Install modules
+    ```bash
+    npm install
+    ```
+- Start the bot
+    ```bash
+    npm start
+    ```
+
+- [Optional] Update the .env file under `samples/javascript_typescript/02.a.echobot` with your `botFileSecret`.
+For Azure Bot Service bots, you can find the `botFileSecret` under application settings.
 
 # Testing the bot using Bot Framework Emulator **V4**
 [Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
