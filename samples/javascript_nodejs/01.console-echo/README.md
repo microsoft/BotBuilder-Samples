@@ -8,23 +8,25 @@ This sample shows how to create a simple bot that you can talk to from the conso
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to samples/javascript_nodejs/01.console-echo
+- In a terminal, navigate to `samples/javascript_nodejs/01.console-echo`
     ```bash
     cd samples/javascript_nodejs/01.console-echo
     ```
-- Install modules and start the bot
+- Install modules
     ```bash
-    npm i && npm start
+    npm install
+    ```
+- Start the bot
+    ```bash
+    npm start
     ```
 
 # Testing the bot
-
 After running `npm start`, the bot presents a prompt directly in the console window.
 
 Send messages to the bot by typing them into the console.  The bot will echo your message back to you.
 
 # Adapters
-
 Adapters such as the `ConsoleAdapter` provide an abstraction for your bot to work with a variety of environments and messaging platforms.
 
 The adapter is responsible for directing incoming and outgoing communication, authentication, and so on. Adapters for different platforms and
