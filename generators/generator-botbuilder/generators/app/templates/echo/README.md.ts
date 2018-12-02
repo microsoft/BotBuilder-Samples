@@ -10,13 +10,19 @@ Ensure [Node.js][4] version 8.5 or higher installed.  To determine if Node.js is
 node --version
 ```
 # To run the bot
-Install modules and start the bot.
+Install modules
 ```bash
-npm i && npm start
+npm install
+```
+Start the bot.
+```bash
+npm start
 ```
 Alternatively you can also run the watch script which will reload the bot when source code changes are detected.
+
+Start the bot using a file watcher.
 ```bash
-npm i && npm run build && npm run watch
+npm run watch
 ```
 
 # Testing the bot using Bot Framework Emulator **V4**
