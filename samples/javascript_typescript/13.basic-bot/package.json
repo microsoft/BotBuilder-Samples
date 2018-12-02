@@ -2,9 +2,9 @@
     "name": "basic-bot",
     "version": "0.1.0",
     "description": "A basic bot that demonstrates core AI capabilities",
-    "main": "index.js",
     "author": "Microsoft Bot Framework Team",
     "license": "MIT",
+    "main": "index.js",
     "scripts": {
         "build": "node_modules/.bin/tsc --build",
         "start": "node_modules/.bin/tsc --build && node ./lib/index.js",

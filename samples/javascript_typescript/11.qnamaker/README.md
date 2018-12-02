@@ -1,5 +1,5 @@
 #qnamaker
-Bot Builder v4 QnA Maker bot sample
+Bot Framework v4 QnA Maker bot sample
 
 This bot has been created using [Microsoft Bot Framework][1], it shows how to create a bot that uses QnA Maker.
 

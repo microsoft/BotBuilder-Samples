@@ -2,6 +2,8 @@
     "name": "81.facebook.events",
     "version": "1.0.0",
     "description": "Bot Builder v4 facebook events sample",
+    "author": "Microsoft",
+    "license": "MIT",
     "main": "index.js",
     "scripts": {
         "start": "node ./index.js",
@@ -9,8 +11,6 @@
         "lint": "./node_modules/.bin/eslint .",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "Microsoft",
-    "license": "MIT",
     "repository": {
         "type": "git",
         "url": "https://github.com/Microsoft/BotBuilder-Samples.git"

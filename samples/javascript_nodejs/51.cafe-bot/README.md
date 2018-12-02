@@ -1,6 +1,9 @@
-Contoso cafe bot is a complete and fairly sophisticated sample that demonstrates various parts of the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-js) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) in action. 
+# cafe bot
+Bot Framework v4 cafe bot sample
 
-This sample relies on prior knowledge/ familiarity with the following tools and services 
+Contoso cafe bot is a complete and fairly sophisticated sample that demonstrates various parts of the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-js) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) in action.
+
+This sample relies on prior knowledge/ familiarity with the following tools and services
 - [LUIS](https://luis.ai)
 - [QnA Maker](https://qnamaker.ai)
 - [Ludown CLI tool](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown)
@@ -11,7 +14,7 @@ This sample relies on prior knowledge/ familiarity with the following tools and 
 - [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator)
 
 # Concepts covered in this sample
-Contoso cafe bot is a fairly sophisticated bot sample that uses the following concepts in the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-js) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) - 
+Contoso cafe bot is a fairly sophisticated bot sample that uses the following concepts in the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-js) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) -
 
 ## Scenarios demonstrated
 - Welcoming users
@@ -23,7 +26,7 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 - FAQ
 - Chit-chat conversations
 - Routing user input to appropriate dialog
-- Handling no-match 
+- Handling no-match
 - Prompting users for information
 - Implementing a custom prompt
 - Multi-turn conversations using dialogs
@@ -45,7 +48,7 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, 
+- In a terminal, navigate to `samples/javascript_nodejs/51.cafe-bot`
     ```bash
     cd samples/javascript_nodejs/51.cafe-bot
     ```
@@ -54,17 +57,21 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
     - [Using MSBOT CLI](#Configure-required-services-using-msbot)
     - [Manually import models using Ludown, LUIS and QnA Maker CLI](#building-and-creating-services)
 
-- Install modules and start the bot
+- Install modules
     ```bash
-    npm i && npm start
+    npm install
+    ```
+- Start the bot
+    ```bash
+    npm start
     ```
 
-# Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://aka.ms/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+# Testing the bot using Bot Framework Emulator **v4**
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
 
-## Connect to bot using Bot Framework Emulator V4
+## Connect to bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/51.cafe-bot/`
 - Select `contoso-cafe-bot.bot`
@@ -76,13 +83,13 @@ Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
 
 - In a terminal
     ```bash
-    npm i -g msbot chatdown ludown luis-apis qnamaker 
+    npm i -g msbot chatdown ludown luis-apis qnamaker
     ```
 
 ## Configure required services using MSBOT
 1. Follow instructions [here](https://portal.azure.com) to create an Azure account. If you already have an account, sign in. Click on all services -> search for 'subscriptions' -> copy the subscription ID you would like to use from the Home > Subscriptions page.
 2. Follow instructions [here](https://www.luis.ai/home) to create a LUIS.ai account. If you already have an account, sign in. Click on your name on top right corner of the screen -> settings and grab your authoring key.
-3. To create and configure required LUIS and QnA Maker services, 
+3. To create and configure required LUIS and QnA Maker services,
     - In a terminal,
         ```bash
         cd samples/javascript_nodejs/51.cafe-bot
@@ -95,7 +102,7 @@ Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
 **NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
 
 
-Optionally, you can use the LUIS, QnA Maker portals to manually import the models found under **cognitiveModels** folder of this sample. 
+Optionally, you can use the LUIS, QnA Maker portals to manually import the models found under **cognitiveModels** folder of this sample.
 
 # Relevant commands for CLI tools
 ## Building and creating services
@@ -143,7 +150,7 @@ Optionally, you can use the LUIS, QnA Maker portals to manually import the model
     > msbot get cafeFaqChitChat | qnamaker replace alterations --in cognitiveModels/cafeFaqChitChat.qna_Alterations.json --stdin
     ```
 
-## Making updates to the models 
+## Making updates to the models
 
 Any time you change `.lu` files, you can update and publish the LUIS and QnA Maker models using the following commands. You can also script and automate the CLI tools to match your development workflow. See [here](./deploymentScripts/updateModels.bat) for an example.
 

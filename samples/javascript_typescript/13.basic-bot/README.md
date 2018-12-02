@@ -1,4 +1,5 @@
 # basic-bot
+Bot Builder v4 basic bot sample
 
 This bot has been created using [Microsoft Bot Framework](https://dev.botframework.com),
 
@@ -8,13 +9,16 @@ This samples shows how to:
 - Handle user interruptions for such things as 'Help' or 'Cancel'
 - Prompt for and validate requests for information from the user
 
+## Prerequisite
+- [Node.js][4]
+- LUIS Application
 
 ## To try this sample
 - Clone the repository
   ```bash
   git clone https://github.com/microsoft/botbuilder-samples.git
   ```
-- In a terminal,
+- In a terminal, navigate to `samples/javascript_typescript/13.basic-bot`
   ```bash
   cd samples/javascript_typescript/13.basic-bot
   ```
@@ -28,17 +32,11 @@ This samples shows how to:
   npm start
   ```
 
-## Prerequisite
-### Install TypeScript
-In order to run this sample, you must have TypeScript installed.  To install TypeScript:
-- Navigate to the [TypeScript portal](https://www.typescriptlang.org).
-- Click the [Download](https://www.typescriptlang.org/#download-links) button.
-- Follow the installation instructions for your development environment.
 
-## Testing the bot using Bot Framework Emulator
+## Testing the bot using Bot Framework Emulator **v4**
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator)
+- Install the Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to bot using Bot Framework Emulator v4
 - Launch Bot Framework Emulator
