@@ -29,29 +29,28 @@ class MyAppInsightsLuisRecognizer extends LuisRecognizer {
         const telemetryClient = turnContext.turnState.get('AppInsightsLoggerMiddleware.AppInsightsContext');
         const telemetryProperties = {};
         const activity = turnContext.activity;
+
         const topLuisIntent = results.luisResult.topScoringIntent;
         const intentScore = topLuisIntent.score.toString();
 
         telemetryProperties.Intent = topLuisIntent.intent;
         telemetryProperties.Score = intentScore;
 
-        // Make it so we can correlate our reports with Activity or Conversation.
-        telemetryProperties.ActivityId = activity.id;
-        if (activity.conversation.id) {
-            telemetryProperties.ConversationId = activity.conversation.id;
-        }
         // For some customers, logging original text name within Application Insights might be an issue.
         if (this.logOriginalMessage && !!activity.text) {
             telemetryProperties.OriginalMessage = activity.text;
         }
+
         // For some customers, logging user name within Application Insights might be an issue.
         if (this.logUserName && !!activity.from.name) {
             telemetryProperties.Username = activity.from.name;
         }
+
         // Finish constructing the event.
         const luisMsgEvent = { name: `LuisMessage.${ topLuisIntent.intent }`,
             properties: telemetryProperties
         };
+
         // Track the event.
         telemetryClient.trackEvent(luisMsgEvent);
         return results;
