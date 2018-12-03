@@ -11,7 +11,7 @@
     <LocationField>Enabled</LocationField>
     <CreateInPlace>true</CreateInPlace>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
-    <Icon>vstg0001.png</Icon>
+    <Icon>EmptyBot.png</Icon>
     <PreviewImage></PreviewImage>
   </TemplateData>
   <TemplateContent>
