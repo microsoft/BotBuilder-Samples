@@ -7,27 +7,6 @@
  * If this component is not registered, visibility within the Bot is not logged.
  */
 class MyAppInsightsMiddleware {
-
-    /*
-     * Application Insights Custom Event name, logged when new message is received from the user.
-     */
-    botMsgReceivedEvent = "BotMessageReceived";
-
-    /*
-     * Application Insights Custom Event name, logged when a message is sent out from the bot.
-     */
-    botMsgSendEvent = "BotMessageSend";
-
-    /*
-     * Application Insights Custom Event name, logged when a message is updated by the bot (rare case).
-     */
-    botMsgUpdateEvent = "BotMessageUpdate";
-
-    /*
-     * Application Insights Custom Event name, logged when a message is deleted by the bot (rare case).
-     */
-    botMsgDeleteEvent = "BotMessageDelete";
-
     constructor(telemetryClient, settings) {
         // Indicates whether or not to log the user name into the BotMessageReceived event. Defaults to false.
         this.logUserName = false;
@@ -49,6 +28,18 @@ class MyAppInsightsMiddleware {
             this.logOriginalMessage = settings.logOriginalMessage;
         }
         this._telemetryClient = telemetryClient;
+
+        // Application Insights Custom Event name, logged when new message is received from the user.
+        this.botMsgReceivedEvent = 'BotMessageReceived';
+
+        // Application Insights Custom Event name, logged when a message is sent out from the bot.
+        this.botMsgSendEvent = 'BotMessageSend';
+
+        // Application Insights Custom Event name, logged when a message is updated by the bot (rare case).
+        this.botMsgUpdateEvent = 'BotMessageUpdate';
+
+        // Application Insights Custom Event name, logged when a message is deleted by the bot (rare case).
+        this.botMsgDeleteEvent = 'BotMessageDelete';
     }
 
     /**
@@ -60,8 +51,6 @@ class MyAppInsightsMiddleware {
         if (turnContext.activity) {
             // Store the TelemetryClient on the TurnContext's turnState so MyAppInsightsQnAMaker can use it.
             turnContext.turnState.set(this.appInsightsServiceKey, this._telemetryClient);
-
-            const activity = turnContext.activity;
 
             // Construct the EventTelemetry object.
             const msgReceivedEvent = { name: this.botMsgReceivedEvent };

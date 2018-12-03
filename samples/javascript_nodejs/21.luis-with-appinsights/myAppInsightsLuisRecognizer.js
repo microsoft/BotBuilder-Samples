@@ -22,38 +22,38 @@ class MyAppInsightsLuisRecognizer extends LuisRecognizer {
      * @param {TurnContext} turnContext The TurnContext instance with the necessary information to perform the calls.
      */
     async recognize(turnContext) {
-            // Call LuisRecognizer.recognize to retrieve results from LUIS.
-            const results = await super.recognize(turnContext);
+        // Call LuisRecognizer.recognize to retrieve results from LUIS.
+        const results = await super.recognize(turnContext);
 
-            // Retrieve the reference for the TelemetryClient that was cached for the Turn in TurnContext.turnState via MyAppInsightsMiddleware.
-            const telemetryClient = turnContext.turnState.get('AppInsightsLoggerMiddleware.AppInsightsContext');
-            const telemetryProperties = {};
-            const activity = turnContext.activity;
-            
-            const topLuisIntent = results.luisResult.topScoringIntent;
-            const intentScore = topLuisIntent.score.toString();
+        // Retrieve the reference for the TelemetryClient that was cached for the Turn in TurnContext.turnState via MyAppInsightsMiddleware.
+        const telemetryClient = turnContext.turnState.get('AppInsightsLoggerMiddleware.AppInsightsContext');
+        const telemetryProperties = {};
+        const activity = turnContext.activity;
 
-            telemetryProperties.Intent = topLuisIntent.intent;
-            telemetryProperties.Score = intentScore;
+        const topLuisIntent = results.luisResult.topScoringIntent;
+        const intentScore = topLuisIntent.score.toString();
 
-            // For some customers, logging original text name within Application Insights might be an issue.
-            if (this.logOriginalMessage && !!activity.text) {
-                telemetryProperties.OriginalMessage = activity.text;
-            }
-            
-            // For some customers, logging user name within Application Insights might be an issue.
-            if (this.logUserName && !!activity.from.name) {
-                telemetryProperties.Username = activity.from.name;
-            }
+        telemetryProperties.Intent = topLuisIntent.intent;
+        telemetryProperties.Score = intentScore;
 
-            // Finish constructing the event.
-            const luisMsgEvent = { name: `LuisMessage.${ topLuisIntent.intent }`,
-                properties: telemetryProperties
-            };
+        // For some customers, logging original text name within Application Insights might be an issue.
+        if (this.logOriginalMessage && !!activity.text) {
+            telemetryProperties.OriginalMessage = activity.text;
+        }
 
-            // Track the event.
-            telemetryClient.trackEvent(luisMsgEvent);
-            return results;
+        // For some customers, logging user name within Application Insights might be an issue.
+        if (this.logUserName && !!activity.from.name) {
+            telemetryProperties.Username = activity.from.name;
+        }
+
+        // Finish constructing the event.
+        const luisMsgEvent = { name: `LuisMessage.${ topLuisIntent.intent }`,
+            properties: telemetryProperties
+        };
+
+        // Track the event.
+        telemetryClient.trackEvent(luisMsgEvent);
+        return results;
     }
 }
 
