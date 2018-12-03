@@ -1,39 +1,44 @@
-# loggerBot
-This bot demonstrates the transcript logging middleware in the nodejs SDK. The file `customLogger.js` contains a custom implementation of the logging middleware.
+# logger bot
+Bot Framework v4 logger bot sample
 
-This bot has been created using [Microsoft Bot Framework][10], and demonstrates how to create a bot that stores transcript logs of the conversation. 
+This sample shows how to create a bot that demonstrates how to store transcript logs of the conversation. The file `customLogger.js` contains a custom implementation of the logging middleware.
 
 In this example, the bot creates a new folder in the project directory called `logs` and the conversations' transcripts are saved as `.log` files after the user has chatted with the bot. The bot also logs the conversation to the terminal as the user chats with it.
 
-This bot example uses [restify](https://www.npmjs.com/package/restify).
+## Prerequisites
+- [Node.js][4] version 8.5 or higher
+
+```bash
+# determine node version
+node --version
+```
 
 # To try this sample
 - Clone the repository
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to ```samples/javascript_nodejs/25.logger-bot```
+- In a terminal, navigate to `samples/javascript_nodejs/25.logger-bot`
     ```bash
     cd samples/javascript_nodejs/25.logger-bot
     ```
-- [Optional] Update the .env file under ```samples/javascript_nodejs/25.logger-bot``` with your botFileSecret For Azure Bot Service bots, you can find the botFileSecret under application settings.
-- Install modules and start the bot
+- Install modules
     ```bash
-    npm i && npm start
+    npm install
     ```
-    Alternatively you can also use nodemon via
+- Start the bot
     ```bash
-    npm i && npm run watch
+    npm start
     ```
 
-# Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator][2] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+# Testing the bot using Bot Framework Emulator **v4**
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here][3]
+- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
 
-## Connect to bot using Bot Framework Emulator **V4**
+## Connect to bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration
+- File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/25.logger-bot` folder
 - Select `logger.bot` file
 
 # Bot state

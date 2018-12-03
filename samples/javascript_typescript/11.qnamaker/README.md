@@ -1,9 +1,19 @@
-This sample shows how to create a bot that uses QnA Maker. This bot example uses [`restify`](https://www.npmjs.com/package/restify) and [`dotenv`](https://npmjs.com/package/dotenv).
+#qnamaker
+Bot Framework v4 QnA Maker bot sample
+
+This bot has been created using [Microsoft Bot Framework][1], it shows how to create a bot that uses QnA Maker.
+
 
 # Concepts introduced in this sample
 The [QnA Maker Service](https://www.qnamaker.ai) enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
 
 In this sample, we demonstrate how to use the QnA Maker service to answer questions based on a FAQ text file as input.
+
+## Prerequisites
+- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a QnA Maker service.
+- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base#create-a-qna-maker-knowledge-base) to import the [smartLightFAQ.tsv](cognitiveModels/smartLightFAQ.tsv) model to your newly created QnA Maker service.
+- Update [qnamaker.bot](qnamaker.bot) with your QnAMaker-Host, QnAMaker-KnowledgeBaseId and QnAMaker-EndpointKey. You can find this information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://qnamaker.ai).
+- (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the Qna Maker CLI to deploy the model.
 
 # To try this sample
 - Clone the repository
@@ -14,33 +24,24 @@ In this sample, we demonstrate how to use the QnA Maker service to answer questi
     ```bash
     cd samples/javascript_typescript/11.qnamaker
     ```
-- Install modules and start the bot
+- Install modules
     ```bash
-    npm i && npm start
+    npm install
     ```
-
-## Prerequisite
-### Install TypeScript
-In order to run this sample, you must have TypeScript installed. To install TypeScript:
-- Navigate to the [TypeScript portal](https://www.typescriptlang.org).
-- Click the [Download](https://www.typescriptlang.org/#download-links) button.
-- Follow the installation instructions for your development environment.
+- Start the bot
+    ```bash
+    npm start
+    ```
 
 # Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://aka.ms/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator)
+- Install the [Bot Framework Emulator v4](https://aka.ms/botframework-emulator)
 
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to `samples/javascript_typescript/11.qnamaker` folder
 - Select `qnamaker.bot` file
-
-## Prerequisites
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a QnA Maker service.
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base#create-a-qna-maker-knowledge-base) to import the [smartLightFAQ.tsv](cognitiveModels/smartLightFAQ.tsv) model to your newly created QnA Maker service.
-- Update [qnamaker.bot](qnamaker.bot) with your QnAMaker-Host, QnAMaker-KnowledgeBaseId and QnAMaker-EndpointKey. You can find this information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://qnamaker.ai).
-- (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the Qna Maker CLI to deploy the model.
 
 # QnA Maker service
 QnA Maker enables you to power a question and answer service from your semi-structured content.

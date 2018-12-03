@@ -21,15 +21,15 @@ namespace $safeprojectname$
                     // Add Azure Logging
                     logging.AddAzureWebAppDiagnostics();
 
-                    // Other Loggers.
+                    // Logging Options.
                     // There are other logging options available:
                     // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1
                     // logging.AddDebug();
                     // logging.AddConsole();
                 })
 
-                // Application Insights.
-                // An alternative logging and metrics service for your application.
+                // Logging Options.
+                // Consider using Application Insights for your logging and metrics needs.
                 // https://azure.microsoft.com/en-us/services/application-insights/
                 // .UseApplicationInsights()
                 .UseStartup<Startup>()

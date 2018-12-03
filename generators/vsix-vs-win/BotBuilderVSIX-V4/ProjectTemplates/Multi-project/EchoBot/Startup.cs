@@ -54,13 +54,13 @@ namespace $safeprojectname$
         /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBot<EchoWithCounterBot>(options =>
+            services.AddBot<$safeprojectname$Bot> (options =>
             {
                 var secretKey = Configuration.GetSection("botFileSecret")?.Value;
                 var botFilePath = Configuration.GetSection("botFilePath")?.Value;
 
                 // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
-                var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+                var botConfig = BotConfiguration.Load(botFilePath ?? @".\$safeprojectname$.bot", secretKey);
                 services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
 
                 // Retrieve current endpoint.
@@ -74,7 +74,7 @@ namespace $safeprojectname$
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Creates a logger for the application to use.
-                ILogger logger = _loggerFactory.CreateLogger<EchoWithCounterBot>();
+                ILogger logger = _loggerFactory.CreateLogger<$safeprojectname$Bot>();
 
                 // Catches any errors that occur during a conversation turn and logs them.
                 options.OnTurnError = async (context, exception) =>
@@ -114,7 +114,7 @@ namespace $safeprojectname$
 
             // Create and register state accessors.
             // Accessors created here are passed into the IBot-derived class on every turn.
-            services.AddSingleton<EchoBotAccessors>(sp =>
+            services.AddSingleton<$safeprojectname$Accessors> (sp =>
             {
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
                 if (options == null)
@@ -130,9 +130,9 @@ namespace $safeprojectname$
 
                 // Create the custom state accessor.
                 // State accessors enable other components to read and write individual properties of state.
-                var accessors = new EchoBotAccessors(conversationState)
+                var accessors = new $safeprojectname$Accessors(conversationState)
                 {
-                    CounterState = conversationState.CreateProperty<CounterState>(EchoBotAccessors.CounterStateName),
+                    CounterState = conversationState.CreateProperty<CounterState>($safeprojectname$Accessors.CounterStateName),
                 };
 
                 return accessors;

@@ -5,7 +5,8 @@ import { config } from 'dotenv';
 import * as path from 'path';
 import * as restify from 'restify';
 
-// Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
+// Import required bot services.
+// See https://aka.ms/bot-services to learn more about the different parts of a bot.
 import { BotFrameworkAdapter, ConversationState, MemoryStorage } from 'botbuilder';
 
 // Import required bot configuration.
@@ -21,7 +22,7 @@ const loadFromEnv = config({path: ENV_FILE});
 // Get the .bot file path
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
 const BOT_FILE = path.join(__dirname, '..', (process.env.botFilePath || ''));
-let botConfig;
+let botConfig: BotConfiguration;
 try {
     // read bot configuration from .bot file.
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);

@@ -1,27 +1,40 @@
-This sample shows how to send outgoing attachments and how to save attachments to disk. This bot example uses [`axios`](https://www.npmjs.com/package/axios), [`restify`](https://www.npmjs.com/package/restify) and [`dotenv`](https://npmjs.com/package/dotenv). 
+# handling attachments
+Bot Framework v4 handling attachments bot sample
+
+This sample shows how to send outgoing attachments and how to save attachments to disk.
+
+## Prerequisites
+- [Node.js][4] version 8.5 or higher
+
+```bash
+# determine node version
+node --version
+```
 
 # To try this sample
 - Clone the repository
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to samples/javascript_nodejs/15.handling-attachments
+- In a terminal, navigate to `samples/javascript_nodejs/15.handling-attachments`
     ```bash
     cd samples/javascript_nodejs/15.handling-attachments
     ```
-- [Optional] Update the .env file under samples/javascript_nodejs/15.handling-attachments with your botFileSecret
-    For Azure Bot Service bots, you can find the botFileSecret under application settings.
-- Install modules and start the bot
+- Install modules
     ```bash
-    npm i && npm start
+    npm install
+    ```
+- Start the bot
+    ```bash
+    npm start
     ```
 
-# Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://aka.ms/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+# Testing the bot using Bot Framework Emulator **v4**
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator).
+- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
 
-## Connect to bot using Bot Framework Emulator V4
+## Connect to bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/15.handling-attachments` folder
 - Select `handling-attachments.bot` file
@@ -31,9 +44,9 @@ A message exchange between user and bot may contain cards and media attachments,
 The types of attachments that may be sent and received varies by channel. Additionally, a bot may also receive file attachments.
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on.
 
-To install all Bot Builder tools - 
+To install all Bot Builder tools -
 
 Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
 

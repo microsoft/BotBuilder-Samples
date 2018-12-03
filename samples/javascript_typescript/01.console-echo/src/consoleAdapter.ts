@@ -36,12 +36,12 @@ export class ConsoleAdapter extends BotAdapter {
     constructor(reference?: ConversationReference) {
         super();
         this.reference = {
-            channelId: 'console',
-            user: { id: 'user', name: 'User1' },
             bot: { id: 'bot', name: 'Bot' },
+            channelId: 'console',
             conversation:  { id: 'convo1', name: '', isGroup: false },
             serviceUrl: '',
-            ...reference
+            user: { id: 'user', name: 'User1' },
+            ...reference,
         } as ConversationReference;
     }
 
@@ -73,19 +73,19 @@ export class ConsoleAdapter extends BotAdapter {
      * ```
      * @param logic Function which will be called each time a message is input by the user.
      */
-    public listen(logic: (context: TurnContext) => Promise<void>): Function {
+    public listen(logic: (context: TurnContext) => Promise<void>): () => void {
         const rl: readline.ReadLine = this.createInterface({ input: process.stdin, output: process.stdout, terminal: false });
         rl.on('line', (line: string) => {
             // Initialize activity
             const activity: Partial<Activity> = TurnContext.applyConversationReference(
                 {
-                    type: ActivityTypes.Message,
                     id: (this.nextId++).toString(),
+                    text: line,
                     timestamp: new Date(),
-                    text: line
+                    type: ActivityTypes.Message,
                 },
                 this.reference,
-                true
+                true,
             );
 
             // Create context and run middleware pipe
@@ -141,7 +141,7 @@ export class ConsoleAdapter extends BotAdapter {
      * @param context Context for the current turn of conversation with the user.
      * @param activities List of activities to send.
      */
-    public sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
+    public sendActivities(context: TurnContext, activities: Array <Partial<Activity>>): Promise<ResourceResponse[]> {
         const that: ConsoleAdapter = this;
 
         // tslint:disable-next-line:promise-must-complete
@@ -149,10 +149,10 @@ export class ConsoleAdapter extends BotAdapter {
             const responses: ResourceResponse[] = [];
             function next(i: number): void {
                 if (i < activities.length) {
-                    responses.push(<ResourceResponse>{});
+                    responses.push({} as ResourceResponse);
                     const a: Partial<Activity> = activities[i];
                     switch (a.type) {
-                        case <ActivityTypes>'delay':
+                        case 'delay' as ActivityTypes:
                             setTimeout(() => next(i + 1), a.value);
                             break;
                         case ActivityTypes.Message:

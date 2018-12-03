@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TurnContext } from 'botbuilder';
 import { ConsoleAdapter} from './consoleAdapter';
+
 import { ConsoleEchoBot } from './bot';
+
+import { TurnContext } from 'botbuilder';
 
 // Create the adapter which is responsible for sending and receiving messages.
 // The ConsoleAdapter enables a user to chat with a bot from within their console window.

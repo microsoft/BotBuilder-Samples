@@ -1,34 +1,43 @@
-This sample shows how to create a simple echo bot with state. The bot maintains a simple counter that increases with each message from the user. This bot example uses [`restify`](https://www.npmjs.com/package/restify).
+# echobot-with-counter
+Bot Framework v4 echobot with counter sample
+
+This sample shows how to create a simple bot with state. The bot maintains a simple counter that increases with each message from the user.
+
+## Prerequisites
+- [Node.js][4] version 8.5 or higher
+
+```bash
+# determine node version
+node --version
+```
 
 # To try this sample
 - Clone the repository
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal,
+- In a terminal, navigate to `samples/javascript_nodejs/02.b.echobot-with-counter`
     ```bash
     cd samples/javascript_nodejs/02.b.echobot-with-counter
     ```
-- [Optional] Update the .env file under samples/javascript_nodejs/02.b.echobot-with-counter with your botFileSecret
-    For Azure Bot Service bots, you can find the botFileSecret under application settings.
-- Install modules and start the bot
+- Install modules
     ```bash
-    npm i && npm start
+    npm install
     ```
-    Alternatively you can also use nodemon via
+- Start the bot
     ```bash
-    npm i && npm run watch
+    npm start
     ```
 
-# Testing the bot using Bot Framework Emulator
+# Testing the bot using Bot Framework Emulator **v4**
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
+- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
 
-## Connect to bot using Bot Framework Emulator **V4**
+## Connect to bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples/javascript_nodejs/02.echobot-with-state folder
-- Select echobot-with-counter.bot file
+- File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/02.echobot-with-state` folder
+- Select `echobot-with-counter.bot` file
 
 # Bot state
 A key to good bot design is to track the context of a conversation, so that your bot remembers things like the answers to previous questions. Depending on what your bot is used for, you may even need to keep track of conversation state or store user related information for longer than the lifetime of one given conversation.

@@ -1,7 +1,9 @@
 {
     "name": "basic-bot",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "A basic bot that demonstrates core AI capabilities",
+    "author": "Microsoft",
+    "license": "MIT",
     "main": "index.js",
     "scripts": {
         "start": "node ./index.js",
@@ -9,8 +11,6 @@
         "lint": "./node_modules/.bin/eslint .",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "Microsoft",
-    "license": "MIT",
     "repository": {
         "type": "git",
         "url": "https://github.com/Microsoft/BotBuilder-Samples.git"

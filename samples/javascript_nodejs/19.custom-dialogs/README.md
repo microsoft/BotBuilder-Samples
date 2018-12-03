@@ -1,40 +1,49 @@
-This sample demonstrates how to sub-class the Dialog class to create
-different bot control mechanism like simple slot filling.
+# custom dialogs
+Bot Framework v4 custom dialogs bot sample
+
+BotFramework provides a built-in base class called `Dialog`. By subclassing Dialog, developers can create new ways to define and control dialog flows used by the bot.
+This sample demonstrates how to sub-class the Dialog class to create different bot control mechanism like simple slot filling.
+
+## Prerequisites
+- [Node.js][4] version 8.5 or higher
+
+```bash
+# determine node version
+node --version
+```
 
 # To try this sample
 - Clone the repository
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to samples/javascript_nodejs/19.custom-dialogs
+- In a terminal, navigate to `samples/javascript_nodejs/19.custom-dialogs`
     ```bash
     cd samples/javascript_nodejs/19.custom-dialogs
     ```
-- Install modules and start the bot
+- Install modules
     ```bash
-    npm i && npm start
+    npm install
     ```
-    Alternatively you can also use nodemon via
+- Start the bot
     ```bash
-    npm i && npm run watch
+    npm start
     ```
 
-# Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is
-a desktop application that allows bot developers to test and debug their bots on localhost
-or running remotely through a tunnel.
+# Testing the bot using Bot Framework Emulator **v4**
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator)
+- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
 
-## Connect to bot using Bot Framework Emulator V4
+## Connect to bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to javascript_nodejs/21.custom-dialogs
-- Select custom-dialogs.bot file
+- File -> Open Bot Configuration and navigate to `javascript_nodejs/21.custom-dialogs`
+- Select `custom-dialogs.bot` file
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on.
 
-To install all Bot Builder tools - 
+To install all Bot Builder tools -
 
 Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
 
@@ -52,7 +61,7 @@ msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-loc
 
 # Custom Dialogs
 
-BotBuilder provides a built-in base class called `Dialog`. By subclassing Dialog, developers
+BotFramework provides a built-in base class called `Dialog`. By subclassing Dialog, developers
 can create new ways to define and control dialog flows used by the bot. By adhering to the
 features of this class, developers will create custom dialogs that can be used side-by-side
 with other dialog types, as well as built-in or custom prompts.
