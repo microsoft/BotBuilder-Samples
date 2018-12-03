@@ -51,13 +51,13 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 });
 
 // Catch-all for errors.
-adapter.onTurnError = async (turnContext, error) => {
+adapter.onTurnError = async (context, error) => {
     // Write out errors to console log.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user.
-    await turnContext.sendActivity(`Oops. Something went wrong!`);
+    await context.sendActivity(`Oops. Something went wrong!`);
 };
 
 // Create the AttachmentsBot.
