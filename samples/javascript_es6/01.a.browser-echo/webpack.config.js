@@ -1,7 +1,7 @@
-const path = require('path')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const webpack = require('webpack')
+const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     entry: './src/app.js',
@@ -10,6 +10,7 @@ module.exports = {
         contentBase: './dist',
         hot: true
     },
+    mode: 'development',
     module: {
         rules: [
             {
@@ -33,7 +34,7 @@ module.exports = {
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new CopyWebpackPlugin([
-            { from: path.resolve(__dirname, 'index.html'), to: '' },
+            { from: path.resolve(__dirname, 'index.html'), to: '' }
         ])
     ],
     output: {
@@ -45,4 +46,4 @@ module.exports = {
         net: 'empty',
         tls: 'empty'
     }
-}
+};
