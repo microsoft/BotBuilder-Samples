@@ -78,9 +78,9 @@ const adapter = new BotFrameworkAdapter({
 adapter.use(new MyAppInsightsMiddleware(appInsightsClient, appInsightsSettings));
 
 // Catch-all for errors.
-adapter.onTurnError = async (turnContext, error) => {
+adapter.onTurnError = async (context, error) => {
     console.error(`\n [onTurnError]: ${ error }`);
-    await turnContext.sendActivity(`Oops. Something went wrong!`);
+    await context.sendActivity(`Oops. Something went wrong!`);
 };
 
 // Create the SuggestedActionsBot.
