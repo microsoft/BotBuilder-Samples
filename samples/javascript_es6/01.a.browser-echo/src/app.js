@@ -12,9 +12,9 @@ const webChatAdapter = new WebChatAdapter();
 
 // Connect our BotFramework-WebChat App instance with the DOM.
 App({
-    user: { id: "Me!" },
-    bot: { id: "bot" },
-    botConnection: webChatAdapter.botConnection,
+    user: { id: 'Me!' },
+    bot: { id: 'bot' },
+    botConnection: webChatAdapter.botConnection
 }, document.getElementById('bot'));
 
 // Instantiate MemoryStorage for use with the ConversationState class.
@@ -33,16 +33,16 @@ webChatAdapter.processActivity(async (turnContext) => {
         // Read from state.
         let count = await countProperty.get(turnContext);
         count = count === undefined ? 1 : count;
-        await turnContext.sendActivity(`${count}: You said "${turnContext.activity.text}"`);
+        await turnContext.sendActivity(`${ count }: You said "${ turnContext.activity.text }"`);
         // Increment and set turn counter.
         await countProperty.set(turnContext, ++count);
     } else {
-        await turnContext.sendActivity(`[${turnContext.activity.type} event detected]`);
+        await turnContext.sendActivity(`[${ turnContext.activity.type } event detected]`);
     }
     await conversationState.saveChanges(turnContext);
 });
 
 // Prevent Flash of Unstyled Content (FOUC): https://en.wikipedia.org/wiki/Flash_of_unstyled_content
-document.addEventListener('DOMContentLoaded', function () {
-    requestAnimationFrame(() => document.body.style.visibility = 'visible');
+document.addEventListener('DOMContentLoaded', () => {
+    window.requestAnimationFrame(() => { document.body.style.visibility = 'visible'; });
 });

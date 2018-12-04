@@ -272,3 +272,4 @@ paket-files/
 /javascript_nodejs/.DS_Store
 .DS_Store
 generators/generator-botbuilder/.npmrc
+/samples/javascript_es6/01.a.browser-echo/dist

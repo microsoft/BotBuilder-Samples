@@ -1,0 +1,10 @@
+{
+  "authoringRegion": "westus",
+  "hierarchical": true,
+  "serviceIds": [],
+  "authoringKey": "49f60c2376d24e4ba0e15380ad85e70b",
+  "version": "Dispatch",
+  "region": "westus",
+  "type": "dispatch",
+  "name": "nlp-dispatch"
+}

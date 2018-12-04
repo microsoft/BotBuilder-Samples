@@ -1,20 +1,30 @@
-The example shows the use of the `botbuilder-js` SDKs for the browser using the [BotFramework-WebChat](https://github.com/Microsoft/BotFramework-WebChat) and a custom [WebChatAdapter](/src/webChatAdapter.js). 
-After running the bot, to see it in action, visit `http://localhost:8080`.
+# browser echo
+Bot Framework v4 browser bot sample
+
+The example shows the use of the `botbuilder-js` SDKs for the browser using the [BotFramework-WebChat](https://github.com/Microsoft/BotFramework-WebChat) and a custom [WebChatAdapter](/src/webChatAdapter.js).
 
 ## To try this sample
 - Clone the repository
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to samples/javascript_es6/01.a.browser-echo
+- In a terminal, navigate to `samples/javascript_es6/01.a.browser-echo`
     ```bash
     cd samples/javascript_es6/01.a.browser-echo
     ```
-- Install modules and start the bot
+- Install modules
     ```bash
-    npm i && npm start
+    npm install
     ```
-- To see the bot in action, visit `http://localhost:8080` in a browser.
+- Build the sample
+    ```bash
+    npm run build
+    ```
+- Start the bot
+    ```bash
+    npm start
+    ```
+- Launch a web browser and navigate to [http://localhost:8080](http://localhost:8080).
 
 # Adapters
 Developers can use the [BotAdapter](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/botadapter) abstract base class to implement their own custom adapters.

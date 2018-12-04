@@ -32,8 +32,7 @@ export class WebChatAdapter extends BotAdapter {
                         id,
                         conversation: { id: 'bot' },
                         channelId: 'WebChat'
-                    })
-                    .then(() => id)
+                    }).then(() => id)
                 );
             }
         };

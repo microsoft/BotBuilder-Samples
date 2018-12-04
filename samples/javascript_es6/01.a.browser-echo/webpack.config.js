@@ -10,20 +10,31 @@ module.exports = {
         contentBase: './dist',
         hot: true
     },
+    mode: 'development',
     module: {
-      rules: [
-          {
-              test: /\.css$/,
-              use: [ 'style-loader', 'css-loader' ]
-          }
-      ]
+        rules: [
+            {
+                test: /\.(jsx?)$/,
+                exclude: [/node_modules/],
+                use: {
+                    loader: 'babel-loader',
+                    'options': {
+                        'ignore': ['**/*.spec.ts']
+                    }
+                }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
+            }
+        ]
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new CopyWebpackPlugin([
-            {from: path.resolve(__dirname, 'index.html'), to: ''},
+            { from: path.resolve(__dirname, 'index.html'), to: '' }
         ])
     ],
     output: {
