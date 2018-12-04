@@ -14,7 +14,7 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
 * Type `dotnet run`.
 
 ## Interacting With Your Bot Using the Emulator
-Launch the [Microsoft Bot Framework Emulator v4][3] and open the generated project's `.bot` file.
+Launch the [Microsoft Bot Framework Emulator v4][3] and open the `$safeprojectname$.bot` file.
 
 # Testing the bot using Bot Framework Emulator **v4**
 [Microsoft Bot Framework Emulator][3] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
@@ -59,7 +59,3 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 [13]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [14]: https://portal.azure.com
 [15]: https://luis.ai
-
-[50]: https://visualstudio.microsoft.com/downloads/
-[51]: https://azure.microsoft.com/en-us/free/
-[52]: https://docs.microsoft.com/en-us/powershell/azure/overview?
