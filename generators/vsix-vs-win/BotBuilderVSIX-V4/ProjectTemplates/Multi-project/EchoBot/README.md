@@ -13,13 +13,13 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
 * Using the command line, navigate to your project's root folder.
 * Type `dotnet run`.
 
-## Interacting With Your Bot Using the Emulator
+## Interacting With Your Bot Using the Emulator **v4**
 Launch the [Microsoft Bot Framework Emulator v4][3] and open the `$safeprojectname$.bot` file.
 
-# Testing the bot using Bot Framework Emulator
+# Testing the bot using Bot Framework Emulator **v4**
 [Microsoft Bot Framework Emulator][3] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-* Install the Bot Framework Emulator. (Download [here][4].)
+* Install the Bot Framework Emulator version 4.1.0 or greater from [here][4]
 
 ## Connect to the bot using Bot Framework Emulator 
 * Launch Bot Framework Emulator
