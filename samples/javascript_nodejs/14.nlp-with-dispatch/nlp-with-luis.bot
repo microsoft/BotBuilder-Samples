@@ -1,0 +1,63 @@
+{
+    "name": "nlp-with-luis",
+    "description": "",
+    "services": [
+        {
+            "type": "luis",
+            "appId": "647b316e-6818-4017-b49b-2e1ad8abaa77",
+            "authoringKey": "49f60c2376d24e4ba0e15380ad85e70b",
+            "id": "37",
+            "name": "Home Automation",
+            "region": "westus",
+            "subscriptionKey": "49f60c2376d24e4ba0e15380ad85e70b",
+            "version": "0.1"
+        },
+        {
+            "type": "luis",
+            "appId": "0c69b97c-340e-4935-ac11-aabf90603445",
+            "authoringKey": "49f60c2376d24e4ba0e15380ad85e70b",
+            "id": "161",
+            "name": "Weather",
+            "region": "westus",
+            "subscriptionKey": "49f60c2376d24e4ba0e15380ad85e70b",
+            "version": "0.1"
+        },
+        {
+            "type": "qna",
+            "endpointKey": "8303a6a2-5715-465d-a094-dbafc25072b3",
+            "hostname": "https://juwilabyqnamaker.azurewebsites.net/qnamaker",
+            "id": "99",
+            "kbId": "34210d20-3f10-4f86-ae60-df00e3dba364",
+            "name": "sample-qna",
+            "subscriptionKey": "63fc7124e8c144bdb4b70c36ce4dcbe1"
+        },
+        {
+            "type": "dispatch",
+            "authoringKey": "49f60c2376d24e4ba0e15380ad85e70b",
+            "authoringRegion": "westus",
+            "hierarchical": true,
+            "name": "nlp-dispatch",
+            "region": "westus",
+            "serviceIds": [],
+            "appId": "74889c9b-158e-4607-8dac-f7d138373b98",
+            "endpoint": "https://juwilabyqnamaker.azurewebsites.net",
+            "version": "Dispatch"
+        },
+        {
+            "type": "endpoint",
+            "endpoint": "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/0c69b97c-340e-4935-ac11-aabf90603445?subscription-key=49f60c2376d24e4ba0e15380ad85e70b&timezoneOffset=-360&q=",
+            "name": "NLP with luis",
+            "id": "65"
+        },
+        {
+            "type": "endpoint",
+            "endpoint": "http://localhost:3978",
+            "name": "local NLP with luis",
+            "id": "219"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "path": "/Users/microsoft/Documents/dev/BotBuilder-Samples/samples/javascript_nodejs/14.nlp-with-dispatch/nlp-with-luis.bot",
+    "overrides": null
+}

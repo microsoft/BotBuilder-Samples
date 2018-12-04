@@ -1,7 +1,7 @@
-const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const webpack = require('webpack');
+const path = require('path')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const webpack = require('webpack')
 
 module.exports = {
     entry: './src/app.js',
@@ -13,8 +13,18 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.(jsx?)$/,
+                exclude: [/node_modules/],
+                use: {
+                    loader: 'babel-loader',
+                    'options': {
+                        'ignore': ['**/*.spec.ts']
+                    }
+                }
+            },
+            {
                 test: /\.css$/,
-                use: [ 'style-loader', 'css-loader' ]
+                use: ['style-loader', 'css-loader']
             }
         ]
     },
@@ -23,7 +33,7 @@ module.exports = {
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new CopyWebpackPlugin([
-            { from: path.resolve(__dirname, 'index.html'), to: '' }
+            { from: path.resolve(__dirname, 'index.html'), to: '' },
         ])
     ],
     output: {
@@ -35,4 +45,4 @@ module.exports = {
         net: 'empty',
         tls: 'empty'
     }
-};
+}

@@ -1,13 +1,22 @@
 {
-  "presets": [
-    ["env", {
-      "targets": {
-        "browsers": "current"
-      },
-      "modules": "umd"
-    }]
-  ],
-  "ignore": [
-    "node_modules/**/"
-  ]
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "targets": {
+                    "chrome": "58",
+                    "esmodules": true
+                }
+            }
+        ]
+    ],
+    "ignore": [
+        "**/*.d.ts"
+    ],
+    "sourceMaps": "inline",
+    "plugins": [
+        "@babel/proposal-class-properties",
+        "@babel/proposal-object-rest-spread",
+        "@babel/plugin-transform-runtime"
+    ]
 }
