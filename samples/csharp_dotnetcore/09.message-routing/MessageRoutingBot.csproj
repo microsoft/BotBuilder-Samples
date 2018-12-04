@@ -29,7 +29,7 @@
     <Compile Remove="Dialogs\TestDialog.cs" />
   </ItemGroup>
 
-   <ItemGroup>
+  <ItemGroup>
     <None Update="*.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -48,6 +48,7 @@
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.2" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.2.2" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.PublishValidation" Version="1.0.0" />
     <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008">
       <PrivateAssets>all</PrivateAssets>

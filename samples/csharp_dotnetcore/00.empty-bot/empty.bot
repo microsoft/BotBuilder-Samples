@@ -1,5 +1,6 @@
 ﻿{
   "name": "empty",
+  "description": "this is a description",
   "services": [
     {
       "type": "endpoint",
