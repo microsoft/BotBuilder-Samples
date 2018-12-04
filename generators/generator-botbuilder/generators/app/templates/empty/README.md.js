@@ -58,7 +58,7 @@ npm run watch
 [8]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
 [9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [10]: https://portal.azure.com
-[11]: https://luis.ai
+[11]: https://www.luis.ai
 [20]: https://docs.botframework.com
 [21]: https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
 [22]: https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0
