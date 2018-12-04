@@ -11,19 +11,19 @@ module.exports = {
         hot: true
     },
     module: {
-      rules: [
-          {
-              test: /\.css$/,
-              use: [ 'style-loader', 'css-loader' ]
-          }
-      ]
+        rules: [
+            {
+                test: /\.css$/,
+                use: [ 'style-loader', 'css-loader' ]
+            }
+        ]
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new CopyWebpackPlugin([
-            {from: path.resolve(__dirname, 'index.html'), to: ''},
+            { from: path.resolve(__dirname, 'index.html'), to: '' }
         ])
     ],
     output: {
