@@ -81,13 +81,14 @@ namespace Microsoft.BotBuilderSamples
                 var appInsightsLogger = new TelemetryLoggerMiddleware(connectedServices.TelemetryClient.InstrumentationKey, logUserName: true, logOriginalMessage: true);
                 options.Middleware.Add(appInsightsLogger);
 
-                // Creates a logger for the application to use.
-                ILogger logger = _loggerFactory.CreateLogger<LuisBot>();
+                // Creates a telemetryClient for OnTurnError handler.
+                var sp = services.BuildServiceProvider();
+                var telemetryClient = sp.GetService<IBotTelemetryClient>();
 
                 // Catches any errors that occur during a conversation turn and logs them.
                 options.OnTurnError = async (context, exception) =>
                 {
-                    logger.LogError($"Exception caught : {exception}");
+                    telemetryClient.TrackException(exception);
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
@@ -124,11 +125,12 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="app">The application builder. This provides the mechanisms to configure the application request pipeline.</param>
         /// <param name="env">Provides information about the web hosting environment.</param>
+        /// <param name="loggerFactory">Represents a type used to configure the logging system and create instances of ILogger.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
 
-            // Add tracing capture.
+            // Application Insights will capture ILogger based events.
             _loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Information);
 
             app.UseBotApplicationInsights()
