@@ -5,6 +5,10 @@
     <CodeAnalysisRuleSet>CoreBot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <RequireLuisKey>True</RequireLuisKey>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include=__MICROSOFT_ASPNETCORE_VERSION__ />
     <PackageReference Include=__MICROSOFT_ASPNETCORE_ALL_VERSION__ />
