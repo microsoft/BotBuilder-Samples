@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="client">An Application Insights <see cref="TelemetryClient"/> instance.</param>
         /// <param name="luisServices">A dictionary of named <see cref="LuisRecognizer"/> instances for usage within the bot.</param>
-        public BotServices(TelemetryClient client, Dictionary<string, LuisRecognizer> luisServices)
+        public BotServices(TelemetryClient client, Dictionary<string, TelemetryLuisRecognizer> luisServices)
         {
             TelemetryClient = client ?? throw new ArgumentNullException(nameof(client));
             LuisServices = luisServices ?? throw new ArgumentNullException(nameof(luisServices));
@@ -51,6 +51,6 @@ namespace Microsoft.BotBuilderSamples
         /// <value>
         /// A <see cref="LuisRecognizer"/> client instance created based on configuration in the .bot file.
         /// </value>
-        public Dictionary<string, LuisRecognizer> LuisServices { get; } = new Dictionary<string, LuisRecognizer>();
+        public Dictionary<string, TelemetryLuisRecognizer> LuisServices { get; } = new Dictionary<string, TelemetryLuisRecognizer>();
     }
 }

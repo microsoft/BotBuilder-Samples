@@ -11,12 +11,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.BotFramework;
-using Microsoft.Bot.Builder.Integration;
+using Microsoft.Bot.Builder.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.BotBuilderSamples.AppInsights;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -61,6 +59,9 @@ namespace Microsoft.BotBuilderSamples
             var botConfig = BotConfiguration.Load(botFilePath ?? @".\luis-with-appinsights.bot", secretKey);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. botFilePath: {botFilePath}"));
 
+            // Use Application Insights
+            services.AddBotApplicationInsights(botConfig);
+
             // Retrieve current endpoint.
             var environment = _isProduction ? "production" : "development";
             var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
@@ -77,7 +78,7 @@ namespace Microsoft.BotBuilderSamples
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Add MyAppInsightsLoggerMiddleware (logs activity messages into Application Insights)
-                var appInsightsLogger = new MyAppInsightsLoggerMiddleware(connectedServices.TelemetryClient.InstrumentationKey, logUserName: true, logOriginalMessage: true);
+                var appInsightsLogger = new TelemetryLoggerMiddleware(connectedServices.TelemetryClient.InstrumentationKey, logUserName: true, logOriginalMessage: true);
                 options.Middleware.Add(appInsightsLogger);
 
                 // Creates a logger for the application to use.
@@ -115,8 +116,6 @@ namespace Microsoft.BotBuilderSamples
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
                 var conversationState = new ConversationState(dataStore);
-
-                options.State.Add(conversationState);
             });
         }
 
@@ -129,7 +128,11 @@ namespace Microsoft.BotBuilderSamples
         {
             _loggerFactory = loggerFactory;
 
-            app.UseDefaultFiles()
+            // Add tracing capture.
+            _loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Information);
+
+            app.UseBotApplicationInsights()
+                .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
         }
@@ -148,7 +151,7 @@ namespace Microsoft.BotBuilderSamples
         private static BotServices InitBotServices(BotConfiguration config)
         {
             TelemetryClient telemetryClient = null;
-            var luisServices = new Dictionary<string, LuisRecognizer>();
+            var luisServices = new Dictionary<string, TelemetryLuisRecognizer>();
 
             foreach (var service in config.Services)
             {
@@ -183,7 +186,7 @@ namespace Microsoft.BotBuilderSamples
                             }
 
                             var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
-                            var recognizer = new MyAppInsightLuisRecognizer(app);
+                            var recognizer = new TelemetryLuisRecognizer(app);
                             luisServices.Add(LuisBot.LuisKey, recognizer);
                             break;
                         }

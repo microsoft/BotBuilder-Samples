@@ -21,13 +21,13 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.ibot?view=botbuilder-dotnet-preview"/>
     public class LuisBot : IBot
     {
-        private const string WelcomeText = "This bot will introduce you to natural language processing with LUIS. Type an utterance to get started";
-
         /// <summary>
         /// Key in the bot config (.bot file) for the LUIS instance.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
-        public static readonly string LuisKey = "YOUR_LUIS_SERVICE_NAME";
+        public static readonly string LuisKey = "LuisBot";
+
+        private const string WelcomeText = "This bot will introduce you to natural language processing with LUIS. Type an utterance to get started";
 
         /// <summary>
         /// Services configured from the ".bot" file.

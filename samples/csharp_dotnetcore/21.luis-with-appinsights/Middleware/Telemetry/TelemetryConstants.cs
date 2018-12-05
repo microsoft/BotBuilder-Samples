@@ -1,0 +1,17 @@
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace Microsoft.BotBuilderSamples
+{
+    public static class TelemetryConstants
+    {
+        public const string ReplyActivityIDProperty = "ReplyActivityId";
+        public const string FromIdProperty = "FromId";
+        public const string FromNameProperty = "FromName";
+        public const string RecipientIdProperty = "RecipientId";
+        public const string RecipientNameProperty = "RecipientName";
+        public const string ConversationNameProperty = "ConversationName";
+        public const string TextProperty = "Text";
+        public const string LocaleProperty = "Locale";
+    }
+}
