@@ -145,7 +145,9 @@ namespace Microsoft.BotBuilderSamples
         /// Creates and sends an activity with suggested actions to the user. When the user
         /// clicks one of the buttons the text value from the <see cref="CardAction"/> will be
         /// displayed in the channel just as if the user entered the text. There are multiple
-        /// <see cref="ActionTypes"/> that may be used for different situations.
+        /// <see cref="ActionTypes"/> that may be used for different situations. For this sample we have only used two.
+        /// Note that the button with MessageBack ActionType initializes Text instead of Value.
+        /// However, Value can be initialized as an additional property.
         /// </summary>
         /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
@@ -158,9 +160,9 @@ namespace Microsoft.BotBuilderSamples
             {
                 Actions = new List<CardAction>()
                 {
-                    new CardAction() { Title = "Red", Type = ActionTypes.ImBack, Value = "Red" },
-                    new CardAction() { Title = "Yellow", Type = ActionTypes.ImBack, Value = "Yellow" },
-                    new CardAction() { Title = "Blue", Type = ActionTypes.ImBack, Value = "Blue" },
+                    new CardAction() { Title = "Red", Type = ActionTypes.ImBack, Value = "Red: ImBack ActionType" },
+                    new CardAction() { Title = "Yellow", Type = ActionTypes.ImBack, Value = "Yellow: ImBack ActionType" },
+                    new CardAction() { Title = "Blue", Type = ActionTypes.MessageBack, Text = "Blue: MessageBack ActionType" },
                 },
             };
             await turnContext.SendActivityAsync(reply, cancellationToken);
