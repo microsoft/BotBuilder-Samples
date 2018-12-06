@@ -1,7 +1,7 @@
 # NLP with Dispatch
 Bot Framework v4 NLP with Dispatch bot sample
 
-This sample shows how to create a bot that relies on multiple [LUIS.ai](https://luis.ai) and [QnAMaker.ai](https://qnamaker.ai) models for natural language processing (NLP).
+This sample shows how to create a bot that relies on multiple [LUIS.ai](https://www.luis.ai) and [QnAMaker.ai](https://qnamaker.ai) models for natural language processing (NLP).
 
 ## Prerequisites
 - [Node.js][4] version 8.5 or higher
@@ -110,7 +110,7 @@ Update the following line to add a prefix with the name of your bot (plus unders
 ## Manually configure required services
 ### Configure the LUIS service
 To create required LUIS applications for this sample bot,
-- Create an account with [LUIS](https://luis.ai). If you already have an account, login to your account.
+- Create an account with [LUIS](https://www.luis.ai). If you already have an account, login to your account.
 - Click on your name on top right corner of the screen -> settings and grab your authoring key.
 
 To create the LUIS application this bot needs and update the .bot file configuration, in a terminal,

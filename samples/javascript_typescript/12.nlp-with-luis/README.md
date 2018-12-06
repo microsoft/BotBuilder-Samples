@@ -120,7 +120,7 @@ const LUIS_CONFIGURATION = '<NAME>_nlp-with-luis-LUIS';
 ## Manually configure required services
 ### Configure the LUIS service
 To create required LUIS applications for this sample bot,
-- Create an account with [LUIS](https://luis.ai). If you already have an account, login to your account.
+- Create an account with [LUIS](https://www.luis.ai). If you already have an account, login to your account.
 - Click on your name on top right corner of the screen -> settings and grab your authoring key.
 
 To create the LUIS application this bot needs and update the `.bot` file configuration, in a terminal,
