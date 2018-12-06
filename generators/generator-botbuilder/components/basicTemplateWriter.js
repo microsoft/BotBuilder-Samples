@@ -94,19 +94,10 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     path.join(sourcePath, 'basicBot.luis'),
     path.join(destinationPath, 'basicBot.luis')
   );
-
-  // write out the deployment doc
-  sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_SCRIPTS]);
-  destinationPath = path.join(gen.destinationPath(), destFolders[DEPLOYMENT_SCRIPTS]);
   gen.fs.copy(
-    path.join(sourcePath, 'DEPLOYMENT.md'),
-    path.join(destinationPath, 'DEPLOYMENT.md'),
-    {
-      process: function (content) {
-        var pattern = new RegExp('<%= botname %>', 'g');
-        return content.toString().replace(pattern, gen.props.botname.toString());
-    }
-  });
+    path.join(sourcePath, 'basicBot.json'),
+    path.join(destinationPath, 'basicBot.json')
+  );
 
   // write out deployment resources
   sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_MSBOT]);
@@ -174,7 +165,7 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   destinationPath = path.join(gen.destinationPath(), destFolders[DIALOGS_WELCOME_RESOURCES]);
   gen.fs.copy(
     path.join(sourcePath, 'welcomeCard.json'),
-    path.join(destinationPath, `welcomeCard.${ cardExtension }`)
+    path.join(destinationPath, `welcomeCard.json`)
   );
 
   // write out the index.js and bot.js
@@ -193,6 +184,15 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   gen.fs.copyTpl(
     gen.templatePath(path.join(templatePath, `bot.${extension}`)),
     path.join(destinationPath, `bot.${extension}`),
+    {
+      botname: gen.props.botname
+    }
+  );
+
+  // write out COGNITIVE_SERVICES.md
+  gen.fs.copyTpl(
+    gen.templatePath(path.join(templatePath, 'COGNITIVE_SERVICES.md')),
+    gen.destinationPath('COGNITIVE_SERVICES.md'),
     {
       botname: gen.props.botname
     }
