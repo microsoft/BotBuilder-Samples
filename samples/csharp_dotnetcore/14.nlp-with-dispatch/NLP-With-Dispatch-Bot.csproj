@@ -7,6 +7,10 @@
     <CodeAnalysisRuleSet>NLP-With-Dispatch-Bot.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <RequireLuisKey>True</RequireLuisKey>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Update="*.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
