@@ -6,10 +6,10 @@
     "license": "MIT",
     "main": "<%= npmMain %>",
     "scripts": {
-        "build": "node_modules/typescript/bin/tsc --build",
-        "start": "node_modules/typescript/bin/tsc --build && node ./lib/index.js",
-        "watch": "concurrently --kill-others \"node_modules/typescript/bin/tsc -w\" \"nodemon ./lib/index.js\"",
-        "lint": "node_modules/tslint/bin/tslint -c tslint.json 'src/**/*.ts'",
+        "build": "node_modules/.bin/tsc --build",
+        "start": "node_modules/.bin/tsc --build && node ./lib/index.js",
+        "watch": "node_modules/.bin/nodemon --watch ./src -e ts --exec \"npm run start\"",
+        "lint": "node_modules/.bin/tslint -c tslint.json 'src/**/*.ts'",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -30,7 +30,6 @@
     "devDependencies": {
         "@types/dotenv": "6.1.0",
         "@types/restify": "7.2.6",
-        "concurrently": "^4.0.1",
         "nodemon": "^1.18.6",
         "tslint": "^5.11.0",
         "typescript": "^3.1.6"

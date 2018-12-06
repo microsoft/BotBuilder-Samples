@@ -18,13 +18,9 @@ const GENERATOR_TEMPLATE_NAME = 'echo';
  * @param {String} templatePath file path to write the generated code
  */
 const writeEchoTemplateFiles = (gen, templatePath) => {
-  const DEPLOYMENT_SCRIPTS = 0;
-  const DEPLOYMENT_MSBOT = 1;
-  const RESOURCES = 2;
+  const RESOURCES = 0;
   const TS_SRC_FOLDER = 'src'
   const folders = [
-    'deploymentScripts',
-    path.join('deploymentScripts', 'msbotClone'),
     'resources'
   ];
   const extension = _.toLower(gen.props.language) === 'javascript' ? 'js' : 'ts';
@@ -38,17 +34,6 @@ const writeEchoTemplateFiles = (gen, templatePath) => {
   if (_.toLower(gen.props.language) === 'typescript') {
     mkdirp.sync(TS_SRC_FOLDER);
   }
-
-  // write out the deployment scripts
-  let sourcePath = path.join(templatePath, folders[DEPLOYMENT_MSBOT]);
-  let destinationPath = path.join(gen.destinationPath(), folders[DEPLOYMENT_MSBOT]);
-  gen.fs.copyTpl(
-    path.join(sourcePath, 'bot.recipe'),
-    path.join(destinationPath, 'bot.recipe'),
-    {
-      botname: gen.props.botname
-    }
-  );
 
   // write out the index.js and bot.js
   destinationPath = path.join(gen.destinationPath(), srcFolder);

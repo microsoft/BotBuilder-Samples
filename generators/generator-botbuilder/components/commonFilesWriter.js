@@ -34,9 +34,6 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
   const botname = gen.props.botname;
   const extension = _.toLower(gen.props.language) === 'javascript' ? 'js' : 'ts';
   const npmMain = extension === 'js' ? `index.js` : `./lib/index.js`;
-  const npmBuildCmd = extension === 'js' ? `exit 1` : `tsc`;
-  const npmRunCmd = extension === 'js' ? `node ./index.js` : 'tsc && node ./lib/index.js';
-  const npmWatchCmd = extension === 'js' ? 'nodemon ./index.js' : "concurrently --kill-others \"tsc -w\" \"nodemon ./lib/index.js\"";
 
 
   // ensure our project directory exists before we start writing files into it
@@ -103,10 +100,7 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
     gen.destinationPath('README.md'),
     {
       botname: gen.props.botname,
-      description: gen.props.description,
-      runCmd: npmRunCmd,
-      watchCmd: npmWatchCmd,
-      extension: extension
+      description: gen.props.description
     }
   );
 }

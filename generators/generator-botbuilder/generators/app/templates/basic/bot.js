@@ -21,7 +21,6 @@ const DIALOG_STATE_PROPERTY = 'dialogState';
 const USER_PROFILE_PROPERTY = 'userProfileProperty';
 
 // LUIS service type entry as defined in the .bot file.
-// const LUIS_CONFIGURATION = 'basic-bot-LUIS';
 const LUIS_CONFIGURATION = '<%= botname %>-LUIS';
 
 // Supported LUIS Intents.
