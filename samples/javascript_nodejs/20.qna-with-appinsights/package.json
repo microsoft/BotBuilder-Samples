@@ -16,7 +16,7 @@
         "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
     },
     "dependencies": {
-        "applicationinsights": "^1.0.6",
+        "botbuilder-applicationinsights": "^4.2.0-preview.2408",
         "botbuilder": "^4.1.5",
         "botbuilder-ai": "^4.1.5",
         "botframework-config": "^4.1.5",

@@ -4,7 +4,7 @@
 const path = require('path');
 const restify = require('restify');
 const { BotFrameworkAdapter } = require('botbuilder');
-const { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } = require('applicationinsights');
+const { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } = require('botbuilder-applicationinsights');
 const { BotConfiguration } = require('botframework-config');
 const { QnAMakerBot } = require('./bot');
 const { MyAppInsightsMiddleware } = require('./middleware');
