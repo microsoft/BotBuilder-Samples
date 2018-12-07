@@ -146,8 +146,8 @@ namespace Microsoft.BotBuilderSamples
         /// clicks one of the buttons the text value from the <see cref="CardAction"/> will be
         /// displayed in the channel just as if the user entered the text. There are multiple
         /// <see cref="ActionTypes"/> that may be used for different situations. For this sample we have only used two.
-        /// Note that the button with MessageBack ActionType initializes Text instead of Value.
-        /// However, Value can be initialized as an additional property.
+        /// Developers are encouraged to use MessageBack because it is supported across all channels and most clients.
+        /// PostBack is not supported by MSTeams. MessageBack can be used instead of PostBack and ImBack.
         /// </summary>
         /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
         /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
@@ -160,6 +160,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 Actions = new List<CardAction>()
                 {
+                    // Note that the button with MessageBack ActionType initializes Text instead of Value. Value is optional.
                     new CardAction() { Title = "Red", Type = ActionTypes.ImBack, Value = "Red: ImBack ActionType" },
                     new CardAction() { Title = "Yellow", Type = ActionTypes.ImBack, Value = "Yellow: ImBack ActionType" },
                     new CardAction() { Title = "Blue", Type = ActionTypes.MessageBack, Text = "Blue: MessageBack ActionType" },
