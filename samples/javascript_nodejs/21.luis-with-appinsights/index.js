@@ -35,14 +35,20 @@ const DEV_ENVIRONMENT = 'development';
 const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
 // LUIS and Application Insights service names as found in .bot file.
-const LUIS_CONFIGURATION = 'reminders';
-const APP_INSIGHTS_CONFIGURATION = 'appInsights';
+const LUIS_CONFIGURATION = 'luis-with-appinsights-luis';
+const APP_INSIGHTS_CONFIGURATION = null; // Define a specific instance of Application Insights (if required)
 
 // Get bot endpoint configuration by service name.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
-const appInsightsConfig = botConfig.findServiceByNameOrId(APP_INSIGHTS_CONFIGURATION);
-
+const appInsightsConfig = APP_INSIGHTS_CONFIGURATION 
+                                ? 
+                                botConfig.findServiceByNameOrId(APP_INSIGHTS_CONFIGURATION) 
+                                : 
+                                botConfig.services.filter((m)=>m.type == 'appInsights').length ?  botConfig.services.filter((m)=>m.type == 'appInsights')[0] : null;
+if (!appInsightsConfig) {
+    throw new Error("No App Insights configuration was found.");
+}
 // Map the contents of luisConfig to a consumable format for our MyAppInsightsLuisRecognizer class.
 const luisApplication = {
     applicationId: luisConfig.appId,
