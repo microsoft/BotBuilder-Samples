@@ -73,7 +73,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - In a terminal
 - Install required tools
     ```bash
-    npm i -g msbot chatdown ludown luis-cli qnamaker 
+    npm i -g msbot chatdown ludown luis-apis qnamaker 
     ```
 
 ## Configure required services
