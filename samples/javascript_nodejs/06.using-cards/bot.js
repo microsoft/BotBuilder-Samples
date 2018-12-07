@@ -216,6 +216,18 @@ class RichCardsBot {
                     type: 'openUrl',
                     title: 'Get started',
                     value: 'https://docs.microsoft.com/en-us/azure/bot-service/'
+                },
+                {
+                    type: 'imBack',
+                    title: 'I am ImBack',
+                    value: 'I am ImBack CardAction Value'
+                },
+                {
+                    type: 'messageBack',
+                    title: 'I am MessageBack',
+                    text: 'I am MessageBack CardAction Text',
+                    displayText: 'I am MessageBack displayText',
+                    value: 'I am MessageBack CardAction Value'
                 }
             ])
         );
