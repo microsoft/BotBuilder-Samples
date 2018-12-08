@@ -30,7 +30,7 @@
     "devDependencies": {
         "@types/dotenv": "6.1.0",
         "@types/restify": "7.2.6",
-        "nodemon": "^1.18.6",
+        "nodemon": "^1.18.7",
         "tslint": "^5.11.0",
         "typescript": "^3.1.6"
     }

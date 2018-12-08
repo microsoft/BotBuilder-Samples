@@ -8,11 +8,6 @@
       "url": "http://localhost:3978/api/messages"
     },
     {
-      "type": "luis",
-      "id": "34",
-      "name": "<%= botname %>-LUIS"
-    },
-    {
       "type": "endpoint",
       "id": "2",
       "name": "production",
@@ -33,6 +28,11 @@
       "id": "5",
       "name": "<%= botname %>-blob",
       "container": "botstatestore"
+    },
+    {
+      "type": "luis",
+      "id": "34",
+      "name": "<%= botname %>-LUIS"
     }
   ]
 }
