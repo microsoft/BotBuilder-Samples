@@ -25,8 +25,10 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class MultiLingualBot : IBot
     {
-        private const string English = "en";
-        private const string Spanish = "es";
+        private const string EnglishEnglish = "en";
+        private const string EnglishSpanish = "es";
+        private const string SpanishEnglish = "in";
+        private const string SpanishSpanish = "it";
 
         private readonly MultiLingualBotAccessors _accessors;
 
@@ -67,13 +69,16 @@ namespace Microsoft.BotBuilderSamples
 
                 if (IsLanguageChangeRequested(turnContext.Activity.Text))
                 {
+                    var curentLang = turnContext.Activity.Text.ToLower();
+                    var lang = curentLang == EnglishEnglish || curentLang == SpanishEnglish ? EnglishEnglish : EnglishSpanish;
+
                     // If the user requested a language change through the suggested actions with values "es" or "en",
                     // simply change the user's language preference in the user state.
                     // The translation middleware will catch this setting and translate both ways to the user's
                     // selected language.
                     // If Spanish was selected by the user, the reply below will actually be shown in spanish to the user.
-                    await _accessors.LanguagePreference.SetAsync(turnContext, turnContext.Activity.Text);
-                    var reply = turnContext.Activity.CreateReply($"Your current language code is: {turnContext.Activity.Text}");
+                    await _accessors.LanguagePreference.SetAsync(turnContext, lang);
+                    var reply = turnContext.Activity.CreateReply($"Your current language code is: {lang}");
 
                     await turnContext.SendActivityAsync(reply, cancellationToken);
 
@@ -90,8 +95,8 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Actions = new List<CardAction>()
                         {
-                            new CardAction() { Title = "Español", Type = ActionTypes.PostBack, Value = Spanish },
-                            new CardAction() { Title = "English", Type = ActionTypes.PostBack, Value = English },
+                            new CardAction() { Title = "Español", Type = ActionTypes.PostBack, Value = EnglishSpanish },
+                            new CardAction() { Title = "English", Type = ActionTypes.PostBack, Value = EnglishEnglish },
                         },
                     };
 
@@ -108,7 +113,8 @@ namespace Microsoft.BotBuilderSamples
             }
 
             utterance = utterance.ToLower().Trim();
-            return utterance == Spanish || utterance == English;
+            return utterance == EnglishSpanish || utterance == EnglishEnglish
+                || utterance == SpanishSpanish || utterance == SpanishEnglish;
         }
     }
 }
