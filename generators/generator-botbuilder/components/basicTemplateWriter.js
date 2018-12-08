@@ -94,10 +94,6 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     path.join(sourcePath, 'basicBot.luis'),
     path.join(destinationPath, 'basicBot.luis')
   );
-  gen.fs.copy(
-    path.join(sourcePath, 'basicBot.json'),
-    path.join(destinationPath, 'basicBot.json')
-  );
 
   // if we're writing out TypeScript, then we need to add a webConfigPrep.js
   if(_.toLower(gen.props.language) === LANG_TS) {
@@ -196,10 +192,10 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     }
   );
 
-  // write out COGNITIVE_SERVICES.md
+  // write out PREREQUISITES.md
   gen.fs.copyTpl(
-    gen.templatePath(path.join(templatePath, 'COGNITIVE_SERVICES.md')),
-    gen.destinationPath('COGNITIVE_SERVICES.md'),
+    gen.templatePath(path.join(templatePath, 'PREREQUISITES.md')),
+    gen.destinationPath('PREREQUISITES.md'),
     {
       botname: gen.props.botname
     }

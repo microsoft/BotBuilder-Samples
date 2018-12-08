@@ -1,13 +1,10 @@
-import { CLIENT_RENEG_LIMIT } from "tls";
-import { ChannelAccount } from "botframework-connector/lib/connectorApi/models/mappers";
-
 # <%= botname %>
 <%= description %>
 
 This bot has been created using [Microsoft Bot Framework][1].
 
 This samples shows how to:
-- Use [LUIS][2] to implement core AI capabilities
+- Use [LUIS][11] to implement core AI capabilities
 - Implement a multi-turn conversation using Dialogs
 - Handle user interruptions for such things as Help or Cancel
 - Prompt for and validate requests for information from the user
@@ -15,26 +12,33 @@ This samples shows how to:
 
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher
-    ```bash
-    # determine node version
-    node --version
-    ```
-- [Az CLI][42] version 2.0.52 or higher
-- [Az Bot CLI Extension] 0.4.3 or higher
-- [msbot CLI][43] version 4.2.0 or higher
-- Azure Account
-- LUIS Account
-
-- [LUIS Service Application][41]
-
+This samples requires prerequisites in order to run.
+- [Required Prerequisites][41]
 
 # To run the bot
 - Install modules
     ```bash
     npm install
     ```
-- Start the bot.
+- Setup LUIS
+    Assuming prerequisites have been installed:
+    ```bash
+    # log into Azure
+    az login
+    ```
+    ```bash
+    # set you Azure subscription
+    az account set --subscription "<azure-subscription>"
+    ```
+    ```bash
+    # Create LUIS service application
+    msbot clone services --name "<%= botname %>"
+        --folder deploymentScripts\msbotClone
+        --location westus2
+        --code-dir .
+        --verbose
+    ```
+- Start the bot
     ```bash
     npm start
     ```
@@ -65,6 +69,7 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 - [msbot CLI][9]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
+- [Add Natural Language Understanding to Your Bot][12]
 - [TypeScript][2]
 - [Restify][30]
 - [dotenv][31]
@@ -80,6 +85,7 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 [9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [10]: https://portal.azure.com
 [11]: https://www.luis.ai
+[12]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js#configure-your-bot-to-use-your-luis-app
 [20]: https://docs.botframework.com
 [21]: https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
 [22]: https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0
@@ -87,5 +93,4 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./COGNITIVE_SERVICES.md
-[42]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
+[41]: ./PREREQUISITES.md

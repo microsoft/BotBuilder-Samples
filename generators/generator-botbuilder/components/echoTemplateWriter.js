@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const path = require('path');
 const _ = require('lodash');
 const mkdirp = require('mkdirp');
+const path = require('path');
 
 const { commonFilesWriter } = require('./commonFilesWriter');
 const { BOT_TEMPLATE_NAME_SIMPLE,  BOT_TEMPLATE_NOPROMPT_SIMPLE } = require('./constants');
@@ -82,6 +82,15 @@ const writeEchoTemplateFiles = (gen, templatePath) => {
   gen.fs.copy(
     gen.templatePath(path.join(templatePath, `bot.${extension}`)),
     path.join(destinationPath, `bot.${extension}`)
+  );
+
+  // write out PREREQUISITES.md
+  gen.fs.copyTpl(
+    gen.templatePath(path.join(templatePath, 'PREREQUISITES.md')),
+    gen.destinationPath('PREREQUISITES.md'),
+    {
+      botname: gen.props.botname
+    }
   );
 
   // write out the  AI resource(s)

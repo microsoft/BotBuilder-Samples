@@ -48,7 +48,7 @@ cd ..
 # Basic bot in TypeScript
 #
 echo Generating my-basic-bot-ts
-yo botbuilder -N "my-basic-bot-ts" -D "An basic bot in ts" -L "TypeScript" -T "basic" --noprompt
+yo botbuilder -N "my-basic-bot-ts" -D "A basic bot in ts" -L "TypeScript" -T "basic" --noprompt
 cd ./my-basic-bot-ts
 echo building and linting my-basic-bot-ts
 npm run build && npm run lint
@@ -59,7 +59,7 @@ cd ..
 # Basic bot in JavaScript
 #
 echo Generating my-basic-bot-js
-yo botbuilder -N "my-basic-bot-js" -D "An basic bot in js" -L "JavaScript" -T "basic" --noprompt
+yo botbuilder -N "my-basic-bot-js" -D "A basic bot in js" -L "JavaScript" -T "basic" --noprompt
 cd ./my-basic-bot-js
 echo linting my-basic-bot-js
 npm run lint

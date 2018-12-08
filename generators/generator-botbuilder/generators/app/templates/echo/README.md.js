@@ -5,11 +5,11 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
 
 ## Prerequisites
 - [Node.js][4] version 8.5 or higher
-
-```bash
-# determine node version
-node --version
-```
+    ```bash
+    # determine node version
+    node --version
+    ```
+- [Azure Deployment Prerequisites][41]
 
 # To run the bot
 - Install modules
@@ -67,3 +67,4 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
+[41]: ./PREREQUISITES.md
