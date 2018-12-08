@@ -1,3 +1,6 @@
+import { CLIENT_RENEG_LIMIT } from "tls";
+import { ChannelAccount } from "botframework-connector/lib/connectorApi/models/mappers";
+
 # <%= botname %>
 <%= description %>
 
@@ -13,12 +16,18 @@ This samples shows how to:
 
 ## Prerequisites
 - [Node.js][4] version 8.5 or higher
+    ```bash
+    # determine node version
+    node --version
+    ```
+- [Az CLI][42] version 2.0.52 or higher
+- [Az Bot CLI Extension] 0.4.3 or higher
+- [msbot CLI][43] version 4.2.0 or higher
+- Azure Account
+- LUIS Account
+
 - [LUIS Service Application][41]
 
-```bash
-# determine node version
-node --version
-```
 
 # To run the bot
 - Install modules
@@ -79,3 +88,4 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 [32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
 [41]: ./COGNITIVE_SERVICES.md
+[42]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest

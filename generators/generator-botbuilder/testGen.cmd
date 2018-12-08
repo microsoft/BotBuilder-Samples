@@ -9,8 +9,7 @@ cd ./my-empty-bot-ts
 echo building and linting my-empty-bot-ts
 npm run build && npm run lint
 cd ..
-echo Cleaning up...
-rm -rf ./my-empty-bot-ts
+
 
 #
 # Empty bot in JavaScript
@@ -21,8 +20,7 @@ cd ./my-empty-bot-js
 echo linting my-empty-bot-js
 npm run lint
 cd ..
-echo Cleaning up...
-rm -rf ./my-empty-bot-js
+
 
 #
 # Echo bot in TypeScript
@@ -33,8 +31,6 @@ cd ./my-echo-bot-ts
 echo building and linting my-echo-bot-ts
 npm run build && npm run lint
 cd ..
-echo Cleaning up...
-rm -rf ./my-echo-bot-ts
 
 
 #
@@ -46,8 +42,6 @@ cd ./my-echo-bot-js
 echo linting my-echo-bot-js
 npm run lint
 cd ..
-echo Cleaning up...
-rm -rf ./my-echo-bot-js
 
 
 #
@@ -59,8 +53,6 @@ cd ./my-basic-bot-ts
 echo building and linting my-basic-bot-ts
 npm run build && npm run lint
 cd ..
-echo Cleaning up...
-rm -rf ./my-basic-bot-ts
 
 
 #
@@ -72,5 +64,35 @@ cd ./my-basic-bot-js
 echo linting my-basic-bot-js
 npm run lint
 cd ..
+
+
+## Clean up all the generated projects ##
 echo Cleaning up...
+
+#
+# Empty bot in JavaScript
+#
+rm -rf ./my-empty-bot-js
+
+#
+# Echo bot in TypeScript
+#
+rm -rf ./my-echo-bot-ts
+
+
+#
+# Echo bot in JavaScript
+#
+rm -rf ./my-echo-bot-js
+
+
+#
+# Basic bot in TypeScript
+#
+rm -rf ./my-basic-bot-ts
+
+
+#
+# Basic bot in JavaScript
+#
 rm -rf ./my-basic-bot-js

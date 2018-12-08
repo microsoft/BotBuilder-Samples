@@ -6,10 +6,10 @@
     "license": "MIT",
     "main": "<%= npmMain %>",
     "scripts": {
-        "start": "node ./index.js",
-        "watch": "nodemon ./index.js",
         "lint": "./node_modules/.bin/eslint .",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "node ./index.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "watch": "nodemon ./index.js"
     },
     "repository": {
         "type": "git",
