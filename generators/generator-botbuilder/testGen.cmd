@@ -70,6 +70,12 @@ cd ..
 echo Cleaning up...
 
 #
+# Empty bot in TypeScript
+#
+rm -rf ./my-empty-bot-ts
+
+
+#
 # Empty bot in JavaScript
 #
 rm -rf ./my-empty-bot-js
