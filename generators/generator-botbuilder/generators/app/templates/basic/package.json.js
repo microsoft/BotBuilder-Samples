@@ -33,6 +33,6 @@
         "eslint-plugin-node": "^8.0.0",
         "eslint-plugin-promise": "^4.0.1",
         "eslint-plugin-standard": "^4.0.0",
-        "nodemon": "^1.18.6"
+        "nodemon": "^1.18.7"
     }
 }
