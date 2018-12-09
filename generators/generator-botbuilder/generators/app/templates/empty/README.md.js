@@ -16,7 +16,7 @@ node --version
     ```bash
     npm install
     ```
-- Start the bot.
+- Start the bot
     ```bash
     npm start
     ```
