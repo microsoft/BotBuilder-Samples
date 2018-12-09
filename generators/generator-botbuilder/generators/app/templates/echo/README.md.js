@@ -9,14 +9,12 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
     # determine node version
     node --version
     ```
-- [Azure Deployment Prerequisites][41]
-
 # To run the bot
 - Install modules
     ```bash
     npm install
     ```
-- Start the bot.
+- Start the bot
     ```bash
     npm start
     ```
@@ -33,6 +31,10 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
 - Select `<%= botname %>.bot` file
 
 # Deploy the bot to Azure
+
+## Prerequisites
+- [Azure Deployment Prerequisites][41]
+
 After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.
 To learn how, see [Deploy your bot to Azure][40] for a complete set of deployment instructions.
 
