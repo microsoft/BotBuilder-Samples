@@ -7,10 +7,10 @@
     "main": "<%= npmMain %>",
     "scripts": {
         "build": "node_modules/.bin/tsc --build",
-        "start": "node_modules/.bin/tsc --build && node ./lib/index.js",
-        "watch": "node_modules/.bin/nodemon --watch ./src -e ts --exec \"npm run start\"",
         "lint": "node_modules/.bin/tslint -c tslint.json 'src/**/*.ts'",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "node_modules/.bin/tsc --build && node ./lib/index.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "watch": "node_modules/.bin/nodemon --watch ./src -e ts --exec \"npm run start\""
     },
     "repository": {
         "type": "git",

@@ -44,20 +44,8 @@ const writeEchoTemplateFiles = (gen, templatePath) => {
   }
 
   // write out deployment resources
-  let sourcePath = path.join(templatePath, folders[DEPLOYMENT_SCRIPTS]);
-  let destinationPath = path.join(gen.destinationPath(), folders[DEPLOYMENT_SCRIPTS]);
-
-  // if we're writing out TypeScript, then we need to add a webConfigPrep.js
-  if(_.toLower(gen.props.language) === LANG_TS) {
-    gen.fs.copy(
-      path.join(sourcePath, 'webConfigPrep.js'),
-      path.join(destinationPath, 'webConfigPrep.js')
-    );
-  }
-
-  // write out deployment resources
-  sourcePath = path.join(templatePath, folders[DEPLOYMENT_MSBOT]);
-  destinationPath = path.join(gen.destinationPath(), folders[DEPLOYMENT_MSBOT]);
+  let sourcePath = path.join(templatePath, folders[DEPLOYMENT_MSBOT]);
+  let destinationPath = path.join(gen.destinationPath(), folders[DEPLOYMENT_MSBOT]);
   gen.fs.copyTpl(
     path.join(sourcePath, 'bot.recipe'),
     path.join(destinationPath, 'bot.recipe'),
