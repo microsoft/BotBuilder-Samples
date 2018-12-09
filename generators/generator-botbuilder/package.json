@@ -1,6 +1,6 @@
 {
     "name": "generator-botbuilder",
-    "version": "4.1.20",
+    "version": "4.1.21",
     "description": "A yeoman generator for creating bots using Microsoft Bot Framework",
     "homepage": "https://github.com/Microsoft/BotBuilder-Samples/tree/master/generators/generator-botbuilder",
     "author": {
