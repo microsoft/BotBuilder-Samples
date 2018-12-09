@@ -33,7 +33,7 @@ This samples requires prerequisites in order to run.
     ```bash
     # Create LUIS service application
     msbot clone services --name "<%= botname %>"
-        --folder deploymentScripts\msbotClone
+        --folder deploymentScripts/msbotClone
         --location westus2
         --code-dir .
         --verbose
