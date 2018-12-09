@@ -1,4 +1,4 @@
-# Deployment Prerequisites
+# Azure Deployment Prerequisites
 This bot has prerequisite requirements in order to deploy the bot to Azure.
 
 This document will enumerate the required prerequisites and show how to install them.

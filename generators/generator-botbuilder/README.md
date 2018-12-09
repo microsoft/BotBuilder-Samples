@@ -169,6 +169,32 @@ To learn how, see [Deploy your bot to Azure][50] for a complete set of deploymen
 
 If you are new to Microsoft Azure, please refer to [Getting started with Azure][5] for guidance on how to get started on Azure.
 
+# Optionally Using Development Builds
+Development builds are based off of "work in progress" code.  This means they may or may not be stable and may have incomplete documentation.  These builds are better suited for more experienced users and developers, although aeveryone is welcome to give them a shot and provide feedback.
+
+You can get the latest development builds of `generator-botbuilder` from the [BotBuilder MyGet][51] feed.  To install the latest development build, follow the following steps:
+
+
+```bash
+# configure npm to pull from the developer builds registry
+npm config set registry https://botbuilder.myget.org/F/aitemplates/npm/
+```
+
+```bash
+# installing using npm
+npm install -g generator-botbuilder
+```
+
+```bash
+# reset npm to use the public registry
+npm config set registry https://registry.npmjs.org
+```
+
+Now when `yo botbuilder` is run, it will use the development build.  To remove the development build, run the following:
+```bash
+# installing using npm
+npm uninstall -g generator-botbuilder
+```
 
 # Logging Issues and Providing Feedback
 Issues and feedback about the botbuilder generator can be submitted through the project's [GitHub issues][12] page.
@@ -194,3 +220,4 @@ Issues and feedback about the botbuilder generator can be submitted through the 
 [45]: https://docs.microsoft.com/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.
 [46]: https://docs.microsoft.com/azure/bot-service/bot-builder-howto-handle-user-interrupt?view=azure-bot-service-4.0
 [50]: https://aka.ms/azuredeployment
+[51]: https://botbuilder.myget.org/gallery

@@ -1,7 +1,7 @@
-# Sample Prerequisites
-This bot has prerequisite requirements in order to run.
+# Bot Prerequisites
+This bot has prerequisites that must be installed in order for the bot to function properly.
 
-These prerequisites must be installed in order for the bot to function.  This document will enumerate the required prerequisites and show how to install them.
+This document will enumerate the required prerequisites and show how to install them.
 
 ## Overview
 This bot uses [LUIS][1], an AI based cognitive service, to implement language understanding.  The Bot Framework provides a set of CLI tools that will help setup LUIS so the bot can be run and tested locally.  Additionally, prerequisites are provided that will enable the bot to be deployed to Azure using additional CLI tools.
