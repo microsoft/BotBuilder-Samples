@@ -95,16 +95,6 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     path.join(destinationPath, 'basicBot.luis')
   );
 
-  // if we're writing out TypeScript, then we need to add a webConfigPrep.js
-  if(_.toLower(gen.props.language) === LANG_TS) {
-    sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_SCRIPTS]);
-    destinationPath = path.join(gen.destinationPath(), destFolders[DEPLOYMENT_SCRIPTS]);
-    gen.fs.copy(
-      path.join(sourcePath, 'webConfigPrep.js'),
-      path.join(destinationPath, 'webConfigPrep.js')
-    );
-  }
-
   // write out deployment resources
   sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_MSBOT]);
   destinationPath = path.join(gen.destinationPath(), destFolders[DEPLOYMENT_MSBOT]);
