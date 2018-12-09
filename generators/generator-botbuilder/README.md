@@ -196,7 +196,6 @@ Now when `yo botbuilder` is run, it will use the development build.  To remove t
 npm uninstall -g generator-botbuilder
 ```
 
-
 # Logging Issues and Providing Feedback
 Issues and feedback about the botbuilder generator can be submitted through the project's [GitHub issues][12] page.
 
