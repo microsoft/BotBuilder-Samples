@@ -19,12 +19,12 @@
     },
     "dependencies": {
         "botbuilder": "^4.1.5",
+        "replace": "^1.0.0",
         "restify": "^7.2.3"
     },
     "devDependencies": {
         "@types/restify": "7.2.6",
         "nodemon": "^1.18.7",
-        "replace": "^1.0.0",
         "tslint": "^5.11.0",
         "typescript": "^3.1.6"
     }
