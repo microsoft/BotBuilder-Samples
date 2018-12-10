@@ -12,7 +12,7 @@ This samples shows how to:
 
 
 ## Prerequisites
-This samples requires prerequisites in order to run.
+This sample requires prerequisites in order to run.
 - [Required Prerequisites][41]
 
 # To run the bot
@@ -20,6 +20,11 @@ This samples requires prerequisites in order to run.
     ```bash
     npm install
     ```
+- Build the bot source code
+    ```bash
+    npm run build
+    ```
+
 - Setup LUIS
     Assuming prerequisites have been installed:
     ```bash
@@ -31,12 +36,8 @@ This samples requires prerequisites in order to run.
     az account set --subscription "<azure-subscription>"
     ```
     ```bash
-    # Create LUIS service application
-    msbot clone services --name "<%= botname %>"
-        --folder deploymentScripts/msbotClone
-        --location westus2
-        --code-dir .
-        --verbose
+    # Create LUIS service application, provision Azure Bot Service host
+    msbot clone services --name "<%= botname %>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
     ```
 - Start the bot
     ```bash
@@ -55,8 +56,29 @@ This samples requires prerequisites in order to run.
 - Select `<%= botname %>.bot` file
 
 # Deploy the bot to Azure
-After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.
-To learn how, see [Deploy your bot to Azure][40] for a complete set of deployment instructions.
+After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.  To deploy your bot to Azure:
+
+```bash
+# login to Azure
+az login
+```
+
+## Publishing Changes to Azure Bot Service
+As you make changes to your locally running bot, you can deploy those changes to Azure Bot Service using a _publish_ helper.  See `publish.cmd` if you are on Windows or `./publish` if you are on a non-Windows platform.  The following is an example of publishing local changes to Azure:
+
+
+```bash
+# build the TypeScript bot before you publish
+npm run build
+```
+
+```bash
+# run the publish helper (non-Windows) to update Azure Bot Service.  Use publish.cmd if running on Windows
+./publish
+```
+
+## Getting Additional Help with Deploying to Azure
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 
 # Further reading

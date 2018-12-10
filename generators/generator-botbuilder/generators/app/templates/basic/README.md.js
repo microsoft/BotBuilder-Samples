@@ -32,11 +32,7 @@ This samples requires prerequisites in order to run.
     ```
     ```bash
     # Create LUIS service application
-    msbot clone services --name "<%= botname %>"
-        --folder deploymentScripts/msbotClone
-        --location westus2
-        --code-dir .
-        --verbose
+    msbot clone services --name "<%= botname %>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
     ```
 - Start the bot
     ```bash
@@ -73,8 +69,6 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 - [dotenv][31]
 
 [1]: https://dev.botframework.com
-[2]: https://www.typescriptlang.org
-[3]: https://www.typescriptlang.org/#download-links
 [4]: https://nodejs.org
 [5]: https://github.com/microsoft/botframework-emulator
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
