@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromptValidationsBot", "10.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnABot", "11.qnamaker\QnABot.csproj", "{E8A19507-8EB5-4B37-B592-AB8316283A6F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuisBot", "12.nlp-with-luis\LuisBot.csproj", "{A3ED8ED5-B90D-4BA2-BF8B-526A16BDD750}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicBot", "13.basic-bot\BasicBot.csproj", "{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLP-With-Dispatch-Bot", "14.nlp-with-dispatch\NLP-With-Dispatch-Bot.csproj", "{2D9935A3-7F48-47DE-9C8A-1270CF125949}"
@@ -58,8 +60,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScaleoutBot", "42.scaleout\ScaleoutBot.csproj", "{F0C62727-49E2-4DAB-984A-1038A9A9990A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmptyBot", "00.empty-bot\EmptyBot.csproj", "{53C3CFFC-BCBE-4551-8FCD-A23FBC0716BB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuisBot", "12.nlp-with-luis\LuisBot.csproj", "{A3ED8ED5-B90D-4BA2-BF8B-526A16BDD750}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
