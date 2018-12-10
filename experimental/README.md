@@ -32,8 +32,8 @@ Experimental samples are organized per platform.
 
 [wa#2]:csharp_webapi/#
 
-[ts#1]:javascript_typescript/javascript_typescript
+[ts#1]:javascript_typescript/60.multilingual-luis-bot
 
-[js#1]:samples/javascript_nodejs/javascript_typescript
+[js#1]:javascript_typescript/60.multilingual-luis-bot
 
 
