@@ -9,16 +9,6 @@
             "appPassword": "",
             "endpoint": "http://localhost:3978/api/messages"
         }
-        {
-            "type": "qna",
-            "id": "qnamakerService",
-            "name": "qnamakerService",
-            "kbId": "",
-            "subscriptionKey": "",
-            "endpointKey": "",
-            "hostname": "",
-            "ignoredValue": ""
-        }
     ],
     "padlock": "",
     "version": "2.0"

@@ -8,14 +8,6 @@
       "appId": "",
       "appPassword": "",
       "id": "1"
-    },
-    {
-      "type": "endpoint",
-      "name": "production",
-      "endpoint": "https://$safeprojectname$.azurewebsites.net/api/messages",
-      "appId": "<YOUR APP ID>",
-      "appPassword": "<YOUR APP PASSWORD>",
-      "id": "2"
     }
   ],
   "padlock": "",

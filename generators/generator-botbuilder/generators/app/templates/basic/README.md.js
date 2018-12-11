@@ -4,7 +4,7 @@
 This bot has been created using [Microsoft Bot Framework][1].
 
 This samples shows how to:
-- Use [LUIS][2] to implement core AI capabilities
+- Use [LUIS][11] to implement core AI capabilities
 - Implement a multi-turn conversation using Dialogs
 - Handle user interruptions for such things as Help or Cancel
 - Prompt for and validate requests for information from the user
@@ -12,20 +12,29 @@ This samples shows how to:
 
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher
-- [LUIS Service Application][41]
-
-```bash
-# determine node version
-node --version
-```
+This samples requires prerequisites in order to run.
+- [Required Prerequisites][41]
 
 # To run the bot
 - Install modules
     ```bash
     npm install
     ```
-- Start the bot.
+- Setup LUIS
+    Assuming prerequisites have been installed:
+    ```bash
+    # log into Azure
+    az login
+    ```
+    ```bash
+    # set you Azure subscription
+    az account set --subscription "<azure-subscription>"
+    ```
+    ```bash
+    # Create LUIS service application
+    msbot clone services --name "<%= botname %>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
+    ```
+- Start the bot
     ```bash
     npm start
     ```
@@ -60,8 +69,6 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 - [dotenv][31]
 
 [1]: https://dev.botframework.com
-[2]: https://www.typescriptlang.org
-[3]: https://www.typescriptlang.org/#download-links
 [4]: https://nodejs.org
 [5]: https://github.com/microsoft/botframework-emulator
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
@@ -77,4 +84,4 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./CONGITIVE_SERVICES.md
+[41]: ./PREREQUISITES.md

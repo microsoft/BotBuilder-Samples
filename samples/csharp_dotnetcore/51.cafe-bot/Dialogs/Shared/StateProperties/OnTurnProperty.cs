@@ -51,7 +51,28 @@ namespace Microsoft.BotBuilderSamples
                     continue;
                 }
 
-                onTurnProperties.Entities.Add(new EntityProperty(entity, value));
+                object property = null;
+                var val = value.First();
+                if (val.Type == JTokenType.Array)
+                {
+                    var arr = (JArray)val;
+                    property = arr[0].ToString(); // Store first value
+                }
+                else if (val.Type == JTokenType.Object)
+                {
+                    var obj = (JObject)val;
+                    if (obj["type"].ToString() == "datetime")
+                    {
+                        property = val;  // Store the JToken from LUIS (includes Timex)
+                    }
+                }
+                else if (val.Type == JTokenType.Integer)
+                {
+                    var num = (JValue)val;
+                    property = val.ToString();  // Store string for number of guests
+                }
+
+                onTurnProperties.Entities.Add(new EntityProperty(entity, property));
             }
 
             return onTurnProperties;
@@ -62,19 +83,21 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="cardValues">context.activity.value from a card interaction</param>
         /// <returns>OnTurnProperty.</returns>
-        public static OnTurnProperty FromCardInput(Dictionary<string, string> cardValues)
+        public static OnTurnProperty FromCardInput(JObject cardValues)
         {
             // All cards used by this bot are adaptive cards with the card's 'data' property set to useful information.
             var onTurnProperties = new OnTurnProperty();
-            foreach (KeyValuePair<string, string> entry in cardValues)
+            foreach (var val in cardValues)
             {
-                if (!string.IsNullOrWhiteSpace(entry.Key) && string.Compare(entry.Key.ToLower().Trim(), "intent") == 0)
+                string name = val.Key;
+                JToken value = val.Value;
+                if (!string.IsNullOrWhiteSpace(name) && string.Compare(name.ToLower().Trim(), "intent") == 0)
                 {
-                    onTurnProperties.Intent = cardValues[entry.Key];
+                    onTurnProperties.Intent = value.ToString();
                 }
                 else
                 {
-                    onTurnProperties.Entities.Add(new EntityProperty(entry.Key, cardValues[entry.Key]));
+                    onTurnProperties.Entities.Add(new EntityProperty(name, value.ToString()));
                 }
             }
 

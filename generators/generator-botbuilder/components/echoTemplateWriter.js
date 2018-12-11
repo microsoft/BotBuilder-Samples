@@ -1,15 +1,17 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const path = require('path');
 const _ = require('lodash');
 const mkdirp = require('mkdirp');
+const path = require('path');
 
 const { commonFilesWriter } = require('./commonFilesWriter');
 const { BOT_TEMPLATE_NAME_SIMPLE,  BOT_TEMPLATE_NOPROMPT_SIMPLE } = require('./constants');
 
 // generators/app/templates folder name
 const GENERATOR_TEMPLATE_NAME = 'echo';
+
+const LANG_TS = 'typescript';
 
 /**
  * Write the files that are specific to the echo bot template
@@ -18,9 +20,15 @@ const GENERATOR_TEMPLATE_NAME = 'echo';
  * @param {String} templatePath file path to write the generated code
  */
 const writeEchoTemplateFiles = (gen, templatePath) => {
-  const RESOURCES = 0;
+  const COGNITIVE_MODELS = 0;
+  const DEPLOYMENT_SCRIPTS = 1;
+  const DEPLOYMENT_MSBOT = 2;
+  const RESOURCES = 3;
   const TS_SRC_FOLDER = 'src'
   const folders = [
+    'cognitiveModels',
+    'deploymentScripts',
+    path.join('deploymentScripts', 'msbotClone'),
     'resources'
   ];
   const extension = _.toLower(gen.props.language) === 'javascript' ? 'js' : 'ts';
@@ -31,9 +39,31 @@ const writeEchoTemplateFiles = (gen, templatePath) => {
     mkdirp.sync(folders[cnt]);
   }
   // create a src directory if we are generating TypeScript
-  if (_.toLower(gen.props.language) === 'typescript') {
+  if (_.toLower(gen.props.language) === LANG_TS) {
     mkdirp.sync(TS_SRC_FOLDER);
   }
+
+  let sourcePath = path.join(templatePath, folders[DEPLOYMENT_SCRIPTS]);
+  let destinationPath = path.join(gen.destinationPath(), folders[DEPLOYMENT_SCRIPTS]);
+
+   // if we're writing out TypeScript, then we need to add a webConfigPrep.js
+   if(_.toLower(gen.props.language) === LANG_TS) {
+     gen.fs.copy(
+       path.join(sourcePath, 'webConfigPrep.js'),
+       path.join(destinationPath, 'webConfigPrep.js')
+     );
+   }
+
+  // write out deployment resources
+  sourcePath = path.join(templatePath, folders[DEPLOYMENT_MSBOT]);
+  destinationPath = path.join(gen.destinationPath(), folders[DEPLOYMENT_MSBOT]);
+  gen.fs.copyTpl(
+    path.join(sourcePath, 'bot.recipe'),
+    path.join(destinationPath, 'bot.recipe'),
+    {
+      botname: gen.props.botname
+    }
+  );
 
   // write out the index.js and bot.js
   destinationPath = path.join(gen.destinationPath(), srcFolder);
@@ -46,10 +76,20 @@ const writeEchoTemplateFiles = (gen, templatePath) => {
       botname: gen.props.botname
     }
   );
+
   // gen the main bot activity router
   gen.fs.copy(
     gen.templatePath(path.join(templatePath, `bot.${extension}`)),
     path.join(destinationPath, `bot.${extension}`)
+  );
+
+  // write out PREREQUISITES.md
+  gen.fs.copyTpl(
+    gen.templatePath(path.join(templatePath, 'PREREQUISITES.md')),
+    gen.destinationPath('PREREQUISITES.md'),
+    {
+      botname: gen.props.botname
+    }
   );
 
   // write out the  AI resource(s)

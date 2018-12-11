@@ -4,7 +4,7 @@
 This bot has been created using [Microsoft Bot Framework][1].
 
 This samples shows how to:
-- Use [LUIS][2] to implement core AI capabilities
+- Use [LUIS][11] to implement core AI capabilities
 - Implement a multi-turn conversation using Dialogs
 - Handle user interruptions for such things as Help or Cancel
 - Prompt for and validate requests for information from the user
@@ -12,20 +12,34 @@ This samples shows how to:
 
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher
-- [LUIS Service Application][41]
-
-```bash
-# determine node version
-node --version
-```
+This sample requires prerequisites in order to run.
+- [Required Prerequisites][41]
 
 # To run the bot
 - Install modules
     ```bash
     npm install
     ```
-- Start the bot.
+- Build the bot source code
+    ```bash
+    npm run build
+    ```
+
+- Setup LUIS
+    Assuming prerequisites have been installed:
+    ```bash
+    # log into Azure
+    az login
+    ```
+    ```bash
+    # set you Azure subscription
+    az account set --subscription "<azure-subscription>"
+    ```
+    ```bash
+    # Create LUIS service application, provision Azure Bot Service host
+    msbot clone services --name "<%= botname %>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
+    ```
+- Start the bot
     ```bash
     npm start
     ```
@@ -42,8 +56,29 @@ node --version
 - Select `<%= botname %>.bot` file
 
 # Deploy the bot to Azure
-After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.
-To learn how, see [Deploy your bot to Azure][40] for a complete set of deployment instructions.
+After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.  To deploy your bot to Azure:
+
+```bash
+# login to Azure
+az login
+```
+
+## Publishing Changes to Azure Bot Service
+As you make changes to your locally running bot, you can deploy those changes to Azure Bot Service using a _publish_ helper.  See `publish.cmd` if you are on Windows or `./publish` if you are on a non-Windows platform.  The following is an example of publishing local changes to Azure:
+
+
+```bash
+# build the TypeScript bot before you publish
+npm run build
+```
+
+```bash
+# run the publish helper (non-Windows) to update Azure Bot Service.  Use publish.cmd if running on Windows
+./publish
+```
+
+## Getting Additional Help with Deploying to Azure
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 
 # Further reading
@@ -56,6 +91,7 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 - [msbot CLI][9]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
+- [Add Natural Language Understanding to Your Bot][12]
 - [TypeScript][2]
 - [Restify][30]
 - [dotenv][31]
@@ -71,6 +107,7 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 [9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [10]: https://portal.azure.com
 [11]: https://www.luis.ai
+[12]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js#configure-your-bot-to-use-your-luis-app
 [20]: https://docs.botframework.com
 [21]: https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
 [22]: https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0
@@ -78,4 +115,4 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./COGNITIVE_SERVICES.md
+[41]: ./PREREQUISITES.md

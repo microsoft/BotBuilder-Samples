@@ -1,25 +1,15 @@
 {
-  "name": "<%= botname %>",
-  "secretKey": "",
-  "services": [
-    {
-      "type": "endpoint",
-      "name": "development",
-      "id": "1",
-      "appId": "",
-      "appPassword": "",
-      "endpoint": "http://localhost:3978/api/messages"
-    },
-    {
-        "type": "luis",
-        "name": "<%= botname %>-LUIS",
-        "appId": "____ADD_APPLICATION_ID_HERE____",
-        "version": "0.1",
-        "authoringKey": "____ADD_AUTHORING_KEY_HERE____",
-        "subscriptionKey": "",
-        "region": "____ADD_REGION_HERE____",
-        "id": "588"
-    }
-
-  ]
+    "name": "<%= botname %>",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "development",
+            "endpoint": "http://localhost:3978/api/messages",
+            "appId": "",
+            "appPassword": "",
+            "id": "1"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0"
 }
