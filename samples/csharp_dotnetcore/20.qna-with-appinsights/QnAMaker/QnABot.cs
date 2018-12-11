@@ -22,7 +22,7 @@ namespace Microsoft.BotBuilderSamples
         /// Key in the bot config (.bot file) for the QnAMaker instance.
         /// In the ".bot" file, multiple instances of QnAMaker can be configured.
         /// </summary>
-        public static readonly string QnAMakerKey = "QnABot";
+        public static readonly string QnAMakerKey = "qna-with-insights-QnAMaker";
 
         private const string WelcomeText = "This bot will introduce you to QnA Maker. Type a greeting or question to get started";
 

@@ -85,13 +85,13 @@ namespace Microsoft.BotBuilderSamples
 
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
-                // Add TelemetryLoggerMiddleware (logs activity messages into Application Insights)
-                var appInsightsLogger = new TelemetryLoggerMiddleware(connectedServices.TelemetryClient.InstrumentationKey, logUserName: true, logOriginalMessage: true);
-                options.Middleware.Add(appInsightsLogger);
-
                 // Creates a telemetryClient for OnTurnError handler.
                 var sp = services.BuildServiceProvider();
                 var telemetryClient = sp.GetService<IBotTelemetryClient>();
+
+                // Add TelemetryLoggerMiddleware (logs activity messages into Application Insights)
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
+                options.Middleware.Add(appInsightsLogger);
 
                 // Catches any errors that occur during a conversation turn and logs them.
                 options.OnTurnError = async (context, exception) =>
@@ -154,8 +154,7 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="TelemetryClient"/>
         private static BotServices InitBotServices(BotConfiguration config)
         {
-            TelemetryClient telemetryClient = null;
-            var qnaServices = new Dictionary<string, QnAMaker>();
+            var qnaServices = new Dictionary<string, TelemetryQnaMaker>();
 
             foreach (var service in config.Services)
             {
@@ -215,15 +214,12 @@ namespace Microsoft.BotBuilderSamples
                                 throw new InvalidOperationException("The Application Insights Instrumentation Key ('instrumentationKey') is required to run this sample.  Please update your '.bot' file.");
                             }
 
-                            var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
-                            telemetryClient = new TelemetryClient(telemetryConfig);
-                            telemetryClient.InstrumentationKey = appInsights.InstrumentationKey;
                             break;
                         }
                 }
             }
 
-            var connectedServices = new BotServices(telemetryClient, qnaServices);
+            var connectedServices = new BotServices(qnaServices);
             return connectedServices;
         }
     }
