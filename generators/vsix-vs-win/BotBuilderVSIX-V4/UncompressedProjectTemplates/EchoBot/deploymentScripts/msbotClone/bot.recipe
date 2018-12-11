@@ -3,7 +3,7 @@
   "resources": [
     {
       "type": "endpoint",
-      "id": "1",
+      "id": "90",
       "name": "development",
       "url": "http://localhost:3978/api/messages"
     },
@@ -16,17 +16,7 @@
     {
       "type": "abs",
       "id": "3",
-      "name": "nlp-with-luis-abs"
-    },
-    {
-      "type": "appInsights",
-      "id": "4",
-      "name": "nlp-with-luis-insights"
-    },
-    {
-      "type": "luis",
-      "id": "34",
-      "name": "nlp-with-luis-LUIS"
+      "name": "$safeprojectname$"
     }
   ]
 }

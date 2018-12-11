@@ -22,6 +22,11 @@
       <Folder Name="wwwroot" TargetFolderName="wwwroot">
         <ProjectItem ReplaceParameters="true">default.htm</ProjectItem>
       </Folder>
+      <Folder Name="deploymentScripts" TargetFolderName="deploymentScripts">
+        <Folder Name="msbotClone" TargetFolderName="msbotClone">
+          <ProjectItem ReplaceParameters="true">bot.recipe</ProjectItem>
+        </Folder>
+      </Folder>
       <ProjectItem ReplaceParameters="true">appsettings.json</ProjectItem>      
       <ProjectItem ReplaceParameters="true">CounterState.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true">Program.cs</ProjectItem>

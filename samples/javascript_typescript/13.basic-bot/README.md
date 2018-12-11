@@ -8,25 +8,45 @@ This samples shows how to:
 - Implement a multi-turn conversation using Dialogs
 - Handle user interruptions for such things as 'Help' or 'Cancel'
 - Prompt for and validate requests for information from the user
+- Demonstrate how to handle any unexpected errors
 
 ## Prerequisite
-- [Node.js][4]
-- LUIS Application
+This sample requires prerequisites in order to run.
+- [Required Prerequisites][41]
+
 
 ## To try this sample
 - Clone the repository
-  ```bash
-  git clone https://github.com/microsoft/botbuilder-samples.git
-  ```
+    ```bash
+    git clone https://github.com/microsoft/botbuilder-samples.git
+    ```
 - In a terminal, navigate to `samples/javascript_typescript/13.basic-bot`
-  ```bash
-  cd samples/javascript_typescript/13.basic-bot
-  ```
+    ```bash
+    cd samples/javascript_typescript/13.basic-bot
+    ```
 - Install modules
-  ```bash
-  npm install
-  ```
-- Create [required services](./deploymentScripts/DEPLOY.MD)
+    ```bash
+    npm install
+    ```
+- Build the bot source code
+    ```bash
+    npm run build
+    ```
+
+- Setup LUIS
+    Assuming prerequisites have been installed:
+    ```bash
+    # log into Azure
+    az login
+    ```
+    ```bash
+    # set you Azure subscription
+    az account set --subscription "<azure-subscription>"
+    ```
+    ```bash
+    # Create LUIS service application
+    msbot clone services --name "<%= botname %>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
+    ```
 - Run the sample
   ```bash
   npm start
@@ -40,11 +60,34 @@ This samples shows how to:
 
 ### Connect to bot using Bot Framework Emulator v4
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to `samples/javascript_typescript/13.basic-bot` folder
+- File -> Open Bot Configuration
+- Navigate to `samples/javascript_typescript/13.basic-bot` folder
 - Select `basic-bot.bot` file
 
-## Deploy this bot to Azure
-See [here](./deploymentScripts/DEPLOY.md) to learn more about deploying this bot to Azure and using the CLI tools to build the LUIS models this bot depends on.
+# Deploy the bot to Azure
+After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.  To deploy your bot to Azure:
+
+```bash
+# login to Azure
+az login
+```
+
+### Publishing Changes to Azure Bot Service
+As you make changes to your locally running bot, you can deploy those changes to Azure Bot Service using a _publish_ helper.  See `publish.cmd` if you are on Windows or `./publish` if you are on a non-Windows platform.  The following is an example of publishing local changes to Azure:
+
+```bash
+# build the TypeScript bot before you publish
+npm run build
+```
+
+```bash
+# run the publish helper (non-Windows) to update Azure Bot Service.  Use publish.cmd if running on Windows
+./publish
+```
+
+### Getting Additional Help with Deploying to Azure
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
+
 
 ## Further Reading
 - [Bot Framework Documentation](https://docs.botframework.com)
@@ -56,34 +99,9 @@ See [here](./deploymentScripts/DEPLOY.md) to learn more about deploying this bot
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [QnA Maker](https://qnamaker.ai)
 
-## Additional Resources
 
-### Dependencies
-
-- **[Restify](http://restify.com)** Used to host the web service for the bot, and for making REST calls
-- **[dotenv](https://github.com/motdotla/dotenv)** Used to manage environmental variables
-
-### Project Structure
-
-`index.ts` references the bot and starts a Restify server. `bot.ts` loads the dialog type you selected when running the generator and adds it as the default dialog.
-
-### Configuring the bot
-
-Update `.env` with the appropriate keys botFilePath and botFileSecret.
-  - For Azure Bot Service bots, you can find the botFileSecret under application settings.
-  - If you use [MSBot CLI](https://github.com/microsoft/botbuilder-tools) to encrypt your bot file, the botFileSecret will be written out to the console window.
-  - If you used [Bot Framework Emulator **V4**](https://github.com/microsoft/botframework-emulator) to encrypt your bot file, the secret key will be available in bot settings.
-
-### Running the bot
-
-```
-npm start
-```
-### Developing the bot
-
-```
-npm run watch
-```
+[40]: https://aka.ms/azuredeployment
+[41]: ./PREREQUISITES.md
 
 
 
