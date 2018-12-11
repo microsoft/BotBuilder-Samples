@@ -45,7 +45,7 @@ az login
 
 ```bash
 # provision Azure Bot Services resources to host your bot
-msbot clone services --name "<%= botname %>" --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
+msbot clone services --name "<%= botname %>" --code-dir "." --location <azure region like eastus, westus, westus2 etc.> --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
 ```
 
 ## Publishing Changes to Azure Bot Service
