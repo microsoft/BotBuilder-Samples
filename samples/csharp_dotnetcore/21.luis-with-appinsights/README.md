@@ -28,9 +28,9 @@ This samples requires prerequisites in order to run.
     ```
     ```bash
     # Create LUIS service application
-    msbot clone services --name "luis-with-appinsights2"
+    msbot clone services --name "<your-bot-name>"
         --folder "DeploymentScripts/MsbotClone""
-        --location westus
+        --location <azure region like eastus, westus, westus2 etc.>
         --luisAuthoringKey "<luis-authoring-key>""
         --verbose
     ```
@@ -53,7 +53,7 @@ This samples requires prerequisites in order to run.
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration
 - Navigate to `21.luis-with-appinsights` folder
-- Select `luis-with-appinsights2.bot` file
+- Select `<your-bot-name>.bot` file
 
 # Deploy the bot to Azure
 After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.
