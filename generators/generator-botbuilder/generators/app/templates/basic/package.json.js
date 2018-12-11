@@ -16,13 +16,13 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "^4.1.5",
-        "botbuilder-ai": "^4.1.5",
-        "botbuilder-core": "^4.1.5",
-        "botbuilder-dialogs": "^4.1.5",
-        "botframework-config": "^4.1.5",
-        "botframework-connector": "^4.1.5",
-        "botframework-schema": "^4.1.5",
+        "botbuilder": "^4.2.0",
+        "botbuilder-ai": "^4.2.0",
+        "botbuilder-core": "^4.2.0",
+        "botbuilder-dialogs": "^4.2.0",
+        "botframework-config": "^4.2.0",
+        "botframework-connector": "^4.2.0",
+        "botframework-schema": "^4.2.0",
         "dotenv": "^6.1.0",
         "restify": "^7.2.3"
     },

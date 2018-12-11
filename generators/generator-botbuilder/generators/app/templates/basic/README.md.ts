@@ -37,7 +37,7 @@ This sample requires prerequisites in order to run.
     ```
     ```bash
     # Create LUIS service application, provision Azure Bot Service host
-    msbot clone services --name "<%= botname %>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
+    msbot clone services --name "<%= botname %>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location <azure region like eastus, westus, westus2 etc.> --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
     ```
 - Start the bot
     ```bash
