@@ -18,8 +18,8 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "^4.1.5",
-        "botframework-config": "^4.1.5",
+        "botbuilder": "^4.2.0",
+        "botframework-config": "^4.2.0",
         "dotenv": "^6.1.0",
         "replace": "^1.0.0",
         "restify": "^7.2.3"
