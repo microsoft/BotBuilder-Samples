@@ -42,12 +42,12 @@ This samples requires prerequisites in order to run.
 # Testing the bot using Bot Framework Emulator **v4**
 [Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.1.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.1.0 or greater from [here][6].
 
 # Testing the bot using Bot Framework Emulator **v4**
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
+- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases).
 
 ## Connect to bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
@@ -59,7 +59,7 @@ After creating the bot and testing it locally, you can deploy it to Azure to mak
 To learn how, see [Deploy your bot to Azure][40] for a complete set of deployment instructions.
 
 # View metrics
-- Learn how to use [PowerBI, use Azure Monitor queries and Visual Studio][42] to view Application Insights data
+- Learn how to use [PowerBI, use Azure Monitor queries and Visual Studio][42] to view Application Insights data.
 
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
