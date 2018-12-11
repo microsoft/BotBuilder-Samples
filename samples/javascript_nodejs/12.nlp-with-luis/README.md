@@ -39,7 +39,7 @@ This samples requires prerequisites in order to run.
     ```
     ```bash
     # Create LUIS service application
-    msbot clone services --name "nlp-with-luis" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
+    msbot clone services --name "<your_bot_name>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
     ```
 - Start the bot
     ```bash
