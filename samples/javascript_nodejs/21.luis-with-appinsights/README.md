@@ -62,11 +62,15 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 - Learn how to use [PowerBI, use Azure Monitor queries and Visual Studio][42] to view Application Insights data.
 
 # Further reading
-- [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [LUIS Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)
-- [LUDown](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown)
-- [Application Insights](https://azure.microsoft.com/en-us/services/application-insights/)
-
+- [Bot Framework Documentation][20]
+- [Bot Basics][32]
+- [Azure Bot Service Introduction][21]
+- [Azure Bot Service Documentation][22]
+- [Deploying Your Bot to Azure][40]
+- [Azure CLI][7]
+- [msbot CLI][9]
+- [Azure Portal][10]
+- [Language Understanding using LUIS][11]
 
 [1]: https://dev.botframework.com
 [5]: https://github.com/microsoft/botframework-emulator
