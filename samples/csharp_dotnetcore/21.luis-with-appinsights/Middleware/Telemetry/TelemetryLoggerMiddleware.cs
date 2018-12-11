@@ -40,18 +40,18 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Initializes a new instance of the <see cref="TelemetryLoggerMiddleware"/> class.
         /// </summary>
-        /// <param name="instrumentationKey">The Application Insights instrumentation key.  See Application Insights for more information.</param>
+        /// <param name="telemetryClient">The IBotTelemetryClient for logging metric data.</param>
         /// <param name="logUserName"> (Optional) Enable/Disable logging user name within Application Insights.</param>
         /// <param name="logOriginalMessage"> (Optional) Enable/Disable logging original message name within Application Insights.</param>
         /// <param name="config"> (Optional) TelemetryConfiguration to use for Application Insights.</param>
-        public TelemetryLoggerMiddleware(string instrumentationKey, bool logUserName = false, bool logOriginalMessage = false)
+        public TelemetryLoggerMiddleware(IBotTelemetryClient telemetryClient, bool logUserName = false, bool logOriginalMessage = false)
         {
-            if (string.IsNullOrWhiteSpace(instrumentationKey))
+            if (telemetryClient == null)
             {
-                throw new ArgumentNullException(nameof(instrumentationKey));
+                throw new ArgumentNullException(nameof(telemetryClient));
             }
 
-            _telemetryClient = new BotTelemetryClient(new TelemetryClient());
+            _telemetryClient = telemetryClient;
             LogUserName = logUserName;
             LogOriginalMessage = logOriginalMessage;
         }
