@@ -4,7 +4,7 @@ This bot has prerequisites that must be installed in order for the bot to functi
 This document will enumerate the required prerequisites and show how to install them.
 
 ## Overview
-This bot uses [QnA Maker][1], an AI based cognitive service, to implement simple question and answer bot based on FAQ URLs, structured documents.  This bot also uses the [Azure Monitor Service][7] to provide monitoring and analytics support.  The Bot Framework provides a set of CLI tools that will help setup QnA so the bot can be run and tested locally.  Additionally, prerequisites are provided that will enable the bot to be deployed to Azure using additional CLI tools.
+The Bot Framework provides a set of CLI tools that will help setup the bot can be run and tested locally.  Additionally, prerequisites are provided that will enable the bot to be deployed to Azure using additional CLI tools.
 
 ## Prerequisites
 - [Visual Studio 2017 15.7][4] or newer installed.
