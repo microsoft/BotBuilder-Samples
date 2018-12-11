@@ -28,20 +28,16 @@ This samples requires prerequisites in order to run.
     ```
     ```bash
     # Create QnA Maker service application
-    msbot clone services --name "<your-bot-name>"
-        --folder "DeploymentScripts/MsbotClone"
-        --location <azure region like eastus, westus, westus2 etc.>
-        --verbose
+    msbot clone services --name "<your-bot-name>" --location <azure region like eastus, westus, westus2 etc.> --folder "DeploymentScripts/MsbotClone" --verbose
     ```
-    
 
 - Start the bot
-   - Visual Studio
-      - Navigate to the samples folder (`20.qna-with-appinsights`) and open `QnAABotAppInsights.csproj` in Visual Studio.
+   - If using Visual Studio:
+      - Navigate to the samples folder (`botBuilder-samples\samples\csharp_dotnetcore\20.qna-with-appinsights`) and open `QnAABotAppInsights.csproj` in Visual Studio.
       - Run the project (press `F5` key)
 
-   - .NET Core CLI
-      - Using the command line, navigate to `20.qna-with-appinsights` folder.
+   - If using .NET Core CLI:
+      - Using the command line, navigate to `botBuilder-samples\samples\csharp_dotnetcore\20.qna-with-appinsights` folder.
       - Type `dotnet run`.
 
 # Testing the bot using Bot Framework Emulator **v4**
@@ -52,7 +48,7 @@ This samples requires prerequisites in order to run.
 ## Connect to the bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration
-- Navigate to `20.qna-with-appinsights` folder
+- Navigate to `botBuilder-samples\samples\csharp_dotnetcore\20.qna-with-appinsights` folder
 - Select `<your-bot-name>.bot` file
 
 # Deploy the bot to Azure
