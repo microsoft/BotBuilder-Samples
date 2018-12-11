@@ -41,8 +41,14 @@ const APP_INSIGHTS_CONFIGURATION = 'appInsights';
 // Get bot endpoint configuration by service name.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 const qnaConfig = botConfig.findServiceByNameOrId(QNA_CONFIGURATION);
-const appInsightsConfig = botConfig.findServiceByNameOrId(APP_INSIGHTS_CONFIGURATION);
-
+const appInsightsConfig = APP_INSIGHTS_CONFIGURATION
+                                ? 
+                                botConfig.findServiceByNameOrId(APP_INSIGHTS_CONFIGURATION) 
+                                : 
+                                botConfig.services.filter((m) => m.type === 'appInsights').length ? botConfig.services.filter((m) => m.type === 'appInsights')[0] : null;
+if (!appInsightsConfig) {
+    throw new Error("No App Insights configuration was found.");
+}
 // Map the contents of qnaConfig to a consumable format for our MyAppInsightsQnAMaker class.
 const qnaEndpointSettings = {
     knowledgeBaseId: qnaConfig.kbId,

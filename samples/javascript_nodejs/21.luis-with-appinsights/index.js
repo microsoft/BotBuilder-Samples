@@ -41,11 +41,11 @@ const APP_INSIGHTS_CONFIGURATION = null; // Define a specific instance of Applic
 // Get bot endpoint configuration by service name.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
-const appInsightsConfig = APP_INSIGHTS_CONFIGURATION 
-                                ? 
-                                botConfig.findServiceByNameOrId(APP_INSIGHTS_CONFIGURATION) 
-                                : 
-                                botConfig.services.filter((m)=>m.type == 'appInsights').length ?  botConfig.services.filter((m)=>m.type == 'appInsights')[0] : null;
+const appInsightsConfig = APP_INSIGHTS_CONFIGURATION
+                                ?
+                                botConfig.findServiceByNameOrId(APP_INSIGHTS_CONFIGURATION)
+                                :
+                                botConfig.services.filter((m) => m.type === 'appInsights').length ? botConfig.services.filter((m) => m.type === 'appInsights')[0] : null;
 if (!appInsightsConfig) {
     throw new Error("No App Insights configuration was found.");
 }
