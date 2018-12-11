@@ -28,20 +28,16 @@ This samples requires prerequisites in order to run.
     ```
     ```bash
     # Create LUIS service application
-    msbot clone services --name "<your-bot-name>"
-        --folder "DeploymentScripts/MsbotClone""
-        --location <azure region like eastus, westus, westus2 etc.>
-        --luisAuthoringKey "<luis-authoring-key>""
-        --verbose
+    msbot clone services --name "<your-bot-name>" --luisAuthoringKey "<luis-authoring-key>" --location <azure region like eastus, westus, westus2 etc.> --folder "DeploymentScripts/MsbotClone" --verbose
     ```
 
 - Start the bot
-   - Visual Studio
-      - Navigate to the samples folder (`21.luis-with-appinsights`) and open `LuisBotAppInsights.csproj` in Visual Studio.
+   - If using Visual Studio:
+      - Navigate to the samples folder (`botBuilder-samples\samples\csharp_dotnetcore\21.luis-with-appinsights`) and open `LuisBotAppInsights.csproj` in Visual Studio.
       - Run the project (press `F5` key)
 
-   - .NET Core CLI
-      - Using the command line, navigate to `21.luis-with-appinsights` folder.
+   - If using .NET Core CLI:
+      - Using the command line, navigate to `botBuilder-samples\samples\csharp_dotnetcore\21.luis-with-appinsights` folder.
       - Type `dotnet run`.
 
 # Testing the bot using Bot Framework Emulator **v4**
@@ -52,7 +48,7 @@ This samples requires prerequisites in order to run.
 ## Connect to the bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration
-- Navigate to `21.luis-with-appinsights` folder
+- Navigate to `botBuilder-samples\samples\csharp_dotnetcore\21.luis-with-appinsights` folder
 - Select `<your-bot-name>.bot` file
 
 # Deploy the bot to Azure
@@ -77,8 +73,6 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 
 
 [1]: https://dev.botframework.com
-[2]: https://www.typescriptlang.org
-[3]: https://www.typescriptlang.org/#download-links
 [5]: https://github.com/microsoft/botframework-emulator
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
 [7]: https://docs.microsoft.com/cli/azure/?view=azure-cli-latest
