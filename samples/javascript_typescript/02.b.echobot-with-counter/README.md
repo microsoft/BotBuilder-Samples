@@ -63,8 +63,13 @@ az login
 ```
 
 ```bash
+# set you Azure subscription
+az account set --subscription "<azure-subscription>"
+```
+
+```bash
 # provision Azure Bot Services resources to host your bot
-msbot clone services -n echobot-with-counter  -l westus --sdkLanguage "Node" -f deploymentScripts/msbotClone
+msbot clone services --name "<your_bot_name>" --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
 ```
 
 ### Publishing Changes to Azure Bot Service

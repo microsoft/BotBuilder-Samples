@@ -19,7 +19,7 @@ This samples requires prerequisites in order to run.
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
-- In a console, navigate to s`amples/javascript_nodejs/12.nlp-with-luis`
+- In a console, navigate to `samples/javascript_nodejs/12.nlp-with-luis`
     ```bash
     cd samples/javascript_nodejs/12.nlp-with-luis
     ```

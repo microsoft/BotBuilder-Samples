@@ -45,7 +45,7 @@ This sample requires prerequisites in order to run.
     ```
     ```bash
     # Create LUIS service application
-    msbot clone services --name "<%= botname %>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
+    msbot clone services --name "<your_bot_name>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
     ```
 - Run the sample
   ```bash
