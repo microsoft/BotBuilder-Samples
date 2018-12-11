@@ -6,9 +6,9 @@ This bot has been created using [Microsoft Bot Framework][1].
 
 This samples shows how to:
 - Use [LUIS][11] to implement core AI capabilities
-- How to use Middleware to log messages to Application Insights.
-- How to log LUIS results to Application Insights.
-- Consume data using 
+- How to use Middleware to log messages to Application Insights
+- How to log LUIS results to Application Insights
+- View metrics using a PowerBI report, Azure Monitor queries or Visual Studio
 
 
 ## Prerequisites
@@ -59,6 +59,10 @@ This samples requires prerequisites in order to run.
 After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.
 To learn how, see [Deploy your bot to Azure][40] for a complete set of deployment instructions.
 
+# View metrics
+- Learn how to use [PowerBI, use Azure Monitor queries and Visual Studio][42] to view Application Insights data
+
+
 
 # Further reading
 - [Bot Framework Documentation][20]
@@ -88,3 +92,4 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 [32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
 [41]: ./PREREQUISITES.md
+[42]: https://aka.ms/botPowerBiTemplate
