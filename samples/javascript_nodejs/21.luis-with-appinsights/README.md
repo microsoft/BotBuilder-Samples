@@ -69,6 +69,7 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 
 
 [1]: https://dev.botframework.com
+[5]: https://github.com/microsoft/botframework-emulator
 [11]: https://www.luis.ai
 [40]: https://aka.ms/azuredeployment
 [41]: ./PREREQUISITES.md
