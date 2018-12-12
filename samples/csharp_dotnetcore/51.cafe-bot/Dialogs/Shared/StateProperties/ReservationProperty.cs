@@ -114,18 +114,15 @@ namespace Microsoft.BotBuilderSamples
             if (numberEntity != null)
             {
                 // We only accept MaxPartySize in a reservation.
-                if (((JArray)numberEntity.Value).Count == 1)
+                var partySize = int.Parse(numberEntity.Value as string);
+                if (partySize > MaxPartySize)
                 {
-                    var partySize = int.Parse(((JArray)numberEntity.Value)?[0]?.ToString());
-                    if (partySize > MaxPartySize)
-                    {
-                        returnResult.Outcome.Add(new ReservationOutcome($"Sorry. {int.Parse(numberEntity.Value as string)} does not work. I can only accept up to 10 guests in a reservation.", PartySizeEntity));
-                        returnResult.Status = ReservationStatus.Incomplete;
-                    }
-                    else
-                    {
-                        returnResult.NewReservation.PartySize = partySize;
-                    }
+                    returnResult.Outcome.Add(new ReservationOutcome($"Sorry. {int.Parse(numberEntity.Value as string)} does not work. I can only accept up to 10 guests in a reservation.", PartySizeEntity));
+                    returnResult.Status = ReservationStatus.Incomplete;
+                }
+                else
+                {
+                    returnResult.NewReservation.PartySize = partySize;
                 }
             }
 
@@ -134,7 +131,7 @@ namespace Microsoft.BotBuilderSamples
                 // Get parsed date time from TIMEX
                 // LUIS returns a timex expression and so get and un-wrap that.
                 // Take the first date time since book table scenario does not have to deal with multiple date times or date time ranges.
-                var timexProp = ((JArray)dateTimeEntity.Value)?[0]?["timex"]?[0]?.ToString();
+                var timexProp = ((JToken)dateTimeEntity.Value)?["timex"]?[0]?.ToString();
                 if (timexProp != null)
                 {
                     var today = DateTime.Now;
@@ -153,7 +150,7 @@ namespace Microsoft.BotBuilderSamples
                         parsedTimex.Minute != null &&
                         parsedTimex.Second != null)
                     {
-                        var timexOptions = ((JArray)dateTimeEntity.Value)?[0]?["timex"]?.ToObject<List<string>>();
+                        var timexOptions = ((JToken)dateTimeEntity.Value)?["timex"]?.ToObject<List<string>>();
 
                         var validtime = TimexRangeResolver.Evaluate(timexOptions, reservationTimeConstraints);
 
@@ -183,7 +180,7 @@ namespace Microsoft.BotBuilderSamples
             // Take the first found value.
             if (locationEntity != null)
             {
-                var cafeLocation = ((JArray)locationEntity.Value)?.FirstOrDefault()?.FirstOrDefault()?.ToString();
+                var cafeLocation = locationEntity.Value;
 
                 // Capitalize cafe location.
                 returnResult.NewReservation.Location = char.ToUpper(((string)cafeLocation)[0]) + ((string)cafeLocation).Substring(1);
@@ -192,7 +189,8 @@ namespace Microsoft.BotBuilderSamples
             // Accept confirmation entity if available only if we have a complete reservation
             if (confirmationEntity != null)
             {
-                if ((string)((JArray)confirmationEntity.Value)[0][0] == "yes")
+                var value = confirmationEntity.Value as string;
+                if (value != null && value == "yes")
                 {
                     returnResult.NewReservation.ReservationConfirmed = true;
                     returnResult.NewReservation.NeedsChange = false;

@@ -62,7 +62,7 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   const DIALOGS_GREETING_RESOURCES = 4;
   const DIALOGS_WELCOME = 5;
   const DIALOGS_WELCOME_RESOURCES = 6;
-  const TS_SRC_FOLDER = 'src/';
+  const TS_SRC_FOLDER = 'src';
 
   // get the folder strucure, based on language
   const srcFolders = [
@@ -77,7 +77,7 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   const destFolders = getFolders(_.toLower(gen.props.language));
 
   const extension = _.toLower(gen.props.language) === 'javascript' ? 'js' : 'ts';
-  const SRC_FOLDER = _.toLower(gen.props.language) === 'javascript' ? '' : TS_SRC_FOLDER;
+  const srcFolder = _.toLower(gen.props.language) === 'javascript' ? '' : TS_SRC_FOLDER;
   // if we're generating JS, then keep the json extension
   // if we're generating TS, then we need the extension to be js or tsc will complain (tsc v3.1.6)
   const cardExtension = _.toLower(gen.props.language) === 'javascript' ? 'json' : 'js';
@@ -95,18 +95,15 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     path.join(destinationPath, 'basicBot.luis')
   );
 
-  // write out the deployment doc
-  sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_SCRIPTS]);
-  destinationPath = path.join(gen.destinationPath(), destFolders[DEPLOYMENT_SCRIPTS]);
-  gen.fs.copy(
-    path.join(sourcePath, 'DEPLOYMENT.md'),
-    path.join(destinationPath, 'DEPLOYMENT.md'),
-    {
-      process: function (content) {
-        var pattern = new RegExp('<%= botname %>', 'g');
-        return content.toString().replace(pattern, gen.props.botname.toString());
-    }
-  });
+  // if we're writing out TypeScript, then we need to add a webConfigPrep.js
+  if(_.toLower(gen.props.language) === LANG_TS) {
+    sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_SCRIPTS]);
+    destinationPath = path.join(gen.destinationPath(), destFolders[DEPLOYMENT_SCRIPTS]);
+    gen.fs.copy(
+      path.join(sourcePath, 'webConfigPrep.js'),
+      path.join(destinationPath, 'webConfigPrep.js')
+    );
+  }
 
   // write out deployment resources
   sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_MSBOT]);
@@ -133,7 +130,6 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
       botname: gen.props.botname
     }
   );
-
   gen.fs.copy(
     path.join(sourcePath, `index.${extension}`),
     path.join(destinationPath, `index.${extension}`)
@@ -142,7 +138,6 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     path.join(sourcePath, `userProfile.${extension}`),
     path.join(destinationPath, `userProfile.${extension}`)
   );
-
   // list the greeting dialog resources
   const greetingResources = [
     'cancel.lu',
@@ -174,11 +169,11 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   destinationPath = path.join(gen.destinationPath(), destFolders[DIALOGS_WELCOME_RESOURCES]);
   gen.fs.copy(
     path.join(sourcePath, 'welcomeCard.json'),
-    path.join(destinationPath, `welcomeCard.${ cardExtension }`)
+    path.join(destinationPath, `welcomeCard.json`)
   );
 
   // write out the index.js and bot.js
-  destinationPath = path.join(gen.destinationPath(), SRC_FOLDER);
+  destinationPath = path.join(gen.destinationPath(), srcFolder);
 
   // gen index and main dialog files
   gen.fs.copyTpl(
@@ -188,11 +183,19 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
       botname: gen.props.botname
     }
   );
-
-  // gen the main dialog file
+  // gen the main bot activity router
   gen.fs.copyTpl(
     gen.templatePath(path.join(templatePath, `bot.${extension}`)),
     path.join(destinationPath, `bot.${extension}`),
+    {
+      botname: gen.props.botname
+    }
+  );
+
+  // write out PREREQUISITES.md
+  gen.fs.copyTpl(
+    gen.templatePath(path.join(templatePath, 'PREREQUISITES.md')),
+    gen.destinationPath('PREREQUISITES.md'),
     {
       botname: gen.props.botname
     }

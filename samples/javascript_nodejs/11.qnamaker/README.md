@@ -30,6 +30,15 @@ In this sample, we demonstrate how to use the QnA Maker service to answer questi
     ```bash
     cd samples/javascript_nodejs/11.qnamaker
     ```
+- Install modules
+    ```bash
+    npm install
+    ```
+- Start the bot
+    ```bash
+    npm start
+    ```
+
 # Testing the bot using Bot Framework Emulator **v4**
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 

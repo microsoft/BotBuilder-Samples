@@ -4,6 +4,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -82,10 +83,14 @@ namespace Microsoft.BotBuilderSamples
                 ILogger logger = _loggerFactory.CreateLogger<MultiLingualBot>();
 
                 // Catches any errors that occur during a conversation turn and logs them.
-                options.OnTurnError = async (context, exception) =>
+                options.OnTurnError = async (turnContext, exception) =>
                 {
                     logger.LogError($"Exception caught : {exception}");
-                    await context.SendActivityAsync("Sorry, it looks like something went wrong.");
+
+                    // By-pass the middleware by sending the Activity directly on the Adapter.
+                    var activity = MessageFactory.Text("Sorry, it looks like something went wrong.");
+                    activity.ApplyConversationReference(turnContext.Activity.GetConversationReference());
+                    await turnContext.Adapter.SendActivitiesAsync(turnContext, new[] { activity }, default(CancellationToken));
                 };
 
                 // The Memory Storage used here is for local bot debugging only. When the bot

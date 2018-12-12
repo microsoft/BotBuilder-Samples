@@ -6,17 +6,17 @@
     "license": "MIT",
     "main": "<%= npmMain %>",
     "scripts": {
-        "start": "node ./index.js",
-        "watch": "nodemon ./index.js",
         "lint": "./node_modules/.bin/eslint .",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "node ./index.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "watch": "nodemon ./index.js"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "^4.1.5",
+        "botbuilder": "^4.2.0",
         "restify": "^7.2.3"
     },
     "devDependencies": {
@@ -26,6 +26,6 @@
         "eslint-plugin-node": "^8.0.0",
         "eslint-plugin-promise": "^4.0.1",
         "eslint-plugin-standard": "^4.0.0",
-        "nodemon": "^1.18.6"
+        "nodemon": "^1.18.7"
     }
 }
