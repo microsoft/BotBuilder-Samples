@@ -10,7 +10,7 @@
     {
       "type": "qna",
       "id": "34",
-      "name": "qna-with-appinsights-LUIS"
+      "name": "qna-with-appinsights-qna"
     },
     {
       "type": "endpoint",
