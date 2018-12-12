@@ -56,7 +56,7 @@ After creating the bot and testing it locally, you can deploy it to Azure to mak
 To learn how, see [Deploy your bot to Azure][40] for a complete set of deployment instructions.
 
 # View metrics
-- Learn how to use [PowerBI, use Azure Monitor queries and Visual Studio][42] to view Application Insights data
+- Learn how to use [PowerBI, Azure Monitor queries and Visual Studio][42] to view Application Insights data
 
 # Further reading
 - [Bot Framework Documentation][20]
