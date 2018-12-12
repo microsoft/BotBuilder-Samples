@@ -5,13 +5,13 @@ namespace Microsoft.BotBuilderSamples
 {
     public static class TelemetryConstants
     {
-        public const string ReplyActivityIDProperty = "ReplyActivityId";
-        public const string FromIdProperty = "FromId";
-        public const string FromNameProperty = "FromName";
-        public const string RecipientIdProperty = "RecipientId";
-        public const string RecipientNameProperty = "RecipientName";
-        public const string ConversationNameProperty = "ConversationName";
-        public const string TextProperty = "Text";
-        public const string LocaleProperty = "Locale";
+        public const string ReplyActivityIDProperty = "replyActivityId";
+        public const string FromIdProperty = "fromId";
+        public const string FromNameProperty = "fromName";
+        public const string RecipientIdProperty = "recipientId";
+        public const string RecipientNameProperty = "recipientName";
+        public const string ConversationNameProperty = "conversationName";
+        public const string TextProperty = "text";
+        public const string LocaleProperty = "locale";
     }
 }

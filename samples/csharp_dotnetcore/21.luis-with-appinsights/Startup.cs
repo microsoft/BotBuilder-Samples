@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.ApplicationInsights.Core;
+using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
@@ -77,10 +77,6 @@ namespace Microsoft.BotBuilderSamples
             {
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
-                // Add MyAppInsightsLoggerMiddleware (logs activity messages into Application Insights)
-                var appInsightsLogger = new TelemetryLoggerMiddleware(connectedServices.TelemetryClient.InstrumentationKey, logUserName: true, logOriginalMessage: true);
-                options.Middleware.Add(appInsightsLogger);
-
                 // Creates a telemetryClient for OnTurnError handler.
                 var sp = services.BuildServiceProvider();
                 var telemetryClient = sp.GetService<IBotTelemetryClient>();
@@ -91,6 +87,10 @@ namespace Microsoft.BotBuilderSamples
                     telemetryClient.TrackException(exception);
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
+
+                // Add MyAppInsightsLoggerMiddleware (logs activity messages into Application Insights)
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
+                options.Middleware.Add(appInsightsLogger);
 
                 // The Memory Storage used here is for local bot debugging only. When the bot
                 // is restarted, everything stored in memory will be gone.
@@ -152,7 +152,6 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="LuisRecognizer"/>
         private static BotServices InitBotServices(BotConfiguration config)
         {
-            TelemetryClient telemetryClient = null;
             var luisServices = new Dictionary<string, TelemetryLuisRecognizer>();
 
             foreach (var service in config.Services)
@@ -206,17 +205,12 @@ namespace Microsoft.BotBuilderSamples
                                 throw new InvalidOperationException("The Application Insights Instrumentation Key ('instrumentationKey') is required to run this sample.  Please update your '.bot' file.");
                             }
 
-                            var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
-                            telemetryClient = new TelemetryClient(telemetryConfig)
-                            {
-                                InstrumentationKey = appInsights.InstrumentationKey,
-                            };
                             break;
                         }
                 }
             }
 
-            var connectedServices = new BotServices(telemetryClient, luisServices);
+            var connectedServices = new BotServices(luisServices);
             return connectedServices;
         }
     }

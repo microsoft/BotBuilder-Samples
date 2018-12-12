@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples
@@ -34,23 +35,23 @@ namespace Microsoft.BotBuilderSamples
         // Application Insights Custom Event name, logged when a message is deleted by the bot (rare case)
         public static readonly string BotMsgDeleteEvent = "BotMessageDelete";
 
-        private TelemetryClient _telemetryClient;
+        private IBotTelemetryClient _telemetryClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TelemetryLoggerMiddleware"/> class.
         /// </summary>
-        /// <param name="instrumentationKey">The Application Insights instrumentation key.  See Application Insights for more information.</param>
+        /// <param name="telemetryClient">The IBotTelemetryClient for logging metric data.</param>
         /// <param name="logUserName"> (Optional) Enable/Disable logging user name within Application Insights.</param>
         /// <param name="logOriginalMessage"> (Optional) Enable/Disable logging original message name within Application Insights.</param>
         /// <param name="config"> (Optional) TelemetryConfiguration to use for Application Insights.</param>
-        public TelemetryLoggerMiddleware(string instrumentationKey, bool logUserName = false, bool logOriginalMessage = false, TelemetryConfiguration config = null)
+        public TelemetryLoggerMiddleware(IBotTelemetryClient telemetryClient, bool logUserName = false, bool logOriginalMessage = false)
         {
-            if (string.IsNullOrWhiteSpace(instrumentationKey))
+            if (telemetryClient == null)
             {
-                throw new ArgumentNullException(nameof(instrumentationKey));
+                throw new ArgumentNullException(nameof(telemetryClient));
             }
 
-            _telemetryClient = new TelemetryClient();
+            _telemetryClient = telemetryClient;
             LogUserName = logUserName;
             LogOriginalMessage = logOriginalMessage;
         }
@@ -91,17 +92,6 @@ namespace Microsoft.BotBuilderSamples
             if (context.Activity != null)
             {
                 var activity = context.Activity;
-
-                // Context properties for App Insights
-                if (!string.IsNullOrEmpty(activity.Conversation.Id))
-                {
-                    _telemetryClient.Context.Session.Id = activity.Conversation.Id;
-                }
-
-                if (!string.IsNullOrEmpty(activity.From.Id))
-                {
-                    _telemetryClient.Context.User.Id = activity.From.Id;
-                }
 
                 // Log the Application Insights Bot Message Received
                 _telemetryClient.TrackEvent(BotMsgReceiveEvent, this.FillReceiveEventProperties(activity));
