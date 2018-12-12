@@ -14,75 +14,69 @@ const Recognizers = require('@microsoft/recognizers-text-date-time');
 
 module.exports.dateAmbiguity = () => {
     // Run the recognizer.
-    var result = Recognizers.recognizeDateTime('Either Saturday or Sunday would work.', Recognizers.Culture.English);
+    const result = Recognizers.recognizeDateTime('Either Saturday or Sunday would work.', Recognizers.Culture.English);
 
     // We should find two results in this example.
-    result.forEach((result) => {
+    result.forEach(result => {
         // The resolution includes two example values: going backwards and forwards from NOW in the calendar.
-        var distinctTimexExpressions = new Set();
-        var values = result.resolution['values'];
-        values.forEach((value) => {
-            // Each result includes a TIMEX expression that captures the inherent date but not time ambiguity.
-            // We are interested in the distinct set of TIMEX expressions.
-            var timex = value['timex'];
-            if (timex !== undefined) {
-                distinctTimexExpressions.add(timex);
-            }
 
-            // There is also either a "value" property on each value or "start" and "end".
-            // If you use ToString() on a TimeProperty object you will get same "value".
-        });
+        // Each result includes a TIMEX expression that captures the inherent date but not time ambiguity.
+        // We are interested in the distinct set of TIMEX expressions.
+
+        // There is also either a "value" property on each value or "start" and "end".
+        // If you use ToString() on a TimeProperty object you will get same "value".
+        const distinctTimexExpressions = new Set(
+            result.resolution.values
+                .filter(({ timex }) => timex !== undefined)
+                .map(({ timex }) => timex)
+        );
 
         // The TIMEX expression captures date ambiguity so there will be a single distinct expression for each result.
-        console.log(`${ result.text } ( ${ (Array.from(distinctTimexExpressions).join(',')) } )`);
+        console.log(`${ result.text } ( ${ Array.from(distinctTimexExpressions).join(',') } )`);
     });
 };
 
 module.exports.timeAmbiguity = () => {
     // Run the recognizer.
-    var result = Recognizers.recognizeDateTime("We would like to arrive at 4 o'clock or 5 o'clock.", Recognizers.Culture.English);
+    const result = Recognizers.recognizeDateTime('We would like to arrive at 4 o\'clock or 5 o\'clock.', Recognizers.Culture.English);
 
     // We should find two results in this example.
-    result.forEach((result) => {
+    result.forEach(result => {
         // The resolution includes two example values: one for AM and one for PM.
-        var distinctTimexExpressions = new Set();
-        var values = result.resolution['values'];
-        values.forEach((value) => {
-            // Each result includes a TIMEX expression that captures the inherent date but not time ambiguity.
-            // We are interested in the distinct set of TIMEX expressions.
-            var timex = value['timex'];
-            if (timex !== undefined) {
-                distinctTimexExpressions.add(timex);
-            }
 
-            // There is also either a "value" property on each value or "start" and "end".
-            // If you use ToString() on a TimeProperty object you will get same "value".
-        });
+        // Each result includes a TIMEX expression that captures the inherent date but not time ambiguity.
+        // We are interested in the distinct set of TIMEX expressions.
+
+        // There is also either a "value" property on each value or "start" and "end".
+        // If you use ToString() on a TimeProperty object you will get same "value".
+        const distinctTimexExpressions = new Set(
+            result.resolution.values
+                .filter(({ timex }) => timex !== undefined)
+                .map(({ timex }) => timex)
+        );
 
         // The TIMEX expression captures date ambiguity so there will be a single distinct expression for each result.
-        console.log(`${ result.text } ( ${ (Array.from(distinctTimexExpressions).join(',')) } )`);
+        console.log(`${ result.text } ( ${ Array.from(distinctTimexExpressions).join(',') } )`);
     });
 };
 
 module.exports.dateTimeAmbiguity = () => {
     // Run the recognizer.
-    var result = Recognizers.recognizeDateTime("It will be ready Wednesday at 5 o'clock.", Recognizers.Culture.English);
+    const result = Recognizers.recognizeDateTime("It will be ready Wednesday at 5 o'clock.", Recognizers.Culture.English);
 
     // We should find two results in this example.
     result.forEach((result) => {
         // The resolution includes four example values: backwards and forward in the calendar and then AM and PM.
-        var distinctTimexExpressions = new Set();
-        var values = result.resolution['values'];
-        values.forEach((value) => {
-            // Each result includes a TIMEX expression that captures the inherent date but not time ambiguity.
-            // We are interested in the distinct set of TIMEX expressions.
-            var timex = value['timex'];
-            if (timex !== undefined) {
-                distinctTimexExpressions.add(timex);
-            }
-        });
+
+        // Each result includes a TIMEX expression that captures the inherent date but not time ambiguity.
+        // We are interested in the distinct set of TIMEX expressions.
+        const distinctTimexExpressions = new Set(
+            result.resolution.values
+                .filter(({ timex }) => timex !== undefined)
+                .map(({ timex }) => timex)
+        );
 
         // TIMEX expressions don't capture time ambiguity so there will be two distinct expressions for each result.
-        console.log(`${ result.text } ( ${ (Array.from(distinctTimexExpressions).join(',')) } )`);
+        console.log(`${ result.text } ( ${ Array.from(distinctTimexExpressions).join(',') } )`);
     });
 };

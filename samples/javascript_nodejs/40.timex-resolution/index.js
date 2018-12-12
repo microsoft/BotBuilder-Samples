@@ -3,11 +3,11 @@
 // Licensed under the MIT License.
 
 const ambiguity = require('./ambiguity.js');
-const ranges = require('./ranges.js');
-const parsing = require('./parsing.js');
-const languageGeneration = require('./languageGeneration.js');
-const resolution = require('./resolution.js');
 const constraints = require('./constraints.js');
+const languageGeneration = require('./languageGeneration.js');
+const parsing = require('./parsing.js');
+const ranges = require('./ranges.js');
+const resolution = require('./resolution.js');
 
 // Creating TIMEX expressions from natural language using the Recognizer package.
 ambiguity.dateAmbiguity();
