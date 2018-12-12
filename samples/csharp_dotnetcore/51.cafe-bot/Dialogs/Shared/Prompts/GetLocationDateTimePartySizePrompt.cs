@@ -155,7 +155,7 @@ namespace Microsoft.BotBuilderSamples
 
         public async override Task<DialogTurnResult> ResumeDialogAsync(DialogContext dc, DialogReason reason, object result, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if ((bool)result != false)
+            if (result != null && result is bool && (bool)result != false)
             {
                 // User said yes to cancel prompt.
                 await dc.Context.SendActivityAsync("Sure. I've canceled that!");

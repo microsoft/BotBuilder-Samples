@@ -4,7 +4,6 @@
 const path = require('path');
 const restify = require('restify');
 const { BotFrameworkAdapter } = require('botbuilder');
-const { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } = require('botbuilder-applicationinsights');
 const { BotConfiguration } = require('botframework-config');
 const { LuisBot } = require('./bot');
 const { MyAppInsightsMiddleware } = require('./middleware');
@@ -58,12 +57,10 @@ const logName = true;
 
 // Map the contents of appInsightsConfig to a consumable format for MyAppInsightsMiddleware.
 const appInsightsSettings = {
+    instrumentationKey: appInsightsConfig.instrumentationKey,
     logOriginalMessage: logMessage,
     logUserName: logName
 };
-
-// Create an Application Insights telemetry client.
-const appInsightsClient = new ApplicationInsightsTelemetryClient(appInsightsConfig.instrumentationKey);
 
 // Indicate that the base LuisRecognizer class should include the raw LUIS results.
 const includeApiResults = true;
@@ -78,12 +75,12 @@ const adapter = new BotFrameworkAdapter({
 // This will send to Application Insights all incoming Message-type activities.
 // It also stores in TurnContext.TurnState an `applicationinsights` TelemetryClient instance.
 // This cached TelemetryClient is used by the custom class MyAppInsightsLuisRecognizer.
-adapter.use(new MyAppInsightsMiddleware(appInsightsClient, appInsightsSettings));
+adapter.use(new MyAppInsightsMiddleware(appInsightsSettings));
 
 // Catch-all for errors.
-adapter.onTurnError = async (context, error) => {
+adapter.onTurnError = async (turnContext, error) => {
     console.error(`\n [onTurnError]: ${ error }`);
-    await context.sendActivity(`Oops. Something went wrong!`);
+    await turnContext.sendActivity(`Oops. Something went wrong!`);
 };
 
 // Create the LuisBot.
@@ -105,11 +102,6 @@ try {
 
 // Create HTTP server.
 let server = restify.createServer();
-
-// Enable the Application Insights middleware, which helps correlate all activity
-// based on the incoming request.
-server.use(ApplicationInsightsWebserverMiddleware);
-
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }.`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);

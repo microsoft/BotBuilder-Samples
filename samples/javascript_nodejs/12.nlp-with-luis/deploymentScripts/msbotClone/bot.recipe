@@ -8,11 +8,6 @@
       "url": "http://localhost:3978/api/messages"
     },
     {
-      "type": "luis",
-      "id": "34",
-      "name": "nlp-with-luis-LUIS"
-    },
-    {
       "type": "endpoint",
       "id": "2",
       "name": "production",
@@ -27,6 +22,11 @@
       "type": "appInsights",
       "id": "4",
       "name": "nlp-with-luis-insights"
+    },
+    {
+      "type": "luis",
+      "id": "34",
+      "name": "nlp-with-luis-LUIS"
     }
   ]
 }
