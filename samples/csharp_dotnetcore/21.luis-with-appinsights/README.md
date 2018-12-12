@@ -8,7 +8,7 @@ This samples shows how to:
 - Use [LUIS][11] to implement core AI capabilities
 - How to use Middleware to log messages to Application Insights
 - How to log LUIS results to Application Insights
-- View metrics using a PowerBI report, Azure Monitor queries or Visual Studio
+- View metrics using PowerBI, Azure Monitor queries or Visual Studio
 
 
 ## Prerequisites
