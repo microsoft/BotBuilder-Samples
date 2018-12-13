@@ -4,6 +4,7 @@
 const path = require('path');
 const restify = require('restify');
 const { BotFrameworkAdapter } = require('botbuilder');
+const { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } = require('botbuilder-applicationinsights');
 const { BotConfiguration } = require('botframework-config');
 const { QnAMakerBot } = require('./bot');
 const { MyAppInsightsMiddleware } = require('./middleware');
@@ -40,8 +41,14 @@ const APP_INSIGHTS_CONFIGURATION = 'appInsights';
 // Get bot endpoint configuration by service name.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 const qnaConfig = botConfig.findServiceByNameOrId(QNA_CONFIGURATION);
-const appInsightsConfig = botConfig.findServiceByNameOrId(APP_INSIGHTS_CONFIGURATION);
-
+const appInsightsConfig = APP_INSIGHTS_CONFIGURATION
+                                ? 
+                                botConfig.findServiceByNameOrId(APP_INSIGHTS_CONFIGURATION) 
+                                : 
+                                botConfig.services.filter((m) => m.type === 'appInsights').length ? botConfig.services.filter((m) => m.type === 'appInsights')[0] : null;
+if (!appInsightsConfig) {
+    throw new Error("No App Insights configuration was found.");
+}
 // Map the contents of qnaConfig to a consumable format for our MyAppInsightsQnAMaker class.
 const qnaEndpointSettings = {
     knowledgeBaseId: qnaConfig.kbId,
@@ -57,10 +64,12 @@ const logName = true;
 
 // Map the contents of appInsightsConfig to a consumable format for MyAppInsightsMiddleware.
 const appInsightsSettings = {
-    instrumentationKey: appInsightsConfig.instrumentationKey,
     logOriginalMessage: logMessage,
     logUserName: logName
 };
+
+// Create an Application Insights telemetry client.
+const appInsightsClient = new ApplicationInsightsTelemetryClient(appInsightsConfig.instrumentationKey);
 
 // Create adapter. See https://aka.ms/about-bot-adapter to learn more adapters.
 const adapter = new BotFrameworkAdapter({
@@ -72,12 +81,12 @@ const adapter = new BotFrameworkAdapter({
 // This will send to Application Insights all incoming Message-type activities.
 // It also stores in TurnContext.TurnState an `applicationinsights` TelemetryClient instance.
 // This cached TelemetryClient is used by the custom class MyAppInsightsQnAMaker.
-adapter.use(new MyAppInsightsMiddleware(appInsightsSettings));
+adapter.use(new MyAppInsightsMiddleware(appInsightsClient, appInsightsSettings));
 
 // Catch-all for errors.
-adapter.onTurnError = async (turnContext, error) => {
+adapter.onTurnError = async (context, error) => {
     console.error(`\n [onTurnError]: ${ error }`);
-    await turnContext.sendActivity(`Oops. Something went wrong!`);
+    await context.sendActivity(`Oops. Something went wrong!`);
 };
 
 // Create the SuggestedActionsBot.
@@ -91,6 +100,11 @@ try {
 
 // Create HTTP server.
 let server = restify.createServer();
+
+// Enable the Application Insights middleware, which helps correlate all activity
+// based on the incoming request.
+server.use(ApplicationInsightsWebserverMiddleware);
+
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }.`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);

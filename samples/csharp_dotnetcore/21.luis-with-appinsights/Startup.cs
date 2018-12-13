@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -11,12 +11,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.BotFramework;
-using Microsoft.Bot.Builder.Integration;
+using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.BotBuilderSamples.AppInsights;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -61,6 +59,9 @@ namespace Microsoft.BotBuilderSamples
             var botConfig = BotConfiguration.Load(botFilePath ?? @".\luis-with-appinsights.bot", secretKey);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. botFilePath: {botFilePath}"));
 
+            // Use Application Insights
+            services.AddBotApplicationInsights(botConfig);
+
             // Retrieve current endpoint.
             var environment = _isProduction ? "production" : "development";
             var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
@@ -76,19 +77,20 @@ namespace Microsoft.BotBuilderSamples
             {
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
-                // Add MyAppInsightsLoggerMiddleware (logs activity messages into Application Insights)
-                var appInsightsLogger = new MyAppInsightsLoggerMiddleware(connectedServices.TelemetryClient.InstrumentationKey, logUserName: true, logOriginalMessage: true);
-                options.Middleware.Add(appInsightsLogger);
-
-                // Creates a logger for the application to use.
-                ILogger logger = _loggerFactory.CreateLogger<LuisBot>();
+                // Creates a telemetryClient for OnTurnError handler.
+                var sp = services.BuildServiceProvider();
+                var telemetryClient = sp.GetService<IBotTelemetryClient>();
 
                 // Catches any errors that occur during a conversation turn and logs them.
                 options.OnTurnError = async (context, exception) =>
                 {
-                    logger.LogError($"Exception caught : {exception}");
+                    telemetryClient.TrackException(exception);
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
+
+                // Add MyAppInsightsLoggerMiddleware (logs activity messages into Application Insights)
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
+                options.Middleware.Add(appInsightsLogger);
 
                 // The Memory Storage used here is for local bot debugging only. When the bot
                 // is restarted, everything stored in memory will be gone.
@@ -115,8 +117,6 @@ namespace Microsoft.BotBuilderSamples
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
                 var conversationState = new ConversationState(dataStore);
-
-                options.State.Add(conversationState);
             });
         }
 
@@ -125,11 +125,16 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="app">The application builder. This provides the mechanisms to configure the application request pipeline.</param>
         /// <param name="env">Provides information about the web hosting environment.</param>
+        /// <param name="loggerFactory">Represents a type used to configure the logging system and create instances of ILogger.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
 
-            app.UseDefaultFiles()
+            // Application Insights will capture ILogger based events.
+            _loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Information);
+
+            app.UseBotApplicationInsights()
+                .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
         }
@@ -147,8 +152,7 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="LuisRecognizer"/>
         private static BotServices InitBotServices(BotConfiguration config)
         {
-            TelemetryClient telemetryClient = null;
-            var luisServices = new Dictionary<string, LuisRecognizer>();
+            var luisServices = new Dictionary<string, TelemetryLuisRecognizer>();
 
             foreach (var service in config.Services)
             {
@@ -183,7 +187,7 @@ namespace Microsoft.BotBuilderSamples
                             }
 
                             var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
-                            var recognizer = new MyAppInsightLuisRecognizer(app);
+                            var recognizer = new TelemetryLuisRecognizer(app);
                             luisServices.Add(LuisBot.LuisKey, recognizer);
                             break;
                         }
@@ -201,17 +205,12 @@ namespace Microsoft.BotBuilderSamples
                                 throw new InvalidOperationException("The Application Insights Instrumentation Key ('instrumentationKey') is required to run this sample.  Please update your '.bot' file.");
                             }
 
-                            var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
-                            telemetryClient = new TelemetryClient(telemetryConfig)
-                            {
-                                InstrumentationKey = appInsights.InstrumentationKey,
-                            };
                             break;
                         }
                 }
             }
 
-            var connectedServices = new BotServices(telemetryClient, luisServices);
+            var connectedServices = new BotServices(luisServices);
             return connectedServices;
         }
     }
