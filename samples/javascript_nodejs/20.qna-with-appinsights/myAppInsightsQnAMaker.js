@@ -32,12 +32,6 @@ class MyAppInsightsQnAMaker extends QnAMaker {
         const telemetryMetrics = {};
         const activity = turnContext.activity;
 
-        // Make it so we can correlate our reports with Activity or Conversation.
-        telemetryProperties.ActivityId = activity.id;
-        if (activity.conversation.id) {
-            telemetryProperties.ConversationId = activity.conversation.id;
-        }
-
         // For some customers, logging original text name within Application Insights might be an issue.
         if (this.logOriginalMessage && !!activity.text) {
             telemetryProperties.OriginalQuestion = activity.text;

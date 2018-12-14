@@ -18,26 +18,28 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class QnABot : IBot
     {
-        private const string WelcomeText = "This bot will introduce you to QnA Maker. Type a greeting or question to get started";
-
         /// <summary>
         /// Key in the bot config (.bot file) for the QnAMaker instance.
         /// In the ".bot" file, multiple instances of QnAMaker can be configured.
         /// </summary>
-        public static readonly string QnAMakerKey = "QnABot";
+        public static readonly string QnAMakerKey = "qna-with-insights-QnAMaker";
+
+        private const string WelcomeText = "This bot will introduce you to QnA Maker. Type a greeting or question to get started";
 
         /// <summary>
         /// Services configured from the ".bot" file.
         /// </summary>
         private readonly BotServices _services;
+        private readonly IBotTelemetryClient _telemetryClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QnABot"/> class.
         /// </summary>
         /// <param name="services">A <see cref="BotServices"/> configured from the ".bot" file.</param>
-        public QnABot(BotServices services)
+        public QnABot(BotServices services, IBotTelemetryClient telemetryClient)
         {
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
+            _telemetryClient = telemetryClient;
             if (!_services.QnAServices.ContainsKey(QnAMakerKey))
             {
                 throw new System.ArgumentException($"Invalid configuration.  Please check your '.bot' file for a QnA service named '{QnAMakerKey}'.");
