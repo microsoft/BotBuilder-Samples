@@ -31,7 +31,6 @@ namespace Microsoft.BotBuilderSamples
         /// <returns>A web server.</returns>
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseApplicationInsights()
                 .UseStartup<Startup>()
                 .Build();
     }

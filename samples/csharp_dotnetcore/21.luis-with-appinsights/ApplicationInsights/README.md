@@ -18,22 +18,13 @@ The Bot Framework SDK ships with several samples that demonstrate how to add tel
 The Application Insights service must be created before the bot is deployed, since configuration strings must be provided to the Bot Configuration file. 
 Application Insights can be provisioned through the [Azure Portal](https://portal.azure.com) or through the [MsBot tool](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot).
 
+The [MSBot](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot) is a command line tool to create and manage bot resources described via a .bot file. See [here](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/MSBot/docs/bot-file.md) to learn more about the .bot file.
 
-### Deployment using the MsBot command line tool
-<To be added>
-
-### Deployment using the Azure Portal
-The Azure portal can be used to deploy your Application Insights using the Azure Portal.  You may choose this option if you already have an existing Application Insights deployment or you want to place Application Insights into a separate Azure Resource Group.
-
-<To be added>
-
-
-
-
+If you want to provision independent of MSBot, the [Application Insights Quick Start Guide](https://docs.microsoft.com/en-us/azure/application-insights/app-insights-dotnetcore-quick-start) is a good place to start.
 
 ### Configuring Sentiment
-LUIS enables sentiment to be logged.  This can be enabled through the [LUIS portal](https://www.luis.ai).
-Sentiment is enabled for each application.  To enable sentiment, log in to the portal, select "My Apps" , click on the specific application you want to enable sentiment.
+The LUIS service supports sentiment analysis to be provided in responses.  This can be enabled through the [LUIS portal](https://www.luis.ai).
+Sentiment is enabled at the application level.  To enable sentiment, log in to the portal, select "My Apps" , click on the specific application you want to enable sentiment.
 Select "Manage" on the upper menu, and "Publish Settings" on the side menu.  It should resemble below.
 ![Enabling Sentiment](enable_sentiment.PNG)
 Click on "Use sentiment analysis to determine if a user's utterance is positive, negative, or neutral." checkbox.
@@ -92,9 +83,10 @@ dependencies
 
 ## Power BI
 The samples provide a PowerBI template  that can be used to understand how the bot is performing. 
+
 The Power BI template is located under the following folder: 
 
-`Middleware\Telemetry\ExamplePowerBIDashboard.pbit`
+`ApplicationInsights\Example Power BI Dashboard.pbit`
 
 Below are some sample pages of the report.
 
@@ -123,28 +115,34 @@ With this view, you can quickly understand where time is being spent within your
 
 ## Disabling Application Insights
 
-To turn off Application Insights logging for C#, open up the `Startup.cs` file and uncomment the following lines:
-
-```csharp
-       public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            // Uncomment to disable Application Insights.
-            // var configuration = app.ApplicationServices.GetService<Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration>();
-            // configuration.DisableTelemetry = true;
-```
-
+To turn off Application Insights logging, remove the `appInsights` section of your `<BOT-NAME>.bot` file and the null logger will be used instead.
 
 ## Troubleshooting
 
 ### I am not seeing all event types.
+- Ensure your `<BOT-NAME>.bot` file is populated your Application Insights information.  Specifically, review the `instrumentationKey` setting.
+```json
+...
+       {
+            "type": "appInsights",
+            "tenantId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+            "subscriptionId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",   
+            "resourceGroup": "RESOURCE_GROUP",
+            "name": "NAME",
+            "serviceName": "NAME",
+            "instrumentationKey": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+            "applicationId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+            "apiKeys": {},
+            "id": ""
+        },
+...
+```
 
-In C# ASP.Net Core, ensure the `appsettings.json` file contains an `InstrumentationKey`:
+- In C# ASP.Net Core, ensure the `<BOT-NAME>.bot` is being referenced by your `appsettings.json` file:
 ```json
  {
-  "botFilePath": "Mybot.bot",
-  "botFileSecret": "MySecret",
-  "ApplicationInsights": {
-    "InstrumentationKey": "<MyAppInsights_key>"
-  }
+  "botFilePath": "<BOT-NAME>.bot",
+  "botFileSecret": "<MySecret>"
 }
 ```
+

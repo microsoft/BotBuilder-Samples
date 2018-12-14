@@ -26,6 +26,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\daveta-appinsight-dialogset\botbuilder-dotnet\libraries\integration\Microsoft.Bot.Builder.ApplicationInsights.Core\Microsoft.Bot.Builder.ApplicationInsights.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\daveta-appinsight-dialogset\botbuilder-dotnet\libraries\integration\Microsoft.Bot.Builder.Integration.AspNet.Core\Microsoft.Bot.Builder.Integration.AspNet.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\daveta-appinsight-dialogset\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.AI.LUIS\Microsoft.Bot.Builder.AI.LUIS.csproj" />
+    <ProjectReference Include="..\..\..\..\..\daveta-appinsight-dialogset\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.ApplicationInsights\Microsoft.Bot.Builder.ApplicationInsights.csproj" />
+    <ProjectReference Include="..\..\..\..\..\daveta-appinsight-dialogset\botbuilder-dotnet\libraries\Microsoft.Bot.Builder\Microsoft.Bot.Builder.csproj" />
+    <ProjectReference Include="..\..\..\..\..\daveta-appinsight-dialogset\botbuilder-dotnet\libraries\Microsoft.Bot.Configuration\Microsoft.Bot.Configuration.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 

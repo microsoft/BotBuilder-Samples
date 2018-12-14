@@ -11,13 +11,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using QnABot.AppInsights;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -66,6 +66,9 @@ namespace Microsoft.BotBuilderSamples
             var botConfig = BotConfiguration.Load(botFilePath ?? @".\qna-with-appinsights.bot", secretKey);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. botFilePath: {botFilePath}"));
 
+            // Add Application Insights
+            services.AddBotApplicationInsights(botConfig);
+
             // Initialize Bot Connected Services clients.
             var connectedServices = InitBotServices(botConfig);
             services.AddSingleton(sp => connectedServices);
@@ -82,17 +85,18 @@ namespace Microsoft.BotBuilderSamples
 
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
-                // Add MyAppInsightsLoggerMiddleware (logs activity messages into Application Insights)
-                var appInsightsLogger = new MyAppInsightsLoggerMiddleware(connectedServices.TelemetryClient.InstrumentationKey, logUserName: true, logOriginalMessage: true);
-                options.Middleware.Add(appInsightsLogger);
+                // Creates a telemetryClient for OnTurnError handler.
+                var sp = services.BuildServiceProvider();
+                var telemetryClient = sp.GetService<IBotTelemetryClient>();
 
-                // Creates a logger for the application to use.
-                ILogger logger = _loggerFactory.CreateLogger<QnABot>();
+                // Add TelemetryLoggerMiddleware (logs activity messages into Application Insights)
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
+                options.Middleware.Add(appInsightsLogger);
 
                 // Catches any errors that occur during a conversation turn and logs them.
                 options.OnTurnError = async (context, exception) =>
                 {
-                    logger.LogError($"Exception caught : {exception}");
+                    telemetryClient.TrackException(exception);
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
@@ -121,8 +125,6 @@ namespace Microsoft.BotBuilderSamples
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
                 var conversationState = new ConversationState(dataStore);
-
-                options.State.Add(conversationState);
             });
         }
 
@@ -130,7 +132,11 @@ namespace Microsoft.BotBuilderSamples
         {
             _loggerFactory = loggerFactory;
 
-            app.UseDefaultFiles()
+            // Application Insights will capture ILogger based events.
+            _loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Information);
+
+            app.UseBotApplicationInsights()
+                .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
         }
@@ -148,8 +154,7 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="TelemetryClient"/>
         private static BotServices InitBotServices(BotConfiguration config)
         {
-            TelemetryClient telemetryClient = null;
-            var qnaServices = new Dictionary<string, QnAMaker>();
+            var qnaServices = new Dictionary<string, TelemetryQnaMaker>();
 
             foreach (var service in config.Services)
             {
@@ -190,7 +195,7 @@ namespace Microsoft.BotBuilderSamples
                                 Host = qna.Hostname,
                             };
 
-                            var qnaMaker = new MyAppInsightsQnAMaker(qnaEndpoint, null, logUserName: false, logOriginalMessage: false);
+                            var qnaMaker = new TelemetryQnaMaker(qnaEndpoint, null, logUserName: false, logOriginalMessage: false);
                             qnaServices.Add(qna.Name, qnaMaker);
 
                             break;
@@ -209,15 +214,12 @@ namespace Microsoft.BotBuilderSamples
                                 throw new InvalidOperationException("The Application Insights Instrumentation Key ('instrumentationKey') is required to run this sample.  Please update your '.bot' file.");
                             }
 
-                            var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
-                            telemetryClient = new TelemetryClient(telemetryConfig);
-                            telemetryClient.InstrumentationKey = appInsights.InstrumentationKey;
                             break;
                         }
                 }
             }
 
-            var connectedServices = new BotServices(telemetryClient, qnaServices);
+            var connectedServices = new BotServices(qnaServices);
             return connectedServices;
         }
     }
