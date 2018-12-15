@@ -20,16 +20,12 @@ const LANG_TS = 'typescript';
  * @param {String} templatePath file path to write the generated code
  */
 const writeEchoTemplateFiles = (gen, templatePath) => {
-  const COGNITIVE_MODELS = 0;
-  const DEPLOYMENT_SCRIPTS = 1;
-  const DEPLOYMENT_MSBOT = 2;
-  const RESOURCES = 3;
+  const DEPLOYMENT_SCRIPTS = 0;
+  const DEPLOYMENT_MSBOT = 1;
   const TS_SRC_FOLDER = 'src'
   const folders = [
-    'cognitiveModels',
     'deploymentScripts',
-    path.join('deploymentScripts', 'msbotClone'),
-    'resources'
+    path.join('deploymentScripts', 'msbotClone')
   ];
   const extension = _.toLower(gen.props.language) === 'javascript' ? 'js' : 'ts';
   const srcFolder = _.toLower(gen.props.language) === 'javascript' ? '' : TS_SRC_FOLDER;
@@ -90,14 +86,6 @@ const writeEchoTemplateFiles = (gen, templatePath) => {
     {
       botname: gen.props.botname
     }
-  );
-
-  // write out the  AI resource(s)
-  sourcePath = path.join(templatePath, folders[RESOURCES]);
-  destinationPath = path.join(gen.destinationPath(), folders[RESOURCES]);
-  gen.fs.copy(
-    path.join(sourcePath, `echo.chat`),
-    path.join(destinationPath, `echo.chat`)
   );
 }
 
