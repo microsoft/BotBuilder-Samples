@@ -17,11 +17,11 @@
     },
     "dependencies": {
         "@microsoft/recognizers-text-data-types-timex-expression": "1.1.4",
-        "botbuilder": "^4.1.5",
-        "botbuilder-ai": "^4.1.5",
-        "botbuilder-azure": "^4.1.5",
-        "botbuilder-dialogs": "^4.1.5",
-        "botframework-config": "^4.1.5",
+        "botbuilder": "^4.2.0",
+        "botbuilder-ai": "^4.2.0",
+        "botbuilder-azure": "^4.2.0",
+        "botbuilder-dialogs": "^4.2.0",
+        "botframework-config": "^4.2.0",
         "dotenv": "^6.1.0",
         "restify": "^7.2.3"
     },
