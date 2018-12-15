@@ -26,8 +26,7 @@ const writeEmptyTemplateFiles = (gen, templatePath) => {
   const TS_SRC_FOLDER = 'src'
   const folders = [
     'deploymentScripts',
-    path.join('deploymentScripts', 'msbotClone'),
-    'resources'
+    path.join('deploymentScripts', 'msbotClone')
   ];
   const extension = _.toLower(gen.props.language) === 'javascript' ? 'js' : 'ts';
   const srcFolder = _.toLower(gen.props.language) === 'javascript' ? '' : TS_SRC_FOLDER;
