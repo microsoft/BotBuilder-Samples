@@ -12,7 +12,7 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "botbuilder-core": "^4.1.5",
+        "botbuilder-core": "^4.2.0",
         "botframework-webchat": "^0.11.4"
     },
     "devDependencies": {
