@@ -273,3 +273,4 @@ paket-files/
 .DS_Store
 generators/generator-botbuilder/.npmrc
 /samples/javascript_es6/01.a.browser-echo/dist
+package-lock.json
