@@ -4,6 +4,8 @@
 const Generator = require('yeoman-generator');
 const _ = require('lodash');
 
+const chalk = require('chalk');
+
 const pkg = require('../../package.json');
 const prompts = require('../../components/prompts');
 const { basicTemplateWriter } = require('../../components/basicTemplateWriter');
@@ -35,9 +37,8 @@ module.exports = class extends Generator {
 
     prompting() {
         // give the user some data before we start asking them questions
-        const greetingMsg = `\nWelcome to the Microsoft Bot Builder generator v${pkg.version}. ` +
-                            '\nDetailed documentation can be found at https://aka.ms/botbuilder-generator\n';
-        this.log(greetingMsg);
+        this.log(`\nWelcome to the Microsoft Bot Builder generator v${pkg.version}. `);
+        this.log('\nDetailed documentation can be found at ' + chalk.underline('https://aka.ms/botbuilder-generator\n'));
 
         // if we're told to not prompt, then pick what we need and return
         if(this.options.noprompt) {
@@ -100,7 +101,7 @@ module.exports = class extends Generator {
 
             default:
                 const errorMsg = `ERROR:  Unable to generate a new bot.  Invalid programming language: [${language}]`;
-                this.log(errorMsg);
+                this.log(chalk.red(errorMsg));
                 throw new Error(errorMsg);
             break;
             }
@@ -117,18 +118,18 @@ module.exports = class extends Generator {
 
     end() {
         if (this.props.finalConfirmation === true) {
-            const thankYouMsg = '------------------- \n' +
-                'Your new bot is ready!  \n' +
-                'Open the README.md to learn how to run your bot. \n' +
-                'Thank you for using the Microsoft Bot Framework. \n' +
-                '\n< ** > The Bot Framework Team';
-            this.log(thankYouMsg);
+            this.log(chalk.green('------------------------ '));
+            this.log(chalk.green(' Your new bot is ready!  '));
+            this.log(chalk.green('------------------------ '));
+            this.log('Open the ' + chalk.green.bold('README.md') + ' to learn how to run your bot. ');
+            this.log('Thank you for using the Microsoft Bot Framework. ');
+            this.log('\n< ** > The Bot Framework Team');
         } else {
-            const noThankYouMsg = '------------------- \n' +
-                'Bot creation has been canceled.  \n' +
-                'Thank you for using the Microsoft Bot Framework. \n' +
-                '\n< ** > The Bot Framework Team';
-            this.log(noThankYouMsg);
+            this.log(chalk.red.bold('-------------------------------- '));
+            this.log(chalk.red.bold(' New bot creation was canceled. '));
+            this.log(chalk.red.bold('-------------------------------- '));
+            this.log('Thank you for using the Microsoft Bot Framework. ');
+            this.log('\n< ** > The Bot Framework Team');
         }
 
     }
@@ -158,7 +159,7 @@ module.exports = class extends Generator {
 
         default:
             const errorMsg = `ERROR:  Unable to generate a new bot.  Invalid template: [${template}]`;
-            this.log(errorMsg);
+            this.log(chalk.red(errorMsg));
             throw new Error(errorMsg);
         break;
         }
@@ -182,7 +183,7 @@ module.exports = class extends Generator {
 
             default:
                 const errorMsg = `ERROR:  Unable to generate a new bot.  Invalid template: [${template}]`;
-                this.log(errorMsg);
+                this.log(chalk.red(errorMsg));
                 throw new Error(errorMsg);
             break;
         }
