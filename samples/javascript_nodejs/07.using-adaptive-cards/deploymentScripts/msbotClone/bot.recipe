@@ -17,17 +17,6 @@
       "type": "abs",
       "id": "3",
       "name": "adaptive-cards-Bot"
-    },
-    {
-      "type": "appInsights",
-      "id": "4",
-      "name": "adaptive-cards-Insights"
-    },
-    {
-      "type": "blob",
-      "id": "5",
-      "name": "adaptive-cards-Blob",
-      "container": "botstatestore"
     }
   ]
 }

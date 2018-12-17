@@ -31,12 +31,12 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to us
 # Testing the bot using Bot Framework Emulator **v4**
 [Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.1.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
 
 ## Connect to the bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration
-- Navigate to `samples/javascript_nodejs/04.simple-prompt-bot`
+- Navigate to `samples/javascript_nodejs/04.simple-prompt-bot` folder
 - Select `simple-prompt.bot` file
 
 # Prompts
@@ -74,7 +74,7 @@ As you make changes to your bot running locally, and want to deploy those change
 ./publish
 ```
 
-### Getting Additional Help with Deploying to Azure
+### Getting Additional Help Deploying to Azure
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 # Further reading
