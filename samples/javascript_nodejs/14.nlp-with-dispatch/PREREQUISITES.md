@@ -39,33 +39,40 @@ This bot uses [QnA Maker Service][1], an AI based cognitive service, to implemen
     ```bash
     npm install -g qnamaker
     ```
-- Install latest version of the `Dispatch` CLI tool. Version 1.2.0 or higher.
+- Install [.NET Core version 2.2][8] or higher (required for Dispatch CLI)
+- Install latest version of the `Dispatch` tool. Version 1.2.0 or higher.
     ```bash
     # install the dispatch CLI tool
     npm install -g botdispatch
     ```
+- If you don't have a LUIS Account, create a free LUIS Account.
+    - Navigate to [LUIS portal][9].
+    - Click the `Login / Sign up` button.
+    - Click `Create a LUIS app now` button.
+    - From the `My Apps` page, click your account name in the upper right of the main menu.
+    - Click `Settings` to display the User Settings page.
+    - Copy the `Authoring Key`, which you will need to run CLI tools.
 
-You now have installed all the prerequite CLI tools.
+
+You now have installed all the prerequites.
 
 [Return to README.md][3]
 
 # Further reading
-The sample will use `msbot` to provision all the service resources this sample requires.  Specifically, the sample will use `msbot` to provision a QnA Maker service application.
+[Dispatch CLI][1] is a tool to create and evaluate LUIS models used for NLP (Natural Language Processing). Dispatch works across multiple bot modules such as LUIS applications, QnA knowledge bases and other NLP sources (added to dispatch as a file type).
 
-The following links document how to create a QnA Maker service manually instead of using `msbot` to do the provisioning for you.
-
-- [QnA Maker][7] service application
-    - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a QnA Maker service.
-    - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base#create-a-qna-maker-knowledge-base) to import the [smartLightFAQ.tsv](cognitiveModels/smartLightFAQ.tsv) to your newly created QnA Maker service.
-    - Update [qnamaker.bot](qnamaker.bot) with your QnAMaker-Host, QnAMaker-KnowledgeBaseId and QnAMaker-EndpointKey. You can find this information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://qnamaker.ai).
+Use the Dispatch model in cases when:
+- Your bot consists of multiple modules and you need assistance in routing user's utterances to these modules and evaluate the bot integration.
+- Evaluate quality of intents classification of a single LUIS model.
+- Create a text classification model from text files.
 
 
 
-
-[1]: https://www.qnamaker.ai
+[1]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch
 [3]: ./README.md
 [4]: https://nodejs.org
 [5]: https://azure.microsoft.com/free/
 [6]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
 [7]: https://www.qnamaker.ai
-
+[8]: https://dotnet.microsoft.com/download
+[9]: https://luis.ai

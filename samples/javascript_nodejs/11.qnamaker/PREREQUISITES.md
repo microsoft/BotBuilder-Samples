@@ -40,21 +40,19 @@ This bot uses [QnA Maker Service][1], an AI based cognitive service, to implemen
     npm install -g qnamaker
     ```
 
-You now have installed all the prerequite CLI tools.
+You now have installed all the prerequites.
 
 [Return to README.md][3]
 
 # Further reading
 The sample will use `msbot` to provision all the service resources this sample requires.  Specifically, the sample will use `msbot` to provision a QnA Maker service application.
 
-The following links document how to create a QnA Maker service manually instead of using `msbot` to do the provisioning for you.
+The following links document how to create a QnA Maker service manually instead of using `msbot` to do the provisioning for you.  The sample will use `msbot`, but incase you want to understand the manual steps, they are cateloged below.
 
 - [QnA Maker][7] service application
-    - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a QnA Maker service.
-    - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base#create-a-qna-maker-knowledge-base) to import the [smartLightFAQ.tsv](cognitiveModels/smartLightFAQ.tsv) to your newly created QnA Maker service.
-    - Update [qnamaker.bot](qnamaker.bot) with your QnAMaker-Host, QnAMaker-KnowledgeBaseId and QnAMaker-EndpointKey. You can find this information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://qnamaker.ai).
-
-
+    - Follow instructions [here][9] to create a QnA Maker service.
+    - Follow instructions [here][10] to import the [smartLightFAQ.tsv](cognitiveModels/smartLightFAQ.tsv) to your newly created QnA Maker service.
+    - Update [qnamaker.bot](qnamaker.bot) with your QnAMaker-Host, QnAMaker-KnowledgeBaseId and QnAMaker-EndpointKey. You can find this information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai][7].
 
 
 [1]: https://www.qnamaker.ai
@@ -63,4 +61,6 @@ The following links document how to create a QnA Maker service manually instead 
 [5]: https://azure.microsoft.com/free/
 [6]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
 [7]: https://www.qnamaker.ai
-
+[8]: https://dotnet.microsoft.com/download
+[9]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure
+[10]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base#create-a-qna-maker-knowledge-base

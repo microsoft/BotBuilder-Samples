@@ -32,7 +32,7 @@ This samples requires prerequisites in order to run.
     az account set --subscription "<azure-subscription>"
     ```
     ```bash
-    # Create LUIS service application
+    # Create the LUIS service application
     msbot clone services --name "<your_bot_name>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
     ```
 - Start the bot

@@ -35,7 +35,8 @@ class DispatchBot {
         this.userState = userState;
 
         // dispatch recognizer
-        const dispatchConfig = botConfig.findServiceByNameOrId(DISPATCH_CONFIG);
+        const dispatchServiceName = botConfig.name + '_' + DISPATCH_CONFIG;
+        const dispatchConfig = botConfig.findServiceByNameOrId(dispatchServiceName);
         if (!dispatchConfig || !dispatchConfig.appId) throw new Error(`No dispatch model found in .bot file. Please ensure you have dispatch model created and available in the .bot file. See readme.md for additional information\n`);
         this.dispatchRecognizer = new LuisRecognizer({
             applicationId: dispatchConfig.appId,
