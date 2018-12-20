@@ -9,7 +9,7 @@
             "appId": "",
             "appPassword": "",
             "endpoint": "http://localhost:3978/api/messages"
-        },        
+        },
         {
             "type": "luis",
             "name": "",
@@ -31,7 +31,7 @@
             "applicationId": "",
             "apiKeys": {},
             "id": "4"
-        },
+        }
     ],
     "padlock": "",
     "version": "2.0"

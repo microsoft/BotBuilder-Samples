@@ -21,6 +21,7 @@ This samples requires prerequisites in order to run.
     npm install
     ```
 - Setup LUIS
+
     Assuming prerequisites have been installed:
     ```bash
     # log into Azure

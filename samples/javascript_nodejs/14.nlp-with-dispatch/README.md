@@ -1,22 +1,14 @@
-# NLP with Dispatch
+# NLP with Dispatch sample
 Bot Framework v4 NLP with Dispatch bot sample
 
-This sample shows how to create a bot that relies on multiple [LUIS.ai](https://www.luis.ai) and [QnAMaker.ai](https://qnamaker.ai) models for natural language processing (NLP).
+This bot has been created using [Microsoft Bot Framework][1], it shows how to create a bot that relies on multiple [LUIS.ai][11] and [QnAMaker.ai][12] models for natural language processing (NLP).
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher
-    ```bash
-    # determine node version
-    node --version
-    ```
-- [Dispatch CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch)
-    ```bash
-    # install the dispatch CLI tool
-    npm install -g botdispatch
-    ```
--
+This samples requires prerequisites in order to run.
+- [Required Prerequisites][41]
 
-[Dispatch](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) is a tool to create and evaluate LUIS models used for NLP (Natural Language Processing). Dispatch works across multiple bot modules such as LUIS applications, QnA knowledge bases and other NLP sources (added to dispatch as a file type).
+
+[Dispatch CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) is a tool to create and evaluate LUIS models used for NLP (Natural Language Processing). Dispatch works across multiple bot modules such as LUIS applications, QnA knowledge bases and other NLP sources (added to dispatch as a file type).
 
 Use the Dispatch model in cases when:
 - Your bot consists of multiple modules and you need assistance in routing user's utterances to these modules and evaluate the bot integration.
@@ -42,13 +34,14 @@ Use the Dispatch model in cases when:
     ```
 
 # Testing the bot using Bot Framework Emulator **v4**
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
+- Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
 
-## Connect to bot using Bot Framework Emulator **v4**
+## Connect to the bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/14.nlp-with-dispatch` folder
+- File -> Open Bot Configuration
+- Navigate to `samples/javascript_nodejs/14.nlp-with-dispatch` folder
 - Select `nlp-with-dispatch.bot` file
 
 ## Deploy this bot to Azure and configure services
@@ -147,7 +140,7 @@ To create a new QnA Maker application for the bot,
 
 To create the QnA Maker application and update the .bot file with the QnA Maker configuration,
 - Open a terminal
-- Navigate to samples/javascript_nodejs/14.nlp-with-dispatch
+- Navigate to `samples/javascript_nodejs/14.nlp-with-dispatch` folder
 - Run the following command
 ```bash
 > ludown parse toqna --in resources/sample-qna.lu -o cognitiveModels --out dispatch.qna --verbose
@@ -165,31 +158,64 @@ You need to train and publish the QnA Maker Knowledge Bases that were created fo
 [Dispatch](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) is a CLI tool that enables you to create a dispatch NLP model across the different LUIS applications and/ or QnA Maker Knowledge Bases you have for your bot. For this sample, you would have already created 2 LUIS applications (Home Automation and Weather) and one QnA Maker Knowledge base.
 
 To create a new dispatch model for these services and update the .bot file configuration, in a terminal,
-- Navigate to samples/javascript_nodejs/14.nlp-with-dispatch
+- Navigate to `samples/javascript_nodejs/14.nlp-with-dispatch` folder
 - Run the following command
-```bash
-> dispatch create -b nlp-with-dispatch.bot | msbot connect dispatch --stdin
-```
+    ```bash
+    dispatch create -b nlp-with-dispatch.bot | msbot connect dispatch --stdin
+    ```
 
 Then go into your bot file and for the `"dispatch"`-type service with the name `"nlp-with-dispatchDispatch"`, add a `"subscriptionKey"` with your preferred LUIS Key. You can use the `"subscriptionKey"` that's found under the `"luis"`-type services.
 
-## Securing keys in your .bot file
-Since your .bot file contains service IDs, subscription and authoring keys, its best to encrypt them. To encrypt the .bot file, you can run
+# Testing the bot using Bot Framework Emulator **v4**
+[Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-```bash
-msbot secret -n
-```
+- Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
 
-This will generate a strong key, encrypt the bot file and print the key. Please keep this key securely.
-
-Any time the bot file is encrypted, make sure to set the botFileSecret environment variable this sample relies on (either through the .env file or other means).
-
-# Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
-
-- Install the Bot Framework emulator from [here](https://aka.ms/botframework-emulator)
-
-## Connect to bot using Bot Framework Emulator **V4**
+## Connect to the bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to samples/javascript_nodejs/14.nlp-with-dispatch folder
-- Select nlp-with-dispatch.bot file
+- File -> Open Bot Configuration
+- Navigate to `samples/javascript_nodejs/14.nlp-with-dispatch` folder
+- Select `nlp-with-dispatch.bot` file
+
+# Further reading
+- [Bot Framework Documentation][20]
+- [Bot Basics][32]
+
+- [Prompt types][23]
+- [Waterfall dialogs][24]
+- [Ask the user questions][26]
+
+- [Activity processing][25]
+- [Azure Bot Service Introduction][21]
+- [Azure Bot Service Documentation][22]
+- [Azure CLI][7]
+- [msbot CLI][9]
+- [Azure Portal][10]
+- [Language Understanding using LUIS][11]
+- [Restify][30]
+- [dotenv][31]
+
+[1]: https://dev.botframework.com
+[4]: https://nodejs.org
+[5]: https://github.com/microsoft/botframework-emulator
+[6]: https://github.com/Microsoft/BotFramework-Emulator/releases
+[7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
+[8]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
+[9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
+[10]: https://portal.azure.com
+[11]: https://www.luis.ai
+[12]: https://qnamaker.ai
+[20]: https://docs.botframework.com
+[21]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
+[22]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0
+
+[23]:
+[24]:
+[25]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0
+[26]:
+[27]: https://github.com/microsoft/botbuilder-js/tree/master/libraries/botbuilder-dialogs
+[30]: https://www.npmjs.com/package/restify
+[31]: https://www.npmjs.com/package/dotenv
+[32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
+[40]: https://aka.ms/azuredeployment
+[41]: ./PREREQUISITES.md

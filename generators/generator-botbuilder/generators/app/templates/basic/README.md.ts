@@ -26,6 +26,7 @@ This sample requires prerequisites in order to run.
     ```
 
 - Setup LUIS
+
     Assuming prerequisites have been installed:
     ```bash
     # log into Azure

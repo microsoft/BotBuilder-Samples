@@ -1,21 +1,11 @@
-# nlp-with-luis sample
-Bot Builder v4 natural language processing with LUIS bot sample
+# nlp with luis sample
+Bot Framework v4 natural language processing with LUIS bot sample
 
-This bot has been created using [Microsoft Bot Framework](https://dev.botframework.com),
+This bot has been created using [Microsoft Bot Framework][1], it shows how to use LUIS, a Natural Language Understanding service to implement language understanding in a bot. The bot will use LUIS to extract language intents from a user's message.
 
-This sample shows how to create a bot that uses Language Understanding (LUIS) to extract the intents from a user's message.
-
-## Concepts introduced in this sample
-[Language Understanding (LUIS)](https://www.luis.ai) is a cloud-based API service that applies custom machine-learning intelligence to a user's conversational, natural language text to predict overall meaning, and pull out relevant, detailed information.
-
-## LUIS
-Language Understanding service (LUIS) allows your application to understand what a person wants in their own words. LUIS uses machine learning to allow developers to build applications that can receive user input in natural language and extract meaning from it.
-
-
-## Prerequisite
-This sample requires prerequisites in order to run.
+## Prerequisites
+This samples requires prerequisites in order to run.
 - [Required Prerequisites][41]
-
 
 ## To try this sample◊
 - Clone the repository
@@ -35,6 +25,7 @@ This sample requires prerequisites in order to run.
     npm run build
     ```
 - Setup LUIS
+
     Assuming prerequisites have been installed:
     ```bash
     # log into Azure
@@ -54,12 +45,12 @@ This sample requires prerequisites in order to run.
     ```
 
 
-## Testing the bot using Bot Framework Emulator **v4**
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+# Testing the bot using Bot Framework Emulator **v4**
+[Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
 
-### Connect to bot using Bot Framework Emulator v4
+## Connect to the bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration
 - Navigate to `samples/javascript_typescript/12.nlp-with-luis` folder
@@ -90,7 +81,7 @@ npm run build
 ### Getting Additional Help with Deploying to Azure
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
-## How to Modify a language model
+## How to modify a language model
 This sample uses a language model to train LUIS.  The source for the language model can be found in the `cognitiveModels\reminders.lu`.  The `.lu` (language understanding) file describes language understanding components for your bot.  `.lu` files are text files and can be modified to change what language your bot will understand.  The `ludown` CLI tool takes as input a `.lu` file and produces a `.json` file.  This `.json` file is then used as input to the `luis` CLI tool to train your LUIS application's language understanding model.
 
 ### Train and publish the LUIS models
@@ -117,8 +108,38 @@ msbot get "Reminders" | luis train version --wait --stdin
 msbot get "Reminders" | luis publish version --stdin
 ```
 
-
 # Further reading
-- [Using LUIS for Language Understanding](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js)
-- [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [LUIS documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)
+- [Bot Framework Documentation][20]
+- [Bot Basics][32]
+- [Using LUIS for Language Understanding][23]
+- [LUIS documentation][24]
+- [Activity processing][25]
+- [Azure Bot Service Introduction][21]
+- [Azure Bot Service Documentation][22]
+- [Azure CLI][7]
+- [msbot CLI][9]
+- [Azure Portal][10]
+- [Language Understanding using LUIS][11]
+- [Restify][30]
+- [dotenv][31]
+
+[1]: https://dev.botframework.com
+[4]: https://nodejs.org
+[5]: https://github.com/microsoft/botframework-emulator
+[6]: https://github.com/Microsoft/BotFramework-Emulator/releases
+[7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
+[8]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
+[9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
+[10]: https://portal.azure.com
+[11]: https://www.luis.ai
+[20]: https://docs.botframework.com
+[21]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
+[22]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0
+[23]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js
+[24]: https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/
+[25]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0
+[30]: https://www.npmjs.com/package/restify
+[31]: https://www.npmjs.com/package/dotenv
+[32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
+[40]: https://aka.ms/azuredeployment
+[41]: ./PREREQUISITES.md
