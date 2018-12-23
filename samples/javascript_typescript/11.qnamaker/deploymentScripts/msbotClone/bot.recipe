@@ -22,17 +22,6 @@
       "type": "abs",
       "id": "3",
       "name": "qna-abs"
-    },
-    {
-      "type": "appInsights",
-      "id": "4",
-      "name": "qna-insights"
-    },
-    {
-      "type": "blob",
-      "id": "5",
-      "name": "qna-blob",
-      "container": "botstatestore"
     }
   ]
 }

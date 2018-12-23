@@ -7,7 +7,12 @@ const fs = require('fs');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, MemoryStorage, UserState, ConversationState, TranscriptLoggerMiddleware } = require('botbuilder');
+const {
+    BotFrameworkAdapter,
+    ConversationState,
+    MemoryStorage,
+    TranscriptLoggerMiddleware,
+    UserState } = require('botbuilder');
 const { CustomLogger } = require('./CustomLogger');
 // Import required bot configuration.
 const { BotConfiguration } = require('botframework-config');

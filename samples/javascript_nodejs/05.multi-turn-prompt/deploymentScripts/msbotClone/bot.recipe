@@ -17,17 +17,6 @@
       "type": "abs",
       "id": "3",
       "name": "prompts-Bot"
-    },
-    {
-      "type": "appInsights",
-      "id": "4",
-      "name": "prompts-Insights"
-    },
-    {
-      "type": "blob",
-      "id": "5",
-      "name": "prompts-Blob",
-      "container": "botstatestore"
     }
   ]
 }
