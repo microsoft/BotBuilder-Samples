@@ -45,7 +45,7 @@ The Empty Bot template is the minimal skeleton code for a bot.  It provides a st
 |  Feature  | Empty Bot | Echo Bot | Core Bot |
 | --------- | :-------: | :------: | :------: |
 | Generate code in C# | X | X | X |
-| Support local development and testing using the [Microsoft Bot Framework Emulator v4][3] | X | X | X |
+| Support local development and testing using the [Bot Framework Emulator v4][3] | X | X | X |
 | Core bot message processing |  | X | X |
 | Deploy your bot to Microsoft Azure |  | X | X |
 | Welcome new users using Adaptive Card technology |  |  | X |
@@ -76,20 +76,20 @@ The Empty Bot template is the minimal skeleton code for a bot.  It provides a st
 ## Alternate Installation
 The above installation steps will install all three Bot Framework templates.  If you prefer to install one template or a subset of the three templates, here are steps you can follow to install individual templates:
 
-    ```bash
-    # Install EchoBot template
-    dotnet new -i Microsoft.BotFramework.CSharp.EchoBot
-    ```
+```bash
+# Install EchoBot template
+dotnet new -i Microsoft.BotFramework.CSharp.EchoBot
+```
 
-    ```bash
-    # Install CoreBot template
-    dotnet new -i Microsoft.BotFramework.CSharp.CoreBot
-    ```
+```bash
+# Install CoreBot template
+dotnet new -i Microsoft.BotFramework.CSharp.CoreBot
+```
 
-    ```bash
-    # Install EmptyBot template
-    dotnet new -i Microsoft.BotFramework.CSharp.EmptyBot
-    ```
+```bash
+# Install EmptyBot template
+dotnet new -i Microsoft.BotFramework.CSharp.EmptyBot
+```
 
 
 
@@ -146,7 +146,7 @@ dotnet run
 ```
 
 ## Interacting With Your Bot Using the Emulator
-Launch the [Microsoft Bot Framework Emulator v4][3] and open the generated project's `.bot` file.
+Launch the [Bot Framework Emulator v4][3] and open the generated project's `.bot` file.
 
 Once the Emulator is connected, you can interact with and receive messages from your bot.
 
@@ -190,7 +190,7 @@ dotnet new -u Microsoft.BotFramework.CSharp.EchoBot
 ```
 
 # Logging Issues and Providing Feedback
-Issues and feedback about the botbuilder generator can be submitted through the project's [GitHub issues][12] page.
+Issues and feedback about the .NET CORE Templates can be submitted through the project's [GitHub Issues][12] page.
 
 
 [1]: https://dev.botframework.com
@@ -207,4 +207,4 @@ Issues and feedback about the botbuilder generator can be submitted through the 
 [45]: https://docs.microsoft.com/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.
 [46]: https://docs.microsoft.com/azure/bot-service/bot-builder-howto-handle-user-interrupt?view=azure-bot-service-4.0
 [50]: https://aka.ms/azuredeployment
-[51]: https://botbuilder.myget.org/gallery
+[51]: https://botbuilder.myget.org/gallery/aitemplates
