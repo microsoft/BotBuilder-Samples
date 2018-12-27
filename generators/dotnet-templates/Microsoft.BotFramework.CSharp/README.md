@@ -1,12 +1,12 @@
 # .NET Core SDK Templates
-Yeoman generator for [Microsoft Bot Framework v4][1].  Will let you quickly set up a conversational AI bot
+.NET Core Templates for [Microsoft Bot Framework v4][1].  These templates will let you quickly set up a conversational AI bot
 using core AI capabilities.
 
 # About
-generator-botbuilder will help you build new conversational AI bots using the [Microsoft Bot Framework v4][1].
+.NET Core Templates will help you to quickly build new conversational AI bots using the [Microsoft Bot Framework v4][1].
 
 # Templates
-The generator supports three different template options.  The table below can help guide which template is right for you.
+There are three different template options.  The table below can help guide which template is right for you.
 
 |  Template  |  Description  |
 | ---------- |  ---------  |
@@ -17,16 +17,16 @@ The generator supports three different template options.  The table below can he
 ## How to Choose a Template
 | Template | When This Template is a Good Choice |
 | -------- | -------- |
-| Echo   | You are new to Bot Framework v4 and want a working bot with minimal features. |
-| Core  | You understand some of the core concepts of Bot Framework v4 and are beyond the concepts introduced in the Echo template.  You're familiar with or are ready to learn concepts such as language understanding using LUIS, managing multi-turn conversations with Dialogs, handling user initiated Dialog interruptions, and using Adaptive Cards to welcome your users. |
-| Empty  | You are a seasoned Bot Framework v4 developer.  You've built bots before, and want the minimum skeleton of a bot. |
+| Echo Bot  | You are new to Bot Framework v4 and want a working bot with minimal features. |
+| Core Bot | You understand some of the core concepts of Bot Framework v4 and are beyond the concepts introduced in the Echo template.  You're familiar with or are ready to learn concepts such as language understanding using LUIS, managing multi-turn conversations with Dialogs, handling user initiated Dialog interruptions, and using Adaptive Cards to welcome your users. |
+| Empty Bot | You are a seasoned Bot Framework v4 developer.  You've built bots before, and want the minimum skeleton of a bot. |
 
 ## Template Overview
-### Echo Template
-The Echo bot template is slightly more than the a classic "Hello World!" example, but not by much.  This template shows the basic structure of a bot, how a bot recieves messages from a user, and how a bot sends messages to a user.  The bot will "echo" back to the user, what the user says to the bot.  It is a good choice for first time, new to Bot Framework v4 developers.
+### Echo Bot Template
+The Echo Bot template is slightly more than the a classic "Hello World!" example, but not by much.  This template shows the basic structure of a bot, how a bot recieves messages from a user, and how a bot sends messages to a user.  The bot will "echo" back to the user, what the user says to the bot.  It is a good choice for first time, new to Bot Framework v4 developers.
 
-### Basic Template
-The Basic bot template consists of set of core features most every bot is likely to have.  Building off of the core message processing features found in the Empty template, this template adds a number of more sophisticated features.  The table below lists these features and provides links to additional documentation.
+### Core Bot Template
+The Core Bot template consists of set of core features most every bot is likely to have.  Building off of the core message processing features found in the Empty template, this template adds a number of more sophisticated features.  The table below lists these features and provides links to additional documentation.
 
 | Core&nbsp;Bot&nbsp;Features | Description |
 | ------------------ | ----------- |
@@ -37,13 +37,13 @@ The Basic bot template consists of set of core features most every bot is likely
 | [Managing conversation state][45] | A key to good bot design is to track the context of a conversation, so that your bot remembers things like the answers to previous questions. |
 | [How to handle user-initiated interruptions][46] | While you may think that your users will follow your defined conversation flow step by step, chances are good that they will change their minds or ask a question in the middle of the process instead of answering the question. Handling interruptions means making sure your bot is prepared to handle situations like this. |
 
-### Empty Template
-The Empty bot template is the minimal skeleton code for a bot.  It provides a stub `onTurn` handlers but does not perform any actions.  If you are experienced writing bots with Bot Framework v4 and want the minimum scaffolding, the Empty template is for you.
+### Empty Bot Template
+The Empty Bot template is the minimal skeleton code for a bot.  It provides a stub `onTurn` handlers but does not perform any actions.  If you are experienced writing bots with Bot Framework v4 and want the minimum scaffolding, the Empty template is for you.
 
 
 # Features by Template
-|  Feature  |  Empty  |  Echo   |  Core  |
-| --------- | :-----: | :-----: | :-----: |
+|  Feature  | Empty Bot | Echo Bot | Core Bot |
+| --------- | :-------: | :------: | :------: |
 | Generate code in C# | X | X | X |
 | Support local development and testing using the [Microsoft Bot Framework Emulator v4][3] | X | X | X |
 | Core bot message processing |  | X | X |
