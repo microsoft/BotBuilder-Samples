@@ -1,4 +1,4 @@
-# generator-botbuilder
+# .NET Core SDK Templates
 Yeoman generator for [Microsoft Bot Framework v4][1].  Will let you quickly set up a conversational AI bot
 using core AI capabilities.
 
@@ -12,13 +12,13 @@ The generator supports three different template options.  The table below can he
 | ---------- |  ---------  |
 | Empty | A good template if you are familiar with Bot Framework v4, and simple want a basic skeleton project.  Also a good option if you want to take sample code from the documentation and paste it into a minimal bot in order to learn. |
 | Echo | A good template if you want a little more than "Hello World!", but not much more.  This template handles the very basics of sending messages to a bot, and having the bot process the messages by repeating them back to the user.  This template produces a bot that simply "echos" back to the user anything the user says to the bot. |
-| Basic | Our most advanced template, the Basic template provides 6 core features every bot is likely to have.  This template covers the basic features of a Conversational-AI bot using LUIS[2].  See the **Basic Bot Features** table below for more details. |
+| Core | Our most advanced template, the Basic template provides 6 core features every bot is likely to have.  This template covers the core features of a Conversational-AI bot using LUIS[2].  See the **Core Bot Features** table below for more details. |
 
 ## How to Choose a Template
 | Template | When This Template is a Good Choice |
 | -------- | -------- |
 | Echo   | You are new to Bot Framework v4 and want a working bot with minimal features. |
-| Basic  | You understand some of the core concepts of Bot Framework v4 and are beyond the concepts introduced in the Echo template.  You're familiar with or are ready to learn concepts such as language understanding using LUIS, managing multi-turn conversations with Dialogs, handling user initiated Dialog interruptions, and using Adaptive Cards to welcome your users. |
+| Core  | You understand some of the core concepts of Bot Framework v4 and are beyond the concepts introduced in the Echo template.  You're familiar with or are ready to learn concepts such as language understanding using LUIS, managing multi-turn conversations with Dialogs, handling user initiated Dialog interruptions, and using Adaptive Cards to welcome your users. |
 | Empty  | You are a seasoned Bot Framework v4 developer.  You've built bots before, and want the minimum skeleton of a bot. |
 
 ## Template Overview
@@ -28,7 +28,7 @@ The Echo bot template is slightly more than the a classic "Hello World!" example
 ### Basic Template
 The Basic bot template consists of set of core features most every bot is likely to have.  Building off of the core message processing features found in the Empty template, this template adds a number of more sophisticated features.  The table below lists these features and provides links to additional documentation.
 
-| Basic&nbsp;Bot&nbsp;Features | Description |
+| Core&nbsp;Bot&nbsp;Features | Description |
 | ------------------ | ----------- |
 | [Send and receive messages][40] | The primary way your bot will communicate with users, and likewise receive communication, is through message activities. Some messages may simply consist of plain text, while others may contain richer content such as cards or attachments. |
 | [Proactive messaging][41] using [Adaptive Cards][42] | The primary goal when creating any bot is to engage your user in a meaningful conversation. One of the best ways to achieve this goal is to ensure that from the moment a user first connects to your bot, they understand your bot’s main purpose and capabilities.  We refer to this as "welcoming the user."  The Basic template uses an [Adaptive Card][42] to implement this behavior.  |
@@ -42,9 +42,9 @@ The Empty bot template is the minimal skeleton code for a bot.  It provides a st
 
 
 # Features by Template
-|  Feature  |  Empty  |  Echo   |  Basic  |
+|  Feature  |  Empty  |  Echo   |  Core  |
 | --------- | :-----: | :-----: | :-----: |
-| Generate code in JavaScript or TypesScript | X | X | X |
+| Generate code in C# | X | X | X |
 | Support local development and testing using the [Microsoft Bot Framework Emulator v4][3] | X | X | X |
 | Core bot message processing |  | X | X |
 | Deploy your bot to Microsoft Azure |  | X | X |
@@ -56,88 +56,93 @@ The Empty bot template is the minimal skeleton code for a bot.  It provides a st
 
 
 # Installation
-1.  Install [Yeoman][9] using [npm][10] (we assume you have pre-installed [node.js][11]).
+1.  Install [.NET Core SDK][4] version 2.2 or higher
+	```bash
+	# determine dotnet version
+	dotnet --version
+	```
+1.  Install Bot Framework CSharp templates by typing the following in your console:
     ```bash
-    # Make sure both are installed globally
-    npm install -g yo
+    # Installs all three templates (echo, core, empty)
+    dotnet new -i Microsoft.BotFramework.CSharp::
+    ```
+1.  Verify the templates have been installed correctly by typing the following into your console:
+    ```bash
+    dotnet new --list
     ```
 
-2.  Install generator-botbuilder by typing the following in your console:
+
+
+## Alternate Installation
+The above installation steps will install all three Bot Framework templates.  If you prefer to install one template or a subset of the three templates, here are steps you can follow to install individual templates:
+
     ```bash
-    # Make sure both are installed globally
-    npm install -g generator-botbuilder
+    # Install EchoBot template
+    dotnet new -i Microsoft.BotFramework.CSharp.EchoBot
     ```
 
-3.  Verify that Yeoman and generator-botbuilder have been installed correctly by typing the following into your console:
     ```bash
-    yo botbuilder --help
+    # Install CoreBot template
+    dotnet new -i Microsoft.BotFramework.CSharp.CoreBot
     ```
+
+    ```bash
+    # Install EmptyBot template
+    dotnet new -i Microsoft.BotFramework.CSharp.EmptyBot
+    ```
+
 
 
 # Usage
 ## Creating a New Bot Project
-When the generator is launched, it will prompt for the information required to create a new bot.
 
+### Create EchoBot
 ```bash
-# Run the generator in interactive mode
-yo botbuilder
+# Generate an Echo Bot
+dotnet new echobot
 ```
 
-## Generator Command Line Options
-The generator supports a number of command line options that can be used to change the generator's default options or to pre-seed a prompt.
-
-| Command&nbsp;line&nbsp;Option  | Description |
-| ------------------- | ----------- |
-| --help, -h        | List help text for all supported command-line options |
-| --botname, -N     | The name given to the bot project |
-| --description, -D | A brief bit of text that describes the purpose of the bot |
-| --language, -L    | The programming language for the project.  Options are `JavaScript` or `TypeScript`. |
-| --template, -T    | The template used to generate the project.  Options are `empty`, `echo`, or `basic`.  See https://aka.ms/botbuilder-generator for additional information regarding the different template option and their functional differences. |
-| --noprompt        | The generator will not prompt for confirmation before creating a new bot.  Any requirement options not passed on the command line will use a reasonable default value.  This option is intended to enable automated bot generation for testing purposes. |
-
-### Example Using Command Line Options
-This example shows how to pass command line options to the generator, setting the default language to TypeScript and the default template to Basic.
+### Create CoreBot
 ```bash
-# Run the generator defaulting the language to TypeScript and the template to basic
-yo botbuilder --L "TypeScript" --T "basic"
+# Generate an Core Bot
+dotnet new corebot
 ```
 
-## Generating a Bot Using --noprompt
-The generator can be run in `--noprompt` mode, which can be used for automated bot creation.  When run in `--noprompt` mode, the generator can be configured using command line options as documented above.  If a command line option is ommitted a reasonable default will be used.  In addition, passing the `--noprompt` option will cause the generator to create a new bot project without prompting for confirmation before generating the bot.
-
-### Default Options
-| Command&nbsp;line&nbsp;Option  | Default Value |
-| ------------------- | ----------- |
-| --botname, -N     | `my-chat-bot` |
-| --description, -D | "Demonstrate the core capabilities of the Microsoft Bot Framework" |
-| --language, -L    | `JavaScript` |
-| --template, -T    | `echo` |
-
-
-### Examples Using --noprompt
-This example shows how to run the generator in --noprompt mode, setting all required options on the command line.
+### Create EmptyBot
 ```bash
-# Run the generator, setting all command line options
-yo botbuilder --noprompt -N "my-first-bot" -D "A bot that demonstrates core AI capabilities" -L "JavaScript" -T "Echo"
+# Generate an Empty Bot
+dotnet new emptybot
 ```
 
-This example shows how to run the generator in --noprompt mode, using all the default command line options.  The generator will create a bot project using all the default values specified in the **Default Options** table above.
+## Overridding .NET Core 2.2 Dependencies
+The templates default to using .NET Core 2.2.x.  This can be overridden on the command line by using the `--framework` option. The current templates support `netcoreapp2.0`, `netcoreapp2.1`, and `netcoreapp2.2` (the default).
+
+Here are some different examples that show how to specify different .NET Core dependencies:
+
+### Create EchoBot Using .NET Core 2.1
 ```bash
-# Run the generator using all default options
-yo botbuilder --noprompt
+# Generate an Echo Bot (netcoreapp2.1)
+dotnet new echobot --framework netcoreapp2.1
 ```
 
+### Create CoreBot Using .NET Core 2.0
+```bash
+# Generate an Core Bot (netcoreapp2.0)
+dotnet new corebot --framework netcoreapp2.0
+```
 
 # Running Your Bot
 ## Running Your Bot Locally
 To run your bot locally, type the following in your console:
+
 ```bash
-# install modules
-npm install
+# change into the project's folder.  e.g. EchoBot
+cd EchoBot
 ```
+
 ```bash
 # run the bot
-npm start
+dotnet run
 ```
 
 ## Interacting With Your Bot Using the Emulator
@@ -146,22 +151,7 @@ Launch the [Microsoft Bot Framework Emulator v4][3] and open the generated proje
 Once the Emulator is connected, you can interact with and receive messages from your bot.
 
 ## Developing Your Bot Locally
-It's often easier to develop the capabilities of your bot locally, and to use the Microsoft Bot Framework Emulator to test your changes.  When the generator generated your bot project it added a file watcher to the project.  When run, the watcher which will cause nodejs to reload the bot whenever any of the bot's source files change.  Causing nodejs to reload your bot under these circumstances will ensure you are always running the latest version of your bot.  Enable the watch feature by typing the following in your console:
-
-```bash
-# From the directory that contains your bot
-npm run watch
-```
-
-When you run the `watch` task, nodejs will reload your bot anytime a file in your project changes.  When using the Emulator to interact with
-your bot, you will need to click the Emulator's 'Start Over' tab in order to force the Emulator to also reload the latest version of your bot.
-
-### Lint Compliant Code
-The code generated by the botbuilder generator is lint compliant.  Depending on whether the bot was generated using JavaScript or TypeScript, there is either a `.eslint` or `.tslint` file that contains the linting rules used to lint the generated code.  To use lint as your develop your bot:
-
-```bash
-npm run lint
-```
+It's often easier to develop the capabilities of your bot locally, and to use the Microsoft Bot Framework Emulator to test your changes.
 
 # Deploy Your Bot to Azure
 After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.
@@ -172,28 +162,31 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 # Optionally Using Development Builds
 Development builds are based off of "work in progress" code.  This means they may or may not be stable and may have incomplete documentation.  These builds are better suited for more experienced users and developers, although everyone is welcome to give them a shot and provide feedback.
 
-You can get the latest development builds of `generator-botbuilder` from the [BotBuilder MyGet][51] feed.  To install the latest development build, follow the following steps:
+You can get the latest development builds from the [BotBuilder MyGet][51] feed.  The development builds for each of the templates can be found below:
+
+| Template | Development Build Page | --nuget-source |
+| -------- | -------------------------- | -------------- |
+| Echo Bot | https://botbuilder.myget.org/F/aitemplates/dotnet/EchoBotTemplate | https://botbuilder.myget.org/F/aitemplates/dotnet/EchoBotTemplate/api/v3/index.json |
+| Core Bot | https://botbuilder.myget.org/F/aitemplates/dotnet/CoreBotTemplate | https://botbuilder.myget.org/F/aitemplates/dotnet/CoreBotTemplate/api/v3/index.json |
+| Empty Bot | https://botbuilder.myget.org/F/aitemplates/dotnet/EmptyBotTemplate | https://botbuilder.myget.org/F/aitemplates/dotnet/EmptyBotTemplate/api/v3/index.json |
 
 
+
+To install the latest development build:
 ```bash
-# configure npm to pull from the developer builds registry
-npm config set registry https://botbuilder.myget.org/F/aitemplates/npm/
+# install the development build of Echo Bot template
+dotnet new -i --nuget-source  https://botbuilder.myget.org/F/aitemplates/dotnet/EchoBotTemplate/api/v3/index.json
 ```
 
+To see a list of currently installed templates:
 ```bash
-# installing using npm
-npm install -g generator-botbuilder
+dotnet new --list
 ```
 
+To uninstall the development build:
 ```bash
-# reset npm to use the public registry
-npm config set registry https://registry.npmjs.org
-```
-
-Now when `yo botbuilder` is run, it will use the development build.  To remove the development build, run the following:
-```bash
-# installing using npm
-npm uninstall -g generator-botbuilder
+# uninstall the development build of Echo Bot template
+dotnet new -u Microsoft.BotFramework.CSharp.EchoBot
 ```
 
 # Logging Issues and Providing Feedback
@@ -205,14 +198,8 @@ Issues and feedback about the botbuilder generator can be submitted through the 
 [3]: https://www.github.com/microsoft/botframework-emulator
 [4]: https://portal.azure.com
 [5]: https://azure.microsoft.com/get-started/
-[6]: https://github.com/motdotla/dotenv
-[7]: http://restify.com
-[8]: https://github.com/remy/nodemon
-[9]: http://yeoman.io
-[10]: https://www.npmjs.com
-[11]: https://nodejs.org/
 [12]: https://github.com/Microsoft/botbuilder-samples/issues
-[40]: https://docs.microsoft.com/azure/bot-service/bot-builder-howto-send-messages?view=azure-bot-service-4.0&tabs=javascript
+[40]: https://docs.microsoft.com/azure/bot-service/bot-builder-howto-send-messages?view=azure-bot-service-4.0
 [41]: https://docs.microsoft.com/azure/bot-service/bot-builder-send-welcome-message?view=azure-bot-service-4.0
 [42]: https://docs.microsoft.com/azure/bot-service/bot-builder-send-welcome-message?view=azure-bot-service-4.0?#using-adaptive-card-greeting
 [43]: https://docs.microsoft.com/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0
