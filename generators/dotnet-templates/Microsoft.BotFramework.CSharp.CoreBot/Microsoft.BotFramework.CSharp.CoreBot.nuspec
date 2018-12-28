@@ -2,11 +2,15 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Microsoft.BotFramework.CSharp.CoreBot</id>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <description>
       .NET Core Template - Core Bot (Bot Framework v4).
     </description>
     <authors>Microsoft</authors>
+    <projectUrl>https://github.com/Microsoft/BotBuilder-Samples/tree/master/dotnet-new/generators/dotnet-templates/</projectUrl>
+    <license type="expression">MIT</license>
+    <iconUrl>https://github.com/Microsoft/BotBuilder-Samples/tree/master/dotnet-new/generators/dotnet-templates/nuget_icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <packageTypes>
       <packageType name="Template" />
     </packageTypes>

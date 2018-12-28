@@ -75,9 +75,9 @@ The Empty Bot template is the minimal skeleton code for a bot.  It provides a st
     ```
     Templates                                         Short Name         Language          Tags
     ----------------------------------------------------------------------------------------------------------------------------
-    Bot Framework Core Bot (v0.1.0)                   corebot            [C#]              Bot/Bot Framework/AI/Core Bot
-    Bot Framework Echo Bot (v0.1.0)                   echobot            [C#]              Bot/Bot Framework/AI/Echo Bot
-    Bot Framework Empty Bot (v0.1.0)                  emptybot           [C#]              Bot/Bot Framework/AI/Empty Bot
+    Bot Framework Core Bot (v0.1.1)                   corebot            [C#]              Bot/Bot Framework/AI/Core Bot
+    Bot Framework Echo Bot (v0.1.1)                   echobot            [C#]              Bot/Bot Framework/AI/Echo Bot
+    Bot Framework Empty Bot (v0.1.1)                  emptybot           [C#]              Bot/Bot Framework/AI/Empty Bot
     Console Application                               console            [C#], F#, VB      Common/Console
     Class library                                     classlib           [C#], F#, VB      Common/Library
     Unit Test Project                                 mstest             [C#], F#, VB      Test/MSTest
