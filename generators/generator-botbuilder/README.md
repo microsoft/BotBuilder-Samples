@@ -170,7 +170,7 @@ To learn how, see [Deploy your bot to Azure][50] for a complete set of deploymen
 If you are new to Microsoft Azure, please refer to [Getting started with Azure][5] for guidance on how to get started on Azure.
 
 # Optionally Using Development Builds
-Development builds are based off of "work in progress" code.  This means they may or may not be stable and may have incomplete documentation.  These builds are better suited for more experienced users and developers, although aeveryone is welcome to give them a shot and provide feedback.
+Development builds are based off of "work in progress" code.  This means they may or may not be stable and may have incomplete documentation.  These builds are better suited for more experienced users and developers, although everyone is welcome to give them a shot and provide feedback.
 
 You can get the latest development builds of `generator-botbuilder` from the [BotBuilder MyGet][51] feed.  To install the latest development build, follow the following steps:
 
