@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.BotFramework.CSharp.EmptyBot</id>
+    <version>0.1.0</version>
+    <description>
+      .NET Core Template - Empty Bot (Bot Framework v4).
+    </description>
+    <authors>Microsoft</authors>
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+  </metadata>
+</package>

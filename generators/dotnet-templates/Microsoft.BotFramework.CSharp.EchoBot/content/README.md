@@ -1,7 +1,7 @@
 ﻿# echobot sample
 Bot Framework v4 echo bot sample.
 
-This bot has been created using [Microsoft Bot Framework][1], it shows how to create a simple bot that accepts input from the user and echoes it back.
+This bot has been created using [Bot Framework][1], it shows how to create a simple bot that accepts input from the user and echoes it back.
 
 ## Prerequisites
 - [.NET Core SDK][4] version 2.2 or higher
@@ -32,7 +32,7 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
 	- Press `F5` to run the project
 
 # Testing the bot using Bot Framework Emulator **v4**
-[Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
 
@@ -87,6 +87,7 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Language Understanding using LUIS][11]
 
 #### Generated with `dotnet new echobot` vX.X.X
+
 
 [1]: https://dev.botframework.com
 [4]: https://dotnet.microsoft.com/download

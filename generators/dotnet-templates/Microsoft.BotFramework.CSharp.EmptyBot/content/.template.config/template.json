@@ -4,21 +4,21 @@
   "classifications": [
     "Bot",
     "Bot Framework",
-    "Microsoft AI",
-    "Echo Bot"
+    "AI",
+    "Empty Bot"
   ],
-  "defaultName": "EchoBot",
-  "groupIdentity": "Microsoft.BotFramework.CSharp.EchoBot",
-  "identity": "Microsoft.BotFramework.CSharp.EchoBot",
-  "name": "Bot Framework Echo Bot (v0.1.0)",
+  "defaultName": "EmptyBot",
+  "groupIdentity": "Microsoft.BotFramework.CSharp.EmptyBot",
+  "identity": "Microsoft.BotFramework.CSharp.EmptyBot",
+  "name": "Bot Framework Empty Bot (v0.1.0)",
   "preferNameDirectory": true,
   "sourceName": "Microsoft.BotFramework.Samples",
-  "shortName": "echobot",
+  "shortName": "emptybot",
   "tags": {
     "language": "C#",
     "type": "project"
   },
-  "description": "A project template for creating a Bot Framework v4 bot. This template shows how a simple bot accepts input from the user and echoes it back.",
+  "description": "A project template for creating a Bot Framework v4 bot. This template shows the minimum code required to build a bot.",
   "symbols": {
     "currentBuildVersion": {
       "type": "generated",
@@ -31,7 +31,7 @@
     "output": {
       "type": "parameter",
       "replaces": "{OUTPUT_PATH}",
-      "defaultValue": "EchoBot"
+      "defaultValue": "EmptyBot"
     },
     "Framework": {
       "type": "parameter",

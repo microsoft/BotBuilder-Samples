@@ -1,7 +1,7 @@
 ﻿# emptybot sample
 Bot Framework v4 empty bot sample.
 
-This bot has been created using [Microsoft Bot Framework][1], it shows the minimum code required to build a bot.
+This bot has been created using [Bot Framework][1], it shows the minimum code required to build a bot.
 
 ## Prerequisites
 - [.NET Core SDK][4] version 2.2 or higher
@@ -32,7 +32,7 @@ This bot has been created using [Microsoft Bot Framework][1], it shows the minim
 	- Press `F5` to run the project
 
 # Testing the bot using Bot Framework Emulator **v4**
-[Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
 

@@ -1,32 +1,32 @@
 # .NET Core SDK Templates
-.NET Core Templates for [Microsoft Bot Framework v4][1].  These templates will let you quickly set up a conversational AI bot
+.NET Core Templates for [Bot Framework v4][1].  These templates will let you quickly create conversational AI bots
 using core AI capabilities.
 
 # About
-.NET Core Templates will help you to quickly build new conversational AI bots using the [Microsoft Bot Framework v4][1].
+.NET Core Templates will help you to quickly build new conversational AI bots using the [Bot Framework v4][1].
 
 # Templates
 There are three different template options.  The table below can help guide which template is right for you.
 
 |  Template  |  Description  |
 | ---------- |  ---------  |
-| Empty | A good template if you are familiar with Bot Framework v4, and simple want a basic skeleton project.  Also a good option if you want to take sample code from the documentation and paste it into a minimal bot in order to learn. |
-| Echo | A good template if you want a little more than "Hello World!", but not much more.  This template handles the very basics of sending messages to a bot, and having the bot process the messages by repeating them back to the user.  This template produces a bot that simply "echos" back to the user anything the user says to the bot. |
-| Core | Our most advanced template, the Basic template provides 6 core features every bot is likely to have.  This template covers the core features of a Conversational-AI bot using LUIS[2].  See the **Core Bot Features** table below for more details. |
+| Empty Bot | A good template if you are familiar with Bot Framework v4, and simple want a basic skeleton project.  Also a good option if you want to take sample code from the documentation and paste it into a minimal bot in order to learn. |
+| Echo Bot | A good template if you want a little more than "Hello World!", but not much more.  This template handles the very basics of sending messages to a bot, and having the bot process the messages by repeating them back to the user.  This template produces a bot that simply "echos" back to the user anything the user says to the bot. |
+| Core Bot | Our most advanced template, the Basic template provides 6 core features every bot is likely to have.  This template covers the core features of a Conversational-AI bot using LUIS[2].  See the **Core Bot Features** table below for more details. |
 
 ## How to Choose a Template
 | Template | When This Template is a Good Choice |
 | -------- | -------- |
 | Echo Bot  | You are new to Bot Framework v4 and want a working bot with minimal features. |
 | Core Bot | You understand some of the core concepts of Bot Framework v4 and are beyond the concepts introduced in the Echo template.  You're familiar with or are ready to learn concepts such as language understanding using LUIS, managing multi-turn conversations with Dialogs, handling user initiated Dialog interruptions, and using Adaptive Cards to welcome your users. |
-| Empty Bot | You are a seasoned Bot Framework v4 developer.  You've built bots before, and want the minimum skeleton of a bot. |
+| Empty Bot | You are a seasoned Bot Framework v4 developer.  You've built bots before, and want the minimum skeleton of a bot to help you get started. |
 
 ## Template Overview
 ### Echo Bot Template
 The Echo Bot template is slightly more than the a classic "Hello World!" example, but not by much.  This template shows the basic structure of a bot, how a bot recieves messages from a user, and how a bot sends messages to a user.  The bot will "echo" back to the user, what the user says to the bot.  It is a good choice for first time, new to Bot Framework v4 developers.
 
 ### Core Bot Template
-The Core Bot template consists of set of core features most every bot is likely to have.  Building off of the core message processing features found in the Empty template, this template adds a number of more sophisticated features.  The table below lists these features and provides links to additional documentation.
+The Core Bot template consists of set of core features most every bot is likely to have.  Building off of the core message processing features found in the Echo Bot template, this template adds a number of more sophisticated features.  The table below lists these features and provides links to additional documentation.
 
 | Core&nbsp;Bot&nbsp;Features | Description |
 | ------------------ | ----------- |
@@ -38,7 +38,7 @@ The Core Bot template consists of set of core features most every bot is likely 
 | [How to handle user-initiated interruptions][46] | While you may think that your users will follow your defined conversation flow step by step, chances are good that they will change their minds or ask a question in the middle of the process instead of answering the question. Handling interruptions means making sure your bot is prepared to handle situations like this. |
 
 ### Empty Bot Template
-The Empty Bot template is the minimal skeleton code for a bot.  It provides a stub `onTurn` handlers but does not perform any actions.  If you are experienced writing bots with Bot Framework v4 and want the minimum scaffolding, the Empty template is for you.
+The Empty Bot template is the minimal skeleton code for a bot.  It provides a stub `onTurn` handlers but does not perform any actions.  If you are experienced writing bots with Bot Framework v4 and want the minimum scaffolding, the Empty Bot template is for you.
 
 
 # Features by Template

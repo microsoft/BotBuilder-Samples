@@ -4,8 +4,8 @@
     "classifications": [
       "Bot",
       "Bot Framework",
-      "Microsoft AI",
-      "Echo Bot"
+      "AI",
+      "Core Bot"
     ],
     "defaultName": "CoreBot",
     "groupIdentity": "Microsoft.BotFramework.CSharp.CoreBot",

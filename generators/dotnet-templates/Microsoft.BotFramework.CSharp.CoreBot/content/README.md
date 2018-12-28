@@ -1,7 +1,7 @@
 # corebot sample
 Bot Framework v4 ccore bot sample.
 
-This bot has been created using [Microsoft Bot Framework][1], it shows how to:
+This bot has been created using [Bot Framework][1], it shows how to:
 - Use [LUIS][11] to implement core AI capabilities
 - Implement a multi-turn conversation using Dialogs
 - Handle user interruptions for such things as `Help` or `Cancel`
@@ -47,7 +47,7 @@ This sample requires prerequisites in order to run.
 	- Press `F5` to run the project
 
 # Testing the bot using Bot Framework Emulator **v4**
-[Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
 
