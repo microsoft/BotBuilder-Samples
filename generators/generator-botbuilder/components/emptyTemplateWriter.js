@@ -11,7 +11,6 @@ const { BOT_TEMPLATE_NAME_EMPTY, BOT_TEMPLATE_NOPROMPT_EMPTY } = require('./cons
 // generators/app/templates folder name
 const GENERATOR_TEMPLATE_NAME = 'empty';
 
-const LANG_JS = 'javascript';
 const LANG_TS = 'typescript';
 
 /**

@@ -1,0 +1,38 @@
+{
+  "version": "1.0",
+  "resources": [
+    {
+      "type": "endpoint",
+      "id": "1",
+      "name": "development",
+      "url": "http://localhost:3978/api/messages"
+    },
+    {
+      "type": "endpoint",
+      "id": "2",
+      "name": "production",
+      "url": "https://your-bot-url.azurewebsites.net/api/messages"
+    },
+    {
+      "type": "abs",
+      "id": "3",
+      "name": "core-Bot"
+    },
+    {
+      "type": "appInsights",
+      "id": "4",
+      "name": "core-Insights"
+    },
+    {
+      "type": "blob",
+      "id": "5",
+      "name": "core-Blob",
+      "container": "botstatestore"
+    },
+    {
+      "type": "luis",
+      "id": "34",
+      "name": "core-bot-LUIS"
+    }
+  ]
+}
