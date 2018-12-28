@@ -38,7 +38,7 @@ The Core Bot template consists of set of core features most every bot is likely 
 | [How to handle user-initiated interruptions][46] | While you may think that your users will follow your defined conversation flow step by step, chances are good that they will change their minds or ask a question in the middle of the process instead of answering the question. Handling interruptions means making sure your bot is prepared to handle situations like this. |
 
 ### Empty Bot Template
-The Empty Bot template is the minimal skeleton code for a bot.  It provides a stub `onTurn` handlers but does not perform any actions.  If you are experienced writing bots with Bot Framework v4 and want the minimum scaffolding, the Empty Bot template is for you.
+The Empty Bot template is the minimal skeleton code for a bot.  It provides a stub `onTurn` handler but does not perform any actions.  If you are experienced writing bots with Bot Framework v4 and want the minimum scaffolding, the Empty Bot template is for you.
 
 
 # Features by Template
@@ -70,11 +70,26 @@ The Empty Bot template is the minimal skeleton code for a bot.  It provides a st
     ```bash
     dotnet new --list
     ```
+    Sample output from `dotnet new --list`
 
+    ```
+    Templates                                         Short Name         Language          Tags
+    ----------------------------------------------------------------------------------------------------------------------------
+    Bot Framework Core Bot (v0.1.0)                   corebot            [C#]              Bot/Bot Framework/AI/Core Bot
+    Bot Framework Echo Bot (v0.1.0)                   echobot            [C#]              Bot/Bot Framework/AI/Echo Bot
+    Bot Framework Empty Bot (v0.1.0)                  emptybot           [C#]              Bot/Bot Framework/AI/Empty Bot
+    Console Application                               console            [C#], F#, VB      Common/Console
+    Class library                                     classlib           [C#], F#, VB      Common/Library
+    Unit Test Project                                 mstest             [C#], F#, VB      Test/MSTest
+    NUnit 3 Test Project                              nunit              [C#], F#, VB      Test/NUnit
+    NUnit 3 Test Item                                 nunit-test         [C#], F#, VB      Test/NUnit
+    xUnit Test Project                                xunit              [C#], F#, VB      Test/xUnit
+    Razor Page                                        page               [C#]              Web/ASP.NET
+    ```
 
 
 ## Alternate Installation
-The above installation steps will install all three Bot Framework templates.  If you prefer to install one template or a subset of the three templates, here are steps you can follow to install individual templates:
+The above installation steps will install all three Bot Framework templates.  If you prefer to install one template or a subset of the three templates, install them individually by following the steps below.
 
 ```bash
 # Install EchoBot template
@@ -99,19 +114,19 @@ dotnet new -i Microsoft.BotFramework.CSharp.EmptyBot
 ### Create EchoBot
 ```bash
 # Generate an Echo Bot
-dotnet new echobot
+dotnet new echobot -n MyEchoBot
 ```
 
 ### Create CoreBot
 ```bash
 # Generate an Core Bot
-dotnet new corebot
+dotnet new corebot -n MyCoreBot
 ```
 
 ### Create EmptyBot
 ```bash
 # Generate an Empty Bot
-dotnet new emptybot
+dotnet new emptybot -n MyEmptyBot
 ```
 
 ## Overridding .NET Core 2.2 Dependencies
@@ -122,13 +137,13 @@ Here are some different examples that show how to specify different .NET Core de
 ### Create EchoBot Using .NET Core 2.1
 ```bash
 # Generate an Echo Bot (netcoreapp2.1)
-dotnet new echobot --framework netcoreapp2.1
+dotnet new echobot --framework netcoreapp2.1 -n MyEchoBot
 ```
 
 ### Create CoreBot Using .NET Core 2.0
 ```bash
 # Generate an Core Bot (netcoreapp2.0)
-dotnet new corebot --framework netcoreapp2.0
+dotnet new corebot --framework netcoreapp2.0 -n MyCoreBot
 ```
 
 # Running Your Bot
@@ -151,7 +166,7 @@ Launch the [Bot Framework Emulator v4][3] and open the generated project's `.bot
 Once the Emulator is connected, you can interact with and receive messages from your bot.
 
 ## Developing Your Bot Locally
-It's often easier to develop the capabilities of your bot locally, and to use the Microsoft Bot Framework Emulator to test your changes.
+It's often easier to develop the capabilities of your bot locally, and to use the Bot Framework Emulator to test your changes.
 
 # Deploy Your Bot to Azure
 After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.
@@ -164,18 +179,18 @@ Development builds are based off of "work in progress" code.  This means they ma
 
 You can get the latest development builds from the [BotBuilder MyGet][51] feed.  The development builds for each of the templates can be found below:
 
-| Template | Development Build Page | --nuget-source |
-| -------- | -------------------------- | -------------- |
-| Echo Bot | https://botbuilder.myget.org/F/aitemplates/dotnet/EchoBotTemplate | https://botbuilder.myget.org/F/aitemplates/dotnet/EchoBotTemplate/api/v3/index.json |
-| Core Bot | https://botbuilder.myget.org/F/aitemplates/dotnet/CoreBotTemplate | https://botbuilder.myget.org/F/aitemplates/dotnet/CoreBotTemplate/api/v3/index.json |
-| Empty Bot | https://botbuilder.myget.org/F/aitemplates/dotnet/EmptyBotTemplate | https://botbuilder.myget.org/F/aitemplates/dotnet/EmptyBotTemplate/api/v3/index.json |
+| Template | Development Build Page |
+| -------- | -------------------------- |
+| Echo&nbsp;Bot | https://aka.ms/dotnetcore-echobot-daily |
+| Core&nbsp;Bot | https://aka.ms/dotnetcore-corebot-daily |
+| Empty&nbsp;Bot | https://aka.ms/dotnetcore-emptybot-daily |
 
 
 
 To install the latest development build:
 ```bash
 # install the development build of Echo Bot template
-dotnet new -i --nuget-source  https://botbuilder.myget.org/F/aitemplates/dotnet/EchoBotTemplate/api/v3/index.json
+dotnet new -i Microsoft.BotFramework.CSharp.EmptyBot --nuget-source https://botbuilder.myget.org/F/aitemplates/api/v3/index.json
 ```
 
 To see a list of currently installed templates:
