@@ -1,32 +1,32 @@
 # generator-botbuilder
-Yeoman generator for [Microsoft Bot Framework v4][1].  Will let you quickly set up a conversational AI bot
+Yeoman generator for [Bot Framework v4][1].  Will let you quickly set up a conversational AI bot
 using core AI capabilities.
 
 # About
-generator-botbuilder will help you build new conversational AI bots using the [Microsoft Bot Framework v4][1].
+generator-botbuilder will help you build new conversational AI bots using the [Bot Framework v4][1].
 
 # Templates
 The generator supports three different template options.  The table below can help guide which template is right for you.
 
 |  Template  |  Description  |
 | ---------- |  ---------  |
-| Empty | A good template if you are familiar with Bot Framework v4, and simple want a basic skeleton project.  Also a good option if you want to take sample code from the documentation and paste it into a minimal bot in order to learn. |
-| Echo | A good template if you want a little more than "Hello World!", but not much more.  This template handles the very basics of sending messages to a bot, and having the bot process the messages by repeating them back to the user.  This template produces a bot that simply "echos" back to the user anything the user says to the bot. |
-| Basic | Our most advanced template, the Basic template provides 6 core features every bot is likely to have.  This template covers the basic features of a Conversational-AI bot using LUIS[2].  See the **Basic Bot Features** table below for more details. |
+| Empty&nbsp;Bot | A good template if you are familiar with Bot Framework v4, and simple want a basic skeleton project.  Also a good option if you want to take sample code from the documentation and paste it into a minimal bot in order to learn. |
+| Echo&nbsp;Bot | A good template if you want a little more than "Hello World!", but not much more.  This template handles the very basics of sending messages to a bot, and having the bot process the messages by repeating them back to the user.  This template produces a bot that simply "echos" back to the user anything the user says to the bot. |
+| Basic&nbsp;Bot | Our most advanced template, the Basic template provides 6 core features every bot is likely to have.  This template covers the basic features of a Conversational-AI bot using [LUIS][2].  See the **Basic Bot Features** table below for more details. |
 
 ## How to Choose a Template
 | Template | When This Template is a Good Choice |
 | -------- | -------- |
-| Echo   | You are new to Bot Framework v4 and want a working bot with minimal features. |
-| Basic  | You understand some of the core concepts of Bot Framework v4 and are beyond the concepts introduced in the Echo template.  You're familiar with or are ready to learn concepts such as language understanding using LUIS, managing multi-turn conversations with Dialogs, handling user initiated Dialog interruptions, and using Adaptive Cards to welcome your users. |
-| Empty  | You are a seasoned Bot Framework v4 developer.  You've built bots before, and want the minimum skeleton of a bot. |
+| Echo&nbsp;Bot  | You are new to Bot Framework v4 and want a working bot with minimal features. |
+| Basic&nbsp;Bot | You understand some of the core concepts of Bot Framework v4 and are beyond the concepts introduced in the Echo Bot template.  You're familiar with or are ready to learn concepts such as language understanding using LUIS, managing multi-turn conversations with Dialogs, handling user initiated Dialog interruptions, and using Adaptive Cards to welcome your users. |
+| Empty&nbsp;Bot  | You are a seasoned Bot Framework v4 developer.  You've built bots before, and want the minimum skeleton of a bot. |
 
 ## Template Overview
-### Echo Template
-The Echo bot template is slightly more than the a classic "Hello World!" example, but not by much.  This template shows the basic structure of a bot, how a bot recieves messages from a user, and how a bot sends messages to a user.  The bot will "echo" back to the user, what the user says to the bot.  It is a good choice for first time, new to Bot Framework v4 developers.
+### Echo Bot Template
+The Echo Bot template is slightly more than the a classic "Hello World!" example, but not by much.  This template shows the basic structure of a bot, how a bot recieves messages from a user, and how a bot sends messages to a user.  The bot will "echo" back to the user, what the user says to the bot.  It is a good choice for first time, new to Bot Framework v4 developers.
 
-### Basic Template
-The Basic bot template consists of set of core features most every bot is likely to have.  Building off of the core message processing features found in the Empty template, this template adds a number of more sophisticated features.  The table below lists these features and provides links to additional documentation.
+### Basic Bot Template
+The Basic Bot template consists of set of core features most every bot is likely to have.  Building off of the core message processing features found in the Echo Bot template, this template adds a number of more sophisticated features.  The table below lists these features and provides links to additional documentation.
 
 | Basic&nbsp;Bot&nbsp;Features | Description |
 | ------------------ | ----------- |
@@ -37,15 +37,15 @@ The Basic bot template consists of set of core features most every bot is likely
 | [Managing conversation state][45] | A key to good bot design is to track the context of a conversation, so that your bot remembers things like the answers to previous questions. |
 | [How to handle user-initiated interruptions][46] | While you may think that your users will follow your defined conversation flow step by step, chances are good that they will change their minds or ask a question in the middle of the process instead of answering the question. Handling interruptions means making sure your bot is prepared to handle situations like this. |
 
-### Empty Template
-The Empty bot template is the minimal skeleton code for a bot.  It provides a stub `onTurn` handlers but does not perform any actions.  If you are experienced writing bots with Bot Framework v4 and want the minimum scaffolding, the Empty template is for you.
+### Empty Bot Template
+The Empty Bot template is the minimal skeleton code for a bot.  It provides a stub `onTurn` handler but does not perform any actions.  If you are experienced writing bots with Bot Framework v4 and want the minimum scaffolding, the Empty template is for you.
 
 
 # Features by Template
-|  Feature  |  Empty  |  Echo   |  Basic  |
+|  Feature  |  Empty&nbsp;Bot  |  Echo&nbsp;Bot   |  Basic&nbsp;Bot  |
 | --------- | :-----: | :-----: | :-----: |
 | Generate code in JavaScript or TypesScript | X | X | X |
-| Support local development and testing using the [Microsoft Bot Framework Emulator v4][3] | X | X | X |
+| Support local development and testing using the [Bot Framework Emulator v4][3] | X | X | X |
 | Core bot message processing |  | X | X |
 | Deploy your bot to Microsoft Azure |  | X | X |
 | Welcome new users using Adaptive Card technology |  |  | X |
@@ -141,7 +141,7 @@ npm start
 ```
 
 ## Interacting With Your Bot Using the Emulator
-Launch the [Microsoft Bot Framework Emulator v4][3] and open the generated project's `.bot` file.
+Launch the [Bot Framework Emulator v4][3] and open the generated project's `.bot` file.
 
 Once the Emulator is connected, you can interact with and receive messages from your bot.
 
@@ -197,7 +197,7 @@ npm uninstall -g generator-botbuilder
 ```
 
 # Logging Issues and Providing Feedback
-Issues and feedback about the botbuilder generator can be submitted through the project's [GitHub issues][12] page.
+Issues and feedback about the botbuilder generator can be submitted through the project's [GitHub Issues][12] page.
 
 
 [1]: https://dev.botframework.com
