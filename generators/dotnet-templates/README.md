@@ -10,16 +10,16 @@ There are three different template options.  The table below can help guide whic
 
 |  Template  |  Description  |
 | ---------- |  ---------  |
-| Empty Bot | A good template if you are familiar with Bot Framework v4, and simple want a basic skeleton project.  Also a good option if you want to take sample code from the documentation and paste it into a minimal bot in order to learn. |
-| Echo Bot | A good template if you want a little more than "Hello World!", but not much more.  This template handles the very basics of sending messages to a bot, and having the bot process the messages by repeating them back to the user.  This template produces a bot that simply "echos" back to the user anything the user says to the bot. |
-| Core Bot | Our most advanced template, the Basic template provides 6 core features every bot is likely to have.  This template covers the core features of a Conversational-AI bot using LUIS[2].  See the **Core Bot Features** table below for more details. |
+| Empty&nbsp;Bot | A good template if you are familiar with Bot Framework v4, and simple want a basic skeleton project.  Also a good option if you want to take sample code from the documentation and paste it into a minimal bot in order to learn. |
+| Echo&nbsp;Bot | A good template if you want a little more than "Hello World!", but not much more.  This template handles the very basics of sending messages to a bot, and having the bot process the messages by repeating them back to the user.  This template produces a bot that simply "echos" back to the user anything the user says to the bot. |
+| Core&nbsp;Bot | Our most advanced template, the Basic template provides 6 core features every bot is likely to have.  This template covers the core features of a Conversational-AI bot using LUIS[2].  See the **Core Bot Features** table below for more details. |
 
 ## How to Choose a Template
 | Template | When This Template is a Good Choice |
 | -------- | -------- |
-| Echo Bot  | You are new to Bot Framework v4 and want a working bot with minimal features. |
-| Core Bot | You understand some of the core concepts of Bot Framework v4 and are beyond the concepts introduced in the Echo template.  You're familiar with or are ready to learn concepts such as language understanding using LUIS, managing multi-turn conversations with Dialogs, handling user initiated Dialog interruptions, and using Adaptive Cards to welcome your users. |
-| Empty Bot | You are a seasoned Bot Framework v4 developer.  You've built bots before, and want the minimum skeleton of a bot to help you get started. |
+| Echo&nbsp;Bot  | You are new to Bot Framework v4 and want a working bot with minimal features. |
+| Core&nbsp;Bot | You understand some of the core concepts of Bot Framework v4 and are beyond the concepts introduced in the Echo template.  You're familiar with or are ready to learn concepts such as language understanding using LUIS, managing multi-turn conversations with Dialogs, handling user initiated Dialog interruptions, and using Adaptive Cards to welcome your users. |
+| Empty&nbsp;Bot | You are a seasoned Bot Framework v4 developer.  You've built bots before, and want the minimum skeleton of a bot to help you get started. |
 
 ## Template Overview
 ### Echo Bot Template
