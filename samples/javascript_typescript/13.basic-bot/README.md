@@ -1,10 +1,8 @@
-# basic-bot
-Bot Builder v4 basic bot sample
+# basic-bot sample
+Bot Framework v4 basic bot sample
 
-This bot has been created using [Microsoft Bot Framework](https://dev.botframework.com),
-
-This samples shows how to:
-- Use [LUIS](https://www.luis.ai) to implement core AI capabilities
+This bot has been created using [Microsoft Bot Framework][1], it shows how to:
+- Use [LUIS][11] to implement core AI capabilities
 - Implement a multi-turn conversation using Dialogs
 - Handle user interruptions for such things as 'Help' or 'Cancel'
 - Prompt for and validate requests for information from the user
@@ -13,7 +11,6 @@ This samples shows how to:
 ## Prerequisite
 This sample requires prerequisites in order to run.
 - [Required Prerequisites][41]
-
 
 ## To try this sample
 - Clone the repository
@@ -34,6 +31,7 @@ This sample requires prerequisites in order to run.
     ```
 
 - Setup LUIS
+
     Assuming prerequisites have been installed:
     ```bash
     # log into Azure
@@ -45,7 +43,7 @@ This sample requires prerequisites in order to run.
     ```
     ```bash
     # Create LUIS service application
-    msbot clone services --name "<%= botname %>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
+    msbot clone services --name "<your_bot_name>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
     ```
 - Run the sample
   ```bash
@@ -89,19 +87,37 @@ npm run build
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 
-## Further Reading
-- [Bot Framework Documentation](https://docs.botframework.com)
-- [Bot basics](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
-- [LUIS](https://www.luis.ai)
-- [Prompt Types](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0&tabs=javascript)
-- [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
-- [QnA Maker](https://qnamaker.ai)
+# Further reading
+- [Bot Framework Documentation][20]
+- [Bot Basics][32]
+- [Prompt types][23]
+- [Waterfall dialogs][24]
+- [Ask the user questions][26]
+- [Activity processing][25]
+- [Azure Bot Service Introduction][21]
+- [Azure Bot Service Documentation][22]
+- [Azure CLI][7]
+- [msbot CLI][9]
+- [Azure Portal][10]
+- [Language Understanding using LUIS][11]
+- [Channels and Bot Connector Service][27]
+- [Restify][30]
+- [dotenv][31]
 
-
-[40]: https://aka.ms/azuredeployment
-[41]: ./PREREQUISITES.md
-
-
+[7]: https://docs.microsoft.com/cli/azure/?view=azure-cli-latest
+[8]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
+[9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
+[10]: https://portal.azure.com
+[11]: https://www.luis.ai
+[20]: https://docs.botframework.com
+[21]: https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
+[22]: https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0
+[23]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0&tabs=javascript
+[24]: https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/waterfall
+[25]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0
+[26]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-waterfall?view=azure-bot-service-4.0&tabs=jstab
+[27]: https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0
+[30]: https://www.npmjs.com/package/restify
+[31]: https://www.npmjs.com/package/dotenv
+[32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 

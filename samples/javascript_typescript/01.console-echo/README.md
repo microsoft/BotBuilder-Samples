@@ -1,13 +1,14 @@
+# console echo sample
+Bot Framework v4 console bot sample
+
 This sample shows how to create a simple echo bot that you can talk to from the console window.
 
 ## Prerequisites
-- [Node.js][4]
-
-Ensure [Node.js][4] version 8.5 or higher installed.  To determine if Node.js is installed run the following from a shell window.
-
-```bash
-node --version
-```
+- [Node.js][4] version 8.5 or higher
+    ```bash
+    # determine node version
+    node --version
+    ```
 
 # To try this sample
 - Clone the repository

@@ -19,14 +19,9 @@
       "name": "welcome-Bot"
     },
     {
-      "type": "appInsights",
-      "id": "4",
-      "name": "welcome-Insights"
-    },
-    {
       "type": "blob",
       "id": "5",
-      "name": "welcome-Blob",
+      "name": "prompt-Blob",
       "container": "botstatestore"
     }
   ]

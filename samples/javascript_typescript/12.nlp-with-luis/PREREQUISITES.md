@@ -32,6 +32,9 @@ This bot uses [LUIS][1], an AI based cognitive service, to implement language un
         }
         ```
 - Install latest version of the `MSBot` CLI tool. Version 4.2.0 or higher.
+    ```bash
+    npm install -g msbot
+    ```
 - If you don't have a LUIS Account, create a free LUIS Account.
     - Navigate to [LUIS portal][1].
     - Click the `Login / Sign up` button.

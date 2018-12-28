@@ -12,12 +12,12 @@
         },
         {
             "type": "qna",
-            "name": "",
-            "kbId": "",
-            "subscriptionKey": "",
-            "endpointKey": "",
-            "hostname": "",
-            "id": "34"
+            "name": "qnamaker",
+            "kbId": "095ae855-dfbc-4b31-987f-841787521252",
+            "subscriptionKey": "414c0ecd0b9142dd92cb7b45d0084b0a",
+            "endpointKey": "414c0ecd0b9142dd92cb7b45d0084b0a",
+            "hostname": "https://sjg-qnamaker-5-qnahost.azurewebsites.net/qnamaker",
+            "id": "227"
         }
     ],
     "padlock": "",

@@ -1,7 +1,14 @@
-# console-echo
+# console-echo sample
 Bot Framework v4 console bot sample
 
-This sample shows how to create a simple bot that you can talk to from the console window.
+This bot has been created using [Microsoft Bot Framework][1], it shows how to create a simple bot that you can talk to from the console window.
+
+## Prerequisites
+- [Node.js][4] version 8.5 or higher
+    ```bash
+    # determine node version
+    node --version
+    ```
 
 # To try this sample
 - Clone the repository
