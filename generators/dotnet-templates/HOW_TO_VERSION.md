@@ -23,6 +23,7 @@ To work around this, the Bot Framework templates manually add the version number
 This document provides the steps necessary to update the version string in order to support the following scenarios:
 
     - Provide a version string as part of the template's `name`.
+
         ```bash
         # list installed templates
         dotnet new --list
