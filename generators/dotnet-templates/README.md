@@ -64,13 +64,15 @@ The Empty Bot template is the minimal skeleton code for a bot.  It provides a st
 1.  Install Bot Framework CSharp templates by typing the following in your console:
     ```bash
     # Installs all three templates (echo, core, empty)
-    dotnet new -i Microsoft.BotFramework.CSharp::*
+    dotnet new -i Microsoft.BotFramework.CSharp.EchoBot
+    dotnet new -i Microsoft.BotFramework.CSharp.CoreBot
+    dotnet new -i Microsoft.BotFramework.CSharp.EmptyBot
     ```
 1.  Verify the templates have been installed correctly by typing the following into your console:
     ```bash
     dotnet new --list
     ```
-    Sample output from `dotnet new --list`
+    Sample output from `dotnet new --list`.  **Note:**  _Version information for the templates may be different._
 
     ```
     Templates                                         Short Name         Language          Tags
