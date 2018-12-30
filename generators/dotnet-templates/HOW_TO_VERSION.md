@@ -24,10 +24,10 @@ This document provides the steps necessary to update the version string in order
 
     - Provide a version string as part of the template's `name`.
 
-    ```bash
-    # list installed templates
-    dotnet new --list
-    ```
+```bash
+# list installed templates
+dotnet new --list
+```
     - Provide version information used for string replacement activities during new bot project generation.  Template version information is written out in the following places:
         - Project generated `README.md`
         - Project generated `PREREQUISITES.md`
@@ -39,7 +39,7 @@ This document provides the steps necessary to update the version string in order
 The `.template.config/template.json` file has two attributes that need to be updated.  They are:
 
 ```json
-"name": "Bot Framework Echo Bot (v0.1.1)"     <<< HAND CRAFTED semver
+"name": "Bot Framework Echo Bot (v0.1.1)"     <<<-HAND-CRAFTED-semver
 ```
 
 ```json
@@ -48,7 +48,7 @@ The `.template.config/template.json` file has two attributes that need to be upd
         "type": "generated",
         "generator": "constant",
         "parameters": {
-        "value": "v0.1.1"                     <<< HAND-CRAFTED-semver
+        "value": "v0.1.1"                     <<<-HAND-CRAFTED-semver
         },
       },
       "replaces": "vX.X.X"
@@ -64,7 +64,7 @@ The `Microsoft.BotFramework.CSharp.xxxxxBot.nuspec` file has a a `<version></ver
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Microsoft.BotFramework.CSharp.EchoBot</id>
-    <version>0.1.1</version>                <<< HAND CRAFTED semver
+    <version>0.1.1</version>                <<<-HAND-CRAFTED-semver
 ```
 
 All of these version strings should be the exact same in order to ensure they are consistent when they show up in the various places they are used.
