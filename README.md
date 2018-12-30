@@ -44,7 +44,7 @@ To use the samples clone this GitHub repository using Git.
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|-------------|
 |1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming message.                                                                                                 |[View][cs#1] |[View][js#1] |      |             |[View][ts#1] |
 |1.a.browser-echo       | Introduces browser adapter                                                     |             |             |              |[View][es#1a]|             |
-|2.a.echobot            | Demonstrates how to receive and send messages.                                 | :runner: |[View][js#2a]| :runner: |           |[View][ts#2a] |
+|2.a.echobot            | Demonstrates how to receive and send messages.                                 | [View][cs#2a] |[View][js#2a]| :runner: |           |[View][ts#2a] |
 |2.b.echo-with-counter  | Demonstrates how to use state. Shows commented out code for all natively supported storage providers. Storage providers should include InMemory and Blob storage.                                                                                            |[View][cs#2b] |[View][js#2b]|[View][wa#2b] |           |[View][ts#2b] |
 |3.welcome-user         | Introduces activity types and provides a welcome message on conversation update activity. |[View][cs#3] |[View][js#3] |              | | |
 |4.simple-prompt        | Demonstrates prompt pattern by prompting user for a property. Introduces user state .vs. conversation state. Ask for name and prints back that information. Uses sequence dialogs if available or default option is to use waterfall dialogs            |[View][cs#4] |[View][js#4] |              |             | |
@@ -73,13 +73,13 @@ To use the samples clone this GitHub repository using Git.
 |30.asp-mvc-bot         | Demonstrates how to build a bot as an ASP.NET MVC Controller |[View][cs#30] ||              | | |
 |40.timex-resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[View][cs#40] |[View][js#40]|              | | |
 |42.scaleout            | Demonstrates how you can build your own state solution from the ground up that supports scaled out deployment with ETag based optimistic locking. |[View][cs#42] |:runner:|              | | |
-|50.diceroller-skill    | This sample demonstrates how to implement a Cortana Skill that properly handles EndOfConversation events.|:runner: |[View][js#50] |              |             | |
+|50.diceroller-skill    | This sample demonstrates how to implement a Cortana Skill that properly handles EndOfConversation events.|  |[View][js#50] |              |             | |
 |51.cafe-bot            | A complete E2E Cafe bot that has all capabilities and includes best practices|[View][cs#51]|[View][js#51]|              |             | |
 |52.enterprise-bot      | Enterprise bot that demonstrates use of Dialogs, Template Manager, Dispatch across different services and implementing custom middleware.| [View][cs#52] |           |              |             | [View][ts#52] |
 |70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
 
 [cs#1]:samples/csharp_dotnetcore/01.console-echo
-[cs#2a]:samples/csharp_dotnetcore/02.a.echobot
+[cs#2a]:samples/csharp_dotnetcore/02.a.echo-bot
 [cs#2b]:samples/csharp_dotnetcore/02.b.echo-with-counter
 [cs#3]:samples/csharp_dotnetcore/03.welcome-user
 [cs#4]:samples/csharp_dotnetcore/04.simple-prompt
