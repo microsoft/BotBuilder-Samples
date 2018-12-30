@@ -10,6 +10,7 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -17,9 +18,14 @@ namespace Microsoft.BotBuilderSamples
     /// The Startup class configures services and the request pipeline.
     /// </summary>
     public class Startup
-    {          
+    {
+        private ILoggerFactory _loggerFactory;
+        private bool _isProduction = false;
+
         public Startup(IHostingEnvironment env)
-        {          
+        {
+            _isProduction = env.IsProduction();
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -52,28 +58,34 @@ namespace Microsoft.BotBuilderSamples
                 var secretKey = Configuration.GetSection("botFileSecret")?.Value;
 
                 // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
-                var botConfig = BotConfiguration.Load(botFilePath, secretKey);                
+                var botConfig = BotConfiguration.Load(botFilePath, secretKey);
                 services.AddSingleton(sp => botConfig);
 
                 // Retrieve current endpoint.
-                var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == "development").FirstOrDefault();                
+                var environment = _isProduction ? "production" : "development";
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
                 if (!(service is EndpointService endpointService))
                 {
-                    throw new InvalidOperationException($"The .bot file does not contain a development endpoint.");
+                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
                 }
 
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+
+                // Creates a logger for the application to use.
+                ILogger logger = _loggerFactory.CreateLogger<MyBot>();
 
                 // Catches any errors that occur during a conversation turn and logs them.
                 options.OnTurnError = async (context, exception) =>
                 {
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
-                };              
-            });           
+                };
+            });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {            
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            _loggerFactory = loggerFactory;
+
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
