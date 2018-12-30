@@ -195,6 +195,7 @@ dotnet new -i Microsoft.BotFramework.CSharp.EmptyBot --nuget-source https://botb
 
 To see a list of currently installed templates:
 ```bash
+# list installed templates
 dotnet new --list
 ```
 
