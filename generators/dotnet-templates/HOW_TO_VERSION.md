@@ -5,7 +5,7 @@ This document outlines the steps necessary to bump the version information of a 
 As of .NET Core 2.2 there isn't a supported way to display template version information of an installed template.
 To work around this, the Bot Framework templates manually add the version number as part of the `name` attribute of the template's `.template.config/template.json`.
 
-```json
+```bash
   "$schema": "http://json.schemastore.org/template",
   "author": "Microsoft",
   "classifications": [
@@ -17,22 +17,23 @@ To work around this, the Bot Framework templates manually add the version number
   "defaultName": "EchoBot",
   "groupIdentity": "Microsoft.BotFramework.CSharp.EchoBot",
   "identity": "Microsoft.BotFramework.CSharp.EchoBot",
-  "name": "Bot Framework Echo Bot (v0.1.1)",                <<< HAND CRAFTED semver
+  "name": "Bot Framework Echo Bot (v0.1.1)",                <<<-HAND-CRAFTED-semver
 ```
 
 This document provides the steps necessary to update the version string in order to support the following scenarios:
 
-    - Provide a version string as part of the template's `name`.
+- Provide a version string as part of the template's `name`.
 
 ```bash
 # list installed templates
 dotnet new --list
 ```
-    - Provide version information used for string replacement activities during new bot project generation.  Template version information is written out in the following places:
-        - Project generated `README.md`
-        - Project generated `PREREQUISITES.md`
-        - Comment headers for all project generated *.cs files
-    - Provide `.nupkg` version information for publishing to MyGet/NuGet
+
+- Provide version information used for string replacement activities during new bot project generation.  Template version information is written out in the following places:
+    - Project generated `README.md`
+    - Project generated `PREREQUISITES.md`
+    - Comment headers for all project generated *.cs files
+- Provide `.nupkg` version information for publishing to MyGet/NuGet
 
 # How to Update Version Information
 ## Update template.json
