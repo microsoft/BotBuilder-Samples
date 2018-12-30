@@ -32,7 +32,7 @@ dotnet new --list
 - Provide version information used for string replacement activities during new bot project generation.  Template version information is written out in the following places:
     - Project generated `README.md`
     - Project generated `PREREQUISITES.md`
-    - Comment headers for all project generated *.cs files
+    - Comment headers for all project generated `*.cs` files
 - Provide `.nupkg` version information for publishing to MyGet/NuGet
 
 # How to Update Version Information
