@@ -24,10 +24,10 @@ This document provides the steps necessary to update the version string in order
 
     - Provide a version string as part of the template's `name`.
 
-        ```bash
-        # list installed templates
-        dotnet new --list
-        ```
+    ```bash
+    # list installed templates
+    dotnet new --list
+    ```
     - Provide version information used for string replacement activities during new bot project generation.  Template version information is written out in the following places:
         - Project generated `README.md`
         - Project generated `PREREQUISITES.md`
@@ -48,7 +48,7 @@ The `.template.config/template.json` file has two attributes that need to be upd
         "type": "generated",
         "generator": "constant",
         "parameters": {
-        "value": "v0.1.1"                     <<< HAND CRAFTED semver
+        "value": "v0.1.1"                     <<< HAND-CRAFTED-semver
         },
       },
       "replaces": "vX.X.X"
