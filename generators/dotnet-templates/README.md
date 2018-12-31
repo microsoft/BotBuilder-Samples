@@ -3,7 +3,7 @@
 using core AI capabilities.
 
 # About
-.NET Core Templates will help you to quickly build new conversational AI bots using the [Bot Framework v4][1].
+.NET Core Templates will help you to quickly build new conversational AI bots using [Bot Framework v4][1].
 
 # Templates
 There are three different template options.  The table below can help guide which template is right for you.
@@ -18,7 +18,7 @@ There are three different template options.  The table below can help guide whic
 | Template | When This Template is a Good Choice |
 | -------- | -------- |
 | Echo&nbsp;Bot  | You are new to Bot Framework v4 and want a working bot with minimal features. |
-| Core&nbsp;Bot | You understand some of the core concepts of Bot Framework v4 and are beyond the concepts introduced in the Echo template.  You're familiar with or are ready to learn concepts such as language understanding using LUIS, managing multi-turn conversations with Dialogs, handling user initiated Dialog interruptions, and using Adaptive Cards to welcome your users. |
+| Core&nbsp;Bot | You understand some of the core concepts of Bot Framework v4 and are beyond the concepts introduced in the Echo Bot template.  You're familiar with or are ready to learn concepts such as language understanding using LUIS, managing multi-turn conversations with Dialogs, handling user initiated Dialog interruptions, and using Adaptive Cards to welcome your users. |
 | Empty&nbsp;Bot | You are a seasoned Bot Framework v4 developer.  You've built bots before, and want the minimum skeleton of a bot to help you get started. |
 
 ## Template Overview
@@ -31,11 +31,11 @@ The Core Bot template consists of set of core features most every bot is likely 
 | Core&nbsp;Bot&nbsp;Features | Description |
 | ------------------ | ----------- |
 | [Send and receive messages][40] | The primary way your bot will communicate with users, and likewise receive communication, is through message activities. Some messages may simply consist of plain text, while others may contain richer content such as cards or attachments. |
-| [Proactive messaging][41] using [Adaptive Cards][42] | The primary goal when creating any bot is to engage your user in a meaningful conversation. One of the best ways to achieve this goal is to ensure that from the moment a user first connects to your bot, they understand your bot’s main purpose and capabilities.  We refer to this as "welcoming the user."  The Basic template uses an [Adaptive Card][42] to implement this behavior.  |
+| [Proactive messaging][41] using [Adaptive Cards][42] | The primary goal when creating any bot is to engage your user in a meaningful conversation. One of the best ways to achieve this goal is to ensure that from the moment a user first connects to your bot, they understand your bot’s main purpose and capabilities.  We refer to this as "welcoming the user."  The Core Bot  template uses an [Adaptive Card][42] to implement this behavior.  |
 | [Language understanding using LUIS][43] | The ability to understand what your user means conversationally and contextually can be a difficult task, but can provide your bot a more natural conversation feel. Language Understanding, called LUIS, enables you to do just that so that your bot can recognize the intent of user messages, allow for more natural language from your user, and better direct the conversation flow. |
 | [Multi-turn conversation support using Dialogs][44] | The ability to manage conversations is an important part of the bot/user interation.  Bot Framework introduces the  concept of a Dialog to handle this conversational pattern.  Dialog objects process inbound Activities and generate outbound responses. The business logic of the bot runs either directly or indirectly within Dialog classes.  |
 | [Managing conversation state][45] | A key to good bot design is to track the context of a conversation, so that your bot remembers things like the answers to previous questions. |
-| [How to handle user-initiated interruptions][46] | While you may think that your users will follow your defined conversation flow step by step, chances are good that they will change their minds or ask a question in the middle of the process instead of answering the question. Handling interruptions means making sure your bot is prepared to handle situations like this. |
+| [How to handle user-initiated interruptions][46] | While you may think that your users will follow your defined conversation flow, step by step, chances are good that they will change their minds or ask a question in the middle of the process instead of answering the question. Handling interruptions means making sure your bot is prepared to handle situations like this. |
 
 ### Empty Bot Template
 The Empty Bot template is the minimal skeleton code for a bot.  It provides a stub `onTurn` handler but does not perform any actions.  If you are experienced writing bots with Bot Framework v4 and want the minimum scaffolding, the Empty Bot template is for you.
@@ -77,9 +77,9 @@ The Empty Bot template is the minimal skeleton code for a bot.  It provides a st
     ```
     Templates                                         Short Name         Language          Tags
     ----------------------------------------------------------------------------------------------------------------------------
-    Bot Framework Core Bot (v0.1.1)                   corebot            [C#]              Bot/Bot Framework/AI/Core Bot
-    Bot Framework Echo Bot (v0.1.1)                   echobot            [C#]              Bot/Bot Framework/AI/Echo Bot
-    Bot Framework Empty Bot (v0.1.1)                  emptybot           [C#]              Bot/Bot Framework/AI/Empty Bot
+    Bot Framework Core Bot (v0.1.2)                   corebot            [C#]              Bot/Bot Framework/AI/Core Bot
+    Bot Framework Echo Bot (v0.1.2)                   echobot            [C#]              Bot/Bot Framework/AI/Echo Bot
+    Bot Framework Empty Bot (v0.1.2)                  emptybot           [C#]              Bot/Bot Framework/AI/Empty Bot
     Console Application                               console            [C#], F#, VB      Common/Console
     Class library                                     classlib           [C#], F#, VB      Common/Library
     Unit Test Project                                 mstest             [C#], F#, VB      Test/MSTest
@@ -121,7 +121,7 @@ dotnet new echobot -n MyEchoBot
 
 ### Create CoreBot
 ```bash
-# Generate an Core Bot
+# Generate a Core Bot
 dotnet new corebot -n MyCoreBot
 ```
 
@@ -136,13 +136,13 @@ The templates default to using .NET Core 2.2.x.  This can be overridden on the c
 
 Here are some different examples that show how to specify different .NET Core dependencies:
 
-### Create EchoBot Using .NET Core 2.1
+### Example Creating EchoBot Using .NET Core 2.1
 ```bash
 # Generate an Echo Bot (netcoreapp2.1)
 dotnet new echobot --framework netcoreapp2.1 -n MyEchoBot
 ```
 
-### Create CoreBot Using .NET Core 2.0
+### Example Creating CoreBot Using .NET Core 2.0
 ```bash
 # Generate an Core Bot (netcoreapp2.0)
 dotnet new corebot --framework netcoreapp2.0 -n MyCoreBot
