@@ -208,7 +208,7 @@ dotnet new -u Microsoft.BotFramework.CSharp.EchoBot
 ```
 
 # Logging Issues and Providing Feedback
-Issues and feedback about the .NET CORE Templates can be submitted through the project's [GitHub Issues][12] page.
+Issues and feedback about the .NET Core Templates can be submitted through the project's [GitHub Issues][12] page.
 
 
 [1]: https://dev.botframework.com
