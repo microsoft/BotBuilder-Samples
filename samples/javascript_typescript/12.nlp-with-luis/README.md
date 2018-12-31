@@ -88,14 +88,14 @@ This sample uses a language model to train LUIS.  The source for the language mo
 If you modify `reminders.lu` you need to train and publish the LUIS model. You can do so using the `ludown` and `luis` CLI tools.
 
 ### Install `ludown` and `luis` CLI tools
-    ```bash
-    # install the ludown CLI tool
-    npm install -g ludown
-    ```
-    ```bash
-    # install the LUIS CLI tool
-    npm install -g luis
-    ```
+```bash
+# install the ludown CLI tool
+npm install -g ludown
+```
+```bash
+# install the LUIS CLI tool
+npm install -g luis
+```
 To learn more about the `ludown` CLI tool, refer to the documentation found [here](https://aka.ms/using-ludown).
 
 To learn more about the `luis` CLI tool, refer to the documentation found [here](https://aka.ms/using-luis-cli).
