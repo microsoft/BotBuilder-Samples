@@ -51,7 +51,7 @@ question, it will share that information with the user.
 ## Connect to the bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration
-- Navigate to `javascript_nodejs/17.proactive-messages` folder
+- Navigate to `javascript_nodejs/16.proactive-messages` folder
 - Select `proactive-messages.bot` file
 
 
