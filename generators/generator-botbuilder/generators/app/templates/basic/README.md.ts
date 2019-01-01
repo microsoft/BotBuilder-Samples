@@ -1,7 +1,7 @@
 # <%= botname %>
 <%= description %>
 
-This bot has been created using [Microsoft Bot Framework][1].
+This bot has been created using [Bot Framework][1].
 
 This samples shows how to:
 - Use [LUIS][11] to implement core AI capabilities
@@ -46,9 +46,9 @@ This sample requires prerequisites in order to run.
     ```
 
 # Testing the bot using Bot Framework Emulator **v4**
-[Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.1.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
 
 ## Connect to the bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator

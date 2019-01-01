@@ -13,31 +13,16 @@ This bot uses [LUIS][1], an AI based cognitive service, to implement language un
 	dotnet --version
 	```
 - If you don't have an Azure subscription, create a [free account][5].
-- Install the latest version of the [Azure CLI][6] tool. Version 2.0.52 or higher.
-- Install the latest `botservice` extension for the Azure CLI tool.  Version 0.4.3 or higher.
-    1. Ensure any previous version of the `botservice` extension is removed.
-        ```bash
-        az extension remove -n botservice
-        ```
-    1. Install the latest `botservice` extension.
-        ```bash
-        az extension add -n botservice
-        ```
-    1. Verify you are running version 0.4.3 or higher of the `botservice` extension.
-        ```bash
-        az extension list
-        ```
-        To verify the extension version, you should see the following:
-        ```json
-        {
-            "extensionType": "whl",
-            "name": "botservice",
-            "version": "0.4.3"
-        }
-        ```
-- Install latest version of the `MSBot` CLI tool. Version 4.2.0 or higher.
+- Install the latest version of the [Azure CLI][6] tool. Version 2.0.54 or higher.
+- Install latest version of the `MSBot` CLI tool. Version 4.3.2 or higher.
     ```bash
+    # install msbot CLI tool
     npm install -g msbot
+    ```
+- Install latest version of `luis api` tool.  Version 2.2.0 or higher.
+    ```bash
+    # install the luis api CLI tool
+    npm install -g luis
     ```
 - If you don't have a LUIS Account, create a free LUIS Account.
     - Navigate to [LUIS portal][1].
