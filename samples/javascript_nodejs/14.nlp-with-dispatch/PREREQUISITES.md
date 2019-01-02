@@ -23,7 +23,7 @@ This bot uses [QnA Maker Service][1], an AI based cognitive service, to implemen
 - Install latest version of `luis api` tool.  Version 2.2.0 or higher.
     ```bash
     # install the luis api CLI tool
-    npm install -g luis
+    npm install -g luis-apis
     ```
 - Install [.NET Core version 2.2][8] or higher (required for Dispatch CLI)
 - Install latest version of the `Dispatch` tool. Version 1.2.0 or higher.

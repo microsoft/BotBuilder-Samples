@@ -94,7 +94,7 @@ npm install -g ludown
 ```
 ```bash
 # install the LUIS CLI tool
-npm install -g luis
+npm install -g luis-apis
 ```
 To learn more about the `ludown` CLI tool, refer to the documentation found [here](https://aka.ms/using-ludown).
 
