@@ -18,7 +18,7 @@ This bot uses [LUIS][1], an AI based cognitive service, to implement language un
 - Install latest version of `luis api` tool.  Version 2.2.0 or higher.
     ```bash
     # install the luis api CLI tool
-    npm install -g luis
+    npm install -g luis-apis
     ```
 - If you don't have a LUIS Account, create a free LUIS Account.
     - Navigate to [LUIS portal][1].
