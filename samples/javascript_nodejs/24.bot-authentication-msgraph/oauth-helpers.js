@@ -42,7 +42,7 @@ class OAuthHelpers {
 
     /**
      * Displays information about the user in the bot.
-     *@param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
+     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      * @param {TokenResponse} tokenResponse A response that includes a user token.
      */
     static async listMe(turnContext, tokenResponse) {
