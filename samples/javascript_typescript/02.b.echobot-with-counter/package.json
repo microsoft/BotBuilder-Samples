@@ -1,5 +1,5 @@
 {
-    "name": "echobot-with-counter-ts",
+    "name": "echobot-with-counter",
     "version": "1.0.0",
     "description": "Bot Builder v4 echo bot with counter sample",
     "author": "Microsoft",

@@ -8,12 +8,6 @@
       "url": "http://localhost:3978/api/messages"
     },
     {
-      "type": "endpoint",
-      "id": "2",
-      "name": "production",
-      "url": "https://your-bot-url.azurewebsites.net/api/messages"
-    },
-    {
       "type": "abs",
       "id": "3",
       "name": "multi-lingual-Bot"
