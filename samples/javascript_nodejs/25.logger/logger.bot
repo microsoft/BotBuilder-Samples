@@ -1,5 +1,5 @@
 {
-    "name": "loggerBot",
+    "name": "logger-bot",
     "services": [
         {
             "type": "endpoint",
