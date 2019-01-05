@@ -6,7 +6,7 @@ As of .NET Core 2.2 there isn't a supported way to display template version info
 To work around this, the Bot Framework templates manually add the version number as part of the `name` attribute of the template's `.template.config/template.json`.
 
 # How to Update Version Information
-Version information is found in 3 places within 2 separate files.  All of 3 of these version strings should be the exact same value in order to ensure they are consistent in the various places they are used.  The 2 files you need to edit are:
+Version information is found in 3 places within 2 separate files.  All 3 of these version strings should be the exact same value in order to ensure they are used consistently.  The 2 files need to be edited are:
 - `.template.config/template.json`
 - `Microsoft.BotFramework.CSharp.xxxxxBot.nuspec`
 
@@ -58,7 +58,7 @@ The `Microsoft.BotFramework.CSharp.xxxxxBot.nuspec` file has a a `<version></ver
 
 
 # How are the Version Strings Used
-The version strings are used in the following way:
+The version strings are used in the following ways:
 
 - Provide version information used for string replacement activities during new bot project generation.  Template version information is written out in the following places:
     - Project generated `README.md`
