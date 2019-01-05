@@ -3,16 +3,10 @@
     "tasks": [
         {
             "label": "build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/EchoBot.csproj"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "build",
+            "group": {
+              "kind": "build",
+              "isDefault": true
+            },
             "command": "dotnet",
             "type": "process",
             "args": [
