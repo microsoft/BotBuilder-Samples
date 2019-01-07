@@ -47,7 +47,10 @@
 - {Device_PatternAny} off [please]
 - turn off {Device_PatternAny} in {Room_PatternAny}
 - turn off [the] {Device_PatternAny}
+<<<<<<< HEAD
 - turn on {Device_PatternAny} in {Room_PatternAny}
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 
 ## None

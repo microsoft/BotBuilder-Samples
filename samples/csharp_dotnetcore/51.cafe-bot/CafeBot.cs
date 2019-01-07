@@ -9,13 +9,21 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+<<<<<<< HEAD
+=======
+using Newtonsoft.Json.Linq;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 namespace Microsoft.BotBuilderSamples
 {
     /// <summary>
     /// For each interaction from the user, an instance of this class is created and
     /// the OnTurnAsync method is called.
+<<<<<<< HEAD
     /// This is a transient lifetime service.  Transient lifetime services are created
+=======
+    /// This is a transient lifetime service. Transient lifetime services are created
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     /// each time they"re requested. For each <see cref="Activity"/> received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
     /// beyond the single turn, should be carefully managed.
@@ -32,14 +40,21 @@ namespace Microsoft.BotBuilderSamples
         public const string OnTurnPropertyName = "onTurnStateProperty";
         public const string DialogStateProperty = "dialogStateProperty";
 
+<<<<<<< HEAD
         // The name of the bot you deployed.
         public static readonly string MsBotName = "cafe66";
 
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         /// <summary>
         /// Key in the bot config (.bot file) for the LUIS instances.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
+<<<<<<< HEAD
         public static readonly string LuisConfiguration = MsBotName + "_" + "cafeDispatchModel";
+=======
+        public static readonly string LuisConfiguration = "cafeDispatchModel";
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
         // Greeting Dialog ID.
         public static readonly string GreetingDialogId = "greetingDialog";
@@ -89,7 +104,11 @@ namespace Microsoft.BotBuilderSamples
 
             if (!_services.LuisServices.ContainsKey(LuisConfiguration))
             {
+<<<<<<< HEAD
                 throw new System.ArgumentException($"Invalid configuration.  Please check your '.bot' file for a LUIS service named {LuisConfiguration}.");
+=======
+                throw new System.ArgumentException($"Invalid configuration. Please check your '.bot' file for a LUIS service named {LuisConfiguration}.");
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             }
 
             // Create top-level dialog.
@@ -112,30 +131,52 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Every conversation turn for our Basic Bot will call this method.
         /// </summary>
+<<<<<<< HEAD
         /// <param name="context">A <see cref="ITurnContext"/> containing all the data needed
+=======
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         /// for processing this conversation turn. </param>
         /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+<<<<<<< HEAD
         public async Task OnTurnAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
             // See https://aka.ms/about-bot-activity-message to learn more about message and other activity types.
             switch (context.Activity.Type)
+=======
+        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // See https://aka.ms/about-bot-activity-message to learn more about message and other activity types.
+            switch (turnContext.Activity.Type)
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             {
                 case ActivityTypes.Message:
                     // Process on turn input (card or NLP) and gather new properties.
                     // OnTurnProperty object has processed information from the input message activity.
+<<<<<<< HEAD
                     var onTurnProperties = await DetectIntentAndEntitiesAsync(context);
+=======
+                    var onTurnProperties = await DetectIntentAndEntitiesAsync(turnContext);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                     if (onTurnProperties == null)
                     {
                         break;
                     }
 
                     // Set the state with gathered properties (intent/ entities) through the onTurnAccessor.
+<<<<<<< HEAD
                     await _onTurnAccessor.SetAsync(context, onTurnProperties);
 
                     // Create dialog context.
                     var dc = await _dialogs.CreateContextAsync(context);
+=======
+                    await _onTurnAccessor.SetAsync(turnContext, onTurnProperties);
+
+                    // Create dialog context.
+                    var dc = await _dialogs.CreateContextAsync(turnContext);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
                     // Continue outstanding dialogs.
                     await dc.ContinueDialogAsync();
@@ -148,6 +189,7 @@ namespace Microsoft.BotBuilderSamples
 
                     break;
                 case ActivityTypes.ConversationUpdate:
+<<<<<<< HEAD
                     // Welcome user.
                     await WelcomeUserAsync(context);
                     break;
@@ -159,6 +201,22 @@ namespace Microsoft.BotBuilderSamples
 
             await ConversationState.SaveChangesAsync(context);
             await UserState.SaveChangesAsync(context);
+=======
+                    if (turnContext.Activity.MembersAdded != null)
+                    {
+                        await SendWelcomeMessageAsync(turnContext);
+                    }
+
+                    break;
+                default:
+                    // Handle other activity types as needed.
+                    await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected");
+                    break;
+            }
+
+            await ConversationState.SaveChangesAsync(turnContext);
+            await UserState.SaveChangesAsync(turnContext);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         }
 
         private async Task<OnTurnProperty> DetectIntentAndEntitiesAsync(ITurnContext turnContext)
@@ -166,8 +224,15 @@ namespace Microsoft.BotBuilderSamples
             // Handle card input (if any), update state and return.
             if (turnContext.Activity.Value != null)
             {
+<<<<<<< HEAD
                 var response = JsonConvert.DeserializeObject<Dictionary<string, string>>(turnContext.Activity.Value as string);
                 return OnTurnProperty.FromCardInput(response);
+=======
+                if (turnContext.Activity.Value is JObject)
+                {
+                    return OnTurnProperty.FromCardInput((JObject)turnContext.Activity.Value);
+                }
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             }
 
             // Acknowledge attachments from user.
@@ -191,7 +256,11 @@ namespace Microsoft.BotBuilderSamples
             return OnTurnProperty.FromLuisResults(luisResults);
         }
 
+<<<<<<< HEAD
         private async Task WelcomeUserAsync(ITurnContext turnContext)
+=======
+        private async Task SendWelcomeMessageAsync(ITurnContext turnContext)
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         {
             // Check to see if any new members were added to the conversation.
             if (turnContext.Activity.MembersAdded.Count > 0)

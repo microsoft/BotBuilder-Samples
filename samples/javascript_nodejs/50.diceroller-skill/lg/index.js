@@ -12,7 +12,11 @@ const resources = {
  * Format a `message` activity using resource strings in a locale file.
  * @param {string} locale Locale of the resource file to use.
  * @param {string} resourceId ID of the resource string to lookup.
+<<<<<<< HEAD
  * @param {object} args (Optional) map of named arguments to replace within the resource string. 
+=======
+ * @param {object} args (Optional) map of named arguments to replace within the resource string.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
  */
 function formatMessage(locale, resourceId, args) {
     const text = getText(locale, resourceId, args);
@@ -22,11 +26,19 @@ function formatMessage(locale, resourceId, args) {
 module.exports.formatMessage = formatMessage;
 
 /**
+<<<<<<< HEAD
  * Retrieves a text string from a resource file and optionally substitute ${arg_names} within the 
  * string.  
  * @param {string} locale Locale of the resource file to use.
  * @param {string} resourceId ID of the resource string to lookup.
  * @param {object} args (Optional) map of named arguments to replace within the resource string. 
+=======
+ * Retrieves a text string from a resource file and optionally substitute ${arg_names} within the
+ * string.
+ * @param {string} locale Locale of the resource file to use.
+ * @param {string} resourceId ID of the resource string to lookup.
+ * @param {object} args (Optional) map of named arguments to replace within the resource string.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
  */
 function getText(locale, resourceId, args) {
     // Lookup resource
@@ -41,7 +53,11 @@ function getText(locale, resourceId, args) {
         // Substitute args within the text string
         if (args) {
             for (const key in args) {
+<<<<<<< HEAD
                 const match = new RegExp(`\\\${${key}}`, 'g');
+=======
+                const match = new RegExp(`\\\${${ key }}`, 'g');
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 output = output.replace(match, args[key]);
             }
         }

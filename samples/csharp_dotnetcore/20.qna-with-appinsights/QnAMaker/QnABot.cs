@@ -18,26 +18,46 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class QnABot : IBot
     {
+<<<<<<< HEAD
         private const string WelcomeText = "This bot will introduce you to QnA Maker. Type a greeting or question to get started";
 
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         /// <summary>
         /// Key in the bot config (.bot file) for the QnAMaker instance.
         /// In the ".bot" file, multiple instances of QnAMaker can be configured.
         /// </summary>
+<<<<<<< HEAD
         public static readonly string QnAMakerKey = "QnABot";
+=======
+        public static readonly string QnAMakerKey = "qna-with-insights-QnAMaker";
+
+        private const string WelcomeText = "This bot will introduce you to QnA Maker. Type a greeting or question to get started";
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
         /// <summary>
         /// Services configured from the ".bot" file.
         /// </summary>
         private readonly BotServices _services;
+<<<<<<< HEAD
+=======
+        private readonly IBotTelemetryClient _telemetryClient;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QnABot"/> class.
         /// </summary>
         /// <param name="services">A <see cref="BotServices"/> configured from the ".bot" file.</param>
+<<<<<<< HEAD
         public QnABot(BotServices services)
         {
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
+=======
+        public QnABot(BotServices services, IBotTelemetryClient telemetryClient)
+        {
+            _services = services ?? throw new System.ArgumentNullException(nameof(services));
+            _telemetryClient = telemetryClient;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             if (!_services.QnAServices.ContainsKey(QnAMakerKey))
             {
                 throw new System.ArgumentException($"Invalid configuration.  Please check your '.bot' file for a QnA service named '{QnAMakerKey}'.");

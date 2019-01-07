@@ -3,6 +3,7 @@
 
 const { ActivityTypes } = require('botbuilder');
 
+<<<<<<< HEAD
 // Turn counter property
 const TURN_COUNTER_PROPERTY = 'turnCounterProperty';
 
@@ -39,3 +40,21 @@ class MyBot {
 }
 
 module.exports.MyBot = MyBot;
+=======
+class MyBot {
+    /**
+     *
+     * @param {TurnContext} on turn context object.
+     */
+    async onTurn(turnContext) {
+        // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
+        if (turnContext.activity.type === ActivityTypes.Message) {
+            await turnContext.sendActivity(`You said '${ turnContext.activity.text }'`);
+        } else {
+            await turnContext.sendActivity(`[${ turnContext.activity.type } event detected]`);
+        }
+    }
+}
+
+module.exports.MyBot = MyBot;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

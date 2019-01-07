@@ -1,12 +1,22 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+<<<<<<< HEAD
 import * as path from 'path';
 import * as restify from 'restify';
 import { config } from 'dotenv';
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 import { BotFrameworkAdapter, BotStateSet,  MemoryStorage, ConversationState, UserState, TurnContext } from 'botbuilder';
+=======
+import { config } from 'dotenv';
+import * as path from 'path';
+import * as restify from 'restify';
+
+// Import required bot services.
+// See https://aka.ms/bot-services to learn more about the different parts of a bot.
+import { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } from 'botbuilder';
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 // Import required bot configuration.
 import { BotConfiguration, IEndpointService } from 'botframework-config';
@@ -41,6 +51,7 @@ const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
 // Get bot endpoint configuration by service name.
 // Bot configuration as defined in .bot file.
+<<<<<<< HEAD
 const endpointConfig = <IEndpointService>botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
 // Create adapter. 
@@ -48,6 +59,15 @@ const endpointConfig = <IEndpointService>botConfig.findServiceByNameOrId(BOT_CON
 const adapter = new BotFrameworkAdapter({
     appId: endpointConfig.appId || process.env.microsoftAppID,
     appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword
+=======
+const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION) as IEndpointService;
+
+// Create adapter.
+// See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration .
+const adapter = new BotFrameworkAdapter({
+    appId: endpointConfig.appId || process.env.microsoftAppID,
+    appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword,
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 });
 
 // Catch-all for errors.
@@ -59,14 +79,23 @@ adapter.onTurnError = async (context, error) => {
     // Send a message to the user
     context.sendActivity(`Oops. Something went wrong!`);
     // Clear out state
+<<<<<<< HEAD
     await conversationState.clear(context);
     // Persist cleared out state
     await conversationState.saveChanges(context);
+=======
+    await conversationState.delete(context);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 };
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
 // A bot requires a state store to persist the dialog and user state between messages.
+<<<<<<< HEAD
 let conversationState:ConversationState, userState: UserState;
+=======
+let conversationState: ConversationState;
+let userState: UserState;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 // For local development, in-memory storage is used.
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
@@ -78,7 +107,11 @@ userState = new UserState(memoryStorage);
 // CAUTION: You must ensure your product environment has the NODE_ENV set
 //          to use the Azure Blob storage or Azure Cosmos DB providers.
 
+<<<<<<< HEAD
 // Add botbuilder-azure when using any Azure services. 
+=======
+// Add botbuilder-azure when using any Azure services.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 // import { BlobStorage } from 'botbuilder-azure';
 // // Get service configuration
 // const blobStorageConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION_ID);
@@ -99,8 +132,13 @@ try {
 }
 
 // Create HTTP server
+<<<<<<< HEAD
 let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
+=======
+const server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, () => {
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
     console.log(`\nTo talk to your bot, open basic-bot.bot file in the Emulator`);
@@ -114,5 +152,8 @@ server.post('/api/messages', (req, res) => {
         await bot.onTurn(turnContext);
     });
 });
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

@@ -20,7 +20,11 @@ namespace LuisBot
     public class BotConfig
     {
         /// <summary>
+<<<<<<< HEAD
         /// Register the bot framwork with Asp.net.
+=======
+        /// Register the bot framework with Asp.net.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         /// </summary>
         /// <param name="config">Represents the configuration of the HttpServer.</param>
         public static void Register(HttpConfiguration config)
@@ -28,7 +32,11 @@ namespace LuisBot
             config.MapBotFramework(botConfig =>
             {
                 // Load Connected Services from .bot file
+<<<<<<< HEAD
                 var path = HostingEnvironment.MapPath(@"~/LuisBot.bot");
+=======
+                var path = HostingEnvironment.MapPath(@"~/nlp-with-luis.bot");
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 var botConfigurationFile = BotConfiguration.Load(path);
                 var endpointService = (EndpointService)botConfigurationFile.Services.First(s => s.Type == "endpoint");
 
@@ -87,7 +95,11 @@ namespace LuisBot
                                 throw new InvalidOperationException("The Region ('region') is required to run this sample.  Please update your '.bot' file.");
                             }
 
+<<<<<<< HEAD
                             var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.Region);
+=======
+                            var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                             var recognizer = new LuisRecognizer(app);
                             luisServices.Add(LuisBot.LuisKey, recognizer);
                             break;

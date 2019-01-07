@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+<<<<<<< HEAD
 // bot.js is your main bot dialog entry point for handilng activity types
+=======
+// bot.js is your main bot dialog entry point for handling activity types
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 // Import required Bot Builder
 const { ActivityTypes, CardFactory } = require('botbuilder');
@@ -20,7 +24,16 @@ const DIALOG_STATE_PROPERTY = 'dialogState';
 const USER_PROFILE_PROPERTY = 'userProfileProperty';
 
 // LUIS service type entry as defined in the .bot file.
+<<<<<<< HEAD
 const LUIS_CONFIGURATION = 'basic-bot-LUIS';
+=======
+const LUIS_CONFIGURATION = '';
+
+if (!LUIS_CONFIGURATION) {
+    console.error('Make sure to update the index.js file with a LUIS_CONFIGURATION name that matches your .bot file.');
+    process.exit();
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 // Supported LUIS Intents.
 const GREETING_INTENT = 'Greeting';
@@ -125,6 +138,7 @@ class BasicBot {
             if (!dc.context.responded) {
                 // Switch on return results from any active dialog.
                 switch (dialogResult.status) {
+<<<<<<< HEAD
                     // dc.continueDialog() returns DialogTurnStatus.empty if there are no active dialogs
                     case DialogTurnStatus.empty:
                         // Determine what we should do based on the top intent from LUIS.
@@ -150,6 +164,33 @@ class BasicBot {
                         // Unrecognized status from child dialog. Cancel all dialogs.
                         await dc.cancelAllDialogs();
                         break;
+=======
+                // dc.continueDialog() returns DialogTurnStatus.empty if there are no active dialogs
+                case DialogTurnStatus.empty:
+                    // Determine what we should do based on the top intent from LUIS.
+                    switch (topIntent) {
+                    case GREETING_INTENT:
+                        await dc.beginDialog(GREETING_DIALOG);
+                        break;
+                    case NONE_INTENT:
+                    default:
+                        // None or no intent identified, either way, let's provide some help
+                        // to the user
+                        await dc.context.sendActivity(`I didn't understand what you just said to me.`);
+                        break;
+                    }
+                    break;
+                case DialogTurnStatus.waiting:
+                    // The active dialog is waiting for a response from the user, so do nothing.
+                    break;
+                case DialogTurnStatus.complete:
+                    // All child dialogs have ended. so do nothing.
+                    break;
+                default:
+                    // Unrecognized status from child dialog. Cancel all dialogs.
+                    await dc.cancelAllDialogs();
+                    break;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 }
             }
         } else if (context.activity.type === ActivityTypes.ConversationUpdate) {

@@ -13,7 +13,11 @@ const { UserProfile } = require('./userProfile');
 const CITY_LENGTH_MIN = 5;
 const NAME_LENGTH_MIN = 3;
 
+<<<<<<< HEAD
 // Dialog IDs 
+=======
+// Dialog IDs
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 const PROFILE_DIALOG = 'profileDialog';
 
 // Prompt IDs
@@ -38,8 +42,13 @@ class Greeting extends ComponentDialog {
         super(dialogId);
 
         // validate what was passed in
+<<<<<<< HEAD
         if (!dialogId) throw ('Missing parameter.  dialogId is required');
         if (!userProfileAccessor) throw ('Missing parameter.  userProfileAccessor is required');
+=======
+        if (!dialogId) throw new Error('Missing parameter.  dialogId is required');
+        if (!userProfileAccessor) throw new Error('Missing parameter.  userProfileAccessor is required');
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
         // Add a water fall dialog with 4 steps.
         // The order of step function registration is importent
@@ -60,7 +69,11 @@ class Greeting extends ComponentDialog {
     }
     /**
      * Waterfall Dialog step functions.
+<<<<<<< HEAD
      * 
+=======
+     *
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
      * Initialize our state.  See if the WaterfallDialog has state pass to it
      * If not, then just new up an empty UserProfile object
      *

@@ -123,7 +123,11 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (activity.Type == ActivityTypes.ConversationUpdate)
             {
+<<<<<<< HEAD
                 if (activity.MembersAdded.Any())
+=======
+                if (activity.MembersAdded != null)
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 {
                     // Iterate over all new members added to the conversation.
                     foreach (var member in activity.MembersAdded)
@@ -134,7 +138,11 @@ namespace Microsoft.BotBuilderSamples
                         {
                             var welcomeCard = CreateAdaptiveCardAttachment();
                             var response = CreateResponse(activity, welcomeCard);
+<<<<<<< HEAD
                             await dc.Context.SendActivityAsync(response).ConfigureAwait(false);
+=======
+                            await dc.Context.SendActivityAsync(response);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                         }
                     }
                 }

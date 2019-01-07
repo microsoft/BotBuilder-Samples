@@ -1,0 +1,25 @@
+{
+    "name": "BasicBot",
+    "description": "",
+    "services": [
+        {
+        "type": "endpoint",
+        "id": "1",
+        "name": "development",
+        "appId": "",
+        "appPassword": "",
+        "endpoint": "http://localhost:3978/api/messages"
+        },
+        {
+            "type": "qna",
+            "name": "",
+            "id": "34",
+            "kbId": "",
+            "subscriptionKey": "",
+            "endpointKey": "",
+            "hostname": ""
+        }
+    ],
+    "padlock": "",
+    "version": "2.0"
+}

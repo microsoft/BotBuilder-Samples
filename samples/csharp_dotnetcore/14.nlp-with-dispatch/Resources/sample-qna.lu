@@ -3,7 +3,11 @@
 - greetings
 - good morning
 - good evening
+<<<<<<< HEAD
     ```mardown
+=======
+    ```markdown
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     Hello!
     ```
 

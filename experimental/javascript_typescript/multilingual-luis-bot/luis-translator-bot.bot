@@ -1,0 +1,27 @@
+{
+    "name": "LuisBot",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "development",
+            "endpoint": "http://localhost:3978/api/messages",
+            "appId": "",
+            "appPassword": "",
+            "id": "35"
+        },
+        {
+            "type": "luis",
+            "id": "",
+            "name": "",
+            "version": "0.1",
+            "appId": "",
+            "authoringKey": "",
+            "subscriptionKey": "",
+            "endpoint": ""
+        }
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "overrides": null
+}

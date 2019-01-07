@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+=======
+// Copyright (c) Microsoft Corporation. All rights reserved.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 // Licensed under the MIT License.
 
 using System;
 using System.Collections.Generic;
+<<<<<<< HEAD
+=======
+using System.IO;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 using System.Linq;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -10,12 +18,19 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
+<<<<<<< HEAD
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.BotBuilderSamples.AppInsights;
+=======
+using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector.Authentication;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -51,6 +66,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+<<<<<<< HEAD
 
             // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
             var botConfig = BotConfiguration.Load(botFilePath ?? @".\<YOUR BOT CONFIGURATION>.bot", secretKey);
@@ -59,6 +75,23 @@ namespace Microsoft.BotBuilderSamples
             // Retrieve current endpoint.
             var environment = _isProduction ? "production" : "development";
             var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+=======
+            if (!File.Exists(botFilePath))
+            {
+                throw new FileNotFoundException($"The .bot configuration file was not found. botFilePath: {botFilePath}");
+            }
+
+            // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\luis-with-appinsights.bot", secretKey);
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. botFilePath: {botFilePath}"));
+
+            // Use Application Insights
+            services.AddBotApplicationInsights(botConfig);
+
+            // Retrieve current endpoint.
+            var environment = _isProduction ? "production" : "development";
+            var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             if (!(service is EndpointService endpointService))
             {
                 throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
@@ -71,20 +104,37 @@ namespace Microsoft.BotBuilderSamples
             {
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
+<<<<<<< HEAD
                 // Add MyAppInsightsLoggerMiddleware (logs activity messages into Application Insights)
                 var appInsightsLogger = new MyAppInsightsLoggerMiddleware(connectedServices.TelemetryClient.InstrumentationKey, logUserName: true, logOriginalMessage: true);
                 options.Middleware.Add(appInsightsLogger);
 
                 // Creates a logger for the application to use.
                 ILogger logger = _loggerFactory.CreateLogger<LuisBot>();
+=======
+                // Creates a telemetryClient for OnTurnError handler.
+                var sp = services.BuildServiceProvider();
+                var telemetryClient = sp.GetService<IBotTelemetryClient>();
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
                 // Catches any errors that occur during a conversation turn and logs them.
                 options.OnTurnError = async (context, exception) =>
                 {
+<<<<<<< HEAD
                     logger.LogError($"Exception caught : {exception}");
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
+=======
+                    telemetryClient.TrackException(exception);
+                    await context.SendActivityAsync("Sorry, it looks like something went wrong.");
+                };
+
+                // Add MyAppInsightsLoggerMiddleware (logs activity messages into Application Insights)
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
+                options.Middleware.Add(appInsightsLogger);
+
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 // The Memory Storage used here is for local bot debugging only. When the bot
                 // is restarted, everything stored in memory will be gone.
                 IStorage dataStore = new MemoryStorage();
@@ -110,8 +160,11 @@ namespace Microsoft.BotBuilderSamples
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
                 var conversationState = new ConversationState(dataStore);
+<<<<<<< HEAD
 
                 options.State.Add(conversationState);
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             });
         }
 
@@ -120,11 +173,23 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="app">The application builder. This provides the mechanisms to configure the application request pipeline.</param>
         /// <param name="env">Provides information about the web hosting environment.</param>
+<<<<<<< HEAD
+=======
+        /// <param name="loggerFactory">Represents a type used to configure the logging system and create instances of ILogger.</param>
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
 
+<<<<<<< HEAD
             app.UseDefaultFiles()
+=======
+            // Application Insights will capture ILogger based events.
+            _loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Information);
+
+            app.UseBotApplicationInsights()
+                .UseDefaultFiles()
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 .UseStaticFiles()
                 .UseBotFramework();
         }
@@ -142,8 +207,12 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="LuisRecognizer"/>
         private static BotServices InitBotServices(BotConfiguration config)
         {
+<<<<<<< HEAD
             TelemetryClient telemetryClient = null;
             var luisServices = new Dictionary<string, LuisRecognizer>();
+=======
+            var luisServices = new Dictionary<string, TelemetryLuisRecognizer>();
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
             foreach (var service in config.Services)
             {
@@ -178,7 +247,11 @@ namespace Microsoft.BotBuilderSamples
                             }
 
                             var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
+<<<<<<< HEAD
                             var recognizer = new MyAppInsightLuisRecognizer(app);
+=======
+                            var recognizer = new TelemetryLuisRecognizer(app);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                             luisServices.Add(LuisBot.LuisKey, recognizer);
                             break;
                         }
@@ -196,17 +269,24 @@ namespace Microsoft.BotBuilderSamples
                                 throw new InvalidOperationException("The Application Insights Instrumentation Key ('instrumentationKey') is required to run this sample.  Please update your '.bot' file.");
                             }
 
+<<<<<<< HEAD
                             var telemetryConfig = new TelemetryConfiguration(appInsights.InstrumentationKey);
                             telemetryClient = new TelemetryClient(telemetryConfig)
                             {
                                 InstrumentationKey = appInsights.InstrumentationKey,
                             };
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                             break;
                         }
                 }
             }
 
+<<<<<<< HEAD
             var connectedServices = new BotServices(telemetryClient, luisServices);
+=======
+            var connectedServices = new BotServices(luisServices);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             return connectedServices;
         }
     }

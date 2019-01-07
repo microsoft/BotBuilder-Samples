@@ -37,7 +37,12 @@ class HomeAutomation {
         this.state = new HomeAutomationState(convoState, userState);
 
         // add recognizers
+<<<<<<< HEAD
         const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
+=======
+        const luisServiceName = botConfig.name + '_' + LUIS_CONFIGURATION;
+        const luisConfig = botConfig.findServiceByNameOrId(luisServiceName);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         if (!luisConfig || !luisConfig.appId) throw new Error(`Home automation LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
         this.luisRecognizer = new LuisRecognizer({
             applicationId: luisConfig.appId,
@@ -84,12 +89,26 @@ class HomeAutomation {
         // Find any additional device properties specified.
         const deviceProperties = findEntities(DEVICE_PROPERTY_ENTITY, homeAutoResults.entities);
         const numberProperties = findEntities(NUMBER_ENTITY, homeAutoResults.entities);
+<<<<<<< HEAD
         // Update device state.
         await this.state.setDevice((devices || devicesPatternAny), (rooms || roomsPatternAny), operations[0], (deviceProperties || numberProperties), context);
         await context.sendActivity(`You reached the "HomeAutomation" dialog.`);
         await context.sendActivity(`Here's the current snapshot of your prior operations`);
         // read out operations list
         await context.sendActivity(await this.state.getDevices(context));
+=======
+
+        if (operations === undefined) {
+            await context.sendActivity(`You reached the "HomeAutomation" dialog. However you need to specific an operation, for example turn on bedroom light`);
+        } else {
+            // Update device state.
+            await this.state.setDevice((devices || devicesPatternAny), (rooms || roomsPatternAny), operations[0], (deviceProperties || numberProperties), context);
+            await context.sendActivity(`You reached the "HomeAutomation" dialog.`);
+            await context.sendActivity(`Here's the current snapshot of your prior operations`);
+            // read out operations list
+            await context.sendActivity(await this.state.getDevices(context));
+        }
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     }
 };
 

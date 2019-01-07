@@ -74,7 +74,11 @@ namespace Microsoft.BotBuilderSamples
                     var count = 0;
                     do
                     {
+<<<<<<< HEAD
                         var pagedTranscript = await _transcriptStore.GetTranscriptActivitiesAsync(activity.ChannelId, activity.Conversation.Id);
+=======
+                        var pagedTranscript = await _transcriptStore.GetTranscriptActivitiesAsync(activity.ChannelId, activity.Conversation.Id, continuationToken);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                         var activities = pagedTranscript.Items
                             .Where(a => a.Type == ActivityTypes.Message)
                             .Select(ia => (Activity)ia)
@@ -106,7 +110,14 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (activity.Type == ActivityTypes.ConversationUpdate)
             {
+<<<<<<< HEAD
                 await SendWelcomeMessageAsync(turnContext, cancellationToken);
+=======
+                if (activity.MembersAdded != null)
+                {
+                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                }
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             }
         }
 
@@ -131,4 +142,8 @@ namespace Microsoft.BotBuilderSamples
             }
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

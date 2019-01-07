@@ -2,7 +2,13 @@
 // Licensed under the MIT License.
 
 using System;
+<<<<<<< HEAD
 using System.Linq;
+=======
+using System.IO;
+using System.Linq;
+using System.Threading;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -58,6 +64,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 var secretKey = Configuration.GetSection("botFileSecret")?.Value;
                 var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+<<<<<<< HEAD
 
                 // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
                 var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
@@ -66,6 +73,20 @@ namespace Microsoft.BotBuilderSamples
                 // Retrieve current endpoint.
                 var environment = _isProduction ? "production" : "development";
                 var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+=======
+                if (!File.Exists(botFilePath))
+                {
+                    throw new FileNotFoundException($"The .bot configuration file was not found. botFilePath: {botFilePath}");
+                }
+
+                // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
+                var botConfig = BotConfiguration.Load(botFilePath ?? @".\multilingual-bot.bot", secretKey);
+                services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. botFilePath: {botFilePath}"));
+              
+                // Retrieve current endpoint.
+                var environment = _isProduction ? "production" : "development";
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 if (!(service is EndpointService endpointService))
                 {
                     throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
@@ -77,10 +98,21 @@ namespace Microsoft.BotBuilderSamples
                 ILogger logger = _loggerFactory.CreateLogger<MultiLingualBot>();
 
                 // Catches any errors that occur during a conversation turn and logs them.
+<<<<<<< HEAD
                 options.OnTurnError = async (context, exception) =>
                 {
                     logger.LogError($"Exception caught : {exception}");
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
+=======
+                options.OnTurnError = async (turnContext, exception) =>
+                {
+                    logger.LogError($"Exception caught : {exception}");
+
+                    // By-pass the middleware by sending the Activity directly on the Adapter.
+                    var activity = MessageFactory.Text("Sorry, it looks like something went wrong.");
+                    activity.ApplyConversationReference(turnContext.Activity.GetConversationReference());
+                    await turnContext.Adapter.SendActivitiesAsync(turnContext, new[] { activity }, default(CancellationToken));
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 };
 
                 // The Memory Storage used here is for local bot debugging only. When the bot
@@ -128,8 +160,13 @@ namespace Microsoft.BotBuilderSamples
                 options.Middleware.Add(translationMiddleware);
             });
 
+<<<<<<< HEAD
             // Create and register state accesssors.
             // Acessors created here are passed into the IBot-derived class on every turn.
+=======
+            // Create and register state accessors.
+            // Accessors created here are passed into the IBot-derived class on every turn.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             services.AddSingleton(sp =>
             {
                 // We need to grab the conversationState we added on the options in the previous step

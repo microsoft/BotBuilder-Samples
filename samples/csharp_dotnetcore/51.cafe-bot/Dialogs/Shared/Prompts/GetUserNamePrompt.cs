@@ -3,27 +3,40 @@
 
 using System;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using System.IO;
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+<<<<<<< HEAD
 using Newtonsoft.Json;
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 namespace Microsoft.BotBuilderSamples
 {
     public class GetUserNamePrompt : TextPrompt
     {
+<<<<<<< HEAD
         // The name of the bot you deployed.
         public static readonly string MsBotName = "cafe66";
 
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         /// <summary>
         /// Key in the bot config (.bot file) for the LUIS instances.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
+<<<<<<< HEAD
         public static readonly string LuisConfiguration = MsBotName + "_" + "getUserProfile";
+=======
+        public static readonly string LuisConfiguration = $"getUserProfile";
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
         // Dialog name
         private const string InterruptionDispatcher = "interruptionDispatcherDialog";
@@ -74,7 +87,11 @@ namespace Microsoft.BotBuilderSamples
             var turnCounter = await _turnCounterAccessor.GetAsync(context, () => new CounterState());
             turnCounter.TurnCount = ++turnCounter.TurnCount;
 
+<<<<<<< HEAD
             // set updated turn counter
+=======
+            // Set updated turn counter
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             await _turnCounterAccessor.SetAsync(context, turnCounter);
 
             // See if we have card input. This would come in through onTurnProperty
@@ -100,7 +117,11 @@ namespace Microsoft.BotBuilderSamples
 
             if (turnCounter.TurnCount >= 1)
             {
+<<<<<<< HEAD
                 // We we need to get user's name right. Include a card.
+=======
+                // We need to get user's name right. Include a card.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 var activity = dc.Context.Activity.CreateReply();
                 activity.Attachments = new List<Attachment> { Helpers.CreateAdaptiveCardAttachment(@".\Dialogs\WhoAreYou\Resources\getNameCard.json"), };
                 await context.SendActivityAsync(activity);
@@ -111,7 +132,11 @@ namespace Microsoft.BotBuilderSamples
                 return await EndGetUserNamePromptAsync(dc);
             }
 
+<<<<<<< HEAD
             // call LUIS and get results
+=======
+            // Call LUIS and get results
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             var luisResults = await _botServices.LuisServices[LuisConfiguration].RecognizeAsync(context, cancellationToken);
 
             var topLuisIntent = luisResults.GetTopScoringIntent();
@@ -119,7 +144,11 @@ namespace Microsoft.BotBuilderSamples
 
             if (string.IsNullOrWhiteSpace(topIntent))
             {
+<<<<<<< HEAD
                 // go with intent in onTurnProperty
+=======
+                // Go with intent in onTurnProperty
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 topIntent = string.IsNullOrWhiteSpace(onTurnProperty.Intent) ? "None" : onTurnProperty.Intent;
             }
 
@@ -127,7 +156,11 @@ namespace Microsoft.BotBuilderSamples
             switch (topIntent)
             {
                 case NoNameIntent:
+<<<<<<< HEAD
                     // set user name in profile to Human
+=======
+                    // Set user name in profile to Human
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                     await _userProfileAccessor.SetAsync(context, new UserProfile("Human"));
                     return await EndGetUserNamePromptAsync(dc);
                 case GetUserNameIntent:
@@ -160,7 +193,11 @@ namespace Microsoft.BotBuilderSamples
                     return await base.ContinueDialogAsync(dc);
 
                 case CancelIntent:
+<<<<<<< HEAD
                     // start confirmation prompt
+=======
+                    // Start confirmation prompt
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                     var opts = new PromptOptions
                     {
                         Prompt = new Activity
@@ -183,7 +220,11 @@ namespace Microsoft.BotBuilderSamples
             if (result == null)
             {
                 // User said yes to cancel prompt.
+<<<<<<< HEAD
                 await dc.Context.SendActivityAsync("Sure. I've cancelled that!");
+=======
+                await dc.Context.SendActivityAsync("Sure. I've canceled that!");
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 return await dc.CancelAllDialogsAsync();
             }
             else

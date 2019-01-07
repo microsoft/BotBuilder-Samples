@@ -1,7 +1,12 @@
 Contoso cafe bot is a complete and fairly sophisticated sample that demonstrates various parts of the [BotBuilder V4 SDK](https://github.com/microsoft/botbuilder-dotnet) and [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) in action. 
 
+<<<<<<< HEAD
 This sample relies on prior knowledge/ familiarity with the following tools and services 
 - [LUIS](https://luis.ai)
+=======
+This sample relies on prior knowledge / familiarity with the following tools and services 
+- [LUIS](https://www.luis.ai)
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 - [QnA Maker](https://qnamaker.ai)
 - [Ludown CLI tool](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown)
 - [LUIS CLI tool](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUIS)
@@ -31,7 +36,11 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 - Managing user and conversation state
 
 ## Services and tools demonstrated
+<<<<<<< HEAD
 - Using [LUIS](https://luis.ai) for Natural Language Processing
+=======
+- Using [LUIS](https://www.luis.ai) for Natural Language Processing
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 - Using [QnA Maker](https://qnamaker.ai) for FAQ, chit-chat, getting help and other single-turn conversations
 - Using [BotBuilder CLI tools](https://github.com/microsoft/botbuilder-tools) to create, configure and manage all required services.
 
@@ -44,6 +53,7 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 - Clone the samples repository
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
+<<<<<<< HEAD
 
 ```
 ## Visual Studio
@@ -54,6 +64,19 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/51.cafe-bot` folder.
 - Type 'dotnet run'.
 
+=======
+```
+# Running Locally
+
+## Visual Studio
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/51.cafe-bot`) and open `CafeBot.csproj` in Visual Studio.
+- Run the project (press `F5` key)
+
+## .NET Core CLI
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
+- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/51.cafe-bot` folder.
+- Type `dotnet run`.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 # Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://aka.ms/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
@@ -63,7 +86,11 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to `botbuilder-samples/samples/csharp_dotnetcore/51.cafe-bot`
+<<<<<<< HEAD
 - Select CafeBot.bot
+=======
+- Select `CafeBot.bot`.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 # Prerequisites
 ## Install CLI tools
@@ -72,7 +99,11 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - In a terminal
 - Install required tools
     ```bash
+<<<<<<< HEAD
     npm i -g msbot chatdown ludown luis-cli qnamaker 
+=======
+    npm i -g msbot chatdown ludown luis-apis qnamaker 
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     ```
 
 ## Configure required services
@@ -83,6 +114,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ```bash
 cd BotBuilder-Samples\samples\csharp_dotnetcore\51.cafe-bot
 ```
+<<<<<<< HEAD
     - To login, run:
 ```bash
 Connect-AzureRmAccount
@@ -98,6 +130,28 @@ az account set --subscription "<YOUR SUBSCRIPTION>"
 msbot clone --name <YOUR-BOT-NAME> --folder DeploymentScripts/msbotClone --location <Bot service location, ie "westus"> --luisAuthoringKey <YOUR LUIS AUTHORING KEY>
 ```
 
+=======
+ - - To login, run:	
+
+```bash
+az login
+```
+- - To select your Azure subscription, run:
+
+```bash
+az account set --subscription "<YOUR SUBSCRIPTION>"
+```
+
+- - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
+
+```bash
+msbot clone services --noDecorate --name <YOUR-BOT-NAME> --folder DeploymentScripts/msbotClone --location <Bot service location, ie "westus"> --luisAuthoringKey <YOUR LUIS AUTHORING KEY> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
+```
+
+**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
+
+
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 Optionally, you can use the LUIS, QnA Maker portals to manually import the models found under **CognitiveModels** folder of this sample. 
 
 # Relevant commands for CLI tools
@@ -110,14 +164,22 @@ Optionally, you can use the LUIS, QnA Maker portals to manually import the model
     ```
 - Parse .lu files into QnA Maker KB and QnA Maker alterations file
     ```bash
+<<<<<<< HEAD
     > ludown parse toqna --in Dialogs/Dispatcher/Resources/cafeFAQ_ChitChat.lu -o cognitiveModels -n
 cafeFaqChitChat --out cafeFaqChitChat.qna -a
+=======
+    > ludown parse toqna --in Dialogs/Dispatcher/Resources/cafeFAQ_ChitChat.lu -o cognitiveModels -n cafeFaqChitChat --out cafeFaqChitChat.qna -a
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     ```
 - Import LUIS applications (Note: You don't need this if you have already run MSBOT clone)
     ```bash
     > luis import application --in CognitiveModels/cafeDispatchModel.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
     > luis import application --in CognitiveModels/cafeBotBookTableTurnN.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
+<<<<<<< HEAD
     > luis import application --in CgnitiveModels/getUserProfile.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
+=======
+    > luis import application --in CognitiveModels/getUserProfile.luis --authoringKey <Your LUIS authoring key> --region <LUIS-Authoring-Region> --msbot | msbot connect luis --stdin
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     ```
     **Note**: LUIS authoring region can be one of westus or westeurope or australiaeast
 

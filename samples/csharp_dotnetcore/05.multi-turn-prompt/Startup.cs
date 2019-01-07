@@ -32,6 +32,11 @@ namespace Microsoft.BotBuilderSamples
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
+<<<<<<< HEAD
+=======
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -60,12 +65,20 @@ namespace Microsoft.BotBuilderSamples
                 var botFilePath = Configuration.GetSection("botFilePath")?.Value;
 
                 // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
+<<<<<<< HEAD
                 var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+=======
+                var botConfig = BotConfiguration.Load(botFilePath ?? @".\multi-turn-prompt.bot", secretKey);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. ({botConfig})"));
 
                 // Retrieve current endpoint.
                 var environment = _isProduction ? "production" : "development";
+<<<<<<< HEAD
                 var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+=======
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 if (!(service is EndpointService endpointService))
                 {
                     throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");

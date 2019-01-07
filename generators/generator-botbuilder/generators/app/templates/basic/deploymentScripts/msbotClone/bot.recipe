@@ -8,11 +8,14 @@
       "url": "http://localhost:3978/api/messages"
     },
     {
+<<<<<<< HEAD
       "type": "luis",
       "id": "34",
       "name": "<%= botName %>-LUIS"
     },
     {
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
       "type": "endpoint",
       "id": "2",
       "name": "production",
@@ -21,18 +24,39 @@
     {
       "type": "abs",
       "id": "3",
+<<<<<<< HEAD
       "name": "<%= botName %>-abs"
+=======
+      "name": "<%= botname %>-abs"
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     },
     {
       "type": "appInsights",
       "id": "4",
+<<<<<<< HEAD
       "name": "<%= botName %>-insights"
+=======
+      "name": "<%= botname %>-insights"
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     },
     {
       "type": "blob",
       "id": "5",
+<<<<<<< HEAD
       "name": "<%= botName %>-blob",
       "container": "botstatestore"
     }
   ]
 }
+=======
+      "name": "<%= botname %>-blob",
+      "container": "botstatestore"
+    },
+    {
+      "type": "luis",
+      "id": "34",
+      "name": "<%= botname %>-LUIS"
+    }
+  ]
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

@@ -24,7 +24,11 @@ namespace Microsoft.BotBuilderSamples
     /// within a conversation and simplifies bot development (since you will not need
     /// to account for that scenario).
     /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
+<<<<<<< HEAD
     /// This is a Transient lifetime service.  Transient lifetime services are created
+=======
+    /// This is a Transient lifetime service. Transient lifetime services are created
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     /// each time they're requested. For each Activity received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
     /// beyond the single turn, should be carefully managed.
@@ -56,7 +60,11 @@ namespace Microsoft.BotBuilderSamples
 
             // Handle Message activity type, which is the main activity type for shown within a conversational interface
             // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
+<<<<<<< HEAD
             // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+=======
+            // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 // Extract the text from the message activity the user sent.
@@ -75,7 +83,11 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
+<<<<<<< HEAD
                 if (turnContext.Activity.MembersAdded.Any())
+=======
+                if (turnContext.Activity.MembersAdded != null)
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 {
                     // Send a welcome message to the user and tell them what actions they may perform to use this bot
                     await SendWelcomeMessageAsync(turnContext, cancellationToken);

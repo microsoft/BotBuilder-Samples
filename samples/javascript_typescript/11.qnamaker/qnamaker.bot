@@ -8,6 +8,7 @@
             "appId": "",
             "appPassword": "",
             "endpoint": "http://localhost:3978/api/messages"
+<<<<<<< HEAD
         },
         {
             "type": "qna",
@@ -23,3 +24,10 @@
     "padlock": "",
     "version": "2.0"
 }
+=======
+        }
+    ],
+    "padlock": "",
+    "version": "2.0"
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

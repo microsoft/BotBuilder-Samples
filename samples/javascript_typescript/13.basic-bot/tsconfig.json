@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+<<<<<<< HEAD
     /* Basic Options */                       
     "target": "ES2015",                          /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'. */
     "module": "commonjs",                     /* Specify module code generation: 'commonjs', 'amd', 'system', 'umd' or 'es2015'. */
@@ -51,3 +52,15 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   }
 }
+=======
+    "composite": true,
+    "declaration": true,
+    "target": "es2016",
+    "module": "commonjs",
+    "outDir": "./lib",
+    "resolveJsonModule": true,
+    "rootDirs": ["./src", "./resources"],
+    "sourceMap": true
+  }
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

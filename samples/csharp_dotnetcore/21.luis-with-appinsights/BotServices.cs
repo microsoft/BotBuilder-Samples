@@ -4,6 +4,10 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
+<<<<<<< HEAD
+=======
+using Microsoft.Bot.Builder;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 using Microsoft.Bot.Builder.AI.Luis;
 
 namespace Microsoft.BotBuilderSamples
@@ -24,13 +28,19 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="client">An Application Insights <see cref="TelemetryClient"/> instance.</param>
         /// <param name="luisServices">A dictionary of named <see cref="LuisRecognizer"/> instances for usage within the bot.</param>
+<<<<<<< HEAD
         public BotServices(TelemetryClient client, Dictionary<string, LuisRecognizer> luisServices)
         {
             TelemetryClient = client ?? throw new ArgumentNullException(nameof(client));
+=======
+        public BotServices(Dictionary<string, TelemetryLuisRecognizer> luisServices)
+        {
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             LuisServices = luisServices ?? throw new ArgumentNullException(nameof(luisServices));
         }
 
         /// <summary>
+<<<<<<< HEAD
         /// Gets the Application Insights Telemetry client.
         /// Use this to log new custom events/metrics/traces/etc into your
         /// Application Insights service for later analysis.
@@ -42,6 +52,8 @@ namespace Microsoft.BotBuilderSamples
         public TelemetryClient TelemetryClient { get; }
 
         /// <summary>
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         /// Gets the set of LUIS Services used.
         /// Given there can be multiple <see cref="LuisRecognizer"/> services used in a single bot,
         /// LuisServices is represented as a dictionary.  This is also modeled in the
@@ -51,6 +63,12 @@ namespace Microsoft.BotBuilderSamples
         /// <value>
         /// A <see cref="LuisRecognizer"/> client instance created based on configuration in the .bot file.
         /// </value>
+<<<<<<< HEAD
         public Dictionary<string, LuisRecognizer> LuisServices { get; } = new Dictionary<string, LuisRecognizer>();
     }
 }
+=======
+        public Dictionary<string, TelemetryLuisRecognizer> LuisServices { get; } = new Dictionary<string, TelemetryLuisRecognizer>();
+    }
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

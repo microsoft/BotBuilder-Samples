@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+<<<<<<< HEAD
 const { Middleware, TurnContext, ConversationState, BotStatePropertyAccessor } = require('botbuilder');
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 const fetch = require('node-fetch');
 
 const ENGLISH_LANGUAGE = 'en';
@@ -12,7 +15,11 @@ class TranslatorMiddleware {
     /**
      * Creates a translation middleware.
      * @param {BotStatePropertyAccessor} languagePreferenceProperty Accessor for language preference property in the user state.
+<<<<<<< HEAD
      * * @param {string} translatorKey Microsoft Text Translation API key.
+=======
+     * @param {string} translatorKey Microsoft Text Translation API key.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
      */
     constructor(languagePreferenceProperty, translatorKey) {
         this.languagePreferenceProperty = languagePreferenceProperty;
@@ -56,8 +63,15 @@ class TranslatorMiddleware {
      * @param {string} to Two character langauge code, e.g. "en", "es"
      */
     async translate(text, to) {
+<<<<<<< HEAD
         // Check to make sure "en" is not translated to "in"
         if (text.toLowerCase() === ENGLISH_LANGUAGE) {
+=======
+        // Check to make sure "en" is not translated to "in", or "es" to "it"
+        // In a production bot scenario, this would be replaced for a method call that detects
+        // language names in utterances.
+        if (text.toLowerCase() === ENGLISH_LANGUAGE || text.toLowerCase() === SPANISH_LANGUAGE) {
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             return text;
         }
 

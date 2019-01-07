@@ -18,7 +18,11 @@ $confirmationList:no=
 - negative
 - nothing
 - nope
+<<<<<<< HEAD
 - dont book it
+=======
+- don't book it
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 $PREBUILT:number
 

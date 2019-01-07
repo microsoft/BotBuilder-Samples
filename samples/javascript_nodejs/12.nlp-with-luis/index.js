@@ -35,6 +35,14 @@ const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 // Language Understanding (LUIS) service name as defined in the .bot file.
 const LUIS_CONFIGURATION = '';
 
+<<<<<<< HEAD
+=======
+if (!LUIS_CONFIGURATION) {
+    console.error('Make sure to update the index.js file with a LUIS_CONFIGURATION name that matches your .bot file.');
+    process.exit();
+}
+
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 // Get endpoint and LUIS configurations by service name.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
@@ -43,7 +51,11 @@ const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
 const luisApplication = {
     applicationId: luisConfig.appId,
     endpointKey: luisConfig.subscriptionKey || luisConfig.authoringKey,
+<<<<<<< HEAD
     azureRegion: luisConfig.region
+=======
+    endpoint: luisConfig.getEndpoint()
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 };
 
 // Create configuration for LuisRecognizer's runtime behavior.
@@ -60,9 +72,15 @@ const adapter = new BotFrameworkAdapter({
 });
 
 // Catch-all for errors.
+<<<<<<< HEAD
 adapter.onTurnError = async(turnContext, error) => {
     console.error(`\n [onTurnError]: ${ error }`);
     await turnContext.sendActivity(`Oops. Something went wrong!`);
+=======
+adapter.onTurnError = async (context, error) => {
+    console.error(`\n [onTurnError]: ${ error }`);
+    await context.sendActivity(`Oops. Something went wrong!`);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 };
 
 // Create the LuisBot.
@@ -84,7 +102,14 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
+<<<<<<< HEAD
     adapter.processActivity(req, res, async(turnContext) => {
         await bot.onTurn(turnContext);
     });
 });
+=======
+    adapter.processActivity(req, res, async (turnContext) => {
+        await bot.onTurn(turnContext);
+    });
+});
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

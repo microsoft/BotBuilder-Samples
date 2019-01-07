@@ -265,8 +265,16 @@ paket-files/
 
 # Node
 /**/node_modules
+/**/package-lock.json
 
 # Visual Studio Code
 .vscode/
 /javascript_nodejs/.DS_Store
 .DS_Store
+<<<<<<< HEAD
+=======
+generators/generator-botbuilder/.npmrc
+/samples/javascript_es6/01.a.browser-echo/dist
+/generators/generator-botbuilder/package-lock.json
+package-lock.json
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

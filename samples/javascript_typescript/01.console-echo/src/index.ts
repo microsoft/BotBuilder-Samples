@@ -1,10 +1,19 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+<<<<<<< HEAD
 import { TurnContext } from 'botbuilder';
 import { ConsoleAdapter} from './consoleAdapter';
 import { ConsoleEchoBot } from './bot';
 
+=======
+import { ConsoleAdapter} from './consoleAdapter';
+
+import { ConsoleEchoBot } from './bot';
+
+import { TurnContext } from 'botbuilder';
+
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 // Create the adapter which is responsible for sending and receiving messages.
 // The ConsoleAdapter enables a user to chat with a bot from within their console window.
 const adapter: ConsoleAdapter = new ConsoleAdapter();
@@ -21,4 +30,8 @@ const closeFn = adapter.listen(async (turnContext: TurnContext) => {
 
 // Emit a startup message with some instructions.
 console.log('> Console EchoBot is online. I will repeat any message you send me!');
+<<<<<<< HEAD
 console.log('> Say "quit" to end.\n');
+=======
+console.log('> Say "quit" to end.\n');
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

@@ -43,6 +43,12 @@ namespace Microsoft.BotBuilderSamples.Translation
                 request.Headers.Add("Ocp-Apim-Subscription-Key", _key);
 
                 var response = await _client.SendAsync(request, cancellationToken);
+<<<<<<< HEAD
+=======
+
+                response.EnsureSuccessStatusCode();
+
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 var responseBody = await response.Content.ReadAsStringAsync();
                 var result = JsonConvert.DeserializeObject<TranslatorResponse[]>(responseBody);
 

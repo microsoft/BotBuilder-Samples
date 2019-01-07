@@ -125,7 +125,11 @@ namespace Microsoft.BotBuilderSamples
             // Processes ConversationUpdate Activities to welcome the user.
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
+<<<<<<< HEAD
                 if (turnContext.Activity.MembersAdded.Any())
+=======
+                if (turnContext.Activity.MembersAdded != null)
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 {
                     await SendWelcomeMessageAsync(turnContext, cancellationToken);
                 }
@@ -140,6 +144,30 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
+<<<<<<< HEAD
+=======
+        /// Sends a welcome message to the user.
+        /// </summary>
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            foreach (var member in turnContext.Activity.MembersAdded)
+            {
+                if (member.Id != turnContext.Activity.Recipient.Id)
+                {
+                    var reply = turnContext.Activity.CreateReply();
+                    reply.Text = WelcomeText;
+                    await turnContext.SendActivityAsync(reply, cancellationToken);
+                }
+            }
+        }
+
+        /// <summary>
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         /// This is an example of a custom validator. This example can be directly used on a float NumberPrompt.
         /// Returning true indicates the recognized value is acceptable. Returning false will trigger re-prompt behavior.
         /// </summary>
@@ -199,6 +227,7 @@ namespace Microsoft.BotBuilderSamples
             // Remember to call EndAsync to indicate to the runtime that this is the end of our waterfall.
             return await stepContext.EndDialogAsync();
         }
+<<<<<<< HEAD
 
         /// <summary>
         /// Sends a welcome message to the user.
@@ -220,5 +249,7 @@ namespace Microsoft.BotBuilderSamples
                 }
             }
         }
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     }
 }

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿{
+=======
+{
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
   "intents": [
     {
       "name": "HomeAutomation"
@@ -597,7 +601,12 @@
   ],
   "luis_schema_version": "3.0.0",
   "versionId": "0.1",
+<<<<<<< HEAD
   "name": "homeautomation.luis",
   "desc": "",
+=======
+  "name": "Home Automation",
+  "desc": "Home Automation LUIS application - Bot Builder Samples",
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
   "culture": "en-us"
 }

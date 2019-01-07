@@ -69,7 +69,11 @@ namespace Microsoft.BotBuilderSamples
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = new CancellationToken())
         {
             // use state accessor to extract the didBotWelcomeUser flag
+<<<<<<< HEAD
             var didBotWelcomeUser = await _welcomeUserStateAccessors.DidBotWelcomeUser.GetAsync(turnContext, () => false);
+=======
+            var didBotWelcomeUser = await _welcomeUserStateAccessors.WelcomeUserState.GetAsync(turnContext, () => new WelcomeUserState());
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
             // Handle Message activity type, which is the main activity type for shown within a conversational interface
             // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
@@ -78,10 +82,18 @@ namespace Microsoft.BotBuilderSamples
             {
                 // Your bot should proactively send a welcome message to a personal chat the first time
                 // (and only the first time) a user initiates a personal chat with your bot.
+<<<<<<< HEAD
                 if (didBotWelcomeUser == false)
                 {
                     // Update user state flag to reflect bot handled first user interaction.
                     await _welcomeUserStateAccessors.DidBotWelcomeUser.SetAsync(turnContext, true);
+=======
+                if (didBotWelcomeUser.DidBotWelcomeUser == false)
+                {
+                    didBotWelcomeUser.DidBotWelcomeUser = true;
+                    // Update user state flag to reflect bot handled first user interaction.
+                    await _welcomeUserStateAccessors.WelcomeUserState.SetAsync(turnContext, didBotWelcomeUser);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                     await _welcomeUserStateAccessors.UserState.SaveChangesAsync(turnContext);
 
                     // the channel should sends the user name in the 'From' object
@@ -118,7 +130,11 @@ namespace Microsoft.BotBuilderSamples
             // send this activity.
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
+<<<<<<< HEAD
                 if (turnContext.Activity.MembersAdded.Any())
+=======
+                if (turnContext.Activity.MembersAdded != null)
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 {
                     // Iterate over all new members added to the conversation
                     foreach (var member in turnContext.Activity.MembersAdded)

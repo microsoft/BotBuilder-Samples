@@ -21,7 +21,11 @@ const HELP_UTTERANCE = 'help';
 /**
  * Demonstrates the following concepts:
  *  Displaying a Welcome Card, using Adaptive Card technology
+<<<<<<< HEAD
  *  Use LUIS to model Greetings, Help, and Cancel interations
+=======
+ *  Use LUIS to model Greetings, Help, and Cancel interactions
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
  *  Use a Waterflow dialog to model multi-turn conversation flow
  *  Use custom prompts to validate user input
  *  Store conversation and user state
@@ -36,9 +40,15 @@ class MessageRoutingBot {
      * @param {BotConfiguration} botConfig contents of the .bot file
      */
     constructor(conversationState, userState, botConfig) {
+<<<<<<< HEAD
         if (!conversationState) throw ('Missing parameter.  conversationState is required');
         if (!userState) throw ('Missing parameter.  userState is required');
         if (!botConfig) throw ('Missing parameter.  botConfig is required');
+=======
+        if (!conversationState) throw new Error('Missing parameter.  conversationState is required');
+        if (!userState) throw new Error('Missing parameter.  userState is required');
+        if (!botConfig) throw new Error('Missing parameter.  botConfig is required');
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
         // Create the property accessors for user and conversation state
         this.greetingStateAccessor = userState.createProperty(GREETING_STATE_PROPERTY);
@@ -47,8 +57,11 @@ class MessageRoutingBot {
         // Create top-level dialog(s)
         this.dialogs = new DialogSet(this.dialogState);
         this.dialogs.add(new GreetingDialog(GREETING_DIALOG, this.greetingStateAccessor, userState));
+<<<<<<< HEAD
 
         
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         this.conversationState = conversationState;
         this.userState = userState;
     }
@@ -65,12 +78,18 @@ class MessageRoutingBot {
         // Create a dialog context
         const dc = await this.dialogs.createContext(context);
 
+<<<<<<< HEAD
         if(context.activity.type === ActivityTypes.Message) {
             
+=======
+        if (context.activity.type === ActivityTypes.Message) {
+            // Normalizes all user's text inputs
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             const utterance = context.activity.text.trim().toLowerCase();
 
             // handle conversation interrupts first
             const interrupted = await this.isTurnInterrupted(dc, utterance);
+<<<<<<< HEAD
             if(interrupted) {
                 return;
             }
@@ -84,6 +103,17 @@ class MessageRoutingBot {
                 switch (dialogResult.status) {
                     case DialogTurnStatus.empty:
 
+=======
+            if (!interrupted) {
+                // Continue the current dialog
+                const dialogResult = await dc.continueDialog();
+
+                // If no one has responded,
+                if (!dc.context.responded) {
+                    // Examine results from active dialog
+                    switch (dialogResult.status) {
+                    case DialogTurnStatus.empty:
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                         if (utterance === GREETING_UTTERANCE) {
                             await dc.beginDialog(GREETING_DIALOG);
                         } else {
@@ -91,37 +121,63 @@ class MessageRoutingBot {
                             // to the user
                             await dc.context.sendActivity(`I didn't understand what you just said to me. Try saying 'hello', 'help' or 'cancel'.`);
                         }
+<<<<<<< HEAD
                     case DialogTurnStatus.waiting:
                         // The active dialog is waiting for a response from the user, so do nothing
                         break;
                     case DialogTurnStcarlatus.complete:
+=======
+                        break;
+                    case DialogTurnStatus.waiting:
+                        // The active dialog is waiting for a response from the user, so do nothing
+                        break;
+                    case DialogTurnStatus.complete:
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                         await dc.endDialog();
                         break;
                     default:
                         await dc.cancelAllDialogs();
                         break;
+<<<<<<< HEAD
                 }
             }
+=======
+                    }
+                }
+            }
+            // Make sure to persist state at the end of a turn.
+            await this.userState.saveChanges(context);
+            await this.conversationState.saveChanges(context);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         } else if (context.activity.type === 'conversationUpdate' && context.activity.membersAdded[0].name === 'Bot') {
             // When activity type is "conversationUpdate" and the member joining the conversation is the bot
             // we will send a welcome message.
             await dc.context.sendActivity(`Welcome to the message routing bot! Try saying 'hello' to start talking, and use 'help' or 'cancel' at anytime to try interruption and cancellation.`);
         }
+<<<<<<< HEAD
         // Make sure to persist state at the end of a turn.
         await this.userState.saveChanges(context);
         await this.conversationState.saveChanges(context);
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     }
 
     /**
      * Determine whether a turn is interrupted and handle interruption based off user's utterance.
      *
      * @param {DialogContext} dc - dialog context
+<<<<<<< HEAD
      * @param {string} utterance - user's utterance
      */
     async isTurnInterrupted(dc, utterance) {
 
         utterance = utterance.trim().toLowerCase();
 
+=======
+     * @param {string} utterance - user's utterance is normalized via the .trim().toLowerCase() calls
+     */
+    async isTurnInterrupted(dc, utterance) {
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         // see if there are any conversation interrupts we need to handle
         if (utterance === CANCEL_UTTERANCE) {
             if (dc.activeDialog) {
@@ -130,7 +186,12 @@ class MessageRoutingBot {
             } else {
                 await dc.context.sendActivity(`I don't have anything to cancel.`);
             }
+<<<<<<< HEAD
             return true;        // handled the interrupt
+=======
+            // handled the interrupt
+            return true;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         }
 
         if (utterance === HELP_UTTERANCE) {
@@ -138,6 +199,7 @@ class MessageRoutingBot {
             await dc.context.sendActivity(`I understand greetings, being asked for help, or being asked to cancel what I am doing.`);
 
             if (dc.activeDialog) {
+<<<<<<< HEAD
                 // We've shown help, reprompt again to continue where the dialog left over
                 dc.repromptDialog();
             }
@@ -148,3 +210,17 @@ class MessageRoutingBot {
 }
 
 module.exports = MessageRoutingBot;
+=======
+                // We've shown help, re-prompt again to continue where the dialog left over
+                await dc.repromptDialog();
+            }
+            // handled the interrupt
+            return true;
+        }
+        // did not handle the interrupt
+        return false;
+    }
+}
+
+module.exports = MessageRoutingBot;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

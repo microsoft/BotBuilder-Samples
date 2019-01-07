@@ -9,7 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.0.7" />
+=======
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.1.5" />
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
   </ItemGroup>

@@ -1,0 +1,36 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>EmptyBot</Name>
+    <Description>Empty Bot template for Microsoft Bot Builder V4 SDK.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>Bot Framework</ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>EmptyBot</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <CreateInPlace>true</CreateInPlace>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Icon>EmptyBot.png</Icon>
+    <PreviewImage></PreviewImage>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="EmptyBot.csproj" ReplaceParameters="true">
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true">launchSettings.json</ProjectItem>
+      </Folder>
+      <Folder Name="wwwroot" TargetFolderName="wwwroot">
+        <ProjectItem ReplaceParameters="true">default.htm</ProjectItem>
+      </Folder>
+      
+      <ProjectItem ReplaceParameters="true">appsettings.json</ProjectItem>            
+      <ProjectItem ReplaceParameters="true">Program.cs</ProjectItem>      
+      <ProjectItem ReplaceParameters="true">Startup.cs</ProjectItem>
+
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.bot">empty.bot</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Bot.cs">MyBot.cs</ProjectItem>      
+            
+      <ProjectItem ReplaceParameters="true">README.md</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

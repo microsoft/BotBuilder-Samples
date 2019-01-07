@@ -54,6 +54,19 @@ const adapter = new BotFrameworkAdapter({
     appPassword: endpointConfig.appPassword || process.env.MicrosoftAppPassword
 });
 
+<<<<<<< HEAD
+=======
+// Catch-all for errors.
+adapter.onTurnError = async (context, error) => {
+    // This check writes out errors to console log .vs. app insights.
+    console.error(`\n [onTurnError]: ${ error }`);
+    // Send a message to the user
+    await context.sendActivity(`Oops. Something went wrong!`);
+    // Clear out state
+    await conversationState.delete(context);
+};
+
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 // Define the state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
 // A bot requires a state storage system to persist the dialog and user state between messages.
 const memoryStorage = new MemoryStorage();
@@ -86,6 +99,7 @@ server.post('/api/messages', (req, res) => {
         await bot.onTurn(turnContext);
     });
 });
+<<<<<<< HEAD
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
@@ -96,3 +110,5 @@ adapter.onTurnError = async (context, error) => {
     // Clear out state
     conversationState.clear(context);
 };
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

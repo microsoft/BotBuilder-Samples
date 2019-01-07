@@ -7,12 +7,18 @@ const axios = require('axios');
 const fs = require('fs');
 
 /**
+<<<<<<< HEAD
  * A bot that is able to send and receive attachments. 
  */
 class AttachmentsBot {
     constructor() {
     }
 
+=======
+ * A bot that is able to send and receive attachments.
+ */
+class AttachmentsBot {
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     /**
      * Every conversation turn for our AttachmentsBot will call this method.
      * There are no dialogs used, since it's "single turn" processing, meaning a single
@@ -32,7 +38,10 @@ class AttachmentsBot {
 
             // Send a HeroCard with potential options for the user to select.
             await this.displayOptions(turnContext);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         } else if (turnContext.activity.type === ActivityTypes.ConversationUpdate &&
             turnContext.activity.recipient.id !== turnContext.activity.membersAdded[0].id) {
             // If the Activity is a ConversationUpdate, send a greeting message to the user.
@@ -41,17 +50,27 @@ class AttachmentsBot {
 
             // Send a HeroCard with potential options for the user to select.
             await this.displayOptions(turnContext);
+<<<<<<< HEAD
 
         } else if (turnContext.activity.type !== ActivityTypes.ConversationUpdate) {
             // Respond to all other Activity types.
             await turnContext.sendActivity(`[${turnContext.activity.type}]-type activity detected.`);
+=======
+        } else if (turnContext.activity.type !== ActivityTypes.ConversationUpdate) {
+            // Respond to all other Activity types.
+            await turnContext.sendActivity(`[${ turnContext.activity.type }]-type activity detected.`);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         }
     }
 
     /**
      * Saves incoming attachments to disk by calling `this.downloadAttachmentAndWrite()` and
      * responds to the user with information about the saved attachment or an error.
+<<<<<<< HEAD
      * @param {Object} turnContext 
+=======
+     * @param {Object} turnContext
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
      */
     async handleIncomingAttachment(turnContext) {
         // Prepare Promises to download each attachment and then execute each Promise.
@@ -64,8 +83,13 @@ class AttachmentsBot {
             if (localAttachmentData) {
                 // Because the TurnContext was bound to this function, the bot can call
                 // `TurnContext.sendActivity` via `this.sendActivity`;
+<<<<<<< HEAD
                 await this.sendActivity(`Attachment "${localAttachmentData.fileName}" ` +
                     `has been received and saved to "${localAttachmentData.localPath}".`);
+=======
+                await this.sendActivity(`Attachment "${ localAttachmentData.fileName }" ` +
+                    `has been received and saved to "${ localAttachmentData.localPath }".`);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             } else {
                 await this.sendActivity('Attachment was not successfully saved to disk.');
             }
@@ -79,7 +103,11 @@ class AttachmentsBot {
 
     /**
      * Downloads attachment to the disk.
+<<<<<<< HEAD
      * @param {Object} attachment 
+=======
+     * @param {Object} attachment
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
      */
     async downloadAttachmentAndWrite(attachment) {
         // Retrieve the attachment via the attachment's contentUrl.
@@ -94,10 +122,15 @@ class AttachmentsBot {
                 if (fsError) {
                     throw fsError;
                 }
+<<<<<<< HEAD
 
             });
         }
         catch (error) {
+=======
+            });
+        } catch (error) {
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             console.error(error);
             return undefined;
         }
@@ -106,13 +139,21 @@ class AttachmentsBot {
         return {
             fileName: attachment.name,
             localPath: localFileName
+<<<<<<< HEAD
         }
+=======
+        };
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     }
 
     /**
      * Responds to user with either an attachment or a default message indicating
      * an unexpected input was received.
+<<<<<<< HEAD
      * @param {Object} turnContext 
+=======
+     * @param {Object} turnContext
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
      */
     async handleOutgoingAttachment(turnContext) {
         const reply = { type: ActivityTypes.Message };
@@ -120,7 +161,11 @@ class AttachmentsBot {
         // Look at the user input, and figure out what type of attachment to send.
         // If the input matches one of the available choices, populate reply with
         // the available attachments.
+<<<<<<< HEAD
         // If the choice does not match with a valid choice, inform the user of 
+=======
+        // If the choice does not match with a valid choice, inform the user of
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         // possible options.
         const firstChar = turnContext.activity.text[0];
         if (firstChar === '1') {
@@ -141,7 +186,11 @@ class AttachmentsBot {
 
     /**
      * Sends a HeroCard with choices of attachments.
+<<<<<<< HEAD
      * @param {Object} turnContext 
+=======
+     * @param {Object} turnContext
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
      */
     async displayOptions(turnContext) {
         const reply = { type: ActivityTypes.Message };
@@ -168,13 +217,22 @@ class AttachmentsBot {
      */
     getInlineAttachment() {
         const imageData = fs.readFileSync(path.join(__dirname, '/resources/architecture-resize.png'));
+<<<<<<< HEAD
         const base64Image = new Buffer(imageData).toString('base64');
+=======
+        const base64Image = Buffer.from(imageData).toString('base64');
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
         return {
             name: 'architecture-resize.png',
             contentType: 'image/png',
+<<<<<<< HEAD
             contentUrl: `data:image/png;base64,${base64Image}`
         }
+=======
+            contentUrl: `data:image/png;base64,${ base64Image }`
+        };
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     }
 
     /**
@@ -186,12 +244,20 @@ class AttachmentsBot {
             name: 'architecture-resize.png',
             contentType: 'image/png',
             contentUrl: 'https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png'
+<<<<<<< HEAD
         }
+=======
+        };
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     }
 
     /**
      * Returns an attachment that has been uploaded to the channel's blob storage.
+<<<<<<< HEAD
      * @param {Object} turnContext 
+=======
+     * @param {Object} turnContext
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
      */
     async getUploadedAttachment(turnContext) {
         const imageData = fs.readFileSync(path.join(__dirname, '/resources/architecture-resize.png'));
@@ -205,11 +271,16 @@ class AttachmentsBot {
 
         // Retrieve baseUri from ConnectorClient for... something.
         const baseUri = connector.baseUri;
+<<<<<<< HEAD
         const attachmentUri = baseUri + (baseUri.endsWith('/') ? '' : '/') + `v3/attachments/${encodeURI(response.id)}/views/original`;
+=======
+        const attachmentUri = baseUri + (baseUri.endsWith('/') ? '' : '/') + `v3/attachments/${ encodeURI(response.id) }/views/original`;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         return {
             name: 'architecture-resize.png',
             contentType: 'image/png',
             contentUrl: attachmentUri
+<<<<<<< HEAD
         }
     }
 
@@ -230,6 +301,9 @@ class AttachmentsBot {
                 }
             }
         }
+=======
+        };
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     }
 }
 

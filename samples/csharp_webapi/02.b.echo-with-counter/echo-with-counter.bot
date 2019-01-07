@@ -1,0 +1,15 @@
+﻿{
+    "name": "EchoBot with Counter",
+    "description": "Demonstrates how to create a simple Echobot with a state-based counter.",
+    "secretKey": "",
+    "services": [
+      {
+        "id": "http://localhost:3456/api/messages",
+        "name": "EchoBot",
+        "type": "endpoint",
+        "appId": "",
+        "appPassword": "",
+        "endpoint": "http://localhost:3456/api/messages"
+      }
+    ]
+}

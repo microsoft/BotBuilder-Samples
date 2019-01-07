@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
     "name": "<%= botName %>",
+=======
+    "name": "<%= botname %>",
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     "services": [
         {
             "type": "endpoint",
@@ -12,4 +16,8 @@
     ],
     "padlock": "",
     "version": "2.0"
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

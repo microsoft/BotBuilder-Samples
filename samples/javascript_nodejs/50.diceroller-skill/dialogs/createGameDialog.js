@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+<<<<<<< HEAD
 const { ComponentDialog, WaterfallDialog, ChoicePrompt, NumberPrompt } = require('botbuilder-dialogs')
+=======
+const { ComponentDialog, WaterfallDialog, ChoicePrompt, NumberPrompt } = require('botbuilder-dialogs');
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 const { createGame, GameTypes } = require('../models/game');
 const { formatMessage } = require('../lg');
 const { RollAgainDialog } = require('./rollAgainDialog');
@@ -12,12 +16,21 @@ const SIDES_PROMPT = 'sidesPrompt';
 const COUNT_PROMPT = 'countPrompt';
 
 const SIDES_CHOICES = [
+<<<<<<< HEAD
     { value: '4', action: { type: 'imBack', title: '4 Sides', value: '4 Sides' }, synonyms: ['four','for','4 sided','4 sides'] },
     { value: '6', action: { type: 'imBack', title: '6 Sides', value: '6 Sides' }, synonyms: ['six','sex','6 sided','6 sides'] },
     { value: '8', action: { type: 'imBack', title: '8 Sides', value: '8 Sides' }, synonyms: ['eight','8 sided','8 sides'] },
     { value: '10', action: { type: 'imBack', title: '10 Sides', value: '10 Sides' }, synonyms: ['ten','10 sided','10 sides'] },
     { value: '12', action: { type: 'imBack', title: '12 Sides', value: '12 Sides' }, synonyms: ['twelve','12 sided','12 sides'] },
     { value: '20', action: { type: 'imBack', title: '20 Sides', value: '20 Sides' }, synonyms: ['twenty','20 sided','20 sides'] }
+=======
+    { value: '4', action: { type: 'imBack', title: '4 Sides', value: '4 Sides' }, synonyms: ['four', 'for', '4 sided', '4 sides'] },
+    { value: '6', action: { type: 'imBack', title: '6 Sides', value: '6 Sides' }, synonyms: ['six', 'sex', '6 sided', '6 sides'] },
+    { value: '8', action: { type: 'imBack', title: '8 Sides', value: '8 Sides' }, synonyms: ['eight', '8 sided', '8 sides'] },
+    { value: '10', action: { type: 'imBack', title: '10 Sides', value: '10 Sides' }, synonyms: ['ten', '10 sided', '10 sides'] },
+    { value: '12', action: { type: 'imBack', title: '12 Sides', value: '12 Sides' }, synonyms: ['twelve', '12 sided', '12 sides'] },
+    { value: '20', action: { type: 'imBack', title: '20 Sides', value: '20 Sides' }, synonyms: ['twenty', '20 sided', '20 sides'] }
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 ];
 
 const SIDES_VALUE = 'sides';
@@ -30,7 +43,11 @@ const COUNT_VALUE = 'count';
 class CreateGameDialog extends ComponentDialog {
     /**
      * Creates a new instance of CreateGameDialog.
+<<<<<<< HEAD
      * @param {string} dialogId Unique ID of the dialog within the outer dialog set. 
+=======
+     * @param {string} dialogId Unique ID of the dialog within the outer dialog set.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
      * @param {StatePropertyAccessor<Game>} currentGameProperty Property for persisting the current Game being played.
      */
     constructor(dialogId, currentGameProperty) {
@@ -70,7 +87,11 @@ class CreateGameDialog extends ComponentDialog {
      */
     async askCountStep(step) {
         // Remember number of sides
+<<<<<<< HEAD
         // - The FoundChoice.value comes back as a string so needs to be converted to a number. 
+=======
+        // - The FoundChoice.value comes back as a string so needs to be converted to a number.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         step.values[SIDES_VALUE] = parseInt(step.result.value);
 
         // Prompt user for the count of dice to roll.
@@ -96,7 +117,11 @@ class CreateGameDialog extends ComponentDialog {
 
     /**
      * Validator for the COUNT_PROMPT.
+<<<<<<< HEAD
      * @param {PromptValidatorContext} prompt Contextual information for the current prompt being validated. 
+=======
+     * @param {PromptValidatorContext} prompt Contextual information for the current prompt being validated.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
      */
     async countPromptValidator(prompt) {
         const { succeeded, value } = prompt.recognized;
@@ -105,9 +130,18 @@ class CreateGameDialog extends ComponentDialog {
             prompt.recognized.value = Math.floor(value);
             return true;
         } else {
+<<<<<<< HEAD
             await prompt.context.sendActivity(formatMessage('en', 'choose_count_reprompt'))
+=======
+            await prompt.context.sendActivity(formatMessage('en', 'choose_count_reprompt'));
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             return false;
         }
     }
 }
+<<<<<<< HEAD
 module.exports.CreateGameDialog = CreateGameDialog;
+=======
+
+module.exports.CreateGameDialog = CreateGameDialog;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

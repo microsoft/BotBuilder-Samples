@@ -34,6 +34,7 @@ namespace Microsoft.BotBuilderSamples
         {
             // Call QnA Maker and get results.
             var qnaResult = await _services.QnaServices[QnaConfiguration].GetAnswersAsync(dc.Context);
+<<<<<<< HEAD
             if (qnaResult == null || qnaResult.Count() > 0)
             {
                 // No answer found.
@@ -43,6 +44,17 @@ namespace Microsoft.BotBuilderSamples
             else
             {
                 // Respond with qna result.
+=======
+            if (qnaResult == null || qnaResult.Count() <= 0)
+            {
+                // No answer found.
+                await dc.Context.SendActivityAsync("I'm still learning... Sorry, I do not know how to help you with that.");
+                await dc.Context.SendActivityAsync($"Follow[this link](https://www.bing.com/search?q={dc.Context.Activity.Text}) to search the web!");
+            }
+            else
+            {
+                // Respond with QnA result.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 await dc.Context.SendActivityAsync(await UserSalutationAsync(dc.Context) + qnaResult[0].Answer);
             }
 
@@ -52,7 +64,11 @@ namespace Microsoft.BotBuilderSamples
         private async Task<string> UserSalutationAsync(ITurnContext context)
         {
             var salutation = string.Empty;
+<<<<<<< HEAD
             var userProfile = await _userProfileAccessor.GetAsync(context);
+=======
+            var userProfile = await _userProfileAccessor.GetAsync(context, () => new UserProfile(string.Empty));
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             if (userProfile == null && !string.IsNullOrWhiteSpace(userProfile.UserName))
             {
                 var userName = userProfile.UserName;

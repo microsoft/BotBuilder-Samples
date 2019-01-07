@@ -5,7 +5,11 @@
 > Bot Ability
 ### ? Cook me something
 - Have you any dreams?
+<<<<<<< HEAD
 - Dont you ever sleep?
+=======
+- Don't you ever sleep?
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 - Do you play games?
 - Can you fly?
 ```markdown
@@ -163,7 +167,11 @@ $father : qna-alterations=
     I'm fascinated by anything having to do with the world of tech.
 ```
 
+<<<<<<< HEAD
 > Bot opnion user
+=======
+> Bot opinion user
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 ### ? How do I look today?
 ```markdown
     I'm sure you look great.

@@ -56,8 +56,13 @@ namespace Microsoft.BotBuilderSamples
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
 
             // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
+<<<<<<< HEAD
             var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+=======
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\nlp-with-luis.bot", secretKey);
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. ({botConfig})"));
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
             // Initialize Bot Connected Services clients.
             var connectedServices = new BotServices(botConfig);

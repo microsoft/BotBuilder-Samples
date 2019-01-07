@@ -5,10 +5,17 @@
 // See https://aka.ms/botbuildergenerator for more details.
 
 const path = require('path');
+<<<<<<< HEAD
 const env = require('dotenv').config({ path: path.join(__dirname, '.env') });
 const restify = require('restify');
 
 const { BotFrameworkAdapter, BotStateSet,  MemoryStorage, ConversationState, UserState } = require('botbuilder');
+=======
+const restify = require('restify');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
+
+const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = require('botbuilder');
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 const { BotConfiguration } = require('botframework-config');
 
 const MessageRoutingBot = require('./bot');
@@ -17,8 +24,13 @@ const BOT_CONFIGURATION_ERROR = 1;
 
 // Create server
 let server = restify.createServer();
+<<<<<<< HEAD
 server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log(`\n${server.name} listening to ${server.url}`);
+=======
+server.listen(process.env.port || process.env.PORT || 3978, function() {
+    console.log(`\n${ server.name } listening to ${ server.url }`);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     console.log(`\nGet the Emulator: https://aka.ms/botframework-emulator`);
     console.log(`\nTo talk to your bot, open the message-routing.bot file in the Emulator`);
 });
@@ -28,7 +40,11 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 let botConfig;
 try {
     botConfig = BotConfiguration.loadSync(path.join(__dirname, process.env.botFilePath), process.env.botFileSecret);
+<<<<<<< HEAD
 } catch(err) {
+=======
+} catch (err) {
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     console.log(`Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
     process.exit(BOT_CONFIGURATION_ERROR);
 }
@@ -49,11 +65,17 @@ adapter.onTurnError = async (context, error) => {
     //       application insights.
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
+<<<<<<< HEAD
     context.sendActivity(`Oops. Something went wrong!`);
     // Clear out state
     await conversationState.clear(context);
     // Save state changes.
     await conversationState.saveChanges(context);
+=======
+    await context.sendActivity(`Oops. Something went wrong!`);
+    // Clear out state
+    await conversationState.delete(context);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 };
 
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
@@ -77,7 +99,11 @@ let bot;
 try {
     bot = new MessageRoutingBot(conversationState, userState, botConfig);
 } catch (err) {
+<<<<<<< HEAD
     console.log(`Error: ${err}`);
+=======
+    console.log(`Error: ${ err }`);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     process.exit(BOT_CONFIGURATION_ERROR);
 }
 
@@ -88,4 +114,8 @@ server.post('/api/messages', (req, res) => {
         // route to bot activity handler.
         await bot.onTurn(turnContext);
     });
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

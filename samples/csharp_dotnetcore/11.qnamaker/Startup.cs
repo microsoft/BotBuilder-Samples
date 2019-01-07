@@ -3,6 +3,10 @@
 
 using System;
 using System.Collections.Generic;
+<<<<<<< HEAD
+=======
+using System.IO;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -55,9 +59,19 @@ namespace Microsoft.BotBuilderSamples
         {
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+<<<<<<< HEAD
 
             // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
             var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+=======
+            if (!File.Exists(botFilePath))
+            {
+                throw new FileNotFoundException($"The .bot configuration file was not found. botFilePath: {botFilePath}");
+            }
+
+            // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\qnamaker.bot", secretKey);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
             // Initialize Bot Connected Services clients.
             var connectedServices = InitBotServices(botConfig);
@@ -71,7 +85,11 @@ namespace Microsoft.BotBuilderSamples
 
                 // Retrieve current endpoint.
                 var environment = _isProduction ? "production" : "development";
+<<<<<<< HEAD
                 var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+=======
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 if (!(service is EndpointService endpointService))
                 {
                     throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");

@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 
 using System;
+<<<<<<< HEAD
+=======
+using System.IO;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 using System.Linq;
 using Bot_Authentication;
 using Microsoft.AspNetCore.Builder;
@@ -58,6 +62,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 var secretKey = Configuration.GetSection("botFileSecret")?.Value;
                 var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+<<<<<<< HEAD
 
                 // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
                 var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
@@ -66,6 +71,20 @@ namespace Microsoft.BotBuilderSamples
                 // Retrieve current endpoint.
                 var environment = _isProduction ? "production" : "development";
                 var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+=======
+                if (!File.Exists(botFilePath))
+                {
+                    throw new FileNotFoundException($"The .bot configuration file was not found. botFilePath: {botFilePath}");
+                }
+
+                // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
+                var botConfig = BotConfiguration.Load(botFilePath ?? @".\bot-authentication.bot", secretKey);
+                services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. botFilePath: {botFilePath}"));
+
+                // Retrieve current endpoint.
+                var environment = _isProduction ? "production" : "development";
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 if (!(service is EndpointService endpointService))
                 {
                     throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
@@ -112,8 +131,13 @@ namespace Microsoft.BotBuilderSamples
                 options.State.Add(conversationState);
             });
 
+<<<<<<< HEAD
             // Create and register state accesssors.
             // Acessors created here are passed into the IBot-derived class on every turn.
+=======
+            // Create and register state accessors.
+            // Accessors created here are passed into the IBot-derived class on every turn.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             services.AddSingleton<AuthenticationBotAccessors>(sp =>
             {
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;

@@ -50,8 +50,13 @@
       "placeholder": "Choose an example of what you can say: ",
       "choices": [
         {
+<<<<<<< HEAD
           "title": "book a table for 2 in seattle",
           "value": " {\"intent\": \"Book_Table\", \"cafeLocation\": \"seattle\", \"number\": \"2\", \"text\": \"book a table for 2 in seattle\"}"
+=======
+          "title": "book a table for 2 in Seattle",
+          "value": " {\"intent\": \"Book_Table\", \"cafeLocation\": \"Seattle\", \"number\": \"2\", \"text\": \"book a table for 2 in Seattle\"}"
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         },
         {
           "title": "tell me a joke",

@@ -10,7 +10,11 @@ const { QnAMakerBot } = require('./bot');
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '.env');
+<<<<<<< HEAD
 const env = require('dotenv').config({ path: ENV_FILE });
+=======
+require('dotenv').config({ path: ENV_FILE });
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 console.log(process.env.botFilePath);
 
@@ -56,9 +60,15 @@ const adapter = new BotFrameworkAdapter({
 });
 
 // Catch-all for errors.
+<<<<<<< HEAD
 adapter.onTurnError = async (turnContext, error) => {
     console.error(`\n [onTurnError]: ${ error }`);
     await turnContext.sendActivity(`Oops. Something went wrong!`);
+=======
+adapter.onTurnError = async (context, error) => {
+    console.error(`\n [onTurnError]: ${ error }`);
+    await context.sendActivity(`Oops. Something went wrong!`);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 };
 
 // Create the QnAMakerBot.
@@ -70,7 +80,10 @@ try {
     process.exit();
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 // Create HTTP server.
 let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {

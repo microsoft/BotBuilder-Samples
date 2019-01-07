@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+<<<<<<< HEAD
 const { ActivityTypes,
     CardFactory,
     ConversationState,
@@ -10,6 +11,10 @@ const { ChoicePrompt,
         DialogTurnResult,
         DialogTurnStatus,
         ListStyle } = require('botbuilder-dialogs');
+=======
+const { AttachmentLayoutTypes, ActivityTypes, CardFactory } = require('botbuilder');
+const { ChoicePrompt, DialogSet, DialogTurnStatus, ListStyle } = require('botbuilder-dialogs');
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 /**
  * RichCardsBot prompts a user to select a Rich Card and then returns the card
@@ -50,10 +55,17 @@ class RichCardsBot {
     /**
      * Driver code that does one of the following:
      * 1. Prompts the user if the user is not in the middle of a dialog.
+<<<<<<< HEAD
      * 2. Reprompts a user when an invalid input is received.
      * 3. Sends back to the user a Rich Card response after a valid prompt reply.
      *
      * These three scenarios are preceeded by an Activity type check.
+=======
+     * 2. Re-prompts a user when an invalid input is received.
+     * 3. Sends back to the user a Rich Card response after a valid prompt reply.
+     *
+     * These three scenarios are preceded by an Activity type check.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
      * This check ensures that the bot only responds to Activities that
      * are of the "Message" type.
      *
@@ -68,7 +80,11 @@ class RichCardsBot {
             const results = await dc.continueDialog();
             if (!turnContext.responded && results.status === DialogTurnStatus.empty) {
                 await turnContext.sendActivity('Welcome to the Rich Cards Bot!');
+<<<<<<< HEAD
                 // Create the PromptOptions which contain the prompt and reprompt messages.
+=======
+                // Create the PromptOptions which contain the prompt and re-prompt messages.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 // PromptOptions also contains the list of choices available to the user.
                 const promptOptions = {
                     prompt: 'Please select a card:',
@@ -96,6 +112,7 @@ class RichCardsBot {
      */
     async sendCardResponse(turnContext, dialogTurnResult) {
         switch (dialogTurnResult.result.value) {
+<<<<<<< HEAD
             case 'Animation Card':
                 await turnContext.sendActivity({ attachments: [this.createAnimationCard()] });
                 break;
@@ -130,6 +147,45 @@ class RichCardsBot {
                 break;
             default:
                 await turnContext.sendActivity('An invalid selection was parsed. No corresponding Rich Cards were found.');
+=======
+        case 'Animation Card':
+            await turnContext.sendActivity({ attachments: [this.createAnimationCard()] });
+            break;
+        case 'Audio Card':
+            await turnContext.sendActivity({ attachments: [this.createAudioCard()] });
+            break;
+        case 'Hero Card':
+            await turnContext.sendActivity({ attachments: [this.createHeroCard()] });
+            break;
+        case 'Receipt Card':
+            await turnContext.sendActivity({ attachments: [this.createReceiptCard()] });
+            break;
+        case 'Signin Card':
+            await turnContext.sendActivity({ attachments: [this.createSignInCard()] });
+            break;
+        case 'Thumbnail Card':
+            await turnContext.sendActivity({ attachments: [this.createThumbnailCard()] });
+            break;
+        case 'Video Card':
+            await turnContext.sendActivity({ attachments: [this.createVideoCard()] });
+            break;
+        case 'All Cards':
+            await turnContext.sendActivity({
+                attachments: [this.createVideoCard(),
+                    this.createAnimationCard(),
+                    this.createAudioCard(),
+                    this.createHeroCard(),
+                    this.createReceiptCard(),
+                    this.createSignInCard(),
+                    this.createThumbnailCard(),
+                    this.createVideoCard()
+                ],
+                attachmentLayout: AttachmentLayoutTypes.Carousel
+            });
+            break;
+        default:
+            await turnContext.sendActivity('An invalid selection was parsed. No corresponding Rich Cards were found.');
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         }
     }
 

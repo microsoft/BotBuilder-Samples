@@ -40,7 +40,12 @@ const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 // Get bot endpoint configuration by service name.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
+<<<<<<< HEAD
 // Create adapter. See https://aka.ms/about-bot-adapter to learn more about adapters.
+=======
+// Create adapter.
+// See https://aka.ms/about-bot-adapter to learn more about adapters.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 const adapter = new BotFrameworkAdapter({
     appId: endpointConfig.appId || process.env.MicrosoftAppId,
     appPassword: endpointConfig.appPassword || process.env.MicrosoftAppPassword
@@ -52,11 +57,17 @@ adapter.onTurnError = async (context, error) => {
     //       application insights.
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
+<<<<<<< HEAD
     context.sendActivity(`Oops. Something went wrong!`);
     // Clear out state
     await conversationState.clear(context);
     // Save state changes.
     await conversationState.saveChanges(context);
+=======
+    await context.sendActivity(`Oops. Something went wrong!`);
+    // Clear out state
+    await conversationState.delete(context);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 };
 
 // Create HTTP server.
@@ -67,7 +78,12 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\nTo talk to your bot, open bot-authentication.bot file in the Emulator.`);
 });
 
+<<<<<<< HEAD
 // Define the state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
+=======
+// Define the state store for your bot.
+// See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 // A bot requires a state storage system to persist the dialog and user state between messages.
 const memoryStorage = new MemoryStorage();
 

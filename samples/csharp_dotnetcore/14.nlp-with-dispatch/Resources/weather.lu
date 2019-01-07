@@ -23,8 +23,13 @@
 - current weather in {Location_PatternAny}
 
 ## Get Weather Forecast
+<<<<<<< HEAD
 - forecast in celcius
 - get the forcast for me
+=======
+- forecast in celsius
+- get the forecast for me
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 - i want to know the temperature at {Location=death valley}
 - provide me by {Location=toronto} weather please
 - show me the forecast at {Location=alabama}

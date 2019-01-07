@@ -10,7 +10,11 @@ const { GraphAuthenticationBot } = require('./bot');
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '.env');
+<<<<<<< HEAD
 const env = require('dotenv').config({ path: ENV_FILE });
+=======
+require('dotenv').config({ path: ENV_FILE });
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 // Get the .bot file path.
 // See https://aka.ms/about-bot-file to learn more about .bot files.
@@ -44,12 +48,17 @@ const adapter = new BotFrameworkAdapter({
 });
 
 // Catch-all for errors.
+<<<<<<< HEAD
 adapter.onTurnError = async (turnContext, error) => {
+=======
+adapter.onTurnError = async (context, error) => {
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     // This check writes out errors to console log.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user.
+<<<<<<< HEAD
     await turnContext.sendActivity(`Oops. Something went wrong!`);
 
     // Load and then clear out state. This is to prevent the user from being stuck
@@ -57,6 +66,11 @@ adapter.onTurnError = async (turnContext, error) => {
     await conversationState.load(turnContext);
     conversationState.clear(turnContext);
     await conversationState.saveChanges(turnContext);
+=======
+    await context.sendActivity(`Oops. Something went wrong!`);
+    // Clear out state
+    await conversationState.delete(context);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 };
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.

@@ -113,7 +113,11 @@ module.exports = {
 
         /**
          *
+<<<<<<< HEAD
          * @param {WaterfallStepConext} step context
+=======
+         * @param {WaterfallStepContext} step context
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
          */
         async bookTable(stepContext) {
             // report table booking based on confirmation outcome.

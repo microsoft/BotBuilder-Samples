@@ -10,6 +10,7 @@
     {
       "type": "qna",
       "id": "34",
+<<<<<<< HEAD
       "name": "qna-with-appinsights-LUIS"
     },
     {
@@ -17,6 +18,9 @@
       "id": "2",
       "name": "production",
       "url": "https://your-bot-url.azurewebsites.net/api/messages"
+=======
+      "name": "qna-with-appinsights-qna"
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     },
     {
       "type": "abs",
@@ -35,4 +39,8 @@
       "container": "botstatestore"
     }
   ]
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

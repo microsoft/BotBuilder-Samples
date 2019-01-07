@@ -10,6 +10,7 @@ module.exports = {
         contentBase: './dist',
         hot: true
     },
+<<<<<<< HEAD
     module: {
       rules: [
           {
@@ -17,13 +18,37 @@ module.exports = {
               use: [ 'style-loader', 'css-loader' ]
           }
       ]
+=======
+    mode: 'development',
+    module: {
+        rules: [
+            {
+                test: /\.(jsx?)$/,
+                exclude: [/node_modules/],
+                use: {
+                    loader: 'babel-loader',
+                    'options': {
+                        'ignore': ['**/*.spec.ts']
+                    }
+                }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
+            }
+        ]
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new CopyWebpackPlugin([
+<<<<<<< HEAD
             {from: path.resolve(__dirname, 'index.html'), to: ''},
+=======
+            { from: path.resolve(__dirname, 'index.html'), to: '' }
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         ])
     ],
     output: {
@@ -35,4 +60,8 @@ module.exports = {
         net: 'empty',
         tls: 'empty'
     }
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

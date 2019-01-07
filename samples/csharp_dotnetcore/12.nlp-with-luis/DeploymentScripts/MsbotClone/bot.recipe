@@ -14,6 +14,14 @@
       "url": "https://your-bot-url.azurewebsites.net/api/messages"
     },
     {
+<<<<<<< HEAD
+=======
+      "type": "luis",
+      "id": "34",
+      "name": "nlp-with-luis-LUIS"
+    },
+    {
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
       "type": "abs",
       "id": "3",
       "name": "luis-Bot"

@@ -91,5 +91,9 @@ adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
+<<<<<<< HEAD
     context.sendActivity(`Oops. Something went wrong!`);
+=======
+    await context.sendActivity(`Oops. Something went wrong!`);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 };

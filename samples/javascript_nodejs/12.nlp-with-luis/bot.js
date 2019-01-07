@@ -54,4 +54,8 @@ class LuisBot {
     }
 }
 
+<<<<<<< HEAD
 module.exports.LuisBot = LuisBot;
+=======
+module.exports.LuisBot = LuisBot;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

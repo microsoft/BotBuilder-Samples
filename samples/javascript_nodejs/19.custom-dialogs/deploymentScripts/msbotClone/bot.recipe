@@ -8,6 +8,7 @@
       "url": "http://localhost:3978/api/messages"
     },
     {
+<<<<<<< HEAD
       "type": "endpoint",
       "id": "2",
       "name": "production",
@@ -31,3 +32,11 @@
     }
   ]
 }
+=======
+      "type": "abs",
+      "id": "3",
+      "name": "custom-dialogs-Bot"
+    }
+  ]
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

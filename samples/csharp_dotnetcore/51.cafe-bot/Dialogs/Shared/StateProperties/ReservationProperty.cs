@@ -2,6 +2,11 @@
 // Licensed under the MIT License.
 
 using System;
+<<<<<<< HEAD
+=======
+using System.Collections.Generic;
+using System.Linq;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Newtonsoft.Json.Linq;
 
@@ -9,6 +14,7 @@ namespace Microsoft.BotBuilderSamples
 {
     public class ReservationProperty
     {
+<<<<<<< HEAD
         private static readonly string PartySizeEntity = luisEntities[1];
         private static readonly string DateTimeEntity = luisEntities[2];
         private static readonly string LocationEntity = luisEntities[3];
@@ -18,6 +24,19 @@ namespace Microsoft.BotBuilderSamples
 
         // Possible LUIS entities. You can refer to Dialogs\Dispatcher\Resources\entities.lu for list of entities.
         private static string[] luisEntities = { "confirmationList", "number", "datetime", "cafeLocation", "userName_patternAny", "userName" };
+=======
+        // Possible LUIS entities. You can refer to Dialogs\Dispatcher\Resources\entities.lu for list of entities.
+        private static string[] luisEntities = { "confirmationList", "number", "datetime", "cafeLocation", "userName_patternAny", "userName" };
+
+#pragma warning disable SA1214 // Readonly fields should appear before non-readonly fields
+        private static readonly string PartySizeEntity = luisEntities[1];
+        private static readonly string DateTimeEntity = luisEntities[2];
+        private static readonly string LocationEntity = luisEntities[3];
+        private static readonly string ConfirmationEntity = luisEntities[0];
+        private static readonly int FourWeeks = 4;
+        private static readonly int MaxPartySize = 10;
+#pragma warning restore SA1214 // Readonly fields should appear before non-readonly fields
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
         // Date constraints for reservations
         private static string[] reservationDateConstraints =
@@ -38,7 +57,11 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="id">Reservation id.</param>
         /// <param name="date">Reservation date.</param>
         /// <param name="time">Reservation time.</param>
+<<<<<<< HEAD
         /// <param name="partySize">Numbe of guests in reservation.</param>
+=======
+        /// <param name="partySize">Number of guests in reservation.</param>
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         /// <param name="location">Location of reservation.</param>
         /// <param name="reservationConfirmed">True if reservation confirmed; otherwise unconfirmed.</param>
         /// <param name="needsChange">True if requires a modification.</param>
@@ -103,21 +126,36 @@ namespace Microsoft.BotBuilderSamples
 
             // We only will pull number -> party size, datetimeV2 -> date and time, cafeLocation -> location.
             var numberEntity = onTurnProperty.Entities.Find(item => item.EntityName.Equals(PartySizeEntity));
+<<<<<<< HEAD
             var dateTimeEntity = onTurnProperty.Entities.Find(item => item.EntityName.Equals(ReservationProperty.DateTimeEntity));
+=======
+            var dateTimeEntity = onTurnProperty.Entities.Find(item => item.EntityName.Equals(DateTimeEntity));
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             var locationEntity = onTurnProperty.Entities.Find(item => item.EntityName.Equals(LocationEntity));
             var confirmationEntity = onTurnProperty.Entities.Find(item => item.EntityName.Equals(ConfirmationEntity));
 
             if (numberEntity != null)
             {
                 // We only accept MaxPartySize in a reservation.
+<<<<<<< HEAD
                 if (int.Parse(numberEntity.Value as string) > MaxPartySize)
                 {
                     returnResult.Outcome.Add(new ReservationOutcome("Sorry. " + int.Parse(numberEntity.Value as string) + " does not work. I can only accept up to 10 guests in a reservation.", PartySizeEntity));
+=======
+                var partySize = int.Parse(numberEntity.Value as string);
+                if (partySize > MaxPartySize)
+                {
+                    returnResult.Outcome.Add(new ReservationOutcome($"Sorry. {int.Parse(numberEntity.Value as string)} does not work. I can only accept up to 10 guests in a reservation.", PartySizeEntity));
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                     returnResult.Status = ReservationStatus.Incomplete;
                 }
                 else
                 {
+<<<<<<< HEAD
                     returnResult.NewReservation.PartySize = (int)numberEntity.Value;
+=======
+                    returnResult.NewReservation.PartySize = partySize;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 }
             }
 
@@ -126,6 +164,7 @@ namespace Microsoft.BotBuilderSamples
                 // Get parsed date time from TIMEX
                 // LUIS returns a timex expression and so get and un-wrap that.
                 // Take the first date time since book table scenario does not have to deal with multiple date times or date time ranges.
+<<<<<<< HEAD
                 var timeProp = dateTimeEntity.Value as string;
                 if (timeProp != null)
                 {
@@ -148,6 +187,20 @@ namespace Microsoft.BotBuilderSamples
                             returnResult.NewReservation.Date = string.Empty;
                             returnResult.Status = ReservationStatus.Incomplete;
                         }
+=======
+                var timexProp = ((JToken)dateTimeEntity.Value)?["timex"]?[0]?.ToString();
+                if (timexProp != null)
+                {
+                    var today = DateTime.Now;
+                    var parsedTimex = new TimexProperty(timexProp);
+
+                    // Validate the date (and check constraints (later))
+                    if (parsedTimex.DayOfMonth != null && parsedTimex.Year != null && parsedTimex.Month != null)
+                    {
+                        var date = DateTimeOffset.Parse($"{parsedTimex.Year}-{parsedTimex.Month}-{parsedTimex.DayOfMonth}");
+                        returnResult.NewReservation.Date = date.UtcDateTime.ToString("o").Split("T")[0];
+                        returnResult.NewReservation.DateLGString = new TimexProperty(returnResult.NewReservation.Date).ToNaturalLanguage(today);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                     }
 
                     // See if the time meets our constraints.
@@ -155,7 +208,13 @@ namespace Microsoft.BotBuilderSamples
                         parsedTimex.Minute != null &&
                         parsedTimex.Second != null)
                     {
+<<<<<<< HEAD
                         var validtime = TimexRangeResolver.Evaluate(dateTimeEntity.Value as string[], reservationTimeConstraints);
+=======
+                        var timexOptions = ((JToken)dateTimeEntity.Value)?["timex"]?.ToObject<List<string>>();
+
+                        var validtime = TimexRangeResolver.Evaluate(timexOptions, reservationTimeConstraints);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
                         returnResult.NewReservation.Time = ((int)parsedTimex.Hour).ToString("D2");
                         returnResult.NewReservation.Time += ":";
@@ -163,17 +222,28 @@ namespace Microsoft.BotBuilderSamples
                         returnResult.NewReservation.Time += ":";
                         returnResult.NewReservation.Time += ((int)parsedTimex.Second).ToString("D2");
 
+<<<<<<< HEAD
                         if (validtime != null || (validtime.Count == 0))
                         {
                             // Validation failed!
                             returnResult.Outcome.Add(new ReservationOutcome("Sorry, that time does not work. I can only make reservations that are in the daytime (6AM - 6PM)", ReservationProperty.DateTimeEntity));
+=======
+                        if (validtime == null || (validtime.Count == 0))
+                        {
+                            // Validation failed!
+                            returnResult.Outcome.Add(new ReservationOutcome("Sorry, that time does not work. I can only make reservations that are in the daytime (6AM - 6PM)", DateTimeEntity));
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                             returnResult.NewReservation.Time = string.Empty;
                             returnResult.Status = ReservationStatus.Incomplete;
                         }
                     }
 
                     // Get date time LG string if we have both date and time.
+<<<<<<< HEAD
                     if (string.IsNullOrWhiteSpace(returnResult.NewReservation.Date) && string.IsNullOrWhiteSpace(returnResult.NewReservation.Time))
+=======
+                    if (!string.IsNullOrWhiteSpace(returnResult.NewReservation.Date) && !string.IsNullOrWhiteSpace(returnResult.NewReservation.Time))
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                     {
                         returnResult.NewReservation.DateTimeLGString = new TimexProperty(returnResult.NewReservation.Date + "T" + returnResult.NewReservation.Time).ToNaturalLanguage(today);
                     }
@@ -183,7 +253,11 @@ namespace Microsoft.BotBuilderSamples
             // Take the first found value.
             if (locationEntity != null)
             {
+<<<<<<< HEAD
                 var cafeLocation = ((JObject)locationEntity.Value)[0][0];
+=======
+                var cafeLocation = locationEntity.Value;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
                 // Capitalize cafe location.
                 returnResult.NewReservation.Location = char.ToUpper(((string)cafeLocation)[0]) + ((string)cafeLocation).Substring(1);
@@ -192,7 +266,12 @@ namespace Microsoft.BotBuilderSamples
             // Accept confirmation entity if available only if we have a complete reservation
             if (confirmationEntity != null)
             {
+<<<<<<< HEAD
                 if ((string)((JObject)confirmationEntity.Value)[0][0] == "yes")
+=======
+                var value = confirmationEntity.Value as string;
+                if (value != null && value == "yes")
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 {
                     returnResult.NewReservation.ReservationConfirmed = true;
                     returnResult.NewReservation.NeedsChange = false;
@@ -292,7 +371,11 @@ namespace Microsoft.BotBuilderSamples
         public string ConfirmationReadOut()
         {
             var today = DateTime.Now;
+<<<<<<< HEAD
             return PartySize + " at our " + Location + " store for " + new TimexProperty(Date + "T" + Time).ToNaturalLanguage(today) + ".";
+=======
+            return $"{PartySize} at our {Location} store for {new TimexProperty(Date + "T" + Time).ToNaturalLanguage(today)}.";
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         }
 
         // Helper to generate help read out string.
@@ -304,7 +387,11 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (string.IsNullOrWhiteSpace(Date))
             {
+<<<<<<< HEAD
                 return "I can help you reserve a table up to 4 weeks from today..You can say \"tomorrow\", \"next sunday at 3pm\"...";
+=======
+                return "I can help you reserve a table up to 4 weeks from today... You can say \"tomorrow\", \"next Sunday at 3pm\"...";
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             }
             else if (string.IsNullOrWhiteSpace(Time))
             {
@@ -312,7 +399,11 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (PartySize == 0)
             {
+<<<<<<< HEAD
                 return "I can help you book a table for up to 10 guests..";
+=======
+                return "I can help you book a table for up to 10 guests...";
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             }
 
             return string.Empty;

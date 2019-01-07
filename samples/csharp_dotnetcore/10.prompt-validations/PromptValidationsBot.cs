@@ -13,7 +13,11 @@ namespace Microsoft.BotBuilderSamples
     /// <summary>
     /// Represents a bot that processes incoming activities.
     /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
+<<<<<<< HEAD
     /// This is a Transient lifetime service.  Transient lifetime services are created
+=======
+    /// This is a Transient lifetime service. Transient lifetime services are created
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     /// each time they're requested. For each Activity received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
     /// beyond the single turn, should be carefully managed.
@@ -93,8 +97,16 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
+<<<<<<< HEAD
                 // Send a welcome message to the user and tell them what actions they may perform to use this bot
                 await SendWelcomeMessageAsync(turnContext, cancellationToken);
+=======
+                if (turnContext.Activity.MembersAdded != null)
+                {
+                    // Send a welcome message to the user and tell them what actions they may perform to use this bot
+                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                }
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             }
             else
             {
@@ -128,8 +140,11 @@ namespace Microsoft.BotBuilderSamples
                 return Task.FromResult(true);
             }
 
+<<<<<<< HEAD
             // Not calling End indicates validation failure. This will trigger a RetryPrompt if one has been defined.
 
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             // Note you are free to do async IO from within a validator. Here we had no need so just complete.
             return Task.FromResult(false);
         }

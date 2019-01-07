@@ -30,7 +30,11 @@ namespace Microsoft.BotBuilderSamples
         /// Key in the bot config (.bot file) for the LUIS instance.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
+<<<<<<< HEAD
         public static readonly string LuisConfiguration = < YOUR_BOT_NAME > + "_basic-bot-LUIS";
+=======
+        public static readonly string LuisConfiguration = "YOUR_LUIS_SERVICE_NAME";
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
         private readonly IStatePropertyAccessor<GreetingState> _greetingStateAccessor;
         private readonly IStatePropertyAccessor<DialogState> _dialogStateAccessor;
@@ -80,7 +84,11 @@ namespace Microsoft.BotBuilderSamples
             if (activity.Type == ActivityTypes.Message)
             {
                 // Perform a call to LUIS to retrieve results for the current activity message.
+<<<<<<< HEAD
                 var luisResults = await _services.LuisServices[LuisConfiguration].RecognizeAsync(dc.Context, cancellationToken).ConfigureAwait(false);
+=======
+                var luisResults = await _services.LuisServices[LuisConfiguration].RecognizeAsync(dc.Context, cancellationToken);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
                 // If any entities were updated, treat as interruption.
                 // For example, "no my name is tony" will manifest as an update of the name to be "tony".
@@ -144,7 +152,11 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (activity.Type == ActivityTypes.ConversationUpdate)
             {
+<<<<<<< HEAD
                 if (activity.MembersAdded.Any())
+=======
+                if (activity.MembersAdded != null)
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 {
                     // Iterate over all new members added to the conversation.
                     foreach (var member in activity.MembersAdded)
@@ -155,7 +167,11 @@ namespace Microsoft.BotBuilderSamples
                         {
                             var welcomeCard = CreateAdaptiveCardAttachment();
                             var response = CreateResponse(activity, welcomeCard);
+<<<<<<< HEAD
                             await dc.Context.SendActivityAsync(response).ConfigureAwait(false);
+=======
+                            await dc.Context.SendActivityAsync(response);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                         }
                     }
                 }

@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 const { ActivityTypes } = require('botbuilder');
+<<<<<<< HEAD
 const { TextPrompt, DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
+=======
+const { DialogSet, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
 const USER_NAME_PROP = 'user_name';
@@ -18,7 +22,12 @@ class SimplePromptBot {
      * @param {Object} userState
      */
     constructor(conversationState, userState) {
+<<<<<<< HEAD
         // creates a new state accessor property. see https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors
+=======
+        // creates a new state accessor property.
+        // See https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         this.conversationState = conversationState;
         this.userState = userState;
 
@@ -37,7 +46,11 @@ class SimplePromptBot {
             this.collectAndDisplayName.bind(this)
         ]));
 
+<<<<<<< HEAD
         // Create a dialog that displays a user name after it has been collceted.
+=======
+        // Create a dialog that displays a user name after it has been collected.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         this.dialogs.add(new WaterfallDialog(HELLO_USER, [
             this.displayName.bind(this)
         ]));
@@ -73,6 +86,7 @@ class SimplePromptBot {
             // Create dialog context
             const dc = await this.dialogs.createContext(turnContext);
 
+<<<<<<< HEAD
             const utterance = (turnContext.activity.text || '').trim().toLowerCase();
             if (utterance === 'cancel') {
                 if (dc.activeDialog) {
@@ -83,6 +97,8 @@ class SimplePromptBot {
                 }
             }
 
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             // Continue the current dialog
             if (!turnContext.responded) {
                 await dc.continueDialog();
@@ -97,9 +113,13 @@ class SimplePromptBot {
                     await dc.beginDialog(WHO_ARE_YOU);
                 }
             }
+<<<<<<< HEAD
         } else if (
             turnContext.activity.type === ActivityTypes.ConversationUpdate
         ) {
+=======
+        } else if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             // Do we have any new members added to the conversation?
             if (turnContext.activity.membersAdded.length !== 0) {
                 // Iterate over all new members added to the conversation

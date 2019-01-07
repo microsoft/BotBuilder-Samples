@@ -12,7 +12,11 @@ namespace Microsoft.BotBuilderSamples
     /// <summary>
     /// Represents references to external services.
     ///
+<<<<<<< HEAD
     /// For example, LUIS services are kept here as a singleton.  This external service is configured
+=======
+    /// For example, LUIS services are kept here as a singleton. This external service is configured
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     /// using the <see cref="BotConfiguration"/> class.
     /// </summary>
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
@@ -22,7 +26,11 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Initializes a new instance of the <see cref="BotServices"/> class.
         /// </summary>
+<<<<<<< HEAD
         /// <param name="luisServices">A dictionary of named <see cref="LuisRecognizer"/> instances for usage within the bot.</param>
+=======
+        /// <param name="botConfiguration">A dictionary of named <see cref="LuisRecognizer"/> instances for usage within the bot.</param>
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         public BotServices(BotConfiguration botConfiguration)
         {
             foreach (var service in botConfiguration.Services)

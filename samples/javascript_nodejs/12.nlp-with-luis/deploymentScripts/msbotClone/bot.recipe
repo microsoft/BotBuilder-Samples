@@ -8,6 +8,7 @@
       "url": "http://localhost:3978/api/messages"
     },
     {
+<<<<<<< HEAD
       "type": "luis",
       "id": "34",
       "name": "nlp-with-luis-LUIS"
@@ -19,11 +20,14 @@
       "url": "https://your-bot-url.azurewebsites.net/api/messages"
     },
     {
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
       "type": "abs",
       "id": "3",
       "name": "nlp-with-luis-abs"
     },
     {
+<<<<<<< HEAD
       "type": "appInsights",
       "id": "4",
       "name": "nlp-with-luis-insights"
@@ -36,3 +40,11 @@
     }
   ]
 }
+=======
+      "type": "luis",
+      "id": "34",
+      "name": "nlp-with-luis-LUIS"
+    }
+  ]
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

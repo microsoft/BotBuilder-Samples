@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "<%= botName %>",
   "secretKey": "",
   "services": [
@@ -11,4 +12,19 @@
       "endpoint": "http://localhost:3978/api/messages"
     }
   ]
+=======
+    "name": "<%= botname %>",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "development",
+            "endpoint": "http://localhost:3978/api/messages",
+            "appId": "",
+            "appPassword": "",
+            "id": "1"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0"
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 }

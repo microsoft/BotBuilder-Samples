@@ -17,16 +17,27 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure)
 to create a QnA Maker service.
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/tutorials/migrate-knowledge-base) to
+<<<<<<< HEAD
 import the [sample.qna](CognitiveModels/sample.qna) to your newly created QnA Maker service.
 - Update [BotConfiguration.bot](BotConfiguration.bot) with your kbid (KnowledgeBase Id) and endpointKey in the "qna" services section. You can find this
+=======
+import the [smartLightFAQ.tsv](CognitiveModels/smartLightFAQ.tsv) to your newly created QnA Maker service.
+- Update [qnamaker.bot](qnamaker.bot) with your kbid (KnowledgeBase Id) and endpointKey in the "qna" services section. You can find this
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://www.qnamaker.ai)
 - (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the
 QnA Maker CLI to deploy the model.
 
+<<<<<<< HEAD
+=======
+# Running Locally
+
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker`) and open QnABot.csproj in Visual Studio .
 - Run the project (press `F5` key)
 
+<<<<<<< HEAD
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker` sample folder.
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker` folder.
@@ -36,6 +47,13 @@ QnA Maker CLI to deploy the model.
 - In Visual Studio right click on the solution and select "Restore NuGet Packages".
   **Note:** this sample requires `Microsoft.Bot.Builder`, `Microsoft.Bot.Builder.AI.QnA` and `Microsoft.Bot.Builder.Integration.AspNet.Core`.
 
+=======
+## .NET Core CLI
+- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
+- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker` folder.
+- Type `dotnet run`.
+
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
@@ -44,7 +62,11 @@ QnA Maker CLI to deploy the model.
 ### Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker` folder.
+<<<<<<< HEAD
 - Select the `BotConfiguration.bot` file.
+=======
+- Select the `qnamaker.bot` file.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

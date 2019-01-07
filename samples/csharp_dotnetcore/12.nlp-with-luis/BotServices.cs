@@ -11,7 +11,11 @@ namespace Microsoft.BotBuilderSamples
     /// <summary>
     /// Represents references to external services.
     ///
+<<<<<<< HEAD
     /// For example, LUIS services are kept here as a singleton.  This external service is configured
+=======
+    /// For example, LUIS services are kept here as a singleton. This external service is configured
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     /// using the <see cref="BotConfiguration"/> class.
     /// </summary>
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
@@ -48,7 +52,11 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Gets the set of LUIS Services used.
         /// Given there can be multiple <see cref="LuisRecognizer"/> services used in a single bot,
+<<<<<<< HEAD
         /// LuisServices is represented as a dictionary.  This is also modeled in the
+=======
+        /// LuisServices is represented as a dictionary. This is also modeled in the
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         /// ".bot" file since the elements are named.
         /// </summary>
         /// <remarks>The LUIS services collection should not be modified while the bot is running.</remarks>

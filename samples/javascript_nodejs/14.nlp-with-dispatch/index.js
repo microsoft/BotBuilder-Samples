@@ -58,12 +58,17 @@ adapter.onTurnError = async (context, error) => {
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
     await context.sendActivity(`Oops. Something went wrong!`);
+<<<<<<< HEAD
     // Load conversation state.
     await conversationState.load(context);
     // Clear out state.
     await conversationState.clear(context);
     // Save state changes.
     await conversationState.saveChanges(context);
+=======
+    // Clear out state
+    await conversationState.delete(context);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 };
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.

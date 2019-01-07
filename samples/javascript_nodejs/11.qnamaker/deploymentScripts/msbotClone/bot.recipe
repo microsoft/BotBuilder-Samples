@@ -13,6 +13,7 @@
       "name": "qnamaker-QnAMaker"
     },
     {
+<<<<<<< HEAD
       "type": "endpoint",
       "id": "2",
       "name": "production",
@@ -36,3 +37,11 @@
     }
   ]
 }
+=======
+      "type": "abs",
+      "id": "3",
+      "name": "qnamaker-abs"
+    }
+  ]
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

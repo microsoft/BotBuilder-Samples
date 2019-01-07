@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+<<<<<<< HEAD
 const path = require("path");
 const _ = require("lodash");
 const mkdirp = require("mkdirp");
@@ -20,6 +21,28 @@ const LANG_TS = "typescript";
 const getFolders = language => {
   if(!language || (_.toLower(language) !== LANG_JS && _.toLower(language) !== LANG_TS)) {
     throw new Error(`basicTemplateWriter.getFolders called for invalid language: ${language}`);
+=======
+const _ = require('lodash');
+const mkdirp = require('mkdirp');
+const path = require('path');
+
+const { commonFilesWriter } = require('./commonFilesWriter');
+const { BOT_TEMPLATE_NAME_CORE, BOT_TEMPLATE_NOPROMPT_CORE } = require('./constants');
+
+// generators/app/templates folder name
+const GENERATOR_TEMPLATE_NAME = 'basic';
+
+const LANG_JS = 'javascript';
+const LANG_TS = 'typescript';
+
+/**
+ *
+ * @param {String} language either 'javascript' or 'typescript'
+ */
+const getFolders = language => {
+  if(!language || (_.toLower(language) !== LANG_JS && _.toLower(language) !== LANG_TS)) {
+    throw new Error(`basicTemplateWriter.getFolders called for invalid language: ${ language }`);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
   }
 
   let folders;
@@ -61,7 +84,11 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   const DIALOGS_GREETING_RESOURCES = 4;
   const DIALOGS_WELCOME = 5;
   const DIALOGS_WELCOME_RESOURCES = 6;
+<<<<<<< HEAD
   const TS_SRC_FOLDER = "src/";
+=======
+  const TS_SRC_FOLDER = 'src';
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
   // get the folder strucure, based on language
   const srcFolders = [
@@ -75,8 +102,16 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   ];
   const destFolders = getFolders(_.toLower(gen.props.language));
 
+<<<<<<< HEAD
   const extension = _.toLower(gen.props.language) === "javascript" ? "js" : "ts";
   const SRC_FOLDER = _.toLower(gen.props.language) === "javascript" ? "" : TS_SRC_FOLDER;
+=======
+  const extension = _.toLower(gen.props.language) === 'javascript' ? 'js' : 'ts';
+  const srcFolder = _.toLower(gen.props.language) === 'javascript' ? '' : TS_SRC_FOLDER;
+  // if we're generating JS, then keep the json extension
+  // if we're generating TS, then we need the extension to be js or tsc will complain (tsc v3.1.6)
+  const cardExtension = _.toLower(gen.props.language) === 'javascript' ? 'json' : 'js';
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
   // create the basic bot folder structure
   for (let cnt = 0; cnt < destFolders.length; ++cnt) {
@@ -91,6 +126,7 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     path.join(destinationPath, 'basicBot.luis')
   );
 
+<<<<<<< HEAD
   // write out the deployment doc
   sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_SCRIPTS]);
   destinationPath = path.join(gen.destinationPath(), destFolders[DEPLOYMENT_SCRIPTS]);
@@ -103,6 +139,17 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
         return content.toString().replace(pattern, gen.props.botName.toString());
     }
   });
+=======
+  // if we're writing out TypeScript, then we need to add a webConfigPrep.js
+  if(_.toLower(gen.props.language) === LANG_TS) {
+    sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_SCRIPTS]);
+    destinationPath = path.join(gen.destinationPath(), destFolders[DEPLOYMENT_SCRIPTS]);
+    gen.fs.copy(
+      path.join(sourcePath, 'webConfigPrep.js'),
+      path.join(destinationPath, 'webConfigPrep.js')
+    );
+  }
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
   // write out deployment resources
   sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_MSBOT]);
@@ -115,7 +162,11 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     path.join(sourcePath, 'bot.recipe'),
     path.join(destinationPath, 'bot.recipe'),
     {
+<<<<<<< HEAD
       botName: gen.props.botName
+=======
+      botname: gen.props.botname
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     }
   );
 
@@ -126,10 +177,16 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     path.join(sourcePath, `greeting.${extension}`),
     path.join(destinationPath, `greeting.${extension}`),
     {
+<<<<<<< HEAD
       botName: gen.props.botName
     }
   );
 
+=======
+      botname: gen.props.botname
+    }
+  );
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
   gen.fs.copy(
     path.join(sourcePath, `index.${extension}`),
     path.join(destinationPath, `index.${extension}`)
@@ -138,7 +195,10 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
     path.join(sourcePath, `userProfile.${extension}`),
     path.join(destinationPath, `userProfile.${extension}`)
   );
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
   // list the greeting dialog resources
   const greetingResources = [
     'cancel.lu',
@@ -170,27 +230,55 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   destinationPath = path.join(gen.destinationPath(), destFolders[DIALOGS_WELCOME_RESOURCES]);
   gen.fs.copy(
     path.join(sourcePath, 'welcomeCard.json'),
+<<<<<<< HEAD
     path.join(destinationPath, 'welcomeCard.json')
   );
 
   // write out the index.js and bot.js
   destinationPath = path.join(gen.destinationPath(), SRC_FOLDER);
+=======
+    path.join(destinationPath, `welcomeCard.json`)
+  );
+
+  // write out the index.js and bot.js
+  destinationPath = path.join(gen.destinationPath(), srcFolder);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
   // gen index and main dialog files
   gen.fs.copyTpl(
     gen.templatePath(path.join(templatePath, `index.${extension}`)),
     path.join(destinationPath, `index.${extension}`),
     {
+<<<<<<< HEAD
       botName: gen.props.botName
     }
   );
 
   // gen the main dialog file
+=======
+      botname: gen.props.botname
+    }
+  );
+  // gen the main bot activity router
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
   gen.fs.copyTpl(
     gen.templatePath(path.join(templatePath, `bot.${extension}`)),
     path.join(destinationPath, `bot.${extension}`),
     {
+<<<<<<< HEAD
       botName: gen.props.botName
+=======
+      botname: gen.props.botname
+    }
+  );
+
+  // write out PREREQUISITES.md
+  gen.fs.copyTpl(
+    gen.templatePath(path.join(templatePath, 'PREREQUISITES.md')),
+    gen.destinationPath('PREREQUISITES.md'),
+    {
+      botname: gen.props.botname
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     }
   );
 }
@@ -203,10 +291,18 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
 module.exports.basicTemplateWriter = gen => {
   // do some simple sanity checking to ensure we're being
   // called correctly
+<<<<<<< HEAD
   if (_.toLower(gen.props.template) !== TEMPLATE_NAME) {
     throw new Error(`basicTemplateWriter called for wrong template: ${gen.props.template}`);
   }
   const templatePath = path.join(gen.templatePath(), TEMPLATE_PATH);
+=======
+  const template = _.toLower(gen.props.template)
+  if (template !== _.toLower(BOT_TEMPLATE_NAME_CORE) && template !== _.toLower(BOT_TEMPLATE_NOPROMPT_CORE)) {
+    throw new Error(`basicTemplateWriter called for wrong template: ${ gen.props.template }`);
+  }
+  const templatePath = path.join(gen.templatePath(), GENERATOR_TEMPLATE_NAME);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
   // write files common to all template options
   commonFilesWriter(gen, templatePath);

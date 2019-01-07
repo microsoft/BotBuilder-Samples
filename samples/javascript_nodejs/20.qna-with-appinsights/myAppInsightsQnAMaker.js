@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+<<<<<<< HEAD
 const { TurnContext } = require('botbuilder');
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 const { QnAMaker } = require('botbuilder-ai');
 
 /**
@@ -33,12 +36,15 @@ class MyAppInsightsQnAMaker extends QnAMaker {
         const telemetryMetrics = {};
         const activity = turnContext.activity;
 
+<<<<<<< HEAD
         // Make it so we can correlate our reports with Activity or Conversation.
         telemetryProperties.ActivityId = activity.id;
         if (activity.conversation.id) {
             telemetryProperties.ConversationId = activity.conversation.id;
         }
 
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         // For some customers, logging original text name within Application Insights might be an issue.
         if (this.logOriginalMessage && !!activity.text) {
             telemetryProperties.OriginalQuestion = activity.text;

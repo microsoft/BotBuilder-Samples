@@ -93,7 +93,11 @@ namespace Microsoft.BotBuilderSamples
             // Processes ConversationUpdate Activities to welcome the user.
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
+<<<<<<< HEAD
                 if (turnContext.Activity.MembersAdded.Any())
+=======
+                if (turnContext.Activity.MembersAdded != null)
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 {
                     await SendWelcomeMessageAsync(turnContext, cancellationToken);
                 }

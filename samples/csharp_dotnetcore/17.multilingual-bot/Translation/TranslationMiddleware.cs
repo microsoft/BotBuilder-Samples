@@ -32,7 +32,11 @@ namespace Microsoft.BotBuilderSamples.Translation
         }
 
         /// <summary>
+<<<<<<< HEAD
         /// Processess an incoming activity.
+=======
+        /// Processes an incoming activity.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         /// </summary>
         /// <param name="turnContext">Context object containing information for a single turn of conversation with a user.</param>
         /// <param name="next">The delegate to call to continue the bot middleware pipeline.</param>

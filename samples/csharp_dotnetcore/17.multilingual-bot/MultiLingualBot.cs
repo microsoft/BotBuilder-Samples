@@ -15,7 +15,11 @@ namespace Microsoft.BotBuilderSamples
     /// <summary>
     /// Represents a bot that processes incoming activities.
     /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
+<<<<<<< HEAD
     /// This is a Transient lifetime service.  Transient lifetime services are created
+=======
+    /// This is a Transient lifetime service. Transient lifetime services are created
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     /// each time they're requested. For each Activity received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
     /// beyond the single turn, should be carefully managed.
@@ -25,8 +29,15 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class MultiLingualBot : IBot
     {
+<<<<<<< HEAD
         private const string English = "en";
         private const string Spanish = "es";
+=======
+        private const string EnglishEnglish = "en";
+        private const string EnglishSpanish = "es";
+        private const string SpanishEnglish = "in";
+        private const string SpanishSpanish = "it";
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
         private readonly MultiLingualBotAccessors _accessors;
 
@@ -67,13 +78,24 @@ namespace Microsoft.BotBuilderSamples
 
                 if (IsLanguageChangeRequested(turnContext.Activity.Text))
                 {
+<<<<<<< HEAD
+=======
+                    var curentLang = turnContext.Activity.Text.ToLower();
+                    var lang = curentLang == EnglishEnglish || curentLang == SpanishEnglish ? EnglishEnglish : EnglishSpanish;
+
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                     // If the user requested a language change through the suggested actions with values "es" or "en",
                     // simply change the user's language preference in the user state.
                     // The translation middleware will catch this setting and translate both ways to the user's
                     // selected language.
                     // If Spanish was selected by the user, the reply below will actually be shown in spanish to the user.
+<<<<<<< HEAD
                     await _accessors.LanguagePreference.SetAsync(turnContext, turnContext.Activity.Text);
                     var reply = turnContext.Activity.CreateReply($"Your current language code is: {turnContext.Activity.Text}");
+=======
+                    await _accessors.LanguagePreference.SetAsync(turnContext, lang);
+                    var reply = turnContext.Activity.CreateReply($"Your current language code is: {lang}");
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
                     await turnContext.SendActivityAsync(reply, cancellationToken);
 
@@ -90,8 +112,13 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Actions = new List<CardAction>()
                         {
+<<<<<<< HEAD
                             new CardAction() { Title = "Español", Type = ActionTypes.PostBack, Value = Spanish },
                             new CardAction() { Title = "English", Type = ActionTypes.PostBack, Value = English },
+=======
+                            new CardAction() { Title = "Español", Type = ActionTypes.PostBack, Value = EnglishSpanish },
+                            new CardAction() { Title = "English", Type = ActionTypes.PostBack, Value = EnglishEnglish },
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                         },
                     };
 
@@ -108,7 +135,15 @@ namespace Microsoft.BotBuilderSamples
             }
 
             utterance = utterance.ToLower().Trim();
+<<<<<<< HEAD
             return utterance == Spanish || utterance == English;
         }
     }
 }
+=======
+            return utterance == EnglishSpanish || utterance == EnglishEnglish
+                || utterance == SpanishSpanish || utterance == SpanishEnglish;
+        }
+    }
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

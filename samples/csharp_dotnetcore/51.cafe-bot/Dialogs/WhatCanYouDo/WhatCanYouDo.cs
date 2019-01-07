@@ -17,7 +17,11 @@ namespace Microsoft.BotBuilderSamples
         public const string Name = "What_can_you_do";
 
         public WhatCanYouDo()
+<<<<<<< HEAD
             : base(Name)
+=======
+        : base(Name)
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         {
         }
 
@@ -25,7 +29,11 @@ namespace Microsoft.BotBuilderSamples
         {
             var activity = dc.Context.Activity.CreateReply();
             activity.Attachments = new List<Attachment> { Helpers.CreateAdaptiveCardAttachment(@".\Dialogs\WhatCanYouDo\Resources\whatCanYouDoCard.json"), };
+<<<<<<< HEAD
             await dc.Context.SendActivityAsync(activity).ConfigureAwait(false);
+=======
+            await dc.Context.SendActivityAsync(activity);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             await dc.Context.SendActivityAsync("Pick a query from the card or you can use the suggestions below.");
             return await dc.EndDialogAsync();
         }

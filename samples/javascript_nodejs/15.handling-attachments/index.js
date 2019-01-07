@@ -10,7 +10,11 @@ const { AttachmentsBot } = require('./bot');
 // Read botFilePath and botFileSecret from .env file.
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, './.env');
+<<<<<<< HEAD
 const env = require('dotenv').config({ path: ENV_FILE });
+=======
+require('dotenv').config({ path: ENV_FILE });
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 // Get the .bot file path.
 // See https://aka.ms/about-bot-file to learn more about .bot files.
@@ -44,20 +48,33 @@ const adapter = new BotFrameworkAdapter({
 
 // Create HTTP server.
 let server = restify.createServer();
+<<<<<<< HEAD
 server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log(`\n${server.name} listening to ${server.url}.`);
+=======
+server.listen(process.env.port || process.env.PORT || 3978, function() {
+    console.log(`\n${ server.name } listening to ${ server.url }.`);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
     console.log(`\nTo talk to your bot, open handling-attachments.bot file in the emulator.`);
 });
 
 // Catch-all for errors.
+<<<<<<< HEAD
 adapter.onTurnError = async (turnContext, error) => {
+=======
+adapter.onTurnError = async (context, error) => {
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     // Write out errors to console log.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user.
+<<<<<<< HEAD
     await turnContext.sendActivity(`Oops. Something went wrong!`);
+=======
+    await context.sendActivity(`Oops. Something went wrong!`);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 };
 
 // Create the AttachmentsBot.

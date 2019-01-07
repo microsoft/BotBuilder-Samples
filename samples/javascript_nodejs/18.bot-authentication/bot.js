@@ -18,7 +18,11 @@ const AUTH_DIALOG = 'auth_dialog';
 const HELP_TEXT = ' Type anything to get logged in. Type \'logout\' to signout.' +
     ' Type \'help\' to view this message again';
 
+<<<<<<< HEAD
 // The connection name here must match the the one from found in
+=======
+// The connection name here must match the one from
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 // your Bot Channels Registration on the settings blade in Azure.
 const CONNECTION_NAME = '';
 
@@ -41,7 +45,12 @@ class AuthenticationBot {
     constructor(conversationState) {
         this.conversationState = conversationState;
 
+<<<<<<< HEAD
         // Create a new state accessor property. See https://aka.ms/about-bot-state-accessors to learn more about bot state and state accessors.
+=======
+        // Create a new state accessor property.
+        // See https://aka.ms/about-bot-state-accessors to learn more about bot state and state accessors.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
         this.dialogs = new DialogSet(this.dialogState);
 

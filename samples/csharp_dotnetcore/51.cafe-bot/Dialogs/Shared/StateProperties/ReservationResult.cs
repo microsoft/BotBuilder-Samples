@@ -13,7 +13,15 @@ namespace Microsoft.BotBuilderSamples
         Unknown,
     }
 
+<<<<<<< HEAD
     public class ReservationOutcome
+=======
+#pragma warning disable SA1402 // File may only contain a single type
+#pragma warning disable SA1649 // File name should match first type name
+    public class ReservationOutcome
+#pragma warning restore SA1649 // File name should match first type name
+#pragma warning restore SA1402 // File may only contain a single type
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     {
         public ReservationOutcome(string message, string entity)
         {
@@ -33,7 +41,14 @@ namespace Microsoft.BotBuilderSamples
             NewReservation = property ?? throw new ArgumentNullException(nameof(property));
             Status = status;
             Outcome = new List<ReservationOutcome>();
+<<<<<<< HEAD
             Outcome.Add(outcome);
+=======
+            if (outcome != null)
+            {
+                Outcome.Add(outcome);
+            }
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         }
 
         public ReservationProperty NewReservation { get; }

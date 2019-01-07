@@ -4,6 +4,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+<<<<<<< HEAD
+=======
+using Microsoft.Bot.Configuration;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples
@@ -20,13 +24,22 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.ibot?view=botbuilder-dotnet-preview"/>
     public class LuisBot : IBot
     {
+<<<<<<< HEAD
         private const string WelcomeText = "This bot will introduce you to natural language processing with LUIS. Type an utterance to get started";
 
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         /// <summary>
         /// Key in the bot config (.bot file) for the LUIS instance.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
+<<<<<<< HEAD
         public static readonly string LuisKey = <YOUR_BOT_NAME> + "_LuisBot";
+=======
+        public static readonly string LuisKey = "LuisBot";
+
+        private const string WelcomeText = "This bot will introduce you to natural language processing with LUIS. Type an utterance to get started";
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
         /// <summary>
         /// Services configured from the ".bot" file.
@@ -52,11 +65,16 @@ namespace Microsoft.BotBuilderSamples
         /// There are no dialogs used, the sample only uses "single turn" processing,
         /// meaning a single request and response, with no stateful conversation.
         /// </summary>
+<<<<<<< HEAD
         /// <param name="context">A <see cref="ITurnContext"/> containing all the data needed
+=======
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         /// for processing this conversation turn. </param>
         /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+<<<<<<< HEAD
         public async Task OnTurnAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (context.Activity.Type == ActivityTypes.Message)
@@ -67,6 +85,18 @@ namespace Microsoft.BotBuilderSamples
                 if (topIntent != null && topIntent.HasValue && topIntent.Value.intent != "None")
                 {
                     await context.SendActivityAsync($"==>LUIS Top Scoring Intent: {topIntent.Value.intent}, Score: {topIntent.Value.score}\n");
+=======
+        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (turnContext.Activity.Type == ActivityTypes.Message)
+            {
+                // Check LUIS model
+                var recognizerResult = await _services.LuisServices[LuisKey].RecognizeAsync(turnContext, cancellationToken);
+                var topIntent = recognizerResult?.GetTopScoringIntent();
+                if (topIntent != null && topIntent.HasValue && topIntent.Value.intent != "None")
+                {
+                    await turnContext.SendActivityAsync($"==>LUIS Top Scoring Intent: {topIntent.Value.intent}, Score: {topIntent.Value.score}\n");
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 }
                 else
                 {
@@ -75,6 +105,7 @@ namespace Microsoft.BotBuilderSamples
                             'Calendar.Add'
                             'Calendar.Find'
                             Try typing 'Add Event' or 'Show me tomorrow'.";
+<<<<<<< HEAD
                     await context.SendActivityAsync(msg);
                 }
             }
@@ -86,6 +117,22 @@ namespace Microsoft.BotBuilderSamples
             else
             {
                 await context.SendActivityAsync($"{context.Activity.Type} event detected", cancellationToken: cancellationToken);
+=======
+                    await turnContext.SendActivityAsync(msg);
+                }
+            }
+            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                // Send a welcome message to the user and tell them what actions they may perform to use this bot
+                if (turnContext.Activity.MembersAdded != null)
+                {
+                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                }
+            }
+            else
+            {
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected", cancellationToken: cancellationToken);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             }
         }
 

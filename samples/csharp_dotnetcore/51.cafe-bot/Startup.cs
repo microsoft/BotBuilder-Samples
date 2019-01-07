@@ -46,6 +46,7 @@ namespace Microsoft.BotBuilderSamples
             // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+<<<<<<< HEAD
             var botConfig = BotConfiguration.Load(botFilePath ?? @".\CafeBot.bot", secretKey);
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
 
@@ -54,6 +55,16 @@ namespace Microsoft.BotBuilderSamples
 
             // The Memory Storage used here is for local bot debugging only. When the bot
             // is restarted, everything stored in memory will be gone.
+=======
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\cafe-bot.bot", secretKey);
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. botFilePath: {botFilePath}"));
+
+            // Add BotServices singleton
+            services.AddSingleton(sp => new BotServices(botConfig));
+
+            // The Memory Storage used here is for local bot debugging only.
+            // When the bot is restarted, everything stored in memory will be gone.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             IStorage dataStore = new MemoryStorage();
 
             // For production bots use the Azure Blob or
@@ -83,12 +94,20 @@ namespace Microsoft.BotBuilderSamples
             // The BotStateSet enables read() and write() in parallel on multiple BotState instances.
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
+<<<<<<< HEAD
             // add the bot with options
+=======
+            // Add the bot with options
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             services.AddBot<CafeBot>(options =>
             {
                 // Load the connected services from .bot file.
                 var environment = _isProduction ? "production" : "development";
+<<<<<<< HEAD
                 var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+=======
+                var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 if (!(service is EndpointService endpointService))
                 {
                     throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");

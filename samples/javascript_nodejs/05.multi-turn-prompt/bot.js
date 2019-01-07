@@ -144,9 +144,13 @@ class MultiTurnBot {
                     await dc.beginDialog(WHO_ARE_YOU);
                 }
             }
+<<<<<<< HEAD
         } else if (
             turnContext.activity.type === ActivityTypes.ConversationUpdate
         ) {
+=======
+        } else if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             // Do we have any new members added to the conversation?
             if (turnContext.activity.membersAdded.length !== 0) {
                 // Iterate over all new members added to the conversation

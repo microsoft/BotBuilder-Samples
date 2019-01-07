@@ -11,7 +11,11 @@ namespace Microsoft.BotBuilderSamples
     /// <summary>
     /// For each interaction from the user, an instance of this class is created and
     /// the OnTurnAsync method is called.
+<<<<<<< HEAD
     /// This is a transient lifetime service.  Transient lifetime services are created
+=======
+    /// This is a transient lifetime service. Transient lifetime services are created
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     /// each time they're requested. For each <see cref="Activity"/> received, a new instance of this
     /// class is created. Objects that are expensive to construct, or have a lifetime
     /// beyond the single turn, should be carefully managed.
@@ -20,14 +24,22 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.ibot?view=botbuilder-dotnet-preview"/>
     public class LuisBot : IBot
     {
+<<<<<<< HEAD
         private const string WelcomeText = "This bot will introduce you to natural language processing with LUIS. Type an utterance to get started";
 
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         /// <summary>
         /// Key in the bot config (.bot file) for the LUIS instance.
         /// In the .bot file, multiple instances of LUIS can be configured.
         /// </summary>
         public static readonly string LuisKey = "LuisBot";
 
+<<<<<<< HEAD
+=======
+        private const string WelcomeText = "This bot will introduce you to natural language processing with LUIS. Type an utterance to get started";
+
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         /// <summary>
         /// Services configured from the ".bot" file.
         /// </summary>
@@ -42,7 +54,11 @@ namespace Microsoft.BotBuilderSamples
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
             if (!_services.LuisServices.ContainsKey(LuisKey))
             {
+<<<<<<< HEAD
                 throw new System.ArgumentException($"Invalid configuration.  Please check your '.bot' file for a LUIS service named '{LuisKey}'.");
+=======
+                throw new System.ArgumentException($"Invalid configuration. Please check your '.bot' file for a LUIS service named '{LuisKey}'.");
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             }
         }
 

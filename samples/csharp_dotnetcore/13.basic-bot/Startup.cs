@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 
 using System;
+<<<<<<< HEAD
+=======
+using System.IO;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -59,6 +63,13 @@ namespace Microsoft.BotBuilderSamples
         {
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+<<<<<<< HEAD
+=======
+            if (!File.Exists(botFilePath))
+            {
+                throw new FileNotFoundException($"The .bot configuration file was not found. botFilePath: {botFilePath}");
+            }
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
             // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
             BotConfiguration botConfig = null;
@@ -76,7 +87,11 @@ namespace Microsoft.BotBuilderSamples
                 throw new InvalidOperationException(msg);
             }
 
+<<<<<<< HEAD
             services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+=======
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot configuration file could not be loaded. botFilePath: {botFilePath}"));
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
             // Add BotServices singleton.
             // Create the connected services from .bot file.
@@ -84,7 +99,11 @@ namespace Microsoft.BotBuilderSamples
 
             // Retrieve current endpoint.
             var environment = _isProduction ? "production" : "development";
+<<<<<<< HEAD
             var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+=======
+            var service = botConfig.Services.FirstOrDefault(s => s.Type == "endpoint" && s.Name == environment);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             if (service == null && _isProduction)
             {
                 // Attempt to load development environment

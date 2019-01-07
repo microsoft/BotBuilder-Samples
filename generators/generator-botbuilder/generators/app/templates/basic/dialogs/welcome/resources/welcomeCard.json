@@ -40,7 +40,11 @@
     {
       "type": "Action.OpenUrl",
       "title": "Learn how to deploy",
+<<<<<<< HEAD
       "url": "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
+=======
+      "url": "https://aka.ms/azuredeployment"
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     }
   ]
 }

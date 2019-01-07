@@ -18,7 +18,11 @@ const CITY_PROMPT = 'cityPrompt';
 
 /**
  * Demonstrates the following concepts:
+<<<<<<< HEAD
  *  Use a subclass of ComponentDialog to implement a mult-turn conversation
+=======
+ *  Use a subclass of ComponentDialog to implement a multi-turn conversation
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
  *  Use a Waterflow dialog to model multi-turn conversation flow
  *  Use custom prompts to validate user input
  *  Store conversation and user state
@@ -32,9 +36,15 @@ class Greeting extends ComponentDialog {
         super(dialogId);
 
         // validate what was passed in
+<<<<<<< HEAD
         if (!dialogId) throw ('Missing parameter.  dialogId is required');
         if (!greetingStateAccessor) throw ('Missing parameter.  greetingStateAccessor is required');
         if (!userState) throw ('Missing parameter.  userState is required');
+=======
+        if (!dialogId) throw new Error('Missing parameter.  dialogId is required');
+        if (!greetingStateAccessor) throw new Error('Missing parameter.  greetingStateAccessor is required');
+        if (!userState) throw new Error('Missing parameter.  userState is required');
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
         // Add control flow dialogs
         this.addDialog(new WaterfallDialog(PROFILE_DIALOG, [
@@ -58,6 +68,7 @@ class Greeting extends ComponentDialog {
      * Initialize our state.  See if the WaterfallDialog has state pass to it
      * If not, then just new up an empty GreetingState object
      *
+<<<<<<< HEAD
      * @param {DialogContext} dc context for this dialog
      * @param {WaterfallStepContext} step contextual information for the current step being executed
      */
@@ -70,6 +81,19 @@ class Greeting extends ComponentDialog {
                 await this.greetingStateAccessor.set(dc.context, new GreetingState());
             }
             await this.userState.saveChanges(dc.context);
+=======
+     * @param {WaterfallStepContext} step contextual information for the current step being executed
+     */
+    async initializeStateStep(step) {
+        let greetingState = await this.greetingStateAccessor.get(step.context);
+        if (greetingState === undefined) {
+            if (step.options && step.options.greetingState) {
+                await this.greetingStateAccessor.set(step.context, step.options.greetingState);
+            } else {
+                await this.greetingStateAccessor.set(step.context, new GreetingState());
+            }
+            await this.userState.saveChanges(step.context);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         }
         return await step.next();
     }
@@ -79,6 +103,7 @@ class Greeting extends ComponentDialog {
      * Using a text prompt, prompt the user for their name.
      * Only prompt if we don't have this information already.
      *
+<<<<<<< HEAD
      * @param {DialogContext} dc context for this dialog
      * @param {WaterfallStepContext} step contextual information for the current step being executed
      */
@@ -91,6 +116,19 @@ class Greeting extends ComponentDialog {
         if (!greetingState.name) {
             // prompt for name, if missing
             return await dc.prompt(NAME_PROMPT, 'What is your name?');
+=======
+     * @param {WaterfallStepContext} step contextual information for the current step being executed
+     */
+    async promptForNameStep(step) {
+        const greetingState = await this.greetingStateAccessor.get(step.context);
+        // if we have everything we need, greet user and return
+        if (greetingState !== undefined && greetingState.name !== undefined && greetingState.city !== undefined) {
+            return await this.greetUser(step);
+        }
+        if (!greetingState.name) {
+            // prompt for name, if missing
+            return await step.prompt(NAME_PROMPT, 'What is your name?');
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         } else {
             return await step.next();
         }
@@ -101,21 +139,37 @@ class Greeting extends ComponentDialog {
      * Using a text prompt, prompt the user for the city in which they live.
      * Only prompt if we don't have this information already.
      *
+<<<<<<< HEAD
      * @param {DialogContext} dc context for this dialog
      * @param {WaterfallStepContext} step contextual information for the current step being executed
      */
     async promptForCityStep(dc, step) {
         // save name, if prompted for
         const greetingState = await this.greetingStateAccessor.get(dc.context);
+=======
+     * @param {WaterfallStepContext} step contextual information for the current step being executed
+     */
+    async promptForCityStep(step) {
+        // save name, if prompted for
+        const greetingState = await this.greetingStateAccessor.get(step.context);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         if (greetingState.name === undefined && step.result) {
             let lowerCaseName = step.result;
             // capitalize and set name
             greetingState.name = lowerCaseName.charAt(0).toUpperCase() + lowerCaseName.substr(1);
+<<<<<<< HEAD
             await this.greetingStateAccessor.set(dc.context, greetingState);
             await this.userState.saveChanges(dc.context);
         }
         if (!greetingState.city) {
             return await dc.prompt(CITY_PROMPT, `Hello ${greetingState.name}, what city do you live in?`);
+=======
+            await this.greetingStateAccessor.set(step.context, greetingState);
+            await this.userState.saveChanges(step.context);
+        }
+        if (!greetingState.city) {
+            return await step.prompt(CITY_PROMPT, `Hello ${ greetingState.name }, what city do you live in?`);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         } else {
             return await step.next();
         }
@@ -125,16 +179,25 @@ class Greeting extends ComponentDialog {
      *
      * Having all the data we need, simply display a summary back to the user.
      *
+<<<<<<< HEAD
      * @param {DialogContext} dc context for this dialog
      * @param {WaterfallStepContext} step contextual information for the current step being executed
      */
     async displayGreetingStateStep(dc, step) {
         // Save city, if prompted for
         const greetingState = await this.greetingStateAccessor.get(dc.context);
+=======
+     * @param {WaterfallStepContext} step contextual information for the current step being executed
+     */
+    async displayGreetingStateStep(step) {
+        // Save city, if prompted for
+        const greetingState = await this.greetingStateAccessor.get(step.context);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         if (greetingState.city === undefined && step.result) {
             let lowerCaseCity = step.result;
             // capitalize and set city
             greetingState.city = lowerCaseCity.charAt(0).toUpperCase() + lowerCaseCity.substr(1);
+<<<<<<< HEAD
             await this.greetingStateAccessor.set(dc.context, greetingState);
             await this.userState.saveChanges(dc.context);
         }
@@ -153,10 +216,35 @@ class Greeting extends ComponentDialog {
             prompt.end(value);
         } else {
             await context.sendActivity(`Names need to be at least ${NAME_LENGTH_MIN} characters long.`);
+=======
+            await this.greetingStateAccessor.set(step.context, greetingState);
+            await this.userState.saveChanges(step.context);
+        }
+        return await this.greetUser(step);
+    }
+    /**
+     * Validator function to verify that user name meets required constraints.
+     *
+     * @param {PromptValidatorContext} prompt context for this prompt
+     */
+    async validateName(prompt) {
+        // Validate that the user entered a minimum length for their name
+        prompt.activeDialog = await this.greetingStateAccessor;
+        prompt.context = await prompt.context;
+        const value = (prompt.recognized.value || '').trim();
+        if (value.length >= NAME_LENGTH_MIN) {
+            // Returns true if the user's name meets the required length
+            return true;
+        } else {
+            // Returns false if the user's name fails to meet the required length
+            await prompt.context.sendActivity(`Names need to be at least ${ NAME_LENGTH_MIN } characters long.`);
+            return false;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         }
     }
     /**
      * Validator function to verify if city meets required constraints.
+<<<<<<< HEAD
      * 
      * @param {DialogContext} context for this dialog
      * @param {PromptValidatorContext} prompt context for this prompt
@@ -168,10 +256,26 @@ class Greeting extends ComponentDialog {
             prompt.end(value);
         } else {
             await context.sendActivity(`City names needs to be at least ${CITY_LENGTH_MIN} characters long.`);
+=======
+     *
+     * @param {PromptValidatorContext} prompt context for this prompt
+     */
+    async validateCity(prompt) {
+        // Validate that the user entered a minimum length for their name
+        const value = (prompt.recognized.value || '').trim();
+        if (value.length >= CITY_LENGTH_MIN) {
+            // Returns true if the user's city meets the required length
+            return true;
+        } else {
+            // Returns false if the user's city fails to meet the required length
+            await prompt.context.sendActivity(`City names needs to be at least ${ CITY_LENGTH_MIN } characters long.`);
+            return false;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         }
     }
     /**
      * Helper function to greet user with information in greetingState.
+<<<<<<< HEAD
      * 
      * @param {DialogContext} dc context for this dialog
      */
@@ -184,3 +288,17 @@ class Greeting extends ComponentDialog {
 }
 
 module.exports.GreetingDialog = Greeting;
+=======
+     *
+     * @param {WaterfallStepContext} step context for this dialog
+     */
+    async greetUser(step) {
+        const greetingState = await this.greetingStateAccessor.get(step.context);
+        // Display to the user their profile information and end dialog
+        await step.context.sendActivity(`Hi ${ greetingState.name }, from ${ greetingState.city }, nice to meet you!`);
+        return await step.endDialog();
+    }
+}
+
+module.exports.GreetingDialog = Greeting;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

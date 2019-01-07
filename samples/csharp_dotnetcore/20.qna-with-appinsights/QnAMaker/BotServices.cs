@@ -3,8 +3,12 @@
 
 using System;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder.AI.QnA;
+=======
+using Microsoft.Bot.Builder;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -21,14 +25,21 @@ namespace Microsoft.BotBuilderSamples
         /// Initializes a new instance of the <see cref="BotServices"/> class.
         /// </summary>
         /// <param name="client">An Application Insights <see cref="TelemetryClient"/> instance.</param>
+<<<<<<< HEAD
         /// <param name="qnaServices">A dictionary of named <see cref="QnAMaker"/> instances for usage within the bot.</param>
         public BotServices(TelemetryClient client, Dictionary<string, QnAMaker> qnaServices)
         {
             TelemetryClient = client ?? throw new ArgumentNullException(nameof(client));
+=======
+        /// <param name="qnaServices">A dictionary of named <see cref="TelemetryQnAMaker"/> instances for usage within the bot.</param>
+        public BotServices(Dictionary<string, TelemetryQnaMaker> qnaServices)
+        {
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             QnAServices = qnaServices ?? throw new ArgumentNullException(nameof(qnaServices));
         }
 
         /// <summary>
+<<<<<<< HEAD
         /// Gets the Application Insights Telemetry client.
         /// Use this to log new custom events/metrics/traces/etc into your
         /// Application Insights service for later analysis.
@@ -39,6 +50,8 @@ namespace Microsoft.BotBuilderSamples
         public TelemetryClient TelemetryClient { get; }
 
         /// <summary>
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         /// Gets the (potential) set of QnA Services used.
         /// Given there can be multiple QnA services used in a single bot,
         /// QnA is represented as a Dictionary.  This is also modeled in the
@@ -48,6 +61,12 @@ namespace Microsoft.BotBuilderSamples
         /// <value>
         /// A QnAMaker client instance created based on configuration in the .bot file.
         /// </value>
+<<<<<<< HEAD
         public Dictionary<string, QnAMaker> QnAServices { get; } = new Dictionary<string, QnAMaker>();
     }
 }
+=======
+        public Dictionary<string, TelemetryQnaMaker> QnAServices { get; } = new Dictionary<string, TelemetryQnaMaker>();
+    }
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

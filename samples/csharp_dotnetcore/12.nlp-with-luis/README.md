@@ -9,6 +9,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ## Prerequisites
 ### Set up LUIS
 - Navigate to [LUIS portal](https://www.luis.ai).
+<<<<<<< HEAD
 - Click the `Sign in` button.
 - Click on `My Apps`.
 - Click on the `Import new app` button.
@@ -28,10 +29,42 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
       "subscriptionKey": "{LuisSubscriptionKey}"
       "version": "0.1",
       "region": "westus"
+=======
+
+- Click the `Sign in` button.
+
+- Click on `My Apps`.
+
+- Click on the `Import new app` button.
+
+- Click on the `Choose File` and select [LUIS-Reminders.json](LUIS-Reminders.json) from the `botbuilder-samples/samples/csharp_dotnetcore/12.nlp-with-luis/CognitiveModels` folder.
+
+- Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your AppId, SubscriptionKey, Region and Version. 
+    You can find this information under "Manage" tab for your LUIS application at [LUIS portal](https://www.luis.ai).
+
+    - The `AppID` can be found in "Application Information"
+    - The `AuthoringKey` can be found in "Keys and Endpoints"
+    - The `SubscriptionKey` can be found in "Keys and Endpoints", under the `Key 1` column
+    - The `region` can be found in "Keys and Endpoints", under the `Region` column
+
+    You will have something similar to this in the services section of your .bot file to run this sample:
+
+    ```json
+    {
+        "type":"luis",
+        "name":"<some name>",
+        "appId":"<an app id>",
+        "version":"<a version number>",
+        "authoringKey":"<your authoring key>",
+        "subscriptionKey":"<your subscription key>",
+        "region":"<region>",
+        "id":"<some number>"
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     },
     ```
 
     The Version is listed on the page.
+<<<<<<< HEAD
     Note: Enter the either "authoringKey" OR "subscriptionKey", not both
 - Update [BotConfiguration.bot](BotConfiguration.bot) file with your Authoring Key.  
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
@@ -42,11 +75,28 @@ NOTE: Once you publish your app on LUIS portal for the first time, it takes some
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/12.nlp-with-luis`) and open `LuisBot.csproj` in Visual Studio 
 - Hit F5
+=======
+    Note: Enter the either `authoringKey` OR `subscriptionKey`, not both
+
+- Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your Authoring Key.  
+    You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
+    NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
+### (Optional) Install LUDown
+- (Optional) Install the LUDown [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown) to help describe language understanding components for your bot.
+
+## Visual Studio
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/12.nlp-with-luis`) and open `LuisBot.csproj` in Visual Studio 
+- Run the project (press `F5` key)
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 ## Visual Studio Code
 - Open `botbuilder-samples/samples/csharp_dotnetcore/12.nlp-with-luis` sample folder
 - Bring up a terminal, navigate to `botbuilder-samples/samples/csharp_dotnetcore/12.nlp-with-luis` folder.
+<<<<<<< HEAD
 - Type 'dotnet run'.
+=======
+- Type `dotnet run`.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://aka.ms/botframeworkemulator) is a desktop application that allows bot developers to test and debug
@@ -56,6 +106,7 @@ their bots on localhost or running remotely through a tunnel.
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/12.nlp-with-luis` folder
+<<<<<<< HEAD
 - Select BotConfiguration.bot file
 # Deploy this bot to Azure
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. 
@@ -71,6 +122,22 @@ To clone this bot, run
 ```
 msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
 ```
+=======
+- Select `nlp-with-luis.bot` file
+# Deploy this bot to Azure
+
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
+
+To clone this bot, run
+
+```bash
+msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
+```
+
+**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
+
+
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [LUIS Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)

@@ -81,7 +81,11 @@ class SampleBot {
         const fullname = values['fullname'].values;
         await step.context.sendActivity(`Your name is ${ fullname['first'] } ${ fullname['last'] }.`);
 
+<<<<<<< HEAD
         await step.context.sendActivity(`You wear a size ${ values['shoesize'] } shoe.`);
+=======
+        await step.context.sendActivity(`You wear a size ${ values['shoesize'] } shoes.`);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
         const address = values['address'].values;
         await step.context.sendActivity(`Your address is: ${ address['street'] }, ${ address['city'] } ${ address['zip'] }`);

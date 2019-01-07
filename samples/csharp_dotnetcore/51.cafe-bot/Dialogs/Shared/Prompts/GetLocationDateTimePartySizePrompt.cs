@@ -13,9 +13,12 @@ namespace Microsoft.BotBuilderSamples
 {
     public class GetLocationDateTimePartySizePrompt : TextPrompt
     {
+<<<<<<< HEAD
         // The name of the bot you deployed.
         public static readonly string MsBotName = "cafe66";
 
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         private const string ContinuePromptIntent = "GetLocationDateTimePartySize";
         private const string HelpIntent = "Help";
         private const string CancelIntent = "Cancel";
@@ -25,7 +28,11 @@ namespace Microsoft.BotBuilderSamples
         private const string ConfirmCancelPrompt = "confirmCancelPrompt";
 
         // LUIS service type entry for turn.n book table LUIS model in the .bot file.
+<<<<<<< HEAD
         private static readonly string LuisConfiguration = MsBotName + "_" + "cafeBotBookTableTurnNModel";
+=======
+        private static readonly string LuisConfiguration = $"cafeBotBookTableTurnNModel";
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
         private readonly BotServices _botServices;
         private readonly IStatePropertyAccessor<UserProfile> _userProfileAccessor;
@@ -56,14 +63,22 @@ namespace Microsoft.BotBuilderSamples
             var newReservation = await _reservationsAccessor.GetAsync(turnContext, () => new ReservationProperty());
 
             // Get on turn property. This has any entities that mainDispatcher,
+<<<<<<< HEAD
             //  or Bot might have captured in its LUIS model.
+=======
+            // or Bot might have captured in its LUIS model.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             var onTurnProperties = await _onTurnAccessor.GetAsync(turnContext, () => new OnTurnProperty("None", new List<EntityProperty>()));
 
             // If on turn property has entities..
             ReservationResult updateResult = null;
             if (onTurnProperties.Entities.Count > 0)
             {
+<<<<<<< HEAD
                 // ..update reservation property with on turn property results.
+=======
+                // ...update reservation property with on turn property results.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 updateResult = newReservation.UpdateProperties(onTurnProperties);
             }
 
@@ -77,7 +92,11 @@ namespace Microsoft.BotBuilderSamples
 
                 // Return and do not continue if there is an error.
                 await turnContext.SendActivityAsync(updateResult.Outcome[0].Message);
+<<<<<<< HEAD
                 return await ContinueDialogAsync(dc);
+=======
+                return await base.ContinueDialogAsync(dc);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             }
 
             // Call LUIS and get results.
@@ -85,7 +104,11 @@ namespace Microsoft.BotBuilderSamples
             var topLuisIntent = luisResults.GetTopScoringIntent();
             var topIntent = topLuisIntent.intent;
 
+<<<<<<< HEAD
             // If we dont have an intent match from LUIS, go with the intent available via
+=======
+            // If we don't have an intent match from LUIS, go with the intent available via
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             // the on turn property (parent's LUIS model).
             if (luisResults.Intents.Count <= 0)
             {
@@ -107,13 +130,18 @@ namespace Microsoft.BotBuilderSamples
 
                 // Return and do not continue if there is an error.
                 await turnContext.SendActivityAsync(updateResult.Outcome[0].Message);
+<<<<<<< HEAD
                 return await ContinueDialogAsync(dc);
+=======
+                return await base.ContinueDialogAsync(dc);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             }
 
             // Did user ask for help or said cancel or continuing the conversation?
             switch (topIntent)
             {
                 case ContinuePromptIntent:
+<<<<<<< HEAD
                     // user does not want to make any change.
                     updateResult.NewReservation.NeedsChange = false;
                     break;
@@ -123,6 +151,17 @@ namespace Microsoft.BotBuilderSamples
                     break;
                 case HelpIntent:
                     // come back with contextual help.
+=======
+                    // User does not want to make any change.
+                    updateResult.NewReservation.NeedsChange = false;
+                    break;
+                case NoChangeIntent:
+                    // User does not want to make any change.
+                    updateResult.NewReservation.NeedsChange = false;
+                    break;
+                case HelpIntent:
+                    // Come back with contextual help.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                     var helpReadOut = updateResult.NewReservation.HelpReadOut();
                     await turnContext.SendActivityAsync(helpReadOut);
                     break;
@@ -133,14 +172,22 @@ namespace Microsoft.BotBuilderSamples
                         Prompt = new Activity
                         {
                             Type = ActivityTypes.Message,
+<<<<<<< HEAD
                             Text = "Are you sure you want to cancel ?",
+=======
+                            Text = "Are you sure you want to cancel?",
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                         },
                     };
 
                     return await dc.PromptAsync(ConfirmCancelPrompt, opts);
                 case InterruptionsIntent:
                 default:
+<<<<<<< HEAD
                     // if we picked up new entity values, do not treat this as an interruption.
+=======
+                    // If we picked up new entity values, do not treat this as an interruption.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                     if (onTurnProperties.Entities.Count != 0 || luisResults.Entities.Count > 1)
                     {
                         break;
@@ -153,15 +200,26 @@ namespace Microsoft.BotBuilderSamples
 
             // Set reservation property based on OnTurn properties.
             await _reservationsAccessor.SetAsync(turnContext, updateResult.NewReservation);
+<<<<<<< HEAD
             return await ContinueDialogAsync(dc);
+=======
+            return await base.ContinueDialogAsync(dc);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         }
 
         public async override Task<DialogTurnResult> ResumeDialogAsync(DialogContext dc, DialogReason reason, object result, CancellationToken cancellationToken = default(CancellationToken))
         {
+<<<<<<< HEAD
             if (result != null)
             {
                 // User said yes to cancel prompt.
                 await dc.Context.SendActivityAsync("Sure. I've cancelled that!");
+=======
+            if (result != null && result is bool && (bool)result != false)
+            {
+                // User said yes to cancel prompt.
+                await dc.Context.SendActivityAsync("Sure. I've canceled that!");
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 return await dc.CancelAllDialogsAsync();
             }
             else

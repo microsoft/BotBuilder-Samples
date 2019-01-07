@@ -1,0 +1,38 @@
+{
+    "name": "luis-with-appinsights",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "id": "1",
+            "name": "development",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3978/api/messages"
+        },        
+        {
+            "type": "luis",
+            "name": "",
+            "appId": "",
+            "authoringKey": "",
+            "subscriptionKey": "",
+            "version": "0.1",
+            "region": "",
+            "id": "3"
+        },
+        {
+            "type": "appInsights",
+            "tenantId": "",
+            "subscriptionId": "",
+            "resourceGroup": "",
+            "name": "",
+            "serviceName": "",
+            "instrumentationKey": "",
+            "applicationId": "",
+            "apiKeys": {},
+            "id": "2"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0"
+}

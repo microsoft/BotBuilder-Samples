@@ -28,12 +28,15 @@
       "name": "cafeFaqChitChat"
     },
     {
+<<<<<<< HEAD
       "type": "endpoint",
       "id": "2",
       "name": "production",
       "url": "https://your-bot-url.azurewebsites.net/api/messages"
     },
     {
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
       "type": "abs",
       "id": "3",
       "name": "cafe-bot-abs"
@@ -50,4 +53,8 @@
       "container": "botstatestore"
     }
   ]
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

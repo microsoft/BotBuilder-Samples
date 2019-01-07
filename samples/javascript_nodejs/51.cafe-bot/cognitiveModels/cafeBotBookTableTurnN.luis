@@ -60,7 +60,11 @@
             "SeaTac",
             "Tacoma",
             "Space needle",
+<<<<<<< HEAD
             "downton seattle",
+=======
+            "downtown seattle",
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             "washington",
             "downtown"
           ]
@@ -3843,4 +3847,8 @@
   "name": "cafeBotBookTableTurnN",
   "desc": "",
   "culture": "en-us"
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

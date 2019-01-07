@@ -23,7 +23,11 @@ namespace Microsoft.BotBuilderSamples
 
         public const string ConfirmCancelPrompt = "confirmCancelPrompt";
 
+<<<<<<< HEAD
         // Turn.N here refers to all back and forth conversations beyond the initial trigger until the book table dialog is completed or cancelled.
+=======
+        // Turn.N here refers to all back and forth conversations beyond the initial trigger until the book table dialog is completed or canceled.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         public const string GetLocationDateTimePartySizePrompt = "getLocationDateTimePartySize";
 
         private readonly BotServices _services;
@@ -36,6 +40,7 @@ namespace Microsoft.BotBuilderSamples
             OnTurnAccessor = onTurnAccessor ?? throw new ArgumentNullException(nameof(onTurnAccessor));
             UserProfileAccessor = userProfileAccessor ?? throw new ArgumentNullException(nameof(userProfileAccessor));
 
+<<<<<<< HEAD
             // create accessors for child dialogs
             GetLocDialogAccessor = conversationState.CreateProperty<DialogState>(GetLocationDialogState);
             ConfirmDialogAccessor = conversationState.CreateProperty<DialogState>(ConfirmDialogState);
@@ -47,6 +52,19 @@ namespace Microsoft.BotBuilderSamples
                     GetAllRequiredPropertiesAsync,
                     BookTableAsync,
               };
+=======
+            // Create accessors for child dialogs
+            GetLocDialogAccessor = conversationState.CreateProperty<DialogState>(GetLocationDialogState);
+            ConfirmDialogAccessor = conversationState.CreateProperty<DialogState>(ConfirmDialogState);
+
+            // Add dialogs
+            // Water fall book table dialog
+            var waterfallSteps = new WaterfallStep[]
+            {
+                GetAllRequiredPropertiesAsync,
+                BookTableAsync,
+            };
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             AddDialog(new WaterfallDialog(BookTableWaterfall, waterfallSteps));
 
             // Get location, date, time & party size prompt.
@@ -99,14 +117,28 @@ namespace Microsoft.BotBuilderSamples
                                     {
                                         // Readout what has been understood already.
                                         var groundedPropertiesReadout = newReservation.GetGroundedPropertiesReadOut();
+<<<<<<< HEAD
                                         if (string.IsNullOrWhiteSpace(groundedPropertiesReadout))
+=======
+                                        if (!string.IsNullOrWhiteSpace(groundedPropertiesReadout))
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                                         {
                                             await promptValidatorContext.Context.SendActivityAsync(groundedPropertiesReadout);
                                         }
                                     }
 
+<<<<<<< HEAD
                                     // ask user for missing information
                                     await promptValidatorContext.Context.SendActivityAsync(newReservation.GetMissingPropertyReadOut());
+=======
+                                    // Ask user for missing information
+                                    var prompt = newReservation.GetMissingPropertyReadOut();
+                                    if (!string.IsNullOrWhiteSpace(prompt))
+                                    {
+                                        await promptValidatorContext.Context.SendActivityAsync(prompt);
+                                    }
+
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                                     return false;
                                 }));
 
@@ -153,7 +185,11 @@ namespace Microsoft.BotBuilderSamples
             // Set the reservation.
             await ReservationsAccessor.SetAsync(context, reservationResult.NewReservation);
 
+<<<<<<< HEAD
             // see if updadte reservtion resulted in errors, if so, report them to user.
+=======
+            // see if update reservation resulted in errors, if so, report them to user.
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             if (reservationResult != null &&
                 reservationResult.Status == ReservationStatus.Incomplete &&
                 reservationResult.Outcome != null &&
@@ -170,7 +206,11 @@ namespace Microsoft.BotBuilderSamples
             {
                 if (reservationResult.NewReservation.HaveCompleteReservation())
                 {
+<<<<<<< HEAD
                     await context.SendActivityAsync("Ok. I have a table for " + reservationResult.NewReservation.ConfirmationReadOut());
+=======
+                    await context.SendActivityAsync($"Ok. I have a table for {reservationResult.NewReservation.ConfirmationReadOut()}");
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                     await context.SendActivityAsync(MessageFactory.SuggestedActions(new List<string> { "Yes", "No" }, "Should I go ahead and book the table ?"));
                 }
 
@@ -196,11 +236,19 @@ namespace Microsoft.BotBuilderSamples
                 var reservationFromState = await ReservationsAccessor.GetAsync(context);
                 await context.SendActivityAsync($"Sure. I've booked the table for {reservationFromState.ConfirmationReadOut()}");
 
+<<<<<<< HEAD
                 if ((DialogTurnStatus)stepContext.Result == DialogTurnStatus.Complete)
                 {
                     // Clear out the reservation property since this is a successful reservation completion.
                     await ReservationsAccessor.SetAsync(context, null);
                 }
+=======
+                // Clear out the reservation property since this is a successful reservation completion.
+                reservationFromState.Date = null;
+                reservationFromState.Location = null;
+                reservationFromState.PartySize = 0;
+                await ReservationsAccessor.SetAsync(context, reservationFromState);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 
                 await stepContext.CancelAllDialogsAsync();
 
@@ -210,8 +258,17 @@ namespace Microsoft.BotBuilderSamples
             {
                 // User rejected cancellation.
                 // Clear out state.
+<<<<<<< HEAD
                 await ReservationsAccessor.SetAsync(context, null);
                 await context.SendActivityAsync("Ok.. I've cancelled the reservation.");
+=======
+                var reservationFromState = await ReservationsAccessor.GetAsync(context);
+                reservationFromState.Date = null;
+                reservationFromState.Location = null;
+                reservationFromState.PartySize = 0;
+                await ReservationsAccessor.SetAsync(context, reservationFromState);
+                await context.SendActivityAsync("Ok... I've canceled the reservation.");
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 return await stepContext.EndDialogAsync();
             }
         }

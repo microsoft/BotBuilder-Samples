@@ -2,11 +2,22 @@
 // Licensed under the MIT License.
 
 import { ActivityTypes, CardFactory, ConversationState, RecognizerResult, StatePropertyAccessor, TurnContext, UserState } from 'botbuilder';
+<<<<<<< HEAD
 import { DialogSet, DialogContext, DialogState, DialogTurnResult, DialogTurnStatus } from 'botbuilder-dialogs';
 import { LuisRecognizer } from 'botbuilder-ai';
 
 import { WelcomeCard } from './dialogs/welcome';
 import { UserProfile, GreetingDialog } from './dialogs/greeting';
+=======
+import { DialogContext, DialogSet, DialogState, DialogTurnResult, DialogTurnStatus } from 'botbuilder-dialogs';
+
+import { LuisRecognizer } from 'botbuilder-ai';
+
+import { WelcomeCard } from './dialogs/welcome';
+
+import { GreetingDialog, UserProfile } from './dialogs/greeting';
+
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 import { BotConfiguration, LuisService } from 'botframework-config';
 
 // Greeting Dialog ID
@@ -59,6 +70,7 @@ export class BasicBot {
      * @param {BotConfiguration} botConfig contents of the .bot file
      */
     constructor(conversationState: ConversationState, userState: UserState, botConfig: BotConfiguration) {
+<<<<<<< HEAD
         if (!conversationState) throw ('Missing parameter.  conversationState is required');
         if (!userState) throw ('Missing parameter.  userState is required');
         if (!botConfig) throw ('Missing parameter.  botConfig is required');
@@ -72,6 +84,21 @@ export class BasicBot {
             // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
             endpointKey: luisConfig.authoringKey,
             endpoint: luisConfig.getEndpoint()
+=======
+        if (!conversationState) { throw Error('Missing parameter.  conversationState is required'); }
+        if (!userState) { throw Error('Missing parameter.  userState is required'); }
+        if (!botConfig) { throw Error('Missing parameter.  botConfig is required'); }
+
+        // add the LUIS recognizer
+        let luisConfig: LuisService;
+        luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION) as LuisService;
+        if (!luisConfig || !luisConfig.appId) { throw Error('Missing LUIS configuration. Please follow README.MD to create required LUIS applications.\n\n'); }
+        this.luisRecognizer = new LuisRecognizer({
+            applicationId: luisConfig.appId,
+            // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
+            endpoint: luisConfig.getEndpoint(),
+            endpointKey: luisConfig.authoringKey,
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         });
 
         // Create the property accessors for user and conversation state
@@ -88,7 +115,11 @@ export class BasicBot {
 
     /**
      * Driver code that does one of the following:
+<<<<<<< HEAD
      * 1. Display a welcome card upon receiving ConversationUpdate activity 
+=======
+     * 1. Display a welcome card upon receiving ConversationUpdate activity
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
      * 2. Use LUIS to recognize intents for incoming user message
      * 3. Start a greeting dialog
      * 4. Optionally handle Cancel or Help interruptions
@@ -98,7 +129,11 @@ export class BasicBot {
     public onTurn = async (context: TurnContext) => {
         // Handle Message activity type, which is the main activity type for shown within a conversational interface
         // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
+<<<<<<< HEAD
         // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types        
+=======
+        // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         if (context.activity.type === ActivityTypes.Message) {
             let dialogResult: DialogTurnResult;
 
@@ -108,7 +143,11 @@ export class BasicBot {
             // Perform a call to LUIS to retrieve results for the current activity message.
             const results = await this.luisRecognizer.recognize(context);
             const topIntent = LuisRecognizer.topIntent(results);
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             // update user profile property with any entities captured by LUIS
             // This could be user responding with their name or city while we are in the middle of greeting dialog,
             // or user saying something like 'i'm {userName}' while we have no active multi-turn dialog.
@@ -127,7 +166,11 @@ export class BasicBot {
                 dialogResult = await dc.continueDialog();
             }
 
+<<<<<<< HEAD
             // If no active dialog or no active dialog has responded, 
+=======
+            // If no active dialog or no active dialog has responded,
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             if (!dc.context.responded) {
                 // Switch on return results from any active dialog.
                 switch (dialogResult.status) {
@@ -151,7 +194,11 @@ export class BasicBot {
                         break;
                     case DialogTurnStatus.complete:
                         // All child dialogs have ended. so do nothing.
+<<<<<<< HEAD
                         break;            
+=======
+                        break;
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                     default:
                         // Unrecognized status from child dialog. Cancel all dialogs.
                         await dc.cancelAllDialogs();
@@ -163,11 +210,19 @@ export class BasicBot {
             // we will send our Welcome Adaptive Card.  This will only be sent once, when the Bot joins conversation
             // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
             // Do we have any new members added to the conversation?
+<<<<<<< HEAD
             
             // Do we have any new members added to the conversation?
             if (context.activity.membersAdded.length !== 0) {
                 // Iterate over all new members added to the conversation
                 for (var idx in context.activity.membersAdded) {
+=======
+
+            // Do we have any new members added to the conversation?
+            if (context.activity.membersAdded.length !== 0) {
+                // Iterate over all new members added to the conversation
+                for (const idx in context.activity.membersAdded) {
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                     // Greet anyone that was not the target (recipient) of this message
                     // the 'bot' is the recipient for events from the channel,
                     // context.activity.membersAdded == context.activity.recipient.Id indicates the
@@ -225,6 +280,7 @@ export class BasicBot {
      * @param {DialogContext} dc - dialog context
      */
     private updateUserProfile = async (luisResult: RecognizerResult, context: TurnContext) => {
+<<<<<<< HEAD
         // Do we have any entities? 
         if(Object.keys(luisResult.entities).length !== 1) {
             // get greetingState object using the accessor
@@ -234,10 +290,22 @@ export class BasicBot {
             USER_NAME_ENTITIES.forEach(name => {
                 if (luisResult.entities[name] !== undefined) {
                     let lowerCaseName = luisResult.entities[name][0];
+=======
+        // Do we have any entities?
+        if (Object.keys(luisResult.entities).length !== 1) {
+            // get greetingState object using the accessor
+            let userProfile = await this.userProfileAccessor.get(context);
+            if (userProfile === undefined) { userProfile = new UserProfile(); }
+            // see if we have any user name entities
+            USER_NAME_ENTITIES.forEach((name) => {
+                if (luisResult.entities[name] !== undefined) {
+                    const lowerCaseName = luisResult.entities[name][0];
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                     // capitalize and set user name
                     userProfile.name = lowerCaseName.charAt(0).toUpperCase() + lowerCaseName.substr(1);
                 }
             });
+<<<<<<< HEAD
             USER_LOCATION_ENTITIES.forEach(city => {
                 if (luisResult.entities[city] !== undefined) {
                     let lowerCaseCity = luisResult.entities[city][0];
@@ -245,8 +313,21 @@ export class BasicBot {
                     userProfile.city = lowerCaseCity.charAt(0).toUpperCase() + lowerCaseCity.substr(1);
                 }
             }); 
+=======
+            USER_LOCATION_ENTITIES.forEach((city) => {
+                if (luisResult.entities[city] !== undefined) {
+                    const lowerCaseCity = luisResult.entities[city][0];
+                    // capitalize and set user name
+                    userProfile.city = lowerCaseCity.charAt(0).toUpperCase() + lowerCaseCity.substr(1);
+                }
+            });
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             // set the new values
             await this.userProfileAccessor.set(context, userProfile);
         }
     }
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Microsoft",
+  "classifications": [
+    "Bot",
+    "Bot Framework",
+    "AI",
+    "Empty Bot"
+  ],
+  "defaultName": "EmptyBot",
+  "groupIdentity": "Microsoft.BotFramework.CSharp.EmptyBot",
+  "identity": "Microsoft.BotFramework.CSharp.EmptyBot",
+  "name": "Bot Framework Empty Bot (v0.1.6)",
+  "preferNameDirectory": true,
+  "sourceName": "Microsoft.BotFramework.Samples",
+  "shortName": "emptybot",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "description": "A project template for creating a Bot Framework v4 bot. This template shows the minimum code required to build a bot.",
+  "symbols": {
+    "currentBuildVersion": {
+      "type": "generated",
+      "generator": "constant",
+      "parameters": {
+        "value": "v0.1.6"
+      },
+      "replaces": "vX.X.X"
+    },
+    "output": {
+      "type": "parameter",
+      "replaces": "{OUTPUT_PATH}",
+      "defaultValue": "EmptyBot"
+    },
+    "Framework": {
+      "type": "parameter",
+      "description": "The target framework for the project.",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "netcoreapp2.2",
+          "description": "Target netcoreapp2.2"
+        },
+        {
+          "choice": "netcoreapp2.1",
+          "description": "Target netcoreapp2.1"
+        },
+        {
+          "choice": "netcoreapp2.0",
+          "description": "Target netcoreapp2.0"
+        }
+      ],
+      "replaces": "__NETCOREAPP_VERSION__",
+      "defaultValue": "netcoreapp2.2"
+    },
+    "AspCoreAssemblyVersion": {
+      "type":"generated",
+      "generator": "switch",
+      "dataType": "string",
+      "replaces": "__MICROSOFT_ASPNETCORE_VERSION__",
+      "parameters": {
+        "evaluator": "C++",
+        "cases": [
+          {
+            "condition": "(Framework==\"netcoreapp2.2\")",
+            "value": "\"Microsoft.AspNetCore\" Version=\"2.2.0\""
+          },
+          {
+            "condition": "(Framework==\"netcoreapp2.1\")",
+            "value": "\"Microsoft.AspNetCore\" Version=\"2.1.6\""
+          },
+          {
+            "condition": "(Framework==\"netcoreapp2.0\")",
+            "value": "\"Microsoft.AspNetCore\" Version=\"2.0.4\""
+          }
+        ]
+      }
+    },
+    "AspCoreAllAssemblyVersion": {
+      "type":"generated",
+      "generator": "switch",
+      "dataType": "string",
+      "replaces": "__MICROSOFT_ASPNETCORE_ALL_VERSION__",
+      "parameters": {
+        "evaluator": "C++",
+        "cases": [
+          {
+            "condition": "(Framework==\"netcoreapp2.2\")",
+            "value": "\"Microsoft.AspNetCore.All\""
+          },
+          {
+            "condition": "(Framework==\"netcoreapp2.1\")",
+            "value": "\"Microsoft.AspNetCore.All\""
+          },
+          {
+            "condition": "(Framework==\"netcoreapp2.0\")",
+            "value": "\"Microsoft.AspNetCore.All\" Version=\"2.0.9\""
+          }
+        ]
+      }
+    },
+    "SkipRestore": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "description": "If specified, skips the automatic NuGet restore of the project on create.",
+      "isRequired": false
+    }
+  },
+  "postActions": [
+    {
+      "condition": "(!SkipRestore)",
+      "description": "Restore NuGet packages required by this project.",
+      "manualInstructions": [
+        { "text": "Run 'dotnet restore'" }
+      ],
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "continueOnError": true
+    }
+  ]
+}

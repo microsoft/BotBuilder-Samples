@@ -9,9 +9,14 @@ import { LuisApplication, LuisPredictionOptions, LuisRecognizer } from 'botbuild
  * If an answer is not found for an utterance, the bot responds with help.
  */
 export class LuisBot {
+<<<<<<< HEAD
     
     private luisRecognizer: LuisRecognizer;
     
+=======
+    private luisRecognizer: LuisRecognizer;
+
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     /**
      * The LuisBot constructor requires one argument (`application`) which is used to create an instance of `LuisRecognizer`.
      * @param luisApplication The basic configuration needed to call LUIS. In this sample the configuration is retrieved from the .bot file.

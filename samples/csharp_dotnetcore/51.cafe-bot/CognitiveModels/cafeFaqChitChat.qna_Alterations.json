@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿{
   "wordAlterations": [
     {
@@ -14,4 +15,34 @@
       ]
     }
   ]
+=======
+{
+  "wordAlterations": [
+    {
+      "alterations": [
+        "father",
+        "dad",
+        "daddy",
+        "mommy",
+        "mom",
+        "mother",
+        "family",
+        "siblings"
+      ]
+    },
+    {
+      "alterations": [
+        "child",
+        "kid",
+        "kiddo",
+        "children",
+        "son",
+        "daughter",
+        "grand son",
+        "grand daughter",
+        "grandson"
+      ]
+    }
+  ]
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 }

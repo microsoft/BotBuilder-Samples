@@ -28,6 +28,14 @@
       "id": "5",
       "name": "qna-with-insights-Blob",
       "container": "botstatestore"
+<<<<<<< HEAD
+=======
+    },
+	{
+      "type": "qna",
+      "id": "34",
+      "name": "qna-with-insights-QnAMaker"
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
     }
   ]
 }

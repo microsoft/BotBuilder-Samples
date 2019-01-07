@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+<<<<<<< HEAD
         "target": "ES6",
         "module": "commonjs",
         "sourceMap": true,
@@ -7,3 +8,14 @@
         "rootDir": "./src"
     }
 }
+=======
+      "declaration": true,
+      "target": "es2016",
+      "module": "commonjs",
+      "sourceMap": true,
+      "outDir": "./lib",
+      "resolveJsonModule": true,
+      "rootDirs": ["./src", "./resources"]
+    }
+}
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145

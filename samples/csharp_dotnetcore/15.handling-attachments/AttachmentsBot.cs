@@ -67,8 +67,16 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
+<<<<<<< HEAD
                 // Send a welcome message to the user and tell them what actions they may perform to use this bot.
                 await SendWelcomeMessageAsync(turnContext, cancellationToken);
+=======
+                if (turnContext.Activity.MembersAdded != null)
+                {
+                    // Send a welcome message to the user and tell them what actions they may perform to use this bot
+                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                }
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             }
             else
             {
@@ -236,7 +244,11 @@ namespace Microsoft.BotBuilderSamples
 
             return new Attachment
             {
+<<<<<<< HEAD
                 Name = "Resources\architecture-resize.png",
+=======
+                Name = @"Resources\architecture-resize.png",
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
                 ContentType = "image/png",
                 ContentUrl = $"data:image/png;base64,{imageData}",
             };

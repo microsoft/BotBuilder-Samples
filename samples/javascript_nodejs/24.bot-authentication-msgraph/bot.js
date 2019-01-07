@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+<<<<<<< HEAD
 const { ActionTypes, ActivityTypes, CardFactory, ConversationState } = require('botbuilder');
 const { DialogContext, DialogSet, WaterfallDialog, WaterfallStepContext } = require('botbuilder-dialogs');
+=======
+const { ActionTypes, ActivityTypes, CardFactory } = require('botbuilder');
+const { DialogSet, WaterfallDialog } = require('botbuilder-dialogs');
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
 const { OAuthHelpers, LOGIN_PROMPT } = require('./oauth-helpers');
 
 // The connection name here must match the the one from your
@@ -62,6 +67,7 @@ class GraphAuthenticationBot {
 
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         switch (turnContext.activity.type) {
+<<<<<<< HEAD
             case ActivityTypes.Message:
                 await this.processInput(dc);
                 break;
@@ -87,6 +93,33 @@ class GraphAuthenticationBot {
                 break;
             default:
                 await turnContext.sendActivity(`[${ turnContext.activity.type }]-type activity detected.`);
+=======
+        case ActivityTypes.Message:
+            await this.processInput(dc);
+            break;
+        case ActivityTypes.Event:
+        case ActivityTypes.Invoke:
+            // This handles the Microsoft Teams Invoke Activity sent when magic code is not used.
+            // See: https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/authentication/auth-oauth-card#getting-started-with-oauthcard-in-teams
+            // Manifest Schema Here: https://docs.microsoft.com/en-us/microsoftteams/platform/resources/schema/manifest-schema
+            // It also handles the Event Activity sent from The Emulator when the magic code is not used.
+            // See: https://blog.botframework.com/2018/08/28/testing-authentication-to-your-bot-using-the-bot-framework-emulator/
+
+            // Sanity check the Activity type and channel Id.
+            if (turnContext.activity.type === ActivityTypes.Invoke && turnContext.activity.channelId !== 'msteams') {
+                throw new Error('The Invoke type is only valid on the MS Teams channel.');
+            };
+            await dc.continueDialog();
+            if (!turnContext.responded) {
+                await dc.beginDialog(this._graphDialogId);
+            };
+            break;
+        case ActivityTypes.ConversationUpdate:
+            await this.sendWelcomeMessage(turnContext);
+            break;
+        default:
+            await turnContext.sendActivity(`[${ turnContext.activity.type }]-type activity detected.`);
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         }
 
         await this.conversationState.saveChanges(turnContext);
@@ -145,6 +178,7 @@ class GraphAuthenticationBot {
      */
     async processInput(dc) {
         switch (dc.context.activity.text.toLowerCase()) {
+<<<<<<< HEAD
             case 'signout':
             case 'logout':
             case 'signoff':
@@ -166,6 +200,29 @@ class GraphAuthenticationBot {
                 if (!dc.context.responded) {
                     await dc.beginDialog(this._graphDialogId);
                 }
+=======
+        case 'signout':
+        case 'logout':
+        case 'signoff':
+        case 'logoff':
+            // The bot adapter encapsulates the authentication processes and sends
+            // activities to from the Bot Connector Service.
+            const botAdapter = dc.context.adapter;
+            await botAdapter.signOutUser(dc.context, CONNECTION_SETTING_NAME);
+            // Let the user know they are signed out.
+            await dc.context.sendActivity('You are now signed out.');
+            break;
+        case 'help':
+            await dc.context.sendActivity(this.helpMessage);
+            break;
+        default:
+            // The user has input a command that has not been handled yet,
+            // begin the waterfall dialog to handle the input.
+            await dc.continueDialog();
+            if (!dc.context.responded) {
+                await dc.beginDialog(this._graphDialogId);
+            }
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
         }
     };
 
@@ -198,7 +255,10 @@ class GraphAuthenticationBot {
         // If the user is authenticated the bot can use the token to make API calls.
         if (tokenResponse !== undefined) {
             let parts = await this.commandState.get(step.context);
+<<<<<<< HEAD
             
+=======
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
             if (!parts) {
                 parts = step.context.activity.text;
             }

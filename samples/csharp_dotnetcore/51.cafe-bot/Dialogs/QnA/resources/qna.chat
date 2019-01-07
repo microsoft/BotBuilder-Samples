@@ -1,0 +1,8 @@
+user=Vishwac
+bot=EchoBot
+
+user: Who is your ceo?
+bot: Joshua Newman is the CEO of Contoso Cafe
+
+user: what are your store locations?
+bot: Contoso cafe has stores in Seattle, Bellevue, Redmond, Renton.

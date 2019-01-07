@@ -15,7 +15,11 @@
     },
     {
       "id": 0,
+<<<<<<< HEAD
       "answer": "I am the LUIS-QnAMaker Dispatch bot! This sample demonstrates using several LUIS applications and QnA Maker knowledge base using dispatch.\r\n",
+=======
+      "answer": "I am the LUIS-QnAMaker Dispatch bot! This sample demonstrates using multiple LUIS applications and QnA Maker knowledge bases using dispatch.\r\n",
+>>>>>>> 9a1346f23e7379b539e9319c6886e3013dc05145
       "source": "custom editorial",
       "questions": [
         "What are you?",
