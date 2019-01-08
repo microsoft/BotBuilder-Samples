@@ -1,0 +1,18 @@
+{
+  "name": "scaleout",
+  "version": "1.0.0",
+  "description": "Bot Builder v4 scaleout sample",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "dependencies": {
+    "botbuilder": "^4.2.0",
+    "botbuilder-dialogs": "^4.2.0",
+    "botframework-config": "^4.2.0",
+    "dotenv": "^6.2.0",
+    "restify": "^7.4.0"
+  }
+}
