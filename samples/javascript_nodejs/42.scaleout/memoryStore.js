@@ -8,15 +8,25 @@ class MemoryStore {
     }
 
     async load(key) {
-        return { value: this.state[key], eTag: '' };
+
+        const oldState = this.state[key];
+
+        // debug
+        //console.log('-------------------OLD-----------------');
+        //console.log(JSON.stringify(oldState, null, 2));
+
+        return { value: oldState, eTag: '' };
     }
 
     async save(key, newState, eTag) {
 
         // debug
-        console.log(JSON.stringify(newState, null, 2));
+        //console.log('-------------------NEW-----------------');
+        //console.log(JSON.stringify(newState, null, 2));
 
-        this.state[key] = newState;
+        if (newState !== undefined) {
+            this.state[key] = JSON.parse(JSON.stringify(newState));
+        }
         return true;
     }
 }

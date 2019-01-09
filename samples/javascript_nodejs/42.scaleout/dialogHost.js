@@ -25,7 +25,7 @@ class DialogHost {
 
         if (turnContext.activity.type === ActivityTypes.Message) {
 
-            let dialogStateProperty = state == undefined ? undefined : state['DialogState'];
+            let dialogStateProperty = state == undefined ? undefined : state['dialogState'];
 
             //dialogStateProperty = DialogHost.debug(turnContext, dialogStateProperty);
 
@@ -37,11 +37,11 @@ class DialogHost {
             const dialogContext = await dialogs.createContext(turnContext);
             const results = await dialogContext.continueDialog();
 
-            if (results.Status == DialogTurnStatus.Empty) {
+            if (results.status == DialogTurnStatus.empty) {
                 await dialogContext.beginDialog("root");
             }
 
-            return { DialogState: accessor.value };
+            return { dialogState: accessor.value };
         }
 
         return state;

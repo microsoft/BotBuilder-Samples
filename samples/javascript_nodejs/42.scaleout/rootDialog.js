@@ -29,8 +29,8 @@ class RootDialog extends ComponentDialog {
     static async step3(stepContext) {
         const first = stepContext.values.first;
         const second = stepContext.result;
-        await stepContext.Context.sendActivity(MessageFactory.text(`The result of the first minus the second is ${first - second}.`));
-        return await stepContext.EndDialog();
+        await stepContext.context.sendActivity(MessageFactory.text(`The result of the first minus the second is ${first - second}.`));
+        return await stepContext.endDialog();
     }
 }
 
