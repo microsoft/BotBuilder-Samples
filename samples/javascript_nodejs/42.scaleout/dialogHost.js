@@ -6,8 +6,14 @@ const { DialogSet, DialogTurnStatus } = require('botbuilder-dialogs');
 const { DialogHostAdapter } = require('./dialogHostAdapter');
 const { RefAccessor } = require('./refAccessor');
 
+// The essential code for running a dialog. The execution of the dialog is treated here as a pure function call.
+// The input being the existing (or old) state and the inbound Activity and the result being the updated (or new) state
+// and the Activities that should be sent. The assumption is that this code can be re-run without causing any
+// unintended or harmful side-effects, for example, any outbound service calls made directly from the
+// dialog implementation should be idempotent.
 class DialogHost {
 
+    // A function to run a dialog while buffering the outbound Activities.
     static async run(rootDialog, activity, oldState) {
 
         // A custom adapter and corresponding TurnContext that buffers any messages sent.
@@ -21,16 +27,21 @@ class DialogHost {
         return { activities: adapter.activities, newState: newState };
     }
 
+    // Execute the turn of the bot. The functionality here closely resembles that which is found in the
+    // IBot.OnTurnAsync method in an implementation that is using the regular BotFrameworkAdapter.
+    // Also here in this example the focus is explicitly on Dialogs but the pattern could be adapted
+    // to other conversation modeling abstractions.
     static async runTurn(rootDialog, turnContext, state) {
 
         if (turnContext.activity.type === ActivityTypes.Message) {
 
-            let dialogStateProperty = state == undefined ? undefined : state['dialogState'];
+            // If we have some state, deserialize it. (This mimics the shape produced by BotState.cs.)
+            const dialogStateProperty = state == undefined ? undefined : state['dialogState'];
 
-            //dialogStateProperty = DialogHost.debug(turnContext, dialogStateProperty);
-
+            // A custom accessor is used to pass a handle on the state to the dialog system.
             const accessor = new RefAccessor(dialogStateProperty);
 
+            // The following is regular dialog driver code.
             const dialogs = new DialogSet(accessor);
             dialogs.add(rootDialog);
 
@@ -38,25 +49,14 @@ class DialogHost {
             const results = await dialogContext.continueDialog();
 
             if (results.status == DialogTurnStatus.empty) {
-                await dialogContext.beginDialog("root");
+                await dialogContext.beginDialog('root');
             }
 
+            // Serialize the result (available as Value on the accessor).
             return { dialogState: accessor.value };
         }
 
         return state;
-    }
-
-    static async debug(turnContext, dialogStateProperty) {
-        if (dialogStateProperty == undefined) {
-            dialogStateProperty = 1;
-        }
-        else {
-            dialogStateProperty += 1;
-        }
-        const msg = `dialogStateProperty: ${dialogStateProperty}`;
-        await turnContext.sendActivity({ type: ActivityTypes.Message, text: msg });
-        return dialogStateProperty;
     }
 }
 
