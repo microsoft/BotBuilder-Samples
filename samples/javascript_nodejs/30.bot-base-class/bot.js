@@ -7,7 +7,7 @@ class MyBot extends BotBase {
     async onMessage(turnContext) {
         await turnContext.sendActivity(`You said '${ turnContext.activity.text }'`);
     }
-    async onMemberAdded(member, turnContext) {
+    async onMemberAdded(turnContext, member) {
         await turnContext.sendActivity(`Welcome ${member.name}`);
     }
 }

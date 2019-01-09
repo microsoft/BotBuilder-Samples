@@ -26,14 +26,14 @@ class BotBase {
                 const member = turnContext.activity.membersAdded[i];
                 if (member.id != turnContext.activity.recipient.id)
                 {
-                    await this.onMemberAdded(member, turnContext);
+                    await this.onMemberAdded(turnContext, member);
                 }
             }
         }
         // TODO: similar for membersRemoved
     }
 
-    async onMemberAdded(member, turnContext) {
+    async onMemberAdded(turnContext, member) {
     }
 }
 
