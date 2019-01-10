@@ -18,9 +18,6 @@ class MyAppInsightsMiddleware {
         if (!settings) {
             throw new Error('The settings parameter is required.');
         }
-        if (!settings.instrumentationKey) {
-            throw new Error('The settings.instrumentationKey parameter is required.');
-        }
         if (settings.logUserName) {
             this.logUserName = settings.logUserName;
         }
