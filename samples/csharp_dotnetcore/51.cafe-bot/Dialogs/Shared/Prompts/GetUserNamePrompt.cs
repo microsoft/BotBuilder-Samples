@@ -184,7 +184,7 @@ namespace Microsoft.BotBuilderSamples
             else
             {
                 // User said no to cancel.
-                return await base.ResumeDialogAsync(dc, reason, result);
+                return await base.ResumeDialogAsync(dc, reason, result, cancellationToken);
             }
         }
 
