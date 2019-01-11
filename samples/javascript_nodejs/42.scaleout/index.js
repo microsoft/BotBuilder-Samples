@@ -17,6 +17,7 @@ const { ScaleoutBot } = require('./bot');
 
 // Dialog and storage implementation
 const { MemoryStore } = require('./memoryStore');
+const { BlobStore } = require('./blobStore');
 const { RootDialog } = require('./rootDialog');
 
 // Read botFilePath and botFileSecret from .env file
@@ -73,8 +74,12 @@ adapter.onTurnError = async (context, error) => {
     await context.sendActivity(`Oops. Something went wrong!`);
 };
 
-// Create the main dialog.
+// Create the main dialog and storage.
 const store = new MemoryStore();
+//const accountName = '<ACCOUNT-NAME>';
+//const accountKey = '<ACCOUNT-KEY>';
+//const container = 'dialogs';
+//const store = new BlobStore(accountName, accountKey, container);
 const rootDialog = new RootDialog();
 const bot = new ScaleoutBot(store, rootDialog);
 
