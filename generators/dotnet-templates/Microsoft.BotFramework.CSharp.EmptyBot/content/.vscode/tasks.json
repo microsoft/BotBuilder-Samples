@@ -3,6 +3,10 @@
     "tasks": [
         {
             "label": "build",
+            "group": {
+              "kind": "build",
+              "isDefault": true
+            },
             "command": "dotnet",
             "type": "process",
             "args": [
