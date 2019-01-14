@@ -45,23 +45,23 @@ cd ..
 
 
 #
-# Basic bot in TypeScript
+# Core bot in TypeScript
 #
-echo Generating my-basic-bot-ts
-yo botbuilder -N "my-basic-bot-ts" -D "A basic bot in ts" -L "TypeScript" -T "basic" --noprompt
-cd ./my-basic-bot-ts
-echo building and linting my-basic-bot-ts
+echo Generating my-core-bot-ts
+yo botbuilder -N "my-core-bot-ts" -D "A core bot in ts" -L "TypeScript" -T "core" --noprompt
+cd ./my-core-bot-ts
+echo building and linting my-core-bot-ts
 npm run build && npm run lint
 cd ..
 
 
 #
-# Basic bot in JavaScript
+# Core bot in JavaScript
 #
-echo Generating my-basic-bot-js
-yo botbuilder -N "my-basic-bot-js" -D "A basic bot in js" -L "JavaScript" -T "basic" --noprompt
-cd ./my-basic-bot-js
-echo linting my-basic-bot-js
+echo Generating my-core-bot-js
+yo botbuilder -N "my-core-bot-js" -D "A core bot in js" -L "JavaScript" -T "core" --noprompt
+cd ./my-core-bot-js
+echo linting my-core-bot-js
 npm run lint
 cd ..
 
@@ -93,12 +93,12 @@ rm -rf ./my-echo-bot-js
 
 
 #
-# Basic bot in TypeScript
+# Core bot in TypeScript
 #
-rm -rf ./my-basic-bot-ts
+rm -rf ./my-core-bot-ts
 
 
 #
-# Basic bot in JavaScript
+# Core bot in JavaScript
 #
-rm -rf ./my-basic-bot-js
+rm -rf ./my-core-bot-js
