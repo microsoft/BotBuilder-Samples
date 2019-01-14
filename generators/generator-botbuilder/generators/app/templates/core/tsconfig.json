@@ -6,6 +6,7 @@
       "sourceMap": true,
       "outDir": "./lib",
       "resolveJsonModule": true,
-      "rootDirs": ["./src", "./resources"]
+      "rootDirs": ["./src", "./resources"],
+      "strict": true
     }
 }

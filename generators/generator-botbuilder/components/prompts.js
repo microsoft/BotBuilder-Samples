@@ -1,10 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+const _ = require('lodash');
+
 const {
   BOT_TEMPLATE_NAME_EMPTY,
   BOT_TEMPLATE_NAME_SIMPLE,
   BOT_TEMPLATE_NAME_CORE,
+  BOT_TEMPLATE_NOPROMPT_EMPTY,
+  BOT_TEMPLATE_NOPROMPT_SIMPLE,
+  BOT_TEMPLATE_NOPROMPT_CORE,
   BOT_HELP_URL_EMPTY,
   BOT_HELP_URL_SIMPLE,
   BOT_HELP_URL_CORE,
@@ -44,7 +49,7 @@ module.exports.configureCommandlineOptions = gen => {
   gen.option('template', {
     desc: templateDesc,
     type: String,
-    default: BOT_TEMPLATE_NAME_SIMPLE,
+    default: BOT_TEMPLATE_NOPROMPT_SIMPLE,
     alias: 'T'
   });
   gen.argument('noprompt', {
@@ -66,7 +71,7 @@ module.exports.getPrompts = options => {
     {
       name: 'botname',
       message: `What's the name of your bot?`,
-      default: (options.botName ? options.botName : 'my-chat-bot')
+      default: (options.botname ? options.botname : 'my-chat-bot')
     },
     {
       name: 'description',
@@ -79,13 +84,15 @@ module.exports.getPrompts = options => {
       message: 'What programming language do you want to use?',
       choices: [
         {
-          name: BOT_LANG_NAME_JAVASCRIPT
+          name: BOT_LANG_NAME_JAVASCRIPT,
+          value: _.toLower(BOT_LANG_NAME_JAVASCRIPT)
         },
         {
-          name: BOT_LANG_NAME_TYPESCRIPT
+          name: BOT_LANG_NAME_TYPESCRIPT,
+          value: _.toLower(BOT_LANG_NAME_TYPESCRIPT)
         }
       ],
-      default: (options.language ? options.language : BOT_LANG_NAME_JAVASCRIPT)
+      default: (options.language ? _.toLower(options.language) : BOT_LANG_NAME_JAVASCRIPT)
     },
     {
       name: 'template',
@@ -93,19 +100,19 @@ module.exports.getPrompts = options => {
       message: 'Which template would you like to start with?',
       choices: [
         {
-          name: `${BOT_TEMPLATE_NAME_EMPTY} - ${BOT_HELP_URL_EMPTY}`,
-          value: BOT_TEMPLATE_NAME_EMPTY,
-        },
-        {
           name: `${BOT_TEMPLATE_NAME_SIMPLE} - ${BOT_HELP_URL_SIMPLE}`,
-          value: BOT_TEMPLATE_NAME_SIMPLE
+          value: BOT_TEMPLATE_NOPROMPT_SIMPLE
         },
         {
           name: `${BOT_TEMPLATE_NAME_CORE} - ${BOT_HELP_URL_CORE}`,
-          value: BOT_TEMPLATE_NAME_CORE
+          value: BOT_TEMPLATE_NOPROMPT_CORE
+        },
+        {
+          name: `${BOT_TEMPLATE_NAME_EMPTY} - ${BOT_HELP_URL_EMPTY}`,
+          value: BOT_TEMPLATE_NOPROMPT_EMPTY
         }
       ],
-      default: (options.template ? options.template : BOT_TEMPLATE_NAME_SIMPLE)
+      default: (options.template ? _.toLower(options.template) : BOT_TEMPLATE_NOPROMPT_SIMPLE)
     },
     {
       name: 'finalConfirmation',

@@ -9,7 +9,7 @@ const { commonFilesWriter } = require('./commonFilesWriter');
 const { BOT_TEMPLATE_NAME_CORE, BOT_TEMPLATE_NOPROMPT_CORE } = require('./constants');
 
 // generators/app/templates folder name
-const GENERATOR_TEMPLATE_NAME = 'basic';
+const GENERATOR_TEMPLATE_NAME = 'core';
 
 const LANG_JS = 'javascript';
 const LANG_TS = 'typescript';
@@ -20,7 +20,7 @@ const LANG_TS = 'typescript';
  */
 const getFolders = language => {
   if(!language || (_.toLower(language) !== LANG_JS && _.toLower(language) !== LANG_TS)) {
-    throw new Error(`basicTemplateWriter.getFolders called for invalid language: ${ language }`);
+    throw new Error(`coreTemplateWriter.getFolders called for invalid language: ${ language }`);
   }
 
   let folders;
@@ -49,12 +49,12 @@ const getFolders = language => {
 }
 
 /**
- * Write the files that are specific to the basic bot template
+ * Write the files that are specific to the core bot template
  *
  * @param {Generator} gen Yeoman's generator object
  * @param {String} templatePath file path to write the generated code
  */
-const writeBasicTemplateFiles = (gen, templatePath) => {
+const writeCoreTemplateFiles = (gen, templatePath) => {
   const COGNITIVE_MODELS = 0;
   const DEPLOYMENT_SCRIPTS = 1;
   const DEPLOYMENT_MSBOT = 2;
@@ -82,7 +82,7 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   // if we're generating TS, then we need the extension to be js or tsc will complain (tsc v3.1.6)
   const cardExtension = _.toLower(gen.props.language) === 'javascript' ? 'json' : 'js';
 
-  // create the basic bot folder structure
+  // create the core bot folder structure
   for (let cnt = 0; cnt < destFolders.length; ++cnt) {
     mkdirp.sync(destFolders[cnt]);
   }
@@ -91,8 +91,8 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
   let sourcePath = path.join(templatePath, srcFolders[COGNITIVE_MODELS]);
   let destinationPath = path.join(gen.destinationPath(), destFolders[COGNITIVE_MODELS]);
   gen.fs.copy(
-    path.join(sourcePath, 'basicBot.luis'),
-    path.join(destinationPath, 'basicBot.luis')
+    path.join(sourcePath, 'coreBot.luis'),
+    path.join(destinationPath, 'coreBot.luis')
   );
 
   // if we're writing out TypeScript, then we need to add a webConfigPrep.js
@@ -203,22 +203,22 @@ const writeBasicTemplateFiles = (gen, templatePath) => {
 }
 
 /**
- * Write project files for Basic template
+ * Write project files for Core template
  *
  * @param {Generator} gen Yeoman's generator object
  */
-module.exports.basicTemplateWriter = gen => {
+module.exports.coreTemplateWriter = gen => {
   // do some simple sanity checking to ensure we're being
   // called correctly
   const template = _.toLower(gen.props.template)
   if (template !== _.toLower(BOT_TEMPLATE_NAME_CORE) && template !== _.toLower(BOT_TEMPLATE_NOPROMPT_CORE)) {
-    throw new Error(`basicTemplateWriter called for wrong template: ${ gen.props.template }`);
+    throw new Error(`coreTemplateWriter called for wrong template: ${ gen.props.template }`);
   }
   const templatePath = path.join(gen.templatePath(), GENERATOR_TEMPLATE_NAME);
 
   // write files common to all template options
   commonFilesWriter(gen, templatePath);
 
-  // write files specific to the basic bot template
-  writeBasicTemplateFiles(gen, templatePath);
+  // write files specific to the core bot template
+  writeCoreTemplateFiles(gen, templatePath);
 }

@@ -8,7 +8,7 @@ const chalk = require('chalk');
 
 const pkg = require('../../package.json');
 const prompts = require('../../components/prompts');
-const { basicTemplateWriter } = require('../../components/basicTemplateWriter');
+const { coreTemplateWriter } = require('../../components/coreTemplateWriter');
 const { echoTemplateWriter } = require('../../components/echoTemplateWriter');
 const { emptyTemplateWriter } = require('../../components/emptyTemplateWriter');
 const {
@@ -56,8 +56,7 @@ module.exports = class extends Generator {
             const language = (this.props.language ? _.toLower(this.props.language) : undefined);
             const langJS = _.toLower(BOT_LANG_NAME_JAVASCRIPT);
             const langTS = _.toLower(BOT_LANG_NAME_TYPESCRIPT);
-            const langCS = _.toLower(BOT_LANG_NAME_CSHARP);
-            if(!language || (language !== langJS && language !== langTS && language !== langCS)) {
+            if(!language || (language !== langJS && language !== langTS)) {
                 throw new Error('Must specify a programming language when using --noprompt argument.  Use --language or -L');
             }
 
@@ -154,7 +153,7 @@ module.exports = class extends Generator {
 
         case _.toLower(BOT_TEMPLATE_NAME_CORE):
         case _.toLower(BOT_TEMPLATE_NOPROMPT_CORE):
-            basicTemplateWriter(this);
+            coreTemplateWriter(this);
         break;
 
         default:
@@ -178,7 +177,7 @@ module.exports = class extends Generator {
             break;
 
             case _.toLower(BOT_TEMPLATE_NAME_CORE):
-                basicTemplateWriterForDotNet(this);
+                coreTemplateWriterForDotNet(this);
             break;
 
             default:
