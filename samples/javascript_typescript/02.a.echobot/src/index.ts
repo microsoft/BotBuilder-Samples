@@ -40,7 +40,7 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
 const BOT_FILE = path.join(__dirname, '..', (process.env.botFilePath || ''));
 
 // Read bot configuration from .bot file.
-let botConfig;
+let botConfig: BotConfiguration;
 try {
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
 } catch (err) {
