@@ -1,0 +1,24 @@
+﻿{
+  "name": "qnamaker-activelearning",
+  "services": [
+    {
+      "type": "endpoint",
+      "name": "development",
+      "endpoint": "http://localhost:3978/api/messages",
+      "appId": "",
+      "appPassword": "",
+      "id": "1"
+    },
+    {
+      "type": "qna",
+      "EndpointKey": "",
+      "Hostname": "",
+      "KbId": "",
+      "SubscriptionKey": "",
+      "id": "118",
+      "name": "QnAMakerActiveLearning"
+    }
+  ],
+  "padlock": "",
+  "version": "2.0"
+}
