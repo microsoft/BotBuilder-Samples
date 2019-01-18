@@ -12,8 +12,8 @@ In this sample, we demonstrate how to use the Active Learning to generate sugges
 # Prerequisites
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure)
 to create a QnA Maker service.
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/tutorials/migrate-knowledge-base) to
-import the [ActiveLearningSampleFAQ.tsv](CognitiveModels/ActiveLearningSampleFAQ.tsv) to your newly created QnA Maker service.
+- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base) to
+import and publish the [ActiveLearningSampleFAQ.tsv](CognitiveModels/ActiveLearningSampleFAQ.tsv) to your newly created QnA Maker service.
 - Update [qnamaker-activelearning.bot](qnamaker-activelearning.bot) with your kbid (KnowledgeBase Id) and endpointKey in the "qna" services section. You can find this
 information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://www.qnamaker.ai)
 - (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the
@@ -33,6 +33,10 @@ developers to test and debug their bots on localhost or running remotely through
 ## Connect to bot using Bot Framework Emulator **V4**
 - Launch the Bot Framework Emulator.
 - File -> Open bot and open [qnamaker-activelearning.bot](qnamaker-activelearning.bot).
+
+# Try Active Learning
+- Once your QnA Maker service is up and you have published the sample KB, try the following queries to trigger the Train API on the bot.
+- Sample queries: "surface pro 4", "apps on your surface pro"
 
 # Deploy the bot to Azure
 See [Deploy your C# bot to Azure][50] for instructions.

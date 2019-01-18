@@ -20,17 +20,22 @@ namespace QnAMakerActiveLearningBot.Helpers
         /// <summary>
         /// Previous Low Score Variation Multiplier
         /// </summary>
-        private const double PreviousLowScoreVariationMultiplier = 0.8;
+        private const double PreviousLowScoreVariationMultiplier = 1.4;
 
         /// <summary>
         /// Max Low Score Variation Multiplier
         /// </summary>
-        private const double MaxLowScoreVariationMultiplier = 1.6;
+        private const double MaxLowScoreVariationMultiplier = 2.0;
 
         /// <summary>
         /// Max Score For Single Answer Suggestion
         /// </summary>
         private const double MaxScoreForSingleAnswerSuggestion = 50;
+
+        /// <summary>
+        /// Maximum Score For Low Score Variation
+        /// </summary>
+        private const double MaximumScoreForLowScoreVariation = 95.0;
 
         /// <summary>
         /// Returns list of qnaSearch results which have low score variation
@@ -57,7 +62,7 @@ namespace QnAMakerActiveLearningBot.Helpers
                 var topAnswerScore = qnaSearchResults[0].Score * 100;
                 var prevScore = topAnswerScore;
 
-                if (topAnswerScore > MinimumScoreForLowScoreVariation)
+                if ((topAnswerScore > MinimumScoreForLowScoreVariation) && (topAnswerScore < MaximumScoreForLowScoreVariation))
                 {
                     filteredQnaSearchResult.Add(qnaSearchResults[0]);
 
