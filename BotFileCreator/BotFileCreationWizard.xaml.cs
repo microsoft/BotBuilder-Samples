@@ -34,26 +34,29 @@ namespace BotFileCreator
         {
             try
             {
-                BotFileCreatorManager fileCreator = new BotFileCreatorManager(GeneralSettings.Default.BotFileName, GeneralSettings.Default.ProjectName);
+                string botFileName = GeneralSettings.Default.BotFileName;
+                string botFileFullPath = GeneralSettings.Default.ProjectName;
+
+                BotFileCreatorManager fileCreator = new BotFileCreatorManager(botFileName, botFileFullPath);
 
                 Tuple<bool, string> fileCreatorResult = fileCreator.CreateBotFile();
 
                 // If the fileCreator returns a tuple with a FALSE value, will show the error message (Item2) in the Wizard.
                 if (!fileCreatorResult.Item1)
                 {
-                    ErrorLabel.Content = fileCreatorResult.Item2;
+                    MessageBox.Show(fileCreatorResult.Item2, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
-                    // If the file was successfully created, it will close the Wizard.
-                    ErrorLabel.Content = string.Empty;
+                    // If the file was successfully created, the Wizard will be closed.
+                    MessageBox.Show("Bot file successfully created", "Bot file successfully created", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     this.Close();
                 }
             }
             catch (Exception ex)
             {
-                // If there is an exception, it will be shown in the Wizard.
-                ErrorLabel.Content = ex.Message;
+                // If there is an exception, it will be prompted.
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

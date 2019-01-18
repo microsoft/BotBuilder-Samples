@@ -1,5 +1,8 @@
-﻿using System;
+﻿using BotFileCreator.BotFileWriter;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace BotFileCreator
 {
@@ -41,7 +44,7 @@ namespace BotFileCreator
             // If the file does not exist, will create it and add to the .csproj file
             if (!File.Exists(fullName))
             {
-                File.Create(fullName);
+                WriteBotFileContent(fullName);
                 AddFileToProject(this.ProjectName, fullName);
             }
             else
@@ -102,9 +105,33 @@ namespace BotFileCreator
         {
             var project = new Microsoft.Build.Evaluation.Project(projectName);
 
-            project.AddItem("Compile", fileName);
+            // Reevaluates the project to add any change
+            project.ReevaluateIfNecessary();
 
-            project.Save();
+            // Checks if the project has a file with the same name. If it doesn't, it will be added to the project
+            if (project.Items.FirstOrDefault( item => item.EvaluatedInclude == fileName) == null)
+            {
+                project.AddItem("Compile", fileName);
+                project.Save();
+            }
+        }
+
+        /// <summary>
+        /// Writes the content of the bot file.
+        /// </summary>
+        /// <param name="filePath">Bot file's path</param>
+        private void WriteBotFileContent(string filePath)
+        {
+            // Creates a botFile object for writing its content to the just recently created file
+            BotFile botFile = new BotFile();
+            botFile.name = this.BotFileName;
+            botFile.version = "1.0";
+            botFile.description = string.Empty;
+            botFile.padlock = string.Empty;
+            botFile.services = Enumerable.Empty<BotService>().ToList();
+
+            // Writes the content of the botFile
+            BotFileWriterManager.WriteBotFile(botFile, filePath);
         }
     }
 }

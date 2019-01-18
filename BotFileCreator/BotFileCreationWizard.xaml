@@ -5,12 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:BaseDialogWindow="clr-namespace:BotFileCreator"
              mc:Ignorable="d"
-             d:DesignHeight="180" d:DesignWidth="400" MaxWidth="400" MaxHeight="180">
+             d:DesignHeight="160" d:DesignWidth="400" MaxWidth="400" MaxHeight="160">
     <Grid>
         <Label Content="Bot file Creation Wizard" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="150"/>
         <Label Content="Bot File Name" HorizontalAlignment="Left" Height="25" Margin="10,35,0,0" VerticalAlignment="Top" Width="90"/>
         <TextBox HorizontalAlignment="Left" Height="20" Margin="15,60,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="365" TextChanged="TextBox_TextChanged" MaxLength="150" Name="BotFileNameTxt"/>
-        <Button Content="Create" HorizontalAlignment="Left" Height="20" Margin="320,120,0,0" VerticalAlignment="Top" Width="60" Click="Button_Click"/>
-        <Label Content="" HorizontalAlignment="Left" Height="25" Margin="10,85,0,0" VerticalAlignment="Top" Width="370" Name="ErrorLabel"/>
+        <Button Content="Create" HorizontalAlignment="Left" Height="20" Margin="320,100,0,0" VerticalAlignment="Top" Width="60" Click="Button_Click"/>
     </Grid>
 </BaseDialogWindow:BaseDialogWindow>

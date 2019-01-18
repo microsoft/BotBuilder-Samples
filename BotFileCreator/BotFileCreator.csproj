@@ -61,10 +61,14 @@
     <Compile Include="BotFileCreatorManager.cs" />
     <Compile Include="BotFileCreatorCommand.cs" />
     <Compile Include="BotFileCreatorPackage.cs" />
+    <Compile Include="BotFileWriter\BotFile.cs" />
+    <Compile Include="BotFileWriter\BotFileWriterManager.cs" />
+    <Compile Include="BotFileWriter\BotService.cs" />
     <Compile Include="GeneralSettings.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="GeneralSettings.settings" />
     <None Include="Key.snk" />
     <None Include="packages.config" />
@@ -77,6 +81,10 @@
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
     <Content Include="index.html" />
+    <Content Include="Newtonsoft.Json.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Resources\BotFileCreatorCommand.png" />
     <Content Include="Resources\BotFileCreatorPackage.ico" />
     <Content Include="stylesheet.css" />
@@ -157,6 +165,9 @@
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Validation, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.VisualStudio.Validation.15.0.82\lib\net45\Microsoft.VisualStudio.Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
