@@ -2,6 +2,8 @@
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using EnvDTE;
+using EnvDTE80;
+using Microsoft;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -120,6 +122,10 @@ namespace BotFileCreator
             // Starts the wizard
             var botFileCreatorWizard = new BotFileCreationWizard();
             botFileCreatorWizard.ShowDialog();
+
+            // Reload the project (to show the just added .bot file)
+            selectedProject.DTE.ExecuteCommand("Project.UnloadProject");
+            selectedProject.DTE.ExecuteCommand("Project.ReloadProject");
         }
     }
 }
