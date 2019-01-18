@@ -103,8 +103,9 @@ namespace BotFileCreator
         /// <param name="fileName">The file name to add to csproj</param>
         private void AddFileToProject(string projectName, string fileName)
         {
-            var project = new Microsoft.Build.Evaluation.Project(projectName);
-
+            // Load a specific project. Also, avoids several problems for re-loading the same project more than once
+            var project = Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection.LoadedProjects.FirstOrDefault(pr => pr.FullPath == projectName);
+            
             // Reevaluates the project to add any change
             project.ReevaluateIfNecessary();
 
