@@ -13,7 +13,7 @@ In this sample, we demonstrate how to use the Active Learning to generate sugges
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure)
 to create a QnA Maker service.
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/tutorials/migrate-knowledge-base) to
-import the [ActiveLearningSampleKB.tsv](CognitiveModels/ActiveLearningSampleKB.tsv) to your newly created QnA Maker service.
+import the [ActiveLearningSampleFAQ.tsv](CognitiveModels/ActiveLearningSampleFAQ.tsv) to your newly created QnA Maker service.
 - Update [qnamaker-activelearning.bot](qnamaker-activelearning.bot) with your kbid (KnowledgeBase Id) and endpointKey in the "qna" services section. You can find this
 information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://www.qnamaker.ai)
 - (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the
