@@ -35,11 +35,11 @@ namespace Microsoft.BotBuilderSamples
         // This array contains the file location of our adaptive cards
         private readonly string[] _cards =
         {
-            @".\Resources\FlightItineraryCard.json",
-            @".\Resources\ImageGalleryCard.json",
-            @".\Resources\LargeWeatherCard.json",
-            @".\Resources\RestaurantCard.json",
-            @".\Resources\SolitaireCard.json",
+            Path.Combine(".", "Resources", "FlightItineraryCard.json"),
+            Path.Combine(".", "Resources", "ImageGalleryCard.json"),
+            Path.Combine(".", "Resources", "LargeWeatherCard.json"),
+            Path.Combine(".", "Resources", "RestaurantCard.json"),
+            Path.Combine(".", "Resources", "SolitaireCard.json"),
         };
 
         /// <summary>
