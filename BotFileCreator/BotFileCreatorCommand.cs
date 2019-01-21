@@ -1,16 +1,17 @@
-﻿using System;
-using System.ComponentModel.Design;
-using System.Runtime.InteropServices;
-using EnvDTE;
-using EnvDTE80;
-using Microsoft;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Task = System.Threading.Tasks.Task;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 namespace BotFileCreator
 {
+    using System;
+    using System.ComponentModel.Design;
+    using System.Runtime.InteropServices;
+    using EnvDTE;
+    using Microsoft.VisualStudio;
+    using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Shell.Interop;
+    using Task = System.Threading.Tasks.Task;
+
     /// <summary>
     /// Command handler
     /// </summary>

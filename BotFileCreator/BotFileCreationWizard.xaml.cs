@@ -1,9 +1,12 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 namespace BotFileCreator
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Controls;
+
     /// <summary>
     /// Interaction logic for BotFileCreationWizard.xaml
     /// </summary>

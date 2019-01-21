@@ -1,7 +1,10 @@
-﻿using Microsoft.VisualStudio.PlatformUI;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 namespace BotFileCreator
 {
+    using Microsoft.VisualStudio.PlatformUI;
+
     public class BaseDialogWindow : DialogWindow
     {
         public BaseDialogWindow()

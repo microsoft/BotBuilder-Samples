@@ -1,13 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 namespace BotFileCreator.BotFileWriter
 {
+    using Newtonsoft.Json;
+    using System.IO;
+
     public static class BotFileWriterManager
     {
         public static void WriteBotFile(BotFile botFile, string botFileFullPath)
