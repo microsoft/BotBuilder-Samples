@@ -78,7 +78,7 @@ namespace BotFileCreator
             // the UI thread.
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
-            OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
+            OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
             Instance = new BotFileCreatorCommand(package, commandService);
         }
 
@@ -98,7 +98,7 @@ namespace BotFileCreator
              * Is necessary to call these methods from the main thread, so they could not be in another method/function
              */
             IntPtr hierarchyPointer, selectionContainerPointer;
-            Object selectedObject = null;
+            object selectedObject = null;
             IVsMultiItemSelect multiItemSelect;
             uint projectItemId;
 

@@ -1,23 +1,23 @@
-﻿using BotFileCreator.BotFileWriter;
-using System;
-using System.IO;
-using System.Linq;
-
-namespace BotFileCreator
+﻿namespace BotFileCreator
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using BotFileCreator.BotFileWriter;
+
     public class BotFileCreatorManager
     {
-        private readonly string BotFileName;
+        private readonly string botFileName;
 
-        private readonly string ProjectDirectoryPath;
+        private readonly string projectDirectoryPath;
 
-        private readonly string ProjectName;
+        private readonly string projectName;
 
-        public BotFileCreatorManager(string BotFileName, string ProjectName)
+        public BotFileCreatorManager(string botFileName, string projectName)
         {
-            this.BotFileName = BotFileName;
-            this.ProjectName = ProjectName;
-            ProjectDirectoryPath = GetProjectDirectoryPath();
+            this.botFileName = botFileName;
+            this.projectName = projectName;
+            projectDirectoryPath = GetProjectDirectoryPath();
         }
 
         /// <summary>
@@ -38,13 +38,13 @@ namespace BotFileCreator
             string botFileFullName = this.GetBotFileName();
 
             // bot file's full pathName
-            string fullName = Path.Combine(ProjectDirectoryPath, botFileFullName);
+            string fullName = Path.Combine(projectDirectoryPath, botFileFullName);
 
             // If the file does not exist, will create it and add to the .csproj file
             if (!File.Exists(fullName))
             {
                 WriteBotFileContent(fullName);
-                AddFileToProject(this.ProjectName, fullName);
+                AddFileToProject(this.projectName, fullName);
             }
             else
             {
@@ -62,13 +62,13 @@ namespace BotFileCreator
         private Tuple<bool, string> BotFileConfigurationIsValid()
         {
             // If the .bot file name is Null or WhiteSpace, returns an error.
-            if (string.IsNullOrWhiteSpace(this.BotFileName))
+            if (string.IsNullOrWhiteSpace(this.botFileName))
             {
                 return new Tuple<bool, string>(false, "Bot file name can't be null.");
             }
 
             // If the .bot file name contains any whitespace, the method will return an error.
-            if (this.BotFileName.Contains(" "))
+            if (this.botFileName.Contains(" "))
             {
                 return new Tuple<bool, string>(false, "Bot file name can't have whitespaces.");
             }
@@ -83,7 +83,7 @@ namespace BotFileCreator
         /// <returns>Bot File name</returns>
         private string GetBotFileName()
         {
-            return this.BotFileName.EndsWith(".bot") ? this.BotFileName : string.Concat(this.BotFileName, ".bot");
+            return this.botFileName.EndsWith(".bot") ? this.botFileName : string.Concat(this.botFileName, ".bot");
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace BotFileCreator
         /// <returns>Project Directory</returns>
         private string GetProjectDirectoryPath()
         {
-            return this.ProjectName.Substring(0, this.ProjectName.LastIndexOf('\\'));
+            return this.projectName.Substring(0, this.projectName.LastIndexOf('\\'));
         }
 
         /// <summary>
@@ -104,12 +104,12 @@ namespace BotFileCreator
         {
             // Load a specific project. Also, avoids several problems for re-loading the same project more than once
             var project = Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection.LoadedProjects.FirstOrDefault(pr => pr.FullPath == projectName);
-            
+
             // Reevaluates the project to add any change
             project.ReevaluateIfNecessary();
 
             // Checks if the project has a file with the same name. If it doesn't, it will be added to the project
-            if (project.Items.FirstOrDefault( item => item.EvaluatedInclude == fileName) == null)
+            if (project.Items.FirstOrDefault(item => item.EvaluatedInclude == fileName) == null)
             {
                 project.AddItem("Compile", fileName);
                 project.Save();
@@ -124,11 +124,11 @@ namespace BotFileCreator
         {
             // Creates a botFile object for writing its content to the just recently created file
             BotFile botFile = new BotFile();
-            botFile.name = this.BotFileName;
-            botFile.version = "1.0";
-            botFile.description = string.Empty;
-            botFile.padlock = string.Empty;
-            botFile.services = Enumerable.Empty<BotService>().ToList();
+            botFile.Name = this.botFileName;
+            botFile.Version = "1.0";
+            botFile.Description = string.Empty;
+            botFile.Padlock = string.Empty;
+            botFile.Services = Enumerable.Empty<BotService>().ToList();
 
             // Writes the content of the botFile
             BotFileWriterManager.WriteBotFile(botFile, filePath);

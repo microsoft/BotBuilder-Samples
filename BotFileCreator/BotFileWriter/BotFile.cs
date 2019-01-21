@@ -4,18 +4,21 @@
 namespace BotFileCreator.BotFileWriter
 {
     using System.Collections.Generic;
- 
+
     public class BotFile
     {
-        public string name { get; set; }
-        public string description { get; set; }
-        public string padlock { get; set; }
-        public string version { get; set; }
-
-        public List<BotService> services { get; set; }
-
         public BotFile()
         {
         }
+
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public string Padlock { get; set; }
+
+        public string Version { get; set; }
+
+        public List<BotService> Services { get; set; }
     }
 }

@@ -5,13 +5,14 @@ namespace BotFileCreator.BotFileWriter
 {
     public class BotService
     {
-        public string type { get; set; }
-        public string name { get; set; }
-        public string id { get; set; }
-
         public BotService()
         {
-
         }
+
+        public string Type { get; set; }
+
+        public string Name { get; set; }
+
+        public string Id { get; set; }
     }
 }
