@@ -9,39 +9,48 @@
 //------------------------------------------------------------------------------
 
 namespace BotFileCreator
-{   
+{
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
-    internal sealed partial class GeneralSettings : global::System.Configuration.ApplicationSettingsBase {
-        
+    internal sealed partial class GeneralSettings : global::System.Configuration.ApplicationSettingsBase
+    {
+
         private static GeneralSettings defaultInstance = ((GeneralSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new GeneralSettings())));
-        
-        public static GeneralSettings Default {
-            get {
+
+        public static GeneralSettings Default
+        {
+            get
+            {
                 return defaultInstance;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string BotFileName {
-            get {
+        public string BotFileName
+        {
+            get
+            {
                 return ((string)(this["BotFileName"]));
             }
-            set {
+            set
+            {
                 this["BotFileName"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ProjectName {
-            get {
+        public string ProjectName
+        {
+            get
+            {
                 return ((string)(this["ProjectName"]));
             }
-            set {
+            set
+            {
                 this["ProjectName"] = value;
             }
         }

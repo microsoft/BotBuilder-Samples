@@ -45,7 +45,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>BotFileCreator.ruleset</CodeAnalysisRuleSet>
-	<NoWarn>SA1652, SA1124</NoWarn>
+    <NoWarn>SA1652, SA1124</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -55,7 +55,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>BotFileCreator.ruleset</CodeAnalysisRuleSet>
-	<NoWarn>SA1652, SA1124</NoWarn>
+    <NoWarn>SA1652, SA1124</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BaseDialogWindow.cs" />
@@ -68,12 +68,21 @@
     <Compile Include="BotFileWriter\BotFile.cs" />
     <Compile Include="BotFileWriter\BotFileWriterManager.cs" />
     <Compile Include="BotFileWriter\BotService.cs" />
-    <Compile Include="GeneralSettings.Designer.cs" />
+    <Compile Include="C:\Repos\southworkscom\manx\manx\dev\VisualStudioExtensions\Spike03\BotFileCreator\BotFileCreator\BotFile2.bot" />
+    <Compile Include="C:\Repos\southworkscom\manx\manx\dev\VisualStudioExtensions\Spike03\BotFileCreator\BotFileCreator\BotFileName.bot" />
+    <Compile Include="GeneralSettings1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>GeneralSettings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="GeneralSettings.settings" />
+    <None Include="GeneralSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>GeneralSettings1.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Key.snk" />
     <None Include="packages.config" />
     <None Include="BotFileCreator.ruleset" />
@@ -84,6 +93,7 @@
   <ItemGroup>
     <VSCTCompile Include="BotFileCreatorPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
     </VSCTCompile>
     <Content Include="index.html" />
     <Content Include="Newtonsoft.Json.dll">
