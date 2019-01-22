@@ -68,8 +68,6 @@
     <Compile Include="BotFileWriter\BotFile.cs" />
     <Compile Include="BotFileWriter\BotFileWriterManager.cs" />
     <Compile Include="BotFileWriter\BotService.cs" />
-    <Compile Include="C:\Repos\southworkscom\manx\manx\dev\VisualStudioExtensions\Spike03\BotFileCreator\BotFileCreator\BotFile2.bot" />
-    <Compile Include="C:\Repos\southworkscom\manx\manx\dev\VisualStudioExtensions\Spike03\BotFileCreator\BotFileCreator\BotFileName.bot" />
     <Compile Include="GeneralSettings1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
