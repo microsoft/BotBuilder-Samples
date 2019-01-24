@@ -74,7 +74,7 @@ namespace QnAMakerActiveLearningBot.Helpers
 
             stepContext.Values[QnAData] = new List<QueryResult>(filteredResponse);
             stepContext.Values[CurrentQuery] = stepContext.Context.Activity.Text;
-            return await stepContext.NextAsync(new List<QueryResult>(response), cancellationToken);
+            return await stepContext.NextAsync(cancellationToken);
         }
 
         private async Task<DialogTurnResult> FilterLowVariationScoreList(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -108,13 +108,13 @@ namespace QnAMakerActiveLearningBot.Helpers
 
         private async Task<DialogTurnResult> CallTrain(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var responses = stepContext.Values[QnAData] as List<QueryResult>;
+            var trainResponses = stepContext.Values[QnAData] as List<QueryResult>;
             var currentQuery = stepContext.Values[CurrentQuery] as string;
 
-            if (responses.Count > 1)
+            if (trainResponses.Count > 1)
             {
                 var reply = stepContext.Context.Activity.Text;
-                var qnaResult = responses.Where(kvp => kvp.Questions[0] == reply).FirstOrDefault();
+                var qnaResult = trainResponses.Where(kvp => kvp.Questions[0] == reply).FirstOrDefault();
 
                 if (qnaResult != null)
                 {
@@ -132,8 +132,10 @@ namespace QnAMakerActiveLearningBot.Helpers
 
                     var feedbackRecords = new FeedbackRecords { Records = records };
 
-                    // call train
+                    // Call Active Learning Train API
                     ActiveLearningHelper.CallTrain(_services.QnaEndpoint.Host, feedbackRecords, _services.QnaEndpoint.KnowledgeBaseId, _services.QnaEndpoint.EndpointKey, cancellationToken);
+
+                    return await stepContext.NextAsync(new List<QueryResult>(){ qnaResult }, cancellationToken);
                 }
                 else
                 {
@@ -141,12 +143,12 @@ namespace QnAMakerActiveLearningBot.Helpers
                 }
             }
 
-            return await stepContext.NextAsync(new List<QueryResult>(responses), cancellationToken);
+            return await stepContext.NextAsync(stepContext.Result, cancellationToken);
         }
 
         private async Task<DialogTurnResult> DisplayQnAResult(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            if (stepContext.Values[QnAData] is List<QueryResult> response && response.Count > 0)
+            if (stepContext.Result is List<QueryResult> response && response.Count > 0)
             {
                 await stepContext.Context.SendActivityAsync(response[0].Answer, cancellationToken: cancellationToken);
             }

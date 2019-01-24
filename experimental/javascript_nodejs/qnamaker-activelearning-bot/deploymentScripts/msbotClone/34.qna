@@ -1,0 +1,634 @@
+{
+  "qnaList": [
+    {
+      "id": 1,
+      "answer": "**Meet Surface Pro 4**\\n\\n*Get acquainted with the features built in to your Surface Pro 4.*  \\n\\n*Here’s a quick overview of Surface Pro 4 features:*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Meet Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 2,
+      "answer": "**Ports and connectors**\\n\\n*Surface Pro 4 has the ports you expect in a full-feature laptop.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Ports and connectors"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 3,
+      "answer": "**Full-size USB 3.0 port**\\n\\n*Connect a USB accessory like a mouse, printer, Ethernet adapter, USB drive, or smartphone. For more info, see Connect a USB mouse,*  \\n\\n*printer, and more on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Full-size USB 3.0 port"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 4,
+      "answer": "**Surface Connect**\\n\\n*When your battery is low, attach the included power supply to the Surface Connect charging port. For more info, see Surface battery and power on Surface.com.*  \\n\\n*If you use the Surface Dock (sold separately), you connect your Surface to the dock through the Surface Connect charging and docking connector to transmit power and data. For more info, see*  \\n\\n*Using Surface Dock on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Surface Connect - Meet Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 5,
+      "answer": "**MicroSD card slot**\\n\\n*Use the microSD card slot and a microSD card (sold separately) for file transfer and extra storage. For more info, see Surface storage options on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "MicroSD card slot"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 6,
+      "answer": "**Mini DisplayPort version 1.2**\\n\\n*Share what’s on your Surface screen by connecting it to an HDTV, monitor, or projector. (Video adapters are sold separately.) For more*  \\n\\n*info, see Connect Surface to a TV, monitor, or projector on*  \\n\\n*Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Mini DisplayPort version 1.2"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 7,
+      "answer": "**3.5 mm headset jack**\\n\\n*Plug in your favorite headset for a little more privacy when listening to music or conference calls. For more info, see Surface sound,*  \\n\\n*volume, and audio accessories on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "3.5 mm headset jack"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 8,
+      "answer": "**Cover connectors**\\n\\n*Click in the thin, light, Type Cover for Surface Pro 4 (sold separately) so you’ll always have a keyboard when you’re on the go. For more info, see Type Cover on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Cover connectors - Meet Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 9,
+      "answer": "**Charge your Surface Pro 4**\\n\\n1.  Connect the two parts of the power cord.\\n2.  Connect the power cord securely to the charging port.\\n3.  Plug the power supply into an electrical outlet.",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Charge your Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 10,
+      "answer": "**Connect the Cover**\\n\\n*If you have a Type Cover for Surface Pro 4 (sold separately), snap it into place and open the kickstand.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Connect the Cover"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 11,
+      "answer": "**Set up your Surface Pro 4**\\n\\n*Press the power button to turn on your Surface Pro 4. Windows starts and guides you through the setup process. For more info, see Set up your Surface on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Set up your Surface Pro 4 - Set up your Surface Pro 4 - User Guide"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 12,
+      "answer": "**Power and charging**\\n\\n*It takes two to four hours to charge the Surface Pro 4 battery fully from an empty state. It can take longer if you’re using your Surface for power-intensive activities like gaming or video streaming while you’re charging it.*  \\n\\n*You can use the USB port on your Surface Pro 4 power supply to charge other devices, like a phone, while your Surface charges. The USB port on the power supply is only for charging, not for data transfer. If you want to use a USB device, plug it into the USB port on your Surface.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Power and charging"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 13,
+      "answer": "**Check the battery level**\\n\\n*You can check the battery level from the lock screen or the desktop:*  \\n\\n*Lock screen.*  \\n\\n*When you wake your Surface, the battery status appears in the lower-right corner of the lock screen.*  \\n\\n*Desktop taskbar.*  \\n\\n*Battery status appears at the right side of the taskbar. Select the battery icon for info about the charging and battery status, including the percent remaining.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Check the battery level"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 14,
+      "answer": "**Make your battery last**\\n\\n*For info on how to care for your battery and power supply, conserve power, and make your Surface battery last longer, see Surface battery and power on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Make your battery last"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 15,
+      "answer": "**Keep your Surface up to date**\\n\\n*Microsoft releases important updates to improve Windows software security and reliability, and system and hardware updates (also known as firmware updates) to help improve the stability and performance of your Surface hardware. For info on keeping your Surface up to date, see Install*  \\n\\n*Surface and Windows updates on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Keep your Surface up to date"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 16,
+      "answer": "**Get online**\\n\\n*Microsoft Edge works with Cortana to help you get the most from the Internet, and you can use your Surface Pen or touch to create Web Notes that you can save or share.*  \\n\\n*To open Microsoft Edge, select it from Start or the taskbar. Or, go to Start and select All apps > Microsoft Edge .*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Get online - User Guide"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 17,
+      "answer": "**Accounts and signing in**\\n\\n*When you set up your Surface, an account is set up for you. You can create additional accounts later for family and friends, so each person using your Surface can set it up just the way he or she likes. For more info, see All about accounts on Surface.com.*  \\n\\n*There are several ways to sign in to your Surface Pro 4:*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Accounts and signing in"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 18,
+      "answer": "**Browsing tips**\\n\\n*Icons at the upper right of the Microsoft Edge window put common tasks at your fingertips.*  \\n\\n*Select Add to favorites and reading list to add a page to your reading list or a favorites folder.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Browsing tips - Get online"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 19,
+      "answer": "**Get to know Windows 10**\\n\\n*Here are some of the basics about Windows 10. For more info, see Get Started with Windows 10 on Windows.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Get to know Windows 10"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 20,
+      "answer": "**Use Windows Hello to sign in**\\n\\n*Since Surface Pro 4 has an infrared (IR) camera, you can set up Windows Hello to sign in just by looking at the screen.*  \\n\\n*If you have the Surface Pro 4 Type Cover with Fingerprint ID (sold separately), you can set up your Surface sign you in with a touch.*  \\n\\n*For more info, see What is Windows Hello? on Windows.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Use Windows Hello to sign in"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 21,
+      "answer": "**Sign out**\\n\\n*Here's how to sign out:*  \\n\\n*Go to Start , and right-click your name. Then select Sign out .*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Sign out - Accounts and signing in"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 22,
+      "answer": "**Go to Start**\\n\\n*Select Start in the taskbar or press the Start*  \\n\\n*key on your keyboard to open the Start menu.*  \\n\\n*   At the lower left of the Start menu, you'll find quick links to File Explorer , Settings , Power (shut down, sleep, and restart), and All apps .\\n*   The apps you've used most often appear at the upper left.\\n*   Your name and profile picture appear at the top of the left side. Select them to change your account settings, lock the screen, or sign out.  \\n\\n*Tiles on Start act as quick links to apps. You can rearrange, resize, add, and remove tiles whenever you want. For more info, see Love it? Pin it on Windows.com.*  \\n\\nAction center",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Go to Start"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 23,
+      "answer": "**Search**\\n\\n*Swipe in from the right edge of the screen or select Action center in the taskbar to open the Action center.*  \\n\\n*Here you can adjust common settings like Wi-Fi connections or screen brightness, open OneNote, create a wireless connection to another screen, and more. If there are notifications waiting for you, they appear at the top of the Action center.*  \\n\\n*For more info, see Take action instantly on Windows.com.*  \\n\\n*Search is always ready for you. Just select the search box in the taskbar and enter your question.*  \\n\\n*Learn more at Search for anything, anywhere on Windows.com.*  \\n\\n*Or, go to Start and select Cortana . You can also open Cortana by holding down the top button on your Surface Pen for a second or two.*  \\n\\n*For more info, including tips on personalizing Cortana, see What is Cortana? on Windows.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Search - Get to know Windows 10"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 24,
+      "answer": "**Task view and virtual desktops**\\n\\n*Swipe in from the left edge of the screen or select Task view from the taskbar to see all your open apps. Select an app to focus on or close an app by clicking the X in the upper-right corner of the app.*  \\n\\n*While you're in Task view, you can create a new virtual desktop by selecting New desktop in the lower-right corner. Each virtual desktop can have its own set of open apps. To switch between desktops, open Task view and select a desktop.*  \\n\\n*For more info, see Group apps into desktops on Windows.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Task view and virtual desktops"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 25,
+      "answer": "**Type Cover for Surface Pro 4 keyboard and touchpad**\\n\\n*The Type Cover for Surface Pro 4 clicks into place, giving you a traditional keyboard, gesture-enabled touchpad, and protective cover all in one slim package.*  \\n\\n*When you close the Cover, your Surface Pro 4 goes to sleep.*  \\n\\n*Fold the Cover back to use your Surface as a tablet. While the Cover is folded back, your Surface won’t detect key presses.*  \\n\\n*For more info about Type Covers, see Type Cover on Surface.com.*  \\n\\n*The touchpad on the Type Cover for Surface Pro 4 has right-click and left-click buttons and supports Windows 10 gestures.*  \\n\\n*For demos showing how to use the touchpad*  \\n\\n*buttons, see Touchpad use and settings on*  \\n\\n*Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Type Cover for Surface Pro 4 keyboard and touchpad"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 26,
+      "answer": "**Settings**\\n\\n*Go to Start and select Settings for access to all your settings.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Settings - Get to know Windows 10"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 27,
+      "answer": "**Storage and OneDrive**\\n\\n*Surface Pro 4 is available with up to 16 GB of RAM and 512 GB storage. You can extend your storage options by using OneDrive, USB drives, and microSD cards. For more info about internal and removable storage options, see Surface storage options.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Storage and OneDrive"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 28,
+      "answer": "**OneDrive**\\n\\n*OneDrive is online storage that comes with your Microsoft account. Save your documents, photos, and other files to the OneDrive folder on your Surface and they'll be synced to OneDrive in the cloud whenever you have an Internet connection. The copy in the cloud is available to you from any web-connected device. If you want to, you can share some of the folders in your OneDrive with others or send someone a link to just one page.*  \\n\\n*To save space on your Surface, you can choose not to sync some of your OneDrive folders. You can still access your files on the Internet by signing into OneDrive.com, but they won't be available in File Explorer. You can add them back at any time.*  \\n\\n*Here's how to choose which folders to sync:*  \\n\\n1.  Select File Explorer in the taskbar and open the OneDrive folder.\\n2.  Right-click any folder in OneDrive and select Choose OneDrive folders to sync to producea list of all the folders in your OneDrive account.\\n3.  Select the folders you want to sync to your Surface and select OK .",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "OneDrive - Storage and OneDrive"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 29,
+      "answer": "**Surface Pen and OneNote**\\n\\n*Use the Surface Pen that comes with your Surface Pro 4 to open Cortana or OneNote, take a screenshot, or write or draw in any app that supports inking.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Surface Pen and OneNote"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 30,
+      "answer": "**Surface Pen features**\\n\\n*For more info, see Using Surface Pen (Surface Pro 4 version) on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Surface Pen features"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 31,
+      "answer": "**Save files you’re working on to OneDrive**\\n\\n*To save a file from a desktop app directly to OneDrive, choose OneDrive in the left panel of the Save As screen. Then navigate to the folder where you want to save the file.*  \\n\\n*For more info about OneDrive, see OneDrive on your PC on Windows.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Save files you’re working on to OneDrive"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 32,
+      "answer": "**Pair the pen with your Surface**\\n\\n*If you didn't pair the pen when you set up your Surface, you can pair it now.*  \\n\\n1.  Go to Start , and select Settings > Devices > Bluetooth .\\n2.  Make sure that Bluetooth is On .If Surface Pen appears in the list of discovered devices, select it and select Remove Device .\\n3.  Hold down the top button of the pen for about seven seconds, until the light on the flat side of the pen glows white.\\n4.  When the pen appears in the list of Bluetooth devices, select it and select Pair.",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Pair the pen with your Surface"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 33,
+      "answer": "**Try out features built in to the top button of the pen**\\n\\n*The top button connects you to Windows 10 features on your Surface.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Try out features built in to the top button of the pen"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 34,
+      "answer": "**Click and hold to open Cortana or Search**\\n\\n*When you click and hold the top button, Cortana opens (or Search opens if Cortana is not set up).*  \\n\\n*Enter your question on the screen.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Click and hold to open Cortana or Search"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 35,
+      "answer": "**Click to open a Quick Note**\\n\\n*OneNote is a great way to find, capture, organize, and share information. Click the top button on your pen while your Surface is asleep and you can jot a note or sketch immediately, without unlocking the screen. When you’re using your Surface, click the top button to open OneNote.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Click to open a Quick Note"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 36,
+      "answer": "**Get acquainted with OneNote**\\n\\n*OneNote is a free app that you can use on any of your devices—even Mac, iOS, and Android devices. Your data is stored in the cloud and synced across all your devices.*  \\n\\n*Create as many notebooks as you need. They’re all right there in OneNote. Use sections, pages, and tags to make things easy to find. Find what you need in a flash by searching one notebook or all of them.*  \\n\\n*When you click the top of the pen, OneNote opens to a new Quick Note. You can move that note to any notebook and section you want.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Get acquainted with OneNote"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 37,
+      "answer": "**Double-click to put a screenshot into a Quick Note**\\n\\n*Use your Surface Pen to take a screenshot and copy it to OneNote. Here’s how:*  \\n\\n1.  Display what you want to copy. It can be a webpage, a photo, or anything else you see on your screen.\\n2.  Double-click the top button on your Surface Pen.\\n3.  Select what you want to capture in the screenshot by dragging the tip of the pen from one corner of the portion you want to capture to the opposite corner. When you lift the pen tip, your selection appears in a new page in OneNote.  \\n\\n*Now you can mark up the screenshot with the pen, move it to any of your OneNote notebooks, or share it with others.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Double-click to put a screenshot into a Quick Note"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 38,
+      "answer": "**Share a page**\\n\\n*Select Share in the upper-right corner to share a page in OneNote through email or social media.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Share a page"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 39,
+      "answer": "**Share a notebook**\\n\\n*To get a link to a whole notebook that you can paste into an email or file: Select Menu in the upper-left corner to open the list of notebooks.*  \\n\\n*Right-click the notebook you want to share and select Copy Link to Notebook .*  \\n\\n*What people are able to see depends on the settings for the OneDrive folder containing the notebook. For info on setting permissions, see Share files and folders on Office.com.*  \\n\\n*Learn more about OneNote at http://www.onenote.com/.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Share a notebook"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 40,
+      "answer": "**Connect monitors, accessories, and other devices**\\n\\n*You can connect monitors, accessories, and other devices directly to your Surface Pro 4 using the USB port, Mini DisplayPort, or Bluetooth . Or, connect everything to a Surface Dock (sold separately).*  \\n\\n*With Surface Dock, you can switch between fully connected and fully mobile with a single connector.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Connect monitors, accessories, and other devices"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 41,
+      "answer": "**Set up your workspace with Surface Dock**\\n\\n*Surface Dock supports high-speed transfer of video, audio, and data. Its compact design gives you flexibility and keeps your desktop clutter-free.*  \\n\\n*Here's how to get your workspace set up with Surface Dock:*  \\n\\n1.  Plug the AC end of the Surface Dock power cord into an electrical outlet or power strip, and plug the other end into the power port on Surface Dock.\\n2.  If you want to use a wired network connection, connect a network cable to the Ethernet port on Surface Dock.\\n3.  Connect your computer peripherals to the USB ports on Surface Dock.\\n4.  Connect a cable from your monitor to a Mini DisplayPort on Surface Dock.If your monitor cable doesn’t have a Mini DisplayPort connector, you’ll need to buy another cable or an adapter. For more info on adapters, see Connect Surface to a TV, monitor, or projector on Surface.com.\\n5.  Connect any audio accessories like speakers or headphones.  \\n\\n*Without external speakers, you may not hear audio when you’re using your Surface. If this is the case, see Troubleshoot Surface Dock on Surface.com to learn how to switch to the builtin speakers on your Surface.*  \\n\\n*Now you can connect to your monitors and peripherals with a single connection to the power port on your Surface:*  \\n\\n1.  Unplug the Surface power supply and remove any attached accessories from your Surface.You can leave a microSD card in the microSD card slot.  \\n2.  Connect Surface Dock to the charging port of your Surface, using the cable provided.  \\n\\n*For more info, see Using Surface Dock on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Set up your workspace with Surface Dock"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 42,
+      "answer": "**Connect or project to a monitor, screen, or other display**\\n\\n*If you don't have a Surface Dock, or when you're away from your desk, you can connect your Surface to a TV, monitor, or projector. Or, connect to an HDTV and watch movies on a big screen.*  \\n\\n*There are a number of ways to connect:*  \\n\\n*   HDTV . If your TV has an HDMI port, you’ll need an HDMI cable and a Mini DisplayPort to HD AV adapter or an HDMI to Mini DisplayPort cable. (Both are sold separately on Surface.com.)\\n*   Projector or monitor . If your monitor has a DisplayPort, you can connect it to your Surface using a DisplayPort to Mini DisplayPort cable (sold separately). If your monitor doesn’t have a DisplayPort or HDMI port, use a VGA cable and the Mini DisplayPort to VGA Adapter.Note: A VGA adapter or cable is for video only. Audio will play from your Surface speakers unless you’ve connected external speakers. For more info about this, see Surface sound,volume, and audio accessories on Surface.com.  \\n*   Wireless . You can connect to wireless displays when Windows detects one nearby. Or, use a Microsoft Wireless Display Adapter (sold separately) to connect to a screen using Miracast.  \\n\\n*Here's how to connect to a wireless display:*  \\n\\n1.  On your Surface, swipe in from the right edge of the screen or select Action center in the taskbar.\\n2.  Select Connect, and in the list of displays, select the name of the wireless display.  \\n\\n*For more info, see Connect Surface to a TV, monitor, or projector on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Connect or project to a monitor, screen, or other display"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 43,
+      "answer": "**Cameras and the Camera app**\\n\\n*By default, the built-in Camera app is ready to take photos, but you can switch easily between photo and video mode. To take a photo or record a video:*  \\n\\n1.  Go to Start , and select Camera .\\n2.  Select the on-screen Camera or Video button to activate the camera you want to use and select the button again to take a picture or start recording video.  \\n\\n*A small privacy light appears near the active camera when you’re using it. The privacy light can’t be turned off.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Cameras and the Camera app"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 44,
+      "answer": "**View photos and videos**\\n\\n*By default, your photos and videos are saved to the Camera roll on your Surface. You can choose to save your pictures to OneDrive so you can access them from any web-connected device. For*  \\n\\n*more info, see Using OneDrive on Surface.*  \\n\\n*There are several ways to look through your photos and videos:*  \\n\\n*   Camera app: Select Photos in the upper-left corner to open the Photos app and view the most recent picture or video taken. Swipe right to see others in your collection.\\n*   Photos app: Select View collection in the upper-left corner to see other photos and videos in your collection.\\n*   File Explorer or OneDrive app: Go to your Pictures library and open your Camera roll.  \\n\\n*For more info, including info on changing where photos are saved and editing photos and videos,*  \\n\\n*see Take photos and videos with Surface on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "View photos and videos"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 45,
+      "answer": "**OneNote**\\n\\n*You can use the OneNote app on your Surface to take notes and store them in the cloud. With OneNote, you’ll have your notes whenever you need them—on your computer, phone, or the web. If you have the Bluetooth -enabled Surface Pen, you can open OneNote with a click of the pen’s top button. For more info,*  \\n\\n*see www.onenote.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "OneNote - Apps on your Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 46,
+      "answer": "**Mail**\\n\\n*Mail automatically organizes your inbox. You can add multiple accounts and access them through this single point. You can also flag, archive, or delete messages by swiping to the left or right, or mark messages as read or unread.*  \\n\\n*See Set up and use email to get started.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Mail - Apps on your Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 47,
+      "answer": "**Calendar**\\n\\n*Use Calendar to manage your busy schedule. Use the What's next view to see what’s on the schedule or look at entire days, weeks, workweeks, or months.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Calendar - Apps on your Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 48,
+      "answer": "**People**\\n\\n*The People app brings all your contacts together in a single space. See each contact’s email address, phone number, website, and other information at a glance.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "People - Apps on your Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 49,
+      "answer": "**Microsoft Edge**\\n\\n*Microsoft Edge gives you fast and fluid access to the Internet. Open pages in Reading View, save them to your reading list, or take notes right on the page using inking. Check out Get to know Microsoft Edge on Windows.com for details.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Microsoft Edge - Apps on your Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 50,
+      "answer": "**Groove Music**\\n\\n*Groove Music lets you access your music collection and more from your Surface.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Groove Music - Apps on your Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 51,
+      "answer": "**Camera**\\n\\n*The Camera app lets you take regular photos, photo bursts, or video using either the front or back camera on your Surface. See Take photos and videos with Surface on Surface.com for how-to info.*  \\n\\n**Photos**  \\n\\n*Edit and organize your photos using the Photos app. Crop, enhance, and add effects to your images and set them to be the lock screen background.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Camera - Apps on your Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 52,
+      "answer": "**Movies & TV**\\n\\n*Movies & TV brings you the latest movies and TV shows as well as featured hits.*  \\n\\n*It offers recommendations based on what you’ve watched, making it easier to find something new that you’ll like. Check out Watch TV shows, movies, and videos on Surface.com to get started.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Movies & TV"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 53,
+      "answer": "**News**\\n\\n*News brings you the latest breaking stories as well as more in-depth coverage.*  \\n\\n*You can customize the coverage to add more local information or highlight the topics you choose.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "News - Apps on your Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 54,
+      "answer": "**Weather**\\n\\n*The Weather app offers hourly, daily, and 10-day forecasts as well as historical information and annual weather trends. You can also add locations, so you can see not only the information for where you are but for where you might be heading.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Weather - Apps on your Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 55,
+      "answer": "**Money**\\n\\n*Money not only covers the fast-moving market conditions but lets you track your portfolio, browse financial news articles, and access tools and calculators for common financial tasks.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Money - Apps on your Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 56,
+      "answer": "**Sports**\\n\\n*Sports brings you scoreboards, schedules, videos, slide shows, and news headlines and stories to help you keep up to date with the world of sports and your favorite teams.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Sports - Apps on your Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 57,
+      "answer": "**Maps**\\n\\n*Maps lets you see your current location, zoom in for greater detail, zoom out for a bigger picture, scroll or search for new locations, get directions, and more.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Maps - Apps on your Surface Pro 4"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 58,
+      "answer": "**The Surface app**\\n\\n*The Surface app is pre-installed on your Surface Pro 4. Select the buttons on the left side of the app to:*  \\n\\n*Adjust pen sensitivity.*  \\n\\n*Optimize audio.*  \\n\\n*Get quick access to online help for your Surface.*  \\n\\n*View information about your Surface, like the serial number and computer name.*  \\n\\n*For info, see Install and use the Surface app on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "The Surface app"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 59,
+      "answer": "**Personalization and settings**\\n\\n*Settings control nearly everything about how your Surface looks and works. By adjusting settings, you can customize your Surface to work the way you want. Here are a few different ways to find and change your settings.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Personalization and settings"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 60,
+      "answer": "**Get more apps**\\n\\n*Ready to get even more apps? You can install more apps and programs from the Windows Store, websites, or a CD or DVD. To learn more, see Install and uninstall apps on Surface on Surface.com.*  \\n\\n*For more info about the Windows Store, see Explore the Store on Windows.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Get more apps"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 61,
+      "answer": "**Windows Settings**\\n\\n*Windows 10 has a simpler, streamlined approach screen for adjusting your settings.*  \\n\\n1.  Go to Start , and selectSettings .\\n2.  Select the type of settings you want to change or view.  \\n\\n*You can enter the setting you want to change in the Find a setting box and choose a setting from the list.*  \\n\\n*For more info, see A new look for settings on Windows.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Windows Settings - Personalization and settings"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 62,
+      "answer": "**Action center**\\n\\n*You can change common settings, like Airplane mode and Wi‑Fi, on the fly from the Action center in the taskbar. For more info, see Take action instantly on Windows.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Action center - Personalization and settings"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 63,
+      "answer": "**Accessibility**\\n\\n*Ease of Access features let you use your Surface the way you want. To see what features are available:*  \\n\\n** Go to Start , and select Settings > Ease of Access .**  \\n\\n*For more info about Ease of Access features, see Make your PC easier to use on Windows.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Accessibility - User Guide"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 64,
+      "answer": "**Cortana**\\n\\n1.  Open Cortana by selecting the search box in the taskbar.\\n2.  Ask your question and select an answer under Settings .  \\n\\n*For more info, see What is Cortana?*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Cortana - Personalization and settings"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 65,
+      "answer": "**Surface app**\\n\\n*Open the Surface app to adjust settings for the Surface Pen, OneNote, and more.*  \\n\\n*For info, see Install and use the Surface app on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Surface app - Personalization and settings"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 66,
+      "answer": "**More help**\\n\\n*For more information on how to use your Surface Pro 4, use the Surface app that's pre-installed on your new Surface or visit Surface Support on Surface.com. The Surface app connects you directly to Surface help topics on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "More help - User Guide"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 67,
+      "answer": "**Register your Surface**\\n\\n*If you haven’t already registered your Surface Pro 4 and other Surface products, you can do so at microsoft.com/surface/support/register. You’ll need your Microsoft account (the email address and password that you use to sign in to your Surface and to download apps from the Windows Store), and the serial number of your Surface Pro 4, Cover, or other Surface products.*  \\n\\n*For more info, see Find the serial number on Surface on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Register your Surface"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 68,
+      "answer": "**Repair**\\n\\n*Before sending your Surface in for service, you can check out the Surface troubleshooting articles on Surface.com. If you can’t solve the problem with troubleshooting, contact us through Surface.com.*  \\n\\n*If you continue to have a problem with your Surface, you can open a service request and send your product in for service.*  \\n\\n*Before you send your Surface in for service, see How to prepare your Surface for service. Then go to Send my Surface in for service on Surface.com, sign in with your Microsoft account, and follow the on-screen instructions.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Repair - Registration, repair, and warranty"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 69,
+      "answer": "**Warranty**\\n\\n*For warranty info, see Surface warranty and Surface warranty documents on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Warranty - Registration, repair, and warranty"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 70,
+      "answer": "**Safety and regulatory information**\\n\\n*See Safety and regulatory information on Surface.com.*",
+      "source": "ActiveLearningSampleFAQ.tsv",
+      "questions": [
+        "Safety and regulatory information"
+      ],
+      "metadata": []
+    }
+  ]
+}
