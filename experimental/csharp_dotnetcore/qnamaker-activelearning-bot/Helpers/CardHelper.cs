@@ -8,21 +8,15 @@ namespace QnAMakerActiveLearningBot.Helpers
 {
     public class CardHelper
     {
-        private const string DefaultNoMatchText = "None of the above.";
-        private const string DefaultTitle = "Did you mean:";
-
         /// <summary>
         /// Get Hero card
         /// </summary>
-        /// <param name="title">Title of the cards</param>
-        /// <param name="noMatchText">No match text</param>
         /// <param name="suggestionsList">List of suggested questions</param>
+        /// <param name="cardTitle">Title of the cards</param>
+        /// <param name="cardNoMatchText">No match text</param>
         /// <returns></returns>
-        public static IMessageActivity GetHeroCard(List<string> suggestionsList, string title = "", string noMatchText = "")
+        public static IMessageActivity GetHeroCard(List<string> suggestionsList, string cardTitle = "Did you mean:", string cardNoMatchText = "None of the above.")
         {
-            var cardTitle = string.IsNullOrEmpty(title) ? DefaultTitle : title;
-            var cardNoMatchText = string.IsNullOrEmpty(noMatchText) ? DefaultNoMatchText : noMatchText;
-
             var chatActivity = Activity.CreateMessageActivity();
             var buttonList = new List<CardAction>();
 
