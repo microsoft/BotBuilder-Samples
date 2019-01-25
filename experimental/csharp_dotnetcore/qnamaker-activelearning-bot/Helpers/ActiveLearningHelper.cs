@@ -92,7 +92,6 @@ namespace QnAMakerActiveLearningBot.Helpers
 
         /// <summary>
         /// Method to call QnAMaker Train API for Active Learning
-        /// TODO: Move it to the SDK code
         /// </summary>
         /// <param name="host">Endpoint host of the runtime</param>
         /// <param name="FeedbackRecords">Feedback records train API</param>

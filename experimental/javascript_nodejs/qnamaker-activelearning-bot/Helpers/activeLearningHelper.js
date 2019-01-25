@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 const https = require('https');
 
 // Minimum Score For Low Score Variation
@@ -61,7 +64,6 @@ class ActiveLearningHelper{
 
     /**
      * Method to call QnAMaker Train API for Active Learning
-     * TODO: Move it to the SDK code
      * @param {string} host Endpoint host of the runtime
      * @param {FeedbackRecords[]} feedbackRecords Body of the train API
      * @param {string} kbId Knowledgebase Id

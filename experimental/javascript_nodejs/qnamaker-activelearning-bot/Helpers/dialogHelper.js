@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 const { CardFactory } = require('botbuilder');
 const { DialogTurnStatus, WaterfallDialog, WaterfallStepContext } = require('botbuilder-dialogs');
 const { QnAMaker } = require('botbuilder-ai');

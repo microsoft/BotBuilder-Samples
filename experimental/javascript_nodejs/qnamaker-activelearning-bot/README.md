@@ -14,9 +14,9 @@ This samples requires prerequisites in order to run.
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to `experimental/javascript_nodejs/qnamaker-activelearning-botsamples`
+- In a terminal, navigate to `experimental/javascript_nodejs/qnamaker-activelearning-bot`
     ```bash
-    cd experimental/javascript_nodejs/qnamaker-activelearning-botsamples
+    cd experimental/javascript_nodejs/qnamaker-activelearning-bot
     ```
 - Install modules
     ```bash
@@ -50,7 +50,7 @@ This samples requires prerequisites in order to run.
 ## Connect to the bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration
-- Navigate to `experimental/javascript_nodejs/qnamaker-activelearning-botsamples` folder
+- Navigate to `experimental/javascript_nodejs/qnamaker-activelearning-bot` folder
 - Select `qnamaker.bot` file
 
 # QnA Maker service
