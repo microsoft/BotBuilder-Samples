@@ -76,6 +76,7 @@ See [here](./deploymentScripts/DEPLOY.md) to learn more about deploying this bot
 - [Restify][30]
 - [dotenv][31]
 
+[1]: https://dev.botframework.com
 [7]: https://docs.microsoft.com/cli/azure/?view=azure-cli-latest
 [8]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
 [9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
@@ -92,4 +93,5 @@ See [here](./deploymentScripts/DEPLOY.md) to learn more about deploying this bot
 [30]: https://www.npmjs.com/package/restify
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
+[41]: ./PREREQUISITES.md
 
