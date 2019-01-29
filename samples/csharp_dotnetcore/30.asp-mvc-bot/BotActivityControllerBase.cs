@@ -116,7 +116,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Override this method to add custom processing for each added member. For example a Welcome message.
+        /// Override this method to add custom processing for each member removed. For example a good-bye message.
         /// </summary>
         /// <param name="member">A <see cref="ChannelAccount"/> corresponding to the added member.</param>
         /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
@@ -130,7 +130,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Override this method to add custom processing for any other type of Activity not covered in this sample.
+        /// Override this method to add custom processing for Event Activity not covered in this sample.
         /// </summary>
         /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
@@ -143,7 +143,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Override this method to add custom processing for any other type of Activity not covered in this sample.
+        /// Override this method to add custom processing for DeleteUserData Activity not covered in this sample.
         /// </summary>
         /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
@@ -156,7 +156,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         /// <summary>
-        /// Override this method to add custom processing for any other type of Activity not covered in this sample.
+        /// Override this method to add custom processing for ContactRelationUpdate Activity not covered in this sample.
         /// </summary>
         /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn. </param>
