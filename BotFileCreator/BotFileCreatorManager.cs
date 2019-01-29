@@ -3,21 +3,14 @@
     using System;
     using System.IO;
     using System.Linq;
-    using BotFileCreator.BotFileWriter;
 
     public class BotFileCreatorManager
     {
-        private readonly string botFileName;
+        private BotFileNameManager botFileNameManager;
 
-        private readonly string projectDirectoryPath;
-
-        private readonly string projectName;
-
-        public BotFileCreatorManager(string botFileName, string projectName)
+        public BotFileCreatorManager(BotFileNameManager botFileNameManager)
         {
-            this.botFileName = botFileName;
-            this.projectName = projectName;
-            projectDirectoryPath = GetProjectDirectoryPath();
+            this.botFileNameManager = botFileNameManager;
         }
 
         /// <summary>
@@ -34,22 +27,20 @@
                 return botFileIsValid;
             }
 
-            // Bot's name, with the '.bot' extension
-            string botFileFullName = this.GetBotFileName();
-
             // bot file's full pathName
-            string fullName = Path.Combine(projectDirectoryPath, botFileFullName);
+            string fullName = Path.Combine(botFileNameManager.ProjectDirectoryPath, botFileNameManager.BotFileNameWithExtension);
 
             // If the file does not exist, will create it and add to the .csproj file
             if (!File.Exists(fullName))
             {
-                WriteBotFileContent(fullName);
-                AddFileToProject(this.projectName, fullName);
+                // WriteBotFileContent(fullName);
+                Test_WritingBotFileCMD(botFileNameManager.ProjectDirectoryPath, botFileNameManager.BotFileName);
+                AddFileToProject(botFileNameManager.ProjectName, fullName);
             }
             else
             {
                 // Returns an error if the bot file allready exists.
-                return new Tuple<bool, string>(false, $"The bot file {botFileFullName} allready exists.");
+                return new Tuple<bool, string>(false, $"The bot file {botFileNameManager.BotFileNameWithExtension} allready exists.");
             }
 
             return new Tuple<bool, string>(true, string.Empty);
@@ -62,37 +53,19 @@
         private Tuple<bool, string> BotFileConfigurationIsValid()
         {
             // If the .bot file name is Null or WhiteSpace, returns an error.
-            if (string.IsNullOrWhiteSpace(this.botFileName))
+            if (string.IsNullOrWhiteSpace(botFileNameManager.BotFileName))
             {
                 return new Tuple<bool, string>(false, "Bot file name can't be null.");
             }
 
             // If the .bot file name contains any whitespace, the method will return an error.
-            if (this.botFileName.Contains(" "))
+            if (botFileNameManager.BotFileName.Contains(" "))
             {
                 return new Tuple<bool, string>(false, "Bot file name can't have whitespaces.");
             }
 
             // A tuple with True and Empty string will be returned if there are no errors.
             return new Tuple<bool, string>(true, string.Empty);
-        }
-
-        /// <summary>
-        /// Add the '.bot' extension to the bot file's name if it doesn't have it.
-        /// </summary>
-        /// <returns>Bot File name</returns>
-        private string GetBotFileName()
-        {
-            return this.botFileName.EndsWith(".bot") ? this.botFileName : string.Concat(this.botFileName, ".bot");
-        }
-
-        /// <summary>
-        /// Returns the Working Project Directory
-        /// </summary>
-        /// <returns>Project Directory</returns>
-        private string GetProjectDirectoryPath()
-        {
-            return this.projectName.Substring(0, this.projectName.LastIndexOf('\\'));
         }
 
         /// <summary>
@@ -116,22 +89,15 @@
             }
         }
 
-        /// <summary>
-        /// Writes the content of the bot file.
-        /// </summary>
-        /// <param name="filePath">Bot file's path</param>
-        private void WriteBotFileContent(string filePath)
+        private void Test_WritingBotFileCMD(string path, string botName)
         {
-            // Creates a botFile object for writing its content to the just recently created file
-            BotFile botFile = new BotFile();
-            botFile.Name = this.botFileName;
-            botFile.Version = "1.0";
-            botFile.Description = string.Empty;
-            botFile.Padlock = string.Empty;
-            botFile.Services = Enumerable.Empty<BotService>().ToList();
-
-            // Writes the content of the botFile
-            BotFileWriterManager.WriteBotFile(botFile, filePath);
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = $"/C cd {path} & msbot init --name {botName} --quiet";
+            process.StartInfo = startInfo;
+            process.Start();
         }
     }
 }

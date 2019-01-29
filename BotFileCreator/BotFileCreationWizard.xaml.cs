@@ -12,35 +12,38 @@ namespace BotFileCreator
     /// </summary>
     public partial class BotFileCreationWizard : BaseDialogWindow
     {
+        private string botFileName;
+        private string botFileFullPath;
+
         public BotFileCreationWizard()
         {
             InitializeComponent();
+            this.botFileFullPath = GeneralSettings.Default.ProjectName;
         }
 
         /// <summary>
         /// When the BotFileName textbox changes, its value is stored in the GeneralSettings file to use it later.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event</param>
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;
-            GeneralSettings.Default.BotFileName = textBox.Text ?? string.Empty;
+            this.botFileName = textBox.Text ?? string.Empty;
         }
 
         /// <summary>
         /// When the Create button is clicked, it will execute a process to create a .bot file in the project where the VS Extension is being executed.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event</param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                string botFileName = GeneralSettings.Default.BotFileName;
-                string botFileFullPath = GeneralSettings.Default.ProjectName;
+                BotFileNameManager botFileNameManager = new BotFileNameManager(this.botFileName, this.botFileFullPath);
 
-                BotFileCreatorManager fileCreator = new BotFileCreatorManager(botFileName, botFileFullPath);
+                BotFileCreatorManager fileCreator = new BotFileCreatorManager(botFileNameManager);
 
                 Tuple<bool, string> fileCreatorResult = fileCreator.CreateBotFile();
 
