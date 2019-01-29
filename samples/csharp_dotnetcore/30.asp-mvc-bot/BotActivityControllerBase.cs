@@ -32,9 +32,17 @@ namespace Microsoft.BotBuilderSamples
             {
                 return OnConversationUpdateActivityAsync(turnContext, cancellationToken);
             }
-            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            else if (turnContext.Activity.Type == ActivityTypes.Event)
             {
-                return OnConversationUpdateActivityAsync(turnContext, cancellationToken);
+                return OnEventActivityAsync(turnContext, cancellationToken);
+            }
+            else if (turnContext.Activity.Type == ActivityTypes.DeleteUserData)
+            {
+                return OnDeleteUserDataActivityAsync(turnContext, cancellationToken);
+            }
+            else if (turnContext.Activity.Type == ActivityTypes.ContactRelationUpdate)
+            {
+                return OnContactRelationUpdateActivityAsync(turnContext, cancellationToken);
             }
             else
             {
@@ -75,6 +83,21 @@ namespace Microsoft.BotBuilderSamples
                         await OnMemberAddedAsync(member, turnContext, cancellationToken);
                     }
                 }
+
+                return;
+            }
+
+            if (turnContext.Activity.MembersRemoved != null)
+            {
+                foreach (var member in turnContext.Activity.MembersRemoved)
+                {
+                    if (member.Id != turnContext.Activity.Recipient.Id)
+                    {
+                        await OnMemberRemovedAsync(member, turnContext, cancellationToken);
+                    }
+                }
+
+                return;
             }
         }
 
@@ -88,6 +111,59 @@ namespace Microsoft.BotBuilderSamples
         /// or threads to receive notice of cancellation.</param>
         /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
         protected virtual Task OnMemberAddedAsync(ChannelAccount member, ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Override this method to add custom processing for each added member. For example a Welcome message.
+        /// </summary>
+        /// <param name="member">A <see cref="ChannelAccount"/> corresponding to the added member.</param>
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        protected virtual Task OnMemberRemovedAsync(ChannelAccount member, ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Override this method to add custom processing for any other type of Activity not covered in this sample.
+        /// </summary>
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        protected virtual Task OnEventActivityAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Override this method to add custom processing for any other type of Activity not covered in this sample.
+        /// </summary>
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        protected virtual Task OnDeleteUserDataActivityAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Override this method to add custom processing for any other type of Activity not covered in this sample.
+        /// </summary>
+        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
+        /// for processing this conversation turn. </param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        protected virtual Task OnContactRelationUpdateActivityAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }
