@@ -124,8 +124,8 @@ namespace BotFileCreator
             var botFileCreatorWizard = new BotFileCreationWizard();
             botFileCreatorWizard.ShowDialog();
 
-            // selectedProject.DTE.ExecuteCommand("Project.UnloadProject");
-            // selectedProject.DTE.ExecuteCommand("Project.ReloadProject");
+            selectedProject.DTE.ExecuteCommand("Project.UnloadProject");
+            selectedProject.DTE.ExecuteCommand("Project.ReloadProject");
         }
     }
 }
