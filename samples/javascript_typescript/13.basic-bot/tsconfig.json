@@ -5,7 +5,6 @@
     "target": "es2016",
     "module": "commonjs",
     "outDir": "./lib",
-    "rootDir": "./src",
     "resolveJsonModule": true,
     "rootDirs": ["./src", "./resources"],
     "sourceMap": true
