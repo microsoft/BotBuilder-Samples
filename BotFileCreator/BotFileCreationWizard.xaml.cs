@@ -42,8 +42,9 @@ namespace BotFileCreator
             try
             {
                 BotFileNameManager botFileNameManager = new BotFileNameManager(this.botFileName, this.botFileFullPath);
+                MSBotCommandManager commandManager = CreateMSBotCommandManager(botFileNameManager);
 
-                BotFileCreatorManager fileCreator = new BotFileCreatorManager(botFileNameManager);
+                BotFileCreatorManager fileCreator = new BotFileCreatorManager(botFileNameManager, commandManager);
 
                 Tuple<bool, string> fileCreatorResult = fileCreator.CreateBotFile();
 
@@ -64,6 +65,21 @@ namespace BotFileCreator
                 // If there is an exception, it will be prompted.
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        /// <summary>
+        /// Returns a MSBotCommandManager which contains the command to execute for creating the .bot file
+        /// </summary>
+        /// <param name="botFileNameManager">File Name Manager</param>
+        /// <returns>MSBotCommandManager</returns>
+        private MSBotCommandManager CreateMSBotCommandManager(BotFileNameManager botFileNameManager)
+        {
+            MSBotCommandInit init = new MSBotCommandInit(botFileNameManager.ProjectDirectoryPath, botFileNameManager.BotFileName);
+
+            // Does not prompt any message after executing `msbot init` command
+            MSBotCommandQuiet quiet = new MSBotCommandQuiet(init);
+
+            return quiet;
         }
     }
 }

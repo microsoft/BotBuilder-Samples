@@ -7,10 +7,12 @@
     public class BotFileCreatorManager
     {
         private BotFileNameManager botFileNameManager;
+        private MSBotCommandManager commandManager;
 
-        public BotFileCreatorManager(BotFileNameManager botFileNameManager)
+        public BotFileCreatorManager(BotFileNameManager botFileNameManager, MSBotCommandManager commandManager)
         {
             this.botFileNameManager = botFileNameManager;
+            this.commandManager = commandManager;
         }
 
         /// <summary>
@@ -33,8 +35,7 @@
             // If the file does not exist, will create it and add to the .csproj file
             if (!File.Exists(fullName))
             {
-                // WriteBotFileContent(fullName);
-                Test_WritingBotFileCMD(botFileNameManager.ProjectDirectoryPath, botFileNameManager.BotFileName);
+                CreateBotFileFromCMD();
                 AddFileToProject(botFileNameManager.ProjectName, fullName);
             }
             else
@@ -78,24 +79,30 @@
             // Load a specific project. Also, avoids several problems for re-loading the same project more than once
             var project = Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection.LoadedProjects.FirstOrDefault(pr => pr.FullPath == projectName);
 
-            // Reevaluates the project to add any change
-            project.ReevaluateIfNecessary();
-
-            // Checks if the project has a file with the same name. If it doesn't, it will be added to the project
-            if (project.Items.FirstOrDefault(item => item.EvaluatedInclude == fileName) == null)
+            if (project != null)
             {
-                project.AddItem("Compile", fileName);
-                project.Save();
+                // Reevaluates the project to add any change
+                project.ReevaluateIfNecessary();
+
+                // Checks if the project has a file with the same name. If it doesn't, it will be added to the project
+                if (project.Items.FirstOrDefault(item => item.EvaluatedInclude == fileName) == null)
+                {
+                    project.AddItem("Compile", fileName);
+                    project.Save();
+                }
             }
         }
 
-        private void Test_WritingBotFileCMD(string path, string botName)
+        /// <summary>
+        /// Creates a .bot file using the command line
+        /// </summary>
+        private void CreateBotFileFromCMD()
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = $"/C cd {path} & msbot init --name {botName} --quiet";
+            startInfo.Arguments = this.commandManager.GetMSBotCommand();
             process.StartInfo = startInfo;
             process.Start();
         }
