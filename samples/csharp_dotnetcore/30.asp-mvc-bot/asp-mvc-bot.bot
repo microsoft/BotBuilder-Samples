@@ -1,32 +1,48 @@
 {
     "name": "asp-mvc-bot",
     "description": "",
-    "services": [
-      {
-        "type": "endpoint",
-        "name": "bot1 development",
-        "endpoint": "http://localhost:3978/bot1",
-        "appId": "",
-        "appPassword": "",
-        "id": "1"
-      },
-      {
-        "type": "endpoint",
-        "name": "bot2 development",
-        "endpoint": "http://localhost:3978/bot2",
-        "appId": "",
-        "appPassword": "",
-        "id": "2"
-      },
-      {
-        "type": "endpoint",
-        "name": "bot3 development",
-        "endpoint": "http://localhost:3978/bot3",
-        "appId": "",
-        "appPassword": "",
-        "id": "3"
-      }
-    ],
+  "services": [
+    {
+      "type": "endpoint",
+      "name": "bot1 development",
+      "endpoint": "http://localhost:3978/bot1",
+      "appId": "",
+      "appPassword": "",
+      "id": "1"
+    },
+    {
+      "type": "endpoint",
+      "name": "bot2 development",
+      "endpoint": "http://localhost:3978/bot2",
+      "appId": "",
+      "appPassword": "",
+      "id": "2"
+    },
+    {
+      "type": "endpoint",
+      "name": "bot3 development",
+      "endpoint": "http://localhost:3978/bot3",
+      "appId": "",
+      "appPassword": "",
+      "id": "3"
+    },
+    {
+      "type": "endpoint",
+      "name": "bot4 development",
+      "endpoint": "http://localhost:3978/bot4",
+      "appId": "",
+      "appPassword": "",
+      "id": "4"
+    },
+    {
+      "type": "endpoint",
+      "name": "bot5 development",
+      "endpoint": "http://localhost:3978/bot5",
+      "appId": "",
+      "appPassword": "",
+      "id": "5"
+    }
+  ],
     "padlock": "",
     "version": "2.0"
 }

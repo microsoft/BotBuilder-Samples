@@ -2,9 +2,13 @@
 // Licensed under the MIT License.
 
 using System;
+using Asp_Mvc_Bot;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -44,6 +48,12 @@ namespace Microsoft.BotBuilderSamples
             }
 
             services.AddSingleton(sp => botConfig);
+
+            // DI example used by Bot5Controller - many permutations are possible
+            // for example you might want many different bots
+            // and you might also choose to make these singleton
+            services.AddTransient<IAdapterIntegration>(sp => new BotFrameworkAdapter(new SimpleCredentialProvider()));
+            services.AddTransient<IIntegrationBot>(sp => new MyBot(sp.GetService<IAdapterIntegration>()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
