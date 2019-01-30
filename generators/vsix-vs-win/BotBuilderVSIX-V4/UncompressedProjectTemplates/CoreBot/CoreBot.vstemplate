@@ -59,7 +59,7 @@
 
       <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Bot.cs">CoreBot.cs</ProjectItem>
       
-      <ProjectItem ReplaceParameters="true">corebot.bot</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.bot">corebot.bot</ProjectItem>
       
       <ProjectItem ReplaceParameters="true">BotServices.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true">PREREQUISITES.md</ProjectItem>

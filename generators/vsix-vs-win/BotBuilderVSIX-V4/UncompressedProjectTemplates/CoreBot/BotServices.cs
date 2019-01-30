@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Configuration;
 
-namespace Microsoft.BotBuilderSamples
+namespace $safeprojectname$
 {
     /// <summary>
     /// Represents references to external services.

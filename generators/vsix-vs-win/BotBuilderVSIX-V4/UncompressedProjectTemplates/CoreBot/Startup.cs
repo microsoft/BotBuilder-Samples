@@ -15,7 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.BotBuilderSamples
+namespace $safeprojectname$
 {
     /// <summary>
     /// The Startup class configures services and the app's request pipeline.
@@ -131,13 +131,13 @@ namespace Microsoft.BotBuilderSamples
             var userState = new UserState(dataStore);
             services.AddSingleton(userState);
 
-            services.AddBot<CoreBot>(options =>
+            services.AddBot<$safeprojectname$Bot > (options =>
             {
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Catches any errors that occur during a conversation turn and logs them to currently
                 // configured ILogger.
-                ILogger logger = _loggerFactory.CreateLogger<CoreBot>();
+                ILogger logger = _loggerFactory.CreateLogger<$safeprojectname$Bot>();
 
                 options.OnTurnError = async (context, exception) =>
                 {

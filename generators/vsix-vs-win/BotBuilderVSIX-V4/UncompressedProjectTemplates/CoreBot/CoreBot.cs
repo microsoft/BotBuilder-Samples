@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-// Generated with `dotnet new corebot` vX.X.X
 
 using System;
 using System.Collections.Generic;
@@ -14,12 +13,12 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Microsoft.BotBuilderSamples
+namespace $safeprojectname$
 {
     /// <summary>
     /// Main entry point and orchestration for bot.
     /// </summary>
-    public class CoreBot : IBot
+    public class $safeprojectname$Bot : IBot
     {
         // Supported LUIS Intents
         public const string GreetingIntent = "Greeting";
@@ -44,7 +43,7 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="botServices">Bot services.</param>
         /// <param name="accessors">Bot State Accessors.</param>
         /// </summary>
-        public CoreBot(BotServices services, UserState userState, ConversationState conversationState, ILoggerFactory loggerFactory)
+        public $safeprojectname$Bot(BotServices services, UserState userState, ConversationState conversationState, ILoggerFactory loggerFactory)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
