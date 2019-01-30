@@ -31,7 +31,7 @@ namespace Microsoft.BotBuilderSamples
                         {
                             // Create a QnA Maker that is initialized and suitable for passing
                             // into the IBot-derived class (QnABot).
-                            var qna = (QnAMakerService)service;
+                            var qna = service as QnAMakerService;
                             if (qna == null)
                             {
                                 throw new InvalidOperationException("The QnA service is not configured correctly in your '.bot' file.");
