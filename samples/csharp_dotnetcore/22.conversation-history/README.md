@@ -14,13 +14,13 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 ## Visual Studio
 - Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/22.conversation-history`) and open ConversationHistory.csproj in Visual Studio.
-- Set the BLOB store connection-string in conversation-history.bot
+- Set the BLOB store connection-string in conversation-history.bot. Also you need to update the `StorageConfigurationId` from [Startup.cs](Startup.cs) with the Blob service name.
 - Run the project (press `F5` key)
 
 ## .NET Core CLI
 - Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
 - Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/22.conversation-history` folder.
-- Set the BLOB store connection-string in conversation-history.bot
+- Set the BLOB store connection-string in conversation-history.bot. Also you need to update the `StorageConfigurationId` from [Startup.cs](Startup.cs) with the Blob service name.
 - Type `dotnet run`.
 
 ## Testing the bot using Bot Framework Emulator
