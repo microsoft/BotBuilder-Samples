@@ -76,8 +76,11 @@ namespace Microsoft.BotBuilderSamples
         {
             if (turnContext.Activity.MembersAdded != null)
             {
+                // an alternative design might just pass the collection on down rather than iterate here
                 foreach (var member in turnContext.Activity.MembersAdded)
                 {
+                    // this can depend on the channel but some channels will create two conversation updates
+                    // when teh conversation starts - one for the user and one for the bot
                     if (member.Id != turnContext.Activity.Recipient.Id)
                     {
                         await OnMemberAddedAsync(member, turnContext, cancellationToken);
@@ -89,8 +92,10 @@ namespace Microsoft.BotBuilderSamples
 
             if (turnContext.Activity.MembersRemoved != null)
             {
+                // an alternative design might just pass the collection on down rather than iterate here
                 foreach (var member in turnContext.Activity.MembersRemoved)
                 {
+                    // TODO: verify whether this check is meaningful for remove
                     if (member.Id != turnContext.Activity.Recipient.Id)
                     {
                         await OnMemberRemovedAsync(member, turnContext, cancellationToken);
@@ -165,6 +170,7 @@ namespace Microsoft.BotBuilderSamples
         /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
         protected virtual Task OnContactRelationUpdateActivityAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
+            // TODO: some documentation as to when this Activity can be sent would be helpful
             return Task.CompletedTask;
         }
 
