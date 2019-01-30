@@ -18,6 +18,7 @@ namespace BotFileCreator
         public BotFileCreationWizard()
         {
             InitializeComponent();
+            this.botFileName = string.Empty;
             this.botFileFullPath = GeneralSettings.Default.ProjectName;
         }
 
@@ -44,8 +45,20 @@ namespace BotFileCreator
                 BotFileNameManager botFileNameManager = new BotFileNameManager(this.botFileName, this.botFileFullPath);
                 MSBotCommandManager commandManager = CreateMSBotCommandManager(botFileNameManager);
 
+                // Checks if the bot configuration is valid
+                Tuple<bool, string> configIsValid = BotFileConfigurationIsValid(botFileNameManager);
+
+                // If the bot's configuration is not valid, it will show an error
+                if (!configIsValid.Item1)
+                {
+                    MessageBox.Show(configIsValid.Item2, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Class that will create the .bot file
                 BotFileCreatorManager fileCreator = new BotFileCreatorManager(botFileNameManager, commandManager);
 
+                // Creates the .bot file
                 Tuple<bool, string> fileCreatorResult = fileCreator.CreateBotFile();
 
                 // If the fileCreator returns a tuple with a FALSE value, will show the error message (Item2) in the Wizard.
@@ -70,6 +83,29 @@ namespace BotFileCreator
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        /// <summary>
+        /// Returns a tuple with a bool which specifies if the bot file configuration is valid, and a string with the error message (empty string if there isn't any error).
+        /// </summary>
+        /// <param name="botFileNameManager">.</param>
+        /// <returns>Tuple</returns>
+        private Tuple<bool, string> BotFileConfigurationIsValid(BotFileNameManager botFileNameManager)
+        {
+            // If the .bot file name is Null or WhiteSpace, returns an error.
+            if (string.IsNullOrWhiteSpace(botFileNameManager.BotFileName))
+            {
+                return new Tuple<bool, string>(false, "Bot file name can't be null.");
+            }
+
+            // If the .bot file name contains any whitespace, the method will return an error.
+            if (botFileNameManager.BotFileName.Contains(" "))
+            {
+                return new Tuple<bool, string>(false, "Bot file name can't have whitespaces.");
+            }
+
+            // A tuple with True and Empty string will be returned if there are no errors.
+            return new Tuple<bool, string>(true, string.Empty);
         }
 
         /// <summary>
