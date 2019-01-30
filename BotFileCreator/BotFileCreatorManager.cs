@@ -69,7 +69,7 @@
         /// <param name="command">Command for creating bot files</param>
         private void CreateBotFileFromCMD(string command)
         {
-            CLIExecutor.CLIExecutor.RunCommand(command);
+            CLIHelper.CLIHelper.RunCommand(command);
         }
     }
 }

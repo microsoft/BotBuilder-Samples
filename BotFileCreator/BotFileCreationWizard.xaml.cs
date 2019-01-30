@@ -4,6 +4,7 @@
 namespace BotFileCreator
 {
     using System;
+    using System.IO;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -20,6 +21,7 @@ namespace BotFileCreator
             InitializeComponent();
             this.botFileName = string.Empty;
             this.botFileFullPath = GeneralSettings.Default.ProjectName;
+            ValidatePrerequisites();
         }
 
         /// <summary>
@@ -86,6 +88,34 @@ namespace BotFileCreator
         }
 
         /// <summary>
+        /// Checks if all the pre-requisites are installed/present
+        /// </summary>
+        private void ValidatePrerequisites()
+        {
+            Tuple<bool, string> result;
+
+            result = ValidateMSBotInstallation();
+
+            // If MSBot is not installed, shows an error message and close the wizard
+            if (!result.Item1)
+            {
+                ShowErrorMsgAndClose("MSBot is not installed", result.Item2);
+            }
+        }
+
+        /// <summary>
+        /// Validates the installation of MSBot command
+        /// </summary>
+        /// <returns>Boolean that indicates if the MSBot command is installed in the computer</returns>
+        private Tuple<bool, string> ValidateMSBotInstallation()
+        {
+            var msbotExists = CLIHelper.CLIHelper.ExistsOnPath("msbot");
+            var msgError = msbotExists ? string.Empty : "MSBot is not installed on your computer. Read the README.md file to check how to install it.";
+
+            return new Tuple<bool, string>(msbotExists, msgError);
+        }
+
+        /// <summary>
         /// Returns a tuple with a bool which specifies if the bot file configuration is valid, and a string with the error message (empty string if there isn't any error).
         /// </summary>
         /// <param name="botFileNameManager">.</param>
@@ -121,6 +151,17 @@ namespace BotFileCreator
             MSBotCommandQuiet quiet = new MSBotCommandQuiet(init);
 
             return quiet;
+        }
+
+        /// <summary>
+        /// Shows an error message and close the wizard
+        /// </summary>
+        /// <param name="title">Title of the error message window</param>
+        /// <param name="msgError">Error message description</param>
+        private void ShowErrorMsgAndClose(string title, string msgError)
+        {
+            MessageBox.Show(msgError, title, MessageBoxButton.OK, MessageBoxImage.Error);
+            this.Close();
         }
     }
 }
