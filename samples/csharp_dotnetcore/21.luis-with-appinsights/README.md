@@ -16,6 +16,14 @@ This samples requires prerequisites in order to run.
 - [Required Prerequisites][41]
 
 # To run the bot
+- Clone the repository
+    ```bash
+    git clone https://github.com/microsoft/botbuilder-samples.git
+    ```
+- In a terminal, navigate to `samples/javascript_nodejs/21.luis-with-appinsights`
+    ```bash
+    cd samples/javascript_nodejs/21.luis-with-appinsights
+    ```
 - Setup LUIS
     Assuming prerequisites have been installed:
     ```bash
