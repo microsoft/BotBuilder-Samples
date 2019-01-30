@@ -32,6 +32,7 @@ The following links document how to create a QnA Maker service manually instead 
     - Follow instructions [here][9] to create a QnA Maker service.
     - Follow instructions [here][10] to import the [smartLightFAQ.tsv](cognitiveModels/smartLightFAQ.tsv) to your newly created QnA Maker service.
     - Update [qnamaker.bot](qnamaker.bot) with your QnAMaker-Host, QnAMaker-KnowledgeBaseId and QnAMaker-EndpointKey. You can find this information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai][7].
+      - If you changed the `name` property of the `qna` service in your `.bot` file, be sure to update `QNA_CONFIGURATION` in `index.js`
 
 
 [1]: https://www.qnamaker.ai
