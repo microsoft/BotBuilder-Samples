@@ -123,11 +123,7 @@ namespace BotFileCreator
             // Starts the wizard
             var botFileCreatorWizard = new BotFileCreationWizard();
 
-            // Checks if the Window is loaded (it can be closed due to, for example, not having the prerequisites installed)
-            if (botFileCreatorWizard.IsLoaded)
-            {
-                botFileCreatorWizard.ShowDialog();
-            }
+            botFileCreatorWizard.ShowDialog();
 
             selectedProject.DTE.ExecuteCommand("Project.UnloadProject");
             selectedProject.DTE.ExecuteCommand("Project.ReloadProject");
