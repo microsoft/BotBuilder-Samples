@@ -47,6 +47,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Update [nlp-with-luis.bot](nlp-with-luis.bot) file with your Authoring Key.  
     You can find this under your user settings at [luis.ai](https://www.luis.ai).  Click on your name in the upper right hand corner of the portal, and click on the "Settings" menu option.
     NOTE: Once you publish your app on LUIS portal for the first time, it takes some time for the endpoint to become available, about 5 minutes of wait should be sufficient.
+- **Important:** Ensure that `LuisKey` in `LuisBot.cs` matches the `name` property of your LUIS endpoint in your `nlp-with-luis.bot` file.
 ### (Optional) Install LUDown
 - (Optional) Install the LUDown [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown) to help describe language understanding components for your bot.
 

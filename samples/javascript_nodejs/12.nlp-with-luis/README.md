@@ -35,6 +35,7 @@ This samples requires prerequisites in order to run.
     # Create the LUIS service application
     msbot clone services --name "<your_bot_name>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
     ```
+- **Important:** Ensure that `LUIS_CONFIGURATION` in `index.js` matches the `name` property of your LUIS endpoint in your `nlp-with-luis.bot` file.
 - Start the bot
     ```bash
     npm start
