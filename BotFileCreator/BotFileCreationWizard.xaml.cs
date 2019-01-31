@@ -14,6 +14,7 @@ namespace BotFileCreator
     public partial class BotFileCreationWizard : BaseDialogWindow
     {
         private string botFileName;
+        private string endpoint;
         private string botFileFullPath;
 
         public BotFileCreationWizard()
@@ -21,13 +22,14 @@ namespace BotFileCreator
             InitializeComponent();
             this.botFileName = string.Empty;
             this.botFileFullPath = GeneralSettings.Default.ProjectName;
+            this.endpoint = string.Empty;
             ValidatePrerequisites();
         }
 
         public bool PrerequisitesInstalled { get; set; }
 
         /// <summary>
-        /// When the BotFileName textbox changes, its value is stored in the GeneralSettings file to use it later.
+        /// Manages the changes of the BotFileName's textbox changes
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event</param>
@@ -152,10 +154,21 @@ namespace BotFileCreator
         /// <returns>MSBotCommandManager</returns>
         private MSBotCommandManager CreateMSBotCommandManager(BotFileNameManager botFileNameManager)
         {
+            MSBotCommandManager commandManager;
+
             MSBotCommandInit init = new MSBotCommandInit(botFileNameManager.ProjectDirectoryPath, botFileNameManager.BotFileName);
 
+            commandManager = init;
+
+            if (!string.IsNullOrWhiteSpace(this.endpoint))
+            {
+                // Adds Endpoint to the bot file
+                MSBotCommandEndpoint endpoint = new MSBotCommandEndpoint(init, this.endpoint);
+                commandManager = endpoint;
+            }
+
             // Does not prompt any message after executing `msbot init` command
-            MSBotCommandQuiet quiet = new MSBotCommandQuiet(init);
+            MSBotCommandQuiet quiet = new MSBotCommandQuiet(commandManager);
 
             return quiet;
         }
@@ -169,6 +182,17 @@ namespace BotFileCreator
         {
             MessageBox.Show(msgError, title, MessageBoxButton.OK, MessageBoxImage.Error);
             this.Close();
+        }
+
+        /// <summary>
+        /// Manages the changes of the Endpoint's textbox
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event</param>
+        private void Endpoint_Changed(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            this.endpoint = textBox.Text ?? string.Empty;
         }
     }
 }

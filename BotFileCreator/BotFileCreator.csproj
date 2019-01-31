@@ -72,6 +72,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>GeneralSettings.settings</DependentUpon>
     </Compile>
+    <Compile Include="MSBotCommandManager\CommandWrappers\MSBotCommandEndpoint.cs" />
     <Compile Include="MSBotCommandManager\CommandWrappers\MSBotCommandQuiet.cs" />
     <Compile Include="MSBotCommandManager\MSBotCommandInit.cs" />
     <Compile Include="MSBotCommandManager\MSBotCommandManager.cs" />
