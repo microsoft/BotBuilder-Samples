@@ -9,10 +9,10 @@
              xmlns:vs_shell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
              xmlns:BaseDialogWindow="clr-namespace:BotFileCreator"
              mc:Ignorable="d"
-             d:DesignHeight="533" d:DesignWidth="600" Width="600" Height="533" WindowStyle="None" AllowsTransparency="True">
+             d:DesignHeight="533" d:DesignWidth="600" Width="600" Height="533" WindowStyle="ToolWindow" AllowsTransparency="False">
 
     <Border Style="{DynamicResource outBorder}" >
-        <Canvas >
+        <Canvas IsManipulationEnabled="True" >
             <Label Style="{DynamicResource title}" Content="Bot Creation Wizard" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="40" Canvas.Top="35"/>
             <Label Content="Bot Name" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.439,10.08" Canvas.Left="40" Canvas.Top="135"/>
             <TextBox HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="365" TextChanged="TextBox_TextChanged" MaxLength="100" x:Name="BotFileNameTxt" Canvas.Left="40" Canvas.Top="156"/>
