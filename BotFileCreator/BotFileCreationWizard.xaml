@@ -6,13 +6,54 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vs_shell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
              xmlns:BaseDialogWindow="clr-namespace:BotFileCreator"
              mc:Ignorable="d"
-             d:DesignHeight="160" d:DesignWidth="400" MaxWidth="400" MaxHeight="160">
-    <Grid>
-        <Label Content="Bot file Creation Wizard" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="150"/>
-        <Label Content="Bot File Name" HorizontalAlignment="Left" Height="25" Margin="10,35,0,0" VerticalAlignment="Top" Width="90"/>
-        <TextBox HorizontalAlignment="Left" Height="20" Margin="15,60,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="365" TextChanged="TextBox_TextChanged" MaxLength="150" Name="BotFileNameTxt"/>
-        <Button Content="Create" HorizontalAlignment="Left" Height="20" Margin="320,100,0,0" VerticalAlignment="Top" Width="60" Click="Button_Click"/>
-    </Grid>
+             d:DesignHeight="533" d:DesignWidth="600" Width="600" Height="533" WindowStyle="None" AllowsTransparency="True">
+
+    <Border Style="{DynamicResource outBorder}" >
+        <Canvas >
+            <Label Style="{DynamicResource title}" Content="Bot Creation Wizard" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="40" Canvas.Top="35"/>
+            <Label Content="Bot Name" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.439,10.08" Canvas.Left="40" Canvas.Top="135"/>
+            <TextBox HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="365" TextChanged="TextBox_TextChanged" MaxLength="100" x:Name="BotFileNameTxt" Canvas.Left="40" Canvas.Top="156"/>
+            <Label Content="Endpoint URL" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.439,10.08" Canvas.Left="40" Canvas.Top="196"/>
+            <Button Style="{DynamicResource button}" Content="Create" HorizontalAlignment="Left" VerticalAlignment="Top" Click="CreateButton_Click" Canvas.Left="405" Canvas.Top="460"/>
+            <Button Style="{DynamicResource button}" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Click="CancelButton_Click" Canvas.Left="500" Canvas.Top="460"/>
+            <TextBox Height="25" Canvas.Left="40" TextWrapping="Wrap" Text=" Your Bot endpoint (ex: http://localhost:3978/api/message)" Canvas.Top="217" Width="365"/>
+        </Canvas>
+    </Border>
+
+    <Window.Resources>
+        <Style x:Key="outBorder" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ProjectDesignerTabSelectedBorderBrushKey}}"/>
+        </Style>
+        <Style TargetType="Canvas">
+            <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+        </Style>
+        <Style x:Key="title" TargetType="Label">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+            <Setter Property="FontSize" Value="32" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+            <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontWeight" Value="Thin"/>
+        </Style>
+
+        <Style x:Key="button" TargetType="Button">
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+            <Setter Property="Padding" Value="8,4" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="75" />
+        </Style>
+    </Window.Resources>
+
 </BaseDialogWindow:BaseDialogWindow>
