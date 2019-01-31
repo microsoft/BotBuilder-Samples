@@ -41,6 +41,14 @@
       "appId": "",
       "appPassword": "",
       "id": "5"
+    },
+    {
+      "type": "endpoint",
+      "name": "bot6 development",
+      "endpoint": "http://localhost:3978/bot6",
+      "appId": "",
+      "appPassword": "",
+      "id": "6"
     }
   ],
     "padlock": "",

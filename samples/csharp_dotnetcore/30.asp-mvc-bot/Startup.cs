@@ -54,6 +54,10 @@ namespace Microsoft.BotBuilderSamples
             // and you might also choose to make these singleton
             services.AddTransient<IAdapterIntegration>(sp => new BotFrameworkAdapter(new SimpleCredentialProvider()));
             services.AddTransient<IIntegrationBot>(sp => new MyBot(sp.GetService<IAdapterIntegration>()));
+
+            // DI example used by Bot6Controller - another permutation
+            services.AddSingleton<IBotFrameworkAdapter>(sp => new BotFrameworkAdapterEx(new SimpleCredentialProvider()));
+            services.AddTransient<IBot>(sp => new MyActivityHandler());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
