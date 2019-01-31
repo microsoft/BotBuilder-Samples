@@ -17,12 +17,12 @@ npm install -g chatdown msbot ludown luis-apis qnamaker botdispatch luisgen
 2. Setup Azure Powershell (If you have never done so before)
     - To login, run:
 ```bash
-Connect-AzureRmAccount
+az login
 ```
 
     - To select your Azure subscription, run:
 ```bash
-Select-AzureRmSubscription -Subscription "subscription-name"
+az account set --subscription "<azure-subscription>"
 ```
 
 3. Collect your Luis Authoring Key from the the [LUIS portal](https://www.luis.ai) by selecting your name in the top right corner. Save this key for the next step.
