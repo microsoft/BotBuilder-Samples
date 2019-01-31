@@ -123,7 +123,10 @@ namespace BotFileCreator
             // Starts the wizard
             var botFileCreatorWizard = new BotFileCreationWizard();
 
-            botFileCreatorWizard.ShowDialog();
+            if (botFileCreatorWizard.PrerequisitesInstalled)
+            {
+                botFileCreatorWizard.ShowDialog();
+            }
 
             selectedProject.DTE.ExecuteCommand("Project.UnloadProject");
             selectedProject.DTE.ExecuteCommand("Project.ReloadProject");

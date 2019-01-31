@@ -24,6 +24,8 @@ namespace BotFileCreator
             ValidatePrerequisites();
         }
 
+        public bool PrerequisitesInstalled { get; set; }
+
         /// <summary>
         /// When the BotFileName textbox changes, its value is stored in the GeneralSettings file to use it later.
         /// </summary>
@@ -92,6 +94,8 @@ namespace BotFileCreator
         /// </summary>
         private void ValidatePrerequisites()
         {
+            this.PrerequisitesInstalled = false;
+
             Tuple<bool, string> result;
 
             result = ValidateMSBotInstallation();
@@ -100,7 +104,10 @@ namespace BotFileCreator
             if (!result.Item1)
             {
                 ShowErrorMsgAndClose("MSBot is not installed", result.Item2);
+                return;
             }
+
+            this.PrerequisitesInstalled = true;
         }
 
         /// <summary>
