@@ -37,7 +37,7 @@ namespace BotFileCreator
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event</param>
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -65,6 +65,11 @@ namespace BotFileCreator
                 // If there is an exception, it will be prompted.
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         /// <summary>
