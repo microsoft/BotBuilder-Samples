@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Configuration;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -19,10 +20,51 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Initializes a new instance of the <see cref="BotServices"/> class.
         /// </summary>
-        /// <param name="qnaServices">A dictionary of named <see cref="QnAMaker"/> instances for usage within the bot.</param>
-        public BotServices(Dictionary<string, QnAMaker> qnaServices)
+        /// <param name="botConfiguration">A dictionary of named <see cref="BotConfiguration"/> instances for usage within the bot.</param>
+        public BotServices(BotConfiguration botConfiguration)
         {
-            QnAServices = qnaServices ?? throw new ArgumentNullException(nameof(qnaServices));
+            foreach (var service in botConfiguration.Services)
+            {
+                switch (service.Type)
+                {
+                    case ServiceTypes.QnA:
+                        {
+                            // Create a QnA Maker that is initialized and suitable for passing
+                            // into the IBot-derived class (QnABot).
+                            var qna = service as QnAMakerService;
+                            if (qna == null)
+                            {
+                                throw new InvalidOperationException("The QnA service is not configured correctly in your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(qna.KbId))
+                            {
+                                throw new InvalidOperationException("The QnA KnowledgeBaseId ('kbId') is required to run this sample. Please update your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(qna.EndpointKey))
+                            {
+                                throw new InvalidOperationException("The QnA EndpointKey ('endpointKey') is required to run this sample. Please update your '.bot' file.");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(qna.Hostname))
+                            {
+                                throw new InvalidOperationException("The QnA Host ('hostname') is required to run this sample. Please update your '.bot' file.");
+                            }
+
+                            var qnaEndpoint = new QnAMakerEndpoint()
+                            {
+                                KnowledgeBaseId = qna.KbId,
+                                EndpointKey = qna.EndpointKey,
+                                Host = qna.Hostname,
+                            };
+
+                            var qnaMaker = new QnAMaker(qnaEndpoint);
+                            QnAServices.Add(qna.Name, qnaMaker);
+                            break;
+                        }
+                }
+            }
         }
 
         /// <summary>
