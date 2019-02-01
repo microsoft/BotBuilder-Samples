@@ -57,7 +57,7 @@
             </StackPanel>
         </Canvas>
 
-        <StackPanel x:Name="BotNamePanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4">
+        <StackPanel x:Name="BotNamePanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Collapsed">
             <TextBlock Text="Your Bot Name" Margin="5,5,5,-5" FontSize="18" />
             <TextBlock Text="Description" Margin="5" />
             <TextBox Height="25" Width="250" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" Text="" TextChanged="TextBox_TextChanged" MaxLength="70" x:Name="BotFileNameTxt"/>
@@ -75,8 +75,22 @@
         </StackPanel>
 
         <StackPanel x:Name="BotEncryptPanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Collapsed">
-            <TextBlock Text="Encrypt Not supported by now" Margin="5,5,5,-5" FontSize="18" />
-            <TextBlock Text="Description" Margin="5" />
+            <TextBlock Text="Encrypt" Margin="5,5,5,-5" FontSize="18" />
+            <TextBlock Text="Encrypt keys stored in your bot configuration" Margin="5" />
+            <CheckBox Content="Encrypt" Margin="5,10,10,10" Foreground="White"/> <!--Change hardcoded white color-->
+
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBox Height="25" Width="250" HorizontalAlignment="Left" Margin="0,0,10,0" Text=" Your keys are not encrypted"/>
+                <Button Content="Copy" Foreground="White"> <!--Change hardcoded white color-->
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            
+            </StackPanel>
+            
         </StackPanel>
     </Grid>
 
