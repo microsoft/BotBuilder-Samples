@@ -72,8 +72,9 @@ export class BasicBot {
         if (!luisConfig || !luisConfig.appId) { throw Error('Missing LUIS configuration. Please follow README.MD to create required LUIS applications.\n\n'); }
         this.luisRecognizer = new LuisRecognizer({
             applicationId: luisConfig.appId,
-            // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
             endpoint: luisConfig.getEndpoint(),
+            // CAUTION: Authoring key is used in this example as it is appropriate for prototyping.
+            // When implimenting for deployment/production, assign and use a subscription key instead of an authoring key.
             endpointKey: luisConfig.authoringKey,
         });
 

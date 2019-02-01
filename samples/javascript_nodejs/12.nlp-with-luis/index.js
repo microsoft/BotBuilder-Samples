@@ -47,7 +47,9 @@ const luisConfig = botConfig.findServiceByNameOrId(LUIS_CONFIGURATION);
 // Map the contents to the required format for `LuisRecognizer`.
 const luisApplication = {
     applicationId: luisConfig.appId,
-    endpointKey: luisConfig.subscriptionKey || luisConfig.authoringKey,
+    // CAUTION: Authoring key is used in this example as it is appropriate for prototyping.
+    // When implimenting for deployment/production, assign and use a subscription key instead of an authoring key.
+    endpointKey: luisConfig.authoringKey,
     endpoint: luisConfig.getEndpoint()
 };
 
