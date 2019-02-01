@@ -21,9 +21,6 @@ namespace Asp_Mvc_Bot
             // deserialize the incoming Activity
             var activity = HttpHelper.FromRequest(request);
 
-            // create the adapter we will be using - we should be able to DI in the adapter
-            var adapter = new BotFrameworkAdapter(new SimpleCredentialProvider());
-
             // grab the auth header from the inbound http request
             var authHeader = request.Headers["Authorization"];
 
