@@ -86,5 +86,53 @@ namespace BotFileCreator
 
             return quiet;
         }
+
+        private void BotName_Click(object sender, RoutedEventArgs e)
+        {
+            this.BotEndpointPanel.Visibility = Visibility.Collapsed;
+            this.BotServicesPanel.Visibility = Visibility.Collapsed;
+            this.BotEncryptPanel.Visibility = Visibility.Collapsed;
+
+            if (!this.BotNamePanel.IsVisible)
+            {
+                this.BotNamePanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void BotEndpoint_Click(object sender, RoutedEventArgs e)
+        {
+            this.BotNamePanel.Visibility = Visibility.Collapsed;
+            this.BotServicesPanel.Visibility = Visibility.Collapsed;
+            this.BotEncryptPanel.Visibility = Visibility.Collapsed;
+
+            if (!this.BotEndpointPanel.IsVisible)
+            {
+                this.BotEndpointPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void BotServices_Click(object sender, RoutedEventArgs e)
+        {
+            this.BotNamePanel.Visibility = Visibility.Collapsed;
+            this.BotEndpointPanel.Visibility = Visibility.Collapsed;
+            this.BotEncryptPanel.Visibility = Visibility.Collapsed;
+
+            if (!this.BotServicesPanel.IsVisible)
+            {
+                this.BotServicesPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void BotEncrypt_ClicK(object sender, RoutedEventArgs e)
+        {
+            this.BotNamePanel.Visibility = Visibility.Collapsed;
+            this.BotEndpointPanel.Visibility = Visibility.Collapsed;
+            this.BotServicesPanel.Visibility = Visibility.Collapsed;
+
+            if (!this.BotEncryptPanel.IsVisible)
+            {
+                this.BotEncryptPanel.Visibility = Visibility.Visible;
+            }
+        }
     }
 }
