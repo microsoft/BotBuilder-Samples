@@ -7,13 +7,13 @@ using Microsoft.Bot.Builder;
 
 namespace Asp_Mvc_Bot.Controllers
 {
-    [Route("bot6")]
-    public class Bot6Controller : Controller
+    [Route("bot")]
+    public class BotController : Controller
     {
+        private readonly IBot _bot;
         private IBotFrameworkAdapter _adapter;
-        private IBot _bot;
 
-        public Bot6Controller(IBotFrameworkAdapter adapter, IBot bot)
+        public BotController(IBotFrameworkAdapter adapter, IBot bot)
         {
             _adapter = adapter;
             _bot = bot;
