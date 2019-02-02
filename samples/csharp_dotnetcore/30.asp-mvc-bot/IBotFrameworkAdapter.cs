@@ -7,6 +7,6 @@ namespace Asp_Mvc_Bot
 {
     public interface IBotFrameworkAdapter
     {
-        Task ProcessAsync(HttpRequest request, HttpResponse response, BotCallbackHandler callback, CancellationToken cancellationToken = default(CancellationToken));
+        Task ProcessAsync(HttpRequest request, HttpResponse response, IBot bot, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

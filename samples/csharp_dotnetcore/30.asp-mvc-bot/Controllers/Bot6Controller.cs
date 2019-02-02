@@ -22,7 +22,7 @@ namespace Asp_Mvc_Bot.Controllers
         [HttpPost]
         public async Task PostAsync()
         {
-            await _adapter.ProcessAsync(Request, Response, _bot.OnTurnAsync);
+            await _adapter.ProcessAsync(Request, Response, _bot);
         }
     }
 }

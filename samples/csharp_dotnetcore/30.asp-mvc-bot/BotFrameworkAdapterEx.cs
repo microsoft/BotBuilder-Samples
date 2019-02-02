@@ -16,7 +16,7 @@ namespace Asp_Mvc_Bot
         {
         }
 
-        public async Task ProcessAsync(HttpRequest request, HttpResponse response, BotCallbackHandler callback, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task ProcessAsync(HttpRequest request, HttpResponse response, IBot bot, CancellationToken cancellationToken = default(CancellationToken))
         {
             // deserialize the incoming Activity
             var activity = HttpHelper.FromRequest(request);
@@ -25,7 +25,7 @@ namespace Asp_Mvc_Bot
             var authHeader = request.Headers["Authorization"];
 
             // process the inbound activity with the bot
-            var invokeResponse = await ProcessActivityAsync(authHeader, activity, callback, cancellationToken);
+            var invokeResponse = await ProcessActivityAsync(authHeader, activity, bot.OnTurnAsync, cancellationToken);
 
             // write the response, potentially serializing the InvokeResponse
             HttpHelper.ToResponse(response, invokeResponse);
