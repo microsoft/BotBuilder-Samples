@@ -9,36 +9,122 @@
              xmlns:vs_shell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
              xmlns:BaseDialogWindow="clr-namespace:BotFileCreator"
              mc:Ignorable="d"
-             d:DesignHeight="533" d:DesignWidth="600" Width="600" Height="533" WindowStyle="ToolWindow" AllowsTransparency="False">
+             d:DesignWidth="600" d:DesignHeight="540" 
+             MinWidth="600" MinHeight="540"
+             Width="600" Height="540" 
+             WindowStyle="SingleBorderWindow"
+             AllowsTransparency="False"
+             ResizeMode="CanResizeWithGrip">
 
-    <Border Style="{DynamicResource outBorder}" >
-        <Canvas IsManipulationEnabled="True" >
-            <Label Style="{DynamicResource title}" Content="Bot Creation Wizard" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="40" Canvas.Top="35"/>
-            <Label Content="Bot Name" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.439,10.08" Canvas.Left="40" Canvas.Top="135"/>
-            <TextBox HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="365" TextChanged="TextBox_TextChanged" MaxLength="100" x:Name="BotFileNameTxt" Canvas.Left="40" Canvas.Top="156"/>
-            <Label Content="Endpoint URL" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.439,10.08" Canvas.Left="40" Canvas.Top="196"/>
-            <Button Style="{DynamicResource button}" Content="Create" HorizontalAlignment="Left" VerticalAlignment="Top" Click="CreateButton_Click" Canvas.Left="425" Canvas.Top="471"/>
-            <Button Style="{DynamicResource button}" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Click="CancelButton_Click" Canvas.Left="510" Canvas.Top="471"/>
-            <TextBox Height="25" Canvas.Left="40" TextWrapping="Wrap" Text=" Your Bot endpoint (ex: http://localhost:3978/api/message)" Canvas.Top="217" Width="365" TextChanged="Endpoint_Changed"/>
+    <Grid Style="{DynamicResource grid}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="15"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="15"/>
+        </Grid.RowDefinitions>
+        <TextBlock Style="{DynamicResource title}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Text="Bot Creation Wizard" />
+        <Menu Style="{DynamicResource menu}" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
+            <MenuItem Style="{DynamicResource menuItem}" Header="Bot Name" Click="BotName_Click"/>
+            <MenuItem Style="{DynamicResource menuItem}" Header="Bot Endpoint" Click="BotEndpoint_Click" />
+            <MenuItem Style="{DynamicResource menuItem}" Header="Bot Services" Click="BotServices_Click" />
+            <MenuItem Style="{DynamicResource menuItem}" Header="Bot Encrypt" Click="BotEncrypt_ClicK" />
+        </Menu>
+        <Rectangle Style="{DynamicResource separator}"  Grid.Column="3" Grid.Row="2" Grid.RowSpan="5" />
+        <Canvas Style="{DynamicResource downBar}" Grid.Column="0" Grid.Row="6" Grid.RowSpan="2" Grid.ColumnSpan="7">
+            <StackPanel Orientation="Horizontal" Canvas.Right="15" Canvas.Bottom="15">
+                <Button Style="{DynamicResource button}" Template="{DynamicResource Template1}" Content="Create" HorizontalAlignment="Left" VerticalAlignment="Top" Click="CreateButton_Click" Canvas.Left="405" Canvas.Top="460"/>
+                <Button Style="{DynamicResource button}" Template="{DynamicResource Template1}" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Click="CancelButton_Click" Canvas.Left="500" Canvas.Top="460"/>
+            </StackPanel>
         </Canvas>
-    </Border>
+
+        <StackPanel x:Name="BotNamePanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Visible">
+            <TextBlock Text="Your Bot Name" Margin="5,5,5,-5" FontSize="18" />
+            <TextBlock Text="Description" Margin="5" />
+            <TextBox Height="25" Width="250" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" Text="" TextChanged="TextBox_TextChanged" MaxLength="70" x:Name="BotFileNameTxt"/>
+        </StackPanel>
+
+        <StackPanel x:Name="BotEndpointPanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Collapsed">
+            <TextBlock Text="Endpoints URL" Margin="5,5,5,-5" FontSize="18" />
+            <TextBlock Text="Description" Margin="5" />
+            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" Text=" Your Bot endpoint (ex: http://localhost:3978/api/message)"  />
+        </StackPanel>
+
+        <StackPanel x:Name="BotServicesPanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Collapsed">
+            <TextBlock Text="Services - Not supported by now" Margin="5,5,5,-5" FontSize="18" />
+            <TextBlock Text="Description" Margin="5" />
+        </StackPanel>
+
+        <StackPanel x:Name="BotEncryptPanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Collapsed">
+            <TextBlock Text="Encrypt" Margin="5,5,5,-5" FontSize="18" />
+            <TextBlock Text="Encrypt keys stored in your bot configuration" Margin="5" />
+            <CheckBox Content="Encrypt" Margin="5,10,10,10" Foreground="White"/> <!--Change hardcoded white color-->
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBox Height="25" Width="250" HorizontalAlignment="Left" Margin="0,0,10,0" Text=" Your keys are not encrypted"/>
+                <Button Content="Copy" Foreground="White"> 
+                    <!--Change hardcoded white color-->
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+
 
     <Window.Resources>
-        <Style x:Key="outBorder" TargetType="Border">
-            <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ProjectDesignerTabSelectedBorderBrushKey}}"/>
-        </Style>
-        <Style TargetType="Canvas">
+        <Style x:Key="grid" TargetType="Grid">
             <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+        </Style>
+        <Style x:Key="title" TargetType="TextBlock">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="Margin" Value="5,10,0,20"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+        </Style>
+        <Style x:Key="menu" TargetType="Menu">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
+        <Style x:Key="menuItem" TargetType="MenuItem">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+        </Style>
+        <Style x:Key="separator" TargetType="Rectangle">
+            <Setter Property="Stroke" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.PageSideBarExpanderSeparatorBrushKey}}"/>
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="Width"  Value="1" />
+            <Setter Property="Margin" Value="2,0,0,50"/>
         </Style>
         <Style TargetType="Label">
             <Setter Property="Padding" Value="0" />
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
         </Style>
-        <Style x:Key="title" TargetType="Label">
-            <Setter Property="Padding" Value="0"/>
+        <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
-            <Setter Property="FontSize" Value="32" />
         </Style>
+
         <Style TargetType="TextBox">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
             <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
@@ -47,13 +133,43 @@
             <Setter Property="FontWeight" Value="Thin"/>
         </Style>
 
-        <Style x:Key="button" TargetType="Button">
-            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
-            <Setter Property="Padding" Value="8,4" />
-            <Setter Property="FontSize" Value="12" />
-            <Setter Property="Height" Value="25"/>
-            <Setter Property="Width" Value="75" />
+        <Style TargetType="MenuItem">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
         </Style>
-    </Window.Resources>
 
+        <Style x:Key="downBar" TargetType="Canvas">
+            <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.CommandBarMenuItemMouseOverBrushKey}}"/>
+            <Setter Property="Height" Value="60" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+        </Style>
+
+        <Style x:Key="button" TargetType="Button">
+            <Style.Setters>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.SystemButtonTextBrushKey}}"/>
+                <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.SystemButtonShadowBrushKey}}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.StartPageButtonBorderBrushKey}}"/>
+                <Setter Property="Padding" Value="8,4" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="Height" Value="25"/>
+                <Setter Property="Width" Value="75" />
+                <Setter Property="Margin" Value="5" />
+            </Style.Setters>
+        </Style>
+
+        <ControlTemplate x:Key="Template1" TargetType="Button">
+            <Border x:Name="border" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"
+                    Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="1">
+                <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowButtonHoverActiveBorderBrushKey}}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+    </Window.Resources>
 </BaseDialogWindow:BaseDialogWindow>

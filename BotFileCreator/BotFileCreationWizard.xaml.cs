@@ -1,13 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using System;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace BotFileCreator
 {
-    using System;
-    using System.IO;
-    using System.Windows;
-    using System.Windows.Controls;
-
     /// <summary>
     /// Interaction logic for BotFileCreationWizard.xaml
     /// </summary>
@@ -193,6 +191,54 @@ namespace BotFileCreator
         {
             var textBox = sender as TextBox;
             this.endpoint = textBox.Text ?? string.Empty;
+        }
+
+        private void BotName_Click(object sender, RoutedEventArgs e)
+        {
+            this.BotEndpointPanel.Visibility = Visibility.Collapsed;
+            this.BotServicesPanel.Visibility = Visibility.Collapsed;
+            this.BotEncryptPanel.Visibility = Visibility.Collapsed;
+
+            if (!this.BotNamePanel.IsVisible)
+            {
+                this.BotNamePanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void BotEndpoint_Click(object sender, RoutedEventArgs e)
+        {
+            this.BotNamePanel.Visibility = Visibility.Collapsed;
+            this.BotServicesPanel.Visibility = Visibility.Collapsed;
+            this.BotEncryptPanel.Visibility = Visibility.Collapsed;
+
+            if (!this.BotEndpointPanel.IsVisible)
+            {
+                this.BotEndpointPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void BotServices_Click(object sender, RoutedEventArgs e)
+        {
+            this.BotNamePanel.Visibility = Visibility.Collapsed;
+            this.BotEndpointPanel.Visibility = Visibility.Collapsed;
+            this.BotEncryptPanel.Visibility = Visibility.Collapsed;
+
+            if (!this.BotServicesPanel.IsVisible)
+            {
+                this.BotServicesPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void BotEncrypt_ClicK(object sender, RoutedEventArgs e)
+        {
+            this.BotNamePanel.Visibility = Visibility.Collapsed;
+            this.BotEndpointPanel.Visibility = Visibility.Collapsed;
+            this.BotServicesPanel.Visibility = Visibility.Collapsed;
+
+            if (!this.BotEncryptPanel.IsVisible)
+            {
+                this.BotEncryptPanel.Visibility = Visibility.Visible;
+            }
         }
     }
 }
