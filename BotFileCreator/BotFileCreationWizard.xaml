@@ -9,7 +9,9 @@
              xmlns:vs_shell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
              xmlns:BaseDialogWindow="clr-namespace:BotFileCreator"
              mc:Ignorable="d"
-             d:DesignHeight="533" d:DesignWidth="600" Width="600" Height="533" 
+             d:DesignWidth="600" d:DesignHeight="540" 
+             MinWidth="600" MinHeight="540"
+             Width="600" Height="540" 
              WindowStyle="SingleBorderWindow"
              AllowsTransparency="False"
              ResizeMode="CanResizeWithGrip">
@@ -57,7 +59,7 @@
             </StackPanel>
         </Canvas>
 
-        <StackPanel x:Name="BotNamePanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Collapsed">
+        <StackPanel x:Name="BotNamePanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Visible">
             <TextBlock Text="Your Bot Name" Margin="5,5,5,-5" FontSize="18" />
             <TextBlock Text="Description" Margin="5" />
             <TextBox Height="25" Width="250" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" Text="" TextChanged="TextBox_TextChanged" MaxLength="70" x:Name="BotFileNameTxt"/>
