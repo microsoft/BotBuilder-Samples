@@ -181,7 +181,7 @@ namespace BotFileCreator
 
             if (this.EncryptCheckBox.IsChecked == true)
             {
-                var encrypt = new MSBotCommandEncrypt(init);
+                var encrypt = new MSBotCommandEncrypt(commandManager);
                 commandManager = encrypt;
             }
 

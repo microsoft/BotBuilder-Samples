@@ -65,7 +65,7 @@
         <StackPanel x:Name="BotEndpointPanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Collapsed">
             <TextBlock Style="{DynamicResource moduleTitle}" Text="Endpoints URL" />
             <TextBlock Text="Description" Margin="5" />
-            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" Text=" Your Bot endpoint (ex: http://localhost:3978/api/message)"  />
+            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" Text=" Your Bot endpoint (ex: http://localhost:3978/api/message)" TextChanged="Endpoint_Changed" />
         </StackPanel>
 
         <StackPanel x:Name="BotServicesPanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Collapsed">
