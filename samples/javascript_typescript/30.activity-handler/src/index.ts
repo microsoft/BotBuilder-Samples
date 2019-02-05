@@ -113,12 +113,12 @@ myBot.onConversationUpdate(async (context, next) => {
     await next();
 });
 
-myBot.onConversationMembersAdded(async (context, next) => {
+myBot.onMembersAdded(async (context, next) => {
     await context.sendActivity('Members have been added.');
     await next();
 });
 
-myBot.onConversationMembersRemoved(async (context, next) => {
+myBot.onMembersRemoved(async (context, next) => {
     await context.sendActivity('Members have been removed.');
     await next();
 });

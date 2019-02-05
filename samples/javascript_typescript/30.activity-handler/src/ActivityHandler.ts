@@ -13,7 +13,7 @@ export type BotHandler = (context: TurnContext, next: () => Promise<void>) => Pr
  * more handlers for each type of event.
  *
  * To bind a handler to an event, use the `on<Event>()` method, for example:
- * 
+ *
  * ```Javascript
  * bot.onMessage(async (context, next) => {
  * // do something
@@ -99,7 +99,7 @@ export class ActivityHandler {
      * context.activity.membersAdded will include at least one entry.
      * @param handler BotHandler A handler function in the form async(context, next) => { ... }
      */
-    public oMembersAdded(handler: BotHandler): this {
+    public onMembersAdded(handler: BotHandler): this {
         return this.on('MembersAdded', handler);
     }
 
@@ -109,7 +109,7 @@ export class ActivityHandler {
      * context.activity.membersRemoved will include at least one entry.
      * @param handler BotHandler A handler function in the form async(context, next) => { ... }
      */
-    public oMembersRemoved(handler: BotHandler): this {
+    public onMembersRemoved(handler: BotHandler): this {
         return this.on('MembersRemoved', handler);
     }
 
@@ -128,7 +128,7 @@ export class ActivityHandler {
     /**
      * Receives all Event activities.
      * @remarks
-     * Event activities communicate programmatic information from a client or channel to a bot. 
+     * Event activities communicate programmatic information from a client or channel to a bot.
      * The meaning of an event activity is defined by the `name` field.
      * @param handler BotHandler A handler function in the form async(context, next) => { ... }
      */
@@ -146,55 +146,162 @@ export class ActivityHandler {
         return this.on('Invoke', handler);
     }
 
+    /**
+     * Receives all InstallationUpdate activities.
+     * @remarks
+     * Installation update activities represent an installation or uninstallation of a bot
+     * within an organizational unit (such as a customer tenant or "team") of a channel.
+     * @param handler BotHandler A handler function in the form async(context, next) => { ... }
+     */
     public onInstallationUpdate(handler: BotHandler): this {
         return this.on('InstallationUpdate', handler);
     }
 
+    /**
+     * Receives all MessageDelete activities.
+     * @remarks
+     * Message delete activities represent a deletion of an existing message activity within a conversation.
+     * The deleted activity is referred to by the id and conversation fields within the activity.
+     * @param handler BotHandler A handler function in the form async(context, next) => { ... }
+     */
     public onMessageDelete(handler: BotHandler): this {
         return this.on('MessageDelete', handler);
     }
 
+    /**
+     * Receives all MessageUpdate activities.
+     * @remarks
+     * Message update activities represent an update of an existing message activity within a conversation.
+     * The updated activity is referred to by the id and conversation fields within the activity, and the
+     * message update activity contains all fields in the revised message activity.
+     * @param handler BotHandler A handler function in the form async(context, next) => { ... }
+     */
     public onMessageUpdate(handler: BotHandler): this {
         return this.on('MessageUpdate', handler);
     }
 
+    /**
+     * Receives all MessageReaction activities, regardless of the sub-type of event.
+     * @remarks
+     * Message reaction activities represent a social interaction on an existing message activity within a conversation.
+     * The original activity is referred to by the id and conversation fields within the activity.
+     * The from field represents the source of the reaction (i.e., the user that reacted to the message).
+     *
+     * See related events: onMessageReactionAdded and onMessageReactionRemoved
+     * @param handler BotHandler A handler function in the form async(context, next) => { ... }
+     */
     public onMessageReaction(handler: BotHandler): this {
         return this.on('MessageReaction', handler);
     }
 
+    /**
+     * Receives MessageReaction activities when a reaction is added
+     * @remarks
+     * The `context.activity.reactionsAdded` field contains a list of reactions added to this activity.
+     * @param handler BotHandler A handler function in the form async(context, next) => { ... }
+     */
     public onMessageReactionAdded(handler: BotHandler): this {
         return this.on('MessageReactionAdded', handler);
     }
 
+    /**
+     * Receives MessageReaction activities when a reaction is removed
+     * @remarks
+     * The `context.activity.reactionsRemoved` field contains a list of reactions added from this activity.
+     * @param handler BotHandler A handler function in the form async(context, next) => { ... }
+     */
     public onMessageReactionRemoved(handler: BotHandler): this {
         return this.on('MessageReactionRemoved', handler);
     }
 
+    /**
+     * Receives any Typing activities received
+     * @remarks
+     * Typing activities represent ongoing input from a user or a bot. This activity is often sent when keystrokes are being entered by a user.
+     * @param handler BotHandler A handler function in the form async(context, next) => { ... }
+     */
     public onTyping(handler: BotHandler): this {
         return this.on('Typing', handler);
     }
 
+    /**
+     * Receives Handoff activities when a reaction is removed
+     * @remarks
+     * Handoff activities are used to request or signal a change in focus between elements inside a bot.
+     * @param handler BotHandler A handler function in the form async(context, next) => { ... }
+     */
     public onHandoff(handler: BotHandler): this {
         return this.on('Handoff', handler);
     }
 
+    /**
+     * Receives Event activities that indicate a new conversation has been created.
+     * @remarks
+     * activity.context.name will be 'createConversation'
+     * @param handler BotHandler A handler function in the form async(context, next) => { ... }
+     */
     public onCreateConversation(handler: BotHandler): this {
         return this.on('CreateConversation', handler);
     }
 
-   public onContinueConversation(handler: BotHandler): this {
+    /**
+     * Receives Event activities that indicate an existing conversation is being continued.
+     * @remarks
+     * activity.context.name will be 'continueConversation'
+     * @param handler BotHandler A handler function in the form async(context, next) => { ... }
+     */
+    public onContinueConversation(handler: BotHandler): this {
         return this.on('ContinueConversation', handler);
-   }
-
-    public onUnrecognizedActivityType(handler: BotHandler): this {
-        return this.on('UnrecognizedActivityType', handler);
     }
 
-    // Fires last, and can be used to manage dialogs
+    /**
+     * UnrecognizedActivityType will fire if an activity is received with a type that has not previously been defined.
+     * @remarks
+     * Some channels or custom adapters may create Actitivies with different, "unofficial" types.
+     * These events will be passed through as UnrecognizedActivityType events.
+     * Check `context.activity.type` for the type value.
+     * @param handler BotHandler A handler function in the form async(context, next) => { ... }
+     */
+     public onUnrecognizedActivityType(handler: BotHandler): this {
+        return this.on('UnrecognizedActivityType', handler);
+     }
+
+    /**
+     * onDialog fires at the end of the event emission process, and should be used to handle Dialog activity.
+     * @remarks
+     * Sample code:
+     * ```javascript
+     * bot.onDialog(async (context, next) => {
+     *      if (context.activity.type === ActivityTypes.Message) {
+     *          const dialogContext = await dialogSet.createContext(context);
+     *          const results = await dialogContext.continueDialog();
+     *          await conversationState.saveChanges(context);
+     *      }
+     *
+     *      await next();
+     * });
+     * ```
+     * @param handler BotHandler A handler function in the form async(context, next) => { ... }
+     */
     public onDialog(handler: BotHandler): this {
         return this.on('Dialog', handler);
     }
 
+    /**
+     * `run()` is the main "activity handler" function used to ingest activities into the event emission process.
+     * @remarks
+     * Sample code:
+     * ```javascript
+     *  server.post('/api/messages', (req, res) => {
+     *      adapter.processActivity(req, res, async (context) => {
+     *          // Route to main dialog.
+     *          await bot.run(context);
+     *      });
+     * });
+     * ```
+     *
+     * @param context TurnContext A TurnContext representing an incoming Activity from an Adapter
+     */
     public async run(context: TurnContext): Promise<void> {
 
         // Allow the dialog system to be triggered at the end of the chain
@@ -206,7 +313,6 @@ export class ActivityHandler {
 
         // List of all Activity Types:
         // https://github.com/Microsoft/botbuilder-js/blob/master/libraries/botframework-schema/src/index.ts#L1627
-        // TODO: Implement handlers for all valid activity types
         await this.handle(context, 'Turn', async () => {
             switch (context.activity.type) {
                 case ActivityTypes.Message:
@@ -275,6 +381,11 @@ export class ActivityHandler {
         });
     }
 
+    /**
+     * Private method used to bind handlers to events by name
+     * @param type string
+     * @param handler BotHandler
+     */
     private on(type: string, handler: BotHandler) {
         if (!this.handlers[type]) {
             this.handlers[type] = [handler];
@@ -284,6 +395,11 @@ export class ActivityHandler {
         return this;
     }
 
+    /**
+     * Private method used to fire events and execute any bound handlers
+     * @param type string
+     * @param handler BotHandler
+     */
     private async handle(context: TurnContext, type: string,  onNext: () => Promise<void>): Promise<void> {
         async function runHandler(index: number): Promise<void> {
             if (index < handlers.length) {

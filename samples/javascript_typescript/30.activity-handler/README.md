@@ -1,7 +1,8 @@
-# echobot
-Bot Builder v4 echo bot sample
+# ActivityHandler Bot
+Bot Builder v4 ActivityHandler sample
 
-This bot has been created using [Microsoft Bot Framework][1], it shows how to create a simple bot that accepts input from the user and echoes it back.
+This bot has been created using [Microsoft Bot Framework][1], it shows how to create a simple bot that demonstrates the use of the ActivityHandler class for
+creating an event-driven bot.
 
 ## Prerequisites
 - [Node.js][4] version 8.5 or higher
@@ -37,7 +38,7 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration
 - Navigate to `echobot` folder
-- Select `echobot.bot` file
+- Select `samplebot.bot` file
 
 # Deploy the bot to Azure
 ## Prerequisites
