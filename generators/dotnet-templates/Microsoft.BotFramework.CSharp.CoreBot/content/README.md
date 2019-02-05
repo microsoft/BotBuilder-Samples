@@ -1,5 +1,5 @@
 # corebot sample
-Bot Framework v4 ccore bot sample.
+Bot Framework v4 core bot sample.
 
 This bot has been created using [Bot Framework][1], it shows how to:
 - Use [LUIS][11] to implement core AI capabilities
@@ -29,7 +29,7 @@ This sample requires prerequisites in order to run.
     ```
     ```bash
     # Create LUIS service application
-    msbot clone services --name "<your_bot_name>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "CSharp" --folder deploymentScripts/msbotClone --verbose
+    msbot clone services --name "<your_project_name>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "CSharp" --folder deploymentScripts/msbotClone --verbose
     ```
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 

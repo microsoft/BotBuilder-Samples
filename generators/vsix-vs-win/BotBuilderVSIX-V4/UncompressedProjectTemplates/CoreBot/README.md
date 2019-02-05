@@ -1,5 +1,4 @@
-# corebot sample
-Bot Framework v4 ccore bot sample.
+# $safeprojectname$
 
 This bot has been created using [Bot Framework][1], it shows how to:
 - Use [LUIS][11] to implement core AI capabilities
@@ -11,10 +10,10 @@ This sample requires prerequisites in order to run.
 - [Required Prerequisites][41]
 
 # To try this sample
-- In a terminal, navigate to `<your_project_folder>/CoreBot`
+- In a terminal, navigate to `<your_project_folder>/$safeprojectname$`
     ```bash
     # change into project folder
-	cd <your_project_folder>/CoreBot
+	cd <your_project_folder>/$safeprojectname$
     ```
 - Setup LUIS
 
@@ -29,8 +28,11 @@ This sample requires prerequisites in order to run.
     ```
     ```bash
     # Create LUIS service application
-    msbot clone services --name "<your_bot_name>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "CSharp" --folder deploymentScripts/msbotClone --verbose
+    msbot clone services --name "$safeprojectname$" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "CSharp" --folder deploymentScripts/msbotClone --verbose
     ```
+
+    Once the Luis service application is created, change the value of `LuisConfiguration` variable in $safeprojectname$Bot.cs with the Luis service name, which can be found in $safeprojectname$.bot file (it should be `$safeprojectname$_core-bot-LUIS`).
+
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
 	A) From a terminal
@@ -42,8 +44,8 @@ This sample requires prerequisites in order to run.
 	B) Or from Visual Studio
 	- Launch Visual Studio
 	- File -> Open -> Project/Solution
-	- Navigate to `<your_project_folder>/CoreBot` folder
-	- Select `CoreBot.csproj` file
+	- Navigate to `<your_project_folder>/$safeprojectname$` folder
+	- Select `$safeprojectname$.csproj` file
 	- Press `F5` to run the project
 
 # Testing the bot using Bot Framework Emulator **v4**
@@ -54,8 +56,8 @@ This sample requires prerequisites in order to run.
 ## Connect to the bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration
-- Navigate to `<your_project_folder>/CoreBot` folder
-- Select `corebot.bot` file
+- Navigate to `<your_project_folder>/$safeprojectname$` folder
+- Select `$safeprojectname$.bot` file
 
 # Deploy the bot to Azure
 ## Prerequisites
@@ -76,7 +78,7 @@ az account set --subscription "<azure-subscription>"
 
 ```bash
 # provision Azure Bot Services resources to host your bot
-msbot clone services --name "<your_bot_name>" --code-dir "." --location westus --sdkLanguage "Csharp" --folder deploymentScripts/msbotClone --verbose
+msbot clone services --name "$safeprojectname$" --code-dir "." --location westus --sdkLanguage "Csharp" --folder deploymentScripts/msbotClone --verbose
 ```
 
 ### Publishing Changes to Azure Bot Service
