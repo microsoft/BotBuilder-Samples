@@ -285,6 +285,7 @@ namespace BotFileCreator
 
         private void DisableAfterEncryption(Grid gridPanel)
         {
+            this.CancelButton.Content = "Close";
             this.leftMenu.IsEnabled = false;
             this.CreateButton.IsEnabled = false;
             this.EncryptCheckBox.IsEnabled = false;
