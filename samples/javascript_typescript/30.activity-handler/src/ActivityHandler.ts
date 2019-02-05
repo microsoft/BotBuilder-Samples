@@ -19,10 +19,6 @@ export class ActivityHandler {
         return this.on('ContactRelationUpdate', handler);
     }
 
-    public onDeleteUserData(handler: BotHandler): this {
-        return this.on('DeleteUserData', handler);
-    }
-
     public onConversationUpdate(handler: BotHandler): this {
         return this.on('ConversationUpdate', handler);
     }
@@ -105,9 +101,6 @@ export class ActivityHandler {
                             await runDialogs();
                         }
                     });
-                    break;
-                case ActivityTypes.DeleteUserData:
-                    await this.handle(context, 'DeleteUserData', runDialogs);
                     break;
                 case ActivityTypes.Invoke:
                     await this.handle(context, 'Invoke', runDialogs);
