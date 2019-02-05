@@ -3,6 +3,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Linq;
 
 namespace BotFileCreator
 {
@@ -14,9 +15,14 @@ namespace BotFileCreator
         private string botFileName;
         private string endpoint;
         private string botFileFullPath;
+        private BotConfigurationViewModel botConfigurationViewModel;
 
         public BotFileCreationWizard()
         {
+            botConfigurationViewModel = new BotConfigurationViewModel();
+
+            DataContext = botConfigurationViewModel;
+
             InitializeComponent();
             this.botFileName = string.Empty;
             this.botFileFullPath = GeneralSettings.Default.ProjectName;
@@ -60,7 +66,7 @@ namespace BotFileCreator
                 }
 
                 // Class that will create the .bot file
-                BotFileCreatorManager fileCreator = new BotFileCreatorManager(botFileNameManager, commandManager);
+                BotFileCreatorManager fileCreator = new BotFileCreatorManager(botFileNameManager, commandManager, botConfigurationViewModel);
 
                 // Creates the .bot file
                 Tuple<bool, string> fileCreatorResult = fileCreator.CreateBotFile();
@@ -74,7 +80,15 @@ namespace BotFileCreator
                 {
                     // If the file was successfully created, the Wizard will be closed.
                     MessageBox.Show("Bot file successfully created", "Bot file successfully created", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    this.Close();
+
+                    if (!(bool)this.EncryptCheckBox.IsChecked)
+                    {
+                        this.Close();
+                    }
+
+                    botConfigurationViewModel.OnPropertyChanged(nameof(botConfigurationViewModel.SecretKey));
+                    this.BotEncrypt_ClicK(sender, e);
+                    DisableAfterEncryption(this.gripPanel);
                 }
             }
             catch (Exception ex)
@@ -165,6 +179,13 @@ namespace BotFileCreator
                 commandManager = endpoint;
             }
 
+            if (this.EncryptCheckBox.IsChecked == true)
+            {
+                var encrypt = new MSBotCommandEncrypt(init);
+                commandManager = encrypt;
+            }
+
+
             // Does not prompt any message after executing `msbot init` command
             MSBotCommandQuiet quiet = new MSBotCommandQuiet(commandManager);
 
@@ -239,6 +260,34 @@ namespace BotFileCreator
             {
                 this.BotEncryptPanel.Visibility = Visibility.Visible;
             }
+        }
+
+        private void EncryptCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (!this.EncryptNote.IsVisible)
+            {
+                this.EncryptNote.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void EncryptCheckBox_UnChecked(object sender, RoutedEventArgs e)
+        {
+            if (this.EncryptNote.IsVisible)
+            {
+                this.EncryptNote.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(botConfigurationViewModel.SecretKey);
+        }
+
+        private void DisableAfterEncryption(Grid gridPanel)
+        {
+            this.leftMenu.IsEnabled = false;
+            this.CreateButton.IsEnabled = false;
+            this.EncryptCheckBox.IsEnabled = false;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace BotFileCreator
 {
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
     using System;
     using System.IO;
     using System.Linq;
@@ -8,11 +10,13 @@
     {
         private BotFileNameManager botFileNameManager;
         private MSBotCommandManager commandManager;
+        private BotConfigurationViewModel botConfigurationViewModel;
 
-        public BotFileCreatorManager(BotFileNameManager botFileNameManager, MSBotCommandManager commandManager)
+        public BotFileCreatorManager(BotFileNameManager botFileNameManager, MSBotCommandManager commandManager, BotConfigurationViewModel botConfigurationViewModel)
         {
             this.botFileNameManager = botFileNameManager;
             this.commandManager = commandManager;
+            this.botConfigurationViewModel = botConfigurationViewModel;
         }
 
         /// <summary>
@@ -27,13 +31,21 @@
             // If the file does not exist, will create it and add to the .csproj file
             if (!File.Exists(fullName))
             {
-                CreateBotFileFromCMD(this.commandManager.GetMSBotCommand());
+                var output = string.Empty;
+                CreateBotFileFromCMD(this.commandManager.GetMSBotCommand(), out output);
+
+                if (!string.IsNullOrWhiteSpace(output))
+                {
+                    var outputJsonObject = (JObject)JsonConvert.DeserializeObject(output);
+                    botConfigurationViewModel.SecretKey = (string)outputJsonObject["secret"];
+                }
+
                 AddFileToProject(botFileNameManager.ProjectName, fullName);
             }
             else
             {
-                // Returns an error if the bot file allready exists.
-                return new Tuple<bool, string>(false, $"The bot file {botFileNameManager.BotFileNameWithExtension} allready exists.");
+                // Returns an error if the bot file already exists.
+                return new Tuple<bool, string>(false, $"The bot file {botFileNameManager.BotFileNameWithExtension} already exists.");
             }
 
             return new Tuple<bool, string>(true, string.Empty);
@@ -67,9 +79,9 @@
         /// Creates a .bot file using the command line
         /// </summary>
         /// <param name="command">Command for creating bot files</param>
-        private void CreateBotFileFromCMD(string command)
+        private void CreateBotFileFromCMD(string command, out string commandOutput)
         {
-            CLIHelper.CLIHelper.RunCommand(command);
+            CLIHelper.CLIHelper.RunCommand(command, out commandOutput);
         }
     }
 }

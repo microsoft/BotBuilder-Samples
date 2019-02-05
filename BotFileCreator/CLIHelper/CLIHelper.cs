@@ -9,7 +9,8 @@
         /// Executes a specific command
         /// </summary>
         /// <param name="command">Command to execute</param>
-        public static void RunCommand(string command)
+        /// <param name="output">result of the command output</param>
+        public static void RunCommand(string command, out string output)
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
@@ -17,7 +18,10 @@
             startInfo.FileName = "cmd.exe";
             startInfo.Arguments = command;
             process.StartInfo = startInfo;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.UseShellExecute = false;
             process.Start();
+            output = process.StandardOutput.ReadToEnd();
         }
 
         /// <summary>

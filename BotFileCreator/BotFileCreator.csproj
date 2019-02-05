@@ -59,6 +59,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BaseDialogWindow.cs" />
+    <Compile Include="BotConfigurationViewModel.cs" />
     <Compile Include="BotFileCreationWizard.xaml.cs">
       <DependentUpon>BotFileCreationWizard.xaml</DependentUpon>
     </Compile>
@@ -74,6 +75,7 @@
     </Compile>
     <Compile Include="MSBotCommandManager\CommandWrappers\MSBotCommandEndpoint.cs" />
     <Compile Include="MSBotCommandManager\CommandWrappers\MSBotCommandQuiet.cs" />
+    <Compile Include="MSBotCommandManager\CommandWrappers\MSBotCommandEncrypt.cs" />
     <Compile Include="MSBotCommandManager\MSBotCommandInit.cs" />
     <Compile Include="MSBotCommandManager\MSBotCommandManager.cs" />
     <Compile Include="MSBotCommandManager\MSBotCommandWrapper.cs" />
