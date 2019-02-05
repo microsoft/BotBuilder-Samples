@@ -31,8 +31,48 @@ export class ActivityHandler {
         return this.on('ConversationMembersRemoved', handler);
     }
 
+    public onEndOfConversation(handler: BotHandler): this {
+        return this.on('EndOfConversation', handler);
+    }
+
     public onEvent(handler: BotHandler): this {
         return this.on('Event', handler);
+    }
+
+    public onInvoke(handler: BotHandler): this {
+        return this.on('Invoke', handler);
+    }
+
+    public onInstallationUpdate(handler: BotHandler): this {
+        return this.on('InstallationUpdate', handler);
+    }
+
+    public onMessageDelete(handler: BotHandler): this {
+        return this.on('MessageDelete', handler);
+    }
+
+    public onMessageUpdate(handler: BotHandler): this {
+        return this.on('MessageUpdate', handler);
+    }
+
+    public onMessageReaction(handler: BotHandler): this {
+        return this.on('MessageReaction', handler);
+    }
+
+    public onMessageReactionAdded(handler: BotHandler): this {
+        return this.on('MessageReactionAdded', handler);
+    }
+
+    public onMessageReactionRemoved(handler: BotHandler): this {
+        return this.on('MessageReactionRemoved', handler);
+    }
+
+    public onTyping(handler: BotHandler): this {
+        return this.on('Typing', handler);
+    }
+
+    public onHandoff(handler: BotHandler): this {
+        return this.on('Handoff', handler);
     }
 
     public onCreateConversation(handler: BotHandler): this {
@@ -42,14 +82,6 @@ export class ActivityHandler {
    public onContinueConversation(handler: BotHandler): this {
         return this.on('ContinueConversation', handler);
    }
-
-    public onInvoke(handler: BotHandler): this {
-        return this.on('Invoke', handler);
-    }
-
-    public onEndOfConversation(handler: BotHandler): this {
-        return this.on('EndOfConversation', handler);
-    }
 
     public onUnrecognizedActivityType(handler: BotHandler): this {
         return this.on('UnrecognizedActivityType', handler);
@@ -91,6 +123,9 @@ export class ActivityHandler {
                         }
                     });
                     break;
+                case ActivityTypes.EndOfConversation:
+                    await this.handle(context, 'EndOfConversation', runDialogs);
+                    break;
                 case ActivityTypes.Event:
                     await this.handle(context, 'Event', async () => {
                         if (context.activity.name === 'createConversation') {
@@ -105,8 +140,29 @@ export class ActivityHandler {
                 case ActivityTypes.Invoke:
                     await this.handle(context, 'Invoke', runDialogs);
                     break;
-                case ActivityTypes.EndOfConversation:
-                    await this.handle(context, 'EndOfConversation', runDialogs);
+                case ActivityTypes.InstallationUpdate:
+                    await this.handle(context, 'InstallationUpdate', runDialogs);
+                    break;
+                case ActivityTypes.MessageDelete:
+                    await this.handle(context, 'MessageDelete', runDialogs);
+                    break;
+                case ActivityTypes.MessageUpdate:
+                    await this.handle(context, 'MessageUpdate', runDialogs);
+                    break;
+                case ActivityTypes.MessageReaction:
+                    await this.handle(context, 'MessageReaction', runDialogs);
+                    if (context.activity.reactionsAdded && context.activity.reactionsAdded.length) {
+                        await this.handle(context, 'MessageReactionAdded', runDialogs);
+                    }
+                    if (context.activity.reactionsRemoved && context.activity.reactionsRemoved.length) {
+                        await this.handle(context, 'MessageReactionRemoved', runDialogs);
+                    }
+                    break;
+                case ActivityTypes.Typing:
+                    await this.handle(context, 'Typing', runDialogs);
+                    break;
+                case ActivityTypes.Handoff:
+                    await this.handle(context, 'Handoff', runDialogs);
                     break;
                 default:
                     // handler for unknown or unhandled types

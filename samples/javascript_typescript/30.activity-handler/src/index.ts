@@ -109,11 +109,6 @@ myBot.onMessage(async (context, next) => {
     }
 });
 
-myBot.onDeleteUserData(async (context, next) => {
-    await context.sendActivity(`Delete data for user: ${ context.activity.from.id }`);
-    await next();
-});
-
 myBot.onConversationUpdate(async (context, next) => {
     await context.sendActivity('Something about this conversation has been updated.');
     await next();
