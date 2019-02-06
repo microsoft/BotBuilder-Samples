@@ -26,12 +26,26 @@ This sample requires prerequisites in order to run.
     # set you Azure subscription
     az account set --subscription "<azure-subscription>"
     ```
+    Before creating the Luis service application, is recommendable following the next steps:
+
+    - Delete the auto-generated .bot file, as the `msbot clone services` command can't update an existing file.
+    - As the command `msbot clone services` uses secret-manager to safely store the key generated for encrypting the bot file, it's necessary adding the next code in your $safeprojectname$.csproj file:
+
+    ```
+        <PropertyGroup>
+            <UserSecretsId>GUID</UserSecretsId>
+        </PropertyGroup>
+    ```
+    **Note**: You can add any arbitrary `GUID` value for the `UserSecretsId` property, but you can not repeat `GUID` values among the projects, as they must be unique.
+
+    - Install Microsoft.Extensions.Configuration.UserSecrets NuGet package
+
     ```bash
     # Create LUIS service application
     msbot clone services --name "$safeprojectname$" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "CSharp" --folder deploymentScripts/msbotClone --verbose
     ```
 
-    Once the Luis service application is created, change the value of `LuisConfiguration` variable in $safeprojectname$Bot.cs with the Luis service name, which can be found in $safeprojectname$.bot file (it should be `$safeprojectname$_core-bot-LUIS`).
+    **Note**: Once the Luis service application is created, change the value of `LuisConfiguration` variable in $safeprojectname$Bot.cs with the Luis service name, which can be found in $safeprojectname$.bot file (it should be `$safeprojectname$_core-bot-LUIS`).
 
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
