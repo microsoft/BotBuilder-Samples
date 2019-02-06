@@ -78,7 +78,7 @@
             <TextBlock Text="Encrypt keys stored in your bot configuration" Margin="5" />
             <CheckBox Style="{DynamicResource encryptCheckBox}" x:Name="EncryptCheckBox" Content="Encrypt" Margin="5,10,10,10" Unchecked="EncryptCheckBox_UnChecked" Checked="EncryptCheckBox_Checked"/> <!--Change hard coded white color-->
             <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBox x:Name="EncryptTextBlock"  Height="25" Width="280" HorizontalAlignment="Left" Margin="0,0,10,0" FontSize="11" Text="{Binding Path=SecretKey, TargetNullValue='Your keys are not encrypt'}"/>
+                <TextBox x:Name="EncryptTextBlock"  Height="25" Width="280" HorizontalAlignment="Left" Margin="0,0,10,0" FontSize="11" Text="{Binding Path=SecretKey, TargetNullValue='Your keys are not encrypted'}"/>
                 <Button Style="{DynamicResource copyButton}" x:Name="EncryptCopyButton" Content="Copy" Click="Button_Click">
                     <Button.Template >
                         <ControlTemplate TargetType="{x:Type Button}">
