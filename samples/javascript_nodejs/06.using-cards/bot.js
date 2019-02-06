@@ -65,7 +65,7 @@ class RichCardsBot {
                 // PromptOptions also contains the list of choices available to the user.
                 const promptOptions = {
                     prompt: 'Please select a card:',
-                    reprompt: 'That was not a valid choice, please select a card or number from 1 to 8.',
+                    retryPrompt: 'That was not a valid choice, please select a card or number from 1 to 8.',
                     choices: this.getChoices()
                 };
 

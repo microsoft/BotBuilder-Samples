@@ -49,8 +49,9 @@ module.exports = {
             this.luisRecognizer = new LuisRecognizer({
                 applicationId: luisConfig.appId,
                 endpoint: luisConfig.getEndpoint(),
-                // CAUTION: Its better to assign and use a subscription key instead of authoring key here.
-                endpointKey: luisConfig.subscriptionKey
+                // CAUTION: Authoring key is used in this example as it is appropriate for prototyping.
+                // When implimenting for deployment/production, assign and use a subscription key instead of an authoring key.
+                endpointKey: luisConfig.authoringKey
             });
         }
         /**

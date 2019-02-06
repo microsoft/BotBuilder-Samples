@@ -60,7 +60,7 @@ namespace NLP_With_Dispatch_Bot
 
             if (!_services.QnAServices.ContainsKey(QnAMakerKey))
             {
-                throw new System.ArgumentException($"Invalid configuration. Please check your '.bot' file for a QnA service named '{DispatchKey}'.");
+                throw new System.ArgumentException($"Invalid configuration. Please check your '.bot' file for a QnA service named '{QnAMakerKey}'.");
             }
 
             if (!_services.LuisServices.ContainsKey(HomeAutomationLuisKey))

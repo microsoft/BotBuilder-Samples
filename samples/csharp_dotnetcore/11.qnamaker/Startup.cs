@@ -65,7 +65,7 @@ namespace Microsoft.BotBuilderSamples
             var botConfig = BotConfiguration.Load(botFilePath ?? @".\qnamaker.bot", secretKey);
 
             // Initialize Bot Connected Services clients.
-            var connectedServices = InitBotServices(botConfig);
+            var connectedServices = new BotServices(botConfig);
             services.AddSingleton(sp => connectedServices);
 
             services.AddSingleton(sp => botConfig);
@@ -131,67 +131,6 @@ namespace Microsoft.BotBuilderSamples
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
-        }
-
-        /// <summary>
-        /// Initialize the bot's references to external services.
-        /// For example, the QnA Maker instance is created here. This external service is configured
-        /// using the <see cref="BotConfiguration"/> class (based on the contents of your ".bot" file).
-        /// </summary>
-        /// <param name="config">The <see cref="BotConfiguration"/> object based on your ".bot" file.</param>
-        /// <returns>A <see cref="BotConfiguration"/> representing client objects to access external services the bot uses.</returns>
-        /// <seealso cref="BotConfiguration"/>
-        /// <seealso cref="QnAMaker"/>
-        private static BotServices InitBotServices(BotConfiguration config)
-        {
-            var qnaServices = new Dictionary<string, QnAMaker>();
-
-            foreach (var service in config.Services)
-            {
-                switch (service.Type)
-                {
-                    case ServiceTypes.QnA:
-                        {
-                            // Create a QnA Maker that is initialized and suitable for passing
-                            // into the IBot-derived class (QnABot).
-                            var qna = (QnAMakerService)service;
-                            if (qna == null)
-                            {
-                                throw new InvalidOperationException("The QnA service is not configured correctly in your '.bot' file.");
-                            }
-
-                            if (string.IsNullOrWhiteSpace(qna.KbId))
-                            {
-                                throw new InvalidOperationException("The QnA KnowledgeBaseId ('kbId') is required to run this sample. Please update your '.bot' file.");
-                            }
-
-                            if (string.IsNullOrWhiteSpace(qna.EndpointKey))
-                            {
-                                throw new InvalidOperationException("The QnA EndpointKey ('endpointKey') is required to run this sample. Please update your '.bot' file.");
-                            }
-
-                            if (string.IsNullOrWhiteSpace(qna.Hostname))
-                            {
-                                throw new InvalidOperationException("The QnA Host ('hostname') is required to run this sample. Please update your '.bot' file.");
-                            }
-
-                            var qnaEndpoint = new QnAMakerEndpoint()
-                            {
-                                KnowledgeBaseId = qna.KbId,
-                                EndpointKey = qna.EndpointKey,
-                                Host = qna.Hostname,
-                            };
-
-                            var qnaMaker = new QnAMaker(qnaEndpoint);
-                            qnaServices.Add(qna.Name, qnaMaker);
-
-                            break;
-                        }
-                }
-            }
-
-            var connectedServices = new BotServices(qnaServices);
-            return connectedServices;
         }
     }
 }

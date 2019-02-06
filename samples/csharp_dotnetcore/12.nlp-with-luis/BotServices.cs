@@ -36,6 +36,8 @@ namespace Microsoft.BotBuilderSamples
                             throw new InvalidOperationException("The LUIS service is not configured correctly in your '.bot' file.");
                         }
 
+                        // CAUTION: Authoring key is used in this example as it is appropriate for prototyping.
+                        // When implimenting for deployment/production, assign and use a subscription key instead of an authoring key.
                         var app = new LuisApplication(luis.AppId, luis.AuthoringKey, luis.GetEndpoint());
                         var recognizer = new LuisRecognizer(app);
                         this.LuisServices.Add(luis.Name, recognizer);

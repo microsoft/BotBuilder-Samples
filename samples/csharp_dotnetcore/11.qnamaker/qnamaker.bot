@@ -12,7 +12,7 @@
         },
         {
             "type": "qna",
-            "name": "",
+            "name": "QnABot",
             "kbId": "",
             "subscriptionKey": "",
             "endpointKey": "",

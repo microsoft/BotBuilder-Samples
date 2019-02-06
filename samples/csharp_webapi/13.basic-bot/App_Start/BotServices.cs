@@ -41,17 +41,24 @@ namespace BasicBot
                                 throw new InvalidOperationException("The LUIS Model Application Id ('appId') is required to run this sample. Please update your '.bot' file.");
                             }
 
-                            if (string.IsNullOrWhiteSpace(luis.SubscriptionKey))
+                            if (string.IsNullOrWhiteSpace(luis.AuthoringKey))
                             {
-                                throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample. Please update your '.bot' file.");
+                                throw new InvalidOperationException("The LUIS Authoring Key ('authoringKey') is required to run this sample. Please update your '.bot' file.");
                             }
+
+                            // CAUTION: Authoring key is used in this example as it is appropriate for prototyping.
+                            // When implimenting for deployment/production, assign and use a subscription key instead of an authoring key.
+                            // if (string.IsNullOrWhiteSpace(luis.SubscriptionKey))
+                            // {
+                            //     throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample. Please update your '.bot' file.");
+                            // }
 
                             if (string.IsNullOrWhiteSpace(luis.Region))
                             {
                                 throw new InvalidOperationException("The Region ('region') is required to run this sample.  Please update your '.bot' file.");
                             }
 
-                            var app = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
+                            var app = new LuisApplication(luis.AppId, luis.AuthoringKey, luis.GetEndpoint());
                             var recognizer = new LuisRecognizer(app);
                             this.LuisServices.Add(luis.Name, recognizer);
                             break;

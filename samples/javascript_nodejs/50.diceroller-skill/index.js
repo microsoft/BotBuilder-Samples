@@ -25,7 +25,7 @@ server.listen(process.env.port || process.env.PORT || 3988, function() {
 });
 
 // .bot file path
-const BOT_FILE = path.join(__dirname, (process.env.botFilePath || '/cortana-skill.bot'));
+const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 
 // Read the configuration from a .bot file.
 // This includes information about the bot's endpoints and configuration.

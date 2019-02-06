@@ -16,6 +16,14 @@ This samples requires prerequisites in order to run.
 - [Required Prerequisites][41]
 
 # To run the bot
+- Clone the repository
+    ```bash
+    git clone https://github.com/microsoft/botbuilder-samples.git
+    ```
+- In a terminal, navigate to `samples/javascript_nodejs/21.luis-with-appinsights`
+    ```bash
+    cd samples/javascript_nodejs/21.luis-with-appinsights
+    ```
 - Setup LUIS
     Assuming prerequisites have been installed:
     ```bash
@@ -30,6 +38,7 @@ This samples requires prerequisites in order to run.
     # Create LUIS service application
     msbot clone services --name "<your-bot-name>" --luisAuthoringKey "<luis-authoring-key>" --location <azure region like eastus, westus, westus2 etc.> --folder "DeploymentScripts/MsbotClone" --verbose
     ```
+- Make sure that the `name` property of your LUIS service in your `.bot` file matches `LuisKey`  in `LuisBot.cs`.
 
 - Start the bot
    - If using Visual Studio:
