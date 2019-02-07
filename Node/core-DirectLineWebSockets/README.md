@@ -20,15 +20,15 @@ The minimum prerequisites to run this sample are:
 * **[Recommended]** Visual Studio Code for IntelliSense and debugging, download it from [here](https://code.visualstudio.com/) for free.
 
 #### Direct Line API
-Credentials for the Direct Line API must be obtained from the Bot Framework developer portal, and will only allow the caller to connect to the bot for which they were generated.
-In the Bot Framework developer portal, enable Direct Line in the channels list and then, configure the Direct Line secret and update its value in [DirectLineClient's app.js](DirectLineClient/app.js#L6) (`directLineSecret` variable). Make sure that the checkbox for version 3.0 [PREVIEW] is checked. 
+Credentials for the Direct Line API must be obtained from the Bot Registration in the Azure Portal, and will only allow the caller to connect to the bot for which they were generated.
+In the Bot Registration in the Azure Portal, enable Direct Line in the channels list and then, configure the Direct Line secret and update its value in [DirectLineClient's app.js](DirectLineClient/app.js#L6) (`directLineSecret` variable). Make sure that the checkbox for version 3.0 [PREVIEW] is checked. 
 Refer to [this](https://docs.microsoft.com/en-us/bot-framework/portal-configure-channels) for more information on how to configure channels.
 
 ![Configure Direct Line](images/outcome-configure.png)
 
 #### Publish
-Also, in order to be able to run and test this sample you must [publish your bot, for example to Azure](https://docs.microsoft.com/en-us/bot-framework/publish-bot-overview). Alternatively, you can [Debug locally using ngrok](https://docs.microsoft.com/en-us/bot-framework/debug-bots-emulator).
-Remember to update the environment variables with the `MICROSOFT_APP_ID` and `MICROSOFT_APP_PASSWORD` on the [.env](DirectLineBot/.env) file.
+Also, in order to be able to run and test this sample you must [Register a bot with Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration). Alternatively, you can [Debug locally using ngrok](https://blog.botframework.com/2017/10/19/debug-channel-locally-using-ngrok/).
+Remember to update the environment variables with the `MICROSOFT_APP_ID` and `MICROSOFT_APP_PASSWORD` in the [.env](DirectLineBot/.env) file.
 
 ### Code Highlights
 
@@ -38,14 +38,12 @@ You'll see that we are using the Direct Line secret to [obtain a token](DirectLi
 After the token is obtained, the client's auth secret is replaced with this new token.
 
 ````JavaScript
-var directLineSpecUrl = 'https://docs.botframework.com/en-us/restapi/directline3/swagger.json';
-var directLineClient = rp(directLineSpecUrl)
-    .then(function (spec) {
-        // Client
-        return new Swagger({
-            spec: JSON.parse(spec.trim()),
-            usePromise: true
-        });
+var directLineSpec = require('./directline-swagger.json');
+
+var directLineClient = new Swagger(
+    {
+        spec: directLineSpec,
+        usePromise: true,
     })
     .then(function (client) {
         // Obtain a token using the Direct Line secret
@@ -194,10 +192,10 @@ To test the ChannelData custom messages type in the Client's console `show me a 
 
 To get more information about how to get started in Bot Builder for Node and Direct Line API please review the following resources:
 * [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
-* [Bot Framework FAQ](https://docs.botframework.com/en-us/faq/#i-have-a-communication-channel-id-like-to-be-configurable-with-bot-framework-can-i-work-with-microsoft-to-do-that)
-* [Direct Line API - v3.0](https://docs.botframework.com/en-us/restapi/directline3/)
-* [Direct Line API - v3.0 - Authentication](https://docs.botframework.com/en-us/restapi/directline3/#authentication-secrets-and-tokens)
-* [Direct Line Swagger file - v3.0](https://docs.botframework.com/en-us/restapi/directline3/swagger.json)
+* [Bot Framework FAQ](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-resources-bot-framework-faq#i-have-a-communication-channel-id-like-to-be-configurable-with-bot-framework-can-i-work-with-microsoft-to-do-that)
+* [Direct Line API - v3.0](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-direct-line-3-0-concepts/)
+* [Direct Line API - v3.0 - Authentication](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-direct-line-3-0-authentication)
+* [Direct Line Swagger file - v3.0](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-protocol/directline-3.0.json)
 * [Swagger-JS](https://github.com/swagger-api/swagger-js)
 * [Send and receive attachments](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-send-receive-attachments)
 * [Debugging locally using ngrok](https://docs.microsoft.com/en-us/bot-framework/debug-bots-emulator)
