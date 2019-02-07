@@ -1,64 +1,94 @@
-﻿namespace SpeechToText.Services
-{
-    using System;
-    using System.IO;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using System.Web;
-    using Newtonsoft.Json;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Web.Configuration;
+using Microsoft.CognitiveServices.Speech;
 
+namespace SpeechToText.Services
+{
+    //from: https://github.com/Azure-Samples/cognitive-services-speech-sdk/blob/master/samples/csharp/sharedcontent/console/speech_recognition_samples.cs#L163
     public class MicrosoftCognitiveSpeechService
     {
         /// <summary>
         /// Gets text from an audio stream.
         /// </summary>
-        /// <param name="audiostream"></param>
-        /// <returns>Transcribed text. </returns>
-        public async Task<string> GetTextFromAudioAsync(Stream audiostream)
+        /// <param name="audiostream">Audio stream</param>
+        /// <returns>Transcribed text</returns>
+        public static async Task<string> GetTextFromAudioAsync(Stream audiostream)
         {
-            var requestUri = @"https://speech.platform.bing.com/recognize?scenarios=smd&appid=D4D52672-91D7-4C74-8AD8-42B1D98141A5&locale=en-US&device.os=bot&form=BCSSTT&version=3.0&format=json&instanceid=565D69FF-E928-4B7E-87DA-9A750B96D9E3&requestid=" + Guid.NewGuid();
+            string recognizedText = string.Empty;
+            
+            // Creates an instance of a speech config with specified subscription key and service region.
+            // Replace with your own subscription key and service region (e.g., "westus").
+            var config = SpeechConfig.FromSubscription(WebConfigurationManager.AppSettings["MicrosoftSpeechApiKey"], WebConfigurationManager.AppSettings["MicrosoftSpeechServiceRegion"]);
 
-            using (var client = new HttpClient())
+            var stopRecognition = new TaskCompletionSource<int>();
+
+            // Creates a speech recognizer using file as audio input.
+            // Replace with your own audio file name.
+            using (var audioInput = Helper.OpenWavStream(audiostream))
             {
-                var token = Authentication.Instance.GetAccessToken();
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
-
-                using (var binaryContent = new ByteArrayContent(StreamToBytes(audiostream)))
+                using (var recognizer = new SpeechRecognizer(config, audioInput))
                 {
-                    binaryContent.Headers.TryAddWithoutValidation("content-type", "audio/wav; codec=\"audio/pcm\"; samplerate=16000");
+                    // Subscribes to events.
+                    recognizer.Recognizing += (s, e) =>
+                    {
+                        Console.WriteLine($"RECOGNIZING: Text={e.Result.Text}");
+                    };
 
-                    var response = await client.PostAsync(requestUri, binaryContent);
-                    if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    recognizer.Recognized += (s, e) =>
                     {
-                        throw new HttpException((int)response.StatusCode, $"({response.StatusCode}) {response.ReasonPhrase}");
-                    }
+                        if (e.Result.Reason == ResultReason.RecognizedSpeech)
+                        {
+                            Console.WriteLine($"RECOGNIZED: Text={e.Result.Text}");
+                            recognizedText = e.Result.Text;
+                        }
+                        else if (e.Result.Reason == ResultReason.NoMatch)
+                        {
+                            Console.WriteLine($"NOMATCH: Speech could not be recognized.");
+                            recognizedText = "NOMATCH: Speech could not be recognized.";
+                        }
+                    };
 
-                    var responseString = await response.Content.ReadAsStringAsync();
-                    try
+                    recognizer.Canceled += (s, e) =>
                     {
-                        dynamic data = JsonConvert.DeserializeObject(responseString);
-                        return data.header.name;
-                    }
-                    catch (JsonReaderException ex)
+                        Console.WriteLine($"CANCELED: Reason={e.Reason}");
+
+                        if (e.Reason == CancellationReason.Error)
+                        {
+                            Console.WriteLine($"CANCELED: ErrorCode={e.ErrorCode}");
+                            Console.WriteLine($"CANCELED: ErrorDetails={e.ErrorDetails}");
+                            Console.WriteLine($"CANCELED: Did you update the subscription info?");
+                        }
+
+                        stopRecognition.TrySetResult(0);
+                    };
+
+                    recognizer.SessionStarted += (s, e) =>
                     {
-                        throw new Exception(responseString, ex);
-                    }
+                        Console.WriteLine("\n    Session started event.");
+                    };
+
+                    recognizer.SessionStopped += (s, e) =>
+                    {
+                        Console.WriteLine("\n    Session stopped event.");
+                        Console.WriteLine("\nStop recognition.");
+                        stopRecognition.TrySetResult(0);
+                    };
+
+                    // Starts continuous recognition. Uses StopContinuousRecognitionAsync() to stop recognition.
+                    await recognizer.StartContinuousRecognitionAsync().ConfigureAwait(false);
+
+                    // Waits for completion.
+                    // Use Task.WaitAny to keep the task rooted.
+                    Task.WaitAny(new[] { stopRecognition.Task });
+
+                    // Stops recognition.
+                    await recognizer.StopContinuousRecognitionAsync().ConfigureAwait(false);
                 }
             }
-        }
 
-        /// <summary>
-        /// Converts Stream into byte[].
-        /// </summary>
-        /// <param name="input">Input stream</param>
-        /// <returns>Output byte[]</returns>
-        private static byte[] StreamToBytes(Stream input)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                input.CopyTo(ms);
-                return ms.ToArray();
-            }
+            return recognizedText;
         }
     }
 }
