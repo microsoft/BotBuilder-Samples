@@ -1,30 +1,23 @@
 var Swagger = require('swagger-client');
 var open = require('open');
-var rp = require('request-promise');
+var directLineSpec = require('./directline-swagger.json');
 
 // config items
 var pollInterval = 1000;
-var directLineSecret = '4LKVFeUN-JE.cwA.qho.Aj1UU4gwBvbfKWnvqS-_qSmJCWsvzojoUo8iOCbnm8A';
+var directLineSecret = 'DIRECTLINE_SECRET';
 var directLineClientName = 'DirectLineClient';
-var directLineSpecUrl = 'https://docs.botframework.com/en-us/restapi/directline3/swagger.json';
 
-var directLineClient = rp(directLineSpecUrl)
-    .then(function (spec) {
-        // client
-        return new Swagger({
-            spec: JSON.parse(spec.trim()),
-            usePromise: true
-        });
-    })
-    .then(function (client) {
-        // add authorization header to client
+var directLineClient = new Swagger(
+    {
+        spec: directLineSpec,
+        usePromise: true,
+    }).then((client) => {
+        // add authorization header
         client.clientAuthorizations.add('AuthorizationBotConnector', new Swagger.ApiKeyAuthorization('Authorization', 'Bearer ' + directLineSecret, 'header'));
         return client;
-    })
-    .catch(function (err) {
-        console.error('Error initializing DirectLine client', err);
-    });
-
+    }).catch((err) =>
+        console.error('Error initializing DirectLine client', err));
+        
 // once the client is ready, create a new conversation
 directLineClient.then(function (client) {
     client.Conversations.Conversations_StartConversation()                          // create conversation

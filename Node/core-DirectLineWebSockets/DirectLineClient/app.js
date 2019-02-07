@@ -1,6 +1,7 @@
 var Swagger = require('swagger-client');
 var open = require('open');
 var rp = require('request-promise');
+var directLineSpec = require('./directline-swagger.json');
 
 // Config settings
 var directLineSecret = 'DIRECTLINE_SECRET';
@@ -19,14 +20,10 @@ process.argv.forEach(function (val, index, array) {
     }
 });
 
-var directLineSpecUrl = 'https://docs.botframework.com/en-us/restapi/directline3/swagger.json';
-var directLineClient = rp(directLineSpecUrl)
-    .then(function (spec) {
-        // Client
-        return new Swagger({
-            spec: JSON.parse(spec.trim()),
-            usePromise: true
-        });
+var directLineClient = new Swagger(
+    {
+        spec: directLineSpec,
+        usePromise: true,
     })
     .then(function (client) {
         // Obtain a token using the Direct Line secret
