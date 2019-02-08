@@ -51,21 +51,28 @@
         <Rectangle Style="{DynamicResource separator}"  Grid.Column="3" Grid.Row="2" Grid.RowSpan="5" />
         <Canvas Style="{DynamicResource downBar}" Grid.Column="0" Grid.Row="6" Grid.RowSpan="2" Grid.ColumnSpan="7">
             <StackPanel Orientation="Horizontal" Canvas.Right="15" Canvas.Bottom="15">
-                <Button x:Name="CreateButton" Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="Create" HorizontalAlignment="Left" VerticalAlignment="Top" Click="CreateButton_Click" Canvas.Left="405" Canvas.Top="460"/>
-                <Button x:Name="CancelButton" Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Click="CancelButton_Click" Canvas.Left="500" Canvas.Top="460"/>
+                <Button x:Name="CreateButton" Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="Create" Click="CreateButton_Click" Canvas.Left="405" Canvas.Top="460"/>
+                <Button x:Name="CancelButton" Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="Cancel" Click="CancelButton_Click" Canvas.Left="500" Canvas.Top="460"/>
             </StackPanel>
         </Canvas>
 
         <StackPanel x:Name="BotNamePanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Visible">
             <TextBlock Style="{DynamicResource moduleTitle}" Text="Bot Name" />
             <TextBlock Text="Description" Margin="5" />
-            <TextBox Height="25" Width="250" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" Text="" TextChanged="TextBox_TextChanged" MaxLength="70" x:Name="BotFileNameTxt"/>
+            <TextBox Style="{DynamicResource botNameTextBox}" x:Name="BotFileNameTxt" TextChanged="TextBox_TextChanged" />
         </StackPanel>
 
         <StackPanel x:Name="BotEndpointPanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Collapsed">
             <TextBlock Style="{DynamicResource moduleTitle}" Text="Endpoints URL" />
             <TextBlock Text="Description" Margin="5" />
+            <TextBlock Text="Name" Margin="5" />
+            <TextBox Height="25" Width="200" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" TextChanged="Endpoint_Changed" />
+            <TextBlock Text="Endpoint" Margin="5" />
             <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" Text=" Your Bot endpoint (ex: http://localhost:3978/api/message)" TextChanged="Endpoint_Changed" />
+            <TextBlock Text="App Id" Margin="5" />
+            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" />
+            <TextBlock Text="App Password" Margin="5" />
+            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" />
         </StackPanel>
 
         <StackPanel x:Name="BotServicesPanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Collapsed">
@@ -93,23 +100,40 @@
 
 
     <Window.Resources>
+        <Style x:Key="botNameTextBox" TargetType="TextBox">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+            <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="250" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="MaxLength" Value="70"/>
+            <Setter Property="FontWeight" Value="Thin"/>
+        </Style>
+        
         <Style x:Key="grid" TargetType="Grid">
             <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
         </Style>
+       
         <Style x:Key="title" TargetType="TextBlock">
             <Setter Property="Padding" Value="0"/>
             <Setter Property="FontSize" Value="24" />
             <Setter Property="Margin" Value="5,10,0,20"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
         </Style>
+       
         <Style x:Key="menu" TargetType="Menu">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
         </Style>
+        
         <Style x:Key="menuItem" TargetType="MenuItem">
             <Setter Property="Padding" Value="5"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
         </Style>
+        
         <Style x:Key="separator" TargetType="Rectangle">
             <Setter Property="Stroke" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.PageSideBarExpanderSeparatorBrushKey}}"/>
             <Setter Property="HorizontalAlignment" Value="Left" />
@@ -168,6 +192,8 @@
                 <Setter Property="Height" Value="25"/>
                 <Setter Property="Width" Value="75" />
                 <Setter Property="Margin" Value="5" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Top" />
             </Style.Setters>
         </Style>
 
