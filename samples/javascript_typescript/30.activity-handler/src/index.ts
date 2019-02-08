@@ -100,12 +100,18 @@ myBot.onTurn(async (context, next) => {
 
 myBot.onMessage(async (context, next) => {
     // await context.sendActivity(`Echo: ${ context.activity.text }`);
+    await next();
+});
+
+myBot.onMessage(async (context, next) => {
+    // await context.sendActivity(`Echo: ${ context.activity.text }`);
 
     if (context.activity.text.match(/help/i)) {
         await context.sendActivity(`YOU NEED HELP! I saw this in my onMessage handler and will stop processing this message any further.`);
     } else {
         await next();
     }
+
 });
 
 myBot.onConversationUpdate(async (context, next) => {
