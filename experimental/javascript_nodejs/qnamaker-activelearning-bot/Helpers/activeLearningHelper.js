@@ -12,9 +12,6 @@ const PreviousLowScoreVariationMultiplier = 1.4;
 // Max Low Score Variation Multiplier
 const MaxLowScoreVariationMultiplier = 2.0;
 
-// Max Score For Single Answer Suggestion
-const MaxScoreForSingleAnswerSuggestion = 50;
-
 // Maximum Score For Low Score Variation
 const MaximumScoreForLowScoreVariation = 95.0;
 
@@ -30,8 +27,8 @@ class ActiveLearningHelper{
             return [];
         }
 
-        if(qnaSearchResults.length == 1 && this.isSingleAnswerSuggestion(qnaSearchResults[0].score)){
-            return qnaSearchResults[0];
+        if(qnaSearchResults.length == 1){
+            return qnaSearchResults;
         }
 
         var filteredQnaSearchResult = [];
@@ -43,7 +40,7 @@ class ActiveLearningHelper{
 
             for(var i = 1; i < qnaSearchResults.length; i++){
                 if (this.includeForClustering(prevScore, qnaSearchResults[i].score * 100, PreviousLowScoreVariationMultiplier) && this.includeForClustering(topAnswerScore, qnaSearchResults[i].score * 100, MaxLowScoreVariationMultiplier)){
-                    prevScore = qnaSearchResults[i].score;
+                    prevScore = qnaSearchResults[i].score * 100;
                     filteredQnaSearchResult.push(qnaSearchResults[i]);
                 }
             }
@@ -52,10 +49,6 @@ class ActiveLearningHelper{
         return filteredQnaSearchResult;
     }
 
-    isSingleAnswerSuggestion(score)
-    {
-        return (score < MaxScoreForSingleAnswerSuggestion);
-    }
 
     includeForClustering(prevScore, currentScore, multiplier)
     {

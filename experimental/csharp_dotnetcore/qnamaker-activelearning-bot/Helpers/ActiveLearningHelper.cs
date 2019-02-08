@@ -27,10 +27,6 @@ namespace QnAMakerActiveLearningBot.Helpers
         /// </summary>
         private const double MaxLowScoreVariationMultiplier = 2.0;
 
-        /// <summary>
-        /// Max Score For Single Answer Suggestion
-        /// </summary>
-        private const double MaxScoreForSingleAnswerSuggestion = 50;
 
         /// <summary>
         /// Maximum Score For Low Score Variation
@@ -46,43 +42,34 @@ namespace QnAMakerActiveLearningBot.Helpers
         {
             var filteredQnaSearchResult = new List<QueryResult>();
 
-            if (qnaSearchResults == null)
+            if (qnaSearchResults == null || qnaSearchResults.Count == 0)
             {
                 return filteredQnaSearchResult;
             }
 
-            if (qnaSearchResults.Count > 0)
+            if (qnaSearchResults.Count == 1)
             {
-                if (qnaSearchResults.Count == 1 && IsSingleAnswerSuggestion(qnaSearchResults[0].Score))
+                return qnaSearchResults;
+            }
+
+            var topAnswerScore = qnaSearchResults[0].Score * 100;
+            var prevScore = topAnswerScore;
+
+            if ((topAnswerScore > MinimumScoreForLowScoreVariation) && (topAnswerScore < MaximumScoreForLowScoreVariation))
+            {
+                filteredQnaSearchResult.Add(qnaSearchResults[0]);
+
+                for (var i = 1; i < qnaSearchResults.Count; i++)
                 {
-                    filteredQnaSearchResult.Add(qnaSearchResults[0]);
-                    return filteredQnaSearchResult;
-                }
-
-                var topAnswerScore = qnaSearchResults[0].Score * 100;
-                var prevScore = topAnswerScore;
-
-                if ((topAnswerScore > MinimumScoreForLowScoreVariation) && (topAnswerScore < MaximumScoreForLowScoreVariation))
-                {
-                    filteredQnaSearchResult.Add(qnaSearchResults[0]);
-
-                    for (var i = 1; i < qnaSearchResults.Count; i++)
+                    if (IncludeForClustering(prevScore, qnaSearchResults[i].Score * 100, PreviousLowScoreVariationMultiplier) && IncludeForClustering(topAnswerScore, qnaSearchResults[i].Score * 100, MaxLowScoreVariationMultiplier))
                     {
-                        if (IncludeForClustering(prevScore, qnaSearchResults[i].Score * 100, PreviousLowScoreVariationMultiplier) && IncludeForClustering(topAnswerScore, qnaSearchResults[i].Score * 100, MaxLowScoreVariationMultiplier))
-                        {
-                            prevScore = qnaSearchResults[i].Score;
-                            filteredQnaSearchResult.Add(qnaSearchResults[i]);
-                        }
+                        prevScore = qnaSearchResults[i].Score * 100;
+                        filteredQnaSearchResult.Add(qnaSearchResults[i]);
                     }
                 }
             }
-
+            
             return filteredQnaSearchResult;
-        }
-
-        private static bool IsSingleAnswerSuggestion(double score)
-        {
-            return (score < MaxScoreForSingleAnswerSuggestion);
         }
 
         private static bool IncludeForClustering(double prevScore, double currentScore, double multiplier)
