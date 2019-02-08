@@ -51,23 +51,23 @@
         <Rectangle Style="{DynamicResource separator}"  Grid.Column="3" Grid.Row="2" Grid.RowSpan="5" />
 
 
-        <StackPanel x:Name="BotNamePanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Collapsed">
+        <StackPanel x:Name="BotNamePanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Visible">
             <TextBlock Style="{DynamicResource moduleTitle}" Text="Bot Name" />
             <TextBlock Text="Description" Margin="5" />
             <TextBox Style="{DynamicResource botNameTextBox}" x:Name="BotFileNameTxt" Text="{Binding Path=BotFileName}" />
         </StackPanel>
 
-        <StackPanel x:Name="BotEndpointPanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Visible">
+        <StackPanel x:Name="BotEndpointPanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Collapsed">
             <TextBlock Style="{DynamicResource moduleTitle}" Text="Endpoints URL" />
             <TextBlock Text="Description" Margin="5" />
             <TextBlock Text="Name" Margin="5" />
-            <TextBox Height="25" Width="200" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" />
+            <TextBox Height="25" Width="200" HorizontalAlignment="Left" Margin="5,-5 ,5 ,5" TextWrapping="Wrap" />
             <TextBlock Text="Endpoint" Margin="5" />
-            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" Text="{Binding Path=EndpointItem.Endpoint, TargetNullValue=' Your Bot endpoint (ex: http://localhost:3978/api/message)'}" />
+            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5,-5 ,5 ,5" TextWrapping="Wrap" Text="{Binding Path=EndpointItem.Endpoint, TargetNullValue=' Your Bot endpoint (ex: http://localhost:3978/api/message)'}" />
             <TextBlock Text="App Id" Margin="5" />
-            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" />
+            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5,-5 ,5 ,5" TextWrapping="Wrap" Text="{Binding Path=EndpointItem.AppId}" />
             <TextBlock Text="App Password" Margin="5" />
-            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" />
+            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5,-5 ,5 ,5" TextWrapping="Wrap" Text="{Binding Path=EndpointItem.AppPassword}" />
         </StackPanel>
 
         <StackPanel x:Name="BotServicesPanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="Collapsed">

@@ -158,6 +158,16 @@ namespace BotFileCreator
             {
                 // Adds Endpoint to the bot file
                 MSBotCommandEndpoint endpoint = new MSBotCommandEndpoint(init, botConfiguration.EndpointItem.Endpoint);
+
+                if (!string.IsNullOrWhiteSpace(this.botConfiguration.EndpointItem.AppId) && !string.IsNullOrWhiteSpace(this.botConfiguration.EndpointItem.AppPassword))
+                {
+                    endpoint = new MSBotCommandEndpoint(init, this.botConfiguration.EndpointItem.Endpoint, this.botConfiguration.EndpointItem.AppId, this.botConfiguration.EndpointItem.AppPassword);
+                }
+                else
+                {
+                    endpoint = new MSBotCommandEndpoint(init, this.botConfiguration.EndpointItem.Endpoint);
+                }
+
                 commandManager = endpoint;
             }
 
