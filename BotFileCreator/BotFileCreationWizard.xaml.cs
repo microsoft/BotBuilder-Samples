@@ -3,7 +3,6 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Linq;
 
 namespace BotFileCreator
 {
@@ -86,7 +85,6 @@ namespace BotFileCreator
                         this.Close();
                     }
 
-                    botConfigurationViewModel.OnPropertyChanged(nameof(botConfigurationViewModel.SecretKey));
                     this.BotEncrypt_ClicK(sender, e);
                     DisableAfterEncryption(this.gripPanel);
                 }
