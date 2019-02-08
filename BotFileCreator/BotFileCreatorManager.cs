@@ -1,11 +1,11 @@
-﻿namespace BotFileCreator
-{
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-    using System;
-    using System.IO;
-    using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
+namespace BotFileCreator
+{
     public class BotFileCreatorManager
     {
         private BotFileNameManager botFileNameManager;
@@ -79,6 +79,7 @@
         /// Creates a .bot file using the command line
         /// </summary>
         /// <param name="command">Command for creating bot files</param>
+        /// <param name="commandOutput">out result of command.</param>
         private void CreateBotFileFromCMD(string command, out string commandOutput)
         {
             CLIHelper.CLIHelper.RunCommand(command, out commandOutput);

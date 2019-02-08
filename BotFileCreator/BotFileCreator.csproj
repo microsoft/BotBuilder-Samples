@@ -60,6 +60,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BaseDialogWindow.cs" />
+    <Compile Include="Data\EndpointItem.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\BotConfigurationViewModel.cs" />
     <Compile Include="BotFileCreationWizard.xaml.cs">

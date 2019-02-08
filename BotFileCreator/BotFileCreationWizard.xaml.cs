@@ -11,7 +11,7 @@ namespace BotFileCreator
     /// </summary>
     public partial class BotFileCreationWizard : BaseDialogWindow
     {
-        private string botFileFullPath; // This should be in the model class or where the logic run the command to store the file
+        private string botFileFullPath; //// TODO: This should be in the model class or where the logic run the command to store the file
         private BotConfigurationViewModel botConfiguration;
 
         public BotFileCreationWizard()
@@ -20,7 +20,7 @@ namespace BotFileCreator
             DataContext = botConfiguration;
 
             InitializeComponent();
-            this.botFileFullPath = GeneralSettings.Default.ProjectName;  // This should be in the model class or where the logic run the command to store the file
+            this.botFileFullPath = GeneralSettings.Default.ProjectName;  //// TODO: This should be in the model class or where the logic run the command to store the file
             ValidatePrerequisites();
         }
 
@@ -33,7 +33,7 @@ namespace BotFileCreator
         /// <param name="e">event</param>
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            try
+            try //// TODO: this logic should be in the class to store the bot configuration
             {
                 BotFileNameManager botFileNameManager = new BotFileNameManager(this.botConfiguration.BotFileName, this.botFileFullPath);
                 MSBotCommandManager commandManager = CreateMSBotCommandManager(botFileNameManager);
@@ -154,10 +154,10 @@ namespace BotFileCreator
 
             commandManager = init;
 
-            if (!string.IsNullOrWhiteSpace(botConfiguration.Endpoint))
+            if (!string.IsNullOrWhiteSpace(botConfiguration.EndpointItem.Endpoint))
             {
                 // Adds Endpoint to the bot file
-                MSBotCommandEndpoint endpoint = new MSBotCommandEndpoint(init, botConfiguration.Endpoint);
+                MSBotCommandEndpoint endpoint = new MSBotCommandEndpoint(init, botConfiguration.EndpointItem.Endpoint);
                 commandManager = endpoint;
             }
 
@@ -166,7 +166,6 @@ namespace BotFileCreator
                 var encrypt = new MSBotCommandEncrypt(commandManager);
                 commandManager = encrypt;
             }
-
 
             // Does not prompt any message after executing `msbot init` command
             MSBotCommandQuiet quiet = new MSBotCommandQuiet(commandManager);

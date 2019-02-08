@@ -63,7 +63,7 @@
             <TextBlock Text="Name" Margin="5" />
             <TextBox Height="25" Width="200" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" />
             <TextBlock Text="Endpoint" Margin="5" />
-            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" Text="{Binding Path=Endpoint, TargetNullValue=' Your Bot endpoint (ex: http://localhost:3978/api/message)'}" />
+            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" Text="{Binding Path=EndpointItem.Endpoint, TargetNullValue=' Your Bot endpoint (ex: http://localhost:3978/api/message)'}" />
             <TextBlock Text="App Id" Margin="5" />
             <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap" />
             <TextBlock Text="App Password" Margin="5" />
