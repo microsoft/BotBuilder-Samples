@@ -134,6 +134,18 @@ myBot.onUnrecognizedActivityType(async (context, next) => {
     await next();
 });
 
+myBot.onInvoke(async (context, next) => {
+
+    await next();
+
+    // return an invoke response which is sent directly via the http response
+    return {
+        status: 200,
+        body: 'invoked',
+    };
+});
+
+
 myBot.onDialog(async (context, next) => {
 
     if (context.activity.type === ActivityTypes.Message) {
