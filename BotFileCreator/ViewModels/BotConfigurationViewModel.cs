@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BotFileCreator.Repository;
+using Microsoft.Bot.Configuration;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -136,7 +138,6 @@ namespace BotFileCreator
         {
             var botFileFullPath = GeneralSettings.Default.ProjectName;
             BotFileNameManager botFileNameManager = new BotFileNameManager(BotFileName, botFileFullPath);
-            MSBotCommandManager commandManager = CreateMSBotCommandManager(botFileNameManager);
 
             // Checks if the bot configuration is valid
             Tuple<bool, string> configIsValid = BotFileConfigurationIsValid(botFileNameManager);
@@ -148,26 +149,33 @@ namespace BotFileCreator
                 return;
             }
 
-            // Class that will create the .bot file
-            BotFileCreatorManager fileCreator = new BotFileCreatorManager(botFileNameManager, commandManager);
+            // Repository for creating bot files
+            BotFileRepository repository = new BotFileRepository(botFileNameManager.BotFileName, botFileNameManager.ProjectDirectoryPath);
 
-            // Creates the .bot file
-            Tuple<bool, string> fileCreatorResult = fileCreator.CreateBotFile();
-
-            // If the fileCreator returns a tuple with a FALSE value, will show the error message (Item2) in the Wizard.
-            if (!fileCreatorResult.Item1)
+            // Adds the only endpoint (if it's not null) to the bot configuration
+            if (!string.IsNullOrWhiteSpace(EndpointItem.Endpoint))
             {
-                MessageBox.Show(fileCreatorResult.Item2, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                EndpointService endpoint = new EndpointService() { Name = this.EndpointItem.Name, Endpoint = this.EndpointItem.Endpoint, AppId = this.EndpointItem.AppId, AppPassword = this.EndpointItem.AppPassword };
+                repository.ConnectService(endpoint);
+            }
+
+            // If the "encrypt" checkbox is checked, the bot configuration is save after encrypting it
+            if (EncryptCheckBoxIsChecked)
+            {
+                repository.Save(this.SecretKey);
             }
             else
             {
-                // If the file was successfully created, the Wizard will be closed.
-                MessageBox.Show("Bot file successfully created", "Bot file successfully created", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                // Save the bot configuration without encryption
+                repository.Save();
+            }
 
-                if (!EncryptCheckBoxIsChecked)
-                {
-                    CloseAction();
-                }
+            // If the file was successfully created, the Wizard will be closed.
+            MessageBox.Show("Bot file successfully created", "Bot file successfully created", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+
+            if (!EncryptCheckBoxIsChecked)
+            {
+                CloseAction();
             }
         }
 
@@ -189,43 +197,6 @@ namespace BotFileCreator
             return new Tuple<bool, string>(true, string.Empty);
         }
 
-        private MSBotCommandManager CreateMSBotCommandManager(BotFileNameManager botFileNameManager)
-        {
-            MSBotCommandManager commandManager;
-
-            MSBotCommandInit init = new MSBotCommandInit(botFileNameManager.ProjectDirectoryPath, botFileNameManager.BotFileName);
-
-            commandManager = init;
-
-            if (!string.IsNullOrWhiteSpace(EndpointItem.Endpoint))
-            {
-                // Adds Endpoint to the bot file
-                MSBotCommandEndpoint endpoint = new MSBotCommandEndpoint(init, EndpointItem.Endpoint);
-
-                if (!string.IsNullOrWhiteSpace(EndpointItem.AppId) && !string.IsNullOrWhiteSpace(EndpointItem.AppPassword))
-                {
-                    endpoint = new MSBotCommandEndpoint(init, EndpointItem.Endpoint, EndpointItem.AppId, EndpointItem.AppPassword);
-                }
-                else
-                {
-                    endpoint = new MSBotCommandEndpoint(init, EndpointItem.Endpoint);
-                }
-
-                commandManager = endpoint;
-            }
-
-            if (this.EncryptCheckBoxIsChecked == true)
-            {
-                var encrypt = new MSBotCommandEncrypt(commandManager);
-                commandManager = encrypt;
-            }
-
-            // Does not prompt any message after executing `msbot init` command
-            MSBotCommandQuiet quiet = new MSBotCommandQuiet(commandManager);
-
-            return quiet;
-        }
-
         private void CollapsePanels(string panelToShow)
         {
             this.PanelToShow = panelToShow;
@@ -241,7 +212,9 @@ namespace BotFileCreator
 
         private void CheckEncryptCheckBox()
         {
+            EncryptCheckBoxIsChecked = !EncryptCheckBoxIsChecked;
             EncryptNoteIsVisible = !EncryptNoteIsVisible;
+            this.SecretKey = BotFileRepository.GenerateKey();
         }
 
         private void CopySecretKey()
