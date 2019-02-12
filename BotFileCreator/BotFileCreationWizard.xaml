@@ -15,8 +15,16 @@
              WindowStyle="SingleBorderWindow"
              AllowsTransparency="False"
              ResizeMode="CanResizeWithGrip">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
 
-    <Grid x:Name="gripPanel" Style="{DynamicResource grid}">
+    <Grid Style="{DynamicResource grid}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="Auto"/>
@@ -36,8 +44,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="15"/>
         </Grid.RowDefinitions>
-        <TextBlock Style="{DynamicResource title}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Text="Bot Creation Wizard" />
-        <Menu x:Name="leftMenu" Style="{DynamicResource menu}" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4">
+        <TextBlock Style="{DynamicResource title}" Text="Bot Creation Wizard"/>
+        <Menu Style="{DynamicResource leftMenu}">
             <Menu.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel Orientation="Vertical"/>
@@ -48,39 +56,40 @@
             <MenuItem Style="{DynamicResource menuItem}" Command="{Binding BotServicesCommand}" Header="Bot Services"/>
             <MenuItem Style="{DynamicResource menuItem}" Command="{Binding BotEncryptCommand}" Header="Bot Encrypt"/>
         </Menu>
-        <Rectangle Style="{DynamicResource separator}" Grid.Column="3" Grid.Row="2" Grid.RowSpan="5" />
 
-        <StackPanel x:Name="BotNamePanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="{Binding Path=BotNameVisibility}">
+        <Rectangle Style="{DynamicResource separator}"/>
+
+        <StackPanel Style="{DynamicResource botPanel}" Visibility="{Binding Path=BotNameVisibility}">
             <TextBlock Style="{DynamicResource moduleTitle}" Text="Bot Name" />
             <TextBlock Style="{DynamicResource description}" Text="Description" />
-            <TextBox Style="{DynamicResource botNameTextBox}" x:Name="BotFileNameTxt" Text="{Binding Path=BotFileName}" />
+            <TextBox x:Name="BotFileNameTxt" Style="{DynamicResource botNameTextBox}" Text="{Binding Path=BotFileName}" />
         </StackPanel>
 
-        <StackPanel x:Name="BotEndpointPanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="{Binding Path=BotEndpointVisibility}">
+        <StackPanel Style="{DynamicResource botPanel}" Visibility="{Binding Path=BotEndpointVisibility}">
             <TextBlock Style="{DynamicResource moduleTitle}" Text="Endpoints URL" />
             <TextBlock Style="{DynamicResource description}" Text="Description" />
-            <TextBlock Text="Name" Margin="5" />
-            <TextBox Height="25" Width="200" HorizontalAlignment="Left" Margin="5,-5 ,5 ,5" TextWrapping="Wrap" />
-            <TextBlock Text="Endpoint" Margin="5" />
-            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5,-5 ,5 ,5" TextWrapping="Wrap" Text="{Binding Path=EndpointItem.Endpoint, TargetNullValue=' Your Bot endpoint (ex: http://localhost:3978/api/message)'}" />
-            <TextBlock Text="App Id" Margin="5" />
-            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5,-5 ,5 ,5" TextWrapping="Wrap" Text="{Binding Path=EndpointItem.AppId}" />
-            <TextBlock Text="App Password" Margin="5" />
-            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Margin="5,-5 ,5 ,5" TextWrapping="Wrap" Text="{Binding Path=EndpointItem.AppPassword}" />
+            <TextBlock Style="{DynamicResource textForm}" Text="Name" />
+            <TextBox Style="{DynamicResource nameTextBoxForm}" Text="{Binding Path=EndpointItem.Name}" />
+            <TextBlock Style="{DynamicResource textForm}" Text="Endpoint"/>
+            <TextBox Style="{DynamicResource textBoxForm}" Text="{Binding Path=EndpointItem.Endpoint, TargetNullValue=' Your Bot endpoint (ex: http://localhost:3978/api/message)'}" />
+            <TextBlock Style="{DynamicResource textForm}" Text="App Id"/>
+            <TextBox Style="{DynamicResource textBoxForm}" Text="{Binding Path=EndpointItem.AppId}" />
+            <TextBlock Style="{DynamicResource textForm}" Text="App Password"/>
+            <TextBox Style="{DynamicResource textBoxForm}" Text="{Binding Path=EndpointItem.AppPassword}" />
         </StackPanel>
 
-        <StackPanel x:Name="BotServicesPanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="{Binding Path=BotServicesVisibility}">
+        <StackPanel Style="{DynamicResource botPanel}" Visibility="{Binding Path=BotServicesVisibility}">
             <TextBlock Style="{DynamicResource moduleTitle}" Text="Services - Not supported by now" />
             <TextBlock Style="{DynamicResource description}" Text="Description" />
         </StackPanel>
 
-        <StackPanel x:Name="BotEncryptPanel" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Visibility="{Binding Path=BotEncrypVisibility}">
+        <StackPanel Style="{DynamicResource botPanel}" Visibility="{Binding Path=BotEncrypVisibility}">
             <TextBlock Style="{DynamicResource moduleTitle}" Text="Encrypt" />
             <TextBlock Style="{DynamicResource description}" Text="Encrypt keys stored in your bot configuration" />
-            <CheckBox Style="{DynamicResource encryptCheckBox}" x:Name="EncryptCheckBox" Content="Encrypt" Margin="5,10,10,10" Command="{Binding IsCheckedEncryptCheckBox}"/>
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBox x:Name="EncryptTextBlock"  Height="25" Width="280" HorizontalAlignment="Left" Margin="0,0,10,0" FontSize="11" Text="{Binding Path=SecretKey, TargetNullValue='Your keys are not encrypted'}"/>
-                <Button Style="{DynamicResource copyButton}" x:Name="EncryptCopyButton" Content="Copy" Command="{Binding CopyCommand}">
+            <CheckBox Style="{DynamicResource encryptCheckBox}" Command="{Binding IsCheckedEncryptCheckBox}" Content="Encrypt" />
+            <StackPanel Style="{DynamicResource secretKeyPanel}">
+                <TextBox Style="{DynamicResource encryptTextBox}" Text="{Binding Path=SecretKey, TargetNullValue='Your keys are not encrypted'}"/>
+                <Button Style="{DynamicResource copyButton}" Command="{Binding CopyCommand}" Content="Copy">
                     <Button.Template >
                         <ControlTemplate TargetType="{x:Type Button}">
                             <ContentPresenter VerticalAlignment="Center"/>
@@ -88,23 +97,14 @@
                     </Button.Template>
                 </Button>
             </StackPanel>
-            <TextBlock x:Name="EncryptNote" Text="NOTE: This option will generate a new encryption key.&#x0a;Please store this key securely." Margin="5" TextWrapping="Wrap" Visibility="{Binding Path=EncryptNoteVisibility}"/>
+            <TextBlock Style="{DynamicResource encryptNote}" Visibility="{Binding Path=EncryptNoteVisibility}" Text="NOTE: This option will generate a new encryption key.&#x0a;Please store this key securely."/>
         </StackPanel>
 
-        <Canvas Style="{DynamicResource downBar}" Grid.Column="0" Grid.Row="6" Grid.RowSpan="2" Grid.ColumnSpan="7">
-            <StackPanel Orientation="Horizontal" Canvas.Right="15" Canvas.Bottom="15">
-                <Button x:Name="CreateButton" Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="Create" Command="{Binding CreateCommand}" Canvas.Left="405" Canvas.Top="460"/>
-                <Button x:Name="CancelButton" Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="Cancel" Command="{Binding CancelCommand}" Canvas.Left="500" Canvas.Top="460"/>
+        <Canvas Style="{DynamicResource downBar}">
+            <StackPanel Style="{DynamicResource panelButtons}">
+                <Button Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="Create" Command="{Binding CreateCommand}"/>
+                <Button Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="Cancel" Command="{Binding CancelCommand}"/>
             </StackPanel>
         </Canvas>
     </Grid>
-
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
-    
 </BaseDialogWindow:BaseDialogWindow>

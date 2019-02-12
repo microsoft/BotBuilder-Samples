@@ -246,7 +246,10 @@ namespace BotFileCreator
 
         private void CopySecretKey()
         {
-            Clipboard.SetText(SecretKey);
+            if (!string.IsNullOrWhiteSpace(SecretKey))
+            {
+                Clipboard.SetText(SecretKey);
+            }
         }
     }
 }
