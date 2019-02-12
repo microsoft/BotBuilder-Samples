@@ -1,17 +1,28 @@
-﻿using System.ComponentModel;
-using PropertyChanged;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace BotFileCreator
 {
-    /// <summary>
-    /// A base view model that fires Property Changed events as needed
-    /// </summary>
-    [AddINotifyPropertyChangedInterface]
     public class BaseViewModel : INotifyPropertyChanged
     {
-        /// <summary>
-        /// The event that is fired when any child property changes its value
-        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
+
+        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName]string propertyName = null)
+        {
+            if (!EqualityComparer<T>.Default.Equals(field, newValue))
+            {
+                field = newValue;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                return true;
+            }
+
+            return false;
+        }
+
+        protected void NotifyPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

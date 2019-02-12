@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace BotFileCreator
 {
@@ -10,13 +8,11 @@ namespace BotFileCreator
     {
         private BotFileNameManager botFileNameManager;
         private MSBotCommandManager commandManager;
-        private BotConfigurationViewModel botConfigurationViewModel;
 
-        public BotFileCreatorManager(BotFileNameManager botFileNameManager, MSBotCommandManager commandManager, BotConfigurationViewModel botConfigurationViewModel)
+        public BotFileCreatorManager(BotFileNameManager botFileNameManager, MSBotCommandManager commandManager)
         {
             this.botFileNameManager = botFileNameManager;
             this.commandManager = commandManager;
-            this.botConfigurationViewModel = botConfigurationViewModel;
         }
 
         /// <summary>
@@ -33,12 +29,6 @@ namespace BotFileCreator
             {
                 var output = string.Empty;
                 CreateBotFileFromCMD(this.commandManager.GetMSBotCommand(), out output);
-
-                if (!string.IsNullOrWhiteSpace(output))
-                {
-                    var outputJsonObject = (JObject)JsonConvert.DeserializeObject(output);
-                    botConfigurationViewModel.SecretKey = (string)outputJsonObject["secret"];
-                }
 
                 AddFileToProject(botFileNameManager.ProjectName, fullName);
             }
