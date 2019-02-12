@@ -72,6 +72,15 @@ namespace Microsoft.BotBuilderSamples
                     // Get all the message type activities from the Transcript.
                     string continuationToken = null;
                     var count = 0;
+
+                    // WebChat and Emulator require modifying the activity.Id to display the same activity again within the same chat window
+                    bool updateActivities = new[] { Channels.Webchat, Channels.Emulator, Channels.Directline, }.Contains(activity.ChannelId);
+                    var incrementId = 0;
+                    if (updateActivities && activity.Id.Contains("|"))
+                    {
+                        int.TryParse(activity.Id.Split('|')[1], out incrementId);
+                    }
+
                     do
                     {
                         var pagedTranscript = await _transcriptStore.GetTranscriptActivitiesAsync(activity.ChannelId, activity.Conversation.Id, continuationToken);
@@ -79,6 +88,17 @@ namespace Microsoft.BotBuilderSamples
                             .Where(a => a.Type == ActivityTypes.Message)
                             .Select(ia => (Activity)ia)
                             .ToList();
+
+                        if (updateActivities)
+                        {
+                            foreach (var a in activities)
+                            {
+                                incrementId++;
+                                a.Id = string.Concat(activity.Conversation.Id, "|", incrementId.ToString().PadLeft(7, '0'));
+                                a.Timestamp = DateTimeOffset.UtcNow;
+                                a.ChannelData = string.Empty; // WebChat uses ChannelData for id comparisons, so we clear it here
+                            }
+                        }
 
                         // DirectLine only allows the upload of at most 500 activities at a time. The limit of 1500 below is
                         // arbitrary and up to the Bot author to decide.
