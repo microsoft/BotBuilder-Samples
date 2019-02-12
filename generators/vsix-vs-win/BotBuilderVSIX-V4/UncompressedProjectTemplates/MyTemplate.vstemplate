@@ -9,7 +9,8 @@
   <TemplateContent>
     <ProjectCollection>
       <ProjectTemplateLink ProjectName="EmptyBot">EmptyBot\EmptyBot.vstemplate</ProjectTemplateLink>
-      <ProjectTemplateLink ProjectName="EchoBot">EchoBot\EchoBot.vstemplate</ProjectTemplateLink>      
+      <ProjectTemplateLink ProjectName="EchoBot">EchoBot\EchoBot.vstemplate</ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="CoreBot">CoreBot\CoreBot.vstemplate</ProjectTemplateLink>
     </ProjectCollection>
   </TemplateContent>
 </VSTemplate>
