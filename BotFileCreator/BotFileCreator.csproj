@@ -72,7 +72,6 @@
     </Compile>
     <Compile Include="BotFileCreatorCommand.cs" />
     <Compile Include="BotFileCreatorPackage.cs" />
-    <Compile Include="BotFileNameManager.cs" />
     <Compile Include="GeneralSettings1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

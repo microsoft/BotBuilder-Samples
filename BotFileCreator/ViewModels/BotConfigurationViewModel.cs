@@ -142,7 +142,6 @@ namespace BotFileCreator
         public void CreateBotFile()
         {
             var botFileFullPath = GeneralSettings.Default.ProjectName;
-            // BotFileNameManager botFileNameManager = new BotFileNameManager(BotFileName, botFileFullPath);
 
             // Checks if the bot configuration is valid
             Tuple<bool, string> configIsValid = BotFileConfigurationIsValid(BotFileName);
