@@ -1,0 +1,1655 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "v3",
+    "title": "Bot Connector - Direct Line API - v3.0",
+    "description": "Direct Line 3.0\r\n===============\r\n\r\n\r\nThe Direct Line API is a simple REST API for connecting directly to a single bot. This API is intended for developers\r\nwriting their own client applications, web chat controls, mobile apps, or service-to-service applications that will\r\ntalk to their bot.\r\n\r\nWithin the Direct Line API, you will find:\r\n\r\n* An **authentication mechanism** using standard secret/token patterns\r\n* The ability to **send** messages from your client to your bot via an HTTP POST message\r\n* The ability to **receive** messages by **WebSocket** stream, if you choose\r\n* The ability to **receive** messages by **polling HTTP GET**, if you choose\r\n* A stable **schema**, even if your bot changes its protocol version\r\n\r\nDirect Line 1.1 and 3.0 are both available and supported. This document describes Direct Line 3.0. For information\r\non Direct Line 1.1, visit the [Direct Line 1.1 reference documentation](/en-us/restapi/directline/).\r\n\r\n# Authentication: Secrets and Tokens\r\n\r\nDirect Line allows you to authenticate all calls with either a secret (retrieved from the Direct Line channel\r\nconfiguration page) or a token (which you may get at runtime by converting your secret).\r\n\r\nA Direct Line **secret** is a master key that can access any conversation, and create tokens. Secrets do not expire.\r\n\r\nA Direct Line **token** is a key for a single conversation. It expires but can be refreshed.\r\n\r\nIf you're writing a service-to-service application, using the secret may be simplest. If you're writing an application\r\nwhere the client runs in a web browser or mobile app, you may want to exchange your secret for a token, which only\r\nworks for a single conversation and will expire unless refreshed. You choose which security model works best for you.\r\n\r\nYour secret or token is communicated in the ```Authorization``` header of every call, with the Bearer scheme.\r\nExample below.\r\n\r\n```\r\n-- connect to directline.botframework.com --\r\nPOST /v3/directline/conversations/abc123/activities HTTP/1.1\r\nAuthorization: Bearer RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0\r\n[other HTTP headers, omitted]\r\n```\r\n\r\nYou may notice that your Direct Line client credentials are different from your bot's credentials. This is\r\nintentional, and it allows you to revise your keys independently and lets you share client tokens without\r\ndisclosing your bot's password. \r\n\r\n## Exchanging a secret for a token\r\n\r\nThis operation is optional. Use this step if you want to prevent clients from accessing conversations they aren't\r\nparticipating in.\r\n\r\nTo exchange a secret for a token, POST to /v3/directline/tokens/generate with your secret in the auth header\r\nand no HTTP body.\r\n\r\n```\r\n-- connect to directline.botframework.com --\r\nPOST /v3/directline/tokens/generate HTTP/1.1\r\nAuthorization: Bearer RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0\r\n[other headers]\r\n\r\n-- response from directline.botframework.com --\r\nHTTP/1.1 200 OK\r\n[other headers]\r\n\r\n{\r\n  \"conversationId\": \"abc123\",\r\n  \"token\": \"RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0y8qbOF5xPGfiCpg4Fv0y8qqbOF5x8qbOF5xn\",\r\n  \"expires_in\": 1800\r\n}\r\n```\r\n\r\nIf successful, the response is a token suitable for one conversation. The token expires in the seconds\r\nindicated in the ```expires_in``` field (30 minutes in the example above) and must be refreshed before then to\r\nremain useful.\r\n\r\nThis call is similar to ```/v3/directline/conversations```. The difference is that the call to\r\n```/v3/directline/tokens/generate``` does not start the conversation, does not contact the bot, and does not\r\ncreate a streaming WebSocket URL.\r\n* Call ```/v3/directline/conversations``` if you will distribute the token to client(s) and want them to \r\n  initiate the conversation.\r\n* Call ```/v3/directline/conversations``` if you intend to start the conversation immediately.\r\n\r\n\r\n## Refreshing a token\r\n\r\nA token may be refreshed an unlimited number of times unless it is expired.\r\n\r\nTo refresh a token, POST to /v3/directline/tokens/refresh. This method is valid only for unexpired tokens.\r\n\r\n```\r\n-- connect to directline.botframework.com --\r\nPOST /v3/directline/tokens/refresh HTTP/1.1\r\nAuthorization: Bearer RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0y8qbOF5xPGfiCpg4Fv0y8qqbOF5x8qbOF5xn\r\n[other headers]\r\n\r\n-- response from directline.botframework.com --\r\nHTTP/1.1 200 OK\r\n[other headers]\r\n\r\n{\r\n  \"conversationId\": \"abc123\",\r\n  \"token\": \"RCurR_XV9ZA.cwA.BKA.y8qbOF5xPGfiCpg4Fv0y8qqbOF5x8qbOF5xniaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0\",\r\n  \"expires_in\": 1800\r\n}\r\n```\r\n\t\r\n\r\n# REST calls for a Direct Line conversation\r\n\r\nDirect Line conversations are explicitly opened by clients and may run as long as the bot and client participate\r\n(and have valid credentials). While the conversation is open, the bot and client may both send messages. More than\r\none client may connect to a given conversation and each client may participate on behalf of multiple users.\r\n\r\n## Starting a conversation\r\n\r\nClients begin by explicitly starting a conversation. If successful, the Direct Line service replies with a\r\nJSON object containing a conversation ID, a token, and a WebSocket URL that may be used later.\r\n\r\n```\r\n-- connect to directline.botframework.com --\r\nPOST /v3/directline/conversations HTTP/1.1\r\nAuthorization: Bearer RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0y8qbOF5xPGfiCpg4Fv0y8qqbOF5x8qbOF5xn\r\n[other headers]\r\n\r\n-- response from directline.botframework.com --\r\nHTTP/1.1 201 Created\r\n[other headers]\r\n\r\n{\r\n  \"conversationId\": \"abc123\",\r\n  \"token\": \"RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0y8qbOF5xPGfiCpg4Fv0y8qqbOF5x8qbOF5xn\",\r\n  \"expires_in\": 1800,\r\n  \"streamUrl\": \"https://directline.botframework.com/v3/directline/conversations/abc123/stream?t=RCurR_XV9ZA.cwA...\"\r\n}\r\n```\r\n\r\nIf the conversation was started, an HTTP 201 status code is returned. HTTP 201 is the code that clients\r\nwill receive under most circumstances, as the typical use case is for a client to start a new conversation.\r\nUnder certain conditions -- specifically, when the client has a token scoped to a single conversation AND\r\nwhen that conversation was started with a prior call to this URL -- this method will return HTTP 200 to signify\r\nthe request was acceptable but that no conversation was created (as it already existed).\r\n\r\nYou have 60 seconds to connect to the WebSocket URL. If the connection cannot be established during this time,\r\nuse the reconnect method below to generate a new stream URL.\r\n\r\nThis call is similar to ```/v3/directline/tokens/generate```. The difference is that the call to\r\n```/v3/directline/conversations``` starts the conversation, contacts the bot, and creates a streaming WebSocket\r\nURL, none of which occur when generating a token.\r\n* Call ```/v3/directline/conversations``` if you will distribute the token to client(s) and want them to\r\n  initiate the conversation.\r\n* Call ```/v3/directline/conversations``` if you intend to start the conversation immediately.\r\n\r\n## Reconnecting to a conversation\r\n\r\nIf a client is using the WebSocket interface to receive messages but loses its connection, it may need to reconnect.\r\nReconnecting requires generating a new WebSocket stream URL, and this can be accomplished by sending a GET request\r\nto the ```/v3/directline/conversations/{id}``` endpoint.\r\n\r\nThe ```watermark``` parameter is optional. If supplied, the conversation replays from the watermark,\r\nguaranteeing no messages are lost. If ```watermark``` is omitted, only messages received after the reconnection\r\ncall (```GET /v3/directline/conversations/abc123```) are replayed.\r\n\r\n```\r\n-- connect to directline.botframework.com --\r\nGET /v3/directline/conversations/abc123?watermark=0000a-42 HTTP/1.1\r\nAuthorization: Bearer RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0y8qbOF5xPGfiCpg4Fv0y8qqbOF5x8qbOF5xn\r\n[other headers]\r\n\r\n-- response from directline.botframework.com --\r\nHTTP/1.1 200 OK\r\n[other headers]\r\n\r\n{\r\n  \"conversationId\": \"abc123\",\r\n  \"token\": \"RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0y8qbOF5xPGfiCpg4Fv0y8qqbOF5x8qbOF5xn\",\r\n  \"streamUrl\": \"https://directline.botframework.com/v3/directline/conversations/abc123/stream?watermark=000a-4&t=RCurR_XV9ZA.cwA...\"\r\n}\r\n```\r\n\r\nYou have 60 seconds to connect to the WebSocket stream URL. If the connection cannot be established during this\r\ntime, issue another reconnect request to get an updated stream URL.\r\n\r\n## Sending an Activity to the bot\r\n\r\nUsing the Direct Line 3.0 protocol, clients and bots may exchange many different Bot Framework v3 Activities,\r\nincluding Message Activities, Typing Activities, and custom activities that the bot supports.\r\n\r\nTo send any one of these activities to the bot,\r\n\r\n1. the client formulates the Activity according to the Activity schema (see below)\r\n2. the client issues a POST message to ```/v3/directline/conversations/{id}/activities```\r\n3. the service returns when the activity was delivered to the bot, with an HTTP status code reflecting the\r\n   bot's status code. If the POST was successful, the service returns a JSON payload containing the ID of the\r\n   Activity that was sent.\r\n\r\nExample follows.\r\n\r\n```\r\n-- connect to directline.botframework.com --\r\nPOST /v3/directline/conversations/abc123/activities HTTP/1.1\r\nAuthorization: Bearer RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0\r\n[other headers]\r\n\r\n{\r\n  \"type\": \"message\",\r\n  \"from\": {\r\n    \"id\": \"user1\"\r\n  },\r\n  \"text\": \"hello\"\r\n}\r\n\r\n-- response from directline.botframework.com --\r\nHTTP/1.1 200 OK\r\n[other headers]\r\n\r\n{\r\n  \"id\": \"0001\"\r\n}\r\n```\r\n\r\nThe client's Activity is available in the message retrieval path (either polling GET or WebSocket) and is not\r\nreturned inline.\r\n\r\nThe total time to POST a message to a Direct Line conversation is:\r\n\r\n* Transit time to the Direct Line service,\r\n* Internal processing time within Direct Line (typically less than 120ms)\r\n* Transit time to the bot\r\n* Processing time within the bot\r\n* Transit time for HTTP responses to travel back to the client.\r\n\r\nIf the bot generates an error, that error will trigger an HTTP 502 error (\"Bad Gateway\") in\r\nthe ```POST /v3/directline/conversations/{id}/activities``` call.\r\n\r\n### Sending one or more attachments by URL\r\n\r\nClients may optionally send attachments, such as images or documents. If the client already has a URL for the\r\nattachment, the simplest way to send it is to include the URL in the ```contentUrl``` field of an Activity\r\nattachment object. This applies to HTTP, HTTPS, and ```data:``` URIs.\r\n\r\n### Sending a single attachment by upload\r\n\r\nOften, clients have an image or document on a device but no URL that can be included in the activity.\r\n\r\nTo upload an attachment, POST a single attachment to\r\nthe ```/v3/directline/conversations/{conversationId}/upload``` endpoint. The ```Content-Type```\r\nand ```Content-Disposition``` headers control the attachment's type and filename, respectively.\r\n\r\nA user ID is required. Supply the ID of the user sending the attachment as a ```userId``` parameter in the URL.\r\n\r\nIf uploading a single attachment, a message activity is sent to the bot when the upload completes.\r\n\r\nOn completion, the service returns the ID of the activity that was sent.\r\n\r\n```\r\n-- connect to directline.botframework.com --\r\nPOST /v3/directline/conversations/abc123/upload?userId=user1 HTTP/1.1\r\nAuthorization: Bearer RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0\r\nContent-Type: image/jpeg\r\nContent-Disposition: name=\"file\"; filename=\"badjokeeel.jpg\"\r\n[other headers]\r\n\r\n[JPEG content]\r\n\r\n-- response from directline.botframework.com --\r\nHTTP/1.1 200 OK\r\n[other headers]\r\n\r\n{\r\n  \"id\": \"0003\"\r\n}\r\n```\r\n\r\n### Sending multiple attachments by upload\r\n\r\nIf uploading multiple attachments, use ```multipart/form-data``` as the content type and include each\r\nattachment as a separate part. Each attachment's type and filename may be included in the ```Content-Type```\r\nand ```Content-Disposition``` headers in each part.\r\n\r\nAn activity may be included by adding a part with content type of ```application/vnd.microsoft.activity```.\r\nOther parts in the payload are attached to this activity before it is sent. If an Activity is not included,\r\nan empty Activity is created as a wrapper for the attachments.\r\n\r\n```\r\n-- connect to directline.botframework.com --\r\nPOST /v3/directline/conversations/abc123/upload?userId=user1 HTTP/1.1\r\nAuthorization: Bearer RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0\r\nContent-Type: multipart/form-data; boundary=----DD4E5147-E865-4652-B662-F223701A8A89\r\n[other headers]\r\n\r\n----DD4E5147-E865-4652-B662-F223701A8A89\r\nContent-Type: image/jpeg\r\nContent-Disposition: form-data; name=\"file\"; filename=\"badjokeeel.jpg\"\r\n[other headers]\r\n\r\n[JPEG content]\r\n\r\n----DD4E5147-E865-4652-B662-F223701A8A89\r\nContent-Type: application/vnd.microsoft.activity\r\n[other headers]\r\n\r\n{\r\n  \"type\": \"message\",\r\n  \"from\": {\r\n    \"id\": \"user1\"\r\n  },\r\n  \"text\": \"Hey I just IM'd you\\n\\nand this is crazy\\n\\nbut here's my webhook\\n\\nso POST me maybe\"\r\n}\r\n\r\n----DD4E5147-E865-4652-B662-F223701A8A89\r\n\r\n\r\n    \r\n-- response from directline.botframework.com --\r\nHTTP/1.1 200 OK\r\n[other headers]\r\n\r\n{\r\n  \"id\": \"0004\"\r\n}\r\n```\r\n\r\n## Receiving Activities from the bot\r\n\r\nDirect Line 3.0 clients may choose from two different mechanisms for retrieving messages:\r\n\r\n1. A **streaming WebSocket**, which pushes messages efficiently to clients.\r\n2. A **polling GET** interface, which is available for clients unable to use WebSockets or for clients\r\n   retrieving the conversation history.\r\n\r\n**Not all activities are available via the polling GET interface.** A table of activity availability follows.\r\n\r\n|Activity type|Availability|\r\n|-------------|--------|\r\n|Message|Polling GET and WebSocket|\r\n|Typing|WebSocket only|\r\n|ConversationUpdate|Not sent/received via client|\r\n|ContactRelationUpdate|Not supported in Direct Line|\r\n|EndOfConversation|Polling GET and WebSocket|\r\n|All other activity types|Polling GET and WebSocket|\r\n\r\n### Receiving Activities by WebSocket\r\n\r\nTo connect via WebSocket, a client uses the StreamUrl when starting a conversation. The stream URL is\r\npreauthorized and does NOT require an Authorization header containing the client's secret or token.\r\n\r\n```\r\n-- connect to wss://directline.botframework.com --\r\nGET /v3/directline/conversations/abc123/stream?t=RCurR_XV9ZA.cwA...\" HTTP/1.1\r\nUpgrade: websocket\r\nConnection: upgrade\r\n[other headers]\r\n\r\n-- response from directline.botframework.com --\r\nHTTP/1.1 101 Switching Protocols\r\n[other headers]\r\n```\r\n\r\nThe Direct Line service sends the following messages:\r\n\r\n* An **ActivitySet**, which contains one or more activities and a watermark (described below)\r\n* An empty message, which the Direct Line service uses to ensure the connection is still valid\r\n* Additional types, to be defined later. These types are identified by the properties in the JSON root.\r\n\r\nActivitySets contain messages sent by the bot and by all users. Example ActivitySet:\r\n\r\n```\r\n{\r\n  \"activities\": [{\r\n    \"type\": \"message\",\r\n    \"channelId\": \"directline\",\r\n    \"conversation\": {\r\n      \"id\": \"abc123\"\r\n    },\r\n    \"id\": \"abc123|0000\",\r\n    \"from\": {\r\n      \"id\": \"user1\"\r\n    },\r\n    \"text\": \"hello\"\r\n  }],\r\n  \"watermark\": \"0000a-42\"\r\n}\r\n```\r\n\r\nClients should keep track of the \"watermark\" value from each ActivitySet so they can use it on reconnect.\r\n**Note** that a ```null``` or missing watermark should be ignored and should not overwrite a prior watermark\r\nin the client.\r\n\r\nClients should ignore empty messages.\r\n\r\nClients may send their own empty messages to verify connectivity. The Direct Line service will ignore these.\r\n\r\nThe service may forcibly close the connection under certain conditions. If the client has not received an\r\nEndOfConversation activity, it may reconnect by issuing a GET request to the conversation endpoint to get a\r\nnew stream URL (see above).\r\n\r\nThe WebSocket stream contains live updates and very recent messages (since the call to get the WebSocket call\r\nwas issued) but it does not include messages sent prior to the most recent POST\r\nto ```/v3/directline/conversations/{id}```. To retrieve messages sent earlier in the conversation, use the\r\nGET mechanism below.\r\n\r\n### Receiving Activities by GET\r\n\r\nThe GET mechanism is useful for clients who are unable to use the WebSocket, or for clients wishing to retrieve\r\nthe conversation history.\r\n\r\nTo retrieve messages, issue a GET call to the conversation endpoint. Optionally supply a watermark, indicating\r\nthe most recent message seen. The watermark field accompanies all GET/WebSocket messages as a property in the\r\nActivitySet.\r\n\r\n```\r\n-- connect to directline.botframework.com --\r\nGET /v3/directline/conversations/abc123/activities?watermark=0001a-94 HTTP/1.1\r\nAuthorization: Bearer RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0\r\n[other headers]\r\n\r\n-- response from directline.botframework.com --\r\nHTTP/1.1 200 OK\r\n[other headers]\r\n\r\n{\r\n  \"activities\": [{\r\n    \"type\": \"message\",\r\n    \"channelId\": \"directline\",\r\n    \"conversation\": {\r\n      \"id\": \"abc123\"\r\n    },\r\n    \"id\": \"abc123|0000\",\r\n    \"from\": {\r\n      \"id\": \"user1\"\r\n    },\r\n    \"text\": \"hello\"\r\n  }, {\r\n    \"type\": \"message\",\r\n    \"channelId\": \"directline\",\r\n    \"conversation\": {\r\n      \"id\": \"abc123\"\r\n    },\r\n    \"id\": \"abc123|0001\",\r\n    \"from\": {\r\n      \"id\": \"bot1\"\r\n    },\r\n    \"text\": \"Nice to see you, user1!\"\r\n  }],\r\n  \"watermark\": \"0001a-95\"\r\n}\r\n```\r\n\r\nClients should page through the available activities by advancing the ```watermark``` value until no activities\r\nare returned.\r\n\r\n\r\n### Timing considerations \r\n\r\nMost clients wish to retain a complete message history. Even though Direct Line is a multi-part protocol with\r\npotential timing gaps, the protocol and service is designed to make it easy to build a reliable client.\r\n\r\n1. The ```watermark``` field sent in the WebSocket stream and GET response is reliable. You will not miss\r\n   messages as long as you replay the watermark verbatim.\r\n2. When starting a conversation and connecting to the WebSocket stream, any Activities sent after the POST but\r\n   before the socket is opened are replayed before new messages.\r\n3. When refreshing history by GET call while connected to the WebSocket, Activities may be duplicated across both\r\n   channels. Keeping a list of all known Activity IDs will allow you to reject duplicate messages should they occur.\r\n\r\nClients using the polling GET interface should choose a polling interval that matches their intended use.\r\n\r\n* Service-to-service applications often use a polling interval of 5s or 10s.\r\n* Client-facing applications often use a polling interval of 1s, and fire an additional request ~300ms after\r\n  every message the client sends to rapidly pick up a bot's response. This 300ms delay should be adjusted\r\n  based on the bot's speed and transit time.\r\n\r\n## Ending a conversation\r\n\r\nEither a client or a bot may signal the end of a DirectLine conversation. This operation halts communication\r\nand prevents the bot and the client from sending messages. Messages may still be retrieved via the GET mechanism.\r\nSending this messages is as simple as POSTing an EndOfConversation activity.\r\n\r\n```\r\n-- connect to directline.botframework.com --\r\nPOST /v3/directline/conversations/abc123/activities HTTP/1.1\r\nAuthorization: Bearer RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0\r\n[other headers]\r\n\r\n{\r\n  \"type\": \"endOfConversation\",\r\n  \"from\": {\r\n    \"id\": \"user1\"\r\n  }\r\n}\r\n\r\n-- response from directline.botframework.com --\r\nHTTP/1.1 200 OK\r\n[other headers]\r\n\r\n{\r\n  \"id\": \"0004\"\r\n}\r\n```\r\n\r\n## REST API errors\r\n\r\nHTTP calls to the Direct Line service follow standard HTTP error conventions:\r\n\r\n* 2xx status codes indicate success. (Direct Line 3.0 uses 200 and 201.)\r\n* 4xx status codes indicate an error in your request.\r\n  * 401 indicates a missing or malformed Authorization header (or URL token, in calls where a token parameter\r\n    is allowed).\r\n  * 403 indicates an unauthorized client.\r\n    * If calling with a valid but expired token, the ```code``` field is set to ```TokenExpired```.\r\n  * 404 indicates a missing path, site, conversation, etc.\r\n* 5xx status codes indicate a service-side error.\r\n  * 500 indicates an error inside the Direct Line service.\r\n  * 502 indicates an error was returned by the bot. **This is a common error code.**\r\n* 101 is used in the WebSocket connection path, although this is likely handled by your WebSocket client.\r\n\r\nWhen an error message is returned, error detail may be present in a JSON response. Look for an ```error```\r\nproperty with ```code``` and ```message``` fields.\r\n\r\n```\r\n-- connect to directline.botframework.com --\r\nPOST /v3/directline/conversations/abc123/activities HTTP/1.1\r\n[detail omitted]\r\n\r\n-- response from directline.botframework.com --\r\nHTTP/1.1 502 Bad Gateway\r\n[other headers]\r\n\r\n{\r\n  \"error\": {\r\n    \"code\": \"BotRejectedActivity\",\r\n    \"message\": \"Failed to send activity: bot returned an error\"\r\n  }\r\n}\r\n```\r\n\r\nThe contents of the ```message``` field may change. The HTTP status code and values in the ```code```\r\nproperty are stable.\r\n\r\n# Schema\r\n\r\nThe Direct Line 3.0 schema is identical to the Bot Framework v3 schema.\r\n\r\nWhen a bot sends an Activity to a client through Direct Line:\r\n\r\n* attachment cards are preserved,\r\n* URLs for uploaded attachments are hidden with a private link, and\r\n* the ```channelData``` property is preserved without modification.\r\n\r\nWhen a client sends an Activity to a bot through Direct Line:\r\n\r\n* the ```type``` property contains the kind of activity you are sending (typically ```message```),\r\n* the ```from``` property must be populated with a user ID, chosen by your client,\r\n* attachments may contain URLs to existing resources or URLs uploaded through the Direct Line attachment\r\n  endpoint, and\r\n* the ```channelData``` property is preserved without modification.\r\n\r\nClients and bots may send Activities of any type, including Message Activities, Typing Activities, and\r\ncustom Activity types.\r\n\r\nClients may send a single Activity at a time.\r\n\r\n```\r\n{\r\n  \"type\": \"message\",\r\n  \"channelId\": \"directline\",\r\n  \"from\": {\r\n    \"id\": \"user1\"\r\n  },\r\n  \"text\": \"hello\"\r\n}\r\n```\r\n\r\nClients receive multiple Activities as part of an ActivitySet. The ActivitySet has an array of activities\r\nand a watermark field.\r\n\r\n```\r\n{\r\n  \"activities\": [{\r\n    \"type\": \"message\",\r\n    \"channelId\": \"directline\",\r\n    \"conversation\": {\r\n      \"id\": \"abc123\"\r\n    },\r\n    \"id\": \"abc123|0000\",\r\n    \"from\": {\r\n      \"id\": \"user1\"\r\n    },\r\n    \"text\": \"hello\"\r\n  }],\r\n  \"watermark\": \"0000a-42\"\r\n}\r\n```\r\n\r\n# Libraries for the Direct Line API\r\n\r\nThe Direct Line API is designed to be coded directly, but the Bot Framework includes libraries and controls that\r\nhelp you to embed Direct-Line-powered bots into your application.\r\n\r\n* The [Bot Framework Web Chat control](https://github.com/Microsoft/BotFramework-WebChat) is an easy way to embed\r\n  the Direct Line protocol into a webpage.\r\n* [Direct Line Nuget package](https://www.nuget.org/packages/Microsoft.Bot.Connector.DirectLine) with libraries for\r\n  .Net 4.5, UWP, and .Net Standard.\r\n* [DirectLineJs](https://github.com/Microsoft/BotFramework-DirectLineJs), also available on\r\n  [NPM](https://www.npmjs.com/package/botframework-directlinejs)\r\n* You may generate your own from the [Direct Line Swagger file](swagger.json)\r\n\r\nOur [BotBuilder-Samples GitHub repo](https://github.com/Microsoft/BotBuilder-Samples) also contains samples for\r\n  [C#](https://github.com/Microsoft/BotBuilder-Samples/tree/master/CSharp/core-DirectLine) and\r\n  [JavaScript](https://github.com/Microsoft/BotBuilder-Samples/tree/master/Node/core-DirectLine).",
+    "termsOfService": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx",
+    "contact": {
+      "name": "Bot Framework",
+      "url": "https://botframework.com",
+      "email": "botframework@microsoft.com"
+    },
+    "license": {
+      "name": "The MIT License (MIT)",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "directline.botframework.com",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/v3/directline/session/getsessionid": {
+      "get": {
+        "tags": [
+          "Session"
+        ],
+        "operationId": "Session_GetSessionId",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/v3/directline/conversations": {
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "Start a new conversation",
+        "operationId": "Conversations_StartConversation",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "tokenParameters",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/TokenParameters"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The conversation was successfully created, updated, or retrieved.",
+            "schema": {
+              "$ref": "#/definitions/Conversation"
+            }
+          },
+          "201": {
+            "description": "The conversation was successfully created.",
+            "schema": {
+              "$ref": "#/definitions/Conversation"
+            }
+          },
+          "400": {
+            "description": "The URL, body, or headers in the request are malformed or invalid."
+          },
+          "401": {
+            "description": "The operation included an invalid or missing Authorization header."
+          },
+          "403": {
+            "description": "You are forbidden from performing this action because your token or secret is invalid."
+          },
+          "404": {
+            "description": "The requested resource was not found."
+          },
+          "409": {
+            "description": "The object you are trying to create already exists."
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval."
+          },
+          "500": {
+            "description": "An internal server error has occurred."
+          }
+        }
+      }
+    },
+    "/v3/directline/conversations/{conversationId}": {
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "Get information about an existing conversation",
+        "operationId": "Conversations_ReconnectToConversation",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "watermark",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The conversation was successfully created, updated, or retrieved.",
+            "schema": {
+              "$ref": "#/definitions/Conversation"
+            }
+          },
+          "400": {
+            "description": "The URL, body, or headers in the request are malformed or invalid."
+          },
+          "401": {
+            "description": "The operation included an invalid or missing Authorization header."
+          },
+          "403": {
+            "description": "You are forbidden from performing this action because your token or secret is invalid."
+          },
+          "404": {
+            "description": "The requested resource was not found."
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval."
+          },
+          "500": {
+            "description": "An internal server error has occurred."
+          }
+        }
+      }
+    },
+    "/v3/directline/conversations/{conversationId}/activities": {
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "Get activities in this conversation. This method is paged with the 'watermark' parameter.",
+        "operationId": "Conversations_GetActivities",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "watermark",
+            "in": "query",
+            "description": "(Optional) only returns activities newer than this watermark",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A set of activities and a watermark are returned.",
+            "schema": {
+              "$ref": "#/definitions/ActivitySet"
+            }
+          },
+          "400": {
+            "description": "The URL, body, or headers in the request are malformed or invalid."
+          },
+          "401": {
+            "description": "The operation included an invalid or missing Authorization header."
+          },
+          "403": {
+            "description": "You are forbidden from performing this action because your token or secret is invalid."
+          },
+          "404": {
+            "description": "The requested resource was not found."
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval."
+          },
+          "500": {
+            "description": "An internal server error has occurred."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "Send an activity",
+        "operationId": "Conversations_PostActivity",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "activity",
+            "in": "body",
+            "description": "Activity to send",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation succeeded.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "204": {
+            "description": "The operation succeeded. No content was returned."
+          },
+          "400": {
+            "description": "The URL, body, or headers in the request are malformed or invalid."
+          },
+          "401": {
+            "description": "The operation included an invalid or missing Authorization header."
+          },
+          "403": {
+            "description": "You are forbidden from performing this action because your token or secret is invalid."
+          },
+          "404": {
+            "description": "The requested resource was not found."
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval."
+          },
+          "500": {
+            "description": "An internal server error has occurred."
+          },
+          "502": {
+            "description": "The bot is unavailable or returned an error."
+          }
+        }
+      }
+    },
+    "/v3/directline/conversations/{conversationId}/upload": {
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "Upload file(s) and send as attachment(s)",
+        "operationId": "Conversations_Upload",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation succeeded.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "202": {
+            "description": "The request was accepted for processing."
+          },
+          "204": {
+            "description": "The operation succeeded. No content was returned."
+          },
+          "400": {
+            "description": "The URL, body, or headers in the request are malformed or invalid."
+          },
+          "401": {
+            "description": "The operation included an invalid or missing Authorization header."
+          },
+          "403": {
+            "description": "You are forbidden from performing this action because your token or secret is invalid."
+          },
+          "404": {
+            "description": "The requested resource was not found."
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval."
+          },
+          "500": {
+            "description": "An internal server error has occurred."
+          },
+          "502": {
+            "description": "The bot is unavailable or returned an error."
+          }
+        }
+      }
+    },
+    "/v3/directline/tokens/refresh": {
+      "post": {
+        "tags": [
+          "Tokens"
+        ],
+        "summary": "Refresh a token",
+        "operationId": "Tokens_RefreshToken",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "The conversation was successfully created, updated, or retrieved.",
+            "schema": {
+              "$ref": "#/definitions/Conversation"
+            }
+          },
+          "401": {
+            "description": "The operation included an invalid or missing Authorization header."
+          },
+          "403": {
+            "description": "You are forbidden from performing this action because your token or secret is invalid."
+          },
+          "404": {
+            "description": "The requested resource was not found."
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval."
+          },
+          "500": {
+            "description": "An internal server error has occurred."
+          }
+        }
+      }
+    },
+    "/v3/directline/tokens/generate": {
+      "post": {
+        "tags": [
+          "Tokens"
+        ],
+        "summary": "Generate a token for a new conversation",
+        "operationId": "Tokens_GenerateTokenForNewConversation",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "tokenParameters",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/TokenParameters"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The conversation was successfully created, updated, or retrieved.",
+            "schema": {
+              "$ref": "#/definitions/Conversation"
+            }
+          },
+          "401": {
+            "description": "The operation included an invalid or missing Authorization header."
+          },
+          "403": {
+            "description": "You are forbidden from performing this action because your token or secret is invalid."
+          },
+          "404": {
+            "description": "The requested resource was not found."
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval."
+          },
+          "500": {
+            "description": "An internal server error has occurred."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "TokenParameters": {
+      "description": "Parameters for creating a token",
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "User account to embed within the token"
+        },
+        "trustedOrigins": {
+          "description": "Trusted origins to embed within the token",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "eTag": {
+          "type": "string"
+        }
+      }
+    },
+    "ChannelAccount": {
+      "description": "Channel account information needed to route a message",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Channel id for the user or bot on this channel (Example: joe@smith.com, or @joesmith or 123456)",
+          "type": "string"
+        },
+        "name": {
+          "description": "Display friendly name",
+          "type": "string"
+        },
+        "aadObjectId": {
+          "description": "This account's object ID within Azure Active Directory (AAD)",
+          "type": "string"
+        },
+        "role": {
+          "description": "Role of the entity behind the account (Example: User, Bot, etc.)",
+          "type": "string"
+        }
+      }
+    },
+    "Conversation": {
+      "description": "An object representing a conversation or a conversation token",
+      "type": "object",
+      "properties": {
+        "conversationId": {
+          "description": "ID for this conversation",
+          "type": "string"
+        },
+        "token": {
+          "description": "Token scoped to this conversation",
+          "type": "string"
+        },
+        "expires_in": {
+          "format": "int32",
+          "description": "Expiration for token",
+          "type": "integer"
+        },
+        "streamUrl": {
+          "description": "URL for this conversation's message stream",
+          "type": "string"
+        },
+        "referenceGrammarId": {
+          "description": "ID for the reference grammar for this bot",
+          "type": "string"
+        },
+        "eTag": {
+          "type": "string"
+        }
+      }
+    },
+    "ActivitySet": {
+      "description": "A collection of activities",
+      "type": "object",
+      "properties": {
+        "activities": {
+          "description": "Activities",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Activity"
+          }
+        },
+        "watermark": {
+          "description": "Maximum watermark of activities within this set",
+          "type": "string"
+        }
+      }
+    },
+    "Activity": {
+      "description": "An Activity is the basic communication type for the Bot Framework 3.0 protocol.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Contains the activity type.",
+          "type": "string"
+        },
+        "id": {
+          "description": "Contains an ID that uniquely identifies the activity on the channel.",
+          "type": "string"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "description": "Contains the date and time that the message was sent, in UTC, expressed in ISO-8601 format.",
+          "type": "string"
+        },
+        "localTimestamp": {
+          "format": "date-time",
+          "description": "Contains the local date and time of the message, expressed in ISO-8601 format.\r\nFor example, 2016-09-23T13:07:49.4714686-07:00.",
+          "type": "string"
+        },
+        "localTimezone": {
+          "description": "Contains the name of the local timezone of the message, expressed in IANA Time Zone database format.\r\nFor example, America/Los_Angeles.",
+          "type": "string"
+        },
+        "serviceUrl": {
+          "description": "Contains the URL that specifies the channel's service endpoint. Set by the channel.",
+          "type": "string"
+        },
+        "channelId": {
+          "description": "Contains an ID that uniquely identifies the channel. Set by the channel.",
+          "type": "string"
+        },
+        "from": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "Identifies the sender of the message."
+        },
+        "conversation": {
+          "$ref": "#/definitions/ConversationAccount",
+          "description": "Identifies the conversation to which the activity belongs."
+        },
+        "recipient": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "Identifies the recipient of the message."
+        },
+        "textFormat": {
+          "description": "Format of text fields Default:markdown",
+          "type": "string"
+        },
+        "attachmentLayout": {
+          "description": "The layout hint for multiple attachments. Default: list.",
+          "type": "string"
+        },
+        "membersAdded": {
+          "description": "The collection of members added to the conversation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChannelAccount"
+          }
+        },
+        "membersRemoved": {
+          "description": "The collection of members removed from the conversation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChannelAccount"
+          }
+        },
+        "reactionsAdded": {
+          "description": "The collection of reactions added to the conversation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageReaction"
+          }
+        },
+        "reactionsRemoved": {
+          "description": "The collection of reactions removed from the conversation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageReaction"
+          }
+        },
+        "topicName": {
+          "description": "The updated topic name of the conversation.",
+          "type": "string"
+        },
+        "historyDisclosed": {
+          "description": "Indicates whether the prior history of the channel is disclosed.",
+          "type": "boolean"
+        },
+        "locale": {
+          "description": "A locale name for the contents of the text field.\r\nThe locale name is a combination of an ISO 639 two- or three-letter culture code associated with a language\r\nand an ISO 3166 two-letter subculture code associated with a country or region.\r\nThe locale name can also correspond to a valid BCP-47 language tag.",
+          "type": "string"
+        },
+        "text": {
+          "description": "The text content of the message.",
+          "type": "string"
+        },
+        "speak": {
+          "description": "The text to speak.",
+          "type": "string"
+        },
+        "inputHint": {
+          "description": "Indicates whether your bot is accepting,\r\nexpecting, or ignoring user input after the message is delivered to the client.",
+          "type": "string"
+        },
+        "summary": {
+          "description": "The text to display if the channel cannot render cards.",
+          "type": "string"
+        },
+        "suggestedActions": {
+          "$ref": "#/definitions/SuggestedActions",
+          "description": "The suggested actions for the activity."
+        },
+        "attachments": {
+          "description": "Attachments",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Attachment"
+          }
+        },
+        "entities": {
+          "description": "Represents the entities that were mentioned in the message.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Entity"
+          }
+        },
+        "channelData": {
+          "description": "Contains channel-specific content.",
+          "type": "object"
+        },
+        "action": {
+          "description": "Indicates whether the recipient of a contactRelationUpdate was added or removed from the sender's contact list.",
+          "type": "string"
+        },
+        "replyToId": {
+          "description": "Contains the ID of the message to which this message is a reply.",
+          "type": "string"
+        },
+        "label": {
+          "description": "A descriptive label for the activity.",
+          "type": "string"
+        },
+        "valueType": {
+          "description": "The type of the activity's value object.",
+          "type": "string"
+        },
+        "value": {
+          "description": "A value that is associated with the activity.",
+          "type": "object"
+        },
+        "name": {
+          "description": "The name of the operation associated with an invoke or event activity.",
+          "type": "string"
+        },
+        "relatesTo": {
+          "$ref": "#/definitions/ConversationReference",
+          "description": "A reference to another conversation or activity."
+        },
+        "code": {
+          "description": "The a code for endOfConversation activities that indicates why the conversation ended.",
+          "type": "string"
+        },
+        "expiration": {
+          "format": "date-time",
+          "description": "The time at which the activity should be considered to be \"expired\" and should not be presented to the recipient.",
+          "type": "string"
+        },
+        "importance": {
+          "description": "The importance of the activity.",
+          "type": "string"
+        },
+        "deliveryMode": {
+          "description": "A delivery hint to signal to the recipient alternate delivery paths for the activity.\r\nThe default delivery mode is \"default\".",
+          "type": "string"
+        },
+        "listenFor": {
+          "description": "List of phrases and references that speech and language priming systems should listen for",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "textHighlights": {
+          "description": "The collection of text fragments to highlight when the activity contains a ReplyToId value.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TextHighlight"
+          }
+        },
+        "semanticAction": {
+          "$ref": "#/definitions/SemanticAction",
+          "description": "An optional programmatic action accompanying this request"
+        }
+      }
+    },
+    "ConversationAccount": {
+      "description": "Conversation account represents the identity of the conversation within a channel",
+      "type": "object",
+      "properties": {
+        "isGroup": {
+          "description": "Indicates whether the conversation contains more than two participants at the time the activity was generated",
+          "type": "boolean"
+        },
+        "conversationType": {
+          "description": "Indicates the type of the conversation in channels that distinguish between conversation types",
+          "type": "string"
+        },
+        "tenantId": {
+          "description": "This conversation's tenant ID",
+          "type": "string"
+        },
+        "id": {
+          "description": "Channel id for the user or bot on this channel (Example: joe@smith.com, or @joesmith or 123456)",
+          "type": "string"
+        },
+        "name": {
+          "description": "Display friendly name",
+          "type": "string"
+        },
+        "aadObjectId": {
+          "description": "This account's object ID within Azure Active Directory (AAD)",
+          "type": "string"
+        },
+        "role": {
+          "description": "Role of the entity behind the account (Example: User, Bot, etc.)",
+          "type": "string"
+        }
+      }
+    },
+    "MessageReaction": {
+      "description": "Message reaction object",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Message reaction type",
+          "type": "string"
+        }
+      }
+    },
+    "SuggestedActions": {
+      "description": "SuggestedActions that can be performed",
+      "type": "object",
+      "properties": {
+        "to": {
+          "description": "Ids of the recipients that the actions should be shown to.  These Ids are relative to the channelId and a subset of all recipients of the activity",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "actions": {
+          "description": "Actions that can be shown to the user",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        }
+      }
+    },
+    "Attachment": {
+      "description": "An attachment within an activity",
+      "type": "object",
+      "properties": {
+        "contentType": {
+          "description": "mimetype/Contenttype for the file",
+          "type": "string"
+        },
+        "contentUrl": {
+          "description": "Content Url",
+          "type": "string"
+        },
+        "content": {
+          "description": "Embedded content",
+          "type": "object"
+        },
+        "name": {
+          "description": "(OPTIONAL) The name of the attachment",
+          "type": "string"
+        },
+        "thumbnailUrl": {
+          "description": "(OPTIONAL) Thumbnail associated with attachment",
+          "type": "string"
+        }
+      }
+    },
+    "Entity": {
+      "description": "Metadata object pertaining to an activity",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Type of this entity (RFC 3987 IRI)",
+          "type": "string"
+        }
+      }
+    },
+    "ConversationReference": {
+      "description": "An object relating to a particular point in a conversation",
+      "type": "object",
+      "properties": {
+        "activityId": {
+          "description": "(Optional) ID of the activity to refer to",
+          "type": "string"
+        },
+        "user": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "(Optional) User participating in this conversation"
+        },
+        "bot": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "Bot participating in this conversation"
+        },
+        "conversation": {
+          "$ref": "#/definitions/ConversationAccount",
+          "description": "Conversation reference"
+        },
+        "channelId": {
+          "description": "Channel ID",
+          "type": "string"
+        },
+        "serviceUrl": {
+          "description": "Service endpoint where operations concerning the referenced conversation may be performed",
+          "type": "string"
+        }
+      }
+    },
+    "TextHighlight": {
+      "description": "Refers to a substring of content within another field",
+      "type": "object",
+      "properties": {
+        "text": {
+          "description": "Defines the snippet of text to highlight",
+          "type": "string"
+        },
+        "occurrence": {
+          "format": "int32",
+          "description": "Occurrence of the text field within the referenced text, if multiple exist.",
+          "type": "integer"
+        }
+      }
+    },
+    "SemanticAction": {
+      "description": "Represents a reference to a programmatic action",
+      "type": "object",
+      "properties": {
+        "state": {
+          "description": "State of this action. Allowed values: `start`, `continue`, `done`",
+          "type": "string"
+        },
+        "id": {
+          "description": "ID of this action",
+          "type": "string"
+        },
+        "entities": {
+          "description": "Entities associated with this action",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Entity"
+          }
+        }
+      }
+    },
+    "CardAction": {
+      "description": "A clickable action",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "The type of action implemented by this button",
+          "type": "string"
+        },
+        "title": {
+          "description": "Text description which appears on the button",
+          "type": "string"
+        },
+        "image": {
+          "description": "Image URL which will appear on the button, next to text label",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text for this action",
+          "type": "string"
+        },
+        "displayText": {
+          "description": "(Optional) text to display in the chat feed if the button is clicked",
+          "type": "string"
+        },
+        "value": {
+          "description": "Supplementary parameter for action. Content of this property depends on the ActionType",
+          "type": "object"
+        },
+        "channelData": {
+          "description": "Channel-specific data associated with this action",
+          "type": "object"
+        }
+      }
+    },
+    "ResourceResponse": {
+      "description": "A response containing a resource ID",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Id of the resource",
+          "type": "string"
+        }
+      }
+    },
+    "HeroCard": {
+      "description": "A Hero card (card with a single, large image)",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of the card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of the card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text for the card",
+          "type": "string"
+        },
+        "images": {
+          "description": "Array of images for the card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardImage"
+          }
+        },
+        "buttons": {
+          "description": "Set of actions applicable to the current card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        },
+        "tap": {
+          "$ref": "#/definitions/CardAction",
+          "description": "This action will be activated when user taps on the card itself"
+        }
+      }
+    },
+    "CardImage": {
+      "description": "An image on a card",
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "URL thumbnail image for major content property",
+          "type": "string"
+        },
+        "alt": {
+          "description": "Image description intended for screen readers",
+          "type": "string"
+        },
+        "tap": {
+          "$ref": "#/definitions/CardAction",
+          "description": "Action assigned to specific Attachment"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "description": "An HTTP API response",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Error",
+          "description": "Error message"
+        }
+      }
+    },
+    "Error": {
+      "description": "Object representing error information",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code",
+          "type": "string"
+        },
+        "message": {
+          "description": "Error message",
+          "type": "string"
+        },
+        "innerHttpError": {
+          "$ref": "#/definitions/InnerHttpError",
+          "description": "Error from inner http call"
+        }
+      }
+    },
+    "InnerHttpError": {
+      "description": "Object representing inner http error",
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "format": "int32",
+          "description": "HttpStatusCode from failed request",
+          "type": "integer"
+        },
+        "body": {
+          "description": "Body from failed request",
+          "type": "object"
+        }
+      }
+    },
+    "AnimationCard": {
+      "description": "An animation card (Ex: gif or short video clip)",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of this card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of this card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text of this card",
+          "type": "string"
+        },
+        "image": {
+          "$ref": "#/definitions/ThumbnailUrl",
+          "description": "Thumbnail placeholder"
+        },
+        "media": {
+          "description": "Media URLs for this card. When this field contains more than one URL, each URL is an alternative format of the same content.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MediaUrl"
+          }
+        },
+        "buttons": {
+          "description": "Actions on this card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        },
+        "shareable": {
+          "description": "This content may be shared with others (default:true)",
+          "type": "boolean"
+        },
+        "autoloop": {
+          "description": "Should the client loop playback at end of content (default:true)",
+          "type": "boolean"
+        },
+        "autostart": {
+          "description": "Should the client automatically start playback of media in this card (default:true)",
+          "type": "boolean"
+        },
+        "aspect": {
+          "description": "Aspect ratio of thumbnail/media placeholder. Allowed values are \"16:9\" and \"4:3\"",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Describes the length of the media content without requiring a receiver to open the content. Formatted as an ISO 8601 Duration field.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Supplementary parameter for this card",
+          "type": "object"
+        }
+      }
+    },
+    "ThumbnailUrl": {
+      "description": "Thumbnail URL",
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "URL pointing to the thumbnail to use for media content",
+          "type": "string"
+        },
+        "alt": {
+          "description": "HTML alt text to include on this thumbnail image",
+          "type": "string"
+        }
+      }
+    },
+    "MediaUrl": {
+      "description": "Media URL",
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "Url for the media",
+          "type": "string"
+        },
+        "profile": {
+          "description": "Optional profile hint to the client to differentiate multiple MediaUrl objects from each other",
+          "type": "string"
+        }
+      }
+    },
+    "AudioCard": {
+      "description": "Audio card",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of this card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of this card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text of this card",
+          "type": "string"
+        },
+        "image": {
+          "$ref": "#/definitions/ThumbnailUrl",
+          "description": "Thumbnail placeholder"
+        },
+        "media": {
+          "description": "Media URLs for this card. When this field contains more than one URL, each URL is an alternative format of the same content.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MediaUrl"
+          }
+        },
+        "buttons": {
+          "description": "Actions on this card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        },
+        "shareable": {
+          "description": "This content may be shared with others (default:true)",
+          "type": "boolean"
+        },
+        "autoloop": {
+          "description": "Should the client loop playback at end of content (default:true)",
+          "type": "boolean"
+        },
+        "autostart": {
+          "description": "Should the client automatically start playback of media in this card (default:true)",
+          "type": "boolean"
+        },
+        "aspect": {
+          "description": "Aspect ratio of thumbnail/media placeholder. Allowed values are \"16:9\" and \"4:3\"",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Describes the length of the media content without requiring a receiver to open the content. Formatted as an ISO 8601 Duration field.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Supplementary parameter for this card",
+          "type": "object"
+        }
+      }
+    },
+    "BasicCard": {
+      "description": "A basic card",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of the card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of the card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text for the card",
+          "type": "string"
+        },
+        "images": {
+          "description": "Array of images for the card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardImage"
+          }
+        },
+        "buttons": {
+          "description": "Set of actions applicable to the current card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        },
+        "tap": {
+          "$ref": "#/definitions/CardAction",
+          "description": "This action will be activated when user taps on the card itself"
+        }
+      }
+    },
+    "MediaCard": {
+      "description": "Media card",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of this card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of this card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text of this card",
+          "type": "string"
+        },
+        "image": {
+          "$ref": "#/definitions/ThumbnailUrl",
+          "description": "Thumbnail placeholder"
+        },
+        "media": {
+          "description": "Media URLs for this card. When this field contains more than one URL, each URL is an alternative format of the same content.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MediaUrl"
+          }
+        },
+        "buttons": {
+          "description": "Actions on this card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        },
+        "shareable": {
+          "description": "This content may be shared with others (default:true)",
+          "type": "boolean"
+        },
+        "autoloop": {
+          "description": "Should the client loop playback at end of content (default:true)",
+          "type": "boolean"
+        },
+        "autostart": {
+          "description": "Should the client automatically start playback of media in this card (default:true)",
+          "type": "boolean"
+        },
+        "aspect": {
+          "description": "Aspect ratio of thumbnail/media placeholder. Allowed values are \"16:9\" and \"4:3\"",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Describes the length of the media content without requiring a receiver to open the content. Formatted as an ISO 8601 Duration field.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Supplementary parameter for this card",
+          "type": "object"
+        }
+      }
+    },
+    "ReceiptCard": {
+      "description": "A receipt card",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of the card",
+          "type": "string"
+        },
+        "facts": {
+          "description": "Array of Fact objects",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Fact"
+          }
+        },
+        "items": {
+          "description": "Array of Receipt Items",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReceiptItem"
+          }
+        },
+        "tap": {
+          "$ref": "#/definitions/CardAction",
+          "description": "This action will be activated when user taps on the card"
+        },
+        "total": {
+          "description": "Total amount of money paid (or to be paid)",
+          "type": "string"
+        },
+        "tax": {
+          "description": "Total amount of tax paid (or to be paid)",
+          "type": "string"
+        },
+        "vat": {
+          "description": "Total amount of VAT paid (or to be paid)",
+          "type": "string"
+        },
+        "buttons": {
+          "description": "Set of actions applicable to the current card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        }
+      }
+    },
+    "Fact": {
+      "description": "Set of key-value pairs. Advantage of this section is that key and value properties will be \r\nrendered with default style information with some delimiter between them. So there is no need for developer to specify style information.",
+      "type": "object",
+      "properties": {
+        "key": {
+          "description": "The key for this Fact",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value for this Fact",
+          "type": "string"
+        }
+      }
+    },
+    "ReceiptItem": {
+      "description": "An item on a receipt card",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of the Card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle appears just below Title field, differs from Title in font styling only",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text field appears just below subtitle, differs from Subtitle in font styling only",
+          "type": "string"
+        },
+        "image": {
+          "$ref": "#/definitions/CardImage",
+          "description": "Image"
+        },
+        "price": {
+          "description": "Amount with currency",
+          "type": "string"
+        },
+        "quantity": {
+          "description": "Number of items of given kind",
+          "type": "string"
+        },
+        "tap": {
+          "$ref": "#/definitions/CardAction",
+          "description": "This action will be activated when user taps on the Item bubble."
+        }
+      }
+    },
+    "SigninCard": {
+      "description": "A card representing a request to sign in",
+      "type": "object",
+      "properties": {
+        "text": {
+          "description": "Text for signin request",
+          "type": "string"
+        },
+        "buttons": {
+          "description": "Action to use to perform signin",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        }
+      }
+    },
+    "OAuthCard": {
+      "description": "A card representing a request to perform a sign in via OAuth",
+      "type": "object",
+      "properties": {
+        "text": {
+          "description": "Text for signin request",
+          "type": "string"
+        },
+        "connectionName": {
+          "description": "The name of the registered connection",
+          "type": "string"
+        },
+        "buttons": {
+          "description": "Action to use to perform signin",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        }
+      }
+    },
+    "ThumbnailCard": {
+      "description": "A thumbnail card (card with a single, small thumbnail image)",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of the card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of the card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text for the card",
+          "type": "string"
+        },
+        "images": {
+          "description": "Array of images for the card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardImage"
+          }
+        },
+        "buttons": {
+          "description": "Set of actions applicable to the current card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        },
+        "tap": {
+          "$ref": "#/definitions/CardAction",
+          "description": "This action will be activated when user taps on the card itself"
+        }
+      }
+    },
+    "VideoCard": {
+      "description": "Video card",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of this card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of this card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text of this card",
+          "type": "string"
+        },
+        "image": {
+          "$ref": "#/definitions/ThumbnailUrl",
+          "description": "Thumbnail placeholder"
+        },
+        "media": {
+          "description": "Media URLs for this card. When this field contains more than one URL, each URL is an alternative format of the same content.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MediaUrl"
+          }
+        },
+        "buttons": {
+          "description": "Actions on this card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        },
+        "shareable": {
+          "description": "This content may be shared with others (default:true)",
+          "type": "boolean"
+        },
+        "autoloop": {
+          "description": "Should the client loop playback at end of content (default:true)",
+          "type": "boolean"
+        },
+        "autostart": {
+          "description": "Should the client automatically start playback of media in this card (default:true)",
+          "type": "boolean"
+        },
+        "aspect": {
+          "description": "Aspect ratio of thumbnail/media placeholder. Allowed values are \"16:9\" and \"4:3\"",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Describes the length of the media content without requiring a receiver to open the content. Formatted as an ISO 8601 Duration field.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Supplementary parameter for this card",
+          "type": "object"
+        }
+      }
+    },
+    "GeoCoordinates": {
+      "description": "GeoCoordinates (entity type: \"https://schema.org/GeoCoordinates\")",
+      "type": "object",
+      "properties": {
+        "elevation": {
+          "format": "double",
+          "description": "Elevation of the location [WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)",
+          "type": "number"
+        },
+        "latitude": {
+          "format": "double",
+          "description": "Latitude of the location [WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)",
+          "type": "number"
+        },
+        "longitude": {
+          "format": "double",
+          "description": "Longitude of the location [WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)",
+          "type": "number"
+        },
+        "type": {
+          "description": "The type of the thing",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the thing",
+          "type": "string"
+        }
+      }
+    },
+    "Mention": {
+      "description": "Mention information (entity type: \"mention\")",
+      "type": "object",
+      "properties": {
+        "mentioned": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "The mentioned user"
+        },
+        "text": {
+          "description": "Sub Text which represents the mention (can be null or empty)",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type of this entity (RFC 3987 IRI)",
+          "type": "string"
+        }
+      }
+    },
+    "Place": {
+      "description": "Place (entity type: \"https://schema.org/Place\")",
+      "type": "object",
+      "properties": {
+        "address": {
+          "description": "Address of the place (may be `string` or complex object of type `PostalAddress`)",
+          "type": "object"
+        },
+        "geo": {
+          "description": "Geo coordinates of the place (may be complex object of type `GeoCoordinates` or `GeoShape`)",
+          "type": "object"
+        },
+        "hasMap": {
+          "description": "Map to the place (may be `string` (URL) or complex object of type `Map`)",
+          "type": "object"
+        },
+        "type": {
+          "description": "The type of the thing",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the thing",
+          "type": "string"
+        }
+      }
+    },
+    "Thing": {
+      "description": "Thing (entity type: \"https://schema.org/Thing\")",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "The type of the thing",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the thing",
+          "type": "string"
+        }
+      }
+    },
+    "TokenRequest": {
+      "description": "A request to receive a user token",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "description": "The provider to request a user token from",
+          "type": "string"
+        },
+        "settings": {
+          "description": "A collection of settings for the specific provider for this request",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "TokenResponse": {
+      "description": "A response that includes a user token",
+      "type": "object",
+      "properties": {
+        "channelId": {
+          "description": "The channelId of the TokenResponse",
+          "type": "string"
+        },
+        "connectionName": {
+          "description": "The connection name",
+          "type": "string"
+        },
+        "token": {
+          "description": "The user token",
+          "type": "string"
+        },
+        "expiration": {
+          "description": "Expiration for the token, in ISO 8601 format (e.g. \"2007-04-05T14:30Z\")",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

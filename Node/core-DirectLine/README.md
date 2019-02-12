@@ -23,34 +23,28 @@ Refer to [this](https://docs.microsoft.com/en-us/bot-framework/portal-configure-
 ![Configure Direct Line](images/outcome-configure.png)
 
 #### Publish
-Also, in order to be able to run and test this sample you must [publish your bot, for example to Azure](https://docs.microsoft.com/en-us/bot-framework/publish-bot-overview). Alternatively, you can [Debug locally using ngrok](https://docs.botframework.com/en-us/node/builder/guides/core-concepts/#debugging-locally-using-ngrok).
-Remember to update the environment variables with the `MICROSOFT_APP_ID` and `MICROSOFT_APP_PASSWORD` on the [.env](./DirectLineBot/.env) file.
+Also, in order to be able to run and test this sample you must [Register with Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration). Alternatively, you can [Debug locally using ngrok](https://blog.botframework.com/2017/10/19/debug-channel-locally-using-ngrok/).
+Remember to update the environment variables with the `MICROSOFT_APP_ID` and `MICROSOFT_APP_PASSWORD` in the [.env](DirectLineBot/.env) file.
 
 ### Code Highlights
 
-The Direct Line API is a simple REST API for connecting directly to a single bot. This API is intended for developers writing their own client applications, web chat controls, or mobile apps that will talk to their bot. In this sample, we are using the [Direct Line Swagger file](https://docs.botframework.com/en-us/restapi/directline3/swagger.json) and [Swagger JS](https://github.com/swagger-api/swagger-js) to create a client for Node that will simplify access to the underlying REST API. Check out the client's [app.js](DirectLineClient/app.js#L7-L26) to see the client initialization.
+The Direct Line API is a simple REST API for connecting directly to a single bot. This API is intended for developers writing their own client applications, web chat controls, or mobile apps that will talk to their bot. In this sample, we are using the [Direct Line Swagger file](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-protocol/directline-3.0.json) and [Swagger JS](https://github.com/swagger-api/swagger-js) to create a client for Node that will simplify access to the underlying REST API. Check out the client's [app.js](DirectLineClient/app.js#L7-L26) to see the client initialization.
 
 ````JavaScript
+var directLineSpec = require('./directline-swagger.json');
 var directLineSecret = 'DIRECTLINE_SECRET';
 var directLineClientName = 'DirectLineClient';
-var directLineSpecUrl = 'https://docs.botframework.com/en-us/restapi/directline3/swagger.json';
 
-var directLineClient = rp(directLineSpecUrl)
-    .then(function (spec) {
-        // client
-        return new Swagger({
-            spec: JSON.parse(spec.trim()),
-            usePromise: true
-        });
-    })
-    .then(function (client) {
-        // add authorization header to client
+var directLineClient = new Swagger(
+    {
+        spec: directLineSpec,
+        usePromise: true,
+    }).then((client) => {
+        // add authorization header
         client.clientAuthorizations.add('AuthorizationBotConnector', new Swagger.ApiKeyAuthorization('Authorization', 'Bearer ' + directLineSecret, 'header'));
         return client;
-    })
-    .catch(function (err) {
-        console.error('Error initializing DirectLine client', err);
-    });
+    }).catch((err) =>
+        console.error('Error initializing DirectLine client', err));
 ````
 
 Each conversation on the Direct Line channel must be explicitly started using the `client.Conversations.Conversations_StartConversation()` function.
@@ -155,8 +149,8 @@ To test the ChannelData custom messages type in the Client's console `show me a 
 To get more information about how to get started in Bot Builder for Node and Direct Line API please review the following resources:
 * [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
 * [Bot Framework FAQ](https://docs.microsoft.com/en-us/bot-framework/resources-bot-framework-faq#i-have-a-communication-channel-id-like-to-be-configurable-with-bot-framework-can-i-work-with-microsoft-to-do-that)
-* [Direct Line API - v3.0](https://docs.botframework.com/en-us/restapi/directline3/)
-* [Direct Line Swagger file - v3.0](https://docs.botframework.com/en-us/restapi/directline3/swagger.json)
+* [Direct Line API - v3.0](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-direct-line-3-0-concepts/)
+* [Direct Line Swagger file - v3.0](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-protocol/directline-3.0.json)
 * [Swagger-JS](https://github.com/swagger-api/swagger-js)
 * [Send and receive attachments](https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-send-receive-attachments)
 * [Debugging locally using ngrok](https://docs.microsoft.com/en-us/bot-framework/debug-bots-emulator)
