@@ -1,11 +1,16 @@
-﻿using BotFileCreator.Repository;
-using Microsoft.Bot.Configuration;
-using System;
-using System.Windows;
-using System.Windows.Input;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 namespace BotFileCreator
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Input;
+    using BotFileCreator.Repository;
+    using Microsoft.Bot.Configuration;
+
     public class BotConfigurationViewModel : BaseViewModel
     {
         private readonly ICommand _cancelCommand;
@@ -137,10 +142,10 @@ namespace BotFileCreator
         public void CreateBotFile()
         {
             var botFileFullPath = GeneralSettings.Default.ProjectName;
-            BotFileNameManager botFileNameManager = new BotFileNameManager(BotFileName, botFileFullPath);
+            // BotFileNameManager botFileNameManager = new BotFileNameManager(BotFileName, botFileFullPath);
 
             // Checks if the bot configuration is valid
-            Tuple<bool, string> configIsValid = BotFileConfigurationIsValid(botFileNameManager);
+            Tuple<bool, string> configIsValid = BotFileConfigurationIsValid(BotFileName);
 
             // If the bot's configuration is not valid, it will show an error
             if (!configIsValid.Item1)
@@ -150,7 +155,7 @@ namespace BotFileCreator
             }
 
             // Repository for creating bot files
-            BotFileRepository repository = new BotFileRepository(botFileNameManager.BotFileName, botFileNameManager.ProjectDirectoryPath);
+            IBotConfigurationRepository repository = new BotFileRepository(BotFileName, GetProjectDirectoryPath(botFileFullPath));
 
             // Adds the only endpoint (if it's not null) to the bot configuration
             if (!string.IsNullOrWhiteSpace(EndpointItem.Endpoint))
@@ -170,6 +175,10 @@ namespace BotFileCreator
                 repository.Save();
             }
 
+            // Adds the just generated bot file to the project
+            string filePath = Path.Combine(GetProjectDirectoryPath(botFileFullPath), BotFileName, ".bot");
+            AddFileToProject(botFileFullPath, filePath);
+
             // If the file was successfully created, the Wizard will be closed.
             MessageBox.Show("Bot file successfully created", "Bot file successfully created", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
@@ -179,22 +188,56 @@ namespace BotFileCreator
             }
         }
 
-        private Tuple<bool, string> BotFileConfigurationIsValid(BotFileNameManager botFileNameManager)
+        private Tuple<bool, string> BotFileConfigurationIsValid(string botFileName)
         {
             // If the .bot file name is Null or WhiteSpace, returns an error.
-            if (string.IsNullOrWhiteSpace(botFileNameManager.BotFileName))
+            if (string.IsNullOrWhiteSpace(botFileName))
             {
                 return new Tuple<bool, string>(false, "Bot file name can't be null.");
             }
 
             // If the .bot file name contains any whitespace, the method will return an error.
-            if (botFileNameManager.BotFileName.Contains(" "))
+            if (botFileName.Contains(" "))
             {
                 return new Tuple<bool, string>(false, "Bot file name can't have whitespaces.");
             }
 
             // A tuple with True and Empty string will be returned if there are no errors.
             return new Tuple<bool, string>(true, string.Empty);
+        }
+
+        /// <summary>
+        /// Adds a specified file to another specified project
+        /// </summary>
+        /// <param name="projectName">The full path to .csproj file</param>
+        /// <param name="fileName">The file name to add to csproj</param>
+        private void AddFileToProject(string projectName, string fileName)
+        {
+            // Load a specific project. Also, avoids several problems for re-loading the same project more than once
+            var project = Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection.LoadedProjects.FirstOrDefault(pr => pr.FullPath == projectName);
+
+            if (project != null)
+            {
+                // Reevaluates the project to add any change
+                project.ReevaluateIfNecessary();
+
+                // Checks if the project has a file with the same name. If it doesn't, it will be added to the project
+                if (project.Items.FirstOrDefault(item => item.EvaluatedInclude == fileName) == null)
+                {
+                    project.AddItem("Compile", fileName);
+                    project.Save();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns the Working Project Directory
+        /// </summary>
+        /// <param name="projectPath">Project's full path</param>
+        /// <returns>Project's directory path</returns>
+        private string GetProjectDirectoryPath(string projectPath)
+        {
+            return projectPath.Substring(0, projectPath.LastIndexOf('\\'));
         }
 
         private void CollapsePanels(string panelToShow)

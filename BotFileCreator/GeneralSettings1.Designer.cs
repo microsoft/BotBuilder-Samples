@@ -26,18 +26,6 @@ namespace BotFileCreator {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string BotFileName {
-            get {
-                return ((string)(this["BotFileName"]));
-            }
-            set {
-                this["BotFileName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string ProjectName {
             get {
                 return ((string)(this["ProjectName"]));

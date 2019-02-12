@@ -94,8 +94,8 @@ namespace BotFileCreator
             ThreadHelper.ThrowIfNotOnUIThread();
 
             /*
-             * This code gets the Project's name from where the Wizard/Visua Studio Extension is being called
-             * Is necessary to call these methods from the main thread, so they could not be in another method/function
+             * This code gets the Project's name from where the Wizard/Visual Studio Extension is being called
+             * Is necessary to call these methods from the main thread
              */
             IntPtr hierarchyPointer, selectionContainerPointer;
             object selectedObject = null;

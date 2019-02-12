@@ -70,22 +70,14 @@
     <Compile Include="BotFileCreationWizard.xaml.cs">
       <DependentUpon>BotFileCreationWizard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BotFileCreatorManager.cs" />
     <Compile Include="BotFileCreatorCommand.cs" />
     <Compile Include="BotFileCreatorPackage.cs" />
     <Compile Include="BotFileNameManager.cs" />
-    <Compile Include="CLIHelper\CLIHelper.cs" />
     <Compile Include="GeneralSettings1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>GeneralSettings.settings</DependentUpon>
     </Compile>
-    <Compile Include="MSBotCommandManager\CommandWrappers\MSBotCommandEndpoint.cs" />
-    <Compile Include="MSBotCommandManager\CommandWrappers\MSBotCommandQuiet.cs" />
-    <Compile Include="MSBotCommandManager\CommandWrappers\MSBotCommandEncrypt.cs" />
-    <Compile Include="MSBotCommandManager\MSBotCommandInit.cs" />
-    <Compile Include="MSBotCommandManager\MSBotCommandManager.cs" />
-    <Compile Include="MSBotCommandManager\MSBotCommandWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

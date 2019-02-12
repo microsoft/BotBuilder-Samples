@@ -1,8 +1,11 @@
-﻿using System;
-using System.Windows.Input;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 namespace BotFileCreator
 {
+    using System;
+    using System.Windows.Input;
+
     public class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;
