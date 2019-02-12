@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples
         public override async Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken)
         {
             var activity = dc.Context.Activity.CreateReply();
-            activity.Attachments = new List<Attachment> { Helpers.CreateAdaptiveCardAttachment(@".\Dialogs\WhatCanYouDo\Resources\whatCanYouDoCard.json"), };
+            activity.Attachments = new List<Attachment> { Helpers.CreateAdaptiveCardAttachment(new[] { ".", "Dialogs", "WhatCanYouDo", "Resources", "whatCanYouDoCard.json" }) };
             await dc.Context.SendActivityAsync(activity);
             await dc.Context.SendActivityAsync("Pick a query from the card or you can use the suggestions below.");
             return await dc.EndDialogAsync();

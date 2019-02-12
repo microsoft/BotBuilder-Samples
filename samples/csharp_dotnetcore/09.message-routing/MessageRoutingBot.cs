@@ -189,11 +189,13 @@ namespace Microsoft.BotBuilderSamples
         // Load attachment from file.
         private Attachment CreateAdaptiveCardAttachment()
         {
-            var adaptiveCard = File.ReadAllText(@".\Dialogs\Welcome\Resources\welcomeCard.json");
+            // combine path for cross platform support
+            string[] paths = { ".", "Dialogs", "Welcome", "Resources", "welcomeCard.json" };
+            string fullPath = Path.Combine(paths);
             return new Attachment()
             {
                 ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(adaptiveCard),
+                Content = JsonConvert.DeserializeObject(fullPath),
             };
         }
 
