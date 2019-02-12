@@ -141,10 +141,11 @@ namespace BotFileCreator
 
         public void CreateBotFile()
         {
-            var botFileFullPath = GeneralSettings.Default.ProjectName;
+            var projectPath = GeneralSettings.Default.ProjectName;
+            string botFilePath = Path.Combine(GetProjectDirectoryPath(projectPath), string.Concat(BotFileName, ".bot"));
 
             // Checks if the bot configuration is valid
-            Tuple<bool, string> configIsValid = BotFileConfigurationIsValid(BotFileName);
+            Tuple<bool, string> configIsValid = BotFileConfigurationIsValid(BotFileName, botFilePath);
 
             // If the bot's configuration is not valid, it will show an error
             if (!configIsValid.Item1)
@@ -154,7 +155,7 @@ namespace BotFileCreator
             }
 
             // Repository for creating bot files
-            IBotConfigurationRepository repository = new BotFileRepository(BotFileName, GetProjectDirectoryPath(botFileFullPath));
+            IBotConfigurationRepository repository = new BotFileRepository(BotFileName, GetProjectDirectoryPath(projectPath));
 
             // Adds the only endpoint (if it's not null) to the bot configuration
             if (!string.IsNullOrWhiteSpace(EndpointItem.Endpoint))
@@ -175,8 +176,7 @@ namespace BotFileCreator
             }
 
             // Adds the just generated bot file to the project
-            string filePath = Path.Combine(GetProjectDirectoryPath(botFileFullPath), BotFileName, ".bot");
-            AddFileToProject(botFileFullPath, filePath);
+            AddFileToProject(projectPath, botFilePath);
 
             // If the file was successfully created, the Wizard will be closed.
             MessageBox.Show("Bot file successfully created", "Bot file successfully created", MessageBoxButton.OK, MessageBoxImage.Exclamation);
@@ -187,7 +187,13 @@ namespace BotFileCreator
             }
         }
 
-        private Tuple<bool, string> BotFileConfigurationIsValid(string botFileName)
+        /// <summary>
+        /// Checks if the Bot File Configuration to create is valid
+        /// </summary>
+        /// <param name="botFileName">bot file's name</param>
+        /// <param name="botFilePath">bot file's path</param>
+        /// <returns>Tuple</returns>
+        private Tuple<bool, string> BotFileConfigurationIsValid(string botFileName, string botFilePath)
         {
             // If the .bot file name is Null or WhiteSpace, returns an error.
             if (string.IsNullOrWhiteSpace(botFileName))
@@ -199,6 +205,12 @@ namespace BotFileCreator
             if (botFileName.Contains(" "))
             {
                 return new Tuple<bool, string>(false, "Bot file name can't have whitespaces.");
+            }
+
+            // Returns an error if the bot file already exists.
+            if (File.Exists(botFilePath))
+            {
+                return new Tuple<bool, string>(false, $"The bot file {BotFileName} already exists.");
             }
 
             // A tuple with True and Empty string will be returned if there are no errors.
