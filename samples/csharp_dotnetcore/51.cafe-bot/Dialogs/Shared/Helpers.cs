@@ -50,8 +50,10 @@ namespace Microsoft.BotBuilderSamples
         }
 
         // Load attachment from file
-        public static Attachment CreateAdaptiveCardAttachment(string fullPath)
+        public static Attachment CreateAdaptiveCardAttachment(string[] directories)
         {
+            // combine path for cross platform support
+            string fullPath = Path.Combine(directories);
             var adaptiveCard = File.ReadAllText(fullPath);
             return new Attachment()
             {

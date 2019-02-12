@@ -97,7 +97,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 // We need to get user's name right. Include a card.
                 var activity = dc.Context.Activity.CreateReply();
-                activity.Attachments = new List<Attachment> { Helpers.CreateAdaptiveCardAttachment(@".\Dialogs\WhoAreYou\Resources\getNameCard.json"), };
+                activity.Attachments = new List<Attachment> { Helpers.CreateAdaptiveCardAttachment(new[] { ".", "Dialogs", "WhoAreYou", "Resources", "getNameCard.json" }) };
                 await context.SendActivityAsync(activity);
             }
             else if (turnCounter.TurnCount >= 3)
