@@ -8,7 +8,7 @@
 
     public sealed class Authentication
     {
-        // The token has an expiry time of 10 minutes https://www.microsoft.com/cognitive-services/en-us/Speech-api/documentation/API-Reference-REST/BingVoiceRecognition
+        // The token has an expiry time of 10 minutes
         private const int TokenExpiryInSeconds = 600;
 
         private static readonly object LockObject;

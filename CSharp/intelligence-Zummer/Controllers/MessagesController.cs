@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Autofac;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
@@ -29,6 +30,7 @@ namespace Zummer.Controllers
                     case ActivityTypes.Message:
                         using (var beginLifetimeScope = DialogModule.BeginLifetimeScope(this.scope, activity))
                         {
+                            DialogModule_MakeRoot.Register(beginLifetimeScope, () => beginLifetimeScope.Resolve<IDialog<object>>());
                             var postToBot = beginLifetimeScope.Resolve<IPostToBot>();
                             await postToBot.PostAsync(activity, token);
                         }

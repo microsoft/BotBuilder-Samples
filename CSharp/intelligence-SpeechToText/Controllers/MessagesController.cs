@@ -16,8 +16,6 @@
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        private readonly MicrosoftCognitiveSpeechService speechService = new MicrosoftCognitiveSpeechService();
-
         /// <summary>
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
@@ -27,40 +25,7 @@
             if (activity.Type == ActivityTypes.Message)
             {
                 var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-                string message;
-
-                try
-                {
-                    var audioAttachment = activity.Attachments?.FirstOrDefault(a => a.ContentType.Equals("audio/wav") || a.ContentType.Equals("application/octet-stream"));
-                    if (audioAttachment != null)
-                    {
-                        var stream = await GetAudioStream(connector, audioAttachment);
-                        var text = await this.speechService.GetTextFromAudioAsync(stream);
-                        message = ProcessText(text);
-                    }
-                    else
-                    {
-                        message = "Did you upload an audio file? I'm more of an audible person. Try sending me a wav file";
-                    }
-                }
-                catch (Exception e)
-                {
-                    message = "Oops! Something went wrong. Try again later";
-                    if (e is HttpException)
-                    {
-                        var httpCode = (e as HttpException).GetHttpCode();
-                        if (httpCode == 401 || httpCode == 403)
-                        {
-                            message += $" [{e.Message} - hint: check your API KEY at web.config]";
-                        } else if (httpCode == 408)
-                        {
-                            message += $" [{e.Message} - hint: try send an audio shorter than 15 segs]";
-                        }
-                    }
-
-                    Trace.TraceError(e.ToString());
-                }
-
+                string message = await GetTextFromActivity(connector, activity);
                 Activity reply = activity.CreateReply(message);
                 await connector.Conversations.ReplyToActivityAsync(reply);
             }
@@ -71,6 +36,50 @@
 
             var response = this.Request.CreateResponse(HttpStatusCode.OK);
             return response;
+        }
+
+        /// <summary>
+        /// Check the activity for audio attachments, and get text from the audio by calling Cognitive Speech Services
+        /// </summary>
+        /// <param name="connector">Connector client used for retrieving the audio file attachment from Bot Framework Connector Services</param>
+        /// <param name="activity">The incoming activity that should contain a wave file attachment</param>
+        /// <returns>Text retrieved from wave file attachment.</returns>
+        private async Task<string> GetTextFromActivity(ConnectorClient connector, Activity activity)
+        {
+            string message = string.Empty;
+            try
+            {
+                var audioAttachment = activity.Attachments?.FirstOrDefault(a => a.ContentType.Equals("audio/wav") || a.ContentType.Equals("application/octet-stream"));
+                if (audioAttachment != null)
+                {
+                    var stream = await GetAudioStream(connector, audioAttachment);
+                    string text = await MicrosoftCognitiveSpeechService.GetTextFromAudioAsync(stream);
+                    message = ProcessText(text);
+                }
+                else
+                {
+                    message = "Did you upload an audio file? I'm more of an audible person. Try sending me a wav file";
+                }
+            }
+            catch (Exception e)
+            {
+                message = "Oops! Something went wrong. Try again later";
+                if (e is HttpException)
+                {
+                    var httpCode = (e as HttpException).GetHttpCode();
+                    if (httpCode == 401 || httpCode == 403)
+                    {
+                        message += $" [{e.Message} - hint: check your API KEY at web.config]";
+                    }
+                    else if (httpCode == 408)
+                    {
+                        message += $" [{e.Message} - hint: try send an audio shorter than 15 segs]";
+                    }
+                }
+
+                Trace.TraceError(e.ToString());
+            }
+            return message;
         }
 
         private static string ProcessText(string text)
