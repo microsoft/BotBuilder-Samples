@@ -1,0 +1,69 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>CoreBot</Name>
+    <Description>Core Bot template for Microsoft Bot Builder V4 SDK.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>Bot Framework</ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>CoreBot</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <CreateInPlace>true</CreateInPlace>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Icon>CoreBot.png</Icon>
+    <PreviewImage></PreviewImage>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="CoreBot.csproj" ReplaceParameters="true">
+      <Folder Name="CognitiveModels" TargetFolderName="CognitiveModels">
+        <ProjectItem ReplaceParameters="true">basic-bot.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true">basic-bot.luis</ProjectItem>
+      </Folder>
+      <Folder Name="DeploymentScripts" TargetFolderName="DeploymentScripts">
+        <Folder Name="MsbotClone" TargetFolderName="MsbotClone">
+          <ProjectItem ReplaceParameters="true">34.luis</ProjectItem>
+          <ProjectItem ReplaceParameters="true">bot.recipe</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="Dialogs" TargetFolderName="Dialogs">
+        <Folder Name="Greeting" TargetFolderName="Greeting">
+          <Folder Name="Resources" TargetFolderName="Resources">
+            <ProjectItem ReplaceParameters="true">cancel.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true">greeting.chat</ProjectItem>
+            <ProjectItem ReplaceParameters="true">greeting.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true">help.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true">main.lu</ProjectItem>
+            <ProjectItem ReplaceParameters="true">none.lu</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true">GreetingDialog.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="true">GreetingState.cs</ProjectItem>
+        </Folder>
+        <Folder Name="Welcome" TargetFolderName="Welcome">
+          <Folder Name="Resources" TargetFolderName="Resources">
+            <ProjectItem ReplaceParameters="true">welcomeCard.json</ProjectItem>
+          </Folder>
+        </Folder>
+      </Folder>
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true">launchSettings.json</ProjectItem>
+      </Folder>
+      <Folder Name="wwwroot" TargetFolderName="wwwroot">
+        <ProjectItem ReplaceParameters="true">default.htm</ProjectItem>
+      </Folder>
+      
+      <ProjectItem ReplaceParameters="true">appsettings.json</ProjectItem>            
+      <ProjectItem ReplaceParameters="true">Program.cs</ProjectItem>      
+      <ProjectItem ReplaceParameters="true">Startup.cs</ProjectItem>
+
+
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Bot.cs">CoreBot.cs</ProjectItem>
+      
+      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.bot">corebot.bot</ProjectItem>
+      
+      <ProjectItem ReplaceParameters="true">BotServices.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true">PREREQUISITES.md</ProjectItem>
+      <ProjectItem ReplaceParameters="true">README.md</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

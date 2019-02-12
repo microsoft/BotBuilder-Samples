@@ -256,7 +256,9 @@ namespace Microsoft.BotBuilderSamples
         /// <returns>An <see cref="AdaptiveCard"/>.</returns>
         private static Attachment CreateAdaptiveCardAttachment()
         {
-            var adaptiveCardJson = File.ReadAllText(@".\Resources\adaptiveCard.json");
+            // combine path for cross platform support
+            string[] paths = { ".", "Resources", "adaptiveCard.json" };
+            string adaptiveCardJson = Path.Combine(paths);
             var adaptiveCardAttachment = new Attachment()
             {
                 ContentType = "application/vnd.microsoft.card.adaptive",

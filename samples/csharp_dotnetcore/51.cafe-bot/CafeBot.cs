@@ -212,7 +212,7 @@ namespace Microsoft.BotBuilderSamples
                         await turnContext.SendActivityAsync("Hello, I am the Contoso Cafe Bot!");
                         await turnContext.SendActivityAsync("I can help book a table and more..");
                         var activity = turnContext.Activity.CreateReply();
-                        activity.Attachments = new List<Attachment> { Helpers.CreateAdaptiveCardAttachment(@".\Dialogs\Welcome\Resources\welcomeCard.json"), };
+                        activity.Attachments = new List<Attachment> { Helpers.CreateAdaptiveCardAttachment(new []{ ".", "Dialogs", "Welcome", "Resources", "welcomeCard.json" }), };
 
                         // Send welcome card.
                         await turnContext.SendActivityAsync(activity);

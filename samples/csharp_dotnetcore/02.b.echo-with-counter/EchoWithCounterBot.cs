@@ -27,19 +27,28 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Initializes a new instance of the <see cref="EchoWithCounterBot"/> class.
         /// </summary>
-        /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
+        /// <param name="conversationState">The managed conversation state.</param>
         /// <param name="loggerFactory">A <see cref="ILoggerFactory"/> that is hooked to the Azure App Service provider.</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
-        public EchoWithCounterBot(EchoBotAccessors accessors, ILoggerFactory loggerFactory)
+        public EchoWithCounterBot(ConversationState conversationState, ILoggerFactory loggerFactory)
         {
+            if (conversationState == null)
+            {
+                throw new System.ArgumentNullException(nameof(conversationState));
+            }
+
             if (loggerFactory == null)
             {
                 throw new System.ArgumentNullException(nameof(loggerFactory));
             }
 
+            _accessors = new EchoBotAccessors(conversationState)
+            {
+                CounterState = conversationState.CreateProperty<CounterState>(EchoBotAccessors.CounterStateName),
+            };
+
             _logger = loggerFactory.CreateLogger<EchoWithCounterBot>();
             _logger.LogTrace("EchoBot turn start.");
-            _accessors = accessors ?? throw new System.ArgumentNullException(nameof(accessors));
         }
 
         /// <summary>
