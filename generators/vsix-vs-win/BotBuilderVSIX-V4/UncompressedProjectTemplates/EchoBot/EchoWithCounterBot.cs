@@ -28,7 +28,7 @@ namespace $safeprojectname$
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
+        /// <param name="conversationState">The managed conversation state.</param>
         /// <param name="loggerFactory">A <see cref="ILoggerFactory"/> that is hooked to the Azure App Service provider.</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
         public $safeprojectname$Bot(ConversationState conversationState, ILoggerFactory loggerFactory)
