@@ -144,6 +144,7 @@ namespace BotFileCreator.Repository
             {
                 this.botConfiguration.Name = this.fileName.Replace(".bot", string.Empty);
                 this.botConfiguration.Padlock = string.Empty;
+                this.botConfiguration.Description = string.Empty;
             }
         }
 

@@ -160,7 +160,7 @@ namespace BotFileCreator
             // Adds the only endpoint (if it's not null) to the bot configuration
             if (!string.IsNullOrWhiteSpace(EndpointItem.Endpoint))
             {
-                EndpointService endpoint = new EndpointService() { Name = this.EndpointItem.Name, Endpoint = this.EndpointItem.Endpoint, AppId = this.EndpointItem.AppId, AppPassword = this.EndpointItem.AppPassword };
+                EndpointService endpoint = new EndpointService() { Name = this.EndpointItem.Name, Endpoint = this.EndpointItem.Endpoint, AppId = this.EndpointItem.AppId, AppPassword = this.EndpointItem.AppPassword, ChannelService = string.Empty };
                 repository.ConnectService(endpoint);
             }
 
