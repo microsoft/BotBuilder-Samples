@@ -28,19 +28,28 @@ namespace $safeprojectname$
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
+        /// <param name="conversationState">The managed conversation state.</param>
         /// <param name="loggerFactory">A <see cref="ILoggerFactory"/> that is hooked to the Azure App Service provider.</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
-        public $safeprojectname$Bot($safeprojectname$Accessors accessors, ILoggerFactory loggerFactory)
+        public $safeprojectname$Bot(ConversationState conversationState, ILoggerFactory loggerFactory)
         {
+            if (conversationState == null)
+            {
+                throw new System.ArgumentNullException(nameof(conversationState));
+            }
+
             if (loggerFactory == null)
             {
                 throw new System.ArgumentNullException(nameof(loggerFactory));
             }
 
+            _accessors = new $safeprojectname$Accessors(conversationState)
+            {
+                CounterState = conversationState.CreateProperty<CounterState>($safeprojectname$Accessors.CounterStateName),
+            };
+
             _logger = loggerFactory.CreateLogger<$safeprojectname$Bot>();
-            _logger.LogTrace("Turn start.");
-            _accessors = accessors ?? throw new System.ArgumentNullException(nameof(accessors));
+            _logger.LogTrace("Turn start.");            
         }
 
         /// <summary>
