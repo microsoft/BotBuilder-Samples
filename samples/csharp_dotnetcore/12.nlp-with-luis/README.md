@@ -81,6 +81,8 @@ msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-loc
 
 **NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
 
+**NOTE**: Since the `msbot clone services ...` command creates a new `.bot` file, you likely need to ensure that `LuisKey` in your deployed `LuisBot.cs` matches the `name` property of your LUIS endpoint in your deployed `.bot` file.
+
 
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

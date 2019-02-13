@@ -67,6 +67,8 @@ This samples requires prerequisites in order to run.
 After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.
 To learn how, see [Deploy your bot to Azure][40] for a complete set of deployment instructions.
 
+**NOTE**: Since the `msbot clone services ...` command creates a new `.bot` file, you likely need to ensure that the `name` property of your deployed LUIS service in your `.bot` file matches `LUIS_CONFIGURATIONS`  in your deployed `index.js`
+
 # View metrics
 - Learn how to use [PowerBI, use Azure Monitor queries and Visual Studio][42] to view Application Insights data.
 
