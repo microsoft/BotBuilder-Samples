@@ -4,15 +4,11 @@ using Microsoft.VisualStudio.TemplateWizard;
 using System.Windows.Forms;
 using EnvDTE;
 using System.Management.Automation;
-using System.Management.Automation.Runspaces;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell;
+using System.IO;
 using Microsoft.VisualStudio.Shell.Interop;
 using System.Runtime.InteropServices;
-using System.Linq;
-using System.ComponentModel.Design;
-using Task = System.Threading.Tasks.Task;
-using System.IO.Packaging;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio;
 
 namespace VSIXDialogsTemplate
 {
@@ -20,6 +16,8 @@ namespace VSIXDialogsTemplate
     {
         private UserInputForm inputForm;
         private string customMessage;
+        private string projectPath;
+        private string folder;
 
         // This method is called before opening any item that   
         // has the OpenInEditor attribute.  
@@ -29,22 +27,6 @@ namespace VSIXDialogsTemplate
 
         public void ProjectFinishedGenerating(Project project)
         {
-            //var script =
-            //project.ProjectItems.FindProjectItem(
-            //    item => item.Name.Equals("C:\\Repositories\\BotBuilder-Samples\\samples\\csharp_dotnetcore\\02.a.echo-bot\\script.ps1"));
-
-            //if (script == null)
-            //{
-            //    return;
-            //}
-
-            //var process =
-            //    System.Diagnostics.Process.Start(
-            //        "powershell",
-            //        string.Concat(
-            //            "-NoProfile -ExecutionPolicy Unrestricted -File \"",
-            //            script.FileNames[0],
-            //            "\""));
         }
 
         // This method is only called for item templates,  
@@ -65,6 +47,27 @@ namespace VSIXDialogsTemplate
         {
             try
             {
+                IntPtr hierarchyPointer, selectionContainerPointer;
+                object selectedObject = null;
+                IVsMultiItemSelect multiItemSelect;
+                uint projectItemId;
+
+                IVsMonitorSelection monitorSelection = (IVsMonitorSelection)Package.GetGlobalService(typeof(SVsShellMonitorSelection));
+
+                monitorSelection.GetCurrentSelection(out hierarchyPointer, out projectItemId, out multiItemSelect, out selectionContainerPointer);
+
+                IVsHierarchy selectedHierarchy = Marshal.GetTypedObjectForIUnknown(hierarchyPointer, typeof(IVsHierarchy)) as IVsHierarchy;
+
+                if (selectedHierarchy != null)
+                {
+                    ErrorHandler.ThrowOnFailure(selectedHierarchy.GetProperty(projectItemId, (int)__VSHPROPID.VSHPROPID_ExtObject, out selectedObject));
+                }
+
+                Project selectedProject = selectedObject as Project;
+
+                this.projectPath = selectedProject.FullName;
+                folder = Path.GetDirectoryName(projectPath);
+
                 // Display a form to the user. The form collects   
                 // input for the custom message.  
                 inputForm = new UserInputForm();
@@ -75,6 +78,8 @@ namespace VSIXDialogsTemplate
                 // Add custom parameters.  
                 replacementsDictionary.Add("$custommessage$",
                     customMessage);
+
+                RunScript();
             }
             catch (Exception ex)
             {
@@ -87,6 +92,56 @@ namespace VSIXDialogsTemplate
         public bool ShouldAddProjectItem(string filePath)
         {
             return true;
+        }
+
+        public void RunScript()
+        {
+            string script = "" +
+                "$FileName = \"*Bot.cs\"" + "\n" +
+                "$Patern = \"turnContext.Activity.Type == ActivityTypes.Message\"" + "\n" +
+                "$FileOriginal = Get-Content $FileName" + "\n" +
+                "[String[]] $FileModified = @()" + "\n" +
+                "Foreach ($Line in $FileOriginal)" + "\n" +
+                "{" + "\n" +
+                "   $FileModified += $Line " + "\n" +
+                "   if ($Line -match $patern)" + "\n" +
+                "   {" + "\n" +
+                "       $foreach.movenext()" + "\n" +
+                "       $FileModified += \"			{ \"" + "\n" +
+                "       $FileModified += \"             var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);\"" + "\n" +
+                "       $FileModified += \"\"" + "\n" +
+                "       $FileModified += \"             var results = await dialogContext.ContinueDialogAsync(cancellationToken);\"" + "\n" +
+                "       $FileModified += \"\"" + "\n" +
+                "       $FileModified += \"             if (results.Status == DialogTurnStatus.Empty)\"" + "\n" +
+                "       $FileModified += \"             {\"" + "\n" +
+                "       $FileModified += \"                 await dialogContext.BeginDialogAsync(null, null, cancellationToken);\"" + "\n" +
+                "       $FileModified += \"             }\"" + "\n" +
+                "   }" + "\n" +
+               "}" + "\n" +
+               "Set-Content $fileName $FileModified";
+
+            using (PowerShell PowerShellInstance = PowerShell.Create())
+            {
+                PowerShellInstance.AddScript(script);
+                PowerShellInstance.Runspace.SessionStateProxy.Path.SetLocation(folder);
+
+                //PowerShell.exe - NoProfile - ExecutionPolicy Unrestricted - Command "& {Start-Process PowerShell -windowstyle hidden -ArgumentList '-NoProfile -ExecutionPolicy Unrestricted -noexit -File "$ScriptPath"' -Verb RunAs}"
+
+                // begin invoke execution on the pipeline
+                IAsyncResult result = PowerShellInstance.BeginInvoke();
+
+                // do something else until execution has completed.
+                // this could be sleep/wait, or perhaps some other work
+                while (result.IsCompleted == false)
+                {
+                    Console.WriteLine("Waiting for pipeline to finish...");
+                    //Thread.Sleep(1000);
+
+                    // might want to place a timeout here...
+                }
+
+                Console.WriteLine("Finished!");
+            }
         }
     }
 
@@ -134,144 +189,64 @@ namespace VSIXDialogsTemplate
         private void Button1_Click(object sender, EventArgs e)
         {
             customMessage = textBox1.Text;
-            RunScript();
+            //RunScript();
 
             this.Close();
         }
 
-        private void RunScript()
-        {
-
-            //PowerShell ps = PowerShell.Create(); //.AddCommand("Install-Package").AddParameter("Id", "BotBuilder.Dialogs").Invoke();
-            //ps.AddCommand("Install-Package").AddParameter("Id", "BotBuilder.Dialogs");
-            //ps.Runspace("C:\\Repositories\\BotBuilder-Samples\\samples\\csharp_dotnetcore\\01.console-echo");
-
-            string script = "" +
-                "$FileName = \"*Bot.cs\"" + "\n" +
-                "$Patern = \"turnContext.Activity.Type == ActivityTypes.Message\"" + "\n" +
-                "$FileOriginal = Get-Content $FileName" + "\n" +
-                "[String[]] $FileModified = @()" + "\n" +
-                "Foreach ($Line in $FileOriginal)" + "\n" +
-                "{" + "\n" +
-                "   $FileModified += $Line "+ "\n" +
-                "   if ($Line -match $patern)" + "\n" +
-                "   {" + "\n" +
-                "       $foreach.movenext()" + "\n" +
-                "       $FileModified += \"			{ \"" + "\n" +
-                "       $FileModified += \"             var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);\"" + "\n" +
-                "       $FileModified += \"\"" + "\n" +
-                "       $FileModified += \"             var results = await dialogContext.ContinueDialogAsync(cancellationToken);\"" + "\n" +
-                "       $FileModified += \"\"" + "\n" +
-                "       $FileModified += \"             if (results.Status == DialogTurnStatus.Empty)\"" + "\n" +
-                "       $FileModified += \"             {\"" + "\n" +
-                "       $FileModified += \"                 await dialogContext.BeginDialogAsync(null, null, cancellationToken);\"" + "\n" +
-                "       $FileModified += \"             }\"" + "\n" +
-                "   }" + "\n" +
-               "}" + "\n" +
-               "Set-Content $fileName $FileModified";
-
-            using (PowerShell PowerShellInstance = PowerShell.Create())
-            {
-                PowerShellInstance.AddScript(script);
-                PowerShellInstance.Runspace.SessionStateProxy.Path.SetLocation("C:\\Repositories\\BotBuilder-Samples\\samples\\csharp_dotnetcore\\01.console-echo");
-
-                //PowerShell.exe - NoProfile - ExecutionPolicy Unrestricted - Command "& {Start-Process PowerShell -windowstyle hidden -ArgumentList '-NoProfile -ExecutionPolicy Unrestricted -noexit -File "$ScriptPath"' -Verb RunAs}"
-
-                // begin invoke execution on the pipeline
-                IAsyncResult result = PowerShellInstance.BeginInvoke();
-
-                // do something else until execution has completed.
-                // this could be sleep/wait, or perhaps some other work
-                while (result.IsCompleted == false)
-                {
-                    Console.WriteLine("Waiting for pipeline to finish...");
-                    //Thread.Sleep(1000);
-
-                    // might want to place a timeout here...
-                }
-
-                Console.WriteLine("Finished!");
-            }
-
-
-
-
-
-            //// create Powershell runspace
-            //Runspace runspace = RunspaceFactory.CreateRunspace();
-
-            //// open it
-            //runspace.Open();
-
-            //// create a pipeline and feed it the script text
-            //Pipeline pipeline = runspace.CreatePipeline();
-            //pipeline.Commands.AddScript(script);
-
-            //// add an extra command to transform the script
-            //// output objects into nicely formatted strings
-
-            //// remove this line to get the actual objects
-            //// that the script returns. For example, the script
-
-            //// "Get-Process" returns a collection
-            //// of System.Diagnostics.Process instances.
-            //pipeline.Commands.Add("Out-String");
-
-            //// execute the script
-            //Collection <PSObject> results = pipeline.Invoke();
-
-            //// close the runspace
-            //runspace.Close();
-
-            //// convert the script result into a single string
-            //StringBuilder stringBuilder = new StringBuilder();
-            //foreach (PSObject obj in results)
-            //{
-            //    stringBuilder.AppendLine(obj.ToString());
-            //}
-
-            ////return stringBuilder.ToString();
-        }
-
-        //private Project project()
+        //private void RunScript()
         //{
-        //    ThreadHelper.ThrowIfNotOnUIThread();
 
-        //    IntPtr hierarchyPointer, selectionContainerPointer;
-        //    Object selectedObject = null;
-        //    IVsMultiItemSelect multiItemSelect;
-        //    uint projectItemId;
+        //    //PowerShell ps = PowerShell.Create(); //.AddCommand("Install-Package").AddParameter("Id", "BotBuilder.Dialogs").Invoke();
+        //    //ps.Runspace.SessionStateProxy.Path.SetLocation("C:\\Repositories\\BotBuilder-Samples\\samples\\csharp_dotnetcore\\01.console-echo");
+        //    //ps.AddCommand("Install-Package").AddParameter("-Name", "Microsoft.Bot.Builder.Dialogs");
+        //    //ps.BeginInvoke();
 
-        //    IVsMonitorSelection monitorSelection =
-        //            (IVsMonitorSelection)Package.GetGlobalService(
-        //            typeof(SVsShellMonitorSelection));
+        //    string script = "" +
+        //        "$FileName = \"*Bot.cs\"" + "\n" +
+        //        "$Patern = \"turnContext.Activity.Type == ActivityTypes.Message\"" + "\n" +
+        //        "$FileOriginal = Get-Content $FileName" + "\n" +
+        //        "[String[]] $FileModified = @()" + "\n" +
+        //        "Foreach ($Line in $FileOriginal)" + "\n" +
+        //        "{" + "\n" +
+        //        "   $FileModified += $Line "+ "\n" +
+        //        "   if ($Line -match $patern)" + "\n" +
+        //        "   {" + "\n" +
+        //        "       $foreach.movenext()" + "\n" +
+        //        "       $FileModified += \"			{ \"" + "\n" +
+        //        "       $FileModified += \"             var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);\"" + "\n" +
+        //        "       $FileModified += \"\"" + "\n" +
+        //        "       $FileModified += \"             var results = await dialogContext.ContinueDialogAsync(cancellationToken);\"" + "\n" +
+        //        "       $FileModified += \"\"" + "\n" +
+        //        "       $FileModified += \"             if (results.Status == DialogTurnStatus.Empty)\"" + "\n" +
+        //        "       $FileModified += \"             {\"" + "\n" +
+        //        "       $FileModified += \"                 await dialogContext.BeginDialogAsync(null, null, cancellationToken);\"" + "\n" +
+        //        "       $FileModified += \"             }\"" + "\n" +
+        //        "   }" + "\n" +
+        //       "}" + "\n" +
+        //       "Set-Content $fileName $FileModified" +
+        //       "Install - Package Microsoft.Bot.Builder.Dialogs";
 
-        //    monitorSelection.GetCurrentSelection(out hierarchyPointer,
-        //                                         out projectItemId,
-        //                                         out multiItemSelect,
-        //                                         out selectionContainerPointer);
-
-        //    IVsHierarchy selectedHierarchy = Marshal.GetTypedObjectForIUnknown(
-        //                                         hierarchyPointer,
-        //                                         typeof(IVsHierarchy)) as IVsHierarchy;
-
-        //    if (selectedHierarchy != null)
+        //    using (PowerShell PowerShellInstance = PowerShell.Create())
         //    {
-        //        ErrorHandler.ThrowOnFailure(selectedHierarchy.GetProperty(
-        //                                          projectItemId,
-        //                                          (int)__VSHPROPID.VSHPROPID_ExtObject,
-        //                                          out selectedObject));
+        //        PowerShellInstance.AddScript(script);
+        //        PowerShellInstance.Runspace.SessionStateProxy.Path.SetLocation(projectPath);
+
+        //        // begin invoke execution on the pipeline
+        //        IAsyncResult result = PowerShellInstance.BeginInvoke();
+
+        //        // do something else until execution has completed.
+        //        // this could be sleep/wait, or perhaps some other work
+        //        while (result.IsCompleted == false)
+        //        {
+        //            Console.WriteLine("Waiting for pipeline to finish...");
+        //            //Thread.Sleep(1000);
+
+        //            // might want to place a timeout here...
+        //        }
+
+        //        Console.WriteLine("Finished!");
         //    }
-
-        //    return selectedObject as Project;
-        //}
-
-        //private string projectPath()
-        //{
-        //    ThreadHelper.ThrowIfNotOnUIThread();
-
-        //    string projectName = project().FullName;
-        //    return projectName.Remove(projectName.LastIndexOf('\\'));
         //}
     }
 }
