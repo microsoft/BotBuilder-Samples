@@ -68,8 +68,8 @@
     <Compile Include="Repository\Interface\IBotConfigurationRepository.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\BotConfigurationViewModel.cs" />
-    <Compile Include="BotFileCreationWizard.xaml.cs">
-      <DependentUpon>BotFileCreationWizard.xaml</DependentUpon>
+    <Compile Include="BotConfigurationView.xaml.cs">
+      <DependentUpon>BotConfigurationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BotFileCreatorCommand.cs" />
     <Compile Include="BotFileCreatorPackage.cs" />
@@ -226,11 +226,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="BotFileCreationWizard.xaml">
+    <Page Include="BotConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles.xaml">
+    <Page Include="BotConfigurationStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
