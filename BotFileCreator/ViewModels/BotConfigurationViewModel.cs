@@ -13,6 +13,10 @@ namespace BotFileCreator
 
     public class BotConfigurationViewModel : BaseViewModel
     {
+        private IBotConfigurationRepository _repository;
+
+        private readonly FileSystemService _fileSystemService;
+
         private readonly ICommand _cancelCommand;
 
         private readonly ICommand _createCommand;
@@ -41,20 +45,17 @@ namespace BotFileCreator
 
         public BotConfigurationViewModel()
         {
+            _fileSystemService = new FileSystemService();
+            _endpointItem = new EndpointItem();
             _encryptNoteIsVisible = false;
             _copyCommand = new RelayCommand(param => this.CopySecretKey(), null);
             _isCheckedEncryptCheckBox = new RelayCommand(param => this.CheckEncryptCheckBox(), null);
             _createCommand = new RelayCommand(param => this.CreateBotFile(), null);
             _cancelCommand = new RelayCommand(param => this.CloseAction(), null);
-            _botNameCommand = new RelayCommand(param => this.CollapsePanels("BotName"), null);
-            _botEndpointCommmand = new RelayCommand(param => this.CollapsePanels("BotEndpoint"), null);
-            _botServicesCommand = new RelayCommand(param => this.CollapsePanels("BotServices"), null);
-            _botEncryptCommand = new RelayCommand(param => this.CollapsePanels("BotEncrypt"), null);
-        }
-
-        public Visibility EncryptNoteVisibility
-        {
-            get => EncryptNoteIsVisible ? Visibility.Visible : Visibility.Collapsed;
+            _botNameCommand = new RelayCommand(param => this.SetPanelToShow("BotName"), null);
+            _botEndpointCommmand = new RelayCommand(param => this.SetPanelToShow("BotEndpoint"), null);
+            _botServicesCommand = new RelayCommand(param => this.SetPanelToShow("BotServices"), null);
+            _botEncryptCommand = new RelayCommand(param => this.SetPanelToShow("BotEncrypt"), null);
         }
 
         public bool EncryptNoteIsVisible
@@ -78,6 +79,11 @@ namespace BotFileCreator
                 NotifyPropertyChanged("BotServicesVisibility");
                 NotifyPropertyChanged("BotEncrypVisibility");
             }
+        }
+
+        public Visibility EncryptNoteVisibility
+        {
+            get => EncryptNoteIsVisible ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public Visibility BotNameVisibility
@@ -104,20 +110,7 @@ namespace BotFileCreator
 
         public string BotFileName { get => _botFileName; set => SetProperty(ref _botFileName, value); }
 
-        public EndpointItem EndpointItem
-        {
-            get
-            {
-                if (_endpointItem == null)
-                {
-                    _endpointItem = new EndpointItem();
-                }
-
-                return _endpointItem;
-            }
-
-            set => SetProperty(ref _endpointItem, value);
-        }
+        public EndpointItem EndpointItem { get => _endpointItem; set => SetProperty(ref _endpointItem, value); }
 
         public bool EncryptCheckBoxIsChecked { get; set; }
 
@@ -141,11 +134,8 @@ namespace BotFileCreator
 
         public void CreateBotFile()
         {
-            var projectPath = GeneralSettings.Default.ProjectName;
-            string botFilePath = Path.Combine(GetProjectDirectoryPath(projectPath), string.Concat(BotFileName, ".bot"));
-
             // Checks if the bot configuration is valid
-            Tuple<bool, string> configIsValid = BotFileConfigurationIsValid(BotFileName, botFilePath);
+            Tuple<bool, string> configIsValid = BotFileConfigurationIsValid(BotFileName);
 
             // If the bot's configuration is not valid, it will show an error
             if (!configIsValid.Item1)
@@ -155,45 +145,40 @@ namespace BotFileCreator
             }
 
             // Repository for creating bot files
-            IBotConfigurationRepository repository = new BotFileRepository(BotFileName, GetProjectDirectoryPath(projectPath));
+            _repository = new BotFileRepository(BotFileName, _fileSystemService.GetProjectDirectoryPath());
 
             // Adds the only endpoint (if it's not null) to the bot configuration
             if (!string.IsNullOrWhiteSpace(EndpointItem.Endpoint))
             {
                 EndpointService endpoint = new EndpointService() { Name = this.EndpointItem.Name, Endpoint = this.EndpointItem.Endpoint, AppId = this.EndpointItem.AppId, AppPassword = this.EndpointItem.AppPassword, ChannelService = string.Empty };
-                repository.ConnectService(endpoint);
+                _repository.ConnectService(endpoint);
             }
 
-            // If the "encrypt" checkbox is checked, the bot configuration is save after encrypting it
-            if (EncryptCheckBoxIsChecked)
+            // If the "SecretKey" has value, the bot configuration is save with encryption
+            if (!string.IsNullOrWhiteSpace(this.SecretKey))
             {
-                repository.Save(this.SecretKey);
+                _repository.Save(this.SecretKey);
             }
             else
             {
                 // Save the bot configuration without encryption
-                repository.Save();
+                _repository.Save();
             }
 
             // Adds the just generated bot file to the project
-            AddFileToProject(projectPath, botFilePath);
+            _fileSystemService.AddFileToProject(string.Concat(BotFileName, ".bot"));
 
             // If the file was successfully created, the Wizard will be closed.
             MessageBox.Show("Bot file successfully created", "Bot file successfully created", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-
-            if (!EncryptCheckBoxIsChecked)
-            {
-                CloseAction();
-            }
+            CloseAction();
         }
 
         /// <summary>
         /// Checks if the Bot File Configuration to create is valid
         /// </summary>
         /// <param name="botFileName">bot file's name</param>
-        /// <param name="botFilePath">bot file's path</param>
         /// <returns>Tuple</returns>
-        private Tuple<bool, string> BotFileConfigurationIsValid(string botFileName, string botFilePath)
+        private Tuple<bool, string> BotFileConfigurationIsValid(string botFileName)
         {
             // If the .bot file name is Null or WhiteSpace, returns an error.
             if (string.IsNullOrWhiteSpace(botFileName))
@@ -207,10 +192,9 @@ namespace BotFileCreator
                 return new Tuple<bool, string>(false, "Bot file name can't have whitespaces.");
             }
 
-            // Returns an error if the bot file already exists.
-            if (File.Exists(botFilePath))
+            if (File.Exists(Path.Combine(_fileSystemService.GetProjectDirectoryPath(), string.Concat(botFileName, ".bot"))))
             {
-                return new Tuple<bool, string>(false, $"The bot file {BotFileName} already exists.");
+                return new Tuple<bool, string>(false, $"The bot file {botFileName} already exists.");
             }
 
             // A tuple with True and Empty string will be returned if there are no errors.
@@ -251,24 +235,16 @@ namespace BotFileCreator
             return projectPath.Substring(0, projectPath.LastIndexOf('\\'));
         }
 
-        private void CollapsePanels(string panelToShow)
+        private void SetPanelToShow(string panelToShow)
         {
             this.PanelToShow = panelToShow;
-        }
-
-        private void CloseWindow(Window window)
-        {
-            if (window != null)
-            {
-                window.Close();
-            }
         }
 
         private void CheckEncryptCheckBox()
         {
             EncryptCheckBoxIsChecked = !EncryptCheckBoxIsChecked;
             EncryptNoteIsVisible = !EncryptNoteIsVisible;
-            this.SecretKey = BotFileRepository.GenerateKey();
+            this.SecretKey = EncryptCheckBoxIsChecked ? BotFileRepository.GenerateKey() : string.Empty;
         }
 
         private void CopySecretKey()
