@@ -63,12 +63,12 @@
     <Compile Include="BaseDialogWindow.cs" />
     <Compile Include="Models\Data\EndpointItem.cs" />
     <Compile Include="Services\FileSystemService.cs" />
-    <Compile Include="RelayCommand.cs" />
+    <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="Repository\Implementations\BotFileRepository.cs" />
     <Compile Include="Repository\Interface\IBotConfigurationRepository.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\BotConfigurationViewModel.cs" />
-    <Compile Include="BotConfigurationView.xaml.cs">
+    <Compile Include="Views\BotConfigurationView.xaml.cs">
       <DependentUpon>BotConfigurationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BotFileCreatorCommand.cs" />
@@ -226,11 +226,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="BotConfigurationView.xaml">
+    <Page Include="Views\BotConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BotConfigurationStyles.xaml">
+    <Page Include="Views\BotConfigurationStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
