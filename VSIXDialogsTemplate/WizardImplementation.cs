@@ -96,33 +96,10 @@ namespace VSIXDialogsTemplate
 
         public void RunScript()
         {
-            string script = "" +
-                "$FileName = \"*Bot.cs\"" + "\n" +
-                "$Patern = \"turnContext.Activity.Type == ActivityTypes.Message\"" + "\n" +
-                "$FileOriginal = Get-Content $FileName" + "\n" +
-                "[String[]] $FileModified = @()" + "\n" +
-                "Foreach ($Line in $FileOriginal)" + "\n" +
-                "{" + "\n" +
-                "   $FileModified += $Line " + "\n" +
-                "   if ($Line -match $patern)" + "\n" +
-                "   {" + "\n" +
-                "       $foreach.movenext()" + "\n" +
-                "       $FileModified += \"			{ \"" + "\n" +
-                "       $FileModified += \"             var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);\"" + "\n" +
-                "       $FileModified += \"\"" + "\n" +
-                "       $FileModified += \"             var results = await dialogContext.ContinueDialogAsync(cancellationToken);\"" + "\n" +
-                "       $FileModified += \"\"" + "\n" +
-                "       $FileModified += \"             if (results.Status == DialogTurnStatus.Empty)\"" + "\n" +
-                "       $FileModified += \"             {\"" + "\n" +
-                "       $FileModified += \"                 await dialogContext.BeginDialogAsync(null, null, cancellationToken);\"" + "\n" +
-                "       $FileModified += \"             }\"" + "\n" +
-                "   }" + "\n" +
-               "}" + "\n" +
-               "Set-Content $fileName $FileModified";
-
             using (PowerShell PowerShellInstance = PowerShell.Create())
             {
-                PowerShellInstance.AddScript(script);
+                //PowerShellInstance.AddScript(script);
+                PowerShellInstance.AddScript(File.ReadAllText(".\\scripts\\DialogsContext.ps1"));
                 PowerShellInstance.Runspace.SessionStateProxy.Path.SetLocation(folder);
 
                 //PowerShell.exe - NoProfile - ExecutionPolicy Unrestricted - Command "& {Start-Process PowerShell -windowstyle hidden -ArgumentList '-NoProfile -ExecutionPolicy Unrestricted -noexit -File "$ScriptPath"' -Verb RunAs}"
