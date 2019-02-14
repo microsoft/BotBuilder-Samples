@@ -50,29 +50,6 @@ This sample relies on [LUIS](https://www.luis.ai), [QnA Maker](https://qnamaker.
 ## Deploy this bot to Azure and configure services
 You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on.
 
-### Creating a .bot file
-
-To create a .bot file, type the following while in the `14.nlp-with-dispatch/` folder:
-```bash
-msbot init --name "<NAME>" --endpoint http://localhost:3978/api/messages
-```
-
-Note: Where `"<NAME>"` is the name of your choosing. For this walkthrough, the name used is the name of this sample: "nlp-with-dispatch".
-
-Then set the `"botFilePath"` value in [appsettings.json](appsettings.json) with the name of your .bot file.
-
-After creating the `.bot` file, it is recommended to change the name of the endpoint service from the name of the bot to `"development"`. This is for local development and testing purposes. An example of the modified `"endpoint"`-type service can be found below:
-```json
-{
-    "type": "endpoint",
-    "name": "development",
-    "endpoint": "http://localhost:3978/api/messages",
-    "appId": "",
-    "appPassword": "",
-    "id": "173"
-}
-```
-
 To clone this bot, perform the following:
 - Collect your Luis Authoring Key from the [LUIS portal](https://www.luis.ai) by selecting your name in the top right corner. Save this key for the next step.
 
@@ -93,11 +70,14 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX=
 NOTE: This secret is not recoverable and you should store this secret in a secure place according to best security practices.
 Your project may be configured to rely on this secret and you should update it as appropriate.
 ```
+
 - Inspect Bot configuration file.
 
 - The `msbot clone` command above generates a bot configuration file.
 
 - The name of the bot configuration file is <NAME>.bot, where <NAME> is the name of your bot used in the `msbot clone` step.
+
+- Be sure to update `botFilePath` in `appSettings.json` with your new `.bot` file.
 
 - The configuration file can be loaded by the [Microsoft Bot Framework Emulator](https://aka.ms/botframeworkemulator).
 
@@ -117,7 +97,7 @@ Your project may be configured to rely on this secret and you should update it a
      private const string HomeAutomationLuisKey = "<NAME>_Home Automation";
      ```
 
-   - Update Line 35, `"HomeAutomationLuisKey"`:
+   - Update Line 35, `"WeatherLuisKey"`:
 
      Update the following line to add a prefix with the name of your bot (plus underscore '_').
 
@@ -125,6 +105,8 @@ Your project may be configured to rely on this secret and you should update it a
      const WEATHER_LUIS_CONFIGURATION = '<NAME>_Weather';
      ```
 **Alternately** you can configure the required services by following the steps below.
+
+Once updated, you need to run the `az publish ...` command presented at the end of the `msbot clone services ...` command to re-publish your bot with the changes.
 
 ## Manually configure required services
 
