@@ -29,7 +29,7 @@ az account set --subscription "<azure-subscription>"
 
 4. Run the following command from the project directory:
 ```bash
-msbot clone services --name "<NAME>" --luisAuthoringKey "<YOUR AUTHORING KEY>" --folder "DeploymentScripts/MsbotClone" --location "westus" --verbose --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
+msbot clone services --name "<NAME>" --luisAuthoringKey "<YOUR AUTHORING KEY>" --folder "DeploymentScripts/MsbotClone" --location "westus" --verbose --appId "<YOUR APP ID>" --appSecret "<YOUR APP SECRET PASSWORD>"
 ```
 
 **NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)

@@ -78,7 +78,7 @@ To clone this bot, perform the following:
 
 - Run the following command from the project directory:
 ```bash
-msbot clone services --name "<NAME>" --luisAuthoringKey "<YOUR AUTHORING KEY>" --folder "DeploymentScripts/MsbotClone" --location "ie, westus" --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
+msbot clone services --name "<NAME>" --luisAuthoringKey "<YOUR AUTHORING KEY>" --folder "DeploymentScripts/MsbotClone" --location "ie, westus" --appId "<YOUR APP ID>" --appSecret "<YOUR APP SECRET PASSWORD>"
 ```
 
 **NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
