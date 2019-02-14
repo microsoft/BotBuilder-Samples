@@ -40,5 +40,16 @@ To clone this bot, run
 ```bash
 msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id>
 ```
+
+`msbot` will create an extra production endpoint in your `.bot` file with the "name", "production" (*not* "bot* production"). You can safely delete this extra endpoint.
+
+Tests with each endpoint will work in Emulator. Because the bot has three different endpoints, if you want to test in Web Chat, you need to change the endpoint:
+
+1. Open the Web App Bot resource in Azure
+2. Go to Settings
+3. Under Configuration, change the messaging endpoint to `https://<your-bot-url>.azurewebsites.net/bot<1|2|3>` with your bot's URL and the appropriate bot number.
+
+Ensure that you use the appropriate endpoint for any channel that you use to communicate with your bot.
+
 # Further reading
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

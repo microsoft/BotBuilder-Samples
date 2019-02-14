@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "resources": [
+    {
+      "type": "endpoint",
+      "id": "1",
+      "name": "bot1 development",
+      "url": "http://localhost:3978/bot1"
+    },
+    {
+      "type": "endpoint",
+      "id": "2",
+      "name": "bot2 development",
+      "url": "http://localhost:3978/bot2"
+    },
+    {
+      "type": "endpoint",
+      "id": "3",
+      "name": "bot3 development",
+      "url": "http://localhost:3978/bot3"
+    },
+    {
+      "type": "endpoint",
+      "id": "4",
+      "name": "bot1 production",
+      "url": "https://your-bot-url.azurewebsites.net/bot1"
+    },
+    {
+      "type": "endpoint",
+      "id": "5",
+      "name": "bot2 production",
+      "url": "https://your-bot-url.azurewebsites.net/bot2"
+    },
+    {
+      "type": "endpoint",
+      "id": "6",
+      "name": "bot3 production",
+      "url": "https://your-bot-url.azurewebsites.net/bot3"
+    },
+    {
+      "type": "abs",
+      "id": "7",
+      "name": "MVC-Bot"
+    },
+    {
+      "type": "appInsights",
+      "id": "8",
+      "name": "MVC-Insights"
+    }
+  ]
+}
