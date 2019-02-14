@@ -1,0 +1,110 @@
+﻿<!--  Copyright (c) Microsoft Corporation. All rights reserved.-->
+<!-- Licensed under the MIT License.-->
+
+<BaseDialogWindow:BaseDialogWindow x:Class="BotFileCreator.BotFileCreationWizard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vs_shell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+             xmlns:BaseDialogWindow="clr-namespace:BotFileCreator"
+             mc:Ignorable="d"
+             d:DesignWidth="600" d:DesignHeight="540" 
+             MinWidth="600" MinHeight="540"
+             Width="600" Height="540" 
+             WindowStyle="SingleBorderWindow"
+             AllowsTransparency="False"
+             ResizeMode="CanResizeWithGrip">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="BotConfigurationStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Style="{DynamicResource grid}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="15"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="15"/>
+        </Grid.RowDefinitions>
+        <TextBlock Style="{DynamicResource title}" Text="Bot Creation Wizard"/>
+        <Menu Style="{DynamicResource leftMenu}">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
+            <MenuItem Style="{DynamicResource menuItem}" Command="{Binding BotNameCommand}" Header="Bot Name"/>
+            <MenuItem Style="{DynamicResource menuItem}" Command="{Binding BotEndpointCommand}" Header="Bot Endpoint"/>
+            <MenuItem Style="{DynamicResource menuItem}" Command="{Binding BotServicesCommand}" Header="Bot Services"/>
+            <MenuItem Style="{DynamicResource menuItem}" Command="{Binding BotEncryptCommand}" Header="Bot Encrypt"/>
+        </Menu>
+
+        <Rectangle Style="{DynamicResource separator}"/>
+
+        <StackPanel Style="{DynamicResource botPanel}" Visibility="{Binding Path=BotNameVisibility}">
+            <TextBlock Style="{DynamicResource moduleTitle}" Text="Bot Name" />
+            <TextBlock Style="{DynamicResource description}" Text="Description" />
+            <TextBox x:Name="BotFileNameTxt" Style="{DynamicResource botNameTextBox}" Text="{Binding Path=BotFileName}" />
+        </StackPanel>
+
+        <StackPanel Style="{DynamicResource botPanel}" Visibility="{Binding Path=BotEndpointVisibility}">
+            <TextBlock Style="{DynamicResource moduleTitle}" Text="Endpoints URL" />
+            <TextBlock Style="{DynamicResource description}" Text="Description" />
+            <TextBlock Style="{DynamicResource textForm}" Text="Name" />
+            <TextBox Style="{DynamicResource nameTextBoxForm}" Text="{Binding Path=EndpointItem.Name}" />
+            <TextBlock Style="{DynamicResource textForm}" Text="Endpoint"/>
+            <TextBox Style="{DynamicResource textBoxForm}" Text="{Binding Path=EndpointItem.Endpoint, TargetNullValue=' Your Bot endpoint (ex: http://localhost:3978/api/message)'}" />
+            <TextBlock Style="{DynamicResource textForm}" Text="App Id"/>
+            <TextBox Style="{DynamicResource textBoxForm}" Text="{Binding Path=EndpointItem.AppId}" />
+            <TextBlock Style="{DynamicResource textForm}" Text="App Password"/>
+            <TextBox Style="{DynamicResource textBoxForm}" Text="{Binding Path=EndpointItem.AppPassword}" />
+        </StackPanel>
+
+        <StackPanel Style="{DynamicResource botPanel}" Visibility="{Binding Path=BotServicesVisibility}">
+            <TextBlock Style="{DynamicResource moduleTitle}" Text="Services - Not supported by now" />
+            <TextBlock Style="{DynamicResource description}" Text="Description" />
+        </StackPanel>
+
+        <StackPanel Style="{DynamicResource botPanel}" Visibility="{Binding Path=BotEncrypVisibility}">
+            <TextBlock Style="{DynamicResource moduleTitle}" Text="Encrypt" />
+            <TextBlock Style="{DynamicResource description}" Text="Encrypt keys stored in your bot configuration" />
+            <CheckBox Style="{DynamicResource encryptCheckBox}" Command="{Binding IsCheckedEncryptCheckBox}" Content="Encrypt" />
+            <StackPanel Style="{DynamicResource secretKeyPanel}">
+                <TextBox Style="{DynamicResource encryptTextBox}" Text="{Binding Path=SecretKey, TargetNullValue='Your keys are not encrypted'}"/>
+                <Button Style="{DynamicResource copyButton}" Command="{Binding CopyCommand}" Content="Copy">
+                    <Button.Template >
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+            <TextBlock Style="{DynamicResource encryptNote}" Visibility="{Binding Path=EncryptNoteVisibility}" Text="NOTE: This option will generate a new encryption key.&#x0a;Please store this key securely."/>
+        </StackPanel>
+
+        <Canvas Style="{DynamicResource downBar}">
+            <StackPanel Style="{DynamicResource panelButtons}">
+                <Button Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="Create" Command="{Binding CreateCommand}"/>
+                <Button Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="Cancel" Command="{Binding CancelCommand}"/>
+            </StackPanel>
+        </Canvas>
+    </Grid>
+</BaseDialogWindow:BaseDialogWindow>
