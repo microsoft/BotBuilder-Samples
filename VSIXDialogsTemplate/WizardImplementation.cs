@@ -98,14 +98,32 @@ namespace VSIXDialogsTemplate
         {
             using (PowerShell PowerShellInstance = PowerShell.Create())
             {
-                //PowerShellInstance.AddScript(script);
                 PowerShellInstance.AddScript(File.ReadAllText(".\\scripts\\DialogsContext.ps1"));
                 PowerShellInstance.Runspace.SessionStateProxy.Path.SetLocation(folder);
 
-                //PowerShell.exe - NoProfile - ExecutionPolicy Unrestricted - Command "& {Start-Process PowerShell -windowstyle hidden -ArgumentList '-NoProfile -ExecutionPolicy Unrestricted -noexit -File "$ScriptPath"' -Verb RunAs}"
-
                 // begin invoke execution on the pipeline
                 IAsyncResult result = PowerShellInstance.BeginInvoke();
+
+                // do something else until execution has completed.
+                // this could be sleep/wait, or perhaps some other work
+                while (result.IsCompleted == false)
+                {
+                    Console.WriteLine("Waiting for pipeline to finish...");
+                    //Thread.Sleep(1000);
+
+                    // might want to place a timeout here...
+                }
+
+                Console.WriteLine("Finished!");
+            }
+
+            using (PowerShell PowerShellInstance1 = PowerShell.Create())
+            {
+                PowerShellInstance1.AddScript(File.ReadAllText(".\\scripts\\DialogsRegisterAccesors.ps1"));
+                PowerShellInstance1.Runspace.SessionStateProxy.Path.SetLocation(folder);
+
+                // begin invoke execution on the pipeline
+                IAsyncResult result = PowerShellInstance1.BeginInvoke();
 
                 // do something else until execution has completed.
                 // this could be sleep/wait, or perhaps some other work

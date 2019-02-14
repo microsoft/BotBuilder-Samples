@@ -59,7 +59,7 @@
   <ItemGroup>
     <None Include="key.snk" />
     <None Include="packages.config" />
-    <Content Include="Scripts\DialogsConnectors.ps1">
+    <Content Include="Scripts\DialogsContext.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
