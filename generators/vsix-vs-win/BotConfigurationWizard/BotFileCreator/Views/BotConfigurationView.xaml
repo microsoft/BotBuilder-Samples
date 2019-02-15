@@ -6,7 +6,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:vs_shell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
              xmlns:BaseDialogWindow="clr-namespace:BotFileCreator"
              mc:Ignorable="d"
              d:DesignWidth="600" d:DesignHeight="540" 
@@ -15,7 +14,7 @@
              WindowStyle="SingleBorderWindow"
              AllowsTransparency="False"
              ResizeMode="CanResizeWithGrip">
-    
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -44,7 +43,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="15"/>
         </Grid.RowDefinitions>
-        <TextBlock Style="{DynamicResource title}" Text="Bot Creation Wizard"/>
+        <TextBlock Style="{DynamicResource title}" Text="Bot Configuration Wizard"/>
         <Menu Style="{DynamicResource leftMenu}">
             <Menu.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -68,14 +67,16 @@
         <StackPanel Style="{DynamicResource botPanel}" Visibility="{Binding Path=BotEndpointVisibility}">
             <TextBlock Style="{DynamicResource moduleTitle}" Text="Endpoints URL" />
             <TextBlock Style="{DynamicResource description}" Text="Description" />
-            <TextBlock Style="{DynamicResource textForm}" Text="Name" />
-            <TextBox Style="{DynamicResource nameTextBoxForm}" Text="{Binding Path=EndpointItem.Name}" />
-            <TextBlock Style="{DynamicResource textForm}" Text="Endpoint"/>
-            <TextBox Style="{DynamicResource textBoxForm}" Text="{Binding Path=EndpointItem.Endpoint, TargetNullValue=' Your Bot endpoint (ex: http://localhost:3978/api/message)'}" />
-            <TextBlock Style="{DynamicResource textForm}" Text="App Id"/>
-            <TextBox Style="{DynamicResource textBoxForm}" Text="{Binding Path=EndpointItem.AppId}" />
-            <TextBlock Style="{DynamicResource textForm}" Text="App Password"/>
-            <TextBox Style="{DynamicResource textBoxForm}" Text="{Binding Path=EndpointItem.AppPassword}" />
+
+            <ListView Style="{DynamicResource listView}" ItemsSource="{Binding Endpoints}" ItemContainerStyle="{DynamicResource listViewItem}">
+                <ListView.View>
+                    <GridView ColumnHeaderContainerStyle="{DynamicResource headerContainerStyle}">
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150" />
+                        <GridViewColumn  Header="Endpoint" DisplayMemberBinding="{Binding Endpoint}" Width="200"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Button Style="{DynamicResource endpointButton}" Template="{DynamicResource TextButtonTemplate}" Content="Add Endpoint"/>
         </StackPanel>
 
         <StackPanel Style="{DynamicResource botPanel}" Visibility="{Binding Path=BotServicesVisibility}">
@@ -89,13 +90,7 @@
             <CheckBox Style="{DynamicResource encryptCheckBox}" Command="{Binding IsCheckedEncryptCheckBox}" Content="Encrypt" />
             <StackPanel Style="{DynamicResource secretKeyPanel}">
                 <TextBox Style="{DynamicResource encryptTextBox}" Text="{Binding Path=SecretKey, TargetNullValue='Your keys are not encrypted'}"/>
-                <Button Style="{DynamicResource copyButton}" Command="{Binding CopyCommand}" Content="Copy">
-                    <Button.Template >
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <ContentPresenter VerticalAlignment="Center"/>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
+                <Button Style="{DynamicResource copyButton}" Template="{DynamicResource TextButtonTemplate}" Command="{Binding CopyCommand}" Content="Copy"/>
             </StackPanel>
             <TextBlock Style="{DynamicResource encryptNote}" Visibility="{Binding Path=EncryptNoteVisibility}" Text="NOTE: This option will generate a new encryption key.&#x0a;Please store this key securely."/>
         </StackPanel>
