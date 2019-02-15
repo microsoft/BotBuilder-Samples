@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="VSIXDialogsTemplate.c3b9addd-edde-450b-bd8d-c48664a3071a" Version="1.0" Language="en-US" Publisher="Cecilia Avila" />
-        <DisplayName>VSIXDialogsTemplate</DisplayName>
+        <Identity Id="DialogsTemplateVSIX.fd1dc53e-f5c1-485d-adae-373e17e3f70f" Version="1.0" Language="en-US" Publisher="Cecilia Avila" />
+        <DisplayName>DialogsTemplateVSIX</DisplayName>
         <Description>Empty VSIX Project.</Description>
     </Metadata>
     <Installation>
@@ -13,8 +13,9 @@
     </Dependencies>
     <Assets>
         <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="DialogsTemplate" d:TargetPath="|DialogsTemplate;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+        <Asset d:Source="File" Path="Scripts\DialogsContext.ps1" Type="Microsoft.VisualStudio.ToolboxControl" d:VsixSubPath="Scripts" />
+        <Asset d:Source="File" Path="Scripts\DialogsRegisterAccesors.ps1" Type="Microsoft.VisualStudio.ToolboxControl" d:VsixSubPath="Scripts" />
         <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" AssemblyName="|%CurrentProject%;AssemblyName|" />
-        <Asset d:Source="File" Path="Scripts\DialogsContext.ps1" d:VsixSubPath="Scripts" Type="Microsoft.VisualStudio.ToolboxControl" />
     </Assets>
     <Prerequisites>
         <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,16.0)" DisplayName="Visual Studio core editor" />

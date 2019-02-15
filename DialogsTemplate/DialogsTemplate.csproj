@@ -54,7 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassNameAccessors.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="UserProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dialogs.cs" />

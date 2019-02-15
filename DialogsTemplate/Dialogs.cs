@@ -6,7 +6,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 
-namespace DialogsTemplate
+namespace $safeprojectname$
 {
     public class Dialogs : ComponentDialog
     {

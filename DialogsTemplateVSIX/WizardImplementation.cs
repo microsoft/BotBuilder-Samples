@@ -9,8 +9,10 @@ using Microsoft.VisualStudio.Shell.Interop;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio;
+using Microsoft.Build.Evaluation;
+using System.Linq;
 
-namespace VSIXDialogsTemplate
+namespace DialogsTemplateVSIX
 {
     public class WizardImplementation : IWizard
     {
@@ -21,19 +23,46 @@ namespace VSIXDialogsTemplate
 
         // This method is called before opening any item that   
         // has the OpenInEditor attribute.  
-        public void BeforeOpeningFile(ProjectItem projectItem)
+        public void BeforeOpeningFile(EnvDTE.ProjectItem projectItem)
         {
         }
 
-        public void ProjectFinishedGenerating(Project project)
+        public void ProjectFinishedGenerating(EnvDTE.Project project)
         {
         }
 
         // This method is only called for item templates,  
         // not for project templates.  
-        public void ProjectItemFinishedGenerating(ProjectItem
+        public void ProjectItemFinishedGenerating(EnvDTE.ProjectItem
             projectItem)
         {
+            if (projectItem.FileNames[0].Contains("ClassNameAccessors") || projectItem.FileNames[0].Contains("UserProfile"))
+            {
+                //string newPath = Path.GetFullPath(Path.Combine(projectItem.FileNames[0], @"..\Project2\"));
+                //if (!Directory.Exists(newPath))
+                //{
+                //    MessageBox.Show($"Message path does not exist. \r\n {newPath}");
+                //}
+                //else
+                //{
+                    var newFullPath = Path.Combine(projectPath, projectItem.Name);
+                    File.Move(projectItem.FileNames[0], newFullPath);
+                    var p = Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection.GetLoadedProjects(Directory.GetCurrentDirectory()).FirstOrDefault();
+                    if (p == null)
+                        p = new Microsoft.Build.Evaluation.Project(projectPath);
+
+                    var res = p.AddItem("Compile", newFullPath);
+                    p.Save();
+                    if (res == null)
+                    {
+                        MessageBox.Show("Nothing added to project");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"{res.Count()} item added to project");
+                    }
+                //}
+            }
         }
 
         // This method is called after the project is created.  
@@ -63,7 +92,7 @@ namespace VSIXDialogsTemplate
                     ErrorHandler.ThrowOnFailure(selectedHierarchy.GetProperty(projectItemId, (int)__VSHPROPID.VSHPROPID_ExtObject, out selectedObject));
                 }
 
-                Project selectedProject = selectedObject as Project;
+                EnvDTE.Project selectedProject = selectedObject as EnvDTE.Project;
 
                 this.projectPath = selectedProject.FullName;
                 folder = Path.GetDirectoryName(projectPath);
@@ -184,64 +213,9 @@ namespace VSIXDialogsTemplate
         private void Button1_Click(object sender, EventArgs e)
         {
             customMessage = textBox1.Text;
-            //RunScript();
 
             this.Close();
         }
-
-        //private void RunScript()
-        //{
-
-        //    //PowerShell ps = PowerShell.Create(); //.AddCommand("Install-Package").AddParameter("Id", "BotBuilder.Dialogs").Invoke();
-        //    //ps.Runspace.SessionStateProxy.Path.SetLocation("C:\\Repositories\\BotBuilder-Samples\\samples\\csharp_dotnetcore\\01.console-echo");
-        //    //ps.AddCommand("Install-Package").AddParameter("-Name", "Microsoft.Bot.Builder.Dialogs");
-        //    //ps.BeginInvoke();
-
-        //    string script = "" +
-        //        "$FileName = \"*Bot.cs\"" + "\n" +
-        //        "$Patern = \"turnContext.Activity.Type == ActivityTypes.Message\"" + "\n" +
-        //        "$FileOriginal = Get-Content $FileName" + "\n" +
-        //        "[String[]] $FileModified = @()" + "\n" +
-        //        "Foreach ($Line in $FileOriginal)" + "\n" +
-        //        "{" + "\n" +
-        //        "   $FileModified += $Line "+ "\n" +
-        //        "   if ($Line -match $patern)" + "\n" +
-        //        "   {" + "\n" +
-        //        "       $foreach.movenext()" + "\n" +
-        //        "       $FileModified += \"			{ \"" + "\n" +
-        //        "       $FileModified += \"             var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);\"" + "\n" +
-        //        "       $FileModified += \"\"" + "\n" +
-        //        "       $FileModified += \"             var results = await dialogContext.ContinueDialogAsync(cancellationToken);\"" + "\n" +
-        //        "       $FileModified += \"\"" + "\n" +
-        //        "       $FileModified += \"             if (results.Status == DialogTurnStatus.Empty)\"" + "\n" +
-        //        "       $FileModified += \"             {\"" + "\n" +
-        //        "       $FileModified += \"                 await dialogContext.BeginDialogAsync(null, null, cancellationToken);\"" + "\n" +
-        //        "       $FileModified += \"             }\"" + "\n" +
-        //        "   }" + "\n" +
-        //       "}" + "\n" +
-        //       "Set-Content $fileName $FileModified" +
-        //       "Install - Package Microsoft.Bot.Builder.Dialogs";
-
-        //    using (PowerShell PowerShellInstance = PowerShell.Create())
-        //    {
-        //        PowerShellInstance.AddScript(script);
-        //        PowerShellInstance.Runspace.SessionStateProxy.Path.SetLocation(projectPath);
-
-        //        // begin invoke execution on the pipeline
-        //        IAsyncResult result = PowerShellInstance.BeginInvoke();
-
-        //        // do something else until execution has completed.
-        //        // this could be sleep/wait, or perhaps some other work
-        //        while (result.IsCompleted == false)
-        //        {
-        //            Console.WriteLine("Waiting for pipeline to finish...");
-        //            //Thread.Sleep(1000);
-
-        //            // might want to place a timeout here...
-        //        }
-
-        //        Console.WriteLine("Finished!");
-        //    }
-        //}
     }
 }
+

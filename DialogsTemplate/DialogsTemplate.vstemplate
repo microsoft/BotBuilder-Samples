@@ -9,6 +9,7 @@
     <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
     <DefaultName>Dialogs.cs</DefaultName>
+    <TemplateGroupID>AspNetCore</TemplateGroupID>
   </TemplateData>
   <TemplateContent>
     <References>
@@ -17,9 +18,11 @@
       </Reference>
     </References>
     <ProjectItem ReplaceParameters="true">Dialogs.cs</ProjectItem>
+    <ProjectItem ReplaceParameters="true">ClassNameAccessors.cs</ProjectItem>
+    <ProjectItem ReplaceParameters="true">UserProfile.cs</ProjectItem>
   </TemplateContent>
   <WizardExtension>  
-    <Assembly>VSIXDialogsTemplate, Version=1.0.0.0, Culture=Neutral, PublicKeyToken=b069993c1b3f9396</Assembly>  
-    <FullClassName>VSIXDialogsTemplate.WizardImplementation</FullClassName>  
+    <Assembly>DialogsTemplateVSIX, Version=1.0.0.0, Culture=Neutral, PublicKeyToken=40b65aaf989dca03</Assembly>  
+    <FullClassName>DialogsTemplateVSIX.WizardImplementation</FullClassName>  
   </WizardExtension>
 </VSTemplate>
