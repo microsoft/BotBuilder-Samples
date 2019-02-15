@@ -103,7 +103,11 @@ msbot clone services --name <YOUR-BOT-NAME> --folder DeploymentScripts/msbotClon
 
 **NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
 
-**Important:** Ensure that LuisConfiguration in CafeBot.cs matches the name property of your LUIS endpoint in your `.bot` file.
+**Important:** Ensure that `LuisConfiguration` in each of the following files is prefixed with `<yourBotName>_` (example: mybot_cafeDispatchModel):
+
+1. CafeBot.cs
+2. GetLocationDateTimePartSizePrompt.cs
+3. GetUserNamePrompt.cs
 
 
 Optionally, you can use the LUIS, QnA Maker portals to manually import the models found under **CognitiveModels** folder of this sample. 
