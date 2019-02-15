@@ -191,11 +191,11 @@ msbot get "sample-qna" | qnamaker publish kb --stdin
 
 To create a new dispatch model for these services and update the .bot file configuration, in a terminal:
 - Navigate to `samples/csharp_dotnetcore/14.nlp-with-dispatch`
-- Run the following commands
+- Run the following command
 ```bash
 dispatch create -b nlp-with-dispatch.bot | msbot connect dispatch --stdin
 ```
-- Then update the dispatch service in your bot to have a `"subscriptionKey"`. You can use the subscription key from one of the other LUIS services in the `.bot` file.
+#### Important: Update the dispatch service in your `.bot` file to have a `"subscriptionKey"`. You can use the subscription key from one of the other LUIS services in the `.bot` file.
 
 ### Securing keys in your .bot file
 Since your `.bot` file contains service Ids, subscription and authoring keys, its best to encrypt them. To encrypt the .bot file, run
