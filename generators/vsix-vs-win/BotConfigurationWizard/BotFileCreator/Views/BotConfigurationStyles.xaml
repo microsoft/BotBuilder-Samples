@@ -21,7 +21,7 @@
     <Style x:Key="title" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
         <Setter Property="Grid.Column" Value="1"/>
         <Setter Property="Grid.Row" Value="1"/>
-        <Setter Property="Grid.ColumnSpan" Value="3"/>
+        <Setter Property="Grid.ColumnSpan" Value="4"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="FontSize" Value="24" />
         <Setter Property="Margin" Value="5,10,0,20"/>
@@ -37,7 +37,7 @@
         <Setter Property="MaxLength" Value="70"/>
         <Setter Property="FontWeight" Value="Thin"/>
     </Style>
-    
+
     <Style x:Key="description" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
         <Setter Property="Margin" Value="5"/>
     </Style>
@@ -68,12 +68,13 @@
     </Style>
 
     <Style x:Key="botPanel" TargetType="StackPanel">
-        <Setter Property="Grid.Column" Value="4"/>
+        <Setter Property="Grid.Column" Value="3"/>
         <Setter Property="Grid.Row" Value="2"/>
-        <Setter Property="Grid.ColumnSpan" Value="2"/>
+        <Setter Property="Grid.ColumnSpan" Value="3"/>
         <Setter Property="Grid.RowSpan" Value="4"/>
+        <Setter Property="Margin" Value="20,-5"/>
     </Style>
-    
+
     <Style x:Key="moduleTitle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="Margin" Value="5,5,5,-5"/>
@@ -110,18 +111,14 @@
         <Setter Property="Margin" Value="5"/>
         <Setter Property="TextWrapping" Value="Wrap"/>
     </Style>
-    
+
     <Style x:Key="copyButton" TargetType="Button">
-        <Style.Setters>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
-        </Style.Setters>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.CommandBarMenuGroupHeaderLinkTextBrushKey}}"/>
     </Style>
 
     <Style x:Key="encryptCheckBox" TargetType="CheckBox">
-        <Style.Setters>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
-            <Setter Property="Margin" Value="5,10,10,10"/>
-        </Style.Setters>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+        <Setter Property="Margin" Value="5,10,10,10"/>
     </Style>
 
     <Style x:Key="downBar" TargetType="Canvas">
@@ -138,6 +135,60 @@
         <Setter Property="Orientation" Value="Horizontal"/>
         <Setter Property="Canvas.Right" Value="15"/>
         <Setter Property="Canvas.Bottom" Value="15"/>
+    </Style>
+
+    <Style x:Key="listView" TargetType="ListView">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.BrandedUIBackgroundBrushKey}}"/>
+    </Style>
+
+    <Style x:Key="listViewItem" TargetType="ListViewItem">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                    <Grid>
+                        <Border x:Name="outerBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2" SnapsToDevicePixels="true">
+                            <Grid>
+                                <Border x:Name="innerBorder" Background="{TemplateBinding Background}" BorderThickness="1" CornerRadius="1" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" />
+                                <GridViewRowPresenter Margin="0,2" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="innerBorder" Property="BorderBrush" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowButtonHoverActiveBorderBrushKey}}"/>
+                            <Setter TargetName="innerBorder" Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.CommandBarMenuItemMouseOverBrushKey}}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="true" />
+                                <Condition Property="Selector.IsSelectionActive" Value="true" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="innerBorder" Property="BorderBrush" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowButtonHoverActiveBorderBrushKey}}"/>
+                            <Setter TargetName="innerBorder" Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ComboBoxItemMouseOverBackgroundBrushKey}}" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="headerContainerStyle" TargetType="GridViewColumnHeader">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.SystemButtonTextBrushKey}}"/>
+        <Setter Property="BorderBrush" Value="DarkBlue"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="5,5,0,5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="downBarButton" TargetType="Button">
@@ -169,5 +220,21 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
+
+    <ControlTemplate x:Key="TextButtonTemplate" TargetType="Button">
+        <TextBlock x:Name="TextBlock">
+            <ContentPresenter Content="{TemplateBinding  Content}" ContentTemplate="{TemplateBinding  ContentTemplate}"/>
+        </TextBlock>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="TextBlock" Property="TextBlock.TextDecorations" Value="Underline"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="endpointButton" TargetType="Button">
+        <Setter Property="Margin" Value="10,5"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.CommandBarMenuGroupHeaderLinkTextBrushKey}}"/>
+    </Style>
 
 </ResourceDictionary>
