@@ -7,7 +7,7 @@ This document will enumerate the required prerequisites and show how to install 
 This bot uses [QnA Maker][1] to power a question and answer service from your semi-structured content.  The Bot Framework provides a set of CLI tools that will help setup QnA Maker so the bot can be run and tested locally.  Additionally, prerequisites are provided that will enable the bot to be deployed to Azure using additional CLI tools.
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher.
+- [Node.js][4] version 10.14 or higher.
 - If you don't have an Azure subscription, create a [free account][5].
 - Install the latest version of the [Azure CLI][6] tool. Version 2.0.54 or higher.
 - Install latest version of the `MSBot` CLI tool. Version 4.3.2 or higher.

@@ -4,7 +4,7 @@ Bot Framework v4 simple prompt bot sample
 This bot has been created using [Microsoft Bot Framework][1], it shows how to use the prompts classes included in `botbuilder-dialogs`. This bot will ask for the user's name, then store the response. It demonstrates a 2-step dialog flow using a prompt, as well as using the state accessors to store and retrieve values.
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher
+- [Node.js][4] version 10.14 or higher
     ```bash
     # determine node version
     node --version

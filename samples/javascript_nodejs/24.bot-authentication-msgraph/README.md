@@ -16,7 +16,7 @@ The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissio
 - `User.ReadBasic.All`
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher
+- [Node.js][4] version 10.14 or higher
     ```bash
     # determine node version
     node --version

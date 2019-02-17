@@ -4,7 +4,7 @@ Bot Framework v4 suggested actions bot sample
 This bot has been created using [Microsoft Bot Framework][1], it shows how to use suggested actions.  Suggested actions enable your bot to present buttons that the user can tap to provide input.
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher
+- [Node.js][4] version 10.14 or higher
     ```bash
     # determine node version
     node --version

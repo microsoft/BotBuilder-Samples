@@ -8,7 +8,7 @@ This implementation contains an object that saves ongoing conversations and writ
 In this example, the bot creates a new folder in the project directory called `logs` and the conversations' transcripts are saved as `.log` files after the user has chatted with the bot. The bot also logs the conversation to the terminal as the user chats with it.
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher
+- [Node.js][4] version 10.14 or higher
     ```bash
     # determine node version
     node --version

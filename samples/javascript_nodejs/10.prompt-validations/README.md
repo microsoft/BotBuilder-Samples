@@ -4,7 +4,7 @@ Bot Framework v4 prompt validation bot sample
 This bot has been created using [Microsoft Bot Framework][1], it shows how a conversation between a bot and a user often involves asking (prompting) the user for information.  This sample shows how to use the prompt classes included in `botbuilder-dialogs`.  This bot will ask for multiple pieces of information from the user, each using a different type of prompt, each with its own validation rules. This sample also demonstrates using the `ComponentDialog` class to encapsulate related sub-dialogs.
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher
+- [Node.js][4] version 10.14 or higher
     ```bash
     # determine node version
     node --version

@@ -4,7 +4,7 @@ Bot Framework v4 dice roller skill sample
 This sample demonstrates how to implement a Cortana Skill that properly handles EndOfConversation events.
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher
+- [Node.js][4] version 10.14 or higher
 
 ```bash
 # determine node version
