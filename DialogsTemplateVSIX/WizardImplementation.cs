@@ -36,33 +36,6 @@ namespace DialogsTemplateVSIX
         public void ProjectItemFinishedGenerating(EnvDTE.ProjectItem
             projectItem)
         {
-            if (projectItem.FileNames[0].Contains("ClassNameAccessors") || projectItem.FileNames[0].Contains("UserProfile"))
-            {
-                //string newPath = Path.GetFullPath(Path.Combine(projectItem.FileNames[0], @"..\Project2\"));
-                //if (!Directory.Exists(newPath))
-                //{
-                //    MessageBox.Show($"Message path does not exist. \r\n {newPath}");
-                //}
-                //else
-                //{
-                    var newFullPath = Path.Combine(projectPath, projectItem.Name);
-                    File.Move(projectItem.FileNames[0], newFullPath);
-                    var p = Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection.GetLoadedProjects(Directory.GetCurrentDirectory()).FirstOrDefault();
-                    if (p == null)
-                        p = new Microsoft.Build.Evaluation.Project(projectPath);
-
-                    var res = p.AddItem("Compile", newFullPath);
-                    p.Save();
-                    if (res == null)
-                    {
-                        MessageBox.Show("Nothing added to project");
-                    }
-                    else
-                    {
-                        MessageBox.Show($"{res.Count()} item added to project");
-                    }
-                //}
-            }
         }
 
         // This method is called after the project is created.  

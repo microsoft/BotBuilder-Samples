@@ -17,9 +17,9 @@
         <Assembly>System</Assembly>
       </Reference>
     </References>
-    <ProjectItem ReplaceParameters="true">Dialogs.cs</ProjectItem>
-    <ProjectItem ReplaceParameters="true">ClassNameAccessors.cs</ProjectItem>
-    <ProjectItem ReplaceParameters="true">UserProfile.cs</ProjectItem>
+    <ProjectItem TargetFileName="Dialogs.cs" ReplaceParameters="true">Dialogs.cs</ProjectItem>
+    <ProjectItem TargetFileName="UserProfile.cs" ReplaceParameters ="true">UserProfile.cs</ProjectItem>
+    <ProjectItem TargetFileName="ClassNameAccessors.cs" ReplaceParameters="true">ClassNameAccessors.cs</ProjectItem>
   </TemplateContent>
   <WizardExtension>  
     <Assembly>DialogsTemplateVSIX, Version=1.0.0.0, Culture=Neutral, PublicKeyToken=40b65aaf989dca03</Assembly>  
