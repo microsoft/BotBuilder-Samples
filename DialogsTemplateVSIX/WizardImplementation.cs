@@ -47,6 +47,8 @@ namespace DialogsTemplateVSIX
             Dictionary<string, string> replacementsDictionary,
             WizardRunKind runKind, object[] customParams)
         {
+            string botClass = string.Empty;
+
             try
             {
                 IntPtr hierarchyPointer, selectionContainerPointer;
@@ -81,7 +83,23 @@ namespace DialogsTemplateVSIX
                 replacementsDictionary.Add("$custommessage$",
                     customMessage);
 
-                RunScript();
+                //Get the name of the bot class to pass it to the template and the scripts.
+
+                string[] fileNames = Directory.GetFiles(folder, "*Bot.cs");
+                string [] botFile = Path.GetFileName(fileNames[0]).Split('.');
+
+                if (fileNames.Length == 1)
+                {
+                    botClass = botFile[0];
+                }
+                else
+                {
+                    botClass = "BotClass";
+                }
+
+                replacementsDictionary.Add("$botFileName$", botClass);
+
+                RunScript(botClass);
             }
             catch (Exception ex)
             {
@@ -96,12 +114,12 @@ namespace DialogsTemplateVSIX
             return true;
         }
 
-        public void RunScript()
+        public void RunScript(string botClass)
         {
             using (PowerShell PowerShellInstance = PowerShell.Create())
             {
                 PowerShellInstance.AddScript(File.ReadAllText(".\\scripts\\DialogsContext.ps1"));
-                PowerShellInstance.AddArgument($fileinputname$);
+                PowerShellInstance.AddArgument(botClass);
                 PowerShellInstance.Runspace.SessionStateProxy.Path.SetLocation(folder);
 
                 // begin invoke execution on the pipeline
@@ -123,7 +141,7 @@ namespace DialogsTemplateVSIX
             using (PowerShell PowerShellInstance1 = PowerShell.Create())
             {
                 PowerShellInstance1.AddScript(File.ReadAllText(".\\scripts\\DialogsRegisterAccesors.ps1"));
-                PowerShellInstance1.AddArgument($fileinputname$);
+                PowerShellInstance1.AddArgument(botClass);
                 PowerShellInstance1.Runspace.SessionStateProxy.Path.SetLocation(folder);
 
                 // begin invoke execution on the pipeline

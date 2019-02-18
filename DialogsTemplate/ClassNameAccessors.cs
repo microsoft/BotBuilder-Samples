@@ -9,19 +9,19 @@ namespace $rootnamespace$
 {
     /// <summary>
     /// This class is created as a Singleton and passed into the IBot-derived constructor.
-    ///  - See <see cref="$fileinputname$Accessors"/> constructor for how that is injected.
+    ///  - See <see cref="$botFileName$Accessors"/> constructor for how that is injected.
     ///  - See the Startup.cs file for more details on creating the Singleton that gets
     ///    injected into the constructor.
     /// </summary>
-    public class $fileinputname$Accessors
+    public class $botFileName$Accessors
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="$fileinputname$Accessors"/> class.
+        /// Initializes a new instance of the <see cref="$botFileName$Accessors"/> class.
         /// Contains the <see cref="ConversationState"/> and associated <see cref="IStatePropertyAccessor{T}"/>.
         /// </summary>
         /// <param name="conversationState">The state object that stores the dialog state.</param>
         /// <param name="userState">The state object that stores the user state.</param>
-        public $fileinputname$Accessors(ConversationState conversationState, UserState userState)
+        public $botFileName$Accessors(ConversationState conversationState, UserState userState)
         {
             ConversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             UserState = userState ?? throw new ArgumentNullException(nameof(userState));

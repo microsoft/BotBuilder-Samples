@@ -1,4 +1,4 @@
-param([string]$inputName="fileinputname")
+param([string]$inputName="botClass")
 
 $FileName = "*Startup.cs"
 $FileOriginal = Get-Content $FileName
