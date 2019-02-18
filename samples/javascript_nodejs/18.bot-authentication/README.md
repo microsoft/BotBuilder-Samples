@@ -4,7 +4,7 @@ Bot Framework v4 bot authentication sample
 This bot has been created using [Microsoft Bot Framework][1], it shows how to use authentication in your bot using OAuth.  The sample uses the bot authentication capabilities in [Azure Bot Service][1], providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc.
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher
+- [Node.js][4] version 10.14 or higher
     ```bash
     # determine node version
     node --version

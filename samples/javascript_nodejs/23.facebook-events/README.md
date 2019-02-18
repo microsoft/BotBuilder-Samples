@@ -5,7 +5,7 @@ This sample shows how to integrate and consume Facebook specific payloads, such 
 Since Bot Framework supports multiple Facebook pages for a single bot, we also show how to know the page to which the message was sent, so developers can have custom behavior per page.
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher
+- [Node.js][4] version 10.14 or higher
     ```bash
     # determine node version
     node --version
