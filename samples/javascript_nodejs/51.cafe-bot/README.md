@@ -79,7 +79,7 @@ Contoso cafe bot is a fairly sophisticated bot sample that uses the following co
 # Prerequisites
 ## Install CLI tools
 
-Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
+Ensure you have [Node.js](https://nodejs.org/) version 10.14 or higher
 
 - In a terminal
     ```bash

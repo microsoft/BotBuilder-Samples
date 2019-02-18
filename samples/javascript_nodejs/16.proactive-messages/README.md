@@ -19,7 +19,7 @@ and allow the conversation to continue in the meantime. When the bot finishes co
 question, it will share that information with the user.
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher
+- [Node.js][4] version 10.14 or higher
     ```bash
     # determine node version
     node --version

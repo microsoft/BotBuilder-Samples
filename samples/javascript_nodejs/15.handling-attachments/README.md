@@ -4,7 +4,7 @@ Bot Framework v4 handling attachments bot sample
 This bot has been created using [Microsoft Bot Framework][1], it shows how to send outgoing attachments and how to save attachments to disk.
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher
+- [Node.js][4] version 10.14 or higher
     ```bash
     # determine node version
     node --version
