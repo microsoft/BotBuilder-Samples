@@ -101,6 +101,7 @@ namespace DialogsTemplateVSIX
             using (PowerShell PowerShellInstance = PowerShell.Create())
             {
                 PowerShellInstance.AddScript(File.ReadAllText(".\\scripts\\DialogsContext.ps1"));
+                PowerShellInstance.AddArgument($fileinputname$);
                 PowerShellInstance.Runspace.SessionStateProxy.Path.SetLocation(folder);
 
                 // begin invoke execution on the pipeline
@@ -122,6 +123,7 @@ namespace DialogsTemplateVSIX
             using (PowerShell PowerShellInstance1 = PowerShell.Create())
             {
                 PowerShellInstance1.AddScript(File.ReadAllText(".\\scripts\\DialogsRegisterAccesors.ps1"));
+                PowerShellInstance1.AddArgument($fileinputname$);
                 PowerShellInstance1.Runspace.SessionStateProxy.Path.SetLocation(folder);
 
                 // begin invoke execution on the pipeline

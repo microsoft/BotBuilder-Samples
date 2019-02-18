@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace $safeprojectname$
+namespace $rootnamespace$
 {
     /// <summary>
     /// This is our application state. Just a regular serializable .NET class.

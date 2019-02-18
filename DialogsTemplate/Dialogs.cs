@@ -6,9 +6,9 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 
-namespace $safeprojectname$
+namespace $rootnamespace$
 {
-    public class Dialogs : ComponentDialog
+    public class $fileinputname$ : ComponentDialog
     {
         private static async Task<DialogTurnResult> NameStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {

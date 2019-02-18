@@ -1,3 +1,5 @@
+param([string]$inputName="fileinputname")
+
 $FileName = "*Bot.cs"
 $FileOriginal = Get-Content $FileName
 $PaternUsing = "using Microsoft.Bot.Builder;"
@@ -22,11 +24,11 @@ Foreach ($Line in $FileOriginal)
 		<# add Dialog set and prompts #>
 		$foreach.movenext()
 		$FileModified += "	{"
-		$FileModified += "		private readonly %%ClassName%%Accessors _accessors;"
+		$FileModified += "		private readonly " + $inputName + "Accessors _accessors;"
 		$FileModified += ""
 		$FileModified += "		private DialogSet _dialogs;"
 		$FileModified += ""
-		$FileModified += "		public %%ClassName%%(%%ClassName%%Accessors accessors)"
+		$FileModified += "		public " + $inputName + "(" + $inputName + "Accessors accessors)"
 		$FileModified += "		{"
 		$FileModified += "			_accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));"
 		$FileModified += ""

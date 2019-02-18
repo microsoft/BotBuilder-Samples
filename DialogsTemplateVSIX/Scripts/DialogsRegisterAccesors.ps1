@@ -1,3 +1,5 @@
+param([string]$inputName="fileinputname")
+
 $FileName = "*Startup.cs"
 $FileOriginal = Get-Content $FileName
 $Patern = "public void ConfigureServices"
@@ -35,7 +37,7 @@ Foreach ($Line in $FileOriginal)
 		$foreach.movenext()
 		$FileModified += "		{"
 		$FileModified += "			// Create and register state accessors."
-		$FileModified += "			services.AddSingleton<%%ClassName%%Accessors>(sp =>"
+		$FileModified += "			services.AddSingleton<" + $inputName + "Accessors>(sp =>"
 		$FileModified += "			{"
 		$FileModified += "				// We need to grab the conversationState we added on the options in the previous step"
 		$FileModified += "				var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;"
@@ -58,7 +60,7 @@ Foreach ($Line in $FileOriginal)
 		$FileModified += ""
 		$FileModified += "				// Create the custom state accessor."
 		$FileModified += "				// State accessors enable other components to read and write individual properties of state."
-		$FileModified += "				var accessors = new MultiTurnPromptsBotAccessors(conversationState, userState)"
+		$FileModified += "				var accessors = new " + $inputName + "Accessors(conversationState, userState)"
 		$FileModified += "				{"
 		$FileModified += "					ConversationDialogState = conversationState.CreateProperty<DialogState>(""DialogState""),"
 		$FileModified += "					UserProfile = userState.CreateProperty<UserProfile>(""UserProfile""),"

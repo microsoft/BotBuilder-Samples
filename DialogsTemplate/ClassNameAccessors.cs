@@ -5,23 +5,23 @@ using System;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace $safeprojectname$
+namespace $rootnamespace$
 {
     /// <summary>
     /// This class is created as a Singleton and passed into the IBot-derived constructor.
-    ///  - See <see cref="ClassName"/> constructor for how that is injected.
+    ///  - See <see cref="$fileinputname$Accessors"/> constructor for how that is injected.
     ///  - See the Startup.cs file for more details on creating the Singleton that gets
     ///    injected into the constructor.
     /// </summary>
-    public class ClassNameAccessors
+    public class $fileinputname$Accessors
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClassNameAccessors"/> class.
+        /// Initializes a new instance of the <see cref="$fileinputname$Accessors"/> class.
         /// Contains the <see cref="ConversationState"/> and associated <see cref="IStatePropertyAccessor{T}"/>.
         /// </summary>
         /// <param name="conversationState">The state object that stores the dialog state.</param>
         /// <param name="userState">The state object that stores the user state.</param>
-        public ClassNameAccessors(ConversationState conversationState, UserState userState)
+        public $fileinputname$Accessors(ConversationState conversationState, UserState userState)
         {
             ConversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             UserState = userState ?? throw new ArgumentNullException(nameof(userState));
