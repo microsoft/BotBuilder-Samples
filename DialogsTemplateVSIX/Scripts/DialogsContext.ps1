@@ -1,4 +1,7 @@
-param([string]$inputName="botClass")
+param(
+	[Parameter(Position=0)][string]$inputName="botClass",
+	[Parameter(Position=1)][string]$dialogsName="dialogsName"
+	)
 
 $FileName = "*Bot.cs"
 $FileOriginal = Get-Content $FileName
@@ -25,7 +28,7 @@ Foreach ($Line in $FileOriginal)
 		$FileModified += "			_dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));"
 		$FileModified += ""
 		$FileModified += "			Dialogs = new DialogSet(_dialogStateAccessor);"
-		$FileModified += "			Dialogs.Add(new " + $?????? + "(_greetingStateAccessor, loggerFactory));"
+		$FileModified += "			Dialogs.Add(new " + $dialogsName + "(_greetingStateAccessor, loggerFactory));"
 		$FileModified += "		}"
 		$FileModified += ""
 		$FileModified += "		private DialogSet Dialogs { get; set; }"

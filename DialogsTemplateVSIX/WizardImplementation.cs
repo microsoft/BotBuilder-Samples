@@ -20,6 +20,7 @@ namespace DialogsTemplateVSIX
         private string customMessage;
         private string projectPath;
         private string folder;
+        private string dialogsName;
 
         // This method is called before opening any item that   
         // has the OpenInEditor attribute.  
@@ -41,14 +42,47 @@ namespace DialogsTemplateVSIX
         // This method is called after the project is created.  
         public void RunFinished()
         {
+            string botClass = string.Empty;
+
+            string[] fileNames = Directory.GetFiles(folder, "*.cs");
+
+            string botFile = string.Empty;
+
+            foreach (string file in fileNames)
+            {
+                using (StreamReader sReader = new StreamReader(file))
+                {
+                    string contents = sReader.ReadToEnd();
+                    if (contents.Contains(": ComponentDialog"))
+                    {
+                        dialogsName = (Path.GetFileName(file)).Split('.')[0];
+                    }
+                    else
+                    {
+                        if (contents.Contains(": IBot"))
+                        {
+                            botFile = (Path.GetFileName(file)).Split('.')[0];
+                        }
+                    }
+                }
+            }
+
+            if (botFile.Length >= 1)
+            {
+                botClass = botFile;
+            }
+            else
+            {
+                botClass = "BotClass";
+            }
+
+            RunScript(botClass, dialogsName);
         }
 
         public void RunStarted(object automationObject,
             Dictionary<string, string> replacementsDictionary,
             WizardRunKind runKind, object[] customParams)
         {
-            string botClass = string.Empty;
-
             try
             {
                 IntPtr hierarchyPointer, selectionContainerPointer;
@@ -82,24 +116,6 @@ namespace DialogsTemplateVSIX
                 // Add custom parameters.  
                 replacementsDictionary.Add("$custommessage$",
                     customMessage);
-
-                //Get the name of the bot class to pass it to the template and the scripts.
-
-                string[] fileNames = Directory.GetFiles(folder, "*Bot.cs");
-                string [] botFile = Path.GetFileName(fileNames[0]).Split('.');
-
-                if (fileNames.Length == 1)
-                {
-                    botClass = botFile[0];
-                }
-                else
-                {
-                    botClass = "BotClass";
-                }
-
-                //replacementsDictionary.Add("$botFileName$", botClass);
-
-                RunScript(botClass);
             }
             catch (Exception ex)
             {
@@ -114,13 +130,13 @@ namespace DialogsTemplateVSIX
             return true;
         }
 
-        public void RunScript(string botClass)
+        public void RunScript(string botClass, string dialogsName)
         {
             using (PowerShell PowerShellInstance = PowerShell.Create())
             {
                 PowerShellInstance.AddScript(File.ReadAllText(".\\scripts\\DialogsContext.ps1"));
                 PowerShellInstance.AddArgument(botClass);
-                //PowerShellInstance.AddArgument($fileinputname$);
+                PowerShellInstance.AddArgument(dialogsName);
                 PowerShellInstance.Runspace.SessionStateProxy.Path.SetLocation(folder);
 
                 // begin invoke execution on the pipeline

@@ -2,6 +2,7 @@ param([string]$inputName="botClass")
 
 $FileName = "*Startup.cs"
 $FileOriginal = Get-Content $FileName
+$PaternUsing = "using System;;"
 $Patern = "public void ConfigureServices"
 $PaternAddBot = "services.AddBot"
 $PaternClassConfigServ = "public void ConfigureServices"
@@ -12,6 +13,12 @@ $PaternClassConfigServ = "public void ConfigureServices"
 Foreach ($Line in $FileOriginal)
 {    
     $FileModified += $Line
+	
+	if ($Line -match $paternUsing) 
+    {
+		<# add using statement #>
+		$FileModified += "using Microsoft.Bot.Builder;"
+	}
 	
 	if ($Line -match $PaternClassConfigServ) 
     {
