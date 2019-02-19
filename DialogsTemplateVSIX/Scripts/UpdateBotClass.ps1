@@ -41,7 +41,6 @@ Foreach ($Line in $FileOriginal)
 	
 	if ($Line -match $paternUsing) 
     {
-		<# add using statement #>
 		$FileModified += "using System;"
 		$FileModified += "using Microsoft.Bot.Builder.Dialogs;"
 		$FileModified += "using Microsoft.Extensions.Logging;"
@@ -49,7 +48,6 @@ Foreach ($Line in $FileOriginal)
 	
 	if ($Line -match $paternBotClass) 
     {
-		<# add Dialog set and prompts #>
 		$foreach.movenext()
 		$FileModified += "	{"
 		$FileModified += "		private readonly IStatePropertyAccessor<GreetingState> _greetingStateAccessor;"
@@ -88,5 +86,4 @@ Foreach ($Line in $FileOriginal)
 		$FileModified += ""
     } 
 }
-
 Set-Content $fileName $FileModified

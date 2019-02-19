@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
   <TemplateData>
-    <Name>DialogsTemplate</Name>
-    <Description>DialogsTemplate</Description>
+    <Name>Dialogs Template</Name>
+    <Description>Add Dialogs to a bot project using Microsoft Bot Framework</Description>
     <Icon>DialogsTemplate.ico</Icon>
     <TemplateID>28793054-d644-4bc5-84d8-a3c21660dd0c</TemplateID>
     <ProjectType>CSharp</ProjectType>

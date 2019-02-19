@@ -54,16 +54,16 @@
     <Compile Include="WizardImplementation.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\DialogsContext.ps1">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="Scripts\DialogsRegisterAccesors.ps1">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <None Include="key.snk" />
     <None Include="packages.config" />
+    <Content Include="Scripts\UpdateBotClass.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Scripts\UpdateStartUpClass.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

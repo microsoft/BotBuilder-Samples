@@ -121,7 +121,7 @@ namespace DialogsTemplateVSIX
         {
             using (PowerShell PowerShellInstance = PowerShell.Create())
             {
-                PowerShellInstance.AddScript(File.ReadAllText(".\\scripts\\DialogsContext.ps1"));
+                PowerShellInstance.AddScript(File.ReadAllText(".\\scripts\\UpdateBotClass.ps1"));
                 PowerShellInstance.AddArgument(botClass);
                 PowerShellInstance.AddArgument(dialogsName);
                 PowerShellInstance.Runspace.SessionStateProxy.Path.SetLocation(folder);
@@ -143,7 +143,7 @@ namespace DialogsTemplateVSIX
 
             using (PowerShell PowerShellInstance1 = PowerShell.Create())
             {
-                PowerShellInstance1.AddScript(File.ReadAllText(".\\scripts\\DialogsRegisterAccesors.ps1"));
+                PowerShellInstance1.AddScript(File.ReadAllText(".\\scripts\\UpdateStartUpClass.ps1"));
                 PowerShellInstance1.AddArgument(botClass);
                 PowerShellInstance1.Runspace.SessionStateProxy.Path.SetLocation(folder);
 

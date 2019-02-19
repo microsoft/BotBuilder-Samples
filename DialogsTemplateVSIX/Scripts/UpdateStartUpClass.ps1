@@ -3,8 +3,6 @@ param([string]$inputName="botClass")
 $FileName = "*Startup.cs"
 $FileOriginal = Get-Content $FileName
 $PaternUsing = "using System;;"
-$Patern = "public void ConfigureServices"
-$PaternAddBot = "services.AddBot"
 $PaternClassConfigServ = "public void ConfigureServices"
 
 <# create empty Array and use it as a modified file... #>
@@ -37,15 +35,5 @@ Foreach ($Line in $FileOriginal)
 		$FileModified += "			services.AddSingleton(userState);"		
 		$FileModified += ""
 	}
-
-	<#if ($Line -match $PaternAddBot) 
-    {
-		$foreach.movenext()
-		$FileModified += "			{"
-		$FileModified += "					// Catches any errors that occur during a conversation turn and logs them to currently"
-        $FileModified += "	        		// configured ILogger."
-        $FileModified += "	        		ILogger logger = _loggerFactory.CreateLogger<" + inputName + ">();"
-		$FileModified += ""		
-	}#>	
 }
 Set-Content $fileName $FileModified
