@@ -97,7 +97,7 @@ namespace DialogsTemplateVSIX
                     botClass = "BotClass";
                 }
 
-                replacementsDictionary.Add("$botFileName$", botClass);
+                //replacementsDictionary.Add("$botFileName$", botClass);
 
                 RunScript(botClass);
             }
@@ -120,6 +120,7 @@ namespace DialogsTemplateVSIX
             {
                 PowerShellInstance.AddScript(File.ReadAllText(".\\scripts\\DialogsContext.ps1"));
                 PowerShellInstance.AddArgument(botClass);
+                //PowerShellInstance.AddArgument($fileinputname$);
                 PowerShellInstance.Runspace.SessionStateProxy.Path.SetLocation(folder);
 
                 // begin invoke execution on the pipeline

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -8,97 +11,212 @@ using Microsoft.Extensions.Logging;
 
 namespace $rootnamespace$
 {
+    /// <summary>
+    /// - Use a Waterflow dialog to model multi-turn conversation flow
+    /// - Use custom prompts to validate user input
+    /// - Store conversation and user state.
+    /// </summary>
     public class $fileinputname$ : ComponentDialog
     {
-        private static async Task<DialogTurnResult> NameStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        // User state for greeting dialog
+        private const string GreetingStateProperty = "greetingState";
+        private const string NameValue = "greetingName";
+        private const string CityValue = "greetingCity";
+
+        // Prompts names
+        private const string NamePrompt = "namePrompt";
+        private const string CityPrompt = "cityPrompt";
+
+        // Minimum length requirements for city and name
+        private const int NameLengthMinValue = 3;
+        private const int CityLengthMinValue = 4;
+
+        // Dialog IDs
+        private const string ProfileDialog = "profileDialog";
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="$fileinputname$"/> class.
+        /// </summary>
+        /// <param name="botServices">Connected services used in processing.</param>
+        /// <param name="botState">The <see cref="UserState"/> for storing properties at user-scope.</param>
+        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> that enables logging and tracing.</param>
+        public MyDialogs(IStatePropertyAccessor<GreetingState> userProfileStateAccessor, ILoggerFactory loggerFactory)
+            : base(nameof($fileinputname$))
         {
-            // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
-            // Running a prompt here means the next WaterfallStep will be run when the users response is received.
-            return await stepContext.PromptAsync("name", new PromptOptions { Prompt = MessageFactory.Text("Please enter your name.") }, cancellationToken);
+            UserProfileAccessor = userProfileStateAccessor ?? throw new ArgumentNullException(nameof(userProfileStateAccessor));
+
+            // Add control flow dialogs
+            var waterfallSteps = new WaterfallStep[]
+            {
+                    InitializeStateStepAsync,
+                    PromptForNameStepAsync,
+                    PromptForCityStepAsync,
+                    DisplayGreetingStateStepAsync,
+            };
+            AddDialog(new WaterfallDialog(ProfileDialog, waterfallSteps));
+            AddDialog(new TextPrompt(NamePrompt, ValidateName));
+            AddDialog(new TextPrompt(CityPrompt, ValidateCity));
         }
 
-        private async Task<DialogTurnResult> NameConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        public IStatePropertyAccessor<GreetingState> UserProfileAccessor { get; }
+
+        private async Task<DialogTurnResult> InitializeStateStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // Get the current profile object from user state.
-            var userProfile = await _accessors.UserProfile.GetAsync(stepContext.Context, () => new UserProfile(), cancellationToken);
-
-            // Update the profile.
-            userProfile.Name = (string)stepContext.Result;
-
-            // We can send messages to the user at any point in the WaterfallStep.
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Thanks {stepContext.Result}."), cancellationToken);
-
-            // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
-            return await stepContext.PromptAsync("confirm", new PromptOptions { Prompt = MessageFactory.Text("Would you like to give your age?") }, cancellationToken);
-        }
-
-        private async Task<DialogTurnResult> AgeStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
-            if ((bool)stepContext.Result)
+            var greetingState = await UserProfileAccessor.GetAsync(stepContext.Context, () => null);
+            if (greetingState == null)
             {
-                // User said "yes" so we will be prompting for the age.
-
-                // Get the current profile object from user state.
-                var userProfile = await _accessors.UserProfile.GetAsync(stepContext.Context, () => new UserProfile(), cancellationToken);
-
-                // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
-                return await stepContext.PromptAsync("age", new PromptOptions { Prompt = MessageFactory.Text("Please enter your age.") }, cancellationToken);
-            }
-            else
-            {
-                // User said "no" so we will skip the next step. Give -1 as the age.
-                return await stepContext.NextAsync(-1, cancellationToken);
-            }
-        }
-
-        private async Task<DialogTurnResult> ConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
-            // Get the current profile object from user state.
-            var userProfile = await _accessors.UserProfile.GetAsync(stepContext.Context, () => new UserProfile(), cancellationToken);
-
-            // Update the profile.
-            userProfile.Age = (int)stepContext.Result;
-
-            // We can send messages to the user at any point in the WaterfallStep.
-            if (userProfile.Age == -1)
-            {
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text($"No age given."), cancellationToken);
-            }
-            else
-            {
-                // We can send messages to the user at any point in the WaterfallStep.
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text($"I have your age as {userProfile.Age}."), cancellationToken);
-            }
-
-            // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
-            return await stepContext.PromptAsync("confirm", new PromptOptions { Prompt = MessageFactory.Text("Is this ok?") }, cancellationToken);
-        }
-
-        private async Task<DialogTurnResult> SummaryStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
-            if ((bool)stepContext.Result)
-            {
-                // Get the current profile object from user state.
-                var userProfile = await _accessors.UserProfile.GetAsync(stepContext.Context, () => new UserProfile(), cancellationToken);
-
-                // We can send messages to the user at any point in the WaterfallStep.
-                if (userProfile.Age == -1)
+                var greetingStateOpt = stepContext.Options as GreetingState;
+                if (greetingStateOpt != null)
                 {
-                    await stepContext.Context.SendActivityAsync(MessageFactory.Text($"I have your name as {userProfile.Name}."), cancellationToken);
+                    await UserProfileAccessor.SetAsync(stepContext.Context, greetingStateOpt);
                 }
                 else
                 {
-                    await stepContext.Context.SendActivityAsync(MessageFactory.Text($"I have your name as {userProfile.Name} and age as {userProfile.Age}."), cancellationToken);
+                    await UserProfileAccessor.SetAsync(stepContext.Context, new GreetingState());
                 }
+            }
+
+            return await stepContext.NextAsync();
+        }
+
+        private async Task<DialogTurnResult> PromptForNameStepAsync(
+                                                WaterfallStepContext stepContext,
+                                                CancellationToken cancellationToken)
+        {
+            var greetingState = await UserProfileAccessor.GetAsync(stepContext.Context);
+
+            // if we have everything we need, greet user and return.
+            if (greetingState != null && !string.IsNullOrWhiteSpace(greetingState.Name) && !string.IsNullOrWhiteSpace(greetingState.City))
+            {
+                return await GreetUser(stepContext);
+            }
+
+            if (string.IsNullOrWhiteSpace(greetingState.Name))
+            {
+                // prompt for name, if missing
+                var opts = new PromptOptions
+                {
+                    Prompt = new Activity
+                    {
+                        Type = ActivityTypes.Message,
+                        Text = "What is your name?",
+                    },
+                };
+                return await stepContext.PromptAsync(NamePrompt, opts);
             }
             else
             {
-                // We can send messages to the user at any point in the WaterfallStep.
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Thanks. Your profile will not be kept."), cancellationToken);
+                return await stepContext.NextAsync();
+            }
+        }
+
+        private async Task<DialogTurnResult> PromptForCityStepAsync(
+                                                        WaterfallStepContext stepContext,
+                                                        CancellationToken cancellationToken)
+        {
+            // Save name, if prompted.
+            var greetingState = await UserProfileAccessor.GetAsync(stepContext.Context);
+            var lowerCaseName = stepContext.Result as string;
+            if (string.IsNullOrWhiteSpace(greetingState.Name) && lowerCaseName != null)
+            {
+                // Capitalize and set name.
+                greetingState.Name = char.ToUpper(lowerCaseName[0]) + lowerCaseName.Substring(1);
+                await UserProfileAccessor.SetAsync(stepContext.Context, greetingState);
             }
 
-            // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is the end.
-            return await stepContext.EndDialogAsync(cancellationToken: cancellationToken);
+            if (string.IsNullOrWhiteSpace(greetingState.City))
+            {
+                var opts = new PromptOptions
+                {
+                    Prompt = new Activity
+                    {
+                        Type = ActivityTypes.Message,
+                        Text = $"Hello {greetingState.Name}, what city do you live in?",
+                    },
+                };
+                return await stepContext.PromptAsync(CityPrompt, opts);
+            }
+            else
+            {
+                return await stepContext.NextAsync();
+            }
+        }
+
+        private async Task<DialogTurnResult> DisplayGreetingStateStepAsync(
+                                                    WaterfallStepContext stepContext,
+                                                    CancellationToken cancellationToken)
+        {
+            // Save city, if prompted.
+            var greetingState = await UserProfileAccessor.GetAsync(stepContext.Context);
+
+            var lowerCaseCity = stepContext.Result as string;
+
+            if (string.IsNullOrWhiteSpace(greetingState.City) &&
+                !string.IsNullOrWhiteSpace(lowerCaseCity))
+            {
+                // capitalize and set city
+                greetingState.City = char.ToUpper(lowerCaseCity[0]) + lowerCaseCity.Substring(1);
+                await UserProfileAccessor.SetAsync(stepContext.Context, greetingState);
+            }
+
+            return await GreetUser(stepContext);
+        }
+
+        /// <summary>
+        /// Validator function to verify if the user name meets required constraints.
+        /// </summary>
+        /// <param name="promptContext">Context for this prompt.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        private async Task<bool> ValidateName(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
+        {
+            // Validate that the user entered a minimum length for their name.
+            var value = promptContext.Recognized.Value?.Trim() ?? string.Empty;
+            if (value.Length >= NameLengthMinValue)
+            {
+                promptContext.Recognized.Value = value;
+                return true;
+            }
+            else
+            {
+                await promptContext.Context.SendActivityAsync($"Names needs to be at least `{NameLengthMinValue}` characters long.");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Validator function to verify if city meets required constraints.
+        /// </summary>
+        /// <param name="promptContext">Context for this prompt.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
+        /// or threads to receive notice of cancellation.</param>
+        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        private async Task<bool> ValidateCity(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
+        {
+            // Validate that the user entered a minimum lenght for their name
+            var value = promptContext.Recognized.Value?.Trim() ?? string.Empty;
+            if (value.Length >= CityLengthMinValue)
+            {
+                promptContext.Recognized.Value = value;
+                return true;
+            }
+            else
+            {
+                await promptContext.Context.SendActivityAsync($"City names needs to be at least `{CityLengthMinValue}` characters long.");
+                return false;
+            }
+        }
+
+        // Helper function to greet user with information in GreetingState.
+        private async Task<DialogTurnResult> GreetUser(WaterfallStepContext stepContext)
+        {
+            var context = stepContext.Context;
+            var greetingState = await UserProfileAccessor.GetAsync(context);
+
+            // Display their profile information and end dialog.
+            await context.SendActivityAsync($"Hi {greetingState.Name}, from {greetingState.City}, nice to meet you!");
+            return await stepContext.EndDialogAsync();
         }
     }
 }

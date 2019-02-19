@@ -4,12 +4,12 @@
 namespace $rootnamespace$
 {
     /// <summary>
-    /// This is our application state. Just a regular serializable .NET class.
+    /// User state properties for Greeting.
     /// </summary>
-    public class UserProfile
+    public class GreetingState
     {
         public string Name { get; set; }
 
-        public int Age { get; set; }
+        public string City { get; set; }
     }
 }

@@ -4,19 +4,44 @@ $FileName = "*Bot.cs"
 $FileOriginal = Get-Content $FileName
 $PaternUsing = "using Microsoft.Bot.Builder;"
 $PaternBotClass = "public class"
-$Patern = "turnContext.Activity.Type == ActivityTypes.Message"
+$PaternConstructor = "public " + $inputName
+$PaternOnTurnAsync = "public async Task OnTurnAsync"
+$PaternActivityType = "turnContext.Activity.Type == ActivityTypes.Message"
 
-<# create empty Array and use it as a modified file... #>
 [String[]] $FileModified = @() 
 
 Foreach ($Line in $FileOriginal)
 {    
-    $FileModified += $Line
+	if ($Line -match $PaternConstructor) 
+    {
+		$foreach.movenext()
+		$foreach.movenext()
+		$FileModified += "		public " + $inputName + "(UserState userState, ConversationState conversationState, ILoggerFactory loggerFactory)"
+		$FileModified += "		{"
+		$FileModified += "			_userState = userState ?? throw new ArgumentNullException(nameof(userState));"
+		$FileModified += "			_conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));"
+		$FileModified += ""
+		$FileModified += "			_greetingStateAccessor = _userState.CreateProperty<GreetingState>(nameof(GreetingState));"
+		$FileModified += "			_dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));"
+		$FileModified += ""
+		$FileModified += "			Dialogs = new DialogSet(_dialogStateAccessor);"
+		$FileModified += "			Dialogs.Add(new " + $?????? + "(_greetingStateAccessor, loggerFactory));"
+		$FileModified += "		}"
+		$FileModified += ""
+		$FileModified += "		private DialogSet Dialogs { get; set; }"
+		$FileModified += ""
+	}
+	else
+	{
+		$FileModified += $Line
+	}
 	
 	if ($Line -match $paternUsing) 
     {
 		<# add using statement #>
+		$FileModified += "using System;"
 		$FileModified += "using Microsoft.Bot.Builder.Dialogs;"
+		$FileModified += "using Microsoft.Extensions.Logging;"
 	}
 	
 	if ($Line -match $paternBotClass) 
@@ -24,55 +49,41 @@ Foreach ($Line in $FileOriginal)
 		<# add Dialog set and prompts #>
 		$foreach.movenext()
 		$FileModified += "	{"
-		$FileModified += "		private readonly " + $inputName + "Accessors _accessors;"
+		$FileModified += "		private readonly IStatePropertyAccessor<GreetingState> _greetingStateAccessor;"
+		$FileModified += "		private readonly IStatePropertyAccessor<DialogState> _dialogStateAccessor;"
+		$FileModified += "		private readonly UserState _userState;"
+		$FileModified += "		private readonly ConversationState _conversationState;"
 		$FileModified += ""
-		$FileModified += "		private DialogSet _dialogs;"
-		$FileModified += ""
-		$FileModified += "		public " + $inputName + "(" + $inputName + "Accessors accessors)"
+	}
+	
+	if ($Line -match $PaternOnTurnAsync) 
+    {
+		$foreach.movenext()
 		$FileModified += "		{"
-		$FileModified += "			_accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));"
+		$FileModified += "			var activity = turnContext.Activity;"
 		$FileModified += ""
-		$FileModified += "			// The DialogSet needs a DialogState accessor, it will call it when it has a turn context."
-		$FileModified += "			_dialogs = new DialogSet(accessors.ConversationDialogState);"
-		$FileModified += ""
-		$FileModified += "			// Define the steps of the waterfall dialog and add it to the set."
-		$FileModified += "			var waterfallSteps = new WaterfallStep[]"
-		$FileModified += "			{"
-		$FileModified += "				NameStepAsync,"
-		$FileModified += "				NameConfirmStepAsync,"
-		$FileModified += "				AgeStepAsync,"
-		$FileModified += "				AgeConfirmStepAsync,"
-		$FileModified += "				SummaryAsync,"
-		$FileModified += "			};"
-		$FileModified += ""
-		$FileModified += "			// Add named dialogs to the DialogSet. These names are saved in the dialog state."
-		$FileModified += "			_dialogs.Add(new WaterfallDialog(""details"", waterfallSteps));"
-		$FileModified += "			_dialogs.Add(new TextPrompt(""name""));"
-		$FileModified += "			_dialogs.Add(new NumberPrompt<int>(""age""));"
-		$FileModified += "			_dialogs.Add(new ConfirmPrompt(""confirm""));"
-		$FileModified += "		}"
+		$FileModified += "			var dialogContext = await Dialogs.CreateContextAsync(turnContext);"
 		$FileModified += ""
 	}
 
-    if ($Line -match $patern) 
+    if ($Line -match $PaternActivityType) 
     {
-		<# add Dialogs Context #>
 		$foreach.movenext()
 		$FileModified += "			{"
-        $FileModified += "				var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);"
-		$FileModified += ""
-        $FileModified += "				var results = await dialogContext.ContinueDialogAsync(cancellationToken);"
+        $FileModified += "				var results = await dialogContext.ContinueDialogAsync();"
         $FileModified += ""
         $FileModified += "				if (results.Status == DialogTurnStatus.Empty)"
         $FileModified += "				{"
-        $FileModified += "					await dialogContext.BeginDialogAsync(""details"", null, cancellationToken);"
+        $FileModified += "					await dialogContext.BeginDialogAsync(nameof(" + $inputName + "));"
         $FileModified += "				}"
 		$FileModified += ""
 		$FileModified += "				// Save the dialog state into the conversation state."
-		$FileModified += "				await _accessors.ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);"
+		$FileModified += "				await _conversationState.SaveChangesAsync(turnContext);"
 		$FileModified += ""
 		$FileModified += "				// Save the user profile updates into the user state."
-		$FileModified += "				await _accessors.UserState.SaveChangesAsync(turnContext, false, cancellationToken);"
+		$FileModified += "				await _userState.SaveChangesAsync(turnContext);"
+		$FileModified += ""
     } 
 }
+
 Set-Content $fileName $FileModified
