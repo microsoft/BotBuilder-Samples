@@ -34,13 +34,13 @@ namespace $rootnamespace$
         // Dialog IDs
         private const string ProfileDialog = "profileDialog";
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="$fileinputname$"/> class.
-        /// </summary>
-        /// <param name="botServices">Connected services used in processing.</param>
-        /// <param name="botState">The <see cref="UserState"/> for storing properties at user-scope.</param>
-        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> that enables logging and tracing.</param>
-        public MyDialogs(IStatePropertyAccessor<GreetingState> userProfileStateAccessor, ILoggerFactory loggerFactory)
+/// <summary>
+/// Initializes a new instance of the <see cref="$fileinputname$"/> class.
+/// </summary>
+/// <param name="botServices">Connected services used in processing.</param>
+/// <param name="botState">The <see cref="UserState"/> for storing properties at user-scope.</param>
+/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> that enables logging and tracing.</param>
+        public $fileinputname$(IStatePropertyAccessor<GreetingState> userProfileStateAccessor, ILoggerFactory loggerFactory)
             : base(nameof($fileinputname$))
         {
             UserProfileAccessor = userProfileStateAccessor ?? throw new ArgumentNullException(nameof(userProfileStateAccessor));

@@ -16,8 +16,6 @@ namespace DialogsTemplateVSIX
 {
     public class WizardImplementation : IWizard
     {
-        private UserInputForm inputForm;
-        private string customMessage;
         private string projectPath;
         private string folder;
         private string dialogsName;
@@ -105,17 +103,6 @@ namespace DialogsTemplateVSIX
 
                 this.projectPath = selectedProject.FullName;
                 folder = Path.GetDirectoryName(projectPath);
-
-                // Display a form to the user. The form collects   
-                // input for the custom message.  
-                inputForm = new UserInputForm();
-                inputForm.ShowDialog();
-
-                customMessage = UserInputForm.CustomMessage;
-
-                // Add custom parameters.  
-                replacementsDictionary.Add("$custommessage$",
-                    customMessage);
             }
             catch (Exception ex)
             {
@@ -147,7 +134,6 @@ namespace DialogsTemplateVSIX
                 while (result.IsCompleted == false)
                 {
                     Console.WriteLine("Waiting for pipeline to finish...");
-                    //Thread.Sleep(1000);
 
                     // might want to place a timeout here...
                 }
@@ -169,62 +155,12 @@ namespace DialogsTemplateVSIX
                 while (result.IsCompleted == false)
                 {
                     Console.WriteLine("Waiting for pipeline to finish...");
-                    //Thread.Sleep(1000);
 
                     // might want to place a timeout here...
                 }
 
                 Console.WriteLine("Finished!");
             }
-        }
-    }
-
-    public partial class UserInputForm : Form
-    {
-        private static string customMessage;
-        private TextBox textBox1;
-        private Button button1;
-        private Label label1;
-
-        public UserInputForm()
-        {
-            this.Size = new System.Drawing.Size(1000, 700);
-            this.Text = "Add New Dialog Wizard";
-
-            label1 = new Label();
-            label1.Text = "Enter bot file name";
-            label1.Location = new System.Drawing.Point(20, 45);
-            label1.Visible = true;
-            this.Controls.Add(label1);
-
-            textBox1 = new TextBox();
-            textBox1.Location = new System.Drawing.Point(20, 85);
-            textBox1.Size = new System.Drawing.Size(500, 50);
-            this.Controls.Add(textBox1);
-
-            button1 = new Button();
-            button1.Location = new System.Drawing.Point(80, 85);
-            button1.Size = new System.Drawing.Size(300, 50);
-            button1.Text = "Add bot file";
-            button1.Click += Button1_Click;
-            this.Controls.Add(button1);
-        }
-        public static string CustomMessage
-        {
-            get
-            {
-                return customMessage;
-            }
-            set
-            {
-                customMessage = value;
-            }
-        }
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            customMessage = textBox1.Text;
-
-            this.Close();
         }
     }
 }
