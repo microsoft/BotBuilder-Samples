@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -40,4 +40,10 @@
     <Folder Include="Dialogs\Help\" />
   </ItemGroup>
 
+   <ItemGroup>
+     <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </None>
+    </ItemGroup>
+    
 </Project>
