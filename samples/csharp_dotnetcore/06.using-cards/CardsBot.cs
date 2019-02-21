@@ -258,7 +258,8 @@ namespace Microsoft.BotBuilderSamples
         {
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "adaptiveCard.json" };
-            string adaptiveCardJson = Path.Combine(paths);
+            var adaptiveCardJson = File.ReadAllText(Path.Combine(paths));
+
             var adaptiveCardAttachment = new Attachment()
             {
                 ContentType = "application/vnd.microsoft.card.adaptive",

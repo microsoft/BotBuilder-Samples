@@ -191,11 +191,12 @@ namespace Microsoft.BotBuilderSamples
         {
             // combine path for cross platform support
             string[] paths = { ".", "Dialogs", "Welcome", "Resources", "welcomeCard.json" };
-            string fullPath = Path.Combine(paths);
+            var card = File.ReadAllText(Path.Combine(paths));
+
             return new Attachment()
             {
                 ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(fullPath),
+                Content = JsonConvert.DeserializeObject(card),
             };
         }
 
