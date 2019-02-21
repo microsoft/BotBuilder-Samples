@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+    <Metadata>
+        <Identity Id="DialogsTemplateVSIX.fd1dc53e-f5c1-485d-adae-373e17e3f70f" Version="1.0" Language="en-US" Publisher="Microsoft" />
+        <DisplayName>Dialogs Template</DisplayName>
+        <Description xml:space="preserve">Templates to quickly add Dialogs to a bot project using Microsoft Bot Framework.</Description>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0, 16.0)" />
+    </Installation>
+    <Dependencies>
+        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+    </Dependencies>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="DialogsTemplate" d:TargetPath="|DialogsTemplate;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" AssemblyName="|%CurrentProject%;AssemblyName|" />
+        <Asset d:Source="File" Path="Scripts\UpdateBotClass.ps1" Type="Microsoft.VisualStudio.ToolboxControl" d:VsixSubPath="Scripts" />
+        <Asset d:Source="File" Path="Scripts\UpdateStartUpClass.ps1" Type="Microsoft.VisualStudio.ToolboxControl" d:VsixSubPath="Scripts" />
+        <Asset d:Source="File" Path="Scripts\packages.txt" d:VsixSubPath="Scripts" Type="Microsoft.VisualStudio.ToolboxControl" />
+    </Assets>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,16.0)" DisplayName="Visual Studio core editor" />
+    </Prerequisites>
+</PackageManifest>

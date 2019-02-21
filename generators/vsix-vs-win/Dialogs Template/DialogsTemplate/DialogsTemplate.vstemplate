@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Dialogs Template</Name>
+    <Description>Add Dialogs to a bot project using Microsoft Bot Framework</Description>
+    <Icon>DialogsTemplate.ico</Icon>
+    <TemplateID>28793054-d644-4bc5-84d8-a3c21660dd0c</TemplateID>
+    <ProjectType>CSharp</ProjectType>
+    <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <DefaultName>Dialogs.cs</DefaultName>
+    <TemplateGroupID>AspNetCore</TemplateGroupID>
+  </TemplateData>
+  <TemplateContent>
+    <References>
+      <Reference>
+        <Assembly>System</Assembly>
+      </Reference>
+    </References>
+    <ProjectItem TargetFileName="$fileinputname$.cs" ReplaceParameters="true">Dialogs.cs</ProjectItem>
+    <ProjectItem TargetFileName="GreetingState.cs" ReplaceParameters ="true">GreetingState.cs</ProjectItem>
+  </TemplateContent>
+  <WizardExtension>  
+    <Assembly>DialogsTemplateVSIX, Version=1.0.0.0, Culture=Neutral, PublicKeyToken=40b65aaf989dca03</Assembly>  
+    <FullClassName>DialogsTemplateVSIX.WizardImplementation</FullClassName>  
+  </WizardExtension>
+</VSTemplate>
