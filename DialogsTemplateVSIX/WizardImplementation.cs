@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TemplateWizard;
-using System.Windows.Forms;
-using EnvDTE;
-using System.Management.Automation;
-using System.IO;
-using Microsoft.VisualStudio.Shell.Interop;
-using System.Runtime.InteropServices;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio;
-using Microsoft.Build.Evaluation;
-using System.Linq;
-using System.Reflection;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Management.Automation;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.TemplateWizard;
+using Project = EnvDTE.Project;
 
 namespace DialogsTemplateVSIX
 {
     public class WizardImplementation : IWizard
     {
+        private const string lineToFindForPackageReference = "<PackageReference";
+
         private string projectPath;
         private string folder;
         private string dialogsName;
 
-        public static string AssemblyDirectory
+        private static string AssemblyDirectory
         {
             get
             {
@@ -34,8 +35,59 @@ namespace DialogsTemplateVSIX
         }
 
         private string packages = AssemblyDirectory + "\\scripts\\packages.txt";
+               
+        private string scriptUpdateBotClass = AssemblyDirectory + "\\scripts\\UpdateBotClass.ps1";
 
-        private const string lineToFindForPackageReference = "<PackageReference";
+        private string scriptUpdateStartUpClass = AssemblyDirectory + "\\scripts\\UpdateStartUpClass.ps1";
+
+        private Project project()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            IntPtr hierarchyPointer, selectionContainerPointer;
+            Object selectedObject = null;
+            IVsMultiItemSelect multiItemSelect;
+            uint projectItemId;
+
+            IVsMonitorSelection monitorSelection =
+                    (IVsMonitorSelection)Package.GetGlobalService(
+                    typeof(SVsShellMonitorSelection));
+
+            monitorSelection.GetCurrentSelection(out hierarchyPointer,
+                                                 out projectItemId,
+                                                 out multiItemSelect,
+                                                 out selectionContainerPointer);
+
+            IVsHierarchy selectedHierarchy = Marshal.GetTypedObjectForIUnknown(
+                                                 hierarchyPointer,
+                                                 typeof(IVsHierarchy)) as IVsHierarchy;
+
+            if (selectedHierarchy != null)
+            {
+                ErrorHandler.ThrowOnFailure(selectedHierarchy.GetProperty(
+                                                  projectItemId,
+                                                  (int)__VSHPROPID.VSHPROPID_ExtObject,
+                                                  out selectedObject));
+            }
+
+            return selectedObject as Project;
+        }
+
+        public void RunStarted(object automationObject,
+            Dictionary<string, string> replacementsDictionary,
+            WizardRunKind runKind, object[] customParams)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            try
+            {
+                folder = Path.GetDirectoryName(project().FullName);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
 
         // This method is called before opening any item that   
         // has the OpenInEditor attribute.  
@@ -43,7 +95,7 @@ namespace DialogsTemplateVSIX
         {
         }
 
-        public void ProjectFinishedGenerating(EnvDTE.Project project)
+        public void ProjectFinishedGenerating(Project project)
         {
         }
 
@@ -57,11 +109,9 @@ namespace DialogsTemplateVSIX
         // This method is called after the project is created.  
         public void RunFinished()
         {
-            string botClass = string.Empty;
-
             string[] fileNames = Directory.GetFiles(folder, "*.cs");
 
-            string botFile = string.Empty;
+            string botFile = "BotClass";
 
             foreach (string file in fileNames)
             {
@@ -82,16 +132,9 @@ namespace DialogsTemplateVSIX
                 }
             }
 
-            if (botFile.Length >= 1)
-            {
-                botClass = botFile;
-            }
-            else
-            {
-                botClass = "BotClass";
-            }
+            RunPowerShellInstance(scriptUpdateBotClass, botFile, dialogsName);
 
-            RunScript(botClass, dialogsName);
+            RunPowerShellInstance(scriptUpdateStartUpClass, botFile);
 
             string[] pathEditFile = Directory.GetFiles(folder, "*.csproj");
 
@@ -100,6 +143,22 @@ namespace DialogsTemplateVSIX
             {
                 AddNuget(folder, pathEditFile[0]);
             }
+        }
+
+        public void RunPowerShellInstance(string script, params string[] arguments)
+        {
+            PowerShell PowerShellInstance = PowerShell.Create();
+
+            PowerShellInstance.AddScript(File.ReadAllText(script));
+
+            foreach (string argument in arguments)
+            {
+                PowerShellInstance.AddArgument(argument);
+            }
+
+            PowerShellInstance.Runspace.SessionStateProxy.Path.SetLocation(folder);
+
+            PowerShellInstance.BeginInvoke();
         }
 
         private void AddNuget(string path, string pathEditFile)
@@ -145,91 +204,12 @@ namespace DialogsTemplateVSIX
             return result;
         }
 
-        public void RunStarted(object automationObject,
-            Dictionary<string, string> replacementsDictionary,
-            WizardRunKind runKind, object[] customParams)
-        {
-            try
-            {
-                IntPtr hierarchyPointer, selectionContainerPointer;
-                object selectedObject = null;
-                IVsMultiItemSelect multiItemSelect;
-                uint projectItemId;
-
-                IVsMonitorSelection monitorSelection = (IVsMonitorSelection)Package.GetGlobalService(typeof(SVsShellMonitorSelection));
-
-                monitorSelection.GetCurrentSelection(out hierarchyPointer, out projectItemId, out multiItemSelect, out selectionContainerPointer);
-
-                IVsHierarchy selectedHierarchy = Marshal.GetTypedObjectForIUnknown(hierarchyPointer, typeof(IVsHierarchy)) as IVsHierarchy;
-
-                if (selectedHierarchy != null)
-                {
-                    ErrorHandler.ThrowOnFailure(selectedHierarchy.GetProperty(projectItemId, (int)__VSHPROPID.VSHPROPID_ExtObject, out selectedObject));
-                }
-
-                EnvDTE.Project selectedProject = selectedObject as EnvDTE.Project;
-
-                this.projectPath = selectedProject.FullName;
-                folder = Path.GetDirectoryName(projectPath);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
         // This method is only called for item templates,  
         // not for project templates.  
         public bool ShouldAddProjectItem(string filePath)
         {
             return true;
-        }
-
-        public void RunScript(string botClass, string dialogsName)
-        {
-            using (PowerShell PowerShellInstance = PowerShell.Create())
-            {
-                PowerShellInstance.AddScript(File.ReadAllText(AssemblyDirectory + ".\\scripts\\UpdateBotClass.ps1"));
-                PowerShellInstance.AddArgument(botClass);
-                PowerShellInstance.AddArgument(dialogsName);
-                PowerShellInstance.Runspace.SessionStateProxy.Path.SetLocation(folder);
-
-                // begin invoke execution on the pipeline
-                IAsyncResult result = PowerShellInstance.BeginInvoke();
-
-                // do something else until execution has completed.
-                // this could be sleep/wait, or perhaps some other work
-                while (result.IsCompleted == false)
-                {
-                    Console.WriteLine("Waiting for pipeline to finish...");
-
-                    // might want to place a timeout here...
-                }
-
-                Console.WriteLine("Finished!");
-            }
-
-            using (PowerShell PowerShellInstance1 = PowerShell.Create())
-            {
-                PowerShellInstance1.AddScript(File.ReadAllText(AssemblyDirectory + ".\\scripts\\UpdateStartUpClass.ps1"));
-                PowerShellInstance1.AddArgument(botClass);
-                PowerShellInstance1.Runspace.SessionStateProxy.Path.SetLocation(folder);
-
-                // begin invoke execution on the pipeline
-                IAsyncResult result = PowerShellInstance1.BeginInvoke();
-
-                // do something else until execution has completed.
-                // this could be sleep/wait, or perhaps some other work
-                while (result.IsCompleted == false)
-                {
-                    Console.WriteLine("Waiting for pipeline to finish...");
-
-                    // might want to place a timeout here...
-                }
-
-                Console.WriteLine("Finished!");
-            }
-        }
+        }       
     }
 }
 
