@@ -2,7 +2,7 @@ param([string]$inputName="botClass")
 
 $FileName = "*Startup.cs"
 $FileOriginal = Get-Content $FileName
-$PaternUsing = "using System;;"
+$PaternUsing = "using System;"
 $PaternClassConfigServ = "public void ConfigureServices"
 
 <# create empty Array and use it as a modified file... #>
