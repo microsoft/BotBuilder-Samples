@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio;
 using Microsoft.Build.Evaluation;
 using System.Linq;
+using System.Reflection;
 
 namespace DialogsTemplateVSIX
 {
@@ -19,6 +20,17 @@ namespace DialogsTemplateVSIX
         private string projectPath;
         private string folder;
         private string dialogsName;
+
+        public static string AssemblyDirectory
+        {
+            get
+            {
+                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
+        }
 
         // This method is called before opening any item that   
         // has the OpenInEditor attribute.  
@@ -121,7 +133,7 @@ namespace DialogsTemplateVSIX
         {
             using (PowerShell PowerShellInstance = PowerShell.Create())
             {
-                PowerShellInstance.AddScript(File.ReadAllText(".\\scripts\\UpdateBotClass.ps1"));
+                PowerShellInstance.AddScript(File.ReadAllText(AssemblyDirectory + ".\\scripts\\UpdateBotClass.ps1"));
                 PowerShellInstance.AddArgument(botClass);
                 PowerShellInstance.AddArgument(dialogsName);
                 PowerShellInstance.Runspace.SessionStateProxy.Path.SetLocation(folder);
@@ -143,7 +155,7 @@ namespace DialogsTemplateVSIX
 
             using (PowerShell PowerShellInstance1 = PowerShell.Create())
             {
-                PowerShellInstance1.AddScript(File.ReadAllText(".\\scripts\\UpdateStartUpClass.ps1"));
+                PowerShellInstance1.AddScript(File.ReadAllText(AssemblyDirectory + ".\\scripts\\UpdateStartUpClass.ps1"));
                 PowerShellInstance1.AddArgument(botClass);
                 PowerShellInstance1.Runspace.SessionStateProxy.Path.SetLocation(folder);
 
