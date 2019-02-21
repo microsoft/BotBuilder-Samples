@@ -1,5 +1,5 @@
 # conversation-history sample
-This sample demonstrates the use of TranscriptLoggerMiddleware for logging to an AzureBlobTranscriptStore.  This bot also shows how to use SendConversationHistoryAsync API to upload conversation history stored in the conversation Transcript.
+This sample demonstrates the use of TranscriptLoggerMiddleware for logging to an AzureBlobTranscriptStore.  This bot also shows how to use SendConversationHistory API to upload conversation history stored in the conversation Transcript.
 
 ## Prerequisites
 - Azure Subscription. If you don't have an Azure subscription, create a [free account][42].
