@@ -12,6 +12,7 @@ using Microsoft.VisualStudio;
 using Microsoft.Build.Evaluation;
 using System.Linq;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace DialogsTemplateVSIX
 {
@@ -31,6 +32,10 @@ namespace DialogsTemplateVSIX
                 return Path.GetDirectoryName(path);
             }
         }
+
+        private string packages = AssemblyDirectory + "\\scripts\\packages.txt";
+
+        private const string lineToFindForPackageReference = "<PackageReference";
 
         // This method is called before opening any item that   
         // has the OpenInEditor attribute.  
@@ -87,6 +92,57 @@ namespace DialogsTemplateVSIX
             }
 
             RunScript(botClass, dialogsName);
+
+            string[] pathEditFile = Directory.GetFiles(folder, "*.csproj");
+
+            if (!(File.ReadAllLines(pathEditFile[0])
+                .Any(line => line.Contains("Microsoft.Bot.Builder.Dialogs"))))
+            {
+                AddNuget(folder, pathEditFile[0]);
+            }
+        }
+
+        private void AddNuget(string path, string pathEditFile)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            addLines(".csproj", packages, lineToFindForPackageReference, pathEditFile);
+
+            var command = "/C cd" + path + "&& nuget restore" + path + "packages.config";
+
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = command;
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            process.StartInfo = startInfo;
+            process.Start();
+        }
+
+        private void addLines(string fileType, string fileToRead, string linesToFind, string pathEditFile)
+        {
+            string[] linesToAdd = File.ReadAllLines(fileToRead);
+            string[] fileToEdit = File.ReadAllLines(pathEditFile);
+            int indexOfBotfile = Array.FindIndex(fileToEdit, line => line.Contains(linesToFind));
+
+            var firstPart = fileToEdit.Take(indexOfBotfile + 2).ToArray();
+            var secondPart = fileToEdit.Skip(indexOfBotfile + 2).ToArray();
+
+            var myNewFile = ConcatArrays(firstPart, linesToAdd, secondPart);
+
+            File.WriteAllLines(pathEditFile, myNewFile);
+        }
+
+        private static T[] ConcatArrays<T>(params T[][] list)
+        {
+            var result = new T[list.Sum(a => a.Length)];
+            int offset = 0;
+            for (int x = 0; x < list.Length; x++)
+            {
+                list[x].CopyTo(result, offset);
+                offset += list[x].Length;
+            }
+            return result;
         }
 
         public void RunStarted(object automationObject,

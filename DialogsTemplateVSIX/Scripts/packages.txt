@@ -1,0 +1,1 @@
+﻿    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.2.2" />

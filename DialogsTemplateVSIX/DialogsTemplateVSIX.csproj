@@ -56,6 +56,10 @@
   <ItemGroup>
     <None Include="key.snk" />
     <None Include="packages.config" />
+    <Content Include="Scripts\packages.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Scripts\UpdateBotClass.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
