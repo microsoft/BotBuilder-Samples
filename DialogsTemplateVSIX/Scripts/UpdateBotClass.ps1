@@ -75,7 +75,7 @@ Foreach ($Line in $FileOriginal)
         $FileModified += ""
         $FileModified += "				if (results.Status == DialogTurnStatus.Empty)"
         $FileModified += "				{"
-        $FileModified += "					await dialogContext.BeginDialogAsync(nameof(Dialogs));"
+        $FileModified += "					await dialogContext.BeginDialogAsync(nameof(" + $dialogsName + "));"
         $FileModified += "				}"
 		$FileModified += ""
 		$FileModified += "				// Save the dialog state into the conversation state."
