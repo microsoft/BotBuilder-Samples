@@ -43,7 +43,7 @@ namespace Microsoft.BotBuilderSamples
 
         public async Task<QueryResult[]> GetAnswersAsync(ITurnContext context)
         {
-            // Call Qna Maker
+            // Call QnA Maker
             var queryResults = await base.GetAnswersAsync(context);
 
             // Find the Application Insights Telemetry Client
@@ -71,7 +71,7 @@ namespace Microsoft.BotBuilderSamples
                     }
                 }
 
-                // Fill in Qna Results (found or not)
+                // Fill in QnA Results (found or not)
                 if (queryResults.Length > 0)
                 {
                     var queryResult = queryResults[0];
