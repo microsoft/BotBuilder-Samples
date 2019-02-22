@@ -24,71 +24,82 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class TelemetryLuisRecognizer : LuisRecognizer
     {
+        private LuisApplication _luisApplication;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TelemetryLuisRecognizer"/> class.
         /// </summary>
         /// <param name="application">The LUIS application to use to recognize text.</param>
         /// <param name="predictionOptions">The LUIS prediction options to use.</param>
         /// <param name="includeApiResults">TRUE to include raw LUIS API response.</param>
-        /// <param name="logOriginalMessage">TRUE to include original user message.</param>
-        /// <param name="logUserName">TRUE to include user name.</param>
-        public TelemetryLuisRecognizer(LuisApplication application, LuisPredictionOptions predictionOptions = null, bool includeApiResults = false, bool logOriginalMessage = false, bool logUserName = false)
+        /// <param name="logPersonalInformation">TRUE to include personally indentifiable information.</param>
+        public TelemetryLuisRecognizer(LuisApplication application, LuisPredictionOptions predictionOptions = null, bool includeApiResults = false, bool logPersonalInformation = false)
             : base(application, predictionOptions, includeApiResults)
         {
-            LogOriginalMessage = logOriginalMessage;
-            LogUsername = logUserName;
+            _luisApplication = application;
+
+            LogPersonalInformation = logPersonalInformation;
         }
 
         /// <summary>
         /// Gets a value indicating whether determines whether to log the Activity message text that came from the user.
         /// </summary>
         /// <value>If true, will log the Activity Message text into the AppInsight Custome Event for Luis intents.</value>
-        public bool LogOriginalMessage { get; }
+        public bool LogPersonalInformation { get; }
 
-        /// <summary>
-        /// Gets a value indicating whether determines whether to log the User name.
-        /// </summary>
-        /// <value>If true, will log the user name into the AppInsight Custom Event for Luis intents.</value>
-        public bool LogUsername { get; }
-
-        public async Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new()
         {
             var result = new T();
-            result.Convert(await RecognizeAsync(turnContext, logOriginalMessage, cancellationToken).ConfigureAwait(false));
+            result.Convert(await RecognizeAsync(dialogContext, logPersonalInformation, cancellationToken).ConfigureAwait(false));
+            return result;
+        }
+
+        public async Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
+            where T : IRecognizerConvert, new()
+        {
+            var result = new T();
+            result.Convert(await RecognizeAsync(turnContext, logPersonalInformation, cancellationToken).ConfigureAwait(false));
             return result;
         }
 
         /// <summary>
-        /// Analyze the current message text and return results of the analysis (Suggested actions and intents).
+        /// Return results of the analysis (Suggested actions and intents), passing the dialog id from dialog context to the TelemetryClient.
         /// </summary>
         /// <param name="dialogContext">Dialog context object containing information for the dialog being executed.</param>
-        /// <param name="logOriginalMessage">Determines if the original message is logged into Application Insights.  This is a privacy consideration.</param>
+        /// <param name="logPersonalInformation">TRUE to include personally indentifiable information.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The LUIS results of the analysis of the current message text in the current turn's context activity.</returns>
-        public async Task<RecognizerResult> RecognizeAsync(DialogContext dialogContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<RecognizerResult> RecognizeAsync(DialogContext dialogContext, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (dialogContext == null)
             {
                 throw new ArgumentNullException(nameof(dialogContext));
             }
 
-            return await RecognizeInternalAsync(dialogContext.Context, logOriginalMessage, dialogContext.ActiveDialog.Id, cancellationToken);
+            return await RecognizeInternalAsync(dialogContext.Context, logPersonalInformation, dialogContext.ActiveDialog?.Id, cancellationToken);
+        }
+
+        /// <summary>
+        /// Return results of the analysis (Suggested actions and intents), using the turn context. This is missing a dialog id used for telemetry..
+        /// </summary>
+        /// <param name="context">Context object containing information for a single turn of conversation with a user.</param>
+        /// <param name="logPersonalInformation">TRUE to include personally indentifiable information.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>The LUIS results of the analysis of the current message text in the current turn's context activity.</returns>
+        public async Task<RecognizerResult> RecognizeAsync(ITurnContext context, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return await RecognizeInternalAsync(context, logPersonalInformation, null, cancellationToken);
         }
 
         /// <summary>
         /// Analyze the current message text and return results of the analysis (Suggested actions and intents).
         /// </summary>
         /// <param name="context">Context object containing information for a single turn of conversation with a user.</param>
-        /// <param name="logOriginalMessage">Determines if the original message is logged into Application Insights.  This is a privacy consideration.</param>
+        /// <param name="logPersonalInformation">TRUE to include personally indentifiable information.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The LUIS results of the analysis of the current message text in the current turn's context activity.</returns>
-        public async Task<RecognizerResult> RecognizeAsync(ITurnContext context, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return await RecognizeInternalAsync(context, logOriginalMessage, null, cancellationToken);
-        }
-
-        private async Task<RecognizerResult> RecognizeInternalAsync(ITurnContext context, bool logOriginalMessage, string dialogId = null, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<RecognizerResult> RecognizeInternalAsync(ITurnContext context, bool logPersonalInformation, string dialogId = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (context == null)
             {
@@ -107,13 +118,15 @@ namespace Microsoft.BotBuilderSamples
                 // Add the intent score and conversation id properties
                 var telemetryProperties = new Dictionary<string, string>()
                 {
+                    { LuisTelemetryConstants.ApplicationIdProperty, _luisApplication.ApplicationId },
                     { LuisTelemetryConstants.IntentProperty, topLuisIntent.intent },
                     { LuisTelemetryConstants.IntentScoreProperty, intentScore },
+                    { LuisTelemetryConstants.FromIdProperty, context.Activity.From.Id },
                 };
 
                 if (dialogId != null)
                 {
-                    telemetryProperties.Add(LuisTelemetryConstants.DialogId, dialogId);
+                    telemetryProperties.Add(TelemetryConstants.DialogIdProperty, dialogId);
                 }
 
                 if (recognizerResult.Properties.TryGetValue("sentiment", out var sentiment) && sentiment is JObject)
@@ -129,24 +142,17 @@ namespace Microsoft.BotBuilderSamples
                     }
                 }
 
-                // Add Luis Entitites
-                var entities = new List<string>();
-                foreach (var entity in recognizerResult.Entities)
-                {
-                    if (!entity.Key.ToString().Equals("$instance"))
-                    {
-                        entities.Add($"{entity.Key}: {entity.Value.First}");
-                    }
-                }
+                var entities = recognizerResult.Entities?.ToString();
+                telemetryProperties.Add(LuisTelemetryConstants.EntitiesProperty, entities);
 
-                // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
-                if (logOriginalMessage && !string.IsNullOrEmpty(context.Activity.Text))
+                // Use the LogPersonalInformation flag to toggle logging PII data, text is a common example
+                if (logPersonalInformation && !string.IsNullOrEmpty(context.Activity.Text))
                 {
                     telemetryProperties.Add(LuisTelemetryConstants.QuestionProperty, context.Activity.Text);
                 }
 
                 // Track the event
-                ((TelemetryClient)telemetryClient).TrackEvent($"{LuisTelemetryConstants.IntentPrefix}.{topLuisIntent.intent}", telemetryProperties);
+                ((IBotTelemetryClient)telemetryClient).TrackEvent(LuisTelemetryConstants.IntentPrefix, telemetryProperties);
             }
 
             return recognizerResult;

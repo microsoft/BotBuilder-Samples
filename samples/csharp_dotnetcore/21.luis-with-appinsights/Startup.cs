@@ -89,7 +89,7 @@ namespace Microsoft.BotBuilderSamples
                 };
 
                 // Add MyAppInsightsLoggerMiddleware (logs activity messages into Application Insights)
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
                 options.Middleware.Add(appInsightsLogger);
 
                 // The Memory Storage used here is for local bot debugging only. When the bot
