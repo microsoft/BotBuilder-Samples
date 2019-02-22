@@ -10,6 +10,7 @@ $PaternBotClass = "public class"
 $PaternConstructor = "public " + $inputName
 $PaternOnTurnAsync = "public async Task OnTurnAsync"
 $PaternActivityType = "turnContext.Activity.Type == ActivityTypes.Message"
+$PaternSendActivity = "await turnContext.SendActivityAsync"
 
 [String[]] $FileModified = @() 
 
@@ -36,7 +37,14 @@ Foreach ($Line in $FileOriginal)
 	}
 	else
 	{
-		$FileModified += $Line
+		if ($Line -match $PaternSendActivity) 
+		{
+			$FileModified += "				// " + $Line.Trim()
+		}
+		else
+		{
+			$FileModified += $Line
+		}
 	}
 	
 	if ($Line -match $paternUsing) 
