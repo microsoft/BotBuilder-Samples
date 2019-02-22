@@ -21,7 +21,7 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         /// <param name="client">An Application Insights <see cref="TelemetryClient"/> instance.</param>
         /// <param name="qnaServices">A dictionary of named <see cref="TelemetryQnAMaker"/> instances for usage within the bot.</param>
-        public BotServices(Dictionary<string, TelemetryQnaMaker> qnaServices)
+        public BotServices(Dictionary<string, TelemetryQnAMaker> qnaServices)
         {
             QnAServices = qnaServices ?? throw new ArgumentNullException(nameof(qnaServices));
         }
@@ -36,6 +36,6 @@ namespace Microsoft.BotBuilderSamples
         /// <value>
         /// A QnAMaker client instance created based on configuration in the .bot file.
         /// </value>
-        public Dictionary<string, TelemetryQnaMaker> QnAServices { get; } = new Dictionary<string, TelemetryQnaMaker>();
+        public Dictionary<string, TelemetryQnAMaker> QnAServices { get; } = new Dictionary<string, TelemetryQnAMaker>();
     }
 }

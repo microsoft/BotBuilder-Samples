@@ -90,7 +90,7 @@ namespace Microsoft.BotBuilderSamples
                 var telemetryClient = sp.GetService<IBotTelemetryClient>();
 
                 // Add TelemetryLoggerMiddleware (logs activity messages into Application Insights)
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
                 options.Middleware.Add(appInsightsLogger);
 
                 // Catches any errors that occur during a conversation turn and logs them.
@@ -154,7 +154,7 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="TelemetryClient"/>
         private static BotServices InitBotServices(BotConfiguration config)
         {
-            var qnaServices = new Dictionary<string, TelemetryQnaMaker>();
+            var qnaServices = new Dictionary<string, TelemetryQnAMaker>();
 
             foreach (var service in config.Services)
             {
@@ -195,7 +195,7 @@ namespace Microsoft.BotBuilderSamples
                                 Host = qna.Hostname,
                             };
 
-                            var qnaMaker = new TelemetryQnaMaker(qnaEndpoint, null, logUserName: false, logOriginalMessage: false);
+                            var qnaMaker = new TelemetryQnAMaker(qnaEndpoint, null, logPersonalInformation: true);
                             qnaServices.Add(qna.Name, qnaMaker);
 
                             break;

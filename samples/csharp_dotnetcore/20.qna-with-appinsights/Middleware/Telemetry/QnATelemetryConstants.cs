@@ -8,10 +8,14 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public static class QnATelemetryConstants
     {
-        public const string UsernameProperty = "username";
+        public const string KnowledgeBaseIdProperty = "knowledgeBaseId";
+        public const string AnswerProperty = "answer";
+        public const string ArticleFoundProperty = "articleFound";
+        public const string ChannelIdProperty = "channelId";
         public const string OriginalQuestionProperty = "originalQuestion";
         public const string QuestionProperty = "question";
-        public const string AnswerProperty = "answer";
+        public const string QuestionIdProperty = "questionId";
         public const string ScoreProperty = "score";
+        public const string UsernameProperty = "username";
     }
 }
