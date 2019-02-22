@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("DialogsTemplate")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Cecilia Avila")]
+[assembly: AssemblyCompany("Microsoft")]
 [assembly: AssemblyProduct("DialogsTemplate")]
-[assembly: AssemblyCopyright("Copyright © Cecilia Avila 2019")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
