@@ -84,7 +84,7 @@ namespace Microsoft.BotBuilderSamples
                 else
                 {
                     telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, "No Qna Question matched");
-                    telemetryProperties.Add(QnATelemetryConstants.QuestionIdProperty, "No QnA Question matched");
+                    telemetryProperties.Add(QnATelemetryConstants.QuestionIdProperty, "No QnA Question Id matched");
                     telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, "No Qna Answer matched");
                     telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "false");
                 }
