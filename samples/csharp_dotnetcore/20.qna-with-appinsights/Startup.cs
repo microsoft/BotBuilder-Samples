@@ -195,7 +195,7 @@ namespace Microsoft.BotBuilderSamples
                                 Host = qna.Hostname,
                             };
 
-                            var qnaMaker = new TelemetryQnAMaker(qnaEndpoint, null, logPersonalInformation: true);
+                            var qnaMaker = new TelemetryQnAMaker(qnaEndpoint);
                             qnaServices.Add(qna.Name, qnaMaker);
 
                             break;
