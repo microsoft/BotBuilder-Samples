@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityTypes, TurnContext } = require('botbuilder');
+const { MicrosoftAppCredentials } = require('botframework-connector');
 
 const JOBS_LIST = 'jobs';
 
@@ -124,6 +125,14 @@ class ProactiveBot {
                     // Notify the user that the job is complete.
                     await proactiveTurnContext.sendActivity(`Your queued job ${ jobIdNumber } just completed.`);
                 });
+
+                // Trust the serviceUrl of the recipient
+                // By default, the BotBuilder SDK adds a serviceUrl to the list of trusted host names if the incoming request is
+                //    authenticated by BotAuthentication. They are maintained in an in-memory cache. In most instances, your bot will work
+                //    fine without the trustServiceUrl code below. However, if you remove the code below and your bot is restarted, a user
+                //    awaiting a proactive message cannot receive it unless they message the bot again after the restart. Basically, placing the trustServiceUrl
+                //    right before sending the proactive message ensures that a user will always be able to receive the proactive message.
+                MicrosoftAppCredentials.trustServiceUrl(turnContext.activity.serviceUrl);
 
                 // Send a message to the person who completed the job.
                 await turnContext.sendActivity('Job completed. Notification sent.');
