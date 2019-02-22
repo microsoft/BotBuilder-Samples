@@ -65,7 +65,7 @@ To use the samples clone this GitHub repository using Git.
 |19.custom-dialogs      | Demonstrates different ways to model conversations. Waterfall .vs. using your own dialog management |[View][cs#19]|[View][js#19]|              |             | |
 |20.qna-with-appinsights| Demonstrates how to use QnA Maker and Azure Application insights               |[View][cs#20]|[View][js#20]|      |             | |
 |21.luis-appinsights    | Demonstrates how to use LUIS and Azure Application insights                    |[View][cs#21]|[View][js#21]|      |             | |
-|22.conversation-history| Demonstrates the use of SendConversationHistoryAsync API to upload conversation history stored in the conversation Transcript.|[View][cs#22]|:runner:|              |             | |
+|22.conversation-history| Demonstrates the use of SendConversationHistoryAsync API to upload conversation history stored in the conversation Transcript.|[View][cs#22]|[View][js#22]|              |             | |
 |23.facebook-events     | Integrate and consume Facebook specific payloads, such as post-backs, quick replies and opt-in events.|[View][cs#23] |[View][js#23] |              |             | |
 |24.bot-auth-msgraph    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[View][cs#24] |[View][js#24] |              |             | |
 |25.bot-logging    | This bot demonstrates the logging middleware in the nodejs SDK| |[View][js#25] |              |             | |
@@ -150,7 +150,7 @@ To use the samples clone this GitHub repository using Git.
 [js#19]:samples/javascript_nodejs/19.custom-dialogs
 [js#20]:samples/javascript_nodejs/20.qna-with-appinsights
 [js#21]:samples/javascript_nodejs/21.luis-with-appinsights
-
+[js#22]:samples/javascript_nodejs/22.conversation-history
 [js#23]:samples/javascript_nodejs/23.facebook-events
 [js#24]:samples/javascript_nodejs/24.bot-authentication-msgraph
 
