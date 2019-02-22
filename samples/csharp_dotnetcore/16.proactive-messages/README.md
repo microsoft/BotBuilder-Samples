@@ -60,5 +60,20 @@ msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-loc
 
 **NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
 
+# Avoiding 401 "Unauthorized" Errors
+
+By default, the BotBuilder SDK adds a `serviceUrl` to the list of trusted host names if the incoming request is authenticated by BotAuthentication. They are maintained in an in-memory cache. If your bot is restarted, a user awaiting a proactive message cannot receive it unless they have messaged the bot again after it restarted.
+
+To avoid this, you must manually add the `serviceUrl` to the list of trusted host names by using:
+
+```csharp
+MicrosoftAppCredentials.TrustServiceUrl(serviceUrl);
+```
+
+For proactive messaging, `serviceUrl` is the URL of the channel that the recipient of the proactive message is using and can be found in `Activity.ServiceUrl`.
+
+You'll want to add the above code just prior to the the code that sends the proactive message. This sample has it near the end of `CreateCallback()` in `ProactiveBot.cs`.
+
+
 # Further reading
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

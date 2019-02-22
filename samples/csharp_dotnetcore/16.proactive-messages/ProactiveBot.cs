@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples
@@ -237,6 +238,14 @@ namespace Microsoft.BotBuilderSamples
 
                 // Now save it into the JobState
                 await _jobState.SaveChangesAsync(turnContext);
+
+                // Trust the serviceUrl of the recipient
+                // By default, the BotBuilder SDK adds a serviceUrl to the list of trusted host names if the incoming request is
+                //    authenticated by BotAuthentication. They are maintained in an in-memory cache. In most instances, your bot will work
+                //    fine without the TrustServiceUrl code below. However, if you remove the code below and your bot is restarted, a user
+                //    awaiting a proactive message cannot receive it unless they message the bot again after the restart. Basically, placing the TrustServiceUrl
+                //    right before sending the proactive message ensures that a user will always be able to receive the proactive message.
+                MicrosoftAppCredentials.TrustServiceUrl(turnContext.Activity.ServiceUrl);
 
                 // Send the user a proactive confirmation message.
                 await turnContext.SendActivityAsync($"Job {jobInfo.TimeStamp} is complete.");
