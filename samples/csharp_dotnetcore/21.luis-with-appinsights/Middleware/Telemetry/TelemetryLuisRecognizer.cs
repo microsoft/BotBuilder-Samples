@@ -17,9 +17,6 @@ namespace Microsoft.BotBuilderSamples
     /// TelemetryLuisRecognizer invokes the Luis Recognizer and logs some results into Application Insights.
     /// Logs the Top Intent, Sentiment (label/score), (Optionally) Original Text
     /// Along with Conversation and ActivityID.
-    /// The Custom Event name this logs is MyLuisConstants.IntentPrefix + "." + 'found intent name'
-    /// For example, if intent name was "add_calender":
-    ///    LuisIntent.add_calendar
     /// See <seealso cref="LuisRecognizer"/> for additional information.
     /// </summary>
     public class TelemetryLuisRecognizer : LuisRecognizer
@@ -44,22 +41,22 @@ namespace Microsoft.BotBuilderSamples
         /// <summary>
         /// Gets a value indicating whether determines whether to log the Activity message text that came from the user.
         /// </summary>
-        /// <value>If true, will log the Activity Message text into the AppInsight Custome Event for Luis intents.</value>
+        /// <value>If true, will log the Activity Message text into the AppInsight Custom Event for Luis intents.</value>
         public bool LogPersonalInformation { get; }
 
-        public async Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<T> RecognizeAsync<T>(DialogContext dialogContext, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new()
         {
             var result = new T();
-            result.Convert(await RecognizeAsync(dialogContext, logPersonalInformation, cancellationToken).ConfigureAwait(false));
+            result.Convert(await RecognizeAsync(dialogContext, cancellationToken).ConfigureAwait(false));
             return result;
         }
 
-        public async Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
+        public new async Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new()
         {
             var result = new T();
-            result.Convert(await RecognizeAsync(turnContext, logPersonalInformation, cancellationToken).ConfigureAwait(false));
+            result.Convert(await RecognizeAsync(turnContext, cancellationToken).ConfigureAwait(false));
             return result;
         }
 
@@ -67,39 +64,36 @@ namespace Microsoft.BotBuilderSamples
         /// Return results of the analysis (Suggested actions and intents), passing the dialog id from dialog context to the TelemetryClient.
         /// </summary>
         /// <param name="dialogContext">Dialog context object containing information for the dialog being executed.</param>
-        /// <param name="logPersonalInformation">TRUE to include personally indentifiable information.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The LUIS results of the analysis of the current message text in the current turn's context activity.</returns>
-        public async Task<RecognizerResult> RecognizeAsync(DialogContext dialogContext, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<RecognizerResult> RecognizeAsync(DialogContext dialogContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (dialogContext == null)
             {
                 throw new ArgumentNullException(nameof(dialogContext));
             }
 
-            return await RecognizeInternalAsync(dialogContext.Context, logPersonalInformation, dialogContext.ActiveDialog?.Id, cancellationToken);
+            return await RecognizeInternalAsync(dialogContext.Context, dialogContext.ActiveDialog?.Id, cancellationToken);
         }
 
         /// <summary>
         /// Return results of the analysis (Suggested actions and intents), using the turn context. This is missing a dialog id used for telemetry..
         /// </summary>
         /// <param name="context">Context object containing information for a single turn of conversation with a user.</param>
-        /// <param name="logPersonalInformation">TRUE to include personally indentifiable information.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The LUIS results of the analysis of the current message text in the current turn's context activity.</returns>
-        public async Task<RecognizerResult> RecognizeAsync(ITurnContext context, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<RecognizerResult> RecognizeAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await RecognizeInternalAsync(context, logPersonalInformation, null, cancellationToken);
+            return await RecognizeInternalAsync(context, null, cancellationToken);
         }
 
         /// <summary>
         /// Analyze the current message text and return results of the analysis (Suggested actions and intents).
         /// </summary>
         /// <param name="context">Context object containing information for a single turn of conversation with a user.</param>
-        /// <param name="logPersonalInformation">TRUE to include personally indentifiable information.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The LUIS results of the analysis of the current message text in the current turn's context activity.</returns>
-        private async Task<RecognizerResult> RecognizeInternalAsync(ITurnContext context, bool logPersonalInformation, string dialogId = null, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<RecognizerResult> RecognizeInternalAsync(ITurnContext context, string dialogId = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (context == null)
             {
@@ -107,7 +101,7 @@ namespace Microsoft.BotBuilderSamples
             }
 
             // Call Luis Recognizer
-            var recognizerResult = await RecognizeAsync(context, cancellationToken);
+            var recognizerResult = await base.RecognizeAsync(context, cancellationToken);
 
             // Find the Telemetry Client
             if (context.TurnState.TryGetValue(TelemetryLoggerMiddleware.AppInsightsServiceKey, out var telemetryClient) && recognizerResult != null)
@@ -146,7 +140,7 @@ namespace Microsoft.BotBuilderSamples
                 telemetryProperties.Add(LuisTelemetryConstants.EntitiesProperty, entities);
 
                 // Use the LogPersonalInformation flag to toggle logging PII data, text is a common example
-                if (logPersonalInformation && !string.IsNullOrEmpty(context.Activity.Text))
+                if (LogPersonalInformation && !string.IsNullOrEmpty(context.Activity.Text))
                 {
                     telemetryProperties.Add(LuisTelemetryConstants.QuestionProperty, context.Activity.Text);
                 }
