@@ -245,7 +245,8 @@ namespace Microsoft.BotBuilderSamples
                 //    fine without the TrustServiceUrl code below. However, if you remove the code below and your bot is restarted, a user
                 //    awaiting a proactive message cannot receive it unless they message the bot again after the restart. Basically, placing the TrustServiceUrl
                 //    right before sending the proactive message ensures that a user will always be able to receive the proactive message.
-                MicrosoftAppCredentials.TrustServiceUrl(turnContext.Activity.ServiceUrl);
+                // Note: This code is commented out because it will not work in Emulator without also setting appId and appPassword
+                // MicrosoftAppCredentials.TrustServiceUrl(turnContext.Activity.ServiceUrl);
 
                 // Send the user a proactive confirmation message.
                 await turnContext.SendActivityAsync($"Job {jobInfo.TimeStamp} is complete.");

@@ -119,7 +119,7 @@ MicrosoftAppCredentials.trustServiceUrl(serviceUrl);
 
 For proactive messaging, `serviceUrl` is the URL of the channel that the recipient of the proactive message is using and can be found in `activity.serviceUrl`.
 
-You'll want to add the above code just prior to the the code that sends the proactive message. This sample has it near the end of `completeJob()` in `bot.js`.
+You'll want to add the above code just prior to the the code that sends the proactive message. This sample has it near the end of `completeJob()` in `bot.js`, but it is commented out because it will not work in Emulator without an `appId` and `appPassword`.
 
 # Further reading
 - [Bot Framework Documentation][20]

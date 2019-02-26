@@ -132,7 +132,8 @@ class ProactiveBot {
                 //    fine without the trustServiceUrl code below. However, if you remove the code below and your bot is restarted, a user
                 //    awaiting a proactive message cannot receive it unless they message the bot again after the restart. Basically, placing the trustServiceUrl
                 //    right before sending the proactive message ensures that a user will always be able to receive the proactive message.
-                MicrosoftAppCredentials.trustServiceUrl(turnContext.activity.serviceUrl);
+                // Note: This code is commented out because it will not work in Emulator without also setting appId and appPassword
+                // MicrosoftAppCredentials.trustServiceUrl(turnContext.activity.serviceUrl);
 
                 // Send a message to the person who completed the job.
                 await turnContext.sendActivity('Job completed. Notification sent.');
