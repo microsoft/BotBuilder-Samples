@@ -67,7 +67,6 @@ class OAuthHelpers {
             // Attaches user's profile photo to the reply activity.
             if (photoResponse != null) {
                 const base64 = Buffer.from(photoResponse, 'binary').toString('base64');
-                console.log('base64', base64);
                 let replyAttachment = {
                     contentType: 'image/jpeg',
                     contentUrl: `data:image/jpeg;base64,${ base64 }`
