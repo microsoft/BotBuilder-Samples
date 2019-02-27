@@ -74,8 +74,12 @@ class SimpleGraphClient {
             .api('/me/messages')
             .version('beta')
             .top(5)
-            .get().then((res) => {
+            .get()
+            .then((res) => {
                 return res;
+            })
+            .catch((err) => {
+                console.log(err);
             });
     }
 
@@ -85,8 +89,13 @@ class SimpleGraphClient {
     async getMe() {
         return await this.graphClient
             .api('/me')
-            .get().then((res) => {
+            .version('beta')
+            .get()
+            .then((res) => {
                 return res;
+            })
+            .catch((err) => {
+                console.log(err);
             });
     }
 
@@ -98,8 +107,29 @@ class SimpleGraphClient {
             .api('/me/manager')
             .version('beta')
             .select('displayName')
-            .get().then((res) => {
+            .get()
+            .then((res) => {
                 return res;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    /**
+     * Collects the user's photo.
+     */
+    async getPhoto() {
+        return await this.graphClient
+            .api('/me/photo/$value')
+            .responseType('ArrayBuffer')
+            .version('beta')
+            .get()
+            .then((res) => {
+                return res;
+            })
+            .catch((err) => {
+                console.log(err);
             });
     }
 }

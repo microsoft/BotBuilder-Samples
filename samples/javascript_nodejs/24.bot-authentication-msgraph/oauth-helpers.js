@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes } = require('botbuilder');
+const { ActivityTypes, MessageFactory } = require('botbuilder');
 const { OAuthPrompt } = require('botbuilder-dialogs');
 const { SimpleGraphClient } = require('./simple-graph-client');
 
@@ -58,10 +58,27 @@ class OAuthHelpers {
             const client = new SimpleGraphClient(tokenResponse.token);
             const me = await client.getMe();
             const manager = await client.getManager();
+            const photoResponse = await client.getPhoto();
 
             // Create the reply activity.
             let reply = { type: ActivityTypes.Message };
-            reply.text = `You are ${ me.displayName } and you report to ${ manager.displayName }.`;
+            let photoText = ``;
+
+            // Attaches user's profile photo to the reply activity.
+            if (photoResponse != null) {
+                const base64 = Buffer.from(photoResponse, 'binary').toString('base64');
+                console.log('base64', base64);
+                let replyAttachment = {
+                    contentType: 'image/jpeg',
+                    contentUrl: `data:image/jpeg;base64,${ base64 }`
+                };
+                reply = MessageFactory.attachment(replyAttachment);
+            }
+            else {
+                photoText = `Consider adding an image to your Outlook profile.`;
+            }
+
+            reply.text = `You are ${ me.displayName } and you report to ${ manager.displayName }. ${ photoText }`;
             await turnContext.sendActivity(reply);
         } catch (error) {
             throw error;
