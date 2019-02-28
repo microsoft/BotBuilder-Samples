@@ -64,7 +64,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 ## Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration and navigate to `botbuilder-samples/samples/csharp_dotnetcore/51.cafe-bot`
-- Select `CafeBot.bot`.
+- Select `cafe-bot.bot`.
 
 # Prerequisites
 ## Install CLI tools
@@ -98,7 +98,7 @@ az account set --subscription "<YOUR SUBSCRIPTION>"
 - - Run MSbot Clone and pass in your LUIS authoring key and Azure subscription ID. This command will create required services for your bot and update the .bot file.
 
 ```bash
-msbot clone services --name <YOUR-BOT-NAME> --folder DeploymentScripts/msbotClone --location <Bot service location, ie "westus"> --luisAuthoringKey <YOUR LUIS AUTHORING KEY> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
+msbot clone services --name <YOUR-BOT-NAME> --folder DeploymentScripts/MsbotClone --location <Bot service location, ie "westus"> --luisAuthoringKey <YOUR LUIS AUTHORING KEY> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
 ```
 
 **NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
