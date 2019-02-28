@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-	<CodeAnalysisRuleSet>LuisBot.ruleset</CodeAnalysisRuleSet>
+	<CodeAnalysisRuleSet></CodeAnalysisRuleSet>
   </PropertyGroup>
 
  <ItemGroup>

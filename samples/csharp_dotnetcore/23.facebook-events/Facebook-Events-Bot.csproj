@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>Facebook_Events_Bot</AssemblyName>
     <RootNamespace>Facebook_Events_Bot</RootNamespace>
-    <CodeAnalysisRuleSet>BotBuilder.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
