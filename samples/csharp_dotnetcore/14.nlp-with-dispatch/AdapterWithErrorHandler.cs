@@ -1,16 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class AdapterWithLogging : BotFrameworkHttpAdapter
+    public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        public AdapterWithLogging(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger)
+        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger)
             : base(credentialProvider)
         {
             // Enable logging at the adapter level using OnTurnError.
