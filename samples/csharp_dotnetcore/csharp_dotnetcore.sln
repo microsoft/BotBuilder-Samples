@@ -27,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuisBot", "12.nlp-with-luis
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicBot", "13.basic-bot\BasicBot.csproj", "{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLP-With-Dispatch-Bot", "14.nlp-with-dispatch\NLP-With-Dispatch-Bot.csproj", "{2D9935A3-7F48-47DE-9C8A-1270CF125949}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandlingAttachmentsBot", "15.handling-attachments\HandlingAttachmentsBot.csproj", "{7E6046AF-DBF2-40E2-8ABA-A0537F76695A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProactiveBot", "16.proactive-messages\ProactiveBot.csproj", "{79D2CAED-880B-4FAE-8777-5A37606E5F48}"
@@ -60,6 +58,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmptyBot", "00.empty-bot\EmptyBot.csproj", "{53C3CFFC-BCBE-4551-8FCD-A23FBC0716BB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiTurnPromptBot", "05.multi-turn-prompt\MultiTurnPromptBot.csproj", "{659205BF-9F82-41C9-AA06-A172A49B0E66}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLP-With-Dispatch-Bot", "14.nlp-with-dispatch\NLP-With-Dispatch-Bot.csproj", "{C1709610-3DEC-457F-B6CA-227F7E7DAC63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,10 +115,6 @@ Global
 		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D9935A3-7F48-47DE-9C8A-1270CF125949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D9935A3-7F48-47DE-9C8A-1270CF125949}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D9935A3-7F48-47DE-9C8A-1270CF125949}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D9935A3-7F48-47DE-9C8A-1270CF125949}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E6046AF-DBF2-40E2-8ABA-A0537F76695A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7E6046AF-DBF2-40E2-8ABA-A0537F76695A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E6046AF-DBF2-40E2-8ABA-A0537F76695A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -183,6 +179,10 @@ Global
 		{659205BF-9F82-41C9-AA06-A172A49B0E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{659205BF-9F82-41C9-AA06-A172A49B0E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{659205BF-9F82-41C9-AA06-A172A49B0E66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1709610-3DEC-457F-B6CA-227F7E7DAC63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1709610-3DEC-457F-B6CA-227F7E7DAC63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1709610-3DEC-457F-B6CA-227F7E7DAC63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1709610-3DEC-457F-B6CA-227F7E7DAC63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
