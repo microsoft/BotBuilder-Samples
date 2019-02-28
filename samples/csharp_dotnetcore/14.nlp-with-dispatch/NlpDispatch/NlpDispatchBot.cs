@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime.Models;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
@@ -23,21 +24,6 @@ namespace NLP_With_Dispatch_Bot
     public class NlpDispatchBot : IBot
     {
         private const string WelcomeText = "This bot will introduce you to Dispatch for QnA Maker and LUIS. Type a greeting, or a question about the weather to get started";
-
-        /// <summary>
-        /// Key in the Bot config (.bot file) for the Home Automation Luis instance.
-        /// </summary>
-        private const string HomeAutomationLuisKey = "Home Automation";
-
-        /// <summary>
-        /// Key in the Bot config (.bot file) for the Weather Luis instance.
-        /// </summary>
-        private const string WeatherLuisKey = "Weather";
-
-        /// <summary>
-        /// Key in the Bot config (.bot file) for the Dispatch.
-        /// </summary>
-        private const string DispatchKey = "nlp-with-dispatchDispatch";
 
         /// <summary>
         /// Key in the Bot config (.bot file) for the QnaMaker instance.
@@ -62,16 +48,6 @@ namespace NLP_With_Dispatch_Bot
             {
                 throw new System.ArgumentException($"Invalid configuration. Please check your '.bot' file for a QnA service named '{QnAMakerKey}'.");
             }
-
-            if (!_services.LuisServices.ContainsKey(HomeAutomationLuisKey))
-            {
-                throw new System.ArgumentException($"Invalid configuration. Please check your '.bot' file for a Luis service named '{HomeAutomationLuisKey}'.");
-            }
-
-            if (!_services.LuisServices.ContainsKey(WeatherLuisKey))
-            {
-                throw new System.ArgumentException($"Invalid configuration. Please check your '.bot' file for a Luis service named '{WeatherLuisKey}'.");
-            }
         }
 
         /// <summary>
@@ -89,7 +65,7 @@ namespace NLP_With_Dispatch_Bot
             if (turnContext.Activity.Type == ActivityTypes.Message && !turnContext.Responded)
             {
                 // Get the intent recognition result
-                var recognizerResult = await _services.LuisServices[DispatchKey].RecognizeAsync(turnContext, cancellationToken);
+                var recognizerResult = await _services.Dispatch.RecognizeAsync(turnContext, cancellationToken);
                 var topIntent = recognizerResult?.GetTopScoringIntent();
 
                 if (topIntent == null)
@@ -98,7 +74,7 @@ namespace NLP_With_Dispatch_Bot
                 }
                 else
                 {
-                    await DispatchToTopIntentAsync(turnContext, topIntent, cancellationToken);
+                    await DispatchToTopIntentAsync(turnContext, topIntent, recognizerResult, cancellationToken);
                 }
             }
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
@@ -139,26 +115,13 @@ namespace NLP_With_Dispatch_Bot
         /// <summary>
         /// Depending on the intent from Dispatch, routes to the right LUIS model or QnA service.
         /// </summary>
-        private async Task DispatchToTopIntentAsync(ITurnContext context, (string intent, double score)? topIntent, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task DispatchToTopIntentAsync(ITurnContext context, (string intent, double score)? topIntent, RecognizerResult result, CancellationToken cancellationToken = default(CancellationToken))
         {
-            const string homeAutomationDispatchKey = "l_Home_Automation";
-            const string weatherDispatchKey = "l_Weather";
             const string noneDispatchKey = "None";
             const string qnaDispatchKey = "q_sample-qna";
 
             switch (topIntent.Value.intent)
             {
-                case homeAutomationDispatchKey:
-                    await DispatchToLuisModelAsync(context, HomeAutomationLuisKey);
-
-                    // Here, you can add code for calling the hypothetical home automation service, passing in any entity information that you need
-                    break;
-                case weatherDispatchKey:
-                    await DispatchToLuisModelAsync(context, WeatherLuisKey);
-
-                    // Here, you can add code for calling the hypothetical weather service,
-                    // passing in any entity information that you need
-                    break;
                 case noneDispatchKey:
                     // You can provide logic here to handle the known None intent (none of the above).
                     // In this example we fall through to the QnA intent.
@@ -167,6 +130,8 @@ namespace NLP_With_Dispatch_Bot
                     break;
 
                 default:
+                    await DispatchToLuisModelAsync(context, topIntent.Value.intent, result);
+
                     // The intent didn't match any case, so just display the recognition results.
                     await context.SendActivityAsync($"Dispatch intent: {topIntent.Value.intent} ({topIntent.Value.score}).");
                     break;
@@ -195,16 +160,17 @@ namespace NLP_With_Dispatch_Bot
         /// <summary>
         /// Dispatches the turn to the requested LUIS model.
         /// </summary>
-        private async Task DispatchToLuisModelAsync(ITurnContext context, string appName, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task DispatchToLuisModelAsync(ITurnContext context, string appName, RecognizerResult result, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await context.SendActivityAsync($"Sending your request to the {appName} system ...");
-            var result = await _services.LuisServices[appName].RecognizeAsync(context, cancellationToken);
+            // The underlying LuisResult from the Luis Service that dispatch chose.
+            LuisResult luisResult = ((LuisResult)result.Properties["luisResult"]).ConnectedServiceResult;
 
-            await context.SendActivityAsync($"Intents detected by the {appName} app:\n\n{string.Join("\n\n", result.Intents)}");
+            await context.SendActivityAsync($"Top Intent for {appName} app:\n\n{luisResult.TopScoringIntent.Intent}");
+            await context.SendActivityAsync($"Intents detected by the {appName} app:\n\n{string.Join("\n\n", luisResult.Intents.Select(i => i.Intent))}");
 
-            if (result.Entities.Count > 0)
+            if (luisResult.Entities.Count > 0)
             {
-                await context.SendActivityAsync($"The following entities were found in the message:\n\n{string.Join("\n\n", result.Entities)}");
+                await context.SendActivityAsync($"The following entities were found in the message:\n\n{string.Join("\n\n", luisResult.Entities.Select(i => i.Entity))}");
             }
         }
     }

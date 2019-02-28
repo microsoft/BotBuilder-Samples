@@ -22,11 +22,11 @@ namespace NLP_With_Dispatch_Bot
         /// </summary>
         /// <param name="client">An Application Insights <see cref="TelemetryClient"/> instance.</param>
         /// <param name="qnaServices">A dictionary of named <see cref="QnAMaker"/> instances for usage within the bot.</param>
-        /// <param name="luisServices">A dictionary of named <see cref="LuisRecognizer"/> instances for usage within the bot</param>
-        public BotServices(Dictionary<string, QnAMaker> qnaServices, Dictionary<string, LuisRecognizer> luisServices)
+        /// <param name="dispatch">A <see cref="LuisRecognizer"/> instance for Dispatch.</param>
+        public BotServices(Dictionary<string, QnAMaker> qnaServices, LuisRecognizer dispatch)
         {
             QnAServices = qnaServices ?? throw new ArgumentNullException(nameof(qnaServices));
-            LuisServices = luisServices ?? throw new ArgumentNullException(nameof(luisServices));
+            Dispatch = dispatch ?? throw new ArgumentNullException(nameof(dispatch));
         }
 
         /// <summary>
@@ -42,15 +42,13 @@ namespace NLP_With_Dispatch_Bot
         public Dictionary<string, QnAMaker> QnAServices { get; } = new Dictionary<string, QnAMaker>();
 
         /// <summary>
-        /// Gets the (potential) set of Luis Services used.
-        /// Given there can be multiple Luis services used in a single bot,
-        /// LuisServices is represented as a Dictionary. This is also modeled in the
-        /// ".bot" file since the elements are named (string).
-        /// This sample only uses a single Luis instance.
+        /// Gets or sets the set of Dispatch Service.
+        /// Within the bot file, there are multiple LUIS services; however, we don't require accessing
+        /// the service directly.
         /// </summary>
         /// <value>
         /// A <see cref="LuisRecognizer"/> client instance created based on configuration in the .bot file.
         /// </value>
-        public Dictionary<string, LuisRecognizer> LuisServices { get; } = new Dictionary<string, LuisRecognizer>();
+        public LuisRecognizer Dispatch { get; set; }
     }
 }

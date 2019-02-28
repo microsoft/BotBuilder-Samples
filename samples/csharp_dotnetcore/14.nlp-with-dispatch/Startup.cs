@@ -37,7 +37,10 @@ namespace NLP_With_Dispatch_Bot
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            Configuration = builder.Build();
+            if (env.IsDevelopment()) 
+                builder.AddUserSecrets<Startup>();
+
+                Configuration = builder.Build();
         }
 
         /// <summary>
@@ -148,51 +151,12 @@ namespace NLP_With_Dispatch_Bot
         private static BotServices InitBotServices(BotConfiguration config)
         {
             var qnaServices = new Dictionary<string, QnAMaker>();
-            var luisServices = new Dictionary<string, LuisRecognizer>();
+            LuisRecognizer dispatch = null;
 
             foreach (var service in config.Services)
             {
                 switch (service.Type)
                 {
-                    case ServiceTypes.Luis:
-                        {
-                            // Create a Luis Recognizer that is initialized and suitable for passing
-                            // into the IBot-derived class (NlpDispatchBot).
-                            // In this case, we're creating a custom class (wrapping the original
-                            // Luis Recognizer client) that logs the results of Luis Recognizer results
-                            // into Application Insights for future analysis.
-                            if (!(service is LuisService luis))
-                            {
-                                throw new InvalidOperationException("The LUIS service is not configured correctly in your '.bot' file.");
-                            }
-
-                            if (string.IsNullOrWhiteSpace(luis.AppId))
-                            {
-                                throw new InvalidOperationException("The LUIS Model Application Id ('appId') is required to run this sample. Please update your '.bot' file.");
-                            }
-
-                            if (string.IsNullOrWhiteSpace(luis.AuthoringKey))
-                            {
-                                throw new InvalidOperationException("The Luis Authoring Key ('authoringKey') is required to run this sample. Please update your '.bot' file.");
-                            }
-
-                            // CAUTION: Authoring key is used in this example as it is appropriate for prototyping.
-                            // When implimenting for deployment/production, assign and use a subscription key instead of an authoring key.
-                            // if (string.IsNullOrWhiteSpace(luis.SubscriptionKey))
-                            // {
-                            //     throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample. Please update your '.bot' file.");
-                            // }
-
-                            if (string.IsNullOrWhiteSpace(luis.Region))
-                            {
-                                throw new InvalidOperationException("The Region ('region') is required to run this sample. Please update your '.bot' file.");
-                            }
-
-                            var app = new LuisApplication(luis.AppId, luis.AuthoringKey, luis.GetEndpoint());
-                            var recognizer = new LuisRecognizer(app);
-                            luisServices.Add(luis.Name, recognizer);
-                            break;
-                        }
 
                     case ServiceTypes.Dispatch:
                         // Create a Dispatch Recognizer that is initialized and suitable for passing
@@ -200,38 +164,46 @@ namespace NLP_With_Dispatch_Bot
                         // In this case, we're creating a custom class (wrapping the original
                         // Luis Recognizer client) that logs the results of Luis Recognizer results
                         // into Application Insights for future analysis.
-                        if (!(service is DispatchService dispatch))
+                        DispatchService dispatchService = null;
+                        if (!(service is DispatchService))
                         {
                             throw new InvalidOperationException("The Dispatch service is not configured correctly in your '.bot' file.");
                         }
 
-                        if (string.IsNullOrWhiteSpace(dispatch.AppId))
+                        dispatchService = service as DispatchService;
+
+                        if (string.IsNullOrWhiteSpace(dispatchService.AppId))
                         {
                             throw new InvalidOperationException("The LUIS Model Application Id ('appId') is required to run this sample. Please update your '.bot' file.");
                         }
 
-                        if (string.IsNullOrWhiteSpace(dispatch.AuthoringKey))
+                        if (string.IsNullOrWhiteSpace(dispatchService.AuthoringKey))
                         {
                             throw new InvalidOperationException("The LUIS Authoring Key ('authoringKey') is required to run this sample. Please update your '.bot' file.");
                         }
 
-                        if (string.IsNullOrWhiteSpace(dispatch.SubscriptionKey))
+                        if (string.IsNullOrWhiteSpace(dispatchService.SubscriptionKey))
                         {
                             throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample. Please update your '.bot' file.");
                         }
 
-                        if (string.IsNullOrWhiteSpace(dispatch.Region))
+                        if (string.IsNullOrWhiteSpace(dispatchService.Region))
                         {
                             throw new InvalidOperationException("The Region ('region') is required to run this sample. Please update your '.bot' file.");
                         }
 
                         // CAUTION: Authoring key is used in this example as it is appropriate for prototyping.
                         // When implimenting for deployment/production, assign and use a subscription key instead of an authoring key.
-                        var dispatchApp = new LuisApplication(dispatch.AppId, dispatch.AuthoringKey, dispatch.GetEndpoint());
+                        var dispatchApp = new LuisApplication(dispatchService.AppId, dispatchService.AuthoringKey, dispatchService.GetEndpoint());
 
                         // Since the Dispatch tool generates a LUIS model, we use LuisRecognizer to resolve dispatching of the incoming utterance
-                        var dispatchARecognizer = new LuisRecognizer(dispatchApp);
-                        luisServices.Add(dispatch.Name, dispatchARecognizer);
+                        var options = new LuisPredictionOptions
+                        {
+                            IncludeInstanceData = true,
+                            IncludeAllIntents = true,
+                        };
+                        var dispatchARecognizer = new LuisRecognizer(dispatchApp, options, true);
+                        dispatch = dispatchARecognizer;
                         break;
 
                     case ServiceTypes.QnA:
@@ -241,42 +213,45 @@ namespace NLP_With_Dispatch_Bot
                             // In this case, we're creating a custom class (wrapping the original
                             // QnAMaker client) that logs the results of QnA Maker into Application
                             // Insights for future analysis.
-                            if (!(service is QnAMakerService qna))
+                            QnAMakerService qnaService = null;
+                            if (!(service is QnAMakerService))
                             {
                                 throw new InvalidOperationException("The QnA service is not configured correctly in your '.bot' file.");
                             }
 
-                            if (string.IsNullOrWhiteSpace(qna.KbId))
+                            qnaService = service as QnAMakerService;
+
+                            if (string.IsNullOrWhiteSpace(qnaService.KbId))
                             {
                                 throw new InvalidOperationException("The QnA KnowledgeBaseId ('kbId') is required to run this sample. Please update your '.bot' file.");
                             }
 
-                            if (string.IsNullOrWhiteSpace(qna.EndpointKey))
+                            if (string.IsNullOrWhiteSpace(qnaService.EndpointKey))
                             {
                                 throw new InvalidOperationException("The QnA EndpointKey ('endpointKey') is required to run this sample. Please update your '.bot' file.");
                             }
 
-                            if (string.IsNullOrWhiteSpace(qna.Hostname))
+                            if (string.IsNullOrWhiteSpace(qnaService.Hostname))
                             {
                                 throw new InvalidOperationException("The QnA Host ('hostname') is required to run this sample. Please update your '.bot' file.");
                             }
 
                             var qnaEndpoint = new QnAMakerEndpoint()
                             {
-                                KnowledgeBaseId = qna.KbId,
-                                EndpointKey = qna.EndpointKey,
-                                Host = qna.Hostname,
+                                KnowledgeBaseId = qnaService.KbId,
+                                EndpointKey = qnaService.EndpointKey,
+                                Host = qnaService.Hostname,
                             };
 
                             var qnaMaker = new QnAMaker(qnaEndpoint);
-                            qnaServices.Add(qna.Name, qnaMaker);
+                            qnaServices.Add(qnaService.Name, qnaMaker);
 
                             break;
                         }
                 }
             }
 
-            return new BotServices(qnaServices, luisServices);
+            return new BotServices(qnaServices, dispatch);
         }
     }
 }
