@@ -11,8 +11,9 @@ const LOGIN_PROMPT = 'loginPrompt';
 /**
  * These methods call the Microsoft Graph API. The following OAuth scopes are used:
  * 'OpenId' 'email' 'Mail.Send.Shared' 'Mail.Read' 'profile' 'User.Read' 'User.ReadBasic.All'
- * for more information about scopes see:
+ * For more information about scopes see:
  * https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference
+ * Graph API calls do not work against the MS tenant.
  */
 class OAuthHelpers {
     /**
