@@ -4,19 +4,23 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class DialogBasedBot : ActivityHandler
+    // This IBot implementation can run any type of Dialog. The use of type parameterization is to allows multiple different bots
+    // to be run at different endpoints within the same project. This can be achieved by defining distinct Controller types
+    // each with dependency on distinct IBot types, this way ASP Dependency Injection can glue everything together without ambiguity.
+    public class DialogBot<T> : ActivityHandler where T : Dialog 
     {
         private ConversationState _conversationState;
         private UserState _userState;
-        private UserProfileDialog _dialog;
-        private ILogger<DialogBasedBot> _logger;
+        private Dialog _dialog;
+        private ILogger<DialogBot<T>> _logger;
 
-        public DialogBasedBot(ConversationState conversationState, UserState userState, UserProfileDialog dialog, ILogger<DialogBasedBot> logger)
+        public DialogBot(ConversationState conversationState, UserState userState, T dialog, ILogger<DialogBot<T>> logger)
         {
             _conversationState = conversationState;
             _userState = userState;
