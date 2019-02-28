@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WelcomeUser", "03.welcome-u
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimplePromptBot", "04.simple-prompt\SimplePromptBot.csproj", "{699071C5-803F-4BEE-88B8-9E7786E82193}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiTurnPromptsBot", "05.multi-turn-prompt\MultiTurnPromptsBot.csproj", "{E938059F-A877-425D-9C41-28C36FFA9104}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardsBot", "06.using-cards\CardsBot.csproj", "{E22F5D35-A2AF-4F0E-96E6-98250CFF177A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdaptiveCardsBot", "07.using-adaptive-cards\AdaptiveCardsBot.csproj", "{3C74E98C-E924-4C3A-AD61-B5AC95C68651}"
@@ -61,6 +59,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScaleoutBot", "42.scaleout\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmptyBot", "00.empty-bot\EmptyBot.csproj", "{53C3CFFC-BCBE-4551-8FCD-A23FBC0716BB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiTurnPromptBot", "05.multi-turn-prompt\MultiTurnPromptBot.csproj", "{659205BF-9F82-41C9-AA06-A172A49B0E66}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,10 +83,6 @@ Global
 		{699071C5-803F-4BEE-88B8-9E7786E82193}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{699071C5-803F-4BEE-88B8-9E7786E82193}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{699071C5-803F-4BEE-88B8-9E7786E82193}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E938059F-A877-425D-9C41-28C36FFA9104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E938059F-A877-425D-9C41-28C36FFA9104}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E938059F-A877-425D-9C41-28C36FFA9104}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E938059F-A877-425D-9C41-28C36FFA9104}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E22F5D35-A2AF-4F0E-96E6-98250CFF177A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E22F5D35-A2AF-4F0E-96E6-98250CFF177A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E22F5D35-A2AF-4F0E-96E6-98250CFF177A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -111,6 +107,10 @@ Global
 		{E8A19507-8EB5-4B37-B592-AB8316283A6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8A19507-8EB5-4B37-B592-AB8316283A6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8A19507-8EB5-4B37-B592-AB8316283A6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3ED8ED5-B90D-4BA2-BF8B-526A16BDD750}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3ED8ED5-B90D-4BA2-BF8B-526A16BDD750}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3ED8ED5-B90D-4BA2-BF8B-526A16BDD750}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3ED8ED5-B90D-4BA2-BF8B-526A16BDD750}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -179,10 +179,10 @@ Global
 		{53C3CFFC-BCBE-4551-8FCD-A23FBC0716BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53C3CFFC-BCBE-4551-8FCD-A23FBC0716BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53C3CFFC-BCBE-4551-8FCD-A23FBC0716BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3ED8ED5-B90D-4BA2-BF8B-526A16BDD750}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3ED8ED5-B90D-4BA2-BF8B-526A16BDD750}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3ED8ED5-B90D-4BA2-BF8B-526A16BDD750}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3ED8ED5-B90D-4BA2-BF8B-526A16BDD750}.Release|Any CPU.Build.0 = Release|Any CPU
+		{659205BF-9F82-41C9-AA06-A172A49B0E66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{659205BF-9F82-41C9-AA06-A172A49B0E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{659205BF-9F82-41C9-AA06-A172A49B0E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{659205BF-9F82-41C9-AA06-A172A49B0E66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
