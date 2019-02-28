@@ -28,7 +28,7 @@ namespace Microsoft.BotBuilderSamples
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
             AddDialog(new WaterfallDialog("details", waterfallSteps));
             AddDialog(new TextPrompt("name"));
-            AddDialog(new NumberPrompt<int>("age"));
+            AddDialog(new NumberPrompt<int>("age", AgePromptValidatorAsync));
             AddDialog(new ConfirmPrompt("confirm"));
         }
 
@@ -80,7 +80,14 @@ namespace Microsoft.BotBuilderSamples
             {
                 // User said "yes" so we will be prompting for the age.
                 // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
-                return await stepContext.PromptAsync("age", new PromptOptions { Prompt = MessageFactory.Text("Please enter your age.") }, cancellationToken);
+                return await stepContext.PromptAsync(
+                    "age",
+                    new PromptOptions
+                    {
+                        Prompt = MessageFactory.Text("Please enter your age."),
+                        RetryPrompt = MessageFactory.Text("The value entered must be less than 150."),
+                    },
+                    cancellationToken);
             }
             else
             {
@@ -149,6 +156,12 @@ namespace Microsoft.BotBuilderSamples
 
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is the end.
             return await stepContext.EndDialogAsync(cancellationToken: cancellationToken);
+        }
+
+        private static Task<bool> AgePromptValidatorAsync(PromptValidatorContext<int> promptContext, CancellationToken cancellationToken)
+        {
+            // This condition is our validation rule. You can also change the value at this point.
+            return Task.FromResult(promptContext.Recognized.Value < 150);
         }
     }
 }
