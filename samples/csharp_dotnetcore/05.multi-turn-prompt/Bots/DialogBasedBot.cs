@@ -4,7 +4,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 
@@ -14,10 +13,10 @@ namespace Microsoft.BotBuilderSamples
     {
         private ConversationState _conversationState;
         private UserState _userState;
-        private RootDialog _dialog;
+        private UserProfileDialog _dialog;
         private ILogger<DialogBasedBot> _logger;
 
-        public DialogBasedBot(ConversationState conversationState, UserState userState, RootDialog dialog, ILogger<DialogBasedBot> logger)
+        public DialogBasedBot(ConversationState conversationState, UserState userState, UserProfileDialog dialog, ILogger<DialogBasedBot> logger)
         {
             _conversationState = conversationState;
             _userState = userState;
@@ -27,17 +26,12 @@ namespace Microsoft.BotBuilderSamples
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var dialogSet = new DialogSet(_conversationState.CreateProperty<DialogState>("DialogState"));
-            dialogSet.Add(_dialog);
+            _logger.LogInformation("Running dialog with Message Activity.");
 
-            var dialogContext = await dialogSet.CreateContextAsync(turnContext, cancellationToken);
-            var results = await dialogContext.ContinueDialogAsync(cancellationToken);
+            // Run the Dialog with the new message Activity.
+            await _dialog.Run(turnContext, _conversationState, cancellationToken);
 
-            if (results.Status == DialogTurnStatus.Empty)
-            {
-                await dialogContext.BeginDialogAsync(_dialog.Id, null, cancellationToken);
-            }
-
+            // Save any state changes. The load happened during the execution of the Dialog. 
             await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
             await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
         }

@@ -42,7 +42,7 @@ namespace Microsoft.BotBuilderSamples
             services.AddSingleton<ConversationState>();
 
             // The Dialog that will be run by the bot.
-            services.AddSingleton<RootDialog>();
+            services.AddSingleton<UserProfileDialog>();
 
             // Create the bot as a transient.
             services.AddTransient<IBot, DialogBasedBot>();
