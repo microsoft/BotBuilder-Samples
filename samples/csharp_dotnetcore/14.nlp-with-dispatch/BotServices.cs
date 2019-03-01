@@ -11,8 +11,6 @@ namespace Microsoft.BotBuilderSamples
 {
     public class BotServices : IBotServices
     {
-        private IConfiguration _configuration;
-
         public BotServices(IConfiguration configuration)
         {
             // Read the setting for cognitive services (LUIS, QnA) from the appsettings.json
@@ -34,9 +32,9 @@ namespace Microsoft.BotBuilderSamples
                 var services = configuration.GetSection("BotServices");
                 var luisService = new LuisService
                 {
-                    AppId = services.GetValue<string>("Luis-" + name + "-AppId"),
-                    AuthoringKey = services.GetValue<string>("Luis-" + name + "-Authoringkey"),
-                    Region = services.GetValue<string>("Luis-" + name + "-Region")
+                    AppId = services.GetValue<string>($"Luis-{name}-AppId"),
+                    AuthoringKey = services.GetValue<string>($"Luis-{name}-Authoringkey"),
+                    Region = services.GetValue<string>($"Luis-{name}-Region")
                 };
                 return new LuisRecognizer(new LuisApplication(
                     luisService.AppId,
@@ -56,9 +54,9 @@ namespace Microsoft.BotBuilderSamples
                 var services = configuration.GetSection("BotServices");
                 return new QnAMaker(new QnAMakerEndpoint
                 {
-                    KnowledgeBaseId = services.GetValue<string>("QnA-" + name + "-kbId"),
-                    EndpointKey = services.GetValue<string>("QnA-" + name + "-endpointKey"),
-                    Host = services.GetValue<string>("QnA-" + name + "-hostname")
+                    KnowledgeBaseId = services.GetValue<string>($"QnA-{name}-kbId"),
+                    EndpointKey = services.GetValue<string>($"QnA-{name}-endpointKey"),
+                    Host = services.GetValue<string>($"QnA-{name}-hostname")
                 });
             }
             catch (Exception)
