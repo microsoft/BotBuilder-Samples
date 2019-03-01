@@ -101,7 +101,7 @@ namespace Microsoft.BotBuilderSamples
                 var msg = $"I have your name as {userProfile.Name}.";
                 if (userProfile.Age != -1)
                 {
-                    msg += " And age as ${userProfile.Age}.";
+                    msg += $" And age as {userProfile.Age}.";
                 }
 
                 await stepContext.Context.SendActivityAsync(MessageFactory.Text(msg), cancellationToken);
