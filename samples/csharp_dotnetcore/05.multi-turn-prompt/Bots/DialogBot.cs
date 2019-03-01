@@ -33,7 +33,7 @@ namespace Microsoft.BotBuilderSamples
             _logger.LogInformation("Running dialog with Message Activity.");
 
             // Run the Dialog with the new message Activity.
-            await _dialog.Run(turnContext, _conversationState, cancellationToken);
+            await _dialog.Run(turnContext, _conversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
 
             // Save any state changes. The load happened during the execution of the Dialog. 
             await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
