@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime.Models;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
@@ -31,7 +32,7 @@ namespace Microsoft.BotBuilderSamples
             var topIntent = recognizerResult.GetTopScoringIntent();
             
             // Next, we call the dispatcher with the top intent.
-            await DispatchToTopIntentAsync(turnContext, topIntent.intent, cancellationToken);
+            await DispatchToTopIntentAsync(turnContext, topIntent.intent, recognizerResult, cancellationToken);
         }
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
@@ -47,15 +48,15 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
-        private async Task DispatchToTopIntentAsync(ITurnContext<IMessageActivity> turnContext, string intent, CancellationToken cancellationToken)
+        private async Task DispatchToTopIntentAsync(ITurnContext<IMessageActivity> turnContext, string intent, RecognizerResult recognizerResult, CancellationToken cancellationToken)
         {
             switch (intent)
             {
-                case "l_Home_Automation":
-                    await ProcessHomeAutomationAsync(turnContext, cancellationToken);
+                case "l_HomeAutomation":
+                    await ProcessHomeAutomationAsync(turnContext, recognizerResult.Properties["luisResult"] as LuisResult, cancellationToken);
                     break;
                 case "l_Weather":
-                    await ProcessWeatherAsync(turnContext, cancellationToken);
+                    await ProcessWeatherAsync(turnContext, recognizerResult.Properties["luisResult"] as LuisResult, cancellationToken);
                     break;
                 case "q_sample-qna":
                     await ProcessSampleQnAAsync(turnContext, cancellationToken);
@@ -67,28 +68,35 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
-        private async Task ProcessHomeAutomationAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        private async Task ProcessHomeAutomationAsync(ITurnContext<IMessageActivity> turnContext, LuisResult luisResult, CancellationToken cancellationToken)
         {
             _logger.LogInformation("ProcessHomeAutomationAsync");
 
-            var recognizerResult = await _botServices.HomeAutomation.RecognizeAsync(turnContext, cancellationToken);
-            var topIntent = recognizerResult.GetTopScoringIntent();
-
-            // Add code to call the appropriate Home Automation logic.
-
-            await turnContext.SendActivityAsync(MessageFactory.Text($"HomeAutomation top intent {topIntent.intent}."), cancellationToken);
+            // Retrieve LUIS result for Process Automation.
+            var result = luisResult.ConnectedServiceResult;
+            var topIntent = result.TopScoringIntent.Intent; 
+            
+            await turnContext.SendActivityAsync(MessageFactory.Text($"HomeAutomation top intent {topIntent}."), cancellationToken);
+            await turnContext.SendActivityAsync(MessageFactory.Text($"HomeAutomation intents detected:\n\n{string.Join("\n\n", result.Intents.Select(i => i.Intent))}"), cancellationToken);
+            if (luisResult.Entities.Count > 0)
+            {
+                await turnContext.SendActivityAsync(MessageFactory.Text($"HomeAutomation entities were found in the message:\n\n{string.Join("\n\n", result.Entities.Select(i => i.Entity))}"), cancellationToken);
+            }
         }
 
-        private async Task ProcessWeatherAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        private async Task ProcessWeatherAsync(ITurnContext<IMessageActivity> turnContext, LuisResult luisResult, CancellationToken cancellationToken)
         {
             _logger.LogInformation("ProcessWeatherAsync");
 
-            var recognizerResult = await _botServices.Weather.RecognizeAsync(turnContext, cancellationToken);
-            var topIntent = recognizerResult.GetTopScoringIntent();
-
-            // Add code to call the weather service.
-
-            await turnContext.SendActivityAsync(MessageFactory.Text($"Weather top intent {topIntent.intent}."), cancellationToken);
+            // Retrieve LUIS results for Weather.
+            var result = luisResult.ConnectedServiceResult;
+            var topIntent = result.TopScoringIntent.Intent;
+            await turnContext.SendActivityAsync(MessageFactory.Text($"ProcessWeather top intent {topIntent}."), cancellationToken);
+            await turnContext.SendActivityAsync(MessageFactory.Text($"ProcessWeather Intents detected::\n\n{string.Join("\n\n", result.Intents.Select(i => i.Intent))}"), cancellationToken);
+            if (luisResult.Entities.Count > 0)
+            {
+                await turnContext.SendActivityAsync(MessageFactory.Text($"ProcessWeather entities were found in the message:\n\n{string.Join("\n\n", result.Entities.Select(i => i.Entity))}"), cancellationToken);
+            }
         }
 
         private async Task ProcessSampleQnAAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)

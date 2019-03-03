@@ -8,8 +8,6 @@ namespace Microsoft.BotBuilderSamples
 {
     public interface IBotServices
     {
-        LuisRecognizer HomeAutomation { get; }
-        LuisRecognizer Weather { get; }
         LuisRecognizer Dispatch { get; }
         QnAMaker SampleQnA { get; }
     }

@@ -14,14 +14,10 @@ namespace Microsoft.BotBuilderSamples
         public BotServices(IConfiguration configuration)
         {
             // Read the setting for cognitive services (LUIS, QnA) from the appsettings.json
-            HomeAutomation = ReadLuisRecognizer(configuration, "Home-Automation");
-            Weather = ReadLuisRecognizer(configuration, "Weather");
             Dispatch = ReadLuisRecognizer(configuration, "nlp-with-dispatchDispatch");
             SampleQnA = ReadQnAMaker(configuration, "sample-qna");
         }
 
-        public LuisRecognizer HomeAutomation { get; private set; }
-        public LuisRecognizer Weather { get; private set; }
         public LuisRecognizer Dispatch { get; private set; }
         public QnAMaker SampleQnA { get; private set; }
 
@@ -39,7 +35,9 @@ namespace Microsoft.BotBuilderSamples
                 return new LuisRecognizer(new LuisApplication(
                     luisService.AppId,
                     luisService.AuthoringKey,
-                    luisService.GetEndpoint()));
+                    luisService.GetEndpoint()),
+                    new LuisPredictionOptions { IncludeAllIntents = true, IncludeInstanceData = true },
+                    true);
             }
             catch (Exception)
             {
