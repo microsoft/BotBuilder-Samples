@@ -28,10 +28,13 @@ namespace Microsoft.BotBuilderSamples
             };
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
-            AddDialog(new WaterfallDialog("details", waterfallSteps));
+            AddDialog(new WaterfallDialog("waterfall", waterfallSteps));
             AddDialog(new TextPrompt("name"));
             AddDialog(new NumberPrompt<int>("age", AgePromptValidatorAsync));
             AddDialog(new ConfirmPrompt("confirm"));
+
+            // The initial child Dialog to run.
+            InitialDialogId = "waterfall";
         }
 
         private static async Task<DialogTurnResult> NameStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)

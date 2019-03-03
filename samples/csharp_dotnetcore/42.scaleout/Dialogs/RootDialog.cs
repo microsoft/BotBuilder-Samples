@@ -18,11 +18,13 @@ namespace Microsoft.BotBuilderSamples
         {
             AddDialog(CreateWaterfall());
             AddDialog(new NumberPrompt<long>("number"));
+
+            InitialDialogId = "waterfall";
         }
 
         private static WaterfallDialog CreateWaterfall()
         {
-            return new WaterfallDialog("root-waterfall", new WaterfallStep[] { Step1Async, Step2Async, Step3Async });
+            return new WaterfallDialog("waterfall", new WaterfallStep[] { Step1Async, Step2Async, Step3Async });
         }
 
         private static async Task<DialogTurnResult> Step1Async(WaterfallStepContext stepContext, CancellationToken cancellationToken)
