@@ -8,14 +8,14 @@ using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class BookingDialog : ComponentDialog
+    public class BookingDialog : CancelAndHelpDialog
     {
         public BookingDialog()
-            : base("root")
+            : base(nameof(BookingDialog))
         {
-            AddDialog(new TextPrompt("text"));
-            AddDialog(new ConfirmPrompt("confirm"));
-            AddDialog(new WaterfallDialog("waterfall", new WaterfallStep[]
+            AddDialog(new TextPrompt(nameof(TextPrompt)));
+            AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
+            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 DestinationStepAsync,
                 OriginStepAsync,
@@ -25,48 +25,75 @@ namespace Microsoft.BotBuilderSamples
             }));
 
             // The initial child Dialog to run.
-            InitialDialogId = "waterfall";
+            InitialDialogId = nameof(WaterfallDialog);
         }
 
         private async Task<DialogTurnResult> DestinationStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            return await stepContext.PromptAsync("text", new PromptOptions { Prompt = MessageFactory.Text("enter destination") }, cancellationToken);
+            var bookingDetails = (BookingDetails)stepContext.Options;
+
+            if (bookingDetails.Destination == null)
+            {
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("enter destination") }, cancellationToken);
+            }
+            else
+            {
+                return await stepContext.NextAsync(bookingDetails.Destination);
+            }
         }
 
         private async Task<DialogTurnResult> OriginStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var desination = stepContext.Result;
+            var bookingDetails = (BookingDetails)stepContext.Options;
 
-            stepContext.Values["desination"] = desination;
+            bookingDetails.Destination = (string)stepContext.Result;
 
-            return await stepContext.PromptAsync("text", new PromptOptions { Prompt = MessageFactory.Text("enter origin") }, cancellationToken);
+            if (bookingDetails.Origin == null)
+            {
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("enter origin") }, cancellationToken);
+            }
+            else
+            {
+                return await stepContext.NextAsync(bookingDetails.Origin);
+            }
         }
         private async Task<DialogTurnResult> TravelDateStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var origin = stepContext.Result;
+            var bookingDetails = (BookingDetails)stepContext.Options;
 
-            stepContext.Values["origin"] = origin;
+            bookingDetails.Origin = (string)stepContext.Result;
 
-            return await stepContext.PromptAsync("text", new PromptOptions { Prompt = MessageFactory.Text("enter travel date") }, cancellationToken);
+            if (bookingDetails.TravelDate == null)
+            {
+                // TODO: we should use a DateTime Prompt here
+
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("enter travel date") }, cancellationToken);
+            }
+            else
+            {
+                return await stepContext.NextAsync(bookingDetails.TravelDate);
+            }
         }
 
         private async Task<DialogTurnResult> ConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var travelDate = stepContext.Result;
+            var bookingDetails = (BookingDetails)stepContext.Options;
 
-            stepContext.Values["travelDate"] = travelDate;
+            bookingDetails.TravelDate = (string)stepContext.Result;
 
-            return await stepContext.PromptAsync("confirm", new PromptOptions { Prompt = MessageFactory.Text("please confirm") }, cancellationToken);
+            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = MessageFactory.Text("please confirm") }, cancellationToken);
         }
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var msg = $"I have you booked to {stepContext.Values["desination"]} from {stepContext.Values["origin"]} on {stepContext.Values["travelDate"]}";
+            var bookingDetails = (BookingDetails)stepContext.Options;
+
+            var msg = $"I have you booked to {bookingDetails.Destination} from {bookingDetails.Origin} on {bookingDetails.TravelDate}";
 
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(msg), cancellationToken);
 
             // Remember to call EndAsync to indicate to the runtime that this is the end of our waterfall.
-            return await stepContext.EndDialogAsync();
+            return await stepContext.EndDialogAsync(bookingDetails);
         }
     }
 }
