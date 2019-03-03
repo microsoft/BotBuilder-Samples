@@ -9,17 +9,17 @@
     },
     {
       "type": "luis",
-      "id": "7",
-      "name": "Home Automation"
+      "id": "HomeAutomation",
+      "name": "HomeAutomation"
     },
     {
       "type": "luis",
-      "id": "50",
+      "id": "Weather",
       "name": "Weather"
     },
     {
       "type": "qna",
-      "id": "201",
+      "id": "sample-qna",
       "name": "sample-qna"
     },
     {
@@ -27,10 +27,16 @@
       "id": "161",
       "name": "nlp-with-dispatchDispatch",
       "serviceIds": [
-        "7",
-        "50",
-        "201"
+        "Home Automation",
+        "Weather",
+        "sample-qna"
       ]
+    },
+    {
+      "type": "endpoint",
+      "id": "2",
+      "name": "production",
+      "url": "https://your-bot-url.azurewebsites.net/api/messages"
     },
     {
       "type": "abs",

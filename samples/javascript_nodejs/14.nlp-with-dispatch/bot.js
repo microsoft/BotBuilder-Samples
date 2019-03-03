@@ -10,7 +10,7 @@ const { QnA } = require('./qna');
 const DISPATCH_CONFIG = 'nlp-with-dispatchDispatch';
 
 // LUIS intent names. you can get this from the dispatch.lu file.
-const HOME_AUTOMATION_INTENT = 'l_Home_Automation';
+const HOME_AUTOMATION_INTENT = 'l_HomeAutomation';
 const WEATHER_INTENT = 'l_Weather';
 const NONE_INTENT = 'None';
 const QNA_INTENT = 'q_sample-qna';
@@ -27,8 +27,8 @@ class DispatchBot {
         if (!userState) throw new Error(`Missing parameter. User state parameter is missing`);
         if (!botConfig) throw new Error(`Missing parameter. Bot configuration parameter is missing`);
 
-        this.homeAutomationDialog = new HomeAutomation(conversationState, userState, botConfig);
-        this.weatherDialog = new Weather(botConfig);
+        this.homeAutomationDialog = new HomeAutomation(conversationState, userState);
+        this.weatherDialog = new Weather();
         this.qnaDialog = new QnA(botConfig);
 
         this.conversationState = conversationState;
@@ -38,13 +38,18 @@ class DispatchBot {
         const dispatchServiceName = botConfig.name + '_' + DISPATCH_CONFIG;
         const dispatchConfig = botConfig.findServiceByNameOrId(dispatchServiceName);
         if (!dispatchConfig || !dispatchConfig.appId) throw new Error(`No dispatch model found in .bot file. Please ensure you have dispatch model created and available in the .bot file. See readme.md for additional information\n`);
+
         this.dispatchRecognizer = new LuisRecognizer({
             applicationId: dispatchConfig.appId,
             endpoint: dispatchConfig.getEndpoint(),
             // CAUTION: Authoring key is used in this example as it is appropriate for prototyping.
             // When implimenting for deployment/production, assign and use a subscription key instead of an authoring key.
-            endpointKey: dispatchConfig.authoringKey
-        });
+            endpointKey: dispatchConfig.authoringKey,
+
+        }, {
+            includeAllIntents: true,
+            includeInstanceData: true
+        }, true);
     }
 
     /**
@@ -60,12 +65,13 @@ class DispatchBot {
             // call the dispatch LUIS model to get results.
             const dispatchResults = await this.dispatchRecognizer.recognize(turnContext);
             const dispatchTopIntent = LuisRecognizer.topIntent(dispatchResults);
+
             switch (dispatchTopIntent) {
             case HOME_AUTOMATION_INTENT:
-                await this.homeAutomationDialog.onTurn(turnContext);
+                await this.homeAutomationDialog.onTurn(turnContext, dispatchResults);
                 break;
             case WEATHER_INTENT:
-                await this.weatherDialog.onTurn(turnContext);
+                await this.weatherDialog.onTurn(turnContext, dispatchResults);
                 break;
             case QNA_INTENT:
                 await this.qnaDialog.onTurn(turnContext);

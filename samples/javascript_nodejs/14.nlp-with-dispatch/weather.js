@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 const { LuisRecognizer } = require('botbuilder-ai');
-
+const _ = require('lodash');
 // LUIS intent names. you can get this from the .lu file.
-const GET_CONDITION_INTENT = 'Get_Weather_Condition';
-const GET_FORECAST_INTENT = 'Get_Weather_Forecast';
+const GET_CONDITION_INTENT = 'Get Weather Condition';
+const GET_FORECAST_INTENT = 'Get Weather Forecast';
 const NONE_INTENT = 'None';
 
 // LUIS entity names.
@@ -15,38 +15,26 @@ const LOCATION_PATTERNANY_ENTITY = 'Location_PatternAny';
 const WEATHER_LUIS_CONFIGURATION = 'Weather';
 
 class Weather {
-    /**
-     *
-     * @param {BotConfiguration} bot configuration from .bot file
-     */
-    constructor(botConfig) {
-        if (!botConfig) throw new Error('Need bot config');
-
-        // add recognizers
-        const luisWeatherServiceName = botConfig.name + '_' + WEATHER_LUIS_CONFIGURATION;
-        const luisConfig = botConfig.findServiceByNameOrId(luisWeatherServiceName);
-        if (!luisConfig || !luisConfig.appId) throw new Error(`Weather LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
-        this.luisRecognizer = new LuisRecognizer({
-            applicationId: luisConfig.appId,
-            azureRegion: luisConfig.region,
-            // CAUTION: Authoring key is used in this example as it is appropriate for prototyping.
-            // When implimenting for deployment/production, assign and use a subscription key instead of an authoring key.
-            endpointKey: luisConfig.authoringKey
-        });
+    constructor() {
     }
+
     /**
      *
      * @param {TurnContext} turn context object
+     * @param {LuisResult} dispatchResults Initial recognizer result from Dispatch
      */
-    async onTurn(turnContext) {
-        // Call weather LUIS model.
-        const weatherResults = await this.luisRecognizer.recognize(turnContext);
-        const topWeatherIntent = LuisRecognizer.topIntent(weatherResults);
+    async onTurn(turnContext, dispatchResults) {
+        const weatherResults = dispatchResults.luisResult.connectedServiceResult
+        const topWeatherIntent = weatherResults.topScoringIntent;
+        
         // Get location entity if available.
-        const locationEntity = (LOCATION_ENTITY in weatherResults.entities) ? weatherResults.entities[LOCATION_ENTITY][0] : undefined;
-        const locationPatternAnyEntity = (LOCATION_PATTERNANY_ENTITY in weatherResults.entities) ? weatherResults.entities[LOCATION_PATTERNANY_ENTITY][0] : undefined;
-        // Depending on intent, call "Turn On" or "Turn Off" or return unknown.
-        switch (topWeatherIntent) {
+        const location = _.filter(weatherResults.entities, x => x.type === LOCATION_ENTITY);
+        const locationEntity = (location == null) ? null : location[0].entity;
+        const locationPatternAny = _.filter(weatherResults.entities, x => x.type === LOCATION_PATTERNANY_ENTITY);        
+        const locationPatternAnyEntity = (locationPatternAny == null) ? null : locationPatternAny[0].entity;
+
+        // Depending on intent, call "Get Forecast" or "Get Conditions" or return unknown.
+        switch (topWeatherIntent.intent) {
         case GET_CONDITION_INTENT:
             await turnContext.sendActivity(`You asked for current weather condition in Location = ` + (locationEntity || locationPatternAnyEntity));
             break;
@@ -58,6 +46,7 @@ class Weather {
             await turnContext.sendActivity(`Weather dialog cannot fulfill this request.`);
         }
     }
+
 };
 
 module.exports.Weather = Weather;
