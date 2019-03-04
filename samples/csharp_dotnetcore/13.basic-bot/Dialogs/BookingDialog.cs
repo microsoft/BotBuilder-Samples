@@ -34,7 +34,7 @@ namespace Microsoft.BotBuilderSamples
 
             if (bookingDetails.Destination == null)
             {
-                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("enter destination") }, cancellationToken);
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Where would you like to travel to?") }, cancellationToken);
             }
             else
             {
@@ -50,7 +50,7 @@ namespace Microsoft.BotBuilderSamples
 
             if (bookingDetails.Origin == null)
             {
-                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("enter origin") }, cancellationToken);
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Where are you traveling from?") }, cancellationToken);
             }
             else
             {
@@ -67,7 +67,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 // TODO: we should use a DateTime Prompt here
 
-                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("enter travel date") }, cancellationToken);
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("When would you like to travel?") }, cancellationToken);
             }
             else
             {
@@ -81,19 +81,22 @@ namespace Microsoft.BotBuilderSamples
 
             bookingDetails.TravelDate = (string)stepContext.Result;
 
-            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = MessageFactory.Text("please confirm") }, cancellationToken);
+            var msg = $"Please confirm, I have you traveling to: {bookingDetails.Destination} from: {bookingDetails.Origin} on: {bookingDetails.TravelDate}";
+
+            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = MessageFactory.Text(msg) }, cancellationToken);
         }
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var bookingDetails = (BookingDetails)stepContext.Options;
-
-            var msg = $"I have you booked to {bookingDetails.Destination} from {bookingDetails.Origin} on {bookingDetails.TravelDate}";
-
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text(msg), cancellationToken);
-
-            // Remember to call EndAsync to indicate to the runtime that this is the end of our waterfall.
-            return await stepContext.EndDialogAsync(bookingDetails);
+            if ((bool)stepContext.Result == true)
+            {
+                var bookingDetails = (BookingDetails)stepContext.Options;
+                return await stepContext.EndDialogAsync(bookingDetails);
+            }
+            else
+            {
+                return await stepContext.EndDialogAsync(null);
+            }
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Microsoft.BotBuilderSamples
             services.AddSingleton<IStorage, MemoryStorage>();
 
             // Create the User state. (Used in this bot's Dialog implementation.)
-            services.AddSingleton<UserState>();
+            //services.AddSingleton<UserState>();
 
             // Create the Conversation state. (Used by the Dialog system itself.)
             services.AddSingleton<ConversationState>();
