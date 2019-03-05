@@ -40,10 +40,6 @@
         {
           "canonicalForm": "Paris",
           "list": [
-            "paris",
-            "paris",
-            "paris",
-            "paris",
             "paris"
           ]
         },
@@ -62,7 +58,7 @@
         {
           "canonicalForm": "New York",
           "list": [
-            "new"
+            "new york"
           ]
         }
       ],

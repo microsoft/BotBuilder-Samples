@@ -16,32 +16,44 @@ namespace Microsoft.BotBuilderSamples
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken)
         {
-            await InterceptHelpAndCancel(innerDc, cancellationToken);
+            var result = await InterruptAsync(innerDc, cancellationToken);
+            if (result != null)
+            {
+                return result;
+            }
 
             return await base.OnBeginDialogAsync(innerDc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken)
         {
-            await InterceptHelpAndCancel(innerDc, cancellationToken);
+            var result = await InterruptAsync(innerDc, cancellationToken);
+            if (result != null)
+            {
+                return result;
+            }
 
             return await base.OnContinueDialogAsync(innerDc, cancellationToken);
         }
 
-        private async Task InterceptHelpAndCancel(DialogContext innerDc, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> InterruptAsync(DialogContext innerDc, CancellationToken cancellationToken)
         {
             var text = innerDc.Context.Activity.Text.ToLowerInvariant();
 
             switch (text)
             {
                 case "help":
-                    await innerDc.Context.SendActivityAsync($"Show Help");
-                    break;
+                case "?":
+                    await innerDc.Context.SendActivityAsync($"Show Help...");
+                    return new DialogTurnResult(DialogTurnStatus.Waiting);
+
                 case "cancel":
+                case "quit":
                     await innerDc.Context.SendActivityAsync($"Cancelling");
-                    await innerDc.CancelAllDialogsAsync();
-                    break;
+                    return await innerDc.CancelAllDialogsAsync();
             }
+
+            return null;
         }
     }
 }
