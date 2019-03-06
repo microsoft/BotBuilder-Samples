@@ -24,9 +24,9 @@ namespace Microsoft.BotBuilderSamples
                 // Create the LUIS client from configuration.
                 var luisService = new LuisService
                 {
-                    AppId = configuration["BotServices:Luis-Booking-AppId"],
-                    AuthoringKey = configuration["BotServices:Luis-Booking-AuthoringKey"],
-                    Region = configuration["BotServices:Luis-Booking-Region"],
+                    AppId = configuration["Luis-Booking-AppId"],
+                    AuthoringKey = configuration["Luis-Booking-AuthoringKey"],
+                    Region = configuration["Luis-Booking-Region"],
                 };
 
                 var recognizer = new LuisRecognizer(new LuisApplication(
