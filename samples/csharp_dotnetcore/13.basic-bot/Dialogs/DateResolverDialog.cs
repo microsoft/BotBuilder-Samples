@@ -58,7 +58,7 @@ namespace Microsoft.BotBuilderSamples
                 }
                 else
                 {
-                    return await stepContext.NextAsync(new DateTimeResolution { Timex = timex });
+                    return await stepContext.NextAsync(new List<DateTimeResolution> { new DateTimeResolution { Timex = timex } });
                 }
             }
         }
