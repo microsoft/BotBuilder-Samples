@@ -15,8 +15,8 @@ namespace Microsoft.BotBuilderSamples
     [ApiController]
     public class BotController : ControllerBase
     {
-        private IBotFrameworkHttpAdapter _adapter;
-        private IBot _bot;
+        private readonly IBotFrameworkHttpAdapter _adapter;
+        private readonly IBot _bot;
 
         public BotController(IBotFrameworkHttpAdapter adapter, IBot bot)
         {

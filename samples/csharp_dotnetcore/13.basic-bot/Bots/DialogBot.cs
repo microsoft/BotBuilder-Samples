@@ -17,10 +17,10 @@ namespace Microsoft.BotBuilderSamples
     // and the requirement is that all BotState objects are saved at the end of a turn.
     public class DialogBot<T> : ActivityHandler where T : Dialog 
     {
-        private BotState _conversationState;
-        private BotState _userState;
-        private Dialog _dialog;
-        private ILogger _logger;
+        private readonly Dialog _dialog;
+        protected readonly BotState _conversationState;
+        protected readonly BotState _userState;
+        protected readonly ILogger _logger;
 
         public DialogBot(ConversationState conversationState, UserState userState, T dialog, ILogger<DialogBot<T>> logger)
         {
