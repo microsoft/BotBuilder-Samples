@@ -10,9 +10,9 @@
     "defaultName": "CoreBot",
     "groupIdentity": "Microsoft.BotFramework.CSharp.CoreBot",
     "identity": "Microsoft.BotFramework.CSharp.CoreBot",
-    "name": "Bot Framework Core Bot (v0.3.0)",
+    "name": "Bot Framework Core Bot (v0.3.1)",
     "preferNameDirectory": true,
-    "sourceName": "Microsoft.Bot.Builder.Samples.CoreBot",
+    "sourceName": "Microsoft.BotFramework.CoreBot",
     "shortName": "corebot",
     "tags": {
       "language": "C#",
@@ -24,7 +24,7 @@
         "type": "generated",
         "generator": "constant",
         "parameters": {
-          "value": "v0.3.0"
+          "value": "v0.3.1"
         },
         "replaces": "vX.X.X"
       },

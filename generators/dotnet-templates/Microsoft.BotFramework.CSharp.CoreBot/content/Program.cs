@@ -5,7 +5,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.Bot.Builder.Samples.CoreBot
+namespace Microsoft.BotFramework.CoreBot
 {
     public class Program
     {

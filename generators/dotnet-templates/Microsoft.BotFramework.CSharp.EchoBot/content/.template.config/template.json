@@ -12,7 +12,7 @@
   "identity": "Microsoft.BotFramework.CSharp.EchoBot",
   "name": "Bot Framework Echo Bot (v0.3.0)",
   "preferNameDirectory": true,
-  "sourceName": "Microsoft.Bot.Builder.Samples.EchoBot",
+  "sourceName": "Microsoft.BotFramework.EchoBot",
   "shortName": "echobot",
   "tags": {
     "language": "C#",

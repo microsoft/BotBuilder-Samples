@@ -4,7 +4,7 @@
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 
-namespace Microsoft.Bot.Builder.Samples.EchoBot
+namespace Microsoft.BotFramework.EchoBot
 {
     public class ConfigurationCredentialProvider : SimpleCredentialProvider
     {
