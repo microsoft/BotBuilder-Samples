@@ -1,20 +1,20 @@
-﻿# echobot sample
+﻿# __PROJECT_NAME__
 Bot Framework v4 echo bot sample.
 
 This bot has been created using [Bot Framework][1], it shows how to create a simple bot that accepts input from the user and echoes it back.
 
 ## Prerequisites
-- [.NET Core SDK][4] version 2.2 or higher
+- [.NET Core SDK][4] version __NETCORE_VERSION__
 	```bash
 	# determine dotnet version
 	dotnet --version
 	```
 
 # To try this sample
-- In a terminal, navigate to `<your_project_folder>/EchoBot`
+- In a terminal, navigate to `__PROJECT_NAME__`
     ```bash
     # change into project folder
-	cd EchoBot
+	cd __PROJECT_NAME__
     ```
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
@@ -27,20 +27,19 @@ This bot has been created using [Bot Framework][1], it shows how to create a sim
 	B) Or from Visual Studio
 	- Launch Visual Studio
 	- File -> Open -> Project/Solution
-	- Navigate to `<your_project_folder>/EchoBot` folder
-	- Select `EchoBot.csproj` file
+	- Navigate to `__PROJECT_NAME__` folder
+	- Select `__PROJECT_NAME__.csproj` file
 	- Press `F5` to run the project
 
 # Testing the bot using Bot Framework Emulator **v4**
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
 ## Connect to the bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration
-- Navigate to `<your_project_folder>/EchoBot` folder
-- Select `echobot.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Deploy the bot to Azure
 ## Prerequisites
@@ -86,7 +85,7 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
 
-#### Generated with `dotnet new echobot` vX.X.X
+#### Generated using `dotnet new echobot` vX.X.X
 
 
 [1]: https://dev.botframework.com
