@@ -9,7 +9,7 @@ namespace Microsoft.BotBuilderSamples
     public class ConfigurationCredentialProvider : SimpleCredentialProvider
     {
         public ConfigurationCredentialProvider(IConfiguration configuration)
-            : base(configuration["BotFramework:AppId"], configuration["BotFramework:Password"])
+            : base(configuration["MicrosoftAppId"], configuration["MicrosoftAppPassword"])
         {
         }
     }
