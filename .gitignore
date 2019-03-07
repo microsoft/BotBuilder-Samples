@@ -275,3 +275,4 @@ generators/generator-botbuilder/.npmrc
 /samples/javascript_es6/01.a.browser-echo/dist
 /generators/generator-botbuilder/package-lock.json
 package-lock.json
+NuGet.Config
