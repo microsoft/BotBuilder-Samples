@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/bin/Debug/netcoreapp2.2/CoreBot.dll",
+            "program": "${workspaceFolder}/bin/Debug/netcoreapp__NETCORE_VERSION__/__PROJECT_NAME__.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,

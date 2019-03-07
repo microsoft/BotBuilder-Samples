@@ -1,4 +1,4 @@
-# corebot sample
+# __PROJECT_NAME__
 Bot Framework v4 core bot sample.
 
 This bot has been created using [Bot Framework][1], it shows how to:
@@ -7,29 +7,14 @@ This bot has been created using [Bot Framework][1], it shows how to:
 - Handle user interruptions for such things as `Help` or `Cancel`
 - Prompt for and validate requests for information from the user
 
-This sample requires prerequisites in order to run.
+This sample **requires** prerequisites in order to run.
 - [Required Prerequisites][41]
 
 # To try this sample
-- In a terminal, navigate to `<your_project_folder>/CoreBot`
+- In a terminal, navigate to `__PROJECT_NAME__`
     ```bash
     # change into project folder
-	cd <your_project_folder>/CoreBot
-    ```
-- Setup LUIS
-
-    Assuming prerequisites have been installed:
-    ```bash
-    # log into Azure
-    az login
-    ```
-    ```bash
-    # set you Azure subscription
-    az account set --subscription "<azure-subscription>"
-    ```
-    ```bash
-    # Create LUIS service application
-    msbot clone services --name "<your_project_name>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "CSharp" --folder deploymentScripts/msbotClone --verbose
+	cd __PROJECT_NAME__
     ```
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
@@ -42,20 +27,19 @@ This sample requires prerequisites in order to run.
 	B) Or from Visual Studio
 	- Launch Visual Studio
 	- File -> Open -> Project/Solution
-	- Navigate to `<your_project_folder>/CoreBot` folder
-	- Select `CoreBot.csproj` file
+	- Navigate to `__PROJECT_NAME__` folder
+	- Select `__PROJECT_NAME__.csproj` file
 	- Press `F5` to run the project
 
 # Testing the bot using Bot Framework Emulator **v4**
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
 ## Connect to the bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration
-- Navigate to `<your_project_folder>/CoreBot` folder
-- Select `corebot.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Deploy the bot to Azure
 ## Prerequisites
