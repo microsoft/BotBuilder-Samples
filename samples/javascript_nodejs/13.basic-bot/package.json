@@ -1,7 +1,7 @@
 {
-    "name": "basic-bot",
+    "name": "core-bot",
     "version": "1.0.0",
-    "description": "A basic bot that demonstrates core AI capabilities",
+    "description": "A bot that demonstrates core AI capabilities",
     "author": "Microsoft",
     "license": "MIT",
     "main": "index.js",
