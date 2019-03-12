@@ -14,8 +14,8 @@
         "watch": "node_modules/.bin/nodemon --watch ./src -e ts --exec \"npm run start\""
     },
     "dependencies": {
-        "botbuilder": "^4.2.0",
-        "botframework-config": "^4.2.0",
+        "botbuilder": "^4.3.0",
+        "botframework-config": "^4.3.0",
         "dotenv": "^6.1.0",
         "replace": "^1.0.0",
         "restify": "^7.2.3"

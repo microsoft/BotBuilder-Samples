@@ -4,7 +4,7 @@
 This bot has been created using [Bot Framework][1], it shows how to create a simple bot that accepts input from the user and echoes it back.
 
 ## Prerequisites
-- [Node.js][4] version 8.5 or higher
+- [Node.js][4] version 10.14.1 or higher
     ```bash
     # determine node version
     node --version
