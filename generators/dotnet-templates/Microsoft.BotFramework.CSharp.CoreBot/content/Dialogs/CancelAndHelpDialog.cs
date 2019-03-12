@@ -4,6 +4,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotFramework.CoreBot
 {
@@ -38,19 +39,22 @@ namespace Microsoft.BotFramework.CoreBot
 
         private async Task<DialogTurnResult> InterruptAsync(DialogContext innerDc, CancellationToken cancellationToken)
         {
-            var text = innerDc.Context.Activity.Text.ToLowerInvariant();
-
-            switch (text)
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
             {
-                case "help":
-                case "?":
-                    await innerDc.Context.SendActivityAsync($"Show Help...");
-                    return new DialogTurnResult(DialogTurnStatus.Waiting);
+                var text = innerDc.Context.Activity.Text.ToLowerInvariant();
 
-                case "cancel":
-                case "quit":
-                    await innerDc.Context.SendActivityAsync($"Cancelling");
-                    return await innerDc.CancelAllDialogsAsync();
+                switch (text)
+                {
+                    case "help":
+                    case "?":
+                        await innerDc.Context.SendActivityAsync($"Show Help...");
+                        return new DialogTurnResult(DialogTurnStatus.Waiting);
+
+                    case "cancel":
+                    case "quit":
+                        await innerDc.Context.SendActivityAsync($"Cancelling");
+                        return await innerDc.CancelAllDialogsAsync();
+                }
             }
 
             return null;
