@@ -4,17 +4,17 @@ Bot Framework v4 empty bot sample.
 This bot has been created using [Bot Framework][1], it shows the minimum code required to build a bot.
 
 ## Prerequisites
-- [.NET Core SDK][4] version 2.2 or higher
+- [.NET Core SDK][4] version __NETCORE_VERSION__
 	```bash
 	# determine dotnet version
 	dotnet --version
 	```
 
 # To try this sample
-- In a terminal, navigate to `<your_project_folder>/EmptyBot`
+- In a terminal, navigate to `__PROJECT_NAME__`
     ```bash
     # change into project folder
-	cd <your_project_folder>/EmptyBot
+	cd __PROJECT_NAME__
     ```
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
@@ -27,8 +27,8 @@ This bot has been created using [Bot Framework][1], it shows the minimum code re
 	B) Or from Visual Studio
 	- Launch Visual Studio
 	- File -> Open -> Project/Solution
-	- Navigate to `<your_project_folder>/EmptyBot` folder
-	- Select `EmptyBot.csproj` file
+	- Navigate to `__PROJECT_NAME__` folder
+	- Select `__PROJECT_NAME__.csproj` file
 	- Press `F5` to run the project
 
 # Testing the bot using Bot Framework Emulator **v4**
@@ -38,9 +38,8 @@ This bot has been created using [Bot Framework][1], it shows the minimum code re
 
 ## Connect to the bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration
-- Navigate to `<your_project_folder>/EmptyBot` folder
-- Select `emptybot.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Deploy the bot to Azure
 ## Prerequisites

@@ -1,4 +1,4 @@
-    // Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System.Threading;
@@ -17,7 +17,7 @@ namespace Microsoft.BotFramework.CoreBot
     // and the requirement is that all BotState objects are saved at the end of a turn.
     public class DialogBot<T> : ActivityHandler where T : Dialog
     {
-        private readonly Dialog _dialog;
+        protected readonly Dialog _dialog;
         protected readonly BotState _conversationState;
         protected readonly BotState _userState;
         protected readonly ILogger _logger;
@@ -30,16 +30,21 @@ namespace Microsoft.BotFramework.CoreBot
             _logger = logger;
         }
 
+        public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            await base.OnTurnAsync(turnContext, cancellationToken);
+
+            // Save any state changes that might have occured during the turn.
+            await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
+            await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
+        }
+
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Running dialog with Message Activity.");
 
             // Run the Dialog with the new message Activity.
             await _dialog.Run(turnContext, _conversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
-
-            // Save any state changes. The load happened during the execution of the Dialog.
-            await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
-            await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
     }
 }

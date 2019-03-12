@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -21,18 +20,14 @@ namespace Microsoft.BotBuilderSamples
 
             try
             {
-                // Create the LUIS client from configuration.
-                var luisService = new LuisService
-                {
-                    AppId = configuration["Luis-Booking-AppId"],
-                    AuthoringKey = configuration["Luis-Booking-AuthoringKey"],
-                    Region = configuration["Luis-Booking-Region"],
-                };
+                // Create the LUIS settings from configuration.
+                var luisApplication = new LuisApplication(
+                    configuration["LuisAppId"],
+                    configuration["LuisAPIKey"],
+                    "https://" + configuration["LuisAPIHostName"]
+                );
 
-                var recognizer = new LuisRecognizer(new LuisApplication(
-                    luisService.AppId,
-                    luisService.AuthoringKey,
-                    luisService.GetEndpoint()));
+                var recognizer = new LuisRecognizer(luisApplication);
 
                 // The actual call to LUIS
                 var recognizerResult = await recognizer.RecognizeAsync(turnContext, cancellationToken);

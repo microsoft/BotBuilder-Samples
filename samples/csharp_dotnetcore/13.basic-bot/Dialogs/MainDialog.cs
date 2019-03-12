@@ -35,7 +35,6 @@ namespace Microsoft.BotBuilderSamples
             // The initial child Dialog to run.
             InitialDialogId = nameof(WaterfallDialog);
         }
-        protected IStatePropertyAccessor<BookingDetails> BookingDetailsAccessor { get; set; }
 
         private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {

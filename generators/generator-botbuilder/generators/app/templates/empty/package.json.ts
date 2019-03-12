@@ -18,14 +18,14 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "^4.2.0",
-        "replace": "^1.0.0",
-        "restify": "^7.2.3"
+        "botbuilder": "^4.3.0",
+        "replace": "^1.0.1",
+        "restify": "^7.7.0"
     },
     "devDependencies": {
-        "@types/restify": "7.2.6",
-        "nodemon": "^1.18.7",
-        "tslint": "^5.11.0",
-        "typescript": "^3.1.6"
+        "@types/restify": "7.2.7",
+        "nodemon": "^1.18.10",
+        "tslint": "^5.12.1",
+        "typescript": "^3.3.3"
     }
 }
