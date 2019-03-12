@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -39,16 +38,12 @@ namespace Microsoft.BotBuilderSamples
                                               to user, explaining what your bot can do. In this example, the bot
                                               handles 'hello', 'hi', 'help' and 'intro. Try it now, type 'hi'";
 
-        // The bot state accessor object. Use this to access specific state properties.
-        private WelcomeUserStateAccessors _welcomeUserStateAccessors;
-        private UserState _userState;
+        private BotState _userState;
     
         // Initializes a new instance of the "WelcomeUserBot" class. 
         public WelcomeUserBot(UserState userState)
         {
             _userState = userState;
-            _welcomeUserStateAccessors = new WelcomeUserStateAccessors(userState);
-            _welcomeUserStateAccessors.WelcomeUserState = _userState.CreateProperty<WelcomeUserState>(WelcomeUserStateAccessors.WelcomeUserName); 
         }
       
 
@@ -72,16 +67,12 @@ namespace Microsoft.BotBuilderSamples
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var didBotWelcomeUser = await _welcomeUserStateAccessors.WelcomeUserState.GetAsync(turnContext, () => new WelcomeUserState());
-
-            WelcomeUserState welcomeUserState = await _welcomeUserStateAccessors.WelcomeUserState.GetAsync(turnContext, () => new WelcomeUserState());
+            var welcomeUserStateAccessor = _userState.CreateProperty<WelcomeUserState>(nameof(WelcomeUserState));
+            var didBotWelcomeUser = await welcomeUserStateAccessor.GetAsync(turnContext, () => new WelcomeUserState());
 
             if (didBotWelcomeUser.DidBotWelcomeUser == false)
             {
                 didBotWelcomeUser.DidBotWelcomeUser = true;
-                // Update user state flag to reflect bot handled first user interaction.
-                await _welcomeUserStateAccessors.WelcomeUserState.SetAsync(turnContext, didBotWelcomeUser);
-                await _welcomeUserStateAccessors.UserState.SaveChangesAsync(turnContext);
 
                 // the channel should sends the user name in the 'From' object
                 var userName = turnContext.Activity.From.Name;
@@ -108,7 +99,9 @@ namespace Microsoft.BotBuilderSamples
                         break;
                 }
             }
-            await _welcomeUserStateAccessors.UserState.SaveChangesAsync(turnContext);
+
+            // Save any state changes.
+            await _userState.SaveChangesAsync(turnContext);
         }
       
         private static async Task SendIntroCardAsync(ITurnContext turnContext, CancellationToken cancellationToken)
