@@ -3,44 +3,31 @@
 
 using System;
 using Microsoft.Bot.Builder;
-
+using Microsoft.Extensions.Logging;
 namespace Microsoft.BotBuilderSamples
 {
-    /// <summary>
-    /// This class holds a set of accessors (to specific properties) that the bot uses to access
-    /// specific data. These are created as singleton via DI.
-    /// </summary>
+    // This class holds a set of accessors (to specific properties) that the bot uses to access
+    // specific data. These are created as singleton via DI.
     public class WelcomeUserStateAccessors
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WelcomeUserStateAccessors"/> class.
-        /// Contains the <see cref="UserState"/> and associated <see cref="IStatePropertyAccessor{T}"/>.
-        /// </summary>
-        /// <param name="userState">The state object that stores the counter.</param>
+        // Initializes a new instance of the "WelcomeUserStateAccessors class.
+        // Contains the "UserState" and associated "IStatePropertyAccessor{T}".     
+        // "userState" is the state object that stores the user data.
         public WelcomeUserStateAccessors(UserState userState)
-        {
-            UserState = userState ?? throw new ArgumentNullException(nameof(userState));
+        {  
+               UserState = userState ?? throw new ArgumentNullException(nameof(userState));     
         }
 
-        /// <summary>
-        /// Gets the <see cref="IStatePropertyAccessor{T}"/> name used for the <see cref="BotBuilderSamples.WelcomeUserState"/> accessor.
-        /// </summary>
-        /// <remarks>Accessors require a unique name.</remarks>
-        /// <value>The accessor name for the WelcomeUser state.</value>
+        // Gets the "IStatePropertyAccessor{T}" name used for the "BotBuilderSamples.WelcomeUserState" accessor.
+        // Accessors require a unique name.
+        // The value is the accessor name for the WelcomeUser state
         public static string WelcomeUserName { get; } = $"{nameof(WelcomeUserStateAccessors)}.WelcomeUserState";
-
-        /// <summary>
-        /// Gets or sets the <see cref="IStatePropertyAccessor{T}"/> for DidBotWelcome.
-        /// </summary>
-        /// <value>
-        /// The accessor stores if the bot has welcomed the user or not.
-        /// </value>
+     
+        // Gets or sets the "IStatePropertyAccessor{T}" for DidBotWelcome.
+        // The accessor stores if the bot has welcomed the user or not.
         public IStatePropertyAccessor<WelcomeUserState> WelcomeUserState { get; set; }
 
-        /// <summary>
-        /// Gets the <see cref="UserState"/> object for the conversation.
-        /// </summary>
-        /// <value>The <see cref="UserState"/> object.</value>
+        // Gets the "UserState" object for the conversation.
         public UserState UserState { get; }
     }
 }
