@@ -3,17 +3,21 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class CancelAndHelpDialog : ComponentDialog
+    public class LogoutDialog : ComponentDialog
     {
-        public CancelAndHelpDialog(string id)
+        public LogoutDialog(string id, string connectionName)
             : base(id)
         {
+            ConnectionName = connectionName;
         }
+
+        protected string ConnectionName { get; private set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken)
         {
@@ -43,20 +47,15 @@ namespace Microsoft.BotBuilderSamples
             {
                 var text = innerDc.Context.Activity.Text.ToLowerInvariant();
 
-                switch (text)
+                if (text == "logout")
                 {
-                    case "help":
-                    case "?":
-                        await innerDc.Context.SendActivityAsync($"Show Help...");
-                        return new DialogTurnResult(DialogTurnStatus.Waiting);
-
-                    case "cancel":
-                    case "quit":
-                        await innerDc.Context.SendActivityAsync($"Cancelling");
-                        return await innerDc.CancelAllDialogsAsync();
+                    // The bot adapter encapsulates the authentication processes.
+                    var botAdapter = (BotFrameworkAdapter)innerDc.Context.Adapter;
+                    await botAdapter.SignOutUserAsync(innerDc.Context, ConnectionName, null, cancellationToken);
+                    await innerDc.Context.SendActivityAsync(MessageFactory.Text("You have been signed out."), cancellationToken);
+                    return await innerDc.CancelAllDialogsAsync();
                 }
             }
-
             return null;
         }
     }

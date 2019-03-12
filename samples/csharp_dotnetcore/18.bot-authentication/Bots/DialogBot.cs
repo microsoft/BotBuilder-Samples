@@ -43,8 +43,8 @@ namespace Microsoft.BotBuilderSamples
         {
             _logger.LogInformation("Running dialog with Message Activity.");
 
-            // Run the Dialog with the new message Activity.
-            await _dialog.Run(turnContext, _conversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
+            // Run the Dialog with the new Message Activity.
+            await _dialog.Run(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
         }
     }
 }
