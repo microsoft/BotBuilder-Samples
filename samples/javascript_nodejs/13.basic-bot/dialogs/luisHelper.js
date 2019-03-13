@@ -25,6 +25,8 @@ class LuisHelper {
 
             logger.log('LUIS results: ', JSON.stringify(recognizerResult, null, 2));
 
+            bookingDetails.intent = intent;
+
             if (intent === 'Book_flight') {
                 // We need to get the result from the LUIS JSON which at every level returns an array
 

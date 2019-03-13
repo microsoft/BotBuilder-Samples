@@ -3,6 +3,10 @@
 
 const { ComponentDialog, DialogTurnStatus } = require('botbuilder-dialogs');
 
+/**
+ * This base class watches for common phrases like "help" and "cancel" and takes action on them
+ * BEFORE they reach the normal bot logic.
+ */
 class CancelAndHelpDialog extends ComponentDialog {
     async onBeginDialog(innerDc, options) {
         const result = await this.interrupt(innerDc);
@@ -26,11 +30,11 @@ class CancelAndHelpDialog extends ComponentDialog {
         switch (text) {
         case 'help':
         case '?':
-            await innerDc.context.sendActivity('Show Help...');
+            await innerDc.context.sendActivity('[ This is sample help... ]');
             return { status: DialogTurnStatus.waiting };
         case 'cancel':
         case 'quit':
-            await innerDc.context.sendActivity('Canceling');
+            await innerDc.context.sendActivity('Canceling.');
             return await innerDc.cancelAllDialogs();
         }
     }

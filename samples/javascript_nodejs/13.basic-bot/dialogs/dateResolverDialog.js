@@ -23,8 +23,8 @@ class DateResolverDialog extends CancelAndHelpDialog {
     async initialStep(stepContext) {
         const timex = stepContext.options.date;
 
-        const promptMsg = 'When would you like to travel?';
-        const repromptMsg = "I'm sorry, to make your booking please enter a full travel date including Day Month and Year.";
+        const promptMsg = 'On what date would you like to travel?';
+        const repromptMsg = "I'm sorry, for best results, please enter your travel date including the month, day and year.";
 
         if (!timex) {
             // We were not given any date at all so prompt the user.
