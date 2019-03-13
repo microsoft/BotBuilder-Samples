@@ -15,10 +15,9 @@ module.exports = function(bot) {
             // Make sure this isn't the bot itself...
             if (member.id !== context.activity.recipient.id) {
                 // Create and send a welcome card...
-                const welcomeCard = CardFactory.adaptiveCard(WelcomeCard)
+                const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);
                 await context.sendActivity({ attachments: [welcomeCard] });
             }
         }
     });
-}
-
+};

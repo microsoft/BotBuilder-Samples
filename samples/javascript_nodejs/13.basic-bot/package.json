@@ -9,6 +9,7 @@
         "start": "node ./index.js",
         "watch": "nodemon ./index.js",
         "lint": "./node_modules/.bin/eslint .",
+        "lint-fix": "./node_modules/.bin/eslint . --fix",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {

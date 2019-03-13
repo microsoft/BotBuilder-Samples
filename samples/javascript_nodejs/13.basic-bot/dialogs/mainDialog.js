@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
-const { ComponentDialog, DialogSet, DialogTurnStatus, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
+const { ComponentDialog, DialogTurnStatus, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 const { BookingDialog } = require('./bookingDialog');
 const { LuisHelper } = require('./luisHelper');
 
@@ -28,7 +28,6 @@ class MainDialog extends ComponentDialog {
             ]));
 
         this.initialDialogId = MAIN_WATERFALL_DIALOG;
-
     }
 
     async run(dialogContext) {
@@ -39,12 +38,16 @@ class MainDialog extends ComponentDialog {
     }
 
     async introStep(stepContext) {
-        return await stepContext.prompt('TextPrompt', { prompt: 'What can I help you with today?'});
+        return await stepContext.prompt('TextPrompt', { prompt: 'What can I help you with today?' });
     }
 
     async actStep(stepContext) {
         // Call LUIS and gather any potential booking details.
+        // This will attempt to extract the origin, destination and travel date from the user's message
+        // and will then pass those values into the booking dialog
         const bookingDetails = await LuisHelper.executeLuisQuery(this.logger, stepContext.context);
+
+        this.logger.log('LUIS extracted these booking details:', bookingDetails);
 
         // In this sample we only have a single intent we are concerned with. However, typically a scenario
         // will have multiple different intents each corresponding to starting a different child dialog.
@@ -62,7 +65,7 @@ class MainDialog extends ComponentDialog {
             // If the call to the booking service was successful tell the user.
             const timeProperty = new TimexProperty(result.travelDate);
             const travelDateMsg = timeProperty.toNaturalLanguage(new Date(Date.now()));
-            const msg = `I have you booked to ${result.destination} from ${result.origin} on ${travelDateMsg}`;
+            const msg = `I have you booked to ${ result.destination } from ${ result.origin } on ${ travelDateMsg }`;
             await stepContext.context.sendActivity(msg);
         } else {
             await stepContext.context.sendActivity('Thank you.');

@@ -38,7 +38,7 @@ class BookingDialog extends CancelAndHelpDialog {
             return await stepContext.next(bookingDetails.destination);
         }
     }
-    
+
     async originStep(stepContext) {
         const bookingDetails = stepContext.options;
 
@@ -55,7 +55,7 @@ class BookingDialog extends CancelAndHelpDialog {
 
         bookingDetails.origin = stepContext.result;
         if (!bookingDetails.travelDate || this.isAmbiguous(bookingDetails.travelDate)) {
-            return await stepContext.beginDialog(DATE_RESOLVER_DIALOG, bookingDetails.travelDate);
+            return await stepContext.beginDialog(DATE_RESOLVER_DIALOG, { date: bookingDetails.travelDate });
         } else {
             return await stepContext.next(bookingDetails.travelDate);
         }
@@ -65,13 +65,13 @@ class BookingDialog extends CancelAndHelpDialog {
         const bookingDetails = stepContext.options;
 
         bookingDetails.travelDate = stepContext.result;
-        const msg = `Please confirm, I have you traveling to: ${bookingDetails.destination} from: ${bookingDetails.origin} on: ${bookingDetails.travelDate}`;
+        const msg = `Please confirm, I have you traveling to: ${ bookingDetails.destination } from: ${ bookingDetails.origin } on: ${ bookingDetails.travelDate }`;
 
         return await stepContext.prompt(CONFIRM_PROMPT, { prompt: msg });
     }
 
     async finalStep(stepContext) {
-        if (stepContext.result == true) {
+        if (stepContext.result === true) {
             const bookingDetails = stepContext.options;
 
             return await stepContext.endDialog(bookingDetails);

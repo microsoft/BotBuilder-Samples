@@ -73,7 +73,7 @@ const bot = new BotRunner(conversationState, userState, dialog, logger);
 
 // Load additional features, defined as handler functions bound to the BotRunner
 // and located in the features/ folder.
-bot.loadModules(path.join(__dirname,'features'));
+bot.loadModules(path.join(__dirname, 'features'));
 
 // Create HTTP server
 let server = restify.createServer();

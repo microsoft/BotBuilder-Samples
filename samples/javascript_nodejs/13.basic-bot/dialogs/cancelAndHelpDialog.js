@@ -4,16 +4,12 @@
 const { ComponentDialog, DialogTurnStatus } = require('botbuilder-dialogs');
 
 class CancelAndHelpDialog extends ComponentDialog {
-    constructor(id) {
-        super(id);
-    }
-
     async onBeginDialog(innerDc, options) {
         const result = await this.interrupt(innerDc);
         if (result) {
             return result;
         }
-        return await this.onBeginDialog(innerDc, options);
+        return await super.onBeginDialog(innerDc, options);
     }
 
     async onContinueDialog(innerDc) {
@@ -21,24 +17,22 @@ class CancelAndHelpDialog extends ComponentDialog {
         if (result) {
             return result;
         }
-        return await this.onContinueDialog(innerDc);
+        return await super.onContinueDialog(innerDc);
     }
 
     async interrupt(innerDc) {
         const text = innerDc.context.activity.text.toLowerCase();
 
         switch (text) {
-            case 'help':
-            case '?':
-                await innerDc.context.sendActivity('Show Help...');
-                return { status: DialogTurnStatus.waiting };
-            case 'cancel':
-            case 'quit':
-                await innerDc.context.sendActivity('Canceling');
-                return await innerDc.cancelAllDialogs();
+        case 'help':
+        case '?':
+            await innerDc.context.sendActivity('Show Help...');
+            return { status: DialogTurnStatus.waiting };
+        case 'cancel':
+        case 'quit':
+            await innerDc.context.sendActivity('Canceling');
+            return await innerDc.cancelAllDialogs();
         }
-
-        return;
     }
 }
 

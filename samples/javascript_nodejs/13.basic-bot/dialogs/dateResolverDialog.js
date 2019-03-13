@@ -16,19 +16,19 @@ class DateResolverDialog extends CancelAndHelpDialog {
                 this.initialStep.bind(this),
                 this.finalStep.bind(this)
             ]));
-        
+
         this.initialDialogId = WATERFALL_DIALOG;
     }
 
     async initialStep(stepContext) {
-        const timex = stepContext.options;
+        const timex = stepContext.options.date;
 
         const promptMsg = 'When would you like to travel?';
         const repromptMsg = "I'm sorry, to make your booking please enter a full travel date including Day Month and Year.";
 
         if (!timex) {
             // We were not given any date at all so prompt the user.
-            return await stepContext.prompt('DateTimePrompt',
+            return await stepContext.prompt(DATETIME_PROMPT,
                 {
                     prompt: promptMsg,
                     retryPrompt: repromptMsg
@@ -36,9 +36,9 @@ class DateResolverDialog extends CancelAndHelpDialog {
         } else {
             // We have a Date we just need to check it is unambiguous.
             const timexProperty = new TimexProperty(timex);
-            if (!timexProperty.types.has('definite')){
+            if (!timexProperty.types.has('definite')) {
                 // This is essentially a "reprompt" of the data we were given up front.
-                return await stepContext.prompt('DateTimePrompt', { prompt: repromptMsg });
+                return await stepContext.prompt(DATETIME_PROMPT, { prompt: repromptMsg });
             } else {
                 return await stepContext.next({ timex: timex });
             }
