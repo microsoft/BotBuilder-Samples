@@ -26,15 +26,12 @@ class MainDialog extends ComponentDialog {
                 this.actStep.bind(this),
                 this.finalStep.bind(this)
             ]));
-        
+
         this.initialDialogId = MAIN_WATERFALL_DIALOG;
+
     }
 
-    async run(context, accessor) {
-        const dialogSet = new DialogSet(accessor);
-        dialogSet.add(this);
-
-        const dialogContext = await dialogSet.createContext(context);
+    async run(dialogContext) {
         const results = await dialogContext.continueDialog();
         if (results.status === DialogTurnStatus.empty) {
             await dialogContext.beginDialog(this.id);
@@ -49,8 +46,8 @@ class MainDialog extends ComponentDialog {
         // Call LUIS and gather any potential booking details.
         const bookingDetails = await LuisHelper.executeLuisQuery(this.logger, stepContext.context);
 
-        // In this sample we only have a single Intent we are concerned with. However, typically a scneario
-        // will have multiple different Intents each corresponding to starting a different child Dialog.
+        // In this sample we only have a single intent we are concerned with. However, typically a scenario
+        // will have multiple different intents each corresponding to starting a different child dialog.
 
         // Run the BookingDialog giving it whatever details we have from the LUIS call, it will fill out the remainder.
         return await stepContext.beginDialog('bookingDialog', bookingDetails);

@@ -11,7 +11,7 @@ const restify = require('restify');
 const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = require('botbuilder');
 
 // This bot's main dialog.
-const { DialogAndWelcomeBot } = require('./bots/dialogAndWelcomeBot');
+const { BotRunner } = require('./components/botRunner');
 const { MainDialog } = require('./dialogs/mainDialog');
 
 // Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
@@ -67,7 +67,13 @@ const logger = console;
 
 // Create the main dialog.
 const dialog = new MainDialog(logger);
-const bot = new DialogAndWelcomeBot(conversationState, userState, dialog, logger);
+
+// Create the activity handler, passing in the state managers, the main dialog, and the logger.
+const bot = new BotRunner(conversationState, userState, dialog, logger);
+
+// Load additional features, defined as handler functions bound to the BotRunner
+// and located in the features/ folder.
+bot.loadModules(path.join(__dirname,'features'));
 
 // Create HTTP server
 let server = restify.createServer();
@@ -79,9 +85,9 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 
 // Listen for incoming activities and route them to your bot main dialog.
 server.post('/api/messages', (req, res) => {
-    // Route received a request to adapter for processing
+    // Pass incoming request to the adapter for processing into an Activity...
     adapter.processActivity(req, res, async (turnContext) => {
-        // route to bot activity handler.
+        // Route this Activity into the activity handler.
         await bot.run(turnContext);
     });
 });

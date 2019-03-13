@@ -34,7 +34,7 @@ class CancelAndHelpDialog extends ComponentDialog {
                 return { status: DialogTurnStatus.waiting };
             case 'cancel':
             case 'quit':
-                await innerDc.context.sendActivity('Cancelling');
+                await innerDc.context.sendActivity('Canceling');
                 return await innerDc.cancelAllDialogs();
         }
 
