@@ -7,7 +7,7 @@ const { OAuthHelpers, LOGIN_PROMPT } = require('./oauth-helpers');
 
 // The connection name here must match the the one from your
 // Bot Channels Registration on the settings blade in Azure.
-const CONNECTION_SETTING_NAME = '';
+const CONNECTION_SETTING_NAME = 'KanOAuth';
 
 /**
  * This bot uses OAuth to log the user in. The OAuth provider being demonstrated
@@ -101,7 +101,7 @@ class GraphAuthenticationBot {
         if (activity && activity.membersAdded) {
             const heroCard = CardFactory.heroCard(
                 'Welcome to GraphAuthenticationBot!',
-                CardFactory.images(['https://botframeworksamples.blob.core.windows.net/samples/aadlogo.png']),
+                CardFactory.images(['https://botframeworksupportre838.blob.core.windows.net/botbuilder-samples-resources/BFx300.jpg?st=2019-03-12T23%3A51%3A07Z&se=2029-03-13T22%3A51%3A00Z&sp=rl&sv=2018-03-28&sr=b&sig=6O0jYQRWQYuqSg6np7%2FRR2AR0%2FxaV%2F4HVOPcB%2B%2F0iQU%3D']),
                 CardFactory.actions([
                     {
                         type: ActionTypes.ImBack,
