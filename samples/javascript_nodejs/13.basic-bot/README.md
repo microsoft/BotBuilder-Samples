@@ -52,9 +52,8 @@ This sample requires prerequisites in order to run.
 
 ## Connect to bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration
-- Navigate to `samples/javascript_nodejs/13.basic-bot` folder
-- Select `basic-bot.bot` file
+- File -> Open Bot
+- Enter "http://[::]:3978/api/messages" as the URL
 
 ## Deploy this bot to Azure
 See [here](./deploymentScripts/DEPLOY.md) to learn more about deploying this bot to Azure and using the CLI tools to build the LUIS models this bot depends on.
