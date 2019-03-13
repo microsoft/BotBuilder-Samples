@@ -10,5 +10,4 @@ module.exports = function(bot) {
         // console.log('Activity:', context.activity);
         await next();
     });
-    
 };

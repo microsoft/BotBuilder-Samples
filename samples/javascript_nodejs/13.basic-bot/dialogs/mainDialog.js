@@ -36,7 +36,7 @@ class MainDialog extends ComponentDialog {
     /**
      * The run method handles the incoming activity (in the form of a DialogContext) and passes it through the dialog system.
      * If no dialog is active, it will start the default dialog.
-     * @param {*} dialogContext 
+     * @param {*} dialogContext
      */
     async run(dialogContext) {
         const results = await dialogContext.continueDialog();
@@ -52,7 +52,7 @@ class MainDialog extends ComponentDialog {
      */
     async introStep(stepContext) {
         if (!process.env.LuisAppId || !process.env.LuisAPIKey || !process.env.LuisAPIHostName) {
-            await stepContext.context.sendActivity('WARNING: NOTE is not configured. To enable all capabilities, add `LuisAppId`, `LuisAPIKey` and `LuisAPIHostName` to the .env file.')
+            await stepContext.context.sendActivity('WARNING: NOTE is not configured. To enable all capabilities, add `LuisAppId`, `LuisAPIKey` and `LuisAPIHostName` to the .env file.');
         }
 
         return await stepContext.prompt('TextPrompt', { prompt: 'What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on March 22"' });
