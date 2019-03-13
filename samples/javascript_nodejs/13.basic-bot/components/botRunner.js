@@ -35,7 +35,7 @@ class BotRunner extends ActivityHandler {
 
         // onDialog fires after onMessage and other message-related events
         this.onDialog(async context => {
-            this.logger.log('Running dialog with Message Activity.');
+            this.logger.log('Passing incoming activity to the main dialog.');
 
             // Create a DialogContext in the top level dialogSet...
             const dialogContext = await this.dialogSet.createContext(context);
