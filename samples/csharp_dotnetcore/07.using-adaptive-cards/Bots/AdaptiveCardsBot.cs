@@ -41,12 +41,9 @@ namespace Microsoft.BotBuilderSamples
             Path.Combine(".", "Resources", "SolitaireCard.json"),
         };
 
-        protected override async Task OnConversationUpdateActivityAsync(ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            if (turnContext.Activity.MembersAdded != null)
-            {
-                await SendWelcomeMessageAsync(turnContext, cancellationToken);
-            }
+            await SendWelcomeMessageAsync(turnContext, cancellationToken);
         }
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
