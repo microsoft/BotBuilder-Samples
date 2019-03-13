@@ -1,7 +1,7 @@
 {
-    "name": "basic-bot",
+    "name": "core-bot",
     "version": "1.0.0",
-    "description": "A basic bot that demonstrates core AI capabilities",
+    "description": "A bot that demonstrates core AI capabilities",
     "author": "Microsoft",
     "license": "MIT",
     "main": "index.js",
@@ -16,10 +16,10 @@
         "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
     },
     "dependencies": {
-        "botbuilder": "^4.3.0",
-        "botbuilder-ai": "^4.3.0",
-        "botbuilder-dialogs": "^4.3.0",
-        "botframework-config": "^4.3.0",
+        "@microsoft/recognizers-text-data-types-timex-expression": "^1.1.4",
+        "botbuilder": "^4.3.2",
+        "botbuilder-ai": "^4.3.2",
+        "botbuilder-dialogs": "^4.3.2",
         "dotenv": "^6.1.0",
         "restify": "^7.2.3"
     },
