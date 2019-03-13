@@ -53,9 +53,9 @@ namespace Microsoft.BotBuilderSamples
             Random r = new Random();
             var cardAttachment = CreateAdaptiveCardAttachment(this._cards[r.Next(this._cards.Length)]);
 
-            turnContext.Activity.Attachments = new List<Attachment>() { cardAttachment };
-            await turnContext.SendActivityAsync(turnContext.Activity, cancellationToken);
-            await turnContext.SendActivityAsync("Please enter any text to see another card.", cancellationToken: cancellationToken);
+            //turnContext.Activity.Attachments = new List<Attachment>() { cardAttachment };
+            await turnContext.SendActivityAsync(MessageFactory.Attachment(cardAttachment), cancellationToken);
+            await turnContext.SendActivityAsync(MessageFactory.Text("Please enter any text to see another card."), cancellationToken);
         }
 
         private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
@@ -65,7 +65,7 @@ namespace Microsoft.BotBuilderSamples
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     await turnContext.SendActivityAsync(
-                        $"Welcome to AdaptiveCardsBot {member.Name}. {WelcomeText}",
+                        $"Welcome to Adaptive Cards Bot {member.Name}. {WelcomeText}",
                         cancellationToken: cancellationToken);
                 }
             }
