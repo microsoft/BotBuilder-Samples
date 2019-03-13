@@ -4,6 +4,7 @@
     <TargetFramework>__NETCOREAPP_VERSION__</TargetFramework>
   </PropertyGroup>
 
+
   <ItemGroup>
     <PackageReference Include=__MICROSOFT_ASPNETCORE_VERSION__ />
     <PackageReference Include="Microsoft.AspNetCore.All" />
