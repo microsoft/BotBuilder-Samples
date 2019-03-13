@@ -36,7 +36,7 @@ class BookingDialog extends CancelAndHelpDialog {
         const bookingDetails = stepContext.options;
 
         if (!bookingDetails.destination) {
-            return await stepContext.prompt(TEXT_PROMPT, { prompt: 'To city would you like to travel?' });
+            return await stepContext.prompt(TEXT_PROMPT, { prompt: 'To what city would you like to travel?' });
         } else {
             return await stepContext.next(bookingDetails.destination);
         }
