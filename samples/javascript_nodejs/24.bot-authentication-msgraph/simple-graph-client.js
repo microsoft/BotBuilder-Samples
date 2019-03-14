@@ -109,10 +109,12 @@ class SimpleGraphClient {
             .select('displayName')
             .get()
             .then((res) => {
+                console.log('RES: ', res);
                 return res;
             })
             .catch((err) => {
-                console.log(err);
+                console.log('Err: ', err);
+                return err;
             });
     }
 

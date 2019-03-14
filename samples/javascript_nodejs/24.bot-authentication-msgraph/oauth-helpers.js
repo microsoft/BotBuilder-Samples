@@ -58,13 +58,13 @@ class OAuthHelpers {
             // Pull in the data from Microsoft Graph.
             const client = new SimpleGraphClient(tokenResponse.token);
             const me = await client.getMe();
-            const manager = await client.getManager();
+            let manager = await client.getManager();
             const photoResponse = await client.getPhoto();
 
             // Create the reply activity.
             let reply = { type: ActivityTypes.Message };
             let photoText = ``;
-
+            
             // Attaches user's profile photo to the reply activity.
             if (photoResponse != null) {
                 const base64 = Buffer.from(photoResponse, 'binary').toString('base64');
@@ -73,12 +73,15 @@ class OAuthHelpers {
                     contentUrl: `data:image/jpeg;base64,${ base64 }`
                 };
                 reply = MessageFactory.attachment(replyAttachment);
-            }
-            else {
+            } else {
                 photoText = `Consider adding an image to your Outlook profile.`;
             }
-
-            reply.text = `You are ${ me.displayName } and you report to ${ manager.displayName }. ${ photoText }`;
+            
+            if (manager.statusCode >= 400) {
+                reply.text = `You are ${ me.displayName }. ${ photoText }`;
+            } else {
+                reply.text = `You are ${ me.displayName } and you report to ${ manager.displayName }. ${ photoText }`;
+            }
             await turnContext.sendActivity(reply);
         } catch (error) {
             throw error;
