@@ -58,7 +58,7 @@ namespace Microsoft.BotBuilderSamples
             if (tokenResponse != null)
             {
                 await stepContext.Context.SendActivityAsync(MessageFactory.Text("You are now logged in."), cancellationToken);
-                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Would you like to do?") }, cancellationToken);
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Would you like to do? (type 'me', 'send <EMAIL>' or 'recent')") }, cancellationToken);
             }
 
             await stepContext.Context.SendActivityAsync(MessageFactory.Text("Login was not successful please try again."), cancellationToken);
@@ -67,8 +67,6 @@ namespace Microsoft.BotBuilderSamples
 
         private async Task<DialogTurnResult> CommandStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text("Thank you."), cancellationToken);
-
             stepContext.Values["command"] = stepContext.Result;
 
             // Call the prompt again because we need the token. The reasons for this are:
