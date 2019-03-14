@@ -14,79 +14,28 @@ using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples
 {
-    /// <summary>
-    /// Represents a bot that processes incoming activities.
-    /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
-    /// This is a Transient lifetime service. Transient lifetime services are created
-    /// each time they're requested. For each Activity received, a new instance of this
-    /// class is created. Objects that are expensive to construct, or have a lifetime
-    /// beyond the single turn, should be carefully managed.
-    /// For example, the <see cref="MemoryStorage"/> object and associated
-    /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
-    /// This bot responds to the user's text input with an <see cref="Attachment"/> (in this example, an image)
-    /// using various types of attachments. In this case, we are displaying an image from a file on the server,
-    /// an image from an HTTP URL, and an uploaded image. In this project the user also has the option to upload
-    /// an <see cref="Attachment"/> to the bot. The <see cref="Attachment"/> saves to the same directory as the
-    /// AttachmentBot.cs file. A message exchange between user and bot may contain media attachments, such as images,
-    /// video, audio, and files. The types of attachments that can be sent and received varies by channel. In this
-    /// sample we demonstrate sending a <see cref="HeroCard"/> and images as attachments. Also demonstrated is the
-    /// ability of a bot to receive file attachments.
-    /// </summary>
-    /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
-    public class AttachmentsBot : IBot
+    // Represents a bot that processes incoming activities.
+    // For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
+    // This is a Transient lifetime service. Transient lifetime services are created
+    // each time they're requested. For each Activity received, a new instance of this
+    // class is created. Objects that are expensive to construct, or have a lifetime
+    // beyond the single turn, should be carefully managed.
+ 
+    public class AttachmentsBot : ActivityHandler
     {
-        /// <summary>
-        /// Every conversation turn for our Echo Bot will call this method.
-        /// There are no dialogs used, since it's "single turn" processing, meaning a single
-        /// request and response.
-        /// </summary>
-        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
-        /// for processing this conversation turn. </param>
-        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
-        /// or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
-        /// <seealso cref="BotStateSet"/>
-        /// <seealso cref="ConversationState"/>
-        /// <seealso cref="IMiddleware"/>
-        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            if (turnContext == null)
-            {
-                throw new ArgumentNullException(nameof(turnContext));
-            }
-
-            if (turnContext.Activity.Type == ActivityTypes.Message)
-            {
-                // Take the input from the user and create the appropriate response.
-                var reply = ProcessInput(turnContext);
-
-                // Respond to the user.
-                await turnContext.SendActivityAsync(reply, cancellationToken);
-
-                await DisplayOptionsAsync(turnContext, cancellationToken);
-            }
-            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
-            {
-                if (turnContext.Activity.MembersAdded != null)
-                {
-                    // Send a welcome message to the user and tell them what actions they may perform to use this bot
-                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
-                }
-            }
-            else
-            {
-                // Default behavior for all other type of activities.
-                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} activity detected");
-            }
+            await SendWelcomeMessageAsync(turnContext, cancellationToken);
         }
-
-        /// <summary>
-        ///  Displays a <see cref="HeroCard"/> with options for the user to select.
-        /// </summary>
-        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
-        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
-        /// or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
+        protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        {
+            var reply = ProcessInput(turnContext);
+            await turnContext.SendActivityAsync("HI");
+            // Respond to the user.
+            await turnContext.SendActivityAsync(reply, cancellationToken);
+            await DisplayOptionsAsync(turnContext, cancellationToken);
+        }
+  
         private static async Task DisplayOptionsAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             var reply = turnContext.Activity.CreateReply();
@@ -112,13 +61,7 @@ namespace Microsoft.BotBuilderSamples
             await turnContext.SendActivityAsync(reply, cancellationToken);
         }
 
-        /// <summary>
-        /// Greet the user and give them instructions on how to interact with the bot.
-        /// </summary>
-        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
-        /// <param name="cancellationToken" >(Optional) A <see cref="CancellationToken"/> that can be used by other objects
-        /// or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> representing the operation result of the operation.</returns>
+        // Greet the user and give them instructions on how to interact with the bot.
         private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             foreach (var member in turnContext.Activity.MembersAdded)
@@ -135,11 +78,7 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
-        /// <summary>
-        /// Given the input from the message <see cref="Activity"/>, create the response.
-        /// </summary>
-        /// <param name="turnContext">Provides the <see cref="ITurnContext"/> for the turn of the bot.</param>
-        /// <returns>An <see cref="Activity"/> to send as a response.</returns>
+        // Given the input from the message, create the response.
         private static Activity ProcessInput(ITurnContext turnContext)
         {
             var activity = turnContext.Activity;
@@ -160,9 +99,7 @@ namespace Microsoft.BotBuilderSamples
             return reply;
         }
 
-        /// <summary>
-        /// Adds an attachment to the 'reply' parameter that is passed in.
-        /// </summary>
+        // Adds an attachment to the 'reply' parameter that is passed in.
         private static void HandleOutgoingAttachment(IMessageActivity activity, IMessageActivity reply)
         {
             // Look at the user input, and figure out what kind of attachment to send.
@@ -191,16 +128,13 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
-        /// <summary>
-        /// Handle attachments uploaded by users. The bot receives an <see cref="Attachment"/> in an <see cref="Activity"/>.
-        /// The activity has a <see cref="IList{T}"/> of attachments.
-        /// </summary>
-        /// <remarks>
-        /// Not all channels allow users to upload files. Some channels have restrictions
-        /// on file type, size, and other attributes. Consult the documentation for the channel for
-        /// more information. For example Skype's limits are here
-        /// <see ref="https://support.skype.com/en/faq/FA34644/skype-file-sharing-file-types-size-and-time-limits"/>.
-        /// </remarks>
+
+        // Handle attachments uploaded by users. The bot receives an <see cref="Attachment"/> in an <see cref="Activity"/>.
+        // The activity has a "IList{T}" of attachments.    
+        // Not all channels allow users to upload files. Some channels have restrictions
+        // on file type, size, and other attributes. Consult the documentation for the channel for
+        // more information. For example Skype's limits are here
+        // <see ref="https://support.skype.com/en/faq/FA34644/skype-file-sharing-file-types-size-and-time-limits"/>.
         private static void HandleIncomingAttachment(IMessageActivity activity, IMessageActivity reply)
         {
             foreach (var file in activity.Attachments)
@@ -222,16 +156,12 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
-        /// <summary>
-        /// Creates an inline attachment sent from the bot to the user using a base64 string.
-        /// </summary>
-        /// <returns>An <see cref="Attachment"/> to be displayed to the user.</returns>
-        /// <remarks>
-        /// Using a base64 string to send an attachment will not work on all channels.
-        /// Additionally, some channels will only allow certain file types to be sent this way.
-        /// For example a .png file may work but a .pdf file may not on some channels.
-        /// Please consult the channel documentation for specifics.
-        /// </remarks>
+
+        // Creates an inline attachment sent from the bot to the user using a base64 string.
+        // Using a base64 string to send an attachment will not work on all channels.
+        // Additionally, some channels will only allow certain file types to be sent this way.
+        // For example a .png file may work but a .pdf file may not on some channels.
+        // Please consult the channel documentation for specifics.
         private static Attachment GetInlineAttachment()
         {
             var imagePath = Path.Combine(Environment.CurrentDirectory, @"Resources\architecture-resize.png");
@@ -245,10 +175,7 @@ namespace Microsoft.BotBuilderSamples
             };
         }
 
-        /// <summary>
-        /// Creates an <see cref="Attachment"/> to be sent from the bot to the user from an uploaded file.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the operation result.</returns>
+        // Creates an "Attachment" to be sent from the bot to the user from an uploaded file.
         private static async Task<Attachment> GetUploadedAttachmentAsync(string serviceUrl, string conversationId)
         {
             if (string.IsNullOrWhiteSpace(serviceUrl))
@@ -287,10 +214,7 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
-        /// <summary>
-        /// Creates an <see cref="Attachment"/> to be sent from the bot to the user from a HTTP URL.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the operation result.</returns>
+        // Creates an <see cref="Attachment"/> to be sent from the bot to the user from a HTTP URL.
         private static Attachment GetInternetAttachment()
         {
             // ContentUrl must be HTTPS.
