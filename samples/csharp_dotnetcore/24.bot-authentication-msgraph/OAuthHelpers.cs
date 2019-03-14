@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Attachment = Microsoft.Bot.Schema.Attachment;
 
@@ -59,24 +58,8 @@ namespace Microsoft.BotBuilderSamples
             // Pull in the data from the Microsoft Graph.
             var client = new SimpleGraphClient(tokenResponse.Token);
             var me = await client.GetMeAsync();
-            var manager = await client.GetManagerAsync();
-            var photoResponse = await client.GetPhotoAsync();
 
-            // Generate the reply activity.
-            var reply = turnContext.Activity.CreateReply();
-            var photoText = string.Empty;
-            if (photoResponse != null)
-            {
-                var replyAttachment = new Attachment(photoResponse.ContentType, photoResponse.Base64String);
-                reply.Attachments.Add(replyAttachment);
-            }
-            else
-            {
-                photoText = "Consider adding an image to your Outlook profile.";
-            }
-
-            reply.Text = $"You are {me.DisplayName} and you report to {manager.DisplayName}. {photoText}";
-            await turnContext.SendActivityAsync(reply);
+            await turnContext.SendActivityAsync($"You are {me.DisplayName}.");
         }
 
         // Gets recent mail the user has received within the last hour and displays up
