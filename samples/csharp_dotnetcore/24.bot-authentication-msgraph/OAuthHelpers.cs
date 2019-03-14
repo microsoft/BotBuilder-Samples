@@ -131,19 +131,5 @@ namespace Microsoft.BotBuilderSamples
 
             await turnContext.SendActivityAsync(reply);
         }
-
-        // Prompts the user to log in using the OAuth provider specified by the connection name.
-        public static OAuthPrompt Prompt(string connectionName)
-        {
-            return new OAuthPrompt(
-                "loginPrompt",
-                new OAuthPromptSettings
-                {
-                    ConnectionName = connectionName,
-                    Text = "Please login",
-                    Title = "Login",
-                    Timeout = 300000, // User has 5 minutes to login
-                });
-        }
     }
 }
