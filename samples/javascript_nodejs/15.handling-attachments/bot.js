@@ -84,7 +84,16 @@ class AttachmentsBot {
         const localFileName = path.join(__dirname, attachment.name);
 
         try {
-            const response = await axios.get(url);
+            // arraybuffer is necessary for images
+            const response = await axios.get(url, { responseType: 'arraybuffer' });
+            // If user uploads JSON file, this prevents it from being written as "{"type":"Buffer","data":[123,13,10,32,32,34,108..."
+            if (response.headers['content-type'] === 'application/json') {
+                response.data = JSON.parse(response.data, (key, value) => {
+                    return value && value.type === 'Buffer' ?
+                      Buffer.from(value.data) :
+                      value;
+                    });
+            }
             fs.writeFile(localFileName, response.data, (fsError) => {
                 if (fsError) {
                     throw fsError;
