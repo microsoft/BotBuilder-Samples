@@ -1,21 +1,38 @@
-﻿# Active learning in QnA Maker
-This sample shows how to integrate Active Learning in a QnA Maker bot with ASP.Net Core 2.
+# Support Bot in QnA Maker
+This sample demonstrates how to create a multiturn support bot with ASP.Net Core 2.
 
-#Concepts introduced in this sample
-The [QnA Maker Service][7] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
-In this sample, we demonstrate how to use the Active Learning to generate suggestions for knowledge base.
+This sample shows how to:
+Use QnA Maker to create a multiturn support bot.It also uses active learning feature of QnA Maker to generate suggestions and use them to further train the knowledge base. 
 
-#To try this sample
+It uses application insights for logging details.
+
+This sample can also optionally use [Personality chat][160] to chat with the user if no match is found in QnA Maker. 
+
+It can optionally use [LUIS] [150] model to get the trained intent.
+
+# To try this sample
 - Clone the samples repository
+- Update BotConfiguration.bot file with your kbid (KnowledgeBase Id) and endpointKey in the "qna" services section. You can find this information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://www.qnamaker.ai)
+- Update BotConfiguration.bot file with Application insights instrumentation keys and app id. Refer [here] [170] for details.
+- [Optional] If you want to use LUIS, add the following to the BotConfiguration.bot file and update the LUIS details. Refer [here] [180] for details.
+{
+      "type": "luis",
+      "name": "LuisBot",
+      "appId": "<Your App Id>",
+      "version": "0.1",
+      "authoringKey": "<Your Authoring Key>",
+      "subscriptionKey": "<Your Subscription Key>",
+      "region": "<Your region>",
+      "id": "158"
+    },
+    Also, add EnableLuis = true in Models/Constants.cs file
+- [Optional] If you are using [personality chat] [160], add this line to appsettings.json file:
+"personalityChatKey": "<Your PersonalityChat Key>" and make EnablePersonalityChat = true in Models/Constants.cs file
 - [Optional] Update the appsettings.json file under BotBuilder-Samples/experimental/csharp_dotnetcore/qnamaker-activelearning-bot/ with your botFileSecret. For Azure Bot Service bots, you can find the botFileSecret under application settings.
 
 # Prerequisites
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure)
 to create a QnA Maker service.
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base) to
-import and publish the [ActiveLearningSampleFAQ.tsv](CognitiveModels/ActiveLearningSampleFAQ.tsv) to your newly created QnA Maker service.
-- Update [qnamaker-activelearning.bot](qnamaker-activelearning.bot) with your kbid (KnowledgeBase Id) and endpointKey in the "qna" services section. You can find this
-information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://www.qnamaker.ai)
 - (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the
 QnA Maker CLI to deploy the model.
 
@@ -60,7 +77,6 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 [5]: https://github.com/microsoft/botframework-emulator
 [6]: https://aka.ms/botframeworkemulator
 [7]: https://www.qnamaker.ai
-
 [50]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0
 [60]: https://portal.azure.com
 [70]: https://azure.microsoft.com/get-started/
@@ -72,3 +88,6 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 [130]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [140]: https://portal.azure.com
 [150]: https://www.luis.ai
+[160]: https://labs.cognitive.microsoft.com/en-us/project-personality-chat
+[170]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-resources-app-insights-keys?view=azure-bot-service-4.0
+[180]: https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-concept-keys 
