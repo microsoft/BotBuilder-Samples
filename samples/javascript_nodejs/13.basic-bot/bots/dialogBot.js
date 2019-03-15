@@ -21,7 +21,7 @@ class DialogBot extends ActivityHandler {
             logger = console;
             logger.log('[DialogBot]: logger not passed in, defaulting to console');
         }
-        
+
         this.conversationState = conversationState;
         this.userState = userState;
         this.dialog = dialog;
@@ -33,14 +33,12 @@ class DialogBot extends ActivityHandler {
 
             // Run the Dialog with the new message Activity.
             await this.dialog.run(context, this.dialogState);
-    
-            // Save any state changes. The load happened during the execution of the Dialog. 
+
+            // Save any state changes. The load happened during the execution of the Dialog.
             await this.conversationState.saveChanges(context, false);
             await this.userState.saveChanges(context, false);
         });
     }
-
-    
 }
 
 module.exports.DialogBot = DialogBot;
