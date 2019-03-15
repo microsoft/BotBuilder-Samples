@@ -8,13 +8,13 @@ It uses application insights for logging details.
 
 This sample can also optionally use [Personality chat][160] to chat with the user if no match is found in QnA Maker. 
 
-It can optionally use [LUIS] [150] model to get the trained intent.
+It can optionally use [LUIS][150] model to get the trained intent.
 
 # To try this sample
 - Clone the samples repository
 - Update BotConfiguration.bot file with your kbid (KnowledgeBase Id) and endpointKey in the "qna" services section. You can find this information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://www.qnamaker.ai)
-- Update BotConfiguration.bot file with Application insights instrumentation keys and app id. Refer [here] [170] for details.
-- [Optional] If you want to use LUIS, add the following to the BotConfiguration.bot file and update the LUIS details. Refer [here] [180] for details.
+- Update BotConfiguration.bot file with Application insights instrumentation keys and app id. Refer [here][170] for details.
+- [Optional] If you want to use LUIS, add the following to the BotConfiguration.bot file and update the LUIS details. Refer [here][180] for details.
 {
       "type": "luis",
       "name": "LuisBot",
@@ -26,7 +26,7 @@ It can optionally use [LUIS] [150] model to get the trained intent.
       "id": "158"
     },
     Also, add EnableLuis = true in Models/Constants.cs file
-- [Optional] If you are using [personality chat] [160], add this line to appsettings.json file:
+- [Optional] If you are using [personality chat][160], add this line to appsettings.json file:
 "personalityChatKey": "<Your PersonalityChat Key>" and make EnablePersonalityChat = true in Models/Constants.cs file
 - [Optional] Update the appsettings.json file under BotBuilder-Samples/experimental/csharp_dotnetcore/qnamaker-activelearning-bot/ with your botFileSecret. For Azure Bot Service bots, you can find the botFileSecret under application settings.
 
