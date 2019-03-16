@@ -17,7 +17,7 @@ There are a small set of CLI tools that will automate the process of deploying t
 
 [Return to README.md][3]
 
-#### Generated with `dotnet new echobot` vX.X.X
+#### Generated with `dotnet new echobot` __vX.X.X__
 
 [3]: ./README.md
 [4]: https://nodejs.org

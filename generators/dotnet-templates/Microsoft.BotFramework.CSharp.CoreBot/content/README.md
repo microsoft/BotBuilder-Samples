@@ -31,12 +31,12 @@ This sample **requires** prerequisites in order to run.
 	- Select `__PROJECT_NAME__.csproj` file
 	- Press `F5` to run the project
 
-# Testing the bot using Bot Framework Emulator **v4**
+# Testing the bot using Bot Framework Emulator
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator **v4**
+## Connect to the bot using Bot Framework Emulator
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
@@ -90,7 +90,7 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Language Understanding using LUIS][11]
 - [Channels and Bot Connector Service][27]
 
-#### Generated with `dotnet new corebot` vX.X.X
+#### Generated with `dotnet new corebot` __vX.X.X__
 
 [1]: https://dev.botframework.com
 [4]: https://dotnet.microsoft.com/download

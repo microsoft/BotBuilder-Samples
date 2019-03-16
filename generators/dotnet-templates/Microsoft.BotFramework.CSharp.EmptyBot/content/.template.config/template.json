@@ -10,7 +10,7 @@
   "defaultName": "EmptyBot",
   "groupIdentity": "Microsoft.BotFramework.CSharp.EmptyBot",
   "identity": "Microsoft.BotFramework.CSharp.EmptyBot",
-  "name": "Bot Framework Empty Bot (v0.3.3)",
+  "name": "Bot Framework Empty Bot (v0.4.0)",
   "preferNameDirectory": true,
   "sourceName": "Microsoft.BotFramework.EmptyBot",
   "shortName": "emptybot",
@@ -24,9 +24,9 @@
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "v0.3.3"
+        "value": "v0.4.0"
       },
-      "replaces": "vX.X.X"
+      "replaces": "__vX.X.X__"
     },
     "output": {
       "type": "parameter",

@@ -52,10 +52,10 @@ Now that a LUIS application has been created, the bot needs to be configured to 
 Bot configuration settings are stored in `__PROJECT_NAME__/appsettings.json`.  There are three key/value pairs the bot requires in order to use the previously created LUIS application.  They are:
 
 ```json
-    "BotServices": {
-        "Luis-Booking-AppId": "",
-        "Luis-Booking-AuthoringKey": "",
-        "Luis-Booking-Region": ""
+   {
+        "LuisAppId": "",
+        "LuisAPIKey": "",
+        "LuisAPIHostName": ""
     }
 ```
 To find these settings, click the `Manage` button.
@@ -64,7 +64,7 @@ To find these settings, click the `Manage` button.
 - The `Authoring Key` can be found in `Keys and Endpoints` page.
 - The `Region` can be found in `Keys and Endpoints`, under the `Region` column.
 
-Use those three values to update the `Luis-Booking-AppId`, `Luis-Booking-AuthoringKey`, and `Luis-Booking-Region` values of `__PROJECT_NAME__/appsettings.json`.
+Use those three values to update the `LuisAppId`, `LuisAPIKey`, and `LuisAPIHostName` values of `__PROJECT_NAME__/appsettings.json`.
 
 Once `__PROJECT_NAME__/appsettings.json` has been updated, the bot is ready to run using LUIS.
 
@@ -72,7 +72,7 @@ Once `__PROJECT_NAME__/appsettings.json` has been updated, the bot is ready to r
 
 [Return to README.md][3]
 
-#### Generated with `dotnet new corebot` vX.X.X
+#### Generated with `dotnet new corebot` __vX.X.X__
 
 [1]: https://www.luis.ai
 [3]: ./README.md
