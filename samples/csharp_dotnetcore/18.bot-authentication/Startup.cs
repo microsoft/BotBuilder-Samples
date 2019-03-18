@@ -115,6 +115,10 @@ namespace Microsoft.BotBuilderSamples
                 var conversationState = new ConversationState(dataStore);
 
                 options.State.Add(conversationState);
+
+                // Automatically save state at the end of a turn.
+                options.Middleware
+                    .Add(new AutoSaveStateMiddleware(conversationState));
             });
 
             // Create and register state accessors.
