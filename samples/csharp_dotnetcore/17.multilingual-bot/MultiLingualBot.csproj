@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,20 +9,11 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="0.12.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.2.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.2.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.2.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.2.2" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.2" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.2.2" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.3.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.3.2" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.2" />
     <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
-    <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

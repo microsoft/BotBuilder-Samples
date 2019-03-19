@@ -117,11 +117,15 @@ namespace Microsoft.BotBuilderSamples
 
                 // Create and add conversation state.
                 var convoState = new ConversationState(dataStore);
+#pragma warning disable CS0618 // Type or member is obsolete
                 options.State.Add(convoState);
+#pragma warning restore CS0618 // Type or member is obsolete
 
                 // Create and add user state.
                 var userState = new UserState(dataStore);
+#pragma warning disable CS0618 // Type or member is obsolete
                 options.State.Add(userState);
+#pragma warning restore CS0618 // Type or member is obsolete
 
                 // Translation key from settings
                 var translatorKey = Configuration.GetValue<string>("translatorKey");
@@ -149,13 +153,17 @@ namespace Microsoft.BotBuilderSamples
                     throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the State Accessors");
                 }
 
+#pragma warning disable CS0618 // Type or member is obsolete
                 var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
+#pragma warning restore CS0618 // Type or member is obsolete
                 if (conversationState == null)
                 {
                     throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
                 }
 
+#pragma warning disable CS0618 // Type or member is obsolete
                 var userState = options.State.OfType<UserState>().FirstOrDefault();
+#pragma warning restore CS0618 // Type or member is obsolete
                 if (userState == null)
                 {
                     throw new InvalidOperationException("UserState must be defined and added before adding user-scoped state accessors.");
