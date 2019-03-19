@@ -29,49 +29,69 @@ class BookingDialog extends CancelAndHelpDialog {
         this.initialDialogId = WATERFALL_DIALOG;
     }
 
+    /**
+     * If a destination city has not been provided, prompt for one.
+     */
     async destinationStep(stepContext) {
         const bookingDetails = stepContext.options;
 
         if (!bookingDetails.destination) {
-            return await stepContext.prompt(TEXT_PROMPT, { prompt: 'Where would you like to travel to?' });
+            return await stepContext.prompt(TEXT_PROMPT, { prompt: 'To what city would you like to travel?' });
         } else {
             return await stepContext.next(bookingDetails.destination);
         }
     }
-    
+
+    /**
+     * If an origin city has not been provided, prompt for one.
+     */
     async originStep(stepContext) {
         const bookingDetails = stepContext.options;
 
+        // Capture the response to the previous step's prompt
         bookingDetails.destination = stepContext.result;
         if (!bookingDetails.origin) {
-            return await stepContext.prompt(TEXT_PROMPT, { prompt: 'Where are you traveling from?' });
+            return await stepContext.prompt(TEXT_PROMPT, { prompt: 'From what city will you be travelling?' });
         } else {
             return await stepContext.next(bookingDetails.origin);
         }
     }
 
+    /**
+     * If a travel date has not been provided, prompt for one.
+     * This will use the DATE_RESOLVER_DIALOG.
+     */
     async travelDateStep(stepContext) {
         const bookingDetails = stepContext.options;
 
+        // Capture the results of the previous step
         bookingDetails.origin = stepContext.result;
         if (!bookingDetails.travelDate || this.isAmbiguous(bookingDetails.travelDate)) {
-            return await stepContext.beginDialog(DATE_RESOLVER_DIALOG, bookingDetails.travelDate);
+            return await stepContext.beginDialog(DATE_RESOLVER_DIALOG, { date: bookingDetails.travelDate });
         } else {
             return await stepContext.next(bookingDetails.travelDate);
         }
     }
 
+    /**
+     * Confirm the information the user has provided.
+     */
     async confirmStep(stepContext) {
         const bookingDetails = stepContext.options;
 
+        // Capture the results of the previous step
         bookingDetails.travelDate = stepContext.result;
-        const msg = `Please confirm, I have you traveling to: ${bookingDetails.destination} from: ${bookingDetails.origin} on: ${bookingDetails.travelDate}`;
+        const msg = `Please confirm, I have you traveling to: ${ bookingDetails.destination } from: ${ bookingDetails.origin } on: ${ bookingDetails.travelDate }.`;
 
+        // Offer a YES/NO prompt.
         return await stepContext.prompt(CONFIRM_PROMPT, { prompt: msg });
     }
 
+    /**
+     * Complete the interaction and end the dialog.
+     */
     async finalStep(stepContext) {
-        if (stepContext.result == true) {
+        if (stepContext.result === true) {
             const bookingDetails = stepContext.options;
 
             return await stepContext.endDialog(bookingDetails);

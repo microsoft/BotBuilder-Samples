@@ -45,16 +45,15 @@ This sample requires prerequisites in order to run.
     npm start
     ```
 
-# Testing the bot using Bot Framework Emulator **v4**
+# Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
 
-## Connect to bot using Bot Framework Emulator **v4**
+## Connect to bot using Bot Framework Emulator
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration
-- Navigate to `samples/javascript_nodejs/13.basic-bot` folder
-- Select `basic-bot.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 ## Deploy this bot to Azure
 See [here](./deploymentScripts/DEPLOY.md) to learn more about deploying this bot to Azure and using the CLI tools to build the LUIS models this bot depends on.
