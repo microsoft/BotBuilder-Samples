@@ -1,16 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
 using Microsoft.Recognizers.Text.Number;
-using System;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -32,10 +31,10 @@ namespace Microsoft.BotBuilderSamples
         {
            
             var conversationStateAccessors = _conversationState.CreateProperty<ConversationFlow>(nameof(ConversationFlow));
-            ConversationFlow flow = await conversationStateAccessors.GetAsync(turnContext, () => new ConversationFlow());
+            var flow = await conversationStateAccessors.GetAsync(turnContext, () => new ConversationFlow());
 
             var userStateAccessors = _userState.CreateProperty<UserProfile>(nameof(UserProfile));
-            UserProfile profile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile());
+            var profile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile());
 
             await FillOutUserProfileAsync(flow, profile, turnContext);
 
@@ -131,9 +130,9 @@ namespace Microsoft.BotBuilderSamples
                 // Attempt to convert the Recognizer result to an integer. This works for "a dozen", "twelve", "12", and so on.
                 // The recognizer returns a list of potential recognition results, if any.
 
-                List<ModelResult> results = NumberRecognizer.RecognizeNumber(input, Culture.English);
+                var results = NumberRecognizer.RecognizeNumber(input, Culture.English);
 
-                foreach (ModelResult result in results)
+                foreach (var result in results)
                 {
                     // The result resolution is a dictionary, where the "value" entry contains the processed string.
                     if (result.Resolution.TryGetValue("value", out object value))
@@ -165,18 +164,18 @@ namespace Microsoft.BotBuilderSamples
             // The recognizer returns a list of potential recognition results, if any.
             try
             {
-                List<ModelResult> results = DateTimeRecognizer.RecognizeDateTime(input, Culture.English);
+                var results = DateTimeRecognizer.RecognizeDateTime(input, Culture.English);
 
                 // Check whether any of the recognized date-times are appropriate,
                 // and if so, return the first appropriate date-time. We're checking for a value at least an hour in the future.
-                DateTime earliest = DateTime.Now.AddHours(1.0);
+                var earliest = DateTime.Now.AddHours(1.0);
 
-                foreach (ModelResult result in results)
+                foreach (var result in results)
                 {
                     // The result resolution is a dictionary, where the "values" entry contains the processed input.
-                    List<Dictionary<string, string>> resolutions = result.Resolution["values"] as List<Dictionary<string, string>>;
+                    var resolutions = result.Resolution["values"] as List<Dictionary<string, string>>;
 
-                    foreach (Dictionary<string, string> resolution in resolutions)
+                    foreach (var resolution in resolutions)
                     {
                         // The processed input contains a "value" entry if it is a date-time value, or "start" and
                         // "end" entries if it is a date-time range.

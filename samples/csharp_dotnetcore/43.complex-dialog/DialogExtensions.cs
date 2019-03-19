@@ -10,46 +10,16 @@ namespace Microsoft.BotBuilderSamples
 {
     public static class DialogExtensions
     {
-        
-        public static async Task Run(
-            this Dialog dialog,
-            ITurnContext turnContext,
-            ConversationState conversationState,
-            UserState userState,
-            CancellationToken cancellationToken)
+        public static async Task Run(this Dialog dialog, ITurnContext turnContext, IStatePropertyAccessor<DialogState> accessor, CancellationToken cancellationToken)
         {
-            var userStateAccessor = userState.CreateProperty<UserProfile>("UserProfile");
-            var conversationStateAccessor = conversationState.CreateProperty<DialogState>("DialogState");
-            var dialogSet = new DialogSet(conversationStateAccessor);
-
+            var dialogSet = new DialogSet(accessor);
             dialogSet.Add(dialog);
 
             var dialogContext = await dialogSet.CreateContextAsync(turnContext, cancellationToken);
             var results = await dialogContext.ContinueDialogAsync(cancellationToken);
-
-            switch (results.Status)
+            if (results.Status == DialogTurnStatus.Empty)
             {
-                case DialogTurnStatus.Cancelled:
-                case DialogTurnStatus.Empty:
-                    // If there is no active dialog, we should clear the user info and start a new dialog.
-                    await userStateAccessor.SetAsync(turnContext, new UserProfile(), cancellationToken);
-                    await userState.SaveChangesAsync(turnContext, false, cancellationToken);
-                    await dialogContext.BeginDialogAsync(dialog.Id, null, cancellationToken);
-                    break;
-                case DialogTurnStatus.Complete:
-                    // If we just finished the dialog, capture and display the results.
-                    UserProfile userInfo = results.Result as UserProfile;
-                    string status = "You are signed up to review "
-                    + (userInfo.CompaniesToReview.Count is 0 ? "no companies" : string.Join(" and ", userInfo.CompaniesToReview))
-                    + ".";
-
-                    await turnContext.SendActivityAsync(status);
-                    await userStateAccessor.SetAsync(turnContext, userInfo, cancellationToken);
-                    await userState.SaveChangesAsync(turnContext, false, cancellationToken);
-                    break;
-                case DialogTurnStatus.Waiting:
-                    // If there is an active dialog, we don't need to do anything here.
-                    break;
+                await dialogContext.BeginDialogAsync(dialog.Id, null, cancellationToken);
             }
         }
     }

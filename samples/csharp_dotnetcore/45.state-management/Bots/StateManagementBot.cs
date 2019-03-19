@@ -1,24 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Schema;
+
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples
 {
-    /// <summary>
-    /// Represents a bot that processes incoming activities.
-    /// For each user interaction, an instance of this class is created and the OnTurnAsync method is called.
-    /// This is a Transient lifetime service.  Transient lifetime services are created
-    /// each time they're requested. For each Activity received, a new instance of this
-    /// class is created. Objects that are expensive to construct, or have a lifetime
-    /// beyond the single turn, should be carefully managed.
-    /// For example, the <see cref="MemoryStorage"/> object and associated
-    /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
-    /// </summary>
     public class StateManagementBot : ActivityHandler
     {
         private BotState _conversationState;
@@ -30,12 +21,14 @@ namespace Microsoft.BotBuilderSamples
             _userState = userState;
         }
 
-        /// <summary>The turn handler for the bot.</summary>
-        /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
-        /// for processing this conversation turn. </param>
-        /// <param name="cancellationToken">(Optional) A <see cref="CancellationToken"/> that can be used by other objects
-        /// or threads to receive notice of cancellation.</param>
-        /// <returns>A <see cref="Task"/> that represents the work queued to execute.</returns>
+        public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            await base.OnTurnAsync(turnContext, cancellationToken);
+
+            // Save any state changes that might have occured during the turn.
+            await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
+            await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
+        }
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
@@ -47,12 +40,10 @@ namespace Microsoft.BotBuilderSamples
             // Get the state properties from the turn context.
 
             var conversationStateAccessors =  _conversationState.CreateProperty<ConversationData>(nameof(ConversationData));
-            ConversationData conversationData = await conversationStateAccessors.GetAsync(turnContext, () => new ConversationData());
-
+            var conversationData = await conversationStateAccessors.GetAsync(turnContext, () => new ConversationData());
 
             var userStateAccessors = _userState.CreateProperty<UserProfile>(nameof(UserProfile));
-            UserProfile userProfile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile());
-           
+            var userProfile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile());
 
             if (string.IsNullOrEmpty(userProfile.Name))
             {
@@ -76,9 +67,6 @@ namespace Microsoft.BotBuilderSamples
                     // Set the flag to true, so we don't prompt in the next turn.
                     conversationData.PromptedUserForName = true;
                 }
-
-                // Save user state changes.
-                await _userState.SaveChangesAsync(turnContext);
             }
             else
             {
@@ -94,9 +82,6 @@ namespace Microsoft.BotBuilderSamples
                 await turnContext.SendActivityAsync($"Message received at: {conversationData.Timestamp}");
                 await turnContext.SendActivityAsync($"Message received from: {conversationData.ChannelId}");
             }
-
-            // Save conversation state changes.
-            await _conversationState.SaveChangesAsync(turnContext);
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace Microsoft.BotBuilderSamples
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace Microsoft.BotBuilderSamples
 {
     // Defines a state property used to track conversation data.
     public class ConversationData
