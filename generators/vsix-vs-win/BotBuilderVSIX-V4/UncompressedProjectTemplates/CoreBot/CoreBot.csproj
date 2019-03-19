@@ -5,10 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>    
-    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.2" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.2.2" />
     <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.2.2" />
@@ -17,7 +15,6 @@
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.2" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.2.2" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.2.2" />
-    <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
   </ItemGroup>
 
   <ItemGroup>
