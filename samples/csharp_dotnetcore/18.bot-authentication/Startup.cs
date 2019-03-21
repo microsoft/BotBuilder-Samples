@@ -55,6 +55,34 @@ namespace Microsoft.BotBuilderSamples
         /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
+            // The Memory Storage used here is for local bot debugging only. When the bot
+            // is restarted, everything stored in memory will be gone.
+            IStorage dataStore = new MemoryStorage();
+
+            // For production bots use the Azure Blob or
+            // Azure CosmosDB storage providers. For the Azure
+            // based storage providers, add the Microsoft.Bot.Builder.Azure
+            // Nuget package to your solution. That package is found at:
+            // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
+            // Uncomment the following lines to use Azure Blob Storage
+            // //Storage configuration name or ID from the .bot file.
+            // const string StorageConfigurationId = "<STORAGE-NAME-OR-ID-FROM-BOT-FILE>";
+            // var blobConfig = botConfig.FindServiceByNameOrId(StorageConfigurationId);
+            // if (!(blobConfig is BlobStorageService blobStorageConfig))
+            // {
+            //    throw new InvalidOperationException($"The .bot file does not contain an blob storage with name '{StorageConfigurationId}'.");
+            // }
+            // // Default container name.
+            // const string DefaultBotContainer = "<DEFAULT-CONTAINER>";
+            // var storageContainer = string.IsNullOrWhiteSpace(blobStorageConfig.Container) ? DefaultBotContainer : blobStorageConfig.Container;
+            // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage(blobStorageConfig.ConnectionString, storageContainer);
+
+            // Create Conversation State object.
+            // The Conversation State object is where we persist anything at the conversation-scope.
+            var conversationState = new ConversationState(dataStore);
+
+            services.AddSingleton(conversationState);
+
             services.AddBot<AuthenticationBot>(options =>
             {
                 var secretKey = Configuration.GetSection("botFileSecret")?.Value;
@@ -87,61 +115,6 @@ namespace Microsoft.BotBuilderSamples
                     logger.LogError($"Exception caught : {exception}");
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
-
-                // The Memory Storage used here is for local bot debugging only. When the bot
-                // is restarted, everything stored in memory will be gone.
-                IStorage dataStore = new MemoryStorage();
-
-                // For production bots use the Azure Blob or
-                // Azure CosmosDB storage providers. For the Azure
-                // based storage providers, add the Microsoft.Bot.Builder.Azure
-                // Nuget package to your solution. That package is found at:
-                // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
-                // Uncomment the following lines to use Azure Blob Storage
-                // //Storage configuration name or ID from the .bot file.
-                // const string StorageConfigurationId = "<STORAGE-NAME-OR-ID-FROM-BOT-FILE>";
-                // var blobConfig = botConfig.FindServiceByNameOrId(StorageConfigurationId);
-                // if (!(blobConfig is BlobStorageService blobStorageConfig))
-                // {
-                //    throw new InvalidOperationException($"The .bot file does not contain an blob storage with name '{StorageConfigurationId}'.");
-                // }
-                // // Default container name.
-                // const string DefaultBotContainer = "<DEFAULT-CONTAINER>";
-                // var storageContainer = string.IsNullOrWhiteSpace(blobStorageConfig.Container) ? DefaultBotContainer : blobStorageConfig.Container;
-                // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage(blobStorageConfig.ConnectionString, storageContainer);
-
-                // Create Conversation State object.
-                // The Conversation State object is where we persist anything at the conversation-scope.
-                var conversationState = new ConversationState(dataStore);
-
-                options.State.Add(conversationState);
-            });
-
-            // Create and register state accessors.
-            // Accessors created here are passed into the IBot-derived class on every turn.
-            services.AddSingleton<AuthenticationBotAccessors>(sp =>
-            {
-                var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
-                if (options == null)
-                {
-                    throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the State Accessors.");
-                }
-
-                var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
-                if (conversationState == null)
-                {
-                    throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
-                }
-
-                // Create Custom State Property accessors
-                // State Property Accessors enable components to read and write individual properties, without having to
-                // pass the entire state object.
-                var accessors = new AuthenticationBotAccessors
-                {
-                    ConversationDialogState = conversationState.CreateProperty<DialogState>(AuthenticationBotAccessors.DialogStateName),
-                };
-
-                return accessors;
             });
         }
 

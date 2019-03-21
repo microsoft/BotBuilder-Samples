@@ -33,28 +33,39 @@ namespace Microsoft.BotBuilderSamples
 
         private const string LoginPromptName = "loginPrompt";
         private const string ConfirmPromptName = "confirmPrompt";
+        private const string WaterfallDialogName = "waterfallDialog";
 
         private const string WelcomeText = @"This bot will introduce you to Authentication.
                                         Type anything to get logged in. Type 'logout' to sign-out.
                                         Type 'help' to view this message again";
 
-        private readonly AuthenticationBotAccessors _stateAccessors;
+        private readonly OAuthPromptSettings _oauthPromptSettings = new OAuthPromptSettings
+        {
+            ConnectionName = ConnectionName,
+            Text = "Please Sign In",
+            Title = "Sign In",
+            Timeout = 300000, // User has 5 minutes to login (1000 * 60 * 5)
+        };
+
+        private readonly ConversationState _conversationState;
+        private readonly IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private readonly DialogSet _dialogs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationBot"/> class.
         /// </summary>
-        /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
+        /// <param name="conversationState">The <see cref="ConversationState"/> singleton added in <see cref="Startup.ConfigureServices(Extensions.DependencyInjection.IServiceCollection)"/>.</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
-        public AuthenticationBot(AuthenticationBotAccessors accessors)
+        public AuthenticationBot(ConversationState conversationState)
         {
-            _stateAccessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
-            _dialogs = new DialogSet(_stateAccessors.ConversationDialogState);
+            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
+            _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
+            _dialogs = new DialogSet(_dialogStateAccessor);
 
             // Add the OAuth prompts and related dialogs into the dialog set
-            _dialogs.Add(Prompt(ConnectionName));
+            _dialogs.Add(new OAuthPrompt(LoginPromptName, _oauthPromptSettings));
             _dialogs.Add(new ConfirmPrompt(ConfirmPromptName));
-            _dialogs.Add(new WaterfallDialog("authDialog", new WaterfallStep[] { PromptStepAsync, LoginStepAsync, DisplayTokenAsync }));
+            _dialogs.Add(new WaterfallDialog(WaterfallDialogName, new WaterfallStep[] { PromptStepAsync, LoginStepAsync, DisplayTokenAsync }));
         }
 
         /// <summary>
@@ -103,7 +114,7 @@ namespace Microsoft.BotBuilderSamples
                     if (!turnContext.Responded)
                     {
                         // Start the Login process.
-                        await dc.BeginDialogAsync("authDialog", cancellationToken: cancellationToken);
+                        await dc.BeginDialogAsync(WaterfallDialogName, cancellationToken: cancellationToken);
                     }
 
                     break;
@@ -118,7 +129,7 @@ namespace Microsoft.BotBuilderSamples
                     await dc.ContinueDialogAsync(cancellationToken);
                     if (!turnContext.Responded)
                     {
-                        await dc.BeginDialogAsync("authDialog", cancellationToken: cancellationToken);
+                        await dc.BeginDialogAsync(WaterfallDialogName, cancellationToken: cancellationToken);
                     }
 
                     break;
@@ -131,6 +142,8 @@ namespace Microsoft.BotBuilderSamples
 
                     break;
             }
+
+            await _conversationState.SaveChangesAsync(turnContext);
         }
 
         /// <summary>
@@ -151,25 +164,6 @@ namespace Microsoft.BotBuilderSamples
                         cancellationToken: cancellationToken);
                 }
             }
-        }
-
-        /// <summary>
-        /// Prompts the user to login using the OAuth provider specified by the connection name.
-        /// </summary>
-        /// <param name="connectionName"> The name of your connection. It can be found on Azure in
-        /// your Bot Channels Registration on the settings blade. </param>
-        /// <returns> An <see cref="OAuthPrompt"/> the user may use to log in.</returns>
-        private static OAuthPrompt Prompt(string connectionName)
-        {
-            return new OAuthPrompt(
-                LoginPromptName,
-                new OAuthPromptSettings
-                {
-                    ConnectionName = connectionName,
-                    Text = "Please Sign In",
-                    Title = "Sign In",
-                    Timeout = 300000, // User has 5 minutes to login (1000 * 60 * 5)
-                });
         }
 
         /// <summary>
