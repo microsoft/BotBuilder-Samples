@@ -17,7 +17,6 @@
         "botbuilder": "^4.3.2",
         "botbuilder-ai": "^4.3.2",
         "botbuilder-dialogs": "^4.3.2",
-        "botframework-config": "^4.3.2",
         "dotenv": "^6.1.0",
         "restify": "^7.2.3"
     },
