@@ -21,8 +21,19 @@ More information about Core Bot can be found at https://aka.ms/vsix_corebot
         <ProjectItem ReplaceParameters="true">DialogAndWelcomeBot.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true">DialogBot.cs</ProjectItem>
       </Folder>
+      <Folder Name="Cards" TargetFolderName="Cards">
+        <ProjectItem ReplaceParameters="false">welcomeCard.json</ProjectItem>
+      </Folder>
+      <Folder Name="CognitiveModels" TargetFolderName="CognitiveModels">
+        <ProjectItem ReplaceParameters="false">FlightBooking.json</ProjectItem>
+      </Folder>
       <Folder Name="controllers" TargetFolderName="Controllers">
         <ProjectItem ReplaceParameters="true">BotController.cs</ProjectItem>
+      </Folder>
+      <Folder Name="deploymentScripts" TargetFolderName="DesploymentScripts">
+        <Folder Name="MSBotClone" TargetFolderName="MSBotClone">
+          <ProjectItem ReplaceParameters="false">bot.recipe</ProjectItem>
+        </Folder>
       </Folder>
 
       <Folder Name="Dialogs" TargetFolderName="Dialogs">
