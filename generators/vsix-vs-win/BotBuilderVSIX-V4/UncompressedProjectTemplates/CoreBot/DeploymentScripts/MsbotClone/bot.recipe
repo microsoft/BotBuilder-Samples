@@ -17,22 +17,6 @@
       "type": "abs",
       "id": "3",
       "name": "core-Bot"
-    },
-    {
-      "type": "appInsights",
-      "id": "4",
-      "name": "core-Insights"
-    },
-    {
-      "type": "blob",
-      "id": "5",
-      "name": "core-Blob",
-      "container": "botstatestore"
-    },
-    {
-      "type": "luis",
-      "id": "34",
-      "name": "core-bot-LUIS"
     }
   ]
 }

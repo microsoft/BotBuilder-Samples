@@ -2,7 +2,7 @@
     xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
   <TemplateData>
     <Name>Microsoft Bot Builder V4 SDK</Name>
-    <Description>Project template and extension to create bots using Microsoft Bot Framework</Description>
+    <Description>Project templates to create bots using Microsoft Bot Framework</Description>
     <Icon>vstg0001.png</Icon>
     <ProjectType>CSharp</ProjectType>
   </TemplateData>
