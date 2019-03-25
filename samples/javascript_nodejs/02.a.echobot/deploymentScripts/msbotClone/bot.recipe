@@ -1,0 +1,16 @@
+{
+  "version": "1.0",
+  "resources": [
+    {
+      "type": "endpoint",
+      "id": "1",
+      "name": "development",
+      "url": "http://localhost:3978/api/messages"
+    },
+    {
+      "type": "abs",
+      "id": "3",
+      "name": "echobot-abs"
+    }
+  ]
+}
