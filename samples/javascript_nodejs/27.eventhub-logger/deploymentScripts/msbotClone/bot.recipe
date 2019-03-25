@@ -1,0 +1,43 @@
+{
+  "version": "1.0",
+  "resources": [
+    {
+      "type": "endpoint",
+      "id": "1",
+      "name": "development",
+      "url": "http://localhost:3978/api/messages"
+    },
+    {
+      "type": "endpoint",
+      "id": "2",
+      "name": "production",
+      "url": "https://your-bot-url.azurewebsites.net/api/messages"
+    },
+    {
+      "type": "abs",
+      "id": "3",
+      "name": "eventhub-logger-Bot"
+    },
+    {
+      "type": "appInsights",
+      "id": "4",
+      "name": "eventhub-logger-Insights"
+    },
+    {
+      "type": "blob",
+      "id": "5",
+      "name": "eventhub-logger-Blob",
+      "container": "botstatestore"
+    },
+    {
+      "type": "generic",
+      "id": "6",
+      "name": "eventhub",
+      "url": "eventhub",
+      "configuration": {
+        "eventHub.connectionString": "Endpoint=sb://*.servicebus.windows.net/;SharedAccessKeyName=*;SharedAccessKey=*",
+        "eventHub.name": "<YOUR-EVENT-HUB-NAME>"
+      }
+    }
+  ]
+}
