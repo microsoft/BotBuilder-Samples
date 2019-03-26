@@ -2,8 +2,7 @@
   <TemplateData>
     <Name>Core Bot (Bot Framework v4)</Name>
     <Description>Core Bot Template for Bot Framework v4.  Our most feature rich template, the template provides a core set of features every bot is likely to have.
-More information about Core Bot can be found at https://aka.ms/vsix_corebot
-      </Description>
+    </Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>Bot Framework</ProjectSubType>
     <SortOrder>2000</SortOrder>
@@ -30,11 +29,6 @@ More information about Core Bot can be found at https://aka.ms/vsix_corebot
       <Folder Name="controllers" TargetFolderName="Controllers">
         <ProjectItem ReplaceParameters="true">BotController.cs</ProjectItem>
       </Folder>
-      <Folder Name="deploymentScripts" TargetFolderName="DesploymentScripts">
-        <Folder Name="MSBotClone" TargetFolderName="MSBotClone">
-          <ProjectItem ReplaceParameters="false">bot.recipe</ProjectItem>
-        </Folder>
-      </Folder>
 
       <Folder Name="Dialogs" TargetFolderName="Dialogs">
         <ProjectItem ReplaceParameters="true">BookingDialog.cs</ProjectItem>
@@ -51,6 +45,9 @@ More information about Core Bot can be found at https://aka.ms/vsix_corebot
         <ProjectItem ReplaceParameters="true">default.htm</ProjectItem>
       </Folder>
 
+      <ProjectItem ReplaceParameters="false">appsettings.Development.json</ProjectItem>
+      <ProjectItem ReplaceParameters="false">appsettings.json</ProjectItem>
+
       <ProjectItem ReplaceParameters="true">AdapterWithErrorHandler.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true">BookingDetails.cs</ProjectItem>
 
@@ -58,7 +55,6 @@ More information about Core Bot can be found at https://aka.ms/vsix_corebot
 
       <ProjectItem ReplaceParameters="true">DialogExtensions.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true">LuisHelper.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true">PREREQUISITES.md</ProjectItem>
 
       <ProjectItem ReplaceParameters="true">Program.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true">README.md</ProjectItem>

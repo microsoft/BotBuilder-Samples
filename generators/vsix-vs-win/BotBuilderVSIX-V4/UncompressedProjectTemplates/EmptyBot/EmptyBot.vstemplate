@@ -29,6 +29,9 @@
         <ProjectItem ReplaceParameters="true">default.htm</ProjectItem>
       </Folder>
 
+      <ProjectItem ReplaceParameters="false">appsettings.Development.json</ProjectItem>
+      <ProjectItem ReplaceParameters="false">appsettings.json</ProjectItem>
+
       <ProjectItem ReplaceParameters="true">ConfigurationCredentialProvider.cs</ProjectItem>
 
       <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.cs">EmptyBot.cs</ProjectItem>

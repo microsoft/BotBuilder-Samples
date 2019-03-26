@@ -2,7 +2,6 @@
   <TemplateData>
     <Name>Echo Bot (Bot Framework v4)</Name>
     <Description>Echo Bot Template for Bot Framework v4.  A good template if you want a little more than "Hello World!".  Echo Bot simply "echos" back to the user anything the user says to the bot.
-More information about Echo Bot can be found at https://aka.ms/vsix_echobot
     </Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>Bot Framework</ProjectSubType>
@@ -33,6 +32,9 @@ More information about Echo Bot can be found at https://aka.ms/vsix_echobot
       <Folder Name="wwwroot" TargetFolderName="wwwroot">
         <ProjectItem ReplaceParameters="true">default.htm</ProjectItem>
       </Folder>
+
+      <ProjectItem ReplaceParameters="false">appsettings.Development.json</ProjectItem>
+      <ProjectItem ReplaceParameters="false">appsettings.json</ProjectItem>
 
       <ProjectItem ReplaceParameters="true">ConfigurationCredentialProvider.cs</ProjectItem>
 
