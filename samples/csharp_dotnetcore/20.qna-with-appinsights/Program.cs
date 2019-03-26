@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -11,27 +12,22 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class Program
     {
-        /// <summary>
-        /// This is the entry point for your application.
-        /// It is run first once your application is started.
-        /// This method creates a web server.
-        /// </summary>
-        /// <param name="args">Arguments for this method.</param>
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Microsoft.AspNetCore.Hosting.WebHostBuilder" />
-        /// class with pre-configured defaults.
-        /// The UseStartup method on WebHost specifies the Startup class for your app.
-        /// </summary>
-        /// <param name="args">Arguments for this method.</param>
-        /// <returns>A web server.</returns>
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+                .ConfigureLogging(logging =>
+                {
+                    logging.AddDebug();
+                    logging.AddConsole();
+                })
+                // Logging Options.
+                // Consider using Application Insights for your logging and metrics needs.
+                // https://azure.microsoft.com/en-us/services/application-insights/
+                // .UseApplicationInsights()
+                .UseStartup<Startup>();
     }
 }
