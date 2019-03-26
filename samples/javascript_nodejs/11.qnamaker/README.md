@@ -59,12 +59,7 @@ QnA Maker enables you to power a question and answer service from your semi-stru
 One of the basic requirements in writing your own bot is to seed it with questions and answers. In many cases, the questions and answers already exist in content like FAQ URLs/documents, product manuals, etc. With QnA Maker, users can query your application in a natural, conversational manner. QnA Maker uses machine learning to extract relevant question-answer pairs from your content. It also uses powerful matching and ranking algorithms to provide the best possible match between the user query and the questions.
 
 # Deploy the bot to Azure
-After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.  To deploy your bot to Azure:
-
-```bash
-# login to Azure
-az login
-```
+After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.  [To deploy your bot to Azure][42]
 
 ### Publishing Changes to Azure Bot Service
 As you make changes to your locally running bot, you can deploy those changes to Azure Bot Service using a _publish_ helper.  See `publish.cmd` if you are on Windows or `./publish` if you are on a non-Windows platform.  The following is an example of publishing local changes to Azure:
@@ -116,3 +111,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
 [41]: ./PREREQUISITES.md
+[42]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-deploy-az-cli?view=azure-bot-service-4.0
