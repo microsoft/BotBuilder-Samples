@@ -31,39 +31,14 @@ This bot has been created using [Bot Framework][1], it shows how to create a sim
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Deploy the bot to Azure
-
-## Prerequisites
-- [Azure Deployment Prerequisites][41]
-
-## Provision a Bot with Azure Bot Service
-After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.  To deploy your bot to Azure:
-
-```bash
-# login to Azure
-az login
-```
-
-```bash
-# provision Azure Bot Services resources to host your bot
-msbot clone services --name "<%= botname %>" --code-dir "." --location <azure region like eastus, westus, westus2 etc.> --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
-```
-
 ## Publishing Changes to Azure Bot Service
-As you make changes to your bot running locally, and want to deploy those change to Azure Bot Service, you can _publish_ those change using either `publish.cmd` if you are on Windows or `./publish` if you are on a non-Windows platform.  The following is an example of publishing
 
 ```bash
-# build the bot source code
+# build the TypeScript bot before you publish
 npm run build
 ```
 
-```bash
-# run the publish helper (non-Windows) to update Azure Bot Service.  Use publish.cmd if running on Windows
-./publish
-```
-
-## Getting Additional Help with Deploying to Azure
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
-
 
 
 # Further reading

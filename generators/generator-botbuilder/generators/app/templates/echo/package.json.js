@@ -16,9 +16,9 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "^4.3.0",
-        "dotenv": "^6.2.0",
-        "restify": "^7.7.0"
+        "botbuilder": "~4.3.2",
+        "dotenv": "^7.0.0",
+        "restify": "~8.2.0"
     },
     "devDependencies": {
         "eslint": "^5.13.0",
