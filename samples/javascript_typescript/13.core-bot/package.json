@@ -1,21 +1,16 @@
 {
-    "name": "<%= botname %>",
-    "version": "1.0.0",
-    "description": "<%= botDescription %>",
-    "author": "Generated using Microsoft Bot Builder Yeoman generator v<%= version %>",
+    "name": "basic-bot",
+    "version": "0.1.0",
+    "description": "A basic bot that demonstrates core AI capabilities",
+    "author": "Microsoft Bot Framework Team",
     "license": "MIT",
-    "main": "<%= npmMain %>",
+    "main": "index.js",
     "scripts": {
         "build": "node_modules/.bin/tsc --build",
-        "lint": "node_modules/.bin/tslint -c tslint.json 'src/**/*.ts'",
-        "postinstall": "npm run build && node ./deploymentScripts/webConfigPrep.js",
         "start": "node_modules/.bin/tsc --build && node ./lib/index.js",
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "watch": "node_modules/.bin/nodemon --watch ./src -e ts --exec \"npm run start\""
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com"
+        "watch": "node_modules/.bin/nodemon --watch ./src -e ts --exec \"npm run start\"",
+        "lint": "node_modules/.bin/tslint -c tslint.json 'src/**/*.ts'",
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
         "@microsoft/recognizers-text-data-types-timex-expression": "1.1.4",

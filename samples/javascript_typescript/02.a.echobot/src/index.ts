@@ -9,7 +9,6 @@ import * as restify from 'restify';
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 import { BotFrameworkAdapter } from 'botbuilder';
 
-
 // This bot's main dialog.
 import { MyBot } from './bot';
 

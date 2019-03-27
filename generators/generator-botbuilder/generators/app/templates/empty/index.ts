@@ -17,10 +17,10 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
 });
 
 // Create adapter.
-// See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration.
+// See https://aka.ms/about-bot-adapter to learn more about adapters.
 const adapter = new BotFrameworkAdapter({
-    appId: process.env.microsoftAppID,
-    appPassword: process.env.microsoftAppPassword
+    appId: process.env.MicrosoftAppID,
+    appPassword: process.env.MicrosoftAppPassword,
 });
 
 // Catch-all for errors.
@@ -38,6 +38,6 @@ const myBot = new MyBot();
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
         // Route to main dialog.
-        await myBot.onTurn(context);
+        await myBot.run(context);
     });
 });
