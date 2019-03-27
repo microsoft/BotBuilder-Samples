@@ -15,30 +15,30 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 | Sample Name           | Description                                                                    | .NET CORE   | NodeJS      | .NET Web API | JS (es6)    | Typescript  |
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|-------------|
 |1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming message.                                                                                                 |[View][cs#1] |[View][js#1] |      |             |[View][ts#1] |
-|1.a.browser-echo       | Introduces browser adapter                                                     |             |             |              |[View][es#1a]|             |
+|1.a.browser-echo       | Demonstrates how to host a bot in the browser using Web Chat and a custom Web Chat Adapter.                                                     |             |             |              |[View][es#1a]|             |
 |2.a.echobot            | Demonstrates how to receive and send messages.                                 | [View][cs#2a] |[View][js#2a]|  |           |[View][ts#2a] |
 |3.welcome-user         | Introduces activity types and provides a welcome message on conversation update activity. |[View][cs#3] |[View][js#3] |              | | |
-|5.multi-turn-prompt    | Demonstrates more complex pattern by prompting user for multiple properties. Ask for name, age and prints back that information. Uses sequence dialogs if available or default option is to use waterfall dialogs.                                              |[View][cs#5] |[View][js#5] |              |             | |
+|5.multi-turn-prompt    | Demonstrates how to use waterfall dialog, prompts, and component dialog to create a simple interaction that asks the user for name, age, and prints back that information.                                              |[View][cs#5] |[View][js#5] |              |             | |
 |6.using-cards          | Introduces all card types including thumbnail, audio, media etc. Builds on Welcoming user + multi-prompt bot by presenting a card with buttons in welcome message that route to appropriate dialog.                                                        |[View][cs#6] |[View][js#6] |              |             | |
-|7.using-adaptive-cards | Introduces adaptive cards - demonstrates how the multi-turn dialog can be augmented to also use a card to get user input for name and age. |[View][cs#7] |[View][js#7] |              |             | |
-|8.suggested-actions    | Demonstrates how to use suggested actions                                      |[View][cs#8] |[View][js#8] |              |             | |
+|7.using-adaptive-cards | Demonstrates how the multi-turn dialog can use a card to get user input for name and age. |[View][cs#7] |[View][js#7] |              |             | |
+|8.suggested-actions    | Demonstrates how to enable your bot to present buttons that the user can tap to provide input.                                      |[View][cs#8] |[View][js#8] |              |             | |
 |11.qnamaker            | Demonstrates how to use QnA Maker to have simple single-turn conversations     |[View][cs#11]|[View][js#11]|              |             |[View][ts#11]|
-|13.core-bot            | Core bot template that puts together cards, NLP (LUIS)                         |[View][cs#13]|[View][js#13]|[View][wa#13] |             |[View][ts#13]|
-|14.nlp-with-dispatch   | Demonstrates how to dispatch across LUIS, QnA Maker                            |[View][cs#14]|[View][js#14]|              |             | |
-|15.handling-attachments| Demonstrates how to listen for/handle user provided attachments                |[View][cs#15]|[View][js#15]|              |             | |
-|16.proactive-messages  | Demonstrates how to send proactive messages to users                           |[View][cs#16]|[View][js#16]|              |             | |
+|13.core-bot            | Core bot shows how to use cards, dialog, and Langugage Understanding (LUIS).                         |[View][cs#13]|[View][js#13]|[View][wa#13] |             |[View][ts#13]|
+|14.nlp-with-dispatch   | Demonstrates how to dispatch across LUIS and QnA Maker.                            |[View][cs#14]|[View][js#14]|              |             | |
+|15.handling-attachments| Demonstrates how to listen for/handle user provided attachments.                |[View][cs#15]|[View][js#15]|              |             | |
+|16.proactive-messages  | Demonstrates how to send proactive messages to users.                           |[View][cs#16]|[View][js#16]|              |             | |
 |17.multilingual-bot    | Using translate middleware to support a multi-lingual bot. Demonstrates custom middleware. |[View][cs#17]|[View][js#17]|              |             | |
-|18.bot-authentication  | Bot that demonstrates how to integration with OAuth providers                  |[View][cs#18]|[View][js#18]|              |             | |
-|19.custom-dialogs      | Demonstrates different ways to model conversations. Waterfall .vs. using your own dialog management |[View][cs#19]|[View][js#19]|              |             | |
-|20.qna-with-appinsights| Demonstrates how to use QnA Maker and Azure Application insights               |[View][cs#20]|[View][js#20]|      |             | |
-|21.luis-appinsights    | Demonstrates how to use LUIS and Azure Application insights                    |[View][cs#21]|[View][js#21]|      |             | |
+|18.bot-authentication  | Bot that demonstrates how to integrate OAuth providers.                  |[View][cs#18]|[View][js#18]|              |             | |
+|19.custom-dialogs      | Demonstrates complex conversation flow using the Dialogs library. |[View][cs#19]|[View][js#19]|              |             | |
+|20.qna-with-appinsights| Demonstrates how to use QnA Maker and Azure Application insights.               |[View][cs#20]|[View][js#20]|      |             | |
+|21.luis-appinsights    | Demonstrates how to use LUIS and Azure Application insights.                    |[View][cs#21]|[View][js#21]|      |             | |
 |23.facebook-events     | Integrate and consume Facebook specific payloads, such as post-backs, quick replies and opt-in events.|[View][cs#23] |[View][js#23] |              |             | |
 |24.bot-auth-msgraph    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[View][cs#24] |[View][js#24] |              |             | |
 |26.bot-transcript-logging    | This bot demonstrates the transcript logging middleware in the nodejs SDK| |[View][js#26] |              |             | |
 |40.timex-resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[View][cs#40] |[View][js#40]|              | | |
 |42.scaleout            | Demonstrates how you can build your own state solution from the ground up that supports scaled out deployment with ETag based optimistic locking. |[View][cs#42] |    |              | | |
 |43.complex-dialog      | Demonstrates different ways for composing dialogs. |[View][cs#43]|[View][js#43] |              |             | |
-|44.prompt-for-user-input | Demonstrates how to implement your own basic prompts to ask the user for information. |[View][cs#44]|[View][js#44]|              |             | |
+|44.prompt-for-user-input | Demonstrates how to implement your own _basic_ prompts to ask the user for information. |[View][cs#44]|[View][js#44]|              |             | |
 |45.state-management    | Demonstrates how to use state management and storage objects to manage and persist state. | [View][cs#45] |   |              |             |  |
 |70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
 
