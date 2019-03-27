@@ -11,7 +11,7 @@ This bot has been created using [Bot Framework][1], it shows how to:
 This sample **requires** prerequisites in order to run.
 
 ### Overview
-This bot uses [LUIS][11], an AI based cognitive service, to implement language understanding.  The Bot Framework provides a set of CLI tools that will help setup LUIS so the bot can be run and tested locally.
+This bot uses [LUIS][11], an AI based cognitive service, to implement language understanding.
 
 - Node.js version 10.14.1 or higher.
     ```bash
@@ -36,7 +36,9 @@ LUIS language model setup, training, and application configuration steps can be 
     npm install
     ```
 - Setup LUIS
-    The prerequisite outlined above contain the steps necessary to provision a language understanding model on www.luis.ai.
+
+    The prerequisite outlined above contain the steps necessary to provision a language understanding model on www.luis.ai.  Refer to _Create a LUIS Application to enable language understanding_ above for directions to setup and configure LUIS.
+
 - Run the sample
     ```bash
     npm start
@@ -69,7 +71,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Azure Bot Service Documentation][22]
 - [Deploying Your Bot to Azure][40]
 - [Azure CLI][7]
-- [msbot CLI][9]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
 - [Add Natural Language Understanding to Your Bot][12]

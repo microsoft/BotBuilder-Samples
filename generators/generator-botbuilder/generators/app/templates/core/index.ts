@@ -73,7 +73,6 @@ const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-    console.log(`\nSee https://aka.ms/connect-to-bot for more information`);
 });
 
 // Listen for incoming activities and route them to your bot main dialog.

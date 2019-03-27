@@ -28,15 +28,14 @@ const getFolders = language => {
     folders = [
       path.join('src', 'bots'),
       'cognitiveModels',
-      'deploymentScripts',
       path.join('src', 'dialogs'),
       'resources',
+      'deploymentScripts',
     ];
   } else {
     folders = [
       'bots',
       'cognitiveModels',
-      'deploymentScripts',
       'dialogs',
       'resources',
     ];
@@ -53,19 +52,23 @@ const getFolders = language => {
 const writeCoreTemplateFiles = (gen, templatePath) => {
   const BOTS_FOLDER = 0;
   const COGNITIVE_MODELS_FOLDER = 1;
-  const DEPLOYMENT_SCRIPTS_FOLDER = 2;
-  const DIALOGS_FOLDER = 3;
-  const RESOURCES_FOLDER = 4;
+  const DIALOGS_FOLDER = 2;
+  const RESOURCES_FOLDER = 3;
+  const DEPLOYMENT_SCRIPTS_FOLDER = 4;
   const TS_SRC_FOLDER = 'src';
 
   // get the folder strucure, based on language
-  const srcFolders = [
+  let srcFolders = [
     'bots',
     'cognitiveModels',
-    'deploymentScripts',
     'dialogs',
     'resources',
   ];
+  // if we're generating TypeScript, then we need a deploymentScripts folder
+  if(_.toLower(gen.props.language) === LANG_TS) {
+    srcFolders = srcFolders.concat(['deploymentScripts']);
+  }
+
   const destFolders = getFolders(_.toLower(gen.props.language));
 
   const extension = _.toLower(gen.props.language) === 'javascript' ? 'js' : 'ts';
@@ -115,10 +118,12 @@ const writeCoreTemplateFiles = (gen, templatePath) => {
   // write out the dialogs folder
   sourcePath = path.join(templatePath, srcFolders[DIALOGS_FOLDER]);
   destinationPath = path.join(gen.destinationPath(), destFolders[DIALOGS_FOLDER]);
-  gen.fs.copy(
-    path.join(sourcePath, `bookingDetails.${extension}`),
-    path.join(destinationPath, `bookingDetails.${extension}`)
-  );
+  if(_.toLower(gen.props.language) === LANG_TS) {
+      gen.fs.copy(
+      path.join(sourcePath, `bookingDetails.${extension}`),
+      path.join(destinationPath, `bookingDetails.${extension}`)
+    );
+  }
   gen.fs.copy(
     path.join(sourcePath, `bookingDialog.${extension}`),
     path.join(destinationPath, `bookingDialog.${extension}`)
@@ -161,10 +166,12 @@ const writeCoreTemplateFiles = (gen, templatePath) => {
     }
   );
   // gen the logger stub
-  gen.fs.copy(
-    gen.templatePath(path.join(templatePath, `logger.${extension}`)),
-    path.join(destinationPath, `logger.${extension}`)
-  );
+  if(_.toLower(gen.props.language) === LANG_TS) {
+      gen.fs.copy(
+      gen.templatePath(path.join(templatePath, `logger.${extension}`)),
+      path.join(destinationPath, `logger.${extension}`)
+    );
+  }
 
 }
 
