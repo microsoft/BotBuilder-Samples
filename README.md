@@ -1,8 +1,6 @@
 ## Overview
 
-This repository contains samples for the Microsoft **Bot Framework V4 SDK** for [.NET](https://github.com/Microsoft/botbuilder-dotnet) and [JS](https://github.com//microsoft/botbuilder-js). 
-
-If you need samples for the Bot Framework _V3_ SDK, go [here](https://github.com/Microsoft/BotBuilder-Samples/tree/v3-sdk-samples).
+This repository contains samples for the Microsoft **Bot Framework V4 SDK** for [.NET](https://github.com/Microsoft/botbuilder-dotnet) and [JS](https://github.com//microsoft/botbuilder-js). If you need samples for the Bot Framework _V3_ SDK, go [here](https://github.com/Microsoft/BotBuilder-Samples/tree/v3-sdk-samples).
 
 ## Samples list
 Samples are designed to illustrate scenarios you'll need to implement to build great bots! To use the samples clone our GitHub repository using Git.
