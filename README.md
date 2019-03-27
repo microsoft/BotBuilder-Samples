@@ -5,7 +5,7 @@ This repository contains samples for the Microsoft **Bot Framework V4 SDK** for 
 If you need samples for the Bot Framework _V3_ SDK, go [here](https://github.com/Microsoft/BotBuilder-Samples/tree/v3-sdk-samples).
 
 ## Samples list
-Samples are organized into groups and designed to illustrate task-focused samples in C# and JS to help you build great bots! To use the samples clone our GitHub repository using Git.
+Samples are designed to illustrate scenarios you'll need to implement to build great bots! To use the samples clone our GitHub repository using Git.
 
 ```bash
     git clone https://github.com/Microsoft/BotBuilder-Samples.git
