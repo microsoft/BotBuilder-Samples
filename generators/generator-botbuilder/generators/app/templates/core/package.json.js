@@ -20,7 +20,6 @@
         "botbuilder-ai": "^4.3.0",
         "botbuilder-core": "^4.3.0",
         "botbuilder-dialogs": "^4.3.0",
-        "botframework-config": "^4.3.0",
         "botframework-connector": "^4.3.0",
         "botframework-schema": "^4.3.0",
         "dotenv": "^6.2.0",

@@ -18,22 +18,19 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "^4.3.0",
-        "botbuilder-ai": "^4.3.0",
-        "botbuilder-core": "^4.3.0",
-        "botbuilder-dialogs": "^4.3.0",
-        "botframework-config": "^4.3.0",
-        "botframework-connector": "^4.3.0",
-        "botframework-schema": "^4.3.0",
-        "dotenv": "^6.2.0",
-        "replace": "^1.0.1",
-        "restify": "^7.7.0"
+        "@microsoft/recognizers-text-data-types-timex-expression": "1.1.4",
+        "botbuilder": "~4.3.2",
+        "botbuilder-ai": "~4.3.2",
+        "botbuilder-dialogs": "~4.3.2",
+        "dotenv": "^7.0.0",
+        "replace": "~1.1.0",
+        "restify": "~8.2.0"
     },
     "devDependencies": {
         "@types/dotenv": "6.1.0",
-        "@types/restify": "7.2.7",
-        "nodemon": "^1.18.10",
-        "tslint": "^5.12.1",
-        "typescript": "^3.3.3"
+        "@types/restify": "7.2.9",
+        "nodemon": "~1.18.10",
+        "tslint": "~5.14.0",
+        "typescript": "~3.3.3"
     }
 }

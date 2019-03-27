@@ -20,16 +20,16 @@ This bot has been created using [Bot Framework][1].
     npm start
     ```
 
-# Testing the bot using Bot Framework Emulator **v4**
+# Testing the bot using Bot Framework Emulator
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator **v4**
+## Connect to the bot using Bot Framework Emulator
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration
-- Navigate to `<%= botname %>` folder
-- Select `<%= botname %>.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
+
 
 # Deploy the bot to Azure
 This bot was generated using the Empty bot template.  Unmodified, it's not practical to deploy an empty bot to Azure, as it doesn't have any conversational behavior yet.

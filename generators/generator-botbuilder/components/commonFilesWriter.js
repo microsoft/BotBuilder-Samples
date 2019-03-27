@@ -56,15 +56,6 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
     gen.destinationPath('.gitignore')
   );
 
-  gen.fs.copy(
-    gen.templatePath(path.join(templatePath, `botName.bot`)),
-    gen.destinationPath(`${gen.props.botname}.bot`), {
-    process: function (content) {
-      var pattern = new RegExp('<%= botname %>', 'g');
-      return content.toString().replace(pattern, botname.toString());
-    }
-  });
-
   // gen a .env file that points to the botfile
   gen.fs.copyTpl(
     gen.templatePath(path.join(templatePath, '_env')),
