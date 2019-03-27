@@ -1,37 +1,11 @@
 ## Overview
 
-This repository contains samples for the Microsoft **Bot Builder V4 SDK** - [dotnet SDK](https://github.com/Microsoft/botbuilder-dotnet), [JS SDK](https://github.com//microsoft/botbuilder-js).
+This repository contains samples for the Microsoft **Bot Framework V4 SDK** for [.NET](https://github.com/Microsoft/botbuilder-dotnet) and [JS](https://github.com//microsoft/botbuilder-js). 
 
-Samples for the Bot Builder V3 SDK are available [here](https://github.com/Microsoft/BotBuilder-Samples/tree/v3-sdk-samples).
-
-## Resources
-Bot Builder provides the most comprehensive experience for building conversation applications and includes the following SDKs and tools:
-
-- Bot Builder V4 SDK
-    - [**C#** (stable release)](https://github.com/microsoft/botbuilder-dotnet)
-    - [**JS** (stable release)](https://github.com/microsoft/botbuilder-js)
-    - [**Java** (preview release)](https://github.com/microsoft/botbuilder-java)
-    - [**Python** (preview release)](https://github.com/microsoft/botbuilder-python).
-- Bot Framework Emulator
-    - [Bot Framework **V4 Emulator**](https://github.com/microsoft/botframework-emulator).
-- Bot Builder CLI tools (**stable release**)
-    - [Chatdown CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown)
-    - [MSBot CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot)
-    - [Ludown CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown)
-    - [LUIS CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUIS)
-    - [QnAMaker CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker)
-    - [Dispatch CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch)
-    - [LuisGen CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUISGen)
-- Bot Framework webchat
-    - [Available here](https://github.com/microsoft/botframework-webchat)
-
-Please see [here](https://aka.ms/BotBuilderOverview) for an overview of the end-to-end bot development workflow. To get started, you can create a bot with [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart?view=azure-bot-service-4.0). Click [here](https://account.azure.com/signup) if you need a trial Azure subscription.
+If you need samples for the Bot Framework _V3_ SDK, go [here](https://github.com/Microsoft/BotBuilder-Samples/tree/v3-sdk-samples).
 
 ## Samples list
-
-Samples are organized per platform and are numbered to provide a suggested reading order.
-
-To use the samples clone this GitHub repository using Git.
+Samples are organized into groups and designed to illustrate task-focused samples in C# and JS to help you build great bots! To use the samples clone our GitHub repository using Git.
 
 ```bash
     git clone https://github.com/Microsoft/BotBuilder-Samples.git
@@ -66,8 +40,8 @@ To use the samples clone this GitHub repository using Git.
 |40.timex-resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[View][cs#40] |[View][js#40]|              | | |
 |42.scaleout            | Demonstrates how you can build your own state solution from the ground up that supports scaled out deployment with ETag based optimistic locking. |[View][cs#42] |    |              | | |
 |43.complex-dialog      | Demonstrates different ways for composing dialogs. |[View][cs#43]|[View][js#43] |              |             | |
-|44.prompt-for-user-input | Demonstrates how to use prompts to ask the user for information. |[View][cs#44]|[View][js#44]|              |             | |
-|45.state-management    | Demonstrates | [View][cs#45] |   |              |             |  |
+|44.prompt-for-user-input | Demonstrates how to implement your own basic prompts to ask the user for information. |[View][cs#44]|[View][js#44]|              |             | |
+|45.state-management    | Demonstrates state management and storage objects to manage and persist state. | [View][cs#45] |   |              |             |  |
 |70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
 
 [cs#1]:samples/csharp_dotnetcore/01.console-echo
