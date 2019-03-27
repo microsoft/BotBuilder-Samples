@@ -2,7 +2,7 @@
 
 Example command:
 ```bash
-az deployment create --name "<name-of-deployment>" --template-file "all-up-template.json" --subscription "<subscription-guid>" --parameters appId="<msa-app-guid>" appSecret="<msa-app-password>" botId="<id-or-name-of-bot>" newServerFarmName="<name-of-server-farm>" newWebAppName="<name-of-web-app>" groupName="<new-group-name>"
+az deployment create --name "<name-of-deployment>" --template-file "all-up-template.json" --subscription "<subscription-guid>" --parameters appId="<msa-app-guid>" appSecret="<msa-app-password>" botId="<id-or-name-of-bot>" newServerFarmName="<name-of-server-farm>" newWebAppName="<name-of-web-app>" groupName="<new-group-name>" alwaysBuildOnDeploy=true
 ```
 
 We recommend provisioning Azure resources through ARM templates via the [Azure CLI][ARM-CLI]. It is also possible to deploy ARM templates via the [Azure Portal][ARM-Portal], [PowerShell][ARM-PowerShell] and the [REST API][ARM-REST].
@@ -41,13 +41,32 @@ This command will output JSON with the key "appId", save the value of this key f
 az deployment create --name "myDeployment" --template-file "all-up-template.json" --parameters groupName="MyNewResourceGroup" ...
 ```
 
+> These instructions shows how to zipdeploy your code using `az webapp`. App Service's default behavior for zipdeploy is to not build the code or install any dependencies (e.g. you must zip up your binaries or your `node_modules` folder). If you do want the App service to build and/or install dependencies, add the optional parameter `"
+
+([Kudu][Kudu-Wiki]).
+
+To see all available parameters and their descriptions, scroll down or click [here](#Parameters).
+
+  [Kudu-Wiki]: https://github.com/projectkudu/kudu/wiki
+
 #### 3. Retrieve or create necessary IIS/Kudu files via `az bot`
+
+*For C# bots this command is necessary if you setup Kudu to build on deployment (e.g. `alwaysBuildOnDeploy=true`):*
 ```bash
 # For C# bots, it's necessary to provide the path to the .csproj file relative to --code-dir. This can be performed via the --proj-file-path argument
-az bot prepare-deploy --code-dir ".." --lang <Csharp or Node>
+az bot prepare-deploy --lang Csharp --code-dir ".." --proj-file-path "./MyBot.csproj"
+# The command would resolve --code-dir and --proj-file-path to "../MyBot.csproj"
+```
+
+*For Node.js bots:*
+```bash
+az bot prepare-deploy --code-dir ".." --lang Node
 ```
 
 #### 4. Zip up the code directory manually
+When deploying the ARM template, if the parameter `"alwaysBuildOnDeploy"` was set to `true` then you do not need to include your binaries or the `node_modules` folder in the zipped code as Kudu will build your code or install the NPM packages.
+
+If it was set to `false` you must include the binaries and `node_modules` or the bot will not run when using zipdeploy. Note, the default value for this parameter is `false`.
 
 #### 5. Deploy code to Azure using `az webapp`
 
@@ -57,7 +76,7 @@ az webapp deployment source config-zip ...
 ___
 
 
-### Parameters:### Parameters:
+### Parameters:
 ```json
 "parameters": {
     "groupLocation": {
