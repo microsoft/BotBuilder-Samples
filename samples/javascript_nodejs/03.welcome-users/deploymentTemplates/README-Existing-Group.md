@@ -1,8 +1,17 @@
-## Deploying via ARM template (with new Resource Group)
+## Deploying via ARM template (with preexisting Resource Group)
 
-#### Example command:
+#### Example command with new App Service Plan/Server Farm:
 ```bash
-az deployment create --name "<name-of-deployment>" --template-file "all-up-template.json" --subscription "<subscription-guid>" --parameters appId="<msa-app-guid>" appSecret="<msa-app-password>" botId="<id-or-name-of-bot>" newServerFarmName="<name-of-server-farm>" newWebAppName="<name-of-web-app>" groupName="<new-group-name>" alwaysBuildOnDeploy=true
+az group deployment create --name "<name-of-deployment>" --resource-group "<name-of-resource-group>" --template-file "template-existing-group.json" --subscription "<subscription-guid>" --parameters appId="<msa-app-guid>" appSecret="<msa-app-password>" botId="<id-or-name-of-bot>" newWebAppName="<name-of-web-app>" alwaysBuildOnDeploy=false newServerFarmName="<name-of-server-farm>"
+```
+
+#### Example command with preexisting App Service Plan/Server Farm:
+```bash
+# The difference between this example command and the previous command is
+# this command uses "existingServerFarm" as a parameter instead of "newServerFarmName"
+
+# If both parameters are passed in, the ARM template provided will try to create a new Web App on the "existingServerFarm".
+az group deployment create --name "<name-of-deployment>" --resource-group "<name-of-resource-group>" --template-file "template-existing-group.json" --subscription "<subscription-guid>" --parameters appId="<msa-app-guid>" appSecret="<msa-app-password>" botId="<id-or-name-of-bot>" newWebAppName="<name-of-web-app>" alwaysBuildOnDeploy=false existingServerFarm="<name-of-server-farm>"
 ```
 
 We recommend provisioning Azure resources through ARM templates via the [Azure CLI][ARM-CLI]. It is also possible to deploy ARM templates via the [Azure Portal][ARM-Portal], [PowerShell][ARM-PowerShell] and the [REST API][ARM-REST].
@@ -38,7 +47,7 @@ This command will output JSON with the key "appId", save the value of this key f
 #### 2. Create a resource group and the Azure resources
 ```bash
 # Pass in the path to the ARM template for the --template-file argument.
-az deployment create --name "myDeployment" --template-file "all-up-template.json" --parameters groupName="MyNewResourceGroup" ...
+az group deployment create --name "myDeployment" --resource-group "myResourceGroup" --template-file "template-existing-group.json" --parameters newWebAppName="mynewwebapp" ...
 ```
 
 > These instructions shows how to zipdeploy your code using `az webapp`. App Service's default behavior for zipdeploy is to not build the code or install any dependencies (e.g. you must zip up your binaries or your `node_modules` folder). If you do want the App service to build and/or install dependencies, add the optional parameter `"
@@ -79,19 +88,6 @@ ___
 ### Parameters:
 ```json
 "parameters": {
-    "groupLocation": {
-        "defaultValue": "westus",
-        "type": "string",
-        "metadata": {
-            "description": "Specifies the location of the Resource Group. Defaults to \"westus\"."
-        }
-    },
-    "groupName": {
-        "type": "string",
-        "metadata": {
-            "description": "Specifies the name of the Resource Group."
-        }
-    },
     "appId": {
         "type": "string",
         "metadata": {
@@ -120,8 +116,9 @@ ___
     },
     "newServerFarmName": {
         "type": "string",
+        "defaultValue": "",
         "metadata": {
-            "description": "The name of the App Service Plan."
+            "description": "The name of the new App Service Plan."
         }
     },
     "newServerFarmSku": {
@@ -144,6 +141,13 @@ ___
             "description": "The location of the App Service Plan. Defaults to \"westus\"."
         }
     },
+    "existingServerFarm": {
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+            "description": "Name of the existing App Service Plan/Server Farm used to create the Web App for the bot."
+        }
+    },
     "newWebAppName": {
         "type": "string",
         "defaultValue": "",
@@ -153,9 +157,9 @@ ___
     },
     "alwaysBuildOnDeploy": {
         "type": "bool",
-        "defaultValue": "false",
+        "defaultValue": false,
         "metadata": {
-            "description": "Configures environment variable SCM_DO_BUILD_DURING_DEPLOYMENT on Web App. When set to true, the Web App will automatically build or install NPM packages when a deployment occurs."
+            "comments": "Configures environment variable SCM_DO_BUILD_DURING_DEPLOYMENT on Web App. When set to true, the Web App will automatically build or install NPM packages when a deployment occurs."
         }
     }
 }
