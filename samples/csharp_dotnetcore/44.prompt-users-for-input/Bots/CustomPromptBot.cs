@@ -13,13 +13,13 @@ using Microsoft.Recognizers.Text.Number;
 
 namespace Microsoft.BotBuilderSamples
 {
-    // This IBot implementation can run any type of Dialog. The use of type parameterization is to allows multiple different bots
+    // This IBot implementation can run any type of Dialog. The use of type parametrization is to allows multiple different bots
     // to be run at different endpoints within the same project. This can be achieved by defining distinct Controller types
     // each with dependency on distinct IBot types, this way ASP Dependency Injection can glue everything together without ambiguity.
     public class CustomPromptBot : ActivityHandler 
     {
-        private BotState _userState;
-        private BotState _conversationState;
+        private readonly BotState _userState;
+        private readonly BotState _conversationState;
         
         public CustomPromptBot(ConversationState conversationState, UserState userState)
         {

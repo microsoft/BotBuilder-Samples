@@ -139,7 +139,7 @@ namespace Facebook_Events_Bot
                 // to hand it to our IBot class that is create per-request.
                 var accessors = new BotAccessors
                 {
-                    ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
+                    ConversationDialogState = conversationState.CreateProperty<DialogState>(nameof(DialogState)),
                 };
 
                 return accessors;

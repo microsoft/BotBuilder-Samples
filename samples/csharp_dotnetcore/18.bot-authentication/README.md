@@ -13,7 +13,6 @@ updates also take steps towards an improved user experience by eliminating the m
 ```bash
 git clone https://github.com/microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/18.bot-authentication` with your botFileSecret. For Azure Bot Service bots, you can find the botFileSecret under application settings.
 ## Prerequisites
 In this sample we are assuming the OAuth 2 provider
 is Azure Active Directory v2 (AADv2) and are utilizing the Microsoft Graph API to retrieve data about the

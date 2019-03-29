@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AdaptiveCards" Version="1.0.3" />
+    <PackageReference Include="AdaptiveCards" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.3.2" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.2" />
