@@ -3,6 +3,7 @@
 
 using System;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
@@ -82,7 +83,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 try
                 {
-                    await blob.UploadTextAsync(content, new AccessCondition { IfMatchETag = etag }, new BlobRequestOptions(), new OperationContext());
+                    await blob.UploadTextAsync(content, Encoding.UTF8, new AccessCondition {IfMatchETag = etag}, new BlobRequestOptions(), new OperationContext());
                 }
                 catch (StorageException e)
                     when (e.RequestInformation.HttpStatusCode == (int)HttpStatusCode.PreconditionFailed)

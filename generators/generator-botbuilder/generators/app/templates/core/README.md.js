@@ -1,19 +1,26 @@
 # <%= botname %>
 <%= description %>
 
-This bot has been created using [Bot Framework][1].
-
-This samples shows how to:
+This bot has been created using [Bot Framework][1], it shows how to:
 - Use [LUIS][11] to implement core AI capabilities
 - Implement a multi-turn conversation using Dialogs
-- Handle user interruptions for such things as Help or Cancel
+- Handle user interruptions for such things as `Help` or `Cancel`
 - Prompt for and validate requests for information from the user
-- Demonstrate how to handle any unexpected errors
-
 
 ## Prerequisites
-This samples requires prerequisites in order to run.
-- [Required Prerequisites][41]
+This sample **requires** prerequisites in order to run.
+
+### Overview
+This bot uses [LUIS][11], an AI based cognitive service, to implement language understanding.
+
+- Node.js version 10.14.1 or higher.
+    ```bash
+    # determine node version
+    node --version
+    ```
+
+### Create a LUIS Application to enable language understanding
+LUIS language model setup, training, and application configuration steps can be found [here][7].
 
 # To run the bot
 - Install modules
@@ -22,38 +29,25 @@ This samples requires prerequisites in order to run.
     ```
 - Setup LUIS
 
-    Assuming prerequisites have been installed:
-    ```bash
-    # log into Azure
-    az login
-    ```
-    ```bash
-    # set you Azure subscription
-    az account set --subscription "<azure-subscription>"
-    ```
-    ```bash
-    # Create LUIS service application
-    msbot clone services --name "<%= botname %>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location <azure region like eastus, westus, westus2 etc.> --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
-    ```
+The prerequisite outlined above contain the steps necessary to provision a language understanding model on www.luis.ai.  Refer to _Create a LUIS Application to enable language understanding_ above for directions to setup and configure LUIS.
+
 - Start the bot
     ```bash
     npm start
     ```
 
-# Testing the bot using Bot Framework Emulator **v4**
+# Testing the bot using Bot Framework Emulator
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator **v4**
+## Connect to the bot using Bot Framework Emulator
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration
-- Navigate to `<%= botname %>` folder
-- Select `<%= botname %>.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Deploy the bot to Azure
-After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.
-To learn how, see [Deploy your bot to Azure][40] for a complete set of deployment instructions.
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 
 # Further reading
@@ -63,7 +57,6 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 - [Azure Bot Service Documentation][22]
 - [Deploying Your Bot to Azure][40]
 - [Azure CLI][7]
-- [msbot CLI][9]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
 - [Restify][30]
@@ -85,4 +78,3 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./PREREQUISITES.md

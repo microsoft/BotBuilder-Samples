@@ -1,20 +1,20 @@
-﻿# emptybot sample
+﻿# __PROJECT_NAME__
 Bot Framework v4 empty bot sample.
 
 This bot has been created using [Bot Framework][1], it shows the minimum code required to build a bot.
 
 ## Prerequisites
-- [.NET Core SDK][4] version 2.2 or higher
+- [.NET Core SDK][4] version __NETCORE_VERSION__
 	```bash
 	# determine dotnet version
 	dotnet --version
 	```
 
 # To try this sample
-- In a terminal, navigate to `<your_project_folder>/EmptyBot`
+- In a terminal, navigate to `__PROJECT_NAME__`
     ```bash
     # change into project folder
-	cd <your_project_folder>/EmptyBot
+	cd __PROJECT_NAME__
     ```
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
@@ -27,52 +27,21 @@ This bot has been created using [Bot Framework][1], it shows the minimum code re
 	B) Or from Visual Studio
 	- Launch Visual Studio
 	- File -> Open -> Project/Solution
-	- Navigate to `<your_project_folder>/EmptyBot` folder
-	- Select `EmptyBot.csproj` file
+	- Navigate to `__PROJECT_NAME__` folder
+	- Select `__PROJECT_NAME__.csproj` file
 	- Press `F5` to run the project
 
-# Testing the bot using Bot Framework Emulator **v4**
+# Testing the bot using Bot Framework Emulator
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator **v4**
+## Connect to the bot using Bot Framework Emulator
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration
-- Navigate to `<your_project_folder>/EmptyBot` folder
-- Select `emptybot.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Deploy the bot to Azure
-## Prerequisites
-- [Azure Deployment Prerequisites][41]
-
-## Provision a Bot with Azure Bot Service
-After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.  To deploy your bot to Azure:
-
-```bash
-# login to Azure
-az login
-```
-
-```bash
-# set you Azure subscription
-az account set --subscription "<azure-subscription>"
-```
-
-```bash
-# provision Azure Bot Services resources to host your bot
-msbot clone services --name "<your_bot_name>" --code-dir "." --location westus --sdkLanguage "Csharp" --folder deploymentScripts/msbotClone --verbose
-```
-
-### Publishing Changes to Azure Bot Service
-As you make changes to your bot running locally, and want to deploy those change to Azure Bot Service, you can _publish_ those change using either `publish.cmd` if you are on Windows or `./publish` if you are on a non-Windows platform.  The following is an example of publishing
-
-```bash
-# run the publish helper (non-Windows) to update Azure Bot Service.  Use publish.cmd if running on Windows
-./publish
-```
-
-### Getting Additional Help Deploying to Azure
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 # Further reading
@@ -86,7 +55,7 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
 
-#### Generated with `dotnet new emptybot` vX.X.X
+#### Generated with `dotnet new emptybot` __vX.X.X__
 
 [1]: https://dev.botframework.com
 [4]: https://dotnet.microsoft.com/download
@@ -103,4 +72,3 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [23]: https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./PREREQUISITES.md

@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace $safeprojectname$
 {
@@ -15,19 +16,11 @@ namespace $safeprojectname$
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureLogging((hostingContext, logging) =>
+                .ConfigureLogging((logging) =>
                 {
-                    // Logging Options.
-                    // There are other logging options available:
-                    // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1
-                    // logging.AddDebug();
-                    // logging.AddConsole();
+                    logging.AddDebug();
+                    logging.AddConsole();
                 })
-
-                // Logging Options.
-                // Consider using Application Insights for your logging and metrics needs.
-                // https://azure.microsoft.com/en-us/services/application-insights/
-                // .UseApplicationInsights()
                 .UseStartup<Startup>();
     }
 }

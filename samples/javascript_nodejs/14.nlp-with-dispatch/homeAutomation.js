@@ -26,36 +26,23 @@ class HomeAutomation {
      *
      * @param {ConversationState} convoState conversation state
      * @param {UserState} userState user state
-     * @param {BotConfiguration} botConfig bot configuration from .bot file
      */
-    constructor(convoState, userState, botConfig) {
+    constructor(convoState, userState) {
         if (!convoState) throw new Error('Need conversation state');
         if (!userState) throw new Error('Need user state');
-        if (!botConfig) throw new Error('Need bot config');
 
         // home automation state
         this.state = new HomeAutomationState(convoState, userState);
-
-        // add recognizers
-        const luisServiceName = botConfig.name + '_' + LUIS_CONFIGURATION;
-        const luisConfig = botConfig.findServiceByNameOrId(luisServiceName);
-        if (!luisConfig || !luisConfig.appId) throw new Error(`Home automation LUIS model not found in .bot file. Please ensure you have all required LUIS models created and available in the .bot file. See readme.md for additional information\n`);
-        this.luisRecognizer = new LuisRecognizer({
-            applicationId: luisConfig.appId,
-            azureRegion: luisConfig.region,
-            // CAUTION: Authoring key is used in this example as it is appropriate for prototyping.
-            // When implimenting for deployment/production, assign and use a subscription key instead of an authoring key.
-            endpointKey: luisConfig.authoringKey
-        });
     }
     /**
      *
      * @param {TurnContext} turn context object
+     * @param {LuisResult} dispatchResult Recognizer result from the initial Dispatch call
      */
-    async onTurn(turnContext) {
+    async onTurn(turnContext, dispatchResult) {
         // make call to LUIS recognizer to get home automation intent + entities
-        const homeAutoResults = await this.luisRecognizer.recognize(turnContext);
-        const topHomeAutoIntent = LuisRecognizer.topIntent(homeAutoResults);
+        const homeAutoResults = dispatchResult.luisResult.connectedServiceResult
+        const topHomeAutoIntent = homeAutoResults.topScoringIntent.intent;
 
         // depending on intent, call turn on or turn off or return unknown
         switch (topHomeAutoIntent) {
@@ -105,10 +92,11 @@ module.exports.HomeAutomation = HomeAutomation;
 // Helper function to retrieve specific entities from LUIS results
 function findEntities(entityName, entityResults) {
     let entities = [];
-    if (entityName in entityResults) {
-        entityResults[entityName].forEach(entity => {
-            entities.push(entity);
-        });
-    }
+    entityResults.forEach(entity => {
+        if (entity.type == entityName)
+        {
+            entities.push(entity.entity);
+        }
+    })
     return entities.length > 0 ? entities : undefined;
 }

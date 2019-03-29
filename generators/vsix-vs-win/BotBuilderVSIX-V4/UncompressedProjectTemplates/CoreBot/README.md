@@ -1,4 +1,5 @@
 # $safeprojectname$
+Bot Framework v4 core bot sample.
 
 This bot has been created using [Bot Framework][1], it shows how to:
 - Use [LUIS][11] to implement core AI capabilities
@@ -6,47 +7,31 @@ This bot has been created using [Bot Framework][1], it shows how to:
 - Handle user interruptions for such things as `Help` or `Cancel`
 - Prompt for and validate requests for information from the user
 
-This sample requires prerequisites in order to run.
-- [Required Prerequisites][41]
+## Prerequisites
+This sample **requires** prerequisites in order to run.
 
-# To try this sample
-- In a terminal, navigate to `<your_project_folder>/$safeprojectname$`
+### Overview
+This bot uses [LUIS][11], an AI based cognitive service, to implement language understanding.  The Bot Framework provides a set of CLI tools that will help setup LUIS so the bot can be run and tested locally.
+
+### Install .NET Core and CLI Tooling
+- [.NET Core SDK][4] version 2.1
+	```bash
+	# determine dotnet version
+	dotnet --version
+	```
+- If you don't have an Azure subscription, create a [free account][5].
+- Install the latest version of the [Azure CLI][6] tool. Version 2.0.54 or higher.
+
+### Create a LUIS Application to enable language understanding
+LUIS language model setup, training, and application configuration steps can be found [here][7].
+
+
+## To try this sample
+- In a terminal, navigate to `$safeprojectname$`
     ```bash
     # change into project folder
-	cd <your_project_folder>/$safeprojectname$
+	cd $safeprojectname$
     ```
-- Setup LUIS
-
-    Assuming prerequisites have been installed:
-    ```bash
-    # log into Azure
-    az login
-    ```
-    ```bash
-    # set you Azure subscription
-    az account set --subscription "<azure-subscription>"
-    ```
-    Before creating the Luis service application, is recommendable following the next steps:
-
-    - Delete the auto-generated .bot file, as the `msbot clone services` command can't update an existing file.
-    - As the command `msbot clone services` uses secret-manager to safely store the key generated for encrypting the bot file, it's necessary adding the next code in your $safeprojectname$.csproj file:
-
-    ```
-        <PropertyGroup>
-            <UserSecretsId>GUID</UserSecretsId>
-        </PropertyGroup>
-    ```
-    **Note**: You can add any arbitrary `GUID` value for the `UserSecretsId` property, but you can not repeat `GUID` values among the projects, as they must be unique.
-
-    - Install Microsoft.Extensions.Configuration.UserSecrets NuGet package
-
-    ```bash
-    # Create LUIS service application
-    msbot clone services --name "$safeprojectname$" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "CSharp" --folder deploymentScripts/msbotClone --verbose
-    ```
-
-    **Note**: Once the Luis service application is created, change the value of `LuisConfiguration` variable in $safeprojectname$Bot.cs with the Luis service name, which can be found in $safeprojectname$.bot file (it should be `$safeprojectname$_core-bot-LUIS`).
-
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
 	A) From a terminal
@@ -58,55 +43,24 @@ This sample requires prerequisites in order to run.
 	B) Or from Visual Studio
 	- Launch Visual Studio
 	- File -> Open -> Project/Solution
-	- Navigate to `<your_project_folder>/$safeprojectname$` folder
+	- Navigate to `$safeprojectname$` folder
 	- Select `$safeprojectname$.csproj` file
 	- Press `F5` to run the project
 
-# Testing the bot using Bot Framework Emulator **v4**
+## Testing the bot using Bot Framework Emulator
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator **v4**
+### Connect to the bot using Bot Framework Emulator
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration
-- Navigate to `<your_project_folder>/$safeprojectname$` folder
-- Select `$safeprojectname$.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Deploy the bot to Azure
-## Prerequisites
-- [Azure Deployment Prerequisites][41]
-
-## Provision a Bot with Azure Bot Service
-After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.  To deploy your bot to Azure:
-
-```bash
-# login to Azure
-az login
-```
-
-```bash
-# set you Azure subscription
-az account set --subscription "<azure-subscription>"
-```
-
-```bash
-# provision Azure Bot Services resources to host your bot
-msbot clone services --name "$safeprojectname$" --code-dir "." --location westus --sdkLanguage "Csharp" --folder deploymentScripts/msbotClone --verbose
-```
-
-### Publishing Changes to Azure Bot Service
-As you make changes to your bot running locally, and want to deploy those change to Azure Bot Service, you can _publish_ those change using either `publish.cmd` if you are on Windows or `./publish` if you are on a non-Windows platform.  The following is an example of publishing
-
-```bash
-# run the publish helper (non-Windows) to update Azure Bot Service.  Use publish.cmd if running on Windows
-./publish
-```
-
-### Getting Additional Help Deploying to Azure
+## Deploy the bot to Azure
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
-# Further reading
+## Further reading
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
 - [Prompt types][23]
@@ -117,12 +71,10 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Azure Bot Service Documentation][22]
 - [.NET Core CLI tools][23]
 - [Azure CLI][7]
-- [msbot CLI][9]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
 - [Channels and Bot Connector Service][27]
 
-#### Generated with `dotnet new corebot` vX.X.X
 
 [1]: https://dev.botframework.com
 [4]: https://dotnet.microsoft.com/download
@@ -130,7 +82,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
 [7]: https://docs.microsoft.com/cli/azure/?view=azure-cli-latest
 [8]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
-[9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [10]: https://portal.azure.com
 [11]: https://www.luis.ai
 [20]: https://docs.botframework.com
@@ -145,4 +96,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./PREREQUISITES.md
+

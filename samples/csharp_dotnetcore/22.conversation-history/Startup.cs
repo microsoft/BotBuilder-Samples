@@ -117,7 +117,9 @@ namespace Microsoft.BotBuilderSamples
                 // The Conversation State object is where we persist anything at the conversation-scope.
                 var conversationState = new ConversationState(dataStore);
 
+#pragma warning disable CS0618 // Type or member is obsolete
                 options.State.Add(conversationState);
+#pragma warning restore CS0618 // Type or member is obsolete
 
                 // Enable the conversation transcript middleware.
                 blobStore = new AzureBlobTranscriptStore(blobStorageConfig.ConnectionString, storageContainer);
