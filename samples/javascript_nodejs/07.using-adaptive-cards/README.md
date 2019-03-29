@@ -28,16 +28,15 @@ This sample shows how to send an Adaptive Card.
     npm start
     ```
 
-# Testing the bot using Bot Framework Emulator **v4**
+# Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator **v4**
+## Connect to the bot using Bot Framework Emulator
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration
-- Navigate to `samples/javascript_nodejs/07.using-adaptive-cards` folder
-- Select `using-adaptive-cards.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Adaptive Cards
 The Bot Framework provides support for Adaptive Cards.  See the following to learn more about Adaptive Cards.
