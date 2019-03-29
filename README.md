@@ -40,7 +40,7 @@ To use the samples clone this GitHub repository using Git.
 
 :runner: - Indicates planned and work in progress.
 
-| Sample Name           | Description                                                                    | .NET CORE   | NodeJS      | .NET Web API | JS (es6)    | Typescript  |
+| Sample Name           | Description                                                                    | .NET CORE   | Node.js      | .NET Web API | JS (es6)    | Typescript  |
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|-------------|
 |1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming message.                                                                                                 |[View][cs#1] |[View][js#1] |      |             |[View][ts#1] |
 |1.a.browser-echo       | Introduces browser adapter                                                     |             |             |              |[View][es#1a]|             |
@@ -68,8 +68,8 @@ To use the samples clone this GitHub repository using Git.
 |22.conversation-history| Demonstrates the use of SendConversationHistoryAsync API to upload conversation history stored in the conversation Transcript.|[View][cs#22]|:runner:|              |             | |
 |23.facebook-events     | Integrate and consume Facebook specific payloads, such as post-backs, quick replies and opt-in events.|[View][cs#23] |[View][js#23] |              |             | |
 |24.bot-auth-msgraph    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[View][cs#24] |[View][js#24] |              |             | |
-|25.bot-logging    | This bot demonstrates the logging middleware in the nodejs SDK| |[View][js#25] |              |             | |
-|26.bot-transcript-logging    | This bot demonstrates the transcript logging middleware in the nodejs SDK| |[View][js#26] |              |             | |
+|25.bot-logging    | This bot demonstrates the logging middleware in the Node.js SDK| |[View][js#25] |              |             | |
+|26.bot-transcript-logging    | This bot demonstrates the transcript logging middleware in the Node.js SDK| |[View][js#26] |              |             | |
 |30.asp-mvc-bot         | Demonstrates how to build a bot as an ASP.NET MVC Controller |[View][cs#30] ||              | | |
 |40.timex-resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[View][cs#40] |[View][js#40]|              | | |
 |42.scaleout            | Demonstrates how you can build your own state solution from the ground up that supports scaled out deployment with ETag based optimistic locking. |[View][cs#42] |:runner:|              | | |
