@@ -51,6 +51,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromptUsersForInput", "44.p
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StateMangementBot", "45.state-management\StateMangementBot.csproj", "{4168B365-5401-447D-A93D-310FC4126B3C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHubLogger", "27.eventhub-logger\EventHubLogger.csproj", "{D1A1D0F5-534C-4B5C-8D40-CC2C711197CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{4168B365-5401-447D-A93D-310FC4126B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4168B365-5401-447D-A93D-310FC4126B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4168B365-5401-447D-A93D-310FC4126B3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1A1D0F5-534C-4B5C-8D40-CC2C711197CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1A1D0F5-534C-4B5C-8D40-CC2C711197CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1A1D0F5-534C-4B5C-8D40-CC2C711197CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1A1D0F5-534C-4B5C-8D40-CC2C711197CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
