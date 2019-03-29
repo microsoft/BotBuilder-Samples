@@ -60,6 +60,13 @@
       <ProjectItem ReplaceParameters="true">README.md</ProjectItem>
       <ProjectItem ReplaceParameters="true">Startup.cs</ProjectItem>
 
+      <Folder Name="DeploymentTemplates" TargetFolderName="DeploymentTemplates">
+        <ProjectItem ReplaceParameters="true">all-up-template.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true">README-Existing-Group.md</ProjectItem>
+        <ProjectItem ReplaceParameters="true">README.md</ProjectItem>
+        <ProjectItem ReplaceParameters="true">template-existing-group.json</ProjectItem>
+      </Folder>
+
     </Project>
   </TemplateContent>
 

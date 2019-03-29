@@ -94,4 +94,22 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
       description: gen.props.description
     }
   );
+
+  // gen the deployment/Templates folder
+  const deploymentFolder = 'deploymentTemplates';
+  const deploymentFiles = [
+    'all-up-template.json',
+    'README-Existing-Group.md',
+    'README.md',
+    'template-existing-group.json',
+  ];
+  mkdirp.sync(deploymentFolder);
+  const sourcePath = path.join(templatePath, deploymentFolder);
+  const destinationPath = path.join(gen.destinationPath(), deploymentFolder);
+  for(let cnt = 0; cnt < deploymentFiles.length; ++cnt) {
+    gen.fs.copy(
+      path.join(sourcePath, deploymentFiles[cnt]),
+      path.join(destinationPath, deploymentFiles[cnt]),
+    );
+  }
 }
