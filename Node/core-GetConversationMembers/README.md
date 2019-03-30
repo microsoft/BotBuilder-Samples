@@ -54,18 +54,19 @@ bot.on('conversationUpdate', function (message) {
 
 #### Retrieving the member's list using the Bot Connector's REST API
 
-Currently, the Node SDK does not expose a method to retrieve the current list of members for a conversation. Alternatively, to get the list of members for a conversation, we'll make direct calls the [Bot Connector REST API](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_GetConversationMembers).
+Currently, the Node SDK does not expose a method to retrieve the current list of members for a conversation. Alternatively, to get the list of members for a conversation, we'll make direct calls the [Bot Connector REST API](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-api-reference#get-conversation-members).
 To do this will use the Swagger Spec file and the Swagger JS client to create a client with almost no effort:  
 
 ````JavaScript
+var connectorSpec = require('./connector-api-swagger.json');
 var connectorApiClient = new Swagger({
-    url: 'https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/ConnectorAPI.json',
+    spec: connectorSpec,
     usePromise: true
 });
 ````
 
-Once a message is received in a group conversation, we'll ask the API for its members. In order to call the REST API, we need to be authenticated using the bot's JWT token (see [app.js - addTokenToClient function](app.js#L86-96)) and then override the API's hostname using the channel's serviceUrl (see [app.js - client.setHost](app.js#L41-L45)).
-Then we call Swagger generated client (`client.Conversations.Conversations_GetConversationMembers`) and pass the response to a helper function that will print the members list to the conversation ([app.js - printMembersInChannel function](app.js#L98-L109)).
+Once a message is received in a group conversation, we'll ask the API for its members. In order to call the REST API, we need to be authenticated using the bot's JWT token (see [app.js - addTokenToClient function](app.js#L94-103)) and then override the API's hostname using the channel's serviceUrl (see [app.js - client.setHost](app.js#L52-L57)).
+Then we call Swagger generated client (`client.Conversations.Conversations_GetConversationMembers`) and pass the response to a helper function that will print the members list to the conversation ([app.js - printMembersInChannel function](app.js#L106-L116)).
 
 ````JavaScript
 // Helper methods
@@ -114,13 +115,13 @@ On the other hand, you will see the following in Skype.
 
 To get more information about how to get started in Bot Builder for Node, ConversationUpdates and Bot Connector REST API please review the following resources:
 * [Bot Builder for Node.js Reference](https://docs.microsoft.com/en-us/bot-framework/nodejs/)
-* [ConversationUpdate event](https://docs.botframework.com/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iconversationupdate.html)
-* [Bot Connector REST API - GetConversationMembers](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_GetConversationMembers)
-* [Bot Connector REST API - Swagger file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/ConnectorAPI.json)
+* [ConversationUpdate event](https://docs.microsoft.com/en-us/azure/bot-service/nodejs/bot-builder-nodejs-handle-conversation-events)
+* [Bot Connector REST API - GetConversationMembers](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-api-reference#get-conversation-members)
+* [Bot Connector REST API - Swagger file](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-protocol/botframework-channel.json)
 * [Swagger-JS](https://github.com/swagger-api/swagger-js)
 
 > **Limitations**  
-> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [Message.sourceEvent](https://docs.botframework.com/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html#sourceevent) method.
+> The functionality provided by the Bot Framework Activity can be used across many channels. Moreover, some special channel features can be unleashed using the [Message.channelData](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-channeldata) method.
 > 
 > The Bot Framework does its best to support the reuse of your Bot in as many channels as you want. However, due to the very nature of some of these channels, some features are not fully portable.
 > 

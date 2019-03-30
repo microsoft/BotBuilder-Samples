@@ -1,0 +1,2670 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "v3",
+    "title": "Microsoft Bot Connector API - v3.0",
+    "description": "The Bot Connector REST API allows your bot to send and receive messages to channels configured in the\r\n[Bot Framework Developer Portal](https://dev.botframework.com). The Connector service uses industry-standard REST\r\nand JSON over HTTPS.\r\n\r\nClient libraries for this REST API are available. See below for a list.\r\n\r\nMany bots will use both the Bot Connector REST API and the associated [Bot State REST API](/en-us/restapi/state). The\r\nBot State REST API allows a bot to store and retrieve state associated with users and conversations.\r\n\r\nAuthentication for both the Bot Connector and Bot State REST APIs is accomplished with JWT Bearer tokens, and is\r\ndescribed in detail in the [Connector Authentication](/en-us/restapi/authentication) document.\r\n\r\n# Client Libraries for the Bot Connector REST API\r\n\r\n* [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)\r\n* [Bot Builder for Node.js](/en-us/node/builder/overview/)\r\n* Generate your own from the [Connector API Swagger file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/ConnectorAPI.json)\r\n\r\n© 2016 Microsoft",
+    "termsOfService": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx",
+    "contact": {
+      "name": "Bot Framework",
+      "url": "https://botframework.com",
+      "email": "botframework@microsoft.com"
+    },
+    "license": {
+      "name": "The MIT License (MIT)",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "api.botframework.com",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/v3/attachments/{attachmentId}": {
+      "get": {
+        "tags": [
+          "Attachments"
+        ],
+        "summary": "GetAttachmentInfo",
+        "description": "Get AttachmentInfo structure describing the attachment views",
+        "operationId": "Attachments_GetAttachmentInfo",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "attachmentId",
+            "in": "path",
+            "description": "attachment id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An attachmentInfo object is returned which describes the:\r\n* type of the attachment\r\n* name of the attachment\r\n\r\n\r\nand an array of views:\r\n* Size - size of the object\r\n* ViewId - View Id which can be used to fetch a variation on the content (ex: original or thumbnail)",
+            "schema": {
+              "$ref": "#/definitions/AttachmentInfo"
+            }
+          },
+          "default": {
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v3/attachments/{attachmentId}/views/{viewId}": {
+      "get": {
+        "tags": [
+          "Attachments"
+        ],
+        "summary": "GetAttachment",
+        "description": "Get the named view as binary content",
+        "operationId": "Attachments_GetAttachment",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "attachmentId",
+            "in": "path",
+            "description": "attachment id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "viewId",
+            "in": "path",
+            "description": "View id from attachmentInfo",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Attachment stream",
+            "schema": {
+              "format": "byte",
+              "type": "file"
+            }
+          },
+          "301": {
+            "description": "The Location header describes where the content is now."
+          },
+          "302": {
+            "description": "The Location header describes where the content is now."
+          },
+          "default": {
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v3/conversations": {
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "GetConversations",
+        "description": "List the Conversations in which this bot has participated.\r\n\r\nGET from this method with a skip token\r\n\r\nThe return value is a ConversationsResult, which contains an array of ConversationMembers and a skip token.  If the skip token is not empty, then \r\nthere are further values to be returned. Call this method again with the returned token to get more values.\r\n\r\nEach ConversationMembers object contains the ID of the conversation and an array of ChannelAccounts that describe the members of the conversation.",
+        "operationId": "Conversations_GetConversations",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "description": "skip or continuation token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An object will be returned containing \r\n* an array (Conversations) of ConversationMembers objects\r\n* a continuation token\r\n\r\nEach ConversationMembers object contains:\r\n* the Id of the conversation\r\n* an array (Members) of ChannelAccount objects",
+            "schema": {
+              "$ref": "#/definitions/ConversationsResult"
+            }
+          },
+          "default": {
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "CreateConversation",
+        "description": "Create a new Conversation.\r\n\r\nPOST to this method with a\r\n* Bot being the bot creating the conversation\r\n* IsGroup set to true if this is not a direct message (default is false)\r\n* Array containing the members to include in the conversation\r\n\r\nThe return value is a ResourceResponse which contains a conversation id which is suitable for use\r\nin the message payload and REST API uris.\r\n\r\nMost channels only support the semantics of bots initiating a direct message conversation.  An example of how to do that would be:\r\n\r\n```\r\nvar resource = await connector.conversations.CreateConversation(new ConversationParameters(){ Bot = bot, members = new ChannelAccount[] { new ChannelAccount(\"user1\") } );\r\nawait connect.Conversations.SendToConversationAsync(resource.Id, new Activity() ... ) ;\r\n\r\n```",
+        "operationId": "Conversations_CreateConversation",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "parameters",
+            "in": "body",
+            "description": "Parameters to create the conversation from",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ConversationParameters"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An object will be returned containing \r\n* the ID for the conversation\r\n* ActivityId for the activity if provided.  If ActivityId is null then the channel doesn't support returning resource id's for activity.",
+            "schema": {
+              "$ref": "#/definitions/ConversationResourceResponse"
+            }
+          },
+          "201": {
+            "description": "An object will be returned containing \r\n* the ID for the conversation\r\n* ActivityId for the activity if provided.  If ActivityId is null then the channel doesn't support returning resource id's for activity.",
+            "schema": {
+              "$ref": "#/definitions/ConversationResourceResponse"
+            }
+          },
+          "202": {
+            "description": "An object will be returned containing \r\n* the ID for the conversation\r\n* ActivityId for the activity if provided.  If ActivityId is null then the channel doesn't support returning resource id's for activity.",
+            "schema": {
+              "$ref": "#/definitions/ConversationResourceResponse"
+            }
+          },
+          "default": {
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v3/conversations/{conversationId}/activities": {
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "SendToConversation",
+        "description": "This method allows you to send an activity to the end of a conversation.\r\n\r\nThis is slightly different from ReplyToActivity().\r\n* SendToConversation(conversationId) - will append the activity to the end of the conversation according to the timestamp or semantics of the channel.\r\n* ReplyToActivity(conversationId,ActivityId) - adds the activity as a reply to another activity, if the channel supports it. If the channel does not support nested replies, ReplyToActivity falls back to SendToConversation.\r\n\r\nUse ReplyToActivity when replying to a specific activity in the conversation.\r\n\r\nUse SendToConversation in all other cases.",
+        "operationId": "Conversations_SendToConversation",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "activity",
+            "in": "body",
+            "description": "Activity to send",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An object will be returned containing the ID for the resource.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "201": {
+            "description": "A ResourceResponse object will be returned containing the ID for the resource.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "202": {
+            "description": "An object will be returned containing the ID for the resource.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "default": {
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v3/conversations/{conversationId}/activities/history": {
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "SendConversationHistory",
+        "description": "This method allows you to upload the historic activities to the conversation.\r\n\r\nSender must ensure that the historic activities have unique ids and appropriate timestamps. The ids are used by the client to deal with duplicate activities and the timestamps are used by the client to render the activities in the right order.",
+        "operationId": "Conversations_SendConversationHistory",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "history",
+            "in": "body",
+            "description": "Historic activities",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Transcript"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An object will be returned containing the ID for the resource.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "201": {
+            "description": "A ResourceResponse object will be returned containing the ID for the resource.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "202": {
+            "description": "An object will be returned containing the ID for the resource.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "default": {
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v3/conversations/{conversationId}/activities/{activityId}": {
+      "put": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "UpdateActivity",
+        "description": "Edit an existing activity.\r\n\r\nSome channels allow you to edit an existing activity to reflect the new state of a bot conversation.\r\n\r\nFor example, you can remove buttons after someone has clicked \"Approve\" button.",
+        "operationId": "Conversations_UpdateActivity",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "description": "activityId to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "activity",
+            "in": "body",
+            "description": "replacement Activity",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An object will be returned containing the ID for the resource.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "201": {
+            "description": "A ResourceResponse object will be returned containing the ID for the resource.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "202": {
+            "description": "An object will be returned containing the ID for the resource.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "default": {
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "ReplyToActivity",
+        "description": "This method allows you to reply to an activity.\r\n\r\nThis is slightly different from SendToConversation().\r\n* SendToConversation(conversationId) - will append the activity to the end of the conversation according to the timestamp or semantics of the channel.\r\n* ReplyToActivity(conversationId,ActivityId) - adds the activity as a reply to another activity, if the channel supports it. If the channel does not support nested replies, ReplyToActivity falls back to SendToConversation.\r\n\r\nUse ReplyToActivity when replying to a specific activity in the conversation.\r\n\r\nUse SendToConversation in all other cases.",
+        "operationId": "Conversations_ReplyToActivity",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "description": "activityId the reply is to (OPTIONAL)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "activity",
+            "in": "body",
+            "description": "Activity to send",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An object will be returned containing the ID for the resource.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "201": {
+            "description": "A ResourceResponse object will be returned containing the ID for the resource.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "202": {
+            "description": "An object will be returned containing the ID for the resource.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "default": {
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "DeleteActivity",
+        "description": "Delete an existing activity.\r\n\r\nSome channels allow you to delete an existing activity, and if successful this method will remove the specified activity.",
+        "operationId": "Conversations_DeleteActivity",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "description": "activityId to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation succeeded, there is no response."
+          },
+          "202": {
+            "description": "The request has been accepted for processing, but the processing has not been completed"
+          },
+          "default": {
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v3/conversations/{conversationId}/members": {
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "GetConversationMembers",
+        "description": "Enumerate the members of a conversation. \r\n\r\nThis REST API takes a ConversationId and returns an array of ChannelAccount objects representing the members of the conversation.",
+        "operationId": "Conversations_GetConversationMembers",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of ChannelAccount objects",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ChannelAccount"
+              }
+            }
+          },
+          "default": {
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v3/conversations/{conversationId}/pagedmembers": {
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "GetConversationPagedMembers",
+        "description": "Enumerate the members of a conversation one page at a time.\r\n\r\nThis REST API takes a ConversationId. Optionally a pageSize and/or continuationToken can be provided. It returns a PagedMembersResult, which contains an array\r\nof ChannelAccounts representing the members of the conversation and a continuation token that can be used to get more values.\r\n\r\nOne page of ChannelAccounts records are returned with each call. The number of records in a page may vary between channels and calls. The pageSize parameter can be used as \r\na suggestion. If there are no additional results the response will not contain a continuation token. If there are no members in the conversation the Members will be empty or not present in the response.\r\n\r\nA response to a request that has a continuation token from a prior request may rarely return members from a previous request.",
+        "operationId": "Conversations_GetConversationPagedMembers",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Suggested page size",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "description": "Continuation Token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PagedMembersResult"
+            }
+          }
+        }
+      }
+    },
+    "/v3/conversations/{conversationId}/members/{memberId}": {
+      "delete": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "DeleteConversationMember",
+        "description": "Deletes a member from a conversation. \r\n\r\nThis REST API takes a ConversationId and a memberId (of type string) and removes that member from the conversation. If that member was the last member\r\nof the conversation, the conversation will also be deleted.",
+        "operationId": "Conversations_DeleteConversationMember",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "memberId",
+            "in": "path",
+            "description": "ID of the member to delete from this conversation",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation succeeded, there is no response."
+          },
+          "204": {
+            "description": "The operation succeeded but no content was returned."
+          },
+          "default": {
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v3/conversations/{conversationId}/activities/{activityId}/members": {
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "GetActivityMembers",
+        "description": "Enumerate the members of an activity. \r\n\r\nThis REST API takes a ConversationId and a ActivityId, returning an array of ChannelAccount objects representing the members of the particular activity in the conversation.",
+        "operationId": "Conversations_GetActivityMembers",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "description": "Activity ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of ChannelAccount objects",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ChannelAccount"
+              }
+            }
+          },
+          "default": {
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v3/conversations/{conversationId}/attachments": {
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "UploadAttachment",
+        "description": "Upload an attachment directly into a channel's blob storage.\r\n\r\nThis is useful because it allows you to store data in a compliant store when dealing with enterprises.\r\n\r\nThe response is a ResourceResponse which contains an AttachmentId which is suitable for using with the attachments API.",
+        "operationId": "Conversations_UploadAttachment",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "attachmentUpload",
+            "in": "body",
+            "description": "Attachment data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AttachmentData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An object will be returned containing the ID for the resource.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "201": {
+            "description": "A ResourceResponse object will be returned containing the ID for the resource.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "202": {
+            "description": "An object will be returned containing the ID for the resource.",
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
+          },
+          "default": {
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AttachmentInfo": {
+      "description": "Metadata for an attachment",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name of the attachment",
+          "type": "string"
+        },
+        "type": {
+          "description": "ContentType of the attachment",
+          "type": "string"
+        },
+        "views": {
+          "description": "attachment views",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AttachmentView"
+          }
+        }
+      }
+    },
+    "AttachmentView": {
+      "description": "Attachment View name and size",
+      "type": "object",
+      "properties": {
+        "viewId": {
+          "description": "Content type of the attachment",
+          "type": "string"
+        },
+        "size": {
+          "format": "int32",
+          "description": "Name of the attachment",
+          "type": "integer"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "description": "An HTTP API response",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Error",
+          "description": "Error message"
+        }
+      }
+    },
+    "Error": {
+      "description": "Object representing error information",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code",
+          "type": "string"
+        },
+        "message": {
+          "description": "Error message",
+          "type": "string"
+        },
+        "innerHttpError": {
+          "$ref": "#/definitions/InnerHttpError",
+          "description": "Error from inner http call"
+        }
+      }
+    },
+    "InnerHttpError": {
+      "description": "Object representing inner http error",
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "format": "int32",
+          "description": "HttpStatusCode from failed request",
+          "type": "integer"
+        },
+        "body": {
+          "description": "Body from failed request",
+          "type": "object"
+        }
+      }
+    },
+    "ConversationParameters": {
+      "description": "Parameters for creating a new conversation",
+      "type": "object",
+      "properties": {
+        "isGroup": {
+          "description": "IsGroup",
+          "type": "boolean"
+        },
+        "bot": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "The bot address for this conversation"
+        },
+        "members": {
+          "description": "Members to add to the conversation",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChannelAccount"
+          }
+        },
+        "topicName": {
+          "description": "(Optional) Topic of the conversation (if supported by the channel)",
+          "type": "string"
+        },
+        "tenantId": {
+          "description": "(Optional) The tenant ID in which the conversation should be created",
+          "type": "string"
+        },
+        "activity": {
+          "$ref": "#/definitions/Activity",
+          "description": "(Optional) When creating a new conversation, use this activity as the initial message to the conversation"
+        },
+        "channelData": {
+          "description": "Channel specific payload for creating the conversation",
+          "type": "object"
+        }
+      }
+    },
+    "ChannelAccount": {
+      "description": "Channel account information needed to route a message",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Channel id for the user or bot on this channel (Example: joe@smith.com, or @joesmith or 123456)",
+          "type": "string"
+        },
+        "name": {
+          "description": "Display friendly name",
+          "type": "string"
+        },
+        "aadObjectId": {
+          "description": "This account's object ID within Azure Active Directory (AAD)",
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/definitions/RoleTypes",
+          "description": "Role of the entity behind the account (Example: User, Bot, etc.)"
+        }
+      }
+    },
+    "Activity": {
+      "description": "An Activity is the basic communication type for the Bot Framework 3.0 protocol.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ActivityTypes",
+          "description": "Contains the activity type."
+        },
+        "id": {
+          "description": "Contains an ID that uniquely identifies the activity on the channel.",
+          "type": "string"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "description": "Contains the date and time that the message was sent, in UTC, expressed in ISO-8601 format.",
+          "type": "string"
+        },
+        "localTimestamp": {
+          "format": "date-time",
+          "description": "Contains the local date and time of the message, expressed in ISO-8601 format.\r\nFor example, 2016-09-23T13:07:49.4714686-07:00.",
+          "type": "string"
+        },
+        "localTimezone": {
+          "description": "Contains the name of the local timezone of the message, expressed in IANA Time Zone database format.\r\nFor example, America/Los_Angeles.",
+          "type": "string"
+        },
+        "serviceUrl": {
+          "description": "Contains the URL that specifies the channel's service endpoint. Set by the channel.",
+          "type": "string"
+        },
+        "channelId": {
+          "description": "Contains an ID that uniquely identifies the channel. Set by the channel.",
+          "type": "string"
+        },
+        "from": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "Identifies the sender of the message."
+        },
+        "conversation": {
+          "$ref": "#/definitions/ConversationAccount",
+          "description": "Identifies the conversation to which the activity belongs."
+        },
+        "recipient": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "Identifies the recipient of the message."
+        },
+        "textFormat": {
+          "$ref": "#/definitions/TextFormatTypes",
+          "description": "Format of text fields Default:markdown"
+        },
+        "attachmentLayout": {
+          "$ref": "#/definitions/AttachmentLayoutTypes",
+          "description": "The layout hint for multiple attachments. Default: list."
+        },
+        "membersAdded": {
+          "description": "The collection of members added to the conversation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChannelAccount"
+          }
+        },
+        "membersRemoved": {
+          "description": "The collection of members removed from the conversation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChannelAccount"
+          }
+        },
+        "reactionsAdded": {
+          "description": "The collection of reactions added to the conversation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageReaction"
+          }
+        },
+        "reactionsRemoved": {
+          "description": "The collection of reactions removed from the conversation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageReaction"
+          }
+        },
+        "topicName": {
+          "description": "The updated topic name of the conversation.",
+          "type": "string"
+        },
+        "historyDisclosed": {
+          "description": "Indicates whether the prior history of the channel is disclosed.",
+          "type": "boolean"
+        },
+        "locale": {
+          "description": "A locale name for the contents of the text field.\r\nThe locale name is a combination of an ISO 639 two- or three-letter culture code associated with a language\r\nand an ISO 3166 two-letter subculture code associated with a country or region.\r\nThe locale name can also correspond to a valid BCP-47 language tag.",
+          "type": "string"
+        },
+        "text": {
+          "description": "The text content of the message.",
+          "type": "string"
+        },
+        "speak": {
+          "description": "The text to speak.",
+          "type": "string"
+        },
+        "inputHint": {
+          "$ref": "#/definitions/InputHints",
+          "description": "Indicates whether your bot is accepting,\r\nexpecting, or ignoring user input after the message is delivered to the client."
+        },
+        "summary": {
+          "description": "The text to display if the channel cannot render cards.",
+          "type": "string"
+        },
+        "suggestedActions": {
+          "$ref": "#/definitions/SuggestedActions",
+          "description": "The suggested actions for the activity."
+        },
+        "attachments": {
+          "description": "Attachments",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Attachment"
+          }
+        },
+        "entities": {
+          "description": "Represents the entities that were mentioned in the message.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Entity"
+          }
+        },
+        "channelData": {
+          "description": "Contains channel-specific content.",
+          "type": "object"
+        },
+        "action": {
+          "description": "Indicates whether the recipient of a contactRelationUpdate was added or removed from the sender's contact list.",
+          "type": "string"
+        },
+        "replyToId": {
+          "description": "Contains the ID of the message to which this message is a reply.",
+          "type": "string"
+        },
+        "label": {
+          "description": "A descriptive label for the activity.",
+          "type": "string"
+        },
+        "valueType": {
+          "description": "The type of the activity's value object.",
+          "type": "string"
+        },
+        "value": {
+          "description": "A value that is associated with the activity.",
+          "type": "object"
+        },
+        "name": {
+          "description": "The name of the operation associated with an invoke or event activity.",
+          "type": "string"
+        },
+        "relatesTo": {
+          "$ref": "#/definitions/ConversationReference",
+          "description": "A reference to another conversation or activity."
+        },
+        "code": {
+          "$ref": "#/definitions/EndOfConversationCodes",
+          "description": "The a code for endOfConversation activities that indicates why the conversation ended."
+        },
+        "expiration": {
+          "format": "date-time",
+          "description": "The time at which the activity should be considered to be \"expired\" and should not be presented to the recipient.",
+          "type": "string"
+        },
+        "importance": {
+          "$ref": "#/definitions/ActivityImportance",
+          "description": "The importance of the activity."
+        },
+        "deliveryMode": {
+          "$ref": "#/definitions/DeliveryModes",
+          "description": "A delivery hint to signal to the recipient alternate delivery paths for the activity.\r\nThe default delivery mode is \"default\"."
+        },
+        "listenFor": {
+          "description": "List of phrases and references that speech and language priming systems should listen for",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "textHighlights": {
+          "description": "The collection of text fragments to highlight when the activity contains a ReplyToId value.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TextHighlight"
+          }
+        },
+        "semanticAction": {
+          "$ref": "#/definitions/SemanticAction",
+          "description": "An optional programmatic action accompanying this request"
+        }
+      }
+    },
+    "ConversationAccount": {
+      "description": "Conversation account represents the identity of the conversation within a channel",
+      "type": "object",
+      "properties": {
+        "isGroup": {
+          "description": "Indicates whether the conversation contains more than two participants at the time the activity was generated",
+          "type": "boolean"
+        },
+        "conversationType": {
+          "description": "Indicates the type of the conversation in channels that distinguish between conversation types",
+          "type": "string"
+        },
+        "tenantId": {
+          "description": "This conversation's tenant ID",
+          "type": "string"
+        },
+        "id": {
+          "description": "Channel id for the user or bot on this channel (Example: joe@smith.com, or @joesmith or 123456)",
+          "type": "string"
+        },
+        "name": {
+          "description": "Display friendly name",
+          "type": "string"
+        },
+        "aadObjectId": {
+          "description": "This account's object ID within Azure Active Directory (AAD)",
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/definitions/RoleTypes",
+          "description": "Role of the entity behind the account (Example: User, Bot, etc.)"
+        }
+      }
+    },
+    "MessageReaction": {
+      "description": "Message reaction object",
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/MessageReactionTypes",
+          "description": "Message reaction type"
+        }
+      }
+    },
+    "SuggestedActions": {
+      "description": "SuggestedActions that can be performed",
+      "type": "object",
+      "properties": {
+        "to": {
+          "description": "Ids of the recipients that the actions should be shown to.  These Ids are relative to the channelId and a subset of all recipients of the activity",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "actions": {
+          "description": "Actions that can be shown to the user",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        }
+      }
+    },
+    "Attachment": {
+      "description": "An attachment within an activity",
+      "type": "object",
+      "properties": {
+        "contentType": {
+          "description": "mimetype/Contenttype for the file",
+          "type": "string"
+        },
+        "contentUrl": {
+          "description": "Content Url",
+          "type": "string"
+        },
+        "content": {
+          "description": "Embedded content",
+          "type": "object"
+        },
+        "name": {
+          "description": "(OPTIONAL) The name of the attachment",
+          "type": "string"
+        },
+        "thumbnailUrl": {
+          "description": "(OPTIONAL) Thumbnail associated with attachment",
+          "type": "string"
+        }
+      }
+    },
+    "Entity": {
+      "description": "Metadata object pertaining to an activity",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Type of this entity (RFC 3987 IRI)",
+          "type": "string"
+        }
+      }
+    },
+    "ConversationReference": {
+      "description": "An object relating to a particular point in a conversation",
+      "type": "object",
+      "properties": {
+        "activityId": {
+          "description": "(Optional) ID of the activity to refer to",
+          "type": "string"
+        },
+        "user": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "(Optional) User participating in this conversation"
+        },
+        "bot": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "Bot participating in this conversation"
+        },
+        "conversation": {
+          "$ref": "#/definitions/ConversationAccount",
+          "description": "Conversation reference"
+        },
+        "channelId": {
+          "description": "Channel ID",
+          "type": "string"
+        },
+        "serviceUrl": {
+          "description": "Service endpoint where operations concerning the referenced conversation may be performed",
+          "type": "string"
+        }
+      }
+    },
+    "TextHighlight": {
+      "description": "Refers to a substring of content within another field",
+      "type": "object",
+      "properties": {
+        "text": {
+          "description": "Defines the snippet of text to highlight",
+          "type": "string"
+        },
+        "occurrence": {
+          "format": "int32",
+          "description": "Occurrence of the text field within the referenced text, if multiple exist.",
+          "type": "integer"
+        }
+      }
+    },
+    "SemanticAction": {
+      "description": "Represents a reference to a programmatic action",
+      "type": "object",
+      "properties": {
+        "state": {
+          "$ref": "#/definitions/SemanticActionStates",
+          "description": "State of this action. Allowed values: `start`, `continue`, `done`"
+        },
+        "id": {
+          "description": "ID of this action",
+          "type": "string"
+        },
+        "entities": {
+          "description": "Entities associated with this action",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Entity"
+          }
+        }
+      }
+    },
+    "CardAction": {
+      "description": "A clickable action",
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ActionTypes",
+          "description": "The type of action implemented by this button"
+        },
+        "title": {
+          "description": "Text description which appears on the button",
+          "type": "string"
+        },
+        "image": {
+          "description": "Image URL which will appear on the button, next to text label",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text for this action",
+          "type": "string"
+        },
+        "displayText": {
+          "description": "(Optional) text to display in the chat feed if the button is clicked",
+          "type": "string"
+        },
+        "value": {
+          "description": "Supplementary parameter for action. Content of this property depends on the ActionType",
+          "type": "object"
+        },
+        "channelData": {
+          "description": "Channel-specific data associated with this action",
+          "type": "object"
+        }
+      }
+    },
+    "ConversationResourceResponse": {
+      "description": "A response containing a resource",
+      "type": "object",
+      "properties": {
+        "activityId": {
+          "description": "ID of the Activity (if sent)",
+          "type": "string"
+        },
+        "serviceUrl": {
+          "description": "Service endpoint where operations concerning the conversation may be performed",
+          "type": "string"
+        },
+        "id": {
+          "description": "Id of the resource",
+          "type": "string"
+        }
+      }
+    },
+    "ConversationsResult": {
+      "description": "Conversations result",
+      "type": "object",
+      "properties": {
+        "continuationToken": {
+          "description": "Paging token",
+          "type": "string"
+        },
+        "conversations": {
+          "description": "List of conversations",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConversationMembers"
+          }
+        }
+      }
+    },
+    "ConversationMembers": {
+      "description": "Conversation and its members",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Conversation ID",
+          "type": "string"
+        },
+        "members": {
+          "description": "List of members in this conversation",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChannelAccount"
+          }
+        }
+      }
+    },
+    "ResourceResponse": {
+      "description": "A response containing a resource ID",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Id of the resource",
+          "type": "string"
+        }
+      }
+    },
+    "Transcript": {
+      "description": "Transcript",
+      "type": "object",
+      "properties": {
+        "activities": {
+          "description": "A collection of Activities that conforms to the Transcript schema.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Activity"
+          }
+        }
+      }
+    },
+    "PagedMembersResult": {
+      "description": "Page of members.",
+      "type": "object",
+      "properties": {
+        "continuationToken": {
+          "description": "Paging token",
+          "type": "string"
+        },
+        "members": {
+          "description": "The Channel Accounts.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChannelAccount"
+          }
+        }
+      }
+    },
+    "AttachmentData": {
+      "description": "Attachment data",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Content-Type of the attachment",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the attachment",
+          "type": "string"
+        },
+        "originalBase64": {
+          "format": "byte",
+          "description": "Attachment content",
+          "type": "string"
+        },
+        "thumbnailBase64": {
+          "format": "byte",
+          "description": "Attachment thumbnail",
+          "type": "string"
+        }
+      }
+    },
+    "HeroCard": {
+      "description": "A Hero card (card with a single, large image)",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of the card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of the card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text for the card",
+          "type": "string"
+        },
+        "images": {
+          "description": "Array of images for the card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardImage"
+          }
+        },
+        "buttons": {
+          "description": "Set of actions applicable to the current card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        },
+        "tap": {
+          "$ref": "#/definitions/CardAction",
+          "description": "This action will be activated when user taps on the card itself"
+        }
+      }
+    },
+    "CardImage": {
+      "description": "An image on a card",
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "URL thumbnail image for major content property",
+          "type": "string"
+        },
+        "alt": {
+          "description": "Image description intended for screen readers",
+          "type": "string"
+        },
+        "tap": {
+          "$ref": "#/definitions/CardAction",
+          "description": "Action assigned to specific Attachment"
+        }
+      }
+    },
+    "AnimationCard": {
+      "description": "An animation card (Ex: gif or short video clip)",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of this card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of this card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text of this card",
+          "type": "string"
+        },
+        "image": {
+          "$ref": "#/definitions/ThumbnailUrl",
+          "description": "Thumbnail placeholder"
+        },
+        "media": {
+          "description": "Media URLs for this card. When this field contains more than one URL, each URL is an alternative format of the same content.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MediaUrl"
+          }
+        },
+        "buttons": {
+          "description": "Actions on this card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        },
+        "shareable": {
+          "description": "This content may be shared with others (default:true)",
+          "type": "boolean"
+        },
+        "autoloop": {
+          "description": "Should the client loop playback at end of content (default:true)",
+          "type": "boolean"
+        },
+        "autostart": {
+          "description": "Should the client automatically start playback of media in this card (default:true)",
+          "type": "boolean"
+        },
+        "aspect": {
+          "description": "Aspect ratio of thumbnail/media placeholder. Allowed values are \"16:9\" and \"4:3\"",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Describes the length of the media content without requiring a receiver to open the content. Formatted as an ISO 8601 Duration field.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Supplementary parameter for this card",
+          "type": "object"
+        }
+      }
+    },
+    "ThumbnailUrl": {
+      "description": "Thumbnail URL",
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "URL pointing to the thumbnail to use for media content",
+          "type": "string"
+        },
+        "alt": {
+          "description": "HTML alt text to include on this thumbnail image",
+          "type": "string"
+        }
+      }
+    },
+    "MediaUrl": {
+      "description": "Media URL",
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "Url for the media",
+          "type": "string"
+        },
+        "profile": {
+          "description": "Optional profile hint to the client to differentiate multiple MediaUrl objects from each other",
+          "type": "string"
+        }
+      }
+    },
+    "AudioCard": {
+      "description": "Audio card",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of this card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of this card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text of this card",
+          "type": "string"
+        },
+        "image": {
+          "$ref": "#/definitions/ThumbnailUrl",
+          "description": "Thumbnail placeholder"
+        },
+        "media": {
+          "description": "Media URLs for this card. When this field contains more than one URL, each URL is an alternative format of the same content.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MediaUrl"
+          }
+        },
+        "buttons": {
+          "description": "Actions on this card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        },
+        "shareable": {
+          "description": "This content may be shared with others (default:true)",
+          "type": "boolean"
+        },
+        "autoloop": {
+          "description": "Should the client loop playback at end of content (default:true)",
+          "type": "boolean"
+        },
+        "autostart": {
+          "description": "Should the client automatically start playback of media in this card (default:true)",
+          "type": "boolean"
+        },
+        "aspect": {
+          "description": "Aspect ratio of thumbnail/media placeholder. Allowed values are \"16:9\" and \"4:3\"",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Describes the length of the media content without requiring a receiver to open the content. Formatted as an ISO 8601 Duration field.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Supplementary parameter for this card",
+          "type": "object"
+        }
+      }
+    },
+    "BasicCard": {
+      "description": "A basic card",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of the card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of the card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text for the card",
+          "type": "string"
+        },
+        "images": {
+          "description": "Array of images for the card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardImage"
+          }
+        },
+        "buttons": {
+          "description": "Set of actions applicable to the current card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        },
+        "tap": {
+          "$ref": "#/definitions/CardAction",
+          "description": "This action will be activated when user taps on the card itself"
+        }
+      }
+    },
+    "MediaCard": {
+      "description": "Media card",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of this card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of this card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text of this card",
+          "type": "string"
+        },
+        "image": {
+          "$ref": "#/definitions/ThumbnailUrl",
+          "description": "Thumbnail placeholder"
+        },
+        "media": {
+          "description": "Media URLs for this card. When this field contains more than one URL, each URL is an alternative format of the same content.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MediaUrl"
+          }
+        },
+        "buttons": {
+          "description": "Actions on this card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        },
+        "shareable": {
+          "description": "This content may be shared with others (default:true)",
+          "type": "boolean"
+        },
+        "autoloop": {
+          "description": "Should the client loop playback at end of content (default:true)",
+          "type": "boolean"
+        },
+        "autostart": {
+          "description": "Should the client automatically start playback of media in this card (default:true)",
+          "type": "boolean"
+        },
+        "aspect": {
+          "description": "Aspect ratio of thumbnail/media placeholder. Allowed values are \"16:9\" and \"4:3\"",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Describes the length of the media content without requiring a receiver to open the content. Formatted as an ISO 8601 Duration field.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Supplementary parameter for this card",
+          "type": "object"
+        }
+      }
+    },
+    "ReceiptCard": {
+      "description": "A receipt card",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of the card",
+          "type": "string"
+        },
+        "facts": {
+          "description": "Array of Fact objects",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Fact"
+          }
+        },
+        "items": {
+          "description": "Array of Receipt Items",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReceiptItem"
+          }
+        },
+        "tap": {
+          "$ref": "#/definitions/CardAction",
+          "description": "This action will be activated when user taps on the card"
+        },
+        "total": {
+          "description": "Total amount of money paid (or to be paid)",
+          "type": "string"
+        },
+        "tax": {
+          "description": "Total amount of tax paid (or to be paid)",
+          "type": "string"
+        },
+        "vat": {
+          "description": "Total amount of VAT paid (or to be paid)",
+          "type": "string"
+        },
+        "buttons": {
+          "description": "Set of actions applicable to the current card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        }
+      }
+    },
+    "Fact": {
+      "description": "Set of key-value pairs. Advantage of this section is that key and value properties will be \r\nrendered with default style information with some delimiter between them. So there is no need for developer to specify style information.",
+      "type": "object",
+      "properties": {
+        "key": {
+          "description": "The key for this Fact",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value for this Fact",
+          "type": "string"
+        }
+      }
+    },
+    "ReceiptItem": {
+      "description": "An item on a receipt card",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of the Card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle appears just below Title field, differs from Title in font styling only",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text field appears just below subtitle, differs from Subtitle in font styling only",
+          "type": "string"
+        },
+        "image": {
+          "$ref": "#/definitions/CardImage",
+          "description": "Image"
+        },
+        "price": {
+          "description": "Amount with currency",
+          "type": "string"
+        },
+        "quantity": {
+          "description": "Number of items of given kind",
+          "type": "string"
+        },
+        "tap": {
+          "$ref": "#/definitions/CardAction",
+          "description": "This action will be activated when user taps on the Item bubble."
+        }
+      }
+    },
+    "SigninCard": {
+      "description": "A card representing a request to sign in",
+      "type": "object",
+      "properties": {
+        "text": {
+          "description": "Text for signin request",
+          "type": "string"
+        },
+        "buttons": {
+          "description": "Action to use to perform signin",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        }
+      }
+    },
+    "OAuthCard": {
+      "description": "A card representing a request to perform a sign in via OAuth",
+      "type": "object",
+      "properties": {
+        "text": {
+          "description": "Text for signin request",
+          "type": "string"
+        },
+        "connectionName": {
+          "description": "The name of the registered connection",
+          "type": "string"
+        },
+        "buttons": {
+          "description": "Action to use to perform signin",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        }
+      }
+    },
+    "ThumbnailCard": {
+      "description": "A thumbnail card (card with a single, small thumbnail image)",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of the card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of the card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text for the card",
+          "type": "string"
+        },
+        "images": {
+          "description": "Array of images for the card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardImage"
+          }
+        },
+        "buttons": {
+          "description": "Set of actions applicable to the current card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        },
+        "tap": {
+          "$ref": "#/definitions/CardAction",
+          "description": "This action will be activated when user taps on the card itself"
+        }
+      }
+    },
+    "VideoCard": {
+      "description": "Video card",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of this card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of this card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text of this card",
+          "type": "string"
+        },
+        "image": {
+          "$ref": "#/definitions/ThumbnailUrl",
+          "description": "Thumbnail placeholder"
+        },
+        "media": {
+          "description": "Media URLs for this card. When this field contains more than one URL, each URL is an alternative format of the same content.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MediaUrl"
+          }
+        },
+        "buttons": {
+          "description": "Actions on this card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        },
+        "shareable": {
+          "description": "This content may be shared with others (default:true)",
+          "type": "boolean"
+        },
+        "autoloop": {
+          "description": "Should the client loop playback at end of content (default:true)",
+          "type": "boolean"
+        },
+        "autostart": {
+          "description": "Should the client automatically start playback of media in this card (default:true)",
+          "type": "boolean"
+        },
+        "aspect": {
+          "description": "Aspect ratio of thumbnail/media placeholder. Allowed values are \"16:9\" and \"4:3\"",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Describes the length of the media content without requiring a receiver to open the content. Formatted as an ISO 8601 Duration field.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Supplementary parameter for this card",
+          "type": "object"
+        }
+      }
+    },
+    "GeoCoordinates": {
+      "description": "GeoCoordinates (entity type: \"https://schema.org/GeoCoordinates\")",
+      "type": "object",
+      "properties": {
+        "elevation": {
+          "format": "double",
+          "description": "Elevation of the location [WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)",
+          "type": "number"
+        },
+        "latitude": {
+          "format": "double",
+          "description": "Latitude of the location [WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)",
+          "type": "number"
+        },
+        "longitude": {
+          "format": "double",
+          "description": "Longitude of the location [WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)",
+          "type": "number"
+        },
+        "type": {
+          "description": "The type of the thing",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the thing",
+          "type": "string"
+        }
+      }
+    },
+    "Mention": {
+      "description": "Mention information (entity type: \"mention\")",
+      "type": "object",
+      "properties": {
+        "mentioned": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "The mentioned user"
+        },
+        "text": {
+          "description": "Sub Text which represents the mention (can be null or empty)",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type of this entity (RFC 3987 IRI)",
+          "type": "string"
+        }
+      }
+    },
+    "Place": {
+      "description": "Place (entity type: \"https://schema.org/Place\")",
+      "type": "object",
+      "properties": {
+        "address": {
+          "description": "Address of the place (may be `string` or complex object of type `PostalAddress`)",
+          "type": "object"
+        },
+        "geo": {
+          "description": "Geo coordinates of the place (may be complex object of type `GeoCoordinates` or `GeoShape`)",
+          "type": "object"
+        },
+        "hasMap": {
+          "description": "Map to the place (may be `string` (URL) or complex object of type `Map`)",
+          "type": "object"
+        },
+        "type": {
+          "description": "The type of the thing",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the thing",
+          "type": "string"
+        }
+      }
+    },
+    "Thing": {
+      "description": "Thing (entity type: \"https://schema.org/Thing\")",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "The type of the thing",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the thing",
+          "type": "string"
+        }
+      }
+    },
+    "MediaEventValue": {
+      "description": "Supplementary parameter for media events",
+      "type": "object",
+      "properties": {
+        "cardValue": {
+          "description": "Callback parameter specified in the Value field of the MediaCard that originated this event",
+          "type": "object"
+        }
+      }
+    },
+    "TokenRequest": {
+      "description": "A request to receive a user token",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "description": "The provider to request a user token from",
+          "type": "string"
+        },
+        "settings": {
+          "description": "A collection of settings for the specific provider for this request",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "TokenResponse": {
+      "description": "A response that includes a user token",
+      "type": "object",
+      "properties": {
+        "channelId": {
+          "description": "The channelId of the TokenResponse",
+          "type": "string"
+        },
+        "connectionName": {
+          "description": "The connection name",
+          "type": "string"
+        },
+        "token": {
+          "description": "The user token",
+          "type": "string"
+        },
+        "expiration": {
+          "description": "Expiration for the token, in ISO 8601 format (e.g. \"2007-04-05T14:30Z\")",
+          "type": "string"
+        }
+      }
+    },
+    "ActivityTypes": {
+      "description": "Types of Activities",
+      "enum": [
+        "message",
+        "contactRelationUpdate",
+        "conversationUpdate",
+        "typing",
+        "endOfConversation",
+        "event",
+        "invoke",
+        "deleteUserData",
+        "messageUpdate",
+        "messageDelete",
+        "installationUpdate",
+        "messageReaction",
+        "suggestion",
+        "trace",
+        "handoff"
+      ],
+      "type": "string",
+      "properties": {},
+      "x-ms-enum": {
+        "name": "ActivityTypes",
+        "modelAsString": true
+      }
+    },
+    "AttachmentLayoutTypes": {
+      "description": "Attachment layout types",
+      "enum": [
+        "list",
+        "carousel"
+      ],
+      "type": "string",
+      "properties": {},
+      "x-ms-enum": {
+        "name": "AttachmentLayoutTypes",
+        "modelAsString": true
+      }
+    },
+    "SemanticActionStates": {
+      "description": "Indicates whether the semantic action is starting, continuing, or done",
+      "enum": [
+        "start",
+        "continue",
+        "done"
+      ],
+      "type": "string",
+      "properties": {},
+      "x-ms-enum": {
+        "name": "SemanticActionStates",
+        "modelAsString": true
+      }
+    },
+    "ActionTypes": {
+      "description": "Defines action types for clickable buttons.",
+      "enum": [
+        "openUrl",
+        "imBack",
+        "postBack",
+        "playAudio",
+        "playVideo",
+        "showImage",
+        "downloadFile",
+        "signin",
+        "call",
+        "payment",
+        "messageBack"
+      ],
+      "type": "string",
+      "properties": {},
+      "x-ms-enum": {
+        "name": "ActionTypes",
+        "modelAsString": true
+      }
+    },
+    "ContactRelationUpdateActionTypes": {
+      "description": "Action types valid for ContactRelationUpdate activities",
+      "enum": [
+        "add",
+        "remove"
+      ],
+      "type": "string",
+      "properties": {},
+      "x-ms-enum": {
+        "name": "ContactRelationUpdateActionTypes",
+        "modelAsString": true
+      }
+    },
+    "InstallationUpdateActionTypes": {
+      "description": "Action types valid for InstallationUpdate activities",
+      "enum": [
+        "add",
+        "remove"
+      ],
+      "type": "string",
+      "properties": {},
+      "x-ms-enum": {
+        "name": "InstallationUpdateActionTypes",
+        "modelAsString": true
+      }
+    },
+    "MessageReactionTypes": {
+      "description": "Message reaction types",
+      "enum": [
+        "like",
+        "plusOne"
+      ],
+      "type": "string",
+      "properties": {},
+      "x-ms-enum": {
+        "name": "MessageReactionTypes",
+        "modelAsString": true
+      }
+    },
+    "TextFormatTypes": {
+      "description": "Text format types",
+      "enum": [
+        "markdown",
+        "plain",
+        "xml"
+      ],
+      "type": "string",
+      "properties": {},
+      "x-ms-enum": {
+        "name": "TextFormatTypes",
+        "modelAsString": true
+      }
+    },
+    "InputHints": {
+      "description": "Indicates whether the bot is accepting, expecting, or ignoring input",
+      "enum": [
+        "acceptingInput",
+        "ignoringInput",
+        "expectingInput"
+      ],
+      "type": "string",
+      "properties": {},
+      "x-ms-enum": {
+        "name": "InputHints",
+        "modelAsString": true
+      }
+    },
+    "EndOfConversationCodes": {
+      "description": "Codes indicating why a conversation has ended",
+      "enum": [
+        "unknown",
+        "completedSuccessfully",
+        "userCancelled",
+        "botTimedOut",
+        "botIssuedInvalidMessage",
+        "channelFailed"
+      ],
+      "type": "string",
+      "properties": {},
+      "x-ms-enum": {
+        "name": "EndOfConversationCodes",
+        "modelAsString": true
+      }
+    },
+    "ActivityImportance": {
+      "description": "Defines the importance of an Activity",
+      "enum": [
+        "low",
+        "normal",
+        "high"
+      ],
+      "type": "string",
+      "properties": {},
+      "x-ms-enum": {
+        "name": "ActivityImportance",
+        "modelAsString": true
+      }
+    },
+    "RoleTypes": {
+      "description": "Role of the entity behind the account (Example: User, Bot, etc.)",
+      "enum": [
+        "user",
+        "bot"
+      ],
+      "type": "string",
+      "properties": {},
+      "x-ms-enum": {
+        "name": "RoleTypes",
+        "modelAsString": true
+      }
+    },
+    "DeliveryModes": {
+      "description": "Values for deliveryMode field",
+      "enum": [
+        "normal",
+        "notification"
+      ],
+      "type": "string",
+      "properties": {},
+      "x-ms-enum": {
+        "name": "DeliveryModes",
+        "modelAsString": true
+      }
+    },
+    "MicrosoftPayMethodData": {
+      "description": "W3C Payment Method Data for Microsoft Pay",
+      "type": "object",
+      "properties": {
+        "merchantId": {
+          "description": "Microsoft Pay Merchant ID",
+          "type": "string"
+        },
+        "supportedNetworks": {
+          "description": "Supported payment networks (e.g., \"visa\" and \"mastercard\")",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "supportedTypes": {
+          "description": "Supported payment types (e.g., \"credit\")",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "PaymentAddress": {
+      "description": "Address within a Payment Request",
+      "type": "object",
+      "properties": {
+        "country": {
+          "description": "This is the CLDR (Common Locale Data Repository) region code. For example, US, GB, CN, or JP",
+          "type": "string"
+        },
+        "addressLine": {
+          "description": "This is the most specific part of the address. It can include, for example, a street name, a house number, apartment number, a rural delivery route, descriptive instructions, or a post office box number.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "region": {
+          "description": "This is the top level administrative subdivision of the country. For example, this can be a state, a province, an oblast, or a prefecture.",
+          "type": "string"
+        },
+        "city": {
+          "description": "This is the city/town portion of the address.",
+          "type": "string"
+        },
+        "dependentLocality": {
+          "description": "This is the dependent locality or sublocality within a city. For example, used for neighborhoods, boroughs, districts, or UK dependent localities.",
+          "type": "string"
+        },
+        "postalCode": {
+          "description": "This is the postal code or ZIP code, also known as PIN code in India.",
+          "type": "string"
+        },
+        "sortingCode": {
+          "description": "This is the sorting code as used in, for example, France.",
+          "type": "string"
+        },
+        "languageCode": {
+          "description": "This is the BCP-47 language code for the address. It's used to determine the field separators and the order of fields when formatting the address for display.",
+          "type": "string"
+        },
+        "organization": {
+          "description": "This is the organization, firm, company, or institution at this address.",
+          "type": "string"
+        },
+        "recipient": {
+          "description": "This is the name of the recipient or contact person.",
+          "type": "string"
+        },
+        "phone": {
+          "description": "This is the phone number of the recipient or contact person.",
+          "type": "string"
+        }
+      }
+    },
+    "PaymentCurrencyAmount": {
+      "description": "Supplies monetary amounts",
+      "type": "object",
+      "properties": {
+        "currency": {
+          "description": "A currency identifier",
+          "type": "string"
+        },
+        "value": {
+          "description": "Decimal monetary value",
+          "type": "string"
+        },
+        "currencySystem": {
+          "description": "Currency system",
+          "type": "string"
+        }
+      }
+    },
+    "PaymentDetails": {
+      "description": "Provides information about the requested transaction",
+      "type": "object",
+      "properties": {
+        "total": {
+          "$ref": "#/definitions/PaymentItem",
+          "description": "Contains the total amount of the payment request"
+        },
+        "displayItems": {
+          "description": "Contains line items for the payment request that the user agent may display",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaymentItem"
+          }
+        },
+        "shippingOptions": {
+          "description": "A sequence containing the different shipping options for the user to choose from",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaymentShippingOption"
+          }
+        },
+        "modifiers": {
+          "description": "Contains modifiers for particular payment method identifiers",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaymentDetailsModifier"
+          }
+        },
+        "error": {
+          "description": "Error description",
+          "type": "string"
+        }
+      }
+    },
+    "PaymentItem": {
+      "description": "Indicates what the payment request is for and the value asked for",
+      "type": "object",
+      "properties": {
+        "label": {
+          "description": "Human-readable description of the item",
+          "type": "string"
+        },
+        "amount": {
+          "$ref": "#/definitions/PaymentCurrencyAmount",
+          "description": "Monetary amount for the item"
+        },
+        "pending": {
+          "description": "When set to true this flag means that the amount field is not final.",
+          "type": "boolean"
+        }
+      }
+    },
+    "PaymentShippingOption": {
+      "description": "Describes a shipping option",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "String identifier used to reference this PaymentShippingOption",
+          "type": "string"
+        },
+        "label": {
+          "description": "Human-readable description of the item",
+          "type": "string"
+        },
+        "amount": {
+          "$ref": "#/definitions/PaymentCurrencyAmount",
+          "description": "Contains the monetary amount for the item"
+        },
+        "selected": {
+          "description": "Indicates whether this is the default selected PaymentShippingOption",
+          "type": "boolean"
+        }
+      }
+    },
+    "PaymentDetailsModifier": {
+      "description": "Provides details that modify the PaymentDetails based on payment method identifier",
+      "type": "object",
+      "properties": {
+        "supportedMethods": {
+          "description": "Contains a sequence of payment method identifiers",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "total": {
+          "$ref": "#/definitions/PaymentItem",
+          "description": "This value overrides the total field in the PaymentDetails dictionary for the payment method identifiers in the supportedMethods field"
+        },
+        "additionalDisplayItems": {
+          "description": "Provides additional display items that are appended to the displayItems field in the PaymentDetails dictionary for the payment method identifiers in the supportedMethods field",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaymentItem"
+          }
+        },
+        "data": {
+          "description": "A JSON-serializable object that provides optional information that might be needed by the supported payment methods",
+          "type": "object"
+        }
+      }
+    },
+    "PaymentMethodData": {
+      "description": "Indicates a set of supported payment methods and any associated payment method specific data for those methods",
+      "type": "object",
+      "properties": {
+        "supportedMethods": {
+          "description": "Required sequence of strings containing payment method identifiers for payment methods that the merchant web site accepts",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "data": {
+          "description": "A JSON-serializable object that provides optional information that might be needed by the supported payment methods",
+          "type": "object"
+        }
+      }
+    },
+    "PaymentOptions": {
+      "description": "Provides information about the options desired for the payment request",
+      "type": "object",
+      "properties": {
+        "requestPayerName": {
+          "description": "Indicates whether the user agent should collect and return the payer's name as part of the payment request",
+          "type": "boolean"
+        },
+        "requestPayerEmail": {
+          "description": "Indicates whether the user agent should collect and return the payer's email address as part of the payment request",
+          "type": "boolean"
+        },
+        "requestPayerPhone": {
+          "description": "Indicates whether the user agent should collect and return the payer's phone number as part of the payment request",
+          "type": "boolean"
+        },
+        "requestShipping": {
+          "description": "Indicates whether the user agent should collect and return a shipping address as part of the payment request",
+          "type": "boolean"
+        },
+        "shippingType": {
+          "description": "If requestShipping is set to true, then the shippingType field may be used to influence the way the user agent presents the user interface for gathering the shipping address",
+          "type": "string"
+        }
+      }
+    },
+    "PaymentRequest": {
+      "description": "A request to make a payment",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "ID of this payment request",
+          "type": "string"
+        },
+        "methodData": {
+          "description": "Allowed payment methods for this request",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaymentMethodData"
+          }
+        },
+        "details": {
+          "$ref": "#/definitions/PaymentDetails",
+          "description": "Details for this request"
+        },
+        "options": {
+          "$ref": "#/definitions/PaymentOptions",
+          "description": "Provides information about the options desired for the payment request"
+        },
+        "expires": {
+          "description": "Expiration for this request, in ISO 8601 duration format (e.g., 'P1D')",
+          "type": "string"
+        }
+      }
+    },
+    "PaymentRequestComplete": {
+      "description": "Payload delivered when completing a payment request",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Payment request ID",
+          "type": "string"
+        },
+        "paymentRequest": {
+          "$ref": "#/definitions/PaymentRequest",
+          "description": "Initial payment request"
+        },
+        "paymentResponse": {
+          "$ref": "#/definitions/PaymentResponse",
+          "description": "Corresponding payment response"
+        }
+      }
+    },
+    "PaymentResponse": {
+      "description": "A PaymentResponse is returned when a user has selected a payment method and approved a payment request",
+      "type": "object",
+      "properties": {
+        "methodName": {
+          "description": "The payment method identifier for the payment method that the user selected to fulfil the transaction",
+          "type": "string"
+        },
+        "details": {
+          "description": "A JSON-serializable object that provides a payment method specific message used by the merchant to process the transaction and determine successful fund transfer",
+          "type": "object"
+        },
+        "shippingAddress": {
+          "$ref": "#/definitions/PaymentAddress",
+          "description": "If the requestShipping flag was set to true in the PaymentOptions passed to the PaymentRequest constructor, then shippingAddress will be the full and final shipping address chosen by the user"
+        },
+        "shippingOption": {
+          "description": "If the requestShipping flag was set to true in the PaymentOptions passed to the PaymentRequest constructor, then shippingOption will be the id attribute of the selected shipping option",
+          "type": "string"
+        },
+        "payerEmail": {
+          "description": "If the requestPayerEmail flag was set to true in the PaymentOptions passed to the PaymentRequest constructor, then payerEmail will be the email address chosen by the user",
+          "type": "string"
+        },
+        "payerPhone": {
+          "description": "If the requestPayerPhone flag was set to true in the PaymentOptions passed to the PaymentRequest constructor, then payerPhone will be the phone number chosen by the user",
+          "type": "string"
+        }
+      }
+    },
+    "PaymentRequestCompleteResult": {
+      "description": "Result from a completed payment request",
+      "type": "object",
+      "properties": {
+        "result": {
+          "description": "Result of the payment request completion",
+          "type": "string"
+        }
+      }
+    },
+    "PaymentRequestUpdate": {
+      "description": "An update to a payment request",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "ID for the payment request to update",
+          "type": "string"
+        },
+        "details": {
+          "$ref": "#/definitions/PaymentDetails",
+          "description": "Update payment details"
+        },
+        "shippingAddress": {
+          "$ref": "#/definitions/PaymentAddress",
+          "description": "Updated shipping address"
+        },
+        "shippingOption": {
+          "description": "Updated shipping options",
+          "type": "string"
+        }
+      }
+    },
+    "PaymentRequestUpdateResult": {
+      "description": "A result object from a Payment Request Update invoke operation",
+      "type": "object",
+      "properties": {
+        "details": {
+          "$ref": "#/definitions/PaymentDetails",
+          "description": "Update payment details"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "bearer_auth": {
+      "type": "apiKey",
+      "description": "Access token to authenticate calls to the Bot Connector Service.",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}
