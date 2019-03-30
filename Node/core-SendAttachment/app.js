@@ -8,13 +8,13 @@ var Promise = require('bluebird');
 var url = require('url');
 var fs = require('fs');
 var util = require('util');
+var connectorSpec = require('./connector-api-swagger.json');
 
 // Swagger client for Bot Connector API
-var connectorApiClient = new Swagger(
-    {
-        url: 'https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/ConnectorAPI.json',
-        usePromise: true
-    });
+var connectorApiClient = new Swagger({
+    spec: connectorSpec,
+    usePromise: true
+});
 
 // Setup Restify Server
 var server = restify.createServer();
