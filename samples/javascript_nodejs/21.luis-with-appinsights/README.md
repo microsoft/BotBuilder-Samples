@@ -48,15 +48,10 @@ This samples requires prerequisites in order to run.
     npm start
     ```
 
-# Testing the bot using Bot Framework Emulator **v4**
+# Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.1.0 or greater from [here][6].
-
-# Testing the bot using Bot Framework Emulator **v4**
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
-
-- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases).
 
 ## Connect to bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator

@@ -14,8 +14,10 @@
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
     <Icon>CoreBot.png</Icon>
     <PreviewImage></PreviewImage>
-  </TemplateData> <TemplateContent>
-  <Project File="CoreBot.csproj" ReplaceParameters="true">
+    <Tags>C#; Windows; Azure; Cloud</Tags>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="CoreBot.csproj" ReplaceParameters="true">
       <Folder Name="Bots" TargetFolderName="Bots">
         <ProjectItem ReplaceParameters="true">DialogAndWelcomeBot.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true">DialogBot.cs</ProjectItem>
