@@ -5,7 +5,7 @@
     </Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>Bot Framework</ProjectSubType>
-    <SortOrder>1010</SortOrder>
+    <SortOrder>1811</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>CoreBot</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
@@ -14,7 +14,12 @@
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
     <Icon>CoreBot.png</Icon>
     <PreviewImage></PreviewImage>
-    <Tags>C#; Windows; Azure; Cloud</Tags>
+    <Tags>C#; Windows; Azure; AI; Bots</Tags>
+    <LanguageTag>C#</LanguageTag>
+    <PlatformTag>Windows</PlatformTag>
+    <PlatformTag>macOS</PlatformTag>
+    <PlatformTag>Linux</PlatformTag>
+    <ProjectTypeTag>Service</ProjectTypeTag>
   </TemplateData>
   <TemplateContent>
     <Project File="CoreBot.csproj" ReplaceParameters="true">

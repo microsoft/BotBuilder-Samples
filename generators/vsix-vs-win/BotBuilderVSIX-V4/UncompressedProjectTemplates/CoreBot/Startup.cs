@@ -9,6 +9,9 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 
+using $safeprojectname$.Bots;
+using $safeprojectname$.Dialogs;
+
 namespace $safeprojectname$
 {
     public class Startup

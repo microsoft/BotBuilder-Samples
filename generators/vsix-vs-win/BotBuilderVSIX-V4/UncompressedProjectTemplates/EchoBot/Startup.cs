@@ -10,6 +10,8 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using $safeprojectname$.Bots;
+
 namespace $safeprojectname$
 {
     public class Startup

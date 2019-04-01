@@ -2,10 +2,10 @@
   <TemplateData>
     <Name>Empty Bot (Bot Framework v4)</Name>
     <Description>Empty Bot Template for Bot Framework v4.  A good template if you want a skeleton project or want to take sample code from the documentation and paste it into a minimal bot in order to learn.
-  </Description>
-  <ProjectType>CSharp</ProjectType>
+    </Description>
+    <ProjectType>CSharp</ProjectType>
     <ProjectSubType>Bot Framework</ProjectSubType>
-    <SortOrder>1020</SortOrder>
+    <SortOrder>1812</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>EmptyBot</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
@@ -14,6 +14,12 @@
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
     <Icon>EmptyBot.png</Icon>
     <PreviewImage></PreviewImage>
+    <Tags>C#; Windows; Azure; AI; Bots</Tags>
+    <LanguageTag>C#</LanguageTag>
+    <PlatformTag>Windows</PlatformTag>
+    <PlatformTag>macOS</PlatformTag>
+    <PlatformTag>Linux</PlatformTag>
+    <ProjectTypeTag>Service</ProjectTypeTag>
   </TemplateData>
   <TemplateContent>
     <Project File="EmptyBot.csproj" ReplaceParameters="true">

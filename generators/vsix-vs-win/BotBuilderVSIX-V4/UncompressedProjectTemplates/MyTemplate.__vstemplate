@@ -5,6 +5,7 @@
     <Description>Create a solution that contains all three Microsoft Bot Builder templates, EchoBot, CoreBot, and EmptyBot.</Description>
     <Icon>vstg0001.png</Icon>
     <ProjectType>CSharp</ProjectType>
+    <SortOrder>1800</SortOrder>
   </TemplateData>
   <TemplateContent>
     <ProjectCollection>
