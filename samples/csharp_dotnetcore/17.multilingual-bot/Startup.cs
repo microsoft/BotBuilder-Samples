@@ -173,7 +173,7 @@ namespace Microsoft.BotBuilderSamples
                 // State accessors enable other components to read and write individual properties of state.
                 var accessors = new MultiLingualBotAccessors(conversationState, userState)
                 {
-                    ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
+                    ConversationDialogState = conversationState.CreateProperty<DialogState>(nameof(DialogState)),
                     LanguagePreference = userState.CreateProperty<string>("LanguagePreference"),
                 };
 

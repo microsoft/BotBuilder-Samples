@@ -4,14 +4,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AdaptiveCards;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
-using Remotion.Linq.Parsing.Structure.IntermediateModel;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -48,7 +45,7 @@ namespace Microsoft.BotBuilderSamples
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             Random r = new Random();
-            var cardAttachment = CreateAdaptiveCardAttachment(this._cards[r.Next(this._cards.Length)]);
+            var cardAttachment = CreateAdaptiveCardAttachment(_cards[r.Next(_cards.Length)]);
 
             //turnContext.Activity.Attachments = new List<Attachment>() { cardAttachment };
             await turnContext.SendActivityAsync(MessageFactory.Attachment(cardAttachment), cancellationToken);

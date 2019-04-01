@@ -15,7 +15,7 @@ namespace Microsoft.BotBuilderSamples
     {
         public static void Examples()
         {
-            // When you give the recognzier the text "Wednesday 4 o'clock" you get these distinct TIMEX values back.
+            // When you give the recognizer the text "Wednesday 4 o'clock" you get these distinct TIMEX values back.
 
             // But our bot logic knows that whatever the user says it should be evaluated against the constraints of
             // a week from today with respect to the date part and in the evening with respect to the time part.

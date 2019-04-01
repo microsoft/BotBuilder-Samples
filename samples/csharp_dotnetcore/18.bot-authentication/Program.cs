@@ -16,7 +16,7 @@ namespace Microsoft.BotBuilderSamples
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureLogging((logging) =>
+                .ConfigureLogging(logging =>
                 {
                     logging.AddDebug();
                     logging.AddConsole();

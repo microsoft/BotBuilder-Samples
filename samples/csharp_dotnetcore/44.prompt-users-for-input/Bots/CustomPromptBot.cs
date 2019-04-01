@@ -18,8 +18,8 @@ namespace Microsoft.BotBuilderSamples
     // each with dependency on distinct IBot types, this way ASP Dependency Injection can glue everything together without ambiguity.
     public class CustomPromptBot : ActivityHandler 
     {
-        private BotState _userState;
-        private BotState _conversationState;
+        private readonly BotState _userState;
+        private readonly BotState _conversationState;
         
         public CustomPromptBot(ConversationState conversationState, UserState userState)
         {

@@ -13,12 +13,12 @@ namespace Microsoft.BotBuilderSamples
 {
     public class MainDialog : LogoutDialog
     {
-        protected readonly ILogger _logger;
+        protected readonly ILogger Logger;
 
         public MainDialog(IConfiguration configuration, ILogger<MainDialog> logger)
             : base(nameof(MainDialog), configuration["ConnectionName"])
         {
-            _logger = logger;
+            Logger = logger;
 
             AddDialog(new OAuthPrompt(
                 nameof(OAuthPrompt),
@@ -61,7 +61,7 @@ namespace Microsoft.BotBuilderSamples
             }
 
             await stepContext.Context.SendActivityAsync(MessageFactory.Text("Login was not successful please try again."), cancellationToken);
-            return await stepContext.EndDialogAsync();
+            return await stepContext.EndDialogAsync(cancellationToken: cancellationToken);
         }
 
         private async Task<DialogTurnResult> DisplayTokenPhase1Async(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -82,7 +82,7 @@ namespace Microsoft.BotBuilderSamples
                 return await stepContext.BeginDialogAsync(nameof(OAuthPrompt), cancellationToken: cancellationToken);
             }
 
-            return await stepContext.EndDialogAsync();
+            return await stepContext.EndDialogAsync(cancellationToken: cancellationToken);
         }
 
         private async Task<DialogTurnResult> DisplayTokenPhase2Async(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -93,7 +93,7 @@ namespace Microsoft.BotBuilderSamples
                 await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Here is your token {tokenResponse.Token}"), cancellationToken);
             }
 
-            return await stepContext.EndDialogAsync();
+            return await stepContext.EndDialogAsync(cancellationToken: cancellationToken);
         }
     }
 }
