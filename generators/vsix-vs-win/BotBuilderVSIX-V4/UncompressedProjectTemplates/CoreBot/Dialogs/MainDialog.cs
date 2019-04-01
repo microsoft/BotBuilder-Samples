@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs
 {
     public class MainDialog : ComponentDialog
     {

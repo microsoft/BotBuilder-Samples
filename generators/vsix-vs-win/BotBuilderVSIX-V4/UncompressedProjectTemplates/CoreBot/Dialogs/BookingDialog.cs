@@ -7,7 +7,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
-namespace $safeprojectname$
+namespace $safeprojectname$.Dialogs
 {
     public class BookingDialog : CancelAndHelpDialog
     {
