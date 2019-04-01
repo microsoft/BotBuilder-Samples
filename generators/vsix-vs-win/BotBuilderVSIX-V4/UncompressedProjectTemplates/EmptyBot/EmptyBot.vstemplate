@@ -5,7 +5,7 @@
   </Description>
   <ProjectType>CSharp</ProjectType>
     <ProjectSubType>Bot Framework</ProjectSubType>
-    <SortOrder>3000</SortOrder>
+    <SortOrder>1020</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>EmptyBot</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
