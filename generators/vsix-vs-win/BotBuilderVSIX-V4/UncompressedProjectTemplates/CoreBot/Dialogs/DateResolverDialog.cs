@@ -58,7 +58,7 @@ namespace $safeprojectname$.Dialogs
                 }
                 else
                 {
-                    return await stepContext.NextAsync(new DateTimeResolution { Timex = timex });
+                    return await stepContext.NextAsync(new DateTimeResolution { Timex = timex }, cancellationToken);
                 }
             }
         }
@@ -66,7 +66,7 @@ namespace $safeprojectname$.Dialogs
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var timex = ((List<DateTimeResolution>)stepContext.Result)[0].Timex;
-            return await stepContext.EndDialogAsync(timex);
+            return await stepContext.EndDialogAsync(timex, cancellationToken);
         }
 
         private static Task<bool> DateTimePromptValidator(PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
