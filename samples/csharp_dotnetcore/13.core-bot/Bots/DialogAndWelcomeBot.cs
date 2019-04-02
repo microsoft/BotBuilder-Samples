@@ -11,7 +11,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.BotBuilderSamples.Bots
 {
     public class DialogAndWelcomeBot<T> : DialogBot<T> where T : Dialog
     {

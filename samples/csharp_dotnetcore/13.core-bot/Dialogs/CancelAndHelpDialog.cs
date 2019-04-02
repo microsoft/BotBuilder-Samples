@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.BotBuilderSamples.Dialogs
 {
     public class CancelAndHelpDialog : ComponentDialog
     {
