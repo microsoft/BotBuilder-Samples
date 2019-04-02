@@ -19,8 +19,8 @@ This bot uses [LUIS][11], an AI based cognitive service, to implement language u
 	# determine dotnet version
 	dotnet --version
 	```
-- If you don't have an Azure subscription, create a [free account][5].
-- Install the latest version of the [Azure CLI][6] tool. Version 2.0.54 or higher.
+- If you don't have an Azure subscription, create a [free account][2].
+- Install the latest version of the [Azure CLI][3] tool. Version 2.0.54 or higher.
 
 ### Create a LUIS Application to enable language understanding
 LUIS language model setup, training, and application configuration steps can be found [here][7].
@@ -77,6 +77,8 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 
 
 [1]: https://dev.botframework.com
+[2]: https://azure.microsoft.com/free/
+[3]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
 [4]: https://dotnet.microsoft.com/download
 [5]: https://github.com/microsoft/botframework-emulator
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
@@ -96,4 +98,3 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-
