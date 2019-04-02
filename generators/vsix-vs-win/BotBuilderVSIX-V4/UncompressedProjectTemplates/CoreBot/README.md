@@ -11,7 +11,7 @@ This bot has been created using [Bot Framework][1], it shows how to:
 This sample **requires** prerequisites in order to run.
 
 ### Overview
-This bot uses [LUIS][11], an AI based cognitive service, to implement language understanding.  The Bot Framework provides a set of CLI tools that will help setup LUIS so the bot can be run and tested locally.
+This bot uses [LUIS][11], an AI based cognitive service, to implement language understanding.
 
 ### Install .NET Core and CLI Tooling
 - [.NET Core SDK][4] version 2.1
