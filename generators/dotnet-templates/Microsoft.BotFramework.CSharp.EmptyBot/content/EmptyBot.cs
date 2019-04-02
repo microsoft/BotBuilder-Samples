@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.BotFramework.EmptyBot
+namespace __PROJECT_NAME__
 {
     public class EmptyBot : ActivityHandler
     {

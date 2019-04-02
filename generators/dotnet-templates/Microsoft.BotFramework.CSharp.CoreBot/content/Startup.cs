@@ -9,7 +9,10 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.BotFramework.CoreBot
+using __PROJECT_NAME__.Bots;
+using __PROJECT_NAME__.Dialogs;
+
+namespace __PROJECT_NAME__
 {
     public class Startup
     {

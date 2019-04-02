@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include=__MICROSOFT_ASPNETCORE_VERSION__ />
-    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.3.2" />
   </ItemGroup>
 

@@ -10,7 +10,9 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.BotFramework.EchoBot
+using __PROJECT_NAME__.Bots;
+
+namespace __PROJECT_NAME__
 {
     public class Startup
     {

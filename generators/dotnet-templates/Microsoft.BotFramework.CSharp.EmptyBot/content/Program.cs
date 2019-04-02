@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Microsoft.BotFramework.EmptyBot
+namespace __PROJECT_NAME__
 {
     public class Program
     {

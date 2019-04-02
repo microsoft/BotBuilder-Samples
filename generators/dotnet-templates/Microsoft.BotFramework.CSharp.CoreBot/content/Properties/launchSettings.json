@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "CoreBot": {
+    "__PROJECT_NAME__": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:3979;http://localhost:3978",

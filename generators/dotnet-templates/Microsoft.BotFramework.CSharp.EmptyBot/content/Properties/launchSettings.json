@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Microsoft.Bot.Builder.EmptyBot": {
+    "__PROJECT_NAME__": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:3979;http://localhost:3978",

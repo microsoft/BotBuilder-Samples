@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace Microsoft.BotFramework.CoreBot
+namespace __PROJECT_NAME__
 {
     public class BookingDetails
     {

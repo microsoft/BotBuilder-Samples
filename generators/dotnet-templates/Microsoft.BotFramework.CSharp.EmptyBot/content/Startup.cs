@@ -10,7 +10,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.BotFramework.EmptyBot
+namespace __PROJECT_NAME__
 {
     public class Startup
     {

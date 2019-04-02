@@ -11,7 +11,7 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.BotFramework.CoreBot
+namespace __PROJECT_NAME__
 {
     public static class LuisHelper
     {

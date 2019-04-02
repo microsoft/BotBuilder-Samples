@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
-namespace Microsoft.BotFramework.CoreBot
+namespace __PROJECT_NAME__.Dialogs
 {
     public class MainDialog : ComponentDialog
     {
