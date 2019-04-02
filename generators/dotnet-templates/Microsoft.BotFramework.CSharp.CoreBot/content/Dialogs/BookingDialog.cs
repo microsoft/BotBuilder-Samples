@@ -40,7 +40,7 @@ namespace __PROJECT_NAME__.Dialogs
             }
             else
             {
-                return await stepContext.NextAsync(bookingDetails.Destination);
+                return await stepContext.NextAsync(bookingDetails.Destination, cancellationToken);
             }
         }
 
@@ -56,7 +56,7 @@ namespace __PROJECT_NAME__.Dialogs
             }
             else
             {
-                return await stepContext.NextAsync(bookingDetails.Origin);
+                return await stepContext.NextAsync(bookingDetails.Origin, cancellationToken);
             }
         }
         private async Task<DialogTurnResult> TravelDateStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -71,7 +71,7 @@ namespace __PROJECT_NAME__.Dialogs
             }
             else
             {
-                return await stepContext.NextAsync(bookingDetails.TravelDate);
+                return await stepContext.NextAsync(bookingDetails.TravelDate, cancellationToken);
             }
         }
 
@@ -88,22 +88,22 @@ namespace __PROJECT_NAME__.Dialogs
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            if ((bool)stepContext.Result == true)
+            if ((bool)stepContext.Result)
             {
                 var bookingDetails = (BookingDetails)stepContext.Options;
 
-                return await stepContext.EndDialogAsync(bookingDetails);
+                return await stepContext.EndDialogAsync(bookingDetails, cancellationToken);
             }
             else
             {
-                return await stepContext.EndDialogAsync(null);
+                return await stepContext.EndDialogAsync(null, cancellationToken);
             }
         }
 
         private static bool IsAmbiguous(string timex)
         {
-            var timexPropery = new TimexProperty(timex);
-            return !timexPropery.Types.Contains(Constants.TimexTypes.Definite);
+            var timexProperty = new TimexProperty(timex);
+            return !timexProperty.Types.Contains(Constants.TimexTypes.Definite);
         }
     }
 }

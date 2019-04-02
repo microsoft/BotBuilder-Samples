@@ -63,7 +63,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
 [7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 [8]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
-[9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [10]: https://portal.azure.com
 [11]: https://www.luis.ai
 [20]: https://docs.botframework.com

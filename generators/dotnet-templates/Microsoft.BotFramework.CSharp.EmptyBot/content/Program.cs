@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace __PROJECT_NAME__
 {
-    public class Program
+     public class Program
     {
         public static void Main(string[] args)
         {

@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include=__MICROSOFT_ASPNETCORE_VERSION__ />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.3.2" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.2" />
