@@ -15,7 +15,7 @@ namespace Microsoft.BotBuilderSamples
         {
         }
 
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken)
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             var result = await InterruptAsync(innerDc, cancellationToken);
             if (result != null)
@@ -47,12 +47,12 @@ namespace Microsoft.BotBuilderSamples
                 {
                     case "help":
                     case "?":
-                        await innerDc.Context.SendActivityAsync($"Show Help...");
+                        await innerDc.Context.SendActivityAsync($"Show Help...", cancellationToken: cancellationToken);
                         return new DialogTurnResult(DialogTurnStatus.Waiting);
 
                     case "cancel":
                     case "quit":
-                        await innerDc.Context.SendActivityAsync($"Cancelling");
+                        await innerDc.Context.SendActivityAsync($"Cancelling", cancellationToken: cancellationToken);
                         return await innerDc.CancelAllDialogsAsync();
                 }
             }
