@@ -5,6 +5,8 @@ namespace Microsoft.BotBuilderSamples
 {
     public class BookingDetails
     {
+        public string Intent { get; set; }
+
         public string Destination { get; set; }
 
         public string Origin { get; set; }

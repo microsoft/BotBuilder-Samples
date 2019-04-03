@@ -33,6 +33,9 @@ namespace Microsoft.BotBuilderSamples
                 var recognizerResult = await recognizer.RecognizeAsync(turnContext, cancellationToken);
 
                 var (intent, score) = recognizerResult.GetTopScoringIntent();
+
+                bookingDetails.Intent = intent;
+
                 if (intent == "Book_flight")
                 {
                     // We need to get the result from the LUIS JSON which at every level returns an array.
