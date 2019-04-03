@@ -35,7 +35,7 @@ const DEV_ENVIRONMENT = 'development';
 const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
 // LUIS and Application Insights service names as found in .bot file.
-const LUIS_CONFIGURATION = 'jsluis3_luis-with-appinsights-luis';
+const LUIS_CONFIGURATION = 'luis-with-appinsights-luis';
 const APP_INSIGHTS_CONFIGURATION = null; // Define a specific instance of Application Insights (if required)
 
 // Get bot endpoint configuration by service name.

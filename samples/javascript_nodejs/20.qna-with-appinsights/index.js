@@ -19,8 +19,6 @@ const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
 let botConfig;
 try {
     // Read bot configuration from .bot file.
-	console.warn('BOTFILE');
-	console.warn(BOT_FILE);
     botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
 } catch (err) {
     console.error(`\nError reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
@@ -37,14 +35,12 @@ const DEV_ENVIRONMENT = 'development';
 const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
 // QnA Maker and Application Insights service names as found in .bot file.
-const QNA_CONFIGURATION = 'qna-with-appinsights-qna';
-const APP_INSIGHTS_CONFIGURATION = null;
+const QNA_CONFIGURATION = 'qnamakerService';
+const APP_INSIGHTS_CONFIGURATION = 'appInsights';
 
 // Get bot endpoint configuration by service name.
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 const qnaConfig = botConfig.findServiceByNameOrId(QNA_CONFIGURATION);
-	console.warn('QNA_CONFIGURATION');
-	console.warn(QNA_CONFIGURATION);
 
 const appInsightsConfig = APP_INSIGHTS_CONFIGURATION
                                 ? 
