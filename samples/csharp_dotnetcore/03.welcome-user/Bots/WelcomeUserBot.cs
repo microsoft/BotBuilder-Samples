@@ -20,7 +20,7 @@ namespace Microsoft.BotBuilderSamples
     public class WelcomeUserBot : ActivityHandler
     {
         // Messages sent to the user.
-        private const string WelcomeMessage = @"This is a simple Welcome Bot sample.This bot will introduce you
+        private const string WelcomeMessage = @"This is a simple Welcome Bot sample. This bot will introduce you
                                                 to welcoming and greeting users. You can say 'intro' to see the
                                                 introduction card. If you are running this bot in the Bot Framework
                                                 Emulator, press the 'Start Over' button to simulate user joining
@@ -36,22 +36,22 @@ namespace Microsoft.BotBuilderSamples
 
         private const string PatternMessage = @"It is a good pattern to use this event to send general greeting
                                               to user, explaining what your bot can do. In this example, the bot
-                                              handles 'hello', 'hi', 'help' and 'intro. Try it now, type 'hi'";
+                                              handles 'hello', 'hi', 'help' and 'intro'. Try it now, type 'hi'";
 
         private BotState _userState;
-    
-        // Initializes a new instance of the "WelcomeUserBot" class. 
+
+        // Initializes a new instance of the "WelcomeUserBot" class.
         public WelcomeUserBot(UserState userState)
         {
             _userState = userState;
         }
-      
+
 
          //Greet when users are added to the conversation.
          //Note that all channels do not send the conversation update activity.
          //If you find that this bot works in the emulator, but does not in
          //another channel the reason is most likely that the channel does not
-         //send this activity. 
+         //send this activity.
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             foreach (var member in membersAdded)
@@ -82,7 +82,7 @@ namespace Microsoft.BotBuilderSamples
             }
             else
             {
-                // This example hardcodes specific utterances. You should use LUIS or QnA for more advance language understanding.           
+                // This example hardcodes specific utterances. You should use LUIS or QnA for more advance language understanding.
                 var text = turnContext.Activity.Text.ToLowerInvariant();
                 switch (text)
                 {
@@ -103,7 +103,7 @@ namespace Microsoft.BotBuilderSamples
             // Save any state changes.
             await _userState.SaveChangesAsync(turnContext);
         }
-      
+
         private static async Task SendIntroCardAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             var response = turnContext.Activity.CreateReply();
