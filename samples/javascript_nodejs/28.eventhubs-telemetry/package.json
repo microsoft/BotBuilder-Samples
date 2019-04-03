@@ -1,0 +1,41 @@
+{
+    "name": "eventhubs-bot",
+    "version": "1.0.0",
+    "description": "A bot that demonstrates Event Hubs integration",
+    "author": "Microsoft",
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": {
+        "start": "node ./index.js",
+        "watch": "nodemon ./index.js",
+        "lint": "./node_modules/.bin/eslint .",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
+    },
+    "dependencies": {
+        "@azure/event-hubs": "^1.0.8",
+        "@microsoft/recognizers-text-data-types-timex-expression": "^1.1.4",
+        "botbuilder": "4.4.0-preview.338",
+        "botbuilder-ai": "4.4.0-preview.338",
+        "botbuilder-applicationinsights": "4.4.0-preview.338",
+        "botbuilder-core": "^4.4.0-preview.338",
+        "botbuilder-dialogs": "4.4.0-preview.338",
+        "appinsights-usage": "^1.0.2",
+        "applicationinsights": "^1.0.7",
+        "applicationinsights-js": "^1.0.20",
+        "dotenv": "^6.1.0",
+        "restify": "^7.2.3"
+    },
+    "devDependencies": {
+        "eslint": "^5.9.0",
+        "eslint-config-standard": "^12.0.0",
+        "eslint-plugin-import": "^2.14.0",
+        "eslint-plugin-node": "^8.0.0",
+        "eslint-plugin-promise": "^4.0.1",
+        "eslint-plugin-standard": "^4.0.0",
+        "nodemon": "^1.18.6"
+    }
+}
