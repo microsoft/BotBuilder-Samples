@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -34,6 +34,9 @@ namespace $safeprojectname$
                 var recognizerResult = await recognizer.RecognizeAsync(turnContext, cancellationToken);
 
                 var (intent, score) = recognizerResult.GetTopScoringIntent();
+
+                bookingDetails.Intent = intent;
+
                 if (intent == "Book_flight")
                 {
                     // We need to get the result from the LUIS JSON which at every level returns an array.
