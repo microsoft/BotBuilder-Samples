@@ -53,12 +53,13 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
         private async Task<DialogTurnResult> ActStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // Call LUIS and gather any potential booking details. (Note the TurnContext has the response to the prompt.)
-            var bookingDetails = stepContext.Result != null
-                    ?
-                await LuisHelper.ExecuteLuisQuery(Configuration, Logger, stepContext.Context, cancellationToken)
-                    :
-                new BookingDetails();
+            var bookingDetails = new BookingDetails(); 
+            if (stepContext.Result != null)
+            {
+                // Call LUIS and gather any potential booking details. (Note the TurnContext has the response to the prompt.)
+                bookingDetails = await LuisHelper.ExecuteLuisQuery(Configuration, Logger, stepContext.Context, cancellationToken);
+                Logger.Log(LogLevel.Information, "LUIS extracted these booking details:", bookingDetails);
+            }
 
             // In this sample we only have a single Intent we are concerned with. However, typically a scenario
             // will have multiple different Intents each corresponding to starting a different child Dialog.
