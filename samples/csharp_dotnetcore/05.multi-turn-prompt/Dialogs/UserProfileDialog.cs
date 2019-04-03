@@ -12,10 +12,10 @@ namespace Microsoft.BotBuilderSamples
 {
     public class UserProfileDialog : ComponentDialog
     {
-        private IStatePropertyAccessor<UserProfile> _userProfileAccessor;
+        private readonly IStatePropertyAccessor<UserProfile> _userProfileAccessor;
 
         public UserProfileDialog(UserState userState)
-            : base("root")
+            : base(nameof(UserProfileDialog))
         {
             _userProfileAccessor = userState.CreateProperty<UserProfile>("UserProfile");
 
@@ -138,7 +138,7 @@ namespace Microsoft.BotBuilderSamples
         private static Task<bool> AgePromptValidatorAsync(PromptValidatorContext<int> promptContext, CancellationToken cancellationToken)
         {
             // This condition is our validation rule. You can also change the value at this point.
-            return Task.FromResult(promptContext.Recognized.Value >= 0 && promptContext.Recognized.Value < 150);
+            return Task.FromResult(promptContext.Recognized.Succeeded && promptContext.Recognized.Value >= 0 && promptContext.Recognized.Value < 150);
         }
     }
 }
