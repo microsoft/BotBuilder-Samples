@@ -1,28 +1,27 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes } = require('botbuilder');
-const { DialogSet, NumberPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
+const {
+    ComponentDialog,
+    DialogSet,
+    DialogTurnStatus,
+    NumberPrompt,
+    TextPrompt,
+    WaterfallDialog
+} = require('botbuilder-dialogs');
+const { SlotDetails } = require('./slotDetails');
+const { SlotFillingDialog } = require('./slotFillingDialog');
 
-const { SlotFillingDialog } = require('./dialogs/slotFillingDialog');
-const { SlotDetails } = require('./dialogs/slotDetails');
-
-const DIALOG_STATE_PROPERTY = 'dialogState';
-
-class SampleBot {
+class RootDialog extends ComponentDialog {
     /**
      * SampleBot defines the core business logic of this bot.
      * @param {ConversationState} conversationState A ConversationState object used to store dialog state.
      */
-    constructor(conversationState) {
-        this.conversationState = conversationState;
-
+    constructor(userState) {
+        super('root');
         // Create a property used to store dialog state.
         // See https://aka.ms/about-bot-state-accessors to learn more about bot state and state accessors.
-        this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
-
-        // Create a dialog set to include the dialogs used by this bot.
-        this.dialogs = new DialogSet(this.dialogState);
+        this.userStateAccessor = userState.createProperty('result');
 
         // Set up a series of questions for collecting the user's name.
         const fullnameSlots = [
@@ -62,6 +61,24 @@ class SampleBot {
             this.startDialog.bind(this),
             this.processResults.bind(this)
         ]));
+
+        this.initialDialogId = 'root';
+    }
+
+    /**
+     * The run method handles the incoming activity (in the form of a DialogContext) and passes it through the dialog system.
+     * If no dialog is active, it will start the default dialog.
+     * @param {*} dialogContext
+     */
+    async run(context, accessor) {
+        const dialogSet = new DialogSet(accessor);
+        dialogSet.add(this);
+
+        const dialogContext = await dialogSet.createContext(context);
+        const results = await dialogContext.continueDialog();
+        if (results.status === DialogTurnStatus.empty) {
+            await dialogContext.beginDialog(this.id);
+        }
     }
 
     // This is the first step of the WaterfallDialog.
@@ -107,51 +124,6 @@ class SampleBot {
 
         return false;
     }
-
-    /**
-     *
-     * @param {TurnContext} turnContext A TurnContext object representing an incoming message to be handled by the bot.
-     */
-    async onTurn(turnContext) {
-        // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
-        if (turnContext.activity.type === ActivityTypes.Message) {
-            // Create dialog context.
-            const dc = await this.dialogs.createContext(turnContext);
-
-            const utterance = (turnContext.activity.text || '').trim().toLowerCase();
-            if (utterance === 'cancel') {
-                if (dc.activeDialog) {
-                    await dc.cancelAllDialogs();
-                    await dc.context.sendActivity(`Ok... canceled.`);
-                } else {
-                    await dc.context.sendActivity(`Nothing to cancel.`);
-                }
-            }
-
-            if (!dc.context.responded) {
-                // Continue the current dialog if one is pending.
-                await dc.continueDialog();
-            }
-
-            if (!dc.context.responded) {
-                // If no response has been sent, start the onboarding dialog.
-                await dc.beginDialog('root');
-            }
-        } else if (
-            turnContext.activity.type === ActivityTypes.ConversationUpdate &&
-             turnContext.activity.membersAdded[0].name !== 'Bot'
-        ) {
-            // Send a "this is what the bot does" message.
-            const description = [
-                'This is a bot that demonstrates an alternate dialog system',
-                'which uses a slot filling technique to collect multiple responses from a user.',
-                'Say anything to continue.'
-            ];
-            await turnContext.sendActivity(description.join(' '));
-        }
-
-        await this.conversationState.saveChanges(turnContext);
-    }
 }
 
-module.exports.SampleBot = SampleBot;
+module.exports.RootDialog = RootDialog;
