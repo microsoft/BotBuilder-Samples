@@ -48,16 +48,16 @@ class RootDialog extends ComponentDialog {
         // Add the individual child dialogs and prompts used.
         // Note that the built-in prompts work hand-in-hand with our custom SlotFillingDialog class
         // because they are both based on the provided Dialog class.
-        this.dialogs.add(new SlotFillingDialog('address', addressSlots));
-        this.dialogs.add(new SlotFillingDialog('fullname', fullnameSlots));
-        this.dialogs.add(new TextPrompt('text'));
-        this.dialogs.add(new NumberPrompt('number'));
-        this.dialogs.add(new NumberPrompt('shoesize', this.shoeSizeValidator));
-        this.dialogs.add(new SlotFillingDialog('slot-dialog', slots));
+        this.addDialog(new SlotFillingDialog('address', addressSlots));
+        this.addDialog(new SlotFillingDialog('fullname', fullnameSlots));
+        this.addDialog(new TextPrompt('text'));
+        this.addDialog(new NumberPrompt('number'));
+        this.addDialog(new NumberPrompt('shoesize', this.shoeSizeValidator));
+        this.addDialog(new SlotFillingDialog('slot-dialog', slots));
 
         // Finally, add a 2-step WaterfallDialog that will initiate the SlotFillingDialog,
         // and then collect and display the results.
-        this.dialogs.add(new WaterfallDialog('root', [
+        this.addDialog(new WaterfallDialog('root', [
             this.startDialog.bind(this),
             this.processResults.bind(this)
         ]));
