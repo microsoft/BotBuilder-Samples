@@ -2,21 +2,23 @@
 // Licensed under the MIT License.
 
 import { TimexProperty } from '@microsoft/recognizers-text-data-types-timex-expression';
+import { BookingDetails } from './bookingDetails';
+import { BookingDialog } from './bookingDialog';
+
 import { StatePropertyAccessor, TurnContext } from 'botbuilder';
+
 import {
     ComponentDialog,
     DialogSet,
     DialogState,
+    DialogTurnResult,
     DialogTurnStatus,
     TextPrompt,
     WaterfallDialog,
     WaterfallStepContext,
-    DialogTurnResult
 } from 'botbuilder-dialogs';
-import { BookingDialog } from './bookingDialog';
-import { LuisHelper } from './luisHelper';
 import { Logger } from '../logger';
-import { BookingDetails } from './bookingDetails';
+import { LuisHelper } from './luisHelper';
 
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 const BOOKING_DIALOG = 'bookingDialog';
@@ -38,19 +40,18 @@ export class MainDialog extends ComponentDialog {
             .addDialog(new WaterfallDialog(MAIN_WATERFALL_DIALOG, [
                 this.introStep.bind(this),
                 this.actStep.bind(this),
-                this.finalStep.bind(this)
+                this.finalStep.bind(this),
             ]));
 
         this.initialDialogId = MAIN_WATERFALL_DIALOG;
     }
-
 
     /**
      * The run method handles the incoming activity (in the form of a DialogContext) and passes it through the dialog system.
      * If no dialog is active, it will start the default dialog.
      * @param {TurnContext} context
      */
-    async run(context: TurnContext, accessor: StatePropertyAccessor<DialogState>) {
+    public async run(context: TurnContext, accessor: StatePropertyAccessor<DialogState>) {
         const dialogSet = new DialogSet(accessor);
         dialogSet.add(this);
 
@@ -66,7 +67,7 @@ export class MainDialog extends ComponentDialog {
      * Currently, this expects a booking request, like "book me a flight from Paris to Berlin on march 22"
      * Note that the sample LUIS model will only recognize Paris, Berlin, New York and London as airport cities.
      */
-    async introStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
+    private async introStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         if (!process.env.LuisAppId || !process.env.LuisAPIKey || !process.env.LuisAPIHostName) {
             await stepContext.context.sendActivity('NOTE: LUIS is not configured. To enable all capabilities, add `LuisAppId`, `LuisAPIKey` and `LuisAPIHostName` to the .env file.');
             return await stepContext.next();
@@ -79,7 +80,7 @@ export class MainDialog extends ComponentDialog {
      * Second step in the waterall.  This will use LUIS to attempt to extract the origin, destination and travel dates.
      * Then, it hands off to the bookingDialog child dialog to collect any remaining details.
      */
-    async actStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
+    private async actStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         let bookingDetails = new BookingDetails();
 
         if (process.env.LuisAppId && process.env.LuisAPIKey && process.env.LuisAPIHostName) {
@@ -102,7 +103,7 @@ export class MainDialog extends ComponentDialog {
      * This is the final step in the main waterfall dialog.
      * It wraps up the sample "book a flight" interaction with a simple confirmation.
      */
-    async finalStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
+    private async finalStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         // If the child dialog ("bookingDialog") was cancelled or the user failed to confirm, the Result here will be null.
         if (stepContext.result) {
             const result = stepContext.result as BookingDetails;

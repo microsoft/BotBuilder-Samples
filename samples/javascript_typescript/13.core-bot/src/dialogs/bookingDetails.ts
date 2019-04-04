@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 export class BookingDetails {
-    intent: string;
-    origin: string;
-    destination: string;
-    travelDate: string;
+    public intent: string;
+    public origin: string;
+    public destination: string;
+    public travelDate: string;
 }
