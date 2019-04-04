@@ -87,7 +87,7 @@ If it was set to `false` you must include the binaries and `node_modules` or the
 #### 5. Deploy code to Azure using `az webapp`
 
 ```bash
-az webapp deployment source config-zip --subscription "<subscription-guid>" --location "westus" --resource-group "<new-group-name>" --name "<name-of-web-app>" --src "Path/to/zipped/code.zip" 
+az webapp deployment source config-zip --subscription "<subscription-guid>" --resource-group "<new-group-name>" --name "<name-of-web-app>" --src "Path/to/zipped/code.zip" 
 # The --timeout argument is an optional and configurable timeout in seconds for checking the status of deployment.
 ```
 ___
@@ -262,7 +262,7 @@ If it was set to `false` you must include the binaries and `node_modules` or the
 #### 5. Deploy code to Azure using `az webapp`
 
 ```bash
-az webapp deployment source config-zip --subscription "<subscription-guid>" --location "westus" --resource-group "<new-group-name>" --name "<name-of-web-app>" --src "Path/to/zipped/code.zip" 
+az webapp deployment source config-zip --subscription "<subscription-guid>" --resource-group "<new-group-name>" --name "<name-of-web-app>" --src "Path/to/zipped/code.zip" 
 # The --timeout argument is an optional and configurable timeout in seconds for checking the status of deployment.
 ```
 ___
