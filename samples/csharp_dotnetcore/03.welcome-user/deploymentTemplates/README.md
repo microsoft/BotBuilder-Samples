@@ -33,21 +33,24 @@ To install the latest version of the Azure CLI visit [this page][Install-CLI].
 ___
 
 #### 1. Create an App registration
+Your bot requires a Registered app that provides the bot access to the bot framework service for sending and receiving authenticated messages. 
+
 To create an App registration via the Azure CLI, perform the following command:
 ```bash
 # Replace "displayName" and "AtLeastSixteenCharacters_0" with your specified values.
-# The --password argument must be at least 16 characters in length, and have at least 1 lowercase char, 1 uppercase char, 1 special char, and 1 special char (e.g. !?-_+=)
+# The --password argument must be at least 16 characters in length, and have at least 1 lowercase char, 1 uppercase char, 1 numerical char, and 1 special char (e.g. !?-_+=)
 az ad app create --display-name "displayName" --password "AtLeastSixteenCharacters_0" --available-to-other-tenants
 ```
 
 This command will output JSON with the key "appId", save the value of this key for the ARM deployment, where it will be used for the `"appId"` parameter. The password provided will be used for the `"appSecret"` parameter.
 
-> *It is also possible to create App registrations via [apps.dev.microsoft.com][Apps-List] or via the [Azure portal][Preview-Portal]. Be sure to also create a password when creating the application.*
+> *It is also possible to create and manage Registered Apps via the [Azure portal][Preview-Portal]. Be sure to also create a password when creating the application.*
 
-  [Apps-List]: https://apps.dev.microsoft.com/#/appList
   [Preview-Portal]: https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
 
 #### 2. Create a resource group and the Azure resources
+Next, you'll use the ARM template to create the resources specified in it. In this case, we are provding App Service Plan, Web App, and Bot Channels Registration. 
+
 > *Note: The `botId` parameter should be globally unique and is used as the immutable bot ID. Also used to configure the displayName of the bot, which is mutable.*
 
 ```bash
@@ -82,10 +85,10 @@ az bot prepare-deploy --code-dir ".." --lang Node
 #### 4. Zip up the code directory manually
 When deploying the ARM template, if the parameter `"alwaysBuildOnDeploy"` was set to `true` then you do not need to include your binaries or the `node_modules` folder in the zipped code as Kudu will build your code or install the NPM packages.
 
-If it was set to `false` you must include the binaries and `node_modules` or the bot will not run when using zipdeploy. Note, the default value for this parameter is `false`.
+If it was set to `false` you must include the binaries and `node_modules` or the bot will not run when using zipdeploy. Note, the default value for this parameter is `false`. The advantage to this approach is that your local code that works will be deployed to Azure as is. 
 
 #### 5. Deploy code to Azure using `az webapp`
-
+At this point we are ready to deploy the code to the Azure Web App. 
 ```bash
 az webapp deployment source config-zip --subscription "<subscription-guid>" --resource-group "<new-group-name>" --name "<name-of-web-app>" --src "Path/to/zipped/code.zip" 
 # The --timeout argument is an optional and configurable timeout in seconds for checking the status of deployment.
