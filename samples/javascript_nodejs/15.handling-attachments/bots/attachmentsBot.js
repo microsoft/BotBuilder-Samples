@@ -10,7 +10,7 @@ class AttachmentsBot extends ActivityHandler {
     constructor() {
         super();
 
-        this.onMembersAdded(async (context) => {
+        this.onMembersAdded(async (context, next) => {
             const membersAdded = context.activity.membersAdded;
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
@@ -20,11 +20,14 @@ class AttachmentsBot extends ActivityHandler {
 
                     // Send a HeroCard with potential options for the user to select.
                     await this.displayOptions(context);
+
+                    // By calling next() you ensure that the next BotHandler is run.
+                    await next();
                 }
             }
         });
 
-        this.onMessage(async (context) => {
+        this.onMessage(async (context, next) => {
             // Determine how the bot should process the message by checking for attachments.
             if (context.activity.attachments && context.activity.attachments.length > 0) {
                 // The user sent an attachment and the bot should handle the incoming attachment.
@@ -35,6 +38,9 @@ class AttachmentsBot extends ActivityHandler {
             }
             // Send a HeroCard with potential options for the user to select.
             await this.displayOptions(context);
+
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
         });
     }
 

@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 // Import required Bot Framework classes.
-const { ActivityHandler, CardFactory } = require('botbuilder');
-
-// Adaptive Card content
-const IntroCard = require('../resources/IntroCard.json');
+const { ActionTypes, ActivityHandler, CardFactory } = require('botbuilder');
 
 // Welcomed User property name
 const WELCOMED_USER = 'welcomedUserProperty';
@@ -24,7 +21,7 @@ class WelcomeBot extends ActivityHandler {
 
         this.userState = userState;
 
-        this.onMessage(async context => {
+        this.onMessage(async (context, next) => {
             // Read UserState. If the 'DidBotWelcomedUser' does not exist (first time ever for a user)
             // set the default to false.
             const didBotWelcomedUser = await this.welcomedUserProperty.get(context, false);
@@ -50,10 +47,7 @@ class WelcomeBot extends ActivityHandler {
                     break;
                 case 'intro':
                 case 'help':
-                    await context.sendActivity({
-                        text: 'Intro Adaptive Card',
-                        attachments: [CardFactory.adaptiveCard(IntroCard)]
-                    });
+                    await this.sendIntroCard(context);
                     break;
                 default:
                     await context.sendActivity(`This is a simple Welcome Bot sample. You can say 'intro' to
@@ -63,11 +57,14 @@ class WelcomeBot extends ActivityHandler {
             }
             // Save state changes
             await this.userState.saveChanges(context);
+
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
         });
 
         // Sends welcome messages to conversation members when they join the conversation.
         // Messages are only sent to conversation members who aren't the bot.
-        this.onMembersAdded(async context => {
+        this.onMembersAdded(async (context, next) => {
             // Do we have any new members added to the conversation?
             if (context.activity.membersAdded.length !== 0) {
                 // Iterate over all new members added to the conversation
@@ -88,7 +85,37 @@ class WelcomeBot extends ActivityHandler {
                     }
                 }
             }
+
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
         });
+    }
+
+    async sendIntroCard(context) {
+        const card = CardFactory.heroCard(
+            'Welcome to Bot Framework!',
+            'Welcome to Welcome Users bot sample! This Introduction card is a great way to introduce your Bot to the user and suggest some things to get them started. We use this opportunity to recommend a few next steps for learning more creating and deploying bots.',
+            ['https://aka.ms/bf-welcome-card-image'],
+            [
+                {
+                    type: ActionTypes.OpenUrl,
+                    title: 'Get an overview',
+                    value: 'https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0'
+                },
+                {
+                    type: ActionTypes.OpenUrl,
+                    title: 'Ask a question',
+                    value: 'https://stackoverflow.com/questions/tagged/botframework'
+                },
+                {
+                    type: ActionTypes.OpenUrl,
+                    title: 'Learn how to deploy',
+                    value: 'https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0'
+                }
+            ]
+        );
+
+        await context.sendActivity({ attachments: [card] });
     }
 }
 
