@@ -25,7 +25,7 @@ adapter.onTurnError = async (context, error) => {
 };
 
 // Create the AdaptiveCardsBot.
-const adaptiveCardsBot = new AdaptiveCardsBot();
+const bot = new AdaptiveCardsBot();
 
 // Create HTTP server
 let server = restify.createServer();
@@ -37,6 +37,6 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
-        await adaptiveCardsBot.run(context);
+        await bot.run(context);
     });
 });

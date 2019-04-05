@@ -5,7 +5,7 @@
 const { ActivityHandler, CardFactory } = require('botbuilder');
 
 // Adaptive Card content
-const IntroCard = require('./resources/IntroCard.json');
+const IntroCard = require('../resources/IntroCard.json');
 
 // Welcomed User property name
 const WELCOMED_USER = 'welcomedUserProperty';
