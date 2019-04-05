@@ -22,14 +22,14 @@ adapter.onTurnError = async (context, error) => {
     await context.sendActivity(`Oops. Something went wrong!`);
 };
 
+const bot = new SuggestedActionsBot();
+
 // Create HTTP server
 let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
 });
-
-const bot = new SuggestedActionsBot();
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {

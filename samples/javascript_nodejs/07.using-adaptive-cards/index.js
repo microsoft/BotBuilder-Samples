@@ -10,13 +10,6 @@ const { AdaptiveCardsBot } = require('./bots/adaptiveCardsBot');
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
-// Create HTTP server
-let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function() {
-    console.log(`\n${ server.name } listening to ${ server.url }`);
-    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-});
-
 // Create adapter. See https://aka.ms/about-bot-adapter to learn more about adapters.
 const adapter = new BotFrameworkAdapter({
     appId: process.env.MicrosoftAppID,
@@ -33,6 +26,13 @@ adapter.onTurnError = async (context, error) => {
 
 // Create the AdaptiveCardsBot.
 const adaptiveCardsBot = new AdaptiveCardsBot();
+
+// Create HTTP server
+let server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, function() {
+    console.log(`\n${ server.name } listening to ${ server.url }`);
+    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
+});
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {

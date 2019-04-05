@@ -13,7 +13,6 @@ const { AuthBot } = require('./bots/authBot');
 const { MainDialog } = require('./dialogs/mainDialog');
 
 // Read botFilePath and botFileSecret from .env file.
-// Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
@@ -35,13 +34,6 @@ adapter.onTurnError = async (context, error) => {
     await conversationState.delete(context);
 };
 
-// Create HTTP server.
-let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function() {
-    console.log(`\n${ server.name } listening to ${ server.url }`);
-    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-});
-
 // Define the state store for your bot.
 // See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
 // A bot requires a state storage system to persist the dialog and user state between messages.
@@ -58,6 +50,13 @@ const logger = console;
 const dialog = new MainDialog(logger);
 // Create the bot that will handle incoming messages.
 const bot = new AuthBot(conversationState, userState, dialog, logger);
+
+// Create HTTP server.
+let server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, function() {
+    console.log(`\n${ server.name } listening to ${ server.url }`);
+    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
+});
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {

@@ -1,46 +1,41 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActionTypes, ActivityTypes, CardFactory } = require('botbuilder');
+const { ActivityHandler, ActionTypes, ActivityTypes, CardFactory } = require('botbuilder');
 const path = require('path');
 const axios = require('axios');
 const fs = require('fs');
 
-/**
- * A bot that is able to send and receive attachments.
- */
-class AttachmentsBot {
-    /**
-     * Every conversation turn for our AttachmentsBot will call this method.
-     * There are no dialogs used, since it's "single turn" processing, meaning a single
-     * request and response, with no stateful conversation.
-     * @param turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
-     */
-    async onTurn(turnContext) {
-        if (turnContext.activity.type === ActivityTypes.Message) {
+class AttachmentsBot extends ActivityHandler {
+    constructor() {
+        super();
+
+        this.onMembersAdded(async (context) => {
+            const membersAdded = context.activity.membersAdded;
+            for (let cnt = 0; cnt < membersAdded.length; cnt++) {
+                if (membersAdded[cnt].id !== context.activity.recipient.id) {
+                    // If the Activity is a ConversationUpdate, send a greeting message to the user.
+                    await context.sendActivity('Welcome to the Attachment Handling sample! Send me an attachment and I will save it.');
+                    await context.sendActivity('Alternatively, I can send you an attachment.');
+
+                    // Send a HeroCard with potential options for the user to select.
+                    await this.displayOptions(context);
+                }
+            }
+        });
+
+        this.onMessage(async (context) => {
             // Determine how the bot should process the message by checking for attachments.
-            if (turnContext.activity.attachments && turnContext.activity.attachments.length > 0) {
+            if (context.activity.attachments && context.activity.attachments.length > 0) {
                 // The user sent an attachment and the bot should handle the incoming attachment.
-                await this.handleIncomingAttachment(turnContext);
+                await this.handleIncomingAttachment(context);
             } else {
                 // Since no attachment was received, send an attachment to the user.
-                await this.handleOutgoingAttachment(turnContext);
+                await this.handleOutgoingAttachment(context);
             }
-
             // Send a HeroCard with potential options for the user to select.
-            await this.displayOptions(turnContext);
-        } else if (turnContext.activity.type === ActivityTypes.ConversationUpdate &&
-            turnContext.activity.recipient.id !== turnContext.activity.membersAdded[0].id) {
-            // If the Activity is a ConversationUpdate, send a greeting message to the user.
-            await turnContext.sendActivity('Welcome to the Attachment Handling sample! Send me an attachment and I will save it.');
-            await turnContext.sendActivity('Alternatively, I can send you an attachment.');
-
-            // Send a HeroCard with potential options for the user to select.
-            await this.displayOptions(turnContext);
-        } else if (turnContext.activity.type !== ActivityTypes.ConversationUpdate) {
-            // Respond to all other Activity types.
-            await turnContext.sendActivity(`[${ turnContext.activity.type }]-type activity detected.`);
-        }
+            await this.displayOptions(context);
+        });
     }
 
     /**
@@ -89,10 +84,8 @@ class AttachmentsBot {
             // If user uploads JSON file, this prevents it from being written as "{"type":"Buffer","data":[123,13,10,32,32,34,108..."
             if (response.headers['content-type'] === 'application/json') {
                 response.data = JSON.parse(response.data, (key, value) => {
-                    return value && value.type === 'Buffer' ?
-                      Buffer.from(value.data) :
-                      value;
-                    });
+                    return value && value.type === 'Buffer' ? Buffer.from(value.data) : value;
+                });
             }
             fs.writeFile(localFileName, response.data, (fsError) => {
                 if (fsError) {
@@ -169,7 +162,7 @@ class AttachmentsBot {
      * Returns an inline attachment.
      */
     getInlineAttachment() {
-        const imageData = fs.readFileSync(path.join(__dirname, '/resources/architecture-resize.png'));
+        const imageData = fs.readFileSync(path.join(__dirname, '../resources/architecture-resize.png'));
         const base64Image = Buffer.from(imageData).toString('base64');
 
         return {
@@ -196,7 +189,7 @@ class AttachmentsBot {
      * @param {Object} turnContext
      */
     async getUploadedAttachment(turnContext) {
-        const imageData = fs.readFileSync(path.join(__dirname, '/resources/architecture-resize.png'));
+        const imageData = fs.readFileSync(path.join(__dirname, '../resources/architecture-resize.png'));
         const connector = turnContext.adapter.createConnectorClient(turnContext.activity.serviceUrl);
         const conversationId = turnContext.activity.conversation.id;
         const response = await connector.conversations.uploadAttachment(conversationId, {
@@ -216,4 +209,4 @@ class AttachmentsBot {
     }
 }
 
-exports.AttachmentsBot = AttachmentsBot;
+module.exports.AttachmentsBot = AttachmentsBot;
