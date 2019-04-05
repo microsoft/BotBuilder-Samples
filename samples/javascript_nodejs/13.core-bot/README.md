@@ -22,6 +22,8 @@ This bot uses [LUIS][11], an AI based cognitive service, to implement language u
 ### Create a LUIS Application to enable language understanding
 LUIS language model setup, training, and application configuration steps can be found [here][7].
 
+If you wish to create a LUIS application via the CLI, these steps can be found in the [README-LUIS.md][41].
+
 ## To try this sample
 - Clone the repository
     ```bash
@@ -55,11 +57,6 @@ LUIS language model setup, training, and application configuration steps can be 
 
 # Deploy the bot to Azure
 ## Publishing Changes to Azure Bot Service
-
-```bash
-# build the TypeScript bot before you publish
-npm run build
-```
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
@@ -96,3 +93,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
+[41]: /README-LUIS.md
