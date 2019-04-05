@@ -1,40 +1,32 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, MessageFactory } = require('botbuilder');
+const { ActivityHandler, MessageFactory } = require('botbuilder');
 
-/**
- * A bot that responds to input from suggested actions.
- */
-class SuggestedActionsBot {
-    /**
-     * Every conversation turn for our SuggestedActionsbot will call this method.
-     * There are no dialogs used, since it's "single turn" processing, meaning a single request and
-     * response, with no stateful conversation.
-     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
-     */
-    async onTurn(turnContext) {
-        // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
-        if (turnContext.activity.type === ActivityTypes.Message) {
-            const text = turnContext.activity.text;
+class SuggestedActionsBot extends ActivityHandler {
+    constructor() {
+        super();
+
+        this.onMembersAdded(async (context) => {
+            await this.sendWelcomeMessage(context);
+        });
+
+        this.onMessage(async (context) => {
+            const text = context.activity.text;
 
             // Create an array with the valid color options.
             const validColors = ['Red', 'Blue', 'Yellow'];
 
             // If the `text` is in the Array, a valid color was selected and send agreement.
             if (validColors.includes(text)) {
-                await turnContext.sendActivity(`I agree, ${ text } is the best color.`);
+                await context.sendActivity(`I agree, ${ text } is the best color.`);
             } else {
-                await turnContext.sendActivity('Please select a color.');
+                await context.sendActivity('Please select a color.');
             }
 
             // After the bot has responded send the suggested actions.
-            await this.sendSuggestedActions(turnContext);
-        } else if (turnContext.activity.type === ActivityTypes.ConversationUpdate) {
-            await this.sendWelcomeMessage(turnContext);
-        } else {
-            await turnContext.sendActivity(`[${ turnContext.activity.type } event detected.]`);
-        }
+            await this.sendSuggestedActions(context);
+        });
     }
 
     /**

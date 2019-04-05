@@ -11,7 +11,6 @@ const { DialogBot } = require('./bots/dialogBot');
 const { RootDialog } = require('./dialogs/rootDialog');
 
 // Read botFilePath and botFileSecret from .env file.
-// Note: Ensure you have a .env file and include botFilePath and botFileSecret.
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
