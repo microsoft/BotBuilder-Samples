@@ -98,10 +98,8 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
   // gen the deployment/Templates folder
   const deploymentFolder = 'deploymentTemplates';
   const deploymentFiles = [
-    'all-up-template.json',
-    'README-Existing-Group.md',
-    'README.md',
-    'template-existing-group.json',
+    'template-with-new-rg.json',
+    'template-with-preexisting-rg.json',
   ];
   mkdirp.sync(deploymentFolder);
   const sourcePath = path.join(templatePath, deploymentFolder);

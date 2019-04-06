@@ -23,7 +23,6 @@
         },
         "appSecret": {
             "type": "string",
-            "defaultValue": "",
             "metadata": {
                 "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings. Defaults to \"\"."
             }
