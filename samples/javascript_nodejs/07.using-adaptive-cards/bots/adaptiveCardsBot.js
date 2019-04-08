@@ -24,21 +24,27 @@ const WELCOME_TEXT = 'This bot will introduce you to Adaptive Cards. Type anythi
 class AdaptiveCardsBot extends ActivityHandler {
     constructor() {
         super();
-        this.onMembersAdded(async (context) => {
+        this.onMembersAdded(async (context, next) => {
             const membersAdded = context.activity.membersAdded;
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
                     await context.sendActivity(`Welcome to Adaptive Cards Bot  ${ membersAdded[cnt].name }. ${ WELCOME_TEXT }`);
                 }
             }
+
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
         });
 
-        this.onMessage(async (context) => {
+        this.onMessage(async (context, next) => {
             const randomlySelectedCard = CARDS[Math.floor((Math.random() * CARDS.length - 1) + 1)];
             await context.sendActivity({
                 text: 'Here is an Adaptive Card:',
                 attachments: [CardFactory.adaptiveCard(randomlySelectedCard)]
             });
+
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
         });
     }
 }

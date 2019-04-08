@@ -7,11 +7,14 @@ class SuggestedActionsBot extends ActivityHandler {
     constructor() {
         super();
 
-        this.onMembersAdded(async (context) => {
+        this.onMembersAdded(async (context, next) => {
             await this.sendWelcomeMessage(context);
+
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
         });
 
-        this.onMessage(async (context) => {
+        this.onMessage(async (context, next) => {
             const text = context.activity.text;
 
             // Create an array with the valid color options.
@@ -26,6 +29,9 @@ class SuggestedActionsBot extends ActivityHandler {
 
             // After the bot has responded send the suggested actions.
             await this.sendSuggestedActions(context);
+
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
         });
     }
 
