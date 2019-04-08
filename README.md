@@ -1,3 +1,15 @@
+# Sample updates in progress! 
+We are  iterating on all C# and JS samples in the "[Samples Work in Progress](https://github.com/Microsoft/BotBuilder-Samples/tree/samples-work-in-progress)" branch. This branch will be merged into **master** towards the end of April. The key work involves:
+1. Migrating the C# Samples to the MVC Pattern with common DI usage and Startup cleanup.
+2. Removal of .bot files from all samples, and the addition of ARM templates.
+3. Code cleanup across the JS samples.
+4. Strong push towards more modular design and code re-use as part of the samples.
+5. Close alignment of docs and samples.
+6. Improvements to how dialogs are implemented and explained. 
+7. Updates to all the generators (VSIX, dotnet, and Yeoman)
+
+Until this work is merged, Pull Requests to **master** will not be taken.
+
 ## Overview
 
 This repository contains samples for the Microsoft **Bot Builder V4 SDK** - [dotnet SDK](https://github.com/Microsoft/botbuilder-dotnet), [JS SDK](https://github.com//microsoft/botbuilder-js).
