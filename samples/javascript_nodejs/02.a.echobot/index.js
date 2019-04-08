@@ -10,7 +10,7 @@ const restify = require('restify');
 const { BotFrameworkAdapter } = require('botbuilder');
 
 // This bot's main dialog.
-const { MyBot } = require('./bot');
+const { EchoBot } = require('./bots/echoBot');
 
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -40,12 +40,12 @@ adapter.onTurnError = async (context, error) => {
 };
 
 // Create the main dialog.
-const myBot = new MyBot();
+const bot = new EchoBot();
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
         // Route to main dialog.
-        await myBot.run(context);
+        await bot.run(context);
     });
 });
