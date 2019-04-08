@@ -2,31 +2,22 @@
 // Licensed under the MIT License.
 
 import {
-  ActivityTypes,
-  ConversationState,
-  MemoryStorage
+    ActivityTypes,
+    ConversationState,
+    MemoryStorage
 } from 'botbuilder-core';
 import './css/app.css';
 import { WebChatAdapter } from './webChatAdapter';
 // import { renderWebChat } from 'botframework-webchat';
-import { createStore, renderWebChat } from 'botframework-webchat';
+import { renderWebChat } from 'botframework-webchat';
 
 // Create the custom WebChatAdapter.
 const webChatAdapter = new WebChatAdapter();
 
 // Connect our BotFramework-WebChat instance with the DOM.
 
-const store = createStore({}, () => next => action => {
-    console.group(action.type);
-    console.log(action);
-    console.groupEnd();
-
-    return next(action);
-});
-
 renderWebChat({
-    directLine: webChatAdapter.botConnection,
-    store
+    directLine: webChatAdapter.botConnection
 }, document.getElementById('webchat')
 );
 // Instantiate MemoryStorage for use with the ConversationState class.
