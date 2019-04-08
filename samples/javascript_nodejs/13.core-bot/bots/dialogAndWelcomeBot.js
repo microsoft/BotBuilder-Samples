@@ -9,7 +9,7 @@ class DialogAndWelcomeBot extends DialogBot {
     constructor(conversationState, userState, dialog, logger) {
         super(conversationState, userState, dialog, logger);
 
-        this.onMembersAdded(async context => {
+        this.onMembersAdded(async (context, next) => {
             const membersAdded = context.activity.membersAdded;
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
@@ -17,6 +17,9 @@ class DialogAndWelcomeBot extends DialogBot {
                     await context.sendActivity({ attachments: [welcomeCard] });
                 }
             }
+
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
         });
     }
 }
