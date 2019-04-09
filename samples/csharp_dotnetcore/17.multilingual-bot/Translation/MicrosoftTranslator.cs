@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.BotBuilderSamples.Translation.Model;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples.Translation
@@ -22,8 +23,10 @@ namespace Microsoft.BotBuilderSamples.Translation
 
         private readonly string _key;
 
-        public MicrosoftTranslator(string key)
+
+        public MicrosoftTranslator(IConfiguration configuration)
         {
+            var key = configuration["translatorKey"];
             _key = key ?? throw new ArgumentNullException(nameof(key));
         }
 
