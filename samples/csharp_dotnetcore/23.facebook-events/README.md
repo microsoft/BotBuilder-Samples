@@ -1,53 +1,55 @@
-﻿
-
-# Concepts introduced in this sample
+﻿# Concepts introduced in this sample
 
 This sample shows how to integrate and consume Facebook specific payloads, such as postbacks, quick replies and optin events. 
 Since Bot Framework supports multiple Facebook pages for a single bot, we also show how to know the page to which the message was sent, so developers can have custom behavior per page.
 
+### Install .NET Core and CLI Tooling
+- [.NET Core SDK][https://dotnet.microsoft.com/download] version 2.1
+	```bash
+	# determine dotnet version
+	dotnet --version
+	```
+- If you don't have an Azure subscription, create a [free account][https://azure.microsoft.com/free/].
+- Install the latest version of the [Azure CLI][https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest] tool. Version 2.0.54 or higher.
+
 # To try this sample
+- In a terminal, navigate to `23.facebook-events`
+    ```bash
+    # change into project folder
+	cd 23.facebook-events
+    ```
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
 
-- Clone the samples repository
-```bash
-git clone https://github.com/Microsoft/botbuilder-samples.git
-```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/23.facebook-events` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+	A) From a terminal
+	```bash
+	# run the bot
+	dotnet run
+	```
 
-# Running Locally
-
-## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/23.facebook-events`) and open `Facebook-Events-Bot.csproj` in Visual Studio 
-- Run the project (press `F5` key)
-
-## .NET Core CLI
-- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
-- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/23.Facebook-Events` folder
-- type `dotnet run`
+	B) Or from Visual Studio
+	- Launch Visual Studio
+	- File -> Open -> Project/Solution
+	- Navigate to `23.facebook-events` folder
+	- Select `Facebook-Events-Bot.csproj` file
+	- Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator from [here](https://aka.ms/botframeworkemulator).
 
-### Connect to bot using Bot Framework Emulator V4
+### Connect to the bot using Bot Framework Emulator
 - Launch Bot Framework Emulator
-- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/23.facebook-events` folder
-- Select `facebook-events.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 ### Enable Facebook Channel
 
 The final step to test Facebook-specific features is to publish your bot for the Facebook channel. The Bot Framework makes this very easy,
 and the detailed steps are explained in the [Bot Framework Channel Documentation](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-facebook?view=azure-bot-service-3.0).
 
-# Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
-
-To clone this bot, run
-```bash
-msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
-```
-
-**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
+## Deploy the bot to Azure
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][https://aka.ms/azuredeployment] for a complete list of deployment instructions.
 
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
