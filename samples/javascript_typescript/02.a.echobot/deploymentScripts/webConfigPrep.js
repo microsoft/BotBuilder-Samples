@@ -12,10 +12,17 @@ const WEB_CONFIG_FILE = './web.config';
 
 if (fs.existsSync(path.resolve(WEB_CONFIG_FILE))) {
     replace({
-        regex: "url=\"index.js\"",
+        regex: /url="(index|server).js"/g,
         replacement: "url=\"lib/index.js\"",
         paths: ['./web.config'],
         recursive: false,
         silent: true,
-    })
+    });
+    replace({
+        regex: /((\s*?)<iisnode watchedFiles="web.config;\*\.js" debuggingEnabled="false" \/>/g,
+        replacement: "<!--<iisnode watchedFiles=\"web.config;*.js\"/>-->",
+        paths: ['./web.config'],
+        recursive: false,
+        silent: true,
+    });
 }
