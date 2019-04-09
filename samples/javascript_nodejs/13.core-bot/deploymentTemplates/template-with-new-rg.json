@@ -44,7 +44,7 @@
                 "description": "The name of the App Service Plan."
             }
         },
-        "newServerFarmSku": {
+        "newAppServicePlanSku": {
             "type": "object",
             "defaultValue": {
                 "name": "S1",
@@ -109,7 +109,7 @@
                             "name": "[variables('appServicePlanName')]",
                             "apiVersion": "2018-02-01",
                             "location": "[variables('resourcesLocation')]",
-                            "sku": "[parameters('newServerFarmSku')]",
+                            "sku": "[parameters('newAppServicePlanSku')]",
                             "properties": {
                                 "name": "[variables('appServicePlanName')]"
                             }

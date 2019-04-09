@@ -120,7 +120,7 @@ ___
 To create an App registration via the Azure CLI, perform the following command:
 ```bash
 # Replace "displayName" and "AtLeastSixteenCharacters_0" with your specified values.
-# The --password argument must be at least 16 characters in length, and have at least 1 lowercase char, 1 uppercase char, 1 special char, and 1 special char (e.g. !?-_+=)
+# The --password argument must be at least 16 characters in length, and have at least 1 lowercase char, 1 uppercase char, 1 numerical char, and 1 special char (e.g. !?-_+=)
 az ad app create --display-name "displayName" --password "AtLeastSixteenCharacters_0" --available-to-other-tenants
 ```
 
@@ -135,23 +135,23 @@ This command will output JSON with the key "appId", save the value of this key f
 
 > *Note: The `botId` parameter should be globally unique and is used as the immutable bot ID. Also used to configure the displayName of the bot, which is mutable.*
 
-##### Command with new App Service Plan/Server Farm:
+##### Command with new App Service Plan:
 ```bash
 # Pass in the path to the ARM template for the --template-file argument.
 # The argument for --template-file comes from the name of the templates located in the same folder as this README.
-az group deployment create --name "<name-of-deployment>" --resource-group "<name-of-resource-group>" --template-file "template-with-preexisting-rg.json" --subscription "<subscription-guid>" --parameters appId="<msa-app-guid>" appSecret="<msa-app-password>" botId="<id-or-name-of-bot>" newWebAppName="<name-of-web-app>" newServerFarmName="<name-of-server-farm>"
+az group deployment create --name "<name-of-deployment>" --resource-group "<name-of-resource-group>" --template-file "template-with-preexisting-rg.json" --subscription "<subscription-guid>" --parameters appId="<msa-app-guid>" appSecret="<msa-app-password>" botId="<id-or-name-of-bot>" newWebAppName="<name-of-web-app>" newAppServicePlanName="<name-of-app-service-plan>" appServicePlanLocation="westus"
 ```
 
-##### Command with preexisting App Service Plan/Server Farm:
+##### Command with preexisting App Service Plan:
 ```bash
 # The difference between this example command and the previous command is
-# this command uses "existingServerFarm" as a parameter instead of "newServerFarmName"
+# this command uses "existingAppServicePlan" as a parameter instead of "newAppServicePlanName"
 
-# If both parameters are passed in, the ARM template provided will try to create a new Web App on the "existingServerFarm".
+# If both parameters are passed in, the ARM template provided will try to create a new Web App on the "existingAppServicePlan".
 # Pass in the path to the ARM template for the --template-file argument.
 # The argument for --template-file comes from the name of the templates located in the same folder as this README.
 
-az group deployment create --name "<name-of-deployment>" --resource-group "<name-of-resource-group>" --template-file "template-with-preexisting-rg.json" --subscription "<subscription-guid>" --parameters appId="<msa-app-guid>" appSecret="<msa-app-password>" botId="<id-or-name-of-bot>" newWebAppName="<name-of-web-app>" existingServerFarm="<name-of-server-farm>"
+az group deployment create --name "<name-of-deployment>" --resource-group "<name-of-resource-group>" --template-file "template-with-preexisting-rg.json" --subscription "<subscription-guid>" --parameters appId="<msa-app-guid>" appSecret="<msa-app-password>" botId="<id-or-name-of-bot>" newWebAppName="<name-of-web-app>" existingAppServicePlan="<name-of-app-service-plan>" appServicePlanLocation="westus"
 ```
 
 > *These instructions shows how to zipdeploy your code using `az webapp`. App Service's default behavior for zipdeploy is to not build the code or install any dependencies (e.g. you must zip up your binaries or your `node_modules` folder).*

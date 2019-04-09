@@ -27,14 +27,14 @@
                 "description": "The pricing tier of the Bot Service Registration. Acceptable values are F0 and S1."
             }
         },
-        "newServerFarmName": {
+        "newAppServicePlanName": {
             "type": "string",
             "defaultValue": "",
             "metadata": {
                 "description": "The name of the new App Service Plan."
             }
         },
-        "newServerFarmSku": {
+        "newAppServicePlanSku": {
             "type": "object",
             "defaultValue": {
                 "name": "S1",
@@ -47,18 +47,17 @@
                 "description": "The SKU of the App Service Plan. Defaults to Standard values."
             }
         },
-        "newServerFarmLocation": {
+        "appServicePlanLocation": {
             "type": "string",
-            "defaultValue": "westus",
             "metadata": {
-                "description": "The location of the App Service Plan. Defaults to \"westus\"."
+                "description": "The location of the App Service Plan."
             }
         },
-        "existingServerFarm": {
+        "existingAppServicePlan": {
             "type": "string",
             "defaultValue": "",
             "metadata": {
-                "description": "Name of the existing App Service Plan/Server Farm used to create the Web App for the bot."
+                "description": "Name of the existing App Service Plan used to create the Web App for the bot."
             }
         },
         "newWebAppName": {
@@ -70,40 +69,40 @@
         }
     },
     "variables": {
-        "defaultServerName": "[if(empty(parameters('existingServerFarm')), 'createNewServer', parameters('existingServerFarm'))]",
-        "useExistingServerFarm": "[not(equals(variables('defaultServerName'), 'createNewServer'))]",
-        "serverFarmName": "[if(variables('useExistingServerFarm'), parameters('existingServerFarm'), parameters('newServerFarmName'))]",
-        "resourcesLocation": "[parameters('newServerFarmLocation')]",
+        "defaultAppServicePlanName": "[if(empty(parameters('existingAppServicePlan')), 'createNewAppServicePlan', parameters('existingAppServicePlan'))]",
+        "useExistingAppServicePlan": "[not(equals(variables('defaultAppServicePlanName'), 'createNewAppServicePlan'))]",
+        "servicePlanName": "[if(variables('useExistingAppServicePlan'), parameters('existingAppServicePlan'), parameters('newAppServicePlanName'))]",
+        "resourcesLocation": "[parameters('appServicePlanLocation')]",
         "webAppName": "[if(empty(parameters('newWebAppName')), parameters('botId'), parameters('newWebAppName'))]",
         "siteHost": "[concat(variables('webAppName'), '.azurewebsites.net')]",
         "botEndpoint": "[concat('https://', variables('siteHost'), '/api/messages')]"
     },
     "resources": [
         {
-            "comments": "Create a new Server Farm if no existing Server Farm name was passed in.",
+            "comments": "Create a new App Service Plan if no existing App Service Plan name was passed in.",
             "type": "Microsoft.Web/serverfarms",
-            "condition": "[not(variables('useExistingServerFarm'))]",
-            "name": "[variables('serverFarmName')]",
+            "condition": "[not(variables('useExistingAppServicePlan'))]",
+            "name": "[variables('servicePlanName')]",
             "apiVersion": "2018-02-01",
             "location": "[variables('resourcesLocation')]",
-            "sku": "[parameters('newServerFarmSku')]",
+            "sku": "[parameters('newAppServicePlanSku')]",
             "properties": {
-                "name": "[variables('serverFarmName')]"
+                "name": "[variables('servicePlanName')]"
             }
         },
         {
-            "comments": "Create a Web App using a Server Farm",
+            "comments": "Create a Web App using an App Service Plan",
             "type": "Microsoft.Web/sites",
             "apiVersion": "2015-08-01",
             "location": "[variables('resourcesLocation')]",
             "kind": "app",
             "dependsOn": [
-                "[variables('serverFarmName')]"
+                "[resourceId('Microsoft.Web/serverfarms/', variables('servicePlanName'))]"
             ],
             "name": "[variables('webAppName')]",
             "properties": {
                 "name": "[variables('webAppName')]",
-                "serverFarmId": "[variables('serverFarmName')]",
+                "serverFarmId": "[variables('servicePlanName')]",
                 "siteConfig": {
                     "appSettings": [
                         {
