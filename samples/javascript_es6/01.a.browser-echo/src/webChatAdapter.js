@@ -6,8 +6,6 @@ import { BotAdapter, TurnContext } from 'botbuilder-core';
 import { BOT_PROFILE, USER_PROFILE } from './app';
 import Observable from 'core-js/features/observable';
 
-console.log(Observable);
-
 /**
  * Custom BotAdapter used for deploying a bot in a browser.
  */
