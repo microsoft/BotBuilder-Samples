@@ -3,10 +3,9 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "groupLocation": {
-            "defaultValue": "westus",
             "type": "string",
             "metadata": {
-                "description": "Specifies the location of the Resource Group. Defaults to \"westus\"."
+                "description": "Specifies the location of the Resource Group."
             }
         },
         "groupName": {
@@ -24,7 +23,7 @@
         "appSecret": {
             "type": "string",
             "metadata": {
-                "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings. Defaults to \"\"."
+                "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings."
             }
         },
         "botId": {
@@ -34,13 +33,12 @@
             }
         },
         "botSku": {
-            "defaultValue": "F0",
             "type": "string",
             "metadata": {
                 "description": "The pricing tier of the Bot Service Registration. Acceptable values are F0 and S1."
             }
         },
-        "newServerFarmName": {
+        "newAppServicePlanName": {
             "type": "string",
             "metadata": {
                 "description": "The name of the App Service Plan."
@@ -59,9 +57,8 @@
                 "description": "The SKU of the App Service Plan. Defaults to Standard values."
             }
         },
-        "newServerFarmLocation": {
+        "newAppServicePlanLocation": {
             "type": "string",
-            "defaultValue": "westus",
             "metadata": {
                 "description": "The location of the App Service Plan. Defaults to \"westus\"."
             }
@@ -72,18 +69,11 @@
             "metadata": {
                 "description": "The globally unique name of the Web App. Defaults to the value passed in for \"botId\"."
             }
-        },
-        "alwaysBuildOnDeploy": {
-            "type": "bool",
-            "defaultValue": false,
-            "metadata": {
-                "description": "Configures environment variable SCM_DO_BUILD_DURING_DEPLOYMENT on Web App. When set to true, the Web App will automatically build or install NPM packages when a deployment occurs."
-            }
         }
     },
     "variables": {
-        "serverFarmName": "[parameters('newServerFarmName')]",
-        "resourcesLocation": "[parameters('newServerFarmLocation')]",
+        "appServicePlanName": "[parameters('newAppServicePlanName')]",
+        "resourcesLocation": "[parameters('newAppServicePlanLocation')]",
         "webAppName": "[if(empty(parameters('newWebAppName')), parameters('botId'), parameters('newWebAppName'))]",
         "siteHost": "[concat(variables('webAppName'), '.azurewebsites.net')]",
         "botEndpoint": "[concat('https://', variables('siteHost'), '/api/messages')]"
@@ -114,38 +104,34 @@
                     "variables": {},
                     "resources": [
                         {
-                            "comments": "Create a new Server Farm",
+                            "comments": "Create a new App Service Plan",
                             "type": "Microsoft.Web/serverfarms",
-                            "name": "[variables('serverFarmName')]",
+                            "name": "[variables('appServicePlanName')]",
                             "apiVersion": "2018-02-01",
                             "location": "[variables('resourcesLocation')]",
                             "sku": "[parameters('newServerFarmSku')]",
                             "properties": {
-                                "name": "[variables('serverFarmName')]"
+                                "name": "[variables('appServicePlanName')]"
                             }
                         },
                         {
-                            "comments": "Create a Web App using a Server Farm",
+                            "comments": "Create a Web App using the new App Service Plan",
                             "type": "Microsoft.Web/sites",
                             "apiVersion": "2015-08-01",
                             "location": "[variables('resourcesLocation')]",
                             "kind": "app",
                             "dependsOn": [
-                                "[variables('serverFarmName')]"
+                                "[resourceId('Microsoft.Web/serverfarms/', variables('appServicePlanName'))]"
                             ],
                             "name": "[variables('webAppName')]",
                             "properties": {
                                 "name": "[variables('webAppName')]",
-                                "serverFarmId": "[variables('serverFarmName')]",
+                                "serverFarmId": "[variables('appServicePlanName')]",
                                 "siteConfig": {
                                     "appSettings": [
                                         {
                                             "name": "WEBSITE_NODE_DEFAULT_VERSION",
                                             "value": "10.14.1"
-                                        },
-                                        {
-                                            "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
-                                            "value": "[parameters('alwaysBuildOnDeploy')]"
                                         },
                                         {
                                             "name": "MicrosoftAppId",

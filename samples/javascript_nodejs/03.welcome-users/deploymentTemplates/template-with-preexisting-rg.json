@@ -67,13 +67,6 @@
             "metadata": {
                 "description": "The globally unique name of the Web App. Defaults to the value passed in for \"botId\"."
             }
-        },
-        "alwaysBuildOnDeploy": {
-            "type": "bool",
-            "defaultValue": false,
-            "metadata": {
-                "comments": "Configures environment variable SCM_DO_BUILD_DURING_DEPLOYMENT on Web App. When set to true, the Web App will automatically build or install NPM packages when a deployment occurs."
-            }
         }
     },
     "variables": {
@@ -116,10 +109,6 @@
                         {
                             "name": "WEBSITE_NODE_DEFAULT_VERSION",
                             "value": "10.14.1"
-                        },
-                        {
-                            "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
-                            "value": "[parameters('alwaysBuildOnDeploy')]"
                         },
                         {
                             "name": "MicrosoftAppId",

@@ -56,10 +56,10 @@ Next, you'll use the ARM template to create the resources specified in it. In th
 ```bash
 # Pass in the path to the ARM template for the --template-file argument.
 # The argument for --template-file comes from the name of the templates located in the same folder as this README.
-az deployment create --name "<name-of-deployment>" --template-file "template-with-new-rg.json" --subscription "<subscription-guid>" --location "westus" --parameters appId="<msa-app-guid>" appSecret="<msa-app-password>" botId="<id-or-name-of-bot>" newServerFarmName="<name-of-server-farm>" newWebAppName="<name-of-web-app>" groupName="<new-group-name>" alwaysBuildOnDeploy=true
+az deployment create --name "<name-of-deployment>" --template-file "template-with-new-rg.json" --subscription "<subscription-guid>" --location "westus" --parameters appId="<msa-app-guid>" appSecret="<msa-app-password>" botId="<id-or-name-of-bot>" botSku=F0 newAppServicePlanName="<name-of-app-service-plan>" newWebAppName="<name-of-web-app>" groupName="<new-group-name>" groupLocation="westus" newAppServicePlanLocation="westus"
 ```
 
-> *These instructions shows how to zipdeploy your code using `az webapp`. App Service's default behavior for zipdeploy is to not build the code or install any dependencies (e.g. you must zip up your binaries or your `node_modules` folder). If you do want the App service to build and/or install dependencies, add the optional parameter `"*
+> *These instructions shows how to zipdeploy your code using `az webapp`. App Service's default behavior for zipdeploy is to not build the code or install any dependencies (e.g. you must zip up your binaries or your `node_modules` folder).*
 >
 > *For more information on Kudu, visit their [GitHub repository][Kudu-Wiki].*
 
@@ -69,23 +69,30 @@ To see all available ARM template parameters and their descriptions, scroll down
 
 #### 3. Retrieve or create necessary IIS/Kudu files via `az bot`
 
-*For C# bots this command is necessary if you want Kudu to build on deployment (e.g. `alwaysBuildOnDeploy=true`):*
+*For C# bots this command is necessary if Kudu is configured to build on zip deployment (i.e. [SCM_DO_BUILD_DURING_DEPLOYMENT=true][Enable/Disable Build]):*
 ```bash
 # For C# bots, it's necessary to provide the path to the .csproj file relative to --code-dir. This can be performed via the --proj-file-path argument
-az bot prepare-deploy --lang Csharp --code-dir ".." --proj-file-path "./MyBot.csproj"
-# The command would resolve --code-dir and --proj-file-path to "../MyBot.csproj"
+az bot prepare-deploy --lang Csharp --code-dir "." --proj-file-path "MyBot.csproj"
+# The command would resolve --code-dir and --proj-file-path to "./MyBot.csproj"
 ```
+
+  [Enable/Disable Build]: https://github.com/projectkudu/kudu/wiki/Configurable-settings#enabledisable-build-actions
 
 *For Node.js bots:*
 ```bash
 # This command will fetch a web.config which is needed for Node.js apps to work with IIS on Azure App Services
-az bot prepare-deploy --code-dir ".." --lang Node
+az bot prepare-deploy --code-dir "." --lang Node
 ```
 
 #### 4. Zip up the code directory manually
-When deploying the ARM template, if the parameter `"alwaysBuildOnDeploy"` was set to `true` then you do not need to include your binaries or the `node_modules` folder in the zipped code as Kudu will build your code or install the NPM packages.
 
-If it was set to `false` you must include the binaries and `node_modules` or the bot will not run when using zipdeploy. Note, the default value for this parameter is `false`. The advantage to this approach is that your local code that works will be deployed to Azure as is. 
+When using the non-configured [`zipdeploy` API][Kudu-Zipdeploy] to deploy your bot's code, Web App/Kudu's behavior is as follows:
+
+> _**Kudu assumes by default that deployments from zip files are ready to run and do not require additional build steps during deployment**, such as `npm install` or `dotnet restore`/`dotnet publish`._
+
+  [Kudu-Zipdeploy]: https://github.com/projectkudu/kudu/wiki/Deploying-from-a-zip-file-or-url
+
+As such, it is important to include your built code and with all necessary dependencies in the zip file being deployed to the Web App, otherwise your bot will not work as intended.
 
 #### 5. Deploy code to Azure using `az webapp`
 At this point we are ready to deploy the code to the Azure Web App. 
@@ -93,93 +100,6 @@ At this point we are ready to deploy the code to the Azure Web App.
 az webapp deployment source config-zip --subscription "<subscription-guid>" --resource-group "<new-group-name>" --name "<name-of-web-app>" --src "Path/to/zipped/code.zip" 
 # The --timeout argument is an optional and configurable timeout in seconds for checking the status of deployment.
 ```
-___
-
-
-### ARM Template Parameters (new Resource Group):
-```json
-"parameters": {
-    "groupLocation": {
-        "defaultValue": "westus",
-        "type": "string",
-        "metadata": {
-            "description": "Specifies the location of the Resource Group. Defaults to \"westus\"."
-        }
-    },
-    "groupName": {
-        "type": "string",
-        "metadata": {
-            "description": "Specifies the name of the Resource Group."
-        }
-    },
-    "appId": {
-        "type": "string",
-        "metadata": {
-            "description": "Active Directory App ID, set as MicrosoftAppId in the Web App's Application Settings."
-        }
-    },
-    "appSecret": {
-        "type": "string",
-        "metadata": {
-            "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings. Defaults to \"\"."
-        }
-    },
-    "botId": {
-        "type": "string",
-        "metadata": {
-            "description": "The globally unique and immutable bot ID. Also used to configure the displayName of the bot, which is mutable."
-        }
-    },
-    "botSku": {
-        "defaultValue": "F0",
-        "type": "string",
-        "metadata": {
-            "description": "The pricing tier of the Bot Service Registration. Acceptable values are F0 and S1."
-        }
-    },
-    "newServerFarmName": {
-        "type": "string",
-        "metadata": {
-            "description": "The name of the App Service Plan."
-        }
-    },
-    "newServerFarmSku": {
-        "type": "object",
-        "defaultValue": {
-            "name": "S1",
-            "tier": "Standard",
-            "size": "S1",
-            "family": "S",
-            "capacity": 1
-        },
-        "metadata": {
-            "description": "The SKU of the App Service Plan. Defaults to Standard values."
-        }
-    },
-    "newServerFarmLocation": {
-        "type": "string",
-        "defaultValue": "westus",
-        "metadata": {
-            "description": "The location of the App Service Plan. Defaults to \"westus\"."
-        }
-    },
-    "newWebAppName": {
-        "type": "string",
-        "defaultValue": "",
-        "metadata": {
-            "description": "The globally unique name of the Web App. Defaults to the value passed in for \"botId\"."
-        }
-    },
-    "alwaysBuildOnDeploy": {
-        "type": "bool",
-        "defaultValue": false,
-        "metadata": {
-            "description": "Configures environment variable SCM_DO_BUILD_DURING_DEPLOYMENT on Web App. When set to true, the Web App will automatically build or install NPM packages when a deployment occurs."
-        }
-    }
-}
-```
-
 ___
 
 ## [Deploying via ARM template (with preexisting Resource Group)](#Table-of-Contents)
@@ -219,7 +139,7 @@ This command will output JSON with the key "appId", save the value of this key f
 ```bash
 # Pass in the path to the ARM template for the --template-file argument.
 # The argument for --template-file comes from the name of the templates located in the same folder as this README.
-az group deployment create --name "<name-of-deployment>" --resource-group "<name-of-resource-group>" --template-file "template-with-preexisting-rg.json" --subscription "<subscription-guid>" --parameters appId="<msa-app-guid>" appSecret="<msa-app-password>" botId="<id-or-name-of-bot>" newWebAppName="<name-of-web-app>" alwaysBuildOnDeploy=false newServerFarmName="<name-of-server-farm>"
+az group deployment create --name "<name-of-deployment>" --resource-group "<name-of-resource-group>" --template-file "template-with-preexisting-rg.json" --subscription "<subscription-guid>" --parameters appId="<msa-app-guid>" appSecret="<msa-app-password>" botId="<id-or-name-of-bot>" newWebAppName="<name-of-web-app>" newServerFarmName="<name-of-server-farm>"
 ```
 
 ##### Command with preexisting App Service Plan/Server Farm:
@@ -231,121 +151,47 @@ az group deployment create --name "<name-of-deployment>" --resource-group "<name
 # Pass in the path to the ARM template for the --template-file argument.
 # The argument for --template-file comes from the name of the templates located in the same folder as this README.
 
-az group deployment create --name "<name-of-deployment>" --resource-group "<name-of-resource-group>" --template-file "template-with-preexisting-rg.json" --subscription "<subscription-guid>" --parameters appId="<msa-app-guid>" appSecret="<msa-app-password>" botId="<id-or-name-of-bot>" newWebAppName="<name-of-web-app>" alwaysBuildOnDeploy=false existingServerFarm="<name-of-server-farm>"
+az group deployment create --name "<name-of-deployment>" --resource-group "<name-of-resource-group>" --template-file "template-with-preexisting-rg.json" --subscription "<subscription-guid>" --parameters appId="<msa-app-guid>" appSecret="<msa-app-password>" botId="<id-or-name-of-bot>" newWebAppName="<name-of-web-app>" existingServerFarm="<name-of-server-farm>"
 ```
 
-> *These instructions shows how to zipdeploy your code using `az webapp`. App Service's default behavior for zipdeploy is to not build the code or install any dependencies (e.g. you must zip up your binaries or your `node_modules` folder). If you do want the App service to build and/or install dependencies, add the optional parameter `"*
+> *These instructions shows how to zipdeploy your code using `az webapp`. App Service's default behavior for zipdeploy is to not build the code or install any dependencies (e.g. you must zip up your binaries or your `node_modules` folder).*
 >
 > *For more information on Kudu, visit their [GitHub repository][Kudu-Wiki].*
 
-To see all available ARM template parameters and their descriptions, scroll down or click [here](#ARM-Template-Parameters-(preexisting-Resource-Group)).
+To see all available ARM template parameters and their descriptions, scroll down or click [here](#ARM-Template-Parameters-(new-Resource-Group)).
 
   [Kudu-Wiki]: https://github.com/projectkudu/kudu/wiki
 
 #### 3. Retrieve or create necessary IIS/Kudu files via `az bot`
 
-*For C# bots this command is necessary if you want Kudu to build on deployment (e.g. `alwaysBuildOnDeploy=true`):*
+*For C# bots this command is necessary if Kudu is configured to build on zip deployment (i.e. [SCM_DO_BUILD_DURING_DEPLOYMENT=true][Enable/Disable Build]):*
 ```bash
 # For C# bots, it's necessary to provide the path to the .csproj file relative to --code-dir. This can be performed via the --proj-file-path argument
-az bot prepare-deploy --lang Csharp --code-dir ".." --proj-file-path "./MyBot.csproj"
-# The command would resolve --code-dir and --proj-file-path to "../MyBot.csproj"
+az bot prepare-deploy --lang Csharp --code-dir "." --proj-file-path "MyBot.csproj"
+# The command would resolve --code-dir and --proj-file-path to "./MyBot.csproj"
 ```
+
+  [Enable/Disable Build]: https://github.com/projectkudu/kudu/wiki/Configurable-settings#enabledisable-build-actions
 
 *For Node.js bots:*
 ```bash
 # This command will fetch a web.config which is needed for Node.js apps to work with IIS on Azure App Services
-az bot prepare-deploy --code-dir ".." --lang Node
+az bot prepare-deploy --code-dir "." --lang Node
 ```
 
 #### 4. Zip up the code directory manually
-When deploying the ARM template, if the parameter `"alwaysBuildOnDeploy"` was set to `true` then you do not need to include your binaries or the `node_modules` folder in the zipped code as Kudu will build your code or install the NPM packages.
 
-If it was set to `false` you must include the binaries and `node_modules` or the bot will not run when using zipdeploy. Note, the default value for this parameter is `false`.
+When using the non-configured [`zipdeploy` API][Kudu-Zipdeploy] to deploy your bot's code, Web App/Kudu's behavior is as follows:
+
+> _**Kudu assumes by default that deployments from zip files are ready to run and do not require additional build steps during deployment**, such as `npm install` or `dotnet restore`/`dotnet publish`._
+
+  [Kudu-Zipdeploy]: https://github.com/projectkudu/kudu/wiki/Deploying-from-a-zip-file-or-url
+
+As such, it is important to include your built code and with all necessary dependencies in the zip file being deployed to the Web App, otherwise your bot will not work as intended.
 
 #### 5. Deploy code to Azure using `az webapp`
-
+At this point we are ready to deploy the code to the Azure Web App. 
 ```bash
 az webapp deployment source config-zip --subscription "<subscription-guid>" --resource-group "<new-group-name>" --name "<name-of-web-app>" --src "Path/to/zipped/code.zip" 
 # The --timeout argument is an optional and configurable timeout in seconds for checking the status of deployment.
-```
-___
-
-
-### ARM Template Parameters (preexisting Resource Group):
-```json
-"parameters": {
-    "appId": {
-        "type": "string",
-        "metadata": {
-            "description": "Active Directory App ID, set as MicrosoftAppId in the Web App's Application Settings."
-        }
-    },
-    "appSecret": {
-        "type": "string",
-        "metadata": {
-            "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings. Defaults to \"\"."
-        }
-    },
-    "botId": {
-        "type": "string",
-        "metadata": {
-            "description": "The globally unique and immutable bot ID. Also used to configure the displayName of the bot, which is mutable."
-        }
-    },
-    "botSku": {
-        "defaultValue": "F0",
-        "type": "string",
-        "metadata": {
-            "description": "The pricing tier of the Bot Service Registration. Acceptable values are F0 and S1."
-        }
-    },
-    "newServerFarmName": {
-        "type": "string",
-        "defaultValue": "",
-        "metadata": {
-            "description": "The name of the new App Service Plan."
-        }
-    },
-    "newServerFarmSku": {
-        "type": "object",
-        "defaultValue": {
-            "name": "S1",
-            "tier": "Standard",
-            "size": "S1",
-            "family": "S",
-            "capacity": 1
-        },
-        "metadata": {
-            "description": "The SKU of the App Service Plan. Defaults to Standard values."
-        }
-    },
-    "newServerFarmLocation": {
-        "type": "string",
-        "defaultValue": "westus",
-        "metadata": {
-            "description": "The location of the App Service Plan. Defaults to \"westus\"."
-        }
-    },
-    "existingServerFarm": {
-        "type": "string",
-        "defaultValue": "",
-        "metadata": {
-            "description": "Name of the existing App Service Plan/Server Farm used to create the Web App for the bot."
-        }
-    },
-    "newWebAppName": {
-        "type": "string",
-        "defaultValue": "",
-        "metadata": {
-            "description": "The globally unique name of the Web App. Defaults to the value passed in for \"botId\"."
-        }
-    },
-    "alwaysBuildOnDeploy": {
-        "type": "bool",
-        "defaultValue": false,
-        "metadata": {
-            "comments": "Configures environment variable SCM_DO_BUILD_DURING_DEPLOYMENT on Web App. When set to true, the Web App will automatically build or install NPM packages when a deployment occurs."
-        }
-    }
-}
 ```
