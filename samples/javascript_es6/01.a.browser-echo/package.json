@@ -12,8 +12,11 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "botbuilder-core": "^4.3.0",
-        "botframework-webchat": "^0.11.4"
+        "@babel/runtime": "^7.1.5",
+        "botbuilder-core": "^4.2.0",
+        "botframework-directlinejs": "~0.11.2",
+        "botframework-webchat": "4.2.0",
+        "core-js": "^3.0.1"
     },
     "devDependencies": {
         "@babel/cli": "^7.1.0",
@@ -21,8 +24,11 @@
         "@babel/plugin-proposal-class-properties": "^7.1.0",
         "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
         "@babel/plugin-transform-runtime": "^7.1.0",
+        "@babel/plugin-transform-react-jsx": "7.3.0",
+        "@babel/preset-typescript": "7.3.3",
         "@babel/preset-env": "^7.1.0",
         "@babel/runtime": "^7.2.0",
+        "babel-runtime": "^6.26.0",
         "babel-loader": "^8.0.4",
         "clean-webpack-plugin": "^1.0.0",
         "copy-webpack-plugin": "^4.3.1",

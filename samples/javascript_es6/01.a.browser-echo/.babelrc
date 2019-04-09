@@ -1,22 +1,24 @@
 {
     "presets": [
-        [
-            "@babel/preset-env",
-            {
-                "targets": {
-                    "chrome": "58",
-                    "esmodules": true
-                }
-            }
-        ]
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "chrome": "58",
+            "esmodules": true
+          }
+        }
+      ],
+      "@babel/preset-typescript"
     ],
     "ignore": [
-        "**/*.d.ts"
+      "**/*.d.ts",
+      "node_modules"
     ],
     "sourceMaps": "inline",
     "plugins": [
-        "@babel/proposal-class-properties",
-        "@babel/proposal-object-rest-spread",
-        "@babel/plugin-transform-runtime"
+      "@babel/proposal-class-properties",
+      "@babel/plugin-transform-react-jsx",
+      "@babel/plugin-transform-runtime"
     ]
-}
+  }
