@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ConnectionStatus } from 'botframework-webchat';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { ConnectionStatus } from 'botframework-directlinejs';
 import { BotAdapter, TurnContext } from 'botbuilder-core';
 import { BOT_PROFILE, USER_PROFILE } from './app';
+import Observable from 'core-js/features/observable';
 
 /**
  * Custom BotAdapter used for deploying a bot in a browser.
@@ -12,10 +12,16 @@ import { BOT_PROFILE, USER_PROFILE } from './app';
 export class WebChatAdapter extends BotAdapter {
     constructor() {
         super();
-        this.activity$ = new Subject();
+
         this.botConnection = {
-            connectionStatus$: new BehaviorSubject(ConnectionStatus.Online),
-            activity$: this.activity$.share(),
+            connectionStatus$: new Observable(observer => {
+                observer.next(ConnectionStatus.Uninitialized);
+                observer.next(ConnectionStatus.Connecting);
+                observer.next(ConnectionStatus.Online);
+            }),
+            activity$: new Observable(observer => {
+                this.activityObserver = observer;
+            }),
             end() {
                 // The React component was called to unmount:
                 // https://github.com/Microsoft/BotFramework-WebChat/blob/57360e4df92e041d5b0fd4810c1abf96621b5283/src/Chat.tsx#L237-L247
@@ -27,15 +33,23 @@ export class WebChatAdapter extends BotAdapter {
             postActivity: activity => {
                 const id = Date.now().toString();
 
-                return Observable.fromPromise(
-                    this.onReceive({
+                return new Observable(observer => {
+                    const serverActivity = {
                         ...activity,
                         id,
                         conversation: { id: 'bot' },
                         channelId: 'WebChat',
-                        recipient: BOT_PROFILE
-                    }).then(() => id)
-                );
+                        recipient: BOT_PROFILE,
+                        timestamp: new Date().toISOString()
+                    };
+
+                    this.onReceive(serverActivity).then(() => {
+                        observer.next(id);
+                        observer.complete();
+
+                        this.activityObserver.next(serverActivity);
+                    });
+                });
             }
         };
     }
@@ -47,17 +61,16 @@ export class WebChatAdapter extends BotAdapter {
      * @param {Activity[]} activities
      */
     sendActivities(context, activities) {
-        console.log(Date.now().toString());
         const sentActivities = activities.map(activity => Object.assign({}, activity, {
             id: Date.now().toString(),
             channelId: 'WebChat',
             conversation: { id: 'bot' },
             from: BOT_PROFILE,
             recipient: USER_PROFILE,
-            timestamp: Date.now()
+            timestamp: new Date().toISOString()
         }));
 
-        sentActivities.forEach(activity => this.activity$.next(activity));
+        sentActivities.forEach(activity => this.activityObserver.next(activity));
 
         return Promise.resolve(sentActivities.map(activity => {
             return { id: activity.id };

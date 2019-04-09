@@ -35,8 +35,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnABotAppInsights", "20.qna
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuisBotAppInsights", "21.luis-with-appinsights\LuisBotAppInsights.csproj", "{57990910-7837-4BBE-96B9-EDE8D776320D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConversationHistory", "22.conversation-history\ConversationHistory.csproj", "{00955584-10CA-43E6-BDC2-9EC123D7F04D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facebook-Events-Bot", "23.facebook-events\Facebook-Events-Bot.csproj", "{F1F85057-BAFA-46E2-830C-36060270659F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotAuthenticationMSGraph", "24.bot-authentication-msgraph\BotAuthenticationMSGraph.csproj", "{3434227D-B8F8-41D0-8465-310099349C61}"
@@ -121,10 +119,6 @@ Global
 		{57990910-7837-4BBE-96B9-EDE8D776320D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57990910-7837-4BBE-96B9-EDE8D776320D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57990910-7837-4BBE-96B9-EDE8D776320D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{00955584-10CA-43E6-BDC2-9EC123D7F04D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00955584-10CA-43E6-BDC2-9EC123D7F04D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00955584-10CA-43E6-BDC2-9EC123D7F04D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00955584-10CA-43E6-BDC2-9EC123D7F04D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F1F85057-BAFA-46E2-830C-36060270659F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F1F85057-BAFA-46E2-830C-36060270659F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1F85057-BAFA-46E2-830C-36060270659F}.Release|Any CPU.ActiveCfg = Release|Any CPU
