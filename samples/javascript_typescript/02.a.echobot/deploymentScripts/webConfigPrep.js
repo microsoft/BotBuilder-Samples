@@ -19,7 +19,7 @@ if (fs.existsSync(path.resolve(WEB_CONFIG_FILE))) {
         silent: true,
     });
     replace({
-        regex: /((\s*?)<iisnode watchedFiles="web.config;\*\.js" debuggingEnabled="false" \/>/g,
+        regex: /(\s*?)<iisnode watchedFiles="web.config;\*\.js" debuggingEnabled="false" \/>/g,
         replacement: "<!--<iisnode watchedFiles=\"web.config;*.js\"/>-->",
         paths: ['./web.config'],
         recursive: false,
