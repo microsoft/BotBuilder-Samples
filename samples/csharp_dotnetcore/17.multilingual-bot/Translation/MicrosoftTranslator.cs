@@ -26,7 +26,7 @@ namespace Microsoft.BotBuilderSamples.Translation
 
         public MicrosoftTranslator(IConfiguration configuration)
         {
-            var key = configuration["translatorKey"];
+            var key = configuration["TranslatorKey"];
             _key = key ?? throw new ArgumentNullException(nameof(key));
         }
 

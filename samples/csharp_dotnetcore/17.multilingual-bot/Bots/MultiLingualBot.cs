@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-using Microsoft.BotBuilderSamples.Translation;
 using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples
@@ -21,7 +20,7 @@ namespace Microsoft.BotBuilderSamples
     /// </remarks>
     public class MultiLingualBot : ActivityHandler
     {
-        private const string WelcomeText = @"This bot will introduce you to translation middleware.";
+        private const string WelcomeText = @"This bot will introduce you to translation middleware. Say 'hi' to get started.";
 
         private const string EnglishEnglish = "en";
         private const string EnglishSpanish = "es";
@@ -29,7 +28,7 @@ namespace Microsoft.BotBuilderSamples
         private const string SpanishSpanish = "it";
 
         private readonly UserState _userState;
-        private IStatePropertyAccessor<string> _languagePreference { get; set; }
+        private readonly IStatePropertyAccessor<string> _languagePreference;
 
         public MultiLingualBot(UserState userState)
         {
@@ -45,21 +44,17 @@ namespace Microsoft.BotBuilderSamples
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            string userLanguage = await _languagePreference.GetAsync(turnContext, () => TranslationSettings.DefaultLanguage) ?? TranslationSettings.DefaultLanguage;
-
-            bool translate = userLanguage != TranslationSettings.DefaultLanguage;
-
             if (IsLanguageChangeRequested(turnContext.Activity.Text))
             {
-                var curentLang = turnContext.Activity.Text.ToLower();
-                var lang = curentLang == EnglishEnglish || curentLang == SpanishEnglish ? EnglishEnglish : EnglishSpanish;
+                var currentLang = turnContext.Activity.Text.ToLower();
+                var lang = currentLang == EnglishEnglish || currentLang == SpanishEnglish ? EnglishEnglish : EnglishSpanish;
 
                 // If the user requested a language change through the suggested actions with values "es" or "en",
                 // simply change the user's language preference in the user state.
                 // The translation middleware will catch this setting and translate both ways to the user's
                 // selected language.
                 // If Spanish was selected by the user, the reply below will actually be shown in spanish to the user.
-                await _languagePreference.SetAsync(turnContext, lang);
+                await _languagePreference.SetAsync(turnContext, lang, cancellationToken);
                 var reply = ((Activity)turnContext.Activity).CreateReply($"Your current language code is: {lang}");
 
                 await turnContext.SendActivityAsync(reply, cancellationToken);
@@ -97,7 +92,7 @@ namespace Microsoft.BotBuilderSamples
                     var welcomeCard = CreateAdaptiveCardAttachment();
                     var response = CreateResponse(turnContext.Activity, welcomeCard);
                     await turnContext.SendActivityAsync(response, cancellationToken);
-                    await turnContext.SendActivityAsync(turnContext.Activity.CreateReply("Say hi to get started."), cancellationToken);
+                    await turnContext.SendActivityAsync(turnContext.Activity.CreateReply(WelcomeText), cancellationToken);
                 }
             }
         }
