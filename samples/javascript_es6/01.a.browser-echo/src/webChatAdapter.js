@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ConnectionStatus } from 'botframework-webchat';
+import { ConnectionStatus } from 'botframework-directlinejs';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { BotAdapter, TurnContext } from 'botbuilder-core';
 import { BOT_PROFILE, USER_PROFILE } from './app';
