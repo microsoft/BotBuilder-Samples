@@ -77,7 +77,7 @@ namespace Microsoft.BotBuilderSamples
                         },
                 };
 
-                await turnContext.SendActivityAsync(reply);
+                await turnContext.SendActivityAsync(reply, cancellationToken);
             }
         }
 
