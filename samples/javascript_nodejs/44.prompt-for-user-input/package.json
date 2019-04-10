@@ -1,5 +1,5 @@
 {
-    "name": "simplePrompts",
+    "name": "prompt-for-user-input-bot",
     "version": "1.0.0",
     "description": "Sample code for Create your own prompts to gather user input",
     "author": "Microsoft Bot Builder Yeoman Generator v4.0.10",
