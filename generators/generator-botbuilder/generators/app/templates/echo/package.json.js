@@ -6,7 +6,7 @@
     "license": "MIT",
     "main": "<%= npmMain %>",
     "scripts": {
-        "lint": "./node_modules/.bin/eslint .",
+        "lint": "node ./node_modules/.bin/eslint .",
         "start": "node ./index.js",
         "test": "echo \"Error: no test specified\" && exit 1",
         "watch": "nodemon ./index.js"
