@@ -1,6 +1,6 @@
 ﻿# Concepts introduced in this sample
 
-Translation Middleware: We create a translation middleware than can translate text from bot to user and from user to bot, allowing the creation of multi-lingual bots. 
+Translation Middleware: We create a translation middleware that can translate text from bot to user and from user to bot, allowing the creation of multi-lingual bots. 
 The middleware is driven by user state. This means that users can specify their language preference, and the middleware automatically will intercept messages back and forth and present them to the user in their preferred language.
 Users can change their language preference anytime, and since this gets written to the user state, the middleware will read this state and instantly modify its behavior to honor the newly selected preferred language.
 
@@ -23,7 +23,7 @@ A more elaborated next step would be to use the Microsoft Translator Text API to
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
+
 # Prerequisites
 
 ## Microsoft Translator Text API
@@ -33,7 +33,7 @@ Paste the key in the ```translationKey``` placeholder within the appsettings.jso
 # Running Locally
 
 ## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot`) and open MessageRoutingBot.csproj in Visual Studio 
+- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot`) and open MultiLingualBot.csproj in Visual Studio 
 - Run the project (press `F5` key)
 
 ## .NET Core CLI
@@ -48,18 +48,11 @@ Paste the key in the ```translationKey``` placeholder within the appsettings.jso
 
 ### Connect to bot using Bot Framework Emulator V4
 - Launch Bot Framework Emulator
-- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot` folder
-- Select `MultiLingualBot.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
-
-To clone this bot, run
-```bash
-msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
-```
-
-**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
+## Deploy the bot to Azure
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][https://aka.ms/azuredeployment] for a complete list of deployment instructions.
 
 # Further reading
 

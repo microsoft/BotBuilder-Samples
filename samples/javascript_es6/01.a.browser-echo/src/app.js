@@ -1,27 +1,25 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ActivityTypes, ConversationState, MemoryStorage } from 'botbuilder-core';
-import 'botframework-webchat/botchat.css';
-import { App } from 'botframework-webchat/built/App';
+import {
+    ActivityTypes,
+    ConversationState,
+    MemoryStorage
+} from 'botbuilder-core';
 import './css/app.css';
 import { WebChatAdapter } from './webChatAdapter';
+// import { renderWebChat } from 'botframework-webchat';
+import { renderWebChat } from 'botframework-webchat';
 
 // Create the custom WebChatAdapter.
 const webChatAdapter = new WebChatAdapter();
 
-// Create user and bot profiles.
-// These profiles fill out additional information on the incoming and outgoing Activities.
-export const USER_PROFILE = { id: 'Me!', name: 'Me!', role: 'user' };
-export const BOT_PROFILE = { id: 'bot', name: 'bot', role: 'bot' };
+// Connect our BotFramework-WebChat instance with the DOM.
 
-// Connect our BotFramework-WebChat App instance with the DOM.
-App({
-    user: USER_PROFILE,
-    bot: BOT_PROFILE,
-    botConnection: webChatAdapter.botConnection
-}, document.getElementById('bot'));
-
+renderWebChat({
+    directLine: webChatAdapter.botConnection
+}, document.getElementById('webchat')
+);
 // Instantiate MemoryStorage for use with the ConversationState class.
 const memory = new MemoryStorage();
 
@@ -32,20 +30,28 @@ const conversationState = new ConversationState(memory);
 const countProperty = conversationState.createProperty('turnCounter');
 
 // Register the business logic of the bot through the WebChatAdapter's processActivity implementation.
-webChatAdapter.processActivity(async (turnContext) => {
+webChatAdapter.processActivity(async turnContext => {
     // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
     if (turnContext.activity.type === ActivityTypes.Message) {
         // Read from state.
         let count = await countProperty.get(turnContext);
         count = count === undefined ? 1 : count;
-        await turnContext.sendActivity(`${ count }: You said "${ turnContext.activity.text }"`);
+        await turnContext.sendActivity(
+            `${ count }: You said "${ turnContext.activity.text }"`
+        );
         // Increment and set turn counter.
         await countProperty.set(turnContext, ++count);
     } else {
-        await turnContext.sendActivity(`[${ turnContext.activity.type } event detected]`);
+        await turnContext.sendActivity(
+            `[${ turnContext.activity.type } event detected]`
+        );
     }
     await conversationState.saveChanges(turnContext);
 });
+
+// Create user and bot profiles.
+export const USER_PROFILE = { id: 'Me!', name: 'Me!', role: 'user' };
+export const BOT_PROFILE = { id: 'bot', name: 'bot', role: 'bot' };
 
 // Prevent Flash of Unstyled Content (FOUC): https://en.wikipedia.org/wiki/Flash_of_unstyled_content
 document.addEventListener('DOMContentLoaded', () => {
@@ -55,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // When the bot receives a "conversationUpdate" Activity, the developer can opt to send a welcome message to the user.
         webChatAdapter.botConnection.postActivity({
             recipient: BOT_PROFILE,
-            membersAdded: [ USER_PROFILE ],
+            membersAdded: [USER_PROFILE],
             type: ActivityTypes.ConversationUpdate
         });
     });
