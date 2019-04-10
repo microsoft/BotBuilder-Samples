@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+//
+// Generated with CoreBot .NET Template version __vX.X.X__
 
 using System.Collections.Generic;
 using System.Threading;
