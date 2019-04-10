@@ -2,7 +2,7 @@
     "name": "complex-dialog-bot",
     "version": "1.0.0",
     "description": "Sample code for the how to topic for creating advanced conversation flow",
-    "author": "Microsoft Bot Builder Yeoman Generator v4.0.10",
+    "author": "Microsoft",
     "license": "MIT",
     "main": "index.js",
     "scripts": {

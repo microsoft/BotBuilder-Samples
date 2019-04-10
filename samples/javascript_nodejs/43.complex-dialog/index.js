@@ -8,8 +8,8 @@ const restify = require('restify');
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, MemoryStorage, UserState, ConversationState } = require('botbuilder');
 
-// This bot's main dialog.
-const { ComplexDialogBot } = require('./bots/complexDialogbot');
+const { DialogAndWelcomeBot } = require('./bots/dialogAndWelcomeBot');
+const { MainDialog } = require('./dialogs/mainDialog');
 
 // Read environment variables from .env file
 const ENV_FILE = path.join(__dirname, '.env');
@@ -37,8 +37,14 @@ const memoryStorage = new MemoryStorage();
 const userState = new UserState(memoryStorage);
 const conversationState = new ConversationState(memoryStorage);
 
+// Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
+const logger = console;
+
 // Create the main dialog.
-const bot = new ComplexDialogBot(conversationState, userState);
+const dialog = new MainDialog(userState);
+
+// Create the main dialog.
+const bot = new DialogAndWelcomeBot(conversationState, userState, dialog, logger);
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
@@ -57,6 +63,6 @@ adapter.onTurnError = async (context, error) => {
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
         // Route to main dialog.
-        await bot.onTurn(context);
+        await bot.run(context);
     });
 });
