@@ -26,10 +26,15 @@ const adapter = new BotFrameworkAdapter({
 
 // Map the contents to the required format for `QnAMaker`.
 const qnaEndpointSettings = {
-    knowledgeBaseId: process.env.QnaKnowledgeBaseId,
-    endpointKey: process.env.QnaEndpointKey,
-    host: process.env.QnaHost
+    knowledgeBaseId: process.env.QnAMakerKnowledgeBaseId,
+    endpointKey: process.env.QnAMakerEndpointKey,
+    host: process.env.QnAMakerHost
 };
+
+// Throw error if any qnaEndpointSettings null or empty in .env file
+if (!process.env.QnAMakerKnowledgeBaseId.trim()) { throw new Error('Missing parameter. QnAMakerKnowledgeBaseId is required in .env file'); }
+if (!process.env.QnAMakerEndpointKey.trim()) { throw new Error('Missing parameter. QnAMakerEndpointKey is required in .env file'); }
+if (!process.env.QnAMakerHost.trim()) { throw new Error('Missing parameter. QnAMakerHost is required in .env file'); }
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
