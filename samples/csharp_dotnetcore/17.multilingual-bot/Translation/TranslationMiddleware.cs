@@ -25,10 +25,15 @@ namespace Microsoft.BotBuilderSamples.Translation
         /// </summary>
         /// <param name="translator">Translator implementation to be used for text translation.</param>
         /// <param name="languageStateProperty">State property for current language.</param>
-        public TranslationMiddleware(MicrosoftTranslator translator, IStatePropertyAccessor<string> languageStateProperty)
+        public TranslationMiddleware(MicrosoftTranslator translator, UserState userState)
         {
             _translator = translator ?? throw new ArgumentNullException(nameof(translator));
-            _languageStateProperty = languageStateProperty ?? throw new ArgumentNullException(nameof(languageStateProperty));
+            if(userState == null)
+            {
+                throw new ArgumentNullException(nameof(userState));
+            }
+
+            _languageStateProperty = userState.CreateProperty<string>("LanguagePreference");
         }
 
         /// <summary>

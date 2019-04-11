@@ -44,37 +44,9 @@ They enable the user to answer a question or make a selection with a simple tap 
 
 Unlike buttons that appear within rich cards (which remain visible and accessible to the user even after being tapped), buttons that appear within the suggested actions pane will disappear after the user makes a selection. This prevents the user from tapping stale buttons within a conversation and simplifies bot development (since you will not need to account for that scenario).
 
-# Deploy this bot to Azure
-## Prerequisites
-- [Azure Deployment Prerequisites][41]
+# Deploy the bot to Azure
+## Publishing Changes to Azure Bot Service
 
-## Provision a Bot with Azure Bot Service
-After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.  To deploy your bot to Azure:
-
-```bash
-# login to Azure
-az login
-```
-
-```bash
-# set you Azure subscription
-az account set --subscription "<azure-subscription>"
-```
-
-```bash
-# provision Azure Bot Services resources to host your bot
-msbot clone services --name "<your_bot_name>" --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
-```
-
-### Publishing Changes to Azure Bot Service
-As you make changes to your bot running locally, and want to deploy those change to Azure Bot Service, you can _publish_ those change using either `publish.cmd` if you are on Windows or `./publish` if you are on a non-Windows platform.  The following is an example of publishing
-
-```bash
-# run the publish helper (non-Windows) to update Azure Bot Service.  Use publish.cmd if running on Windows
-./publish
-```
-
-### Getting Additional Help Deploying to Azure
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 # Further reading
@@ -98,7 +70,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
 [7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 [8]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
-[9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [10]: https://portal.azure.com
 [11]: https://www.luis.ai
 [20]: https://docs.botframework.com
@@ -112,4 +83,3 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./PREREQUISITES.md

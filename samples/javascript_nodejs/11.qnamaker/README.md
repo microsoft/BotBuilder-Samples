@@ -58,27 +58,8 @@ QnA Maker enables you to power a question and answer service from your semi-stru
 One of the basic requirements in writing your own bot is to seed it with questions and answers. In many cases, the questions and answers already exist in content like FAQ URLs/documents, product manuals, etc. With QnA Maker, users can query your application in a natural, conversational manner. QnA Maker uses machine learning to extract relevant question-answer pairs from your content. It also uses powerful matching and ranking algorithms to provide the best possible match between the user query and the questions.
 
 # Deploy the bot to Azure
-After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.  To deploy your bot to Azure:
+## Publishing Changes to Azure Bot Service
 
-```bash
-# login to Azure
-az login
-```
-
-### Publishing Changes to Azure Bot Service
-As you make changes to your locally running bot, you can deploy those changes to Azure Bot Service using a _publish_ helper.  See `publish.cmd` if you are on Windows or `./publish` if you are on a non-Windows platform.  The following is an example of publishing local changes to Azure:
-
-```bash
-# build the TypeScript bot before you publish
-npm run build
-```
-
-```bash
-# run the publish helper (non-Windows) to update Azure Bot Service.  Use publish.cmd if running on Windows
-./publish
-```
-
-### Getting Additional Help with Deploying to Azure
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 # Further reading
@@ -89,7 +70,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Azure Bot Service Introduction][21]
 - [Azure Bot Service Documentation][22]
 - [Azure CLI][7]
-- [msbot CLI][9]
 - [QnA Maker CLI][24]
 - [Azure Portal][10]
 - [Restify][30]
@@ -101,7 +81,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
 [7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 [8]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
-[9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [10]: https://portal.azure.com
 [19]: https://www.qnamaker.ai
 [20]: https://docs.botframework.com

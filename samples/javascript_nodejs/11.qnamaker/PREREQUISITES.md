@@ -10,11 +10,6 @@ This bot uses [QnA Maker Service][1], an AI based cognitive service, to implemen
 - [Node.js][4] version 10.14 or higher.
 - If you don't have an Azure subscription, create a [free account][5].
 - Install the latest version of the [Azure CLI][6] tool. Version 2.0.54 or higher.
-- Install latest version of the `MSBot` CLI tool. Version 4.3.2 or higher.
-    ```bash
-    # install msbot CLI tool
-    npm install -g msbot
-    ```
 - Install latest version of the `QnAMaker` CLI tool. Version 1.1.0 or higher.
     ```bash
     # install QnA Maker CLI tool

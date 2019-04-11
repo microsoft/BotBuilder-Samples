@@ -22,6 +22,9 @@
     <ProjectTypeTag>Service</ProjectTypeTag>
   </TemplateData>
   <TemplateContent>
+    <CustomParameters>
+      <CustomParameter Name="$templateversion$" Value="4.3.0"/>
+    </CustomParameters>
     <Project File="CoreBot.csproj" ReplaceParameters="true">
       <Folder Name="Bots" TargetFolderName="Bots">
         <ProjectItem ReplaceParameters="true">DialogAndWelcomeBot.cs</ProjectItem>
@@ -68,8 +71,8 @@
       <ProjectItem ReplaceParameters="true">Startup.cs</ProjectItem>
 
       <Folder Name="DeploymentTemplates" TargetFolderName="DeploymentTemplates">
-        <ProjectItem ReplaceParameters="true">template-with-new-rg.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true">template-with-preexisting-rg.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false">template-with-new-rg.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false">template-with-preexisting-rg.json</ProjectItem>
       </Folder>
 
     </Project>
