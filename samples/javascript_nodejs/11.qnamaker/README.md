@@ -1,4 +1,5 @@
 # QnA Maker sample
+
 Bot Framework v4 QnA Maker bot sample
 
 This bot has been created using [Microsoft Bot Framework][1], it shows how to create a bot that uses the [QnA Maker Cognitive AI][19] service.
@@ -6,48 +7,53 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
 The [QnA Maker Service][19] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes. In this sample, we demonstrate how to use the QnA Maker service to answer questions based on a FAQ text file used as input.
 
 ## Prerequisites
+
 This samples requires prerequisites in order to run.
+
 - [Required Prerequisites][41]
 
+### Create a QnAMaker Application to enable QnA Knowledge Bases
+
+QnA knowledge base setup and application configuration steps can be found [here][7].
+
 # To try this sample
+
 - Clone the repository
+
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to `samples/javascript_nodejs/11.qnamaker`
+
+- In a terminal, navigate to `samples/javascript_nodejs/13.core-bot`
+
     ```bash
     cd samples/javascript_nodejs/11.qnamaker
     ```
+
 - Install modules
+
     ```bash
     npm install
     ```
-- Setup QnA Maker Knowledgebase
 
-    Assuming prerequisites have been installed:
-    ```bash
-    # log into Azure
-    az login
-    ```
-    ```bash
-    # set you Azure subscription
-    az account set --subscription "<azure-subscription>"
-    ```
-    ```bash
-    # Create QnA Maker service application
-    msbot clone services --name "<your_bot_name>" --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
-    ```
-- Start the bot
+- Setup QnAMaker
+
+    The prerequisite outlined above contain the steps necessary to provision a QnA Knowledge Base on www.qnamaker.ai.  Refer to _Create a QnAMaker Application to enable QnA Knowledge Bases_ above for directions to setup and configure LUIS.
+
+- Run the sample
+
     ```bash
     npm start
     ```
 
 # Testing the bot using Bot Framework Emulator
+
 [Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here][9]
 
 ## Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
@@ -58,11 +64,13 @@ QnA Maker enables you to power a question and answer service from your semi-stru
 One of the basic requirements in writing your own bot is to seed it with questions and answers. In many cases, the questions and answers already exist in content like FAQ URLs/documents, product manuals, etc. With QnA Maker, users can query your application in a natural, conversational manner. QnA Maker uses machine learning to extract relevant question-answer pairs from your content. It also uses powerful matching and ranking algorithms to provide the best possible match between the user query and the questions.
 
 # Deploy the bot to Azure
+
 ## Publishing Changes to Azure Bot Service
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 # Further reading
+
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
 - [QnA Maker Documentation][23]
@@ -81,6 +89,7 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
 [7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 [8]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
+[9]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/create-knowledge-base
 [10]: https://portal.azure.com
 [19]: https://www.qnamaker.ai
 [20]: https://docs.botframework.com
