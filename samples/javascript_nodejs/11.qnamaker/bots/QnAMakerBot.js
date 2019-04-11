@@ -10,12 +10,18 @@ class QnAMakerBot extends ActivityHandler {
      * The QnAMakerBot constructor requires one argument (`endpoint`) which is used to create an instance of `QnAMaker`.
      * @param {QnAMakerEndpoint} qnaEndpointSettings The basic configuration needed to call QnA Maker. In this sample the configuration is retrieved from the .env file.
      * @param {QnAMakerOptions} config An optional parameter that contains additional settings for configuring a `QnAMaker` when calling the service.
+     * @param {any} logger object for logging events, defaults to console if none is provided
      */
-    constructor(qnaEndpointSettings, qnaOptions) {
+    constructor(qnaEndpointSettings, qnaOptions, logger) {
         super();
         if (!qnaEndpointSettings) throw new Error('[QnaMakerBot]: Missing parameter. qnaEndpointSettings is required');
+        if (!logger) {
+            logger = console;
+            logger.log('[QnaMakerBot]: logger not passed in, defaulting to console');
+        }
 
         this.qnaMaker = new QnAMaker(qnaEndpointSettings, qnaOptions);
+        this.logger = logger;
 
         // If a new user is added to the conversation, send them a greeting message
         this.onMembersAdded(async (context, next) => {
@@ -32,11 +38,12 @@ class QnAMakerBot extends ActivityHandler {
 
         // When a user sends a message, perform a call to the QnA Maker service to retrieve matching Question and Answer pairs.
         this.onMessage(async (context, next) => {
-
             // Show "..." from the bot so it looks like the bot is typing while it searches for an answer
             await context.sendActivity({
                 type: ActivityTypes.Typing
             });
+
+            this.logger.log('Calling QnA Maker');
 
             const qnaResults = await this.qnaMaker.getAnswers(context);
 

@@ -41,8 +41,11 @@ adapter.onTurnError = async (context, error) => {
     await context.sendActivity(`Oops. Something went wrong!`);
 };
 
+// Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
+const logger = console;
+
 // Create the main dialog.
-const bot = new QnAMakerBot(qnaEndpointSettings, {});
+const bot = new QnAMakerBot(qnaEndpointSettings, {}, logger);
 
 // Create HTTP server
 let server = restify.createServer();
