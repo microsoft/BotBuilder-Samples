@@ -11,8 +11,17 @@ class ProactiveBot extends ActivityHandler {
      * @param {BotState} botState A BotState object used to store information for the bot independent of user or conversation.
      * @param {BotAdapter} adapter A BotAdapter used to send and receive messages.
      */
-    constructor(botState, adapter) {
+    constructor(botState, adapter, logger) {
         super();
+
+        if(!botState) throw new Error('[ProactiveBot]: Missing parameter. botState is required');
+        if(!adapter) throw new Error('[ProactiveBot]: Missing parameter. adapter is required');
+        if (!logger) {
+            logger = console;
+            logger.log('[ProactiveBot]: logger not passed in, defaulting to console');
+        }
+
+        this.logger = logger;
 
         this.botState = botState;
         this.adapter = adapter;
@@ -20,6 +29,8 @@ class ProactiveBot extends ActivityHandler {
         this.jobsList = this.botState.createProperty(JOBS_LIST);
 
         this.onMessage(async (context, next) => {
+            this.logger.log('Running dialog with Message Activity.');
+
             const utterance = (context.activity.text || '').trim().toLowerCase();
             var jobIdNumber;
 
@@ -52,6 +63,8 @@ class ProactiveBot extends ActivityHandler {
         });
 
         this.onEvent(async (context, next) => {
+            this.logger.log('Running dialog with Event Activity.');
+
             if (context.activity.name === 'jobCompleted') {
                 jobIdNumber = context.activity.value;
                 if (!isNaN(parseInt(jobIdNumber))) {
@@ -142,11 +155,11 @@ class ProactiveBot extends ActivityHandler {
         const jobs = await this.jobsList.get(turnContext, {});
         if (Object.keys(jobs).length) {
             await turnContext.sendActivity(
-                '| Job number &nbsp; | Conversation ID &nbsp; | Completed |<br>' +
-                '| :--- | :---: | :---: |<br>' +
+                '| Job number &nbsp; | Conversation ID &nbsp; | Completed |\n' +
+                '| :--- | :---: | :---: |\n' +
                 Object.keys(jobs).map((key) => {
                     return `${ key } &nbsp; | ${ jobs[key].reference.conversation.id.split('|')[0] } &nbsp; | ${ jobs[key].completed }`;
-                }).join('<br>'));
+                }).join('\n'));
         } else {
             await turnContext.sendActivity('The job log is empty.');
         }

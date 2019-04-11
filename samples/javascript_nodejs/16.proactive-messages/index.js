@@ -35,6 +35,9 @@ const memoryStorage = new MemoryStorage();
 // Create state manager with in-memory storage provider.
 const botState = new BotState(memoryStorage, () => 'proactiveBot.botState');
 
+// Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
+const logger = console;
+
 // CAUTION: You must ensure your product environment has the NODE_ENV set
 //          to use the Azure Blob storage or Azure Cosmos DB providers.
 // const { BlobStorage } = require('botbuilder-azure');
@@ -50,7 +53,7 @@ const botState = new BotState(memoryStorage, () => 'proactiveBot.botState');
 // });
 
 // Create the main dialog, which serves as the bot's main handler.
-const bot = new ProactiveBot(botState, adapter);
+const bot = new ProactiveBot(botState, adapter, logger);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
