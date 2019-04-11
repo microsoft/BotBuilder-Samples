@@ -1,38 +1,33 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, TurnContext } = require('botbuilder');
+const { ActivityHandler, TurnContext } = require('botbuilder');
 
 const JOBS_LIST = 'jobs';
 
-class ProactiveBot {
+class ProactiveBot extends ActivityHandler {
     /**
      *
      * @param {BotState} botState A BotState object used to store information for the bot independent of user or conversation.
      * @param {BotAdapter} adapter A BotAdapter used to send and receive messages.
      */
     constructor(botState, adapter) {
+        super();
+
         this.botState = botState;
         this.adapter = adapter;
 
         this.jobsList = this.botState.createProperty(JOBS_LIST);
-    }
 
-    /**
-     *
-     * @param {TurnContext} turnContext A TurnContext object representing an incoming message to be handled by the bot.
-     */
-    async onTurn(turnContext) {
-        // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
-        if (turnContext.activity.type === ActivityTypes.Message) {
-            const utterance = (turnContext.activity.text || '').trim().toLowerCase();
+        this.onMessage(async (context, next) => {
+            const utterance = (context.activity.text || '').trim().toLowerCase();
             var jobIdNumber;
 
             // If user types in run, create a new job.
             if (utterance === 'run') {
-                await this.createJob(turnContext);
+                await this.createJob(context);
             } else if (utterance === 'show') {
-                await this.showJobs(turnContext);
+                await this.showJobs(context);
             } else {
                 const words = utterance.split(' ');
 
@@ -40,23 +35,32 @@ class ProactiveBot {
                 // we check if the second word input is a number.
                 if (words[0] === 'done' && !isNaN(parseInt(words[1]))) {
                     jobIdNumber = words[1];
-                    await this.completeJob(turnContext, jobIdNumber);
+                    await this.completeJob(context, jobIdNumber);
                 } else if (words[0] === 'done' && (words.length < 2 || isNaN(parseInt(words[1])))) {
-                    await turnContext.sendActivity('Enter the job ID number after "done".');
+                    await context.sendActivity('Enter the job ID number after "done".');
                 }
             }
 
-            if (!turnContext.responded) {
-                await turnContext.sendActivity(`Say "run" to start a job, "show" to view running jobs, or "done <job number>" to complete a job.`);
+            if (!context.responded) {
+                await context.sendActivity(`Say "run" to start a job, "show" to view running jobs, or "done <job number>" to complete a job.`);
             }
-        } else if (turnContext.activity.type === ActivityTypes.Event && turnContext.activity.name === 'jobCompleted') {
-            jobIdNumber = turnContext.activity.value;
-            if (!isNaN(parseInt(jobIdNumber))) {
-                await this.completeJob(turnContext, jobIdNumber);
-            }
-        }
 
-        await this.botState.saveChanges(turnContext);
+            // Save any state changes.
+            this.botState.saveChanges(context);
+
+            await next();
+        });
+
+        this.onEvent(async (context, next) => {
+            if (context.activity.name === 'jobCompleted') {
+                jobIdNumber = context.activity.value;
+                if (!isNaN(parseInt(jobIdNumber))) {
+                    await this.completeJob(context, jobIdNumber);
+                }
+            }
+
+            await next();
+        });
     }
 
     // Save job ID and conversation reference.

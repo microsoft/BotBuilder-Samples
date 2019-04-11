@@ -6,7 +6,6 @@ const path = require('path');
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different part of a bot.
 const { BotFrameworkAdapter, BotState, MemoryStorage } = require('botbuilder');
-const { BotConfiguration } = require('botframework-config');
 
 const { ProactiveBot } = require('./bot');
 
@@ -18,40 +17,15 @@ require('dotenv').config({ path: ENV_FILE });
 // Create HTTP server.
 let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
-    console.log(`\n${ server.name } listening to ${ server.url }.`);
-    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
-    console.log(`\nTo talk to your bot, open proactive-messages.bot file in the Emulator.`);
+    console.log(`\n${ server.name } listening to ${ server.url }`);
+    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
 });
-
-// .bot file path
-const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
-
-// Read the bot's configuration from a .bot file identified by BOT_FILE.
-// This includes information about the bot's endpoints and configuration.
-let botConfig;
-try {
-    botConfig = BotConfiguration.loadSync(BOT_FILE, process.env.botFileSecret);
-} catch (err) {
-    console.error(`\nError reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
-    console.error(`\n - The botFileSecret is available under appsettings for your Azure Bot Service bot.`);
-    console.error(`\n - If you are running this bot locally, consider adding a .env file with botFilePath and botFileSecret.\n\n`);
-    process.exit();
-}
-
-const DEV_ENVIRONMENT = 'development';
-
-// Define the name of the bot, as specified in .bot file.
-// See https://aka.ms/about-bot-file to learn more about .bot files.
-const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
-
-// Load the configuration profile specific to this bot identity.
-const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION);
 
 // Create the adapter. See https://aka.ms/about-bot-adapter to learn more about using information from
 // the .bot file when configuring your adapter.
 const adapter = new BotFrameworkAdapter({
-    appId: endpointConfig.appId || process.env.MicrosoftAppId,
-    appPassword: endpointConfig.appPassword || process.env.MicrosoftAppPassword
+    appId: process.env.MicrosoftAppId,
+    appPassword: process.env.MicrosoftAppPassword
 });
 
 // Define the state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
@@ -82,7 +56,7 @@ const bot = new ProactiveBot(botState, adapter);
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (turnContext) => {
         // Route the message to the bot's main handler.
-        await bot.onTurn(turnContext);
+        await bot.run(turnContext);
     });
 });
 
