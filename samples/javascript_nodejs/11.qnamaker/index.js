@@ -13,7 +13,7 @@ const { BotFrameworkAdapter } = require('botbuilder');
 // The bot.
 const { QnAMakerBot } = require('./bots/QnAMakerBot.js');
 
-// Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
+// Note: Ensure you have a .env file and include QnAMakerKnowledgeBaseId, QnAMakerEndpointKey and QnAMakerHost.
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
