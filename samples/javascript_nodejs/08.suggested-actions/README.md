@@ -45,8 +45,6 @@ They enable the user to answer a question or make a selection with a simple tap 
 Unlike buttons that appear within rich cards (which remain visible and accessible to the user even after being tapped), buttons that appear within the suggested actions pane will disappear after the user makes a selection. This prevents the user from tapping stale buttons within a conversation and simplifies bot development (since you will not need to account for that scenario).
 
 # Deploy the bot to Azure
-## Publishing Changes to Azure Bot Service
-
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 # Further reading

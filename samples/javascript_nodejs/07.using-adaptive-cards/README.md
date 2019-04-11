@@ -47,8 +47,6 @@ The Bot Framework provides support for Adaptive Cards.  See the following to lea
 A message exchange between user and bot can contain media attachments, such as cards, images, video, audio, and files.
 
 # Deploy the bot to Azure
-## Publishing Changes to Azure Bot Service
-
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 # Further reading

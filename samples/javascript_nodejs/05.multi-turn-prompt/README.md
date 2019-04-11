@@ -48,8 +48,6 @@ The `botbuilder-dialogs` library includes a variety of pre-built prompt classes,
 sample demonstrates using a text prompt to collect the user's name, then using a number prompt to collect an age.
 
 # Deploy the bot to Azure
-## Publishing Changes to Azure Bot Service
-
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 # Further reading

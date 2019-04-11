@@ -38,24 +38,11 @@ Since Bot Framework supports multiple Facebook pages for a single bot, we also s
 
 ## Connect to bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/23.facebook-events` folder
-- Select `facebook-events.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on.
-
-To install all Bot Builder tools -
-
-```bash
-npm i -g msbot
-```
-
-To clone this bot, run
-```
-msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
-```
-
-**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 
 # Further reading

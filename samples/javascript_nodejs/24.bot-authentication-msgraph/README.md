@@ -49,10 +49,13 @@ The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissio
 - Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
     - In Settings, enable `Use a sign-in verification code for OAuthCards` to receive the magic code
 
-## Connect to bot using Bot Framework Emulator **v4**
+## Connect to bot using Bot Framework Emulator
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to `samples/javascript_nodejs/24.bot-authentication-msgraph` folder
-- Select `bot-authentication-msgraph.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
+
+# Deploy the bot to Azure
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 ## Further Reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

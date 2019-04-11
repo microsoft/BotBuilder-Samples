@@ -56,27 +56,6 @@ The [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cogni
 The API uses the most modern neural machine translation technology, as well as offering statistical machine translation technology.
 
 # Deploy this bot to Azure
-## Prerequisites
-- [Azure Deployment Prerequisites][41]
-
-## Provision a Bot with Azure Bot Service
-After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.  To deploy your bot to Azure:
-
-```bash
-# login to Azure
-az login
-```
-
-```bash
-# set you Azure subscription
-az account set --subscription "<azure-subscription>"
-```
-
-```bash
-# provision Azure Bot Services resources to host your bot
-msbot clone services --name "<your_bot_name>" --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
-```
-
 ### Add `translationKey` to Application Settings
 If you used the `.env` file to store your `translationKey` then you'll need to add this key and its value to the Application Settings for your deployed bot.
 - Log into the [Azure portal][10]
@@ -86,15 +65,6 @@ If you used the `.env` file to store your `translationKey` then you'll need to a
 - Scroll to the `Application settings` section
 - Click `+ Add new setting`
 - Add the key `translationKey` with a value of the Translator Text API `Authentication key` created from the steps above
-
-
-### Publishing Changes to Azure Bot Service
-As you make changes to your bot running locally, and want to deploy those change to Azure Bot Service, you can _publish_ those change using either `publish.cmd` if you are on Windows or `./publish` if you are on a non-Windows platform.  The following is an example of publishing
-
-```bash
-# run the publish helper (non-Windows) to update Azure Bot Service.  Use publish.cmd if running on Windows
-./publish
-```
 
 ### Getting Additional Help Deploying to Azure
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
