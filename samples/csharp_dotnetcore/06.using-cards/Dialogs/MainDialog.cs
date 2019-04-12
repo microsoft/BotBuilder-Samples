@@ -77,7 +77,7 @@ namespace Microsoft.BotBuilderSamples
             reply.Attachments = new List<Attachment>();
 
             // Decide which type of card(s) we are going to show the user
-            switch (stepContext.Result)
+            switch (((FoundChoice)stepContext.Result).Value)
             {
                 case "Adaptive Card":
                     // Display an Adaptive Card
@@ -138,14 +138,14 @@ namespace Microsoft.BotBuilderSamples
         {
             var cardOptions = new List<Choice>()
             {
-                new Choice() { Value = "Adaptive card", Synonyms = new List<string>() { "adaptive" } },
-                new Choice() { Value = "Animation card", Synonyms = new List<string>() { "animation" } },
-                new Choice() { Value = "Audio card", Synonyms = new List<string>() { "audio" } },
-                new Choice() { Value = "Hero card", Synonyms = new List<string>() { "hero" } },
-                new Choice() { Value = "Receipt card", Synonyms = new List<string>() { "receipt" } },
-                new Choice() { Value = "Signin card", Synonyms = new List<string>() { "signin" } },
-                new Choice() { Value = "Thumbnail card", Synonyms = new List<string>() { "thumbnail", "thumb" } },
-                new Choice() { Value = "Video card", Synonyms = new List<string>() { "video" } },
+                new Choice() { Value = "Adaptive Card", Synonyms = new List<string>() { "adaptive" } },
+                new Choice() { Value = "Animation Card", Synonyms = new List<string>() { "animation" } },
+                new Choice() { Value = "Audio Card", Synonyms = new List<string>() { "audio" } },
+                new Choice() { Value = "Hero Card", Synonyms = new List<string>() { "hero" } },
+                new Choice() { Value = "Receipt Card", Synonyms = new List<string>() { "receipt" } },
+                new Choice() { Value = "Signin Card", Synonyms = new List<string>() { "signin" } },
+                new Choice() { Value = "Thumbnail Card", Synonyms = new List<string>() { "thumbnail", "thumb" } },
+                new Choice() { Value = "Video Card", Synonyms = new List<string>() { "video" } },
                 new Choice() { Value = "All cards", Synonyms = new List<string>() { "all" } },
             };
 
