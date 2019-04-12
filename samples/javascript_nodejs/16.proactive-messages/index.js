@@ -1,66 +1,24 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const restify = require('restify');
+// Import required packages
 const path = require('path');
+const restify = require('restify');
 
-// Import required bot services. See https://aka.ms/bot-services to learn more about the different part of a bot.
-const { BotFrameworkAdapter, BotState, MemoryStorage } = require('botbuilder');
+// Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
+const { BotFrameworkAdapter } = require('botbuilder');
 
-const { ProactiveBot } = require('./bot');
+const { ProactiveBot } = require('./bots/proactiveBot');
 
-// Read botFilePath and botFileSecret from .env file.
-// Note: Ensure you have a .env file and include botFilePath and botFileSecret.
+// Read botFilePath and botFileSecret from .env file
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
-
-// Create HTTP server.
-let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function() {
-    console.log(`\n${ server.name } listening to ${ server.url }`);
-    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-});
 
 // Create the adapter. See https://aka.ms/about-bot-adapter to learn more about using information from
 // the .bot file when configuring your adapter.
 const adapter = new BotFrameworkAdapter({
     appId: process.env.MicrosoftAppId,
     appPassword: process.env.MicrosoftAppPassword
-});
-
-// Define the state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
-// A bot requires a state storage system to persist the dialog and user state between messages.
-const memoryStorage = new MemoryStorage();
-
-// Create state manager with in-memory storage provider.
-const botState = new BotState(memoryStorage, () => 'proactiveBot.botState');
-
-// Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
-const logger = console;
-
-// CAUTION: You must ensure your product environment has the NODE_ENV set
-//          to use the Azure Blob storage or Azure Cosmos DB providers.
-// const { BlobStorage } = require('botbuilder-azure');
-// Storage configuration name or ID from .bot file
-// const STORAGE_CONFIGURATION_ID = '<STORAGE-NAME-OR-ID-FROM-BOT-FILE>';
-// // Default container name
-// const DEFAULT_BOT_CONTAINER = '<DEFAULT-CONTAINER>';
-// // Get service configuration
-// const blobStorageConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION_ID);
-// const blobStorage = new BlobStorage({
-//     containerName: (blobStorageConfig.container || DEFAULT_BOT_CONTAINER),
-//     storageAccountOrConnectionString: blobStorageConfig.connectionString,
-// });
-
-// Create the main dialog, which serves as the bot's main handler.
-const bot = new ProactiveBot(botState, adapter, logger);
-
-// Listen for incoming requests.
-server.post('/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async (turnContext) => {
-        // Route the message to the bot's main handler.
-        await bot.run(turnContext);
-    });
 });
 
 // Catch-all for errors.
@@ -70,3 +28,36 @@ adapter.onTurnError = async (context, error) => {
     // Send a message to the user
     await context.sendActivity(`Oops. Something went wrong!`);
 };
+
+// Create the main dialog.
+const conversationReferences = {};
+const bot = new ProactiveBot(conversationReferences);
+
+// Create HTTP server.
+let server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, function() {
+    console.log(`\n${ server.name } listening to ${ server.url }`);
+    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
+});
+
+// Listen for incoming activities and route them to your bot main dialog.
+server.post('/api/messages', (req, res) => {
+    adapter.processActivity(req, res, async (turnContext) => {
+        // route to main dialog.
+        await bot.run(turnContext);
+    });
+});
+
+// Listen for incoming notifications and send proactive messages to users.
+server.post('/api/notify', async (req, res) => {
+    const references = Object.keys(conversationReferences).map(id => conversationReferences[id]);
+
+    for (let reference of references) {
+        await adapter.continueConversation(reference, async turnContext => {
+            await turnContext.sendActivity("proactive hello");
+        });
+    }
+
+    res.send(204);
+});
+
