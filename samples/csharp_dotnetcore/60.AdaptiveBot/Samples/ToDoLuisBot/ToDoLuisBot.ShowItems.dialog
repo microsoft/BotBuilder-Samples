@@ -1,0 +1,31 @@
+{
+    "$schema": "../../app.schema",
+    "$type": "Microsoft.AdaptiveDialog",
+    "steps": [
+        {
+            "$type": "Microsoft.SaveEntity",
+            "entity": "ListType",
+            "property": "dialog.listName"
+        },
+        {
+            "$type": "Microsoft.IfCondition",
+            "condition": "user.lists == null",
+            "steps": [
+                {
+                    "$type": "Microsoft.InitProperty",
+                    "property": "user.lists",
+                    "type": "object"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.TextInput",
+            "prompt": "[PromptForList(user.lists)]",
+            "property": "dialog.listName"
+        },
+        {
+            "$type": "Microsoft.SendActivity",
+            "activity": "[ShowItems(dialog.listNme)]"
+        }
+    ]
+}

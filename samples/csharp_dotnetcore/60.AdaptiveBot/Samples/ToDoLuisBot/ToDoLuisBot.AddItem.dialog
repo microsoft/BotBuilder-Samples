@@ -1,0 +1,58 @@
+{
+    "$schema": "../../app.schema",
+    "$type": "Microsoft.AdaptiveDialog",
+    "steps": [
+        {
+            "$type": "Microsoft.SaveEntity",
+            "entity": "TaskContentML",
+            "property": "dialog.item"
+        },
+        {
+            "$type": "Microsoft.SaveEntity",
+            "entity": "ListType",
+            "property": "dialog.listName"
+        },
+        {
+            "$type": "Microsoft.IfCondition",
+            "condition": "user.lists == null",
+            "steps": [
+                {
+                    "$type": "Microsoft.InitProperty",
+                    "property": "user.lists",
+                    "type": "object"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.TextInput",
+            "prompt": "[PromptForList(user.lists)]",
+            "property": "dialog.listName"
+        },
+        {
+            "$type": "Microsoft.TextInput",
+            "prompt": "[PromptForItem(user.lists.{dialog.listName})]",
+            "property": "dialog.item"
+        },
+        {
+            "$type": "Microsoft.IfCondition",
+            "condition": "user.lists.{dialog.listName} == null",
+            "steps": [
+                {
+                    "$type": "Microsoft.InitProperty",
+                    "property": "user.lists.{dialog.listName}",
+                    "type": "array"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.EditArray",
+            "changeType": "Push",
+            "arrayProperty": "user.lists.{dialog.listName}",
+            "itemProperty": "dialog.item"
+        },
+        {
+            "$type": "Microsoft.SendActivity",
+            "activity": "Successfully added {dialog.item} to {dialog.listName} list."
+        }
+    ]
+}
