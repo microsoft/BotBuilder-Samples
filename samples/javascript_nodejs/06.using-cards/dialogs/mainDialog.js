@@ -1,170 +1,174 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { AttachmentLayoutTypes, ActivityTypes, CardFactory } = require('botbuilder');
-const { ChoicePrompt, DialogSet, DialogTurnStatus, ListStyle } = require('botbuilder-dialogs');
+const { AttachmentLayoutTypes, CardFactory } = require('botbuilder');
+const { ChoicePrompt, ComponentDialog, DialogSet, DialogTurnStatus, ListStyle, WaterfallDialog, WaterfallStepContext } = require('botbuilder-dialogs');
+const AdaptiveCard = require('../resources/adaptiveCard.json');
 
-/**
- * RichCardsBot prompts a user to select a Rich Card and then returns the card
- * that matches the user's selection.
- */
-class RichCardsBot {
-    /**
-     * Constructs the three pieces necessary for this bot to operate:
-     * 1. StatePropertyAccessor
-     * 2. DialogSet
-     * 3. ChoicePrompt
-     *
-     * The only argument taken (and required!) by this constructor is a
-     * ConversationState instance.
-     * The ConversationState is used to create a BotStatePropertyAccessor
-     * which is needed to create a DialogSet that houses the ChoicePrompt.
-     * @param {ConversationState} conversationState The state that will contain the DialogState BotStatePropertyAccessor.
-     */
-    constructor(conversationState) {
-        // Store the conversationState to be able to save state changes.
-        this.conversationState = conversationState;
-        // Create a DialogState StatePropertyAccessor which is used to
-        // persist state using dialogs.
-        this.dialogState = conversationState.createProperty('dialogState');
+const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 
-        // Create a DialogSet that contains the ChoicePrompt.
-        this.dialogs = new DialogSet(this.dialogState);
+class MainDialog extends ComponentDialog {
+    constructor(logger) {
+        super('MainDialog');
+
+        if (!logger) {
+            logger = console;
+            logger.log('[MainDialog]: logger not passed in, defaulting to console');
+        }
+
+        this.logger = logger;
 
         // Create the ChoicePrompt with a unique id of 'cardPrompt' which is
         // used to call the dialog in the bot's onTurn logic.
         const prompt = new ChoicePrompt('cardPrompt');
 
         // Set the choice rendering to list and then add it to the bot's DialogSet.
-        prompt.style = ListStyle.list;
-        this.dialogs.add(prompt);
+        prompt.style = ListStyle.auto;
+
+        // Define the main dialog and its related components.
+        this.addDialog(prompt)
+            .addDialog(new WaterfallDialog(MAIN_WATERFALL_DIALOG, [
+                this.choiceCardStep.bind(this),
+                this.showCardStep.bind(this)
+            ]));
+
+        this.initialDialogId = MAIN_WATERFALL_DIALOG;
     }
 
     /**
-     * Driver code that does one of the following:
-     * 1. Prompts the user if the user is not in the middle of a dialog.
-     * 2. Re-prompts a user when an invalid input is received.
-     * 3. Sends back to the user a Rich Card response after a valid prompt reply.
-     *
-     * These three scenarios are preceded by an Activity type check.
-     * This check ensures that the bot only responds to Activities that
-     * are of the "Message" type.
-     *
-     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
+     * The run method handles the incoming activity (in the form of a TurnContext) and passes it through the dialog system.
+     * If no dialog is active, it will start the default dialog.
+     * @param {*} turnContext
+     * @param {*} accessor
      */
-    async onTurn(turnContext) {
-        if (turnContext.activity.type === ActivityTypes.Message) {
-            // Construct a DialogContext instance which is used to resume any
-            // existing Dialogs and prompt users.
-            const dc = await this.dialogs.createContext(turnContext);
+    async run(turnContext, accessor) {
+        const dialogSet = new DialogSet(accessor);
+        dialogSet.add(this);
 
-            const results = await dc.continueDialog();
-            if (!turnContext.responded && results.status === DialogTurnStatus.empty) {
-                await turnContext.sendActivity('Welcome to the Rich Cards Bot!');
-                // Create the PromptOptions which contain the prompt and re-prompt messages.
-                // PromptOptions also contains the list of choices available to the user.
-                const promptOptions = {
-                    prompt: 'Please select a card:',
-                    retryPrompt: 'That was not a valid choice, please select a card or number from 1 to 8.',
-                    choices: this.getChoices()
-                };
-
-                // Prompt the user with the configured PromptOptions.
-                await dc.prompt('cardPrompt', promptOptions);
-
-            // The bot parsed a valid response from user's prompt response and so it must respond.
-            } else if (results.status === DialogTurnStatus.complete) {
-                await this.sendCardResponse(turnContext, results);
-            }
-            await this.conversationState.saveChanges(turnContext);
+        const dialogContext = await dialogSet.createContext(turnContext);
+        const results = await dialogContext.continueDialog();
+        if (results.status === DialogTurnStatus.empty) {
+            await dialogContext.beginDialog(this.id);
         }
+    }
+
+    /**
+     * 1. Prompts the user if the user is not in the middle of a dialog.
+     * 2. Re-prompts the user when an invalid input is received.
+     *
+     * @param {WaterfallStepContext} stepContext 
+     */
+    async choiceCardStep(stepContext) {
+        this.logger.log("MainDialog.choiceCardStep");
+
+        // Create the PromptOptions which contain the prompt and re-prompt messages.
+        // PromptOptions also contains the list of choices available to the user.
+        const options = {
+            prompt: 'What card would you like to see? You can click or type the card name',
+            retryPrompt: 'That was not a valid choice, please select a card or number from 1 to 8.',
+            choices: this.getChoices()
+        };
+
+        // Prompt the user with the configured PromptOptions.
+        return await stepContext.prompt('cardPrompt', options);
     }
 
     /**
      * Send a Rich Card response to the user based on their choice.
-     *
      * This method is only called when a valid prompt response is parsed from the user's response to the ChoicePrompt.
-     * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
-     * @param {DialogTurnResult} dialogTurnResult Contains the result from any called Dialogs and indicates the status of the DialogStack.
+     * @param {WaterfallStepContext} stepContext 
      */
-    async sendCardResponse(turnContext, dialogTurnResult) {
-        switch (dialogTurnResult.result.value) {
-        case 'Animation Card':
-            await turnContext.sendActivity({ attachments: [this.createAnimationCard()] });
-            break;
-        case 'Audio Card':
-            await turnContext.sendActivity({ attachments: [this.createAudioCard()] });
-            break;
-        case 'Hero Card':
-            await turnContext.sendActivity({ attachments: [this.createHeroCard()] });
-            break;
-        case 'Receipt Card':
-            await turnContext.sendActivity({ attachments: [this.createReceiptCard()] });
-            break;
-        case 'Signin Card':
-            await turnContext.sendActivity({ attachments: [this.createSignInCard()] });
-            break;
-        case 'Thumbnail Card':
-            await turnContext.sendActivity({ attachments: [this.createThumbnailCard()] });
-            break;
-        case 'Video Card':
-            await turnContext.sendActivity({ attachments: [this.createVideoCard()] });
-            break;
-        case 'All Cards':
-            await turnContext.sendActivity({
-                attachments: [this.createVideoCard(),
-                    this.createAnimationCard(),
-                    this.createAudioCard(),
-                    this.createHeroCard(),
-                    this.createReceiptCard(),
-                    this.createSignInCard(),
-                    this.createThumbnailCard(),
-                    this.createVideoCard()
-                ],
-                attachmentLayout: AttachmentLayoutTypes.Carousel
-            });
-            break;
-        default:
-            await turnContext.sendActivity('An invalid selection was parsed. No corresponding Rich Cards were found.');
+    async showCardStep(stepContext) {
+        this.logger.log("MainDialog.showCardStep");
+
+        switch (stepContext.result.value) {
+            case 'Adaptive Card':
+                await stepContext.context.sendActivity({ attachments: [this.createAdaptiveCard()] });
+                break;
+            case 'Animation Card':
+                await stepContext.context.sendActivity({ attachments: [this.createAnimationCard()] });
+                break;
+            case 'Audio Card':
+                await stepContext.context.sendActivity({ attachments: [this.createAudioCard()] });
+                break;
+            case 'Hero Card':
+                await stepContext.context.sendActivity({ attachments: [this.createHeroCard()] });
+                break;
+            case 'Receipt Card':
+                await stepContext.context.sendActivity({ attachments: [this.createReceiptCard()] });
+                break;
+            case 'Signin Card':
+                await stepContext.context.sendActivity({ attachments: [this.createSignInCard()] });
+                break;
+            case 'Thumbnail Card':
+                await stepContext.context.sendActivity({ attachments: [this.createThumbnailCard()] });
+                break;
+            case 'Video Card':
+                await stepContext.context.sendActivity({ attachments: [this.createVideoCard()] });
+                break;
+            case 'All Cards':
+                await stepContext.context.sendActivity({
+                    attachments: [
+                        this.createAdaptiveCard(),
+                        this.createAnimationCard(),
+                        this.createAudioCard(),
+                        this.createHeroCard(),
+                        this.createReceiptCard(),
+                        this.createSignInCard(),
+                        this.createThumbnailCard(),
+                        this.createVideoCard()
+                    ],
+                    attachmentLayout: AttachmentLayoutTypes.Carousel
+                });
+                break;
+            default:
+                await stepContext.context.sendActivity('An invalid selection was parsed. No corresponding Rich Cards were found.');
         }
+
+        return await stepContext.endDialog();
     }
 
     /**
      * Create the choices with synonyms to render for the user during the ChoicePrompt.
+     * (Indexes and upper/lower-case variants do not need to be added as synonyms)
      */
     getChoices() {
         const cardOptions = [
             {
+                value: 'Adaptive Card',
+                synonyms: ['adaptive']
+            },
+            {
                 value: 'Animation Card',
-                synonyms: ['1', 'animation', 'animation card']
+                synonyms: ['animation']
             },
             {
                 value: 'Audio Card',
-                synonyms: ['2', 'audio', 'audio card']
+                synonyms: ['audio']
             },
             {
                 value: 'Hero Card',
-                synonyms: ['3', 'hero', 'hero card']
+                synonyms: ['hero']
             },
             {
                 value: 'Receipt Card',
-                synonyms: ['4', 'receipt', 'receipt card']
+                synonyms: ['receipt']
             },
             {
                 value: 'Signin Card',
-                synonyms: ['5', 'signin', 'signin card']
+                synonyms: ['signin']
             },
             {
                 value: 'Thumbnail Card',
-                synonyms: ['6', 'thumbnail', 'thumbnail card']
+                synonyms: ['thumbnail', 'thumb']
             },
             {
                 value: 'Video Card',
-                synonyms: ['7', 'video', 'video card']
+                synonyms: ['video']
             },
             {
                 value: 'All Cards',
-                synonyms: ['8', 'all', 'all cards']
+                synonyms: ['all']
             }
         ];
 
@@ -174,6 +178,10 @@ class RichCardsBot {
     // ======================================
     // Helper functions used to create cards.
     // ======================================
+
+    createAdaptiveCard() {
+        return CardFactory.adaptiveCard(AdaptiveCard);
+    }
 
     createAnimationCard() {
         return CardFactory.animationCard(
@@ -301,4 +309,4 @@ class RichCardsBot {
     }
 }
 
-module.exports.RichCardsBot = RichCardsBot;
+module.exports.MainDialog = MainDialog;

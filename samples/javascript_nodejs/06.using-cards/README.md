@@ -1,44 +1,58 @@
-# using cards sample
+# Using-Cards Sample
+
 Bot Framework v4 using cards bot sample
 
 This bot has been created using [Microsoft Bot Framework][1], it shows how to create a bot that uses rich cards to enhance your bot design.
 
 ## Prerequisites
+
 - [Node.js][4] version 10.14 or higher
+
     ```bash
     # determine node version
-    node --version
+    node -v
     ```
 
-# To try this sample
+## To try this sample
+
 - Clone the repository
+
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
+
 - In a terminal, navigate to `samples/javascript_nodejs/06.using-cards`
+
     ```bash
     cd samples/javascript_nodejs/06.using-cards
     ```
+
 - Install modules
+
     ```bash
-    npm install
+    npm i
     ```
+
 - Start the bot
+
     ```bash
     npm start
     ```
 
-# Testing the bot using Bot Framework Emulator
+## Testing the bot using Bot Framework Emulator
+
 [Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
 ## Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Rich Cards
+## Rich Cards
+
 A key to good bot design is to send interactive media, such as Rich Cards. There are several different types of Rich Cards, which are as follows:
 
 - Animation Card
@@ -51,11 +65,14 @@ A key to good bot design is to send interactive media, such as Rich Cards. There
 
 When [designing the user experience][27] developers should consider adding visual elements such as Rich Cards.
 
-# Deploy the bot to Azure
+## Deploy the bot to Azure
+
+### Publishing Changes to Azure Bot Service
+
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
+## Further reading
 
-# Further reading
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
 - [Design the user experience][23]
@@ -90,4 +107,3 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-
