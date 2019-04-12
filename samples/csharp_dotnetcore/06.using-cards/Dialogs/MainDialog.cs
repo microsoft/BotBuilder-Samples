@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,48 +22,52 @@ namespace Microsoft.BotBuilderSamples
         {
             _logger = logger;
 
-            AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
-            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
-            {
-                ChoiceCardStepAsync,
-                ShowCardStepAsync,
-            }));
+            // Define the main dialog and its related components.
+            AddDialog(new ChoicePrompt(nameof(ChoicePrompt)))
+                .AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
+                {
+                    ChoiceCardStepAsync,
+                    ShowCardStepAsync,
+                }));
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(WaterfallDialog);
         }
 
+        /// <summary>
+        /// 1. Prompts the user if the user is not in the middle of a dialog.
+        /// 2. Re-prompts the user when an invalid input is received.
+        /// </summary>
+        /// <param name="stepContext"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         private async Task<DialogTurnResult> ChoiceCardStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             _logger.LogInformation("MainDialog.ChoiceCardStepAsync");
 
-            // Create options for the prompt
+            // Create the PromptOptions which contain the prompt and re-prompt messages.
+            // PromptOptions also contains the list of choices available to the user.
             var options = new PromptOptions()
             {
-                Prompt = stepContext.Context.Activity.CreateReply("What card would you like to see? You can click or type the card name"),
-                Choices = new List<Choice>(),
+                Prompt = MessageFactory.Text("What card would you like to see? You can click or type the card name"),
+                RetryPrompt = MessageFactory.Text("That was not a valid choice, please select a card or number from 1 to 9."),
+                Choices = GetChoices(),
             };
 
-            // Add the choices for the prompt.
-            options.Choices.Add(new Choice() { Value = "Adaptive card" });
-            options.Choices.Add(new Choice() { Value = "Animation card" });
-            options.Choices.Add(new Choice() { Value = "Audio card" });
-            options.Choices.Add(new Choice() { Value = "Hero card" });
-            options.Choices.Add(new Choice() { Value = "Receipt card" });
-            options.Choices.Add(new Choice() { Value = "Signin card" });
-            options.Choices.Add(new Choice() { Value = "Thumbnail card" });
-            options.Choices.Add(new Choice() { Value = "Video card" });
-            options.Choices.Add(new Choice() { Value = "All cards" });
-
+            // Prompt the user with the configured PromptOptions.
             return await stepContext.PromptAsync(nameof(ChoicePrompt), options, cancellationToken);
         }
 
+        /// <summary>
+        /// Send a Rich Card response to the user based on their choice.
+        /// This method is only called when a valid prompt response is parsed from the user's response to the ChoicePrompt.
+        /// </summary>
+        /// <param name="stepContext"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         private async Task<DialogTurnResult> ShowCardStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             _logger.LogInformation("MainDialog.ShowCardStepAsync");
-
-            // Get the text from the activity to use to show the correct card
-            var text = stepContext.Context.Activity.Text.ToLowerInvariant().Split(' ')[0];
 
             // Reply to the activity we received with an activity.
             var reply = stepContext.Context.Activity.CreateReply();
@@ -72,66 +77,79 @@ namespace Microsoft.BotBuilderSamples
             reply.Attachments = new List<Attachment>();
 
             // Decide which type of card(s) we are going to show the user
-            if (text.StartsWith("hero"))
+            switch (stepContext.Result)
             {
-                // Display a HeroCard.
-                reply.Attachments.Add(Cards.GetHeroCard().ToAttachment());
-            }
-            else if (text.StartsWith("thumb"))
-            {
-                // Display a ThumbnailCard.
-                reply.Attachments.Add(Cards.GetThumbnailCard().ToAttachment());
-            }
-            else if (text.StartsWith("receipt"))
-            {
-                // Display a ReceiptCard.
-                reply.Attachments.Add(Cards.GetReceiptCard().ToAttachment());
-            }
-            else if (text.StartsWith("sign"))
-            {
-                // Display a SignInCard.
-                reply.Attachments.Add(Cards.GetSigninCard().ToAttachment());
-            }
-            else if (text.StartsWith("animation"))
-            {
-                // Display an AnimationCard.
-                reply.Attachments.Add(Cards.GetAnimationCard().ToAttachment());
-            }
-            else if (text.StartsWith("video"))
-            {
-                // Display a VideoCard
-                reply.Attachments.Add(Cards.GetVideoCard().ToAttachment());
-            }
-            else if (text.StartsWith("audio"))
-            {
-                // Display an AudioCard
-                reply.Attachments.Add(Cards.GetAudioCard().ToAttachment());
-            }
-            else if (text.StartsWith("adaptive"))
-            {
-                reply.Attachments.Add(Cards.CreateAdaptiveCardAttachment());
-            }
-            else
-            {
-                // Display a carousel of all the rich card types.
-                reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-                reply.Attachments.Add(Cards.CreateAdaptiveCardAttachment());
-                reply.Attachments.Add(Cards.GetHeroCard().ToAttachment());
-                reply.Attachments.Add(Cards.GetThumbnailCard().ToAttachment());
-                reply.Attachments.Add(Cards.GetReceiptCard().ToAttachment());
-                reply.Attachments.Add(Cards.GetSigninCard().ToAttachment());
-                reply.Attachments.Add(Cards.GetAnimationCard().ToAttachment());
-                reply.Attachments.Add(Cards.GetVideoCard().ToAttachment());
-                reply.Attachments.Add(Cards.GetAudioCard().ToAttachment());
+                case "Adaptive Card":
+                    // Display an Adaptive Card
+                    reply.Attachments.Add(Cards.CreateAdaptiveCardAttachment());
+                    break;
+                case "Animation Card":
+                    // Display an AnimationCard.
+                    reply.Attachments.Add(Cards.GetAnimationCard().ToAttachment());
+                    break;
+                case "Audio Card":
+                    // Display an AudioCard
+                    reply.Attachments.Add(Cards.GetAudioCard().ToAttachment());
+                    break;
+                case "Hero Card":
+                    // Display a HeroCard.
+                    reply.Attachments.Add(Cards.GetHeroCard().ToAttachment());
+                    break;
+                case "Receipt Card":
+                    // Display a ReceiptCard.
+                    reply.Attachments.Add(Cards.GetReceiptCard().ToAttachment());
+                    break;
+                case "Signin Card":
+                    // Display a SignInCard.
+                    reply.Attachments.Add(Cards.GetSigninCard().ToAttachment());
+                    break;
+                case "Thumbnail Card":
+                    // Display a ThumbnailCard.
+                    reply.Attachments.Add(Cards.GetThumbnailCard().ToAttachment());
+                    break;
+                case "Video Card":
+                    // Display a VideoCard
+                    reply.Attachments.Add(Cards.GetVideoCard().ToAttachment());
+                    break;
+                default:
+                    // Display a carousel of all the rich card types.
+                    reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+                    reply.Attachments.Add(Cards.CreateAdaptiveCardAttachment());
+                    reply.Attachments.Add(Cards.GetAnimationCard().ToAttachment());
+                    reply.Attachments.Add(Cards.GetAudioCard().ToAttachment());
+                    reply.Attachments.Add(Cards.GetHeroCard().ToAttachment());
+                    reply.Attachments.Add(Cards.GetReceiptCard().ToAttachment());
+                    reply.Attachments.Add(Cards.GetSigninCard().ToAttachment());
+                    reply.Attachments.Add(Cards.GetThumbnailCard().ToAttachment());
+                    reply.Attachments.Add(Cards.GetVideoCard().ToAttachment());
+                    break;
             }
 
             // Send the card(s) to the user as an attachment to the activity
             await stepContext.Context.SendActivityAsync(reply, cancellationToken);
 
             // Give the user instructions about what to do next
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text("Type anything to see another card."), cancellationToken);
+            await stepContext.Context.SendActivityAsync("Type anything to see another card.", cancellationToken: cancellationToken);
 
             return await stepContext.EndDialogAsync();
+        }
+
+        private IList<Choice> GetChoices()
+        {
+            var cardOptions = new List<Choice>()
+            {
+                new Choice() { Value = "Adaptive card", Synonyms = new List<string>() { "adaptive" } },
+                new Choice() { Value = "Animation card", Synonyms = new List<string>() { "animation" } },
+                new Choice() { Value = "Audio card", Synonyms = new List<string>() { "audio" } },
+                new Choice() { Value = "Hero card", Synonyms = new List<string>() { "hero" } },
+                new Choice() { Value = "Receipt card", Synonyms = new List<string>() { "receipt" } },
+                new Choice() { Value = "Signin card", Synonyms = new List<string>() { "signin" } },
+                new Choice() { Value = "Thumbnail card", Synonyms = new List<string>() { "thumbnail", "thumb" } },
+                new Choice() { Value = "Video card", Synonyms = new List<string>() { "video" } },
+                new Choice() { Value = "All cards", Synonyms = new List<string>() { "all" } },
+            };
+
+            return cardOptions;
         }
     }
 }
