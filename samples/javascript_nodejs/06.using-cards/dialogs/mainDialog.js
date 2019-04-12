@@ -18,20 +18,14 @@ class MainDialog extends ComponentDialog {
 
         this.logger = logger;
 
-        // Create the ChoicePrompt with a unique id of 'cardPrompt' which is
-        // used to call the dialog in the bot's onTurn logic.
-        const prompt = new ChoicePrompt('cardPrompt');
-
-        // Set the choice rendering to list and then add it to the bot's DialogSet.
-        prompt.style = ListStyle.auto;
-
         // Define the main dialog and its related components.
-        this.addDialog(prompt)
+        this.addDialog(new ChoicePrompt('cardPrompt'))
             .addDialog(new WaterfallDialog(MAIN_WATERFALL_DIALOG, [
                 this.choiceCardStep.bind(this),
                 this.showCardStep.bind(this)
             ]));
 
+        // The initial child Dialog to run.
         this.initialDialogId = MAIN_WATERFALL_DIALOG;
     }
 
@@ -65,7 +59,7 @@ class MainDialog extends ComponentDialog {
         // PromptOptions also contains the list of choices available to the user.
         const options = {
             prompt: 'What card would you like to see? You can click or type the card name',
-            retryPrompt: 'That was not a valid choice, please select a card or number from 1 to 8.',
+            retryPrompt: 'That was not a valid choice, please select a card or number from 1 to 9.',
             choices: this.getChoices()
         };
 
@@ -106,7 +100,7 @@ class MainDialog extends ComponentDialog {
             case 'Video Card':
                 await stepContext.context.sendActivity({ attachments: [this.createVideoCard()] });
                 break;
-            case 'All Cards':
+            default:
                 await stepContext.context.sendActivity({
                     attachments: [
                         this.createAdaptiveCard(),
@@ -121,9 +115,10 @@ class MainDialog extends ComponentDialog {
                     attachmentLayout: AttachmentLayoutTypes.Carousel
                 });
                 break;
-            default:
-                await stepContext.context.sendActivity('An invalid selection was parsed. No corresponding Rich Cards were found.');
         }
+
+        // Give the user instructions about what to do next
+        await stepContext.context.sendActivity("Type anything to see another card.");
 
         return await stepContext.endDialog();
     }
