@@ -53,8 +53,6 @@ as the prompt it should use. The bot will iterate through all of the slots until
 all full, at which point the dialog completes.
 
 # Deploy this bot to Azure
-## Publishing Changes to Azure Bot Service
-
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 # Further reading
@@ -67,7 +65,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Azure Bot Service Introduction][21]
 - [Azure Bot Service Documentation][22]
 - [Azure CLI][7]
-- [msbot CLI][9]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
 - [Restify][30]
@@ -79,7 +76,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
 [7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 [8]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
-[9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [10]: https://portal.azure.com
 [11]: https://www.luis.ai
 [20]: https://docs.botframework.com
@@ -94,4 +90,3 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./PREREQUISITES.md

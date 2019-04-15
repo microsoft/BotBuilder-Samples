@@ -42,8 +42,6 @@ const logger = console;
 
 // Create the main dialog.
 const dialog = new MainDialog(userState);
-
-// Create the main dialog.
 const bot = new DialogAndWelcomeBot(conversationState, userState, dialog, logger);
 
 // Catch-all for errors.

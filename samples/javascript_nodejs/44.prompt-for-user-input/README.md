@@ -56,8 +56,6 @@ This sample is intended to be run and tested locally and is not designed to be d
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Deploy the bot to Azure
-## Publishing Changes to Azure Bot Service
-
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 
@@ -93,4 +91,3 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: README-LUIS.md

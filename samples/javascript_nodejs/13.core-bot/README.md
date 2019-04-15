@@ -56,8 +56,6 @@ If you wish to create a LUIS application via the CLI, these steps can be found i
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Deploy the bot to Azure
-## Publishing Changes to Azure Bot Service
-
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 

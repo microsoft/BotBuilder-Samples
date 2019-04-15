@@ -46,8 +46,6 @@ Bots that are added directly by a user, are mostly personal (1:1) conversation b
 Your bot may proactively send a welcome message to a personal chat the first time a user initiates a personal chat with your bot. Use `UserState` to persist a flag indicating first user interaction with a bot.
 
 # Deploy the bot to Azure
-## Publishing Changes to Azure Bot Service
-
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 

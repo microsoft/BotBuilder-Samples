@@ -42,8 +42,11 @@ This sample **requires** prerequisites in order to run.
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Further reading
+# Deploy the bot to Azure
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
+
+# Further reading
 - [Azure Bot Service Introduction][21]
 - [Bot State][7]
 - [Write directly to storage][8]
@@ -60,3 +63,4 @@ This sample **requires** prerequisites in order to run.
 [21]: https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
 [30]: https://www.npmjs.com/package/restify
 [31]: https://www.npmjs.com/package/dotenv
+[40]: https://aka.ms/azuredeployment
