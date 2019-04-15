@@ -11,8 +11,8 @@ class ProactiveBot extends ActivityHandler {
 
         this.onConversationUpdate(async (context, next) => {
 
-            const reference = TurnContext.getConversationReference(context.activity);
-            this.conversationReferences[reference.conversation.id] = reference;
+            const conversationReference = TurnContext.getConversationReference(context.activity);
+            this.conversationReferences[conversationReference.conversation.id] = conversationReference;
             
             await next();
         });

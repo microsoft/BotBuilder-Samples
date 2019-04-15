@@ -13,7 +13,7 @@ const { BotFrameworkAdapter } = require('botbuilder');
 // This bot's main dialog.
 const { ProactiveBot } = require('./bots/proactiveBot');
 
-// Note: Ensure you have a .env file and include MicrosoftAppId and MicrosoftAppPassword.
+// Note: Ensure you have a .env file and include the MicrosoftAppId and MicrosoftAppPassword.
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
@@ -55,14 +55,12 @@ server.post('/api/messages', (req, res) => {
 
 // Listen for incoming notifications and send proactive messages to users.
 server.post('/api/notify', async (req, res) => {
-    const references = Object.keys(conversationReferences).map(id => conversationReferences[id]);
 
-    for (let reference of references) {
-        await adapter.continueConversation(reference, async turnContext => {
+    for (let conversationReference of Object.values(conversationReferences)) {
+        await adapter.continueConversation(conversationReference, async turnContext => {
             await turnContext.sendActivity("proactive hello");
         });
     }
 
     res.send(204);
 });
-

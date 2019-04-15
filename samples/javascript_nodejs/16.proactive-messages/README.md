@@ -53,12 +53,12 @@ question, it will share that information with the user.
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-Run your bot locally and open two instances of the emulator.
+Run your bot locally and open the emulator.
 
-1. In the first emulator, type "run" to simulate a job being added to the queue.
-1. Copy the job number from the emulator log.
-1. In the second emulator, type "done \<jobNumber\>", where "\<jobNumber\>" is the job number, without the angle brackets, that you copied in the previous step. This will cause the bot to complete the job.
-1. Note that the bot sends a message proactively to the user in the first emulator when the job is completed.
+- Send a post request to `http://localhost:3978/api/notify` to proactively message users from the bot.
+   ```bash
+    curl -X POST http://localhost:3978/api/notify
+   ```
 
 
 # Proactive Messages
