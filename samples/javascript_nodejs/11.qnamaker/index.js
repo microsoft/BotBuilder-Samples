@@ -11,7 +11,7 @@ const restify = require('restify');
 const { BotFrameworkAdapter } = require('botbuilder');
 
 // The bot.
-const { QnAMakerBot } = require('./bots/QnAMakerBot.js');
+const { QnABot } = require('./bots/QnABot');
 
 // Note: Ensure you have a .env file and include QnAMakerKnowledgeBaseId, QnAMakerEndpointKey and QnAMakerHost.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -25,16 +25,11 @@ const adapter = new BotFrameworkAdapter({
 });
 
 // Map the contents to the required format for `QnAMaker`.
-const qnaEndpointSettings = {
-    knowledgeBaseId: process.env.QnAMakerKnowledgeBaseId,
-    endpointKey: process.env.QnAMakerEndpointKey,
-    host: process.env.QnAMakerHost
+const configuration = {
+    knowledgeBaseId: process.env.QnASampleQnaKbId,
+    endpointKey: process.env.QnASampleQnaEndpointKey,
+    host: process.env.QnASampleQnaHostname
 };
-
-// Throw error if any qnaEndpointSettings null or empty in .env file
-if (!process.env.QnAMakerKnowledgeBaseId.trim()) { throw new Error('Missing parameter. QnAMakerKnowledgeBaseId is required in .env file'); }
-if (!process.env.QnAMakerEndpointKey.trim()) { throw new Error('Missing parameter. QnAMakerEndpointKey is required in .env file'); }
-if (!process.env.QnAMakerHost.trim()) { throw new Error('Missing parameter. QnAMakerHost is required in .env file'); }
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
@@ -50,7 +45,7 @@ adapter.onTurnError = async (context, error) => {
 const logger = console;
 
 // Create the main dialog.
-const bot = new QnAMakerBot(qnaEndpointSettings, {}, logger);
+const bot = new QnABot(configuration, {}, logger);
 
 // Create HTTP server
 let server = restify.createServer();
