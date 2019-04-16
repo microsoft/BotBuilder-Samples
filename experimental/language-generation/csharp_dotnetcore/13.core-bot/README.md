@@ -2,6 +2,7 @@
 Bot Framework v4 core bot sample.
 
 This bot has been created using [Bot Framework][1], it shows how to:
+- Use [Language Generation][41] to power bot's responses
 - Use [LUIS][11] to implement core AI capabilities
 - Implement a multi-turn conversation using Dialogs
 - Handle user interruptions for such things as `Help` or `Cancel`
@@ -25,6 +26,7 @@ This bot uses [LUIS][11], an AI based cognitive service, to implement language u
 ### Create a LUIS Application to enable language understanding
 LUIS language model setup, training, and application configuration steps can be found [here][7].
 
+You can simply import the FlightBooking.json model found under CognitiveModels folder, train & publish the model in the LUIS portal and add your keys and appID to appsettings.json.
 
 ## To try this sample
 - In a terminal, navigate to `13.core-bot`
@@ -98,3 +100,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
+[41]: ../../README.md
