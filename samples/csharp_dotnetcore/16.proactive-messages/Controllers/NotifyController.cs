@@ -47,7 +47,7 @@ namespace ProactiveBot.Controllers
             // Let the caller know proactive messages have been sent
             return new ContentResult()
             {
-                Content = "<html><body><h1>Proactive messages have been sent.</body></html>",
+                Content = "<html><body><h1>Proactive messages have been sent.</h1></body></html>",
                 ContentType = "text/html",
                 StatusCode = (int)HttpStatusCode.OK,
             };
