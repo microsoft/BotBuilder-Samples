@@ -12,6 +12,12 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class GraphAuthenticationBotAccessors
     {
+        // The name of the dialog state.
+        public static readonly string DialogStateName = $"{nameof(GraphAuthenticationBotAccessors)}.DialogState";
+
+        // The name of the command state.
+        public static readonly string CommandStateName = $"{nameof(GraphAuthenticationBotAccessors)}.CommandState";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GraphAuthenticationBotAccessors"/> class.
         /// Contains the <see cref="ConversationState"/> and associated <see cref="IStatePropertyAccessor{T}"/>.
@@ -23,12 +29,6 @@ namespace Microsoft.BotBuilderSamples
             UserState = userState ?? throw new ArgumentNullException(nameof(userState));
             ConversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
         }
-
-        // The name of the dialog state.
-        public static readonly string DialogStateName = $"{nameof(GraphAuthenticationBotAccessors)}.DialogState";
-
-        // The name of the command state.
-        public static readonly string CommandStateName = $"{nameof(GraphAuthenticationBotAccessors)}.CommandState";
 
         /// <summary>
         /// Gets or Sets the DialogState accessor value.

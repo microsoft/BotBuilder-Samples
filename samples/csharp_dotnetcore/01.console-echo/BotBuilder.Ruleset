@@ -7,6 +7,7 @@
     <Rule Id="IDE0003" Action="None" />
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA0001" Action="None" /> <!-- XML documentation comments -->
     <Rule Id="SA1101" Action="None" /> <!-- local calls prefixed with this -->       
     <Rule Id="SA1129" Action="None" /> <!-- don't use value type constructor-->
     <Rule Id="SA1200" Action="None" />

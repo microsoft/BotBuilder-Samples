@@ -81,6 +81,7 @@ namespace Microsoft.BotBuilderSamples
                 if (didBotWelcomeUser.DidBotWelcomeUser == false)
                 {
                     didBotWelcomeUser.DidBotWelcomeUser = true;
+
                     // Update user state flag to reflect bot handled first user interaction.
                     await _welcomeUserStateAccessors.WelcomeUserState.SetAsync(turnContext, didBotWelcomeUser);
                     await _welcomeUserStateAccessors.UserState.SaveChangesAsync(turnContext);

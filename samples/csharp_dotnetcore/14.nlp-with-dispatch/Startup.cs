@@ -81,7 +81,6 @@ namespace NLP_With_Dispatch_Bot
 
             services.AddBot<NlpDispatchBot>(options =>
             {
-
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Creates a logger for the application to use.
@@ -182,7 +181,6 @@ namespace NLP_With_Dispatch_Bot
                             // {
                             //     throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample. Please update your '.bot' file.");
                             // }
-
                             if (string.IsNullOrWhiteSpace(luis.Region))
                             {
                                 throw new InvalidOperationException("The Region ('region') is required to run this sample. Please update your '.bot' file.");

@@ -120,7 +120,6 @@ namespace Microsoft.BotBuilderSamples
                     logger.LogError($"Exception caught : {exception}");
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
-
             });
 
             services.AddSingleton(sp =>
@@ -133,7 +132,6 @@ namespace Microsoft.BotBuilderSamples
 
                 return (EndpointService)service;
             });
-
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
