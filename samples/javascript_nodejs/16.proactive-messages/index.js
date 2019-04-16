@@ -54,7 +54,7 @@ server.post('/api/messages', (req, res) => {
 });
 
 // Listen for incoming notifications and send proactive messages to users.
-server.post('/api/notify', async (req, res) => {
+server.get('/api/notify', async (req, res) => {
 
     for (let conversationReference of Object.values(conversationReferences)) {
         await adapter.continueConversation(conversationReference, async turnContext => {
