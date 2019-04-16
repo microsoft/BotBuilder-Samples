@@ -10,18 +10,16 @@ using QnAPrompting.Models;
 
 namespace QnAPrompting.Helpers
 {
-    public class QnAServiceHelper : IQnAServiceHelper
+    public class QnAService : IQnAService
     {
-        private IConfiguration _configuration;
-        private QnAMakerEndpoint _endpoint;
-        private QnAMakerOptions _options;
-        private HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
+        private readonly QnAMakerEndpoint _endpoint;
+        private readonly QnAMakerOptions _options;
 
-        public QnAServiceHelper(IConfiguration configuration, IHttpClientFactory clientFactory)
+        public QnAService(HttpClient httpClient, IConfiguration configuration)
         {
-            _configuration = configuration;
-            _httpClient = clientFactory.CreateClient();
-            InitQnAService();
+            _httpClient = httpClient;
+            (_options, _endpoint) = InitQnAService(configuration);
         }
 
         public async Task<QnAResult[]> QueryQnAServiceAsync(string query, QnABotState qnAcontext)
@@ -47,20 +45,20 @@ namespace QnAPrompting.Helpers
 
 
             var contentString = await response.Content.ReadAsStringAsync();
-            
+
             var result = JsonConvert.DeserializeObject<QnAResultList>(contentString);
 
             return result.Answers;
         }
 
-        private void InitQnAService()
+        private static (QnAMakerOptions options, QnAMakerEndpoint endpoint) InitQnAService(IConfiguration configuration)
         {
-            _options = new QnAMakerOptions
+            var options = new QnAMakerOptions
             {
                 Top = 3
             };
 
-            var hostname = _configuration["QnAEndpointHostName"];
+            var hostname = configuration["QnAEndpointHostName"];
             if (!hostname.StartsWith("https://"))
             {
                 hostname = string.Concat("https://", hostname);
@@ -71,12 +69,14 @@ namespace QnAPrompting.Helpers
                 hostname = string.Concat(hostname, "/qnamaker");
             }
 
-            _endpoint = new QnAMakerEndpoint
+            var endpoint = new QnAMakerEndpoint
             {
-                KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
-                EndpointKey = _configuration["QnAAuthKey"],
+                KnowledgeBaseId = configuration["QnAKnowledgebaseId"],
+                EndpointKey = configuration["QnAAuthKey"],
                 Host = hostname
             };
+
+            return (options, endpoint);
         }
     }
 }

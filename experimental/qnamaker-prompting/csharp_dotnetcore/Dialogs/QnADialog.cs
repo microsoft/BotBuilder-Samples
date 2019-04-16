@@ -13,9 +13,9 @@ namespace QnAPrompting.Dialogs
 {
     public class QnADialog : FunctionDialogBase
     {
-        private IQnAServiceHelper _qnaService;
+        private IQnAService _qnaService;
 
-        public QnADialog(IQnAServiceHelper qnaService)
+        public QnADialog(IQnAService qnaService)
             : base(nameof(QnADialog))
         {
             _qnaService = qnaService;
