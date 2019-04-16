@@ -10,7 +10,6 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using QnAPrompting.Bots;
-using QnAPrompting.Dialogs;
 using QnAPrompting.Helpers;
 
 namespace QnAPrompting
@@ -37,17 +36,11 @@ namespace QnAPrompting
             // Create the Conversation state. (Used by the Dialog system itself.)
             services.AddSingleton<ConversationState>();
 
-            // Give services access to the IHttpClientFactory.
-            services.AddHttpClient();
-
-            // Helper code that makes the actual call to QnA Maker substitutable for unit testing.
-            services.AddTransient<IQnAServiceHelper, QnAServiceHelper>();
-
-            // The Dialog that will be run by the bot.
-            services.AddTransient<QnADialog>();
+            // Helper code that makes the actual HTTP calls to QnA Maker. It is injectable for local unit testing.
+            services.AddHttpClient<IQnAService, QnAService>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, QnABot<QnADialog>>();
+            services.AddTransient<IBot, QnABot>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
