@@ -55,9 +55,9 @@ question, it will share that information with the user.
 
 Run your bot locally and open the emulator.
 
-- Send a post request to `http://localhost:3978/api/notify` to proactively message users from the bot.
+- Send a get request to `http://localhost:3978/api/notify` to proactively message users from the bot.
    ```bash
-    curl -X POST http://localhost:3978/api/notify
+    curl -X get http://localhost:3978/api/notify
    ```
 
 
