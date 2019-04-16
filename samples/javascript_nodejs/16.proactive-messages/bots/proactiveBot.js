@@ -8,12 +8,12 @@ class ProactiveBot extends ActivityHandler {
     constructor(conversationReferences) {
         super();
 
+        // Dependency injected dictionary for storing ConversationReference objects used in NotifyController to proactively message users
         this.conversationReferences = conversationReferences;
 
         this.onConversationUpdate(async (context, next) => {
 
-            const conversationReference = TurnContext.getConversationReference(context.activity);
-            this.conversationReferences[conversationReference.conversation.id] = conversationReference;
+           this.addConversationReference(context.activity);
             
             await next();
         });
@@ -30,6 +30,19 @@ class ProactiveBot extends ActivityHandler {
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });
+
+        this.onMessage(async (context, next) => {
+            this.addConversationReference(context.activity);
+
+            // Echo back what the user said
+            await context.sendActivity(`You sent '${context.activity.text}'`);
+            await next();
+        });
+    }
+
+    addConversationReference(activity) {
+        const conversationReference = TurnContext.getConversationReference(activity);
+        this.conversationReferences[conversationReference.conversation.id] = conversationReference;
     }
 }
 

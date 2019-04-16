@@ -62,5 +62,8 @@ server.get('/api/notify', async (req, res) => {
         });
     }
 
-    res.write("<html><body><h1>Proactive messages have been sent.</h1></body></html>")
+    res.setHeader('Content-Type', 'text/html');
+    res.writeHead(200);
+    res.write("<html><body><h1>Proactive messages have been sent.</h1></body></html>");
+    res.end();
 });
