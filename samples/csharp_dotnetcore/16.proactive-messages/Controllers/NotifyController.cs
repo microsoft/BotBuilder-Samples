@@ -27,6 +27,10 @@ namespace ProactiveBot.Controllers
             _adapter = adapter;
             _conversationReferences = conversationReferences;
             _appId = ((SimpleCredentialProvider)credentials).AppId;
+
+            // If the channel is the Emulator, and authentication is not in use,
+            // the AppId will be null.  We generate a random AppId for this case only.
+            // This is not required for production, since the AppId will have a value.
             if (string.IsNullOrEmpty(_appId))
             {
                 _appId = Guid.NewGuid().ToString(); //if no AppId, use a random Guid
@@ -35,23 +39,15 @@ namespace ProactiveBot.Controllers
 
         public async Task<IActionResult> Get()
         {
-            string names = string.Empty;
-
             foreach (var conversationReference in _conversationReferences.Values)
             {
                 await ((BotAdapter)_adapter).ContinueConversationAsync(_appId, conversationReference, BotCallback, default(CancellationToken));
-                
-                names += $"<li>{conversationReference.User.Name ?? conversationReference.User.Id} on {conversationReference.ChannelId}</li><br>";
             }
-
-            names = string.IsNullOrEmpty(names) ? "nobody has messaged the bot" : names;
-
-            // Let the caller know who was proactively notified
-            var content = $"<html><body><h1>Proactively Messaged:</h1><p>{names}</p></body></html>";
-
+            
+            // Let the caller know proactive messages have been sent
             return new ContentResult()
             {
-                Content = content,
+                Content = "<html><body><h1>Proactive messages have been sent.</body></html>",
                 ContentType = "text/html",
                 StatusCode = (int)HttpStatusCode.OK,
             };
