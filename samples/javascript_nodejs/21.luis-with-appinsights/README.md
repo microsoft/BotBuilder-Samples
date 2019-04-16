@@ -48,6 +48,7 @@ This samples requires prerequisites in order to run.
     npm start
     ```
 
+
 # Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
@@ -55,12 +56,12 @@ This samples requires prerequisites in order to run.
 
 ## Connect to bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to `BotBuilder-Samples/botbuilder_samples/samples/javascript_nodejs/21.luis-with-appinsights`
-- Select `<your-bot-name>.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Deploy the bot to Azure
-After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.
-To learn how, see [Deploy your bot to Azure][40] for a complete set of deployment instructions.
+# Deploy this bot to Azure
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
+
 
 # View metrics
 - Learn how to use [PowerBI, use Azure Monitor queries and Visual Studio][42] to view Application Insights data.

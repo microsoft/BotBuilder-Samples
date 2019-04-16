@@ -96,8 +96,6 @@ namespace Microsoft.BotBuilderSamples
         {
             stepContext.Values["age"] = (int)stepContext.Result;
 
-            // We can send messages to the user at any point in the WaterfallStep.
-            //var msg = userProfile.Age == -1 ? "No age given." : $"I have your age as {userProfile.Age}.";
             var msg = (int)stepContext.Values["age"] == -1 ? "No age given." : $"I have your age as {stepContext.Values["age"]}.";
 
             // We can send messages to the user at any point in the WaterfallStep.
@@ -138,7 +136,7 @@ namespace Microsoft.BotBuilderSamples
         private static Task<bool> AgePromptValidatorAsync(PromptValidatorContext<int> promptContext, CancellationToken cancellationToken)
         {
             // This condition is our validation rule. You can also change the value at this point.
-            return Task.FromResult(promptContext.Recognized.Succeeded && promptContext.Recognized.Value >= 0 && promptContext.Recognized.Value < 150);
+            return Task.FromResult(promptContext.Recognized.Succeeded && promptContext.Recognized.Value > 0 && promptContext.Recognized.Value < 150);
         }
     }
 }

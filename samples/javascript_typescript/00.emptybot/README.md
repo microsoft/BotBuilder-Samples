@@ -28,9 +28,12 @@ node --version
 
 ## Connect to the bot using Bot Framework Emulator
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration
-- Navigate to `emptybot` folder
-- Select `emptybot.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
+
+# Deploy the bot to Azure
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
+
 
 # Deploy the bot to Azure
 This bot was generated using the Empty bot template.  Unmodified, it's not practical to deploy an empty bot to Azure, as it doesn't have any conversational behavior yet.
