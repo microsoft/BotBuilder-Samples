@@ -2,27 +2,23 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Designer.Dialogs;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using RemoteDialog.Helpers;
-using RemoteDialog.Models;
+using QnAPrompting.Helpers;
+using QnAPrompting.Models;
 
-namespace RemoteDialog.Dialogs
+namespace QnAPrompting.Dialogs
 {
     public class QnADialog : FunctionDialogBase
     {
-        private QnAServiceHelper _qnaHelper;
+        private IQnAServiceHelper _qnaService;
 
-        public QnADialog(IConfiguration configuration)
+        public QnADialog(IQnAServiceHelper qnaService)
             : base(nameof(QnADialog))
         {
-            this._qnaHelper = new QnAServiceHelper(configuration);
+            _qnaService = qnaService;
         }
 
         protected override async Task<(object newState, IEnumerable<Activity> output, object result)> ProcessAsync(object oldState, Activity inputActivity)
@@ -31,7 +27,7 @@ namespace RemoteDialog.Dialogs
             QnABotState newState = null;
             
             var query = inputActivity.Text;           
-            var qnaResult = await this._qnaHelper.QueryQnAService(query, (QnABotState)oldState);
+            var qnaResult = await _qnaService.QueryQnAServiceAsync(query, (QnABotState)oldState);
             var qnaAnswer = qnaResult[0].Answer;
             var prompts = qnaResult[0].Context?.Prompts;
             
@@ -51,7 +47,7 @@ namespace RemoteDialog.Dialogs
                 outputActivity = CardHelper.GetHeroCard(qnaAnswer, prompts);
             }
 
-            return ((object)newState, new Activity[] { outputActivity }, (object)null);
+            return (newState, new Activity[] { outputActivity }, null);
         }
     }
 }

@@ -9,9 +9,11 @@ using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
-using RemoteDialog.Dialogs;
+using QnAPrompting.Bots;
+using QnAPrompting.Dialogs;
+using QnAPrompting.Helpers;
 
-namespace Microsoft.BotBuilderSamples
+namespace QnAPrompting
 {
     public class Startup
     {
@@ -35,9 +37,14 @@ namespace Microsoft.BotBuilderSamples
             // Create the Conversation state. (Used by the Dialog system itself.)
             services.AddSingleton<ConversationState>();
 
+            // Give services access to the IHttpClientFactory.
+            services.AddHttpClient();
+
+            // Helper code that makes the actual call to QnA Maker substitutable for unit testing.
+            services.AddTransient<IQnAServiceHelper, QnAServiceHelper>();
+
             // The Dialog that will be run by the bot.
-            services.AddSingleton<QnADialog>();
-            
+            services.AddTransient<QnADialog>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, QnABot<QnADialog>>();

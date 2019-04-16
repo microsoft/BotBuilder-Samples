@@ -1,51 +1,52 @@
-﻿using Microsoft.Bot.Builder.AI.QnA;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using RemoteDialog.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using QnAPrompting.Models;
 
-namespace RemoteDialog.Helpers
+namespace QnAPrompting.Helpers
 {
-    public class QnAServiceHelper
+    public class QnAServiceHelper : IQnAServiceHelper
     {
         private IConfiguration _configuration;
         private QnAMakerEndpoint _endpoint;
         private QnAMakerOptions _options;
         private HttpClient _httpClient;
 
-        public QnAServiceHelper(IConfiguration configuration)
+        public QnAServiceHelper(IConfiguration configuration, IHttpClientFactory clientFactory)
         {
-            this._configuration = configuration;
-            this._httpClient = new HttpClient();
-            this.InitQnAService();
+            _configuration = configuration;
+            _httpClient = clientFactory.CreateClient();
+            InitQnAService();
         }
 
-        public async Task<QnAResult[]> QueryQnAService(string query, QnABotState qnAcontext)
+        public async Task<QnAResult[]> QueryQnAServiceAsync(string query, QnABotState qnAcontext)
         {
-            var requestUrl = $"{this._endpoint.Host}/knowledgebases/{this._endpoint.KnowledgeBaseId}/generateanswer";
+            var requestUrl = $"{_endpoint.Host}/knowledgebases/{_endpoint.KnowledgeBaseId}/generateanswer";
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             var jsonRequest = JsonConvert.SerializeObject(
                 new
                 {
                     question = query,
-                    top = this._options.Top,
+                    top = _options.Top,
                     context = qnAcontext,
-                    strictFilters = this._options.StrictFilters,
-                    metadataBoost = this._options.MetadataBoost,
-                    scoreThreshold = this._options.ScoreThreshold,
+                    strictFilters = _options.StrictFilters,
+                    metadataBoost = _options.MetadataBoost,
+                    scoreThreshold = _options.ScoreThreshold,
                 }, Formatting.None);
 
-            request.Headers.Add("Authorization", $"EndpointKey {this._endpoint.EndpointKey}");
+            request.Headers.Add("Authorization", $"EndpointKey {_endpoint.EndpointKey}");
             request.Content = new StringContent(jsonRequest, System.Text.Encoding.UTF8, "application/json");
 
-            var response = await this._httpClient.SendAsync(request).ConfigureAwait(false);
+            var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
-            var contentString = response.Content.ReadAsStringAsync().Result;
+
+            var contentString = await response.Content.ReadAsStringAsync();
             
             var result = JsonConvert.DeserializeObject<QnAResultList>(contentString);
 
@@ -54,12 +55,12 @@ namespace RemoteDialog.Helpers
 
         private void InitQnAService()
         {
-            this._options = new QnAMakerOptions
+            _options = new QnAMakerOptions
             {
                 Top = 3
             };
 
-            var hostname = this._configuration["QnAEndpointHostName"];
+            var hostname = _configuration["QnAEndpointHostName"];
             if (!hostname.StartsWith("https://"))
             {
                 hostname = string.Concat("https://", hostname);
@@ -70,10 +71,10 @@ namespace RemoteDialog.Helpers
                 hostname = string.Concat(hostname, "/qnamaker");
             }
 
-            this._endpoint = new QnAMakerEndpoint
+            _endpoint = new QnAMakerEndpoint
             {
-                KnowledgeBaseId = this._configuration["QnAKnowledgebaseId"],
-                EndpointKey = this._configuration["QnAAuthKey"],
+                KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
+                EndpointKey = _configuration["QnAAuthKey"],
                 Host = hostname
             };
         }
