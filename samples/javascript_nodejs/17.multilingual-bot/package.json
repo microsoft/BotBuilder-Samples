@@ -16,8 +16,7 @@
         "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
     },
     "dependencies": {
-        "botbuilder": "^4.3.0",
-        "botframework-config": "^4.3.0",
+        "botbuilder": "^4.3.4",
         "dotenv": "^6.1.0",
         "node-fetch": "^2.2.1",
         "restify": "^7.2.3"
