@@ -7,7 +7,7 @@
     "main": "index.js",
     "scripts": {
         "start": "node ./index.js",
-        "lint": "node ./node_modules/.bin/eslint .",
+        "lint": "./node_modules/.bin/eslint .",
         "test": "echo \"Error: no test specified\" && exit 1",
         "watch": "nodemon ./index.js"
     },
