@@ -38,7 +38,6 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |43.complex-dialog      | Demonstrates different ways for composing dialogs. |[View][cs#43]|[View][js#43] |              |             | |
 |44.prompt-for-user-input | Demonstrates how to implement your own _basic_ prompts to ask the user for information. |[View][cs#44]|[View][js#44]|              |             | |
 |45.state-management    | Demonstrates how to use state management and storage objects to manage and persist state. | [View][cs#45] | [View][js#45]   |              |             |  |
-
 |70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
 
 [cs#1]:samples/csharp_dotnetcore/01.console-echo
