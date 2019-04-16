@@ -15,6 +15,9 @@ if a bot requires some time to compile a response to the user's question, it may
 and allow the conversation to continue in the meantime. When the bot finishes compiling the response to the
 question, it will share that information with the user.
 
+This project has a NotifyController with an endpoint that will trigger the proactive messages to be sent to 
+all users who have previously messaged the bot.
+
 # To try this sample
 
 - Clone the samples repository
