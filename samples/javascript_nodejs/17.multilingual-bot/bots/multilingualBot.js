@@ -9,8 +9,7 @@ const englishSpanish = TranslationSettings.englishSpanish;
 const spanishEnglish = TranslationSettings.spanishEnglish;
 const spanishSpanish = TranslationSettings.spanishSpanish;
 
-
-const welcomeCard = require('../cards/welcomeCard.json');
+const WelcomeCard = require('../cards/welcomeCard.json');
 
 /**
  * A simple bot that captures user preferred language and uses state to configure
@@ -25,8 +24,12 @@ class MultilingualBot extends ActivityHandler {
      */
     constructor(userState, languagePreferenceProperty, logger) {
         super();
-        if (!userState) throw new Error('[MultilingualBot]: Missing parameter. userState is required');
-        if (!languagePreferenceProperty) throw new Error('[MultilingualBot]: Missing parameter. languagePreferenceProperty is required');
+        if (!userState) {
+            throw new Error('[MultilingualBot]: Missing parameter. userState is required');
+        }
+        if (!languagePreferenceProperty) {
+            throw new Error('[MultilingualBot]: Missing parameter. languagePreferenceProperty is required');
+        }
         if (!logger) {
             logger = console;
             logger.log('[MultilingualBot]: logger not passed in, defaulting to console');
@@ -37,14 +40,16 @@ class MultilingualBot extends ActivityHandler {
         this.logger = logger;
 
         this.onMembersAdded(async (context, next) => {
-            if (context.activity.membersAdded[0]['name'].toLowerCase() !== 'bot') {
-                await context.sendActivity({
-                    text: 'Adaptive',
-                    attachments: [CardFactory.adaptiveCard(welcomeCard)]
-                });
-
-                await context.sendActivity(`This bot will introduce you to translation middleware. Say 'hi' to get started.`);
+            const membersAdded = context.activity.membersAdded;
+            for (let cnt = 0; cnt < membersAdded.length; cnt++) {
+                if (membersAdded[cnt].id !== context.activity.recipient.id) {
+                    const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);
+                    await context.sendActivity({ attachments: [welcomeCard] });
+                    await context.sendActivity(`This bot will introduce you to translation middleware. Say 'hi' to get started.`);
+                }
             }
+
+            // By calling next() you ensure that the next BotHandler is run.
             await next();
         });
 
@@ -53,7 +58,7 @@ class MultilingualBot extends ActivityHandler {
 
             if (isLanguageChangeRequested(context.activity.text)) {
                 const currentLang = context.activity.text.toLowerCase();
-                let lang = currentLang === englishEnglish || currentLang === spanishEnglish ? englishEnglish : englishSpanish;
+                const lang = currentLang === englishEnglish || currentLang === spanishEnglish ? englishEnglish : englishSpanish;
 
                 // Get the user language preference from the user state.
                 await this.languagePreferenceProperty.set(context, lang);
@@ -63,8 +68,8 @@ class MultilingualBot extends ActivityHandler {
                 // The translation middleware will catch this setting and translate both ways to the user's
                 // selected language.
                 // If Spanish was selected by the user, the reply below will actually be shown in spanish to the user.
-                await context.sendActivity(`Your current language code is: ${ currentLang }`);
-                this.userState.saveChanges(context);
+                await context.sendActivity(`Your current language code is: ${ lang }`);
+                await this.userState.saveChanges(context);
             } else {
                 // Show the user the possible options for language. The translation middleware
                 // will pick up the language selected by the user and
@@ -72,18 +77,18 @@ class MultilingualBot extends ActivityHandler {
                 // Create an array with the supported languages.
                 const cardActions = [
                     {
-                        type: ActionTypes.ImBack,
+                        type: ActionTypes.PostBack,
                         title: 'Español',
-                        value: 'es'
+                        value: englishSpanish
                     },
                     {
-                        type: ActionTypes.ImBack,
+                        type: ActionTypes.PostBack,
                         title: 'English',
-                        value: 'en'
+                        value: englishEnglish
                     }
-                ] 
-                const dreply = MessageFactory.suggestedActions(cardActions, `Choose your language:`);
-                await context.sendActivity(dreply);
+                ];
+                const reply = MessageFactory.suggestedActions(cardActions, `Choose your language:`);
+                await context.sendActivity(reply);
             }
 
             // By calling next() you ensure that the next BotHandler is run.

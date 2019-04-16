@@ -2,14 +2,10 @@
 // Licensed under the MIT License.
 
 const fetch = require('node-fetch');
-const { TranslationSettings } = require('./translationSettings');
-
-const englishEnglish = TranslationSettings.englishEnglish;
-const englishSpanish = TranslationSettings.englishSpanish;
 
 class MicrosoftTranslator {
-    constructor() {
-        this.translate = this.translate.bind(this);
+    constructor(translatorKey) {
+        this.key = translatorKey;
     }
     /**
    * Helper method to translate text to a specified language.
@@ -17,13 +13,6 @@ class MicrosoftTranslator {
    * @param {string} targetLocale Two character language code, e.g. "en", "es"
    */
     async translate(text, targetLocale) {
-        // Check to make sure "en" is not translated to "in", or "es" to "it"
-        // In a production bot scenario, this would be replaced for a method call that detects
-        // language names in utterances.
-        if (text.toLowerCase() === englishEnglish || text.toLowerCase() === englishSpanish) {
-            return text;
-        }
-
         // From Microsoft Text Translator API docs;
         // https://docs.microsoft.com/en-us/azure/cognitive-services/translator/quickstart-nodejs-translate
         const host = 'https://api.cognitive.microsofttranslator.com';
@@ -37,7 +26,7 @@ class MicrosoftTranslator {
             body: JSON.stringify([{ 'Text': text }]),
             headers: {
                 'Content-Type': 'application/json',
-                'Ocp-Apim-Subscription-Key': this.translatorKey
+                'Ocp-Apim-Subscription-Key': this.key
             }
         })
             .then(res => res.json())
