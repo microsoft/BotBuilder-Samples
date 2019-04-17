@@ -19,8 +19,8 @@ class MainDialog extends ComponentDialog {
         this.logger = logger;
 
         // Define the main dialog and its related components.
-        this.addDialog(new ChoicePrompt('cardPrompt'))
-            .addDialog(new WaterfallDialog(MAIN_WATERFALL_DIALOG, [
+        this.addDialog(new ChoicePrompt('cardPrompt'));
+        this.addDialog(new WaterfallDialog(MAIN_WATERFALL_DIALOG, [
                 this.choiceCardStep.bind(this),
                 this.showCardStep.bind(this)
             ]));
