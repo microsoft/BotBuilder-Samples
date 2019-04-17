@@ -121,8 +121,8 @@ The current library does not include any capabilities for grammar check or corre
 Packages for C# are available under the [BotBuidler MyGet feed][12]
 
 [1]:https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md
-[2]:api-reference.md
-[3]:lg-file-format.md
+[2]:./docs/api-reference.md
+[3]:./docs/lg-file-format.md
 [6]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown
 [7]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#chat-file-format
 [8]:https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Chatdown/Examples/CardExamples.chat
