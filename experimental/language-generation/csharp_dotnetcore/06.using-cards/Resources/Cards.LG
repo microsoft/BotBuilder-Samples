@@ -1,0 +1,9 @@
+﻿# HeroCard
+- ```
+[Herocard   
+    title=BotFramework Hero Card
+    subtitle=Microsoft Bot Framework
+    text=Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.
+    image=https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
+    buttons=Show more cards]
+```
