@@ -4,7 +4,7 @@ Bot Framework v4 NLP with Dispatch bot sample
 This bot has been created using [Microsoft Bot Framework][1], it shows how to create a bot that relies on multiple [LUIS.ai][11] and [QnAMaker.ai][12] models for natural language processing (NLP).
 
 ## Prerequisites
-This samples requires prerequisites in order to run.
+This samples **requires** prerequisites in order to run.
 - [Required Prerequisites][41]
 
 
