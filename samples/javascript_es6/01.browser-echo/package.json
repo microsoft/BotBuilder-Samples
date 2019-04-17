@@ -8,7 +8,7 @@
     "scripts": {
         "build": "webpack",
         "start": "webpack-dev-server",
-        "lint": "./node_modules/.bin/eslint .",
+        "lint": "eslint .",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
