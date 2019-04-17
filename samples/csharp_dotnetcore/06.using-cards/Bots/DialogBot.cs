@@ -10,14 +10,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
 {
-    /// <summary>
-    /// This IBot implementation can run any type of Dialog. The use of type parameterization is to allows multiple different bots
-    /// to be run at different endpoints within the same project. This can be achieved by defining distinct Controller types
-    /// each with dependency on distinct IBot types, this way ASP Dependency Injection can glue everything together without ambiguity.
-    /// The ConversationState is used by the Dialog system. The UserState isn't, however, it might have been used in a Dialog implementation,
-    /// and the requirement is that all BotState objects are saved at the end of a turn.
-    //// </summary>
-    /// <typeparam name="T">The dialog to run</typeparam>
+    // This IBot implementation can run any type of Dialog. The use of type parameterization is to allows multiple different bots
+    // to be run at different endpoints within the same project. This can be achieved by defining distinct Controller types
+    // each with dependency on distinct IBot types, this way ASP Dependency Injection can glue everything together without ambiguity.
+    // The ConversationState is used by the Dialog system. The UserState isn't, however, it might have been used in a Dialog implementation,
+    // and the requirement is that all BotState objects are saved at the end of a turn.
     public class DialogBot<T> : ActivityHandler where T : Dialog
     {
         protected readonly BotState ConversationState;

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,24 +22,19 @@ namespace Microsoft.BotBuilderSamples
             _logger = logger;
 
             // Define the main dialog and its related components.
-            AddDialog(new ChoicePrompt(nameof(ChoicePrompt)))
-                .AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
-                {
-                    ChoiceCardStepAsync,
-                    ShowCardStepAsync,
-                }));
+            AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
+            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
+            {
+                ChoiceCardStepAsync,
+                ShowCardStepAsync,
+            }));
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(WaterfallDialog);
         }
 
-        /// <summary>
-        /// 1. Prompts the user if the user is not in the middle of a dialog.
-        /// 2. Re-prompts the user when an invalid input is received.
-        /// </summary>
-        /// <param name="stepContext"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        // 1. Prompts the user if the user is not in the middle of a dialog.
+        // 2. Re-prompts the user when an invalid input is received.
         private async Task<DialogTurnResult> ChoiceCardStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             _logger.LogInformation("MainDialog.ChoiceCardStepAsync");
@@ -58,13 +52,8 @@ namespace Microsoft.BotBuilderSamples
             return await stepContext.PromptAsync(nameof(ChoicePrompt), options, cancellationToken);
         }
 
-        /// <summary>
-        /// Send a Rich Card response to the user based on their choice.
-        /// This method is only called when a valid prompt response is parsed from the user's response to the ChoicePrompt.
-        /// </summary>
-        /// <param name="stepContext"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        // Send a Rich Card response to the user based on their choice.
+        // This method is only called when a valid prompt response is parsed from the user's response to the ChoicePrompt.
         private async Task<DialogTurnResult> ShowCardStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             _logger.LogInformation("MainDialog.ShowCardStepAsync");
