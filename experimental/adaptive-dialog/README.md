@@ -47,8 +47,8 @@ You can report any issues you find or feature suggestions on our GitHub reposito
 [4]:https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0#component-dialog
 [5]:./csharp_dotnetcore
 [6]:./docs/memory-model-overview.md
-[7]:./docs/anatomy-and-runtime-behavior.md#Anatomy:-Adaptive-dialog
-[8]:./docs/anatomy-and-runtime-behavior.md#Runtime-behavior:-Adaptive-dialog
+[7]:./docs/anatomy-and-runtime-behavior.md#anatomy-adaptive-dialog
+[8]:./docs/anatomy-and-runtime-behavior.md#runtime-behavior-adaptive-dialog
 [9]:./docs/recognizers-rules-steps-reference.md
 [10]:./docs/debugger-extension.md
 [12]:https://github.com/microsoft/botbuilder-dotnet/issues

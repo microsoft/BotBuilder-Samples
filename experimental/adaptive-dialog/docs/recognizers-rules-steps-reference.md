@@ -314,24 +314,139 @@ greetUserDialog.AddRule(new IntentRule("greetUser",
 See [here][3] to learn more about using language generation instead of hard coding actual response text in SendActivity.
 
 ### SaveEntity
+Use this step to promte an entity (from a recognizer) into a different memory scope. By default entities from recognizer are available under the [turn scope][4] and the life time of all information under that scope is the end of that turn of conversation. 
+
+``` C#
+var greetUserDialog = new AdaptiveDialog("greetUserDialog");
+greetUserDialog.AddRule(new IntentRule("greetUser", 
+    steps: new List<IDialog>() {
+        // Save the userName entitiy from a recognizer.
+        new SaveEntity("user.name", "turn.entities.userName[0]"),
+        // Ask user for their name. All inputs by default will only initiate a prompt if the property does not exist.
+        new TextInput()
+        {
+            Prompt = new ActivityTemplate("What is your name?"),
+            Property = "user.name"
+        },
+        new SendActivity("Hello, {user.name}")
+}));
+```
 
 ### EditArray
+Used to perform edit operations on an array property.
+
+``` C#
+var addToDoDialog = new AdaptiveDialog("addToDoDialog");
+addToDoDialog.AddRule(new IntentRule("addToDo", 
+    steps: new List<IDialog>() {
+        // Save the userName entitiy from a recognizer.
+        new SaveEntity("dialog.addTodo.title", "turn.entities.todoTitle[0]"),
+        new TextInput()
+        {
+            Prompt = new ActivityTemplate("What is the title of your todo?"),
+            Property = "dialog.addTodo.title"
+        },
+        // Add the current todo to the todo's list for this user.
+        new EditArray(EditArray.ArrayChangeType.Push, "user.todos", "dialog.addTodo.title"),
+        new SendActivity("Ok, I have added {dialog.addTodo.title} to your todos."),
+        new SendActivity("You now have {count(user.todos)} items in your todo.")
+}));
+```
 
 ### InitProperty
+Initializes a property in memory. Can either initialize an array or object.
+
+``` C#
+new InitProperty()
+{
+    Property = "user.todos",
+    Type = "array" // this can either be "array" or "object"
+}
+```
 
 ### SetProperty 
- - used to set a property's value in memory. See [here](../CommonExpressionLanguage) to learn more about expressions.
+Used to set a property's value in memory. The value can either be an explict string or an expression. See [here][5] to learn more about the common expressions language.
+
+``` C#
+new SetProperty() 
+{
+    Property = "user.firstName",
+    // If user name is Vishwac Kannan, this sets first name to 'Vishwac'
+    Value = new ExpressionEngine().Parse("split(user.name, ' ')[0]")
+},
+```
 
 ### DeleteProperty
+Removes a property from memory.
+
+``` C#
+new DeleteProperty 
+{
+    Property = "user.firstName"
+}
+```
 
 ### IfCondition
+Used to represent branch in the conversational flow based on a specific condition. Conditions are expressed using the common expression language. See [here][5] to learn more about the common expression language.
+
+``` C#
+var addToDoDialog = new AdaptiveDialog("addToDoDialog");
+addToDoDialog.AddRule(new IntentRule("addToDo",
+    steps: new List<IDialog>() {
+    // Save the userName entitiy from a recognizer.
+    new SaveEntity("dialog.addTodo.title", "turn.entities.todoTitle[0]"),
+    new TextInput()
+    {
+        Prompt = new ActivityTemplate("What is the title of your todo?"),
+        Property = "dialog.addTodo.title"
+    },
+    // Add the current todo to the todo's list for this user.
+    new EditArray(EditArray.ArrayChangeType.Push, "user.todos", "dialog.addTodo.title"),
+    new SendActivity("Ok, I have added {dialog.addTodo.title} to your todos."),
+    new IfCondition()
+    {
+        Condition = new ExpressionEngine().Parse("toLower(dialog.addTodo.title) == 'call santa'"),
+        Steps = new List<IDialog>()
+        {
+            new SendActivity("Yes master. On it right now [You have unlocked an easter egg] :)")
+        }
+    },
+    new SendActivity("You now have {count(user.todos)} items in your todo.")
+}));
+```
 
 ### SwitchCondition
+Used to represent branching in conversational flow based on the outcome of an expression evaluation. See [here][5] to learn more about the common expression language.
+
+``` C#
+
+```
 
 ### EndTurn
 
 ### BeginDialog
 
+### EndDialog
+
+### CancelAllDialog
+
+### ReplaceDialog
+
+### RepeatDialog
+
+### EmitEvent
+
+### CodeStep
+
+### HttpRequest
+
+### TraceActivity
+
+### LogStep
+
+
 [1]:https://luis.ai
 [2]:https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md#locale
 [3]:./language-generation.md
+[4]:./memory-model-overview.md#turn-scope
+[5]:../../common-expression-language/README.md
