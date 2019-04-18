@@ -25,9 +25,9 @@ const adapter = new BotFrameworkAdapter({
 });
 
 const luisService = new LuisService({
-    appId: process.env.nlpWithDispatchDispatchAppId,
-    authoringKey: process.env.nlpWithDispatchDispatchAuthoringkey,
-    region: process.env.nlpWithDispatchDispatchRegion
+    appId: process.env.DispatchAppId,
+    authoringKey: process.env.DispatchAuthoringKey,
+    region: process.env.DispatchRegion
 });
 
 const dispatchRecognizer = new LuisRecognizer({

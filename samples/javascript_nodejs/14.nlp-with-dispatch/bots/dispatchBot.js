@@ -6,8 +6,8 @@ const { LuisRecognizer } = require('botbuilder-ai');
 
 class DispatchBot extends ActivityHandler {
     /**
-     * 
-     * @param {BotServices} botServices 
+     * @param {LuisRecognizer} dispatchRecognizer
+     * @param {QnAMaker} qnaMaker 
      * @param {any} logger object for logging events, defaults to console if none is provided
      */
     constructor(dispatchRecognizer, qnaMaker, logger) {
@@ -34,6 +34,8 @@ class DispatchBot extends ActivityHandler {
 
             // Next, we call the dispatcher with the top intent.
             await this.dispatchToTopIntentAsync(context, topIntent, recognizerResult);
+
+            await next();
         });
 
         this.onMembersAdded(async (context, next) => {
@@ -42,7 +44,7 @@ class DispatchBot extends ActivityHandler {
 
             for (let member of membersAdded) {
                 if (member.id !== context.activity.recipient.id) {
-                    await context.sendActivity(`Welcome to Dispatch bot ${member.Name}. ${welcomeText}`);
+                    await context.sendActivity(`Welcome to Dispatch bot ${member.name}. ${welcomeText}`);
                 }
             }
 
@@ -78,7 +80,11 @@ class DispatchBot extends ActivityHandler {
         const topIntent = result.topScoringIntent.intent;
 
         await context.sendActivity(`HomeAutomation top intent ${topIntent}.`);
-        // await context.sendActivity(`HomeAutomation intents detected:  ${topIntent}.`); FIGURE OUT WHAT LINQ IS PRINTING
+        await context.sendActivity(`HomeAutomation intents detected:  ${luisResult.intents.map((intentObj) => intentObj.intent).join('\n\n')}.`);
+
+        if (luisResult.entities.length > 0) {
+            await context.sendActivity(`HomeAutomation entities were found in the message: ${luisResult.entities.map((entityObj) => entityObj.entity).join('\n\n')}.`); 
+        }
     }
 
     async processWeather(context, luisResult) {
@@ -89,10 +95,10 @@ class DispatchBot extends ActivityHandler {
         const topIntent = result.topScoringIntent.intent;
 
         await context.sendActivity(`ProcessWeather top intent ${topIntent}.`);
-        // await context.sendActivity(`ProcessWeather intents detected:  ${topIntent}.`); FIGURE OUT WHAT LINQ IS PRINTING
+        await context.sendActivity(`ProcessWeather intents detected:  ${luisResult.intents.map((intentObj) => intentObj.intent).join('\n\n')}.`);
 
         if (luisResult.entities.length > 0) {
-            // await context.sendActivity(`ProcessWeather entities were found in the message: PRINT ENTITIES.`); 
+            await context.sendActivity(`ProcessWeather entities were found in the message: ${luisResult.entities.map((entityObj) => entityObj.entity).join('\n\n')}.`); 
         }
     }
 
