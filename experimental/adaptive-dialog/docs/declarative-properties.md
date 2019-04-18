@@ -1,6 +1,5 @@
-
-
-
+# Adaptive dialog: Declarative properties
+As noted in the [why adaptive dialogs][1] section, Adaptive dialogs ground-up was designed to be declaratively configurable. This document lists all properties that are declaratively configurable. 
 
 ## Rules
 Rules are essentially plugins which are consulted when there are new events and based 

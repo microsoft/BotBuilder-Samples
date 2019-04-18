@@ -291,6 +291,7 @@ Adaptive dialogs support the following steps -
 - Tracing and logging
     - [TraceActivity](#TraceActivity)
     - [LogStep](#LogStep)
+    - [Add a custom step](#Add-a-custom-step)
 
 ### SendActivity
 Used to send an activity to user. 
@@ -419,24 +420,135 @@ addToDoDialog.AddRule(new IntentRule("addToDo",
 Used to represent branching in conversational flow based on the outcome of an expression evaluation. See [here][5] to learn more about the common expression language.
 
 ``` C#
-
+// Create an adaptive dialog.
+var cardDialog = new AdaptiveDialog("cardDialog");
+cardDialog.AddRule(new IntentRule("ShowCards",
+    steps: new List<IDialog>() {
+        // Add choice input.
+        new ChoiceInput()
+        {
+            // Output from the user is automatically set to this property
+            Property = "turn.cardDialog.cardChoice",
+            // List of possible styles supported by choice prompt. 
+            Style = ListStyle.Auto,
+            Prompt = new ActivityTemplate("What card would you like to see?"),
+            Choices = new List<Choice>()
+            {
+                new Choice("Adaptive card"),
+                new Choice("Hero card"),
+                new Choice("Video card")
+            }
+        }, 
+        // Use SwitchCondition step to dispatch to right dialog based on choice input.
+        new SwitchCondition()
+        {
+            Condition = "turn.cardDialog.cardChoice",
+            Cases = new Dictionary<string, List<IDialog>>()
+            {
+                { "Adaptive card", new List<IDialog>() { new BeginDialog("ShowAdaptiveCardDialog")} },
+                { "Hero card", new List<IDialog>() { new BeginDialog("ShowHeroCardDialog")} },
+                { "Video card", new List<IDialog>() { new BeginDialog("ShowVideoCardDialog")} }
+            }
+        }
+}));
 ```
 
 ### EndTurn
+Ends the current turn of conversation.
+
+``` C#
+new EndTurn()
+```
 
 ### BeginDialog
+Invoke and begin a new dialog. Begin dialog takes the target dialog's name and the target dialog can be any type of dialog including Adaptive dialog or Waterfall dialog etc.
+
+``` C#
+new BeginDialog("BookFlightDialog")
+```
+
 
 ### EndDialog
+Ends the active dialog. 
+
+**Note:** Adaptive dialogs by default will end automatically if the dialog has run out of steps to execute. To override this behavior, simply set the `AutoEndDialog` property on Adaptive Dialog to false. 
+
+``` C#
+new EndDialog()
+```
 
 ### CancelAllDialog
+Cancels all active dialogs including any active parent dialogs.
+
+``` C#
+new CancelAllDialog()
+```
 
 ### ReplaceDialog
+Replace current dialog with a new dialog by name.
 
-### RepeatDialog
+``` C#
+// This sample illustrates use of ReplaceDialog tied to explict user confirmation 
+// to switch to a different dialog.
+
+// Create an adaptive dialog.
+var getUserName = new AdaptiveDialog("getUserName");
+getUserName.AddRule(new IntentRule("getUserName",
+steps: new List<IDialog>() {
+    new TextInput()
+    {
+        Property = "user.name",
+        Prompt = new ActivityTemplate("What is your name?")
+    },
+    new SendActivity("Hello {user.name}, nice to meet you!")
+}));
+
+getUserName.AddRule(new IntentRule("GetWeather",
+steps: new List<IDialog>()
+{
+    // confirm with user that they do want to switch to another dialog
+    new ChoiceInput()
+    {
+        Prompt = new ActivityTemplate("Are you sure you want to switch to talk about weather?"),
+        Property = "turn.contoso.getweather.confirmchoice",
+        Choices = new List<Choice>()
+        {
+            new Choice("Yes"),
+            new Choice("No")
+        }
+    },
+    new SwitchCondition()
+    {
+        Condition = "turn.contoso.getweather.confirmchoice",
+        Cases = new Dictionary<String, List<IDialog>>()
+        {
+            // Call ReplaceDialog to switch to a different dialog. 
+            // BeginDialog will keep current dialog in the stack to be resumed after child dialog ends.
+            // ReplaceDialog will remove current dialog from the stack and add the new dialog.
+            { "Yes", new List<IDialog>() { new ReplaceDialog("getWeatherDialog")} },
+            { "No", new List<IDialog>() { new EndDialog() } }
+        }
+    }
+}));
+
+```
 
 ### EmitEvent
+The AdaptiveDialog models input as Events called DialogEvents.  This gives us a clean model for capturing and bubbling information such as cancellation, requests for help, etc. While majority of events happens behind the scenes, you can participate by emitting events of your own.
+
+``` C#
+new EmitEvent() {
+    // Name of your custom event.
+    EventName = "CONTOSO.CONFIM",
+    // Event value needs to be an object.
+    EventValue = new {"Value" : "turn.contoso.confirm.result"},
+    // If true this event should propagate to parent dialogs
+    BubbleEvent = true
+}
+```
 
 ### CodeStep
+
 
 ### HttpRequest
 
@@ -444,6 +556,9 @@ Used to represent branching in conversational flow based on the outcome of an ex
 
 ### LogStep
 
+### RepeatDialog
+
+### Add a custom step
 
 [1]:https://luis.ai
 [2]:https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md#locale
