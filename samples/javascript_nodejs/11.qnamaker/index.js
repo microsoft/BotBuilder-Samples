@@ -24,13 +24,6 @@ const adapter = new BotFrameworkAdapter({
     appPassword: process.env.MicrosoftAppPassword
 });
 
-// Map the contents to the required format for `QnAMaker`.
-const configuration = {
-    knowledgeBaseId: process.env.QnASampleQnaKbId,
-    endpointKey: process.env.QnASampleQnaEndpointKey,
-    host: process.env.QnASampleQnaHostname
-};
-
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log
@@ -45,7 +38,7 @@ adapter.onTurnError = async (context, error) => {
 const logger = console;
 
 // Create the main dialog.
-const bot = new QnABot(configuration, {}, logger);
+const bot = new QnABot(logger);
 
 // Create HTTP server
 let server = restify.createServer();

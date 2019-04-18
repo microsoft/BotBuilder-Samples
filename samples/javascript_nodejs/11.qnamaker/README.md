@@ -50,7 +50,7 @@ QnA knowledge base setup and application configuration steps can be found [here]
 
 [Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here][9]
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
 ## Connect to the bot using Bot Framework Emulator
 

@@ -6,20 +6,24 @@ const { QnAMaker } = require('botbuilder-ai');
 
 class QnABot extends ActivityHandler {
     /**
-     * The QnAMakerBot constructor requires one argument (`endpoint`) which is used to create an instance of `QnAMaker`.
-     * @param {configuration} configuration The basic configuration needed to call QnA Maker. In this sample the configuration is retrieved from the .env file.
-     * @param {QnAMakerOptions} config An optional parameter that contains additional settings for configuring a `QnAMaker` when calling the service.
      * @param {any} logger object for logging events, defaults to console if none is provided
      */
-    constructor(configuration, qnaOptions, logger) {
+    constructor(logger) {
         super();
-        if (!configuration) throw new Error('[QnaMakerBot]: Missing parameter. configuration is required');
         if (!logger) {
             logger = console;
             logger.log('[QnaMakerBot]: logger not passed in, defaulting to console');
         }
 
-        this.qnaMaker = new QnAMaker(configuration, qnaOptions);
+        try {
+            this.qnaMaker = new QnAMaker({
+                knowledgeBaseId: process.env.QnAKnowledgebaseId,
+                endpointKey: process.env.QnAAuthKey,
+                host: process.env.QnAEndpointHostName
+            });
+        } catch (err) {
+            logger.warn(`QnAMaker Exception: ${ err } Check your QnAMaker configuration in .env`);
+        }
         this.logger = logger;
 
         // If a new user is added to the conversation, send them a greeting message
