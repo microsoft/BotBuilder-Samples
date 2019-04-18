@@ -14,7 +14,7 @@ This samples requires prerequisites in order to run.
 
 ### Create a QnAMaker Application to enable QnA Knowledge Bases
 
-QnA knowledge base setup and application configuration steps can be found [here][7].
+QnA knowledge base setup and application configuration steps can be found [here][41].
 
 # To try this sample
 
@@ -24,7 +24,7 @@ QnA knowledge base setup and application configuration steps can be found [here]
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_nodejs/13.core-bot`
+- In a terminal, navigate to `samples/javascript_nodejs/11.qnamaker`
 
     ```bash
     cd samples/javascript_nodejs/11.qnamaker
@@ -38,7 +38,7 @@ QnA knowledge base setup and application configuration steps can be found [here]
 
 - Setup QnAMaker
 
-    The prerequisite outlined above contain the steps necessary to provision a QnA Knowledge Base on www.qnamaker.ai.  Refer to _Create a QnAMaker Application to enable QnA Knowledge Bases_ above for directions to setup and configure LUIS.
+    The prerequisite outlined above contain the steps necessary to provision a QnA Knowledge Base on www.qnamaker.ai.  Refer to [QnAMaker Prerequisites][41] for directions to setup and configure QnAMaker.
 
 - Run the sample
 
