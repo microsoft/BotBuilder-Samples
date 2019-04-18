@@ -291,7 +291,6 @@ Adaptive dialogs support the following steps -
 - Tracing and logging
     - [TraceActivity](#TraceActivity)
     - [LogStep](#LogStep)
-    - [Add a custom step](#Add-a-custom-step)
 
 ### SendActivity
 Used to send an activity to user. 
@@ -533,6 +532,15 @@ steps: new List<IDialog>()
 
 ```
 
+### RepeatDialog
+Repeat dialog will restart the parent dialog. This is particularly useful if you are trying to have a conversation where the bot is paging results to the user that they can navigate through. 
+
+**Note:** CAUTION: Please remember to use EndTurn() or one of the Inputs to collect information from the user so you do not accidentally end up implementing an infinite loop. 
+
+``` C#
+
+```
+
 ### EmitEvent
 The AdaptiveDialog models input as Events called DialogEvents.  This gives us a clean model for capturing and bubbling information such as cancellation, requests for help, etc. While majority of events happens behind the scenes, you can participate by emitting events of your own.
 
@@ -548,17 +556,75 @@ new EmitEvent() {
 ```
 
 ### CodeStep
+As the name implies, this step enables you to call a custom piece of code. 
 
+``` C#
+// Example customCodeStep method
+private async Task<DialogTurnResult> CodeStepSampleFn(DialogContext dc, System.Object options)
+{
+    await dc.Context.SendActivityAsync(MessageFactory.Text("In custom code step"));
+    // This code step decided to just return the input payload as the result.
+    return new DialogTurnResult(DialogTurnStatus.Complete, options);
+}
+
+// Adaptive dialog that calls a code step.
+var rootDialog = new AdaptiveDialog(rootDialogName) {
+    Steps = new List<IDialog>() {
+        new CodeStep(CodeStepSampleFn),
+        new SendActivity("After code step")
+    }
+};
+```
+You can use `Property` on code step to bind to a specific property in memory as both input to and output from the step or you can use `InputProperties` and `OutputProperty` to bind your memory to specific input to the step and output from the step.
+
+``` C#
+new CodeStep(CodeStepSampleFn) {
+    // Pass user.age to the code step function (via options)
+    // Any result returned by the code step is set to user.age
+    Property = "user.age"
+}
+```
 
 ### HttpRequest
+Use this to make HTTP requests to any endpoint. 
 
+``` C#
+new HttpRequest()
+{
+    // Set response from the http request to turn.httpResponse property in memory.
+    Property = "turn.httpResponse",
+    Method = HttpRequest.HttpMethod.POST,
+    Header = new Dictionary<string,string> (), /* request header */
+    Body = { }                                 /* request body */
+}); 
+```
 ### TraceActivity
+Sends a trace activity with a payload you specify. 
+
+**Note:** Trace activities can be captured as transcripts and are only sent to Emulator to help with debugging.
+
+``` C#
+new TraceActivity()
+{
+    // Name of the trace event.
+    Name = "contoso.TraceActivity",
+    ValueType = "Object",
+    // Property from memory to include in the trace
+    ValueProperty = "user"
+}
+```
 
 ### LogStep
+Writes out to console and can also send the message as a trace activity
 
-### RepeatDialog
-
-### Add a custom step
+``` C#
+new LogStep()
+{
+    Text = new TextTemplate("Hello"),
+    // Automatically sends the provided text as a trace activity
+    TraceActivity = true
+}
+```
 
 [1]:https://luis.ai
 [2]:https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md#locale
