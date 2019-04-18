@@ -9,7 +9,7 @@
 - [Inputs](#Inputs)
 
 <p align="center">
-    <img alt="Adaptive_dialog_anatomy" src="./assets/adaptive-dialog-anatomy.png" style="max-width:700px;" />
+    <img alt="Adaptive_dialog_anatomy" src="./Assets/adaptive-dialog-anatomy.png" style="max-width:700px;" />
 </p>
 
 ### Recognizers
@@ -48,7 +48,7 @@ To help illustrate this, let's take a scenario based walk through of the runtime
 ```
 
 <p align="center">
-    <img alt="Adaptive_dialog_scenario_setup" src="./assets/adaptive-dialog-scenario-setup.png" style="max-width:700px;" />
+    <img alt="Adaptive_dialog_scenario_setup" src="./Assets/adaptive-dialog-scenario-setup.png" style="max-width:700px;" />
 </p>
 
 For this scenario, we have three adaptive dialogs - 
@@ -59,13 +59,13 @@ For this scenario, we have three adaptive dialogs -
 Here's the flow when user says `I'd like to book a flight`
 
 <p align="center">
-    <img alt="Adaptive_dialog_scenario_setup" src="./assets/adaptive-dialog-first-utterance.png" style="max-width:700px;" />
+    <img alt="Adaptive_dialog_scenario_setup" src="./Assets/adaptive-dialog-first-utterance.png" style="max-width:700px;" />
 </p>
 
 And here's the flow when user says `How's the weather in Seattle?`
 
 <p align="center">
-    <img alt="Adaptive_dialog_scenario_setup" src="./assets/adaptive-dialog-second-utterance.png" style="max-width:700px;" />
+    <img alt="Adaptive_dialog_scenario_setup" src="./Assets/adaptive-dialog-second-utterance.png" style="max-width:700px;" />
 </p>
 
 At the crux: 
