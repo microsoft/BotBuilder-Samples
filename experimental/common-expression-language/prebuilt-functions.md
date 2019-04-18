@@ -1827,5 +1827,4 @@ utcNow('D')
 
 And returns this result: `"Sunday, April 15, 2018"`
 
-<a name="year
 

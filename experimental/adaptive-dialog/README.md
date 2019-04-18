@@ -13,6 +13,7 @@ To get started, you can check out the various samples [here][5]. Here are additi
 3. [Adaptive dialogs - anatomy][7]
 4. [Adaptive dialogs - runtime behavior][8]
 5. [Recognizers, rules and steps references][9]
+6. [Language generation][17]
 6. [Debugging Adaptive Dialog][10]
 7. [Packages](#Packages-and-source-code)
 8. [Reporting issues](#Reporting-issues)
@@ -55,3 +56,4 @@ You can report any issues you find or feature suggestions on our GitHub reposito
 [14]:https://botbuilder.myget.org/gallery
 [15]:https://github.com/Microsoft/botbuilder-dotnet/tree/4.next
 [16]:https://github.com/Microsoft/botbuilder-js/tree/4.next
+[17]:./docs/language-generation.md

@@ -52,7 +52,7 @@ Examples:
 ### Turn sub-scopes
 - Each incoming [activity][5] to the bot is available via turn.activity scope.
 - For each turn of the conversation, if there is a [recognizer][4] is run, then the output intents and entities from that recognizer are automatically set and available under _turn.intents_ and _turn.entities_
-- The payload of an event raised by the system (or via user code) is available under turn.\<eventName\>.value scope.
+- The payload of an event raised by the system (or via user code) is available under turn.dialogEvents.\<eventName\>.value scope.
 
 [1]:https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-state?view=azure-bot-service-4.0
 [2]:../README.md
