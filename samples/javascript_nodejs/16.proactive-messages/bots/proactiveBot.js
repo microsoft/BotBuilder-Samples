@@ -3,7 +3,6 @@
 
 const { ActivityHandler, TurnContext } = require('botbuilder');
 
-
 class ProactiveBot extends ActivityHandler {
     constructor(conversationReferences) {
         super();
@@ -12,9 +11,8 @@ class ProactiveBot extends ActivityHandler {
         this.conversationReferences = conversationReferences;
 
         this.onConversationUpdate(async (context, next) => {
+            this.addConversationReference(context.activity);
 
-           this.addConversationReference(context.activity);
-            
             await next();
         });
 
@@ -22,7 +20,7 @@ class ProactiveBot extends ActivityHandler {
             const membersAdded = context.activity.membersAdded;
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
-                    const welcomeMessage = "Welcome to the Proactive Bot sample.  Navigate to http://localhost:3978/api/notify to proactively message everyone who has previously messaged this bot.";
+                    const welcomeMessage = 'Welcome to the Proactive Bot sample.  Navigate to http://localhost:3978/api/notify to proactively message everyone who has previously messaged this bot.';
                     await context.sendActivity(welcomeMessage);
                 }
             }
@@ -35,7 +33,7 @@ class ProactiveBot extends ActivityHandler {
             this.addConversationReference(context.activity);
 
             // Echo back what the user said
-            await context.sendActivity(`You sent '${context.activity.text}'`);
+            await context.sendActivity(`You sent '${ context.activity.text }'`);
             await next();
         });
     }
