@@ -40,9 +40,9 @@ const dispatchRecognizer = new LuisRecognizer({
 }, true);
 
 const qnaMaker = new QnAMaker({
-    knowledgeBaseId: process.sampleQnaKbId,
-    endpointKey: process.sampleQnaEndpointKey,
-    host: process.env.sampleQnaHostname
+    knowledgeBaseId: process.env.QnAKnowledgebaseId,
+    endpointKey: process.env.QnAAuthKey,
+    host: process.env.QnAEndpointHostName
 });
 
 // Catch-all for errors.
