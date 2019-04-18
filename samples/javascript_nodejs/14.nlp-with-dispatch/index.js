@@ -9,8 +9,6 @@ const restify = require('restify');
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter } = require('botbuilder');
-const { LuisService } = require('botframework-config');
-const { LuisRecognizer, QnAMaker } = require('botbuilder-ai');
 const { DispatchBot } = require('./bots/dispatchBot');
 
 // Note: Ensure you have a .env file and include all necessary credentials to access services like LUIS and QnAMaker.
@@ -22,27 +20,6 @@ require('dotenv').config({ path: ENV_FILE });
 const adapter = new BotFrameworkAdapter({
     appId: process.env.microsoftAppID,
     appPassword: process.env.microsoftAppPassword
-});
-
-const luisService = new LuisService({
-    appId: process.env.DispatchAppId,
-    authoringKey: process.env.DispatchAuthoringKey,
-    region: process.env.DispatchRegion
-});
-
-const dispatchRecognizer = new LuisRecognizer({
-    applicationId: luisService.appId,
-    endpoint: luisService.getEndpoint(),
-    endpointKey: luisService.authoringKey,
-}, {
-    includeAllIntents: true,
-    includeInstanceData: true
-}, true);
-
-const qnaMaker = new QnAMaker({
-    knowledgeBaseId: process.env.QnAKnowledgebaseId,
-    endpointKey: process.env.QnAAuthKey,
-    host: process.env.QnAEndpointHostName
 });
 
 // Catch-all for errors.
@@ -61,7 +38,7 @@ adapter.onTurnError = async (context, error) => {
 const logger = console;
 
 // Create the main dialog.
-let bot = new DispatchBot(dispatchRecognizer, qnaMaker, logger);
+let bot = new DispatchBot(logger);
 
 // Create HTTP server
 let server = restify.createServer();

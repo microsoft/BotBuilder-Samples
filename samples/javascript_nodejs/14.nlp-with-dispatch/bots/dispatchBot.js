@@ -2,22 +2,33 @@
 // Licensed under the MIT License.
 
 const { ActivityHandler } = require('botbuilder');
-const { LuisRecognizer } = require('botbuilder-ai');
+const { LuisRecognizer, QnAMaker } = require('botbuilder-ai');
 
 class DispatchBot extends ActivityHandler {
     /**
-     * @param {LuisRecognizer} dispatchRecognizer
-     * @param {QnAMaker} qnaMaker 
      * @param {any} logger object for logging events, defaults to console if none is provided
      */
-    constructor(dispatchRecognizer, qnaMaker, logger) {
+    constructor(logger) {
         super();
-        if (!dispatchRecognizer) throw new Error('[DispatchBot]: Missing parameter. dispatchRecognizer is required');
-        if (!qnaMaker) throw new Error('[DispatchBot]: Missing parameter. qnaMaker is required');
         if (!logger) {
             logger = console;
             logger.log('[DispatchBot]: logger not passed in, defaulting to console');
         }
+
+        const dispatchRecognizer = new LuisRecognizer({
+            applicationId: process.env.DispatchAppId,
+            endpointKey: process.env.DispatchAuthoringKey,
+            endpoint: `https://${process.env.DispatchRegion}.api.cognitive.microsoft.com`,
+        }, {
+            includeAllIntents: true,
+            includeInstanceData: true
+        }, true);
+        
+        const qnaMaker = new QnAMaker({
+            knowledgeBaseId: process.env.QnAKnowledgebaseId,
+            endpointKey: process.env.QnAAuthKey,
+            host: process.env.QnAEndpointHostName
+        });
 
         this.logger = logger;
         this.dispatchRecognizer = dispatchRecognizer;
@@ -30,10 +41,10 @@ class DispatchBot extends ActivityHandler {
             const recognizerResult = await dispatchRecognizer.recognize(context);
 
             // Top intent tell us which cognitive service to use.
-            const topIntent = LuisRecognizer.topIntent(recognizerResult);
+            const intent = LuisRecognizer.topIntent(recognizerResult);
 
             // Next, we call the dispatcher with the top intent.
-            await this.dispatchToTopIntentAsync(context, topIntent, recognizerResult);
+            await this.dispatchToTopIntentAsync(context, intent, recognizerResult);
 
             await next();
         });
@@ -53,8 +64,8 @@ class DispatchBot extends ActivityHandler {
         });
     }
 
-    async dispatchToTopIntentAsync(context, topIntent, recognizerResult) {
-        switch (topIntent)
+    async dispatchToTopIntentAsync(context, intent, recognizerResult) {
+        switch (intent)
         {
             case 'l_HomeAutomation':
                 await this.processHomeAutomation(context, recognizerResult.luisResult); 
@@ -66,7 +77,7 @@ class DispatchBot extends ActivityHandler {
                 await this.processSampleQnA(context);
                 break;
             default:
-                this.logger.log(`Dispatch unrecognized intent: ${topIntent}.`);
+                this.logger.log(`Dispatch unrecognized intent: ${intent}.`);
                 await context.sendActivity(`Dispatch unrecognized intent: ${intent}.`);
                 break;
         }
@@ -77,9 +88,9 @@ class DispatchBot extends ActivityHandler {
 
         // Retrieve LUIS result for Process Automation.
         const result = luisResult.connectedServiceResult;
-        const topIntent = result.topScoringIntent.intent;
+        const intent = result.topScoringIntent.intent;
 
-        await context.sendActivity(`HomeAutomation top intent ${topIntent}.`);
+        await context.sendActivity(`HomeAutomation top intent ${intent}.`);
         await context.sendActivity(`HomeAutomation intents detected:  ${luisResult.intents.map((intentObj) => intentObj.intent).join('\n\n')}.`);
 
         if (luisResult.entities.length > 0) {
