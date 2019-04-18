@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Bot_Builder_Echo_Bot_V43": {
+    "PromptUsersForInput": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

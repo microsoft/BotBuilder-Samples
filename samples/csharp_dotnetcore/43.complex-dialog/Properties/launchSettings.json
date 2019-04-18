@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "_5.MultiTurn_Prompts_Bot": {
+    "ComplexDialog": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
