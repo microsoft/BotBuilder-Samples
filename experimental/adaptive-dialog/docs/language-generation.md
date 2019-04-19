@@ -1,0 +1,43 @@
+# Language generation
+
+Adaptive dialogs natively support and work with the new Language Generation system. 
+
+See [here][1] to learn more about Language Generation preview.
+
+Once you have authored your .lg files for your Adaptive dialogs (or your bot project), you can simply register as middleware and use  `ILanguageGenerator` and `IMessageActivityGenerator` for full-blown generation support (including template resolution) anywhere in your bot project.
+
+Here is a code snippet that that does that, at the Adapter level. All [sample projects][2] follow the exact same pattern.
+
+``` C#
+// Manage all bot resources
+var resourceExplorer = ResourceExplorer
+    .LoadProject(Directory.GetCurrentDirectory(), ignoreFolders: new string[] { "models" });
+var lg = new LGLanguageGenerator(resourceExplorer);
+// Add as middleware.
+Use(new RegisterClassMiddleware<ILanguageGenerator>(lg));
+Use(new RegisterClassMiddleware<IMessageActivityGenerator>(new TextMessageActivityGenerator(lg)));
+```
+
+With this, you can simply refer to a LG template anywhere in your bot's response. 
+
+``` C#
+new SendActivity("[MyLGTemplateName]")
+```
+
+**Note:** By default, your bot's entire state is passed to the LG sub-system for resolution. So your teamplates can refer all properties that are available in memory just the way your code does.
+
+``` markdown
+# EchoTemplate
+> The reference to {turn.Activity.Text} is valid in the LG template because bot state is passed in on all template evaluation calls.
+- [EchoPrefix], "{turn.Activity.Text}"
+
+# EchoPrefix
+- I heard you say
+- You said
+- Roger
+```
+
+[1]:../../language-generation.md
+[2]:../csharp_dotnetcore
+
+
