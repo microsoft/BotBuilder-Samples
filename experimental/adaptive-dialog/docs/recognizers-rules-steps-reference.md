@@ -153,7 +153,7 @@ rootDialog.AddRule(new EventRule([AdaptiveEvents.ActivityReceived], new List<IDi
 
 ## Inputs 
 _Inputs_ are wrappers around [prompts][2] that you can use in an adaptive dialog step to ask and collect a piece of input from user, validate and accept it into memory. Inputs include these pre-built features - 
-- Accepts a property to bind to off the new V3 style memory scope in V4. 
+- Accepts a property to bind to the new [state management][6] scopes. 
 - Performs existential check before prompting. 
 - Grounds input to the specified property if the input from user matches the type of entity expected. 
 - Accepts constraints - min, max, etc. 
@@ -168,6 +168,15 @@ Adaptive dialogs support the following inputs -
 Use text input when you want to verbatim accept user input as value for a specific piece of information your bot is trying to collect. E.g. user's name, subject of an email etc. 
 
 **Note:** By default, TextInput will trigger a consultation before accepting user input. This is to allow a parent dialog to handle the specific user input in case their recognizer had a more definitive match via an intent or entity.
+
+| Property         | Description                                                                        |
+|------------------|------------------------------------------------------------------------------------|
+| property         | Property this input dialog is bound to                                             |
+| prompt           | Initial prompt response to ask for user input                                      |
+| retryPrompt      | Response on retry                                                                  |
+| invalidPrompt    | Response when input is not recognized or not valid for the expected input type     |
+| pattern          | Optional regex to validate input                                                   |
+| noMatchResponse  | If a pattern is specified, response to user when input does not match the pattern  |
 
 ``` C#
 // Create an adaptive dialog.
@@ -190,6 +199,15 @@ getUserNameDialog.AddRule(new IntentRule("GetName",
 Choice input asks for a choice from a set of options. 
 
 **Note:** By default, ChoiceInput does not trigger consultation if the choice input recognizer has a high confidence match against provided choices. As an example, if one of your choices were cancel and user said 'cancel' choice input will pick this up although the expected behavior might be for the parent to capture this and handle this as global 'cancel' message from the user (or initiate disambiguation).
+
+| Property         | Description                                                                        |
+|------------------|------------------------------------------------------------------------------------|
+| property         | Property this input dialog is bound to                                             |
+| prompt           | Initial prompt response to ask for user input                                      |
+| retryPrompt      | Response on retry                                                                  |
+| invalidPrompt    | Response when input is not recognized or not valid for the expected input type     |
+| style            | Rendering style for available choices: Inline; List; SugestedActions; HeroCard     |
+| choices          | Array representing possible choices                                                |
 
 ``` C#
 // Create an adaptive dialog.
@@ -219,6 +237,13 @@ As the name implies, asks user for confirmation.
 
 **Note:** By default, ConfirmInput does not trigger consultation if the confirm input recognizer has a high confidence match against provided response. 
 
+| Property         | Description                                                                        |
+|------------------|------------------------------------------------------------------------------------|
+| property         | Property this input dialog is bound to                                             |
+| prompt           | Initial prompt response to ask for user input                                      |
+| retryPrompt      | Response on retry                                                                  |
+| invalidPrompt    | Response when input is not recognized or not valid for the expected input type     |
+
 ``` C#
 // Create adaptive dialog.
 var ConfirmationDialog = new AdaptiveDialog("ConfirmationDialog");
@@ -245,6 +270,16 @@ ConfirmationDialog.AddRule(new EventRule(["Contoso.travelBot.confirm"],
 Asks for a number.
 
 **Note:** By default, ConfirmInput does not trigger consultation if the confirm input recognizer has a high confidence match against provided response. 
+
+| Property         | Description                                                                        |
+|------------------|------------------------------------------------------------------------------------|
+| property         | Property this input dialog is bound to                                             |
+| prompt           | Initial prompt response to ask for user input                                      |
+| retryPrompt      | Response on retry                                                                  |
+| invalidPrompt    | Response when input is not recognized or not valid for the expected input type     |
+| minValue         | The min value which is valid                                                       |
+| maxValue         | The max value which is valid                                                       |
+
 
 ``` C#
 // Create adaptive dialog.
@@ -538,7 +573,7 @@ Repeat dialog will restart the parent dialog. This is particularly useful if you
 **Note:** CAUTION: Please remember to use EndTurn() or one of the Inputs to collect information from the user so you do not accidentally end up implementing an infinite loop. 
 
 ``` C#
-
+new RepeatDialog()
 ```
 
 ### EmitEvent
@@ -631,3 +666,4 @@ new LogStep()
 [3]:./language-generation.md
 [4]:./memory-model-overview.md#turn-scope
 [5]:../../common-expression-language/README.md
+[6]:./memory-model-overview.md
