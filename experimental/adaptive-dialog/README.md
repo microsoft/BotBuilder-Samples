@@ -26,7 +26,7 @@ We set out with the following goals for Adaptive dialogs -
 * It supports **extensibility** points for recognition, event rules and machine learning.
 * It was designed to be **declarative** from the start
 
-Current set of dialog types offered by Bot Builder V4 SDK put you in control of managing your bot's conversations however they also require me to write a bunch of boiler plate code for sophisticated conversation modelling concepts like building a dialog dispatcher, ability handle interruptions elegantly and to build a pluggable, extensible dialog system.
+Current set of dialog types offered by Bot Builder V4 SDK put you in control of managing your bot's conversations however they also require you to write a bunch of boiler plate code for sophisticated conversation modelling concepts like building a dialog dispatcher, ability handle interruptions elegantly and to build a pluggable, extensible dialog system.
 
 The new **Adaptive dialog** and the event model simplify sophisticated conversation modelling primitives, eliminate much of the boiler plate code and helps you focus on the model of the conversation rather than the mechanics of dialog management.
 
