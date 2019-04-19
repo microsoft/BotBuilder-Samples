@@ -602,7 +602,48 @@ Repeat dialog will restart the parent dialog. This is particularly useful if you
 **Note:** CAUTION: Please remember to use EndTurn() or one of the Inputs to collect information from the user so you do not accidentally end up implementing an infinite loop. 
 
 ``` C#
-new RepeatDialog()
+var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+{
+    Steps = new List<IDialog>()
+    {
+        new TextInput()
+        {
+            Prompt = new ActivityTemplate("Give me your favorite color. You can always say cancel to stop this."),
+            Property = "turn.favColor",
+        },
+        new EditArray()
+        {
+            ArrayProperty = "user.favColors",
+            ItemProperty = "turn.favColor",
+            ChangeType = EditArray.ArrayChangeType.Push
+        },
+        // This is required because TextInput will skip prompt if the property exists - which it will from the previous turn.
+        new DeleteProperty() {
+            Property = "turn.favColor"
+        },
+        // Repeat dialog step will restart this dialog.
+        new RepeatDialog()
+    },
+    Recognizer = new RegexRecognizer()
+    {
+        Intents = new Dictionary<string, string>()
+        {
+            { "HelpIntent", "(?i)help" },
+            { "CancelIntent", "(?i)cancel|never mind" }
+        }
+    },
+    Rules = new List<IRule>()
+    {
+        new IntentRule("CancelIntent")
+        {
+            Steps = new List<IDialog>()
+            {
+                new SendActivity("You have {count(user.favColors)} favorite colors - {join(user.favColors, ',', 'and')}"),
+                new EndDialog()
+            }
+        }
+    }
+};
 ```
 
 ### EmitEvent
