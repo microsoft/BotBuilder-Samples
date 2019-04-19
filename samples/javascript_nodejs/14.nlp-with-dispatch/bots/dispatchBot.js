@@ -18,12 +18,12 @@ class DispatchBot extends ActivityHandler {
         const dispatchRecognizer = new LuisRecognizer({
             applicationId: process.env.LuisAppId,
             endpointKey: process.env.LuisAPIKey,
-            endpoint: `https://${process.env.LuisAPIHostName}.api.cognitive.microsoft.com`,
+            endpoint: `https://${ process.env.LuisAPIHostName }.api.cognitive.microsoft.com`
         }, {
             includeAllIntents: true,
             includeInstanceData: true
         }, true);
-        
+
         const qnaMaker = new QnAMaker({
             knowledgeBaseId: process.env.QnAKnowledgebaseId,
             endpointKey: process.env.QnAAuthKey,
@@ -55,7 +55,7 @@ class DispatchBot extends ActivityHandler {
 
             for (let member of membersAdded) {
                 if (member.id !== context.activity.recipient.id) {
-                    await context.sendActivity(`Welcome to Dispatch bot ${member.name}. ${welcomeText}`);
+                    await context.sendActivity(`Welcome to Dispatch bot ${ member.name }. ${ welcomeText }`);
                 }
             }
 
@@ -65,21 +65,20 @@ class DispatchBot extends ActivityHandler {
     }
 
     async dispatchToTopIntentAsync(context, intent, recognizerResult) {
-        switch (intent)
-        {
-            case 'l_HomeAutomation':
-                await this.processHomeAutomation(context, recognizerResult.luisResult); 
-                break;
-            case 'l_Weather':
-                await this.processWeather(context, recognizerResult.luisResult);
-                break;
-            case 'q_sample-qna':
-                await this.processSampleQnA(context);
-                break;
-            default:
-                this.logger.log(`Dispatch unrecognized intent: ${intent}.`);
-                await context.sendActivity(`Dispatch unrecognized intent: ${intent}.`);
-                break;
+        switch (intent) {
+        case 'l_HomeAutomation':
+            await this.processHomeAutomation(context, recognizerResult.luisResult);
+            break;
+        case 'l_Weather':
+            await this.processWeather(context, recognizerResult.luisResult);
+            break;
+        case 'q_sample-qna':
+            await this.processSampleQnA(context);
+            break;
+        default:
+            this.logger.log(`Dispatch unrecognized intent: ${ intent }.`);
+            await context.sendActivity(`Dispatch unrecognized intent: ${ intent }.`);
+            break;
         }
     }
 
@@ -90,11 +89,11 @@ class DispatchBot extends ActivityHandler {
         const result = luisResult.connectedServiceResult;
         const intent = result.topScoringIntent.intent;
 
-        await context.sendActivity(`HomeAutomation top intent ${intent}.`);
-        await context.sendActivity(`HomeAutomation intents detected:  ${luisResult.intents.map((intentObj) => intentObj.intent).join('\n\n')}.`);
+        await context.sendActivity(`HomeAutomation top intent ${ intent }.`);
+        await context.sendActivity(`HomeAutomation intents detected:  ${ luisResult.intents.map((intentObj) => intentObj.intent).join('\n\n') }.`);
 
         if (luisResult.entities.length > 0) {
-            await context.sendActivity(`HomeAutomation entities were found in the message: ${luisResult.entities.map((entityObj) => entityObj.entity).join('\n\n')}.`); 
+            await context.sendActivity(`HomeAutomation entities were found in the message: ${ luisResult.entities.map((entityObj) => entityObj.entity).join('\n\n') }.`);
         }
     }
 
@@ -105,11 +104,11 @@ class DispatchBot extends ActivityHandler {
         const result = luisResult.connectedServiceResult;
         const topIntent = result.topScoringIntent.intent;
 
-        await context.sendActivity(`ProcessWeather top intent ${topIntent}.`);
-        await context.sendActivity(`ProcessWeather intents detected:  ${luisResult.intents.map((intentObj) => intentObj.intent).join('\n\n')}.`);
+        await context.sendActivity(`ProcessWeather top intent ${ topIntent }.`);
+        await context.sendActivity(`ProcessWeather intents detected:  ${ luisResult.intents.map((intentObj) => intentObj.intent).join('\n\n') }.`);
 
         if (luisResult.entities.length > 0) {
-            await context.sendActivity(`ProcessWeather entities were found in the message: ${luisResult.entities.map((entityObj) => entityObj.entity).join('\n\n')}.`); 
+            await context.sendActivity(`ProcessWeather entities were found in the message: ${ luisResult.entities.map((entityObj) => entityObj.entity).join('\n\n') }.`);
         }
     }
 
@@ -119,7 +118,7 @@ class DispatchBot extends ActivityHandler {
         const results = await this.qnaMaker.getAnswers(context);
 
         if (results.length > 0) {
-            await context.sendActivity(`${results[0].answer}`);
+            await context.sendActivity(`${ results[0].answer }`);
         } else {
             await context.sendActivity('Sorry, could not find an answer in the Q and A system.');
         }
