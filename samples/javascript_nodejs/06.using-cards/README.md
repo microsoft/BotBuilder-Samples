@@ -66,6 +66,7 @@ A key to good bot design is to send interactive media, such as Rich Cards. There
 When [designing the user experience][27] developers should consider adding visual elements such as Rich Cards.
 
 ## Deploy the bot to Azure
+
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 ## Further reading

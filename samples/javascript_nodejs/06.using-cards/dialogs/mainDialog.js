@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { AttachmentLayoutTypes, CardFactory } = require('botbuilder');
-const { ChoicePrompt, ComponentDialog, DialogSet, DialogTurnStatus, ListStyle, WaterfallDialog, WaterfallStepContext } = require('botbuilder-dialogs');
+const { ChoicePrompt, ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog, WaterfallStepContext } = require('botbuilder-dialogs');
 const AdaptiveCard = require('../resources/adaptiveCard.json');
 
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
@@ -21,9 +21,9 @@ class MainDialog extends ComponentDialog {
         // Define the main dialog and its related components.
         this.addDialog(new ChoicePrompt('cardPrompt'));
         this.addDialog(new WaterfallDialog(MAIN_WATERFALL_DIALOG, [
-                this.choiceCardStep.bind(this),
-                this.showCardStep.bind(this)
-            ]));
+            this.choiceCardStep.bind(this),
+            this.showCardStep.bind(this)
+        ]));
 
         // The initial child Dialog to run.
         this.initialDialogId = MAIN_WATERFALL_DIALOG;
@@ -50,10 +50,10 @@ class MainDialog extends ComponentDialog {
      * 1. Prompts the user if the user is not in the middle of a dialog.
      * 2. Re-prompts the user when an invalid input is received.
      *
-     * @param {WaterfallStepContext} stepContext 
+     * @param {WaterfallStepContext} stepContext
      */
     async choiceCardStep(stepContext) {
-        this.logger.log("MainDialog.choiceCardStep");
+        this.logger.log('MainDialog.choiceCardStep');
 
         // Create the PromptOptions which contain the prompt and re-prompt messages.
         // PromptOptions also contains the list of choices available to the user.
@@ -70,55 +70,55 @@ class MainDialog extends ComponentDialog {
     /**
      * Send a Rich Card response to the user based on their choice.
      * This method is only called when a valid prompt response is parsed from the user's response to the ChoicePrompt.
-     * @param {WaterfallStepContext} stepContext 
+     * @param {WaterfallStepContext} stepContext
      */
     async showCardStep(stepContext) {
-        this.logger.log("MainDialog.showCardStep");
+        this.logger.log('MainDialog.showCardStep');
 
         switch (stepContext.result.value) {
-            case 'Adaptive Card':
-                await stepContext.context.sendActivity({ attachments: [this.createAdaptiveCard()] });
-                break;
-            case 'Animation Card':
-                await stepContext.context.sendActivity({ attachments: [this.createAnimationCard()] });
-                break;
-            case 'Audio Card':
-                await stepContext.context.sendActivity({ attachments: [this.createAudioCard()] });
-                break;
-            case 'Hero Card':
-                await stepContext.context.sendActivity({ attachments: [this.createHeroCard()] });
-                break;
-            case 'Receipt Card':
-                await stepContext.context.sendActivity({ attachments: [this.createReceiptCard()] });
-                break;
-            case 'Signin Card':
-                await stepContext.context.sendActivity({ attachments: [this.createSignInCard()] });
-                break;
-            case 'Thumbnail Card':
-                await stepContext.context.sendActivity({ attachments: [this.createThumbnailCard()] });
-                break;
-            case 'Video Card':
-                await stepContext.context.sendActivity({ attachments: [this.createVideoCard()] });
-                break;
-            default:
-                await stepContext.context.sendActivity({
-                    attachments: [
-                        this.createAdaptiveCard(),
-                        this.createAnimationCard(),
-                        this.createAudioCard(),
-                        this.createHeroCard(),
-                        this.createReceiptCard(),
-                        this.createSignInCard(),
-                        this.createThumbnailCard(),
-                        this.createVideoCard()
-                    ],
-                    attachmentLayout: AttachmentLayoutTypes.Carousel
-                });
-                break;
+        case 'Adaptive Card':
+            await stepContext.context.sendActivity({ attachments: [this.createAdaptiveCard()] });
+            break;
+        case 'Animation Card':
+            await stepContext.context.sendActivity({ attachments: [this.createAnimationCard()] });
+            break;
+        case 'Audio Card':
+            await stepContext.context.sendActivity({ attachments: [this.createAudioCard()] });
+            break;
+        case 'Hero Card':
+            await stepContext.context.sendActivity({ attachments: [this.createHeroCard()] });
+            break;
+        case 'Receipt Card':
+            await stepContext.context.sendActivity({ attachments: [this.createReceiptCard()] });
+            break;
+        case 'Signin Card':
+            await stepContext.context.sendActivity({ attachments: [this.createSignInCard()] });
+            break;
+        case 'Thumbnail Card':
+            await stepContext.context.sendActivity({ attachments: [this.createThumbnailCard()] });
+            break;
+        case 'Video Card':
+            await stepContext.context.sendActivity({ attachments: [this.createVideoCard()] });
+            break;
+        default:
+            await stepContext.context.sendActivity({
+                attachments: [
+                    this.createAdaptiveCard(),
+                    this.createAnimationCard(),
+                    this.createAudioCard(),
+                    this.createHeroCard(),
+                    this.createReceiptCard(),
+                    this.createSignInCard(),
+                    this.createThumbnailCard(),
+                    this.createVideoCard()
+                ],
+                attachmentLayout: AttachmentLayoutTypes.Carousel
+            });
+            break;
         }
 
         // Give the user instructions about what to do next
-        await stepContext.context.sendActivity("Type anything to see another card.");
+        await stepContext.context.sendActivity('Type anything to see another card.');
 
         return await stepContext.endDialog();
     }
