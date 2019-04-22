@@ -16,5 +16,6 @@ export class MyBot extends ActivityHandler {
             await context.sendActivity('[conversationUpdate event detected]');
             // By calling next() you ensure that the next BotHandler is run.
             await next();
+        });
     }
 }
