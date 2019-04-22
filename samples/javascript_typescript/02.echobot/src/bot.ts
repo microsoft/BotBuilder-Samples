@@ -13,7 +13,7 @@ export class MyBot extends ActivityHandler {
             await next();
         });
         this.onConversationUpdate(async (context, next) => {
-            await context.sendActivity('[conversationUpdate event detected]'); });
+            await context.sendActivity('[conversationUpdate event detected]');
             // By calling next() you ensure that the next BotHandler is run.
             await next();
     }
