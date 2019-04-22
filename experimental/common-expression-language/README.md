@@ -14,6 +14,8 @@ See [here](./api-reference.md) for API reference.
 |-----------|-------------------------------------------------------------------------------------------|-----------------------------------|
 |+          |Arithmetic operator – addition. E.g. A + B	                                                |[add][1]                           |
 |-	        |Arithmetic operator – subtraction. E.g. A – B	                                            |[sub][2]                           |
+|unary +          |Arithmetic operator – positive E.g. +1, +A	                                                |-                           |
+|unary -	        |Arithmetic operator – negative value E.g. –2, -B	                                            |-                           |
 |*	        |Arithmetic operator – multiplication. E.g. A * B	                                        |[mul][3]                           |
 |/	        |Arithmetic operator – division. E.g. A / B	                                                |[div][4]                           |
 |^	        |Arithmetic operator – exponentiation. E.g. A ^ B	                                        |[exp][5]                           |

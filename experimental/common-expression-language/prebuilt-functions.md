@@ -13,6 +13,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 ### String functions
 |Function	|Explanation|
 |-----------|-----------|
+|[length](#length)| Returns the length of a string |
 |[replace](#replace)|	Replace a substring with the specified string, and return the updated string. case sensitive|
 |[replaceIgnoreCase](#replaceIgnoreCase)|	Replace a substring with the specified string, and return the updated string. Case in-sensitive	|
 |[split](#split)	|Returns an array that contains substrings based on the delimiter specified.|
@@ -1057,6 +1058,38 @@ And returns these results:
 
 * First example: `"d"`
 * Second example: `3`
+
+### length
+
+Return the length of a string
+
+```
+length('<str>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*str*> | Yes | String | The string where to get length |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*length*> | Integer | The length of this string |
+||||
+
+*Example*
+
+These examples get the length of strings:
+
+```
+length('hello')
+length('hello world')
+```
+
+And returns these results:
+
+* First example: `5`
+* Second example: `11`
 
 <a name="less"></a>
 
