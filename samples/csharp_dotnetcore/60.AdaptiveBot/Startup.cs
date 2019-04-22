@@ -3,13 +3,13 @@
 //
 // Generated with Bot Builder V4 SDK Template for Visual Studio EchoBot v4.3.0
 
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Debugging;
+using Microsoft.Bot.Builder.Dialogs.Declarative;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
@@ -17,24 +17,15 @@ using Microsoft.Bot.Builder.LanguageGeneration.Renderer;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging.Debug;
 
 namespace AdaptiveBotSample
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
-            HostingEnvironment = env;
-
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-
-            Configuration = builder.Build();
-
+            this.HostingEnvironment = env;
+            this.Configuration = configuration;
         }
 
         public IHostingEnvironment HostingEnvironment { get; }
@@ -46,82 +37,51 @@ namespace AdaptiveBotSample
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddSingleton<IConfiguration>(this.Configuration);
+
             // Create the credential provider to be used with the Bot Framework Adapter.
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
-            //if (System.Diagnostics.Debugger.IsAttached)
-            //{
-            //    TelemetryConfiguration.Active.DisableTelemetry = true;
-            //}
+            IStorage storage = new MemoryStorage();
+            var userState = new UserState(storage);
+            var conversationState = new ConversationState(storage);
+            var resourceExplorer = ResourceExplorer
+                .LoadProject(HostingEnvironment.ContentRootPath);
 
-            // hook up debugging support
-            var sourceMap = new SourceMap();
-            DebugAdapter debugAdapter = null;
-            bool enableDebugger = true;
-            if (enableDebugger)
-            {
-                // by setting the source registry all dialogs will register themselves to be debugged as execution flows
-                DebugSupport.SourceRegistry = sourceMap;
-                debugAdapter = new DebugAdapter(sourceMap, sourceMap, new DebugLogger(nameof(DebugAdapter)));
-            }
-
-            services.AddSingleton(DebugSupport.SourceRegistry);
-
-            // set the configuration for types
+            // TODO get rid of this dependency
             TypeFactory.Configuration = this.Configuration;
 
-            // register adaptive library components
-            TypeFactory.RegisterAdaptiveTypes();
-
-            // register custom components
-            TypeFactory.Register("Testbot.CalculateDogYears", typeof(CalculateDogYears));
-            TypeFactory.Register("Testbot.JavascriptStep", typeof(JavascriptStep));
-            TypeFactory.Register("Testbot.CSharpStep", typeof(CSharpStep));
-
-            IStorage dataStore = new MemoryStorage();
-            services.AddSingleton(dataStore);
-
-            var userState = new UserState(dataStore);
-            services.AddSingleton(userState);
-
-            var conversationState = new ConversationState(dataStore);
-            services.AddSingleton(conversationState);
-
-            var resourceExplorer = ResourceExplorer.LoadProject(HostingEnvironment.ContentRootPath);
-            services.AddSingleton(resourceExplorer);
-
+            // set up bot framework runtime environment (Aka the adapter)
             services.AddSingleton<IBotFrameworkHttpAdapter, BotFrameworkHttpAdapter>((s) =>
             {
-                // manage all bot resources
-                var lg = new LGLanguageGenerator(resourceExplorer);
-
                 var adapter = new BotFrameworkHttpAdapter();
-
                 adapter
-                    .Use(new RegisterClassMiddleware<IStorage>(dataStore))
-                    .Use(new RegisterClassMiddleware<ResourceExplorer>(resourceExplorer))
-                    .Use(new RegisterClassMiddleware<ILanguageGenerator>(lg))
-                    .Use(new RegisterClassMiddleware<IMessageActivityGenerator>(new TextMessageActivityGenerator(lg)))
-                    .Use(new AutoSaveStateMiddleware(userState, conversationState));
-
-                if (debugAdapter != null)
-                {
-                    adapter.Use(debugAdapter);
-                }
+                    .UseStorage(storage)
+                    .UseState(userState, conversationState)
+                    .UseResourceExplorer(resourceExplorer, () =>
+                    {
+                        TypeFactory.Register("Testbot.CalculateDogYears", typeof(CalculateDogYears));
+                        TypeFactory.Register("Testbot.JavascriptStep", typeof(JavascriptStep));
+                        TypeFactory.Register("Testbot.CSharpStep", typeof(CSharpStep));
+                    })
+                    .UseLanguageGenerator(new LGLanguageGenerator(resourceExplorer))
+                    .UseDebugger(Configuration.GetValue<int>("debugport", 4712));
 
                 adapter.OnTurnError = async (turnContext, exception) =>
                 {
-                    await conversationState.ClearStateAsync(turnContext);
-                    await conversationState.SaveChangesAsync(turnContext);
+                    await turnContext.SendActivityAsync(exception.Message).ConfigureAwait(false);
+
+                    await conversationState.ClearStateAsync(turnContext).ConfigureAwait(false);
+                    await conversationState.SaveChangesAsync(turnContext).ConfigureAwait(false);
                 };
                 return adapter;
             });
 
-            services.AddSingleton<IBot, Bot>();
+            services.AddSingleton<IBot, Bot>((sp) => new Bot(conversationState, resourceExplorer, DebugSupport.SourceRegistry));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime lifetime)
         {
             if (env.IsDevelopment())
             {

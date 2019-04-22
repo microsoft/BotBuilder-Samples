@@ -7,7 +7,7 @@
         "intents": {
             "AddIntent": "(?i)(?:add|create) .*(?:to-do|todo|task)(?: )?(?:named (?<title>.*))?",
             "DeleteIntent": "(?i)(?:delete|remove|clear) .*(?:to-do|todo|task)(?: )?(?:named (?<title>.*))?",
-            "ShowIntent": "(?i)(?:show|see|view) .*(?:to-do|todo|task)|(?i)(?:show|see|view)",
+            "ShowIntent": "(?i)(?:show|see|view) .*(?:to-do|todo|task)",
             "ClearIntent": "(?i)(?:delete|remove|clear) (?:all|every) (?:to-dos|todos|tasks)",
             "HelpIntent": "(?i)help",
             "CancelIntent": "(?i)cancel|never mind"

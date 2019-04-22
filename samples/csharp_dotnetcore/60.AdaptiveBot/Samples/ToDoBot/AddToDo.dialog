@@ -8,9 +8,26 @@
             "property": "dialog.todo"
         },
         {
-            "$type": "Microsoft.TextInput",
-            "prompt": "OK, please enter the title of your todo.",
-            "property": "dialog.todo"
+            "$type": "Microsoft.IfCondition",
+            "condition": "dialog.todo == null",
+            "steps": [
+                {
+                    "$type": "Microsoft.TextInput",
+                    "prompt": "OK, please enter the title of your todo.",
+                    "property": "dialog.todo"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.IfCondition",
+            "condition": "user.todos == null",
+            "steps": [
+                {
+                    "$type": "Microsoft.InitProperty",
+                    "property": "user.todos",
+                    "type": "array"
+                }
+            ]
         },
         {
             "$type": "Microsoft.EditArray",
@@ -25,6 +42,17 @@
         {
             "$type": "Microsoft.DeleteProperty",
             "property": "dialog.todo"
+        }
+    ],
+    "rules": [
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "CancelIntent",
+            "steps": [
+                {
+                    "$type": "Microsoft.CancelAllDialog"
+                }
+            ]
         }
     ]
 }

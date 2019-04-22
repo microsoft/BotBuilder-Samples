@@ -3,12 +3,7 @@
     "$type": "Microsoft.AdaptiveDialog",
     "$id": "root",
     "autoEndDialog": false,
-    "recognizer": {
-        "$type": "Microsoft.LuisRecognizer",
-        "applicationId": "{settings.ToDoLuisBot.LuisRecognizer.applicationId}",
-        "endpointKey": "{settings.ToDoLuisBot.LuisRecognizer.endpointKey}",
-        "endpoint": "{settings.ToDoLuisBot.LuisRecognizer.endpoint}"
-    },
+    "recognizer": "ToDoLuis.lu",
     "steps": [
         {
             "$type": "Microsoft.SendActivity",
@@ -18,7 +13,7 @@
     "rules": [
         {
             "$type": "Microsoft.IntentRule",
-            "intent": "AddItem",
+            "intent": "AddToDo",
             "steps": [
                 "ToDoLuisBot.AddItem"
             ]
