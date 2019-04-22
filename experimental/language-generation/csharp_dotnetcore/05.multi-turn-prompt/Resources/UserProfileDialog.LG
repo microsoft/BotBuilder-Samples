@@ -1,0 +1,32 @@
+﻿# ModeOfTransportPrompt
+- Please enter your mode of transport.
+
+# AskForName
+- Please enter your name.
+
+# AckName
+- Thanks, {Result}.
+
+# AgeConfirmPrompt
+- Would you like to give your age?
+
+# AskForAge
+- Please enter your age.
+
+# AskForAge.reprompt
+- The value entered must be greater than 0 and less than 150.
+
+# AgeReadBack (userAge)
+- IF: {userAge == null}
+   - No age given.
+- ELSE: 
+   - I have your age as {userAge}.
+
+# ConfirmPrompt
+- Is this ok?
+
+# SummaryReadout
+- I have your mode of transport as {Transport} and your name as {Name}. And, [AgeReadBack(Age)]
+
+# NoProfileReadBack
+- Thanks. Your profile will not be kept.

@@ -26,11 +26,11 @@ namespace Microsoft.BotBuilderSamples
 
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "MainDialog.LG" };
-            string fullPath = Path.Combine(paths);
-            _lgEngine = TemplateEngine.FromFiles(fullPath);
+            string mainDialogLGFile = Path.Combine(paths);
             paths = new string[] { ".", "Resources", "Cards.LG" };
-            fullPath = Path.Combine(paths);
-            _lgEngine = TemplateEngine.FromFiles(fullPath);
+            string cardsLGFile = Path.Combine(paths);
+            string[] lgFiles = { mainDialogLGFile, cardsLGFile };
+            _lgEngine = TemplateEngine.FromFiles(lgFiles);
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
@@ -71,6 +71,13 @@ namespace Microsoft.BotBuilderSamples
         {
             _logger.LogInformation("MainDialog.ShowCardStepAsync");
 
+            // Reply to the activity we received with an activity.
+            var reply = stepContext.Context.Activity.CreateReply();
+
+            // Cards are sent as Attachments in the Bot Framework.
+            // So we need to create a list of attachments on the activity.
+            reply.Attachments = new List<Attachment>();
+
             // Get the text from the activity to use to show the correct card
             var text = stepContext.Context.Activity.Text.ToLowerInvariant().Split(' ')[0];
 
@@ -78,58 +85,52 @@ namespace Microsoft.BotBuilderSamples
             if (text.StartsWith("hero"))
             {
                 // Display a HeroCard.
-                //await stepContext.Context.SendActivitiesAsync()
+                await stepContext.Context.SendActivityAsync(TextMessageActivityGenerator.CreateActivityFromText(_lgEngine.EvaluateTemplate("HeroCard", null)));
             }
             else if (text.StartsWith("thumb"))
             {
                 // Display a ThumbnailCard.
-                //reply.Attachments.Add(Cards.GetThumbnailCard().ToAttachment());
-            }
-            else if (text.StartsWith("receipt"))
-            {
-                // Display a ReceiptCard.
-                //reply.Attachments.Add(Cards.GetReceiptCard().ToAttachment());
+                await stepContext.Context.SendActivityAsync(TextMessageActivityGenerator.CreateActivityFromText(_lgEngine.EvaluateTemplate("ThumbnailCard", null)));
             }
             else if (text.StartsWith("sign"))
             {
-                // Display a SignInCard.
-                //reply.Attachments.Add(Cards.GetSigninCard().ToAttachment());
+                // Display a SignInCard. 
+                await stepContext.Context.SendActivityAsync(TextMessageActivityGenerator.CreateActivityFromText(_lgEngine.EvaluateTemplate("SigninCard", null)));
             }
             else if (text.StartsWith("animation"))
             {
                 // Display an AnimationCard.
-                //reply.Attachments.Add(Cards.GetAnimationCard().ToAttachment());
+                await stepContext.Context.SendActivityAsync(TextMessageActivityGenerator.CreateActivityFromText(_lgEngine.EvaluateTemplate("AnimationCard", null)));
+
             }
             else if (text.StartsWith("video"))
             {
-                // Display a VideoCard
-                //reply.Attachments.Add(Cards.GetVideoCard().ToAttachment());
+                // Display a VideoCard 
+                await stepContext.Context.SendActivityAsync(TextMessageActivityGenerator.CreateActivityFromText(_lgEngine.EvaluateTemplate("VideoCard", null)));
             }
             else if (text.StartsWith("audio"))
             {
-                // Display an AudioCard
-                //reply.Attachments.Add(Cards.GetAudioCard().ToAttachment());
+                // Display an AudioCard 
+                await stepContext.Context.SendActivityAsync(TextMessageActivityGenerator.CreateActivityFromText(_lgEngine.EvaluateTemplate("AudioCard", null)));
+            }
+            else if (text.StartsWith("receipt"))
+            {
+                // Display a ReceiptCard.
+                reply.Attachments.Add(Cards.GetReceiptCard().ToAttachment());
+                // Send the card(s) to the user as an attachment to the activity
+                await stepContext.Context.SendActivityAsync(reply, cancellationToken);
             }
             else if (text.StartsWith("adaptive"))
             {
-                //reply.Attachments.Add(Cards.CreateAdaptiveCardAttachment());
+                reply.Attachments.Add(Cards.CreateAdaptiveCardAttachment());
+                // Send the card(s) to the user as an attachment to the activity
+                await stepContext.Context.SendActivityAsync(reply, cancellationToken);
             }
             else
             {
                 // Display a carousel of all the rich card types.
-                //reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-                //reply.Attachments.Add(Cards.CreateAdaptiveCardAttachment());
-                //reply.Attachments.Add(Cards.GetHeroCard().ToAttachment());
-                //reply.Attachments.Add(Cards.GetThumbnailCard().ToAttachment());
-                //reply.Attachments.Add(Cards.GetReceiptCard().ToAttachment());
-                //reply.Attachments.Add(Cards.GetSigninCard().ToAttachment());
-                //reply.Attachments.Add(Cards.GetAnimationCard().ToAttachment());
-                //reply.Attachments.Add(Cards.GetVideoCard().ToAttachment());
-                //reply.Attachments.Add(Cards.GetAudioCard().ToAttachment());
+                await stepContext.Context.SendActivityAsync(TextMessageActivityGenerator.CreateActivityFromText(_lgEngine.EvaluateTemplate("AllCards", null)));
             }
-
-            // Send the card(s) to the user as an attachment to the activity
-            //await stepContext.Context.SendActivityAsync(reply, cancellationToken);
 
             // Give the user instructions about what to do next
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(_lgEngine.EvaluateTemplate("CardStartOverResponse", null)), cancellationToken);

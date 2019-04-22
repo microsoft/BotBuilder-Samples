@@ -2,7 +2,7 @@
 Bot Framework v4 core bot sample.
 
 This bot has been created using [Bot Framework][1], it shows how to:
-- Use [Language Generation][41] to power bot's responses
+- Use **[Language Generation][41]** to power bot's responses
 - Use [LUIS][11] to implement core AI capabilities
 - Implement a multi-turn conversation using Dialogs
 - Handle user interruptions for such things as `Help` or `Cancel`
