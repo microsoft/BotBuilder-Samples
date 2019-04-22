@@ -39,7 +39,7 @@
             "intent": "CancelIntent",
             "steps": [
                 {
-                    "$type": "Microsoft.EndDialog"
+                    "$type": "Microsoft.CancelAllDialog"
                 }
             ]
         }

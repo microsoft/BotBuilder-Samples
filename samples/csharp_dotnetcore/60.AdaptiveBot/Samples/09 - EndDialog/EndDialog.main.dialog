@@ -32,8 +32,8 @@
     ],
     "rules": [
         {
-            "$type": "Microsoft.IntentRule",
-            "intent":"CancelIntent",
+            "$type": "Microsoft.EventRule",
+            "events": [ "cancelDialog" ],
             "steps": [
                 {
                     "$type": "Microsoft.SendActivity",

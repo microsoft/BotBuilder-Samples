@@ -16,39 +16,37 @@ using Microsoft.Bot.Builder.Dialogs.Debugging;
 using Microsoft.Bot.Builder.Dialogs.Declarative;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Schema;
+using static Microsoft.Bot.Builder.Dialogs.Debugging.Source;
 
 namespace AdaptiveBotSample
 {
     public class Bot : ActivityHandler
     {
         private DialogSet _dialogs;
-
         private AdaptiveDialog rootDialog;
-
         private readonly ResourceExplorer resourceExplorer;
 
-        private UserState userState;
-        private ConversationState conversationState;
-        private Source.IRegistry registry;
-
-        public Bot(UserState userState, ConversationState conversationState, ResourceExplorer resourceExplorer, Source.IRegistry registry)
+        public Bot(ConversationState conversationState, ResourceExplorer resourceExplorer, Source.IRegistry registry = null)
         {
-            this.registry = registry;
-            this.conversationState = conversationState;
-            this.userState = userState;
+            _dialogs = new DialogSet(conversationState.CreateProperty<DialogState>("DialogState"));
+
             this.resourceExplorer = resourceExplorer;
+            registry = registry ?? NullRegistry.Instance;
 
             // auto reload dialogs when file changes
             this.resourceExplorer.Changed += (paths) =>
             {
                 if (paths.Any(p => Path.GetExtension(p) == ".dialog"))
-                    LoadRootDialog();
+                {
+                    Task.Run(() => this.LoadRootDialogAsync(registry));
+                }
             };
 
-            LoadRootDialog();
+            LoadRootDialogAsync(registry);
         }
 
-        private void LoadRootDialog()
+
+        private void LoadRootDialogAsync(IRegistry registry)
         {
             System.Diagnostics.Trace.TraceInformation("Loading resources...");
             var rootFile = resourceExplorer.GetResource(@"ToDoBot.main.dialog");
@@ -63,8 +61,7 @@ namespace AdaptiveBotSample
             //var rootFile = resourceExplorer.GetResource("ExternalLanguage.main.dialog");
             //var rootFile = resourceExplorer.GetResource("CustomStep.dialog");
 
-            rootDialog = DeclarativeTypeLoader.Load<AdaptiveDialog>(rootFile.FullName, resourceExplorer, registry);
-            _dialogs = new DialogSet(conversationState.CreateProperty<DialogState>("DialogState"));
+            rootDialog = DeclarativeTypeLoader.Load<AdaptiveDialog>(rootFile, resourceExplorer, registry);
             _dialogs.Add(rootDialog);
 
             System.Diagnostics.Trace.TraceInformation("Done loading resources.");
