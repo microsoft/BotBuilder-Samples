@@ -9,6 +9,8 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.BotBuilderSamples;
 using Microsoft.Extensions.Logging;
+using QnAPrompting.Dialogs;
+using QnAPrompting.Helpers;
 
 namespace QnAPrompting.Bots
 {
@@ -17,10 +19,10 @@ namespace QnAPrompting.Bots
     // each with dependency on distinct IBot types, this way ASP Dependency Injection can glue everything together without ambiguity.
     // The ConversationState is used by the Dialog system. The UserState isn't, however, it might have been used in a Dialog implementation,
     // and the requirement is that all BotState objects are saved at the end of a turn.
-    public class QnABot<T> : DialogBot<T> where T : Dialog
+    public class QnABot : DialogBot<QnADialog>
     {
-        public QnABot(ConversationState conversationState, UserState userState, T dialog, ILogger<DialogBot<T>> logger)
-             : base(conversationState, userState, dialog, logger)
+        public QnABot(ConversationState conversationState, UserState userState, IQnAService qnaService, ILogger<QnABot> logger)
+             : base(conversationState, userState, new QnADialog(qnaService), logger)
         {
         }
 

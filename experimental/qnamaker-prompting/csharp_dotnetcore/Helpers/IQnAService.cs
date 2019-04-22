@@ -6,7 +6,7 @@ using QnAPrompting.Models;
 
 namespace QnAPrompting.Helpers
 {
-    public interface IQnAServiceHelper
+    public interface IQnAService
     {
         Task<QnAResult[]> QueryQnAServiceAsync(string query, QnABotState qnAcontext);
     }
