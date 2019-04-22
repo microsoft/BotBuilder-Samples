@@ -50,6 +50,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
         var serviceScheme = serviceUrl.protocol.split(':')[0];
         client.setSchemes([serviceScheme]);
         client.setHost(serviceUrl.host);
+        client.setBasePath(serviceUrl.path);
         // 3. GET /v3/conversations/{conversationId}/members
         return client.Conversations.Conversations_GetConversationMembers({ conversationId: conversationId })
             .then(function (res) {
