@@ -36,7 +36,7 @@ developers to test and debug their bots on localhost or running remotely through
 - File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/42.scaleout` folder.
 - Select `scaleout.bot` file.
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../INSTALLING_CLI_TOOLS.md).
 
 To clone this bot, run
 ```bash

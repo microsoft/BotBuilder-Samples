@@ -15,7 +15,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 cd BotBuilder-Samples/samples/csharp_webapi/13.Basic-Bot-Template
 ```
 
-To configure any services this sample depends on. In order to install the needed and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md). 
+To configure any services this sample depends on. In order to install the needed and other tools, you can read [Installing CLI Tools](../../../INSTALLING_CLI_TOOLS.md). 
 
 Create LUIS json model file (this will consume two .lu files combined into one model):
 ```bash

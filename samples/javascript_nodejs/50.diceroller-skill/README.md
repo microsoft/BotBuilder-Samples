@@ -52,7 +52,7 @@ Cortana skills tend to be more multi-modal in their use of both speech and text.
 When creating skills targeted at Cortana for the desktop you'll want to fill in both the `text` and `speak` fields of the outgoing activity and you'll find the thing you want to show to the user and speak to the user are often quite different.  The sample includes a simple `Language Generation (LG)` module that simplifies composing activities containing both `text` and `speak` fields.
 
 # Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
+You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../INSTALLING_CLI_TOOLS.md).
 
 To clone this bot, run
 ```
