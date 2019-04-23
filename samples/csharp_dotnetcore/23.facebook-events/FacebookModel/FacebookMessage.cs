@@ -24,7 +24,8 @@ namespace Microsoft.BotBuilderSamples.FacebookModel
 
         /// <summary>
         /// Gets or sets whether the message is an echo message.
-        /// See <see cref="">Echo Message</see> in the Facebook Developer Documentation.
+        /// See <see cref="https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/message-echoes/">Echo Message</see>
+        /// in the Facebook Developer Documentation.
         /// </summary>
         [JsonProperty("is_echo")]
         public bool IsEcho { get; set; }

@@ -1,10 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.BotBuilderSamples.FacebookModel;
 using Microsoft.Extensions.Logging;
@@ -12,98 +13,169 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
-    // This IBot implementation can run any type of Dialog. The use of type parameterization is to allows multiple different bots
-    // to be run at different endpoints within the same project. This can be achieved by defining distinct Controller types
-    // each with dependency on distinct IBot types, this way ASP Dependency Injection can glue everything together without ambiguity.
-    // The ConversationState is used by the Dialog system. The UserState isn't, however, it might have been used in a Dialog implementation,
-    // and the requirement is that all BotState objects are saved at the end of a turn.
-    public class FacebookBot<T> : ActivityHandler where T : Dialog
+    public class FacebookBot : ActivityHandler
     {
-        protected readonly Dialog Dialog;
-        protected readonly BotState ConversationState;
+        // These are the options provided to the user when they message the bot
+        const string FacebookPageIdOption = "Facebook Id";
+        const string QuickRepliesOption = "Quick Replies";
+        const string PostBackOption = "PostBack";
+        
         protected readonly ILogger Logger;
 
-        public FacebookBot(ConversationState conversationState, T dialog, ILogger<FacebookBot<T>> logger)
+        public FacebookBot(ILogger<FacebookBot> logger)
         {
-            ConversationState = conversationState;
-            Dialog = dialog;
             Logger = logger;
         }
-
-        public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            await base.OnTurnAsync(turnContext, cancellationToken);
-
-            // Save any state changes that might have occured during the turn.
-            await ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
-        }
-
+        
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            Logger.LogInformation("Running dialog with Message Activity.");
+            Logger.LogInformation("Processing a Message Activity.");
 
-            // Run the Dialog with the new message Activity.
-            await Dialog.Run(turnContext, ConversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
+            // Show choices if the Facebook Payload from ChannelData is not handled
+            if (!await ProcessFacebookPayload(turnContext, turnContext.Activity.ChannelData, cancellationToken))
+                await ShowChoices(turnContext, cancellationToken);
         }
 
-        protected override Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
         {
-            // Analyze Facebook payload from channel data.
-            ProcessFacebookPayload(turnContext.Activity.ChannelData);
+            Logger.LogInformation("Processing an Event Activity.");
 
-            return base.OnEventActivityAsync(turnContext, cancellationToken);
+            // Analyze Facebook payload from EventActivity.Value
+            await ProcessFacebookPayload(turnContext, turnContext.Activity.Value, cancellationToken);
         }
 
-        /// <summary>
-        /// Process a Facebook payload from channel data, to handle optin events, postbacks and quick replies.
-        /// NOTE: This is a simplification of the Facebook object model. There are many more events and payloads
-        /// that could be captured here. We only show some key features that are commonly used. The <see cref="FacebookPayload"/> class
-        /// can be extended to account for more complete models according to developers' needs.
-        /// </summary>
-        /// <param name="channelData">The activity channel data.</param>
-        private void ProcessFacebookPayload(object channelData)
+        private static async Task ShowChoices(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            // Create choices for the prompt
+            var choices = new List<Choice>();
+            choices.Add(new Choice() { Value = QuickRepliesOption, Action = new CardAction() { Title = QuickRepliesOption, Type = ActionTypes.PostBack, Value = QuickRepliesOption } });
+            choices.Add(new Choice() { Value = FacebookPageIdOption, Action = new CardAction() { Title = FacebookPageIdOption, Type = ActionTypes.PostBack, Value = FacebookPageIdOption } });
+            choices.Add(new Choice() { Value = PostBackOption, Action = new CardAction() { Title = PostBackOption, Type = ActionTypes.PostBack, Value = PostBackOption } });
+
+            // Create the prompt message
+            var message = ChoiceFactory.ForChannel(turnContext.Activity.ChannelId, choices,"What Facebook feature would you like to try? Here are some quick replies to choose from!");
+            await turnContext.SendActivityAsync(message, cancellationToken);
+        }
+        
+        private async Task<bool> ProcessFacebookPayload(ITurnContext turnContext, object data, CancellationToken cancellationToken)
         {
             // At this point we know we are on Facebook channel, and can consume the Facebook custom payload
             // present in channelData.
-            var facebookPayload = (channelData as JObject)?.ToObject<FacebookPayload>();
+            var facebookPayload = (data as JObject)?.ToObject<FacebookPayload>();
 
             if (facebookPayload != null)
             {
                 // PostBack
                 if (facebookPayload.PostBack != null)
                 {
-                    OnFacebookPostBack(facebookPayload.PostBack);
+                    await OnFacebookPostBack(turnContext, facebookPayload.PostBack, cancellationToken);
+                    return true;
                 }
 
                 // Optin
                 else if (facebookPayload.Optin != null)
                 {
-                    OnFacebookOptin(facebookPayload.Optin);
+                    await OnFacebookOptin(turnContext, facebookPayload.Optin, cancellationToken);
+                    return true;
                 }
 
                 // Quick reply
                 else if (facebookPayload.Message?.QuickReply != null)
                 {
-                    OnFacebookQuickReply(facebookPayload.Message.QuickReply);
+                    await OnFacebookQuickReply(turnContext, facebookPayload.Message.QuickReply, cancellationToken);
+                    return true;
+                }
+
+                // Echo
+                else if (facebookPayload.Message?.IsEcho != null && facebookPayload.Message.IsEcho)
+                {
+                    await OnFacebookEcho(turnContext, facebookPayload.Message, cancellationToken);
+                    return true;
                 }
 
                 // TODO: Handle other events that you're interested in...
             }
+            return false;
         }
 
-        protected virtual void OnFacebookOptin(FacebookOptin optin)
+        protected virtual async Task OnFacebookOptin(ITurnContext turnContext, FacebookOptin optin, CancellationToken cancellationToken)
         {
+            Logger.LogInformation("Optin message received.");
+
             // TODO: Your optin event handling logic here...
         }
 
-        protected virtual void OnFacebookPostBack(FacebookPostback postBack)
+        protected virtual async Task OnFacebookEcho(ITurnContext turnContext, FacebookMessage facebookMessage, CancellationToken cancellationToken)
         {
-            // TODO: Your PostBack handling logic here...
+            Logger.LogInformation("Echo message received.");
+
+            // TODO: Your echo event handling logic here...
         }
 
-        protected virtual void OnFacebookQuickReply(FacebookQuickReply quickReply)
+        protected virtual async Task OnFacebookPostBack(ITurnContext turnContext, FacebookPostback postBack, CancellationToken cancellationToken)
         {
+            Logger.LogInformation("PostBack message received.");
+
+            // TODO: Your PostBack handling logic here...
+
+            // Answer the postback, and show choices
+            var reply = turnContext.Activity.CreateReply($"Are you sure?");
+            await turnContext.SendActivityAsync(reply, cancellationToken);
+            await ShowChoices(turnContext, cancellationToken);
+        }
+
+        protected virtual async Task OnFacebookQuickReply(ITurnContext turnContext, FacebookQuickReply quickReply, CancellationToken cancellationToken)
+        {
+            Logger.LogInformation("QuickReply message received.");
+
             // TODO: Your quick reply event handling logic here...
+
+            // Process the message by checking the Activity.Text.  The FacebookQuickReply could also contain a json payload.
+
+            // Initially the bot offers to showcase 3 Facebook features: Quick replies, PostBack and getting the Facebook Page Name.
+            switch (turnContext.Activity.Text)
+            {
+                // Here we showcase how to obtain the Facebook page id.
+                // This can be useful for the Facebook multi-page support provided by the Bot Framework.
+                // The Facebook page id from which the message comes from is in turnContext.Activity.Recipient.Id.
+                case FacebookPageIdOption:
+                    {
+                        var reply = turnContext.Activity.CreateReply($"This message comes from the following Facebook Page: {turnContext.Activity.Recipient.Id}");
+                        await turnContext.SendActivityAsync(reply, cancellationToken);
+                        await ShowChoices(turnContext, cancellationToken);
+
+                        break;
+                    }
+
+                // Here we send a HeroCard with 2 options that will trigger a Facebook PostBack.
+                case PostBackOption:
+                    {
+                        var card = new HeroCard
+                        {
+                            Text = "Is 42 the answer to the ultimate question of Life, the Universe, and Everything?",
+                            Buttons = new List<CardAction>
+                                    {
+                                        new CardAction() { Title = "Yes", Type = ActionTypes.PostBack, Value = "Yes" },
+                                        new CardAction() { Title = "No", Type = ActionTypes.PostBack, Value = "No" },
+                                    },
+                        };
+
+                        var reply = turnContext.Activity.CreateReply();
+                        reply.Attachments = new List<Attachment> { card.ToAttachment() };
+                        await turnContext.SendActivityAsync(reply, cancellationToken);
+
+                        break;
+                    }
+
+                // By default we offer the users different actions that the bot supports, through quick replies.
+                case QuickRepliesOption:
+                default:
+                    {
+                        await ShowChoices(turnContext, cancellationToken);
+
+                        break;
+                    }
+            }
         }
     }
 }
