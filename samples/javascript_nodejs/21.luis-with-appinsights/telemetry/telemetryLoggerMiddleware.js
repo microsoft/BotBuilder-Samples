@@ -1,11 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-/**
- * Middleware for logging incoming activities into Application Insights.
- * In addition, registers a service so other components can log telemetry.
- * If this component is not registered, visibility within the Bot is not logged.
- */
 class TelemetryLoggerMiddleware {
     constructor(telemetryClient, settings) {
         // Indicates whether or not to log the user name into the BotMessageReceived event. Defaults to false.
@@ -39,11 +34,6 @@ class TelemetryLoggerMiddleware {
         this.botMsgDeleteEvent = 'BotMessageDelete';
     }
 
-    /**
-     * Records incoming and outgoing activities to the Application Insights store.
-     * @param {TurnContext} turnContext Context for the current turn of conversation with the user.
-     * @param {Promise<void>} next Function to invoke at the end of the middleware chain.
-     */
     async onTurn(turnContext, next) {
         if (turnContext.activity) {
             // Store the TelemetryClient on the TurnContext's turnState so MyAppInsightsQnAMaker can use it.
@@ -96,12 +86,6 @@ class TelemetryLoggerMiddleware {
         await next();
     }
 
-    /**
-     * Fills the Application Insights Custom Event properties for BotMessageReceived.
-     * These properties are logged in the custom event when a new message is received from the user.
-     * @param {Activity} activity The Receive activity whose properties are placed into the Application Insights custom event.
-     * @returns An object that is sent as "Properties" to Application Insights via the trackEvent method for the BotMessageReceived Message.
-     */
     fillReceiveEventProperties(activity) {
         const properties = Object.assign({}, this.createBasicProperties(activity), { Locale: activity.locale });
         // For some customers, logging user name within Application Insights might be an issue so we have provided a config setting to enable this feature
@@ -116,12 +100,6 @@ class TelemetryLoggerMiddleware {
         return properties;
     }
 
-    /**
-     * Fills the Application Insights Custom Event properties for BotMessageSend.
-     * These properties are logged in the custom event when a response message is sent by the Bot to the user.
-     * @param {Activity} activity The Send activity whose properties are placed into the Application Insights custom event.
-     * @returns An object that is sent as "Properties" to Applications Insights via the trackEvent method for the BotMessageSend Message.
-     */
     fillSendEventProperties(activity) {
         const properties = Object.assign({}, this.createBasicProperties(activity), { Locale: activity.locale });
         // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to enable this feature.
@@ -135,14 +113,6 @@ class TelemetryLoggerMiddleware {
         return properties;
     }
 
-    /**
-     * Fills the Application Insights Custom Event properties for BotMessageUpdate.
-     * These properties are logged in the custom event when an activity message is updated by the Bot.
-     * For example, if a card is interacted with by the use, and the card needs to be updated to reflect
-     * some interaction.
-     * @param {Activity} activity The Update activity whose properties are placed into the Application Insights custom event.
-     * @returns An object that is sent as "Properties" to Application Insights via the trackEvent method for the BotMessageUpdate Message.
-     */
     fillUpdateEventProperties(activity) {
         const properties = Object.assign({}, this.createBasicProperties(activity), { Locale: activity.locale });
         // For some customers, logging the utterances within Application Insights might be an issue so have provided a config setting to enable this feature.
@@ -152,15 +122,6 @@ class TelemetryLoggerMiddleware {
         return properties;
     }
 
-    /**
-     * Returns a basic property bag that contains the following data:
-     * - ActivityId: The incoming activity's id.
-     * - Channel: The id of the channel, e.g. 'directline', 'facebook', 'msteams'.
-     * - ConversationId: The unique identifier for a conversation.
-     * - ConversationName: The name of a conversation.
-     * - RecipientId: The unique id of the recipient.
-     * @param {Activity} activity The activity whose properties are placed into the Application Insights custom event.
-     */
     createBasicProperties(activity) {
         const properties = {
             activityId: activity.id,
