@@ -19,14 +19,14 @@ namespace Microsoft.BotBuilderSamples.Bots
         const string FacebookPageIdOption = "Facebook Id";
         const string QuickRepliesOption = "Quick Replies";
         const string PostBackOption = "PostBack";
-        
+
         protected readonly ILogger Logger;
 
         public FacebookBot(ILogger<FacebookBot> logger)
         {
             Logger = logger;
         }
-        
+
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             Logger.LogInformation("Processing a Message Activity.");
@@ -53,10 +53,10 @@ namespace Microsoft.BotBuilderSamples.Bots
             choices.Add(new Choice() { Value = PostBackOption, Action = new CardAction() { Title = PostBackOption, Type = ActionTypes.PostBack, Value = PostBackOption } });
 
             // Create the prompt message
-            var message = ChoiceFactory.ForChannel(turnContext.Activity.ChannelId, choices,"What Facebook feature would you like to try? Here are some quick replies to choose from!");
+            var message = ChoiceFactory.ForChannel(turnContext.Activity.ChannelId, choices, "What Facebook feature would you like to try? Here are some quick replies to choose from!");
             await turnContext.SendActivityAsync(message, cancellationToken);
         }
-        
+
         private async Task<bool> ProcessFacebookPayload(ITurnContext turnContext, object data, CancellationToken cancellationToken)
         {
             // At this point we know we are on Facebook channel, and can consume the Facebook custom payload
