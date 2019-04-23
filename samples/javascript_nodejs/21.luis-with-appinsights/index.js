@@ -8,7 +8,7 @@ const path = require('path');
 const restify = require('restify');
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
+const { BotFrameworkAdapter } = require('botbuilder');
 const { ApplicationInsightsTelemetryClient } = require('botbuilder-applicationinsights');
 const { LuisAppInsightsBot } = require('./bots/luisAppInsightsBot');
 const { TelemetryLoggerMiddleware } = require('./telemetry');
@@ -34,17 +34,6 @@ adapter.onTurnError = async (context, error) => {
     await context.sendActivity(`Oops. Something went wrong!`);
 };
 
-// Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
-// A bot requires a state store to persist the dialog and user state between messages.
-let conversationState, userState;
-
-// For local development, in-memory storage is used.
-// CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
-// is restarted, anything stored in memory will be gone.
-const memoryStorage = new MemoryStorage();
-conversationState = new ConversationState(memoryStorage);
-userState = new UserState(memoryStorage);
-
 // Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
 // Note: Application Insights is used as middleware in this sample
 const logger = console;
@@ -60,7 +49,7 @@ adapter.use(new TelemetryLoggerMiddleware(appInsightsClient, {
 }));
 
 // Create the LuisBot.
-let bot = new LuisAppInsightsBot(conversationState, userState, logger);
+let bot = new LuisAppInsightsBot(logger);
 
 // Create HTTP server.
 let server = restify.createServer();

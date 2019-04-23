@@ -8,7 +8,7 @@ class TelemetryLoggerMiddleware {
 
         // Indicates whether or not to log the original message into the BotMessageReceived event. Defaults to false.
         this.logOriginalMessage = false;
-        this.appInsightsServiceKey = 'AppInsightsLoggerMiddleware.AppInsightsContext';
+        this.appInsightsServiceKey = 'TelemetryLoggerMiddleware.AppInsightsContext';
 
         if (!settings) {
             throw new Error('The settings parameter is required.');

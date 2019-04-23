@@ -5,10 +5,8 @@ const { ActivityHandler } = require('botbuilder');
 const { TelemetryLuisRecognizer } = require('../telemetry/telemetryLuisRecognizer');
 
 class LuisAppInsightsBot extends ActivityHandler {
-    constructor(conversationState, userState, logger) {
+    constructor(logger) {
         super();
-        if (!conversationState) throw new Error('[LuisAppInsightsBot]: Missing parameter. conversationState is required');
-        if (!userState) throw new Error('[LuisAppInsightsBot]: Missing parameter. userState is required');
         if (!logger) {
             logger = console;
             logger.log('[LuisAppInsightsBot]: logger not passed in, defaulting to console');
@@ -23,8 +21,6 @@ class LuisAppInsightsBot extends ActivityHandler {
             includeInstanceData: true
         }, true);
 
-        this.conversationState = conversationState;
-        this.userState = userState;
         this.logger = logger;
 
         this.onMessage(async (context, next) => {
@@ -55,7 +51,7 @@ class LuisAppInsightsBot extends ActivityHandler {
             const membersAdded = context.activity.membersAdded;
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
-                    await context.sendActivity(`Welcome to the LUIS with Application Insights Bot ${ membersAdded[cnt].name }. ${ welcomeText }`);
+                    await context.sendActivity(`Welcome to the LUIS with Application Insights Bot, ${ membersAdded[cnt].name }. ${ welcomeText }`);
                 }
             }
 
@@ -65,7 +61,7 @@ class LuisAppInsightsBot extends ActivityHandler {
     }
 
     async ProcessLuis(context, recognizerResult) {
-        this.logger.log('ProcessLuisAsync');
+        this.logger.log('ProcessLuis');
 
         const result = recognizerResult;
         const topIntent = result.luisResult.topScoringIntent;

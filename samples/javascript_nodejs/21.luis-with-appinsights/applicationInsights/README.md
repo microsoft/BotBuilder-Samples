@@ -115,7 +115,7 @@ With this view, you can quickly understand where time is being spent within your
 
 ## Disabling Application Insights
 
-To turn off Application Insights logging, remove the `appInsights` section of your `<BOT-NAME>.bot` file and the null logger will be used instead.
+To turn off Application Insights logging, remove `adapter.use(new TelemetryLoggerMiddleware...` line from `index.js`.
 
 ## Troubleshooting
 

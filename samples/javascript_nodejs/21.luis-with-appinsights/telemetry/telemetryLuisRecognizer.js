@@ -16,7 +16,7 @@ class TelemetryLuisRecognizer extends LuisRecognizer {
         const results = await super.recognize(turnContext);
 
         // Retrieve the reference for the TelemetryClient that was cached for the Turn in TurnContext.turnState via MyAppInsightsMiddleware.
-        const telemetryClient = turnContext.turnState.get('AppInsightsLoggerMiddleware.AppInsightsContext');
+        const telemetryClient = turnContext.turnState.get('TelemetryLoggerMiddleware.AppInsightsContext');
         const telemetryProperties = {};
         const activity = turnContext.activity;
 
