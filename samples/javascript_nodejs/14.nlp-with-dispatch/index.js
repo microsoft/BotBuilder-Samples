@@ -18,8 +18,8 @@ require('dotenv').config({ path: ENV_FILE });
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more.
 const adapter = new BotFrameworkAdapter({
-    appId: process.env.microsoftAppID,
-    appPassword: process.env.microsoftAppPassword
+    appId: process.env.MicrosoftAppId,
+    appPassword: process.env.MicrosoftAppPassword
 });
 
 // Catch-all for errors.
