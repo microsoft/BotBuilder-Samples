@@ -120,29 +120,4 @@ To turn off Application Insights logging, remove the `appInsights` section of yo
 ## Troubleshooting
 
 ### I am not seeing all event types.
-- Ensure your `<BOT-NAME>.bot` file is populated your Application Insights information.  Specifically, review the `instrumentationKey` setting.
-```json
-...
-       {
-            "type": "appInsights",
-            "tenantId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
-            "subscriptionId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",   
-            "resourceGroup": "RESOURCE_GROUP",
-            "name": "NAME",
-            "serviceName": "NAME",
-            "instrumentationKey": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
-            "applicationId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
-            "apiKeys": {},
-            "id": ""
-        },
-...
-```
-
-- In C# ASP.Net Core, ensure the `<BOT-NAME>.bot` is being referenced by your `appsettings.json` file:
-```json
- {
-  "botFilePath": "<BOT-NAME>.bot",
-  "botFileSecret": "<MySecret>"
-}
-```
-
+- Ensure your `.env` file is populated your Application Insights Key (`AppInsightsInstrumentationKey`).

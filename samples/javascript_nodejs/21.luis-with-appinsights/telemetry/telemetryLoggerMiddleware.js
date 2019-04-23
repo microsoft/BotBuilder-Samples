@@ -6,7 +6,7 @@
  * In addition, registers a service so other components can log telemetry.
  * If this component is not registered, visibility within the Bot is not logged.
  */
-class MyAppInsightsMiddleware {
+class TelemetryLoggerMiddleware {
     constructor(telemetryClient, settings) {
         // Indicates whether or not to log the user name into the BotMessageReceived event. Defaults to false.
         this.logUserName = false;
@@ -173,4 +173,4 @@ class MyAppInsightsMiddleware {
     }
 }
 
-module.exports.MyAppInsightsMiddleware = MyAppInsightsMiddleware;
+module.exports.TelemetryLoggerMiddleware = TelemetryLoggerMiddleware;
