@@ -77,7 +77,7 @@
       ]
     },
     {
-      "text": "forecast in celcius",
+      "text": "forecast in celsius",
       "intent": "Get Weather Forecast",
       "entities": []
     },
