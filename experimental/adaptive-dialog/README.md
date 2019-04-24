@@ -2,12 +2,12 @@
 
 **Pre-read:** [Dialogs library][1] in Bot Builder V4 SDK.
 
-Dialogs are a central concept in the SDK, and provide a useful way to manage a conversation with the user. Bot Builder V4 SDK library offers [waterfall dialogs][3], [prompts][2] and [component dialogs][4] as the 3 built-in constructs to model conversations via Dialogs. 
+Dialogs are a central concept in the Bot Builder SDK, and provide a useful way to manage a conversation with the user. Bot Builder V4 SDK Dialogs library offers [waterfall dialogs][3], [prompts][2] and [component dialogs][4] as built-in constructs to model conversations via Dialogs. These set of dialog types offered by the SDK put you in control of managing your bot's conversations however they also require you to write a bunch of boiler plate code for sophisticated conversation modelling concepts like building a dialog dispatcher, ability handle interruptions elegantly and to build a pluggable, extensible dialog system.
 
-The new **Adaptive dialog** is a new way to model conversations that takes the best of waterfall dialogs, prompts and simplifies sophisticated conversation modelling primitives like building a dialog dispatcher, ability to handle interruptions elegantly. 
+The new **Adaptive dialog** is a new way to model conversations that takes the best of waterfall dialogs and prompts and simplifies sophisticated conversation modelling primitives like building a dialog dispatcher and ability to handle interruptions elegantly. The new **Adaptive dialog** and the event model simplify sophisticated conversation modelling primitives, eliminate much of the boiler plate code and helps you focus on the model of the conversation rather than the mechanics of dialog management. An Adaptive dialog is a derevite of a Dialog and interacts with the rest of the SDK dialog system.
 
 ## Getting started
-To get started, you can check out the various samples [here][5]. Here are additional documents to help you get oriented with the concepts - 
+To get started, you can check out the various samples [here][5]. The following are additional documents to help you get oriented with some of the new concept introduced with Adaptive dialogs:  
 1. [Why Adaptive dialog?](#Why-Adaptive-Dialog)
 2. [New memory model overview][6]
 3. [Adaptive dialogs - anatomy][7]
@@ -20,15 +20,11 @@ To get started, you can check out the various samples [here][5]. Here are additi
 
 ## Why Adaptive dialog?
 We set out with the following goals for Adaptive dialogs - 
-* It enables you to think and model conversations as a sequence of steps but allows for rules to **dynamically adjust to context** - especially when users do not provide requested information in order, want to start a conversation about something else while they are in the middle of a dialog etc. 
+* It enables you to think and model conversations as a sequence of steps but allows for rules to **dynamically adjust to context** - especially when users do not provide requested information in order, want to start a new conversation about something else while they are in the middle of an active dialog, etc. 
 * It supports and sits on top of a **rich event system** for dialogs and so modelling interruptions, cancellation and execution planning semantics are lot easier to describe and manage.
 * It brings input recognition, event handling via rules, model of the conversation (dialog) and output generation into one **cohesive, self-contained** unit. 
 * It supports **extensibility** points for recognition, event rules and machine learning.
 * It was designed to be **declarative** from the start
-
-Current set of dialog types offered by Bot Builder V4 SDK put you in control of managing your bot's conversations however they also require you to write a bunch of boiler plate code for sophisticated conversation modelling concepts like building a dialog dispatcher, ability handle interruptions elegantly and to build a pluggable, extensible dialog system.
-
-The new **Adaptive dialog** and the event model simplify sophisticated conversation modelling primitives, eliminate much of the boiler plate code and helps you focus on the model of the conversation rather than the mechanics of dialog management.
 
 ## Packages and source code
 Packages for C# are available on [BotBuilder MyGet][14]. We will update this section once packages for JS is available.
