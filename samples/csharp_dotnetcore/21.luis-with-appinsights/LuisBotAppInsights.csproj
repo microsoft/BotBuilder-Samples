@@ -33,5 +33,7 @@
 
   <ItemGroup>
     <Folder Include="ApplicationInsights\" />
+    <Folder Include="Bots\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 </Project>

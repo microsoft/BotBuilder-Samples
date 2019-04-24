@@ -21,8 +21,6 @@ namespace Microsoft.BotBuilderSamples
     /// </summary>
     public class TelemetryLoggerMiddleware : IMiddleware
     {
-        public static readonly string AppInsightsServiceKey = $"{nameof(TelemetryLoggerMiddleware)}.AppInsightsContext";
-
         // Application Insights Custom Event name, logged when new message is received from the user
         public static readonly string BotMsgReceiveEvent = "BotMessageReceived";
 
@@ -85,8 +83,6 @@ namespace Microsoft.BotBuilderSamples
         public async Task OnTurnAsync(ITurnContext context, NextDelegate nextTurn, CancellationToken cancellationToken)
         {
             BotAssert.ContextNotNull(context);
-
-            context.TurnState.Add(TelemetryLoggerMiddleware.AppInsightsServiceKey, _telemetryClient);
 
             // log incoming activity at beginning of turn
             if (context.Activity != null)
