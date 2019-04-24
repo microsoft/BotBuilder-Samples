@@ -5,9 +5,9 @@ State within a bot follows the same paradigms as modern web applications, and th
 
 As with web apps, a bot is inherently stateless; a different instance of your bot may handle any given turn of the conversation. For some bots, this simplicity is preferred - the bot can either operate without additional information, or the information required is guaranteed to be within the incoming message. For others, state (such as where in the conversation we are or previously received data about the user) is necessary for the bot to have a useful conversation.
 
-With [adaptive dialogs][2] we are introducing a simpler way to access and manage memory. All adaptive dialogs by default use this model so all components that consume or contribute to memory have a common way to access and write information to appropriate scopes. 
+[Adaptive dialogs][2] provdies a way to access and manage memory. All adaptive dialogs by default use this model so all components that consume or contribute to memory have a common way to access and write information to appropriate scopes. 
 
-All memory properties are property bags, meaning you can store arbitrary information on them.
+All memory properties, in all memory scopes, are property bags, meaning you can store arbitrary information on them.
 
 See [here][3] for guidance on when to use each scope
 
@@ -42,7 +42,7 @@ Examples:
 Two interesting sub-scopes under dialog are 'result' and 'options'. Options scope by default carry parameters/ input to the specific dialog being executed. Result scope captures any values returned by a dialog. You can access these via dialog.result and dialog.options.
 
 ## Turn scope
-Turn scope is non-persistent data scoped for *only the current turn*, providing a place to share data for the lifetime of the current turn.  
+Turn scope is *non-persistent* data scoped for *only the current turn*, providing a place to share data for the lifetime of the current turn.  
 
 Examples:
 
