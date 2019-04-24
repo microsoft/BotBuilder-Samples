@@ -1,2 +1,2 @@
 erase app.schema
-dialogSchema ../../libraries/**/*.schema ./**/*.schema -o app.schema
+dialogSchema AdaptiveBot.csproj -o app.schema
