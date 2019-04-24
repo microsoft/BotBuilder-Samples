@@ -19,15 +19,14 @@ _Recognizers_ help understand and extract meaningful pieces of information from 
 _Rules_ enable you to catch and respond to events. The broadest rule is the EventRule that allows you to catch and attach a set of steps to execute when a specific event is emitted by any sub-system. Adaptive dialogs supports couple of other specialized rules to wrap common events that your bot would handle. See [here][2] to learn more about supported Rules and their usage.
 
 ### Steps
-_Steps_ help put together the flow of conversation when a specific event is captured via a Rule. **_Note:_** unlike Waterfall dialog where each step is a function, each step in an Adaptive dialog is in itself a dialog. This enables adaptive dialogs by design to 
-- have a much cleaner ability to handle and deal with interruptions.
-- branch conditionally based on context or state.
+_Steps_ help put together the flow of conversation when a specific event is captured via a Rule. **_Note:_** unlike Waterfall dialog where each step is a function, each step in an Adaptive dialog is in itself a dialog. This enables adaptive dialogs by design to: 
+- have a simple way to handle interruptions.
+- branch conditionally based on context or current state.
 See [here][3] to learn more about supported steps and their usage.
 
 ### Inputs
-_Inputs_ are wrappers around [prompts][2] that you can use in an adaptive dialog step to ask and collect a piece of input from user, validate and accept it into memory. Inputs include these pre-built features - 
-- Accepts a property to bind to off the new V3 style memory scope in V4. 
-- Performs existential check before prompting. 
+_Inputs_ are wrappers around Bot Builder [prompts][2] that you can use in an adaptive dialog step to ask and collect a piece of input from user, validate and accept the input  into memory. Inputs include these pre-built features:  
+- Performs existential checks before prompting, to avoid prompting for information the bot already has. 
 - Grounds input to the specified property if the input from user matches the type of entity expected. 
 - Accepts constraints - min, max, etc. 
 
@@ -61,14 +60,17 @@ Here's the flow when user says `I'd like to book a flight`
 <p align="center">
     <img alt="Adaptive_dialog_scenario_setup" src="./Assets/adaptive-dialog-first-utterance.png" style="max-width:700px;" />
 </p>
+The active dialog (rootDialog) recognizer triggers an IntentRule that you can handle. In this case the BegingDialog step to call for the Book a flight dialog. The book a flight dialog execute its steps, one of them is asking which city do you want to fly to.
 
-And here's the flow when user says `How's the weather in Seattle?`
+The bot's end user can provdie any type of answer, and here's the flow when user says `How's the weather in Seattle?`
 
 <p align="center">
     <img alt="Adaptive_dialog_scenario_setup" src="./Assets/adaptive-dialog-second-utterance.png" style="max-width:700px;" />
 </p>
 
-At the crux: 
+Using Adaptive dialog and Inputs, the bot propogate the handling of this up the conversation stack, up to through all the calling dialogs. In this case just one top dialog, the rootDialog. The rootDialog has a rule to handle the *weather* intent, which then call BeginDialog step to call to the weather dialog. Once the Weather dialog ends, the bot returns to the conversation, before the weather interuption, and prompt the user again for the destination city.
+
+To summaries: 
 1. Each dialog's _recognizer_ is run 
     - if there are no active dialog (remember each step is also a dialog) .or.
     - if the active dialog initiates a consultation
