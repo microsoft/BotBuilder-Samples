@@ -41,7 +41,7 @@ class SuggestedActionsBot extends ActivityHandler {
      */
     async sendWelcomeMessage(turnContext) {
         const { activity } = turnContext;
-        
+
         // Iterate over all new members added to the conversation.
         for (const idx in activity.membersAdded) {
             if (activity.membersAdded[idx].id !== activity.recipient.id) {

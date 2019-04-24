@@ -65,7 +65,6 @@ class WelcomeBot extends ActivityHandler {
         // Sends welcome messages to conversation members when they join the conversation.
         // Messages are only sent to conversation members who aren't the bot.
         this.onMembersAdded(async (context, next) => {
-           
             // Iterate over all new members added to the conversation
             for (let idx in context.activity.membersAdded) {
                 // Greet anyone that was not the target (recipient) of this message.
@@ -83,7 +82,7 @@ class WelcomeBot extends ActivityHandler {
                         `Try it now, type 'hi'`);
                 }
             }
-            
+
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });
