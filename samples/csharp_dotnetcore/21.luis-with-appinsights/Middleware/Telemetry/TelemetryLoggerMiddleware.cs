@@ -5,10 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples
