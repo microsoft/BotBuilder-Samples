@@ -15,9 +15,9 @@ This sample shows how to create a simple echo bot that you can talk to from the 
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to `samples/javascript_typescript/01.console-echo`
+- In a terminal, navigate to `samples/typescript_nodejs/01.console-echo`
     ```bash
-    cd samples/javascript_typescript/01.console-echo
+    cd samples/typescript_nodejs/01.console-echo
     ```
 - Install modules
     ```bash

@@ -29,9 +29,9 @@ If you wish to create a LUIS application via the CLI, these steps can be found i
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to `samples/javascript_typescript/13.core-bot`
+- In a terminal, navigate to `samples/typescript_nodejs/13.core-bot`
     ```bash
-    cd samples/javascript_typescript/13.core-bot
+    cd samples/typescript_nodejs/13.core-bot
     ```
 - Install modules
     ```bash

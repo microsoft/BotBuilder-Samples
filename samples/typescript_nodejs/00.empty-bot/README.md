@@ -11,7 +11,15 @@ This bot has been created using [Bot Framework][1].
 node --version
 ```
 
-# To run the bot
+# To try this sample
+- Clone the repository
+    ```bash
+    git clone https://github.com/microsoft/botbuilder-samples.git
+    ```
+- In a terminal, navigate to `samples/typescript_nodejs/00.empty-echo`
+    ```bash
+    cd samples/typescript_nodejs/00.empty-bot
+    ```
 - Install modules
     ```bash
     npm install
@@ -70,4 +78,4 @@ To learn how, see [Deploy your bot to Azure][40] for a complete set of deploymen
 [30]: https://www.npmjs.com/package/restify
 [32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./PREREQUISITES.md
+

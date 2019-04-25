@@ -15,9 +15,9 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a console, navigate to `samples/javascript_typescript/02.a.echobot`
+- In a console, navigate to `samples/typescript_nodejs/02.echo-bot`
     ```bash
-    cd samples/javascript_typescript/02.a.echobot
+    cd samples/typescript_nodejs/02.echo-bot
     ```
 - Install modules
     ```bash

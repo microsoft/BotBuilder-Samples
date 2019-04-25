@@ -70,10 +70,10 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [es#1]:samples/javascript_es6/01.browser-echo
 [es#70]:samples/javascript_es6/70.styling-webchat
 
-[ts#0]:samples/javascript_typescript/00.empty-bot
-[ts#1]:samples/javascript_typescript/01.console-echo
-[ts#2]:samples/javascript_typescript/02.echobot
-[ts#13]:samples/javascript_typescript/13.core-bot
+[ts#0]:samples/typescript_nodejs/00.empty-bot
+[ts#1]:samples/typescript_nodejs/01.console-echo
+[ts#2]:samples/jtypescript_nodejs/02.echo-bot
+[ts#13]:samples/typescript_nodejs/13.core-bot
 [ts#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
 
 
