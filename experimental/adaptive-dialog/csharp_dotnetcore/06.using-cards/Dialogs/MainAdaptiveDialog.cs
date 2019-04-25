@@ -54,11 +54,7 @@ namespace Microsoft.BotBuilderSamples
                 },
                 new SwitchCondition()
                 {
-                    // Switch on value property. Choice prompt outputs the following payload -
-                    // { "value": "<recognized value>", "index": <index-in-choice-list>,"score": 1.0, "synonym": "<synonym>"}
-                 
-                    // file bug for end of conversation bug for skills for post //build.
-                    Condition = "turn.cardChoice.value",
+                    Condition = "turn.cardChoice",
                     Cases = new List<Case>() {
                         new Case("'Adaptive card'",  new List<IDialog>() { new SendActivity("[AdativeCardRef]") } ),
                         new Case("'Animation card'", new List<IDialog>() { new SendActivity("[AnimationCard]") } ),
@@ -69,7 +65,7 @@ namespace Microsoft.BotBuilderSamples
                         new Case("'Thumbnail card'", new List<IDialog>() { new SendActivity("[ThumbnailCard]") } ),
                         new Case("'Video card'",     new List<IDialog>() { new SendActivity("[VideoCard]") } ),
                         new Case("'Cancel'",         new List<IDialog>() { new SendActivity("Sure."), new EndDialog() } ),
-                                            },
+                    },
                     Default = new List<IDialog>()
                     {
                         new SendActivity("[AllCards]")
