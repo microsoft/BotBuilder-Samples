@@ -35,5 +35,7 @@
     <Folder Include="ApplicationInsights\" />
     <Folder Include="Bots\" />
     <Folder Include="Controllers\" />
+    <Folder Include="Cards\" />
+    <Folder Include="Dialogs\" />
   </ItemGroup>
 </Project>

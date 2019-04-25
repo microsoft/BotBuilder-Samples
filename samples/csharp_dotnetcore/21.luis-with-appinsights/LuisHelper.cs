@@ -14,8 +14,9 @@ namespace LuisBotAppInsights
 {
     public static class LuisHelper
     {
-        public static async Task<RecognizerResult> ExecuteLuisQuery(IBotTelemetryClient telemetryClient, IConfiguration configuration, ILogger logger, ITurnContext turnContext, CancellationToken cancellationToken)
+        public static async Task<BookingDetails> ExecuteLuisQuery(IBotTelemetryClient telemetryClient, IConfiguration configuration, ILogger logger, ITurnContext turnContext, CancellationToken cancellationToken)
         {
+            var bookingDetails = new BookingDetails();
             try
             {
                 // Create the LUIS settings from configuration.
@@ -25,17 +26,27 @@ namespace LuisBotAppInsights
                     "https://" + configuration["LuisAPIHostName"]);
 
                 var recognizer = new TelemetryLuisRecognizer(telemetryClient, luisApplication, null, false, false, true);
-
                 // The actual call to LUIS
-                //var recognizerResult = await recognizer.RecognizeAsync(turnContext, cancellationToken);
-                return await recognizer.RecognizeAsync(turnContext, true, cancellationToken);
+                var recognizerResult = await recognizer.RecognizeAsync(turnContext, cancellationToken);
+
+                var (intent, score) = recognizerResult.GetTopScoringIntent();
+                if (intent == "Book_flight")
+                {
+                    // We need to get the result from the LUIS JSON which at every level returns an array.
+                    bookingDetails.Destination = recognizerResult.Entities["To"]?.FirstOrDefault()?["Airport"]?.FirstOrDefault()?.FirstOrDefault()?.ToString();
+                    bookingDetails.Origin = recognizerResult.Entities["From"]?.FirstOrDefault()?["Airport"]?.FirstOrDefault()?.FirstOrDefault()?.ToString();
+
+                    // This value will be a TIMEX. And we are only interested in a Date so grab the first result and drop the Time part.
+                    // TIMEX is a format that represents DateTime expressions that include some ambiguity. e.g. missing a Year.
+                    bookingDetails.TravelDate = recognizerResult.Entities["datetime"]?.FirstOrDefault()?["timex"]?.FirstOrDefault()?.ToString().Split('T')[0];
+                }
             }
             catch (Exception e)
             {
                 logger.LogWarning($"LUIS Exception: {e.Message} Check your LUIS configuration.");
             }
 
-            return null;
+            return bookingDetails;
         }
     }
 }
