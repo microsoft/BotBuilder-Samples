@@ -9,6 +9,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
 namespace Microsoft.BotBuilderSamples.Dialogs
 {
@@ -16,12 +17,14 @@ namespace Microsoft.BotBuilderSamples.Dialogs
     {
         protected readonly IConfiguration Configuration;
         protected readonly ILogger Logger;
+        protected readonly IBotTelemetryClient TelemetryClient;
 
-        public MainDialog(IConfiguration configuration, ILogger<MainDialog> logger)
+        public MainDialog(IConfiguration configuration, ILogger<MainDialog> logger, IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog))
         {
             Configuration = configuration;
             Logger = logger;
+            TelemetryClient = telemetryClient;
 
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new BookingDialog());
@@ -56,7 +59,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             // Call LUIS and gather any potential booking details. (Note the TurnContext has the response to the prompt.)
             var bookingDetails = stepContext.Result != null
                     ?
-                await LuisHelper.ExecuteLuisQuery(Configuration, Logger, stepContext.Context, cancellationToken)
+                await LuisHelper.ExecuteLuisQuery(TelemetryClient, Configuration, Logger, stepContext.Context, cancellationToken)
                     :
                 new BookingDetails();
 

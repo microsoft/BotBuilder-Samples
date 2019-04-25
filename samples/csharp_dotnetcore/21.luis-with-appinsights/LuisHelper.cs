@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -25,9 +26,11 @@ namespace LuisBotAppInsights
                     configuration["LuisAPIKey"],
                     "https://" + configuration["LuisAPIHostName"]);
 
+                // TODO: Switch to Luis recognizer once BotBuilder is upgraded
                 var recognizer = new TelemetryLuisRecognizer(telemetryClient, luisApplication, null, false, false, true);
+
                 // The actual call to LUIS
-                var recognizerResult = await recognizer.RecognizeAsync(turnContext, cancellationToken);
+                var recognizerResult = await recognizer.RecognizeAsync(turnContext, false, cancellationToken);
 
                 var (intent, score) = recognizerResult.GetTopScoringIntent();
                 if (intent == "Book_flight")

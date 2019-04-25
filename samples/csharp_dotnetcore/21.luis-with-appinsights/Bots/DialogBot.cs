@@ -3,6 +3,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using LuisBotAppInsights;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
