@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiTurnPromptBot", "05.mu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardsBot", "06.using-cards\CardsBot.csproj", "{1687FA0F-8E75-4A67-8D67-C0437D7AA7A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreBot", "13.core-bot\CoreBot.csproj", "{BCC6BA54-D069-439D-B689-9E3B9330A433}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{1687FA0F-8E75-4A67-8D67-C0437D7AA7A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1687FA0F-8E75-4A67-8D67-C0437D7AA7A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1687FA0F-8E75-4A67-8D67-C0437D7AA7A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BCC6BA54-D069-439D-B689-9E3B9330A433}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BCC6BA54-D069-439D-B689-9E3B9330A433}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BCC6BA54-D069-439D-B689-9E3B9330A433}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BCC6BA54-D069-439D-B689-9E3B9330A433}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
