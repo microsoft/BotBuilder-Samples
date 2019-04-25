@@ -55,7 +55,7 @@ namespace Microsoft.BotBuilderSamples
                     Condition = new ExpressionEngine().Parse("turn.ageConfirmation == true"),
                     Steps = new List<IDialog>()
                     {
-                         new NumberInput<int>()
+                         new NumberInput()
                          {
                              Prompt = new ActivityTemplate("Please enter your age."),
                              Property = "user.userProfile.Age",
