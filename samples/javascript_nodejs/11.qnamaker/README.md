@@ -15,6 +15,7 @@ This bot uses [QnA Maker Service][19], an AI based cognitive service, to impleme
     ```bash
     # determine node version
     node --version
+    ```
 
 ### Create a QnAMaker Application to enable QnA Knowledge Bases
 QnA knowledge base setup and application configuration steps can be found [here][41].
