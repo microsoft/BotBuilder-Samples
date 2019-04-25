@@ -1,4 +1,5 @@
-﻿This sample demonstrates the use of rich content using cards.
+﻿This sample demonstrates using [Adaptive dialog][1] and [Language Generation][2] PREVIEW features to achieve the same functionality that the waterfall based cards sample [here][3]. 
+
 # Concepts introduced in this sample
 ## What is a bot?
 A bot is an app that users interact with in a conversational way using text, graphics (cards), or speech. It may be a simple question and answer dialog,
@@ -50,3 +51,6 @@ msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-loc
 - [Rich cards](https://docs.microsoft.com/azure/bot-service/bot-builder-howto-add-media-attachments?view=azure-bot-service-4.0&tabs=csharp#send-a-hero-card)
 
 [41]: ../../README.md
+[1]:../README.md
+[2]:../language-generation/README.md
+[3]:../../../samples/csharp_dotnetcore/06.using-cards

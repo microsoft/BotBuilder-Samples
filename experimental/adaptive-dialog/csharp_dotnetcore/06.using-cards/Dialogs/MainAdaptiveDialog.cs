@@ -7,7 +7,6 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Expressions.Parser;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -16,7 +15,6 @@ namespace Microsoft.BotBuilderSamples
         public MainAdaptiveDialog()
             : base(nameof(MainAdaptiveDialog))
         {
-
             // Create instance of adaptive dialog. 
             var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
@@ -42,6 +40,7 @@ namespace Microsoft.BotBuilderSamples
                     Style = ListStyle.Auto,
                     Choices = new List<Choice>()
                     {
+                        new Choice() { Value = "Cancel" },
                         new Choice() { Value = "Adaptive card" },
                         new Choice() { Value = "Animation card" },
                         new Choice() { Value = "Audio card" },
@@ -55,8 +54,35 @@ namespace Microsoft.BotBuilderSamples
                 },
                 new SwitchCondition()
                 {
-
+                    // Switch on value property. Choice prompt outputs the following payload -
+                    // { "value": "<recognized value>", "index": <index-in-choice-list>,"score": 1.0, "synonym": "<synonym>"}
+                 
+                    // file bug for end of conversation bug for skills for post //build.
+                    Condition = "turn.cardChoice.value",
+                    Cases = new List<Case>() {
+                        new Case("'Adaptive card'",  new List<IDialog>() { new SendActivity("[AdativeCardRef]") } ),
+                        new Case("'Animation card'", new List<IDialog>() { new SendActivity("[AnimationCard]") } ),
+                        new Case("'Audio card'",     new List<IDialog>() { new SendActivity("[AudioCard]") } ),
+                        new Case("'Hero card'",      new List<IDialog>() { new SendActivity("[HeroCard]") } ),
+                        new Case("'Receipt card'",   new List<IDialog>() { new SendActivity("[ReciptCard]") } ),
+                        new Case("'Signin card'",    new List<IDialog>() { new SendActivity("[SigninCard]") } ),
+                        new Case("'Thumbnail card'", new List<IDialog>() { new SendActivity("[ThumbnailCard]") } ),
+                        new Case("'Video card'",     new List<IDialog>() { new SendActivity("[VideoCard]") } ),
+                        new Case("'Cancel'",         new List<IDialog>() { new SendActivity("Sure."), new EndDialog() } ),
+                                            },
+                    Default = new List<IDialog>()
+                    {
+                        new SendActivity("[AllCards]")
+                    }
                 },
+                // Delete this property so we are not stuck in an infinite loop.
+                // Without this, choiceInput will skip the prompt due to value from prior turn.
+                // TODO: revisit this - we might not need this
+                new DeleteProperty()
+                {
+                    Property = "turn.cardChoice"
+                },
+                // Go back and repeat this dialog. User can choose 'cancel' to cancel the dialog.
                 new RepeatDialog()
             };
         }

@@ -8,6 +8,9 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System.IO;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Bot.Builder.LanguageGeneration.Renderer;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -22,6 +25,17 @@ namespace Microsoft.BotBuilderSamples
             string[] paths = { ".", "Resources", "AdapterWithErrorHandler.LG" };
             string fullPath = Path.Combine(paths);
             _lgEngine = TemplateEngine.FromFiles(fullPath);
+
+            // manage all bot resources
+            var resourceExplorer = ResourceExplorer
+                .LoadProject(Directory.GetCurrentDirectory(), ignoreFolders: new string[] { "models" });
+
+            //resourceExplorer.AddFolder(luisModelsFolder);
+
+            var lg = new LGLanguageGenerator(resourceExplorer);
+            Use(new RegisterClassMiddleware<ILanguageGenerator>(lg));
+            Use(new RegisterClassMiddleware<IMessageActivityGenerator>(new TextMessageActivityGenerator(lg)));
+
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.
