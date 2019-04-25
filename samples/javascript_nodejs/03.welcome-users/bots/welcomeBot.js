@@ -65,24 +65,21 @@ class WelcomeBot extends ActivityHandler {
         // Sends welcome messages to conversation members when they join the conversation.
         // Messages are only sent to conversation members who aren't the bot.
         this.onMembersAdded(async (context, next) => {
-            // Do we have any new members added to the conversation?
-            if (context.activity.membersAdded.length !== 0) {
-                // Iterate over all new members added to the conversation
-                for (let idx in context.activity.membersAdded) {
-                    // Greet anyone that was not the target (recipient) of this message.
-                    // Since the bot is the recipient for events from the channel,
-                    // context.activity.membersAdded === context.activity.recipient.Id indicates the
-                    // bot was added to the conversation, and the opposite indicates this is a user.
-                    if (context.activity.membersAdded[idx].id !== context.activity.recipient.id) {
-                        await context.sendActivity(`Welcome to the 'Welcome User' Bot. This bot will introduce you to welcoming and greeting users.`);
-                        await context.sendActivity("You are seeing this message because the bot received at least one 'ConversationUpdate' " +
-                            'event, indicating you (and possibly others) joined the conversation. If you are using the emulator, ' +
-                            "pressing the 'Start Over' button to trigger this event again. The specifics of the 'ConversationUpdate' " +
-                            'event depends on the channel. You can read more information at https://aka.ms/about-botframework-welcome-user');
-                        await context.sendActivity(`It is a good pattern to use this event to send general greeting to user, explaining what your bot can do. ` +
-                            `In this example, the bot handles 'hello', 'hi', 'help' and 'intro. ` +
-                            `Try it now, type 'hi'`);
-                    }
+            // Iterate over all new members added to the conversation
+            for (let idx in context.activity.membersAdded) {
+                // Greet anyone that was not the target (recipient) of this message.
+                // Since the bot is the recipient for events from the channel,
+                // context.activity.membersAdded === context.activity.recipient.Id indicates the
+                // bot was added to the conversation, and the opposite indicates this is a user.
+                if (context.activity.membersAdded[idx].id !== context.activity.recipient.id) {
+                    await context.sendActivity(`Welcome to the 'Welcome User' Bot. This bot will introduce you to welcoming and greeting users.`);
+                    await context.sendActivity("You are seeing this message because the bot received at least one 'ConversationUpdate' " +
+                        'event, indicating you (and possibly others) joined the conversation. If you are using the emulator, ' +
+                        "pressing the 'Start Over' button to trigger this event again. The specifics of the 'ConversationUpdate' " +
+                        'event depends on the channel. You can read more information at https://aka.ms/about-botframework-welcome-user');
+                    await context.sendActivity(`It is a good pattern to use this event to send general greeting to user, explaining what your bot can do. ` +
+                        `In this example, the bot handles 'hello', 'hi', 'help' and 'intro. ` +
+                        `Try it now, type 'hi'`);
                 }
             }
 
