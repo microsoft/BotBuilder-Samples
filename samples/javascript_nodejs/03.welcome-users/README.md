@@ -1,55 +1,70 @@
 # welcome-users sample
+
 Bot Framework v4 welcome users bot sample
 
 This bot has been created using [Microsoft Bot Framework][1], is shows how to welcome a user when join the conversation. The welcoming pattern shown in this bot is applicable for personal one-to-one conversation with bots.
 
 ## Prerequisites
+
 - [Node.js][4] version 10.14 or higher
+
     ```bash
     # determine node version
     node --version
     ```
 
-# To try this sample
+## To try this sample
+
 - Clone the repository
+
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
+
 - In a terminal, navigate to `samples/javascript_nodejs/03.welcome-users`
+
     ```bash
     cd samples/javascript_nodejs/03.welcome-users
     ```
+
 - Install modules
+
     ```bash
     npm install
     ```
+
 - Start the bot
+
     ```bash
     npm start
     ```
 
-# Testing the bot using Bot Framework Emulator
+## Testing the bot using Bot Framework Emulator
+
 [Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# ConversationUpdate Activity Type
+## ConversationUpdate Activity Type
+
 The [ConversationUpdate](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-activity-spec?view=azure-bot-service-3.0#conversation-update-activity) Activity describes a change in conversation members, for example when a new user (and/or) a bot joins the conversation. The channel sends this activity when a user (and/or) bot joins the conversation. It is recommended that you test your bot behavior on the target channel.
 
 Bots that are added directly by a user, are mostly personal (1:1) conversation bots. It is a best practice to send a welcome message to introduce the bot tell a bit about its functionality. To do this, ensure that your bot responds to the `ConversationUpdate` message. Use the `membersAdded` field to identify the list of channel participants (bots or users) that were added to the conversation.
 
 Your bot may proactively send a welcome message to a personal chat the first time a user initiates a personal chat with your bot. Use `UserState` to persist a flag indicating first user interaction with a bot.
 
-# Deploy the bot to Azure
+## Deploy the bot to Azure
+
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
+## Further reading
 
-# Further reading
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
 - [Azure Bot Service Introduction][21]
@@ -58,7 +73,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Write directly to storage][24]
 - [Managing conversation and user state][25]
 - [Azure CLI][7]
-- [msbot CLI][9]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
 - [Restify][30]
@@ -70,7 +84,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
 [7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 [8]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
-[9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [10]: https://portal.azure.com
 [11]: https://www.luis.ai
 [20]: https://docs.botframework.com

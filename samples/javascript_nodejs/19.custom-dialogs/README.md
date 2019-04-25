@@ -1,47 +1,60 @@
 # custom dialogs sample
+
 Bot Framework v4 custom dialogs bot sample
 
 This bot has been created using [Microsoft Bot Framework][1], it shows how to sub-class the `Dialog` class to create different bot control mechanism like simple slot filling.
 
 BotFramework provides a built-in base class called `Dialog`. By subclassing `Dialog`, developers can create new ways to define and control dialog flows used by the bot.
 
-
 ## Prerequisites
+
 - [Node.js][4] version 10.14 or higher
+
     ```bash
     # determine node version
     node --version
     ```
 
-# To try this sample
+## To try this sample
+
 - Clone the repository
+
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
+
 - In a terminal, navigate to `samples/javascript_nodejs/19.custom-dialogs`
+
     ```bash
     cd samples/javascript_nodejs/19.custom-dialogs
     ```
+
 - Install modules
+
     ```bash
     npm install
     ```
+
 - Start the bot
+
     ```bash
     npm start
     ```
 
-# Testing the bot using Bot Framework Emulator
+## Testing the bot using Bot Framework Emulator
+
 [Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Custom Dialogs
+## Custom Dialogs
+
 BotFramework provides a built-in base class called `Dialog`. By subclassing Dialog, developers
 can create new ways to define and control dialog flows used by the bot. By adhering to the
 features of this class, developers will create custom dialogs that can be used side-by-side
@@ -52,10 +65,12 @@ series of "slots" which define a value the bot needs to collect from the user, a
 as the prompt it should use. The bot will iterate through all of the slots until they are
 all full, at which point the dialog completes.
 
-# Deploy this bot to Azure
+## Deploy this bot to Azure
+
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
-# Further reading
+## Further reading
+
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
 - [Dialog class reference][23]

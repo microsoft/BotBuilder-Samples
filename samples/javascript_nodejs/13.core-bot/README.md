@@ -76,7 +76,6 @@ If you wish to create a LUIS application via the CLI, these steps can be found i
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
-
 ## Further reading
 
 - [Bot Framework Documentation][20]
