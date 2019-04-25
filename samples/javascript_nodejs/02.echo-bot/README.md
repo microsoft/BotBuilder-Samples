@@ -1,4 +1,4 @@
-# echobot
+# echo-bot
 Bot Framework v4 echo bot sample
 
 This bot has been created using [Microsoft Bot Framework][1], it shows how to create a simple bot that accepts input from the user and echoes it back.
@@ -15,9 +15,9 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to `samples/javascript_nodejs/02.a.echobot`
+- In a terminal, navigate to `samples/javascript_nodejs/02echo-bot`
     ```bash
-    cd samples/javascript_nodejs/02.a.echobot
+    cd samples/javascript_nodejs/02.echo-bot
     ```
 - Install modules
     ```bash

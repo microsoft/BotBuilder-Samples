@@ -15,12 +15,12 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 | Sample Name           | Description                                                                    | .NET CORE   | JavaScript      | .NET Web API | JS (es6)    | TypeScript  |
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|-------------|
 |1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming message.           |[View][cs#1] |[View][js#1] |      |             |[View][ts#1] |
-|1.browser-echo       | Demonstrates how to host a bot in the browser using Web Chat and a custom Web Chat Adapter.                                                     |             |             |              |[View][es#1]|             |
-|2.echobot            | Demonstrates how to receive and send messages.                                 |[View][cs#2] |[View][js#2]|  |           |[View][ts#2] |
+|1.browser-echo         | Demonstrates how to host a bot in the browser using Web Chat and a custom Web Chat Adapter.   |  |  |    |[View][es#1]|             |
+|2.echo-bot             | Demonstrates how to receive and send messages.                                 |[View][cs#2] |[View][js#2]|  |           |[View][ts#2] |
 |3.welcome-user         | Introduces activity types and provides a welcome message on conversation update activity. |[View][cs#3] |[View][js#3] |              | | |
 |5.multi-turn-prompt    | Demonstrates how to use waterfall dialog, prompts, and component dialog to create a simple interaction that asks the user for name, age, and prints back that information.          |[View][cs#5] |[View][js#5] |              |             | |
 |6.using-cards          | Introduces all card types including thumbnail, audio, media etc. Builds on Welcoming user + multi-prompt bot by presenting a card with buttons in welcome message that route to appropriate dialog.     |[View][cs#6] |[View][js#6] |              |             | |
-|7.using-adaptive-cards | Demonstrates how the multi-turn dialog can use a card to get user input for name and age. |[View][cs#7] |[View][js#7] |              |             | |
+|7.using-adaptive-cards | Demonstrates how the multi-turn dialog can use a card to get user input for name and age. |[View][cs#7] |[View][js#7] |         | | |
 |8.suggested-actions    | Demonstrates how to enable your bot to present buttons that the user can tap to provide input.                                      |[View][cs#8] |[View][js#8] |              |             | |
 |11.qnamaker            | Demonstrates how to use QnA Maker to have simple single-turn conversations     |[View][cs#11]|[View][js#11]|              |             | |
 |13.core-bot            | Core bot shows how to use cards, dialog, and Langugage Understanding (LUIS).                         |[View][cs#13]|[View][js#13]|[View][wa#13] |             |[View][ts#13]|
@@ -78,7 +78,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 
 
 [js#1]:samples/javascript_nodejs/01.console-echo
-[js#2]:samples/javascript_nodejs/02.echobot
+[js#2]:samples/javascript_nodejs/02.echo-bot
 [js#3]:samples/javascript_nodejs/03.welcome-users
 [js#5]:samples/javascript_nodejs/05.multi-turn-prompt
 [js#6]:samples/javascript_nodejs/06.using-cards
