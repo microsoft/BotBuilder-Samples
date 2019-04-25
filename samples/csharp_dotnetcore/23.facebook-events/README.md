@@ -2,16 +2,23 @@
 
 This sample shows how to integrate and consume Facebook specific payloads, such as postbacks, quick replies, echos and optin events. 
 
+Note: Messenger Webhook Events can be subscribed to when configuring the Messenger application associated with the bot:
+https://developers.facebook.com/apps/YourFacebookApplicationId/messenger/settings/
+
+![Webhooks](Webhooks.png)
+
 Since Bot Framework supports multiple Facebook pages for a single bot, we also show how to know the page to which the message was sent, so developers can have custom behavior per page.
 
+More information about configuring a bot for Facebook Messenger can be found here: [Connect a bot to Facebook](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-facebook)
+
 ### Install .NET Core and CLI Tooling
-- [.NET Core SDK][https://dotnet.microsoft.com/download] version 2.1
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
 	```bash
 	# determine dotnet version
 	dotnet --version
 	```
-- If you don't have an Azure subscription, create a [free account][https://azure.microsoft.com/free/].
-- Install the latest version of the [Azure CLI][https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest] tool. Version 2.0.54 or higher.
+- If you don't have an Azure subscription, create a [free account](https://azure.microsoft.com/free/).
+- Install the latest version of the [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest) tool. Version 2.0.54 or higher.
 
 # To try this sample
 - In a terminal, navigate to `23.facebook-events`
@@ -50,7 +57,7 @@ The final step to test Facebook-specific features is to publish your bot for the
 and the detailed steps are explained in the [Bot Framework Channel Documentation](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-facebook?view=azure-bot-service-3.0).
 
 ## Deploy the bot to Azure
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][https://aka.ms/azuredeployment] for a complete list of deployment instructions.
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
 # Further reading
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
