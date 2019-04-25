@@ -8,11 +8,11 @@ const path = require('path');
 const restify = require('restify');
 const { FacebookBot } = require('./bots/facebookBot');
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, MemoryStorage, ConversationState } = require('botbuilder');
+const { BotFrameworkAdapter, MemoryStorage } = require('botbuilder');
 
 // This bot's main dialog.
 
-const { MainDialog } = require('./dialogs/mainDialog');
+
 
 // Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -26,23 +26,16 @@ const adapter = new BotFrameworkAdapter({
 });
 
 
-
-// Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
-// A bot requires a state store to persist the dialog and user state between messages.
-let conversationState, userState;
-
 // For local development, in-memory storage is used.
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone.
 const memoryStorage = new MemoryStorage();
-conversationState = new ConversationState(memoryStorage);
 
 // Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
 const logger = console;
 
-// Create the main dialog.
-const dialog = new MainDialog(logger);
-const bot = new FacebookBot(conversationState,  dialog, logger);
+
+const bot = new FacebookBot( logger );
 
 // Create HTTP server
 let server = restify.createServer();
@@ -69,6 +62,5 @@ adapter.onTurnError = async (context, error) => {
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
     await context.sendActivity(`Oops. Something went wrong!`);
-    // Clear out state
-    await conversationState.delete(context);
+    
 };
