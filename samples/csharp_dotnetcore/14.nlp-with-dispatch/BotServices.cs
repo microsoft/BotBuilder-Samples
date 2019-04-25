@@ -14,53 +14,22 @@ namespace Microsoft.BotBuilderSamples
         public BotServices(IConfiguration configuration)
         {
             // Read the setting for cognitive services (LUIS, QnA) from the appsettings.json
-            Dispatch = ReadLuisRecognizer(configuration, "nlp-with-dispatchDispatch");
-            SampleQnA = ReadQnAMaker(configuration, "sample-qna");
+            Dispatch = new LuisRecognizer(new LuisApplication(
+                configuration["LuisAppId"],
+                configuration["LuisAPIKey"],
+                $"https://{configuration["LuisAPIHostName"]}.api.cognitive.microsoft.com"),
+                new LuisPredictionOptions { IncludeAllIntents = true, IncludeInstanceData = true },
+                true);
+
+            SampleQnA = new QnAMaker(new QnAMakerEndpoint
+            {
+                KnowledgeBaseId = configuration["QnAKnowledgebaseId"],
+                EndpointKey = configuration["QnAAuthKey"],
+                Host = configuration["QnAEndpointHostName"]
+            });
         }
 
         public LuisRecognizer Dispatch { get; private set; }
         public QnAMaker SampleQnA { get; private set; }
-
-        private LuisRecognizer ReadLuisRecognizer(IConfiguration configuration, string name)
-        {
-            try
-            {
-                var services = configuration.GetSection("BotServices");
-                var luisService = new LuisService
-                {
-                    AppId = services.GetValue<string>($"Luis-{name}-AppId"),
-                    AuthoringKey = services.GetValue<string>($"Luis-{name}-Authoringkey"),
-                    Region = services.GetValue<string>($"Luis-{name}-Region")
-                };
-                return new LuisRecognizer(new LuisApplication(
-                    luisService.AppId,
-                    luisService.AuthoringKey,
-                    luisService.GetEndpoint()),
-                    new LuisPredictionOptions { IncludeAllIntents = true, IncludeInstanceData = true },
-                    true);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        private QnAMaker ReadQnAMaker(IConfiguration configuration, string name)
-        {
-            try
-            {
-                var services = configuration.GetSection("BotServices");
-                return new QnAMaker(new QnAMakerEndpoint
-                {
-                    KnowledgeBaseId = services.GetValue<string>($"QnA-{name}-kbId"),
-                    EndpointKey = services.GetValue<string>($"QnA-{name}-endpointKey"),
-                    Host = services.GetValue<string>($"QnA-{name}-hostname")
-                });
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
     }
 }
