@@ -47,11 +47,11 @@ namespace Microsoft.BotBuilderSamples
         }
 
 
-         //Greet when users are added to the conversation.
-         //Note that all channels do not send the conversation update activity.
-         //If you find that this bot works in the emulator, but does not in
-         //another channel the reason is most likely that the channel does not
-         //send this activity.
+         // Greet when users are added to the conversation.
+         // Note that all channels do not send the conversation update activity.
+         // If you find that this bot works in the emulator, but does not in
+         // another channel the reason is most likely that the channel does not
+         // send this activity.
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             foreach (var member in membersAdded)
