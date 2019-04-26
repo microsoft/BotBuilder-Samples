@@ -63,7 +63,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Azure Bot Service Documentation][22]
 - [.NET Core CLI tools][23]
 - [Azure CLI][7]
-- [msbot CLI][9]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
 
