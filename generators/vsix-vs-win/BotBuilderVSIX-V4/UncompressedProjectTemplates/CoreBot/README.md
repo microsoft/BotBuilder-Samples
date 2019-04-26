@@ -80,8 +80,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
 - [Prompt types][23]
-- [Waterfall dialogs][24]
-- [Ask the user questions][26]
 - [Activity processing][25]
 - [Azure Bot Service Introduction][21]
 - [Azure Bot Service Documentation][22]
@@ -106,7 +104,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [21]: https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
 [22]: https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0
 [23]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0
-[24]: https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/waterfall
 [25]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0
 [26]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-waterfall?view=azure-bot-service-4.0
 [27]: https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0

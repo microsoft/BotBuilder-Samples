@@ -14,7 +14,7 @@ There are three different template options.  The table below can help guide whic
 |  Template  |  Description  |
 | ---------- |  ---------  |
 | Echo&nbsp;Bot | A good template if you want a little more than "Hello World!", but not much more.  This template handles the very basics of sending messages to a bot, and having the bot process the messages by repeating them back to the user.  This template produces a bot that simply "echos" back to the user anything the user says to the bot. |
-| Core&nbsp;Bot | Our most advanced template, the Core Bot template provides 6 core features every bot is likely to have.  This template covers the core features of a Conversational-AI bot using [LUIS][2].  See the **Core Bot Features** table below for more details. |
+| Core&nbsp;Bot | Our most advanced template, the Core Bot template provides 6 core features every bot is likely to have.  This template covers the core features of a Conversational-AI bot using [LUIS][11].  See the **Core Bot Features** table below for more details. |
 | Empty&nbsp;Bot | A good template if you are familiar with Bot Framework v4, and simple want a basic skeleton project.  Also a good option if you want to take sample code from the documentation and paste it into a minimal bot in order to learn. |
 
 ### How to Choose a Template
@@ -52,11 +52,11 @@ The Empty Bot template is the minimal skeleton code for a bot.  It provides a st
 |  Feature  | Empty Bot | Echo Bot | Core Bot |
 | --------- | :-------: | :------: | :------: |
 | Generate code in C# | X | X | X |
-| Support local development and testing using the [Bot Framework Emulator v4][3] | X | X | X |
+| Support local development and testing using the [Bot Framework Emulator v4][5] | X | X | X |
 | Core bot message processing |  | X | X |
 | Deploy your bot to Microsoft Azure |  | X | X |
 | Welcome new users using Adaptive Card technology |  |  | X |
-| Support AI-based greetings using [LUIS][2] |  |  | X |
+| Support AI-based greetings using [LUIS][11] |  |  | X |
 | Use Dialogs to manage more in-depth conversations |  |  | X |
 | Manage conversation state |  |  | X |
 | Handle user interruptions |  |  | X |
@@ -70,7 +70,7 @@ Prerequisites
 
 Install the template.
 
-* You can download Microsoft Bot Builder V4 Templates [here][6]. Click the `.vsix` file to install the extension into Visual Studio.
+* You can download Microsoft Bot Builder V4 Templates [here][7]. Click the `.vsix` file to install the extension into Visual Studio.
 
 ## Usage
 
@@ -99,13 +99,13 @@ Select template of choice from Bot Builder v4 templates, then click **OK**.
 
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
+* Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
 ### Connect to the bot using Bot Framework Emulator
 
-- Launch Bot Framework Emulator
-- File -> Open Bot
-- Enter a Bot URL of `http://localhost:3978/api/messages`
+* Launch Bot Framework Emulator
+* File -> Open Bot
+* Enter a Bot URL of `http://localhost:3978/api/messages`
 
 ## Deploy the bot to Azure
 
@@ -117,21 +117,20 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 
 ## Logging Issues and Providing Feedback
 
-Issues and feedback about the templates can be submitted through the project's [GitHub issues][11] page.
+Issues and feedback about the templates can be submitted through the project's [GitHub issues][12] page.
 
 
 [1]: https://docs.microsoft.com/en-us/visualstudio/extensibility/anatomy-of-a-vsix-package?view=vs-2017
 [2]: https://dev.botframework.com
 [3]: https://visualstudio.microsoft.com/downloads/
 [4]: https://azure.microsoft.com/en-us/free/
-[6]: https://marketplace.visualstudio.com/items?itemName=BotBuilder.botbuilderv4
-[7]: https://www.github.com/microsoft/botframework-emulator
+[5]: https://github.com/microsoft/botframework-emulator
+[6]: https://github.com/Microsoft/BotFramework-Emulator/releases
+[7]: https://marketplace.visualstudio.com/items?itemName=BotBuilder.botbuilderv4
 [9]: https://portal.azure.com
 [10]: https://azure.microsoft.com/get-started/
-[11]: https://github.com/Microsoft/botbuilder-samples/issues
-[12]: https://www.luis.ai
-
-
+[11]: https://www.luis.ai
+[12]: https://github.com/Microsoft/botbuilder-samples/issues
 [40]: https://docs.microsoft.com/azure/bot-service/bot-builder-howto-send-messages?view=azure-bot-service-4.0
 [41]: https://docs.microsoft.com/azure/bot-service/bot-builder-send-welcome-message?view=azure-bot-service-4.0
 [42]: https://docs.microsoft.com/azure/bot-service/bot-builder-send-welcome-message?view=azure-bot-service-4.0?#using-adaptive-card-greeting
