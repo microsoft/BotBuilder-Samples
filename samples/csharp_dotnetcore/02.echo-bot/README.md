@@ -13,15 +13,15 @@ This bot has been created using [Bot Framework][1], it shows how to create a sim
   dotnet --version
   ```
 
-# To try this sample
+## To try this sample
 
-- In a terminal, navigate to `EchoBot`
+- Clone the repository
 
     ```bash
-    # change into project folder
-    cd EchoBot
+    git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
+- In a terminal, navigate to `samples/csharp_dotnetcore/02.echo-bot`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -65,9 +65,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Azure CLI][7]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
-
-#### Generated using `dotnet new echobot` v0.4.6
-
 
 [1]: https://dev.botframework.com
 [4]: https://dotnet.microsoft.com/download
