@@ -1,4 +1,4 @@
-# multi-turn promp
+# multi-turn prompt
 
 Bot Framework v4 welcome users bot sample
 
