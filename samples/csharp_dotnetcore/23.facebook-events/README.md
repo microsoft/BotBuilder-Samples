@@ -7,10 +7,9 @@ Since Bot Framework supports multiple Facebook pages for a single bot, we also s
 
 More information about configuring a bot for Facebook Messenger can be found here: [Connect a bot to Facebook](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-facebook)
 
-
 ## Prerequisites
 
-- [.NET Core SDK][4] version 2.1
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
 
   ```bash
   # determine dotnet version

@@ -25,9 +25,10 @@ The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissio
     node --version
     ```
 
-- Update `bot-authentication-msgraph.bot` with required configuration settings
-  - App ID and Key for registered bots
-- Update `CONNECTION_SETTING_NAME` in `bot.js` so the bot can perform OAuth calls through Azure Bot Service
+- Update `.env` with required configuration settings
+  - MicrosoftAppId
+  - MicrosoftAppPassword
+  - ConnectionName
 
 ## To try this sample
 
@@ -66,7 +67,21 @@ The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissio
 
 - Launch Bot Framework Emulator
 - File -> Open Bot
-- Enter a Bot URL of `http://localhost:3978/api/messages`
+- Enter a Bot URL of `http://localhost:3978/api/messages
+
+## Authentication
+
+This sample uses the bot authentication capabilities of Azure Bot Service, providing features to make it easier to develop a bot that
+authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, and so on. These updates also
+take steps towards an improved user experience by eliminating the magic code verification for some clients and channels.
+It is important to note that the user's token does not need to be stored in the bot. When the bot needs to use or verify the user has a valid token at any point the OAuth prompt may be sent. If the token is not valid they will be prompted to login.
+
+## Microsoft Graph API
+
+This sample demonstrates using Azure Active Directory v2 as the OAuth2 provider and utilizes the Microsoft Graph API.
+Microsoft Graph is a Microsoft developer platform that connects multiple services and devices. Initially released in 2015,
+the Microsoft Graph builds on Office 365 APIs and allows developers to integrate their services with Microsoft products
+including Windows, Office 365, and Azure.
 
 ## Deploy the bot to Azure
 
@@ -75,4 +90,5 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 ## Further Reading
 
 - [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Microsoft Graph API](https://developer.microsoft.com/en-us/graph)
 - [MS Graph Docs](https://developer.microsoft.com/en-us/graph/docs/concepts/overview) and [SDK](https://github.com/microsoftgraph/msgraph-sdk-javascript)
