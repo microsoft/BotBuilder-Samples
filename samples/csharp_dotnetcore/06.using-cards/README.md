@@ -1,50 +1,88 @@
-﻿This sample demonstrates the use of rich content using cards.
-# Concepts introduced in this sample
-## What is a bot?
-A bot is an app that users interact with in a conversational way using text, graphics (cards), or speech. It may be a simple question and answer dialog,
-or a sophisticated bot that allows people to interact with services in an intelligent manner using pattern matching,
-state tracking and artificial intelligence techniques well-integrated with existing business services.
+﻿# using cards
+
+Bot Framework v4 using cards bot sample
+
+This bot has been created using [Microsoft Bot Framework][1], it shows how to create a bot that uses rich cards to enhance your bot design.
+
+## Prerequisites
+
+- [.NET Core SDK][4] version 2.1
+
+  ```bash
+  # determine dotnet version
+  dotnet --version
+  ```
+
+## To try this sample
+
+- Clone the repository
+
+    ```bash
+    git clone https://github.com/Microsoft/botbuilder-samples.git
+    ```
+
+- In a terminal, navigate to `samples/csharp_dotnetcore/06.using-cards`
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
+
+  A) From a terminal
+
+  ```bash
+  # run the bot
+  dotnet run
+  ```
+
+  B) Or from Visual Studio
+
+  - Launch Visual Studio
+  - File -> Open -> Project/Solution
+  - Navigate to `samples/csharp_dotnetcore/06.using-cards` folder
+  - Select `CardBot.csproj` file
+  - Press `F5` to run the project
+
+
+
+[Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
+
+### Connect to the bot using Bot Framework Emulator
+
+- Launch Bot Framework Emulator
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
+
 ## Rich Cards
 Most channels support rich content.  In this sample we explore the different types of rich cards your bot may use.
-# To try this sample
-- Clone the repository.
-```bash
-git clone https://github.com/microsoft/botbuilder-samples.git
-```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/06.using-cards` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 
-# Running Locally
-## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/06.using-cards`) and open CardsBot.csproj in Visual Studio
-- Run the project (press `F5` key)
+## Deploy the bot to Azure
 
-## .NET Core CLI
-- Install the [.NET Core CLI tools](https://docs.microsoft.com/dotnet/core/tools/?tabs=netcore2x).
-- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/06.using-cards`
-- Type `dotnet run`.
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
-## Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot
-developers to test and debug their bots on localhost or running remotely through a tunnel.
-- Install the [Bot Framework emulator](https://aka.ms/botframeworkemulator).
+## Further reading
 
-## Connect to bot using Bot Framework Emulator **V4**
-- Launch the Bot Framework Emulator.
-- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/06.using-cards` folder.
-- Select `using-cards.bot` file.
-# Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
+- [Bot Framework Documentation][20]
+- [Bot Basics][32]
+- [Rich Cards][23]
+- [Azure Bot Service Introduction][21]
+- [Azure Bot Service Documentation][22]
+- [.NET Core CLI tools][43]
+- [Azure CLI][7]
+- [Azure Portal][10]
+- [Language Understanding using LUIS][11]
 
-To clone this bot, run
-```
-msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
-```
-
-**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
-
-# Further reading
-- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction)
-- [Bot basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [Channels and Bot Connector service](https://docs.microsoft.com/azure/bot-service/bot-concepts)
-- [Activity processing](https://docs.microsoft.com/azure/bot-service/bot-builder-concept-activity-processing)
-- [Rich cards](https://docs.microsoft.com/azure/bot-service/bot-builder-howto-add-media-attachments?view=azure-bot-service-4.0&tabs=csharp#send-a-hero-card)
+[1]: https://dev.botframework.com
+[4]: https://dotnet.microsoft.com/download
+[5]: https://github.com/microsoft/botframework-emulator
+[6]: https://github.com/Microsoft/BotFramework-Emulator/releases
+[7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
+[8]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
+[9]: https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x
+[10]: https://portal.azure.com
+[11]: https://www.luis.ai
+[20]: https://docs.botframework.com
+[21]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
+[22]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0
+[23]: https://docs.microsoft.com/azure/bot-service/bot-builder-howto-add-media-attachments?view=azure-bot-service-4.0&tabs=csharp#send-a-hero-card
+[32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
+[40]: https://aka.ms/azuredeployment
+[43]: https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x
