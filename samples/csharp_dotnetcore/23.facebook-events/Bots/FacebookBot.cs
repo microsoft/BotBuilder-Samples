@@ -9,6 +9,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.BotBuilderSamples.FacebookModel;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples.Bots
@@ -61,40 +62,51 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             // At this point we know we are on Facebook channel, and can consume the Facebook custom payload
             // present in channelData.
-            var facebookPayload = (data as JObject)?.ToObject<FacebookPayload>();
-
-            if (facebookPayload != null)
+            try
             {
-                // PostBack
-                if (facebookPayload.PostBack != null)
-                {
-                    await OnFacebookPostBack(turnContext, facebookPayload.PostBack, cancellationToken);
-                    return true;
-                }
+                var facebookPayload = (data as JObject)?.ToObject<FacebookPayload>();
 
-                // Optin
-                else if (facebookPayload.Optin != null)
+                if (facebookPayload != null)
                 {
-                    await OnFacebookOptin(turnContext, facebookPayload.Optin, cancellationToken);
-                    return true;
-                }
+                    // PostBack
+                    if (facebookPayload.PostBack != null)
+                    {
+                        await OnFacebookPostBack(turnContext, facebookPayload.PostBack, cancellationToken);
+                        return true;
+                    }
 
-                // Quick reply
-                else if (facebookPayload.Message?.QuickReply != null)
-                {
-                    await OnFacebookQuickReply(turnContext, facebookPayload.Message.QuickReply, cancellationToken);
-                    return true;
-                }
+                    // Optin
+                    else if (facebookPayload.Optin != null)
+                    {
+                        await OnFacebookOptin(turnContext, facebookPayload.Optin, cancellationToken);
+                        return true;
+                    }
 
-                // Echo
-                else if (facebookPayload.Message?.IsEcho != null && facebookPayload.Message.IsEcho)
-                {
-                    await OnFacebookEcho(turnContext, facebookPayload.Message, cancellationToken);
-                    return true;
-                }
+                    // Quick reply
+                    else if (facebookPayload.Message?.QuickReply != null)
+                    {
+                        await OnFacebookQuickReply(turnContext, facebookPayload.Message.QuickReply, cancellationToken);
+                        return true;
+                    }
 
-                // TODO: Handle other events that you're interested in...
+                    // Echo
+                    else if (facebookPayload.Message?.IsEcho != null && facebookPayload.Message.IsEcho)
+                    {
+                        await OnFacebookEcho(turnContext, facebookPayload.Message, cancellationToken);
+                        return true;
+                    }
+
+                    // TODO: Handle other events that you're interested in...
+                }
             }
+            catch(JsonSerializationException e)
+            {
+                if (turnContext.Activity.ChannelId != Bot.Connector.Channels.Facebook)
+                {
+                    await turnContext.SendActivityAsync("This sample is intended to be used with a Facebook bot.");
+                }
+            }
+          
             return false;
         }
 
