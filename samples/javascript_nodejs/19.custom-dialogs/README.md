@@ -1,4 +1,4 @@
-# custom dialogs sample
+# custom dialogs
 
 Bot Framework v4 custom dialogs bot sample
 

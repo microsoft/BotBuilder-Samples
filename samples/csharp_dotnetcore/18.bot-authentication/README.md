@@ -68,7 +68,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 
 ## Further reading
 
-
 - [Azure Bot Service Introduction][21]
 - [Azure Bot Service Documentation][22]
 - [Azure Portal][10]
