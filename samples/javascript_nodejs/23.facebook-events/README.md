@@ -5,6 +5,8 @@ Bot Framework v4 facebook events bot sample
 This sample shows how to integrate and consume Facebook specific payloads, such as postbacks, quick replies and optin events.
 Since Bot Framework supports multiple Facebook pages for a single bot, we also show how to know the page to which the message was sent, so developers can have custom behavior per page.
 
+More information about configuring a bot for Facebook Messenger can be found here: [Connect a bot to Facebook](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-facebook)
+
 ## Prerequisites
 
 - [Node.js][4] version 10.14 or higher

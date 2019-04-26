@@ -53,7 +53,6 @@ BotFramework provides a built-in base class called `Dialog`. By subclassing `Dia
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-
 ## Custom Dialogs
 
 BotFramework provides a built-in base class called `Dialog`. By subclassing Dialog, developers
