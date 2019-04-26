@@ -2,7 +2,7 @@
 
 Bot Framework v4 using adaptive cards bot sample
 
-This sample shows how to send an Adaptive Card.
+This sample shows how to send an Adaptive Card from the bot to the user.
 
 ## Prerequisites
 
