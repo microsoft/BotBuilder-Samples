@@ -1,8 +1,8 @@
-# proactive messages sample
+# proactive messages
 
 Bot Framework v4 proactive messages bot sample
 
-This sample demonstrates how to send proactive messages to users by
+This bot has been created using [Microsoft Bot Framework][1], it shows how to send proactive messages to users by
 capturing a conversation reference, then using it later to initialize
 outbound messages.
 
