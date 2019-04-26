@@ -82,6 +82,7 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Activity Processing][25]
 - [Azure Bot Service Introduction][21]
 - [Azure Bot Service Documentation][22]
+- [.NET Core CLI tools][43]
 - [Azure CLI][7]
 - [QnA Maker CLI][24]
 - [Azure Portal][10]
@@ -104,3 +105,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
 [41]: https://aka.ms/qna-instructions
+[43]: https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x
