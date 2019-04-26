@@ -21,11 +21,6 @@ namespace Microsoft.BotBuilderSamples
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost
                 .CreateDefaultBuilder(args)
-                .ConfigureLogging((logging) =>
-                {
-                    logging.AddDebug();
-                    logging.AddConsole();
-                })
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     // add luis LU model environment settings

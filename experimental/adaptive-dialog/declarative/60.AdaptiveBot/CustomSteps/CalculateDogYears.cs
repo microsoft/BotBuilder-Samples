@@ -28,7 +28,9 @@ namespace Microsoft.BotBuilderSamples
 
 
         public string InputProperty { get; set; }
-        
+
+        public string OutputProperty { get { return this.OutputBinding; } set { this.OutputBinding = value; } }
+
         protected override Task<DialogTurnResult> OnRunCommandAsync(DialogContext dc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var value = dc.State.GetValue<int>(this.InputProperty);
