@@ -13,7 +13,7 @@ _Recognizers_ provdie the functionality of understanding and extracting meaningf
 Adaptive Dialogs support the following recognizers - 
 - [RegEx recognizer](#RegEx-recognizer)
 - [LUIS recognizer](#LUIS-recognizer)
-- [Multi-language recogizer](#Multi-language-recognizer)
+- [Multi-language recognizer](#Multi-language-recognizer)
 
 ### RegEx recognizer
 RegEx recognizer enables you to extract intent and entities based on regular expression patterns. 
