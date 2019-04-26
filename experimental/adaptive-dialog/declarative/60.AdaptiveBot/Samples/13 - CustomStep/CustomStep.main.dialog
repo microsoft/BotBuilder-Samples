@@ -1,0 +1,25 @@
+{
+    "$schema": "../../app.schema",
+    "$type": "Microsoft.AdaptiveDialog",
+    "steps": [
+        {
+            "$type": "Microsoft.NumberInput",
+            "alwaysPrompt": true,
+            "property": "user.age",
+            "prompt": "What is your age?"
+        },
+        {
+            "$type": "Microsoft.SendActivity",
+            "activity": "Your age is: {user.age}"
+        },
+        {
+            "$type": "Testbot.CalculateDogYears",
+            "inputProperty": "user.age",
+            "outputProperty": "conversation.dog"
+        },
+        {
+            "$type": "Microsoft.SendActivity",
+            "activity": "A dog that is {conversation.dog} years old is the same age as you"
+        }
+    ]
+}
