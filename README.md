@@ -30,7 +30,6 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |17.multilingual-bot    | Using translate middleware to support a multi-lingual bot. Demonstrates custom middleware. |[View][cs#17]|[View][js#17]|              |             | |
 |18.bot-authentication  | Bot that demonstrates how to integrate OAuth providers.                  |[View][cs#18]|[View][js#18]|              |             | |
 |19.custom-dialogs      | Demonstrates complex conversation flow using the Dialogs library. |[View][cs#19]|[View][js#19]|              |             | |
-|21.luis-appinsights    | Demonstrates how to use LUIS and Azure Application insights.                    |[View][cs#21]|[View][js#21]|      |             | |
 |23.facebook-events     | Integrate and consume Facebook specific payloads, such as post-backs, quick replies and opt-in events.|[View][cs#23] |[View][js#23] |              |             | |
 |24.bot-auth-msgraph    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[View][cs#24] |[View][js#24] |              |             | |
 |40.timex-resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[View][cs#40] |[View][js#40]|              | | |
