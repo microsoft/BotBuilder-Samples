@@ -1,0 +1,19 @@
+{
+    "$schema": "../../app.schema",
+    "$type": "Microsoft.AdaptiveDialog",
+    "autoEndDialog": false,
+    "rules": [
+        {
+            "$type": "Microsoft.EventRule",
+            "events": [
+                "activityReceived"
+            ],
+            "steps": [
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "you said {turn.activity.text}!"
+                }
+            ]
+        }
+    ]
+}
