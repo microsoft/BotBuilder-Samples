@@ -27,7 +27,6 @@ namespace Microsoft.BotBuilderSamples
     public class AdaptiveBot : ActivityHandler
     {
         private IStatePropertyAccessor<DialogState> dialogStateAccessor;
-        private DialogSet _dialogs;
         private AdaptiveDialog rootDialog;
         private readonly ResourceExplorer resourceExplorer;
 
@@ -52,8 +51,6 @@ namespace Microsoft.BotBuilderSamples
         private void LoadDialogs()
         {
             System.Diagnostics.Trace.TraceInformation("Loading resources...");
-
-            var dialogs = new DialogSet(this.dialogStateAccessor);
 
             this.rootDialog = new AdaptiveDialog()
             {

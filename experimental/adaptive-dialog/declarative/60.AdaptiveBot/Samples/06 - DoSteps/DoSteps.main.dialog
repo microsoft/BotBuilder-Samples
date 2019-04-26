@@ -6,7 +6,8 @@
         "$type": "Microsoft.RegexRecognizer",
         "intents": {
             "JokeIntent": "(?i)joke",
-            "FortuneTellerIntent": "(?i)fortune|future"
+            "FortuneTellerIntent": "(?i)fortune|future",
+            "CancelIntent":"(?i)cancel"
         }
     },
     "steps": [
@@ -24,6 +25,10 @@
         {
             "$type": "Microsoft.SendActivity",
             "activity": "Hello {user.name}, nice to talk to you!"
+        },
+        {
+            "$type": "Microsoft.SendActivity",
+            "activity": "Hey, I can tell you a joke, or tell your fortune"
         }
     ],
     "rules": [
@@ -61,6 +66,28 @@
                     "activity": "Perhaps even a successful bot demo"
                 }
             ]
-        }
+        },
+        {
+            "$type":"Microsoft.IntentRule",
+            "intent": "CancelIntent",
+            "steps":[
+                {
+                    "$type":"Microsoft.SendActivity",
+                    "activity":"OK, see ya"
+                },
+                {
+                    "$type":"Microsoft.EndDialog"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.UnknownIntentRule",
+            "steps": [
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "Hey, I can tell you a joke, or tell your fortune"
+                }
+            ]
+>       }
     ]
 }
