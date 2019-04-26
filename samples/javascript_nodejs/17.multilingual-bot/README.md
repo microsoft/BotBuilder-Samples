@@ -1,4 +1,4 @@
-# Multilingual Bot Sample
+# Multilingual Bot
 
 Bot Framework v4 multilingual bot sample
 
@@ -92,7 +92,6 @@ If you used the `.env` file to store your `translationKey` then you'll need to a
 - Scroll to the `Application settings` section
 - Click `+ Add new setting`
 - Add the key `translationKey` with a value of the Translator Text API `Authentication key` created from the steps above
-
 
 ## Further reading
 
