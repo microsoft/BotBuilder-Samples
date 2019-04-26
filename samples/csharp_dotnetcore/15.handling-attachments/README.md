@@ -6,14 +6,6 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to se
 
 ## Prerequisites
 
-This sample **requires** prerequisites in order to run.
-
-### Overview
-
-This bot uses the Dispatch service to route utterances as it demonstrates the use of multiple LUIS models and QnA maker services to support multiper conversational scenarios.
-
-### Install .NET Core and CLI Tooling
-
 - [.NET Core SDK][4] version 2.1
 
   ```bash
