@@ -28,8 +28,6 @@ class FacebookBot extends ActivityHandler {
 
         this.logger = logger;
 
-
-
         this.onMessage(async (context) => {
             this.logger.log('Processing a Message Activity.');
 
@@ -78,8 +76,11 @@ class FacebookBot extends ActivityHandler {
  * NOTE: This is a simplification of the Facebook object model. There are many more events and payloads
  * that could be captured here. We only show some key features that are commonly used. The sample
  * can be extended to account for more Facebook-specific events according to developers' needs.
- * 
- */
+     * 
+     * @param {TurnContext} context 
+     * @param {Object} data
+     */
+ 
 
     async processFacebookPayload(context, data) {
 
@@ -119,13 +120,14 @@ class FacebookBot extends ActivityHandler {
      * Facebook Developer Reference: Postback
      * https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_postbacks/
      * @param {Object} postback JSON object for postback payload.
+     * @param {TurnContext} context
      */
     async onFacebookPostback(context, postback) {
         this.logger.log('Postback message received.');
         // TODO: Your postBack handling logic here...
 
         //Answer the postback and show choices
-        await context.sendActivity("ARe you sure?");
+        await context.sendActivity("Are you sure?");
         await this.showChoices(context);
     }
 
@@ -134,6 +136,7 @@ class FacebookBot extends ActivityHandler {
      * Facebook Developer Reference: Optin
      * https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_optins/
      * @param {Object} optin JSON object for postback payload.
+     * @param {TurnContext} context
      */
     async onFacebookOptin(context, optin) {
         this.logger.log('Optin message received.')
@@ -145,6 +148,7 @@ class FacebookBot extends ActivityHandler {
      * Facebook Developer Reference: Quick reply
      * https://developers.facebook.com/docs/messenger-platform/send-messages/quick-replies/
      * @param {Object} quickReply JSON object for postback payload.
+     * @param {TurnContext} context
      */
     async onFacebookQuickReply(context, quickReply) {
         this.logger.log('QuickReply message received.');
