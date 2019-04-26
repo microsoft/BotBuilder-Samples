@@ -1,98 +1,108 @@
-﻿# LUIS with Application Insights
-This sample demonstrates how to integrate LUIS to a bot with ASP.Net Core 2 and
-Application Insights.
+﻿# CoreBot with Application Insights
+Bot Framework v4 core bot sample.
 
-This bot has been created using [Microsoft Bot Framework][1].
-
-This samples shows how to:
+This bot has been created using [Bot Framework][1], it shows how to:
 - Use [LUIS][11] to implement core AI capabilities
-- How to use Middleware to log messages to Application Insights
-- How to log LUIS results to Application Insights
-- View metrics using PowerBI, Azure Monitor queries or Visual Studio
-
+- Implement a multi-turn conversation using Dialogs
+- Handle user interruptions for such things as `Help` or `Cancel`
+- Prompt for and validate requests for information from the user
+- Use [Application Insights][41] to monitor your bot
 
 ## Prerequisites
-This samples requires prerequisites in order to run.
-- [Required Prerequisites][41]
+This sample **requires** prerequisites in order to run.
 
-# To run the bot
-- Clone the repository
+### Overview
+This bot uses [LUIS][11], an AI based cognitive service, to implement language understanding and [Application Insights][41], an extensible Application Performance Management (APM) service for web developers on multiple platforms.
+
+### Install .NET Core and CLI Tooling
+- [.NET Core SDK][4] version 2.1
+	```bash
+	# determine dotnet version
+	dotnet --version
+	```
+- If you don't have an Azure subscription, create a [free account][2].
+- Install the latest version of the [Azure CLI][3] tool. Version 2.0.54 or higher.
+
+### Create a LUIS Application to enable language understanding
+LUIS language model setup, training, and application configuration steps can be found [here][7].
+
+### Add Application Insights service to enable the bot monitoring
+Application Insights resource creation steps can be found [here][42].
+
+
+## To try this sample
+- In a terminal, navigate to `13.core-bot`
     ```bash
-    git clone https://github.com/microsoft/botbuilder-samples.git
+    # change into project folder
+	cd 13.core-bot
     ```
-- In a terminal, navigate to `samples/javascript_nodejs/21.luis-with-appinsights`
-    ```bash
-    cd samples/javascript_nodejs/21.luis-with-appinsights
-    ```
-- Setup LUIS
-    Assuming prerequisites have been installed:
-    ```bash
-    # log into Azure
-    az login
-    ```
-    ```bash
-    # set you Azure subscription
-    az account set --subscription "<azure-subscription>"
-    ```
-    ```bash
-    # Create LUIS service application
-    msbot clone services --name "<your-bot-name>" --luisAuthoringKey "<luis-authoring-key>" --location <azure region like eastus, westus, westus2 etc.> --folder "DeploymentScripts/MsbotClone" --verbose
-    ```
-- Make sure that the `name` property of your LUIS service in your `.bot` file matches `LuisKey`  in `LuisBot.cs`.
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
 
-- Start the bot
-   - If using Visual Studio:
-      - Navigate to the samples folder (`botBuilder-samples\samples\csharp_dotnetcore\21.luis-with-appinsights`) and open `LuisBotAppInsights.csproj` in Visual Studio.
-      - Run the project (press `F5` key)
+	A) From a terminal
+	```bash
+	# run the bot
+	dotnet run
+	```
 
-   - If using .NET Core CLI:
-      - Using the command line, navigate to `botBuilder-samples\samples\csharp_dotnetcore\21.luis-with-appinsights` folder.
-      - Type `dotnet run`.
+	B) Or from Visual Studio
+	- Launch Visual Studio
+	- File -> Open -> Project/Solution
+	- Navigate to `13.core-bot` folder
+	- Select `CoreBot.csproj` file
+	- Press `F5` to run the project
 
-# Testing the bot using Bot Framework Emulator **v4**
-[Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+## Testing the bot using Bot Framework Emulator
+[Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.1.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator **v4**
+### Connect to the bot using Bot Framework Emulator
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration
-- Navigate to `botBuilder-samples\samples\csharp_dotnetcore\21.luis-with-appinsights` folder
-- Select `<your-bot-name>.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Deploy the bot to Azure
-After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.
-To learn how, see [Deploy your bot to Azure][40] for a complete set of deployment instructions.
+## Deploy the bot to Azure
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
-# View metrics
-- Learn how to use [PowerBI, use Azure Monitor queries and Visual Studio][42] to view Application Insights data
-
-
-
-# Further reading
+## Further reading
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
+- [Prompt types][23]
+- [Waterfall dialogs][24]
+- [Ask the user questions][26]
+- [Activity processing][25]
 - [Azure Bot Service Introduction][21]
 - [Azure Bot Service Documentation][22]
-- [Deploying Your Bot to Azure][40]
+- [.NET Core CLI tools][23]
 - [Azure CLI][7]
-- [msbot CLI][9]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
+- [Channels and Bot Connector Service][27]
 
 
 [1]: https://dev.botframework.com
+[2]: https://azure.microsoft.com/free/
+[3]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
+[4]: https://dotnet.microsoft.com/download
 [5]: https://github.com/microsoft/botframework-emulator
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
 [7]: https://docs.microsoft.com/cli/azure/?view=azure-cli-latest
 [8]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
-[9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [10]: https://portal.azure.com
 [11]: https://www.luis.ai
 [20]: https://docs.botframework.com
 [21]: https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
 [22]: https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0
+[23]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0
+[24]: https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/waterfall
+[25]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0
+[26]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-waterfall?view=azure-bot-service-4.0
+[27]: https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0
+[30]: https://www.npmjs.com/package/restify
+[31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./PREREQUISITES.md
-[42]: https://aka.ms/botPowerBiTemplate
+[41]: https://docs.microsoft.com/en-us/azure/azure-monitor/app/cloudservices
+[42]: https://docs.microsoft.com/en-us/azure/azure-monitor/app/create-new-resource
+
+
