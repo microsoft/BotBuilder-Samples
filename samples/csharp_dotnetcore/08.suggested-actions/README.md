@@ -76,7 +76,7 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Language Understanding using LUIS][11]
 
 [1]: https://dev.botframework.com
-[4]: https://nodejs.org
+[4]: https://dotnet.microsoft.com/download
 [5]: https://github.com/microsoft/botframework-emulator
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
 [7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
