@@ -1,0 +1,10 @@
+{
+    "$schema": "../../app.schema",
+    "$type": "Microsoft.AdaptiveDialog",
+    "steps": [
+        {
+            "$type": "Microsoft.SendActivity",
+            "activity": "you said {turn.activity.text}!"
+        }
+    ]
+}

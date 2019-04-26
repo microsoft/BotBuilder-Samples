@@ -1,0 +1,7 @@
+{
+  "name": "EchoBot",
+  "defaultLanguage": "en-us",
+  "models": [
+    "samples/ToDoLuisBot/ToDoLuis.lu"
+  ]
+}
