@@ -1,10 +1,10 @@
-# bot authentication sample
+# bot authentication
 
 Bot Framework v4 bot authentication sample
 
 This bot has been created using [Microsoft Bot Framework][1], it shows how to use authentication in your bot using OAuth.
 
-The sample uses the bot authentication capabilities in [Azure Bot Service][1], providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc.
+The sample uses the bot authentication capabilities in [Azure Bot Service][20], providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc.
 
 ## Prerequisites
 
