@@ -1,65 +1,82 @@
 # __PROJECT_NAME__
+
 Bot Framework v4 core bot sample.
 
 This bot has been created using [Bot Framework][1], it shows how to:
+
 - Use [LUIS][11] to implement core AI capabilities
 - Implement a multi-turn conversation using Dialogs
 - Handle user interruptions for such things as `Help` or `Cancel`
 - Prompt for and validate requests for information from the user
 
 ## Prerequisites
+
 This sample **requires** prerequisites in order to run.
 
 ### Overview
+
 This bot uses [LUIS][11], an AI based cognitive service, to implement language understanding.  The Bot Framework provides a set of CLI tools that will help setup LUIS so the bot can be run and tested locally.
 
 ### Install .NET Core and CLI Tooling
+
 - [.NET Core SDK][4] __NETCORE_VERSION__
-	```bash
-	# determine dotnet version
-	dotnet --version
-	```
+
+  ```bash
+  # determine dotnet version
+  dotnet --version
+  ```
+
 - If you don't have an Azure subscription, create a [free account][2].
 - Install the latest version of the [Azure CLI][3] tool. Version 2.0.54 or higher.
 
 ### Create a LUIS Application to enable language understanding
+
 LUIS language model setup, training, and application configuration steps can be found [here][7].
 
-# To try this sample
+## To try this sample
+
 - In a terminal, navigate to `__PROJECT_NAME__`
+
     ```bash
     # change into project folder
-	cd __PROJECT_NAME__
+    cd __PROJECT_NAME__
     ```
+
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
-	A) From a terminal
-	```bash
-	# run the bot
-	dotnet run
-	```
+  A) From a terminal
 
-	B) Or from Visual Studio
-	- Launch Visual Studio
-	- File -> Open -> Project/Solution
-	- Navigate to `__PROJECT_NAME__` folder
-	- Select `__PROJECT_NAME__.csproj` file
-	- Press `F5` to run the project
+    ```bash
+    # run the bot
+    dotnet run
+    ```
 
-# Testing the bot using Bot Framework Emulator
+  B) Or from Visual Studio
+
+  - Launch Visual Studio
+  - File -> Open -> Project/Solution
+  - Navigate to `__PROJECT_NAME__` folder
+  - Select `__PROJECT_NAME__.csproj` file
+  - Press `F5` to run the project
+
+## Testing the bot using Bot Framework Emulator
+
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Deploy the bot to Azure
+## Deploy the bot to Azure
+
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
-# Further reading
+## Further reading
+
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
 - [Prompt types][23]

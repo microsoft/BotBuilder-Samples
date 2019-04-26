@@ -1,50 +1,62 @@
 ﻿# EchoBot
+
 Bot Framework v4 echo bot sample.
 
 This bot has been created using [Bot Framework][1], it shows how to create a simple bot that accepts input from the user and echoes it back.
 
 ## Prerequisites
-- [.NET Core SDK][4] version 2.1
-	```bash
-	# determine dotnet version
-	dotnet --version
-	```
 
-# To try this sample
-- In a terminal, navigate to `EchoBot`
+- [.NET Core SDK][4] version 2.1
+
+  ```bash
+  # determine dotnet version
+  dotnet --version
+  ```
+
+## To try this sample
+
+- Clone the repository
+
     ```bash
-    # change into project folder
-	cd EchoBot
+    git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
+
+- In a terminal, navigate to `samples/csharp_dotnetcore/02.echo-bot`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
-	A) From a terminal
-	```bash
-	# run the bot
-	dotnet run
-	```
+  A) From a terminal
 
-	B) Or from Visual Studio
-	- Launch Visual Studio
-	- File -> Open -> Project/Solution
-	- Navigate to `EchoBot` folder
-	- Select `EchoBot.csproj` file
-	- Press `F5` to run the project
+  ```bash
+  # run the bot
+  dotnet run
+  ```
 
-# Testing the bot using Bot Framework Emulator
+  B) Or from Visual Studio
+
+  - Launch Visual Studio
+  - File -> Open -> Project/Solution
+  - Navigate to `samples/csharp_dotnetcore/02.echo-bot` folder
+  - Select `EchoBot.csproj` file
+  - Press `F5` to run the project
+
+## Testing the bot using Bot Framework Emulator
+
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Deploy the bot to Azure
+## Deploy the bot to Azure
+
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
-# Further reading
+## Further reading
+
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
 - [Azure Bot Service Introduction][21]
@@ -53,9 +65,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Azure CLI][7]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
-
-#### Generated using `dotnet new echobot` v0.4.6
-
 
 [1]: https://dev.botframework.com
 [4]: https://dotnet.microsoft.com/download

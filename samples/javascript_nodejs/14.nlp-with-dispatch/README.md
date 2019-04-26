@@ -1,72 +1,86 @@
-# NLP with Dispatch sample
+# NLP with Dispatch
+
 Bot Framework v4 NLP with Dispatch bot sample
 
 This bot has been created using [Microsoft Bot Framework][1], it shows how to create a bot that relies on multiple [LUIS.ai][11] and [QnAMaker.ai][12] models for natural language processing (NLP).
 
-## Prerequisites
-This samples requires prerequisites in order to run.
-- [Required Prerequisites][41]
-
-
-[Dispatch CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) is a tool to create and evaluate LUIS models used for NLP (Natural Language Processing). Dispatch works across multiple bot modules such as LUIS applications, QnA knowledge bases and other NLP sources (added to dispatch as a file type).
-
 Use the Dispatch model in cases when:
-- Your bot consists of multiple modules and you need assistance in routing user's utterances to these modules and evaluate the bot integration.
+
+- Your bot consists of multiple language modules (LUIS + QnA) and you need assistance in routing user's utterances to these modules in order to integrate the different modules into your bot.
 - Evaluate quality of intents classification of a single LUIS model.
 - Create a text classification model from text files.
 
-# To try this sample
+## Prerequisites
+
+This sample **requires** prerequisites in order to run.
+
+### Overview
+
+This bot uses the Dispatch service to route utterances as it demonstrates the use of multiple LUIS models and QnA maker services to support multiper conversational scenarios.
+
+- Node.js version 10.14.1 or higher.
+
+    ```bash
+    # determine node version
+    node --version
+    ```
+
+### Use Dispatch with Mulitple LUIS and QnA Models
+
+To learn how to configure Dispatch with multiple LUIS models and QnA Maker services, refer to the steps found [here][41].
+
+## To try this sample
+
 - Clone the repository
+
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
+
 - In a terminal, navigate to `samples/javascript_nodejs/14.nlp-with-dispatch`
+
     ```bash
     cd samples/javascript_nodejs/14.nlp-with-dispatch
     ```
+
 - Install modules
+
     ```bash
     npm install
     ```
-- Setup LUIS
 
-    Assuming prerequisites have been installed:
-    ```bash
-    # log into Azure
-    az login
-    ```
-    ```bash
-    # set you Azure subscription
-    az account set --subscription "<azure-subscription>"
-    ```
-    ```bash
-    # Create the LUIS & QnA Maker service applications
-    msbot clone services --name "<your_bot_name>" --luisAuthoringKey <LUIS-authoring-key> --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
-    ```
+- Setup Dispatch
+
+    The prerequisite outlined above contain the steps necessary to configure Dispatch with multiple LUIS models and QnA Maker services.  Refer to [Use multiple LUIS and QnA models][41] for directions to setup and configure Dispatch.
+
 - Start the bot
+
     ```bash
     npm start
     ```
 
-# Testing the bot using Bot Framework Emulator
+## Testing the bot using Bot Framework Emulator
+
 [Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Dispatch
-[Dispatch](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) is a CLI tool that enables you to create a dispatch NLP model across the different LUIS applications and/ or QnA Maker Knowledge Bases you have for your bot. For this sample, you would have already created 2 LUIS applications (Home Automation and Weather) and one QnA Maker Knowledge base.
+## Dispatch
 
+Once you are confortable with the concepts presented in this sample, you may want to configure Dispath using a CLI tool.  [Dispatch CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) is a CLI tool that enables you to create a dispatch NLP model across the different LUIS applications and/ or QnA Maker Knowledge Bases you have for your bot.
 
+## Deploy the bot to Azure
 
-# Deploy the bot to Azure
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
-# Further reading
+## Further reading
+
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
 - [Using LUIS for Language Understanding][23]
@@ -99,4 +113,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./PREREQUISITES.md
+[41]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0

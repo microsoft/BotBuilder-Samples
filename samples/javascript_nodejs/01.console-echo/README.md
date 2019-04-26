@@ -1,39 +1,52 @@
 # console-echo sample
+
 Bot Framework v4 console bot sample
 
 This bot has been created using [Microsoft Bot Framework][1], it shows how to create a simple bot that you can talk to from the console window.
 
 ## Prerequisites
+
 - [Node.js][4] version 10.14 or higher
+
     ```bash
     # determine node version
     node --version
     ```
 
-# To try this sample
+## To try this sample
+
 - Clone the repository
+
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
+
 - In a terminal, navigate to `samples/javascript_nodejs/01.console-echo`
+
     ```bash
     cd samples/javascript_nodejs/01.console-echo
     ```
+
 - Install modules
+
     ```bash
     npm install
     ```
+
 - Start the bot
+
     ```bash
     npm start
     ```
 
-# Testing the bot
+## Testing the bot
+
 After running `npm start`, the bot presents a prompt directly in the console window.
 
 Send messages to the bot by typing them into the console.  The bot will echo your message back to you.
 
-# Adapters
+## Adapters
+
 Adapters such as the `ConsoleAdapter` provide an abstraction for your bot to work with a variety of environments and messaging platforms.
 
 The adapter is responsible for directing incoming and outgoing communication, authentication, and so on. Adapters for different platforms and
@@ -48,7 +61,8 @@ external API calls or client applications.
 
 Other available adapters connect your bot to the web, or through the BotFramework Connector Service, to many popular messaging platforms.
 
-# Further reading
+## Further reading
+
 - [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Bot basics](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Channels and Bot Connector service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)

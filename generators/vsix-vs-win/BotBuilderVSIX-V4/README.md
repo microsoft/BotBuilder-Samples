@@ -1,11 +1,14 @@
 # Microsoft Bot Builder V4 Templates
+
 The Microsoft Bot Builder V4 Templates are available for .NET, and will let you quickly set up a conversational AI bot
 using core AI capabilities. They are available as a [VSIX][1] package.
 
-# About
+## About
+
 Microsoft Bot Builder V4 Templates will help you build new conversational AI bots using the [Microsoft Bot Framework v4][2].
 
-# Templates
+## Templates
+
 There are three different template options.  The table below can help guide which template is right for you.
 
 |  Template  |  Description  |
@@ -14,18 +17,22 @@ There are three different template options.  The table below can help guide whic
 | Core&nbsp;Bot | Our most advanced template, the Core Bot template provides 6 core features every bot is likely to have.  This template covers the core features of a Conversational-AI bot using [LUIS][2].  See the **Core Bot Features** table below for more details. |
 | Empty&nbsp;Bot | A good template if you are familiar with Bot Framework v4, and simple want a basic skeleton project.  Also a good option if you want to take sample code from the documentation and paste it into a minimal bot in order to learn. |
 
-## How to Choose a Template
+### How to Choose a Template
+
 | Template | When This Template is a Good Choice |
 | -------- | -------- |
 | Echo&nbsp;Bot  | You are new to Bot Framework v4 and want a working bot with minimal features. |
 | Core&nbsp;Bot | You understand some of the core concepts of Bot Framework v4 and are beyond the concepts introduced in the Echo Bot template.  You're familiar with or are ready to learn concepts such as language understanding using LUIS, managing multi-turn conversations with Dialogs, handling user initiated Dialog interruptions, and using Adaptive Cards to welcome your users. |
 | Empty&nbsp;Bot | You are a seasoned Bot Framework v4 developer.  You've built bots before, and want the minimum skeleton of a bot to help you get started. |
 
-## Template Overview
-### Echo Bot Template
+### Template Overview
+
+#### Echo Bot Template
+
 The Echo Bot template is slightly more than the a classic "Hello World!" example, but not by much.  This template shows the basic structure of a bot, how a bot recieves messages from a user, and how a bot sends messages to a user.  The bot will "echo" back to the user, what the user says to the bot.  It is a good choice for first time, new to Bot Framework v4 developers.
 
-### Core Bot Template
+#### Core Bot Template
+
 The Core Bot template consists of set of core features most every bot is likely to have.  Building off of the core message processing features found in the Echo Bot template, this template adds a number of more sophisticated features.  The table below lists these features and provides links to additional documentation.
 
 | Core&nbsp;Bot&nbsp;Features | Description |
@@ -37,11 +44,11 @@ The Core Bot template consists of set of core features most every bot is likely 
 | [Managing conversation state][45] | A key to good bot design is to track the context of a conversation, so that your bot remembers things like the answers to previous questions. |
 | [How to handle user-initiated interruptions][46] | While you may think that your users will follow your defined conversation flow, step by step, chances are good that they will change their minds or ask a question in the middle of the process instead of answering the question. Handling interruptions means making sure your bot is prepared to handle situations like this. |
 
-### Empty Bot Template
+#### Empty Bot Template
+
 The Empty Bot template is the minimal skeleton code for a bot.  It provides a stub `ActivityHandler` implementation that displays a message to a newly connected user.  It does not perform any additional actions.  If you are experienced writing bots with Bot Framework v4 and want the minimum scaffolding, the Empty Bot template is for you.
 
-
-# Features by Template
+## Features by Template
 |  Feature  | Empty Bot | Echo Bot | Core Bot |
 | --------- | :-------: | :------: | :------: |
 | Generate code in C# | X | X | X |
@@ -54,54 +61,62 @@ The Empty Bot template is the minimal skeleton code for a bot.  It provides a st
 | Manage conversation state |  |  | X |
 | Handle user interruptions |  |  | X |
 
-# Installation
+## Installation
 
 Prerequisites
 
 * [Visual Studio 2017 or greater][3]
 * [Azure account][4]
 
-
 Install the template.
 
 * You can download Microsoft Bot Builder V4 Templates [here][6]. Click the `.vsix` file to install the extension into Visual Studio.
 
-# Usage
-## Creating a New Bot Project
+## Usage
+
+### Creating a New Bot Project
+
 In Visual Studio go to **File** > **New** > **Project...**.
 
 Select template of choice from Bot Builder v4 templates, then click **OK**.
 
-# Running Your Bot
-## Running Your Bot Locally
+## Running Your Bot
 
-## Visual Studio
+### Running Your Bot Locally
+
+### Visual Studio
+
 * Navigate to the folder containing the `.csproj` file and open it in Visual Studio.
 * Run the project (press `F5` key)
 
-## .NET Core CLI
+### .NET Core CLI
+
 * Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x).
 * Using the command line, navigate to your project's root folder.
 * Type `dotnet run`.
 
-# Testing the bot using Bot Framework Emulator
+## Testing the bot using Bot Framework Emulator
+
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Deploy the bot to Azure
+## Deploy the bot to Azure
+
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][50] for a complete list of deployment instructions.
 
 The deployment process assumes you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal][9].
 
 If you are new to Microsoft Azure, please refer to [Getting started with Azure][10] for guidance on how to get started on Azure.
 
-# Logging Issues and Providing Feedback
+## Logging Issues and Providing Feedback
+
 Issues and feedback about the templates can be submitted through the project's [GitHub issues][11] page.
 
 

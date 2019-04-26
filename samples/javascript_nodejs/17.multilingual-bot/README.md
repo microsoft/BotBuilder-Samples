@@ -1,14 +1,20 @@
-# Multilingual Bot Sample
+# Multilingual Bot
+
 Bot Framework v4 multilingual bot sample
 
 This bot has been created using [Microsoft Bot Framework][1], it shows how to translate incoming and outgoing text using a custom middleware and the [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/).
 
 ## Prerequisites
+
+This sample **requires** prerequisites in order to run.
+
 - [Node.js][4] version 10.14 or higher
+
     ```bash
     # determine node version
     node --version
     ```
+
 - [Microsoft Translator Text API key](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup)
 
     To consume the Microsoft Translator Text API, first obtain a key following the instructions in the [Microsoft Translator Text API documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup).
@@ -19,45 +25,66 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to tr
     ```
 
 
-# To try this sample
+## To try this sample
+
 - Clone the repository
+
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to `samples/javascript_nodejs/17.multilingual-conversations`
+
+- In a terminal, navigate to `samples/javascript_nodejs/17.multilingual-bot`
+
     ```bash
-    cd samples/javascript_nodejs/17.multilingual-conversations
+    cd samples/javascript_nodejs/17.multilingual-bot
     ```
+
 - Install modules
+
     ```bash
     npm install
     ```
+
+- Setup Translation API
+
+    The reprequisites outlined above contain the steps necessary to use the Microsoft Translator Text API.  Refer to the above prerequisites if you have not already done so.
+
 - Start the bot
+
     ```bash
     npm start
     ```
 
-# Testing the bot using Bot Framework Emulator
+## Testing the bot using Bot Framework Emulator
+
 [Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-## Creating a custom middleware
+### Creating a custom middleware
+
 Translation Middleware: We create a translation middleware than can translate text from bot to user and from user to bot, allowing the creation of multilingual bots.
 Users can specify their language preference, which is stored in the user state. The translation middleware translates to and from the user's preferred language.
 
-## Microsoft Translator Text API
+### Microsoft Translator Text API
+
 The [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/), Microsoft Translator Text API is a cloud-based machine translation service. With this API you can translate text in near real-time from any app or service through a simple REST API call.
 The API uses the most modern neural machine translation technology, as well as offering statistical machine translation technology.
 
-# Deploy this bot to Azure
+## Deploy this bot to Azure
+
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
+
 ### Add `translationKey` to Application Settings
+
 If you used the `.env` file to store your `translationKey` then you'll need to add this key and its value to the Application Settings for your deployed bot.
+
 - Log into the [Azure portal][10]
 - In the left nav, click on `Bot Services`
 - Click the `<your_bot_name>` Name to display the bot's Web App Settings
@@ -66,10 +93,8 @@ If you used the `.env` file to store your `translationKey` then you'll need to a
 - Click `+ Add new setting`
 - Add the key `translationKey` with a value of the Translator Text API `Authentication key` created from the steps above
 
-### Getting Additional Help Deploying to Azure
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
+## Further reading
 
-# Further reading
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
 - [Bot State][23]
@@ -77,7 +102,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Azure Bot Service Introduction][21]
 - [Azure Bot Service Documentation][22]
 - [Azure CLI][7]
-- [msbot CLI][9]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
 - [Restify][30]
@@ -89,7 +113,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
 [7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 [8]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
-[9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [10]: https://portal.azure.com
 [11]: https://www.luis.ai
 [20]: https://docs.botframework.com
@@ -101,4 +124,3 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./PREREQUISITES.md

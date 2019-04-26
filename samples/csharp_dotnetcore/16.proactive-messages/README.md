@@ -1,67 +1,127 @@
-This sample demonstrates how to send proactive messages to users by
-capturing a conversation reference, then using it later to initialize
-outbound messages using ASP.Net Core 2.
+# proactive messages
 
-# Concepts introduced in this sample
-Typically, each message that a bot sends to the user directly relates to the user's prior input. In some cases,
-a bot may need to send the user a message that is not directly related to the current topic of conversation. These
-types of messages are called proactive messages.
+Bot Framework v4 proactive messages bot sample
 
-Proactive messages can be useful in a variety of scenarios. If a bot sets a timer or reminder, it will need to
-notify the user when the time arrives. Or, if a bot receives a notification from an external system, it may need
-to communicate that information to the user immediately. For example, if the user has previously asked the bot to
-monitor the price of a product, the bot can alert the user if the price of the product has dropped by 20%. Or,
-if a bot requires some time to compile a response to the user's question, it may inform the user of the delay
-and allow the conversation to continue in the meantime. When the bot finishes compiling the response to the
-question, it will share that information with the user.
+This bot has been created using [Microsoft Bot Framework][1], it shows how to send proactive messages to users by capturing a conversation reference, then using it later to initialize
+outbound messages.
 
-This project has a NotifyController with an endpoint that will trigger the proactive messages to be sent to 
+## Concepts introduced in this sample
+
+Typically, each message that a bot sends to the user directly relates to the user's prior input. In some cases, a bot may need to send the user a message that is not directly related to the current topic of conversation. These types of messages are called proactive messages.
+
+Proactive messages can be useful in a variety of scenarios. If a bot sets a timer or reminder, it will need to notify the user when the time arrives. Or, if a bot receives a notification from an external system, it may need to communicate that information to the user immediately. For example, if the user has previously asked the bot to monitor the price of a product, the bot can alert the user if the price of the product has dropped by 20%. Or, if a bot requires some time to compile a response to the user's question, it may inform the user of the delay and allow the conversation to continue in the meantime. When the bot finishes compiling the response to the question, it will share that information with the user.
+
+This project has a notify endpoint that will trigger the proactive messages to be sent to
 all users who have previously messaged the bot.
 
-# To try this sample
+## Prerequisites
 
-- Clone the samples repository
-```bash
-git clone https://github.com/Microsoft/botbuilder-samples.git
-```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` with your botFileSecret. For Azure Bot Service bots, you can find the botFileSecret under application settings.
-# Prerequisites
+- [.NET Core SDK][4] version 2.1
 
-## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages`) and open `ProactiveBot.csproj` in Visual Studio.
-- Run the project (press `F5` key)
+  ```bash
+  # determine dotnet version
+  dotnet --version
+  ```
 
-## .NET Core CLI
-- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
-- Bring up a console, navigate to `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` folder.
-- Type `dotnet run`.
+## To try this sample
+
+- Clone the repository
+
+    ```bash
+    git clone https://github.com/microsoft/botbuilder-samples.git
+    ```
+
+- In a terminal, navigate to `samples/csharp_dotnetcore/16.proactive-messages`
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
+
+  A) From a terminal
+
+  ```bash
+  # run the bot
+  dotnet run
+  ```
+
+  B) Or from Visual Studio
+
+  - Launch Visual Studio
+  - File -> Open -> Project/Solution
+  - Navigate to `samples/csharp_dotnetcore/16.proactive-messages` folder
+  - Select `ProactiveBot.csproj` file
+  - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
-- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator).
 
-Build run your bot locally and open two instances of the emulator.
+[Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-1. In the first emulator, type "run" to simulate a job being added to the queue.
-1. Copy the job number from the emulator log.
-1. In the second emulator, type "done <jobNumber>", where "<jobNumber>" is the job number, without the angle brackets, that you copied in the previous step. This will cause the bot to complete the job.
-1. Note that the bot sends a message proactively to the user in the first emulator when the job is completed.
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-### Connect to bot using Bot Framework Emulator V4
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
-- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/16.proactive-messages` folder
-- Select `proactive-messages.bot` file
-- Open two conversations in the emulator, see that the proactive message goes to the correct conversation
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
+With the Bot Framework Emulator connected to your running bot, the sample will not respond to an HTTP GET that will trigger a proactive message.  The proactive message can be triggered from the command line using `curl` or similar tooling, or can be triggered by opening a browser windows and nagivating to `http://localhost:3978/api/notify`.
 
-To clone this bot, run
-```bash
-msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
-```
+### Using curl
 
-**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
+- Send a get request to `http://localhost:3978/api/notify` to proactively message users from the bot.
 
-# Further reading
-- [Azure Bot Service Introduction](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+   ```bash
+    curl get http://localhost:3978/api/notify
+   ```
+
+- Using the Bot Framwork Emulator, notice a message was proactively sent to the user from the bot.
+
+### Using the Browser
+
+- Launch a web browser
+- Navigate to `http://localhost:3978/api/notify`
+- Using the Bot Framwork Emulator, notice a message was proactively sent to the user from the bot.
+
+## Proactive Messages
+
+In addition to responding to incoming messages, bots are frequently called on to send "proactive" messages based on activity, scheduled tasks, or external events.
+
+In order to send a proactive message using Bot Framework, the bot must first capture a conversation reference from an incoming message using `TurnContext.getConversationReference()`. This reference can be stored for later use.
+
+To send proactive messages, acquire a conversation reference, then use `adapter.continueConversation()` to create a TurnContext object that will allow the bot to deliver the new outgoing message.
+
+## Deploy this bot to Azure
+
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
+
+## Further reading
+
+- [Bot Framework Documentation][20]
+- [Bot Basics][32]
+- [Send proactive messages][23]
+- [continueConversation Method][24]
+- [getConversationReference Method][26]
+- [Activity processing][25]
+- [Azure Bot Service Introduction][21]
+- [Azure Bot Service Documentation][22]
+- [.NET Core CLI tools][43]
+- [Azure CLI][7]
+- [Azure Portal][10]
+- [Language Understanding using LUIS][11]
+
+[1]: https://dev.botframework.com
+[4]: https://dotnet.microsoft.com/download
+[5]: https://github.com/microsoft/botframework-emulator
+[6]: https://github.com/Microsoft/BotFramework-Emulator/releases
+[7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
+[8]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
+[10]: https://portal.azure.com
+[11]: https://www.luis.ai
+[20]: https://docs.botframework.com
+[21]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
+[22]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0
+
+[23]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-proactive-message?view=azure-bot-service-4.0&tabs=js
+[24]: https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadapter#continueconversation
+[25]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0
+[26]: https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/turncontext#getconversationreference
+[32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
+[40]: https://aka.ms/azuredeployment
+[43]: https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x

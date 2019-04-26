@@ -1,55 +1,72 @@
 # using adaptive cards sample
+
 Bot Framework v4 using adaptive cards bot sample
 
-This sample shows how to send an Adaptive Card.
+This sample shows how to send an Adaptive Card from the bot to the user.
 
 ## Prerequisites
+
 - [Node.js][4] version 10.14 or higher
+
     ```bash
     # determine node version
     node --version
     ```
 
-# To try this sample
+## To try this sample
+
 - Clone the repository
+
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
+
 - In a terminal, navigate to `samples/javascript_nodejs/07.using-adaptive-cards`
+
     ```bash
     cd samples/javascript_nodejs/07.using-adaptive-cards
     ```
+
 - Install modules
+
     ```bash
     npm install
     ```
+
 - Start the bot
+
     ```bash
     npm start
     ```
 
-# Testing the bot using Bot Framework Emulator
+## Testing the bot using Bot Framework Emulator
+
 [Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Adaptive Cards
+## Adaptive Cards
+
 The Bot Framework provides support for Adaptive Cards.  See the following to learn more about Adaptive Cards.
+
 - [Adaptive card][26]
 - [Send an Adaptive card][27]
 
-## Adding media to messages
+### Adding media to messages
+
 A message exchange between user and bot can contain media attachments, such as cards, images, video, audio, and files.
 
-# Deploy the bot to Azure
+## Deploy the bot to Azure
+
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
-# Further reading
+## Further reading
 
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
@@ -83,4 +100,3 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./PREREQUISITES.md

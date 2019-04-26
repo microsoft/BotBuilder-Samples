@@ -8,15 +8,24 @@ The [QnA Maker Service][19] enables you to build, train and publish a simple que
 
 ## Prerequisites
 
-This samples requires prerequisites in order to run.
+This samples **requires** prerequisites in order to run.
 
-- [Required Prerequisites][41]
+### Overview
+
+This bot uses [QnA Maker Service][19], an AI based cognitive service, to implement simple Question and Answer conversational patterns.
+
+- Node.js version 10.14.1 or higher.
+
+    ```bash
+    # determine node version
+    node --version
+    ```
 
 ### Create a QnAMaker Application to enable QnA Knowledge Bases
 
 QnA knowledge base setup and application configuration steps can be found [here][41].
 
-# To try this sample
+## To try this sample
 
 - Clone the repository
 
@@ -38,7 +47,7 @@ QnA knowledge base setup and application configuration steps can be found [here]
 
 - Setup QnAMaker
 
-    The prerequisite outlined above contain the steps necessary to provision a QnA Knowledge Base on www.qnamaker.ai.  Refer to [QnAMaker Prerequisites][41] for directions to setup and configure QnAMaker.
+    The prerequisite outlined above contain the steps necessary to provision a QnA Knowledge Base on www.qnamaker.ai.  Refer to [Use QnA Maker to answer questions][41] for directions to setup and configure QnAMaker.
 
 - Run the sample
 
@@ -46,27 +55,29 @@ QnA knowledge base setup and application configuration steps can be found [here]
     npm start
     ```
 
-# Testing the bot using Bot Framework Emulator
+## Testing the bot using Bot Framework Emulator
 
-[Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-## Connect to the bot using Bot Framework Emulator
+### Connect to the bot using Bot Framework Emulator
 
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# QnA Maker service
+## QnA Maker service
+
 QnA Maker enables you to power a question and answer service from your semi-structured content.
 
 One of the basic requirements in writing your own bot is to seed it with questions and answers. In many cases, the questions and answers already exist in content like FAQ URLs/documents, product manuals, etc. With QnA Maker, users can query your application in a natural, conversational manner. QnA Maker uses machine learning to extract relevant question-answer pairs from your content. It also uses powerful matching and ranking algorithms to provide the best possible match between the user query and the questions.
 
-# Deploy the bot to Azure
+## Deploy the bot to Azure
+
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
-# Further reading
+## Further reading
 
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
@@ -99,4 +110,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./PREREQUISITES.md
+[41]: https://aka.ms/qna-instructions
