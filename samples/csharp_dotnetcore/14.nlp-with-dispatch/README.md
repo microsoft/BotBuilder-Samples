@@ -18,12 +18,14 @@ This sample **requires** prerequisites in order to run.
 
 This bot uses the Dispatch service to route utterances as it demonstrates the use of multiple LUIS models and QnA maker services to support multiper conversational scenarios.
 
-- Node.js version 10.14.1 or higher.
+### Install .NET Core and CLI Tooling
 
-    ```bash
-    # determine node version
-    node --version
-    ```
+- [.NET Core SDK][4] version 2.1
+
+  ```bash
+  # determine dotnet version
+  dotnet --version
+  ```
 
 ### Use Dispatch with Mulitple LUIS and QnA Models
 
@@ -34,34 +36,30 @@ To learn how to configure Dispatch with multiple LUIS models and QnA Maker servi
 - Clone the repository
 
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
+    git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_nodejs/14.nlp-with-dispatch`
+- In a terminal, navigate to `samples/csharp_dotnetcore/14.nlp-with-dispatch`
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
 
-    ```bash
-    cd samples/javascript_nodejs/14.nlp-with-dispatch
-    ```
+  A) From a terminal
 
-- Install modules
+  ```bash
+  # run the bot
+  dotnet run
+  ```
 
-    ```bash
-    npm install
-    ```
+  B) Or from Visual Studio
 
-- Setup Dispatch
-
-    The prerequisite outlined above contain the steps necessary to configure Dispatch with multiple LUIS models and QnA Maker services.  Refer to [Use multiple LUIS and QnA models][41] for directions to setup and configure Dispatch.
-
-- Start the bot
-
-    ```bash
-    npm start
-    ```
+  - Launch Visual Studio
+  - File -> Open -> Project/Solution
+  - Navigate to `samples/csharp_dotnetcore/14.nlp-with-dispatch` folder
+  - Select `NLP-With-Dispatch-Bot.csproj` file
+  - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
 
-[Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
@@ -88,14 +86,13 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Activity processing][25]
 - [Azure Bot Service Introduction][21]
 - [Azure Bot Service Documentation][22]
+- [.NET Core CLI tools][43]
 - [Azure CLI][7]
 - [Azure Portal][10]
 - [Language Understanding using LUIS][11]
-- [Restify][30]
-- [dotenv][31]
 
 [1]: https://dev.botframework.com
-[4]: https://nodejs.org
+[4]: https://dotnet.microsoft.com/download
 [5]: https://github.com/microsoft/botframework-emulator
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
 [7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
@@ -109,8 +106,7 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [23]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js
 [24]: https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/
 [25]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0
-[30]: https://www.npmjs.com/package/restify
-[31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
 [41]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0
+[43]: https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x
