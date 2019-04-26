@@ -42,6 +42,8 @@ namespace Microsoft.BotBuilderSamples
         /// </example>
         public string Script { get { return script; } set { LoadScript(value); } }
 
+        public string OutputProperty { get { return this.OutputBinding; } set { this.OutputBinding = value; } }
+
         [JsonConstructor]
         public CSharpStep([CallerFilePath] string sourceFilePath = "", [CallerLineNumber] int sourceLineNumber = 0)
             : base()
