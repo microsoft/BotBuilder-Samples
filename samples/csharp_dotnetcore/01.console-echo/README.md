@@ -8,7 +8,7 @@ This sample shows a simple echo bot and demonstrates the bot working as a consol
 
 ## Prerequisites
 
-- [.NET Core SDK][4] version 2.1
+- [.NET Core SDK][6] version 2.1
 
   ```bash
   # determine dotnet version
@@ -68,3 +68,5 @@ The bot adapter encapsulates authentication processes and sends activities to an
 [3]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [4]: https://docs.microsoft.com/azure/bot-service/bot-concepts?view=azure-bot-service-4.0
 [5]: https://docs.microsoft.com/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0
+[6]: https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x
+
