@@ -18,18 +18,20 @@
 
 # Get-ToDo-Title
 - ```
-@{lgTemplate("Help-prefix")}, what is the title of your todo?
+Ok, what is the title of your todo?
 [Suggestions=Help | Cancel]
 ```
 
 > This template uses 'welcome-actions' which is not defined in this LG file. 
 > By default, the ResourceExplorer loads all LG files found in your project and so all template definitions have 'global' scope.
-# Add-ToDo-Readback
+# Add-ToDo-ReadBack
 - ```
-[Help-prefix], I have added {@todoTitle} to your todo list. @{lgTemplate("ToDoCountReadBack")}
+@{lgTemplate("Help-prefix")}, I have added "@{turn.todoTitle}" to your todo list. You have @{count(user.todos)} items in your Todo list.
 @{lgTemplate("Welcome-Actions")}
 ```
 
-# ToDoCountReadBack
-- You have {count(user.todos)} items in your Todo list.
-- 
+# Cancel-add-todo
+- ```
+@{lgTemplate("Help-prefix")}, I've cancelled that.
+@{lgTemplate("Welcome-Actions")}
+```

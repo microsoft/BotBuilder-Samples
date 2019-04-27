@@ -7,10 +7,10 @@ using Microsoft.Bot.Builder.Expressions.Parser;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class UserProfileDialog : ComponentDialog
+    public class RootDialog : ComponentDialog
     {
-        public UserProfileDialog()
-            : base(nameof(UserProfileDialog))
+        public RootDialog()
+            : base(nameof(RootDialog))
         {
 
             // Create instance of adaptive dialog. 

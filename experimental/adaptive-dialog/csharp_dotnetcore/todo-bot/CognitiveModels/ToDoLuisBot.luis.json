@@ -19,7 +19,16 @@
       "name": "ViewToDoDialog"
     }
   ],
-  "entities": [],
+  "entities": [
+    {
+      "name": "todoTitle",
+      "roles": []
+    },
+    {
+      "name": "todoIdx",
+      "roles": []
+    }
+  ],
   "composites": [],
   "closedLists": [],
   "regex_entities": [],
@@ -214,9 +223,166 @@
       "entities": []
     },
     {
+      "text": "Please remind me to buy milk",
+      "intent": "AddToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 20,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "Please remember that I need to buy milk",
+      "intent": "AddToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 31,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "I need you to remember that my wife's birthday is Jan 9th",
+      "intent": "AddToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 28,
+          "endPos": 56
+        }
+      ]
+    },
+    {
+      "text": "Add a todo named send report over this weekend",
+      "intent": "AddToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 17,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "Add get a new car to the todo list",
+      "intent": "AddToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 4,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "Add write a spec to the list",
+      "intent": "AddToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 4,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "Add finish this demo to my todo list",
+      "intent": "AddToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 4,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "add another one",
+      "intent": "AddToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "add",
+      "intent": "AddToDoDialog",
+      "entities": []
+    },
+    {
       "text": "Remove todo",
       "intent": "DeleteToDoDialog",
       "entities": []
+    },
+    {
+      "text": "Mark buy milk as complete",
+      "intent": "DeleteToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 5,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "Flag first one as done",
+      "intent": "DeleteToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 5,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "Remove finish this demo from the todo list",
+      "intent": "DeleteToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 7,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "remove another one",
+      "intent": "DeleteToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "remove",
+      "intent": "DeleteToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "clear my todo named get a new car",
+      "intent": "DeleteToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 20,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "I'm done with the first todo",
+      "intent": "DeleteToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "I finished the last todo",
+      "intent": "DeleteToDoDialog",
+      "entities": [
+        {
+          "entity": "todoIdx",
+          "startPos": 15,
+          "endPos": 18
+        }
+      ]
     },
     {
       "text": "Remove the first todo",
@@ -317,54 +483,91 @@
       "text": "hit me up with more items",
       "intent": "ViewToDoDialog",
       "entities": []
+    },
+    {
+      "text": "view my todos",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "can you show my todo",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "see todo",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "I would like to see my todos list",
+      "intent": "ViewToDoDialog",
+      "entities": []
     }
   ],
   "patterns": [
     {
-      "pattern": "Please remember [to] {todoTitle}",
+      "pattern": "Please remember [to] {todoTitle_patternAny}",
       "intent": "AddToDoDialog"
     },
     {
-      "pattern": "I need you to remember [that] {todoTitle}",
+      "pattern": "I need you to remember [that] {todoTitle_patternAny}",
       "intent": "AddToDoDialog"
     },
     {
-      "pattern": "Add a todo named {todoTitle}",
+      "pattern": "Add a todo named {todoTitle_patternAny}",
       "intent": "AddToDoDialog"
     },
     {
-      "pattern": "Add {todoTitle} to the list",
+      "pattern": "Add {todoTitle_patternAny} to the list",
       "intent": "AddToDoDialog"
     },
     {
-      "pattern": "[Please] add {todoTitle} to the todo list",
+      "pattern": "[Please] add {todoTitle_patternAny} to the todo list",
       "intent": "AddToDoDialog"
     },
     {
-      "pattern": "Mark {todoTitle} as complete",
+      "pattern": "Add {todoTitle_patternAny} to my todo",
+      "intent": "AddToDoDialog"
+    },
+    {
+      "pattern": "I did {todoTitle_patternAny}",
       "intent": "DeleteToDoDialog"
     },
     {
-      "pattern": "Remove {todoTitle} from my todo list",
+      "pattern": "I completed {todoTitle_patternAny}",
       "intent": "DeleteToDoDialog"
     },
     {
-      "pattern": "[Please] delete {todoTitle} from the list",
+      "pattern": "Mark {todoTitle_patternAny} as complete",
       "intent": "DeleteToDoDialog"
     },
     {
-      "pattern": "Delete {todoTitle}",
+      "pattern": "Remove {todoTitle_patternAny} from my [todo] list",
+      "intent": "DeleteToDoDialog"
+    },
+    {
+      "pattern": "[Please] delete {todoTitle_patternAny} from the list",
+      "intent": "DeleteToDoDialog"
+    },
+    {
+      "pattern": "Delete {todoTitle_patternAny}",
       "intent": "DeleteToDoDialog"
     }
   ],
   "patternAnyEntities": [
     {
-      "name": "todoTitle",
+      "name": "todoTitle_patternAny",
       "explicitList": [],
       "roles": []
     }
   ],
-  "prebuiltEntities": [],
+  "prebuiltEntities": [
+    {
+      "name": "number",
+      "roles": []
+    }
+  ],
   "luis_schema_version": "3.0.0",
   "versionId": "0.1",
   "name": "ToDoLuisBot",

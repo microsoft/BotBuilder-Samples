@@ -10,10 +10,10 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class MainAdaptiveDialog : ComponentDialog
+    public class RootDialog : ComponentDialog
     {
-        public MainAdaptiveDialog()
-            : base(nameof(MainAdaptiveDialog))
+        public RootDialog()
+            : base(nameof(RootDialog))
         {
             // Create instance of adaptive dialog. 
             var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
@@ -41,20 +41,20 @@ namespace Microsoft.BotBuilderSamples
                     Choices = new List<Choice>()
                     {
                         new Choice() { Value = "Cancel" },
-                        new Choice() { Value = "Adaptive card" },
+                        new Choice() { Value = "All cards" },
                         new Choice() { Value = "Animation card" },
                         new Choice() { Value = "Audio card" },
                         new Choice() { Value = "Hero card" },
-                        new Choice() { Value = "Receipt card" },
                         new Choice() { Value = "Signin card" },
                         new Choice() { Value = "Thumbnail card" },
                         new Choice() { Value = "Video card" },
-                        new Choice() { Value = "All cards" }
+                        new Choice() { Value = "Receipt card" },
+                        new Choice() { Value = "Adaptive card" }
                     }
                 },
                 new SwitchCondition()
                 {
-                    Condition = "turn.cardChoice",
+                    Condition = "turn.cardChoice.value",
                     Cases = new List<Case>() {
                         new Case("'Adaptive card'",  new List<IDialog>() { new SendActivity("[AdativeCardRef]") } ),
                         new Case("'Animation card'", new List<IDialog>() { new SendActivity("[AnimationCard]") } ),
@@ -73,7 +73,6 @@ namespace Microsoft.BotBuilderSamples
                 },
                 // Delete this property so we are not stuck in an infinite loop.
                 // Without this, choiceInput will skip the prompt due to value from prior turn.
-                // TODO: revisit this - we might not need this
                 new DeleteProperty()
                 {
                     Property = "turn.cardChoice"

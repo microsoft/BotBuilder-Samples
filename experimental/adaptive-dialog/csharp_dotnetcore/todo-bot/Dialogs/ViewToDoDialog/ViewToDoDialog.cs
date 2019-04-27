@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -19,12 +15,9 @@ namespace Microsoft.BotBuilderSamples
             {
                 Steps = new List<IDialog>()
                 {
-                    new SendActivity("View todos! :)")
+                    new SendActivity("[View-ToDos]")
                 }
             };
-
-            // Add all child dialogs
-
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
             AddDialog(ViewToDoDialog);

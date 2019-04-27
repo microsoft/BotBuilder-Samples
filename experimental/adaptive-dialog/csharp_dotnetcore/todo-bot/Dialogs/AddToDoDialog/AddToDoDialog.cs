@@ -7,14 +7,11 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Expressions.Parser;
-using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples
 {
     public class AddToDoDialog : ComponentDialog
     {
-        private static IConfiguration Configuration;
-
         public AddToDoDialog()
             : base(nameof(AddToDoDialog))
         {
@@ -33,22 +30,31 @@ namespace Microsoft.BotBuilderSamples
                     // @EntityName is a short-hand for turn.entities.<EntityName>. Other useful short-hands are 
                     //     #IntentName is a short-hand for turn.intents.<IntentName>
                     //     $PropertyName is a short-hand for dialog.results.<PropertyName>
-                    new SaveEntity("turn.addTodo.title", "@todoTitle[0]"),
+                    new SaveEntity() {
+                        Property = "turn.todoTitle",
+                        Entity = "@todoTitle[0]"
+                    },
+                    new SaveEntity() {
+                        Property = "turn.todoTitle",
+                        Entity = "@todoTitle_patternAny[0]"
+                    },
                     // TextInput by default will skip the prompt if the property has value.
                     new TextInput()
                     {
-                        Property = "turn.addTodo.title",
+                        Property = "turn.todoTitle",
                         Prompt = new ActivityTemplate("[Get-ToDo-Title]")
                     },
-                    // Add the new todo title to the list of todos
+                    // Add the new todo title to the list of todos. Keep the list of todos in the user scope.
                     new EditArray()
                     {
-                        ItemProperty = "user.todos",
-                        ArrayProperty = "turn.addTodo.title",
+                        ItemProperty = "turn.todoTitle",
+                        ArrayProperty = "user.todos",
                         ChangeType = EditArray.ArrayChangeType.Push
                     },
-                    new SendActivity("[Add-ToDo-ReadBack]"),
-                    new EndDialog()
+                    new SendActivity("[Add-ToDo-ReadBack]")
+                    // All child dialogs will automatically end if there are no additional steps to execute. 
+                    // If you wish for a child dialog to not end automatically, you can set 
+                    // AutoEndDialog property on the Adaptive Dialog to 'false'
                 },
                 Rules = new List<IRule>()
                 {
@@ -74,7 +80,12 @@ namespace Microsoft.BotBuilderSamples
                                 Condition = new ExpressionEngine().Parse("turn.addTodo.cancelConfirmation == true"),
                                 Steps = new List<IDialog>()
                                 {
+                                    new SendActivity("[Cancel-add-todo]"),
                                     new EndDialog()
+                                },
+                                ElseSteps = new List<IDialog>()
+                                {
+                                    new SendActivity("[Help-prefix], let's get right back to adding a todo.")
                                 }
                                 // We do not need to specify an else block here since if user said no,
                                 // the control flow will automatically return to the last active step (if any)
@@ -87,10 +98,9 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Steps = new List<IDialog>()
                         {
-                            new SendActivity("Entities: {turn.entities}"),
-                            new SendActivity("Activity: {turn.activity.text}"),
+                            // Set what user said as the todo title.
                             new SetProperty() {
-                                Property = "turn.addTodo.title",
+                                Property = "turn.todoTitle",
                                 Value = new ExpressionEngine().Parse("turn.activity.text")
                             }
                         }

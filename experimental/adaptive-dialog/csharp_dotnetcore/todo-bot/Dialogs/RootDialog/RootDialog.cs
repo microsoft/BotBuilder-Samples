@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -37,20 +35,21 @@ namespace Microsoft.BotBuilderSamples
                     new IntentRule("Help")             { Steps = new List<IDialog>() { new SendActivity("[Help-Root-Dialog]") } },
                     new IntentRule("Cancel")           { Steps = new List<IDialog>() {
                             // This is the global cancel in case a child dialog did not explicit handle cancel.
-                            new SendActivity("Cancelling.."),
+                            new SendActivity("Cancelling all dialogs.."),
+                            new SendActivity("[Welcome-Actions]"),
                             new CancelAllDialogs(),
                         }
                     }
                 }
             };
 
-            // Add all child dialogs
-            rootDialog.AddDialog(new List<IDialog>() { new ViewToDoDialog() });
-            rootDialog.AddDialog(new List<IDialog>() { new AddToDoDialog() });
-            rootDialog.AddDialog(new List<IDialog>() { new DeleteToDoDialog() });
-
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
             AddDialog(rootDialog);
+
+            // Add all child dialogS
+            AddDialog(new AddToDoDialog());
+            AddDialog(new DeleteToDoDialog());
+            AddDialog(new ViewToDoDialog());
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);
