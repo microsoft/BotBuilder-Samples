@@ -4,18 +4,22 @@
     "steps": [
         {
             "$type": "Microsoft.IfCondition",
-            "condition": "user.name == null",
+            "condition": "user.tou == null",
             "steps": [
                 {
-                    "$type": "Microsoft.TextInput",
-                    "property": "user.name",
-                    "prompt": "Hello, I'm Zoidberg. What is your name?"
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "temrs of use bitch"
+                },
+                {
+                    "$type": "Microsoft.SetProperty",
+                    "property": "user.tou",
+                    "value": "true"
                 }
             ]
         },
         {
             "$type": "Microsoft.SendActivity",
-            "activity": "Hello {user.name}, nice to talk to you!"
+            "activity": "Hello  nice to talk to you!"
         }
     ]
 }
