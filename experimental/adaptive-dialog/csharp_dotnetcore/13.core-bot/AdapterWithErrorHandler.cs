@@ -25,7 +25,7 @@ namespace Microsoft.BotBuilderSamples
             : base(credentialProvider)
         {
             // combine path for cross platform support
-            string[] paths = { ".", "Resources", "AdapterWithErrorHandler.lg" };
+            string[] paths = { ".", "AdapterWithErrorHandler.lg" };
             string fullPath = Path.Combine(paths);
             _lgEngine = TemplateEngine.FromFiles(fullPath);
 
