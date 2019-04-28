@@ -50,7 +50,7 @@ namespace Microsoft.BotBuilderSamples
             services.AddSingleton(resourceExplorer);
 
             // Create the bot. the ASP Controller is expecting an IBot.
-            services.AddSingleton<IBot, DialogBot<RootDialog>>();
+            services.AddSingleton<IBot, DialogAndWelcomeBot<RootDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
