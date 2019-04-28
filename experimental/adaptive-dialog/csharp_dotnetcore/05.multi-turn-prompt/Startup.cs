@@ -42,8 +42,8 @@ namespace Microsoft.BotBuilderSamples
             var resourceExplorer = ResourceExplorer.LoadProject(Directory.GetCurrentDirectory(), ignoreFolders: new string[] { "models" });
             services.AddSingleton(resourceExplorer);
 
-            // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, DialogBot<RootDialog>>();
+            // Create the bot. the ASP Controller is expecting an IBot.
+            services.AddSingleton<IBot, DialogBot<RootDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
