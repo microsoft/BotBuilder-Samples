@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardsBot", "06.using-cards\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoBotWithLUIS", "todo-bot\ToDoBotWithLUIS.csproj", "{96C62388-1C74-415E-AC7C-87857D411FEE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreBot", "13.core-bot\CoreBot.csproj", "{697C2E8C-3A63-4C96-ADBE-980957FDFAD8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{96C62388-1C74-415E-AC7C-87857D411FEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96C62388-1C74-415E-AC7C-87857D411FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96C62388-1C74-415E-AC7C-87857D411FEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{697C2E8C-3A63-4C96-ADBE-980957FDFAD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{697C2E8C-3A63-4C96-ADBE-980957FDFAD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{697C2E8C-3A63-4C96-ADBE-980957FDFAD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{697C2E8C-3A63-4C96-ADBE-980957FDFAD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,6 +10,7 @@ This sample uses preview packages available on the [BotBuilder MyGet feed][4].
   # determine dotnet version
   dotnet --version
   ```
+- Create a [LUIS application](#LUIS-Setup)
 
 ## To try this sample
 
@@ -37,6 +38,10 @@ This sample uses preview packages available on the [BotBuilder MyGet feed][4].
   - Select `MultiTurnPromptBot.csproj` file
   - Press `F5` to run the project
 
+  
+## To debug adaptive dialogs
+- You can install and use [this visual studio code extension][extension] to debug Adaptive dialogs. 
+
 ## Testing the bot using Bot Framework Emulator
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
@@ -54,7 +59,7 @@ This sample uses preview packages available on the [BotBuilder MyGet feed][4].
 - Navigate and sign in to [Luis.ai][5]
 - Under "My apps", click on "Import new app"
 - Click on "Choose app file (JSON format) ..."
-- Select `botbuilder-samples/experimental/adaptive-dialog/csharp_dotnetcore/ToDoBotWithLUIS/CognitiveModels/ToDoLuisBot.luis.json
+- Select `botbuilder-samples/experimental/adaptive-dialog/csharp_dotnetcore/todo-bot/CognitiveModels/ToDoLuisBot.luis.json
 - Once the application is imported
     - Click on 'Train' to train the application
     - Click on 'Publish' to publish the application.
@@ -68,10 +73,10 @@ This sample uses preview packages available on the [BotBuilder MyGet feed][4].
 ```bash
 > npm i -g ludown luis-apis
 ```
-- In a command prompt, navigate to `botbuilder-samples/experimental/adaptive-dialog/csharp_dotnetcore/ToDoBotWithLUIS`
+- In a command prompt, navigate to `botbuilder-samples/experimental/adaptive-dialog/csharp_dotnetcore/todo-bot`
 - To parse ToDoBot.lu to a LUIS json model
 ```bash
-> ludown parse toluis --in ./Dialogs/Resources/ToDoBot.lu -o CognitiveModels -n ToDoLuisBot --out ToDoLuisBot.luis.json
+> ludown parse toluis --in ./Dialogs/RootDialog/RootDialog.lu -o CognitiveModels -n ToDoLuisBot --out ToDoLuisBot.luis.json
 ```
 - To create a new LUIS application using this model. Note: You see [here][9] for instructions on getting your authoirng key.
 ```bash
@@ -94,3 +99,4 @@ This sample uses preview packages available on the [BotBuilder MyGet feed][4].
 [8]:https://nodejs.org/en/
 [9]:https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-account-settings#authoring-key
 [10]:https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-concept-keys
+[extension]:https://marketplace.visualstudio.com/items?itemName=tomlm.vscode-dialog-debugger

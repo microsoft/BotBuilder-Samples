@@ -41,6 +41,10 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
   - Select `MultiTurnPromptBot.csproj` file
   - Press `F5` to run the project
 
+
+## To debug adaptive dialogs
+- You can install and use [this visual studio code extension][extension] to debug Adaptive dialogs. 
+
 ## Testing the bot using Bot Framework Emulator
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
@@ -57,3 +61,4 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 [2]:../language-generation/README.md
 [3]:../../../samples/csharp_dotnetcore/05.multi-turn-prompt
 [4]:https://botbuilder.myget.org/gallery/botbuilder-declarative
+[extension]:https://marketplace.visualstudio.com/items?itemName=tomlm.vscode-dialog-debugger

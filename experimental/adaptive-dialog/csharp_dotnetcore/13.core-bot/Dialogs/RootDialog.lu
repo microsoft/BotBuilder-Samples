@@ -1,0 +1,42 @@
+> # Intent definitions
+## Book flight
+- book flight from {geographyV2:fromCity=london} to {geographyV2:toCity=paris} on {datetimeV2:date=feb 14th}
+- book flight to {geographyV2:toCity=berlin} on {datetimeV2:date=feb 14th}
+- book me a flight from {geographyV2:fromCity=london} to {geographyV2:toCity=paris}
+- flight to {geographyV2:toCity=paris}
+- flight to {geographyV2:toCity=paris} from {geographyV2:fromCity=london} on {datetimeV2:date=feb 14th}
+- fly from {geographyV2:fromCity=berlin} to {geographyV2:toCity=paris} on {datetimeV2:date=may 5th}
+- go to {geographyV2:toCity=paris}
+- going from {geographyV2:fromCity=paris} to {geographyV2:toCity=berlin}
+- travel to {geographyV2:toCity=paris}
+
+## Cancel
+- bye
+- cancel booking
+- exit
+- ignore
+
+## Help
+- What can I say
+- What can I do
+- I need help
+- please help me
+
+## Greeting
+- Hi
+- Hello
+- Hiya
+
+> # Entity definitions
+$PREBUILT:datetimeV2
+$PREBUILT:geographyV2
+
+## GetMissingEntitiesForFlight
+- {geographyV2:fromCity=london}
+- {geographyV2:toCity=seattle}
+- I'm travelling from {geographyV2:fromCity=london} to {geographyV2:toCity=Seattle}
+- I would like to visit {geographyV2:toCity=Seattle}
+- I'd be flying out of {geographyV2:fromCity=london}
+- {datetimeV2:date=tomorrow} at {datetimeV2:time=3pm}
+- {datetimeV2:date=next sunday} at {datetimeV2:time=10am}
+- how about {datetimeV2:date=next weekend} at {datetimeV2:time=3pm}?
