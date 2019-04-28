@@ -9,7 +9,7 @@
         "inputBindings": {
             "type": "object",
             "title": "Input Bindings",
-            "description": "map of named arguments and the property path to bind to them"
+            "description": "map of named arguments and the property path to bind to them",
             "additionalProperties": {
                 "type": "string"
             },
