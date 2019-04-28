@@ -1,11 +1,11 @@
 # Microsoft Bot Builder V4 Templates
 
 The Microsoft Bot Builder V4 Templates are available for .NET, and will let you quickly set up a conversational AI bot
-using core AI capabilities. They are available as a [VSIX][1] package.
+using core AI capabilities. They are available as a [VSIX](https://docs.microsoft.com/en-us/visualstudio/extensibility/anatomy-of-a-vsix-package?view=vs-2017) package.
 
 ## About
 
-Microsoft Bot Builder V4 Templates will help you build new conversational AI bots using the [Microsoft Bot Framework v4][2].
+Microsoft Bot Builder V4 Templates will help you build new conversational AI bots using the [Microsoft Bot Framework v4](https://dev.botframework.com).
 
 ## Templates
 
@@ -14,7 +14,7 @@ There are three different template options.  The table below can help guide whic
 |  Template  |  Description  |
 | ---------- |  ---------  |
 | Echo&nbsp;Bot | A good template if you want a little more than "Hello World!", but not much more.  This template handles the very basics of sending messages to a bot, and having the bot process the messages by repeating them back to the user.  This template produces a bot that simply "echos" back to the user anything the user says to the bot. |
-| Core&nbsp;Bot | Our most advanced template, the Core Bot template provides 6 core features every bot is likely to have.  This template covers the core features of a Conversational-AI bot using [LUIS][11].  See the **Core Bot Features** table below for more details. |
+| Core&nbsp;Bot | Our most advanced template, the Core Bot template provides 6 core features every bot is likely to have.  This template covers the core features of a Conversational-AI bot using [LUIS](https://www.luis.ai).  See the **Core Bot Features** table below for more details. |
 | Empty&nbsp;Bot | A good template if you are familiar with Bot Framework v4, and simple want a basic skeleton project.  Also a good option if you want to take sample code from the documentation and paste it into a minimal bot in order to learn. |
 
 ### How to Choose a Template
@@ -37,40 +37,41 @@ The Core Bot template consists of set of core features most every bot is likely 
 
 | Core&nbsp;Bot&nbsp;Features | Description |
 | ------------------ | ----------- |
-| [Send and receive messages][40] | The primary way your bot will communicate with users, and likewise receive communication, is through message activities. Some messages may simply consist of plain text, while others may contain richer content such as cards or attachments. |
-| [Proactive messaging][41] using [Adaptive Cards][42] | The primary goal when creating any bot is to engage your user in a meaningful conversation. One of the best ways to achieve this goal is to ensure that from the moment a user first connects to your bot, they understand your bot’s main purpose and capabilities.  We refer to this as "welcoming the user."  The Core Bot  template uses an [Adaptive Card][42] to implement this behavior.  |
-| [Language understanding using LUIS][43] | The ability to understand what your user means conversationally and contextually can be a difficult task, but can provide your bot a more natural conversation feel. Language Understanding, called LUIS, enables you to do just that so that your bot can recognize the intent of user messages, allow for more natural language from your user, and better direct the conversation flow. |
-| [Multi-turn conversation support using Dialogs][44] | The ability to manage conversations is an important part of the bot/user interation.  Bot Framework introduces the  concept of a Dialog to handle this conversational pattern.  Dialog objects process inbound Activities and generate outbound responses. The business logic of the bot runs either directly or indirectly within Dialog classes.  |
-| [Managing conversation state][45] | A key to good bot design is to track the context of a conversation, so that your bot remembers things like the answers to previous questions. |
-| [How to handle user-initiated interruptions][46] | While you may think that your users will follow your defined conversation flow, step by step, chances are good that they will change their minds or ask a question in the middle of the process instead of answering the question. Handling interruptions means making sure your bot is prepared to handle situations like this. |
+| [Send and receive messages](https://docs.microsoft.com/azure/bot-service/bot-builder-howto-send-messages?view=azure-bot-service-4.0&tabs=javascript) | The primary way your bot will communicate with users, and likewise receive communication, is through message activities. Some messages may simply consist of plain text, while others may contain richer content such as cards or attachments. |
+| [Proactive messaging](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-proactive-message?view=azure-bot-service-4.0) using [Adaptive Cards](https://docs.microsoft.com/azure/bot-service/bot-builder-send-welcome-message?view=azure-bot-service-4.0?#using-adaptive-card-greeting) | The primary goal when creating any bot is to engage your user in a meaningful conversation. One of the best ways to achieve this goal is to ensure that from the moment a user first connects to your bot, they understand your bot’s main purpose and capabilities.  We refer to this as "welcoming the user."  The Core template uses an [Adaptive Card](http://adaptivecards.io) to implement this behavior.  |
+| [Language understanding using LUIS](https://docs.microsoft.com/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0) | The ability to understand what your user means conversationally and contextually can be a difficult task, but can provide your bot a more natural conversation feel. Language Understanding, called LUIS, enables you to do just that so that your bot can recognize the intent of user messages, allow for more natural language from your user, and better direct the conversation flow. |
+| [Multi-turn conversation support using Dialogs](https://docs.microsoft.com/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0) | The ability to manage conversations is an important part of the bot/user interation.  Bot Framework introduces the  concept of a Dialog to handle this conversational pattern.  Dialog objects process inbound Activities and generate outbound responses. The business logic of the bot runs either directly or indirectly within Dialog classes.  |
+| [Managing conversation state](https://docs.microsoft.com/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.0) | A key to good bot design is to track the context of a conversation, so that your bot remembers things like the answers to previous questions. |
+| [How to handle user-initiated interruptions](https://docs.microsoft.com/azure/bot-service/bot-builder-howto-handle-user-interrupt?view=azure-bot-service-4.0) | While you may think that your users will follow your defined conversation flow step by step, chances are good that they will change their minds or ask a question in the middle of the process instead of answering the question. Handling interruptions means making sure your bot is prepared to handle situations like this. |
 
 #### Empty Bot Template
 
 The Empty Bot template is the minimal skeleton code for a bot.  It provides a stub `ActivityHandler` implementation that displays a message to a newly connected user.  It does not perform any additional actions.  If you are experienced writing bots with Bot Framework v4 and want the minimum scaffolding, the Empty Bot template is for you.
 
 ## Features by Template
-|  Feature  | Empty Bot | Echo Bot | Core Bot |
-| --------- | :-------: | :------: | :------: |
-| Generate code in C# | X | X | X |
-| Support local development and testing using the [Bot Framework Emulator v4][5] | X | X | X |
+
+|  Feature  |  Empty&nbsp;Bot  |  Echo&nbsp;Bot   |  Core&nbsp;Bot  |
+| --------- | :-----: | :-----: | :-----: |
+| Generate code in JavaScript or TypesScript | X | X | X |
+| Support local development and testing using the [Bot Framework Emulator v4](https://www.github.com/microsoft/botframework-emulator) | X | X | X |
 | Core bot message processing |  | X | X |
 | Deploy your bot to Microsoft Azure |  | X | X |
 | Welcome new users using Adaptive Card technology |  |  | X |
-| Support AI-based greetings using [LUIS][11] |  |  | X |
+| Support AI-based greetings using [LUIS](https://www.luis.ai) |  |  | X |
 | Use Dialogs to manage more in-depth conversations |  |  | X |
 | Manage conversation state |  |  | X |
 | Handle user interruptions |  |  | X |
 
 ## Installation
 
-Prerequisites
+### Prerequisites
 
-* [Visual Studio 2017 or greater][3]
-* [Azure account][4]
+* [Visual Studio 2017 or greater](https://visualstudio.microsoft.com/downloads/)
+* [Azure account](https://azure.microsoft.com/en-us/free/)
 
-Install the template.
+### Install the template.
 
-* You can download Microsoft Bot Builder V4 Templates [here][7]. Click the `.vsix` file to install the extension into Visual Studio.
+* You can download Microsoft Bot Builder V4 Templates [here](https://marketplace.visualstudio.com/items?itemName=BotBuilder.botbuilderv4). Click the `.vsix` file to install the extension into Visual Studio.
 
 ## Usage
 
@@ -97,9 +98,9 @@ Select template of choice from Bot Builder v4 templates, then click **OK**.
 
 ## Testing the bot using Bot Framework Emulator
 
-[Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-* Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
+* Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -109,33 +110,12 @@ Select template of choice from Bot Builder v4 templates, then click **OK**.
 
 ## Deploy the bot to Azure
 
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][50] for a complete list of deployment instructions.
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
-The deployment process assumes you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal][9].
+The deployment process assumes you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal](https://portal.azure.com).
 
-If you are new to Microsoft Azure, please refer to [Getting started with Azure][10] for guidance on how to get started on Azure.
+If you are new to Microsoft Azure, please refer to [Getting started with Azure](https://azure.microsoft.com/get-started/) for guidance on how to get started on Azure.
 
 ## Logging Issues and Providing Feedback
 
-Issues and feedback about the templates can be submitted through the project's [GitHub issues][12] page.
-
-
-[1]: https://docs.microsoft.com/en-us/visualstudio/extensibility/anatomy-of-a-vsix-package?view=vs-2017
-[2]: https://dev.botframework.com
-[3]: https://visualstudio.microsoft.com/downloads/
-[4]: https://azure.microsoft.com/en-us/free/
-[5]: https://github.com/microsoft/botframework-emulator
-[6]: https://github.com/Microsoft/BotFramework-Emulator/releases
-[7]: https://marketplace.visualstudio.com/items?itemName=BotBuilder.botbuilderv4
-[9]: https://portal.azure.com
-[10]: https://azure.microsoft.com/get-started/
-[11]: https://www.luis.ai
-[12]: https://github.com/Microsoft/botbuilder-samples/issues
-[40]: https://docs.microsoft.com/azure/bot-service/bot-builder-howto-send-messages?view=azure-bot-service-4.0
-[41]: https://docs.microsoft.com/azure/bot-service/bot-builder-send-welcome-message?view=azure-bot-service-4.0
-[42]: https://docs.microsoft.com/azure/bot-service/bot-builder-send-welcome-message?view=azure-bot-service-4.0?#using-adaptive-card-greeting
-[43]: https://docs.microsoft.com/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0
-[44]: https://docs.microsoft.com/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0
-[45]: https://docs.microsoft.com/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.
-[46]: https://docs.microsoft.com/azure/bot-service/bot-builder-howto-handle-user-interrupt?view=azure-bot-service-4.0
-[50]: https://aka.ms/azuredeployment
+Issues and feedback about the templates can be submitted through the project's [GitHub issues](https://github.com/Microsoft/botbuilder-samples/issues) page.
