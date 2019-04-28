@@ -2,13 +2,24 @@
 
 Bot Framework v4 multilingual bot sample
 
-This bot has been created using [Microsoft Bot Framework][1], it shows how to translate incoming and outgoing text using a custom middleware and the [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/).
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to translate incoming and outgoing text using a custom middleware and the [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/).
+
+## Concepts introduced in this sample
+
+Translation Middleware: We create a translation middleware that can translate text from bot to user and from user to bot, allowing the creation of multi-lingual bots.
+
+The middleware is driven by user state. This means that users can specify their language preference, and the middleware automatically will intercept messages back and forth and present them to the user in their preferred language.
+
+Users can change their language preference anytime, and since this gets written to the user state, the middleware will read this state and instantly modify its behavior to honor the newly selected preferred language.
+
+The [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/), Microsoft Translator Text API is a cloud-based machine translation service. With this API you can translate text in near real-time from any app or service through a simple REST API call.
+The API uses the most modern neural machine translation technology, as well as offering statistical machine translation technology.
 
 ## Prerequisites
 
 This sample **requires** prerequisites in order to run.
 
-- [Node.js][4] version 10.14 or higher
+- [Node.js](https://nodejs.org) version 10.14 or higher
 
     ```bash
     # determine node version
@@ -18,7 +29,7 @@ This sample **requires** prerequisites in order to run.
 - [Microsoft Translator Text API key](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup)
 
     To consume the Microsoft Translator Text API, first obtain a key following the instructions in the [Microsoft Translator Text API documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup).
-    Paste the key in the `translationKey` setting in the `.env` file, or use your preferred configuration and update the following line in `index.js` with your translation key:
+    Paste the key in the `TranslatorKey` setting in the `.env` file, or use your preferred configuration and update the following line in `index.js` with your translation key:
 
     ```js
     adapter.use(new TranslatorMiddleware(languagePreferenceProperty, process.env.translatorKey));
@@ -57,9 +68,9 @@ This sample **requires** prerequisites in order to run.
 
 ## Testing the bot using Bot Framework Emulator
 
-[Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -79,48 +90,32 @@ The API uses the most modern neural machine translation technology, as well as o
 
 ## Deploy this bot to Azure
 
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
-### Add `translationKey` to Application Settings
+### Add `translatorKey` to Application Settings
 
-If you used the `.env` file to store your `translationKey` then you'll need to add this key and its value to the Application Settings for your deployed bot.
+If you used the `.env` file to store your `translatorKey` then you'll need to add this key and its value to the Application Settings for your deployed bot.
 
-- Log into the [Azure portal][10]
+- Log into the [Azure portal](https://portal.azure.com)
 - In the left nav, click on `Bot Services`
 - Click the `<your_bot_name>` Name to display the bot's Web App Settings
 - Click the `Application Settings`
 - Scroll to the `Application settings` section
 - Click `+ Add new setting`
-- Add the key `translationKey` with a value of the Translator Text API `Authentication key` created from the steps above
+- Add the key `translatorKey` with a value of the Translator Text API `Authentication key` created from the steps above
 
 ## Further reading
 
-- [Bot Framework Documentation][20]
-- [Bot Basics][32]
-- [Bot State][23]
-- [Activity processing][25]
-- [Azure Bot Service Introduction][21]
-- [Azure Bot Service Documentation][22]
-- [Azure CLI][7]
-- [Azure Portal][10]
-- [Language Understanding using LUIS][11]
-- [Restify][30]
-- [dotenv][31]
-
-[1]: https://dev.botframework.com
-[4]: https://nodejs.org
-[5]: https://github.com/microsoft/botframework-emulator
-[6]: https://github.com/Microsoft/BotFramework-Emulator/releases
-[7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
-[8]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
-[10]: https://portal.azure.com
-[11]: https://www.luis.ai
-[20]: https://docs.botframework.com
-[21]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
-[22]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0
-[23]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-storage-concept?view=azure-bot-service-4.0
-[25]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0
-[30]: https://www.npmjs.com/package/restify
-[31]: https://www.npmjs.com/package/dotenv
-[32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
-[40]: https://aka.ms/azuredeployment
+- [Bot Framework Documentation](https://docs.botframework.com)
+- [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
+- [Bot State](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-storage-concept?view=azure-bot-service-4.0)
+- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
+- [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
+- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
+- [Azure Portal](https://portal.azure.com)
+- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
+- [Restify](https://www.npmjs.com/package/restify)
+- [dotenv](https://www.npmjs.com/package/dotenv)

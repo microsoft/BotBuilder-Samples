@@ -9,7 +9,6 @@ This README contains information on how to create and deploy a LUIS application.
   [Quickstart-create]: https://docs.microsoft.com/en-us/azure/cognitive-services/luis/get-started-portal-build-app
   [Quickstart-deploy]:https://docs.microsoft.com/en-us/azure/cognitive-services/luis/get-started-portal-deploy-app
 
-
 ## Table of Contents:
 
 - [Prerequisites](#Prerequisites)
@@ -93,7 +92,6 @@ luis publish version --region "LuisAppAuthoringRegion" --authoringKey "LuisAutho
 
   [Endpoint-API]: https://westus.dev.cognitive.microsoft.com/docs/services/5819c76f40a6350ce09de1ac/operations/5819c77140a63516d81aee78
 
-
 Outputs the following:
 
 ```json
@@ -127,6 +125,7 @@ ___
 > ```
 > _To see a list of valid locations, use `az account list-locations`_
 
+
 ```bash
 # Use Azure CLI to create the LUIS Key resource on Azure
 az cognitiveservices account create --kind "luis" --name "NewLuisResourceName" --sku "S0" --location "westus" --subscription "AzureSubscriptionGuid" -g "ResourceGroupName"
@@ -153,6 +152,8 @@ The command will output a response similar to the JSON below:
   "type": "Microsoft.CognitiveServices/accounts"
 }
 ```
+
+
 
 Take the output from the previous command and create a JSON file in the following format:
 

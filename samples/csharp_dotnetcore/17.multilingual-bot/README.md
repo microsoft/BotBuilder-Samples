@@ -26,6 +26,11 @@ The API uses the most modern neural machine translation technology, as well as o
 
 - [Microsoft Translator Text API key](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup)
 
+    To consume the Microsoft Translator Text API, first obtain a key following the instructions in the [Microsoft Translator Text API documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup).
+
+    Paste the key in the `TranslatorKey` setting in the `appsettings.json` file, or use your preferred configuration and update the following line in `Translation/MicrosoftTranslator.cs` with your translation key:
+
+
 ## To try this sample
 
 - Clone the repository
@@ -78,17 +83,17 @@ The API uses the most modern neural machine translation technology, as well as o
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
-### Add `translationKey` to Application Settings
+### Add `TranslatorKey` to Application Settings
 
-If you used the `appsettings.json` file to store your `TranslationKey` then you'll need to add this key and its value to the Application Settings for your deployed bot.
+If you used the `appsettings.json` file to store your `TranslatorKey` then you'll need to add this key and its value to the Application Settings for your deployed bot.
 
-- Log into the [Azure portal][10]
+- Log into the [Azure portal](https://portal.azure.com)
 - In the left nav, click on `Bot Services`
 - Click the `<your_bot_name>` Name to display the bot's Web App Settings
 - Click the `Application Settings`
 - Scroll to the `Application settings` section
 - Click `+ Add new setting`
-- Add the key `TranslationKey` with a value of the Translator Text API `Authentication key` created from the steps above
+- Add the key `TranslatorKey` with a value of the Translator Text API `Authentication key` created from the steps above
 
 ## Further reading
 

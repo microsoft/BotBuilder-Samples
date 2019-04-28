@@ -1,4 +1,4 @@
-# Using-Cards Sample
+# Using-Cards
 
 Bot Framework v4 using cards bot sample
 
@@ -6,7 +6,7 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
 
 ## Prerequisites
 
-- [Node.js][4] version 10.14 or higher
+- [Node.js](https://nodejs.org) version 10.14 or higher
 
     ```bash
     # determine node version
@@ -30,7 +30,7 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
 - Install modules
 
     ```bash
-    npm i
+    npm install
     ```
 
 - Start the bot
@@ -41,9 +41,9 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
 
 ## Testing the bot using Bot Framework Emulator
 
-[Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -53,7 +53,7 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
 
 ## Rich Cards
 
-A key to good bot design is to send interactive media, such as Rich Cards. There are several different types of Rich Cards, which are as follows:
+Most channels support rich content.  In this sample we explore the different types of rich cards your bot may use.  A key to good bot design is to send interactive media, such as Rich Cards. There are several different types of Rich Cards, which are as follows:
 
 - Animation Card
 - Audio Card
@@ -63,45 +63,25 @@ A key to good bot design is to send interactive media, such as Rich Cards. There
 - Thumbnail Card
 - Video Card
 
-When [designing the user experience][27] developers should consider adding visual elements such as Rich Cards.
+When [designing the user experience](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-user-experience?view=azure-bot-service-4.0#cards) developers should consider adding visual elements such as Rich Cards.
 
 ## Deploy the bot to Azure
 
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
 ## Further reading
 
-- [Bot Framework Documentation][20]
-- [Bot Basics][32]
-- [Design the user experience][23]
-- [Add media to messages][24]
-- [Rich card types][26]
-- [Activity processing][25]
-- [Azure Bot Service Introduction][21]
-- [Azure Bot Service Documentation][22]
-- [Azure CLI][7]
-- [Azure Portal][10]
-- [Language Understanding using LUIS][11]
-- [Restify][30]
-- [dotenv][31]
-
-[1]: https://dev.botframework.com
-[4]: https://nodejs.org
-[5]: https://github.com/microsoft/botframework-emulator
-[6]: https://github.com/Microsoft/BotFramework-Emulator/releases
-[7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
-[8]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
-[10]: https://portal.azure.com
-[11]: https://www.luis.ai
-[20]: https://docs.botframework.com
-[21]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
-[22]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0
-[23]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-user-experience?view=azure-bot-service-4.0#cards
-[24]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-add-media-attachments?view=azure-bot-service-4.0&tabs=javascript
-[25]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0
-[26]: https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-add-rich-cards?view=azure-bot-service-4.0
-[27]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-user-experience?view=azure-bot-service-4.0#cards
-[30]: https://www.npmjs.com/package/restify
-[31]: https://www.npmjs.com/package/dotenv
-[32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
-[40]: https://aka.ms/azuredeployment
+- [Bot Framework Documentation](https://docs.botframework.com)
+- [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
+- [Design the user experience](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-user-experience?view=azure-bot-service-4.0#cards)
+- [Add media to messages](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-add-media-attachments?view=azure-bot-service-4.0)
+- [Rich card types](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-add-rich-cards?view=azure-bot-service-4.0)
+- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
+- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
+- [Azure Portal](https://portal.azure.com)
+- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
+- [Restify](https://www.npmjs.com/package/restify)
+- [dotenv](https://www.npmjs.com/package/dotenv)

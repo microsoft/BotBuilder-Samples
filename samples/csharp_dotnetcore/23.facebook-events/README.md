@@ -59,7 +59,7 @@ More information about configuring a bot for Facebook Messenger can be found her
 
 ## Deploy this bot to Azure
 
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
 ## Further reading
 

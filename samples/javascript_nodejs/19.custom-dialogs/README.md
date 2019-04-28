@@ -2,13 +2,13 @@
 
 Bot Framework v4 custom dialogs bot sample
 
-This bot has been created using [Microsoft Bot Framework][1], it shows how to sub-class the `Dialog` class to create different bot control mechanism like simple slot filling.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to sub-class the `Dialog` class to create different bot control mechanism like simple slot filling.
 
 BotFramework provides a built-in base class called `Dialog`. By subclassing `Dialog`, developers can create new ways to define and control dialog flows used by the bot.
 
 ## Prerequisites
 
-- [Node.js][4] version 10.14 or higher
+- [Node.js](https://nodejs.org) version 10.14 or higher
 
     ```bash
     # determine node version
@@ -43,9 +43,9 @@ BotFramework provides a built-in base class called `Dialog`. By subclassing `Dia
 
 ## Testing the bot using Bot Framework Emulator
 
-[Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -67,41 +67,21 @@ all full, at which point the dialog completes.
 
 ## Deploy this bot to Azure
 
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
 ## Further reading
 
-- [Bot Framework Documentation][20]
-- [Bot Basics][32]
-- [Dialog class reference][23]
-- [WaterfallDialog class reference][24]
-- [Manage complex conversation flows with dialogs][26]
-- [Activity processing][25]
-- [Azure Bot Service Introduction][21]
-- [Azure Bot Service Documentation][22]
-- [Azure CLI][7]
-- [Azure Portal][10]
-- [Language Understanding using LUIS][11]
-- [Restify][30]
-- [dotenv][31]
-
-[1]: https://dev.botframework.com
-[4]: https://nodejs.org
-[5]: https://github.com/microsoft/botframework-emulator
-[6]: https://github.com/Microsoft/BotFramework-Emulator/releases
-[7]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
-[8]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
-[10]: https://portal.azure.com
-[11]: https://www.luis.ai
-[20]: https://docs.botframework.com
-[21]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
-[22]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0
-[23]: https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/dialog
-[24]: https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/waterfall
-[25]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0
-[26]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-dialog-manage-complex-conversation-flow?view=azure-bot-service-4.0&tabs=javascript
-[27]: https://github.com/microsoft/botbuilder-js/tree/master/libraries/botbuilder-dialogs
-[30]: https://www.npmjs.com/package/restify
-[31]: https://www.npmjs.com/package/dotenv
-[32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
-[40]: https://aka.ms/azuredeployment
+- [Bot Framework Documentation](https://docs.botframework.com)
+- [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
+- [Dialogs](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0)
+- [Dialog class reference](https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/dialog)
+- [Manage complex conversation flows with dialogs](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-dialog-manage-complex-conversation-flow?view=azure-bot-service-4.0)
+- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
+- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
+- [Azure Portal](https://portal.azure.com)
+- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
+- [Restify](https://www.npmjs.com/package/restify)
+- [dotenv](https://www.npmjs.com/package/dotenv)

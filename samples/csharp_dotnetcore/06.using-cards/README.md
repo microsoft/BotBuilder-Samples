@@ -53,7 +53,17 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ## Rich Cards
 
-Most channels support rich content.  In this sample we explore the different types of rich cards your bot may use.
+Most channels support rich content.  In this sample we explore the different types of rich cards your bot may use.  A key to good bot design is to send interactive media, such as Rich Cards. There are several different types of Rich Cards, which are as follows:
+
+- Animation Card
+- Audio Card
+- Hero Card
+- Receipt Card
+- Sign In Card
+- Thumbnail Card
+- Video Card
+
+When [designing the user experience](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-user-experience?view=azure-bot-service-4.0#cards) developers should consider adding visual elements such as Rich Cards.
 
 ## Deploy the bot to Azure
 

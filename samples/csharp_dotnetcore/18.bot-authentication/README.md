@@ -24,6 +24,7 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
     ```
 
 - Deploy your bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment)
+
 - [Add Authentication to your bot via Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp)
 
 After Authentication has been configured via Azure Bot Service, you can test the bot.

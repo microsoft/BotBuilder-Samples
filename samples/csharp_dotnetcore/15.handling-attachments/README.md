@@ -1,4 +1,4 @@
-﻿# handling attachments sample
+﻿# handling attachments
 
 Bot Framework v4 handling attachments bot sample
 
@@ -55,6 +55,10 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 A message exchange between user and bot may contain cards and media attachments, such as images, video, audio, and files.
 The types of attachments that may be sent and received varies by channel. Additionally, a bot may also receive file attachments.
+
+## Deploy the bot to Azure
+
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
 ## Further reading
 

@@ -1,4 +1,4 @@
-﻿# QnA Maker sample
+﻿# QnA Maker
 
 Bot Framework v4 QnA Maker bot sample
 
@@ -72,7 +72,6 @@ One of the basic requirements in writing your own bot is to seed it with questio
 ## Deploy the bot to Azure
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
-
 
 ## Further reading
 

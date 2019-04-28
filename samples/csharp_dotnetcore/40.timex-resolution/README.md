@@ -65,7 +65,6 @@ The TIMEX expression library is contained in the same GitHub repo as the recogni
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
-- In Bot Framework Emulator Settings, enable `Use a sign-in verification code for OAuthCards` to receive the magic code
 
 ### Connect to the bot using Bot Framework Emulator
 
