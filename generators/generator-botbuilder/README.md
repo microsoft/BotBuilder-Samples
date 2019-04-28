@@ -48,7 +48,6 @@ The Core Bot template consists of set of core features most every bot is likely 
 
 The Empty Bot template is the minimal skeleton code for a bot.  It provides a stub `onTurn` handler but does not perform any actions.  If you are experienced writing bots with Bot Framework v4 and want the minimum scaffolding, the Empty template is for you.
 
-
 ## Features by Template
 
 |  Feature  |  Empty&nbsp;Bot  |  Echo&nbsp;Bot   |  Core&nbsp;Bot  |
