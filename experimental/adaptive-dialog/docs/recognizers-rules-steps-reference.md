@@ -169,18 +169,6 @@ unhandledIntentRule.Steps = unhandledIntentSteps;
 rootDialog.AddRule(unhandledIntentRule);
 ```
 
-### Event rule
-As the name suggests, event rule enables you to catch and react to [events](#events) raised by any of the sub-system or your own dialog, whcih can emit events. Remember each step is a dialog and you can use the [EmitEvent](#Emit-event) step to emit a custom event. 
-
-``` C#
-// Create root dialog as an Adaptive dialog.
-var rootDialog = new AdaptiveDialog("rootDialog");
-rootDialog.AddRule(new EventRule([AdaptiveEvents.ActivityReceived], new List<IDialog>()
-{
-    new SendActivity("Event {turn.ActivityReceived.value} received")
-});
-```
-
 ## Inputs 
 _Inputs_ are wrappers around [prompts][2] that you can use in an adaptive dialog step to ask and collect a piece of input from user, validate and accept it into memory. Inputs include these pre-built features: 
 - Accepts a property to bind to the new [state management][6] scopes. 
@@ -276,11 +264,8 @@ As the name implies, asks user for confirmation.
 
 ``` C#
 // Create adaptive dialog.
-var ConfirmationDialog = new AdaptiveDialog("ConfirmationDialog");
-// We are using an Event rule here so any other step can just call EmitEvent when it wants to present
-// a confirmation input to the user.
-ConfirmationDialog.AddRule(new EventRule(["Contoso.travelBot.confirm"], 
-    steps: new List<IDialog> {
+var ConfirmationDialog = new AdaptiveDialog("ConfirmationDialog") {
+    Steps = new List<IDialog> {
         // Add confirmation input.
         new ConfirmInput()
         {
@@ -292,7 +277,8 @@ ConfirmationDialog.AddRule(new EventRule(["Contoso.travelBot.confirm"],
             // See ../../language-generation/README.md to learn more.
             Prompt = new ActivityTemplate("{turn.contoso.travelBot.confirmPromptMessage}")
         }
-    });
+    }
+}
 ```
 
 ### NumberInput
@@ -313,17 +299,15 @@ Asks for a number.
 
 ``` C#
 // Create adaptive dialog.
-var getNumberDialog = new AdaptiveDialog("ConfirmationDialog");
-// We are using an Event rule here so any other step can just call EmitEvent when it wants to collect
-// a number from the user.
-getNumberDialog.AddRule(new EventRule(["Contoso.travelBot.getNumber"], 
-    steps: new List<IDialog> {
-        new NumberInput<int>()
+var getNumberDialog = new AdaptiveDialog("ConfirmationDialog") {
+    Steps = new List<IDialog> {
+        new NumberInput()
         {
             Property = "turn.contoso.travelBot.numberPrompt",
             Prompt = new ActivityTemplate("{turn.contoso.travelBot.numberMessage}")
         }
-    });
+    }
+}
 ```
 
 ## Steps
@@ -349,7 +333,6 @@ Adaptive dialogs support the following steps -
     - [CancelAllDialog](#CancelAllDialog)
     - [ReplaceDialog](#ReplaceDialog)
     - [RepeatDialog](#RepeatDialog)
-    - [EmitEvent](#EmitEvent)
 - Roll your own code
     - [CodeStep](#CodeStep)
     - [HttpRequest](#HttpRequest)
@@ -507,11 +490,15 @@ cardDialog.AddRule(new IntentRule("ShowCards",
         new SwitchCondition()
         {
             Condition = "turn.cardDialog.cardChoice",
-            Cases = new Dictionary<string, List<IDialog>>()
+            Cases = new List<Case>() 
             {
-                { "Adaptive card", new List<IDialog>() { new BeginDialog("ShowAdaptiveCardDialog")} },
-                { "Hero card", new List<IDialog>() { new BeginDialog("ShowHeroCardDialog")} },
-                { "Video card", new List<IDialog>() { new BeginDialog("ShowVideoCardDialog")} }
+                new Case("'Adaptive card'",  new List<IDialog>() { new SendActivity("[AdativeCardRef]") } ),
+                new Case("'Hero card'", new List<IDialog>() { new SendActivity("[HeroCard]") } ),
+                new Case("'Video card'",     new List<IDialog>() { new SendActivity("[VideoCard]") } ),
+            },
+            Default = new List<IDialog>()
+            {
+                new SendActivity("[AllCards]")
             }
         }
 }));
@@ -647,19 +634,6 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
 };
 ```
 
-### EmitEvent
-The AdaptiveDialog models input as Events called DialogEvents.  This gives us a clean model for capturing and bubbling information such as cancellation, requests for help, etc. While majority of events happens behind the scenes, you can participate by emitting events of your own.
-
-``` C#
-new EmitEvent() {
-    // Name of your custom event.
-    EventName = "CONTOSO.CONFIM",
-    // Event value needs to be an object.
-    EventValue = new {"Value" : "turn.contoso.confirm.result"},
-    // If true this event should propagate to parent dialogs
-    BubbleEvent = true
-}
-```
 
 ### CodeStep
 As the name implies, this step enables you to call a custom piece of code. 
