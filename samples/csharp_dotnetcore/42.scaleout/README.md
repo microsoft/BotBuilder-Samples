@@ -2,15 +2,9 @@
 
 Bot Framework v4 bot Scale Out sample
 
-This sample demonstrates a custom storage solution that supports a deployment scaled out across multiple machines.
+This bot has been created using [Bot Framework](https://dev.botframework.com), is shows how to use a custom storage solution that supports a deployment scaled out across multiple machines.
 
-The custom storage solution is implemented against memory for testing purposes and against Azure Blob Storage.
-
-The sample shows how storage solutions with different policies can be implemented and integrated with the framework.
-
-The solution makes use of the standard HTTP ETag/If-Match mechanisms commonly found on cloud storage technologies.
-
-Refer to the Bot Builder V4 documentation for a design walk-through.
+The custom storage solution is implemented against memory for testing purposes and against Azure Blob Storage.  The sample shows how storage solutions with different policies can be implemented and integrated with the framework.  The solution makes use of the standard HTTP ETag/If-Match mechanisms commonly found on cloud storage technologies.
 
 ## Prerequisites
 
@@ -67,7 +61,16 @@ Refer to the Bot Builder V4 documentation for a design walk-through.
 
 ## Further reading
 
+- [Bot Framework Documentation](https://docs.botframework.com)
+- [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Implementing custom storage for you bot](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-custom-storage?view=azure-bot-service-4.0)
-- [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Bot Storage](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-state?view=azure-bot-service-3.0&viewFallbackFrom=azure-bot-service-4.0)
 - [HTTP ETag](https://en.wikipedia.org/wiki/HTTP_ETag)
+- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
+- [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
+- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
+- [Azure Portal](https://portal.azure.com)
+- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
