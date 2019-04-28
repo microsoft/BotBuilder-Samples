@@ -18,23 +18,18 @@ namespace Microsoft.BotBuilderSamples
     {
         private TemplateEngine _lgEngine;
 
-        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
+        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, IStorage storage,
+            UserState userState, ConversationState conversationState, ResourceExplorer resourceExplorer)
             : base(credentialProvider)
         {
             // combine path for cross platform support
-            string[] paths = { ".", "Resources", "AdapterWithErrorHandler.LG" };
+            string[] paths = { ".", "AdapterWithErrorHandler.LG" };
             string fullPath = Path.Combine(paths);
             _lgEngine = TemplateEngine.FromFiles(fullPath);
 
-            // manage all bot resources
-            var resourceExplorer = ResourceExplorer
-                .LoadProject(Directory.GetCurrentDirectory(), ignoreFolders: new string[] { "models" });
-
-            //resourceExplorer.AddFolder(luisModelsFolder);
-
-            var lg = new LGLanguageGenerator(resourceExplorer);
-            Use(new RegisterClassMiddleware<ILanguageGenerator>(lg));
-            Use(new RegisterClassMiddleware<IMessageActivityGenerator>(new TextMessageActivityGenerator(lg)));
+            this.UseStorage(storage);
+            this.UseState(userState, conversationState);
+            this.UseLanguageGenerator(new LGLanguageGenerator(resourceExplorer));
 
 
             OnTurnError = async (turnContext, exception) =>

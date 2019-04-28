@@ -19,7 +19,7 @@ namespace Microsoft.BotBuilderSamples
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            
             // Create the credential provider to be used with the Bot Framework Adapter.
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
@@ -35,12 +35,12 @@ namespace Microsoft.BotBuilderSamples
             // Create the Conversation state. (Used by the Dialog system itself.)
             services.AddSingleton<ConversationState>();
 
-            // The Dialog that will be run by the bot.
-            services.AddSingleton<RootDialog>();
-
             // Resource explorer helps load all .lg files for this project.
             var resourceExplorer = ResourceExplorer.LoadProject(Directory.GetCurrentDirectory(), ignoreFolders: new string[] { "models" });
             services.AddSingleton(resourceExplorer);
+
+            // The Dialog that will be run by the bot.
+            services.AddSingleton<RootDialog>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, DialogBot<RootDialog>>();
