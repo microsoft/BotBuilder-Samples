@@ -8,9 +8,11 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System.IO;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Debugging;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.LanguageGeneration.Renderer;
-using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -19,7 +21,7 @@ namespace Microsoft.BotBuilderSamples
         private TemplateEngine _lgEngine;
 
         public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, IStorage storage,
-            UserState userState, ConversationState conversationState, ResourceExplorer resourceExplorer)
+            UserState userState, ConversationState conversationState, ResourceExplorer resourceExplorer, IConfiguration configuration)
             : base(credentialProvider)
         {
             // combine path for cross platform support
@@ -30,7 +32,7 @@ namespace Microsoft.BotBuilderSamples
             this.UseStorage(storage);
             this.UseState(userState, conversationState);
             this.UseLanguageGenerator(new LGLanguageGenerator(resourceExplorer));
-
+            this.UseDebugger(configuration.GetValue<int>("debugport", 4712));
 
             OnTurnError = async (turnContext, exception) =>
             {

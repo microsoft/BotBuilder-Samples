@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 
 using System;
-using System.IO;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Debugging;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.LanguageGeneration.Renderer;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
@@ -16,12 +17,13 @@ namespace Microsoft.BotBuilderSamples
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
         public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, IStorage storage,
-            UserState userState, ConversationState conversationState, ResourceExplorer resourceExplorer)
+            UserState userState, ConversationState conversationState, ResourceExplorer resourceExplorer, IConfiguration configuration)
             : base(credentialProvider)
         {
             this.UseStorage(storage);
             this.UseState(userState, conversationState);
             this.UseLanguageGenerator(new LGLanguageGenerator(resourceExplorer));
+            this.UseDebugger(configuration.GetValue<int>("debugport", 4712));
 
             OnTurnError = async (turnContext, exception) =>
             {
