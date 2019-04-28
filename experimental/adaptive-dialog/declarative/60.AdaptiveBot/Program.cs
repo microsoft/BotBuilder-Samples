@@ -27,7 +27,7 @@ namespace Microsoft.BotBuilderSamples
                     var env = hostingContext.HostingEnvironment;
                     var luisAuthoringRegion = Environment.GetEnvironmentVariable("LUIS_AUTHORING_REGION") ?? "westus";
                     config.AddJsonFile($"luis.settings.{env.EnvironmentName}.{luisAuthoringRegion}.json", optional: true, reloadOnChange: true);
-                    config.AddJsonFile($"luis.settings.{Environment.UserName}.{luisAuthoringRegion}.json", optional: false, reloadOnChange: true);
+                    config.AddJsonFile($"luis.settings.{Environment.UserName}.{luisAuthoringRegion}.json", optional: true, reloadOnChange: true);
                 })
             .UseStartup<Startup>()
             .Build();
