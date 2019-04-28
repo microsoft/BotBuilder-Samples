@@ -19,7 +19,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
     ```bash
     # change into project folder
-  cd __PROJECT_NAME__
+    cd __PROJECT_NAME__
     ```
 
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
