@@ -19,7 +19,7 @@ This sample uses preview packages available on the [BotBuilder MyGet feed][4].
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `experimental/adaptive-dialog/csharp_dotnetcore/05.multi-turn-prompt`
+- In a terminal, navigate to `experimental/adaptive-dialog/csharp_dotnetcore/03.using-cards`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -33,8 +33,8 @@ This sample uses preview packages available on the [BotBuilder MyGet feed][4].
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `experimental/adaptive-dialog/csharp_dotnetcore/05.multi-turn-prompt` folder
-  - Select `MultiTurnPromptBot.csproj` file
+  - Navigate to `experimental/adaptive-dialog/csharp_dotnetcore/03.using-cards` folder
+  - Select `CardsBot.csproj` file
   - Press `F5` to run the project
 
 

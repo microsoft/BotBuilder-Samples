@@ -35,7 +35,7 @@ This sample uses preview packages available on the [BotBuilder MyGet feed][4].
   - Launch Visual Studio
   - File -> Open -> Project/Solution
   - Navigate to `experimental/adaptive-dialog/csharp_dotnetcore/todo-bot` folder
-  - Select `MultiTurnPromptBot.csproj` file
+  - Select `ToDoBotWithLUIS.csproj` file
   - Press `F5` to run the project
 
   

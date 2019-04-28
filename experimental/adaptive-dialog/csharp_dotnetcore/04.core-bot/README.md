@@ -28,7 +28,7 @@ This bot has been created using [Bot Framework][1], it shows how to:
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `experimental/adaptive-dialog/csharp_dotnetcore/05.multi-turn-prompt`
+- In a terminal, navigate to `experimental/adaptive-dialog/csharp_dotnetcore/04.core-bot`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -42,8 +42,8 @@ This bot has been created using [Bot Framework][1], it shows how to:
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `experimental/adaptive-dialog/csharp_dotnetcore/05.multi-turn-prompt` folder
-  - Select `MultiTurnPromptBot.csproj` file
+  - Navigate to `experimental/adaptive-dialog/csharp_dotnetcore/04.core-bot` folder
+  - Select `CoreBot.csproj` file
   - Press `F5` to run the project
 
 ## To debug adaptive dialogs
