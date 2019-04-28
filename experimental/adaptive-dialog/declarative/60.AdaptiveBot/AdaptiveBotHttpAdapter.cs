@@ -30,9 +30,8 @@ namespace Microsoft.BotBuilderSamples
             this.UseState(userState, conversationState);
             this.UseResourceExplorer(resourceExplorer, () =>
             {
-                TypeFactory.Register("Testbot.CalculateDogYears", typeof(CalculateDogYears));
+                TypeFactory.Register("Testbot.Multiply", typeof(MultiplyStep));
                 TypeFactory.Register("Testbot.JavascriptStep", typeof(JavascriptStep));
-                TypeFactory.Register("Testbot.CSharpStep", typeof(CSharpStep));
             });
             this.UseLanguageGenerator(new LGLanguageGenerator(resourceExplorer));
             this.UseDebugger(configuration.GetValue<int>("debugport", 4712));

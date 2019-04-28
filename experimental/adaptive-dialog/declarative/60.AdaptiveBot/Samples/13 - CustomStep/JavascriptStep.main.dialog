@@ -15,11 +15,14 @@
         {
             "$type": "Testbot.JavascriptStep",
             "script": "Samples/13 - CustomStep/dogyears.js",
-            "property": "user.dogyears"
+            "inputBindings": {
+                "age": "user.age"
+            },
+            "outputBinding" : "conversation.dogyears"
         },
         {
             "$type": "Microsoft.SendActivity",
-            "activity": "Your age in dog years is: {user.dogyears}"
+            "activity": "Your age in dog years is: {conversation.dogyears}"
         }
     ]
 }

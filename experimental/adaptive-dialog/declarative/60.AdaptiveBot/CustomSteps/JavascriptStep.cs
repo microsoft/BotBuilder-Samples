@@ -97,7 +97,7 @@ namespace Microsoft.BotBuilderSamples
                         payload.state.conversation, 
                         payload.state.dialog, 
                         payload.state.turn);
-	                
+
                     return JSON.stringify(payload, null, 4);
                 }");
 
