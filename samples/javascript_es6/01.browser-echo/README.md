@@ -12,10 +12,10 @@ The example shows the use of the `botbuilder-js` SDKs for the browser using the 
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_es6/01.a.browser-echo`
+- In a terminal, navigate to `samples/javascript_es6/01.browser-echo`
 
     ```bash
-    cd samples/javascript_es6/01.a.browser-echo
+    cd samples/javascript_es6/01.browser-echo
     ```
 
 - Install modules
