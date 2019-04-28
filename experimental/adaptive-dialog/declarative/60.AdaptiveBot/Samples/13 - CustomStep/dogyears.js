@@ -1,5 +1,5 @@
 ﻿function doStep(user, conversation, dialog, turn) {
-    if (user.age)
-        return user.age * 7;
-    return 0;
+    // inputBindings are passed in as dialog.result
+    // so an input binding of "age" comes in as dialog.result.age
+    return dialog.result.age * 7;
 }
