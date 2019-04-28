@@ -12,8 +12,8 @@
 - Does this sound righ to you? 
 
 # ConfirmMessage
-- I have you traveling to: {dialog.flightBooking.destinationCity} from: {dialog.flightBooking.departureCity} on: {dialog.flightBooking.departureDate}
-- on {dialog.flightBooking.departureDate}, travelling from {dialog.flightBooking.departureCity} to {dialog.flightBooking.destinationCity}
+- I have you traveling to: {conversation.flightBooking.destinationCity} from: {conversation.flightBooking.departureCity} on: {conversation.flightBooking.departureDate}
+- on {conversation.flightBooking.departureDate}, travelling from {conversation.flightBooking.departureCity} to {conversation.flightBooking.destinationCity}
 
 # ConfirmBooking
 - ```
@@ -27,11 +27,11 @@
 - Can you please give me your intended date of departure? 
 
 # PromptForMissingInformation
-- IF: {dialog.flightBooking.destinationCity == null}
-  - [PromptForDestinationCity]
-- ELSEIF: {dialog.flightBooking.departureCity == null} 
+- IF: {conversation.flightBooking.departureCity == null} 
   - [PromptForDepartureCity]
-- ELSEIF: {dialog.flightBooking.departureDate == null}
+- ELSEIF: {conversation.flightBooking.destinationCity == null}
+  - [PromptForDestinationCity]
+- ELSEIF: {conversation.flightBooking.departureDate == null}
   - [PromptForTravelDate]
 - ELSE: 
   - [ConfirmBooking]
@@ -45,7 +45,7 @@
 
 
 # BookingConfirmation
-- I have you booked to {dialog.flightBooking.destinationCity} from {dialog.flightBooking.destinationCity} on {dialog.flightBooking.departureDate}.
+- I have you booked to {conversation.flightBooking.destinationCity} from {conversation.flightBooking.destinationCity} on {conversation.flightBooking.departureDate}.
 
 # IntroPrompt
 - What can I help you with today?
@@ -62,5 +62,5 @@ Hello, I'm the core bot. How can I be of help today?
 # Log-Trace
 - ```
 Turn state: @{if("turn.entities != null", turn.entities, "") }
-Dialog state: @{if("dialog.flightBooking != null", dialog.flightBooking, "") }
+Dialog state: @{if("conversation.flightBooking != null", conversation.flightBooking, "") }
 ```

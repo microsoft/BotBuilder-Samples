@@ -41,22 +41,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             InitialDialogId = nameof(AdaptiveDialog);
         }
 
-        private static IRecognizer CreateRecognizer(IConfiguration configuration)
-        {
-            if (string.IsNullOrEmpty(configuration["LuisAppId"]) || string.IsNullOrEmpty(configuration["LuisAPIKey"]) || string.IsNullOrEmpty(configuration["LuisAPIHostName"]))
-            {
-                throw new Exception("NOTE: LUIS is not configured. To enable all capabilities, add 'LuisAppId', 'LuisAPIKey' and 'LuisAPIHostName' to the appsettings.json file.");
-            }
-            // Create the LUIS settings from configuration.
-            var luisApplication = new LuisApplication(
-                configuration["LuisAppId"],
-                configuration["LuisAPIKey"],
-                "https://" + configuration["LuisAPIHostName"]
-            );
-
-            return new LuisRecognizer(luisApplication);
-        }
-
         private static List<IRule> CreateRules()
         {
             return new List<IRule>()
@@ -71,35 +55,35 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                         // Other short hands include -
                         //    - #intentName is a short-hand for turn.intents.<IntentName>
                         //    - $propertyName is a short-hand for dialog.results.<propertyName>
-                        //new CodeStep(testCodeStep),
-                        new SaveEntity("dialog.flightBooking.destinationCity", "@geographyV2[0]"),
-                        new SaveEntity("dialog.flightBooking.departureDate", "@datetimeV2[0]"),
+                        new SaveEntity("@toCity[0].geographyV2[0]", "conversation.flightBooking.destinationCity"),
+                        new SaveEntity("@fromCity[0].geographyV2[0]", "conversation.flightBooking.departureCity"),
+                        new SaveEntity("@datetimeV2[0]", "conversation.flightBooking.departureDate"),
                         // Steps to book flight
                         // Help and Cancel intents are always available since TextInput will always initiate
                         // Consulatation up the parent dialog chain to see if anyone else wants to take the user input.
                         new TextInput()
                         {
-                            Property = "dialog.flightBooking.destinationCity",
+                            Property = "conversation.flightBooking.departureCity",
                             Prompt = new ActivityTemplate("[PromptForMissingInformation]")
                         },
                         new TextInput()
                         {
-                            Property = "dialog.flightBooking.departureCity",
+                            Property = "conversation.flightBooking.destinationCity",
                             Prompt = new ActivityTemplate("[PromptForMissingInformation]")
                         },
                         new TextInput()
                         {
-                            Property = "dialog.flightBooking.departureDate",
+                            Property = "conversation.flightBooking.departureDate",
                             Prompt = new ActivityTemplate("[PromptForMissingInformation]")
                         },
                         new ConfirmInput()
                         {
-                            Property = "turn.confirmation",
+                            Property = "turn.bookingConfirmation",
                             Prompt = new ActivityTemplate("[ConfirmBooking]")
                         },
                         new IfCondition()
                         {
-                            Condition = new ExpressionEngine().Parse("turn.confirmation == true"),
+                            Condition = new ExpressionEngine().Parse("turn.bookingConfirmation == true"),
                             Steps = new List<IDialog>()
                             {
                                 // TODO: book flight.
@@ -110,59 +94,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                                 new SendActivity("Thank you.")
                             }
                         }
-                    }
-                },
-                // This intent could fire when we are in the middle of book flight conversation.
-                // Just save any entities we might have recieved from LUIS and move forward with current conversation.
-                new IntentRule("GetMissingEntitiesForFlight")
-                {
-                    Steps = new List<IDialog>()
-                    {
-                        new LogStep()
-                        {
-                            Text = new TextTemplate(new ActivityTemplate("[Log-Trace]").ToString()),
-                            TraceActivity = true
-                        },
-                        // See if we have a geography entity. Confirm with user if they would like to use this as 
-                        // Departure or destination city.
-                        new IfCondition()
-                        {
-                            Condition = new ExpressionEngine().Parse("@geographyV2 != null && (dialog.flightBooking.destinationCity != null || dialog.flightBooking.departureCity != null)"),
-                            Steps = new List<IDialog>()
-                            {
-                                new ChoiceInput()
-                                {
-                                    Property = "turn.choiceOutcome",
-                                    Prompt = new ActivityTemplate("[Disambiguate-city]"),
-                                    Style = ListStyle.Auto,
-                                    Choices = new List<Choice>()
-                                    {
-                                        new Choice("Departure city"),
-                                        new Choice("Destination city")
-                                    }
-                                },
-                                new SwitchCondition()
-                                {
-                                    Condition = "turn.choiceOutcome",
-                                    Cases = new List<Case>()
-                                    {
-                                        new Case("Departure city") { Steps = new List<IDialog>() { new SaveEntity("dialog.flightBooking.departureCity", "@geographyV2[0]") } },
-                                        new Case("Destination city") { Steps = new List<IDialog>() { new SaveEntity("dialog.flightBooking.departureDate", "@datetimeV2[0]") } }
-                                    }
-                                }
-                            },
-                            ElseSteps = new List<IDialog>()
-                            {
-                                 new LogStep()
-                                 {
-                                    Text = new TextTemplate(new ActivityTemplate("[Log-Trace]").ToString()),
-                                    TraceActivity = true
-                                 },
-                                new SaveEntity("dialog.flightBooking.departureCity", "@geographyV2[0]")
-                            }
-                        },
-                        // Set any value received for datetime as departure date
-                        new SaveEntity("dialog.flightBooking.departureDate", "@datetimeV2[0]")
                     }
                 },
                 new IntentRule("Cancel")
@@ -197,6 +128,22 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     }
                 }
             };
+        }
+
+        private static IRecognizer CreateRecognizer(IConfiguration configuration)
+        {
+            if (string.IsNullOrEmpty(configuration["LuisAppId"]) || string.IsNullOrEmpty(configuration["LuisAPIKey"]) || string.IsNullOrEmpty(configuration["LuisAPIHostName"]))
+            {
+                throw new Exception("NOTE: LUIS is not configured. To enable all capabilities, add 'LuisAppId', 'LuisAPIKey' and 'LuisAPIHostName' to the appsettings.json file.");
+            }
+            // Create the LUIS settings from configuration.
+            var luisApplication = new LuisApplication(
+                configuration["LuisAppId"],
+                configuration["LuisAPIKey"],
+                "https://" + configuration["LuisAPIHostName"]
+            );
+
+            return new LuisRecognizer(luisApplication);
         }
     }       
 }

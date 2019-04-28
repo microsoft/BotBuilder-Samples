@@ -11,13 +11,25 @@
     },
     {
       "name": "Greeting"
-    },
-    {
-      "name": "GetMissingEntitiesForFlight"
     }
   ],
   "entities": [],
-  "composites": [],
+  "composites": [
+    {
+      "name": "fromCity",
+      "children": [
+        "geographyV2"
+      ],
+      "roles": []
+    },
+    {
+      "name": "toCity",
+      "children": [
+        "geographyV2"
+      ],
+      "roles": []
+    }
+  ],
   "closedLists": [],
   "regex_entities": [],
   "model_features": [],
@@ -28,22 +40,14 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "geographyV2",
+          "entity": "fromCity",
           "startPos": 17,
-          "endPos": 22,
-          "role": "fromCity"
+          "endPos": 22
         },
         {
-          "entity": "geographyV2",
+          "entity": "toCity",
           "startPos": 27,
-          "endPos": 31,
-          "role": "toCity"
-        },
-        {
-          "entity": "datetimeV2",
-          "startPos": 36,
-          "endPos": 43,
-          "role": "date"
+          "endPos": 31
         }
       ]
     },
@@ -52,16 +56,9 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "geographyV2",
+          "entity": "toCity",
           "startPos": 15,
-          "endPos": 20,
-          "role": "toCity"
-        },
-        {
-          "entity": "datetimeV2",
-          "startPos": 25,
-          "endPos": 32,
-          "role": "date"
+          "endPos": 20
         }
       ]
     },
@@ -70,16 +67,14 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "geographyV2",
+          "entity": "fromCity",
           "startPos": 22,
-          "endPos": 27,
-          "role": "fromCity"
+          "endPos": 27
         },
         {
-          "entity": "geographyV2",
+          "entity": "toCity",
           "startPos": 32,
-          "endPos": 36,
-          "role": "toCity"
+          "endPos": 36
         }
       ]
     },
@@ -88,10 +83,9 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "geographyV2",
+          "entity": "toCity",
           "startPos": 10,
-          "endPos": 14,
-          "role": "toCity"
+          "endPos": 14
         }
       ]
     },
@@ -100,22 +94,14 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "geographyV2",
+          "entity": "toCity",
           "startPos": 10,
-          "endPos": 14,
-          "role": "toCity"
+          "endPos": 14
         },
         {
-          "entity": "geographyV2",
+          "entity": "fromCity",
           "startPos": 21,
-          "endPos": 26,
-          "role": "fromCity"
-        },
-        {
-          "entity": "datetimeV2",
-          "startPos": 31,
-          "endPos": 38,
-          "role": "date"
+          "endPos": 26
         }
       ]
     },
@@ -124,22 +110,14 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "geographyV2",
+          "entity": "fromCity",
           "startPos": 9,
-          "endPos": 14,
-          "role": "fromCity"
+          "endPos": 14
         },
         {
-          "entity": "geographyV2",
+          "entity": "toCity",
           "startPos": 19,
-          "endPos": 23,
-          "role": "toCity"
-        },
-        {
-          "entity": "datetimeV2",
-          "startPos": 28,
-          "endPos": 34,
-          "role": "date"
+          "endPos": 23
         }
       ]
     },
@@ -148,10 +126,9 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "geographyV2",
+          "entity": "toCity",
           "startPos": 6,
-          "endPos": 10,
-          "role": "toCity"
+          "endPos": 10
         }
       ]
     },
@@ -160,16 +137,14 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "geographyV2",
+          "entity": "fromCity",
           "startPos": 11,
-          "endPos": 15,
-          "role": "fromCity"
+          "endPos": 15
         },
         {
-          "entity": "geographyV2",
+          "entity": "toCity",
           "startPos": 20,
-          "endPos": 25,
-          "role": "toCity"
+          "endPos": 25
         }
       ]
     },
@@ -178,10 +153,20 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "geographyV2",
+          "entity": "toCity",
           "startPos": 10,
-          "endPos": 14,
-          "role": "toCity"
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "book a flight new york",
+      "intent": "Book flight",
+      "entities": [
+        {
+          "entity": "toCity",
+          "startPos": 14,
+          "endPos": 21
         }
       ]
     },
@@ -239,149 +224,36 @@
       "text": "Hiya",
       "intent": "Greeting",
       "entities": []
-    },
-    {
-      "text": "london",
-      "intent": "GetMissingEntitiesForFlight",
-      "entities": [
-        {
-          "entity": "geographyV2",
-          "startPos": 0,
-          "endPos": 5,
-          "role": "fromCity"
-        }
-      ]
-    },
-    {
-      "text": "seattle",
-      "intent": "GetMissingEntitiesForFlight",
-      "entities": [
-        {
-          "entity": "geographyV2",
-          "startPos": 0,
-          "endPos": 6,
-          "role": "toCity"
-        }
-      ]
-    },
-    {
-      "text": "I'm travelling from london to Seattle",
-      "intent": "GetMissingEntitiesForFlight",
-      "entities": [
-        {
-          "entity": "geographyV2",
-          "startPos": 20,
-          "endPos": 25,
-          "role": "fromCity"
-        },
-        {
-          "entity": "geographyV2",
-          "startPos": 30,
-          "endPos": 36,
-          "role": "toCity"
-        }
-      ]
-    },
-    {
-      "text": "I would like to visit Seattle",
-      "intent": "GetMissingEntitiesForFlight",
-      "entities": [
-        {
-          "entity": "geographyV2",
-          "startPos": 22,
-          "endPos": 28,
-          "role": "toCity"
-        }
-      ]
-    },
-    {
-      "text": "I'd be flying out of london",
-      "intent": "GetMissingEntitiesForFlight",
-      "entities": [
-        {
-          "entity": "geographyV2",
-          "startPos": 21,
-          "endPos": 26,
-          "role": "fromCity"
-        }
-      ]
-    },
-    {
-      "text": "tomorrow at 3pm",
-      "intent": "GetMissingEntitiesForFlight",
-      "entities": [
-        {
-          "entity": "datetimeV2",
-          "startPos": 0,
-          "endPos": 7,
-          "role": "date"
-        },
-        {
-          "entity": "datetimeV2",
-          "startPos": 12,
-          "endPos": 14,
-          "role": "time"
-        }
-      ]
-    },
-    {
-      "text": "next sunday at 10am",
-      "intent": "GetMissingEntitiesForFlight",
-      "entities": [
-        {
-          "entity": "datetimeV2",
-          "startPos": 0,
-          "endPos": 10,
-          "role": "date"
-        },
-        {
-          "entity": "datetimeV2",
-          "startPos": 15,
-          "endPos": 18,
-          "role": "time"
-        }
-      ]
-    },
-    {
-      "text": "how about next weekend at 3pm?",
-      "intent": "GetMissingEntitiesForFlight",
-      "entities": [
-        {
-          "entity": "datetimeV2",
-          "startPos": 10,
-          "endPos": 21,
-          "role": "date"
-        },
-        {
-          "entity": "datetimeV2",
-          "startPos": 26,
-          "endPos": 28,
-          "role": "time"
-        }
-      ]
     }
   ],
-  "patterns": [],
+  "patterns": [
+    {
+      "pattern": "book a flight to {toCity}",
+      "intent": "Book flight"
+    },
+    {
+      "pattern": "book a flight from {fromCity}",
+      "intent": "Book flight"
+    },
+    {
+      "pattern": "book a flight from {fromCity} to {toCity}",
+      "intent": "Book flight"
+    }
+  ],
   "patternAnyEntities": [],
   "prebuiltEntities": [
     {
       "name": "datetimeV2",
-      "roles": [
-        "date",
-        "time"
-      ]
+      "roles": []
     },
     {
       "name": "geographyV2",
-      "roles": [
-        "fromCity",
-        "toCity"
-      ]
+      "roles": []
     }
   ],
   "luis_schema_version": "3.0.0",
   "versionId": "0.1",
-  "name": "CoreBot",
+  "name": "RootDialog",
   "desc": "",
   "culture": "en-us"
 }
