@@ -8,7 +8,6 @@ More information about configuring a bot for Facebook Messenger can be found her
 
 ## Prerequisites
 
-
 - [Node.js](https://nodejs.org) version 10.14 or higher
 
     ```bash
@@ -20,7 +19,7 @@ More information about configuring a bot for Facebook Messenger can be found her
     The final step to test Facebook-specific features is to publish your bot for the Facebook channel. The Bot Framework makes this very easy,
     and the detailed steps are explained in the [Bot Framework Channel Documentation](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-facebook?view=azure-bot-service-3.0).
 
-
+## To try this sample
 
 - Clone the repository
 
