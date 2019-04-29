@@ -105,6 +105,10 @@ namespace Microsoft.BotBuilderSamples.Bots
                 {
                     await turnContext.SendActivityAsync("This sample is intended to be used with a Facebook bot.");
                 }
+                else
+                {
+                    throw;
+                }
             }
           
             return false;
