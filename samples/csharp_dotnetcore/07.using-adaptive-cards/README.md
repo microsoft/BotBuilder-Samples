@@ -1,49 +1,84 @@
-﻿This sample demonstrates the use of Adaptive Cards.
-# Concepts introduced in this sample
-## What is a bot?
-A bot is an app that users interact with in a conversational way using text, graphics (cards), or speech. It may be a simple question and answer dialog,
-or a sophisticated bot that allows people to interact with services in an intelligent manner using pattern matching,
-state tracking and artificial intelligence techniques well-integrated with existing business services.
-## Adaptive Cards
-Card authors describe their content as a simple JSON object. That content can then be rendered natively inside a host application,
-automatically adapting to the look and feel of the host. For example, Contoso Bot can author an Adaptive Card through the Bot Framework,
-and when delivered to Skype, it will look and feel like a Skype card. When that same payload is sent to Microsoft Teams, it will look
-and feel like Microsoft Teams. As more host apps start to support Adaptive Cards, that same payload will automatically light up inside
-these applications, yet still feel entirely native to the app. Users win because everything feels familiar. Host apps win because they
-control the user experience. Card authors win because their content gets broader reach without any additional work.
+﻿# using adaptive cards
+
+Bot Framework v4 using adaptive cards bot sample
+
+This bot has been created using [Bot Framework](https://dev.botframework.com), is shows how to send an Adaptive Card from the bot to the user.
+
+## Prerequisites
+
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+
+  ```bash
+  # determine dotnet version
+  dotnet --version
+  ```
+
 ## To try this sample
-- Clone the repository.
-```bash
-git clone https://github.com/microsoft/botbuilder-samples.git
-```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/07.using-adaptive-cards` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
 
-# Running Locally
+- Clone the repository
 
-## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/07.using-adaptive-cards`) and open AdaptiveCardsBot.csproj in Visual Studio
-- Run the project (press `F5` key).
+    ```bash
+    git clone https://github.com/Microsoft/botbuilder-samples.git
+    ```
 
-## .NET Core CLI
-- Install the [.NET Core CLI tools](https://docs.microsoft.com/dotnet/core/tools/?tabs=netcore2x).
-- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/07.using-adaptive-cards`.
-- Type `dotnet run`.
+- In a terminal, navigate to `samples/csharp_dotnetcore/07.using-adaptive-cards`
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
 
-# Deploy this bot to Azure
+  A) From a terminal
 
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
+  ```bash
+  # run the bot
+  dotnet run
+  ```
 
-To clone this bot, run
-```bash
-msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
-```
+  B) Or from Visual Studio
 
-**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
+  - Launch Visual Studio
+  - File -> Open -> Project/Solution
+  - Navigate to `samples/csharp_dotnetcore/07.using-adaptive-cards` folder
+  - Select `AdaptiveCardsBot.csproj` file
+  - Press `F5` to run the project
 
-# Further reading
-- [Azure Bot Service](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction)
-- [Bot basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [Channels and Bot Connector service](https://docs.microsoft.com/azure/bot-service/bot-concepts)
-- [Activity processing](https://docs.microsoft.com/azure/bot-service/bot-builder-concept-activity-processing)
+## Testing the bot using Bot Framework Emulator
+
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+
+### Connect to the bot using Bot Framework Emulator
+
+- Launch Bot Framework Emulator
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
+
+## Adaptive Cards
+
+Card authors describe their content as a simple JSON object. That content can then be rendered natively inside a host application, automatically adapting to the look and feel of the host. For example, Contoso Bot can author an Adaptive Card through the Bot Framework, and when delivered to Skype, it will look and feel like a Skype card. When that same payload is sent to Microsoft Teams, it will look and feel like Microsoft Teams. As more host apps start to support Adaptive Cards, that same payload will automatically light up inside these applications, yet still feel entirely native to the app. Users win because everything feels familiar. Host apps win because they control the user experience. Card authors win because their content gets broader reach without any additional work.
+
+The Bot Framework provides support for Adaptive Cards.  See the following to learn more about Adaptive Cards.
+
+- [Adaptive card](http://adaptivecards.io)
+- [Send an Adaptive card](https://docs.microsoft.com/en-us/azure/bot-service/nodejs/bot-builder-nodejs-send-rich-cards?view=azure-bot-service-3.0&viewFallbackFrom=azure-bot-service-4.0#send-an-adaptive-card)
+
+### Adding media to messages
+
+A message exchange between user and bot can contain media attachments, such as cards, images, video, audio, and files.
+
+## Deploy the bot to Azure
+
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+
+## Further reading
+
+- [Bot Framework Documentation](https://docs.botframework.com)
+- [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Adaptive Cards](https://adaptivecards.io/)
-
+- [Send an Adaptive card](https://docs.microsoft.com/en-us/azure/bot-service/nodejs/bot-builder-nodejs-send-rich-cards?view=azure-bot-service-3.0&viewFallbackFrom=azure-bot-service-4.0#send-an-adaptive-card)
+- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
+- [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
+- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
+- [Azure Portal](https://portal.azure.com)
+- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)

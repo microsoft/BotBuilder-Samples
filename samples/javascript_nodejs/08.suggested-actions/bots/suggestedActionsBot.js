@@ -40,17 +40,16 @@ class SuggestedActionsBot extends ActivityHandler {
      * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async sendWelcomeMessage(turnContext) {
-        const activity = turnContext.activity;
-        if (activity.membersAdded) {
-            // Iterate over all new members added to the conversation.
-            for (const idx in activity.membersAdded) {
-                if (activity.membersAdded[idx].id !== activity.recipient.id) {
-                    const welcomeMessage = `Welcome to suggestedActionsBot ${ activity.membersAdded[idx].name }. ` +
-                        `This bot will introduce you to Suggested Actions. ` +
-                        `Please select an option:`;
-                    await turnContext.sendActivity(welcomeMessage);
-                    await this.sendSuggestedActions(turnContext);
-                }
+        const { activity } = turnContext;
+
+        // Iterate over all new members added to the conversation.
+        for (const idx in activity.membersAdded) {
+            if (activity.membersAdded[idx].id !== activity.recipient.id) {
+                const welcomeMessage = `Welcome to suggestedActionsBot ${ activity.membersAdded[idx].name }. ` +
+                    `This bot will introduce you to Suggested Actions. ` +
+                    `Please select an option:`;
+                await turnContext.sendActivity(welcomeMessage);
+                await this.sendSuggestedActions(turnContext);
             }
         }
     }

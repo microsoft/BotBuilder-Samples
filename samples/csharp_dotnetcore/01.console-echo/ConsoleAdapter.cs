@@ -10,43 +10,22 @@ using Microsoft.Bot.Schema;
 
 namespace Console_EchoBot
 {
-    /// <summary>
-    /// Represents a <see cref="BotAdapter"/> that would typically connect a bot to an
-    /// and external service (For example, Skype, Slack, Teams, etc).
-    /// This implementation interacts with the console.
-    /// </summary>
-    /// <seealso cref="ITurnContext"/>
-    /// <seealso cref="IActivity"/>
-    /// <seealso cref="IBot"/>
-    /// <seealso cref="IMiddleware"/>
     public class ConsoleAdapter : BotAdapter
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConsoleAdapter"/> class.
-        /// </summary>
         public ConsoleAdapter()
             : base()
         {
         }
 
-        /// <summary>
-        /// Adds middleware to the adapter's pipeline.
-        /// </summary>
-        /// <param name="middleware">The <see cref="IMiddleware"/> component to add.</param>
-        /// <returns>The updated adapter object.</returns>
+        // Adds middleware to the adapter's pipeline.
         public new ConsoleAdapter Use(IMiddleware middleware)
         {
             base.Use(middleware);
             return this;
         }
 
-        /// <summary>
-        /// Performs the actual translation of input coming from the console
-        /// into the <see cref="Activity"/> format that the Bot consumes.
-        /// </summary>
-        /// <param name="callback">A <see cref="BotCallbackHandler"/> method to run at the end of the pipeline.</param>
-        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-resources-identifiers-guide?view=azure-bot-service-4.0"/>
+        // Performs the actual translation of input coming from the console
+        // into the "Activity" format that the Bot consumes.
         public async Task ProcessActivityAsync(BotCallbackHandler callback = null)
         {
             while (true)
@@ -85,19 +64,7 @@ namespace Console_EchoBot
             }
         }
 
-        /// <summary>
-        /// Sends activities to the conversation.
-        /// </summary>
-        /// <param name="context">The <see cref="ITurnContext"/> object for the turn.</param>
-        /// <param name="activities">The array of <see cref="Activity"/> objects to send.</param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used by other objects
-        /// or threads to receive notice of cancellation.</param>
-        /// <returns>A task that represents the work queued to execute.</returns>
-        /// <remarks>If the activities are successfully sent, the task result contains
-        /// an array of <see cref="ResourceResponse"/> objects containing the IDs that
-        /// the receiving channel assigned to the activities.</remarks>
-        /// <seealso cref="IActivity"/>
-        /// <seealso cref="ITurnContext.OnSendActivities(SendActivitiesHandler)"/>
+        // Sends activities to the conversation.
         public override async Task<ResourceResponse[]> SendActivitiesAsync(ITurnContext context, Activity[] activities, CancellationToken cancellationToken)
         {
             if (context == null)
@@ -169,35 +136,15 @@ namespace Console_EchoBot
             return responses;
         }
 
-        /// <summary>
-        /// Normally, replaces an existing activity in the conversation.
-        /// Not implemented for this sample.
-        /// </summary>
-        /// <param name="turnContext">The context object for the turn.</param>
-        /// <param name="activity">New replacement activity.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects
-        /// or threads to receive notice of cancellation.</param>
-        /// <returns>A task that represents the work queued to execute.</returns>
-        /// <remarks>If the activity is successfully sent, the task result contains
-        /// a <see cref="ResourceResponse"/> object containing the ID that the receiving
-        /// channel assigned to the activity.
-        /// <para>Before calling this, set the ID of the replacement activity to the ID
-        /// of the activity to replace.</para></remarks>
-        /// <seealso cref="ITurnContext.OnUpdateActivityAsync(UpdateActivityHandler)"/>
+        // Normally, replaces an existing activity in the conversation.
+        // Not implemented for this sample.
         public override Task<ResourceResponse> UpdateActivityAsync(ITurnContext turnContext, Activity activity, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Deletes an existing activity in the conversation.
-        /// Not implemented for this sample.
-        /// </summary>
-        /// <param name="turnContext">The context object for the turn.</param>
-        /// <param name="reference">Conversation reference for the activity to delete.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects
-        /// or threads to receive notice of cancellation.</param>
-        /// <returns>A task that represents the work queued to execute.</returns>
+        // Deletes an existing activity in the conversation.
+        // Not implemented for this sample.
         public override Task DeleteActivityAsync(ITurnContext turnContext, ConversationReference reference, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();

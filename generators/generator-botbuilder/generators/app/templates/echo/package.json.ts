@@ -6,12 +6,12 @@
     "license": "MIT",
     "main": "<%= npmMain %>",
     "scripts": {
-        "build": "node ./node_modules/.bin/tsc --build",
-        "lint": "node ./node_modules/.bin/tslint -c tslint.json 'src/**/*.ts'",
+        "build": "tsc --build",
+        "lint": "tslint -c tslint.json 'src/**/*.ts'",
         "postinstall": "npm run build && node ./deploymentScripts/webConfigPrep.js",
-        "start": "node ./node_modules/.bin/tsc --build && node ./lib/index.js",
+        "start": "tsc --build && node ./lib/index.js",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "watch": "node ./node_modules/.bin/nodemon --watch ./src -e ts --exec \"npm run start\""
+        "watch": "nodemon --watch ./src -e ts --exec \"npm run start\""
     },
     "repository": {
         "type": "git",

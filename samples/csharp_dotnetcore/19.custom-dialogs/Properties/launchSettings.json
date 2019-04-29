@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "_19.Custom_Dialogs": {
+    "Custom_Dialogs": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

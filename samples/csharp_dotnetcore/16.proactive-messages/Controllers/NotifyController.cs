@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Concurrent;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +27,14 @@ namespace ProactiveBot.Controllers
             _adapter = adapter;
             _conversationReferences = conversationReferences;
             _appId = ((SimpleCredentialProvider)credentials).AppId;
+
+            // If the channel is the Emulator, and authentication is not in use,
+            // the AppId will be null.  We generate a random AppId for this case only.
+            // This is not required for production, since the AppId will have a value.
+            if (string.IsNullOrEmpty(_appId))
+            {
+                _appId = Guid.NewGuid().ToString(); //if no AppId, use a random Guid
+            }
         }
 
         public async Task<IActionResult> Get()
@@ -33,7 +43,14 @@ namespace ProactiveBot.Controllers
             {
                 await ((BotAdapter)_adapter).ContinueConversationAsync(_appId, conversationReference, BotCallback, default(CancellationToken));
             }
-            return Ok();
+            
+            // Let the caller know proactive messages have been sent
+            return new ContentResult()
+            {
+                Content = "<html><body><h1>Proactive messages have been sent.</h1></body></html>",
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+            };
         }
 
         private async Task BotCallback(ITurnContext turnContext, CancellationToken cancellationToken)
