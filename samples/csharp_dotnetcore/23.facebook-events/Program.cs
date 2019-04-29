@@ -5,7 +5,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Facebook_Events_Bot
+namespace Microsoft.BotBuilderSamples
 {
     public class Program
     {

@@ -13,9 +13,9 @@ The Bot Framework now has CLI tools to help quickly create bots and bot-specific
 | [![npm version](https://badge.fury.io/js/luisgen.svg)](https://badge.fury.io/js/luisgen)| [LUISGen](packages/LUISGen) | Auto generate backing C#/Typescript classes for your LUIS intents and entities.|
 
 ## Install CLI tools:
-Pre-requisites: 
-- [Node.js](https://nodejs.org/) version 8.5 or higher
-- [dotnetcore 2.0](https://www.microsoft.com/net/download/dotnet-core/2.0) for `luisgen` and `botdispatch`
+Pre-requisites:
+- [Node.js](https://nodejs.org/) version 10.14 or higher
+- [dotnetcore 2.1](https://www.microsoft.com/net/download/dotnet-core/2.1) for `luisgen` and `botdispatch`
 
 Windows users can type the following into their CLI to install the tools:
 ```bash

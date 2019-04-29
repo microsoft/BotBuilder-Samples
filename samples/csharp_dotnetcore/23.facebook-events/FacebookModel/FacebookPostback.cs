@@ -3,7 +3,7 @@
 
 using Newtonsoft.Json;
 
-namespace Facebook_Events_Bot.FacebookModel
+namespace Microsoft.BotBuilderSamples.FacebookModel
 {
     /// <summary>
     /// Definition for Facebook PostBack payload. Present on calls from
