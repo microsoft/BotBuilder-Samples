@@ -54,7 +54,7 @@ namespace Microsoft.BotBuilderSamples
                 },
                 new SwitchCondition()
                 {
-                    Condition = "turn.cardChoice.value",
+                    Condition = "turn.cardChoice",
                     Cases = new List<Case>() {
                         new Case("'Adaptive card'",  new List<IDialog>() { new SendActivity("[AdativeCardRef]") } ),
                         new Case("'Animation card'", new List<IDialog>() { new SendActivity("[AnimationCard]") } ),

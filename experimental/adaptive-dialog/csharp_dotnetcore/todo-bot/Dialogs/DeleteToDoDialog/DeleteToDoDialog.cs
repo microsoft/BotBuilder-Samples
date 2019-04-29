@@ -114,33 +114,25 @@ namespace Microsoft.BotBuilderSamples
             var todoList = dc.State.GetValue<string[]>("user.todos");
             string todoTitleStr = null;
             string[] todoTitle, todoTitle_patternAny;
+            // By default, recognized intents from a recognizer are available under turn.intents scope. 
+            // Recognized entities are available under turn.entities scope. 
             dc.State.TryGetValue("turn.entities.todoTitle", out todoTitle);
             dc.State.TryGetValue("turn.entities.todoTitle_patternAny", out todoTitle_patternAny);
             if (todoTitle != null && todoTitle.Length != 0)
             {
-                foreach (string todoItem in todoList)
-                {
-                    if (todoItem == todoTitle[0])
-                    {
-                        todoTitleStr = todoTitle[0];
-                        break;
-                    }
+                if (Array.Exists(todoList, e => e == todoTitle[0])) {
+                    todoTitleStr = todoTitle[0];
                 }
             }
             else if (todoTitle_patternAny != null && todoTitle_patternAny.Length != 0)
             {
-                foreach (string todoItem in todoList)
-                {
-                    if (todoItem == todoTitle_patternAny[0])
-                    {
-                        todoTitleStr = todoTitle_patternAny[0];
-                        break;
-                    }
+                if (Array.Exists(todoList, e => e == todoTitle_patternAny[0])) {
+                    todoTitleStr = todoTitle_patternAny[0];
                 }
             }
             if (todoTitleStr != null)
             {
-                // Set the todo title in memory.
+                // Set the todo title in turn.todoTitle scope.
                 dc.State.SetValue("turn.todoTitle", todoTitleStr);
             }
             return new DialogTurnResult(DialogTurnStatus.Complete, options);
