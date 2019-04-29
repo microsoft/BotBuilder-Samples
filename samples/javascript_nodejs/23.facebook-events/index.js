@@ -8,13 +8,9 @@ const path = require('path');
 const restify = require('restify');
 const { FacebookBot } = require('./bots/facebookBot');
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, MemoryStorage } = require('botbuilder');
+const { BotFrameworkAdapter } = require('botbuilder');
 
-// This bot's main dialog.
-
-
-
-// Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
+// Note: Ensure that you have a MicrosoftAppId and MicrosoftAppPassword added to the .env file.
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
@@ -24,12 +20,6 @@ const adapter = new BotFrameworkAdapter({
     appId: process.env.MicrosoftAppId,
     appPassword: process.env.MicrosoftAppPassword
 });
-
-
-// For local development, in-memory storage is used.
-// CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
-// is restarted, anything stored in memory will be gone.
-const memoryStorage = new MemoryStorage();
 
 // Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
 const logger = console;
