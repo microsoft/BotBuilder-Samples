@@ -19,7 +19,6 @@ class FacebookBot extends ActivityHandler {
             logger = console;
             logger.log('[FacebookEventsBot]: logger not passed in, defaulting to console');
         }
-
         this.logger = logger;
 
         this.onMessage(async (turnContext) => {
@@ -46,7 +45,6 @@ class FacebookBot extends ActivityHandler {
      * Shows a list of Facebook features for the user to choose from
      * @param {Object} turnContext 
      */
-
     async showChoices(turnContext) {
         // Create choices for the prompt
         const choices = [
@@ -74,7 +72,6 @@ class FacebookBot extends ActivityHandler {
      * @param {Object} turnContext 
      * @param {Object} data
      */
-
     async processFacebookPayload(turnContext, data) {
 
         // At this point we know we are on Facebook channel, and can consume the Facebook custom payload present in channelData.
@@ -115,7 +112,6 @@ class FacebookBot extends ActivityHandler {
      * @param {Object} postback JSON object for postback payload.
      * @param {Object} turnContext
      */
-
     async onFacebookPostback(turnContext, postback) {
         this.logger.log('Postback message received.');
         // TODO: Your postBack handling logic here...
@@ -132,7 +128,6 @@ class FacebookBot extends ActivityHandler {
      * @param {Object} facebookMessage
      * @param {Object} turnContext
      */
-    
     async onFacebookEcho(turnContext, facebookMessage){
         this.logger.log('Echo message received.');
     }
@@ -144,7 +139,6 @@ class FacebookBot extends ActivityHandler {
      * @param {Object} optin 
      * @param {Object} turnContext
      */
-
     async onFacebookOptin(turnContext, optin) {
         this.logger.log('Optin message received.')
         // TODO: Your optin handling logic here...
@@ -157,7 +151,6 @@ class FacebookBot extends ActivityHandler {
      * @param {Object} quickReply 
      * @param {Object} turnContext
      */
-
     async onFacebookQuickReply(turnContext, quickReply) {
         this.logger.log('QuickReply message received.');
          // TODO: Your QuickReply handling logic here...
