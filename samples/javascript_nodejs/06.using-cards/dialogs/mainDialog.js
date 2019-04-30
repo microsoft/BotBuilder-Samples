@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { AttachmentLayoutTypes, CardFactory } = require('botbuilder');
-const { ChoicePrompt, ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog, WaterfallStepContext } = require('botbuilder-dialogs');
+const { ChoicePrompt, ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
 const AdaptiveCard = require('../resources/adaptiveCard.json');
 
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';

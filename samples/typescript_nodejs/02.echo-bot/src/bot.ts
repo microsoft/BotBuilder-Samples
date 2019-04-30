@@ -15,8 +15,8 @@ export class MyBot extends ActivityHandler {
 
         this.onMembersAdded(async (context, next) => {
             const membersAdded = context.activity.membersAdded;
-            for (let cnt = 0; cnt < membersAdded.length; ++cnt) {
-                if (membersAdded[cnt].id !== context.activity.recipient.id) {
+            for (const member of membersAdded) {
+                if (member.id !== context.activity.recipient.id) {
                     await context.sendActivity('Hello and welcome!');
                 }
             }
