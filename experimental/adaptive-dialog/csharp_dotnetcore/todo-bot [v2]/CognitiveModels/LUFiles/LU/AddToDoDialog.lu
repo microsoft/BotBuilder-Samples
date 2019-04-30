@@ -1,0 +1,118 @@
+
+> # Intent definitions
+
+## GetTodoTitle
+- {todoTitle_patternAny}
+- {todoTitle=buy milk} is my todo's title
+- {todoTitle=pick up joe at 3pm} is the title of my todo
+- the title is {todoTitle=Eat when you are hungry}
+- sure, the title is {todoTitle=water the garden tomorrow}
+- yup, its {todoTitle=do groceries this weekend}
+- {todoTitle_patternAny} is [my] (todo|to do)['s] title
+- {todoTitle_patternAny} is [the] title of [(my|the)] todo
+- [sure][,] the title is {todoTitle_patternAny}
+- [yup][,] its {todoTitle_patternAny}
+
+
+## Help
+- what can I say?
+- What are valid todo titles?
+- I need help
+- I'm not sure what I can say
+- what can you take as a todo title?
+- can you please help?
+- What can I say?
+- Who are you?
+- Not sure what I can do
+- What do you want me to say?
+- What can you do?
+- What can you help with?
+- help please
+- What are my options?
+- well, I do not know what my todo's title is
+- I do not know
+
+
+## Cancel
+- Cancel
+- I changed my mind
+- I no longer need to add a todo
+- Abort that
+- Do not do that
+- Let's not do that
+- Go back
+- undo
+- cancel
+- cancel all
+- stop that
+- do not do it
+- abort
+- please stop what you are doing
+- cancel add todo
+- cancel that
+- I do not want to add a todo
+- No todo for me
+- Cancel this
+- cancel delete todo
+- Let's just leave it as is
+- I do not wish to delete my todo anymore
+- Keep my todos as is
+
+
+## None
+- hi
+- hello
+- hiya
+- how are you?
+- how do you do?
+- show my todo
+- can you please show my todos?
+- please show my todo list
+- todo list please
+- I need to see my todo list
+- can you show me the list?
+- please show the list
+- what do i have on my todo?
+- what is on my list?
+- do i have anything left on my todo list?
+- I hope I do not have any todo left
+- do i have any tasks left?
+- hit me up with more items
+- view my todos
+- can you show my todo
+- see todo
+- I would like to see my todos list
+- Remove todo
+- Mark buy milk as complete
+- Flag first one as done
+- Remove finish this demo from the todo list
+- remove another one
+- remove
+- clear my todo named get a new car
+- I'm done with the first todo
+- I finished the last todo
+- Remove the first todo
+- Delete todo
+- Clear my todos
+- Delete all my todos
+- Remove all my todo
+- Forget the list
+- Purge the todo list
+
+
+> # Entity definitions
+
+$todoTitle:simple
+
+
+> # PREBUILT Entity definitions
+
+
+> # Phrase list definitions
+
+
+> # List entities
+
+> # RegEx entities
+
+

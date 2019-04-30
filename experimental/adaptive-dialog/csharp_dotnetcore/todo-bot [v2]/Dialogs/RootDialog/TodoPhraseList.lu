@@ -1,0 +1,11 @@
+﻿> Add a Phrase List with todo variations. Mark them as interchangeable.
+$ todoItem : PhraseList interchangeable
+   - todo
+   - todos
+   - to dos
+   - todo list
+   - todos list
+   - item list
+   - items collection
+   - collection
+   - list

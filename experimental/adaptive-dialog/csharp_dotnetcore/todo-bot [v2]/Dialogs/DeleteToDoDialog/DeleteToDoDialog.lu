@@ -1,0 +1,51 @@
+﻿# DeleteToDoDialog
+- Remove todo
+- Mark {todoTitle = buy milk} as complete
+- Flag {todoTitle = first one} as done
+- Remove {todoTitle = finish this demo} from the todo list
+- remove another one
+- remove
+- clear my todo named {todoTitle = get a new car}
+- I did {todoTitle_patternAny}
+- I completed {todoTitle_patternAny}
+- I'm done with the first todo
+- I finished the {todoIdx = last} todo
+- Mark {todoTitle_patternAny} as complete
+- Remove {todoTitle_patternAny} from my [todo] list
+- [Please] delete {todoTitle_patternAny} from the list
+- Remove the first todo
+- Delete todo
+- Delete {todoTitle_patternAny}
+- Clear my todos
+- Delete all my todos
+- Remove all my todo
+- Forget the list
+- Purge the todo list
+
+> Use this to capture things like first one, last one, etc.
+$ PREBUILT : ordinal
+$ PREBUILT : number
+
+# GetItemToDelete
+- the first one
+- last one
+- its the last one
+- I would like to delete the second item in my list
+- I need to delete {todoTitle=buy milk}
+- I have completed {todoTitle=finish this demo}
+- remove the item with title {todoTitle=water the yard}
+> Add patterns
+- [delete] [the] {todoTitle_patternAny}
+- (delete|remove) [the] item [with title] {todoTitle_patternAny}
+
+# Help
+- What can i say
+- help
+- i need help
+- how do I tell you what to delete?
+- What are valid todo titles?
+- I'm not sure what I can say
+- what can you take as a todo title?
+
+[TodoPhraseList](../RootDialog/TodoPhraseList.lu)
+

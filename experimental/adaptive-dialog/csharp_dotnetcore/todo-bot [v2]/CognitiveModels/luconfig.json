@@ -1,0 +1,9 @@
+{
+  "name": "todo-bot [v2]",
+  "defaultLanguage": "en-us",
+  "models": [
+    "C:\\repos\\BotBuilder-Samples\\experimental\\adaptive-dialog\\csharp_dotnetcore\\todo-bot [v2]\\CognitiveModels\\LUFiles\\LU\\RootDialog.lu",
+    "C:\\repos\\BotBuilder-Samples\\experimental\\adaptive-dialog\\csharp_dotnetcore\\todo-bot [v2]\\CognitiveModels\\LUFiles\\LU\\AddToDoDialog.lu",
+    "C:\\repos\\BotBuilder-Samples\\experimental\\adaptive-dialog\\csharp_dotnetcore\\todo-bot [v2]\\CognitiveModels\\LUFiles\\LU\\DeleteToDoDialog.lu"
+  ]
+}
