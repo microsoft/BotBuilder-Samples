@@ -24,8 +24,7 @@ const adapter = new BotFrameworkAdapter({
 // Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
 const logger = console;
 
-
-const bot = new FacebookBot( logger );
+const bot = new FacebookBot(logger);
 
 // Create HTTP server
 let server = restify.createServer();
@@ -52,5 +51,4 @@ adapter.onTurnError = async (context, error) => {
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
     await context.sendActivity(`Oops. Something went wrong!`);
-    
 };
