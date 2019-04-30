@@ -6,7 +6,7 @@
  if [ $1 == 'help' ]
 then
     echo ''
-    echo USAGE:  noclean : Do not delete generated bots.
+    echo USAGE:  nocleanup : Do not delete generated bots.
     echo ''
     exit
 fi
@@ -77,10 +77,10 @@ echo linting my-core-bot-js
 npm run lint
 cd ..
 
-if [ $1 == 'noclean' ]
+if [ $1 == 'nocleanup' ]
 then
     echo '*************************************************************************'
-    echo '** noclean option used.  you must manually clean up all generated bots **'
+    echo '** nocleanup option used.  you must manually clean up all generated bots **'
     echo '*************************************************************************'
 else
     ## Clean up all the generated projects ##
