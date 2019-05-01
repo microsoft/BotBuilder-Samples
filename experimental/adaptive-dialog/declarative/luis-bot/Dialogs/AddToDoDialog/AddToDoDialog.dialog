@@ -1,0 +1,101 @@
+{
+    "$schema": "../../app.schema",
+    "$type": "Microsoft.AdaptiveDialog",
+    "recognizer": "AddToDoDialog.lu",
+    "steps": [
+        {
+            "$type": "Microsoft.SaveEntity",
+            "entity": "@todoTitle[0]",
+            "property": "turn.todoTitle"
+        },
+        {
+            "$type": "Microsoft.SaveEntity",
+            "entity": "@todoTitle_patternAny[0]",
+            "property": "turn.todoTitle"
+        },
+        {
+            "$type": "Microsoft.TextInput",
+            "property": "turn.todoTitle",
+            "prompt": "[Get-ToDo-Title]"
+        },
+        {
+            "$type": "Microsoft.EditArray",
+            "itemProperty": "turn.todoTitle",
+            "arrayProperty": "user.todos",
+            "changeType": "Push"
+        },
+        {
+            "$type": "Microsoft.SendActivity",
+            "activity": "[Add-ToDo-ReadBack]"
+        }
+    ],
+    "rules": [
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "GetTodoTitle",
+            "steps": [
+                {
+                    "$type": "Microsoft.SaveEntity",
+                    "entity": "@todoTitle[0]",
+                    "property": "turn.todoTitle"
+                },
+                {
+                    "$type": "Microsoft.SaveEntity",
+                    "entity": "@todoTitle_patternAny[0]",
+                    "property": "turn.todoTitle"
+                }        
+            ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "Help",
+            "steps": [
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "[Help-Add-ToDo]"
+                }        
+            ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "Cancel",
+            "steps": [
+                {
+                    "$type": "Microsoft.ConfirmInput",
+                    "prompt": "[Confirm-cancellation]",
+                    "property": "turn.addTodo.cancelConfirmation"
+                },
+                {
+                    "$type": "Microsoft.IfCondition",
+                    "condition": "turn.addTodo.cancelConfirmation == true",
+                    "steps": [
+                        {
+                            "$type": "Microsoft.SendActivity",
+                            "activity": "[Cancel-add-todo]"
+                        },
+                        {
+                            "$type": "Microsoft.EndDialog"
+                        }
+                    ],
+                    "elseSteps": [
+                        {
+                            "$type": "Microsoft.SendActivity",
+                            "activity": "[Help-prefix], let's get right back to adding a todo."
+                        }
+                    ]
+                }        
+            ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "None",
+            "steps": [
+                {
+                    "$type": "Microsoft.SetProperty",
+                    "property": "turn.todoTitle",
+                    "value": "turn.activity.text"
+                }        
+            ]
+        }
+    ]
+}

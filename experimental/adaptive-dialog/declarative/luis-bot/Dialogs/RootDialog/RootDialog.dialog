@@ -1,0 +1,65 @@
+{
+    "$schema": "../../app.schema",
+    "$type": "Microsoft.AdaptiveDialog",
+    "recognizer": "RootDialog.lu",
+    "rules": [
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "Greeting",
+            "steps": [
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "[Help-Root-Dialog]"
+                }            
+            ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "Help",
+            "steps": [
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "[Help-Root-Dialog]"
+                }            
+            ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "Cancel",
+            "steps": [
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "Cancelling all dialogs.."
+                },
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "[Welcome-Actions]"
+                },
+                {
+                    "$type": "Microsoft.CancelAllDialogs"
+                }            
+            ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "Add_todo",
+            "steps": [
+                "AddToDoDialog"         
+            ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "DeleteToDoDialog",
+            "steps": [
+                "DeleteToDoDialog"         
+            ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "ViewToDoDialog",
+            "steps": [
+                "ViewToDoDialog"         
+            ]
+        }
+    ]
+}

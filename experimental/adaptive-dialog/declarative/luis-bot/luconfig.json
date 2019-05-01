@@ -1,0 +1,7 @@
+{
+  "name": "TodoBotWithLUIS",
+  "defaultLanguage": "en-us",
+  "models": [
+    "samples/ToDoLuisBot/ToDoLuis.lu"
+  ]
+}

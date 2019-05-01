@@ -1,0 +1,42 @@
+{
+    "$schema": "../../app.schema",
+    "$type": "Microsoft.AdaptiveDialog",
+    "steps": [
+        {
+            "$type": "Microsoft.IfCondition",
+            "condition": "@todoTitle[0] != null && contains(user.todos, @todoTitle[0])",
+            "steps": [
+                {
+                    "$type": "Microsoft.SaveEntity",
+                    "entity": "@todoTitle[0]",
+                    "property": "turn.todoTitle"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.IfCondition",
+            "condition": "@todoTitle_patternAny[0] != null && contains(user.todos, @todoTitle_patternAny[0])",
+            "steps": [
+                {
+                    "$type": "Microsoft.SaveEntity",
+                    "entity": "@todoTitle_patternAny[0]",
+                    "property": "turn.todoTitle"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.IfCondition",
+            "condition": "@ordinal[0] != null && user.todos[int(@ordinal[0]) - 1] != null",
+            "steps": [
+                {
+                    "$type": "Microsoft.SetProperty",
+                    "property": "turn.todoTitle",
+                    "value": "user.todos[int(@ordinal[0]) - 1]"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.EndDialog"
+        }
+    ]
+}

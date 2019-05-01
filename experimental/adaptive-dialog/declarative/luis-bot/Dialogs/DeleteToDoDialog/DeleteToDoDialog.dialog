@@ -1,0 +1,91 @@
+{
+    "$schema": "../../app.schema",
+    "$type": "Microsoft.AdaptiveDialog",
+    "recognizer": "DeleteToDoDialog.lu",
+    "steps": [
+        {
+            "$type": "Microsoft.IfCondition",
+            "condition": "user.todos == null || count(user.todos) <= 0",
+            "steps": [
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "[Delete-Empty-List]"
+                },
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "[Welcome-Actions]"
+                },
+                {
+                    "$type": "Microsoft.EndDialog"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.BeginDialog",
+            "dialog": "GetTitleToDelete"
+        },
+        {
+            "$type": "Microsoft.BeginDialog",
+            "dialog": "ViewToDoDialog"
+        },
+        {
+            "$type": "Microsoft.TextInput",
+            "prompt": "[Get-ToDo-Title-To-Delete]",
+            "property": "turn.todoTitle"
+        },
+        {
+            "$type": "Microsoft.IfCondition",
+            "condition": "contains(user.todos, turn.todoTitle) == false",
+            "steps": [
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "[Todo-not-found]"
+                },
+                {
+                    "$type": "Microsoft.DeleteProperty",
+                    "property": "turn.todoTitle"
+                },
+                {
+                    "$type": "Microsoft.RepeatDialog"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.EditArray",
+            "arrayProperty": "user.todos",
+            "itemProperty": "turn.todoTitle",
+            "changeType":"Remove" 
+        },
+        {
+            "$type": "Microsoft.SendActivity",
+            "activity": "[Delete-readBack]"
+        },
+        {
+            "$type": "Microsoft.BeginDialog",
+            "dialog": "ViewToDoDialog"
+        },
+        {
+            "$type": "Microsoft.EndDialog"
+        }
+    ],
+    "rules":[
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "None",
+            "steps": [
+                {
+                    "$type": "Microsoft.SetProperty",
+                    "property": "turn.todoTitle",
+                    "value": "turn.activity.text"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "GetItemToDelete",
+            "steps": [
+                "GetTitleToDelete"
+            ]
+        }
+    ]
+}
