@@ -7,6 +7,9 @@
       "name": "Help"
     },
     {
+      "name": "Cancel"
+    },
+    {
       "name": "None"
     }
   ],
@@ -115,6 +118,21 @@
       "entities": []
     },
     {
+      "text": "stop that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "abort that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
       "text": "What can I say?",
       "intent": "Help",
       "entities": []
@@ -201,87 +219,87 @@
     },
     {
       "text": "cancel",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "cancel all",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "stop that",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "do not do it",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "abort",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "please stop what you are doing",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "I changed my mind",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "cancel add todo",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "cancel that",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "I do not want to add a todo",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "No todo for me",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "Cancel this",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "cancel delete todo",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "Let's just leave it as is",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "I do not wish to delete my todo anymore",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "Keep my todos as is",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
       "text": "No todo for me",
-      "intent": "None",
+      "intent": "Cancel",
       "entities": []
     },
     {
@@ -447,6 +465,10 @@
     {
       "pattern": "{todoTitle_patternAny}",
       "intent": "GetItemToDelete"
+    },
+    {
+      "pattern": "[please] remove {todoTitle_patternAny} from (my|the) [todo] [list]",
+      "intent": "GetItemToDelete"
     }
   ],
   "patternAnyEntities": [
@@ -459,10 +481,6 @@
   "prebuiltEntities": [
     {
       "name": "ordinal",
-      "roles": []
-    },
-    {
-      "name": "number",
       "roles": []
     }
   ],

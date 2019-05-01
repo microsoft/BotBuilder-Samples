@@ -40,17 +40,17 @@ namespace Microsoft.BotBuilderSamples
                     // User could have already specified the todo to delete via 
                     // todoTitle as simple machine learned LUIS entity or
                     // todoTitle_patternAny as pattern.any LUIS entity .or.
-                    // prebuilt number entity that denotes the position of the todo item in the list .or.
-                    // todoIdx machine learned entity that can detect things like first or last etc. 
+                    // ordinal entity that denotes the position of the todo item in the list  
 
-                    // As a demonstration for this example, use a code step to understand entities returned by LUIS.
+                    // As a demonstration for this sample, use a code step to understand entities returned by LUIS.
                     // You could have easily replaced the code step with these two steps
                     // new SaveEntity("@todoTitle[0]", "turn.todoTitle"),
                     // new SaveEntity("@todoTitle_patternAny[0]", "turn.todoTitle"),
-
+                    // new SaveEntity("user.todos[@ordinal[0]]", "turn.todoTitle"),
                     new CodeStep(GetToDoTitleToDelete),
                     new IfCondition()
                     {
+                        // Ask for title if we do not have yet it.
                         Condition = new ExpressionEngine().Parse("turn.todoTitle == null"),
                         Steps = new List<IDialog>()
                         {
@@ -65,6 +65,7 @@ namespace Microsoft.BotBuilderSamples
                     },
                     new IfCondition()
                     {
+                        // If the title we got does not exist in the todo list, repeat dialog.
                         Condition = new ExpressionEngine().Parse("contains(user.todos, turn.todoTitle) == false"),
                         Steps = new List<IDialog>()
                         {
@@ -76,14 +77,18 @@ namespace Microsoft.BotBuilderSamples
                             new RepeatDialog()
                         }
                     },
+                    // Delete the todo item from the list.
                     new EditArray()
                     {
                         ArrayProperty = "user.todos",
                         ItemProperty = "turn.todoTitle",
                         ChangeType = EditArray.ArrayChangeType.Remove
                     },
+                    // Confirm deletion.
                     new SendActivity("[Delete-readBack]"),
-                    new SendActivity("[View-ToDos]")
+                    // Readback available Todos list
+                    new BeginDialog(nameof(ViewToDoDialog)),
+                    new EndDialog()
                 },
                 Rules = new List<IRule>()
                 {
@@ -124,12 +129,11 @@ namespace Microsoft.BotBuilderSamples
             // Demonstrates using a custom code step to extract entities and set them in state.
             var todoList = dc.State.GetValue<string[]>("user.todos");
             string todoTitleStr = null;
-            string[] todoTitle, todoTitle_patternAny, ordinal, number;
+            string[] todoTitle, todoTitle_patternAny, ordinal;
             // By default, recognized intents from a recognizer are available under turn.intents scope. 
             // Recognized entities are available under turn.entities scope. 
             dc.State.TryGetValue("turn.entities.todoTitle", out todoTitle);
             dc.State.TryGetValue("turn.entities.todoTitle_patternAny", out todoTitle_patternAny);
-            dc.State.TryGetValue("turn.entities.number", out number);
             dc.State.TryGetValue("turn.entities.ordinal", out ordinal);
             if (todoTitle != null && todoTitle.Length != 0)
             {
@@ -137,21 +141,13 @@ namespace Microsoft.BotBuilderSamples
                     todoTitleStr = todoTitle[0];
                 }
             }
-            else if (todoTitle_patternAny != null && todoTitle_patternAny.Length != 0)
+            if (todoTitle_patternAny != null && todoTitle_patternAny.Length != 0)
             {
                 if (Array.Exists(todoList, e => e == todoTitle_patternAny[0])) {
                     todoTitleStr = todoTitle_patternAny[0];
                 }
-            } else if (number != null && number.Length != 0)
-            {
-                try
-                {
-                    todoTitleStr = todoList[Convert.ToInt32(number[0]) - 1];
-                } catch
-                {
-                    todoTitleStr = null;
-                }
-            } else if (ordinal != null && ordinal.Length != 0)
+            }
+            if (ordinal != null && ordinal.Length != 0)
             {
                 try
                 {

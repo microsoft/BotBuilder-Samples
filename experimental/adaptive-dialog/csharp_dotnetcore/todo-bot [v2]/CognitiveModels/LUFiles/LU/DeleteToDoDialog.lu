@@ -12,6 +12,7 @@
 - [delete] [the] {todoTitle_patternAny}
 - (delete|remove) [the] item [with title] {todoTitle_patternAny}
 - {todoTitle_patternAny}
+- [please] remove {todoTitle_patternAny} from (my|the) [todo] [list]
 
 
 ## Help
@@ -36,15 +37,11 @@
 - can you please help?
 
 
-## None
-- hi
-- hello
-- hiya
-- how are you?
-- how do you do?
-- cancel
-- cancel all
+## Cancel
 - stop that
+- cancel
+- abort that
+- cancel all
 - do not do it
 - abort
 - please stop what you are doing
@@ -58,6 +55,14 @@
 - Let's just leave it as is
 - I do not wish to delete my todo anymore
 - Keep my todos as is
+
+
+## None
+- hi
+- hello
+- hiya
+- how are you?
+- how do you do?
 - show my todo
 - can you please show my todos?
 - please show my todo list
@@ -100,8 +105,6 @@ $todoIdx:simple
 > # PREBUILT Entity definitions
 
 $PREBUILT:ordinal
-
-$PREBUILT:number
 
 
 > # Phrase list definitions
