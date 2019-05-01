@@ -1,20 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Expressions.Parser;
+using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples
 {
     public class DeleteToDoDialog : ComponentDialog
     {
-        public DeleteToDoDialog()
+        private static IConfiguration Configuration;
+
+        public DeleteToDoDialog(IConfiguration configuration)
             : base(nameof(DeleteToDoDialog))
         {
+            Configuration = configuration;
             // Create instance of adaptive dialog. 
             var DeleteToDoDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
@@ -74,30 +80,35 @@ namespace Microsoft.BotBuilderSamples
                     {
                         ArrayProperty = "user.todos",
                         ItemProperty = "turn.todoTitle",
-                        ChangeType = EditArray.ArrayChangeType.Clear
+                        ChangeType = EditArray.ArrayChangeType.Remove
                     },
                     new SendActivity("[Delete-readBack]"),
-                    new EndDialog()
+                    new SendActivity("[View-ToDos]")
                 },
                 Rules = new List<IRule>()
                 {
-                    // This event rule will catch outgoing bubbling up to the parent and will swallow anything that user says that is in the todo list. 
-                    new EventRule()
+                    // Since we are using a regex recognizer, anything except for help or cancel will come back as none intent.
+                    // If so, just accept user's response as the title of the todo and move forward.
+                    new IntentRule("None")
                     {
-                        // Consultation happens on every turn when using TextInput. This gives all parents a chance to take the user input before text input takes it.
-                        Events = new List<string>() { AdaptiveEvents.ConsultDialog },
-                        // The expression language is quite powerful with a bunch of pre-built utility functions.
-                        // See https://github.com/Microsoft/BotBuilder-Samples/blob/master/experimental/common-expression-language/prebuilt-functions.md
-                        Constraint = "contains(user.todos, turn.activity.text)",
                         Steps = new List<IDialog>()
                         {
-                            // Take user input  as the title of the todo to delete if it exists
+                            // Set what user said as the todo title.
                             new SetProperty() {
                                 Property = "turn.todoTitle",
                                 Value = new ExpressionEngine().Parse("turn.activity.text")
                             }
                         }
+                    },
+                    new IntentRule("GetItemToDelete")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            // call the code step to accept all provided values
+                            new CodeStep(GetToDoTitleToDelete)
+                        }
                     }
+                    // Note: Help and Cancel intents are deliberately not handled here to demonstrate bubbling up to the RootDialog.
                 }
             };
 
@@ -113,11 +124,13 @@ namespace Microsoft.BotBuilderSamples
             // Demonstrates using a custom code step to extract entities and set them in state.
             var todoList = dc.State.GetValue<string[]>("user.todos");
             string todoTitleStr = null;
-            string[] todoTitle, todoTitle_patternAny;
+            string[] todoTitle, todoTitle_patternAny, ordinal, number;
             // By default, recognized intents from a recognizer are available under turn.intents scope. 
             // Recognized entities are available under turn.entities scope. 
             dc.State.TryGetValue("turn.entities.todoTitle", out todoTitle);
             dc.State.TryGetValue("turn.entities.todoTitle_patternAny", out todoTitle_patternAny);
+            dc.State.TryGetValue("turn.entities.number", out number);
+            dc.State.TryGetValue("turn.entities.ordinal", out ordinal);
             if (todoTitle != null && todoTitle.Length != 0)
             {
                 if (Array.Exists(todoList, e => e == todoTitle[0])) {
@@ -129,6 +142,25 @@ namespace Microsoft.BotBuilderSamples
                 if (Array.Exists(todoList, e => e == todoTitle_patternAny[0])) {
                     todoTitleStr = todoTitle_patternAny[0];
                 }
+            } else if (number != null && number.Length != 0)
+            {
+                try
+                {
+                    todoTitleStr = todoList[Convert.ToInt32(number[0]) - 1];
+                } catch
+                {
+                    todoTitleStr = null;
+                }
+            } else if (ordinal != null && ordinal.Length != 0)
+            {
+                try
+                {
+                    todoTitleStr = todoList[Convert.ToInt32(ordinal[0]) - 1];
+                }
+                catch
+                {
+                    todoTitleStr = null;
+                }
             }
             if (todoTitleStr != null)
             {
@@ -136,6 +168,20 @@ namespace Microsoft.BotBuilderSamples
                 dc.State.SetValue("turn.todoTitle", todoTitleStr);
             }
             return new DialogTurnResult(DialogTurnStatus.Complete, options);
+        }
+
+        public static IRecognizer CreateRecognizer()
+        {
+            if (string.IsNullOrEmpty(Configuration["DeleteToDoDialog_en-us_lu:Luis-host-name"]) || string.IsNullOrEmpty(Configuration["DeleteToDoDialog_en-us_lu:Luis-endpoint-key"]) || string.IsNullOrEmpty(Configuration["DeleteToDoDialog_en-us_lu:Luis-app-id"]))
+            {
+                throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
+            }
+            return new LuisRecognizer(new LuisApplication()
+            {
+                Endpoint = Configuration["DeleteToDoDialog_en-us_lu:Luis-host-name"],
+                EndpointKey = Configuration["DeleteToDoDialog_en-us_lu:Luis-endpoint-key"],
+                ApplicationId = Configuration["DeleteToDoDialog_en-us_lu:Luis-app-id"]
+            });
         }
     }
 }

@@ -48,14 +48,14 @@ namespace Microsoft.BotBuilderSamples
 
             // Add all child dialogS
             AddDialog(new AddToDoDialog(configuration));
-            AddDialog(new DeleteToDoDialog());
+            AddDialog(new DeleteToDoDialog(configuration));
             AddDialog(new ViewToDoDialog());
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);
         }
 
-        public static IRecognizer CreateRecognizer()
+        private static IRecognizer CreateRecognizer()
         {
             if (string.IsNullOrEmpty(Configuration["RootDialog_en-us_lu:Luis-host-name"]) || string.IsNullOrEmpty(Configuration["RootDialog_en-us_lu:Luis-endpoint-key"]) || string.IsNullOrEmpty(Configuration["RootDialog_en-us_lu:Luis-app-id"]))
             {

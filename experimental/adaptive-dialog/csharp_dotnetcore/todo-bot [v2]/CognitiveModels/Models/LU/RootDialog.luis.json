@@ -428,6 +428,11 @@
       "text": "add",
       "intent": "None",
       "entities": []
+    },
+    {
+      "text": "add a todo wrap up coding by tonight",
+      "intent": "None",
+      "entities": []
     }
   ],
   "patterns": [
@@ -437,6 +442,10 @@
     },
     {
       "pattern": "(delete|remove) [the] item [with title] {todoTitle_patternAny}",
+      "intent": "GetItemToDelete"
+    },
+    {
+      "pattern": "{todoTitle_patternAny}",
       "intent": "GetItemToDelete"
     }
   ],

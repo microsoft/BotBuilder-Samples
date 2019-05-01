@@ -76,12 +76,15 @@
 - add another one
 - add another todo
 - add
+- add a todo {todoTitle=wrap up coding by tonight}
 - Please remember [to] {todoTitle_patternAny}
 - I need you to remember [that] {todoTitle_patternAny}
 - Add a todo named {todoTitle_patternAny}
 - Add {todoTitle_patternAny} to the list
 - [Please] add {todoTitle_patternAny} to the todo list
 - Add {todoTitle_patternAny} to my todo
+- add a todo (titled|called|with title) {todoTitle_patternAny}
+- add a todo with ["]{todoTitle_patternAny}["] [as the title]
 
 
 ## DeleteToDoDialog

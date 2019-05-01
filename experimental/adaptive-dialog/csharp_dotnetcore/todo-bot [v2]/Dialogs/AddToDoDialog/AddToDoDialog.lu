@@ -18,6 +18,9 @@
 - add another one
 - add another todo
 - add
+- add a todo {todoTitle=wrap up coding by tonight}
+- add a todo (titled|called|with title) {todoTitle_patternAny}
+- add a todo with ["]{todoTitle_patternAny}["] [as the title]
 
 # GetTodoTitle
 - {todoTitle_patternAny}
@@ -26,11 +29,14 @@
 - the title is {todoTitle=Eat when you are hungry}
 - sure, the title is {todoTitle=water the garden tomorrow}
 - yup, its {todoTitle=do groceries this weekend}
+- it is "{todoTitle=learn to dance}
 > Add patterns
 - {todoTitle_patternAny} is [my] (todo|to do)['s] title
 - {todoTitle_patternAny} is [the] title of [(my|the)] todo
 - [sure][,] the title is {todoTitle_patternAny}
 - [yup][,] its {todoTitle_patternAny} 
+- (its|it is) ["]{todoTitle_patternAny}["]
+
 
 # Help
 - what can I say?

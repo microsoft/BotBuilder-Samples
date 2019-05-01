@@ -11,6 +11,7 @@
 - remove the item with title {todoTitle=water the yard}
 - [delete] [the] {todoTitle_patternAny}
 - (delete|remove) [the] item [with title] {todoTitle_patternAny}
+- {todoTitle_patternAny}
 
 
 ## Help
@@ -86,6 +87,7 @@
 - add another one
 - add another todo
 - add
+- add a todo wrap up coding by tonight
 
 
 > # Entity definitions

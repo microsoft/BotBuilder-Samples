@@ -37,6 +37,7 @@ $ PREBUILT : number
 > Add patterns
 - [delete] [the] {todoTitle_patternAny}
 - (delete|remove) [the] item [with title] {todoTitle_patternAny}
+- {todoTitle_patternAny}
 
 # Help
 - What can i say
