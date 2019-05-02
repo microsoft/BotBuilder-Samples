@@ -1,239 +1,93 @@
-﻿This sample shows how to integrate QnA Maker in a simple bot with ASP.Net Core 2 and Application Insights.
+# NLP with Dispatch
 
-# Concepts introduced in this sample
+Bot Framework v4 NLP with Dispatch bot sample
 
-[Dispatch](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) is a tool to create and evaluate LUIS models used for NLP (Natural Language Processing).
-Dispatch works across multiple bot modules such as LUIS applications, QnA knowledge bases, and other NLP sources (added to dispatch as a file type).
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that relies on multiple [LUIS.ai](https://www.luis.ai) and [QnAMaker.ai](https://www.qnamaker.ai) models for natural language processing (NLP).
+
 Use the Dispatch model in cases when:
 
-* Your bot consists of multiple modules and you need assistance in routing user's utterances to these modules and evaluate the bot integration.
-* Evaluate quality of intents classification of a single LUIS model.
-* Create a text classification model from text files.
+- Your bot consists of multiple language modules (LUIS + QnA) and you need assistance in routing user's utterances to these modules in order to integrate the different modules into your bot.
+- Evaluate quality of intents classification of a single LUIS model.
+- Create a text classification model from text files.
 
-The [Language Understanding Intelligent Service (LUIS)](https://www.luis.ai), is a machine learning-based service to build natural language into apps, bots, and IoT devices.
-LUIS allows to Quickly create enterprise-ready, custom models that continuously improve.
+## Prerequisites
 
-The [QnA maker Service](https://www.qnamaker.ai) enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
+This sample **requires** prerequisites in order to run.
 
-The [Application Insights](https://azure.microsoft.com/en-us/services/application-insights/) enables you to discover actionable insights through application performance management and instant analytics.
+### Overview
 
-In this sample, we demonstrate how to use the Dispatch service to route utterances when there are multiple LUIS models and QnA maker services for different scenarios supported by a bot.
-In this case, we configure dispatch with multiple LUIS models for conversations around home automation and weather information, plus QnA maker service to answer questions based on a FAQ text file as input.
+This bot uses the Dispatch service to route utterances as it demonstrates the use of multiple LUIS models and QnA maker services to support multiper conversational scenarios.
 
-# To try this sample
+### Install .NET Core CLI
 
-- Clone the samples repository
-```bash
-git clone https://github.com/Microsoft/botbuilder-samples.git
-```
-## Install BotBuilder tools
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
 
-- In a terminal, navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/14.nlp-with-dispatch`)
+  ```bash
+  # determine dotnet version
+  dotnet --version
+  ```
 
-    ```bash
-    cd botbuilder-samples/samples/csharp_dotnetcore/14.nlp-with-dispatch
-    ```
+### Use Dispatch with Mulitple LUIS and QnA Models
 
-- Install required tools - to successfully setup and configure all services this bot depend on, you need to install the MSBOT, LUIS, QnAMaker, Ludown, Dispatch CLI tools.
+To learn how to configure Dispatch with multiple LUIS models and QnA Maker services, refer to the steps found [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0).
 
-    Ensure you have [Node.js](https://nodejs.org/) version 8.5 or higher
+## To try this sample
+
+- Clone the repository
 
     ```bash
-    npm i -g msbot luis-apis qnamaker ludown botdispatch
-    ```
-- Configure required LUIS, QnA Maker and Dispatch services. See [here](#configure-services)
-
-# Configure Services
-
-This sample relies on [LUIS](https://www.luis.ai), [QnA Maker](https://qnamaker.ai) and [Dispatch](https://github.com/microsoft/botbuilder-tools//tree/master/packages/Dispatch) services.
-
-## Deploy this bot to Azure and configure services
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on.
-
-### Creating a .bot file
-
-To create a .bot file, type the following while in the `14.nlp-with-dispatch/` folder:
-```bash
-msbot init --name "<NAME>" --endpoint http://localhost:3978/api/messages
-```
-
-Note: Where `"<NAME>"` is the name of your choosing. For this walkthrough, the name used is the name of this sample: "nlp-with-dispatch".
-
-Then set the `"botFilePath"` value in [appsettings.json](appsettings.json) with the name of your .bot file.
-
-After creating the `.bot` file, it is recommended to change the name of the endpoint service from the name of the bot to `"development"`. This is for local development and testing purposes. An example of the modified `"endpoint"`-type service can be found below:
-```json
-{
-    "type": "endpoint",
-    "name": "development",
-    "endpoint": "http://localhost:3978/api/messages",
-    "appId": "",
-    "appPassword": "",
-    "id": "173"
-}
-```
-
-To clone this bot, perform the following:
-- Collect your Luis Authoring Key from the [LUIS portal](https://www.luis.ai) by selecting your name in the top right corner. Save this key for the next step.
-
-- Run the following command from the project directory:
-```bash
-msbot clone services --name "<NAME>" --luisAuthoringKey "<YOUR AUTHORING KEY>" --folder "DeploymentScripts/MsbotClone" --location "ie, westus" --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
-```
-
-**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
-
-**NOTE**: By default your Luis Applications will be deployed to your free starter endpoint. An Azure LUIS service will be deployed along with your bot but you must manually add and publish to it from the luis.ai portal and update your key in the .bot file.
-
--  Note the generated secret generated by msbot.
-- The secret key is used later in for the emulator and configuration.
-```bash
-The secret used to decrypt <NAME>.bot is:
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX=
-NOTE: This secret is not recoverable and you should store this secret in a secure place according to best security practices.
-Your project may be configured to rely on this secret and you should update it as appropriate.
-```
-- Inspect Bot configuration file.
-
-- The `msbot clone` command above generates a bot configuration file.
-
-- The name of the bot configuration file is <NAME>.bot, where <NAME> is the name of your bot used in the `msbot clone` step.
-
-- The configuration file can be loaded by the [Microsoft Bot Framework Emulator](https://aka.ms/botframeworkemulator).
-
-- Update [`NlpDispatchBot.cs`](NlpDispatch/NlpDispatchBot.cs)
-  - Update Line 40: `"DispatchKey"`:
-
-    Update the following line to add a prefix with the name of your bot (plus underscore '_').
-    ```c#
-    private const string DispatchKey = "<NAME>_nlp-with-dispatchDispatch";
+    git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-   - Update Line 30, `"HomeAutomationLuisKey"`:
+- In a terminal, navigate to `samples/csharp_dotnetcore/14.nlp-with-dispatch`
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
 
-     Update the following line to add a prefix with the name of your bot (plus underscore '_').
+  A) From a terminal
 
-     ```c#
-     private const string HomeAutomationLuisKey = "<NAME>_Home Automation";
-     ```
+  ```bash
+  # run the bot
+  dotnet run
+  ```
 
-   - Update Line 35, `"HomeAutomationLuisKey"`:
+  B) Or from Visual Studio
 
-     Update the following line to add a prefix with the name of your bot (plus underscore '_').
-
-     ```c#
-     const WEATHER_LUIS_CONFIGURATION = '<NAME>_Weather';
-     ```
-**Alternately** you can configure the required services by following the steps below.
-
-## Manually configure required services
-
-### Configure the LUIS service
-
-To create LUIS Subscription Keys for this bot, follow these [instructions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-azure-subscription).
-
-To create required LUIS applications for this sample bot,
-- Create an account with [LUIS](https://www.luis.ai). If you already have an account, login to your account.
-- Click on your name on top right corner of the screen -> settings and grab your authoring key.
-
-To create the LUIS application this bot needs and update the `.bot` file configuration, in a terminal,
-- Clone this repository
-- Navigate to `botbuilder-samples/csharp_dotnetcore/samples/14.nlp-with-dispatch`
-- Run the following commands
-```bash
-ludown parse toluis --in Resources/homeautomation.lu -o CognitiveModels --out homeautomation.luis -n "Home Automation" -d "Home Automation LUIS application - Bot Builder Samples" --verbose
-
-ludown parse toluis --in Resources/weather.lu -o CognitiveModels --out weather.luis -n Weather -d "Weather LUIS application - Bot Builder Samples" --verbose
-
-luis import application --in CognitiveModels/homeautomation.luis --authoringKey <LUIS-AUTHORING-KEY> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
-
-luis import application --in CognitiveModels/weather.luis --authoringKey <LUIS-AUTHORING-KEY> --region <LUIS-AUTHORING-REGION> --msbot | msbot connect luis --stdin
-```
-
-If you decide to change the names passed to msbot such as weather.luis, then you need to update the constants in [NlpDispatchBot.cs](NlpDispatch/NlpDispatchBot.cs). For example, if you change homeautomation.luis to just home, you would update the HomeAutomationLuisKey variable to "home" and the homeAutomationDispatchKey to the intent name assigned by dispatcher, which in this case will be "l_home".
-
-Note: You can create the LUIS applications in one of the [LUIS authoring regions](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-reference-regions).
-You can use a different region, such as westus, westeurope or australiaeast via https://**LUIS-Authoring-Region**.api.cognitive.microsoft.com/luis/api/v2.0 in the commands above.
-
-### Train and publish the LUIS models
-You need to train and publish the LUIS models that were created for this sample to work. You can do so using the following CLI commands
-
-```bash
-msbot get "Home Automation" | luis train version --wait --stdin
-msbot get "Weather" | luis train version --wait --stdin
-msbot get "Home Automation" | luis publish version --stdin
-msbot get "Weather" | luis publish version --stdin
-```
-
-### Configure QnA Maker service
-To create a new QnA Maker application for the bot,
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a new QnA Maker Azure resource.
-- Navigate to your QnA Maker resource -> keys and copy the subscription key
-
-To create the QnA Maker application and update the .bot file with the QnA Maker configuration,
-- Open a terminal
-- Navigate to `samples/csharp_dotnetcore/14.nlp-with-dispatch`
-- Run the following commands
-```bash
-ludown parse toqna --in resources/sample-qna.lu -o cognitiveModels --out dispatch.qna --verbose
-
-qnamaker create kb --in cognitiveModels/dispatch.qna --subscriptionKey <QNA-MAKER-SUBSCRIPTION-KEY> --msbot | msbot connect qna --stdin
-```
-### Train and publish the QnA Maker KB
-You need to train and publish the QnA Maker Knowledge Bases that were created for this sample to work. You can do so using the following CLI commands
-
-```bash
-msbot get "sample-qna" | qnamaker publish kb --stdin
-```
-
-### Configure the Dispatch application
-[Dispatch](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) is a CLI tool that enables you to create a dispatch NLP model across the different LUIS applications and / or QnA Maker Knowledge Bases you have for your bot. For this sample, you would have already created 2 LUIS applications (Home Automation and Weather) and one QnA Maker Knowledge base.
-
-To create a new dispatch model for these services and update the .bot file configuration, in a terminal:
-- Navigate to `samples/csharp_dotnetcore/14.nlp-with-dispatch`
-- Run the following command
-```bash
-dispatch create -b nlp-with-dispatch.bot | msbot connect dispatch --stdin
-```
-#### Important: Update the dispatch service in your `.bot` file to have a `"subscriptionKey"`. You can use the subscription key from one of the other LUIS services in the `.bot` file.
-
-### Securing keys in your .bot file
-Since your `.bot` file contains service Ids, subscription and authoring keys, its best to encrypt them. To encrypt the .bot file, run
-
-```bash
-msbot secret -n
-```
-
-Then set the `"botFileSecret"` value in [appsettings.json](appsettings.json) with the secret output from `msbot secret -n`.
-
-This will generate a strong key, encrypt the bot file and print the key. Please keep this key securely.
-Any time the bot file is encrypted, make sure to set the botFileSecret environment variable this sample relies on (either through the .env file or other means).
-
-# Running Locally
-
-## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/14.nlp-with-dispatch`) and open `NLP-With-Dispatch-Bot.csproj` in Visual Studio
-- Select the "NLP-With-Dispatch-Bot" from the dropdown menu of Startup Projects
-- Run the project (press `F5` key)
-
-## .NET Core CLI
-- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x).
-- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/14.nlp-with-dispatch` folder
-- type `dotnet run`
+  - Launch Visual Studio
+  - File -> Open -> Project/Solution
+  - Navigate to `samples/csharp_dotnetcore/14.nlp-with-dispatch` folder
+  - Select `NLP-With-Dispatch-Bot.csproj` file
+  - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator from [here](https://aka.ms/botframeworkemulator).
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-### Connect to bot using Bot Framework Emulator **V4**
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
-- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/14.nlp-with-dispatch` folder
-- Select `nlp-with-dispatch.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Further reading
+## Dispatch
 
-- [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [QnA Maker Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/overview/overview)
-- [QnA Maker Command Line Tool](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker)
-- [Application Insights](https://azure.microsoft.com/en-us/services/application-insights/)
+Once you are confortable with the concepts presented in this sample, you may want to configure Dispath using a CLI tool.  [Dispatch CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) is a CLI tool that enables you to create a dispatch NLP model across the different LUIS applications and/ or QnA Maker Knowledge Bases you have for your bot.
+
+## Deploy the bot to Azure
+
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+
+## Further reading
+
+- [Bot Framework Documentation](https://docs.botframework.com)
+- [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
+- [Using LUIS for Language Understanding](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js)
+- [LUIS documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)
+- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
+- [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
+- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
+- [Azure Portal](https://portal.azure.com)
+- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)

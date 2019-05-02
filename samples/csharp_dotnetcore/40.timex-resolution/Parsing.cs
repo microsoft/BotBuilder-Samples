@@ -13,7 +13,7 @@ namespace Microsoft.BotBuilderSamples
     /// The "Types" property infers a datetimeV2 type from the underlying set of properties.
     /// If you take a TIMEX with date components and add time components you add the
     /// inferred type datetime (its still a date).
-    /// Logic can be written against the inferred type, perhaps to have the bot ask the user for disamiguation.
+    /// Logic can be written against the inferred type, perhaps to have the bot ask the user for disambiguation.
     /// </summary>
     public static class Parsing
     {
