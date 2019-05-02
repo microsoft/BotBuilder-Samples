@@ -1,10 +1,11 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>EchoBot</Name>
-    <Description>Echo Bot template for Microsoft Bot Builder V4 SDK.</Description>
+    <Name>Echo Bot (Bot Framework v4)</Name>
+    <Description>Echo Bot Template for Bot Framework v4.  A good template if you want a little more than "Hello World!".  Echo Bot simply "echoes" back to the user anything the user says to the bot.
+    </Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>Bot Framework</ProjectSubType>
-    <SortOrder>1000</SortOrder>
+    <SortOrder>1810</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>EchoBot</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
@@ -13,30 +14,48 @@
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
     <Icon>EchoBot.png</Icon>
     <PreviewImage></PreviewImage>
+    <Tags>C#; Windows; Azure; AI; Bots</Tags>
+    <LanguageTag>C#</LanguageTag>
+    <PlatformTag>Windows</PlatformTag>
+    <PlatformTag>macOS</PlatformTag>
+    <PlatformTag>Linux</PlatformTag>
+    <ProjectTypeTag>Service</ProjectTypeTag>
   </TemplateData>
   <TemplateContent>
-    <Project File="EchoBotWithCounter.csproj" ReplaceParameters="true">
+    <CustomParameters>
+      <CustomParameter Name="$templateversion$" Value="4.3.0"/>
+    </CustomParameters>
+    <Project File="EchoBot.csproj" ReplaceParameters="true">
+      <Folder Name="Bots" TargetFolderName="Bots">
+        <ProjectItem ReplaceParameters="true">EchoBot.cs</ProjectItem>
+      </Folder>
+
+      <Folder Name="controllers" TargetFolderName="Controllers">
+        <ProjectItem ReplaceParameters="true">BotController.cs</ProjectItem>
+      </Folder>
+
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true">launchSettings.json</ProjectItem>
       </Folder>
+
       <Folder Name="wwwroot" TargetFolderName="wwwroot">
         <ProjectItem ReplaceParameters="true">default.htm</ProjectItem>
       </Folder>
-      <Folder Name="deploymentScripts" TargetFolderName="deploymentScripts">
-        <Folder Name="msbotClone" TargetFolderName="msbotClone">
-          <ProjectItem ReplaceParameters="true">bot.recipe</ProjectItem>
-        </Folder>
-      </Folder>
-      <ProjectItem ReplaceParameters="true">appsettings.json</ProjectItem>      
-      <ProjectItem ReplaceParameters="true">CounterState.cs</ProjectItem>
+
+      <ProjectItem ReplaceParameters="false">appsettings.Development.json</ProjectItem>
+      <ProjectItem ReplaceParameters="false">appsettings.json</ProjectItem>
+
+      <ProjectItem ReplaceParameters="true">ConfigurationCredentialProvider.cs</ProjectItem>
+
       <ProjectItem ReplaceParameters="true">Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true">README.md</ProjectItem>
       <ProjectItem ReplaceParameters="true">Startup.cs</ProjectItem>
 
-      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.bot">BotConfiguration.bot</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Accessors.cs">EchoBotAccessors.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Bot.cs">EchoWithCounterBot.cs</ProjectItem>
+      <Folder Name="DeploymentTemplates" TargetFolderName="DeploymentTemplates">
+        <ProjectItem ReplaceParameters="true">template-with-new-rg.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true">template-with-preexisting-rg.json</ProjectItem>
+      </Folder>
 
-      <ProjectItem ReplaceParameters="true">README.md</ProjectItem>
     </Project>
   </TemplateContent>
 </VSTemplate>

@@ -1,2 +1,2 @@
-botFilePath="./<%= botFileName %>.bot"
-botFileSecret=""
+MicrosoftAppId=
+MicrosoftAppPassword=

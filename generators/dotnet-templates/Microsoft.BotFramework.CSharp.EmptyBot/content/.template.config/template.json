@@ -10,9 +10,9 @@
   "defaultName": "EmptyBot",
   "groupIdentity": "Microsoft.BotFramework.CSharp.EmptyBot",
   "identity": "Microsoft.BotFramework.CSharp.EmptyBot",
-  "name": "Bot Framework Empty Bot (v0.1.6)",
+  "name": "Bot Framework Empty Bot (v0.4.6)",
   "preferNameDirectory": true,
-  "sourceName": "Microsoft.BotFramework.Samples",
+  "sourceName": "Microsoft.BotFramework.EmptyBot",
   "shortName": "emptybot",
   "tags": {
     "language": "C#",
@@ -24,13 +24,18 @@
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "v0.1.6"
+        "value": "v0.4.6"
       },
-      "replaces": "vX.X.X"
+      "replaces": "__vX.X.X__"
     },
     "output": {
       "type": "parameter",
       "replaces": "{OUTPUT_PATH}",
+      "defaultValue": "EmptyBot"
+    },
+    "name": {
+      "type": "parameter",
+      "replaces": "__PROJECT_NAME__",
       "defaultValue": "EmptyBot"
     },
     "Framework": {
@@ -45,10 +50,6 @@
         {
           "choice": "netcoreapp2.1",
           "description": "Target netcoreapp2.1"
-        },
-        {
-          "choice": "netcoreapp2.0",
-          "description": "Target netcoreapp2.0"
         }
       ],
       "replaces": "__NETCOREAPP_VERSION__",
@@ -64,38 +65,30 @@
         "cases": [
           {
             "condition": "(Framework==\"netcoreapp2.2\")",
-            "value": "\"Microsoft.AspNetCore\" Version=\"2.2.0\""
+            "value": "'Microsoft.AspNetCore' Version='2.2.0'"
           },
           {
             "condition": "(Framework==\"netcoreapp2.1\")",
-            "value": "\"Microsoft.AspNetCore\" Version=\"2.1.6\""
-          },
-          {
-            "condition": "(Framework==\"netcoreapp2.0\")",
-            "value": "\"Microsoft.AspNetCore\" Version=\"2.0.4\""
+            "value": "'Microsoft.AspNetCore' Version='2.1.6'"
           }
         ]
       }
     },
-    "AspCoreAllAssemblyVersion": {
+    "ReadmeNetCorePrereqVersion": {
       "type":"generated",
       "generator": "switch",
       "dataType": "string",
-      "replaces": "__MICROSOFT_ASPNETCORE_ALL_VERSION__",
+      "replaces": "__NETCORE_VERSION__",
       "parameters": {
         "evaluator": "C++",
         "cases": [
           {
             "condition": "(Framework==\"netcoreapp2.2\")",
-            "value": "\"Microsoft.AspNetCore.All\""
+            "value": "2.2"
           },
           {
             "condition": "(Framework==\"netcoreapp2.1\")",
-            "value": "\"Microsoft.AspNetCore.All\""
-          },
-          {
-            "condition": "(Framework==\"netcoreapp2.0\")",
-            "value": "\"Microsoft.AspNetCore.All\" Version=\"2.0.9\""
+            "value": "2.1"
           }
         ]
       }
@@ -108,6 +101,13 @@
       "isRequired": false
     }
   },
+  "sources": [
+    {
+      "modifiers": [
+        {"exclude": [ "**/NuGet.Config", "**/.DS_Store" ]}
+      ]
+    }
+  ],
   "postActions": [
     {
       "condition": "(!SkipRestore)",

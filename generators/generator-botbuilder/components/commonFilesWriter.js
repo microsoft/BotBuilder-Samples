@@ -56,15 +56,6 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
     gen.destinationPath('.gitignore')
   );
 
-  gen.fs.copy(
-    gen.templatePath(path.join(templatePath, `botName.bot`)),
-    gen.destinationPath(`${gen.props.botname}.bot`), {
-    process: function (content) {
-      var pattern = new RegExp('<%= botname %>', 'g');
-      return content.toString().replace(pattern, botname.toString());
-    }
-  });
-
   // gen a .env file that points to the botfile
   gen.fs.copyTpl(
     gen.templatePath(path.join(templatePath, '_env')),
@@ -103,4 +94,20 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
       description: gen.props.description
     }
   );
+
+  // gen the deployment/Templates folder
+  const deploymentFolder = 'deploymentTemplates';
+  const deploymentFiles = [
+    'template-with-new-rg.json',
+    'template-with-preexisting-rg.json',
+  ];
+  mkdirp.sync(deploymentFolder);
+  const sourcePath = path.join(templatePath, deploymentFolder);
+  const destinationPath = path.join(gen.destinationPath(), deploymentFolder);
+  for(let cnt = 0; cnt < deploymentFiles.length; ++cnt) {
+    gen.fs.copy(
+      path.join(sourcePath, deploymentFiles[cnt]),
+      path.join(destinationPath, deploymentFiles[cnt]),
+    );
+  }
 }

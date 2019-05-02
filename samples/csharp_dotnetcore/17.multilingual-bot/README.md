@@ -1,67 +1,110 @@
-﻿# Concepts introduced in this sample
+﻿# Multilingual Bot
 
-Translation Middleware: We create a translation middleware than can translate text from bot to user and from user to bot, allowing the creation of multi-lingual bots. 
+Bot Framework v4 multilingual bot sample
+
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to translate incoming and outgoing text using a custom middleware and the [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/).
+
+## Concepts introduced in this sample
+
+Translation Middleware: We create a translation middleware that can translate text from bot to user and from user to bot, allowing the creation of multi-lingual bots.
+
 The middleware is driven by user state. This means that users can specify their language preference, and the middleware automatically will intercept messages back and forth and present them to the user in their preferred language.
+
 Users can change their language preference anytime, and since this gets written to the user state, the middleware will read this state and instantly modify its behavior to honor the newly selected preferred language.
 
-The [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/), Microsoft Translator Text API is a cloud-based machine translation service. With this API you can translate text in near real-time from any app or service through a simple REST API call. 
+The [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/), Microsoft Translator Text API is a cloud-based machine translation service. With this API you can translate text in near real-time from any app or service through a simple REST API call.
 The API uses the most modern neural machine translation technology, as well as offering statistical machine translation technology.
 
-## Overview
+## Prerequisites
 
-In this sample, we create a simple bot that prompts user for their preferred language, and stores the user's preferred language selection in the user state. 
-We also create a middleware that reads user preferred language, and if it is different from the default language (English), calls the Microsoft Translator Text API to translate to and from the user's preferred language.
-This means that the bot always receives utterances in English, while users writes and gets responses in their selected language.
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
 
-Note that this is a very simple example, but shows very powerful principles. 
-The translation middleware allows us to intercept and translate messages, and the user preferences stored in the user state at the application level allows us to influence the middleware behavior.
-A more elaborated next step would be to use the Microsoft Translator Text API to detect language, and if the user changes language, automatically switch to that language, without explicitly prompting but running detection on every step.
+  ```bash
+  # determine dotnet version
+  dotnet --version
+  ```
 
-# To try this sample
+- [Microsoft Translator Text API key](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup)
 
-- Clone the samples repository
-```bash
-git clone https://github.com/Microsoft/botbuilder-samples.git
-```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
-# Prerequisites
+    To consume the Microsoft Translator Text API, first obtain a key following the instructions in the [Microsoft Translator Text API documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup).
 
-## Microsoft Translator Text API
-To consume the Microsoft Translator Text API, first obtain a key following the instructions in the [Microsoft Translator Text API documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup). 
-Paste the key in the ```translationKey``` placeholder within the appsettings.json file.
+    Paste the key in the `TranslatorKey` setting in the `appsettings.json` file, or use your preferred configuration and update the following line in `Translation/MicrosoftTranslator.cs` with your translation key:
 
-# Running Locally
 
-## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot`) and open MessageRoutingBot.csproj in Visual Studio 
-- Run the project (press `F5` key)
+## To try this sample
 
-## .NET Core CLI
-- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
-- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot folder`
-- type `dotnet run`
+- Clone the repository
+
+    ```bash
+    git clone https://github.com/microsoft/botbuilder-samples.git
+    ```
+
+- In a terminal, navigate to `samples/csharp_dotnetcore/17.multilingual-bot`
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
+
+  A) From a terminal
+
+  ```bash
+  # run the bot
+  dotnet run
+  ```
+
+  B) Or from Visual Studio
+
+  - Launch Visual Studio
+  - File -> Open -> Project/Solution
+  - Navigate to `samples/csharp_dotnetcore/17.multilingual-bot` folder
+  - Select `MultiLingualBot.csproj` file
+  - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator from [here](https://aka.ms/botframeworkemulator).
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-### Connect to bot using Bot Framework Emulator V4
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
-- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/17.multilingual-bot` folder
-- Select `MultiLingualBot.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Deploy this bot to Azure
-You can use the [MSBot](https://github.com/microsoft/botbuilder-tools) Bot Builder CLI tool to clone and configure any services this sample depends on. In order to install this and other tools, you can read [Installing CLI Tools](../../../Installing_CLI_tools.md).
+### Creating a custom middleware
 
-To clone this bot, run
-```bash
-msbot clone services -f deploymentScripts/msbotClone -n <BOT-NAME> -l <Azure-location> --subscriptionId <Azure-subscription-id> --appId <YOUR APP ID> --appSecret <YOUR APP SECRET PASSWORD>
-```
+Translation Middleware: We create a translation middleware than can translate text from bot to user and from user to bot, allowing the creation of multilingual bots.
+Users can specify their language preference, which is stored in the user state. The translation middleware translates to and from the user's preferred language.
 
-**NOTE**: You can obtain your `appId` and `appSecret` at the Microsoft's [Application Registration Portal](https://apps.dev.microsoft.com/)
+### Microsoft Translator Text API
 
-# Further reading
+The [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/), Microsoft Translator Text API is a cloud-based machine translation service. With this API you can translate text in near real-time from any app or service through a simple REST API call.
+The API uses the most modern neural machine translation technology, as well as offering statistical machine translation technology.
 
-- [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/)
+## Deploy this bot to Azure
+
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+
+### Add `TranslatorKey` to Application Settings
+
+If you used the `appsettings.json` file to store your `TranslatorKey` then you'll need to add this key and its value to the Application Settings for your deployed bot.
+
+- Log into the [Azure portal](https://portal.azure.com)
+- In the left nav, click on `Bot Services`
+- Click the `<your_bot_name>` Name to display the bot's Web App Settings
+- Click the `Application Settings`
+- Scroll to the `Application settings` section
+- Click `+ Add new setting`
+- Add the key `TranslatorKey` with a value of the Translator Text API `Authentication key` created from the steps above
+
+## Further reading
+
+- [Bot Framework Documentation](https://docs.botframework.com)
+- [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
+- [Bot State](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-storage-concept?view=azure-bot-service-4.0)
+- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
+- [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
+- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
+- [Azure Portal](https://portal.azure.com)
+- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)

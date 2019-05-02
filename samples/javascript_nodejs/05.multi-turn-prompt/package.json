@@ -8,7 +8,7 @@
     "scripts": {
         "start": "node ./index.js",
         "watch": "nodemon ./index.js",
-        "lint": "./node_modules/.bin/eslint .",
+        "lint": "eslint .",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -16,9 +16,8 @@
         "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
     },
     "dependencies": {
-        "botbuilder": "^4.2.0",
-        "botbuilder-dialogs": "^4.2.0",
-        "botframework-config": "^4.2.0",
+        "botbuilder": "~4.4.0",
+        "botbuilder-dialogs": "~4.4.0",
         "dotenv": "^6.1.0",
         "path": "^0.12.7",
         "restify": "^7.2.3"
