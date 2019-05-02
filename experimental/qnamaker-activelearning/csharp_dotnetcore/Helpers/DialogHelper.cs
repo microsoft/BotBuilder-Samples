@@ -34,7 +34,7 @@ namespace QnAMakerActiveLearningBot.Helpers
         private const string QnAData = "value-qnaData";
 
         // Dialog Options parameters
-        private const float DefaultThreshold = 0.03F;
+        private const float DefaultThreshold = 0.3F;
         private const int DefaultTopN = 3;
 
         /// <summary>

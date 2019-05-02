@@ -35,7 +35,7 @@ class DialogHelper {
 
         // Default QnAMakerOptions
         var qnaMakerOptions = {
-            ScoreThreshold: 0.03,
+            ScoreThreshold: 0.3,
             Top: 3
         };
 
