@@ -8,7 +8,6 @@
       This is a little more than "Hello World!"
     </description>
     <authors>Microsoft</authors>
-    <company>Microsoft</company>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <title>.NET Core Template - EchoBot</title>
     <projectUrl>https://github.com/Microsoft/BotBuilder-Samples/tree/master/generators/dotnet-templates/</projectUrl>
