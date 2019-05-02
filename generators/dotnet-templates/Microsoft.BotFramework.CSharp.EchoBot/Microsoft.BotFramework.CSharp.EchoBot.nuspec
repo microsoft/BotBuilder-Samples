@@ -7,9 +7,9 @@
       A .NET Core Template for Microsoft Bot Framework v4.  Will let you quickly set up a bot that simply "echoes" back to the user anything the user says to the bot.
       This is a little more than "Hello World!"
     </description>
-    <Authors>Microsoft</Authors>
-    <Company>Microsoft</Company>
-    <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+    <authors>Microsoft</authors>
+    <company>Microsoft</company>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <title>.NET Core Template - EchoBot</title>
     <projectUrl>https://github.com/Microsoft/BotBuilder-Samples/tree/master/generators/dotnet-templates/</projectUrl>
     <!-- license type="expression">MIT</license -->
