@@ -7,7 +7,7 @@
       A .NET Core Template for Microsoft Bot Framework v4.  A good template if you are familiar with Bot Framework v4, and simple want a basic skeleton project.
     </description>
     <authors>Microsoft</authors>
-    <product>Microsoft Bot Builder SDK</product>
+    <company>Microsoft</company>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <title>.NET Core Template - EmptyBot</title>
     <projectUrl>https://github.com/Microsoft/BotBuilder-Samples/tree/master/generators/dotnet-templates/</projectUrl>
