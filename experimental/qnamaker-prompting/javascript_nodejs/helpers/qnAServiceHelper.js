@@ -16,6 +16,13 @@ class QnAServiceHelper {
             "Authorization": "EndpointKey " + key
         };
 
+        if (qnAcontext == null){
+            qnAcontext = {
+                PreviousQnaId: 0,
+                PreviousUserQuery: null
+            }
+        }
+        
         const qnaResult = await request({
             url: url,
             method: 'POST',
