@@ -4,13 +4,13 @@
     "recognizer": "AddToDoDialog.lu",
     "steps": [
         {
-            "$type": "Microsoft.SaveEntity",
-            "entity": "@todoTitle[0]",
+            "$type": "Microsoft.SetProperty",
+            "value": "@todoTitle[0]",
             "property": "turn.todoTitle"
         },
         {
-            "$type": "Microsoft.SaveEntity",
-            "entity": "@todoTitle_patternAny[0]",
+            "$type": "Microsoft.SetProperty",
+            "value": "@todoTitle_patternAny[0]",
             "property": "turn.todoTitle"
         },
         {
@@ -35,13 +35,13 @@
             "intent": "GetTodoTitle",
             "steps": [
                 {
-                    "$type": "Microsoft.SaveEntity",
-                    "entity": "@todoTitle[0]",
+                    "$type": "Microsoft.SetProperty",
+                    "value": "@todoTitle[0]",
                     "property": "turn.todoTitle"
                 },
                 {
-                    "$type": "Microsoft.SaveEntity",
-                    "entity": "@todoTitle_patternAny[0]",
+                    "$type": "Microsoft.SetProperty",
+                    "value": "@todoTitle_patternAny[0]",
                     "property": "turn.todoTitle"
                 }        
             ]
@@ -83,17 +83,6 @@
                             "activity": "[Help-prefix], let's get right back to adding a todo."
                         }
                     ]
-                }        
-            ]
-        },
-        {
-            "$type": "Microsoft.IntentRule",
-            "intent": "None",
-            "steps": [
-                {
-                    "$type": "Microsoft.SetProperty",
-                    "property": "turn.todoTitle",
-                    "value": "turn.activity.text"
                 }        
             ]
         }

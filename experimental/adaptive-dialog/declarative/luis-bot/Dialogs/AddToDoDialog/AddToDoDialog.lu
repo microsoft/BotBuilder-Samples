@@ -6,7 +6,6 @@
 - I need you to remember [that] {todoTitle_patternAny}
 - Add a todo named {todoTitle_patternAny}
 - Add {todoTitle_patternAny} to the list
-- [Please] add {todoTitle_patternAny} [to] [the] [todo] [list]
 - Add {todoTitle_patternAny} to my todo
 - Please remind me to {todoTitle=buy milk}
 - Please remember that I need to {todoTitle=buy milk}

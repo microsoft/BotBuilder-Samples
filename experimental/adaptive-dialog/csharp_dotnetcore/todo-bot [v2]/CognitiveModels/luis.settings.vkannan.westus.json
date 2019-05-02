@@ -1,7 +1,7 @@
 {
     "luis": {
-        "RootDialog_en-us_lu": "2eea02a9-ebff-4d41-9d60-1dcf4f26f198",
-        "AddToDoDialog_en-us_lu": "1e4fb12b-6eb0-493c-b2f5-13a200654243",
-        "DeleteToDoDialog_en-us_lu": "51725a24-0aa6-4595-bc62-b4c0d036e893"
+        "RootDialog_en-us_lu": "8e6b09d4-d57c-4e51-b3df-01d4cc3b9353",
+        "AddToDoDialog_en-us_lu": "e13a25cb-e6c1-4458-98b5-a6ec7574ebdd",
+        "DeleteToDoDialog_en-us_lu": "f73d28df-fa7f-47f2-9d78-c338d45aaa43"
     }
 }

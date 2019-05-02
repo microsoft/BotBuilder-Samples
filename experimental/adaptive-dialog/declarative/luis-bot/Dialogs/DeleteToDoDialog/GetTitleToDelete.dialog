@@ -7,8 +7,8 @@
             "condition": "@todoTitle[0] != null && contains(user.todos, @todoTitle[0])",
             "steps": [
                 {
-                    "$type": "Microsoft.SaveEntity",
-                    "entity": "@todoTitle[0]",
+                    "$type": "Microsoft.SetProperty",
+                    "value": "@todoTitle[0]",
                     "property": "turn.todoTitle"
                 }
             ]
@@ -18,8 +18,8 @@
             "condition": "@todoTitle_patternAny[0] != null && contains(user.todos, @todoTitle_patternAny[0])",
             "steps": [
                 {
-                    "$type": "Microsoft.SaveEntity",
-                    "entity": "@todoTitle_patternAny[0]",
+                    "$type": "Microsoft.SetProperty",
+                    "value": "@todoTitle_patternAny[0]",
                     "property": "turn.todoTitle"
                 }
             ]

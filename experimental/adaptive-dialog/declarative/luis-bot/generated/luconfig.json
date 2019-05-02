@@ -1,0 +1,9 @@
+{
+  "name": "luis-bot",
+  "defaultLanguage": "en-us",
+  "models": [
+    "C:\\repos\\BotBuilder-Samples\\experimental\\adaptive-dialog\\declarative\\luis-bot\\generated\\LUFiles\\LU\\RootDialog.lu",
+    "C:\\repos\\BotBuilder-Samples\\experimental\\adaptive-dialog\\declarative\\luis-bot\\generated\\LUFiles\\LU\\AddToDoDialog.lu",
+    "C:\\repos\\BotBuilder-Samples\\experimental\\adaptive-dialog\\declarative\\luis-bot\\generated\\LUFiles\\LU\\DeleteToDoDialog.lu"
+  ]
+}
