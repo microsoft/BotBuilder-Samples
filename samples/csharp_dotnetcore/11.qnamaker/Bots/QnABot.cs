@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -13,23 +14,29 @@ namespace Microsoft.BotBuilderSamples
 {
     public class QnABot : ActivityHandler
     {
-        private IConfiguration _configuration;
-        private ILogger<QnABot> _logger;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<QnABot> _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public QnABot(IConfiguration configuration, ILogger<QnABot> logger)
+        public QnABot(IConfiguration configuration, ILogger<QnABot> logger, IHttpClientFactory httpClientFactory)
         {
             _configuration = configuration;
             _logger = logger;
+            _httpClientFactory = httpClientFactory;
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
+            var httpClient = _httpClientFactory.CreateClient();
+
             var qnaMaker = new QnAMaker(new QnAMakerEndpoint
             {
-                KnowledgeBaseId = _configuration["QnA-sample-qna-kbId"],
-                EndpointKey = _configuration["QnA-sample-qna-endpointKey"],
-                Host = _configuration["QnA-sample-qna-hostname"]
-            });
+                KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
+                EndpointKey = _configuration["QnAAuthKey"],
+                Host = _configuration["QnAEndpointHostName"]
+            },
+            null,
+            httpClient);
 
             _logger.LogInformation("Calling QnA Maker");
 
