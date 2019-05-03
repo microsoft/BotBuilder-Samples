@@ -1,3 +1,6 @@
+
+# ![Bot Framework Samples](./docs/media/FrameWorkSamples-header.png)
+
 ## Overview
 
 This branch contains samples for the released version of the **Microsoft Bot Framework V4 SDK** for [.NET](https://github.com/Microsoft/botbuilder-dotnet) and [JS](https://github.com//microsoft/botbuilder-js). If you need samples for the Bot Framework _V3_ SDK, go [here](https://github.com/Microsoft/BotBuilder-Samples/tree/v3-sdk-samples).
@@ -125,6 +128,5 @@ Security issues and bugs should be reported privately, via email, to the Microso
 Copyright (c) Microsoft Corporation. All rights reserved.
 
 Licensed under the [MIT](/LICENSE.md) License.
-
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
