@@ -42,8 +42,9 @@ namespace Microsoft.BotBuilderSamples
                     Prompt = new ActivityTemplate("Please enter your name."),
                     Property = "user.userProfile.Name"
                 },
-                // Send activity supports full language generation. So you can refer to properties inline
-                // or use pre-built functions inline or use language generation templates.
+                // SendActivity supports full language generation resolution.
+                // See here to learn more about language generation
+                // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
                 new SendActivity("Thanks, {user.userProfile.Name}"),
                 new ConfirmInput()
                 {
@@ -52,6 +53,8 @@ namespace Microsoft.BotBuilderSamples
                 },
                 new IfCondition()
                 {
+                    // All conditions are expressed using the common expression language.
+                    // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
                     Condition = new ExpressionEngine().Parse("turn.ageConfirmation == true"),
                     Steps = new List<IDialog>()
                     {

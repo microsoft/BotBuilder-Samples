@@ -10,20 +10,6 @@ namespace Microsoft.BotBuilderSamples
 {
     public static class Cards
     {
-        public static Attachment CreateAdaptiveCardAttachment()
-        {
-            // combine path for cross platform support
-            string[] paths = { ".", "Resources", "adaptiveCard.json" };
-            var adaptiveCardJson = File.ReadAllText(Path.Combine(paths));
-
-            var adaptiveCardAttachment = new Attachment()
-            {
-                ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(adaptiveCardJson),
-            };
-            return adaptiveCardAttachment;
-        }
-
         public static ReceiptCard GetReceiptCard()
         {
             var receiptCard = new ReceiptCard

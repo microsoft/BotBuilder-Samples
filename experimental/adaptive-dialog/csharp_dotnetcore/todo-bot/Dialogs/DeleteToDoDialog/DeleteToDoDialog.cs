@@ -23,6 +23,8 @@ namespace Microsoft.BotBuilderSamples
                     // Handle case where there are no items in todo list
                     new IfCondition()
                     {
+                        // All conditions are expressed using the common expression language.
+                        // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
                         Condition = new ExpressionEngine().Parse("user.todos == null || count(user.todos) <= 0"),
                         Steps = new List<IDialog>()
                         {

@@ -1,4 +1,7 @@
-﻿# PromptForDestinationCity
+﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+# PromptForDestinationCity
 - Where would you like to travel to?
 - What is your destination city?
 
@@ -23,6 +26,8 @@
 - What is your departure date? 
 - Can you please give me your intended date of departure? 
 
+> This template uses inline expressions. Expressions are defined using the common expression language. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more.
 # PromptForMissingInformation
 - IF: {Destination == null}
   - [PromptForDestinationCity]

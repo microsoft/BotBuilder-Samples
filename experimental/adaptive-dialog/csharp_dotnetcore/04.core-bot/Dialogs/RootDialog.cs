@@ -64,6 +64,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                         new TextInput()
                         {
                             Property = "conversation.flightBooking.departureCity",
+                            // Prompt property supports full language generation resolution.
+                            // See here to learn more about language generation
+                            // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
                             Prompt = new ActivityTemplate("[PromptForMissingInformation]")
                         },
                         new TextInput()
@@ -83,6 +86,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                         },
                         new IfCondition()
                         {
+                            // All conditions are expressed using the common expression language.
+                            // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
                             Condition = new ExpressionEngine().Parse("turn.bookingConfirmation == true"),
                             Steps = new List<IDialog>()
                             {

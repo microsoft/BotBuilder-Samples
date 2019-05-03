@@ -1,4 +1,7 @@
-﻿# Help-Root-Dialog
+﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+# Help-Root-Dialog
 - ```
 @{lgTemplate("WelcomePrefix")}, I'm the Todo sample bot. @{lgTemplate("Welcome-Suffix")}
 @{lgTemplate("Welcome-Actions")}
