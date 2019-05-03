@@ -64,9 +64,9 @@ The Empty Bot template is the minimal skeleton code for a bot.  It provides a st
 1.  Install Bot Framework CSharp templates by typing the following in your console:
     ```bash
     # Installs all three templates (echo, core, empty)
-    dotnet new -i Microsoft.BotFramework.CSharp.EchoBot
-    dotnet new -i Microsoft.BotFramework.CSharp.CoreBot
-    dotnet new -i Microsoft.BotFramework.CSharp.EmptyBot
+    dotnet new -i Microsoft.Bot.Framework.CSharp.EchoBot
+    dotnet new -i Microsoft.Bot.Framework.CSharp.CoreBot
+    dotnet new -i Microsoft.Bot.Framework.CSharp.EmptyBot
     ```
 1.  Verify the templates have been installed correctly by typing the following into your console:
     ```bash
@@ -95,17 +95,17 @@ The above installation steps will install all three Bot Framework templates.  If
 
 ```bash
 # Install EchoBot template
-dotnet new -i Microsoft.BotFramework.CSharp.EchoBot
+dotnet new -i Microsoft.Bot.Framework.CSharp.EchoBot
 ```
 
 ```bash
 # Install CoreBot template
-dotnet new -i Microsoft.BotFramework.CSharp.CoreBot
+dotnet new -i Microsoft.Bot.Framework.CSharp.CoreBot
 ```
 
 ```bash
 # Install EmptyBot template
-dotnet new -i Microsoft.BotFramework.CSharp.EmptyBot
+dotnet new -i Microsoft.Bot.Framework.CSharp.EmptyBot
 ```
 
 
@@ -192,7 +192,7 @@ You can get the latest development builds from the [BotBuilder MyGet][51] feed. 
 To install the latest development build:
 ```bash
 # install the development build of Echo Bot template
-dotnet new -i Microsoft.BotFramework.CSharp.EchoBot --nuget-source https://botbuilder.myget.org/F/aitemplates/api/v3/index.json
+dotnet new -i Microsoft.Bot.Framework.CSharp.EchoBot --nuget-source https://botbuilder.myget.org/F/aitemplates/api/v3/index.json
 ```
 
 To see a list of currently installed templates:
@@ -204,7 +204,7 @@ dotnet new --list
 To uninstall the development build:
 ```bash
 # uninstall the development build of Echo Bot template
-dotnet new -u Microsoft.BotFramework.CSharp.EchoBot
+dotnet new -u Microsoft.Bot.Framework.CSharp.EchoBot
 ```
 
 # Logging Issues and Providing Feedback
