@@ -6,7 +6,7 @@
         {
             "$type": "Microsoft.TextInput",
             "prompt": "Hello, what is your name?",
-            "outputProperty": "user.name"
+            "outputBinding": "user.name"
         },
         {
             "$type": "Microsoft.TraceActivity",
