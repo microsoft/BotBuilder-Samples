@@ -3,9 +3,11 @@
 
 const { MessageFactory } = require('botbuilder');
 const { DialogBot } = require('./dialogBot');
+const { QnADialog } = require('../dialogs/qnaDialog');
 
 class QnABot extends DialogBot {
-    constructor(conversationState, userState, dialog, logger) {
+    constructor(conversationState, userState, logger) { 
+        const dialog = new QnADialog();
         super(conversationState, userState, dialog, logger);
 
         this.onMembersAdded(async (context, next) => {

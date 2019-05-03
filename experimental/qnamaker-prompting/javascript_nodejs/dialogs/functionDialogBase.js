@@ -39,9 +39,7 @@ class FunctionDialogBase extends Dialog {
     async runStateMachine(dc) {
        
         var oldState = this.getPersistedState(dc.activeDialog);
-                
-        var input = dc.context.activity.text;
-
+        
         var processResult = await this.processAsync(oldState, dc.context.activity);
         
         var newState = processResult[0];

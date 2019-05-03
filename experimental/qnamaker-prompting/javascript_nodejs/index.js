@@ -12,7 +12,6 @@ const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = req
 
 // This bot's main dialog.
 const { QnABot } = require('./bots/qnaBot');
-const { QnADialog } = require('./dialogs/qnaDialog');
 
 // Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -51,9 +50,7 @@ userState = new UserState(memoryStorage);
 // Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
 const logger = console;
 
-// Create the main dialog.
-const dialog = new QnADialog();
-const bot = new QnABot(conversationState, userState, dialog, logger);
+const bot = new QnABot(conversationState, userState, logger);
 
 // Create HTTP server
 let server = restify.createServer();

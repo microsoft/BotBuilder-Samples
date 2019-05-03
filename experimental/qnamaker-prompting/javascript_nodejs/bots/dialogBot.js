@@ -43,7 +43,7 @@ class DialogBot extends ActivityHandler {
             await this.conversationState.saveChanges(context, false);
             await this.userState.saveChanges(context, false);
 
-            next();
+            await next();
         });
     }
 }
