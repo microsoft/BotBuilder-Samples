@@ -1,7 +1,7 @@
 {
-    "name": "core-bot",
+    "name": "qnabot",
     "version": "1.0.0",
-    "description": "A bot that demonstrates core AI capabilities",
+    "description": "A bot that demonstrates QnAMaker multi-turn scenario",
     "author": "Microsoft",
     "license": "MIT",
     "main": "index.js",
