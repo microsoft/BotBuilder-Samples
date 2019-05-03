@@ -1,5 +1,5 @@
 {
-    "$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/SchemaGen/packages/DialogSchema/src/dialogSchema.schema",
+    "$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/master/packages/DialogSchema/src/dialogSchema.schema",
     "$id": "app.schema",
     "type": "object",
     "title": "Component types",
@@ -235,16 +235,16 @@
                 "property": {
                     "$role": "memoryPath",
                     "title": "Property",
-                    "description": "This is that will be passed in as InputProperty and also set as the OutputProperty",
+                    "description": "This is that will be passed in as InputProperty and also set as the outputBinding",
                     "examples": [
                         "value.birthday"
                     ],
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$"
                 },
-                "inputProperties": {
+                "inpugBindings": {
                     "type": "object",
-                    "title": "Input Properties",
+                    "title": "Input Bindings",
                     "description": "This defines properties which be passed as arguments to this dialog",
                     "examples": [
                         "value.birthday"
@@ -253,9 +253,9 @@
                         "type": "string"
                     }
                 },
-                "outputProperty": {
+                "outputBinding": {
                     "$role": "memoryPath",
-                    "title": "Output Property",
+                    "title": "Output Binding",
                     "description": "This is the property which the EndDialog(result) will be set to when EndDialog() is called",
                     "examples": [
                         "value.birthday"
@@ -505,16 +505,16 @@
                 "property": {
                     "$role": "memoryPath",
                     "title": "Property",
-                    "description": "This is that will be passed in as InputProperty and also set as the OutputProperty",
+                    "description": "This is that will be passed in as InputProperty and also set as the outputBinding",
                     "examples": [
                         "value.birthday"
                     ],
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$"
                 },
-                "inputProperties": {
+                "inputBindings": {
                     "type": "object",
-                    "title": "Input Properties",
+                    "title": "Input Bindings",
                     "description": "This defines properties which be passed as arguments to this dialog",
                     "examples": [
                         "value.birthday"
@@ -523,9 +523,9 @@
                         "type": "string"
                     }
                 },
-                "outputProperty": {
+                "outputBinding": {
                     "$role": "memoryPath",
-                    "title": "Output Property",
+                    "title": "Output Bindings",
                     "description": "This is the property which the EndDialog(result) will be set to when EndDialog() is called",
                     "examples": [
                         "value.birthday"
@@ -738,16 +738,16 @@
                 "property": {
                     "$role": "memoryPath",
                     "title": "Property",
-                    "description": "This is that will be passed in as InputProperty and also set as the OutputProperty",
+                    "description": "This is that will be passed in as InputProperty and also set as the outputBinding",
                     "examples": [
                         "value.birthday"
                     ],
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$"
                 },
-                "inputProperties": {
+                "inputBindings": {
                     "type": "object",
-                    "title": "Input Properties",
+                    "title": "Input Bindings",
                     "description": "This defines properties which be passed as arguments to this dialog",
                     "examples": [
                         "value.birthday"
@@ -756,9 +756,9 @@
                         "type": "string"
                     }
                 },
-                "outputProperty": {
+                "outputBinding": {
                     "$role": "memoryPath",
-                    "title": "Output Property",
+                    "title": "Output Bindings",
                     "description": "This is the property which the EndDialog(result) will be set to when EndDialog() is called",
                     "examples": [
                         "value.birthday"
@@ -995,19 +995,26 @@
                     "description": "Extra information for the Bot Framework Designer."
                 },
                 "eventName": {
-                    "type": "string",
                     "title": "Event Name",
                     "description": "The name of event to emit",
-                    "enum": [
-                        "BeginDialog",
-                        "ConsultDialog",
-                        "ActivityReceived",
-                        "UtteranceRecognized",
-                        "Fallback",
-                        "PlanStarted",
-                        "PlanSaved",
-                        "PlanEnded",
-                        "PlanResumed"
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "beginDialog",
+                                "consultDialog",
+                                "cancelDialog",
+                                "activityReceived",
+                                "recognizedIntent",
+                                "unknownIntent",
+                                "stepsStarted",
+                                "stepsSaved",
+                                "stepsEnded",
+                                "stepsResumed"
+                            ]
+                        },
+                        {
+                            "type": "string"
+                        }
                     ]
                 },
                 "eventValue": {
@@ -1747,7 +1754,7 @@
                 {
                     "title": "Type",
                     "required": [
-                        "expression",
+                        "condition",
                         "steps",
                         "$type"
                     ]
@@ -2248,16 +2255,16 @@
                 "property": {
                     "$role": "memoryPath",
                     "title": "Property",
-                    "description": "This is that will be passed in as InputProperty and also set as the OutputProperty",
+                    "description": "This is that will be passed in as InputProperty and also set as the outputBinding",
                     "examples": [
                         "value.birthday"
                     ],
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$"
                 },
-                "inputProperties": {
+                "inputBindings": {
                     "type": "object",
-                    "title": "Input Properties",
+                    "title": "Input Bindings",
                     "description": "This defines properties which be passed as arguments to this dialog",
                     "examples": [
                         "value.birthday"
@@ -2266,9 +2273,9 @@
                         "type": "string"
                     }
                 },
-                "outputProperty": {
+                "outputBinding": {
                     "$role": "memoryPath",
-                    "title": "Output Property",
+                    "title": "Output Binding",
                     "description": "This is the property which the EndDialog(result) will be set to when EndDialog() is called",
                     "examples": [
                         "value.birthday"
@@ -3096,16 +3103,16 @@
                 "property": {
                     "$role": "memoryPath",
                     "title": "Property",
-                    "description": "This is that will be passed in as InputProperty and also set as the OutputProperty",
+                    "description": "This is that will be passed in as InputProperty and also set as the outputBinding",
                     "examples": [
                         "value.birthday"
                     ],
                     "type": "string",
                     "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$"
                 },
-                "inputProperties": {
+                "inputBindings": {
                     "type": "object",
-                    "title": "Input Properties",
+                    "title": "Input Bindings",
                     "description": "This defines properties which be passed as arguments to this dialog",
                     "examples": [
                         "value.birthday"
@@ -3114,9 +3121,9 @@
                         "type": "string"
                     }
                 },
-                "outputProperty": {
+                "outputBinding": {
                     "$role": "memoryPath",
-                    "title": "Output Property",
+                    "title": "Output Bindings",
                     "description": "This is the property which the EndDialog(result) will be set to when EndDialog() is called",
                     "examples": [
                         "value.birthday"
