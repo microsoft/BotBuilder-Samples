@@ -1,4 +1,7 @@
-﻿# ModeOfTransportPrompt
+﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+# ModeOfTransportPrompt
 - Please enter your mode of transport.
 
 # AskForName
@@ -15,6 +18,9 @@
 
 # AskForAge.reprompt
 - The value entered must be greater than 0 and less than 150.
+
+> This template uses inline expressions. Expressions are defined using the common expression language. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more.
 
 # AgeReadBack (userAge)
 - IF: {userAge == null}

@@ -1,4 +1,7 @@
-﻿# Get-ToDo-Title-To-Delete
+﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+# Get-ToDo-Title-To-Delete
 - ```
 Ok, give me the exact title of the todo you would like to delete..
 [Suggestions=Help | Cancel]

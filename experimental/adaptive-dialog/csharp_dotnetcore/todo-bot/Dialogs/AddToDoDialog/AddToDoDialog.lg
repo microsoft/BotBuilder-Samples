@@ -1,4 +1,7 @@
-﻿# Help-Add-ToDo
+﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+# Help-Add-ToDo
 - [Help-prefix], you can simply say the title of your todo to add it.
 
 # Help-prefix

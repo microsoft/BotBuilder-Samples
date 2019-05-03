@@ -15,17 +15,17 @@
     },
     {
       "type": "TextBlock",
-      "text": "Sarah Hum",
+      "text": "@{lgTemplate('PassengerName')}",
       "separator": true
     },
     {
       "type": "TextBlock",
-      "text": "Jeremy Goldberg",
+      "text": "@{lgTemplate('PassengerName')}",
       "spacing": "none"
     },
     {
       "type": "TextBlock",
-      "text": "Evan Litvak",
+      "text": "@{lgTemplate('PassengerName')}",
       "spacing": "none"
     },
     {

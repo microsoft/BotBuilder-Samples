@@ -36,6 +36,9 @@ namespace Microsoft.BotBuilderSamples
                     new IntentRule("Cancel")           { Steps = new List<IDialog>() {
                             // This is the global cancel in case a child dialog did not explicit handle cancel.
                             new SendActivity("Cancelling all dialogs.."),
+                            // SendActivity supports full language generation resolution.
+                            // See here to learn more about language generation
+                            // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
                             new SendActivity("[Welcome-Actions]"),
                             new CancelAllDialogs(),
                         }

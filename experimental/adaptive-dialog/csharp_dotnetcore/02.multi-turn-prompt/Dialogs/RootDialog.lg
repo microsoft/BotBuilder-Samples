@@ -1,4 +1,9 @@
-﻿# FinalUserProfileReadOut
+﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+> This template uses inline expressions. Expressions are defined using the common expression language. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more.
+# FinalUserProfileReadOut
 - IF: {turn.finalConfirmation == true}
     - I have your mode of transport as {user.userProfile.Transport} and your name as {user.userProfile.Name}. [UserAgeReadBack]
 - ELSE:

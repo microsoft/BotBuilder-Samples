@@ -77,6 +77,8 @@ namespace Microsoft.BotBuilderSamples
                             },
                             new IfCondition()
                             {
+                                // All conditions are expressed using the common expression language.
+                                // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
                                 Condition = new ExpressionEngine().Parse("turn.addTodo.cancelConfirmation == true"),
                                 Steps = new List<IDialog>()
                                 {

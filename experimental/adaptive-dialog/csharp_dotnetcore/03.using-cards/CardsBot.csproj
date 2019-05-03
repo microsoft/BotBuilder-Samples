@@ -14,4 +14,10 @@
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Renderer" Version="4.5.0-Preview-2019-05-02-02" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Dialogs\adaptiveCard.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
