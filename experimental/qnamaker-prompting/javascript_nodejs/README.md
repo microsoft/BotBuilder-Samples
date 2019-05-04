@@ -11,14 +11,24 @@ In this sample, we demonstrate how to a create a multi-turn dialog to interact w
 
 #To try this sample
 - Clone the samples repository
-- Update [appsettings.json](appsettings.json) in the sample with your QnA Maker endpoint details (QnAEndpointHostName, QnAAuthKey and QnAKnowledgebaseId). You can find this
+- Update [.env](.env) in the sample with your QnA Maker endpoint details (QnAEndpointHostName, QnAAuthKey and QnAKnowledgebaseId). You can find this
 information under "Settings" tab of your QnA Maker Knowledge Base at [QnAMaker.ai](https://www.qnamaker.ai)
 
 # Running Locally
-
-## Visual Studio
-- Open QnAPrompting.sln in Visual Studio.
-- Run the project (press `F5` key).
+- Clone the repository
+    ```bash
+    git clone https://github.com/microsoft/botbuilder-samples.git
+    ```
+- Navigate to the sample directory
+    
+- Install modules
+    ```bash
+    npm install
+    ```
+- Start the bot
+    ```bash
+    npm start
+    ```
 
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator][5] is a desktop application that allows bot 
