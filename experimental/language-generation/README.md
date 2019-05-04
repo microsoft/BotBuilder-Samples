@@ -5,58 +5,21 @@ At the core of language generation lies template expansion and entity substituti
 
 Language generation is achieved through 
 - markdown based .lg file that describes the templates and their composition. See [here][3] for the .lg file format.
+- full access to current bots memory so you can data bind langauge to the state of memory.
 - parser and runtime libraries that help achieve runtime resolution. See [here][2] for API-reference.
+
+```markdown
+# greetingTemplate
+- Hello {user.name}, how are you?
+- Good morning {user.name}. It's nice to see you again.
+- Good day {user.name}. What can I do for you today?
+```
 
 You can use language generation to 
 - achieve a coherent personality, tone of voice for your bot
 - include variations and sophisticated composition based resolution for any of your bot's replies
 - construct speak .vs. display adaptations
 - construct cards, suggested actions and attachments. 
-
-## Language Generation in action
-When building a bot, you can use language generation in several different ways. To start with, examine your current bot's code (or the new bot you plan to write) and create [.lg file][3] to cover all possible scenarios where you would like to use the language generation sub-system with your bot's replies to user. 
-
-Then make sure you include the platform specific language generation library. 
-
-For C#, add Microsoft.Bot.Builder.LanguageGeneration. 
-For NodeJS, add botbuilder-lg
-
-Load the template manager with your .lg file(s)
-
-For C#
-```
-    TemplateEngine lgEngine = TemplateEngine.FromFiles(pathToLGFile); 
-```
-
-For NodeJS
-```
-    let lgEngine = templateEngine.fromFiles(pathToLGFile);
-```
-
-When you need template expansion, call the templateEngine and pass in the relevant template name
-
-For C#
-```
-    await turnContext.SendActivityAsync(lgEngine.EvaluateTemplate("<TemplateName>", entitiesCollection));
-```
-
-For NodeJS
-```
-    await turnContext.sendActivity(lgEngine.evaluateTemplate("<TemplateName>", entitiesCollection));
-```
-
-If your template needs specific entity values to be passed for resolution/ expansion, you can pass them in on the call to `evaluateTemplate`
-
-For C#
-```
-    await turnContext.SendActivityAsync(lgEngine.EvaluateTemplate("WordGameReply", new { GameName = "MarcoPolo" } ));
-
-```
-
-For NodeJS
-```
-    await turnContext.sendActivity(lgEngine.evaluateTemplate("WordGameReply", { GameName = "MarcoPolo" } ));
-```
 
 ## Speak .vs. display adaptation
 By design, the .lg file format does not explicitly support the ability to provide speak .vs. display adaptation. The file format supports simple constructs that are composable and supports resolution on multi-line text and so you can have syntax and semantics for speak .vs. display adaptation, cards, suggested actions etc that can be interpreted as simple text and transformed into the Bot Framework [activity][1] by a layer above language generation. 
@@ -113,6 +76,53 @@ Here is an example of a card definition.
     - https://picsum.photos/300/200?image=200
     - https://picsum.photos/200/200?image=400
 ```
+
+## Language Generation in action
+When building a bot, you can use language generation in several different ways. To start with, examine your current bot's code (or the new bot you plan to write) and create [.lg file][3] to cover all possible scenarios where you would like to use the language generation sub-system with your bot's replies to user. 
+
+Then make sure you include the platform specific language generation library. 
+
+For C#, add Microsoft.Bot.Builder.LanguageGeneration. 
+For NodeJS, add botbuilder-lg
+
+Load the template manager with your .lg file(s)
+
+For C#
+```
+    TemplateEngine lgEngine = TemplateEngine.FromFiles(pathToLGFile); 
+```
+
+For NodeJS
+```
+    let lgEngine = templateEngine.fromFiles(pathToLGFile);
+```
+
+When you need template expansion, call the templateEngine and pass in the relevant template name
+
+For C#
+```
+    await turnContext.SendActivityAsync(lgEngine.EvaluateTemplate("<TemplateName>", entitiesCollection));
+```
+
+For NodeJS
+```
+    await turnContext.sendActivity(lgEngine.evaluateTemplate("<TemplateName>", entitiesCollection));
+```
+
+If your template needs specific entity values to be passed for resolution/ expansion, you can pass them in on the call to `evaluateTemplate`
+
+For C#
+```
+    await turnContext.SendActivityAsync(lgEngine.EvaluateTemplate("WordGameReply", new { GameName = "MarcoPolo" } ));
+
+```
+
+For NodeJS
+```
+    await turnContext.sendActivity(lgEngine.evaluateTemplate("WordGameReply", { GameName = "MarcoPolo" } ));
+```
+
+
 
 ## Grammar check and correction
 The current library does not include any capabilities for grammar check or correction. 
