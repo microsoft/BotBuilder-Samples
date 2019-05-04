@@ -58,9 +58,6 @@ namespace Designer.Dialogs
             // Get the Process function's current state from the dialog state
             var oldState = GetPersistedState(dialogContext.ActiveDialog);
 
-            // Get the input from the inbound Activity
-            var input = dialogContext.Context.Activity.Text;
-
             // Run the Process function.
             var (newState, output, result) = await ProcessAsync(oldState, dialogContext.Context.Activity).ConfigureAwait(false);
 
