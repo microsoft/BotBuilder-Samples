@@ -17,6 +17,7 @@ Language generation is achieved through
 
 You can use language generation to 
 - achieve a coherent personality, tone of voice for your bot
+- separate business logic from presentation
 - include variations and sophisticated composition based resolution for any of your bot's replies
 - construct speak .vs. display adaptations
 - construct cards, suggested actions and attachments. 
