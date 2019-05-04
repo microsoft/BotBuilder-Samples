@@ -1,0 +1,39 @@
+> # Intent definitions
+## Book flight
+- book flight from {fromCity=london} to {toCity=paris} on feb 14th
+- book flight to {toCity=berlin} on feb 14th
+- book me a flight from {fromCity=london} to {toCity=paris}
+- flight to {toCity=paris}
+- flight to {toCity=paris} from {fromCity=london} on feb 14th
+- fly from {fromCity=berlin} to {toCity=paris} on may 5th
+- go to {toCity=paris}
+- going from {fromCity=paris} to {toCity=berlin}
+- travel to {toCity=paris}
+- book a flight {toCity=new york}
+- book a flight to {toCity}
+- book a flight from {fromCity}
+- book a flight from {fromCity} to {toCity}
+
+## Cancel
+- bye
+- cancel booking
+- exit
+- ignore
+
+## Help
+- What can I say
+- What can I do
+- I need help
+- please help me
+
+## Greeting
+- Hi
+- Hello
+- Hiya
+
+> # Entity definitions
+$PREBUILT:datetimeV2
+$PREBUILT:geographyV2
+
+$fromCity:[geographyV2]
+$toCity:[geographyV2]

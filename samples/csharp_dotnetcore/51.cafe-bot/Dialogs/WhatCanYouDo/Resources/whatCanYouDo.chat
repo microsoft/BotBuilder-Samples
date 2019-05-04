@@ -1,8 +1,0 @@
-﻿user=Vishwac
-bot=EchoBot
-
-user: What can you do?
-bot: [Attachment=whatCanYouDoCard.json adaptivecard]
-user: ..selects 'tell me a joke' from the card..
-bot: You said 'tell me a joke'
-bot: I don't do well with jokes

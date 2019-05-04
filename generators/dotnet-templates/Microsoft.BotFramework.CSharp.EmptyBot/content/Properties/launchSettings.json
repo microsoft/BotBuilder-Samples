@@ -15,13 +15,13 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "EmptyBot": {
+    "__PROJECT_NAME__": {
       "commandName": "Project",
       "launchBrowser": true,
+      "applicationUrl": "http://localhost:3978",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:3978/"
+      }
     }
   }
 }
