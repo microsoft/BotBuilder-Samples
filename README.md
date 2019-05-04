@@ -5,7 +5,9 @@
 
 This branch contains samples for the released version of the **Microsoft Bot Framework V4 SDK** for [.NET](https://github.com/Microsoft/botbuilder-dotnet) and [JS](https://github.com//microsoft/botbuilder-js). If you need samples for the Bot Framework _V3_ SDK, go [here](https://github.com/Microsoft/BotBuilder-Samples/tree/v3-sdk-samples).
 
-> See [here][whats-new] to learn more about the new preview features for Bot Framework V4 SDK. See [here][build-2019-whats-new] for a summary of all new features announced at //BUILD 2019
+> See [here][whats-new] to learn more about the new preview features for Bot Framework V4 SDK. 
+
+> See [here][build-2019-whats-new] for a summary of all new features announced at //BUILD 2019
 
 [build-2019-whats-new]:https://github.com/Microsoft/botframework-sdk/blob/master/README.md#bot-framework-sdk-v4---new---version-45-preview
 [whats-new]:https://github.com/Microsoft/botframework-sdk/blob/master/README.md#bot-framework-sdk-v4---new---version-45-preview
