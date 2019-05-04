@@ -24,15 +24,15 @@
 
 # AgeReadBack (userAge)
 - IF: {userAge == null}
-   - No age given.
+   - And, No age given.
 - ELSE: 
-   - I have your age as {userAge}.
+   - And, I have your age as {userAge}.
 
 # ConfirmPrompt
 - Is this ok?
 
 # SummaryReadout
-- I have your mode of transport as {Transport} and your name as {Name}. And, [AgeReadBack(Age)]
+- I have your mode of transport as {Transport} and your name as {Name}. [AgeReadBack(Age)]
 
 # NoProfileReadBack
 - Thanks. Your profile will not be kept.

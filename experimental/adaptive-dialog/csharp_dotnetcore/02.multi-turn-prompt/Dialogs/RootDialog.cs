@@ -33,22 +33,22 @@ namespace Microsoft.BotBuilderSamples
                 // Ask for user's age and set it in user.userProfile scope.
                 new TextInput()
                 {
-                    Prompt = new ActivityTemplate("Please enter your mode of transport."),
+                    Prompt = new ActivityTemplate("[ModeOfTransportPrompt]"),
                     // Set the output of the text input to this property in memory.
                     Property = "user.userProfile.Transport"
                 },
                 new TextInput()
                 {
-                    Prompt = new ActivityTemplate("Please enter your name."),
+                    Prompt = new ActivityTemplate("[AskForName]"),
                     Property = "user.userProfile.Name"
                 },
                 // SendActivity supports full language generation resolution.
                 // See here to learn more about language generation
                 // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
-                new SendActivity("Thanks, {user.userProfile.Name}"),
+                new SendActivity("[AckName]"),
                 new ConfirmInput()
                 {
-                    Prompt = new ActivityTemplate("Would you like to give your age?"),
+                    Prompt = new ActivityTemplate("[AgeConfirmPrompt]"),
                     Property = "turn.ageConfirmation"
                 },
                 new IfCondition()
@@ -60,25 +60,25 @@ namespace Microsoft.BotBuilderSamples
                     {
                          new NumberInput()
                          {
-                             Prompt = new ActivityTemplate("Please enter your age."),
+                             Prompt = new ActivityTemplate("[AskForAge]"),
                              Property = "user.userProfile.Age",
                              // Set min and max constraints for age.
                              MinValue = 1,
                              MaxValue = 150,
                              // Specify a retry prompt if user input does not meet min or max constraint.
-                             RetryPrompt = new ActivityTemplate("Sorry, that does not work. Your age must be greater than 0 and less than 150.")
+                             RetryPrompt = new ActivityTemplate("[AskForAge.reprompt]")
 
                          },
-                         new SendActivity("I have your age as {user.userProfile.Age}.")
+                         new SendActivity("[UserAgeReadBack]")
                     },
                     ElseSteps = new List<IDialog>()
                     {
-                        new SendActivity("No age given.") 
+                        new SendActivity("[NoName]") 
                     }
                 },
                 new ConfirmInput()
                 {
-                    Prompt = new ActivityTemplate("Is this ok?"),
+                    Prompt = new ActivityTemplate("[ConfirmPrompt]"),
                     Property = "turn.finalConfirmation"
                 },
                 // Use LG template to come back with the final read out.
