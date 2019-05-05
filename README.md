@@ -5,7 +5,7 @@
 
 ## Overview
 
-This branch contains samples for the released version of the **Microsoft Bot Framework V4 SDK** for [.NET](https://github.com/Microsoft/botbuilder-dotnet) and [JS](https://github.com//microsoft/botbuilder-js). If you need samples for the Bot Framework _V3_ SDK, go [here](https://github.com/Microsoft/BotBuilder-Samples/tree/v3-sdk-samples).
+This branch contains samples for the released version of the **Microsoft Bot Framework V4 SDK** for [.NET](https://github.com/Microsoft/botbuilder-dotnet) and [JS](https://github.com//microsoft/botbuilder-js). If you need samples for the Bot Framework _V3_ SDK, go [here](https://github.com/Microsoft/BotBuilder-Samples/tree/v3-sdk-samples).  If you need Bot Framework V4 Python samples, go [here](https://github.com/Microsoft/botbuilder-python/tree/master/samples)
 
 ## Samples list
 Samples are designed to illustrate scenarios you'll need to implement to build great bots! To use the samples, clone this GitHub repository using Git.
