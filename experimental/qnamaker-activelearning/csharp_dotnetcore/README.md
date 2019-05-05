@@ -1,5 +1,5 @@
-﻿﻿# Active learning in QnA Maker
-This sample shows how to integrate Active Learning in a QnA Maker bot with ASP.Net Core 2. Click [here][al#1] to know more about how to enable and use active learning .
+﻿# Active learning in QnA Maker
+This sample shows how to integrate Active Learning in a QnA Maker bot with ASP.Net Core-2. Click [here][al#1] to know more about how to enable and use active learning .
 
 
 ## Concepts introduced in this sample

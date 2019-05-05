@@ -88,6 +88,7 @@ npm run build
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 # Further reading
+- [Active learning Documentation][al#1]
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
 - [QnA Maker Documentation][23]
