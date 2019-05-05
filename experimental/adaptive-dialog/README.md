@@ -1,12 +1,12 @@
-# Adaptive Dialog
+# Adaptive Dialog *[Preview]*
 
 **Pre-read:** [Dialogs library][1] in Bot Builder V4 SDK.
 
-Dialogs are a central concept in the Bot Builder SDK, and provide a useful way to manage a conversation with the user. 
+Dialogs are a central concept in the Bot Framework SDK, and provide a useful way to manage a conversation with the user. 
 
 Adaptive Dialogs enable developers to build conversations that can be dynamically changed as the conversation progresses.  Traditionally developers have mapped out the entire flow of a conversation up front, which limits the flexibility of the conversation.  Adaptive dialogs allow them to be more flexible, to respond to changes in context and insert new steps or entire sub-dialogs into the conversation as it progresses. Additionally as with other SDK V4 concepts, we have defined adaptive dialogs such that they can be defined via [declarative][19] that are interpreted at runtime; which allows us to have tooling on top of this and integrate with services. 
 
-Bot Builder V4 SDK Dialogs library also support all of the existing features including: [waterfall dialogs][3], [prompts][2] and [component dialogs][4] as built-in constructs to model conversations via Dialogs. These set of dialog types offered by the SDK put you in control of managing your bot's conversations however they also require you to write a bunch of boiler plate code for sophisticated conversation modelling concepts like building a dialog dispatcher, ability handle interruptions elegantly and to build a pluggable, extensible dialog system.
+Bot Framework V4 SDK Dialogs also support all of the existing features including: [waterfall dialogs][3], [prompts][2] and [component dialogs][4] as built-in constructs to model conversations via Dialogs. These set of dialog types offered by the SDK put you in control of managing your bot's conversations however they also require you to write a bunch of boiler plate code for sophisticated conversation modelling concepts like building a dialog dispatcher, ability handle interruptions elegantly and to build a pluggable, extensible dialog system.
 
 
 ## Getting started
