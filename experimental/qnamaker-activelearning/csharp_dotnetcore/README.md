@@ -1,11 +1,12 @@
 ﻿# Active learning in QnA Maker
-This sample shows how to integrate Active Learning in a QnA Maker bot with ASP.Net Core 2.
+This sample shows how to integrate Active Learning in a QnA Maker bot with ASP.Net Core-2. Click [here][al#1] to know more about how to enable and use active learning .
 
-#Concepts introduced in this sample
+
+## Concepts introduced in this sample
 The [QnA Maker Service][7] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
 In this sample, we demonstrate how to use the Active Learning to generate suggestions for knowledge base.
 
-#To try this sample
+## To try this sample
 - Clone the samples repository
 - [Optional] Update the appsettings.json file under BotBuilder-Samples/experimental/csharp_dotnetcore/qnamaker-activelearning-bot/ with your botFileSecret. For Azure Bot Service bots, you can find the botFileSecret under application settings.
 
@@ -46,6 +47,7 @@ The deployment process assumes you have an account on Microsoft Azure and are ab
 If you are new to Microsoft Azure, please refer to [Getting started with Azure][70] for guidance on how to get started on Azure.
 
 # Further reading
+* [Active learning Documentation][al#1]
 * [Bot Framework Documentation][80]
 * [Bot Basics][90]
 * [Azure Bot Service Introduction][100]
@@ -72,3 +74,4 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 [130]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [140]: https://portal.azure.com
 [150]: https://www.luis.ai
+[al#1]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/improve-knowledge-base
