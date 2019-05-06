@@ -12,4 +12,4 @@ In some cases, since the V4 SDK contains substantial improvements that are not c
 ## Samples
 Not Ready Yet.
 
-[1]https://docs.microsoft.com/en-us/azure/bot-service/migration/conversion-framework?view=azure-bot-service-4.0
+[1]: https://docs.microsoft.com/en-us/azure/bot-service/migration/conversion-framework?view=azure-bot-service-4.0
