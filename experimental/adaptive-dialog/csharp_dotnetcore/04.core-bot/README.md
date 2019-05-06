@@ -104,7 +104,8 @@ This bot has been created using [Bot Framework][1], it shows how to:
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
 [7]: https://docs.microsoft.com/cli/azure/?view=azure-cli-latest
 [8]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
-[10]: https://portal.azure.com
+[9]: https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-account-settings
+[10]: https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions
 [11]: https://www.luis.ai
 [20]: https://docs.botframework.com
 [21]: https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
