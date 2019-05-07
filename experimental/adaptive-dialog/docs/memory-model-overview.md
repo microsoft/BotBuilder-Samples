@@ -5,7 +5,7 @@ State within a bot follows the same paradigms as modern web applications, and th
 
 As with web apps, a bot is inherently stateless; a different instance of your bot may handle any given turn of the conversation. For some bots, this simplicity is preferred - the bot can either operate without additional information, or the information required is guaranteed to be within the incoming message. For others, state (such as where in the conversation we are or previously received data about the user) is necessary for the bot to have a useful conversation.
 
-[Adaptive dialogs][2] provdies a way to access and manage memory. All adaptive dialogs by default use this model so all components that consume or contribute to memory have a common way to access and write information to appropriate scopes. 
+[Adaptive dialogs][2] provides a way to access and manage memory. All adaptive dialogs by default use this model so all components that consume or contribute to memory have a common way to access and write information to appropriate scopes. 
 
 All memory properties, in all memory scopes, are property bags, meaning you can store arbitrary information on them.
 
@@ -51,7 +51,7 @@ Examples:
 
 ### Turn sub-scopes
 - Each incoming [activity][5] to the bot is available via turn.activity scope.
-- For each turn of the conversation, if there is a [recognizer][4] is run, then the output intents and entities from that recognizer are automatically set and available under _turn.intents_ and _turn.entities_
+- For each turn of the conversation, if a [recognizer][4] is run, then the output intents and entities from that recognizer are automatically set and available under _turn.intents_ and _turn.entities_
 - The payload of an event raised by the system (or via user code) is available under turn.dialogEvents.\<eventName\>.value scope.
 
 [1]:https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-state?view=azure-bot-service-4.0
