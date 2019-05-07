@@ -1,8 +1,8 @@
 # Adaptive Dialog
 
-**Pre-read:** [Dialogs library][1] in Bot Builder V4 SDK.
+**Pre-read:** [Dialogs library][1] in Bot Framework V4 SDK.
 
-Dialogs are a central concept in the Bot Builder SDK, and provide a way to manage a conversation with the user. Bot Builder V4 SDK Dialogs library offers [waterfall dialogs][3], [prompts][2] and [component dialogs][4] as built-in constructs to model conversations via Dialogs. These set of dialog types offered by the SDK put you in control of managing your bot's conversations. However, they also require you to write a bunch of boiler plate code for sophisticated conversation modelling concepts like building a dialog dispatcher, ability to handle interruptions elegantly and to build a pluggable, extensible dialog system.
+Dialogs are a central concept in the Bot Framework SDK, and provide a way to manage a conversation with the user. Bot Framework V4 SDK Dialogs library offers [waterfall dialogs][3], [prompts][2] and [component dialogs][4] as built-in constructs to model conversations via Dialogs. These set of dialog types offered by the SDK put you in control of managing your bot's conversations. However, they also require you to write a bunch of boiler plate code for sophisticated conversation modelling concepts like building a dialog dispatcher, ability to handle interruptions elegantly and to build a pluggable, extensible dialog system.
 
 The new **Adaptive dialog** is a new way to model conversations that takes the best of waterfall dialogs and prompts and simplifies sophisticated conversation modelling primitives like building a dialog dispatcher and ability to handle interruptions elegantly. The new **Adaptive dialog** and the event model simplify sophisticated conversation modelling primitives, eliminate much of the boiler plate code and helps you focus on the model of the conversation rather than the mechanics of dialog management. An Adaptive dialog is a derivative of a Dialog and interacts with the rest of the SDK dialog system.
 
