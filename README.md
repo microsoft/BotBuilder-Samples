@@ -52,7 +52,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [cs#7]:samples/csharp_dotnetcore/07.using-adaptive-cards
 [cs#8]:samples/csharp_dotnetcore/08.suggested-actions
 [cs#11]:samples/csharp_dotnetcore/11.qnamaker
-[cs#13]:samples/csharp_dotnetcore/13.basic-bot
+[cs#13]:samples/csharp_dotnetcore/13.core-bot
 [cs#14]:samples/csharp_dotnetcore/14.nlp-with-dispatch
 [cs#15]:samples/csharp_dotnetcore/15.handling-attachments
 [cs#16]:samples/csharp_dotnetcore/16.proactive-messages
@@ -65,18 +65,18 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [cs#40]:samples/csharp_dotnetcore/40.timex-resolution
 [cs#42]:samples/csharp_dotnetcore/42.scaleout
 [cs#43]:samples/csharp_dotnetcore/43.complex-dialog
-[cs#44]:samples/csharp_dotnetcore/45.prompt-users-for-input
+[cs#44]:samples/csharp_dotnetcore/44.prompt-users-for-input
 [cs#45]:samples/csharp_dotnetcore/45.state-management
 [cs#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
 
-[wa#13]:samples/csharp_webapi/13.Core-Bot
+[wa#13]:samples/csharp_webapi/13.core-bot
 
 [es#1]:samples/javascript_es6/01.browser-echo
 [es#70]:samples/javascript_es6/70.styling-webchat
 
 [ts#0]:samples/typescript_nodejs/00.empty-bot
 [ts#1]:samples/typescript_nodejs/01.console-echo
-[ts#2]:samples/jtypescript_nodejs/02.echo-bot
+[ts#2]:samples/typescript_nodejs/02.echo-bot
 [ts#13]:samples/typescript_nodejs/13.core-bot
 [ts#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
 
@@ -89,11 +89,11 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [js#7]:samples/javascript_nodejs/07.using-adaptive-cards
 [js#8]:samples/javascript_nodejs/08.suggested-actions
 [js#11]:samples/javascript_nodejs/11.qnamaker
-[js#13]:samples/javascript_nodejs/13.basic-bot
+[js#13]:samples/javascript_nodejs/13.core-bot
 [js#14]:samples/javascript_nodejs/14.nlp-with-dispatch
 [js#15]:samples/javascript_nodejs/15.handling-attachments
 [js#16]:samples/javascript_nodejs/16.proactive-messages
-[js#17]:samples/javascript_nodejs/17.multilingual-conversations
+[js#17]:samples/javascript_nodejs/17.multilingual-bot
 [js#18]:samples/javascript_nodejs/18.bot-authentication
 [js#19]:samples/javascript_nodejs/19.custom-dialogs
 [js#21]:samples/javascript_nodejs/21.luis-with-appinsights
