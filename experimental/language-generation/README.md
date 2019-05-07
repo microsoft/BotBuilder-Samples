@@ -129,7 +129,7 @@ For NodeJS
 The current library does not include any capabilities for grammar check or correction. 
 
 ## Packages
-Packages for C# are available under the [BotBuidler MyGet feed][12]
+Packages for C# are available under the [BotBuilder MyGet feed][12]
 
 [1]:https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md
 [2]:./docs/api-reference.md
