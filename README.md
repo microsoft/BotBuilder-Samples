@@ -14,8 +14,8 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 
 | Sample Name           | Description                                                                    | .NET CORE   | JavaScript      | .NET Web API | JS (es6)    | TypeScript  |
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|-------------|
-|1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming message.           |[View][cs#1] |[View][js#1] |      |[View][js#1] |[View][ts#1] |
-|1.browser-echo       | Demonstrates how to host a bot in the browser using Web Chat and a custom Web Chat Adapter.                                                     |             |             |              |        |             |
+|1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming message.           |[View][cs#1] |[View][js#1] |      |       |[View][ts#1] |
+|1.browser-echo       | Demonstrates how to host a bot in the browser using Web Chat and a custom Web Chat Adapter.                                                     |             |             |              |[View][es#1] |             |
 |2.echobot            | Demonstrates how to receive and send messages.                                 |[View][cs#2] |[View][js#2]|  |           |[View][ts#2] |
 |3.welcome-user         | Introduces activity types and provides a welcome message on conversation update activity. |[View][cs#3] |[View][js#3] |              | | |
 |5.multi-turn-prompt    | Demonstrates how to use waterfall dialog, prompts, and component dialog to create a simple interaction that asks the user for name, age, and prints back that information.          |[View][cs#5] |[View][js#5] |              |             | |
@@ -65,7 +65,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [cs#45]:samples/csharp_dotnetcore/45.state-management
 [cs#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
 
-[wa#13]:samples/csharp_webapi/13.Core-Bot
+[wa#13]:samples/csharp_webapi/13.core-bot
 
 [es#1]:samples/javascript_es6/01.browser-echo
 [es#70]:samples/javascript_es6/70.styling-webchat
@@ -78,14 +78,14 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 
 
 [js#1]:samples/javascript_nodejs/01.console-echo
-[js#2]:samples/javascript_nodejs/02.echobot
+[js#2]:samples/javascript_nodejs/02.echo-bot
 [js#3]:samples/javascript_nodejs/03.welcome-users
 [js#5]:samples/javascript_nodejs/05.multi-turn-prompt
 [js#6]:samples/javascript_nodejs/06.using-cards
 [js#7]:samples/javascript_nodejs/07.using-adaptive-cards
 [js#8]:samples/javascript_nodejs/08.suggested-actions
 [js#11]:samples/javascript_nodejs/11.qnamaker
-[js#13]:samples/javascript_nodejs/13.basic-bot
+[js#13]:samples/javascript_nodejs/13.core-bot
 [js#14]:samples/javascript_nodejs/14.nlp-with-dispatch
 [js#15]:samples/javascript_nodejs/15.handling-attachments
 [js#16]:samples/javascript_nodejs/16.proactive-messages
