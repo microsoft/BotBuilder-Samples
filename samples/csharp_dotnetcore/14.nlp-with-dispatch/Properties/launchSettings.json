@@ -1,4 +1,5 @@
-{
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -15,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "AspNetCore-NLP-With-Dispatch-Bot": {
+    "DispatcherBot": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

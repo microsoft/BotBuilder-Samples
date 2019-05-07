@@ -3,7 +3,7 @@
 
 using Newtonsoft.Json;
 
-namespace Facebook_Events_Bot.FacebookModel
+namespace Microsoft.BotBuilderSamples.FacebookModel
 {
     /// <summary>
     /// Simple version of the payload received from the Facebook channel.

@@ -32,6 +32,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[join](#join) 	|Return a string that has all the items from an array and has each character separated by a delimiter. Join(collection, delimiter). Join(createArray(‘a’,’b’), ‘.’) = “a.b”	|
 |[last](#last) 	|Returns the last item from the collection	|
 |[count](#count)	|Returns the number of items in the collection	|
+|[foreach](#foreach)	|Operate on each element and return the new collection	|
 
 
 ### Logical comparison functions
@@ -458,6 +459,38 @@ count(createArray(0, 1, 2, 3))
 ```
 
 And return this result: `4`
+
+<a name="createArray"></a>
+
+### foreach
+
+Operate on each element and return the new collection
+
+```
+foreach([<collection>], <iteratorName>, <function>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | Array | The collection with the items |
+| <*iteratorName*> | Yes | String | The key item of arrow function |
+| <*function*> | Yes | Any | function that can contains iteratorName |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*new-collection*> | Array | the new collection which each element has been evaluated with the function  |
+||||
+
+*Example*
+
+These examples generate new collections:
+
+```
+foreach(createArray(0, 1, 2, 3), x, x + 1)
+```
+
+And return this result: `[1, 2, 3, 4]`
 
 <a name="createArray"></a>
 

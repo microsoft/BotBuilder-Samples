@@ -1,3 +1,1 @@
-
-### Overview of the QnAMaker Prompting Bot
-
+# Overview of QnA Maker multi-turn bot

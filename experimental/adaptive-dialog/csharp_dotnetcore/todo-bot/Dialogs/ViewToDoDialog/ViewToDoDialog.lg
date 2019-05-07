@@ -1,0 +1,23 @@
+﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+> This template uses inline expressions. Expressions are defined using the common expression language. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more.
+# View-ToDos
+- IF: {user.todos != null && count(user.todos) != 0}
+    - ```
+You have @{count(user.todos)} @{lgTemplate("Items-Ordinality")} in your collection.
+- @{join(user.todos, '\r\n- ')}
+@{lgTemplate("Welcome-Actions")}
+```
+- ELSE: 
+    - ```
+You do not have any Todos in your collection.
+@{lgTemplate("Welcome-Actions")}
+```
+
+# Items-Ordinality
+- IF: {user.todos != null && count(user.todos) == 1}
+    - item
+- ELSE:
+    - items

@@ -13,7 +13,7 @@ namespace Microsoft.BotBuilderSamples
     {
         public static void Examples()
         {
-            // When you give the recognzier the text "Wednesday 4 o'clock" you get these distinct TIMEX values back.
+            // When you give the recognizer the text "Wednesday 4 o'clock" you get these distinct TIMEX values back.
 
             var today = DateTime.Now;
             var resolution = TimexResolver.Resolve(new[] { "XXXX-WXX-3T04", "XXXX-WXX-3T16" }, today);

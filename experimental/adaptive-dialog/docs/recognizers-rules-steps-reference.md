@@ -8,7 +8,7 @@ This document describes the constituent parts of [Adaptive][7] dialog.
 - [Inputs](#Inputs)
 
 ## Recognizers
-_Recognizers_ provdie the functionality of understanding and extracting meaningful pieces of information from user's input. All recognizers emit events - of specific interest is the 'recognizedIntent' event that fires when the recognizer picks up an intent (or extracts entities) from given user utterance.
+_Recognizers_ provide the functionality of understanding and extracting meaningful pieces of information from a user's input. All recognizers emit events - of specific interest is the 'recognizedIntent' event that fires when the recognizer picks up an intent (or extracts entities) from a given user utterance.
 
 Adaptive Dialogs support the following recognizers - 
 - [RegEx recognizer](#RegEx-recognizer)
@@ -37,10 +37,10 @@ var rootDialog = new AdaptiveDialog("rootDialog")
 ```
 
 **Note:** RegEx recognizer will emit a 'None' intent when the input utterance does not match any defined intent.
-**Note:** RegEx recognizer are useful for testing and quick prototyping. For creating sophisticated conversations and production bots we recomend using a LUIS recognizer.
+**Note:** RegEx recognizer is useful for testing and quick prototyping. For creating sophisticated conversations and production bots we recommend using a LUIS recognizer.
 
 ### LUIS recognizer
-[LUIS.ai][1] is a machine learning-based service to build natural language into apps, bots, and IoT devices. Using a LUIS recognizer enables you to extract intents and entities based on a LUIS application, which you can train in advnace. 
+[LUIS.ai][1] is a machine learning-based service to build natural language into apps, bots, and IoT devices. Using a LUIS recognizer enables you to extract intents and entities based on a LUIS application, which you can train in advance. 
 
 ``` C#
 var rootDialog = new AdaptiveDialog("rootDialog")
@@ -50,7 +50,7 @@ var rootDialog = new AdaptiveDialog("rootDialog")
 ```
 
 ### Multi-language recognizer
-When building sophisticated multi-lingual bot, you will typically have one recognizer tied to a specific language x locale. Multi-language recognizer enables you to easily specify the recognizer to use based on the [locale][2] property on the incoming activity from user. 
+When building a sophisticated multi-lingual bot, you will typically have one recognizer tied to a specific language x locale. The Multi-language recognizer enables you to easily specify the recognizer to use based on the [locale][2] property on the incoming activity from a user. 
 
 ``` C#
 var rootDialog = new AdaptiveDialog("rootDialog")
@@ -79,7 +79,7 @@ var rootDialog = new AdaptiveDialog("rootDialog")
 ```
 
 ## Rules
-_Rules_ enable you to catch and respond to events. The broadest rule is the EventRule that allows you to catch and attach a set of steps to execute when a specific event is emitted by any sub-system. Adaptive dialogs supports couple of other specialized rules to wrap common events that your bot would handle.
+_Rules_ enable you to catch and respond to events. The broadest rule is the EventRule that allows you to catch and attach a set of steps to execute when a specific event is emitted by any sub-system. Adaptive dialogs support a couple of other specialized rules to wrap common events that your bot would handle.
 
 Adaptive dialogs support the following Rules - 
 - [Intent rule](#Intent-rule)
@@ -103,7 +103,7 @@ At the core, all rules are event handlers. Here are the set of events that can b
 | UnknownIntent       | Fired when an utterance is not recognized         |
 
 ### Intent rule
-Intent rule enables you to catch and react to 'recognizedIntent' event emitted by a recognizer. All built-in recognizers emit this event when they successfully process an input utterance. 
+Intent rule enables you to catch and react to 'recognizedIntent' events emitted by a recognizer. All built-in recognizers emit this event when they successfully process an input utterance. 
 
 ``` C#
 // Create root dialog as an Adaptive dialog.
@@ -155,7 +155,7 @@ helpRule.Steps = helpSteps;
 // Add the bookFlight rule to root dialog
 rootDialog.AddRule(helpRule);
 
-// Add a rule to capture unhandled intents. Unknown intent rule fires when a recognizedIntent event raised
+// Add a rule to capture unhandled intents. Unknown intent rule fires when a recognizedIntent event is raised
 // by the recognizer is not handled by any rule added to the dialog.
 // Given the RegEx recognizer added to this dialog, this rule will fire when user says 'cancel'.
 // Although the recognizer returned 'cancel' intent, we have no rule attached to handled it. 
@@ -169,20 +169,8 @@ unhandledIntentRule.Steps = unhandledIntentSteps;
 rootDialog.AddRule(unhandledIntentRule);
 ```
 
-### Event rule
-As the name suggests, event rule enables you to catch and react to [events](#events) raised by any of the sub-system or your own dialog, whcih can emit events. Remember each step is a dialog and you can use the [EmitEvent](#Emit-event) step to emit a custom event. 
-
-``` C#
-// Create root dialog as an Adaptive dialog.
-var rootDialog = new AdaptiveDialog("rootDialog");
-rootDialog.AddRule(new EventRule([AdaptiveEvents.ActivityReceived], new List<IDialog>()
-{
-    new SendActivity("Event {turn.ActivityReceived.value} received")
-});
-```
-
 ## Inputs 
-_Inputs_ are wrappers around [prompts][2] that you can use in an adaptive dialog step to ask and collect a piece of input from user, validate and accept it into memory. Inputs include these pre-built features: 
+_Inputs_ are wrappers around [prompts][2] that you can use in an adaptive dialog step to ask and collect a piece of input from a user, validate and accept it into memory. Inputs include these pre-built features: 
 - Accepts a property to bind to the new [state management][6] scopes. 
 - Performs existential check before prompting. 
 - Grounds input to the specified property if the input from user matches the type of entity expected. 
@@ -195,7 +183,7 @@ Adaptive dialogs support the following inputs -
 - [NumberInput](#NumberInput)
 
 ### TextInput
-Use text input when you want to verbatim accept user input as value for a specific piece of information your bot is trying to collect. E.g. user's name, subject of an email etc. 
+Use text input when you want to verbatim accept user input as a value for a specific piece of information your bot is trying to collect. E.g. user's name, subject of an email etc. 
 
 **Note:** By default, TextInput will trigger a consultation before accepting user input. This is to allow a parent dialog to handle the specific user input in case their recognizer had a more definitive match via an intent or entity.
 
@@ -228,7 +216,7 @@ getUserNameDialog.AddRule(new IntentRule("GetName",
 ### ChoiceInput
 Choice input asks for a choice from a set of options. 
 
-**Note:** By default, ChoiceInput does not trigger consultation if the choice input recognizer has a high confidence match against provided choices. As an example, if one of your choices were cancel and user said 'cancel' choice input will pick this up although the expected behavior might be for the parent to capture this and handle this as global 'cancel' message from the user (or initiate disambiguation).
+**Note:** By default, ChoiceInput does not trigger consultation if the choice input recognizer has a high confidence match against provided choices. As an example, if one of your choices were cancel and user said 'cancel', choice input will pick this up although the expected behavior might be for the parent to capture this and handle this as global 'cancel' message from the user (or initiate disambiguation).
 
 | Property         | Description                                                                        |
 |------------------|------------------------------------------------------------------------------------|
@@ -276,11 +264,8 @@ As the name implies, asks user for confirmation.
 
 ``` C#
 // Create adaptive dialog.
-var ConfirmationDialog = new AdaptiveDialog("ConfirmationDialog");
-// We are using an Event rule here so any other step can just call EmitEvent when it wants to present
-// a confirmation input to the user.
-ConfirmationDialog.AddRule(new EventRule(["Contoso.travelBot.confirm"], 
-    steps: new List<IDialog> {
+var ConfirmationDialog = new AdaptiveDialog("ConfirmationDialog") {
+    Steps = new List<IDialog> {
         // Add confirmation input.
         new ConfirmInput()
         {
@@ -292,7 +277,8 @@ ConfirmationDialog.AddRule(new EventRule(["Contoso.travelBot.confirm"],
             // See ../../language-generation/README.md to learn more.
             Prompt = new ActivityTemplate("{turn.contoso.travelBot.confirmPromptMessage}")
         }
-    });
+    }
+}
 ```
 
 ### NumberInput
@@ -313,17 +299,15 @@ Asks for a number.
 
 ``` C#
 // Create adaptive dialog.
-var getNumberDialog = new AdaptiveDialog("ConfirmationDialog");
-// We are using an Event rule here so any other step can just call EmitEvent when it wants to collect
-// a number from the user.
-getNumberDialog.AddRule(new EventRule(["Contoso.travelBot.getNumber"], 
-    steps: new List<IDialog> {
-        new NumberInput<int>()
+var getNumberDialog = new AdaptiveDialog("ConfirmationDialog") {
+    Steps = new List<IDialog> {
+        new NumberInput()
         {
             Property = "turn.contoso.travelBot.numberPrompt",
             Prompt = new ActivityTemplate("{turn.contoso.travelBot.numberMessage}")
         }
-    });
+    }
+}
 ```
 
 ## Steps
@@ -349,7 +333,6 @@ Adaptive dialogs support the following steps -
     - [CancelAllDialog](#CancelAllDialog)
     - [ReplaceDialog](#ReplaceDialog)
     - [RepeatDialog](#RepeatDialog)
-    - [EmitEvent](#EmitEvent)
 - Roll your own code
     - [CodeStep](#CodeStep)
     - [HttpRequest](#HttpRequest)
@@ -368,7 +351,7 @@ greetUserDialog.AddRule(new IntentRule("greetUser",
         new SendActivity("Hello")
 }));
 
-// Example that includees reference to property on bot state.
+// Example that includes reference to property on bot state.
 var greetUserDialog = new AdaptiveDialog("greetUserDialog");
 greetUserDialog.AddRule(new IntentRule("greetUser", 
     steps: new List<IDialog>() {
@@ -379,7 +362,7 @@ greetUserDialog.AddRule(new IntentRule("greetUser",
 See [here][3] to learn more about using language generation instead of hard coding actual response text in SendActivity.
 
 ### SaveEntity
-Use this step to save an entity (from a recognizer) into a different memory scope. By default entities from recognizer are available under the [turn scope][4] and the life time of all information under that scope is the end of that turn of conversation. 
+Use this step to save an entity (from a recognizer) into a different memory scope. By default, entities from recognizer are available under the [turn scope][4] and the lifetime of all information under that scope is the end of that turn of conversation. 
 
 ``` C#
 var greetUserDialog = new AdaptiveDialog("greetUserDialog");
@@ -452,7 +435,7 @@ new DeleteProperty
 ```
 
 ### IfCondition
-Used to represent branch in the conversational flow based on a specific condition. Conditions are expressed using the common expression language. See [here][5] to learn more about the common expression language.
+Used to represent a branch in the conversational flow based on a specific condition. Conditions are expressed using the common expression language. See [here][5] to learn more about the common expression language.
 
 ``` C#
 var addToDoDialog = new AdaptiveDialog("addToDoDialog");
@@ -507,11 +490,15 @@ cardDialog.AddRule(new IntentRule("ShowCards",
         new SwitchCondition()
         {
             Condition = "turn.cardDialog.cardChoice",
-            Cases = new Dictionary<string, List<IDialog>>()
+            Cases = new List<Case>() 
             {
-                { "Adaptive card", new List<IDialog>() { new BeginDialog("ShowAdaptiveCardDialog")} },
-                { "Hero card", new List<IDialog>() { new BeginDialog("ShowHeroCardDialog")} },
-                { "Video card", new List<IDialog>() { new BeginDialog("ShowVideoCardDialog")} }
+                new Case("'Adaptive card'",  new List<IDialog>() { new SendActivity("[AdativeCardRef]") } ),
+                new Case("'Hero card'", new List<IDialog>() { new SendActivity("[HeroCard]") } ),
+                new Case("'Video card'",     new List<IDialog>() { new SendActivity("[VideoCard]") } ),
+            },
+            Default = new List<IDialog>()
+            {
+                new SendActivity("[AllCards]")
             }
         }
 }));
@@ -552,7 +539,7 @@ new CancelAllDialog()
 Replace current dialog with a new dialog by name.
 
 ``` C#
-// This sample illustrates use of ReplaceDialog tied to explict user confirmation 
+// This sample illustrates the use of ReplaceDialog tied to explicit user confirmation 
 // to switch to a different dialog.
 
 // Create an adaptive dialog.
@@ -573,7 +560,7 @@ steps: new List<IDialog>()
     // confirm with user that they do want to switch to another dialog
     new ChoiceInput()
     {
-        Prompt = new ActivityTemplate("Are you sure you want to switch to talk about weather?"),
+        Prompt = new ActivityTemplate("Are you sure you want to switch to talk about the weather?"),
         Property = "turn.contoso.getweather.confirmchoice",
         Choices = new List<Choice>()
         {
@@ -647,19 +634,6 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
 };
 ```
 
-### EmitEvent
-The AdaptiveDialog models input as Events called DialogEvents.  This gives us a clean model for capturing and bubbling information such as cancellation, requests for help, etc. While majority of events happens behind the scenes, you can participate by emitting events of your own.
-
-``` C#
-new EmitEvent() {
-    // Name of your custom event.
-    EventName = "CONTOSO.CONFIM",
-    // Event value needs to be an object.
-    EventValue = new {"Value" : "turn.contoso.confirm.result"},
-    // If true this event should propagate to parent dialogs
-    BubbleEvent = true
-}
-```
 
 ### CodeStep
 As the name implies, this step enables you to call a custom piece of code. 
@@ -681,7 +655,7 @@ var rootDialog = new AdaptiveDialog(rootDialogName) {
     }
 };
 ```
-You can use `Property` on code step to bind to a specific property in memory as both input to and output from the step or you can use `InputProperties` and `OutputProperty` to bind your memory to specific input to the step and output from the step.
+You can use `Property` on the code step to bind to a specific property in memory as both input to and output from the step, or you can use `InputProperties` and `OutputProperty` to bind your memory to specific input to the step and output from the step.
 
 ``` C#
 new CodeStep(CodeStepSampleFn) {

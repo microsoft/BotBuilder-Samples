@@ -4,18 +4,22 @@ Adaptive dialogs natively support and work with the new Language Generation syst
 
 See [here][1] to learn more about Language Generation preview.
 
-Once you have authored your .lg files for your Adaptive dialogs (or your bot project), you can simply register as middleware and use  `ILanguageGenerator` and `IMessageActivityGenerator` for full-blown generation support (including template resolution) anywhere in your bot project.
+Once you have authored your .lg files for your Adaptive dialogs (or your bot project), you can simply register as middleware and use  `ILanguageGenerator` and `IMessageActivityGenerator` for full-blown generation support (including template resolution) anywhere in your bot.
 
-Here is a code snippet that that does that, at the Adapter level. All [sample projects][2] follow the exact same pattern.
+All [sample projects][2] follow the exact same pattern.
 
+In startup.cs
 ``` C#
-// Manage all bot resources
-var resourceExplorer = ResourceExplorer
-    .LoadProject(Directory.GetCurrentDirectory(), ignoreFolders: new string[] { "models" });
-var lg = new LGLanguageGenerator(resourceExplorer);
-// Add as middleware.
-Use(new RegisterClassMiddleware<ILanguageGenerator>(lg));
-Use(new RegisterClassMiddleware<IMessageActivityGenerator>(new TextMessageActivityGenerator(lg)));
+// Resource explorer helps load all .lg files for this project.
+var resourceExplorer = ResourceExplorer.LoadProject(Directory.GetCurrentDirectory(), ignoreFolders: new string[] { "models" });
+services.AddSingleton(resourceExplorer);
+```
+
+In adapter
+```C#
+this.UseStorage(storage);
+this.UseState(userState, conversationState);
+this.UseLanguageGenerator(new LGLanguageGenerator(resourceExplorer));
 ```
 
 With this, you can simply refer to a LG template anywhere in your bot's response. 

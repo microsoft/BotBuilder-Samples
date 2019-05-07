@@ -6,20 +6,26 @@
     "type": "object",
     "additionalProperties": false,
     "properties": {
-        "property": {
-            "type": "string",
-            "title":"Property",
-            "description": "This will be the property passed in",
+        "inputBindings": {
+            "type": "object",
+            "title": "Input Bindings",
+            "description": "map of named arguments and the property path to bind to them",
+            "additionalProperties": {
+                "type": "string"
+            },
             "examples": [
-                "value.birthday"
+                {
+                    "name": "user.name",
+                    "problemId": "conversation.problem.id"
+                }
             ]
         },
-        "outputProperty": {
+        "outputBinding": {
             "type": "string",
-            "title": "Output Property",
+            "title": "Output Binding",
             "description": "This will be the property which the result will be put into",
             "examples": [
-                "value.birthday"
+                "conversation.resolution"
             ]
         },
         "script": {

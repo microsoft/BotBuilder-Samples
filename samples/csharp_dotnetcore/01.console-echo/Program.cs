@@ -5,15 +5,8 @@ using System;
 
 namespace Console_EchoBot
 {
-    /// <summary>
-    /// Main program for EchoBot.
-    /// </summary>
     internal class Program
     {
-        /// <summary>
-        /// Main for the Console EchoBot.
-        /// </summary>
-        /// <param name="args">Arguments passed to the program. Ignored.</param>
         public static void Main(string[] args)
         {
             Console.WriteLine("Welcome to the EchoBot. Type something to get started.");

@@ -1,0 +1,25 @@
+﻿{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/botbuilder-tools/master/packages/DialogSchema/src/dialogSchema.schema",
+    "$role": "unionType(Microsoft.IDialog)",
+    "title": "Multiply",
+    "description": "This will return the result of arg1*arg2",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "arg1": {
+            "type": "number",
+            "title": "Arg1",
+            "description": "Value from callers memory to use as arg 1"
+        },
+        "arg2": {
+            "type": "number",
+            "title": "Arg2",
+            "description": "Value from callers memory to use as arg 2"
+        },
+        "result": {
+            "type": "number",
+            "title": "Result",
+            "description": "Value from callers memory to store the result"
+        }
+    }
+}

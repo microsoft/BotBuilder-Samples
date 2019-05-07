@@ -1,4 +1,7 @@
-﻿# ModeOfTransportPrompt
+﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+# ModeOfTransportPrompt
 - Please enter your mode of transport.
 
 # AskForName
@@ -16,17 +19,20 @@
 # AskForAge.reprompt
 - The value entered must be greater than 0 and less than 150.
 
+> This template uses inline expressions. Expressions are defined using the common expression language. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more.
+
 # AgeReadBack (userAge)
 - IF: {userAge == null}
-   - No age given.
+   - And, No age given.
 - ELSE: 
-   - I have your age as {userAge}.
+   - And, I have your age as {userAge}.
 
 # ConfirmPrompt
 - Is this ok?
 
 # SummaryReadout
-- I have your mode of transport as {Transport} and your name as {Name}. And, [AgeReadBack(Age)]
+- I have your mode of transport as {Transport} and your name as {Name}. [AgeReadBack(Age)]
 
 # NoProfileReadBack
 - Thanks. Your profile will not be kept.

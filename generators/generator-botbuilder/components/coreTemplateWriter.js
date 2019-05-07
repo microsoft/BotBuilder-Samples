@@ -26,23 +26,18 @@ const getFolders = language => {
   let folders;
   if(_.toLower(language) === LANG_TS) {
     folders = [
+      path.join('src', 'bots'),
       'cognitiveModels',
+      path.join('src', 'dialogs'),
+      'resources',
       'deploymentScripts',
-      path.join('deploymentScripts', 'msbotClone'),
-      path.join('src', 'dialogs', 'greeting'),
-      path.join('resources', 'greeting'),
-      path.join('src', 'dialogs', 'welcome'),
-      path.join('resources', 'welcome')
     ];
   } else {
     folders = [
+      'bots',
       'cognitiveModels',
-      'deploymentScripts',
-      path.join('deploymentScripts', 'msbotClone'),
-      path.join('dialogs', 'greeting'),
-      path.join('dialogs', 'greeting', 'resources'),
-      path.join('dialogs', 'welcome'),
-      path.join('dialogs', 'welcome', 'resources'),
+      'dialogs',
+      'resources',
     ];
   }
   return folders;
@@ -55,25 +50,25 @@ const getFolders = language => {
  * @param {String} templatePath file path to write the generated code
  */
 const writeCoreTemplateFiles = (gen, templatePath) => {
-  const COGNITIVE_MODELS = 0;
-  const DEPLOYMENT_SCRIPTS = 1;
-  const DEPLOYMENT_MSBOT = 2;
-  const DIALOGS_GREETING = 3;
-  const DIALOGS_GREETING_RESOURCES = 4;
-  const DIALOGS_WELCOME = 5;
-  const DIALOGS_WELCOME_RESOURCES = 6;
+  const BOTS_FOLDER = 0;
+  const COGNITIVE_MODELS_FOLDER = 1;
+  const DIALOGS_FOLDER = 2;
+  const RESOURCES_FOLDER = 3;
+  const DEPLOYMENT_SCRIPTS_FOLDER = 4;
   const TS_SRC_FOLDER = 'src';
 
   // get the folder strucure, based on language
-  const srcFolders = [
+  let srcFolders = [
+    'bots',
     'cognitiveModels',
-    'deploymentScripts',
-    path.join('deploymentScripts', 'msbotClone'),
-    path.join('dialogs' , 'greeting'),
-    path.join('dialogs', 'greeting', 'resources'),
-    path.join('dialogs', 'welcome'),
-    path.join('dialogs', 'welcome', 'resources'),
+    'dialogs',
+    'resources',
   ];
+  // if we're generating TypeScript, then we need a deploymentScripts folder
+  if(_.toLower(gen.props.language) === LANG_TS) {
+    srcFolders = srcFolders.concat(['deploymentScripts']);
+  }
+
   const destFolders = getFolders(_.toLower(gen.props.language));
 
   const extension = _.toLower(gen.props.language) === 'javascript' ? 'js' : 'ts';
@@ -87,89 +82,76 @@ const writeCoreTemplateFiles = (gen, templatePath) => {
     mkdirp.sync(destFolders[cnt]);
   }
 
-  // write out the LUIS model
-  let sourcePath = path.join(templatePath, srcFolders[COGNITIVE_MODELS]);
-  let destinationPath = path.join(gen.destinationPath(), destFolders[COGNITIVE_MODELS]);
+  // write out the bots folder
+  let sourcePath = path.join(templatePath, srcFolders[BOTS_FOLDER]);
+  let destinationPath = path.join(gen.destinationPath(), destFolders[BOTS_FOLDER]);
   gen.fs.copy(
-    path.join(sourcePath, 'coreBot.luis'),
-    path.join(destinationPath, 'coreBot.luis')
+    path.join(sourcePath, `dialogAndWelcomeBot.${extension}`),
+    path.join(destinationPath, `dialogAndWelcomeBot.${extension}`),
+    {
+      botname: gen.props.botname
+    }
+  );
+  gen.fs.copy(
+    path.join(sourcePath, `dialogBot.${extension}`),
+    path.join(destinationPath, `dialogBot.${extension}`)
+  );
+
+  // write out the LUIS model
+  sourcePath = path.join(templatePath, srcFolders[COGNITIVE_MODELS_FOLDER]);
+  destinationPath = path.join(gen.destinationPath(), destFolders[COGNITIVE_MODELS_FOLDER]);
+  gen.fs.copy(
+    path.join(sourcePath, 'FlightBooking.json'),
+    path.join(destinationPath, 'FlightBooking.json')
   );
 
   // if we're writing out TypeScript, then we need to add a webConfigPrep.js
   if(_.toLower(gen.props.language) === LANG_TS) {
-    sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_SCRIPTS]);
-    destinationPath = path.join(gen.destinationPath(), destFolders[DEPLOYMENT_SCRIPTS]);
+    sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_SCRIPTS_FOLDER]);
+    destinationPath = path.join(gen.destinationPath(), destFolders[DEPLOYMENT_SCRIPTS_FOLDER]);
     gen.fs.copy(
       path.join(sourcePath, 'webConfigPrep.js'),
       path.join(destinationPath, 'webConfigPrep.js')
     );
   }
 
-  // write out deployment resources
-  sourcePath = path.join(templatePath, srcFolders[DEPLOYMENT_MSBOT]);
-  destinationPath = path.join(gen.destinationPath(), destFolders[DEPLOYMENT_MSBOT]);
-  gen.fs.copy(
-    path.join(sourcePath, '34.luis'),
-    path.join(destinationPath, '34.luis')
-  );
-  gen.fs.copyTpl(
-    path.join(sourcePath, 'bot.recipe'),
-    path.join(destinationPath, 'bot.recipe'),
-    {
-      botname: gen.props.botname
-    }
-  );
-
-  // write out the greeting dialog
-  sourcePath = path.join(templatePath, srcFolders[DIALOGS_GREETING]);
-  destinationPath = path.join(gen.destinationPath(), destFolders[DIALOGS_GREETING]);
-  gen.fs.copyTpl(
-    path.join(sourcePath, `greeting.${extension}`),
-    path.join(destinationPath, `greeting.${extension}`),
-    {
-      botname: gen.props.botname
-    }
-  );
-  gen.fs.copy(
-    path.join(sourcePath, `index.${extension}`),
-    path.join(destinationPath, `index.${extension}`)
-  );
-  gen.fs.copy(
-    path.join(sourcePath, `userProfile.${extension}`),
-    path.join(destinationPath, `userProfile.${extension}`)
-  );
-  // list the greeting dialog resources
-  const greetingResources = [
-    'cancel.lu',
-    'greeting.lu',
-    'help.lu',
-    'main.lu',
-    'none.lu',
-  ];
-  // write out greeting dialog resources
-  sourcePath = path.join(templatePath, srcFolders[DIALOGS_GREETING_RESOURCES]);
-  destinationPath = path.join(gen.destinationPath(), destFolders[DIALOGS_GREETING_RESOURCES]);
-  for (let cnt = 0; cnt < greetingResources.length; cnt++) {
-    gen.fs.copy(
-      path.join(sourcePath, greetingResources[cnt]),
-      path.join(destinationPath, greetingResources[cnt])
+  // write out the dialogs folder
+  sourcePath = path.join(templatePath, srcFolders[DIALOGS_FOLDER]);
+  destinationPath = path.join(gen.destinationPath(), destFolders[DIALOGS_FOLDER]);
+  if(_.toLower(gen.props.language) === LANG_TS) {
+      gen.fs.copy(
+      path.join(sourcePath, `bookingDetails.${extension}`),
+      path.join(destinationPath, `bookingDetails.${extension}`)
     );
   }
-
-  // write out welcome named exports, optimization
-  sourcePath = path.join(templatePath, srcFolders[DIALOGS_WELCOME]);
-  destinationPath = path.join(gen.destinationPath(), destFolders[DIALOGS_WELCOME]);
   gen.fs.copy(
-    path.join(sourcePath, `index.${extension}`),
-    path.join(destinationPath, `index.${extension}`)
+    path.join(sourcePath, `bookingDialog.${extension}`),
+    path.join(destinationPath, `bookingDialog.${extension}`)
+  );
+  gen.fs.copy(
+    path.join(sourcePath, `cancelAndHelpDialog.${extension}`),
+    path.join(destinationPath, `cancelAndHelpDialog.${extension}`)
+  );
+  gen.fs.copy(
+    path.join(sourcePath, `dateResolverDialog.${extension}`),
+    path.join(destinationPath, `dateResolverDialog.${extension}`)
+  );
+  gen.fs.copy(
+    path.join(sourcePath, `luisHelper.${extension}`),
+    path.join(destinationPath, `luisHelper.${extension}`)
+  );
+  gen.fs.copy(
+    path.join(sourcePath, `mainDialog.${extension}`),
+    path.join(destinationPath, `mainDialog.${extension}`)
   );
 
-  // write out welcome adaptive card
-  sourcePath = path.join(templatePath, srcFolders[DIALOGS_WELCOME_RESOURCES]);
-  destinationPath = path.join(gen.destinationPath(), destFolders[DIALOGS_WELCOME_RESOURCES]);
+  // write out the resources folder
+  // which contains the welcome adaptive card
+  sourcePath = path.join(templatePath, srcFolders[RESOURCES_FOLDER]);
+  destinationPath = path.join(gen.destinationPath(), destFolders[RESOURCES_FOLDER]);
   gen.fs.copy(
     path.join(sourcePath, 'welcomeCard.json'),
-    path.join(destinationPath, `welcomeCard.json`)
+    path.join(destinationPath, 'welcomeCard.json')
   );
 
   // write out the index.js and bot.js
@@ -183,23 +165,14 @@ const writeCoreTemplateFiles = (gen, templatePath) => {
       botname: gen.props.botname
     }
   );
-  // gen the main bot activity router
-  gen.fs.copyTpl(
-    gen.templatePath(path.join(templatePath, `bot.${extension}`)),
-    path.join(destinationPath, `bot.${extension}`),
-    {
-      botname: gen.props.botname
-    }
-  );
+  // gen the logger stub
+  if(_.toLower(gen.props.language) === LANG_TS) {
+      gen.fs.copy(
+      gen.templatePath(path.join(templatePath, `logger.${extension}`)),
+      path.join(destinationPath, `logger.${extension}`)
+    );
+  }
 
-  // write out PREREQUISITES.md
-  gen.fs.copyTpl(
-    gen.templatePath(path.join(templatePath, 'PREREQUISITES.md')),
-    gen.destinationPath('PREREQUISITES.md'),
-    {
-      botname: gen.props.botname
-    }
-  );
 }
 
 /**

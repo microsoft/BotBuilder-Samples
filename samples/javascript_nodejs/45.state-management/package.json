@@ -1,0 +1,28 @@
+{
+    "name": "state-management-bot",
+    "version": "1.0.0",
+    "description": "Demonstrates how to set up user and conversation state.",
+    "author": "Microsoft Bot Builder Yeoman Generator v4.0.10",
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": {
+        "start": "node ./index.js",
+        "watch": "nodemon ./index.js",
+        "lint": "eslint .",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "botbuilder": "~4.4.0",
+        "dotenv": "^6.2.0",
+        "restify": "^6.4.0"
+    },
+    "devDependencies": {
+        "eslint": "^5.9.0",
+        "eslint-config-standard": "^12.0.0",
+        "eslint-plugin-import": "^2.14.0",
+        "eslint-plugin-node": "^8.0.0",
+        "eslint-plugin-promise": "^4.0.1",
+        "eslint-plugin-standard": "^4.0.0",
+        "nodemon": "^1.18.6"
+    }
+}

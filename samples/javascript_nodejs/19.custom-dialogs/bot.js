@@ -4,8 +4,8 @@
 const { ActivityTypes } = require('botbuilder');
 const { DialogSet, NumberPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 
-const { SlotFillingDialog } = require('./slotFillingDialog');
-const { SlotDetails } = require('./slotDetails');
+const { SlotFillingDialog } = require('./dialogs/slotFillingDialog');
+const { SlotDetails } = require('./dialogs/slotDetails');
 
 const DIALOG_STATE_PROPERTY = 'dialogState';
 

@@ -30,10 +30,10 @@ Experimental samples are organized per platform.
 
 [cs#1]: ./csharp_dotnetcore/multilingual-luis-bot
 
-[cs#2]: ./csharp_dotnetcore/qnamaker-activelearning-bot
+[cs#2]: ./qnamaker-activelearning/csharp_dotnetcore
 
 [wa#2]: ./csharp_webapi/#
 
 [ts#1]: ./javascript_typescript/multilingual-luis-bot
 
-[js#1]: ./samples/javascript_nodejs/qnamaker-activelearning-bot
+[js#1]: ./qnamaker-activelearning/javascript_nodejs

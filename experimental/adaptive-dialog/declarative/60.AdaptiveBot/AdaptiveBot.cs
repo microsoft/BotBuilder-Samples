@@ -52,7 +52,19 @@ namespace Microsoft.BotBuilderSamples
         {
             System.Diagnostics.Trace.TraceInformation("Loading resources...");
 
-            this.rootDialog = new AdaptiveDialog()
+            // normally you just look up your root dialog and load it
+            //var resource = this.resourceExplorer.GetResource("myroot.dialog");
+            //this.rootDialog = DeclarativeTypeLoader.Load<AdaptiveDialog>(resource, this.resourceExplorer, DebugSupport.SourceRegistry);
+
+            // but for this sample we enumerate all of the .main.dialog files and build a ChoiceInput as our rootidialog.
+            this.rootDialog = CreateChoiceInputForAllMainDialogs();
+
+            System.Diagnostics.Trace.TraceInformation("Done loading resources.");
+        }
+
+        private AdaptiveDialog CreateChoiceInputForAllMainDialogs()
+        {
+            var dialog = new AdaptiveDialog()
             {
                 AutoEndDialog = false,
                 Steps = new List<IDialog>()
@@ -75,16 +87,15 @@ namespace Microsoft.BotBuilderSamples
             {
                 var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(resource.Id));
                 choiceInput.Choices.Add(new Choice(name));
-                var dialog = DeclarativeTypeLoader.Load<IDialog>(resource, this.resourceExplorer, DebugSupport.SourceRegistry);
-                handleChoice.Cases.Add(new Case($"'{name}'", new List<IDialog>() { dialog }));
+                var subDialog = DeclarativeTypeLoader.Load<IDialog>(resource, this.resourceExplorer, DebugSupport.SourceRegistry);
+                handleChoice.Cases.Add(new Case($"'{name}'", new List<IDialog>() { subDialog }));
             }
             choiceInput.Style = ListStyle.Auto;
-            this.rootDialog.Steps.Add(choiceInput);
-            this.rootDialog.Steps.Add(new SendActivity("# Running {conversation.dialogChoice}.main.dialog"));
-            this.rootDialog.Steps.Add(handleChoice);
-            this.rootDialog.Steps.Add(new RepeatDialog());
-
-            System.Diagnostics.Trace.TraceInformation("Done loading resources.");
+            dialog.Steps.Add(choiceInput);
+            dialog.Steps.Add(new SendActivity("# Running {conversation.dialogChoice}.main.dialog"));
+            dialog.Steps.Add(handleChoice);
+            dialog.Steps.Add(new RepeatDialog());
+            return dialog;
         }
 
         protected override Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)

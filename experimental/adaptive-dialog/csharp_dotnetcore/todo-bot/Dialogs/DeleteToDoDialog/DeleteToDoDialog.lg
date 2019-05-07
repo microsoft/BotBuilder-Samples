@@ -1,0 +1,20 @@
+﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+# Get-ToDo-Title-To-Delete
+- ```
+Ok, give me the exact title of the todo you would like to delete..
+[Suggestions=Help | Cancel]
+```
+
+# Delete-readBack
+- ```
+Ok, I've removed your todo titled "@{turn.todoTitle}".
+@{lgTemplate("View-ToDos")}
+```
+
+# Delete-Empty-List
+- You do not have any items in your todo list.
+
+# Todo-not-found
+- Sorry, I did not find a todo titled {turn.todoTitle} in your todos list.

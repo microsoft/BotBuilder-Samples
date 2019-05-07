@@ -1,61 +1,89 @@
-﻿This sample shows how to integrate QnA Maker in a simple bot with ASP.Net Core 2. 
+﻿# QnA Maker
 
-# Concepts introduced in this sample
-The [QnA Maker Service](https://www.qnamaker.ai) enables you to build, train and publish a simple question
-and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
+Bot Framework v4 QnA Maker bot sample
 
-In this sample, we demonstrate how to use the QnA Maker service to answer questions based on a FAQ text file as input.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses the [QnA Maker Cognitive AI](https://www.qnamaker.ai) service.
 
-# To try this sample
+The [QnA Maker Service](https://www.qnamaker.ai) enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes. In this sample, we demonstrate how to use the QnA Maker service to answer questions based on a FAQ text file used as input.
 
-- Clone the samples repository
-```bash
-git clone https://github.com/Microsoft/botbuilder-samples.git
-```
-- [Optional] Update the `appsettings.json` file under `botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker` with your botFileSecret.  For Azure Bot Service bots, you can find the botFileSecret under application settings.
-# Prerequisites
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure)
-to create a QnA Maker service.
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/tutorials/migrate-knowledge-base) to
-import the [smartLightFAQ.tsv](CognitiveModels/smartLightFAQ.tsv) to your newly created QnA Maker service.
-- Update [qnamaker.bot](qnamaker.bot) with your kbid (KnowledgeBase Id), hostname, and endpointKey in the "qna" services section. You can find this
-information under "Settings" tab for your QnA Maker Knowledge Base at [QnAMaker.ai](https://www.qnamaker.ai)
-  - If you changed the `name` property of the `qna` service in your `.bot` file, be sure to update `QnAMakerKey` in `QnABot.cs`
-- (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the
-QnA Maker CLI to deploy the model.
+## Prerequisites
 
-# Running Locally
+This samples **requires** prerequisites in order to run.
 
-## Visual Studio
-- Navigate to the samples folder (`botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker`) and open QnABot.csproj in Visual Studio .
-- Run the project (press `F5` key)
+### Overview
 
-## .NET Core CLI
-- Install the [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x). 
-- Using the command line, navigate to `botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker` folder.
-- Type `dotnet run`.
+This bot uses [QnA Maker Service](https://www.qnamaker.ai), an AI based cognitive service, to implement simple Question and Answer conversational patterns.
+
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+
+  ```bash
+  # determine dotnet version
+  dotnet --version
+  ```
+
+### Create a QnAMaker Application to enable QnA Knowledge Bases
+
+QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
+
+## To try this sample
+
+- Clone the repository
+
+    ```bash
+    git clone https://github.com/Microsoft/botbuilder-samples.git
+    ```
+
+- In a terminal, navigate to `samples/csharp_dotnetcore/11.qnamaker`
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
+
+  A) From a terminal
+
+  ```bash
+  # run the bot
+  dotnet run
+  ```
+
+  B) Or from Visual Studio
+
+  - Launch Visual Studio
+  - File -> Open -> Project/Solution
+  - Navigate to `samples/csharp_dotnetcore/11.qnamaker` folder
+  - Select `QnABot.csproj` file
+  - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator).
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-### Connect to bot using Bot Framework Emulator **V4**
-- Launch the Bot Framework Emulator
-- File -> Open bot and navigate to `botbuilder-samples/samples/csharp_dotnetcore/11.qnamaker` folder.
-- Select the `qnamaker.bot` file.
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+
+### Connect to the bot using Bot Framework Emulator
+
+- Launch Bot Framework Emulator
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
+
+## QnA Maker service
+
+QnA Maker enables you to power a question and answer service from your semi-structured content.
+
+One of the basic requirements in writing your own bot is to seed it with questions and answers. In many cases, the questions and answers already exist in content like FAQ URLs/documents, product manuals, etc. With QnA Maker, users can query your application in a natural, conversational manner. QnA Maker uses machine learning to extract relevant question-answer pairs from your content. It also uses powerful matching and ranking algorithms to provide the best possible match between the user query and the questions.
 
 ## Deploy the bot to Azure
-After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.
-To learn how, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete set of deployment instructions.
 
-**Note:** If you already created a QnA Knowledgebase, running `msbot clone services ...` will create an additional one. You can deal with this in two different ways:
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
-1. Remove the entry with `"type": "qna"` from `DeploymentScripts/MsbotClone`. You'll then need to update your `.bot` file with the QnA settings from your previous QnA Knowledgebse and run the `az publish ...` command produced at the end of running the `msbot clone services ...` command.
+## Further reading
 
-2. Delete the original QnA Knowledgebase and resources you created earlier. Ensure that you re-import any `.tsv` files, as needed.
-
-# Further reading
-- [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [QnA Maker documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/overview/overview)
-- [QnA Maker command line tool](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker)
+- [Bot Framework Documentation](https://docs.botframework.com)
+- [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
+- [QnA Maker Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/overview/overview)
+- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
+- [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
+- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
+- [QnA Maker CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker)
+- [Azure Portal](https://portal.azure.com)
+- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)

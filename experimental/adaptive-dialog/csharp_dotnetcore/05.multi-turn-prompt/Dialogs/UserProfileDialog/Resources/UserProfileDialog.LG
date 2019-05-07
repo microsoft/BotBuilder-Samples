@@ -1,9 +1,0 @@
-﻿# FinalUserProfileReadOut
-- IF : {turn.finalConfirmation == true}
-    - I have your mode of transport as {user.userProfile.Transport} and your name as {user.userProfile.Name}. [UserAgeReadBack]
-- ELSE :
-    - Thanks. Your profile will not be kept.
-
-# UserAgeReadBack
-- IF : {user.userProfile.Age != null}
-    - And age as {user.userProfile.Age}.

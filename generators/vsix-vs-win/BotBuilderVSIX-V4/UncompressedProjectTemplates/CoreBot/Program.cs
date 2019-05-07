@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-// Generated with `dotnet new corebot` vX.X.X
+//
+// Generated with Bot Builder V4 SDK Template for Visual Studio CoreBot v$templateversion$
 
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -12,28 +13,16 @@ namespace $safeprojectname$
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureLogging((hostingContext, logging) =>
+                .ConfigureLogging((logging) =>
                 {
-                    // Add Azure Logging
-                    logging.AddAzureWebAppDiagnostics();
-
-                    // Other Loggers.
-                    // There are other logging options available:
-                    // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.2
-                    // logging.AddDebug();
-                    // logging.AddConsole();
+                    logging.AddDebug();
+                    logging.AddConsole();
                 })
-
-                // Application Insights.
-                // An alternative logging and metrics service for your application.
-                // https://azure.microsoft.com/en-us/services/application-insights/
-                // .UseApplicationInsights()
-                .UseStartup<Startup>()
-                .Build();
+                .UseStartup<Startup>();
     }
 }

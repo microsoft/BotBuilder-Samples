@@ -1,0 +1,40 @@
+﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+# Help-Add-ToDo
+- [Help-prefix], you can simply say the title of your todo to add it.
+
+# Help-prefix
+- Sure
+- You bet
+- Absolutely
+
+# Cancel-Prefix
+- Are you suare you want to cancel? 
+- Just double checking; you want to cancel this right? 
+
+# Confirm-cancellation
+- ```
+@{lgTemplate("Cancel-Prefix")}
+[Suggestions=Yes | No]
+```
+
+# Get-ToDo-Title
+- ```
+Ok, what is the title of your todo?
+[Suggestions=Help | Cancel]
+```
+
+> This template uses 'welcome-actions' which is not defined in this LG file. 
+> By default, the ResourceExplorer loads all LG files found in your project and so all template definitions have 'global' scope.
+# Add-ToDo-ReadBack
+- ```
+@{lgTemplate("Help-prefix")}, I have added "@{turn.todoTitle}" to your todo list. You have @{count(user.todos)} items in your Todo list.
+@{lgTemplate("Welcome-Actions")}
+```
+
+# Cancel-add-todo
+- ```
+@{lgTemplate("Help-prefix")}, I've cancelled that.
+@{lgTemplate("Welcome-Actions")}
+```

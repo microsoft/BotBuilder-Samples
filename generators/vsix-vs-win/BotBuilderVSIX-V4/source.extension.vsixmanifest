@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="BotBuilderV4.fbe0fc50-a6f1-4500-82a2-189314b7bea2" Version="4.4" Language="en-US" Publisher="Microsoft" />
-        <DisplayName>Bot Builder V4 SDK Template for Visual Studio</DisplayName>
-        <Description xml:space="preserve">Templates for Microsoft Bot Framework v4. Will let you quickly set up a conversational AI bot using core AI capabilities.</Description>
+        <Identity Id="BotBuilderV4.fbe0fc50-a6f1-4500-82a2-189314b7bea2" Version="4.4.0" Language="en-US" Publisher="Microsoft" />
+        <DisplayName>Bot Framework v4 SDK Templates for Visual Studio</DisplayName>
+        <Description xml:space="preserve">Templates for Microsoft Bot Framework v4. Will let you quickly create a bot that uses core AI capabilities.</Description>
         <MoreInfo>https://aka.ms/BotBuilderOverview</MoreInfo>
         <License>LICENSE.txt</License>
+        <GettingStartedGuide>  https://aka.ms/botbuilder-vsix</GettingStartedGuide>
         <Icon>Template.ico</Icon>
-        <Tags>Bot, Bots, Bot Framework, BotBuilder, Bot Builder, v4bot, sdkbot, botframework</Tags>
+        <Tags>Bot, Bots, Bot Framework, BotBuilder, NLU, AI, Cognitive Services, Azure, Microsoft</Tags>
     </Metadata>
     <Installation InstalledByMsi="false">
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0,17.0)" />
@@ -16,8 +17,8 @@
         <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
     </Dependencies>
     <Assets>
-        <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="File" Path="ProjectTemplates" d:TargetPath="ProjectTemplates\Cloud\AzureBotService.zip" />
-        <!--<Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="File" Path="ProjectTemplates" d:TargetPath="ProjectTemplates\BotFramework.zip" />-->
+        <!-- <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="File" Path="ProjectTemplates" d:TargetPath="ProjectTemplates\Cloud\AzureBotService.zip" /> -->
+        <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="File" Path="ProjectTemplates" d:TargetPath="ProjectTemplates\Bot Framework.zip" />
     </Assets>
     <Prerequisites>
         <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,17.0)" DisplayName="Visual Studio core editor" />

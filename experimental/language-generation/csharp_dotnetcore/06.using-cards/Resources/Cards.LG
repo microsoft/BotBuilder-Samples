@@ -62,6 +62,21 @@
     buttons = Read More]
 ```
 
+> The external file reference here 'Resources\adaptiveCard.json' should be marked as 'copy to output directory'
+> Note: The external file will be read as text and any language generation templates/ expressions in the content will be evaluated. 
+> You can see this in Resources\adaptiveCard.json that pulls in a passenger name at random based on the call to 'PassengerName' template defined below.
+> Note: Chatdown already supports the ability to create any card type from its json definition. So you can apply this for not just Adaptive cards but to all card types.
+# AdaptiveCard
+- ```
+[Attachment=Resources\adaptiveCard.json adaptivecard]
+```
+
+# PassengerName
+- Vishwac
+- Tom
+- Chris
+- Yochay
+
 # AttachmentLayoutType
 - carousel
 - list
@@ -75,4 +90,5 @@
 @{lgTemplate("AnimationCard")}
 @{lgTemplate("VideoCard")}
 @{lgTemplate("AudioCard")}
+@{lgTemplate("AdaptiveCard")}
 ```

@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Using_Cards": {
+    "AuthenticationBot": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

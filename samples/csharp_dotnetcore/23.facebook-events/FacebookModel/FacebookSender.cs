@@ -3,7 +3,7 @@
 
 using Newtonsoft.Json;
 
-namespace Facebook_Events_Bot.FacebookModel
+namespace Microsoft.BotBuilderSamples.FacebookModel
 {
     /// <summary>
     /// Defines a Facebook sender.

@@ -3,17 +3,13 @@
 
 namespace Microsoft.BotBuilderSamples
 {
-    /// <summary>
-    /// Stores User Welcome state for the conversation.
-    /// Stored in <see cref="Microsoft.Bot.Builder.ConversationState"/> and
-    /// backed by <see cref="Microsoft.Bot.Builder.MemoryStorage"/>.
-    /// </summary>
+    // Stores User Welcome state for the conversation.
+    // Stored in "Microsoft.Bot.Builder.ConversationState" and
+    // backed by "Microsoft.Bot.Builder.MemoryStorage".
+
     public class WelcomeUserState
     {
-        /// <summary>
-        /// Gets or sets whether the user has been welcomed in the conversation.
-        /// </summary>
-        /// <value>The user has been welcomed in the conversation.</value>
+        // Gets or sets whether the user has been welcomed in the conversation.
         public bool DidBotWelcomeUser { get; set; } = false;
     }
 }

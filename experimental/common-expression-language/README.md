@@ -2,7 +2,7 @@
 
 Bots, like any other application, require use of expressions to evaluate outcome of a condition based on runtime information available in memory or to the dialog or the language generation system. 
 
-Common expression language was put together to address this core need as well as to rationalize and snap to a common expression language that will be used across Bot Builder SDK and other conversational AI components that need an expression language.
+Common expression language was put together to address this core need as well as to rationalize and snap to a common expression language that will be used across Bot Framework SDK and other conversational AI components that need an expression language.
 
 See [here](./api-reference.md) for API reference.
 

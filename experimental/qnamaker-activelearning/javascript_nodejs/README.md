@@ -1,9 +1,10 @@
-# QnA Maker sample
-Bot Framework v4 QnA Maker bot sample
+﻿# Active learning in QnA Maker
+This sample shows how to integrate Active Learning in a QnA Maker bot in NodeJS. Click [here][al#1] to know more about how to enable and use active learning .
 
-This bot has been created using [Microsoft Bot Framework][1], it shows how to create a bot that uses the [QnA Maker Cognitive AI][19] service.
 
-The [QnA Maker Service][19] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes. In this sample, we demonstrate how to use the QnA Maker service to answer questions based on a FAQ text file used as input.
+## Concepts introduced in this sample
+The [QnA Maker Service][19] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
+In this sample, we demonstrate how to use the Active Learning to generate suggestions for knowledge base.
 
 ## Prerequisites
 This samples requires prerequisites in order to run.
@@ -14,9 +15,9 @@ This samples requires prerequisites in order to run.
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to `experimental/javascript_nodejs/qnamaker-activelearning-bot`
+- In a terminal, navigate to `experimental/qnamaker-activelearning/javascript_nodejs`
     ```bash
-    cd experimental/javascript_nodejs/qnamaker-activelearning-bot
+    cd experimental/qnamaker-activelearning/javascript_nodejs
     ```
 - Install modules
     ```bash
@@ -50,7 +51,7 @@ This samples requires prerequisites in order to run.
 ## Connect to the bot using Bot Framework Emulator **v4**
 - Launch Bot Framework Emulator
 - File -> Open Bot Configuration
-- Navigate to `experimental/javascript_nodejs/qnamaker-activelearning-bot` folder
+- Navigate to `experimental/qnamaker-activelearning/javascript_nodejs` folder
 - Select `qnamaker.bot` file
 
 # QnA Maker service
@@ -87,6 +88,7 @@ npm run build
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 # Further reading
+- [Active learning Documentation][al#1]
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
 - [QnA Maker Documentation][23]
@@ -120,3 +122,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
 [41]: ./PREREQUISITES.md
+[al#1]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/improve-knowledge-base

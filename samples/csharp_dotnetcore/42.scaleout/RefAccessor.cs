@@ -39,10 +39,8 @@ namespace Microsoft.BotBuilderSamples
                 {
                     throw new KeyNotFoundException();
                 }
-                else
-                {
-                    Value = defaultValueFactory();
-                }
+
+                Value = defaultValueFactory();
             }
 
             return Task.FromResult(Value);

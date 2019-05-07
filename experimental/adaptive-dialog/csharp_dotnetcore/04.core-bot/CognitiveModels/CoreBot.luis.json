@@ -1,0 +1,259 @@
+{
+  "intents": [
+    {
+      "name": "Book flight"
+    },
+    {
+      "name": "Cancel"
+    },
+    {
+      "name": "Help"
+    },
+    {
+      "name": "Greeting"
+    }
+  ],
+  "entities": [],
+  "composites": [
+    {
+      "name": "fromCity",
+      "children": [
+        "geographyV2"
+      ],
+      "roles": []
+    },
+    {
+      "name": "toCity",
+      "children": [
+        "geographyV2"
+      ],
+      "roles": []
+    }
+  ],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "book flight from london to paris on feb 14th",
+      "intent": "Book flight",
+      "entities": [
+        {
+          "entity": "fromCity",
+          "startPos": 17,
+          "endPos": 22
+        },
+        {
+          "entity": "toCity",
+          "startPos": 27,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "book flight to berlin on feb 14th",
+      "intent": "Book flight",
+      "entities": [
+        {
+          "entity": "toCity",
+          "startPos": 15,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "book me a flight from london to paris",
+      "intent": "Book flight",
+      "entities": [
+        {
+          "entity": "fromCity",
+          "startPos": 22,
+          "endPos": 27
+        },
+        {
+          "entity": "toCity",
+          "startPos": 32,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "flight to paris",
+      "intent": "Book flight",
+      "entities": [
+        {
+          "entity": "toCity",
+          "startPos": 10,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "flight to paris from london on feb 14th",
+      "intent": "Book flight",
+      "entities": [
+        {
+          "entity": "toCity",
+          "startPos": 10,
+          "endPos": 14
+        },
+        {
+          "entity": "fromCity",
+          "startPos": 21,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "fly from berlin to paris on may 5th",
+      "intent": "Book flight",
+      "entities": [
+        {
+          "entity": "fromCity",
+          "startPos": 9,
+          "endPos": 14
+        },
+        {
+          "entity": "toCity",
+          "startPos": 19,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "go to paris",
+      "intent": "Book flight",
+      "entities": [
+        {
+          "entity": "toCity",
+          "startPos": 6,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "going from paris to berlin",
+      "intent": "Book flight",
+      "entities": [
+        {
+          "entity": "fromCity",
+          "startPos": 11,
+          "endPos": 15
+        },
+        {
+          "entity": "toCity",
+          "startPos": 20,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "travel to paris",
+      "intent": "Book flight",
+      "entities": [
+        {
+          "entity": "toCity",
+          "startPos": 10,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "book a flight new york",
+      "intent": "Book flight",
+      "entities": [
+        {
+          "entity": "toCity",
+          "startPos": 14,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "bye",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel booking",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "exit",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "ignore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "What can I say",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "What can I do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I need help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "please help me",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Hi",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Hello",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "Hiya",
+      "intent": "Greeting",
+      "entities": []
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "book a flight to {toCity}",
+      "intent": "Book flight"
+    },
+    {
+      "pattern": "book a flight from {fromCity}",
+      "intent": "Book flight"
+    },
+    {
+      "pattern": "book a flight from {fromCity} to {toCity}",
+      "intent": "Book flight"
+    }
+  ],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    },
+    {
+      "name": "geographyV2",
+      "roles": []
+    }
+  ],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "RootDialog",
+  "desc": "",
+  "culture": "en-us"
+}
