@@ -212,7 +212,7 @@ The above example uses the [join][5] pre-built function to list all values in th
 
 [1]:https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md
 [2]:./docs/api-reference.md
-[3]:../../common-expression-language/readme.md
+[3]:../../common-expression-language#readme
 [4]:../../common-expression-language/prebuilt-functions.md
 [5]:../../common-expression-language/prebuilt-functions.md#join
 [6]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown
