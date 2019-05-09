@@ -1,4 +1,4 @@
-const { ActivityHandler, ActivityTypes, TurnContext } = require('botbuilder');
+const { ActivityHandler } = require('botbuilder');
 
 class ReservationBot extends ActivityHandler {
     /**

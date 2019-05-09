@@ -1,4 +1,4 @@
-const { ActivityHandler, ActionTypes, ActivityTypes, AttachmentLayoutTypes, CardFactory } = require('botbuilder');
+const { AttachmentLayoutTypes, CardFactory } = require('botbuilder');
 const store = require('../store');
 const { 
     INITIAL_HOTEL_PROMPT, 
