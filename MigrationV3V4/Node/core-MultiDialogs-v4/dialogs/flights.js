@@ -1,6 +1,9 @@
 const { ComponentDialog, WaterfallDialog } = require('botbuilder-dialogs');
+const { 
+    FLIGHTS_WATERFALL_DIALOG
+} = require('../const');
 
-const initialId = 'mainFlightDialog';
+const initialId = FLIGHTS_WATERFALL_DIALOG;
 
 class FlightDialog extends ComponentDialog {
     constructor(id) {
