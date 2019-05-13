@@ -37,13 +37,13 @@ const adapter = new BotFrameworkAdapter({
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
-    const errorMssg = error.message ? error.message : `Oops. Something went wrong!`;
+    const errorMsg = error.message ? error.message : `Oops. Something went wrong!`;
     // This check writes out errors to console log .vs. app insights.
     console.error(`\n [onTurnError]: ${ error }`);
     // Clear out state
     await conversationState.delete(context);
     // Send a message to the user
-    await context.sendActivity(errorMssg);
+    await context.sendActivity(errorMsg);
 };
 
 // Define state store for your bot.
