@@ -163,7 +163,9 @@ dotnet run
 ```
 
 ## Interacting With Your Bot Using the Emulator
-Launch the [Bot Framework Emulator v4][3] and open the generated project's `.bot` file.
+- Launch Bot Framework Emulator
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 Once the Emulator is connected, you can interact with and receive messages from your bot.
 
