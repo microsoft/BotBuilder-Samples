@@ -13,7 +13,7 @@ class HotelsDialog extends ComponentDialog {
         super(id);
 
         this.addDialog(new WaterfallDialog(HOTELS_WATERFALL_DIALOG, [
-            this.destinationPromptStep,
+            this.destinationPromptStep.bind(this),
             this.destinationSearchStep.bind(this),
             this.checkinPromptStep.bind(this),
             this.checkinTimeSetStep.bind(this),
@@ -51,7 +51,7 @@ class HotelsDialog extends ComponentDialog {
     }
 
     async checkinTimeSetStep (stepContext) {
-        const checkinTime = stepContext.result[1].value;
+        const checkinTime = stepContext.result[0].value;
         stepContext.values.checkinTime = checkinTime;
         return stepContext.next();
     }
