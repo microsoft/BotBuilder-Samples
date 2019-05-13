@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 const { ActivityHandler } = require('botbuilder');
 
 class ReservationBot extends ActivityHandler {
@@ -8,7 +11,7 @@ class ReservationBot extends ActivityHandler {
      * @param {Dialog} dialog
      * @param {any} logger object for logging events, defaults to console if none is provided
     */
-    constructor(conversationState, userState, dialog, logger) {
+    constructor(userState, conversationState, dialog, logger) {
         super();
         if (!conversationState) throw new Error('[DialogBot]: Missing parameter. conversationState is required');
         if (!userState) throw new Error('[DialogBot]: Missing parameter. userState is required');

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 const { ComponentDialog, WaterfallDialog } = require('botbuilder-dialogs');
 const { AttachmentLayoutTypes, CardFactory } = require('botbuilder');
 const store = require('../store');
