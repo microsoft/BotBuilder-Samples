@@ -1,4 +1,4 @@
-# CoreBot
+# CoreBot with Application Insights
 
 Bot Framework v4 core bot sample.
 
@@ -8,7 +8,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 - Implement a multi-turn conversation using Dialogs
 - Handle user interruptions for such things as `Help` or `Cancel`
 - Prompt for and validate requests for information from the user
-- Use [Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/cloudservices) to monitor your bot
+- Use [Application Insights](https://docs.microsoft.com/azure/azure-monitor/app/cloudservices) to monitor your bot
 
 ## Prerequisites
 
@@ -17,7 +17,7 @@ This sample **requires** prerequisites in order to run.
 ### Overview
 
 This bot uses [LUIS](https://www.luis.ai), an AI based cognitive service, to implement language understanding 
-and [Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/cloudservices), an extensible Application Performance Management (APM) service for web developers on multiple platforms.
+and [Application Insights](https://docs.microsoft.com/azure/azure-monitor/app/cloudservices), an extensible Application Performance Management (APM) service for web developers on multiple platforms.
 
 ### Install .NET Core CLI
 
@@ -30,12 +30,12 @@ and [Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/
 
 ### Create a LUIS Application to enable language understanding
 
-LUIS language model setup, training, and application configuration steps can be found [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=cs).
+LUIS language model setup, training, and application configuration steps can be found [here](https://docs.microsoft.com/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=cs).
 
 If you wish to create a LUIS application via the CLI, these steps can be found in the [README-LUIS.md](README-LUIS.md).
 
 ### Add Application Insights service to enable the bot monitoring
-Application Insights resource creation steps can be found [here](https://docs.microsoft.com/en-us/azure/azure-monitor/app/create-new-resource).
+Application Insights resource creation steps can be found [here](https://docs.microsoft.com/azure/azure-monitor/app/create-new-resource).
 
 ## To try this sample
 
@@ -45,7 +45,7 @@ Application Insights resource creation steps can be found [here](https://docs.mi
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/13.core-bot`
+- In a terminal, navigate to `samples/csharp_dotnetcore/CoreBot-App-Insights`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -59,8 +59,8 @@ Application Insights resource creation steps can be found [here](https://docs.mi
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/13.core-bot` folder
-  - Select `CoreBot.csproj` file
+  - Navigate to `samples/csharp_dotnetcore/CoreBot-App-Insights` folder
+  - Select `CoreBot-App-Insights.csproj` file
   - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator

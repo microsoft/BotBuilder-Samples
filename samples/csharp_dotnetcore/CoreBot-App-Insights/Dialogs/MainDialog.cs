@@ -24,14 +24,22 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             Logger = logger;
             TelemetryClient = telemetryClient;
 
-            AddDialog(new TextPrompt(nameof(TextPrompt)));
-            AddDialog(new BookingDialog());
-            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
+            AddDialog(new TextPrompt(nameof(TextPrompt))
+            {
+                TelemetryClient = telemetryClient,
+            });
+            AddDialog(new BookingDialog(telemetryClient));
+            AddDialog(new WaterfallDialog(
+                nameof(WaterfallDialog),
+                new WaterfallStep[]
             {
                 IntroStepAsync,
                 ActStepAsync,
                 FinalStepAsync,
-            }));
+            })
+            {
+                TelemetryClient = telemetryClient,
+            });
 
             InitialDialogId = nameof(WaterfallDialog);
         }
