@@ -55,7 +55,7 @@ const conversationState = new ConversationState(memoryStorage);
 
 // Create the base dialog and bot
 const dialog = new MainDialog(userState, conversationState);
-const reservationBot = new ReservationBot(conversationState, userState, dialog);
+const reservationBot = new ReservationBot(userState, conversationState, dialog);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
