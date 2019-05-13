@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { DialogSet, DialogTurnStatus, ComponentDialog, WaterfallDialog, TextPrompt, DateTimePrompt, ChoicePrompt } = require('botbuilder-dialogs');
+const { DialogSet, DialogTurnStatus, ComponentDialog, WaterfallDialog, TextPrompt, DateTimePrompt,
+     ChoicePrompt } = require('botbuilder-dialogs');
 const { FlightDialog } = require('./flights');
 const { HotelsDialog } = require('./hotels');
 const { BASE_DIALOG,
@@ -79,8 +80,9 @@ class MainDialog extends ComponentDialog {
         // Retrieve the user input.
         const answer = stepContext.result.value;
         if (!answer) {
-            // exhausted attemps and no selection, start over
-            await stepContext.context.sendActivity('Not a valid option. We\'ll restart the dialog so you can try again!');
+            // exhausted attempts and no selection, start over
+            await stepContext.context.sendActivity("Not a valid option. We'll restart the dialog "
+                + 'so you can try again!');
             return await stepContext.endDialog();
         }
         if(answer === 'Hotel') {
@@ -100,7 +102,8 @@ class MainDialog extends ComponentDialog {
         //await this.conversationState.saveChanges(promptContext.context);
         if (localConversationData.attempts > 3) {
             // cancel everything
-            await promptContext.context.sendActivity('Ooops! Too many attemps :( But don\'t worry, I\'m handling that exception and you can try again!');
+            await promptContext.context.sendActivity("Oops! Too many attempts :( But don't worry, I'm "
+                + 'handling that exception and you can try again!');
             return await promptContext.context.endDialog();
         }
 
@@ -113,4 +116,3 @@ class MainDialog extends ComponentDialog {
 }
 
 module.exports.MainDialog = MainDialog;
-module.exports.MAIN_DIALOG = MAIN_DIALOG;
