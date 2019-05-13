@@ -1,8 +1,8 @@
 {
-    "name": "multidialogbot",
+    "name": "botbuilder-sample-multidialogs",
     "version": "1.0.0",
-    "description": "Bot Builder v4 multi dialog bot sample",
-    "author": "Microsoft",
+    "description": "Bot Builder Sample - MultiDialogs",
+    "author": "Microsoft Corp.",
     "license": "MIT",
     "main": "index.js",
     "scripts": {
