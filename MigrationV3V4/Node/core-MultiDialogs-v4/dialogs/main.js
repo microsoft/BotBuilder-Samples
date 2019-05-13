@@ -56,9 +56,6 @@ class MainDialog extends ComponentDialog {
         const dialogSet = new DialogSet(accessor);
         dialogSet.add(this);
 
-        const conversationData = await dialogSet.dialogState.get(turnContext, { attempts: 0 });
-        turnContext.turnState.set('conversationData', conversationData);
-
         const dialogContext = await dialogSet.createContext(turnContext);
         const results = await dialogContext.continueDialog();
         if (results.status === DialogTurnStatus.empty) {
@@ -95,12 +92,7 @@ class MainDialog extends ComponentDialog {
     }
 
     async validateNumberOfAttempts(promptContext) {
-        const localConversationData = promptContext.context.turnState.get('conversationData');
-        localConversationData.attempts++;
-        promptContext.context.turnState.set(localConversationData);
-        await this.conversationStateAccessor.set(promptContext.context, localConversationData);
-        //await this.conversationState.saveChanges(promptContext.context);
-        if (localConversationData.attempts > 3) {
+        if (promptContext.attemptCount > 3) {
             // cancel everything
             await promptContext.context.sendActivity("Oops! Too many attempts :( But don't worry, I'm "
                 + 'handling that exception and you can try again!');
