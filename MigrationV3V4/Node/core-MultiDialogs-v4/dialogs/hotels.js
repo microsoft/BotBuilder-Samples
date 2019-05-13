@@ -70,17 +70,18 @@ class HotelsDialog extends ComponentDialog {
     }
 
     async stayDurationSetStep (stepContext) {
-        const numberofnights = stepContext.result;
-        stepContext.values.numberofnights = parseInt(numberofnights);
+        const numberOfNights = stepContext.result;
+        stepContext.values.numberOfNights = parseInt(numberOfNights);
         return stepContext.next();
     }
 
     async hotelSearchStep (stepContext) {
         const destination = stepContext.values.destination;
         const checkIn = new Date(stepContext.values.checkinTime);
-        const checkOut = this.addDays(checkIn, stepContext.values.numberofnights);
+        const checkOut = this.addDays(checkIn, stepContext.values.numberOfNights);
 
-        await stepContext.context.sendActivity(`Ok. Searching for Hotels in ${destination} from ${checkIn.toDateString()} to ${checkOut.toDateString()}...`);
+        await stepContext.context.sendActivity(`Ok. Searching for Hotels in ${destination} from `
+            +`${checkIn.toDateString()} to ${checkOut.toDateString()}...`);
         const hotels = await store.searchHotels(destination, checkIn, checkOut);
         await stepContext.context.sendActivity(`I found in total ${hotels.length} hotels for your dates:`);
         
