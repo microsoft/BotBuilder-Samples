@@ -1,6 +1,6 @@
 const { ComponentDialog, WaterfallDialog } = require('botbuilder-dialogs');
 
-const initialId = 'mainFlightDialog';
+const initialId = 'flightsWaterfallDialog';
 
 class FlightDialog extends ComponentDialog {
     constructor(id) {
@@ -12,9 +12,7 @@ class FlightDialog extends ComponentDialog {
         // Define the conversation flow using a waterfall model.
         this.addDialog(new WaterfallDialog(initialId, [
             async function (step) {
-                await step.context.sendActivity('Flights Dialog is not implemented and is instead being used to show Bot error handling');
-                // End the dialog
-                return await step.endDialog();
+                throw new Error('Flights Dialog is not implemented and is instead being used to show Bot error handling');
             }
         ]));
     }

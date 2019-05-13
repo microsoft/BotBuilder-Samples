@@ -1,6 +1,6 @@
 const { DialogSet, DialogTurnStatus, ComponentDialog, WaterfallDialog, TextPrompt, DateTimePrompt, ChoicePrompt } = require('botbuilder-dialogs');
 const { FlightDialog } = require('./flights');
-const { hotelsDialog } = require('./hotels');
+const { HotelsDialog } = require('./hotels');
 const { BASE_DIALOG,
     MAIN_DIALOG,
     INITIAL_PROMPT,
@@ -36,7 +36,7 @@ class MainDialog extends ComponentDialog {
         ]));
 
         // Define the steps of the hotels waterfall dialog and add it to the set.
-        this.addDialog(new WaterfallDialog(HOTELS_DIALOG, hotelsDialog));
+        this.addDialog(new HotelsDialog(HOTELS_DIALOG));
 
         this.initialDialogId = BASE_DIALOG;
 

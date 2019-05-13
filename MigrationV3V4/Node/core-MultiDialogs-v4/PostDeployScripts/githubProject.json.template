@@ -1,9 +1,0 @@
-{
-  "name": "{WEB_SITE_NAME}",
-  "description": "{WEB_SITE_NAME} Azure Bot Service Code",
-  "homepage": "https://github.com",
-  "private": false,
-  "has_issues": true,
-  "has_projects": true,
-  "has_wiki": true
-}
