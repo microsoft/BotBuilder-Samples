@@ -45,7 +45,7 @@ Application Insights resource creation steps can be found [here](https://docs.mi
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/CoreBot-App-Insights`
+- In a terminal, navigate to `samples/csharp_dotnetcore/21.corebot-app-insights`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -59,7 +59,7 @@ Application Insights resource creation steps can be found [here](https://docs.mi
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/CoreBot-App-Insights` folder
+  - Navigate to `samples/csharp_dotnetcore/21.corebot-app-insights` folder
   - Select `CoreBot-App-Insights.csproj` file
   - Press `F5` to run the project
 
