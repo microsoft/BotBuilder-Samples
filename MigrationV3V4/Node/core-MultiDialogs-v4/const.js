@@ -9,7 +9,5 @@ module.exports = {
     FLIGHTS_DIALOG: 'flightsDialog',
     SUPPORT_DIALOG: 'supportDialog',
     USER_PROFILE_PROPERTY: 'userProfileProperty',
-    CONVERSATION_STATE_ACCESSOR: 'conversationStateAccessor',
-    HOTELS_WATERFALL_DIALOG: 'hotelsWaterfallDialog',
-    FLIGHTS_WATERFALL_DIALOG: 'flightsWaterfallDialog'
+    CONVERSATION_STATE_ACCESSOR: 'conversationStateAccessor'
 };

@@ -4,15 +4,20 @@ const store = require('../store');
 const { 
     INITIAL_HOTEL_PROMPT, 
     CHECKIN_DATETIME_PROMPT, 
-    HOW_MANY_NIGHTS_PROMPT,
-    HOTELS_WATERFALL_DIALOG
+    HOW_MANY_NIGHTS_PROMPT
 } = require('../const');
+
+const initialId = 'hotelsWaterfallDialog';
 
 class HotelsDialog extends ComponentDialog {
     constructor(id) {
         super(id);
 
-        this.addDialog(new WaterfallDialog(HOTELS_WATERFALL_DIALOG, [
+        // ID of the child dialog that should be started anytime the component is started.
+        this.initialDialogId = initialId;
+
+        // Define the conversation flow using a waterfall model.
+        this.addDialog(new WaterfallDialog(initialId, [
             this.destinationPromptStep.bind(this),
             this.destinationSearchStep.bind(this),
             this.checkinPromptStep.bind(this),
@@ -21,9 +26,6 @@ class HotelsDialog extends ComponentDialog {
             this.stayDurationSetStep.bind(this),
             this.hotelSearchStep.bind(this)
         ]));
-
-        this.initialDialogId = HOTELS_WATERFALL_DIALOG;
-
     }
 
     async destinationPromptStep (stepContext) {
