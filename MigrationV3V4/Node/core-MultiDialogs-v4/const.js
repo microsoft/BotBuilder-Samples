@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 module.exports = {
-    BASE_DIALOG: 'baseDialog',
     MAIN_DIALOG: 'mainDialog',
     INITIAL_PROMPT: 'initialPrompt',
     HOTELS_DIALOG: 'hotelsDialog',
