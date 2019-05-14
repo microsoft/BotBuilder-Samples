@@ -12,5 +12,4 @@ module.exports = {
     FLIGHTS_DIALOG: 'flightsDialog',
     SUPPORT_DIALOG: 'supportDialog',
     USER_PROFILE_PROPERTY: 'userProfileProperty',
-    CONVERSATION_STATE_ACCESSOR: 'conversationStateAccessor'
 };

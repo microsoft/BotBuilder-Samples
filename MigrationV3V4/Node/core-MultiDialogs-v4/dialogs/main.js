@@ -14,16 +14,13 @@ const { BASE_DIALOG,
     HOW_MANY_NIGHTS_PROMPT,
     FLIGHTS_DIALOG,
     USER_PROFILE_PROPERTY,
-    CONVERSATION_STATE_ACCESSOR
 } = require('../const');
 
 class MainDialog extends ComponentDialog {
-    constructor(userState, conversationState) {
+    constructor(userState) {
         super(MAIN_DIALOG);
         this.userState = userState;
-        this.conversationState = conversationState;
         this.userProfileAccessor = userState.createProperty(USER_PROFILE_PROPERTY);
-        this.conversationStateAccessor = userState.createProperty(CONVERSATION_STATE_ACCESSOR);
 
         // Create a dialog set for the bot. It requires a DialogState accessor, with which
         // to retrieve the dialog state from the turn context.
