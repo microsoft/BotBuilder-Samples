@@ -4,7 +4,6 @@
 module.exports = {
     searchHotels: destination => {
         return new Promise(resolve => {
-
             // Filling the hotels results manually just for demo purposes
             const hotels = [];
             for (let i = 1; i <= 5; i++) {

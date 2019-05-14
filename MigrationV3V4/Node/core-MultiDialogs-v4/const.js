@@ -8,5 +8,5 @@ module.exports = {
     INITIAL_HOTEL_PROMPT: 'initialHotelPrompt',
     CHECKIN_DATETIME_PROMPT: 'checkinTimePrompt',
     HOW_MANY_NIGHTS_PROMPT: 'howManyNightsPrompt',
-    FLIGHTS_DIALOG: 'flightsDialog',
+    FLIGHTS_DIALOG: 'flightsDialog'
 };

@@ -10,7 +10,7 @@ const restify = require('restify');
 const { BotFrameworkAdapter, MemoryStorage, ConversationState } = require('botbuilder');
 
 // This bot's main dialog.
-const { MainDialog } = require('./dialogs/main')
+const { MainDialog } = require('./dialogs/main');
 const { ReservationBot } = require('./bots/reservationBot');
 
 // Import required bot configuration.

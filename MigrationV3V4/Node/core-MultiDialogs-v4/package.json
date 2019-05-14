@@ -11,6 +11,7 @@
         "lint": "./node_modules/.bin/eslint .",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
+    "pre-push": "npm run lint",
     "dependencies": {
         "botbuilder": "^4.4.0",
         "botbuilder-dialogs": "^4.4.0",

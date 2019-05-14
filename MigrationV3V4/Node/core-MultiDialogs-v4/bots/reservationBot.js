@@ -53,7 +53,6 @@ class ReservationBot extends ActivityHandler {
             await next();
         });
     }
-
 }
 
 module.exports.ReservationBot = ReservationBot;

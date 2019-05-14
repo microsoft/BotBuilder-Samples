@@ -25,7 +25,7 @@ class MainDialog extends ComponentDialog {
         // Define the steps of the base waterfall dialog and add it to the set.
         this.addDialog(new WaterfallDialog(initialId, [
             this.promptForBaseChoice.bind(this),
-            this.respondToBaseChoice.bind(this),
+            this.respondToBaseChoice.bind(this)
         ]));
 
         // Define the steps of the hotels waterfall dialog and add it to the set.
@@ -66,8 +66,8 @@ class MainDialog extends ComponentDialog {
         const answer = stepContext.result.value;
         if (!answer) {
             // exhausted attempts and no selection, start over
-            await stepContext.context.sendActivity("Not a valid option. We'll restart the dialog "
-                + 'so you can try again!');
+            await stepContext.context.sendActivity("Not a valid option. We'll restart the dialog " + 
+                "so you can try again!");
             return await stepContext.endDialog();
         }
         if (answer === 'Hotel') {
@@ -82,8 +82,8 @@ class MainDialog extends ComponentDialog {
     async validateNumberOfAttempts(promptContext) {
         if (promptContext.attemptCount > 3) {
             // cancel everything
-            await promptContext.context.sendActivity("Oops! Too many attempts :( But don't worry, I'm "
-                + 'handling that exception and you can try again!');
+            await promptContext.context.sendActivity("Oops! Too many attempts :( But don't worry, I'm " + 
+                "handling that exception and you can try again!");
             return await promptContext.context.endDialog();
         }
 
