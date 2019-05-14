@@ -1,17 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { DialogSet, DialogTurnStatus, ComponentDialog, WaterfallDialog, TextPrompt, DateTimePrompt,
+const { DialogSet, DialogTurnStatus, ComponentDialog, WaterfallDialog,
     ChoicePrompt } = require('botbuilder-dialogs');
 const { FlightDialog } = require('./flights');
 const { HotelsDialog } = require('./hotels');
 const { MAIN_DIALOG,
     INITIAL_PROMPT,
     HOTELS_DIALOG,
-    INITIAL_HOTEL_PROMPT,
-    CHECKIN_DATETIME_PROMPT,
-    HOW_MANY_NIGHTS_PROMPT,
-    FLIGHTS_DIALOG,
+    FLIGHTS_DIALOG
 } = require('../const');
 
 const initialId = 'mainWaterfallDialog';
@@ -23,9 +20,6 @@ class MainDialog extends ComponentDialog {
         // Create a dialog set for the bot. It requires a DialogState accessor, with which
         // to retrieve the dialog state from the turn context.
         this.addDialog(new ChoicePrompt(INITIAL_PROMPT, this.validateNumberOfAttempts.bind(this)));
-        this.addDialog(new TextPrompt(INITIAL_HOTEL_PROMPT));
-        this.addDialog(new DateTimePrompt(CHECKIN_DATETIME_PROMPT));
-        this.addDialog(new TextPrompt(HOW_MANY_NIGHTS_PROMPT));
         this.addDialog(new FlightDialog(FLIGHTS_DIALOG));
 
         // Define the steps of the base waterfall dialog and add it to the set.
