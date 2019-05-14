@@ -100,7 +100,7 @@ class HotelsDialog extends ComponentDialog {
         date.setDate(date.getDate() + days);
         return date;
     };
-    
+
     createHotelHeroCard (hotel) {
         return CardFactory.heroCard(
             hotel.name,
@@ -115,7 +115,6 @@ class HotelsDialog extends ComponentDialog {
             ])
         );
     }
-
 }
   
 exports.HotelsDialog = HotelsDialog;
