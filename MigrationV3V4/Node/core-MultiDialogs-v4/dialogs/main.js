@@ -37,7 +37,6 @@ class MainDialog extends ComponentDialog {
         this.addDialog(new HotelsDialog(HOTELS_DIALOG));
 
         this.initialDialogId = BASE_DIALOG;
-
     }
 
     /**

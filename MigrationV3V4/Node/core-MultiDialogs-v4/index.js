@@ -7,7 +7,7 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, MemoryStorage, UserState, ConversationState } = require('botbuilder');
+const { BotFrameworkAdapter, MemoryStorage, ConversationState } = require('botbuilder');
 
 // This bot's main dialog.
 const { MainDialog } = require('./dialogs/main')
@@ -49,13 +49,12 @@ adapter.onTurnError = async (context, error) => {
 // Define state store for your bot.
 const memoryStorage = new MemoryStorage();
 
-// Create user and conversation state with in-memory storage provider.
-const userState = new UserState(memoryStorage);
+// Create conversation state with in-memory storage provider.
 const conversationState = new ConversationState(memoryStorage);
 
 // Create the base dialog and bot
 const dialog = new MainDialog();
-const reservationBot = new ReservationBot(userState, conversationState, dialog);
+const reservationBot = new ReservationBot(conversationState, dialog);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
