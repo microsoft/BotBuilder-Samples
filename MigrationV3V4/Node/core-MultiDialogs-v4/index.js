@@ -54,7 +54,7 @@ const userState = new UserState(memoryStorage);
 const conversationState = new ConversationState(memoryStorage);
 
 // Create the base dialog and bot
-const dialog = new MainDialog(userState, conversationState);
+const dialog = new MainDialog();
 const reservationBot = new ReservationBot(userState, conversationState, dialog);
 
 // Listen for incoming requests.
