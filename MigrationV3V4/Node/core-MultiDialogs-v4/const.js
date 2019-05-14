@@ -10,6 +10,4 @@ module.exports = {
     CHECKIN_DATETIME_PROMPT: 'checkinTimePrompt',
     HOW_MANY_NIGHTS_PROMPT: 'howManyNightsPrompt',
     FLIGHTS_DIALOG: 'flightsDialog',
-    SUPPORT_DIALOG: 'supportDialog',
-    USER_PROFILE_PROPERTY: 'userProfileProperty',
 };
