@@ -14,7 +14,7 @@ class FlightDialog extends ComponentDialog {
 
         // Define the conversation flow using a waterfall model.
         this.addDialog(new WaterfallDialog(initialId, [
-            async function (step) {
+            async function (_) {
                 throw new Error('Flights Dialog is not implemented and is instead being used to '
                     + 'show Bot error handling');
             }
