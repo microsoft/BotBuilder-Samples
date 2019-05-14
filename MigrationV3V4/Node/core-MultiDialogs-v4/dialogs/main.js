@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { DialogSet, DialogTurnStatus, ComponentDialog, WaterfallDialog, TextPrompt, DateTimePrompt,
-     ChoicePrompt } = require('botbuilder-dialogs');
+    ChoicePrompt } = require('botbuilder-dialogs');
 const { FlightDialog } = require('./flights');
 const { HotelsDialog } = require('./hotels');
 const { MAIN_DIALOG,
@@ -76,10 +76,10 @@ class MainDialog extends ComponentDialog {
                 + 'so you can try again!');
             return await stepContext.endDialog();
         }
-        if(answer === 'Hotel') {
+        if (answer === 'Hotel') {
             return await stepContext.beginDialog(HOTELS_DIALOG);
         }
-        if(answer === 'Flight') {
+        if (answer === 'Flight') {
             return await stepContext.beginDialog(FLIGHTS_DIALOG);
         }
         return await stepContext.endDialog();
@@ -93,9 +93,9 @@ class MainDialog extends ComponentDialog {
             return await promptContext.context.endDialog();
         }
 
-        if(!promptContext.recognized.succeeded) {
-          await promptContext.context.sendActivity(promptContext.options.retryPrompt);
-          return false;
+        if (!promptContext.recognized.succeeded) {
+            await promptContext.context.sendActivity(promptContext.options.retryPrompt);
+            return false;
         }
         return true;
     }

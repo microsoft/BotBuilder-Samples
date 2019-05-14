@@ -20,7 +20,7 @@ dotenv.config({ path: ENV_FILE });
 // Create HTTP server
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, () => {
-    console.log(`\n${ server.name } listening to ${ server.url }`);
+    console.log(`\n${server.name} listening to ${server.url}`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
     console.log(`\nTo talk to your bot, open the emulator select "Open Bot"`);
     console.log(`\nSee https://aka.ms/connect-to-bot for more information`);
@@ -39,7 +39,7 @@ const adapter = new BotFrameworkAdapter({
 adapter.onTurnError = async (context, error) => {
     const errorMsg = error.message ? error.message : `Oops. Something went wrong!`;
     // This check writes out errors to console log .vs. app insights.
-    console.error(`\n [onTurnError]: ${ error }`);
+    console.error(`\n [onTurnError]: ${error}`);
     // Clear out state
     await conversationState.delete(context);
     // Send a message to the user
