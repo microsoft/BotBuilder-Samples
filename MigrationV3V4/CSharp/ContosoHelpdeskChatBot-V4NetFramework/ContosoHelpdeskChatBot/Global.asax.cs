@@ -48,11 +48,6 @@ namespace ContosoHelpdeskChatBot
                 ConversationState conversationState = new ConversationState(dataStore);
                 builder.RegisterInstance(conversationState).As<ConversationState>().SingleInstance();
                 
-                // Create the dialog state property acccessor.
-                IStatePropertyAccessor<DialogState> dialogStateAccessor
-                    = conversationState.CreateProperty<DialogState>(nameof(DialogState));
-                builder.RegisterInstance(dialogStateAccessor).As<IStatePropertyAccessor<DialogState>>();
-
                 // Register the main dialog, which is injected into the DialogBot class
                 builder.RegisterType<RootDialog>().SingleInstance();
 

@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContosoHelpdeskChatBot", "ContosoHelpdeskChatBot\ContosoHelpdeskChatBot.csproj", "{7CEA9614-BE08-47A8-9175-E858235B6231}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ContosoHelpdeskData", "ContosoHelpdeskData\ContosoHelpdeskData.sqlproj", "{ACE2D83E-26AB-490E-B6C3-737AC7F49975}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContosoHelpdeskSms", "ContosoHelpdeskSms\ContosoHelpdeskSms.csproj", "{DC4B0541-A167-4AF2-A5BF-D21D9379AE54}"
 EndProject
 Global
@@ -19,12 +17,6 @@ Global
 		{7CEA9614-BE08-47A8-9175-E858235B6231}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CEA9614-BE08-47A8-9175-E858235B6231}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CEA9614-BE08-47A8-9175-E858235B6231}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ACE2D83E-26AB-490E-B6C3-737AC7F49975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACE2D83E-26AB-490E-B6C3-737AC7F49975}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACE2D83E-26AB-490E-B6C3-737AC7F49975}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{ACE2D83E-26AB-490E-B6C3-737AC7F49975}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ACE2D83E-26AB-490E-B6C3-737AC7F49975}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ACE2D83E-26AB-490E-B6C3-737AC7F49975}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{DC4B0541-A167-4AF2-A5BF-D21D9379AE54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DC4B0541-A167-4AF2-A5BF-D21D9379AE54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC4B0541-A167-4AF2-A5BF-D21D9379AE54}.Release|Any CPU.ActiveCfg = Release|Any CPU
