@@ -10,7 +10,7 @@ const restify = require('restify');
 const { BotFrameworkAdapter, MemoryStorage, ConversationState } = require('botbuilder');
 
 // This bot's main dialog.
-const { MainDialog } = require('./dialogs/main')
+const { MainDialog } = require('./dialogs/main');
 const { ReservationBot } = require('./bots/reservationBot');
 
 // Import required bot configuration.
@@ -23,7 +23,6 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log(`\n${server.name} listening to ${server.url}`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
     console.log(`\nTo talk to your bot, open the emulator select "Open Bot"`);
-    console.log(`\nSee https://aka.ms/connect-to-bot for more information`);
 });
 
 // Create adapter.

@@ -1,17 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { DialogSet, DialogTurnStatus, ComponentDialog, WaterfallDialog, TextPrompt, DateTimePrompt,
+const { DialogSet, DialogTurnStatus, ComponentDialog, WaterfallDialog,
     ChoicePrompt } = require('botbuilder-dialogs');
 const { FlightDialog } = require('./flights');
 const { HotelsDialog } = require('./hotels');
 const { MAIN_DIALOG,
     INITIAL_PROMPT,
     HOTELS_DIALOG,
-    INITIAL_HOTEL_PROMPT,
-    CHECKIN_DATETIME_PROMPT,
-    HOW_MANY_NIGHTS_PROMPT,
-    FLIGHTS_DIALOG,
+    FLIGHTS_DIALOG
 } = require('../const');
 
 const initialId = 'mainWaterfallDialog';
@@ -23,15 +20,12 @@ class MainDialog extends ComponentDialog {
         // Create a dialog set for the bot. It requires a DialogState accessor, with which
         // to retrieve the dialog state from the turn context.
         this.addDialog(new ChoicePrompt(INITIAL_PROMPT, this.validateNumberOfAttempts.bind(this)));
-        this.addDialog(new TextPrompt(INITIAL_HOTEL_PROMPT));
-        this.addDialog(new DateTimePrompt(CHECKIN_DATETIME_PROMPT));
-        this.addDialog(new TextPrompt(HOW_MANY_NIGHTS_PROMPT));
         this.addDialog(new FlightDialog(FLIGHTS_DIALOG));
 
         // Define the steps of the base waterfall dialog and add it to the set.
         this.addDialog(new WaterfallDialog(initialId, [
             this.promptForBaseChoice.bind(this),
-            this.respondToBaseChoice.bind(this),
+            this.respondToBaseChoice.bind(this)
         ]));
 
         // Define the steps of the hotels waterfall dialog and add it to the set.
@@ -72,8 +66,8 @@ class MainDialog extends ComponentDialog {
         const answer = stepContext.result.value;
         if (!answer) {
             // exhausted attempts and no selection, start over
-            await stepContext.context.sendActivity("Not a valid option. We'll restart the dialog "
-                + 'so you can try again!');
+            await stepContext.context.sendActivity('Not a valid option. We\'ll restart the dialog ' +
+                'so you can try again!');
             return await stepContext.endDialog();
         }
         if (answer === 'Hotel') {
@@ -88,8 +82,8 @@ class MainDialog extends ComponentDialog {
     async validateNumberOfAttempts(promptContext) {
         if (promptContext.attemptCount > 3) {
             // cancel everything
-            await promptContext.context.sendActivity("Oops! Too many attempts :( But don't worry, I'm "
-                + 'handling that exception and you can try again!');
+            await promptContext.context.sendActivity('Oops! Too many attempts :( But don\'t worry, I\'m ' +
+                'handling that exception and you can try again!');
             return await promptContext.context.endDialog();
         }
 

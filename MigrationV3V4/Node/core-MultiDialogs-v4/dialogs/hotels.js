@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ComponentDialog, WaterfallDialog } = require('botbuilder-dialogs');
+const { ComponentDialog, WaterfallDialog, TextPrompt, DateTimePrompt } = require('botbuilder-dialogs');
 const { AttachmentLayoutTypes, CardFactory } = require('botbuilder');
 const store = require('../store');
 const {
@@ -18,6 +18,11 @@ class HotelsDialog extends ComponentDialog {
 
         // ID of the child dialog that should be started anytime the component is started.
         this.initialDialogId = initialId;
+
+        // Register dialogs
+        this.addDialog(new TextPrompt(INITIAL_HOTEL_PROMPT));
+        this.addDialog(new DateTimePrompt(CHECKIN_DATETIME_PROMPT));
+        this.addDialog(new TextPrompt(HOW_MANY_NIGHTS_PROMPT));
 
         // Define the conversation flow using a waterfall model.
         this.addDialog(new WaterfallDialog(initialId, [
@@ -80,8 +85,8 @@ class HotelsDialog extends ComponentDialog {
         const checkIn = new Date(stepContext.values.checkinTime);
         const checkOut = this.addDays(checkIn, stepContext.values.numberOfNights);
 
-        await stepContext.context.sendActivity(`Ok. Searching for Hotels in ${destination} from `
-            + `${checkIn.toDateString()} to ${checkOut.toDateString()}...`);
+        await stepContext.context.sendActivity(`Ok. Searching for Hotels in ${destination} from 
+            ${checkIn.toDateString()} to ${checkOut.toDateString()}...`);
         const hotels = await store.searchHotels(destination, checkIn, checkOut);
         await stepContext.context.sendActivity(`I found in total ${hotels.length} hotels for your dates:`);
 
