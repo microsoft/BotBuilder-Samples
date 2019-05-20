@@ -60,7 +60,7 @@ Here's the flow when user says `I'd like to book a flight`
 <p align="center">
     <img alt="Adaptive_dialog_scenario_setup" src="./Assets/adaptive-dialog-first-utterance.png" style="max-width:700px;" />
 </p>
-The active dialog (rootDialog) recognizer triggers an IntentRule that you can handle. In this case the BegingDialog step to call for the Book a flight dialog. The book a flight dialog execute its steps, one of them is asking which city do you want to fly to.
+The active dialog (rootDialog) recognizer triggers an IntentRule that you can handle. In this case the BeginDialog step to call for the Book a flight dialog. The book a flight dialog execute its steps, one of them is asking which city do you want to fly to.
 
 The bot's end user can provdie any type of answer, and here's the flow when user says `How's the weather in Seattle?`
 
