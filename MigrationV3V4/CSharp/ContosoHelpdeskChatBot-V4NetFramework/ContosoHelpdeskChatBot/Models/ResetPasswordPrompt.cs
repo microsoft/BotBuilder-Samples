@@ -1,8 +1,11 @@
-﻿namespace ContosoHelpdeskChatBot.Models
-{
-    using Bot.Builder.Community.Dialogs.FormFlow;
-    using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
+using Bot.Builder.Community.Dialogs.FormFlow;
+using System;
+
+namespace ContosoHelpdeskChatBot.Models
+{
     [Serializable]
     public class ResetPasswordPrompt
     {

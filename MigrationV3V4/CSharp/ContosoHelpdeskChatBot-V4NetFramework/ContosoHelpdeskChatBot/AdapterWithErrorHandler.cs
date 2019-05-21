@@ -1,17 +1,21 @@
-﻿using System;
-using System.Diagnostics;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.WebApi;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Extensions.Logging;
+using System;
 
 namespace ContosoHelpdeskChatBot
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        private static log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static log4net.ILog logger
+            = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ConversationState conversationState = null)
+        public AdapterWithErrorHandler(
+            ICredentialProvider credentialProvider,
+            ConversationState conversationState = null)
             : base(credentialProvider)
         {
             OnTurnError = async (turnContext, exception) =>

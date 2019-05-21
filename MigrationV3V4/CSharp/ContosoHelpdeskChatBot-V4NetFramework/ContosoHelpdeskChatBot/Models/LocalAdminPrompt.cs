@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using Bot.Builder.Community.Dialogs.FormFlow;
 
 namespace ContosoHelpdeskChatBot.Models

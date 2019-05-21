@@ -1,41 +1,51 @@
-﻿namespace ContosoHelpdeskChatBot.Dialogs
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Microsoft.Bot.Builder;
-    using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Bot.Builder.Dialogs.Choices;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ContosoHelpdeskChatBot.Dialogs
+{
     public class RootDialog : ComponentDialog
     {
-        private static log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static log4net.ILog logger
+            = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private const string InstallAppOption = "Install Application (install)";
         private const string ResetPasswordOption = "Reset Password (password)";
         private const string LocalAdminOption = "Request Local Admin (admin)";
-        private const string GreetMessage = "Welcome to **Contoso Helpdesk Chat Bot**.\n\nI am designed to use with mobile email app, make sure your replies do not contain signatures. \n\nFollowing is what I can help you with, just reply with word in parenthesis:";
+        private const string GreetMessage
+            = "Welcome to **Contoso Helpdesk Chat Bot**.\n\nI am designed to use with mobile email app, " +
+            "make sure your replies do not contain signatures. \n\nFollowing is what I can help you with, " +
+            "just reply with word in parenthesis:";
         private const string ErrorMessage = "Not a valid option";
+
         private static List<Choice> HelpdeskOptions = new List<Choice>()
             {
-                new Choice(InstallAppOption) { Synonyms = new List<string>(){ "install" } },
-                new Choice(ResetPasswordOption) { Synonyms = new List<string>(){ "password" } },
-                new Choice(LocalAdminOption)  { Synonyms = new List<string>(){ "admin" } }
+                new Choice(InstallAppOption) { Synonyms = new List<string> { "install" } },
+                new Choice(ResetPasswordOption) { Synonyms = new List<string> { "password" } },
+                new Choice(LocalAdminOption)  { Synonyms = new List<string> { "admin" } }
             };
 
         public RootDialog()
             : base(nameof(RootDialog))
         {
-            AddDialog(new WaterfallDialog("choiceswaterfall", new WaterfallStep[]
+            InitialDialogId = nameof(WaterfallDialog);
+            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 PromptForOptionsAsync,
                 ShowChildDialogAsync,
                 ResumeAfterAsync,
             }));
-            AddDialog(new InstallAppDialog(nameof(InstallAppDialog)));
-            AddDialog(new LocalAdminDialog(nameof(LocalAdminDialog)));
-            AddDialog(new ResetPasswordDialog(nameof(ResetPasswordDialog)));
-            AddDialog(new ChoicePrompt("options"));
+            AddDialog(new InstallAppDialog());
+            AddDialog(new LocalAdminDialog());
+            AddDialog(new ResetPasswordDialog());
+            AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
         }
 
         private async Task<DialogTurnResult> PromptForOptionsAsync(
@@ -44,7 +54,7 @@
         {
             // Prompt the user for a response using our choice prompt.
             return await stepContext.PromptAsync(
-                "options",
+                nameof(ChoicePrompt),
                 new PromptOptions()
                 {
                     Choices = HelpdeskOptions,
@@ -59,7 +69,7 @@
             CancellationToken cancellationToken = default(CancellationToken))
         {
             // string optionSelected = await userReply;
-            string optionSelected = (stepContext.Result as FoundChoice).Value;
+            var optionSelected = (stepContext.Result as FoundChoice).Value;
 
             switch (optionSelected)
             {
@@ -100,7 +110,7 @@
                 //var message = await userReply;
                 var message = stepContext.Context.Activity;
 
-                int ticketNumber = new Random().Next(0, 20000);
+                var ticketNumber = new Random().Next(0, 20000);
                 //await context.PostAsync($"Thank you for using the Helpdesk Bot. Your ticket number is {ticketNumber}.");
                 await stepContext.Context.SendActivityAsync(
                     $"Thank you for using the Helpdesk Bot. Your ticket number is {ticketNumber}.",
@@ -123,7 +133,7 @@
             // Replace on the stack the current instance of the waterfall with a new instance,
             // and start from the top.
             return await stepContext.ReplaceDialogAsync(
-                "choiceswaterfall",
+                nameof(WaterfallDialog),
                 cancellationToken: cancellationToken);
         }
     }

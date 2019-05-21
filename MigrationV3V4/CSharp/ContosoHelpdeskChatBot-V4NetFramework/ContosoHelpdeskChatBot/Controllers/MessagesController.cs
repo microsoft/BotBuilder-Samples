@@ -1,23 +1,18 @@
-﻿using System;
-using System.Net;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Integration.AspNet.WebApi;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Bot.Builder.Community.Dialogs.FormFlow;
-using ContosoHelpdeskChatBot.Dialogs;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Integration.AspNet.WebApi;
-using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Schema;
 
 namespace ContosoHelpdeskChatBot
 {
     public class MessagesController : ApiController
     {
-        IBotFrameworkHttpAdapter _adapter;
-        IBot _bot;
+        private readonly IBotFrameworkHttpAdapter _adapter;
+        private readonly IBot _bot;
         
         public MessagesController(IBotFrameworkHttpAdapter adapter, IBot bot)
         {

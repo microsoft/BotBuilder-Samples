@@ -1,11 +1,11 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ContosoHelpdeskChatBot.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
     [Table("ResetPassword")]
     public partial class ResetPassword
     {
@@ -14,7 +14,7 @@ namespace ContosoHelpdeskChatBot.Models
 
         public string EmailAddress { get; set; }
 
-        public Int64? MobileNumber { get; set; }
+        public long? MobileNumber { get; set; }
 
         public int? PassCode { get; set; }
 
