@@ -1,7 +1,0 @@
-{
-    "luis": {
-        "RootDialog_en-us_lu": "84a2b392-3638-45fb-8169-de9773597a3b",
-        "AddToDoDialog_en-us_lu": "5b6de9a9-ae97-4a84-be3e-ce9268f1fe6f",
-        "DeleteToDoDialog_en-us_lu": "0fc8375f-6ec0-4d24-b500-7c235a149e47"
-    }
-}

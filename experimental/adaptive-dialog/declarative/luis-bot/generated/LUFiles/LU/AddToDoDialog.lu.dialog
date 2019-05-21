@@ -1,7 +1,0 @@
-{
-    "$type": "Microsoft.MultiLanguageRecognizer",
-    "recognizers": {
-        "en-us": "AddToDoDialog.en-us.lu",
-        "": "AddToDoDialog.en-us.lu"
-    }
-}

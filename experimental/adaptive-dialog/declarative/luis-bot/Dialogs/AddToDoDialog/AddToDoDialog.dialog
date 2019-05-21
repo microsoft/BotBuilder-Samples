@@ -85,6 +85,17 @@
                     ]
                 }        
             ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "None",
+            "steps": [
+                {
+                    "$type": "Microsoft.SetProperty",
+                    "property": "turn.todotitle",
+                    "value": "turn.activity.text"
+                }
+            ]
         }
     ]
 }

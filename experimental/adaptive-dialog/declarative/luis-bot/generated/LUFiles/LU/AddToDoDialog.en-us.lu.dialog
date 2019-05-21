@@ -1,6 +1,0 @@
-{
-    "$type": "Microsoft.LuisRecognizer",
-    "applicationId": "{settings.luis.AddToDoDialog_en-us_lu}",
-    "endpoint": "{settings.luis.endpoint}",
-    "endpointKey": "{settings.luis.endpointKey}"
-}

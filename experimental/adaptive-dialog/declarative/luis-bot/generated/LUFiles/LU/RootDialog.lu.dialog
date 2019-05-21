@@ -1,7 +1,0 @@
-{
-    "$type": "Microsoft.MultiLanguageRecognizer",
-    "recognizers": {
-        "en-us": "RootDialog.en-us.lu",
-        "": "RootDialog.en-us.lu"
-    }
-}
