@@ -1,22 +1,20 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using Bot.Builder.Community.Dialogs.FormFlow;
 using ContosoHelpdeskChatBot.Models;
 using Microsoft.Bot.Builder.Dialogs;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ContosoHelpdeskChatBot.Dialogs
 {
     public class LocalAdminDialog : ComponentDialog
     {
-        // Set up our dialog and prompt IDs as constants.
-        private const string MainDialog = "mainDialog";
-        private static string AdminDialog { get; } = nameof(LocalAdminPrompt);
-
-        public LocalAdminDialog(string dialogId) : base(dialogId)
+        public LocalAdminDialog() : base(nameof(LocalAdminDialog))
         {
-            InitialDialogId = MainDialog;
-
-            AddDialog(new WaterfallDialog(MainDialog, new WaterfallStep[]
+            InitialDialogId = nameof(WaterfallDialog);
+            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 BeginFormflowAsync,
                 SaveResultAsync,
@@ -31,7 +29,9 @@ namespace ContosoHelpdeskChatBot.Dialogs
             await stepContext.Context.SendActivityAsync("Great I will help you request local machine admin.");
 
             // Begin the Formflow dialog.
-            return await stepContext.BeginDialogAsync(AdminDialog, cancellationToken: cancellationToken);
+            return await stepContext.BeginDialogAsync(
+                nameof(LocalAdminPrompt),
+                cancellationToken: cancellationToken);
         }
 
         private async Task<DialogTurnResult> SaveResultAsync(
@@ -52,12 +52,12 @@ namespace ContosoHelpdeskChatBot.Dialogs
         // Nearly the same as before.
         private IForm<LocalAdminPrompt> BuildLocalAdminForm()
         {
-            //here's an example of how validation can be used in form builder
+            // Here's an example of how validation can be used with FormBuilder.
             return new FormBuilder<LocalAdminPrompt>()
                 .Field(nameof(LocalAdminPrompt.MachineName),
                 validate: async (state, value) =>
                 {
-                    ValidateResult result = new ValidateResult { IsValid = true, Value = value };
+                    var result = new ValidateResult { IsValid = true, Value = value };
                     //add validation here
 
                     //this.admin.MachineName = (string)value;
@@ -66,7 +66,7 @@ namespace ContosoHelpdeskChatBot.Dialogs
                 .Field(nameof(LocalAdminPrompt.AdminDuration),
                 validate: async (state, value) =>
                 {
-                    ValidateResult result = new ValidateResult { IsValid = true, Value = value };
+                    var result = new ValidateResult { IsValid = true, Value = value };
                     //add validation here
 
                     //this.admin.AdminDuration = Convert.ToInt32((long)value) as int?;

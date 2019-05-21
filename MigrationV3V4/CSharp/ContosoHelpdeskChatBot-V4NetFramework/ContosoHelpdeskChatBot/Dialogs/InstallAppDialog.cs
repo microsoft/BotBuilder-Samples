@@ -1,38 +1,35 @@
-﻿namespace ContosoHelpdeskChatBot.Dialogs
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using ContosoHelpdeskChatBot.Models;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ContosoHelpdeskChatBot.Dialogs
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using ContosoHelpdeskChatBot.Models;
-    using Microsoft.Bot.Builder;
-    using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Bot.Builder.Dialogs.Choices;
-
-
     public class InstallAppDialog : ComponentDialog
     {
-        // Set up our dialog and prompt IDs as constants.
-        private const string MainId = "mainDialog";
-        private const string TextId = "textPrompt";
-        private const string ChoiceId = "choicePrompt";
-
         // Set up keys for managing collected information.
         private const string InstallInfo = "installInfo";
 
-        public InstallAppDialog(string id)
-            : base(id)
+        public InstallAppDialog()
+            : base(nameof(InstallAppDialog))
         {
             // Initialize our dialogs and prompts.
-            InitialDialogId = MainId;
-            AddDialog(new WaterfallDialog(MainId, new WaterfallStep[] {
+            InitialDialogId = nameof(WaterfallDialog);
+            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[] {
                 GetSearchTermAsync,
                 ResolveAppNameAsync,
                 GetMachineNameAsync,
                 SubmitRequestAsync,
             }));
-            AddDialog(new TextPrompt(TextId));
-            AddDialog(new ChoicePrompt(ChoiceId));
+            AddDialog(new TextPrompt(nameof(TextPrompt)));
+            AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
         }
 
         private async Task<DialogTurnResult> GetSearchTermAsync(
@@ -44,14 +41,13 @@
 
             // Ask for the search term.
             return await stepContext.PromptAsync(
-                TextId,
+                nameof(TextPrompt),
                 new PromptOptions
                 {
                     Prompt = MessageFactory.Text("Ok let's get started. What is the name of the application? "),
                 },
                 cancellationToken);
         }
-
 
         private async Task<DialogTurnResult> ResolveAppNameAsync(
     WaterfallStepContext stepContext,
@@ -61,7 +57,7 @@
             var appname = stepContext.Result as string;
 
             // Query the database for matches.
-            var names = await this.getAppsAsync(appname);
+            var names = await this.GetAppsAsync(appname);
 
             if (names.Count == 1)
             {
@@ -75,7 +71,7 @@
             {
                 // Ask the user to choose from the list of matches.
                 return await stepContext.PromptAsync(
-                    ChoiceId,
+                    nameof(ChoicePrompt),
                     new PromptOptions
                     {
                         Prompt = MessageFactory.Text("I found the following applications. Please choose one:"),
@@ -108,7 +104,7 @@
 
             // We now need the machine name, so prompt for it.
             return await stepContext.PromptAsync(
-                TextId,
+                nameof(TextPrompt),
                 new PromptOptions
                 {
                     Prompt = MessageFactory.Text(
@@ -121,7 +117,7 @@
             WaterfallStepContext stepContext,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            InstallApp install = default(InstallApp);
+            var install = default(InstallApp);
             if (stepContext.Reason != DialogReason.CancelCalled)
             {
                 // Get the tracking info and add the machine name.
@@ -138,9 +134,9 @@
             return await stepContext.EndDialogAsync(null, cancellationToken);
         }
 
-        private async Task<List<string>> getAppsAsync(string Name)
+        private async Task<List<string>> GetAppsAsync(string Name)
         {
-            List<string> names = new List<string>();
+            var names = new List<string>();
 
             // Simulate querying the database for applications that match.
             return (from app in AppMsis

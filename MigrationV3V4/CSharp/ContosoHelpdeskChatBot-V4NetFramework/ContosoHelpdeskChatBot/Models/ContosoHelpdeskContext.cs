@@ -1,10 +1,10 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Data.Entity;
+
 namespace ContosoHelpdeskChatBot.Models
 {
-    using System;
-    using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
-
     public partial class ContosoHelpdeskContext : DbContext
     {
         public ContosoHelpdeskContext()

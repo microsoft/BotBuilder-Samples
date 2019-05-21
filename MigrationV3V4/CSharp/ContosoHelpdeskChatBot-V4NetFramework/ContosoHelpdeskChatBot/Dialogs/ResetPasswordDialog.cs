@@ -1,23 +1,22 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using Bot.Builder.Community.Dialogs.FormFlow;
 using ContosoHelpdeskChatBot.Models;
 using Microsoft.Bot.Builder.Dialogs;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ContosoHelpdeskChatBot.Dialogs
 {
     public class ResetPasswordDialog : ComponentDialog
     {
-        // Set up our dialog and prompt IDs as constants.
-        private const string MainDialog = "mainDialog";
-        private static string ResetDialog { get; } = nameof(ResetPasswordPrompt);
-
-        public ResetPasswordDialog(string dialogId) : base(dialogId)
+        public ResetPasswordDialog()
+            : base(nameof(ResetPasswordDialog))
         {
-            InitialDialogId = MainDialog;
-
-            AddDialog(new WaterfallDialog(MainDialog, new WaterfallStep[]
+            InitialDialogId = nameof(WaterfallDialog);
+            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 BeginFormflowAsync,
                 ProcessRequestAsync,
@@ -32,9 +31,11 @@ namespace ContosoHelpdeskChatBot.Dialogs
             await stepContext.Context.SendActivityAsync("Alright I will help you create a temp password.");
 
             // Check the passcode and fail out or begin the Formflow dialog.
-            if (sendPassCode(stepContext))
+            if (SendPassCode(stepContext))
             {
-                return await stepContext.BeginDialogAsync(ResetDialog, cancellationToken: cancellationToken);
+                return await stepContext.BeginDialogAsync(
+                    nameof(ResetPasswordPrompt),
+                    cancellationToken: cancellationToken);
             }
             else
             {
@@ -43,7 +44,7 @@ namespace ContosoHelpdeskChatBot.Dialogs
             }
         }
 
-        private bool sendPassCode(DialogContext context)
+        private bool SendPassCode(DialogContext context)
         {
             //bool result = false;
 
