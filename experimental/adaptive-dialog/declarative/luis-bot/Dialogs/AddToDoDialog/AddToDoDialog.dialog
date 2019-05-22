@@ -85,6 +85,30 @@
                     ]
                 }        
             ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "None",
+            "steps": [
+                {
+                    "$type": "Microsoft.IfCondition",
+                    "condition": "turn.Intent.None <= 0.4",
+                    "steps": [
+                        {
+                            "$type": "Microsoft.SetProperty",
+                            "property": "turn.todoTitle",
+                            "value": "turn.activity.text"
+                        }
+                    ],
+                    "elseSteps": [
+                        {
+                            "$type": "Microsoft.EmitEvent",
+                            "eventName": "ConsultDialog",
+                            "bubbleEvent": true
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }
