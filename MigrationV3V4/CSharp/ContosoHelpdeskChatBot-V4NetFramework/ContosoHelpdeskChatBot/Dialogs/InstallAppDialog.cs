@@ -50,8 +50,8 @@ namespace ContosoHelpdeskChatBot.Dialogs
         }
 
         private async Task<DialogTurnResult> ResolveAppNameAsync(
-    WaterfallStepContext stepContext,
-    CancellationToken cancellationToken = default(CancellationToken))
+            WaterfallStepContext stepContext,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             // Get the result from the text prompt.
             var appname = stepContext.Result as string;
