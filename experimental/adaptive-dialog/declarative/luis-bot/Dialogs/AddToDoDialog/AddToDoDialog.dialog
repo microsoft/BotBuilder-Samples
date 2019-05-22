@@ -89,13 +89,13 @@
         {
             "$type": "Microsoft.IntentRule",
             "intent": "None",
-            "constraint": "turn.Intent.None <= 0.4",
+            "constraint": "turn.dialogEvent.value.intents.None.score <= 0.4",
             "steps": [
-                {
-                    "$type": "Microsoft.SetProperty",
-                    "property": "turn.todoTitle",
-                    "value": "turn.activity.text"
-                }
+              {
+                "$type": "Microsoft.SetProperty",
+                "property": "turn.todoTitle",
+                "value": "turn.activity.text"
+              }
             ]
         }
     ]
