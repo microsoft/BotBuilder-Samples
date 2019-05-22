@@ -22,25 +22,31 @@
 - add a todo with ["]{todoTitle_patternAny}["] [as the title]
 
 # GetTodoTitle
-- {todoTitle_patternAny}
+- {todoTitle=buy milk} is my todo's title
+- {todoTitle=pick up joe at 3pm} is the title of my todo
+- the title is {todoTitle=Eat when you are hungry}
+- (sure|ok)[(,|.)] the title is {todoTitle=water the garden tomorrow}
+- yup, its {todoTitle=do groceries this weekend}
+- it is "{todoTitle=learn to dance}"
+> Add more samples for machine learned todo title entity
 - {todoTitle=prep for meeting with John}
 - {todoTitle=water plants on saturday}
 - {todoTitle=do groceries}
 - {todoTitle=pick up Ben on the way home}
 - {todoTitle=call mom}
 - {todoTitle=get dog treats}
-- {todoTitle=buy milk} is my todo's title
-- {todoTitle=pick up joe at 3pm} is the title of my todo
-- the title is {todoTitle=Eat when you are hungry}
-- (sure|ok)[(,|.)] the title is {todoTitle=water the garden tomorrow}
-- yup, its {todoTitle=do groceries this weekend}
-- it is "{todoTitle=learn to dance}
+- {todoTitle=pick up joe at 3pm}
+- {todoTitle=Eat when you are hungry}
+- {todoTitle=water the garden tomorrow}
+- {todoTitle=do groceries this weekend}
+- {todoTitle=learn to dance}
 > Add patterns
 - {todoTitle_patternAny} is [my] (todo|to do)['s] title
 - {todoTitle_patternAny} is [the] title of [(my|the)] todo
 - [sure][,] the title is {todoTitle_patternAny}
 - [yup][,] its {todoTitle_patternAny} 
 - (its|it is) ["]{todoTitle_patternAny}["]
+- {todoTitle_patternAny}
 
 
 # Help

@@ -83,6 +83,10 @@
                             "activity": "[Help-prefix], let's get right back to adding a todo."
                         }
                     ]
+                },
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "Handled cancel."
                 }        
             ]
         },
