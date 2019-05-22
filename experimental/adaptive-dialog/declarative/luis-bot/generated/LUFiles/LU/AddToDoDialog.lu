@@ -3,10 +3,16 @@
 
 ## GetTodoTitle
 - {todoTitle_patternAny}
+- {todoTitle=prep for meeting with John}
+- {todoTitle=water plants on saturday}
+- {todoTitle=do groceries}
+- {todoTitle=pick up Ben on the way home}
+- {todoTitle=call mom}
+- {todoTitle=get dog treats}
 - {todoTitle=buy milk} is my todo's title
 - {todoTitle=pick up joe at 3pm} is the title of my todo
 - the title is {todoTitle=Eat when you are hungry}
-- sure, the title is {todoTitle=water the garden tomorrow}
+- (sure|ok)[(,|.)] the title is {todoTitle=water the garden tomorrow}
 - yup, its {todoTitle=do groceries this weekend}
 - it is "{todoTitle=learn to dance}
 - {todoTitle_patternAny} is [my] (todo|to do)['s] title

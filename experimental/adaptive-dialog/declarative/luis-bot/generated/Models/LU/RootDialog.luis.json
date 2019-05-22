@@ -535,11 +535,11 @@
       "intent": "Add todo"
     },
     {
-      "pattern": "Add {todoTitle_patternAny} to the list",
+      "pattern": "Add {todoTitle_patternAny} to the [todo] list",
       "intent": "Add todo"
     },
     {
-      "pattern": "Add {todoTitle_patternAny} to my todo",
+      "pattern": "Add {todoTitle_patternAny} to [my] todo",
       "intent": "Add todo"
     },
     {

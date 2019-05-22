@@ -10,6 +10,9 @@
                     "$type": "Microsoft.SetProperty",
                     "value": "@todoTitle[0]",
                     "property": "turn.todoTitle"
+                },
+                {
+                    "$type": "Microsoft.EndDialog"
                 }
             ]
         },
@@ -21,6 +24,9 @@
                     "$type": "Microsoft.SetProperty",
                     "value": "@todoTitle_patternAny[0]",
                     "property": "turn.todoTitle"
+                },
+                {
+                    "$type": "Microsoft.EndDialog"
                 }
             ]
         },

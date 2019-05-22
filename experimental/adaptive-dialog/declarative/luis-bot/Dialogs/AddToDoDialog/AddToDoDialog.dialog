@@ -5,12 +5,12 @@
     "steps": [
         {
             "$type": "Microsoft.SetProperty",
-            "value": "@todoTitle[0]",
+            "value": "@todoTitle_patternAny[0]",
             "property": "turn.todoTitle"
         },
         {
             "$type": "Microsoft.SetProperty",
-            "value": "@todoTitle_patternAny[0]",
+            "value": "@todoTitle[0]",
             "property": "turn.todoTitle"
         },
         {
@@ -36,14 +36,14 @@
             "steps": [
                 {
                     "$type": "Microsoft.SetProperty",
-                    "value": "@todoTitle[0]",
-                    "property": "turn.todoTitle"
-                },
-                {
-                    "$type": "Microsoft.SetProperty",
                     "value": "@todoTitle_patternAny[0]",
                     "property": "turn.todoTitle"
-                }        
+                }, 
+                {
+                    "$type": "Microsoft.SetProperty",
+                    "value": "@todoTitle[0]",
+                    "property": "turn.todoTitle"
+                }      
             ]
         },
         {
@@ -63,11 +63,11 @@
                 {
                     "$type": "Microsoft.ConfirmInput",
                     "prompt": "[Confirm-cancellation]",
-                    "property": "turn.addTodo.cancelConfirmation"
+                    "property": "turn.addtodo.cancel"
                 },
                 {
                     "$type": "Microsoft.IfCondition",
-                    "condition": "turn.addTodo.cancelConfirmation == true",
+                    "condition": "turn.addtodo.cancel == true",
                     "steps": [
                         {
                             "$type": "Microsoft.SendActivity",
@@ -84,17 +84,6 @@
                         }
                     ]
                 }        
-            ]
-        },
-        {
-            "$type": "Microsoft.IntentRule",
-            "intent": "None",
-            "steps": [
-                {
-                    "$type": "Microsoft.SetProperty",
-                    "property": "turn.todotitle",
-                    "value": "turn.activity.text"
-                }
             ]
         }
     ]

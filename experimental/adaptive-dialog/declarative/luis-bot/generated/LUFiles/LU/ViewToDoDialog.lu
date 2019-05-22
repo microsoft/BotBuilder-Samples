@@ -1,0 +1,82 @@
+
+> # Intent definitions
+
+## Interruption
+- What can I say?
+- Who are you?
+- I need help
+- Not sure what I can do
+- What do you want me to say?
+- What can you do?
+- What can you help with?
+- help please
+- What are my options?
+- well, I do not know what my todo's title is
+- I do not know
+- can you please help?
+- hi
+- hello
+- hiya
+- how are you?
+- how do you do?
+- cancel
+- cancel all
+- stop that
+- do not do it
+- abort
+- please stop what you are doing
+- I changed my mind
+- cancel add todo
+- cancel that
+- I do not want to add a todo
+- No todo for me
+- Cancel this
+- cancel delete todo
+- Let's just leave it as is
+- I do not wish to delete my todo anymore
+- Keep my todos as is
+- Add todo
+- add a to do item
+- Please remind me to buy milk
+- Please remember that I need to buy milk
+- I need you to remember that my wife's birthday is Jan 9th
+- Add a todo named send report over this weekend
+- Add get a new car to the todo list
+- Add write a spec to the list
+- Add finish this demo to my todo list
+- add another one
+- add another todo
+- add
+- add a todo wrap up coding by tonight
+- Remove todo
+- Mark buy milk as complete
+- Flag first one as done
+- Remove finish this demo from the todo list
+- remove another one
+- remove
+- clear my todo named get a new car
+- I'm done with the first todo
+- I finished the last todo
+- Remove the first todo
+- Delete todo
+- Clear my todos
+- Delete all my todos
+- Remove all my todo
+- Forget the list
+- Purge the todo list
+
+
+> # Entity definitions
+
+
+> # PREBUILT Entity definitions
+
+
+> # Phrase list definitions
+
+
+> # List entities
+
+> # RegEx entities
+
+

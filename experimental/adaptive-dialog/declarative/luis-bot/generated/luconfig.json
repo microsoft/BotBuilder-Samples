@@ -2,8 +2,8 @@
   "name": "luis-bot",
   "defaultLanguage": "en-us",
   "models": [
-    "/Users/vishwacsenakannan/repos/BotBuilder-Samples/experimental/adaptive-dialog/declarative/luis-bot/generated/LUFiles/LU/RootDialog.lu",
-    "/Users/vishwacsenakannan/repos/BotBuilder-Samples/experimental/adaptive-dialog/declarative/luis-bot/generated/LUFiles/LU/AddToDoDialog.lu",
-    "/Users/vishwacsenakannan/repos/BotBuilder-Samples/experimental/adaptive-dialog/declarative/luis-bot/generated/LUFiles/LU/DeleteToDoDialog.lu"
+    "C:\\repos\\BotBuilder-Samples\\experimental\\adaptive-dialog\\declarative\\luis-bot\\generated\\LUFiles\\LU\\RootDialog.lu",
+    "C:\\repos\\BotBuilder-Samples\\experimental\\adaptive-dialog\\declarative\\luis-bot\\generated\\LUFiles\\LU\\AddToDoDialog.lu",
+    "C:\\repos\\BotBuilder-Samples\\experimental\\adaptive-dialog\\declarative\\luis-bot\\generated\\LUFiles\\LU\\DeleteToDoDialog.lu"
   ]
 }

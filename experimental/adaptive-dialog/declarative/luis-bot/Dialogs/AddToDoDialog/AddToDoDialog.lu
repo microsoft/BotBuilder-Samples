@@ -5,8 +5,8 @@
 - Please remember [to] {todoTitle_patternAny}
 - I need you to remember [that] {todoTitle_patternAny}
 - Add a todo named {todoTitle_patternAny}
-- Add {todoTitle_patternAny} to the list
-- Add {todoTitle_patternAny} to my todo
+- Add {todoTitle_patternAny} to the [todo] list
+- Add {todoTitle_patternAny} to [my] todo
 - Please remind me to {todoTitle=buy milk}
 - Please remember that I need to {todoTitle=buy milk}
 - I need you to remember that {todoTitle=my wife's birthday is Jan 9th}
@@ -23,10 +23,16 @@
 
 # GetTodoTitle
 - {todoTitle_patternAny}
+- {todoTitle=prep for meeting with John}
+- {todoTitle=water plants on saturday}
+- {todoTitle=do groceries}
+- {todoTitle=pick up Ben on the way home}
+- {todoTitle=call mom}
+- {todoTitle=get dog treats}
 - {todoTitle=buy milk} is my todo's title
 - {todoTitle=pick up joe at 3pm} is the title of my todo
 - the title is {todoTitle=Eat when you are hungry}
-- sure, the title is {todoTitle=water the garden tomorrow}
+- (sure|ok)[(,|.)] the title is {todoTitle=water the garden tomorrow}
 - yup, its {todoTitle=do groceries this weekend}
 - it is "{todoTitle=learn to dance}
 > Add patterns

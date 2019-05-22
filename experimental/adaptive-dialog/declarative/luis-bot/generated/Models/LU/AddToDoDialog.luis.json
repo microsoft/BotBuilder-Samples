@@ -31,6 +31,72 @@
       "entities": []
     },
     {
+      "text": "prep for meeting with John",
+      "intent": "GetTodoTitle",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 0,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "water plants on saturday",
+      "intent": "GetTodoTitle",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 0,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "do groceries",
+      "intent": "GetTodoTitle",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 0,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "pick up Ben on the way home",
+      "intent": "GetTodoTitle",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 0,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "call mom",
+      "intent": "GetTodoTitle",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 0,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "get dog treats",
+      "intent": "GetTodoTitle",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 0,
+          "endPos": 13
+        }
+      ]
+    },
+    {
       "text": "buy milk is my todo's title",
       "intent": "GetTodoTitle",
       "entities": [
@@ -64,13 +130,13 @@
       ]
     },
     {
-      "text": "sure, the title is water the garden tomorrow",
+      "text": "(sure|ok)[(,|.)] the title is water the garden tomorrow",
       "intent": "GetTodoTitle",
       "entities": [
         {
           "entity": "todoTitle",
-          "startPos": 19,
-          "endPos": 43
+          "startPos": 30,
+          "endPos": 54
         }
       ]
     },

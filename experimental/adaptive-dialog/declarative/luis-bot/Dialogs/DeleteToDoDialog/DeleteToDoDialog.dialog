@@ -35,7 +35,7 @@
         },
         {
             "$type": "Microsoft.IfCondition",
-            "condition": "contains(user.todos, turn.todoTitle) == false",
+            "condition": "not(contains(user.todos, turn.todoTitle))",
             "steps": [
                 {
                     "$type": "Microsoft.SendActivity",
@@ -84,7 +84,10 @@
             "$type": "Microsoft.IntentRule",
             "intent": "GetItemToDelete",
             "steps": [
-                "GetTitleToDelete"
+                {
+                    "$type": "Microsoft.BeginDialog",
+                    "dialog": "GetTitleToDelete"
+                }
             ]
         }
     ]

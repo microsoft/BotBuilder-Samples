@@ -1,6 +1,6 @@
 ﻿To get set up, 
 
-Install ludown from here - https://github.com/Microsoft/botbuilder-tools/tree/vishwac/ludown-suggest-models
+Install ludown from here - https://github.com/Microsoft/botbuilder-tools/tree/vishwac/v.future
 
 ```bash
 > lerna bootstrap --hoist
@@ -16,7 +16,7 @@ Once you have the latest ludown and lubuild CLI installed, simply run these two 
 
 ```bash
 > cd 70.luis-todo-bot
-> ludown parse tosuggest -f Dialogs -o bin -r RootDialog -e -q -u --verbose
+> ludown parse tosuggest -f Dialogs -o generated -r RootDialog -e -q -u --verbose
 > cd bin
-> lubuild --authoringKey <YOUR-LUIS-KEY>
+> lubuild --authoringKey <YOUR-LUIS-KEY> --dialogs
 ```
