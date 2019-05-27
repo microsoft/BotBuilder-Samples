@@ -64,6 +64,8 @@ namespace Microsoft.BotBuilderSamples
             }
             else
             {
+                await turnContext.SendActivityAsync(turnContext.Activity.Text, cancellationToken: cancellationToken);
+                
                 // Show the user the possible options for language. If the user chooses a different language
                 // than the default, then the translation middleware will pick it up from the user state and
                 // translate messages both ways, i.e. user to bot and bot to user.

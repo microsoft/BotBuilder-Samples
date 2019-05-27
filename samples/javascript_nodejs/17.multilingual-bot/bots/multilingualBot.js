@@ -71,6 +71,9 @@ class MultilingualBot extends ActivityHandler {
                 await context.sendActivity(`Your current language code is: ${ lang }`);
                 await this.userState.saveChanges(context);
             } else {
+
+                await context.sendActivity(context.activity.text);
+
                 // Show the user the possible options for language. The translation middleware
                 // will pick up the language selected by the user and
                 // translate messages both ways, i.e. user to bot and bot to user.
