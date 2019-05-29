@@ -15,7 +15,7 @@
     <Icon>EmptyBot.png</Icon>
     <PreviewImage></PreviewImage>
     <Tags>C#; Windows; Azure; AI; Bots</Tags>
-    <LanguageTag>C#</LanguageTag>
+    <LanguageTag>csharp</LanguageTag>
     <PlatformTag>Windows</PlatformTag>
     <PlatformTag>macOS</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
