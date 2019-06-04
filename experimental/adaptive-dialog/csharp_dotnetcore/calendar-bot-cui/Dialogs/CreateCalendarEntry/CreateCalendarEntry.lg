@@ -1,0 +1,86 @@
+> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+# HelpCreateMeeting
+- [HelpPrefix], you can simply say all the relavent information of the meeting to add it.
+
+# HelpPrefix
+- Sure
+- You bet
+- Absolutely
+
+# CancelPrefix
+- Are you suare you want to cancel? 
+- Just want to double checking. You really want to cancel this right? 
+
+# ConfirmCancellation
+- ```
+@{lgTemplate("CancelPrefix")}
+[Suggestions=Yes | No]
+```
+
+# GetSubject
+- ```
+OK, please enter the subject of your event.
+[Suggestions=Help | Cancel]
+```
+
+# GetFromDate
+- ```
+OK, please enter the start date of meeting.
+[Suggestions=Help | Cancel]
+```
+
+# GetFromTime
+- ```
+OK, please enter the start time of meeting.
+[Suggestions=Help | Cancel]
+```
+
+# GetDestinationCalendar
+- ```
+OK, please enter which calendar where you want to put this event
+[Suggestions=Help | Cancel]
+```
+
+# GetToDate
+- ```
+OK, please enter the end date of your meeting.
+[Suggestions=Help | Cancel]
+```
+
+# GetToTime
+- ```
+OK, please enter the end time of your meeting.
+[Suggestions=Help | Cancel]
+```
+
+# GetLocation
+- ```
+OK, please enter the location of your meeting.
+[Suggestions=Help | Cancel]
+```
+
+# GetMeetingRoom
+- ```
+OK, please enter the meeting room of your meeting.
+[Suggestions=Help | Cancel]
+```
+
+# GetDuration
+- ```
+OK, please enter the duration of your meeting.
+[Suggestions=Help | Cancel]
+```
+
+# CreateCalendarEntryReadBack
+- ```
+@{lgTemplate("HelpPrefix")}, I have added "@{turn.Subject}" to your calendar list. You have @{count(user.Entrys)} items in your event list.
+@{lgTemplate("Welcome-Actions")}
+```
+
+# CancelCreateMeeting
+- ```
+@{lgTemplate("HelpPrefix")}, I've cancelled that.
+@{lgTemplate("Welcome-Actions")}
+```

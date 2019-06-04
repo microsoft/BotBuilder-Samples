@@ -1,0 +1,16 @@
+# GetEntryTitleToDelete
+- ```
+Ok, give me the exact title of the todo you would like to delete..
+[Suggestions=Help | Cancel]
+```
+
+# DeleteReadBack
+- ```
+Ok, I've removed your todo titled "@{turn.entrySubject}".
+```
+
+# DeleteEmptyList
+- You do not have any entries in your todo list.
+
+# EntryNotFound
+- Sorry, I did not find a todo titled {turn.entrySubject} in your todos list.

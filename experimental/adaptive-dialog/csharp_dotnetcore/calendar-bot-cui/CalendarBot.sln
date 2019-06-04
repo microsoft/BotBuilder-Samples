@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28917.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarBot", "CalendarBot.csproj", "{90F8DEE9-5505-44C0-9597-4B718A7921A1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90F8DEE9-5505-44C0-9597-4B718A7921A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90F8DEE9-5505-44C0-9597-4B718A7921A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90F8DEE9-5505-44C0-9597-4B718A7921A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90F8DEE9-5505-44C0-9597-4B718A7921A1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9DF3D4F2-56A1-4D74-A263-B182C7BF9E0B}
+	EndGlobalSection
+EndGlobal

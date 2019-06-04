@@ -1,0 +1,3 @@
+﻿1>------ Build started: Project: CalendarBot, Configuration: Debug Any CPU ------
+1>CalendarBot -> C:\Users\t-zhcui\OneDrive - Microsoft\BotFramework\BotBuilder-Samples\experimental\adaptive-dialog\csharp_dotnetcore\calendar-bot-cui\bin\Debug\netcoreapp2.1\CalendarBot.dll
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========

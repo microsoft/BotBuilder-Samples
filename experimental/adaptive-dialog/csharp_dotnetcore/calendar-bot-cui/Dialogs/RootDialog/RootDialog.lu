@@ -1,0 +1,119 @@
+﻿> Help intent will be handled contextually based on the active dialog.
+# Help
+- What can I say? 
+- Who are you?
+- I need help
+- Not sure what I can do
+- What do you want me to say?
+- What can you do?
+- What can you help with?
+- help please
+- What are my options?
+- well, I do not know what my meeting's title is
+- I do not know
+- can you please help?
+
+# Greeting
+- hi
+- hello
+- hiya
+- how are you? 
+- how do you do?
+
+> Cancel intent will be handled contextually based on the active dialog.
+# Cancel
+- cancel
+- cancel all
+- stop that
+- do not do it
+- abort
+- please stop what you are doing
+- I changed my mind
+- cancel add meeting
+- cancel that
+- I do not want to add a meeting
+- No meeting for me
+- Cancel this
+- cancel delete meeting
+- Let's just leave it as is
+- I do not wish to delete my meeting anymore
+- Keep my meeting as is
+- No meeting for me
+
+> Add a Phrase List with meeting variations. Mark them as interchangeable.
+$ meeting : PhraseList interchangeable
+   - meeting
+   - meeting item
+   - to dos
+   - meeting list
+   - meeting list
+   - item list
+   - items collection
+   - collection
+   - list
+
+$ meetingSubject : simple
+
+# AddMeetingDialog
+- Add meeting
+- add a to do item
+> Add some patterns
+- Please remember [to] {meetingTitle_patternAny}
+- I need you to remember [that] {meetingTitle_patternAny}
+- Add a meeting named {meetingTitle_patternAny}
+- Add {meetingTitle_patternAny} to the list
+- [Please] add {meetingTitle_patternAny} to the meeting list
+- Add {meetingTitle_patternAny} to my meeting
+- Please remind me to {meetingTitle=buy milk}
+- Please remember that I need to {meetingTitle=buy milk}
+- I need you to remember that {meetingTitle=my wife's birthday is Jan 9th}
+- Add a meeting named {meetingTitle=send report over this weekend}
+- Add {meetingTitle=get a new car} to the meeting list
+- Add {meetingTitle=write a spec} to the list
+- Add {meetingTitle=finish this demo} to my meeting list
+- add another one
+- add
+
+# DeleteMeetingDialog
+- Remove meeting
+- Mark {meetingTitle = buy milk} as complete
+- Flag {meetingTitle = first one} as done
+- Remove {meetingTitle = finish this demo} from the meeting list
+- remove another one
+- remove
+- clear my meeting named {meetingTitle = get a new car}
+- I did {meetingTitle_patternAny}
+- I completed {meetingTitle_patternAny}
+- I'm done with the first meeting
+- I finished the {meetingIdx = last} meeting
+- Mark {meetingTitle_patternAny} as complete
+- Remove {meetingTitle_patternAny} from my [meeting] list
+- [Please] delete {meetingTitle_patternAny} from the list
+- Remove the first meeting
+- Delete meeting
+- Delete {meetingTitle_patternAny}
+- Clear my meeting
+- Delete all my meeting
+- Remove all my meeting
+- Forget the list
+- Purge the meeting list
+
+# ViewMeetingDialog
+- show my meeting
+- can you please show my meeting?
+- please show my meeting list
+- meeting list please
+- I need to see my meeting list
+- can you show me the list?
+- please show the list
+- what do i have on my meeting?
+- what is on my list?
+- do i have anything left on my meeting list?
+- I hope I do not have any meeting left
+- do i have any tasks left?
+- hit me up with more items
+- view my meeting
+- can you show my meeting
+- see meeting
+- I would like to see my meeting list
+
