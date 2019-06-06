@@ -35,7 +35,7 @@ class ActiveLearningHelper{
         var topAnswerScore = qnaSearchResults[0].score * 100;
         var prevScore = topAnswerScore;
 
-        if((topAnswerScore > MinimumScoreForLowScoreVariation) && (topAnswerScore < MaximumScoreForLowScoreVariation)){
+        if((topAnswerScore > MinimumScoreForLowScoreVariation) && (topAnswerScore <= MaximumScoreForLowScoreVariation)){
             filteredQnaSearchResult.push(qnaSearchResults[0]);
 
             for(var i = 1; i < qnaSearchResults.length; i++){
