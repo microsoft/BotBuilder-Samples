@@ -49,7 +49,7 @@ namespace Microsoft.BotBuilderSamples
 
                 new IfCondition()
                 {
-                    Condition = new ExpressionEngine().Parse("contains(user.entries.subject, dialog.deleteCalendarEntry.entrySubject) == false"),
+                    Condition = new ExpressionEngine().Parse("contains(user.Entries, dialog.deleteCalendarEntry.entrySubject) == false"),
                     Steps = new List<IDialog>()
                     {
                         new SendActivity("[EntryNotFound]"),
@@ -62,7 +62,7 @@ namespace Microsoft.BotBuilderSamples
                     ElseSteps =new List<IDialog>(){
                         new EditArray()
                         {
-                            ArrayProperty = "user.entries",
+                            ArrayProperty = "user.Entries",
                             ItemProperty = "dialog.deleteCalendarEntry.entrySubject",
                             ChangeType = EditArray.ArrayChangeType.Remove
                         }

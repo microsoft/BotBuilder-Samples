@@ -93,7 +93,7 @@ namespace Microsoft.BotBuilderSamples
                 //},
                 new EditArray()
                 {
-                    ItemProperty = "dialog.createCalendarEntry",
+                    ItemProperty = "dialog.createCalendarEntry.Subject",
                     ArrayProperty = "user.Entries",
                     ChangeType = EditArray.ArrayChangeType.Push
                 },
