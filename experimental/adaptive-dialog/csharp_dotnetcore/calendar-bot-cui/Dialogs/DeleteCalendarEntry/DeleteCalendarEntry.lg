@@ -1,16 +1,16 @@
 # GetEntryTitleToDelete
 - ```
-Ok, give me the exact title of the todo you would like to delete..
+Ok, give me the exact subject of the entry you would like to delete.
 [Suggestions=Help | Cancel]
 ```
 
 # DeleteReadBack
 - ```
-Ok, I've removed your todo titled "@{turn.entrySubject}".
+Ok, I've removed your entry whose subject is "@{dialog.deleteCalendarEntry.entrySubject}".
 ```
 
 # DeleteEmptyList
-- You do not have any entries in your todo list.
+- You do not have any entries in your calendar.
 
 # EntryNotFound
-- Sorry, I did not find a todo titled {turn.entrySubject} in your todos list.
+- Sorry, I did not find a entry whose subject is {dialog.deleteCalendarEntry.entrySubject} in your calendar.

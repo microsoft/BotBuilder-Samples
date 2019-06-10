@@ -1,7 +1,7 @@
 # ViewEntries
 - ```
 You have @{count(user.Entries)} @{lgTemplate("Items-Ordinality")} in your calendar.
-- @{join(user.todos, '\r\n- ')}
+- @{join(user.Entries, '\r\n- ')}
 @{lgTemplate("Welcome-Actions")}
 ```
 
@@ -12,7 +12,7 @@ You do not have any entries in your calendar.
 ```
 
 # Items-Ordinality
-- IF: {user.todos != null && count(user.todos) == 1}
+- IF: {user.Entries != null && count(user.Entries) == 1}
     - item
 - ELSE:
     - items

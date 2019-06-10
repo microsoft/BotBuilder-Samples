@@ -8,11 +8,10 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Expressions.Parser;
 
-
-
 /// <summary>
 /// Known bug
-/// 1. cannot go to next step // must say the subject is what?
+/// 1. how to wrap up all the information into one unit (subject, time, location and other stuff into one entry),
+/// and put it into the user.entries // use user.meetingInfo saveproperty
 /// 2. what if user wants to pass some information // use other code
 /// </summary>
 namespace Microsoft.BotBuilderSamples
@@ -22,85 +21,90 @@ namespace Microsoft.BotBuilderSamples
         public CreateCalendarEntry()
             : base(nameof(CreateCalendarEntry))
         {
-            var CreateCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog));
-            CreateCalendarEntry.Recognizer = CreateRecognizer();
-            CreateCalendarEntry.Steps = new List<IDialog>()
+            var createCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog));
+            createCalendarEntry.Recognizer = CreateRecognizer();
+            createCalendarEntry.Steps = new List<IDialog>()
             {
-                new EditArray(){
-                    ChangeType = EditArray.ArrayChangeType.Clear,
-                    ArrayProperty = "user.Entries"
-                },
-                new SaveEntity("@Subject[0]", "turn.Subject"),
-                new SaveEntity("@FromDate[0]", "turn.FromDate"),
-                new SaveEntity("@FromTime[0]", "turn.FromTime"),
-                new SaveEntity("@DestinationCalendar[0]","turn.DestinationCalendar"),
-                new SaveEntity("@ToDate[0]","turn.ToDate"),
-                new SaveEntity("@ToTime[0]","turn.ToTime"),
-                new SaveEntity("@Location[0]","turn.Location"),
-                new SaveEntity("@Duration[0]","turn.Duration"),
+                new SaveEntity("@Subject[0]", "dialog.createCalendarEntry.Subject"),
+                new SaveEntity("@FromDate[0]", "dialog.createCalendarEntry.FromDate"),
+                new SaveEntity("@FromTime[0]", "dialog.createCalendarEntry.FromTime"),
+                new SaveEntity("@DestinationCalendar[0]","dialog.createCalendarEntry.DestinationCalendar"),
+                new SaveEntity("@ToDate[0]","dialog.createCalendarEntry.ToDate"),
+                new SaveEntity("@ToTime[0]","dialog.createCalendarEntry.ToTime"),
+                new SaveEntity("@Location[0]","dialog.createCalendarEntry.Location"),
+                new SaveEntity("@Duration[0]","dialog.createCalendarEntry.Duration"),
 
+                // turn will disappear
+                // save to the user state
+                // every input will be detected through LUIS first from root dialog
+                // once matched, the procedure will add another layer of dialog
+                // not matched. will skip the root dialog, and taken as input
                 new TextInput()
                 {
-                    Property = "turn.Subject",
+                    Property = "dialog.createCalendarEntry.Subject",
                     Prompt = new ActivityTemplate("[GetSubject]")
                 },
-                new SendActivity("{turn.Subject}"),
+                new TextInput()
+                {
+                    Property = "dialog.createCalendarEntry.FromTime",
+                    Prompt = new ActivityTemplate("[GetFromTime]")
+                },
                 //new TextInput()
                 //{
-                //    Property = "turn.FromDate",
+                //    Property = "dialog.createCalendarEntry.FromDate",
                 //    Prompt = new ActivityTemplate("[GetFromDate]")
                 //},
                 //new TextInput()
                 //{
-                //    Property = "turn.FromTime",
-                //    Prompt = new ActivityTemplate("[GetFromTime]")
+                //    Property = "dialog.createCalendarEntry.DestinationCalendar",
+                //    Prompt = new ActivityTemplate("[GetDestinationCalendar]")
                 //},
-                ////new TextInput()
-                ////{
-                ////    Property = "turn.DestinationCalendar",
-                ////    Prompt = new ActivityTemplate("[GetDestinationCalendar]")
-                ////},
-                ////new TextInput()
-                ////{
-                ////    Property = "turn.ToDate",
-                ////    Prompt = new ActivityTemplate("[GetToDate]")
-                ////},
-                //// uncomment to prompt user to enter more information
                 //new TextInput()
                 //{
-                //    Property = "turn.ToTime",
+                //    Property = "dialog.createCalendarEntry.ToDate",
+                //    Prompt = new ActivityTemplate("[GetToDate]")
+                //},
+                // uncomment to prompt user to enter more information
+                //new TextInput()
+                //{
+                //    Property = "dialog.createCalendarEntry.ToTime",
                 //    Prompt = new ActivityTemplate("[GetToTime]")
                 //},
                 //new TextInput()
                 //{
-                //    Property = "turn.Location",
+                //    Property = "dialog.createCalendarEntry.Location",
                 //    Prompt = new ActivityTemplate("[GetLocation]")
                 //},
                 //new TextInput()
                 //{
-                //    Property = "turn.MeetingRoom",
+                //    Property = "dialog.createCalendarEntry.MeetingRoom",
                 //    Prompt = new ActivityTemplate("[GetMeetingRoom]")
                 //},
                 //new IfCondition{
-                //    Condition = new ExpressionEngine().Parse("turn.FromDate != null && turn.ToDate == null"),// TODO BUG might be here
+                //    Condition = new ExpressionEngine().Parse("dialog.createCalendarEntry.FromDate != null && dialog.createCalendarEntry.ToDate == null"),// TODO BUG might be here
                 //    Steps = new List<IDialog>()
                 //    {
                 //        new TextInput()
                 //        {
-                //            Property = "turn.Duration",
+                //            Property = "dialog.createCalendarEntry.Duration",
                 //            Prompt = new ActivityTemplate("[GetDuration]")
                 //        }
                 //  }
                 //},
-                //new EditArray()
-                //{
-                //    ItemProperty = "turn.Subject",
-                //    ArrayProperty = "user.Entries",
-                //    ChangeType = EditArray.ArrayChangeType.Push
-                //},
-                new SendActivity("[CreateCalendarEntryReadBack]")
+                new EditArray()
+                {
+                    ItemProperty = "dialog.createCalendarEntry",
+                    ArrayProperty = "user.Entries",
+                    ChangeType = EditArray.ArrayChangeType.Push
+                },
+                new SendActivity("[CreateCalendarEntryReadBack]"),
+                new EndDialog()
             };
-            CreateCalendarEntry.Rules = new List<IRule>()
+
+            // rules can be overrided
+            // if found, do steps here
+            // if not found, back to the top level
+            createCalendarEntry.Rules = new List<IRule>()
             {
                 new IntentRule("Help")
                 {
@@ -128,19 +132,15 @@ namespace Microsoft.BotBuilderSamples
                             },
                             ElseSteps = new List<IDialog>()
                             {
-                                new SendActivity("[HelpPrefix], let's get right back to scheduling a meeting.") // TODO add this to lg file
+                                new SendActivity("[HelpPrefix], let's get right back to scheduling a meeting.")
                             }
                         }
                     }
-                },
-                new IntentRule("CheckMessages")
-                {
-                    Steps = new List<IDialog>() { new BeginDialog(nameof(CreateCalendarEntry), null) },
-                    Constraint = "turn.dialogEvent.value.intents.CheckMessages.score > 0.4"
-                },
+                }
             };
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
-            AddDialog(CreateCalendarEntry);
+            AddDialog(createCalendarEntry);
+
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);
         }

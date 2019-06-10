@@ -14,85 +14,95 @@ namespace Microsoft.BotBuilderSamples
             : base(nameof(DeleteCalendarEntry))
         {
             // Create instance of adaptive dialog. 
-            var DeleteCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog));
-            DeleteCalendarEntry.Steps = new List<IDialog>()
+            var deleteCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog));
+            deleteCalendarEntry.Steps = new List<IDialog>()
+            {
+                // Handle case where there are no items in todo list
+                new IfCondition()
                 {
-                    // Handle case where there are no items in todo list
-                    new IfCondition()
+                    Condition = new ExpressionEngine().Parse("user.Entries == null || count(user.Entries) <= 0"),
+                    Steps = new List<IDialog>()
                     {
-                        Condition = new ExpressionEngine().Parse("user.Entries == null || count(user.Entries) <= 0"),
-                        Steps = new List<IDialog>()
-                        {
-                            new SendActivity("[DeleteEmptyList]"),
-                            new SendActivity("[Welcome-Actions]"),
-                            new EndDialog()
-                        }
-                    },
+                        new SendActivity("[DeleteEmptyList]"),
+                        new SendActivity("[Welcome-Actions]"),
+                        new EndDialog()
+                    }
+                },
 
-                     new SaveEntity("@Subject[0]", "turn.entrySubject"),                    
-                    // new CodeStep(GetToDoTitleToDelete),
+                new SaveEntity("@Subject[0]", "dialog.deleteCalendarEntry.entrySubject"),                    
+                // new CodeStep(GetToDoTitleToDelete),
                    
-                    new IfCondition()
+                new IfCondition()
+                {
+                    Condition = new ExpressionEngine().Parse("dialog.deleteCalendarEntry.entrySubject == null"),
+                    Steps = new List<IDialog>()
                     {
-                        Condition = new ExpressionEngine().Parse("turn.entrySubject == null"),
-                        Steps = new List<IDialog>()
+                        // First show the current list of Todos
+                        new BeginDialog(nameof(FindCalendarEntry)),
+                        new TextInput()
                         {
-                            // First show the current list of Todos
-                            new BeginDialog(nameof(FindCalendarEntry)),
-                            new TextInput()
+                            Property = "dialog.deleteCalendarEntry.entrySubject",
+                            Prompt = new ActivityTemplate("[GetEntryTitleToDelete]"),
+                        }
+                    }
+                },
+
+                new IfCondition()
+                {
+                    Condition = new ExpressionEngine().Parse("contains(user.entries.subject, dialog.deleteCalendarEntry.entrySubject) == false"),
+                    Steps = new List<IDialog>()
+                    {
+                        new SendActivity("[EntryNotFound]"),
+                        new DeleteProperty()
+                        {
+                            Property = "dialog.deleteCalendarEntry.entrySubject"
+                        },
+                        new RepeatDialog()
+                    },
+                    ElseSteps =new List<IDialog>(){
+                        new EditArray()
+                        {
+                            ArrayProperty = "user.entries",
+                            ItemProperty = "dialog.deleteCalendarEntry.entrySubject",
+                            ChangeType = EditArray.ArrayChangeType.Remove
+                        }
+                    }
+                },
+
+                new SendActivity("[DeleteReadBack]"),
+                new SendActivity("[Welcome-Actions]"),
+                new EndDialog()
+            };
+            deleteCalendarEntry.Rules = new List<IRule>()
+            {
+                new IntentRule("Cancel")
+                {
+                    Steps = new List<IDialog>()
+                    {
+                        new ConfirmInput()
+                        {
+                            Property = "turn.cancelConfirmation",
+                            Prompt = new ActivityTemplate("[ConfirmCancellation]")
+                        },
+                        new IfCondition()
+                        {
+                            Condition = new ExpressionEngine().Parse("turn.cancelConfirmation == true"),
+                            Steps = new List<IDialog>()
                             {
-                                Property = "turn.entrySubject",
-                                Prompt = new ActivityTemplate("[GetEntryTitleToDelete]"),
+                                new SendActivity("[CancelCreateMeeting]"),
+                                new EndDialog()
+                            },
+                            ElseSteps = new List<IDialog>()
+                            {
+                                new SendActivity("[HelpPrefix], let's get right back to scheduling a meeting.")
                             }
                         }
-                    },
-                    new IfCondition()
-                    {
-                        Condition = new ExpressionEngine().Parse("contains(user.todos, turn.entrySubject) == false"),
-                        Steps = new List<IDialog>()
-                        {
-                            new SendActivity("[EntryNotFound]"),
-                            new DeleteProperty()
-                            {
-                                Property = "turn.entrySubject"
-                            },
-                            new RepeatDialog()
-                        }
-                    },
-                    new EditArray()
-                    {
-                        ArrayProperty = "user.entries",
-                        ItemProperty = "turn.entrySubject",
-                        ChangeType = EditArray.ArrayChangeType.Clear
-                    },
-                    new SendActivity("[DeleteReadBack]"),
-                    new EndDialog()
-                };
-            DeleteCalendarEntry.Rules = new List<IRule>()
-                {
-                    new IntentRule("CheckMessages")
-                    {
-                        Steps = new List<IDialog>() { new BeginDialog(nameof(DeleteCalendarEntry), null) },
-                        Constraint = "turn.dialogEvent.value.intents.CheckMessages.score > 0.4"
                     }
-                    //    // This event rule will catch outgoing bubbling up to the parent and will swallow anything that user says that is in the todo list. 
-                    //    new EventRule()
-                    //    {
-                    //        Events = new List<string>() { AdaptiveEvents.ConsultDialog },
-                    //        Constraint = "contains(user.todos, turn.activity.text)",
-                    //        Steps = new List<IDialog>()
-                    //        {
-                    //            // Take user input  as the title of the todo to delete if it exists
-                    //            new SetProperty() {
-                    //                Property = "turn.entrySubject",
-                    //                Value = new ExpressionEngine().Parse("turn.activity.text")
-                    //            }
-                    //        }
-                    //    }
-                };
+                }
+            };
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
-            AddDialog(DeleteCalendarEntry);
+            AddDialog(deleteCalendarEntry);
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);

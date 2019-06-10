@@ -75,7 +75,8 @@ OK, please enter the duration of your meeting.
 
 # CreateCalendarEntryReadBack
 - ```
-@{lgTemplate("HelpPrefix")}, I have added "@{turn.Subject}" to your calendar list. You have @{count(user.Entrys)} items in your event list.
+@{lgTemplate("HelpPrefix")}, I have added @{dialog.createCalendarEntry.Subject} to your calendar list. 
+You have @{count(user.Entries)} items in your event list.
 @{lgTemplate("Welcome-Actions")}
 ```
 

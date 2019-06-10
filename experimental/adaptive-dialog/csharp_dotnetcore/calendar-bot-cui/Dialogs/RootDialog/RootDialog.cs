@@ -7,9 +7,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using System.Threading;
-using System.Threading.Tasks;
 
+/// <summary>
+/// TODO
+/// 1. Accept meeting
+///     accepting meeting is possible for each meeting or creating the only one focused meeting is our task
+///     // each one has one option of accepting // if show me the first one, then give the user an option to accept it
+/// 2. decline meeting
+/// 3. update meeting
+/// </summary>
 namespace Microsoft.BotBuilderSamples
 {
     public class RootDialog : ComponentDialog
@@ -29,26 +35,62 @@ namespace Microsoft.BotBuilderSamples
                 Rules = new List<IRule>()
                 {
                     // Intent rules for the LUIS model. Each intent here corresponds to an intent defined in ./Dialogs/Resources/ToDoBot.lu file
-                    new IntentRule("Greeting")         { Steps = new List<IDialog>() { new SendActivity("[Help-Root-Dialog]") } },
+                    new IntentRule("Greeting")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new SendActivity("[Help-Root-Dialog]")
+                        },
+                        Constraint = "turn.dialogevent.value.intents.Greeting.score > 0.6"
+                    },
 
                     /******************************************************************************/
                     // place to add new dialog
-                    new IntentRule("CreateCalendarEntry")    { Steps = new List<IDialog>() { new BeginDialog(nameof(CreateCalendarEntry)) } },
-                    new IntentRule("FindCalendarEntry") { Steps = new List<IDialog>() { new BeginDialog(nameof(FindCalendarEntry)) } },
-                    new IntentRule("DeleteCalendarEntry") { Steps = new List<IDialog>() { new BeginDialog(nameof(DeleteCalendarEntry)) } },
+                    new IntentRule("CreateCalendarEntry")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new BeginDialog(nameof(CreateCalendarEntry))
+                        },
+                        Constraint = "turn.dialogevent.value.intents.CreateCalendarEntry.score > 0.4"
+                    },
+                    new IntentRule("FindCalendarEntry")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new BeginDialog(nameof(FindCalendarEntry))
+                        },
+                        Constraint = "turn.dialogevent.value.intents.FindCalendarEntry.score > 0.4"
+                    },
+                    new IntentRule("DeleteCalendarEntry")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new BeginDialog(nameof(DeleteCalendarEntry))
+                        },
+                        Constraint = "turn.dialogevent.value.intents.DeleteCalendarEntry.score > 0.4"
+                    },
                     /******************************************************************************/
 
                     // Come back with LG template based readback for global help
-                    new IntentRule("Help")             { Steps = new List<IDialog>() { new SendActivity("[Help-Root-Dialog]") } },
-                    new IntentRule("Cancel")           { Steps = new List<IDialog>() {
-                        // This is the global cancel in case a child dialog did not explicit handle cancel.
-                        new SendActivity("Cancelling all dialogs.."),
-                        // SendActivity supports full language generation resolution.
-                        // See here to learn more about language generation
-                        // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
-                        new SendActivity("[Welcome-Actions]"),
-                        new CancelAllDialogs(),
-                        }
+                    new IntentRule("Help")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new SendActivity("[Help-Root-Dialog]")
+                        },
+                        Constraint = "turn.dialogevent.value.intents.Help.score > 0.6"
+                    },
+                    new IntentRule("Cancel")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            // This is the global cancel in case a child dialog did not explicit handle cancel.
+                            new SendActivity("Cancelling all dialogs.."),
+                            new SendActivity("[Welcome-Actions]"),
+                            new CancelAllDialogs(),
+                        },
+                        Constraint = "turn.dialogevent.value.intents.Cancel.score > 0.6"
                     }
                 }
             };
@@ -56,12 +98,13 @@ namespace Microsoft.BotBuilderSamples
             /******************************************************************************/
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
             AddDialog(rootDialog);
-            AddDialog(new CreateCalendarEntry());
-            AddDialog(new FindCalendarEntry());
-            AddDialog(new DeleteCalendarEntry());
+            rootDialog.AddDialog(new List<Dialog>()
+            {
+                new CreateCalendarEntry(),
+                new FindCalendarEntry(),
+                new DeleteCalendarEntry()
+            });
             /******************************************************************************/
-
-
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);
         }
