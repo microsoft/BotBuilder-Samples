@@ -20,21 +20,12 @@ namespace Microsoft.BotBuilderSamples
 
             Console.WriteLine(resolution.Values.Count);
 
-            Console.WriteLine(resolution.Values[0].Timex);
-            Console.WriteLine(resolution.Values[0].Type);
-            Console.WriteLine(resolution.Values[0].Value);
-
-            Console.WriteLine(resolution.Values[1].Timex);
-            Console.WriteLine(resolution.Values[1].Type);
-            Console.WriteLine(resolution.Values[1].Value);
-
-            Console.WriteLine(resolution.Values[2].Timex);
-            Console.WriteLine(resolution.Values[2].Type);
-            Console.WriteLine(resolution.Values[2].Value);
-
-            Console.WriteLine(resolution.Values[3].Timex);
-            Console.WriteLine(resolution.Values[3].Type);
-            Console.WriteLine(resolution.Values[3].Value);
+            foreach (var value in resolution.Values)
+            {
+                Console.WriteLine(value.Timex);
+                Console.WriteLine(value.Type);
+                Console.WriteLine(value.Value);
+            }
         }
     }
 }
