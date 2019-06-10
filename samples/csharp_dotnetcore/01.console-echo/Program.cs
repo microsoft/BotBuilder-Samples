@@ -20,7 +20,7 @@ namespace Console_EchoBot
 
             // Connect the Console Adapter to the Bot.
             adapter.ProcessActivityAsync(
-                async (turnContext, cancellationToken) => await echoBot.OnTurnAsync(turnContext)).Wait();
+                async (turnContext, cancellationToken) => await echoBot.OnTurnAsync(turnContext, cancellationToken)).Wait();
         }
     }
 }

@@ -53,7 +53,7 @@ namespace Microsoft.BotBuilderSamples
             // Don't do anything for non-message activities.
             if (dialogContext.Context.Activity.Type != ActivityTypes.Message)
             {
-                return await dialogContext.EndDialogAsync(new Dictionary<string, object>());
+                return await dialogContext.EndDialogAsync(new Dictionary<string, object>(), cancellationToken);
             }
 
             // Run prompt
@@ -152,7 +152,7 @@ namespace Microsoft.BotBuilderSamples
             else
             {
                 // No more slots to fill so end the dialog.
-                return dialogContext.EndDialogAsync(state);
+                return dialogContext.EndDialogAsync(state, cancellationToken);
             }
         }
     }

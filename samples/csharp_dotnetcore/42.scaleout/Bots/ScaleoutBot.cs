@@ -63,7 +63,7 @@ namespace Microsoft.BotBuilderSamples
                     if (activities.Any())
                     {
                         // This is an actual send on the TurnContext we were given and so will actual do a send this time.
-                        await turnContext.SendActivitiesAsync(activities);
+                        await turnContext.SendActivitiesAsync(activities, cancellationToken);
                     }
 
                     break;

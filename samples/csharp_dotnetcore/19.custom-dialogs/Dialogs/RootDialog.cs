@@ -99,7 +99,7 @@ namespace Microsoft.BotBuilderSamples
                 var address = (IDictionary<string, object>)result["address"];
 
                 // Now the waterfall is complete, save the data we have gathered into UserState. 
-                var obj = await _userStateAccessor.GetAsync(stepContext.Context, () => new JObject());
+                var obj = await _userStateAccessor.GetAsync(stepContext.Context, () => new JObject(), cancellationToken);
                 obj["data"] = new JObject
                 {
                     { "fullname",  $"{fullname["first"]} {fullname["last"]}" },
@@ -113,7 +113,7 @@ namespace Microsoft.BotBuilderSamples
             }
 
             // Remember to call EndAsync to indicate to the runtime that this is the end of our waterfall.
-            return await stepContext.EndDialogAsync();
+            return await stepContext.EndDialogAsync(cancellationToken: cancellationToken);
         }
     }
 }

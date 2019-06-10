@@ -55,7 +55,7 @@ namespace ProactiveBot.Controllers
 
         private async Task BotCallback(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            await turnContext.SendActivityAsync("proactive hello");
+            await turnContext.SendActivityAsync("proactive hello", cancellationToken: cancellationToken);
         }
     }
 }

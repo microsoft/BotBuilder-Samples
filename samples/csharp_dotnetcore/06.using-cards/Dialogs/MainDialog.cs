@@ -120,7 +120,7 @@ namespace Microsoft.BotBuilderSamples
             // Give the user instructions about what to do next
             await stepContext.Context.SendActivityAsync(MessageFactory.Text("Type anything to see another card."), cancellationToken);
 
-            return await stepContext.EndDialogAsync();
+            return await stepContext.EndDialogAsync(cancellationToken: cancellationToken);
         }
 
         private IList<Choice> GetChoices()

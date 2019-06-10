@@ -115,7 +115,7 @@ namespace Console_EchoBot
                             // The Activity Schema doesn't have a delay type build in, so it's simulated
                             // here in the Bot. This matches the behavior in the Node connector.
                             int delayMs = (int)((Activity)activity).Value;
-                            await Task.Delay(delayMs).ConfigureAwait(false);
+                            await Task.Delay(delayMs, cancellationToken).ConfigureAwait(false);
                         }
 
                         break;

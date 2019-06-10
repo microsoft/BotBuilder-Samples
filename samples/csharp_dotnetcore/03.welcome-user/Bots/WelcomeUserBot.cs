@@ -68,7 +68,7 @@ namespace Microsoft.BotBuilderSamples
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             var welcomeUserStateAccessor = _userState.CreateProperty<WelcomeUserState>(nameof(WelcomeUserState));
-            var didBotWelcomeUser = await welcomeUserStateAccessor.GetAsync(turnContext, () => new WelcomeUserState());
+            var didBotWelcomeUser = await welcomeUserStateAccessor.GetAsync(turnContext, () => new WelcomeUserState(), cancellationToken);
 
             if (didBotWelcomeUser.DidBotWelcomeUser == false)
             {
@@ -101,7 +101,7 @@ namespace Microsoft.BotBuilderSamples
             }
 
             // Save any state changes.
-            await _userState.SaveChangesAsync(turnContext);
+            await _userState.SaveChangesAsync(turnContext, cancellationToken: cancellationToken);
         }
 
         private static async Task SendIntroCardAsync(ITurnContext turnContext, CancellationToken cancellationToken)

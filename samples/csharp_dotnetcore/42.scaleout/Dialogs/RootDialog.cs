@@ -44,7 +44,7 @@ namespace Microsoft.BotBuilderSamples
             var first = (long)stepContext.Values["first"];
             var second = (long)stepContext.Result;
             await stepContext.Context.SendActivityAsync(MessageFactory.Text($"The result of the first minus the second is {first - second}."), cancellationToken);
-            return await stepContext.EndDialogAsync(cancellationToken);
+            return await stepContext.EndDialogAsync(cancellationToken, cancellationToken);
         }
     }
 }

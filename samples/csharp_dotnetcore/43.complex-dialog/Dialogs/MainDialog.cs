@@ -41,7 +41,7 @@ namespace Microsoft.BotBuilderSamples
                 + (userInfo.CompaniesToReview.Count is 0 ? "no companies" : string.Join(" and ", userInfo.CompaniesToReview))
                 + ".";
 
-            await stepContext.Context.SendActivityAsync(status);
+            await stepContext.Context.SendActivityAsync(status, cancellationToken: cancellationToken);
 
             var accessor = _userState.CreateProperty<UserProfile>(nameof(UserProfile));
             await accessor.SetAsync(stepContext.Context, userInfo, cancellationToken);

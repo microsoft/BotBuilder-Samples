@@ -53,7 +53,7 @@ namespace Microsoft.BotBuilderSamples
                     var botAdapter = (BotFrameworkAdapter)innerDc.Context.Adapter;
                     await botAdapter.SignOutUserAsync(innerDc.Context, ConnectionName, null, cancellationToken);
                     await innerDc.Context.SendActivityAsync(MessageFactory.Text("You have been signed out."), cancellationToken);
-                    return await innerDc.CancelAllDialogsAsync();
+                    return await innerDc.CancelAllDialogsAsync(cancellationToken);
                 }
             }
             return null;

@@ -30,7 +30,7 @@ namespace Microsoft.BotBuilderSamples
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             var reply = ProcessInput(turnContext);
-            await turnContext.SendActivityAsync("HI");
+            await turnContext.SendActivityAsync("HI", cancellationToken: cancellationToken);
             // Respond to the user.
             await turnContext.SendActivityAsync(reply, cancellationToken);
             await DisplayOptionsAsync(turnContext, cancellationToken);

@@ -62,7 +62,7 @@ namespace Microsoft.BotBuilderSamples.Translation
 
             turnContext.OnSendActivities(async (newContext, activities, nextSend) =>
             {
-                string userLanguage = await _languageStateProperty.GetAsync(turnContext, () => TranslationSettings.DefaultLanguage) ?? TranslationSettings.DefaultLanguage;
+                string userLanguage = await _languageStateProperty.GetAsync(turnContext, () => TranslationSettings.DefaultLanguage, cancellationToken) ?? TranslationSettings.DefaultLanguage;
                 bool shouldTranslate = userLanguage != TranslationSettings.DefaultLanguage;
 
                 // Translate messages sent to the user to user language
@@ -71,7 +71,7 @@ namespace Microsoft.BotBuilderSamples.Translation
                     List<Task> tasks = new List<Task>();
                     foreach (Activity currentActivity in activities.Where(a => a.Type == ActivityTypes.Message))
                     {
-                        tasks.Add(TranslateMessageActivityAsync(currentActivity.AsMessageActivity(), userLanguage));
+                        tasks.Add(TranslateMessageActivityAsync(currentActivity.AsMessageActivity(), userLanguage, cancellationToken));
                     }
 
                     if (tasks.Any())
@@ -85,7 +85,7 @@ namespace Microsoft.BotBuilderSamples.Translation
 
             turnContext.OnUpdateActivity(async (newContext, activity, nextUpdate) =>
             {
-                string userLanguage = await _languageStateProperty.GetAsync(turnContext, () => TranslationSettings.DefaultLanguage) ?? TranslationSettings.DefaultLanguage;
+                string userLanguage = await _languageStateProperty.GetAsync(turnContext, () => TranslationSettings.DefaultLanguage, cancellationToken) ?? TranslationSettings.DefaultLanguage;
                 bool shouldTranslate = userLanguage != TranslationSettings.DefaultLanguage;
 
                 // Translate messages sent to the user to user language
@@ -93,7 +93,7 @@ namespace Microsoft.BotBuilderSamples.Translation
                 {
                     if (shouldTranslate)
                     {
-                        await TranslateMessageActivityAsync(activity.AsMessageActivity(), userLanguage);
+                        await TranslateMessageActivityAsync(activity.AsMessageActivity(), userLanguage, cancellationToken);
                     }
                 }
 
@@ -107,7 +107,7 @@ namespace Microsoft.BotBuilderSamples.Translation
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                activity.Text = await _translator.TranslateAsync(activity.Text, targetLocale);
+                activity.Text = await _translator.TranslateAsync(activity.Text, targetLocale, cancellationToken);
             }
         }
 

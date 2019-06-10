@@ -31,16 +31,16 @@ namespace Microsoft.BotBuilderSamples
         {
            
             var conversationStateAccessors = _conversationState.CreateProperty<ConversationFlow>(nameof(ConversationFlow));
-            var flow = await conversationStateAccessors.GetAsync(turnContext, () => new ConversationFlow());
+            var flow = await conversationStateAccessors.GetAsync(turnContext, () => new ConversationFlow(), cancellationToken);
 
             var userStateAccessors = _userState.CreateProperty<UserProfile>(nameof(UserProfile));
-            var profile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile());
+            var profile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile(), cancellationToken);
 
             await FillOutUserProfileAsync(flow, profile, turnContext);
 
             // Save changes.
-            await _conversationState.SaveChangesAsync(turnContext);
-            await _userState.SaveChangesAsync(turnContext);
+            await _conversationState.SaveChangesAsync(turnContext, cancellationToken: cancellationToken);
+            await _userState.SaveChangesAsync(turnContext, cancellationToken: cancellationToken);
         }
 
         private static async Task FillOutUserProfileAsync(ConversationFlow flow, UserProfile profile, ITurnContext turnContext)

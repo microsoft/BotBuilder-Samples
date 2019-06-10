@@ -103,7 +103,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 if (turnContext.Activity.ChannelId != Bot.Connector.Channels.Facebook)
                 {
-                    await turnContext.SendActivityAsync("This sample is intended to be used with a Facebook bot.");
+                    await turnContext.SendActivityAsync("This sample is intended to be used with a Facebook bot.", cancellationToken: cancellationToken);
                 }
                 else
                 {

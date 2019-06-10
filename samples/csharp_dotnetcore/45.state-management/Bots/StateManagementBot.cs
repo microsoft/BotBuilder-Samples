@@ -32,7 +32,7 @@ namespace Microsoft.BotBuilderSamples
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            await turnContext.SendActivityAsync("Welcome to State Bot Sample. Type anything to get started.");
+            await turnContext.SendActivityAsync("Welcome to State Bot Sample. Type anything to get started.", cancellationToken: cancellationToken);
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
@@ -40,10 +40,10 @@ namespace Microsoft.BotBuilderSamples
             // Get the state properties from the turn context.
 
             var conversationStateAccessors =  _conversationState.CreateProperty<ConversationData>(nameof(ConversationData));
-            var conversationData = await conversationStateAccessors.GetAsync(turnContext, () => new ConversationData());
+            var conversationData = await conversationStateAccessors.GetAsync(turnContext, () => new ConversationData(), cancellationToken);
 
             var userStateAccessors = _userState.CreateProperty<UserProfile>(nameof(UserProfile));
-            var userProfile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile());
+            var userProfile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile(), cancellationToken);
 
             if (string.IsNullOrEmpty(userProfile.Name))
             {
@@ -54,7 +54,7 @@ namespace Microsoft.BotBuilderSamples
                     userProfile.Name = turnContext.Activity.Text?.Trim();
 
                     // Acknowledge that we got their name.
-                    await turnContext.SendActivityAsync($"Thanks {userProfile.Name}. To see conversation data, type anything.");
+                    await turnContext.SendActivityAsync($"Thanks {userProfile.Name}. To see conversation data, type anything.", cancellationToken: cancellationToken);
 
                     // Reset the flag to allow the bot to go though the cycle again.
                     conversationData.PromptedUserForName = false;
@@ -62,7 +62,7 @@ namespace Microsoft.BotBuilderSamples
                 else
                 {
                     // Prompt the user for their name.
-                    await turnContext.SendActivityAsync($"What is your name?");
+                    await turnContext.SendActivityAsync($"What is your name?", cancellationToken: cancellationToken);
 
                     // Set the flag to true, so we don't prompt in the next turn.
                     conversationData.PromptedUserForName = true;
@@ -78,9 +78,9 @@ namespace Microsoft.BotBuilderSamples
                 conversationData.ChannelId = turnContext.Activity.ChannelId.ToString();
 
                 // Display state data.
-                await turnContext.SendActivityAsync($"{userProfile.Name} sent: {turnContext.Activity.Text}");
-                await turnContext.SendActivityAsync($"Message received at: {conversationData.Timestamp}");
-                await turnContext.SendActivityAsync($"Message received from: {conversationData.ChannelId}");
+                await turnContext.SendActivityAsync($"{userProfile.Name} sent: {turnContext.Activity.Text}", cancellationToken: cancellationToken);
+                await turnContext.SendActivityAsync($"Message received at: {conversationData.Timestamp}", cancellationToken: cancellationToken);
+                await turnContext.SendActivityAsync($"Message received from: {conversationData.ChannelId}", cancellationToken: cancellationToken);
             }
         }
     }
