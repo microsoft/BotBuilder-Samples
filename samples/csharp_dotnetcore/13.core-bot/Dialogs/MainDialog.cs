@@ -60,6 +60,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     :
                 new BookingDetails();
 
+            if (bookingDetails.ErrorMessage != null)
+            {
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(bookingDetails.ErrorMessage), cancellationToken);
+            }
+
             // In this sample we only have a single Intent we are concerned with. However, typically a scenario
             // will have multiple different Intents each corresponding to starting a different child Dialog.
 
