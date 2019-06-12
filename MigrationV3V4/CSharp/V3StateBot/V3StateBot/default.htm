@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+</head>
+<body>
+    <div id="webchat" />
+
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+    <script>
+        var convoCookie = localStorage.getItem("conversationId");
+        var token = 'Ty0qfs_eWNI.cwA.wIA.E4n8ZSDIo0b8b1Dc7PLgms0sF4YWm_jPw7CExJQJ5WI';
+        debugger;
+        
+            var chatbot = new WebChat.createDirectLine({
+                secret: token,
+                webSocket: false,
+                pollingInterval: 2000
+            });
+
+        WebChat.renderWebChat({
+            directLine: chatbot,
+            userID: 'V3UserId'
+        }, document.getElementById('webchat'));
+
+    </script>
+</body>
+</html>
