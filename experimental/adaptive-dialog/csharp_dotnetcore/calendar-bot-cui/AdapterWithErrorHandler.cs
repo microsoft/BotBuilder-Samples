@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System.IO;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
-using Microsoft.Bot.Builder.LanguageGeneration.Renderer;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Debugging;
 using Microsoft.Extensions.Configuration;
@@ -32,7 +31,7 @@ namespace Microsoft.BotBuilderSamples
 
             this.UseStorage(storage);
             this.UseState(userState, conversationState);
-            this.UseLanguageGenerator(new LGLanguageGenerator(resourceExplorer));
+            //this.UseLanguageGenerator(new LGLanguageGenerator(resourceExplorer));
             this.UseDebugger(configuration.GetValue<int>("debugport", 4712), events: new Events<AdaptiveEvents>());
 
             OnTurnError = async (turnContext, exception) =>

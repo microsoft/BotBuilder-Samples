@@ -12,7 +12,7 @@ namespace Microsoft.BotBuilderSamples
             : base(nameof(FindCalendarEntry))
         {
             // Create instance of adaptive dialog. 
-            var FindCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog))
+            var findCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
                 Steps = new List<IDialog>()
                 {
@@ -34,7 +34,7 @@ namespace Microsoft.BotBuilderSamples
             };
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
-            AddDialog(FindCalendarEntry);
+            AddDialog(findCalendarEntry);
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);

@@ -44,6 +44,7 @@ namespace Microsoft.BotBuilderSamples
                     Property = "dialog.createCalendarEntry.Subject",
                     Prompt = new ActivityTemplate("[GetSubject]")
                 },
+
                 new TextInput()
                 {
                     Property = "dialog.createCalendarEntry.FromTime",
@@ -81,7 +82,7 @@ namespace Microsoft.BotBuilderSamples
                 //    Prompt = new ActivityTemplate("[GetMeetingRoom]")
                 //},
                 //new IfCondition{
-                //    Condition = new ExpressionEngine().Parse("dialog.createCalendarEntry.FromDate != null && dialog.createCalendarEntry.ToDate == null"),// TODO BUG might be here
+                //    Condition = new ExpressionEngine().Parse("dialog.createCalendarEntry.FromDate != null && dialog.createCalendarEntry.ToDate == null"),
                 //    Steps = new List<IDialog>()
                 //    {
                 //        new TextInput()
@@ -91,12 +92,22 @@ namespace Microsoft.BotBuilderSamples
                 //        }
                 //  }
                 //},
+
+                new SetProperty()
+                {
+                    Property = "user.focusEntry",
+                    Value = new ExpressionEngine().Parse("{dialog.createCalendarEntry.Subject}")
+                },
+                new SendActivity("Focus Completed"),
+                new SendActivity("{user.focusEntry}"),
+
                 new EditArray()
                 {
                     ItemProperty = "dialog.createCalendarEntry.Subject",
                     ArrayProperty = "user.Entries",
                     ChangeType = EditArray.ArrayChangeType.Push
                 },
+
                 new SendActivity("[CreateCalendarEntryReadBack]"),
                 new EndDialog()
             };
