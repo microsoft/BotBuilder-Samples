@@ -43,7 +43,7 @@ namespace Microsoft.BotBuilderSamples
                 // Greet anyone that was not the target (recipient) of this message.
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
-                    await turnContext.SendActivityAsync(((Activity)turnContext.Activity).CreateReply(WelcomeMessage), cancellationToken);
+                    await turnContext.SendActivityAsync(MessageFactory.Text(WelcomeMessage), cancellationToken);
                 }
             }
         }
@@ -53,7 +53,7 @@ namespace Microsoft.BotBuilderSamples
             AddConversationReference(turnContext.Activity as Activity);
 
             // Echo back what the user said
-            await turnContext.SendActivityAsync(((Activity)turnContext.Activity).CreateReply($"You sent '{turnContext.Activity.Text}'"), cancellationToken);
+            await turnContext.SendActivityAsync(MessageFactory.Text($"You sent '{turnContext.Activity.Text}'"), cancellationToken);
         }
     }
 }

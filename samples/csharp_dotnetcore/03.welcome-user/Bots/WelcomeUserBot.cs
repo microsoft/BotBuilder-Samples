@@ -106,8 +106,6 @@ namespace Microsoft.BotBuilderSamples
 
         private static async Task SendIntroCardAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var response = turnContext.Activity.CreateReply();
-
             var card = new HeroCard();
             card.Title = "Welcome to Bot Framework!";
             card.Text = @"Welcome to Welcome Users bot sample! This Introduction card
@@ -121,8 +119,8 @@ namespace Microsoft.BotBuilderSamples
                 new CardAction(ActionTypes.OpenUrl, "Ask a question", null, "Ask a question", "Ask a question", "https://stackoverflow.com/questions/tagged/botframework"),
                 new CardAction(ActionTypes.OpenUrl, "Learn how to deploy", null, "Learn how to deploy", "Learn how to deploy", "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"),
             };
-
-            response.Attachments = new List<Attachment>() { card.ToAttachment() };
+            
+            var response = MessageFactory.Attachment(card.ToAttachment());
             await turnContext.SendActivityAsync(response, cancellationToken);
         }
     }
