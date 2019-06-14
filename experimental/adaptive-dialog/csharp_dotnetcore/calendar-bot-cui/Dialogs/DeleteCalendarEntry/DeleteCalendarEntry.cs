@@ -4,6 +4,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
+using Microsoft.Bot.Builder.Expressions;
 using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration;
 
@@ -66,7 +67,7 @@ namespace Microsoft.BotBuilderSamples
                             new EditArray()
                             {
                                 ArrayProperty = "user.Entries",
-                                ItemProperty = "dialog.deleteCalendarEntry.entrySubject",
+                                Value = new ExpressionEngine().Parse("dialog.deleteCalendarEntry.entrySubject"),
                                 ChangeType = EditArray.ArrayChangeType.Remove
                             }
                         }
