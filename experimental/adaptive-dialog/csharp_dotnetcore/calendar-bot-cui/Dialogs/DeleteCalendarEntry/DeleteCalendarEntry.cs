@@ -5,6 +5,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Expressions.Parser;
+using Microsoft.Bot.Builder.LanguageGeneration;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -14,87 +15,90 @@ namespace Microsoft.BotBuilderSamples
             : base(nameof(DeleteCalendarEntry))
         {
             // Create instance of adaptive dialog. 
-            var deleteCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog));
-            deleteCalendarEntry.Steps = new List<IDialog>()
+            var deleteCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
-                // Handle case where there are no items in todo list
-                new IfCondition()
+                Generator = new ResourceMultiLanguageGenerator("DeleteCalendarEntry.lg"),
+                Steps = new List<IDialog>()
                 {
-                    Condition = new ExpressionEngine().Parse("user.Entries == null || count(user.Entries) <= 0"),
-                    Steps = new List<IDialog>()
+                    // Handle case where there are no items in todo list
+                    new IfCondition()
                     {
-                        new SendActivity("[DeleteEmptyList]"),
-                        new SendActivity("[Welcome-Actions]"),
-                        new EndDialog()
-                    }
-                },
-
-                new SaveEntity("@Subject[0]", "dialog.deleteCalendarEntry.entrySubject"),                    
-                // new CodeStep(GetToDoTitleToDelete),
-                   
-                new IfCondition()
-                {
-                    Condition = new ExpressionEngine().Parse("dialog.deleteCalendarEntry.entrySubject == null"),
-                    Steps = new List<IDialog>()
-                    {
-                        // First show the current list of Todos
-                        new BeginDialog(nameof(FindCalendarEntry)),
-                        new TextInput()
+                        Condition = new ExpressionEngine().Parse("user.Entries == null || count(user.Entries) <= 0"),
+                        Steps = new List<IDialog>()
                         {
-                            Property = "dialog.deleteCalendarEntry.entrySubject",
-                            Prompt = new ActivityTemplate("[GetEntryTitleToDelete]"),
+                            new SendActivity("[DeleteEmptyList]"),
+                            new SendActivity("[Welcome-Actions]"),
+                            new EndDialog()
                         }
-                    }
-                },
-
-                new IfCondition()
-                {
-                    Condition = new ExpressionEngine().Parse("contains(user.Entries, dialog.deleteCalendarEntry.entrySubject) == false"),
-                    Steps = new List<IDialog>()
-                    {
-                        new SendActivity("[EntryNotFound]"),
-                        new DeleteProperty()
-                        {
-                            Property = "dialog.deleteCalendarEntry.entrySubject"
-                        },
-                        new RepeatDialog()
                     },
-                    ElseSteps =new List<IDialog>(){
-                        new EditArray()
-                        {
-                            ArrayProperty = "user.Entries",
-                            ItemProperty = "dialog.deleteCalendarEntry.entrySubject",
-                            ChangeType = EditArray.ArrayChangeType.Remove
-                        }
-                    }
-                },
 
-                new SendActivity("[DeleteReadBack]"),
-                new SendActivity("[Welcome-Actions]"),
-                new EndDialog()
-            };
-            deleteCalendarEntry.Rules = new List<IRule>()
-            {
-                new IntentRule("Cancel")
-                {
-                    Steps = new List<IDialog>()
+                    // new SaveEntity("@Subject[0]", "dialog.deleteCalendarEntry.entrySubject"),                    
+                    // new CodeStep(GetToDoTitleToDelete),
+                   
+                    new IfCondition()
                     {
-                        new ConfirmInput()
+                        Condition = new ExpressionEngine().Parse("dialog.deleteCalendarEntry.entrySubject == null"),
+                        Steps = new List<IDialog>()
                         {
-                            Property = "turn.cancelConfirmation",
-                            Prompt = new ActivityTemplate("[ConfirmCancellation]")
-                        },
-                        new IfCondition()
-                        {
-                            Condition = new ExpressionEngine().Parse("turn.cancelConfirmation == true"),
-                            Steps = new List<IDialog>()
+                            // First show the current list of Todos
+                            new BeginDialog(nameof(FindCalendarEntry)),
+                            new TextInput()
                             {
-                                new SendActivity("[CancelCreateMeeting]"),
-                                new EndDialog()
+                                Property = "dialog.deleteCalendarEntry.entrySubject",
+                                Prompt = new ActivityTemplate("[GetEntryTitleToDelete]"),
+                            }
+                        }
+                    },
+
+                    new IfCondition()
+                    {
+                        Condition = new ExpressionEngine().Parse("contains(user.Entries, dialog.deleteCalendarEntry.entrySubject) == false"),
+                        Steps = new List<IDialog>()
+                        {
+                            new SendActivity("[EntryNotFound]"),
+                            new DeleteProperty()
+                            {
+                                Property = "dialog.deleteCalendarEntry.entrySubject"
                             },
-                            ElseSteps = new List<IDialog>()
+                            new RepeatDialog()
+                        },
+                        ElseSteps =new List<IDialog>(){
+                            new EditArray()
                             {
-                                new SendActivity("[HelpPrefix], let's get right back to scheduling a meeting.")
+                                ArrayProperty = "user.Entries",
+                                ItemProperty = "dialog.deleteCalendarEntry.entrySubject",
+                                ChangeType = EditArray.ArrayChangeType.Remove
+                            }
+                        }
+                    },
+
+                    new SendActivity("[DeleteReadBack]"),
+                    new SendActivity("[Welcome-Actions]"),
+                    new EndDialog()
+                },
+                Rules = new List<IRule>()
+                {
+                    new IntentRule("Cancel")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new ConfirmInput()
+                            {
+                                Property = "turn.cancelConfirmation",
+                                Prompt = new ActivityTemplate("[ConfirmCancellation]")
+                            },
+                            new IfCondition()
+                            {
+                                Condition = new ExpressionEngine().Parse("turn.cancelConfirmation == true"),
+                                Steps = new List<IDialog>()
+                                {
+                                    new SendActivity("[CancelCreateMeeting]"),
+                                    new EndDialog()
+                                },
+                                ElseSteps = new List<IDialog>()
+                                {
+                                    new SendActivity("[HelpPrefix], let's get right back to scheduling a meeting.")
+                                }
                             }
                         }
                     }

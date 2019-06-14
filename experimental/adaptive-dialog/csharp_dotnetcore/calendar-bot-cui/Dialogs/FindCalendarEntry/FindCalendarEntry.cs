@@ -3,6 +3,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Expressions.Parser;
+using Microsoft.Bot.Builder.LanguageGeneration;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -14,6 +15,7 @@ namespace Microsoft.BotBuilderSamples
             // Create instance of adaptive dialog. 
             var findCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
+                Generator = new ResourceMultiLanguageGenerator("FindCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
                     new IfCondition()

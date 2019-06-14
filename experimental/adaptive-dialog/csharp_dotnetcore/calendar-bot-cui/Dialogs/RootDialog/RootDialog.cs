@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
+using Microsoft.Bot.Builder.LanguageGeneration;
 
 /// <summary>
 /// TODO
@@ -32,6 +33,7 @@ namespace Microsoft.BotBuilderSamples
                 // Create a LUIS recognizer.
                 // The recognizer is built using the intents, utterances, patterns and entities defined in ./RootDialog.lu file
                 Recognizer = CreateRecognizer(),
+                Generator = new ResourceMultiLanguageGenerator("RootDialog.lg"),
                 Rules = new List<IRule>()
                 {
                     // Intent rules for the LUIS model. Each intent here corresponds to an intent defined in ./Dialogs/Resources/ToDoBot.lu file
@@ -95,10 +97,10 @@ namespace Microsoft.BotBuilderSamples
                 }
             };
 
-            /******************************************************************************/
-            // Add named dialogs to the DialogSet. These names are saved in the dialog state.
-            AddDialog(rootDialog);
-            rootDialog.AddDialog(new List<Dialog>()
+        /******************************************************************************/
+        // Add named dialogs to the DialogSet. These names are saved in the dialog state.
+        AddDialog(rootDialog);
+        rootDialog.AddDialog(new List<Dialog>()
             {
                 new CreateCalendarEntry(),
                 new FindCalendarEntry(),
@@ -107,21 +109,21 @@ namespace Microsoft.BotBuilderSamples
             /******************************************************************************/
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);
-        }
+}
 
 
-        public static IRecognizer CreateRecognizer()
-        {
-            if (string.IsNullOrEmpty(Configuration["LuisAppId"]) || string.IsNullOrEmpty(Configuration["LuisAPIKey"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostName"]))
-            {
-                throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
-            }
-            return new LuisRecognizer(new LuisApplication()
-            {
-                Endpoint = Configuration["LuisAPIHostName"],
-                EndpointKey = Configuration["LuisAPIKey"],
-                ApplicationId = Configuration["LuisAppId"]
-            });
-        }
+public static IRecognizer CreateRecognizer()
+{
+    if (string.IsNullOrEmpty(Configuration["LuisAppId"]) || string.IsNullOrEmpty(Configuration["LuisAPIKey"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostName"]))
+    {
+        throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
+    }
+    return new LuisRecognizer(new LuisApplication()
+    {
+        Endpoint = Configuration["LuisAPIHostName"],
+        EndpointKey = Configuration["LuisAPIKey"],
+        ApplicationId = Configuration["LuisAppId"]
+    });
+}
     }
 }

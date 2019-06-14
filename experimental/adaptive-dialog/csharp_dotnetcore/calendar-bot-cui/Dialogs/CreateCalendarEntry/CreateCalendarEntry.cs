@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Expressions.Parser;
+using Microsoft.Bot.Builder.LanguageGeneration;
 
 /// <summary>
 /// Known bug
@@ -23,16 +24,17 @@ namespace Microsoft.BotBuilderSamples
         {
             var createCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog));
             createCalendarEntry.Recognizer = CreateRecognizer();
+            createCalendarEntry.Generator = new ResourceMultiLanguageGenerator("CreateCalendarEntry.lg");
             createCalendarEntry.Steps = new List<IDialog>()
             {
-                new SaveEntity("@Subject[0]", "dialog.createCalendarEntry.Subject"),
+                /*new SaveEntity("@Subject[0]", "dialog.createCalendarEntry.Subject"),
                 new SaveEntity("@FromDate[0]", "dialog.createCalendarEntry.FromDate"),
                 new SaveEntity("@FromTime[0]", "dialog.createCalendarEntry.FromTime"),
                 new SaveEntity("@DestinationCalendar[0]","dialog.createCalendarEntry.DestinationCalendar"),
                 new SaveEntity("@ToDate[0]","dialog.createCalendarEntry.ToDate"),
                 new SaveEntity("@ToTime[0]","dialog.createCalendarEntry.ToTime"),
                 new SaveEntity("@Location[0]","dialog.createCalendarEntry.Location"),
-                new SaveEntity("@Duration[0]","dialog.createCalendarEntry.Duration"),
+                new SaveEntity("@Duration[0]","dialog.createCalendarEntry.Duration"),*/
 
                 // turn will disappear
                 // save to the user state
