@@ -86,7 +86,8 @@ namespace Microsoft.BotBuilderSamples
         /// "ActionTypes" that may be used for different situations.
         private static async Task SendSuggestedActionsAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var reply = turnContext.Activity.CreateReply("What is your favorite color?");
+            var reply = MessageFactory.Text("What is your favorite color?");
+
             reply.SuggestedActions = new SuggestedActions()
             {
                 Actions = new List<CardAction>()
