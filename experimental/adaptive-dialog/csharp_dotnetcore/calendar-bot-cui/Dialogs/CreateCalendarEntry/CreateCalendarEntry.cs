@@ -27,7 +27,6 @@ namespace Microsoft.BotBuilderSamples
             var createCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
                 Recognizer = CreateRecognizer(),
-                Generator = new ResourceMultiLanguageGenerator("CreateCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
                     /*new SaveEntity("@Subject[0]", "dialog.createCalendarEntry.Subject"),

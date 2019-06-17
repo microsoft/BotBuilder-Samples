@@ -12,6 +12,8 @@ using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Dialogs.Debugging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -20,19 +22,18 @@ namespace Microsoft.BotBuilderSamples
         private TemplateEngine _lgEngine;
 
         public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, IStorage storage,
-            UserState userState, ConversationState conversationState, /*ResourceExplorer resourceExplorer,*/ IConfiguration configuration)
+            UserState userState, ConversationState conversationState, ResourceExplorer resourceExplorer, IConfiguration configuration)
             : base(credentialProvider)
         {
             // combine path for cross platform support
             string[] paths = { ".", "AdapterWithErrorHandler.LG" };
             string fullPath = Path.Combine(paths);
-            _lgEngine = TemplateEngine.FromFiles(fullPath);
-
+            _lgEngine = new TemplateEngine().AddFile(fullPath);
+            TypeFactory.Configuration = configuration;
             this.UseStorage(storage);
-            this.UseState(userState, conversationState);
-            //this.UseLanguageGeneration(new LGLanguageGenerator(resourceExplorer));
+            this.UseState(userState, conversationState); 
+            this.UseLanguageGeneration(resourceExplorer);
             this.UseDebugger(configuration.GetValue<int>("debugport", 4712), events: new Events<AdaptiveEvents>());
-
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.

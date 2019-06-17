@@ -15,7 +15,6 @@ namespace Microsoft.BotBuilderSamples
             // Create instance of adaptive dialog. 
             var findCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
-                Generator = new ResourceMultiLanguageGenerator("FindCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
                     new IfCondition()

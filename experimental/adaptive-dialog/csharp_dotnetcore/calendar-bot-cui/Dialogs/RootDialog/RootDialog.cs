@@ -33,7 +33,6 @@ namespace Microsoft.BotBuilderSamples
                 // Create a LUIS recognizer.
                 // The recognizer is built using the intents, utterances, patterns and entities defined in ./RootDialog.lu file
                 Recognizer = CreateRecognizer(),
-                Generator = new ResourceMultiLanguageGenerator("RootDialog.lg"),
                 Rules = new List<IRule>()
                 {
                     // Intent rules for the LUIS model. Each intent here corresponds to an intent defined in ./Dialogs/Resources/ToDoBot.lu file
