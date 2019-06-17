@@ -5,6 +5,7 @@
 
 // Import required pckages
 const path = require('path');
+const fs = require('fs');
 const restify = require('restify');
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
@@ -60,6 +61,19 @@ let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
+});
+
+server.get('/', function(req, res, next) {
+    fs.readFile(__dirname + '/default.htm', function (err, data) {
+        if (err) {
+            next(err);
+            return;
+        }
+        res.setHeader('Content-Type', 'text/html');
+        res.writeHead(200);
+        res.end(data);
+        next();
+    });
 });
 
 // Listen for incoming activities and route them to your bot main dialog.
