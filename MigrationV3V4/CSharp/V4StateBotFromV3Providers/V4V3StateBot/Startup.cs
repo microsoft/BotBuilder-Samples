@@ -56,15 +56,15 @@ namespace V4StateBot
                         collectionId: Configuration["v3CosmosCollectionName"]);
 
             // SqlBotDataStore for V3V4 User State
-            var sqlConnectionString = Configuration.GetConnectionString("SqlBotData");
-            var sqlBotDataStore = new SqlBotDataStore(sqlConnectionString);
+            //var sqlConnectionString = Configuration.GetConnectionString("SqlBotData");
+            //var sqlBotDataStore = new SqlBotDataStore(sqlConnectionString);
 
             // TableBotDataStore for V3V4 User State
-            var tableConnectionString = Configuration.GetConnectionString("AzureTable");
-            var tableBotDataStore = new TableBotDataStore(tableConnectionString);
+            //var tableConnectionString = Configuration.GetConnectionString("AzureTable");
+            //var tableBotDataStore = new TableBotDataStore(tableConnectionString);
 
             // TableBotDataStore2 for V3V4 User State            
-            var tableBotDataStore2 = new TableBotDataStore2(tableConnectionString);
+            //var tableBotDataStore2 = new TableBotDataStore2(tableConnectionString);
 
 
             // Create the V3V4Storage layer bridge, providing a V3 storage.
