@@ -10,7 +10,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Microsoft.BotBuilderSamples
 {
-    // look at john's https://github.com/microsoft/BotBuilder-Samples/blob/corebot-updates/samples/csharp_dotnetcore/13.core-bot/LuisHelper.cs
     public class FlightBooking: IRecognizerConvert
     {
         public string Text;
