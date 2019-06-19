@@ -18,6 +18,7 @@ namespace Microsoft.BotBuilderSamples
             // Create instance of adaptive dialog. 
             var deleteCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
+                Generator = new ResourceMultiLanguageGenerator("DeleteCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
                     // Handle case where there are no items in todo list

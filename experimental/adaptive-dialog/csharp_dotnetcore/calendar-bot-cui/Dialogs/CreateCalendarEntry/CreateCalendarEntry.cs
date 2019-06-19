@@ -27,6 +27,7 @@ namespace Microsoft.BotBuilderSamples
             var createCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
                 Recognizer = CreateRecognizer(),
+                Generator = new ResourceMultiLanguageGenerator("CreateCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
                     /*new SaveEntity("@Subject[0]", "dialog.createCalendarEntry.Subject"),
@@ -38,6 +39,8 @@ namespace Microsoft.BotBuilderSamples
                     new SaveEntity("@Location[0]","dialog.createCalendarEntry.Location"),
                     new SaveEntity("@Duration[0]","dialog.createCalendarEntry.Duration"),*/
 
+
+                    // TODO add personName for user to input
                     // turn will disappear
                     // save to the user state
                     // every input will be detected through LUIS first from root dialog
@@ -49,11 +52,11 @@ namespace Microsoft.BotBuilderSamples
                         Prompt = new ActivityTemplate("[GetSubject]")
                     },
 
-                    new TextInput()
-                    {
-                        Property = "dialog.createCalendarEntry.FromTime",
-                        Prompt = new ActivityTemplate("[GetFromTime]")
-                    },
+                    //new TextInput()
+                    //{
+                    //    Property = "dialog.createCalendarEntry.FromTime",
+                    //    Prompt = new ActivityTemplate("[GetFromTime]")
+                    //},
                     //new TextInput()
                     //{
                     //    Property = "dialog.createCalendarEntry.FromDate",
@@ -111,7 +114,7 @@ namespace Microsoft.BotBuilderSamples
                         ArrayProperty = "user.Entries",
                         ChangeType = EditArray.ArrayChangeType.Push
                     },
-
+                   
                     new SendActivity("[CreateCalendarEntryReadBack]"),
                     new EndDialog()
                 }

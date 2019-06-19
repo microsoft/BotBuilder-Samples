@@ -33,6 +33,7 @@ namespace Microsoft.BotBuilderSamples
                 // Create a LUIS recognizer.
                 // The recognizer is built using the intents, utterances, patterns and entities defined in ./RootDialog.lu file
                 Recognizer = CreateRecognizer(),
+                Generator = new ResourceMultiLanguageGenerator("RootDialog.lg"),
                 Rules = new List<IRule>()
                 {
                     // Intent rules for the LUIS model. Each intent here corresponds to an intent defined in ./Dialogs/Resources/ToDoBot.lu file
@@ -71,6 +72,14 @@ namespace Microsoft.BotBuilderSamples
                         },
                         Constraint = "turn.dialogevent.value.intents.DeleteCalendarEntry.score > 0.4"
                     },
+                    new IntentRule("ChangeCalendarEntry")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new BeginDialog(nameof(ChangeCalendarEntry))
+                        },
+                        Constraint = "turn.dialogevent.value.intents.ChangeCalendarEntry.score > 0.4"
+                    },
                     /******************************************************************************/
 
                     // Come back with LG template based readback for global help
@@ -96,14 +105,15 @@ namespace Microsoft.BotBuilderSamples
                 }
             };
 
-        /******************************************************************************/
-        // Add named dialogs to the DialogSet. These names are saved in the dialog state.
-        AddDialog(rootDialog);
-        rootDialog.AddDialog(new List<Dialog>()
+            /******************************************************************************/
+            // Add named dialogs to the DialogSet. These names are saved in the dialog state.
+            AddDialog(rootDialog);
+            rootDialog.AddDialog(new List<Dialog>()
             {
                 new CreateCalendarEntry(),
                 new FindCalendarEntry(),
-                new DeleteCalendarEntry()
+                new DeleteCalendarEntry(),
+                new ChangeCalendarEntry()
             });
             /******************************************************************************/
             // The initial child Dialog to run.

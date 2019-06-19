@@ -85,3 +85,7 @@ You have @{count(user.Entries)} items in your event list.
 @{lgTemplate("HelpPrefix")}, I've cancelled that.
 @{lgTemplate("Welcome-Actions")}
 ```
+
+> Escape suggestion actions without which [] will be treated as template reference.
+# Welcome-Actions
+- \[Suggestions=View Calendar Entry | Create Calendar Entry | Delete Calendar Entry | Change Calendar Entry | Find Contact | Update Meeting | Help\]
