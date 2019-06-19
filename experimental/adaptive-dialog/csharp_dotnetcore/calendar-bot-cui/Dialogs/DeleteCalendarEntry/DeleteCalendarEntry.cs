@@ -33,44 +33,42 @@ namespace Microsoft.BotBuilderSamples
                         }
                     },
 
-                    // new SaveEntity("@Subject[0]", "dialog.deleteCalendarEntry.entrySubject"),                    
+                    // new SaveEntity("@Subject[0]", "dialog.deleteCalendarEntry_entrySubject"),                    
                     // new CodeStep(GetToDoTitleToDelete),
                    
                     new IfCondition()
                     {
-                        Condition = new ExpressionEngine().Parse("dialog.deleteCalendarEntry.entrySubject == null"),
+                        Condition = new ExpressionEngine().Parse("dialog.deleteCalendarEntry_entrySubject == null"),
                         Steps = new List<IDialog>()
                         {
                             // First show the current list of Todos
                             new BeginDialog(nameof(FindCalendarEntry)),
                             new TextInput()
                             {
-                                Property = "dialog.deleteCalendarEntry.entrySubject",
+                                Property = "dialog.deleteCalendarEntry_entrySubject",
                                 Prompt = new ActivityTemplate("[GetEntryTitleToDelete]"),
                             }
                         }
                     },
 
-                    new IfCondition()
+                    
+                    new Foreach()
                     {
-                        Condition = new ExpressionEngine().Parse("contains(user.Entries, dialog.deleteCalendarEntry.entrySubject) == false"),
-                        Steps = new List<IDialog>()
-                        {
-                            new SendActivity("[EntryNotFound]"),
-                            new DeleteProperty()
-                            {
-                                Property = "dialog.deleteCalendarEntry.entrySubject"
-                            },
-                            new RepeatDialog()
-                        },
-                        ElseSteps =new List<IDialog>(){
-                            new EditArray()
-                            {
-                                ArrayProperty = "user.Entries",
-                                Value = new ExpressionEngine().Parse("dialog.deleteCalendarEntry.entrySubject"),
-                                ChangeType = EditArray.ArrayChangeType.Remove
+                        ListProperty = new ExpressionEngine().Parse("user.Entries"),
+                        Steps = new List<IDialog>(){
+                            new IfCondition(){
+                                Condition = new ExpressionEngine().Parse("user.Entries[dialog.index].subject == dialog.deleteCalendarEntry_entrySubject"),
+                                // BUGS exsit above
+                                Steps = new List<IDialog>(){
+                                    new EditArray()
+                                    {
+                                        ArrayProperty = "user.Entries",
+                                        Value = new ExpressionEngine().Parse("user.Entries[dialog.index]"),
+                                        ChangeType = EditArray.ArrayChangeType.Remove
+                                    }
+                                }
                             }
-                        }
+                        }                   
                     },
 
                     new SendActivity("[DeleteReadBack]"),

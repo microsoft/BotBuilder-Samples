@@ -51,12 +51,11 @@ namespace Microsoft.BotBuilderSamples
                         Property = "dialog.createCalendarEntry.Subject",
                         Prompt = new ActivityTemplate("[GetSubject]")
                     },
-
-                    //new TextInput()
-                    //{
-                    //    Property = "dialog.createCalendarEntry.FromTime",
-                    //    Prompt = new ActivityTemplate("[GetFromTime]")
-                    //},
+                    new TextInput()
+                    {
+                        Property = "dialog.createCalendarEntry.FromTime",
+                        Prompt = new ActivityTemplate("[GetFromTime]")
+                    },
                     //new TextInput()
                     //{
                     //    Property = "dialog.createCalendarEntry.FromDate",
@@ -100,21 +99,21 @@ namespace Microsoft.BotBuilderSamples
                     //  }
                     //},
 
-                    new SetProperty()
-                    {
-                        Property = "user.focusEntry",
-                        Value = new ExpressionEngine().Parse("{dialog.createCalendarEntry.Subject}")
-                    },
-                    new SendActivity("Focus Completed"),
-                    new SendActivity("{user.focusEntry}"),
+                    //new SetProperty()
+                    //{
+                    //    Property = "user.focusEntry",
+                    //    Value = new ExpressionEngine().Parse("{dialog.createCalendarEntry.Subject}")
+                    //},
+                    //new SendActivity("Focus Completed"),
+                    //new SendActivity("{user.focusEntry}"),
 
                     new EditArray()
                     {
-                        Value = new ExpressionEngine().Parse("dialog.createCalendarEntry.Subject"),
+                        Value = new ExpressionEngine().Parse("dialog.createCalendarEntry"),
                         ArrayProperty = "user.Entries",
                         ChangeType = EditArray.ArrayChangeType.Push
                     },
-                   
+
                     new SendActivity("[CreateCalendarEntryReadBack]"),
                     new EndDialog()
                 }

@@ -20,7 +20,9 @@ namespace Microsoft.BotBuilderSamples
                 {
                     new Foreach(){
                         ListProperty = new ExpressionEngine().Parse("user.Entries"), //DEBUG ONLY SHOW ACTIONS ONCE, SHOULD APPEAR THREE TIMES
+                        
                         Steps = new List<IDialog>(){
+                            new SendActivity("{user.Entries[dialog.index]}"),
                             new SendActivity("Hello World")
                         }
                     }
