@@ -2,9 +2,11 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CoreBot.CognitiveModels;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -67,16 +69,18 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             switch (luisResult.TopIntent().intent)
             {
                 case FlightBooking.Intent.BookFlight:
+                    await ShowWarningForUnsupportedCities(stepContext.Context, luisResult, cancellationToken);
+
                     // Initialize BookingDetails with any entities we may have found in the response.
                     var bookingDetails = new BookingDetails()
                     {
                         // Get destination and origin from the composite entities arrays.
-                        Destination = luisResult.Entities.To?.FirstOrDefault()?.Airport?.FirstOrDefault()?.FirstOrDefault(),
-                        Origin = luisResult.Entities.From?.FirstOrDefault()?.Airport?.FirstOrDefault()?.FirstOrDefault(),
+                        Destination = luisResult.GetToEntities().Airport,
+                        Origin = luisResult.GetFromEntities().Airport,
 
                         // This value will be a TIMEX. And we are only interested in a Date so grab the first result and drop the Time part.
                         // TIMEX is a format that represents DateTime expressions that include some ambiguity. e.g. missing a Year.
-                        TravelDate = luisResult.Entities.datetime?.FirstOrDefault()?.Expressions.FirstOrDefault()?.Split('T')[0],
+                        TravelDate = luisResult.GetTravelDate()?.Split('T')[0],
                     };
 
                     // Run the BookingDialog giving it whatever details we have from the LUIS call, it will fill out the remainder.
@@ -100,6 +104,31 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             return await stepContext.NextAsync(null, cancellationToken);
         }
 
+        // Shows a warning if the requested from or to cities are recognized as entities but they are not in the Airport entity list.
+        private static async Task ShowWarningForUnsupportedCities(ITurnContext context, FlightBooking luisResult, CancellationToken cancellationToken)
+        {
+            var unsupportedCities = new List<string>();
+
+            var fromEntities = luisResult.GetFromEntities();
+            if (!string.IsNullOrEmpty(fromEntities.From) && string.IsNullOrEmpty(fromEntities.Airport))
+            {
+                unsupportedCities.Add(fromEntities.From);
+            }
+
+            var toEntities = luisResult.GetToEntities();
+            if (!string.IsNullOrEmpty(toEntities.To) && string.IsNullOrEmpty(toEntities.Airport))
+            {
+                unsupportedCities.Add(toEntities.To);
+            }
+
+            if (unsupportedCities.Any())
+            {
+                var msg = MessageFactory.Text($"Sorry but the following airports are not supported: {string.Join(',', unsupportedCities)}", inputHint: InputHints.IgnoringInput);
+                msg.Speak = msg.Text;
+                await context.SendActivityAsync(msg, cancellationToken);
+            }
+        }
+
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             // If the child dialog ("BookingDialog") was cancelled, the user failed to confirm or if the intent wasn't BookFlight
@@ -112,7 +141,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
                 var timeProperty = new TimexProperty(result.TravelDate);
                 var travelDateMsg = timeProperty.ToNaturalLanguage(DateTime.Now);
-                var msg = MessageFactory.Text($"I have you booked to {result.Destination} from {result.Origin} on {travelDateMsg}", inputHint:InputHints.IgnoringInput);
+                var msg = MessageFactory.Text($"I have you booked to {result.Destination} from {result.Origin} on {travelDateMsg}", inputHint: InputHints.IgnoringInput);
                 msg.Speak = msg.Text;
                 await stepContext.Context.SendActivityAsync(msg, cancellationToken);
             }

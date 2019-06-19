@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -17,6 +18,7 @@ using Microsoft.BotBuilderSamples.Tests.Framework;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -67,7 +69,7 @@ namespace CoreBot.Tests.Dialogs
                 .Returns(async (DialogContext dialogContext, object options, CancellationToken cancellationToken) =>
                 {
                     dialogContext.Dialogs.Add(new TextPrompt("MockDialog"));
-                    return await dialogContext.PromptAsync("MockDialog", new PromptOptions(){Prompt = MessageFactory.Text($"{nameof(BookingDialog)} mock invoked")}, cancellationToken);
+                    return await dialogContext.PromptAsync("MockDialog", new PromptOptions() { Prompt = MessageFactory.Text($"{nameof(BookingDialog)} mock invoked") }, cancellationToken);
                 });
 
             var sut = new MainDialog(mockRecognizer.Object, mockDialog.Object, _mockLogger.Object);
@@ -131,6 +133,41 @@ namespace CoreBot.Tests.Dialogs
 
             reply = testClient.GetNextReply<IMessageActivity>();
             Assert.Equal("What else can I do for you?", reply.Text);
+        }
+
+        [Theory]
+        [InlineData("FlightToMadrid.json", "Sorry but the following airports are not supported: madrid")]
+        [InlineData("FlightFromMadridToChicago.json", "Sorry but the following airports are not supported: madrid,chicago")]
+        [InlineData("FlightFromCdgToJfk.json", "Sorry but the following airports are not supported: cdg")]
+        [InlineData("FlightFromParisToNewYork.json", "BookingDialog mock invoked")]
+        public async Task ShowsUnsupportedCitiesWarning(string jsonFile, string expectedMessage)
+        {
+            var bookingResult = GetEmbeddedTestData($"{GetType().Namespace}.TestData.{jsonFile}");
+            var flightBookingResults = JsonConvert.DeserializeObject<FlightBooking>(bookingResult);
+            var mockLuisRecognizer = SimpleMockFactory.CreateMockLuisRecognizer<FlightBookingRecognizer, FlightBooking>(
+                flightBookingResults,
+                new Mock<IConfiguration>().Object);
+            mockLuisRecognizer.Setup(x => x.IsConfigured).Returns(true);
+
+            var sut = new MainDialog(mockLuisRecognizer.Object, _mockBookingDialog, _mockLogger.Object);
+            var testClient = new DialogTestClient(Channels.Test, sut, middlewares: new[] { new XUnitOutputMiddleware(Output) });
+
+            var reply = await testClient.SendActivityAsync<IMessageActivity>("hi");
+            Assert.Equal("What can I help you with today?", reply.Text);
+
+            reply = await testClient.SendActivityAsync<IMessageActivity>(flightBookingResults.Text);
+            Assert.Equal(expectedMessage, reply.Text);
+        }
+
+        private string GetEmbeddedTestData(string resourceName)
+        {
+            using (var stream = GetType().Assembly.GetManifestResourceStream(resourceName))
+            {
+                using (var reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
         }
     }
 }

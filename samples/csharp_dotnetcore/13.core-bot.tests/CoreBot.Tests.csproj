@@ -7,6 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Dialogs\TestData\FlightFromCdgToJfk.json" />
+    <None Remove="Dialogs\TestData\FlightFromMadridToChicago.json" />
+    <None Remove="Dialogs\TestData\FlightFromParisToNewYork.json" />
+    <None Remove="Dialogs\TestData\FlightToMadrid.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Dialogs\TestData\FlightFromCdgToJfk.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\TestData\FlightFromMadridToChicago.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\TestData\FlightFromParisToNewYork.json" />
+    <EmbeddedResource Include="Dialogs\TestData\FlightToMadrid.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Testing" Version="4.5.0-preview-190618-01" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.0" />
