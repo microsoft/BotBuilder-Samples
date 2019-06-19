@@ -43,24 +43,20 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                         RetryPrompt = MessageFactory.Text(repromptMsg)
                     }, cancellationToken);
             }
-            else
+
+            // We have a Date we just need to check it is unambiguous.
+            var timexProperty = new TimexProperty(timex);
+            if (!timexProperty.Types.Contains(Constants.TimexTypes.Definite))
             {
-                // We have a Date we just need to check it is unambiguous.
-                var timexProperty = new TimexProperty(timex);
-                if (!timexProperty.Types.Contains(Constants.TimexTypes.Definite))
-                {
-                    // This is essentially a "reprompt" of the data we were given up front.
-                    return await stepContext.PromptAsync(nameof(DateTimePrompt),
-                        new PromptOptions
-                        {
-                            Prompt = MessageFactory.Text(repromptMsg)
-                        }, cancellationToken);
-                }
-                else
-                {
-                    return await stepContext.NextAsync(new DateTimeResolution { Timex = timex }, cancellationToken);
-                }
+                // This is essentially a "reprompt" of the data we were given up front.
+                return await stepContext.PromptAsync(nameof(DateTimePrompt),
+                    new PromptOptions
+                    {
+                        Prompt = MessageFactory.Text(repromptMsg)
+                    }, cancellationToken);
             }
+
+            return await stepContext.NextAsync(new List<DateTimeResolution> { new DateTimeResolution { Timex = timex } }, cancellationToken);
         }
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -83,10 +79,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
                 return Task.FromResult(isDefinite);
             }
-            else
-            {
-                return Task.FromResult(false);
-            }
+
+            return Task.FromResult(false);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console-EchoBot", "01.console-echo\Console-EchoBot.csproj", "{ECFF9720-28CF-4F7D-896B-DA489D1032EA}"
 EndProject
@@ -46,6 +46,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StateMangementBot", "45.state-management\StateMangementBot.csproj", "{4168B365-5401-447D-A93D-310FC4126B3C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoBot", "02.echo-bot\EchoBot.csproj", "{586D7BC9-1A3B-4056-BD34-E83242524822}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreBot.Tests", "13.core-bot.tests\CoreBot.Tests.csproj", "{C5BEB24D-F363-4E64-B540-63606BC23490}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +143,10 @@ Global
 		{586D7BC9-1A3B-4056-BD34-E83242524822}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{586D7BC9-1A3B-4056-BD34-E83242524822}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{586D7BC9-1A3B-4056-BD34-E83242524822}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5BEB24D-F363-4E64-B540-63606BC23490}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5BEB24D-F363-4E64-B540-63606BC23490}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5BEB24D-F363-4E64-B540-63606BC23490}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5BEB24D-F363-4E64-B540-63606BC23490}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
