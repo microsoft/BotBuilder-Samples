@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CoreBot.CognitiveModels;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -75,12 +74,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     var bookingDetails = new BookingDetails()
                     {
                         // Get destination and origin from the composite entities arrays.
-                        Destination = luisResult.GetToEntities().Airport,
-                        Origin = luisResult.GetFromEntities().Airport,
-
-                        // This value will be a TIMEX. And we are only interested in a Date so grab the first result and drop the Time part.
-                        // TIMEX is a format that represents DateTime expressions that include some ambiguity. e.g. missing a Year.
-                        TravelDate = luisResult.GetTravelDate()?.Split('T')[0],
+                        Destination = luisResult.ToEntities.Airport,
+                        Origin = luisResult.FromEntities.Airport,
+                        TravelDate = luisResult.TravelDate,
                     };
 
                     // Run the BookingDialog giving it whatever details we have from the LUIS call, it will fill out the remainder.
@@ -109,13 +105,13 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         {
             var unsupportedCities = new List<string>();
 
-            var fromEntities = luisResult.GetFromEntities();
+            var fromEntities = luisResult.FromEntities;
             if (!string.IsNullOrEmpty(fromEntities.From) && string.IsNullOrEmpty(fromEntities.Airport))
             {
                 unsupportedCities.Add(fromEntities.From);
             }
 
-            var toEntities = luisResult.GetToEntities();
+            var toEntities = luisResult.ToEntities;
             if (!string.IsNullOrEmpty(toEntities.To) && string.IsNullOrEmpty(toEntities.Airport))
             {
                 unsupportedCities.Add(toEntities.To);

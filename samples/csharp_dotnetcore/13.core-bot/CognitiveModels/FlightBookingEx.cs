@@ -2,33 +2,38 @@
 // Licensed under the MIT License.
 
 using System.Linq;
-using Microsoft.BotBuilderSamples;
 
-namespace CoreBot.CognitiveModels
+namespace Microsoft.BotBuilderSamples
 {
     // extension methods that simplify accessing entities in FlightBooking results from luis
-    public static class FlightBookingEx
+    public partial class FlightBooking
     {
         // Gets the value of the From Entity and From Airport if present
         // In some cases LUIS will recognize the From entity as a valid city, but if the CompositeEntity
         // is not trained it will not recognize the city as a valid Airport.
-        public static (string From, string Airport) GetFromEntities(this FlightBooking luisResult)
+        public (string From, string Airport) FromEntities
         {
-            var fromValue = luisResult.Entities?._instance?.From?.FirstOrDefault()?.Text;
-            var fromAirportValue = luisResult.Entities?.From?.FirstOrDefault()?.Airport?.FirstOrDefault()?.FirstOrDefault();
-            return (fromValue, fromAirportValue);
+            get
+            {
+                var fromValue = Entities?._instance?.From?.FirstOrDefault()?.Text;
+                var fromAirportValue = Entities?.From?.FirstOrDefault()?.Airport?.FirstOrDefault()?.FirstOrDefault();
+                return (fromValue, fromAirportValue);
+            }
         }
 
-        public static (string To, string Airport) GetToEntities(this FlightBooking luisResult)
+        public (string To, string Airport) ToEntities
         {
-            var toValue = luisResult.Entities?._instance?.To?.FirstOrDefault()?.Text;
-            var toAirportValue = luisResult.Entities?.To?.FirstOrDefault()?.Airport?.FirstOrDefault()?.FirstOrDefault();
-            return (toValue, toAirportValue);
+            get
+            {
+                var toValue = Entities?._instance?.To?.FirstOrDefault()?.Text;
+                var toAirportValue = Entities?.To?.FirstOrDefault()?.Airport?.FirstOrDefault()?.FirstOrDefault();
+                return (toValue, toAirportValue);
+            }
         }
 
-        public static string GetTravelDate(this FlightBooking luisResult)
-        {
-            return luisResult.Entities.datetime?.FirstOrDefault()?.Expressions.FirstOrDefault();
-        }
+        // This value will be a TIMEX. And we are only interested in a Date so grab the first result and drop the Time part.
+        // TIMEX is a format that represents DateTime expressions that include some ambiguity. e.g. missing a Year.
+        public string TravelDate
+            => Entities.datetime?.FirstOrDefault()?.Expressions.FirstOrDefault()?.Split('T')[0];
     }
 }
