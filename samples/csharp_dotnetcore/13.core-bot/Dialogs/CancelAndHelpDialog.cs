@@ -3,6 +3,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
@@ -36,12 +37,16 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 {
                     case "help":
                     case "?":
-                        await innerDc.Context.SendActivityAsync("Show Help...", cancellationToken: cancellationToken);
+                        var helpMessage = MessageFactory.Text("Show help here", inputHint: InputHints.ExpectingInput);
+                        helpMessage.Speak = helpMessage.Text;
+                        await innerDc.Context.SendActivityAsync(helpMessage, cancellationToken);
                         return new DialogTurnResult(DialogTurnStatus.Waiting);
 
                     case "cancel":
                     case "quit":
-                        await innerDc.Context.SendActivityAsync("Cancelling", cancellationToken: cancellationToken);
+                        var cancelMessage = MessageFactory.Text("Cancelling...", inputHint: InputHints.IgnoringInput);
+                        cancelMessage.Speak = cancelMessage.Text;
+                        await innerDc.Context.SendActivityAsync(cancelMessage, cancellationToken);
                         return await innerDc.CancelAllDialogsAsync(cancellationToken);
                 }
             }

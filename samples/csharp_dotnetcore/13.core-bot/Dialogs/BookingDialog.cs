@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
 namespace Microsoft.BotBuilderSamples.Dialogs
@@ -36,7 +37,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
             if (bookingDetails.Destination == null)
             {
-                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Where would you like to travel to?") }, cancellationToken);
+                var promptMessage = MessageFactory.Text("Where would you like to travel to?", inputHint: InputHints.ExpectingInput);
+                promptMessage.Speak = promptMessage.Text;
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
             }
 
             return await stepContext.NextAsync(bookingDetails.Destination, cancellationToken);
@@ -50,7 +53,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
             if (bookingDetails.Origin == null)
             {
-                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Where are you traveling from?") }, cancellationToken);
+                var promptMessage = MessageFactory.Text("Where are you traveling from?", inputHint: InputHints.ExpectingInput);
+                promptMessage.Speak = promptMessage.Text;
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
             }
 
             return await stepContext.NextAsync(bookingDetails.Origin, cancellationToken);
@@ -76,8 +81,10 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             bookingDetails.TravelDate = (string)stepContext.Result;
 
             var msg = $"Please confirm, I have you traveling to: {bookingDetails.Destination} from: {bookingDetails.Origin} on: {bookingDetails.TravelDate}";
+            var promptMessage = MessageFactory.Text(msg, inputHint: InputHints.ExpectingInput);
+            promptMessage.Speak = promptMessage.Text;
 
-            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = MessageFactory.Text(msg) }, cancellationToken);
+            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
         }
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
