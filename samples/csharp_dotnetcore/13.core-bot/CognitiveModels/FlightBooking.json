@@ -50,13 +50,15 @@
         {
           "canonicalForm": "London",
           "list": [
-            "london"
+            "london",
+            "lhr"
           ]
         },
         {
           "canonicalForm": "Berlin",
           "list": [
-            "berlin"
+            "berlin",
+            "txl"
           ]
         },
         {
