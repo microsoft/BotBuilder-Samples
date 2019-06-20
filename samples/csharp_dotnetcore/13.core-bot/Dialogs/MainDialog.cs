@@ -100,7 +100,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             return await stepContext.NextAsync(null, cancellationToken);
         }
 
-        // Shows a warning if the requested from or to cities are recognized as entities but they are not in the Airport entity list.
+        // Shows a warning if the requested From or To cities are recognized as entities but they are not in the Airport entity list.
+        // In some cases LUIS will recognize the From and To composite entities as a valid cities but the From and To Airport values
+        // will be empty if those entity values can't be mapped to a canonical item in the Airport.
         private static async Task ShowWarningForUnsupportedCities(ITurnContext context, FlightBooking luisResult, CancellationToken cancellationToken)
         {
             var unsupportedCities = new List<string>();
