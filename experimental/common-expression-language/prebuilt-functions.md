@@ -135,9 +135,9 @@ addDays('<timestamp>', <days>, '<format>'?)
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*timestamp*> | Yes | String | The string that contains the timestamp |
+| <*timestamp*> | Yes | String | The string that contains the timestamp which must be standard UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ |
 | <*days*> | Yes | Integer | The positive or negative number of days to add |
-| <*format*> | No | String | Either a [single format specifier](https://docs.microsoft.com/dotnet/standard/base-types/standard-date-and-time-format-strings) or a [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is ["o"](https://docs.microsoft.com/dotnet/standard/base-types/standard-date-and-time-format-strings) (yyyy-MM-ddTHH:mm:ss:fffffffK), which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) and preserves time zone information. |
+| <*format*> | No | String | Either a [single format specifier](https://docs.microsoft.com/dotnet/standard/base-types/standard-date-and-time-format-strings) or a [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -150,20 +150,20 @@ addDays('<timestamp>', <days>, '<format>'?)
 This example adds 10 days to the specified timestamp:
 
 ```
-addDays('2018-03-15T13:00:00Z', 10)
+addDays('2018-03-15T13:00:00.000Z', 10)
 ```
 
-And returns this result: `"2018-03-25T00:00:0000000Z"`
+And returns this result: `"2018-03-25T00:00:00.000Z"`
 
 *Example 2*
 
 This example subtracts five days from the specified timestamp:
 
 ```
-addDays('2018-03-15T00:00:00Z', -5)
+addDays('2018-03-15T00:00:00.000Z', -5)
 ```
 
-And returns this result: `"2018-03-10T00:00:0000000Z"`
+And returns this result: `"2018-03-10T00:00:00.000Z"`
 
 <a name="addHours"></a>
 
@@ -179,7 +179,7 @@ addHours('<timestamp>', <hours>, '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
 | <*hours*> | Yes | Integer | The positive or negative number of hours to add |
-| <*format*> | No | String | Either a [single format specifier](https://docs.microsoft.com/dotnet/standard/base-types/standard-date-and-time-format-strings) or a [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is ["o"](https://docs.microsoft.com/dotnet/standard/base-types/standard-date-and-time-format-strings) (yyyy-MM-ddTHH:mm:ss:fffffffK), which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) and preserves time zone information. |
+| <*format*> | No | String | Either a [single format specifier](https://docs.microsoft.com/dotnet/standard/base-types/standard-date-and-time-format-strings) or a [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -192,20 +192,20 @@ addHours('<timestamp>', <hours>, '<format>'?)
 This example adds 10 hours to the specified timestamp:
 
 ```
-addHours('2018-03-15T00:00:00Z', 10)
+addHours('2018-03-15T00:00:00.000Z', 10)
 ```
 
-And returns this result: `"2018-03-15T10:00:0000000Z"`
+And returns this result: `"2018-03-15T10:00:00.000Z"`
 
 *Example 2*
 
 This example subtracts five hours from the specified timestamp:
 
 ```
-addHours('2018-03-15T15:00:00Z', -5)
+addHours('2018-03-15T15:00:00.000Z', -5)
 ```
 
-And returns this result: `"2018-03-15T10:00:0000000Z"`
+And returns this result: `"2018-03-15T10:00:00.000Z"`
 
 <a name="addMinutes"></a>
 
@@ -221,7 +221,7 @@ addMinutes('<timestamp>', <minutes>, '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
 | <*minutes*> | Yes | Integer | The positive or negative number of minutes to add |
-| <*format*> | No | String | Either a [single format specifier](https://docs.microsoft.com/dotnet/standard/base-types/standard-date-and-time-format-strings) or a [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is ["o"](https://docs.microsoft.com/dotnet/standard/base-types/standard-date-and-time-format-strings) (yyyy-MM-ddTHH:mm:ss:fffffffK), which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) and preserves time zone information. |
+| <*format*> | No | String | Either a [single format specifier](https://docs.microsoft.com/dotnet/standard/base-types/standard-date-and-time-format-strings) or a [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -234,20 +234,20 @@ addMinutes('<timestamp>', <minutes>, '<format>'?)
 This example adds 10 minutes to the specified timestamp:
 
 ```
-addMinutes('2018-03-15T00:10:00Z', 10)
+addMinutes('2018-03-15T00:10:00.000Z', 10)
 ```
 
-And returns this result: `"2018-03-15T00:20:00.0000000Z"`
+And returns this result: `"2018-03-15T00:20:00.000Z"`
 
 *Example 2*
 
 This example subtracts five minutes from the specified timestamp:
 
 ```
-addMinutes('2018-03-15T00:20:00Z', -5)
+addMinutes('2018-03-15T00:20:00.000Z', -5)
 ```
 
-And returns this result: `"2018-03-15T00:15:00.0000000Z"`
+And returns this result: `"2018-03-15T00:15:00.000Z"`
 
 <a name="addSeconds"></a>
 
@@ -263,7 +263,7 @@ addSeconds('<timestamp>', <seconds>, '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
 | <*seconds*> | Yes | Integer | The positive or negative number of seconds to add |
-| <*format*> | No | String | Either a [single format specifier](https://docs.microsoft.com/dotnet/standard/base-types/standard-date-and-time-format-strings) or a [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is ["o"](https://docs.microsoft.com/dotnet/standard/base-types/standard-date-and-time-format-strings) (yyyy-MM-ddTHH:mm:ss:fffffffK), which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) and preserves time zone information. |
+| <*format*> | No | String | Either a [single format specifier](https://docs.microsoft.com/dotnet/standard/base-types/standard-date-and-time-format-strings) or a [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -276,20 +276,20 @@ addSeconds('<timestamp>', <seconds>, '<format>'?)
 This example adds 10 seconds to the specified timestamp:
 
 ```
-addSeconds('2018-03-15T00:00:00Z', 10)
+addSeconds('2018-03-15T00:00:00.000Z', 10)
 ```
 
-And returns this result: `"2018-03-15T00:00:10.0000000Z"`
+And returns this result: `"2018-03-15T00:00:10.000Z"`
 
 *Example 2*
 
 This example subtracts five seconds to the specified timestamp:
 
 ```
-addSeconds('2018-03-15T00:00:30Z', -5)
+addSeconds('2018-03-15T00:00:30.000Z', -5)
 ```
 
-And returns this result: `"2018-03-15T00:00:25.0000000Z"`
+And returns this result: `"2018-03-15T00:00:25.000Z"`
 
 <a name="and"></a>
 
