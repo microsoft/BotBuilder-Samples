@@ -57,14 +57,14 @@ namespace Microsoft.BotBuilderSamples
         private async Task<DialogTurnResult> ShowCardStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             _logger.LogInformation("MainDialog.ShowCardStepAsync");
-
-            // Reply to the activity we received with an activity.
-            var reply = stepContext.Context.Activity.CreateReply();
-
+            
             // Cards are sent as Attachments in the Bot Framework.
-            // So we need to create a list of attachments on the activity.
-            reply.Attachments = new List<Attachment>();
-
+            // So we need to create a list of attachments for the reply activity.
+            var attachments = new List<Attachment>();
+            
+            // Reply to the activity we received with an activity.
+            var reply = MessageFactory.Attachment(attachments);
+            
             // Decide which type of card(s) we are going to show the user
             switch (((FoundChoice)stepContext.Result).Value)
             {

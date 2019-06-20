@@ -135,7 +135,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             // TODO: Your PostBack handling logic here...
 
             // Answer the postback, and show choices
-            var reply = turnContext.Activity.CreateReply($"Are you sure?");
+            var reply = MessageFactory.Text("Are you sure?");
             await turnContext.SendActivityAsync(reply, cancellationToken);
             await ShowChoices(turnContext, cancellationToken);
         }
@@ -156,7 +156,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 // The Facebook page id from which the message comes from is in turnContext.Activity.Recipient.Id.
                 case FacebookPageIdOption:
                     {
-                        var reply = turnContext.Activity.CreateReply($"This message comes from the following Facebook Page: {turnContext.Activity.Recipient.Id}");
+                        var reply = MessageFactory.Text($"This message comes from the following Facebook Page: {turnContext.Activity.Recipient.Id}");
                         await turnContext.SendActivityAsync(reply, cancellationToken);
                         await ShowChoices(turnContext, cancellationToken);
 
@@ -175,9 +175,8 @@ namespace Microsoft.BotBuilderSamples.Bots
                                         new CardAction() { Title = "No", Type = ActionTypes.PostBack, Value = "No" },
                                     },
                         };
-
-                        var reply = turnContext.Activity.CreateReply();
-                        reply.Attachments = new List<Attachment> { card.ToAttachment() };
+                        
+                        var reply = MessageFactory.Attachment(card.ToAttachment());
                         await turnContext.SendActivityAsync(reply, cancellationToken);
 
                         break;

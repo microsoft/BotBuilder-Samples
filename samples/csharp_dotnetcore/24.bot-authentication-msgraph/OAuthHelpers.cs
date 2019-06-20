@@ -78,7 +78,7 @@ namespace Microsoft.BotBuilderSamples
 
             var client = new SimpleGraphClient(tokenResponse.Token);
             var messages = await client.GetRecentMailAsync();
-            var reply = turnContext.Activity.CreateReply();
+            IMessageActivity reply = null;
 
             if (messages.Any())
             {
@@ -88,7 +88,7 @@ namespace Microsoft.BotBuilderSamples
                     count = 5;
                 }
 
-                reply.Attachments = new List<Attachment>();
+                reply = MessageFactory.Attachment(new List<Attachment>());
                 reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
 
                 for (var i = 0; i < count; i++)
@@ -109,7 +109,7 @@ namespace Microsoft.BotBuilderSamples
             }
             else
             {
-                reply.Text = "Unable to find any recent unread mail.";
+                reply = MessageFactory.Text("Unable to find any recent unread mail.");
             }
 
             await turnContext.SendActivityAsync(reply);
