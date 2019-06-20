@@ -10,15 +10,15 @@ using Microsoft.Bot.Builder.LanguageGeneration;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class DeleteCalendarEntry : ComponentDialog
+    public class AcceptCalendarEntry : ComponentDialog
     {
-        public DeleteCalendarEntry()
-            : base(nameof(DeleteCalendarEntry))
+        public AcceptCalendarEntry()
+            : base(nameof(AcceptCalendarEntry))
         {
             // Create instance of adaptive dialog. 
-            var deleteCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog))
+            var acceptCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
-                Generator = new ResourceMultiLanguageGenerator("DeleteCalendarEntry.lg"),
+                Generator = new ResourceMultiLanguageGenerator("AcceptCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
                     // Handle case where there are no items in todo list
@@ -27,7 +27,7 @@ namespace Microsoft.BotBuilderSamples
                         Condition = new ExpressionEngine().Parse("user.Entries == null || count(user.Entries) <= 0"),
                         Steps = new List<IDialog>()
                         {
-                            new SendActivity("[DeleteEmptyList]"),
+                            new SendActivity("[AccpetEmptyList]"),
                             new SendActivity("[Welcome-Actions]"),
                             new EndDialog()
                         }
@@ -35,49 +35,45 @@ namespace Microsoft.BotBuilderSamples
 
                     // new SaveEntity("@Subject[0]", "dialog.deleteCalendarEntry_entrySubject"),                    
                     // new CodeStep(GetToDoTitleToDelete),
-
-                    //new InitProperty()
-                    //{
-                    //    Property = "user.deleteCalendarEntry_entrySubject",
-                    //    Type = "object"
-                    //}, 
-
+                   
                     //new IfCondition()
                     //{
                     //    Steps = new List<IDialog>()
                     //    {
-                            // First show the current list of Todos
-                    new BeginDialog(nameof(FindCalendarEntry)),
-                    new TextInput()
+                    new DeleteProperty
                     {
-                        Property = "user.deleteCalendarEntry_entrySubject",
+                        Property = "user.acceptCalendarEntry_entrySubject",
+                    },
+                    new BeginDialog(nameof(FindCalendarEntry)),
+                    new TextInput() //TODO BUGS exist here wil jump and without prompting users
+                    {
+                        Property = "user.acceptCalendarEntry_entrySubject",
                         Prompt = new ActivityTemplate("[GetEntryTitleToDelete]"),
                     },
                     //    }
                     //},
 
-                    
+
                     new Foreach()
                     {
                         ListProperty = new ExpressionEngine().Parse("user.Entries"),
-                        Steps = new List<IDialog>(){
-                            new IfCondition(){
-                                Condition = new ExpressionEngine().Parse("user.Entries[dialog.index].subject == user.deleteCalendarEntry_entrySubject"),
-                                // BUGS exsit below
-                                // Does not support removing an object
+                        Steps = new List<IDialog>()
+                        {
+                            new IfCondition()
+                            {
+                                Condition = new ExpressionEngine().Parse("user.Entries[dialog.index].subject == user.acceptCalendarEntry_entrySubject"),
                                 Steps = new List<IDialog>(){
-                                    new EditArray()
-                                    {
-                                        ArrayProperty = "user.Entries",
-                                        Value = new ExpressionEngine().Parse("user.Entries[dialog.index]"),
-                                        ChangeType = EditArray.ArrayChangeType.Remove
+                                    new SetProperty(){
+                                        Property = "user.Entries[dialog.index].accpect",
+                                        Value = new ExpressionEngine().Parse("accpected")
+
                                     }
                                 }
                             }
-                        }                   
+                        }
                     },
 
-                    new SendActivity("[DeleteReadBack]"),
+                    new SendActivity("[AcceptReadBack]"),
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()
                 },
@@ -111,44 +107,11 @@ namespace Microsoft.BotBuilderSamples
             };
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
-            AddDialog(deleteCalendarEntry);
+            AddDialog(acceptCalendarEntry);
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);
         }
 
-        /* out source code to get the title
-        private async Task<DialogTurnResult> GetToDoTitleToDelete(DialogContext dc, System.Object options)
-        {
-            // Demonstrates using a custom code step to extract entities and set them in state.
-            var todoList = dc.State.GetValue<string[]>("user.todos");
-            string todoTitleStr = null;
-            string[] todoTitle, todoTitle_patternAny;
-            // By default, recognized intents from a recognizer are available under turn.intents scope. 
-            // Recognized entities are available under turn.entities scope. 
-            dc.State.TryGetValue("turn.entities.todoTitle", out todoTitle);
-            dc.State.TryGetValue("turn.entities.todoTitle_patternAny", out todoTitle_patternAny);
-            if (todoTitle != null && todoTitle.Length != 0)
-            {
-                if (Array.Exists(todoList, e => e == todoTitle[0]))
-                {
-                    todoTitleStr = todoTitle[0];
-                }
-            }
-            else if (todoTitle_patternAny != null && todoTitle_patternAny.Length != 0)
-            {
-                if (Array.Exists(todoList, e => e == todoTitle_patternAny[0]))
-                {
-                    todoTitleStr = todoTitle_patternAny[0];
-                }
-            }
-            if (todoTitleStr != null)
-            {
-                // Set the todo title in turn.todoTitle scope.
-                dc.State.SetValue("turn.todoTitle", todoTitleStr);
-            }
-            return new DialogTurnResult(DialogTurnStatus.Complete, options);
-        }
-        */
     }
 }

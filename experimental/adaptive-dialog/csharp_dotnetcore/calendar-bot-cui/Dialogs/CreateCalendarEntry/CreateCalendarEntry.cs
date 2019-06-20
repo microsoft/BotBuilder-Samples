@@ -112,6 +112,12 @@ namespace Microsoft.BotBuilderSamples
                     //new SendActivity("Focus Completed"),
                     //new SendActivity("{user.focusEntry}"),
 
+                    new SetProperty()
+                    {
+                        Property = "dialog.createCalendarEntry.accpet",
+                        Value = new ExpressionEngine().Parse("unaccpeted")
+                    },
+
                     new EditArray()
                     {
                         Value = new ExpressionEngine().Parse("dialog.createCalendarEntry"),

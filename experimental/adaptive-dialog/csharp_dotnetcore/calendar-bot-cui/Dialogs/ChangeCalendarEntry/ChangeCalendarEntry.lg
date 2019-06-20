@@ -1,3 +1,3 @@
 ﻿> Escape suggestion actions without which [] will be treated as template reference.
 # Welcome-Actions
-- \[Suggestions=View Calendar Entry | Create Calendar Entry | Delete Calendar Entry | Change Calendar Entry | Find Contact | Update Meeting | Help\]
+- \[Suggestions=View Calendar Entry | Create Calendar Entry | Delete Calendar Entry | Find Calendar Who | Accept Calendar Entry | Help\]

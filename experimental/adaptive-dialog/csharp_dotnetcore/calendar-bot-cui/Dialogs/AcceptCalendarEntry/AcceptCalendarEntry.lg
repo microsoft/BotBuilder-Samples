@@ -1,19 +1,19 @@
-# GetEntryTitleToDelete
+﻿# GetEntryTitleToDelete
 - ```
 Ok, give me the exact subject of the entry you would like to delete.
 [Suggestions=Help | Cancel]
 ```
 
-# DeleteReadBack
+# AccpectReadBack
 - ```
-Ok, I've removed your entry whose subject is "@{user.deleteCalendarEntry_entrySubject}".
+Ok, I've removed your entry whose subject is "@{user.acceptCalendarEntry_entrySubject}".
 ```
 
-# DeleteEmptyList
+# AccpetEmptyList
 - You do not have any entries in your calendar.
 
 # EntryNotFound
-- Sorry, I did not find a entry whose subject is {user.deleteCalendarEntry_entrySubject} in your calendar.
+- Sorry, I did not find a entry whose subject is {user.acceptCalendarEntry_entrySubject} in your calendar.
 
 > Escape suggestion actions without which [] will be treated as template reference.
 # Welcome-Actions

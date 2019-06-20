@@ -27,19 +27,19 @@ OK, please enter the subject of your event.
 
 # GetFromDate
 - ```
-OK, please enter the start date of meeting.
+OK, please enter the start date of your event.
 [Suggestions=Help | Cancel]
 ```
 
 # GetPersonName
 - ```
-OK, please enter the attendee of meeting.
+OK, please enter the attendee of your event.
 [Suggestions=Help | Cancel]
 ```
 
 # GetFromTime
 - ```
-OK, please enter the start time of meeting.
+OK, please enter the start time of your event.
 [Suggestions=Help | Cancel]
 ```
 
@@ -51,31 +51,31 @@ OK, please enter which calendar where you want to put this event
 
 # GetToDate
 - ```
-OK, please enter the end date of your meeting.
+OK, please enter the end date of your event.
 [Suggestions=Help | Cancel]
 ```
 
 # GetToTime
 - ```
-OK, please enter the end time of your meeting.
+OK, please enter the end time of your event.
 [Suggestions=Help | Cancel]
 ```
 
 # GetLocation
 - ```
-OK, please enter the location of your meeting.
+OK, please enter the location of your event.
 [Suggestions=Help | Cancel]
 ```
 
 # GetMeetingRoom
 - ```
-OK, please enter the meeting room of your meeting.
+OK, please enter the meeting room of your event.
 [Suggestions=Help | Cancel]
 ```
 
 # GetDuration
 - ```
-OK, please enter the duration of your meeting.
+OK, please enter the duration of your event.
 [Suggestions=Help | Cancel]
 ```
 
@@ -94,4 +94,4 @@ You have @{count(user.Entries)} items in your event list.
 
 > Escape suggestion actions without which [] will be treated as template reference.
 # Welcome-Actions
-- \[Suggestions=View Calendar Entry | Create Calendar Entry | Delete Calendar Entry | Change Calendar Entry | Find Contact | Update Meeting | Help\]
+- \[Suggestions=View Calendar Entry | Create Calendar Entry | Delete Calendar Entry | Find Calendar Who | Accept Calendar Entry | Help\]

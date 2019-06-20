@@ -35,20 +35,19 @@ namespace Microsoft.BotBuilderSamples
                     // new SaveEntity("@Subject[0]", "user.findCalendarWho_entryName"),                    
                     // new CodeStep(GetToDoTitleToDelete),
 
-                    new IfCondition()
+                    //new IfCondition()
+                    //{
+                    //    Steps = new List<IDialog>()
+                    //    {
+                    //        // First show the current list of Todos
+                    new BeginDialog(nameof(FindCalendarEntry)),
+                    new TextInput()
                     {
-                        Condition = new ExpressionEngine().Parse("user.findCalendarWho_entryName == null"),
-                        Steps = new List<IDialog>()
-                        {
-                            // First show the current list of Todos
-                            new BeginDialog(nameof(FindCalendarEntry)),
-                            new TextInput()
-                            {
-                                Property = "user.findCalendarWho_entryName",
-                                Prompt = new ActivityTemplate("[GetPersonName]"),
-                            }
-                        }
+                        Property = "user.findCalendarWho_entryName",
+                        Prompt = new ActivityTemplate("[GetPersonName]"),
                     },
+                    //    }
+                    //},
 
                     new InitProperty()
                     {
