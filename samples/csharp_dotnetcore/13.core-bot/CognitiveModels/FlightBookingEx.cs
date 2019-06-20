@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Microsoft.BotBuilderSamples
 {
-    // extension methods that simplify accessing entities in FlightBooking results from luis
+    // Extends the partial FlightBooking class with methods and properties that simplify accessing entities in the luis results
     public partial class FlightBooking
     {
         // Gets the value of the From Entity and From Airport if present
