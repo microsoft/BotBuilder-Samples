@@ -90,12 +90,12 @@ Load the template manager with your .lg file(s)
 
 For C#
 ```
-    TemplateEngine lgEngine = TemplateEngine.FromFiles(pathToLGFile); 
+    TemplateEngine lgEngine = new TemplateEngine().AddFiles(pathToLGFiles); 
 ```
 
 For NodeJS
 ```
-    let lgEngine = templateEngine.fromFiles(pathToLGFile);
+    let lgEngine = new TemplateEngine().addFiles(pathToLGFiles);
 ```
 
 When you need template expansion, call the templateEngine and pass in the relevant template name
