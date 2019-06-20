@@ -8,9 +8,6 @@ namespace Microsoft.BotBuilderSamples
     // Extends the partial FlightBooking class with methods and properties that simplify accessing entities in the luis results
     public partial class FlightBooking
     {
-        // Gets the value of the From Entity and From Airport if present
-        // In some cases LUIS will recognize the From entity as a valid city, but if the CompositeEntity
-        // is not trained it will not recognize the city as a valid Airport.
         public (string From, string Airport) FromEntities
         {
             get
