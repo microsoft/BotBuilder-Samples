@@ -72,13 +72,13 @@ namespace Microsoft.BotBuilderSamples
                         },
                         Constraint = "turn.dialogevent.value.intents.DeleteCalendarEntry.score > 0.4"
                     },
-                    new IntentRule("ChangeCalendarEntry")
+                    new IntentRule("FindCalendarWho")
                     {
                         Steps = new List<IDialog>()
                         {
-                            new BeginDialog(nameof(ChangeCalendarEntry))
+                            new BeginDialog(nameof(FindCalendarWho))
                         },
-                        Constraint = "turn.dialogevent.value.intents.ChangeCalendarEntry.score > 0.4"
+                        Constraint = "turn.dialogevent.value.intents.FindCalendarWho.score > 0.4"
                     },
                     /******************************************************************************/
 
@@ -113,7 +113,7 @@ namespace Microsoft.BotBuilderSamples
                 new CreateCalendarEntry(),
                 new FindCalendarEntry(),
                 new DeleteCalendarEntry(),
-                new ChangeCalendarEntry()
+                new FindCalendarWho()
             });
             /******************************************************************************/
             // The initial child Dialog to run.

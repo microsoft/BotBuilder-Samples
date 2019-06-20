@@ -38,14 +38,14 @@ namespace Microsoft.BotBuilderSamples
                    
                     new IfCondition()
                     {
-                        Condition = new ExpressionEngine().Parse("dialog.deleteCalendarEntry_entrySubject == null"),
+                        Condition = new ExpressionEngine().Parse("user.deleteCalendarEntry_entrySubject == null"),
                         Steps = new List<IDialog>()
                         {
                             // First show the current list of Todos
                             new BeginDialog(nameof(FindCalendarEntry)),
                             new TextInput()
                             {
-                                Property = "dialog.deleteCalendarEntry_entrySubject",
+                                Property = "user.deleteCalendarEntry_entrySubject",
                                 Prompt = new ActivityTemplate("[GetEntryTitleToDelete]"),
                             }
                         }
@@ -57,7 +57,7 @@ namespace Microsoft.BotBuilderSamples
                         ListProperty = new ExpressionEngine().Parse("user.Entries"),
                         Steps = new List<IDialog>(){
                             new IfCondition(){
-                                Condition = new ExpressionEngine().Parse("user.Entries[dialog.index].subject == dialog.deleteCalendarEntry_entrySubject"),
+                                Condition = new ExpressionEngine().Parse("user.Entries[dialog.index].subject == user.deleteCalendarEntry_entrySubject"),
                                 // BUGS exsit above
                                 Steps = new List<IDialog>(){
                                     new EditArray()

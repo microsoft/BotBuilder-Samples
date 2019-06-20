@@ -51,10 +51,15 @@ namespace Microsoft.BotBuilderSamples
                         Property = "dialog.createCalendarEntry.Subject",
                         Prompt = new ActivityTemplate("[GetSubject]")
                     },
+                    //new TextInput()
+                    //{
+                    //    Property = "dialog.createCalendarEntry.FromTime",
+                    //    Prompt = new ActivityTemplate("[GetFromTime]")
+                    //},
                     new TextInput()
                     {
-                        Property = "dialog.createCalendarEntry.FromTime",
-                        Prompt = new ActivityTemplate("[GetFromTime]")
+                        Property = "dialog.createCalendarEntry.PersonName",
+                        Prompt = new ActivityTemplate("[GetPersonName]")
                     },
                     //new TextInput()
                     //{

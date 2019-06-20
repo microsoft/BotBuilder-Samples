@@ -31,6 +31,12 @@ OK, please enter the start date of meeting.
 [Suggestions=Help | Cancel]
 ```
 
+# GetPersonName
+- ```
+OK, please enter the attendee of meeting.
+[Suggestions=Help | Cancel]
+```
+
 # GetFromTime
 - ```
 OK, please enter the start time of meeting.
