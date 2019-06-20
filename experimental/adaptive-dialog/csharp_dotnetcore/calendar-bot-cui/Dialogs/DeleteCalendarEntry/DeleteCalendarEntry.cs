@@ -58,7 +58,8 @@ namespace Microsoft.BotBuilderSamples
                         Steps = new List<IDialog>(){
                             new IfCondition(){
                                 Condition = new ExpressionEngine().Parse("user.Entries[dialog.index].subject == user.deleteCalendarEntry_entrySubject"),
-                                // BUGS exsit above
+                                // BUGS exsit below
+                                // Does not support removing an object
                                 Steps = new List<IDialog>(){
                                     new EditArray()
                                     {
