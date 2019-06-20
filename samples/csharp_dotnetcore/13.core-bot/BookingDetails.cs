@@ -10,7 +10,5 @@ namespace Microsoft.BotBuilderSamples
         public string Origin { get; set; }
 
         public string TravelDate { get; set; }
-
-        public string ErrorMessage { get; set; }
     }
 }
