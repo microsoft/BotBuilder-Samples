@@ -175,6 +175,8 @@ Here is an example of what the `XUnitOutputMiddleware` logs to the output window
 
 This output will be also logged on the build server during the CI builds and helps analyze build failures.
 
+For additional information on sending test output to the console when using XUnit see [Capturing Output](https://xunit.net/docs/capturing-output.html) in the XUnit documentation.
+
 ## Data Driven Tests
 
 [WIP]
