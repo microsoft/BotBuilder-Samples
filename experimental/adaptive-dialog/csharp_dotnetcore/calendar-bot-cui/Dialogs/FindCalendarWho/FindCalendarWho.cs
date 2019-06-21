@@ -43,7 +43,7 @@ namespace Microsoft.BotBuilderSamples
                     new BeginDialog(nameof(FindCalendarEntry)),
                     new TextInput()
                     {
-                        Property = "user.findCalendarWho_entryName",
+                        Property = "dialog.findCalendarWho_entryName",
                         Prompt = new ActivityTemplate("[GetPersonName]"),
                     },
                     //    }
@@ -51,7 +51,7 @@ namespace Microsoft.BotBuilderSamples
 
                     new InitProperty()
                     {
-                        Property = "user.findCalendarWho_found",
+                        Property = "dialog.findCalendarWho_found",
                         Type = "Array"
                     },
 
@@ -62,12 +62,12 @@ namespace Microsoft.BotBuilderSamples
                         {
                             new IfCondition()
                             {
-                                Condition = new ExpressionEngine().Parse("user.Entries[dialog.index].personname == user.findCalendarWho_entryName"),
+                                Condition = new ExpressionEngine().Parse("user.Entries[dialog.index].personname == dialog.findCalendarWho_entryName"),
                                 Steps = new List<IDialog>(){
                                     new EditArray()
                                     {
                                         Value = new ExpressionEngine().Parse("user.Entries[dialog.index]"),
-                                        ArrayProperty = "user.findCalendarWho_found",
+                                        ArrayProperty = "dialog.findCalendarWho_found",
                                         ChangeType = EditArray.ArrayChangeType.Push
                                     },
                                 }
@@ -77,7 +77,7 @@ namespace Microsoft.BotBuilderSamples
 
                     new IfCondition()
                     {
-                        Condition = new ExpressionEngine().Parse("user.findCalendarWho_found != null && count(user.findCalendarWho_found) > 0"),
+                        Condition = new ExpressionEngine().Parse("dialog.findCalendarWho_found != null && count(dialog.findCalendarWho_found) > 0"),
                         Steps = new List<IDialog>(){
                             new SendActivity("[ViewEntries]"),
                             new SendActivity("[Welcome-Actions]"),

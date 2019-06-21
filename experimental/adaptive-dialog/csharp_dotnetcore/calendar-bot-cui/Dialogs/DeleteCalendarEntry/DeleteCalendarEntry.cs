@@ -50,7 +50,7 @@ namespace Microsoft.BotBuilderSamples
                     new BeginDialog(nameof(FindCalendarEntry)),
                     new TextInput()
                     {
-                        Property = "user.deleteCalendarEntry_entrySubject",
+                        Property = "dialog.deleteCalendarEntry_entrySubject",
                         Prompt = new ActivityTemplate("[GetEntryTitleToDelete]"),
                     },
                     //    }
@@ -62,7 +62,7 @@ namespace Microsoft.BotBuilderSamples
                         ListProperty = new ExpressionEngine().Parse("user.Entries"),
                         Steps = new List<IDialog>(){
                             new IfCondition(){
-                                Condition = new ExpressionEngine().Parse("user.Entries[dialog.index].subject == user.deleteCalendarEntry_entrySubject"),
+                                Condition = new ExpressionEngine().Parse("user.Entries[dialog.index].subject == dialog.deleteCalendarEntry_entrySubject"),
                                 // BUGS exsit below
                                 // Does not support removing an object
                                 Steps = new List<IDialog>(){

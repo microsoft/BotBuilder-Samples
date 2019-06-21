@@ -51,11 +51,11 @@ namespace Microsoft.BotBuilderSamples
                         Property = "dialog.createCalendarEntry.Subject",
                         Prompt = new ActivityTemplate("[GetSubject]")
                     },
-                    //new TextInput()
-                    //{
-                    //    Property = "dialog.createCalendarEntry.FromTime",
-                    //    Prompt = new ActivityTemplate("[GetFromTime]")
-                    //},
+                    new TextInput()
+                    {
+                        Property = "dialog.createCalendarEntry.FromTime",
+                        Prompt = new ActivityTemplate("[GetFromTime]")
+                    },
                     new TextInput()
                     {
                         Property = "dialog.createCalendarEntry.PersonName",
@@ -114,8 +114,8 @@ namespace Microsoft.BotBuilderSamples
 
                     new SetProperty()
                     {
-                        Property = "dialog.createCalendarEntry.accpet",
-                        Value = new ExpressionEngine().Parse("unaccpeted")
+                        Property = "dialog.createCalendarEntry.accept",
+                        Value = new ExpressionEngine().Parse("'unaccepted'")
                     },
 
                     new EditArray()

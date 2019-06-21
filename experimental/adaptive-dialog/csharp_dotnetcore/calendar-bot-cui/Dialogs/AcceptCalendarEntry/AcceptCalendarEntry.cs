@@ -40,19 +40,20 @@ namespace Microsoft.BotBuilderSamples
                     //{
                     //    Steps = new List<IDialog>()
                     //    {
-                    new DeleteProperty
-                    {
-                        Property = "user.acceptCalendarEntry_entrySubject",
-                    },
                     new BeginDialog(nameof(FindCalendarEntry)),
                     new TextInput() //TODO BUGS exist here wil jump and without prompting users
                     {
-                        Property = "user.acceptCalendarEntry_entrySubject",
+                        Property = "dialog.acceptCalendarEntry_entrySubject",
                         Prompt = new ActivityTemplate("[GetEntryTitleToDelete]"),
                     },
                     //    }
                     //},
 
+                    new InitProperty()
+                    {
+                        Property = "dialog.afterAccepted",
+                        Type = "array"
+                    },
 
                     new Foreach()
                     {
@@ -61,19 +62,39 @@ namespace Microsoft.BotBuilderSamples
                         {
                             new IfCondition()
                             {
-                                Condition = new ExpressionEngine().Parse("user.Entries[dialog.index].subject == user.acceptCalendarEntry_entrySubject"),
+                                Condition = new ExpressionEngine().Parse("user.Entries[dialog.index].subject == dialog.acceptCalendarEntry_entrySubject"),
                                 Steps = new List<IDialog>(){
                                     new SetProperty(){
-                                        Property = "user.Entries[dialog.index].accpect",
-                                        Value = new ExpressionEngine().Parse("accpected")
-
+                                        Property = "dialog.temp",
+                                        Value = new ExpressionEngine().Parse("user.Entries[dialog.index]")                                        
+                                    },
+                                    new SetProperty(){
+                                        Property = "dialog.temp.accept",
+                                        Value = new ExpressionEngine().Parse("'accepted'") // TODO this would not set the property
+                                    },
+                                    new EditArray(){
+                                        Value = new ExpressionEngine().Parse("dialog.temp"),
+                                        ArrayProperty = "dialog.afterAccepted",
+                                        ChangeType = EditArray.ArrayChangeType.Push
+                                    },
+                                    new SendActivity("[AcceptReadBack]")
+                                },
+                                ElseSteps = new List<IDialog>(){
+                                    new EditArray(){
+                                        Value = new ExpressionEngine().Parse("user.Entries[dialog.index]"),
+                                        ArrayProperty = "dialog.afterAccepted",
+                                        ChangeType = EditArray.ArrayChangeType.Push
                                     }
                                 }
                             }
                         }
                     },
 
-                    new SendActivity("[AcceptReadBack]"),
+                    new SetProperty(){
+                        Property = "user.Entries",
+                        Value = new ExpressionEngine().Parse("dialog.afterAccepted")
+                    },
+
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()
                 },
