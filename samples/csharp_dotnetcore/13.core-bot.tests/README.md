@@ -21,6 +21,7 @@ This project shows how to:
   - [Asserting dialog turn results](#Asserting-dialog-turn-results)
 - [Analyzing test output](#Analyzing-test-output)
 - [Data Driven Tests](#Data-Driven-Tests)
+  - [Theory tests with InlineData](#Theory-tests-with-InlineData)
   - [Data Driven Tests that take complex objects](#Data-Driven-Tests-that-take-complex-objects)
 - [Using Mocks](#Using-Mocks)
   - [mocking LUIS results](#mocking-LUIS-results)
@@ -171,7 +172,7 @@ public class BookingDialogTests
 
 Here is an example of what the `XUnitOutputMiddleware` logs to the output window when is configured:
 
-![Bot Framework Samples](../../../docs/media/CoreBot.Tests/XUnitMiddlewareOutput.png)
+![XUnitMiddlewareOutput](../../../docs/media/CoreBot.Tests/XUnitMiddlewareOutput.png)
 
 This output will be also logged on the build server during the CI builds and helps analyze build failures.
 
@@ -179,16 +180,71 @@ For additional information on sending test output to the console when using XUni
 
 ## Data Driven Tests
 
-[WIP]
+In most cases the dialog logic is static and the different execution paths in a conversation are based on the user utterances. Rather than writing a single unit test for each variant in the conversation it is easier to use data driven tests.
 
-In most cases the bot logic is static and the different execution paths in a conversation are based on the user utterances. The dialog tests use XUnit Theory tests that 
+In this project, we use Theory tests from XUnit to parameterize tests.
+
+For example, consider the test described in the overview section and imagine that we need to test multiple use cases, what happens if the user says no to the confirmation? what if they use a different date?, etc.
+
+Data driven tests allow us to test all this permutations without having to rewrite the tests.
+
 This project uses XUnit Theory tests that allow us to create data driven tests (also known as parametrized test).
+
+### Theory tests with InlineData
+
+Consider the following test:
+
+```csharp
+[Fact]
+public async Task ShouldBeAbleToCancel()
+{
+    var sut = new TestCancelAndHelpDialog();
+    var testClient = new DialogTestClient(Channels.Test, sut);
+
+    var reply = await testClient.SendActivityAsync<IMessageActivity>("Hi");
+    Assert.Equal("Hi there", reply.Text);
+    Assert.Equal(DialogTurnStatus.Waiting, testClient.DialogTurnResult.Status);
+
+    reply = await testClient.SendActivityAsync<IMessageActivity>("cancel");
+    Assert.Equal("Cancelling...", reply.Text);
+    Assert.Equal(DialogTurnStatus.Cancelled, testClient.DialogTurnResult.Status);
+}
+```
+
+Consider that now we need to be able to handle other utterances for cancel: "quit", "never mind" and "stop it"
+
+Rather than writing 3 more repetitive tests for each new utterance, we can refactor the test to use `InlineData`.
+
+```csharp
+[Theory]
+[InlineData("hi", "Hi there", "cancel")]
+[InlineData("hi", "Hi there", "quit")]
+[InlineData("hi", "Hi there", "never mind")]
+[InlineData("hi", "Hi there", "stop it")]
+public async Task ShouldBeAbleToCancel(string utterance, string response, string cancelUtterance)
+{
+    var sut = new TestCancelAndHelpDialog();
+    var testClient = new DialogTestClient(Channels.Test, sut, middlewares: _middlewares);
+
+    var reply = await testClient.SendActivityAsync<IMessageActivity>(utterance);
+    Assert.Equal(response, reply.Text);
+    Assert.Equal(DialogTurnStatus.Waiting, testClient.DialogTurnResult.Status);
+
+    reply = await testClient.SendActivityAsync<IMessageActivity>(cancelUtterance);
+    Assert.Equal("Cancelling...", reply.Text);
+    Assert.Equal(DialogTurnStatus.Cancelled, testClient.DialogTurnResult.Status);
+}
+```
+
+The new tests will be executed 4 times with the parameters specified in the `InlineData` attribute and will show as child items under the `ShouldBeAbleToCancel` test. If any of them fail like show below, the developer can right click and debug the scenario that failed rather than re-running the entire set of tests.
+
+![Bot Framework Samples](../../../docs/media/CoreBot.Tests/InlineDataTestResults.png)
+
+### Data Driven Tests that take complex objects
 
 Consider the following simple test for a `DateResolverDialog`:
 
 ![Bot Framework Samples](../../../docs/media/CoreBot.Tests/DataDrivenVSExplorer.png)
-
-### Data Driven Tests that take complex objects
 
 [WIP]
 
