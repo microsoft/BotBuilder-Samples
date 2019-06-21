@@ -57,6 +57,8 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[string](#string)	|Return string version of the specified value	|
 |[bool](#bool)	|Return Boolean representation of the specified string. Bool(‘true’), bool(1)	|
 |[createArray](#createArray)	|Create an array from multiple inputs	|
+|[json](#json)  | Return the JavaScript Object Notation (JSON) type value or object for a string or XML.    |
+
 
 ### Math functions
 |Function	|Explanation|
@@ -90,6 +92,28 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |date	|Returns date for a given timestamp	|
 |year	|Returns year for the given timestamp	|
 |getTimeOfDay	|Returns time of day for a given timestamp (midnight = 12AM, morning = 12:01AM – 11:59PM, noon = 12PM, afternoon = 12:01PM -05:59PM, evening = 06:00PM – 10:00PM, night = 10:01PM – 11:59PM) 	|
+|[addToTime](#addToTime)    | Add a number of time units to a timestamp.    |
+|[convertFromUTC](#convertFromUTC)  | Convert a timestamp from Universal Time Coordinated(UTC).  |
+|[convertToUTC](#convertToUTC)  | Convert a timestamp To Universal Time Coordinated(UTC).   |
+|[startOfDay](#startOfDay)  | Return the start of the day for a timestamp. |
+|[startOfHour](#startOfHour)    | Return the start of the hour for a timestamp.  |
+|[startOfMonth](#startOfMonth)  | Return the start of the month for a timestamp. |
+|[ticks](#ticks)    | Return the ticks property value for a specified timestamp. |
+
+### URI parsing functions
+|Function	|Explanation|
+|-----------|-----------|
+|[uriHost](#uriHost)    | Return the host value for a uniform resource identifier(URI). |
+|[uriPath](#uriPath)    | Return the path value for a unifor resource identifier(URI).  |
+|[uriPathAndQuery](#uriPathAndQuery)   | Rtuen the path and query values for a uniform resource identifier(URI).   |
+|[uriPort](#uriPort)    | Return the port value for a uniform resource identifier(URI). |
+|[uriQuery](#uriQuery)  | Return the query value for a uniform resouce identifier(URI). |
+|[uriScheme](#uriScheme)| Return the scheme value for a uniform resource identifier(uri).   |
+
+### Object manipulation and construction functions
+|Function	|Explanation|
+|-----------|-----------|
+|[addProperty](#addProperty)    ||
 
 <a name="alphabetical-list"></a>
 
