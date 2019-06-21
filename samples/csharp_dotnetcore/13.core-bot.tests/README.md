@@ -10,15 +10,15 @@ This project shows how to:
 - Create unit tests for dialogs, bots and controllers
 - Create different types of data driven tests using XUnit Theory tests
 - Create mock objects for the different dependencies of a dialog (i.e. LUIS recognizers, other dialogs, configuration, etc.)
-- How to assert the activities returned by a dialog turn against the expected values.
-- How to assert the DialogTurnResult returned by a dialog.
+- Assert the activities returned by a dialog turn against expected values
+- Assert the results returned by a dialog
 
 ## Table of Contents <!-- omit in toc -->
 
 - [Testing Dialogs](#Testing-Dialogs)
   - [Asserting activities](#Asserting-activities)
   - [Passing parameters to your dialogs](#Passing-parameters-to-your-dialogs)
-  - [Asserting DialogTurnResult](#Asserting-DialogTurnResult)
+  - [Asserting dialog turn results](#Asserting-dialog-turn-results)
 - [Analyzing test output](#Analyzing-test-output)
 - [Data Driven Tests](#Data-Driven-Tests)
   - [Data Driven Tests that take complex objects](#Data-Driven-Tests-that-take-complex-objects)
@@ -26,6 +26,7 @@ This project shows how to:
   - [mocking LUIS results](#mocking-LUIS-results)
   - [mocking Dialogs](#mocking-Dialogs)
   - [mocking other objects](#mocking-other-objects)
+- [References](#References)
 
 ## Testing Dialogs
 
@@ -115,9 +116,9 @@ private async Task<DialogTurnResult> DestinationStepAsync(WaterfallStepContext s
 }
 ```
 
-### Asserting DialogTurnResult
+### Asserting dialog turn results
 
-Some dialogs like `BookingDialog` or `DateResolverDialog` return a value to the calling dialog. The `DialogTextClient` object exposes a `DialogTurnResult` that can be used to analyze and assert the results return by the dialog (or a step in a dialog).
+Some dialogs like `BookingDialog` or `DateResolverDialog` return a value to the calling dialog. The `DialogTextClient` object exposes a `DialogTurnResult` that can be used to analyze and assert the results return by the dialog.
 
 For example:
 
@@ -136,9 +137,43 @@ Assert.Equal("Seattle", bookingResults?.Destination);
 Assert.Equal("2019-06-21", bookingResults?.TravelDate);
 ```
 
+The `DialogTurnResult` can also be used to inspect and assert intermediate results returned by the steps in a waterfall.
+
 ## Analyzing test output
 
-TODO
+Sometimes it is necessary to read a unit test transcript so we can analyze the test execution without having to debug the test.
+The [Microsoft.Bot.Builder.Testing](https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/Microsoft.Bot.Builder.Testing) package includes an `XUnitOutputMiddleware` that logs the messages sent and received by the dialog to the console.
+
+To use this middleware, your test needs to expose a constructor that receives an `ITestOutputHelper` object that is provided by the XUnit test runner and create a `XUnitOutputMiddleware` that will be passed to `DialogTestClient` trough the `middlewares` parameter.
+
+```csharp
+public class BookingDialogTests
+{
+    private readonly XUnitOutputMiddleware[] _middlewares;
+
+    public BookingDialogTests(ITestOutputHelper output)
+        : base(output)
+    {
+        _middlewares = new[] { new XUnitOutputMiddleware(output) };
+    }
+
+    [Fact]
+    public async Task SomeBookingDialogTest()
+    {
+        // Arrange
+        var sut = new BookingDialog();
+        var testClient = new DialogTestClient(Channels.Msteams, sut, middlewares: _middlewares);
+
+        ...
+    }
+}
+```
+
+Here is an example of what the `XUnitOutputMiddleware` logs to the output window when is configured:
+
+![Bot Framework Samples](../../../docs/media/CoreBot.Tests/XUnitMiddlewareOutput.png)
+
+This output will be also logged on the build server during the CI builds and helps analyze build failures.
 
 ## Data Driven Tests
 
@@ -188,3 +223,7 @@ And then we create the sut (System Under Test) using the mock booking dialog as 
 [WIP]
 
 This sample uses mock for other objects like Configuration (see XYZ), Logger and other objects (see controllertests) for example.
+
+## References
+
+- [Bot Testing POV](https://github.com/microsoft/botframework-sdk/blob/master/specs/testing/testing.md)
