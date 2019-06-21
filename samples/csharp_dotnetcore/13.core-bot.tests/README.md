@@ -192,7 +192,7 @@ This project uses XUnit Theory tests that allow us to create data driven tests (
 
 ### Theory tests with InlineData
 
-Consider the following test:
+The following test checks that a dialog gets cancelled with the user says "cancel".
 
 ```csharp
 [Fact]
@@ -211,9 +211,9 @@ public async Task ShouldBeAbleToCancel()
 }
 ```
 
-Consider that now we need to be able to handle other utterances for cancel: "quit", "never mind" and "stop it"
+Consider now that we need to be able to handle other utterances for cancel: "quit", "never mind" and "stop it"
 
-Rather than writing 3 more repetitive tests for each new utterance, we can refactor the test to use `InlineData`.
+Rather than writing 3 more repetitive tests for each new utterance, we can refactor the test as a `Theory` test that uses `InlineData` to define the parameters for the test:
 
 ```csharp
 [Theory]
@@ -236,7 +236,7 @@ public async Task ShouldBeAbleToCancel(string utterance, string response, string
 }
 ```
 
-The new tests will be executed 4 times with the parameters specified in the `InlineData` attribute and will show as child items under the `ShouldBeAbleToCancel` test. If any of them fail like show below, the developer can right click and debug the scenario that failed rather than re-running the entire set of tests.
+The new tests will be executed 4 times with the different parameters and each case will show as child item under the `ShouldBeAbleToCancel` test in Visual Studio Test Explorer. If any of them fail like shown below, the developer can right click and debug the scenario that failed rather than re-running the entire set of tests.
 
 ![Bot Framework Samples](../../../docs/media/CoreBot.Tests/InlineDataTestResults.png)
 
