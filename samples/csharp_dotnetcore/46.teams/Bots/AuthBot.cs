@@ -61,7 +61,7 @@ namespace Microsoft.BotBuilderSamples
         {
             foreach (var messageReaction in messageReactions)
             {
-                await turnContext.SendActivityAsync(MessageFactory.Text($"add: {messageReaction.Type}"), cancellationToken);
+                await turnContext.SendActivityAsync(MessageFactory.Text($"remove: {messageReaction.Type}"), cancellationToken);
             }
         }
     }
