@@ -450,20 +450,47 @@ mockDialog
         return await dialogContext.EndDialogAsync(expectedBookingDialogResult, cancellationToken);
     });
 
-var sut = new MainDialog(mockRecognizer.Object, mockDialog.Object, _mockLogger.Object);
+And then we create the sut (System Under Test) using the mock booking dialog.
+var sut = new MainDialog(mockDialog.Object);
 ```
-
-And then we create the sut (System Under Test) using the mock booking dialog as follows:
-
 
 ### Mocking LUIS results
 
-In some cases you may want to implement your LUIS results through code, for example:
+In simple scenarios, you can implement mock LUIS results through code as follows:
 
+```csharp
+var mockRecognizer = new Mock<IRecognizer>();
+mockRecognizer
+    .Setup(x => x.RecognizeAsync<FlightBooking>(It.IsAny<ITurnContext>(), It.IsAny<CancellationToken>()))
+    .Returns(() =>
+    {
+        var luisResult = new FlightBooking
+        {
+            Intents = new Dictionary<FlightBooking.Intent, IntentScore>
+            {
+                { FlightBooking.Intent.BookFlight, new IntentScore() { Score = 1 } },
+            },
+            Entities = new FlightBooking._Entities(),
+        };
+        return Task.FromResult(luisResult);
+    });
+```
 
-But LUIS results are sometime complex, so it may be also useful to capture the desired result as a json file, add that file as an embedded resource to your project and desrialized it into a LUIS result as follows.
+LUIS results are sometimes complex, so it may be also useful to capture the desired result as a json file, add that file as an embedded resource to your project and deserialize it into a LUIS result. Here is an example:
 
+```csharp
+var mockRecognizer = new Mock<IRecognizer>();
+mockRecognizer
+    .Setup(x => x.RecognizeAsync<FlightBooking>(It.IsAny<ITurnContext>(), It.IsAny<CancellationToken>()))
+    .Returns(() =>
+    {
+        // Deserialize the LUIS result from embedded json file in the TestData folder.
+        var bookingResult = GetEmbeddedTestData($"{GetType().Namespace}.TestData.FlightToMadrid.json");
 
+        // Return the deserialized LUIS result.
+        return Task.FromResult(bookingResult);
+    });
+```
 
 ### mocking other objects
 
