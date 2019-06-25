@@ -24,9 +24,10 @@ This project shows how to:
   - [Theory tests using InlineData](#Theory-tests-using-InlineData)
   - [Theory tests using MemberData and complex types](#Theory-tests-using-MemberData-and-complex-types)
 - [Using Mocks](#Using-Mocks)
-  - [mocking LUIS results](#mocking-LUIS-results)
-  - [mocking Dialogs](#mocking-Dialogs)
+  - [Mocking Dialogs](#Mocking-Dialogs)
+  - [Mocking LUIS results](#Mocking-LUIS-results)
   - [mocking other objects](#mocking-other-objects)
+  - [Helper Mock Factory](#Helper-Mock-Factory)
 - [References](#References)
 
 ## Testing Dialogs
@@ -397,7 +398,7 @@ public MainDialog()
 }
 ```
 
-We pass the instance of 'BookingDialog' as a constructor parameter
+We pass an instance of 'BookingDialog' as a constructor parameter
 
 ```csharp
 public MainDialog(BookingDialog bookingDialog)
@@ -412,31 +413,63 @@ public MainDialog(BookingDialog bookingDialog)
 This allow us to write tests for `MainDialog` that use a mock instance of `BookingDialog`:
 
 ```csharp
+// Create the mock object
 var mockDialog = new Mock<BookingDialog>();
+
+// Use the mock object to instantiate MainDialog
 var sut = new MainDialog(mockDialog.Object);
+
 var testClient = new DialogTestClient(Channels.Test, sut);
 ```
 
-### mocking LUIS results
+In this example, we use [Moq](https://github.com/moq/moq) to create mock objects and the `Setup` and `Returns` methods to configure their behavior.
+
+### Mocking Dialogs
+
+As described above, MainDialog invokes BookingDialog to obtain the BookingDetails object. We implement and configure the dependent dialog as follows:
+
+```csharp
+
+var expectedBookingDialogResult = new BookingDetails()
+{
+    Destination = "Seattle",
+    Origin = "New York",
+    TravelDate = $"{DateTime.UtcNow.AddDays(1):yyyy-MM-dd}"
+};
+
+var mockDialog = new Mock<BookingDialog>();
+mockDialog
+    .Setup(x => x.BeginDialogAsync(It.IsAny<DialogContext>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+    .Returns(async (DialogContext dialogContext, object options, CancellationToken cancellationToken) =>
+    {
+        dialogContext.Dialogs.Add(new TextPrompt("MockDialog"));
+        return await dialogContext.PromptAsync("MockDialog", new PromptOptions() { Prompt = MessageFactory.Text($"{nameof(BookingDialog)} mock invoked") }, cancellationToken);
+    });
+
+var sut = new MainDialog(mockRecognizer.Object, mockDialog.Object, _mockLogger.Object);
+```
+
+And then we create the sut (System Under Test) using the mock booking dialog as follows:
+
+
+### Mocking LUIS results
 
 In some cases you may want to implement your LUIS results through code, for example:
 
 
 But LUIS results are sometime complex, so it may be also useful to capture the desired result as a json file, add that file as an embedded resource to your project and desrialized it into a LUIS result as follows.
 
-### mocking Dialogs
 
-[WIP]
-
-MainDialog invokes BookingDialog to obtain the BookingDetails object. In the MainDialogTests we want to test maindialog independently of what goes on in BookingDialog so we can mock the dependent dialog as follows:
-
-And then we create the sut (System Under Test) using the mock booking dialog as follows:
 
 ### mocking other objects
 
 [WIP]
 
 This sample uses mock for other objects like Configuration (see XYZ), Logger and other objects (see controllertests) for example.
+
+### Helper Mock Factory
+
+This example provides a helper `SimpleMockFactory` that simplifies the creation of commonly used mocks. However, you may still need to create and configure specific mock objects that better serve the test case in some specific scenarios.
 
 ## References
 
