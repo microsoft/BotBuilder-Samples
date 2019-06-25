@@ -75,11 +75,11 @@ reply = testClient.GetNextReply<IMessageActivity>();
 Assert.Equal("All set, I have booked your flight to Seattle for tomorrow", reply.Text);
 ```
 
-`GetNextReply<IActivity>` will return null if there are no further messages.
+`GetNextReply<IActivity>` returns null if there are no further messages.
 
 ### Asserting activities
 
-This sample only asserts the Text properties of returned activities. In more complex bots your may want to assert other properties like Speak, InputHints, ChannelData etc.
+The code in this project only asserts the Text property of the returned activities. In more complex bots your may want to assert other properties like Speak, InputHints, ChannelData etc.
 
 ```csharp
 Assert.Equal("Sure thing, wait while I finalize your reservation...", reply.Text);
@@ -87,7 +87,7 @@ Assert.Equal("One moment please...", reply.Speak);
 Assert.Equal(InputHints.IgnoringInput, reply.InputHint);
 ```
 
-You may want to do this by hand as shown above, you can write your own helper utilities for asserting activities or you consider using other frameworks like [FluentAssertions](https://fluentassertions.com/) to write custom assertions and simplify your test code.
+You can do this by checking each property as shown above, you can write your own helper utilities for asserting activities or you can use other frameworks like [FluentAssertions](https://fluentassertions.com/) to write custom assertions and simplify your test code.
 
 ### Passing parameters to your dialogs
 
