@@ -26,8 +26,7 @@ This project shows how to:
 - [Using Mocks](#Using-Mocks)
   - [Mocking Dialogs](#Mocking-Dialogs)
   - [Mocking LUIS results](#Mocking-LUIS-results)
-  - [mocking other objects](#mocking-other-objects)
-  - [Helper Mock Factory](#Helper-Mock-Factory)
+  - [Mock Factory](#Mock-Factory)
 - [References](#References)
 
 ## Testing Dialogs
@@ -492,16 +491,14 @@ mockRecognizer
     });
 ```
 
-### mocking other objects
+### Mock Factory
 
-[WIP]
+This example includes a helper `SimpleMockFactory` class that simplifies the creation of commonly used mocks and helps declutter of the testing code.
 
-This sample uses mock for other objects like Configuration (see XYZ), Logger and other objects (see controllertests) for example.
-
-### Helper Mock Factory
-
-This example provides a helper `SimpleMockFactory` that simplifies the creation of commonly used mocks. However, you may still need to create and configure specific mock objects that better serve the test case in some specific scenarios.
+However, you may still need to create and configure specific mock objects that better serve the test case in some specific scenarios.
 
 ## References
 
-- [Bot Testing POV](https://github.com/microsoft/botframework-sdk/blob/master/specs/testing/testing.md)
+- [XUnit](https://xunit.net/)
+- [Moq](https://github.com/moq/moq)
+- [Bot Testing](https://github.com/microsoft/botframework-sdk/blob/master/specs/testing/testing.md)
