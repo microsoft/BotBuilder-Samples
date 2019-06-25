@@ -450,7 +450,7 @@ mockDialog
         return await dialogContext.EndDialogAsync(expectedBookingDialogResult, cancellationToken);
     });
 
-And then we create the sut (System Under Test) using the mock booking dialog.
+// Create the sut (System Under Test) using the mock booking dialog.
 var sut = new MainDialog(mockDialog.Object);
 ```
 
@@ -476,7 +476,7 @@ mockRecognizer
     });
 ```
 
-LUIS results are sometimes complex, so it may be also useful to capture the desired result as a json file, add that file as an embedded resource to your project and deserialize it into a LUIS result. Here is an example:
+But LUIS results are sometimes complex, in these situations, it simpler to capture the desired result as a json file, add it as an embedded resource to your project and deserialize it into a LUIS result. Here is an example:
 
 ```csharp
 var mockRecognizer = new Mock<IRecognizer>();
