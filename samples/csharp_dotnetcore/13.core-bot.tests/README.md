@@ -87,7 +87,7 @@ Assert.Equal("One moment please...", reply.Speak);
 Assert.Equal(InputHints.IgnoringInput, reply.InputHint);
 ```
 
-You can do this by checking each property as shown above, you can write your own helper utilities for asserting activities or you can use other frameworks like [FluentAssertions](https://fluentassertions.com/) to write custom assertions and simplify your test code.
+You can do this by checking each property individually as shown above, you can write your own helper utilities for asserting activities or you can use other frameworks like [FluentAssertions](https://fluentassertions.com/) to write custom assertions and simplify your test code.
 
 ### Passing parameters to your dialogs
 
@@ -186,7 +186,7 @@ For example, the sample test in the overview section of this documents shows how
 
 Data driven tests allow us to test all these permutations without having to rewrite the tests.
 
-In this project, we use Theory tests from XUnit to parameterize tests.
+In this project, we use `Theory` tests from XUnit to parameterize tests.
 
 ### Theory tests using InlineData
 
@@ -209,7 +209,7 @@ public async Task ShouldBeAbleToCancel()
 }
 ```
 
-Consider now that we need to be able to handle other utterances for cancel: "quit", "never mind" and "stop it". Rather than writing 3 more repetitive tests for each new utterance, we can refactor the test as a `Theory` test that uses `InlineData` to define the parameters for each test case:
+Consider that later on we need to be able to handle other utterances for cancel like "quit", "never mind" and "stop it". Rather than writing 3 more repetitive tests for each new utterance, we can refactor the test as a `Theory` test that uses `InlineData` to define the parameters for each test case:
 
 ```csharp
 [Theory]
