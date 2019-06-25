@@ -50,9 +50,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
 
             // Use the text provided in FinalStepAsync or the default if it is the first time.
-            var promptText = stepContext.Options?.ToString() ?? "What can I help you with today?";
-
-            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text(promptText, promptText, InputHints.ExpectingInput) }, cancellationToken);
+            var messageText = stepContext.Options?.ToString() ?? "What can I help you with today?";
+            var promptMessage = MessageFactory.Text(messageText, messageText, InputHints.ExpectingInput);
+            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
         }
 
         private async Task<DialogTurnResult> ActStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -84,15 +84,15 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
                 case FlightBooking.Intent.GetWeather:
                     // We haven't implemented the GetWeatherDialog so we just display a TODO message.
-                    var getWeatherMessage = MessageFactory.Text("TODO: get weather flow here", inputHint: InputHints.IgnoringInput);
-                    getWeatherMessage.Speak = getWeatherMessage.Text;
+                    var getWeatherMessageText = "TODO: get weather flow here";
+                    var getWeatherMessage = MessageFactory.Text(getWeatherMessageText, getWeatherMessageText, InputHints.IgnoringInput);
                     await stepContext.Context.SendActivityAsync(getWeatherMessage, cancellationToken);
                     break;
 
                 default:
                     // Catch all for unhandled intents
-                    var didntUnderstandMessage = MessageFactory.Text($"Sorry, I didn't get that. Please try asking in a different way (intent was {luisResult.TopIntent().intent})", InputHints.IgnoringInput);
-                    didntUnderstandMessage.Speak = didntUnderstandMessage.Text;
+                    var didntUnderstandMessageText = $"Sorry, I didn't get that. Please try asking in a different way (intent was {luisResult.TopIntent().intent})";
+                    var didntUnderstandMessage = MessageFactory.Text(didntUnderstandMessageText, didntUnderstandMessageText, InputHints.IgnoringInput);
                     await stepContext.Context.SendActivityAsync(didntUnderstandMessage, cancellationToken);
                     break;
             }
@@ -121,9 +121,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
             if (unsupportedCities.Any())
             {
-                var msg = MessageFactory.Text($"Sorry but the following airports are not supported: {string.Join(',', unsupportedCities)}", inputHint: InputHints.IgnoringInput);
-                msg.Speak = msg.Text;
-                await context.SendActivityAsync(msg, cancellationToken);
+                var messageText = $"Sorry but the following airports are not supported: {string.Join(',', unsupportedCities)}";
+                var message = MessageFactory.Text(messageText, messageText, InputHints.IgnoringInput);
+                await context.SendActivityAsync(message, cancellationToken);
             }
         }
 
@@ -139,9 +139,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
                 var timeProperty = new TimexProperty(result.TravelDate);
                 var travelDateMsg = timeProperty.ToNaturalLanguage(DateTime.Now);
-                var msg = MessageFactory.Text($"I have you booked to {result.Destination} from {result.Origin} on {travelDateMsg}", inputHint: InputHints.IgnoringInput);
-                msg.Speak = msg.Text;
-                await stepContext.Context.SendActivityAsync(msg, cancellationToken);
+                var messageText = $"I have you booked to {result.Destination} from {result.Origin} on {travelDateMsg}";
+                var message = MessageFactory.Text(messageText, messageText, InputHints.IgnoringInput);
+                await stepContext.Context.SendActivityAsync(message, cancellationToken);
             }
 
             // Restart the dialog with a second time around message
