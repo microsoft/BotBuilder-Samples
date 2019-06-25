@@ -426,7 +426,7 @@ In this example, we use [Moq](https://github.com/moq/moq) to create mock objects
 
 ### Mocking Dialogs
 
-As described above, MainDialog invokes BookingDialog to obtain the BookingDetails object. We implement and configure the dependent dialog as follows:
+As described above, `MainDialog` invokes `BookingDialog` to obtain the `BookingDetails` object. We implement and configure a mock instance of `BookingDialog` as follows:
 
 ```csharp
 // Create the BookingDetails instance we want the mock object to return.
