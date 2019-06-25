@@ -375,13 +375,11 @@ public async Task DialogFlowUseCases(TestDataObject testData)
 }
 ```
 
-Here is an example of the results for `DialogFlowUseCases` in Visual Studio test explorer:
+Here is an example of the results for `DialogFlowUseCases` in Visual Studio Test Explorer when the test is executed:
 
 ![BookingDialogTests](../../../docs/media/CoreBot.Tests/BookingDialogTestsResults.png)
 
 ## Using Mocks
-
-[WIP]
 
 Mocks allow us to configure the dependencies of a dialog and ensure the are in a know state during the execution of the test without having to rely on external resources like databases, LUIS models or other objects.
 
