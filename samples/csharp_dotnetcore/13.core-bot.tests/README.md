@@ -381,11 +381,39 @@ Here is an example of the results for `DialogFlowUseCases` in Visual Studio Test
 
 ## Using Mocks
 
-Mocks allow us to configure the dependencies of a dialog and ensure the are in a know state during the execution of the test without having to rely on external resources like databases, LUIS models or other objects.
+Mocks allow us to configure the dependencies of a dialog and ensure they are in a known state during the execution of the test without having to rely on external resources like databases, LUIS models or other objects.
 
-In order to make your dialog easier to test, you may need to inject the external dependencies that your'd like to replace by mock objects in the dialog constructor so you can replace them during testing. For example, MainDialog could have instantiated BookingDialog inside the constuctor but that would have prevented us from testing MainDialog without running BookingDialog. So we added BookingDialog as a constructor parameter so we can replace it with a mock object during testing. 
+In order to make your dialog easier to test and reduce its dependencies on external objects, you may need to inject the external dependencies that need like to replace by mock objects in the dialog constructor. For example, instead of instantiating `BookingDialog` in `MainDialog`:
 
-These dependencies are resolved though dependency injection at runtime when the bot is running.
+```csharp
+public MainDialog()
+    : base(nameof(MainDialog))
+{
+    ...
+    AddDialog(new BookingDialog());
+    ...
+}
+```
+
+We pass the instance of 'BookingDialog' as a constructor parameter
+
+```csharp
+public MainDialog(BookingDialog bookingDialog)
+    : base(nameof(MainDialog))
+{
+    ...
+    AddDialog(bookingDialog);
+    ...
+}
+```
+
+This allow us to write tests for `MainDialog` that use a mock instance of `BookingDialog`:
+
+```csharp
+var mockDialog = new Mock<BookingDialog>();
+var sut = new MainDialog(mockDialog.Object);
+var testClient = new DialogTestClient(Channels.Test, sut);
+```
 
 ### mocking LUIS results
 
