@@ -35,7 +35,7 @@ Dialogs are unit tested through the `DialogTestClient` class which provides a me
 
 This class is used to write unit tests for dialogs that test their responses on a turn-by-turn basis. Any dialog built using the botbuilder dialogs library should work.
 
-Here is an simple example on how a test that uses DialogTestClient looks like:
+Here is a simple example on how a test that uses DialogTestClient looks like:
 
 ```csharp
 var sut = new BookingDialog();
@@ -493,7 +493,7 @@ mockRecognizer
 
 ### Mock Factory
 
-This example includes a helper `SimpleMockFactory` class that simplifies the creation of commonly used mocks and helps declutter of the testing code.
+This example includes a helper `SimpleMockFactory` class that simplifies the creation of commonly used mocks and helps declutter the testing code.
 
 However, you may still need to create and configure specific mock objects that better serve the test case in some specific scenarios.
 
