@@ -21,8 +21,8 @@ This project shows how to:
   - [Asserting dialog turn results](#Asserting-dialog-turn-results)
   - [Analyzing test output](#Analyzing-test-output)
 - [Data Driven Tests](#Data-Driven-Tests)
-  - [Theory tests with InlineData](#Theory-tests-with-InlineData)
-  - [Data Driven Tests using MemberData and complex types](#Data-Driven-Tests-using-MemberData-and-complex-types)
+  - [Theory tests using InlineData](#Theory-tests-using-InlineData)
+  - [Theory tests using MemberData and complex types](#Theory-tests-using-MemberData-and-complex-types)
 - [Using Mocks](#Using-Mocks)
   - [mocking LUIS results](#mocking-LUIS-results)
   - [mocking Dialogs](#mocking-Dialogs)
@@ -188,7 +188,7 @@ Data driven tests allow us to test all these permutations without having to rewr
 
 In this project, we use Theory tests from XUnit to parameterize tests.
 
-### Theory tests with InlineData
+### Theory tests using InlineData
 
 The following test checks that a dialog gets cancelled when the user says "cancel".
 
@@ -236,7 +236,7 @@ The new test will be executed 4 times with the different parameters and each cas
 
 ![Bot Framework Samples](../../../docs/media/CoreBot.Tests/InlineDataTestResults.png)
 
-### Data Driven Tests using MemberData and complex types
+### Theory tests using MemberData and complex types
 
 `InlineData' is useful for small data driven tests that receive simple value type parameters (string, int, etc.).
 
