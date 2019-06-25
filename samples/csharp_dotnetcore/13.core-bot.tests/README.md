@@ -19,10 +19,10 @@ This project shows how to:
   - [Asserting activities](#Asserting-activities)
   - [Passing parameters to your dialogs](#Passing-parameters-to-your-dialogs)
   - [Asserting dialog turn results](#Asserting-dialog-turn-results)
-- [Analyzing test output](#Analyzing-test-output)
+  - [Analyzing test output](#Analyzing-test-output)
 - [Data Driven Tests](#Data-Driven-Tests)
   - [Theory tests with InlineData](#Theory-tests-with-InlineData)
-  - [Data Driven Tests that take complex objects](#Data-Driven-Tests-that-take-complex-objects)
+  - [Data Driven Tests using MemberData and complex types](#Data-Driven-Tests-using-MemberData-and-complex-types)
 - [Using Mocks](#Using-Mocks)
   - [mocking LUIS results](#mocking-LUIS-results)
   - [mocking Dialogs](#mocking-Dialogs)
@@ -140,7 +140,7 @@ Assert.Equal("2019-06-21", bookingResults?.TravelDate);
 
 The `DialogTurnResult` can also be used to inspect and assert intermediate results returned by the steps in a waterfall.
 
-## Analyzing test output
+### Analyzing test output
 
 Sometimes it is necessary to read a unit test transcript so we can analyze the test execution without having to debug the test.
 The [Microsoft.Bot.Builder.Testing](https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/Microsoft.Bot.Builder.Testing) package includes an `XUnitOutputMiddleware` that logs the messages sent and received by the dialog to the console.
@@ -180,7 +180,7 @@ For additional information on sending test output to the console when using XUni
 
 ## Data Driven Tests
 
-In most cases the dialog logic is static and the different execution paths in a conversation are based on the user utterances. Rather than writing a single unit test for each variant in the conversation it is easier to use data driven tests (also known as parametrized test).
+In most cases the dialog logic is static and the different execution paths in a conversation are based on the user utterances. Rather than writing a single unit test for each variant in the conversation it is easier to use data driven tests (also known as parameterized test).
 
 For example, the sample test in the overview section of this documents shows how to test one execution flow, but what happens if the user says no to the confirmation? what if they use a different date?, etc.
 
@@ -236,7 +236,7 @@ The new test will be executed 4 times with the different parameters and each cas
 
 ![Bot Framework Samples](../../../docs/media/CoreBot.Tests/InlineDataTestResults.png)
 
-### Data Driven Tests that take complex objects
+### Data Driven Tests using MemberData and complex types
 
 `InlineData' is useful for small data driven tests that receive simple value type parameters (string, int, etc.).
 
