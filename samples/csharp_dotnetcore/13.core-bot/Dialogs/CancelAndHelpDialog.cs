@@ -37,15 +37,15 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 {
                     case "help":
                     case "?":
-                        var helpMessage = MessageFactory.Text("Show help here", inputHint: InputHints.ExpectingInput);
-                        helpMessage.Speak = helpMessage.Text;
+                        var helpMessageText = "Show help here";
+                        var helpMessage = MessageFactory.Text(helpMessageText, helpMessageText, InputHints.ExpectingInput);
                         await innerDc.Context.SendActivityAsync(helpMessage, cancellationToken);
                         return new DialogTurnResult(DialogTurnStatus.Waiting);
 
                     case "cancel":
                     case "quit":
-                        var cancelMessage = MessageFactory.Text("Cancelling...", inputHint: InputHints.IgnoringInput);
-                        cancelMessage.Speak = cancelMessage.Text;
+                        var cancelMessageText = "Cancelling...";
+                        var cancelMessage = MessageFactory.Text(cancelMessageText, cancelMessageText, InputHints.IgnoringInput);
                         await innerDc.Context.SendActivityAsync(cancelMessage, cancellationToken);
                         return await innerDc.CancelAllDialogsAsync(cancellationToken);
                 }

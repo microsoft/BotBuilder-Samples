@@ -31,11 +31,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         {
             var timex = (string)stepContext.Options;
 
-            var promptMsg = MessageFactory.Text("When would you like to travel?", inputHint: InputHints.ExpectingInput);
-            promptMsg.Speak = promptMsg.Text;
+            var messageText = "When would you like to travel?";
+            var promptMessage = MessageFactory.Text(messageText, messageText, InputHints.ExpectingInput);
 
-            var repromptMsg = MessageFactory.Text("I'm sorry, to make your booking please enter a full travel date including Day Month and Year.", inputHint: InputHints.ExpectingInput);
-            repromptMsg.Speak = repromptMsg.Text;
+            var repromptMessageText = "I'm sorry, to make your booking please enter a full travel date including Day Month and Year.";
+            var repromptMessage = MessageFactory.Text(repromptMessageText, repromptMessageText, InputHints.ExpectingInput);
 
             if (timex == null)
             {
@@ -43,8 +43,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 return await stepContext.PromptAsync(nameof(DateTimePrompt),
                     new PromptOptions
                     {
-                        Prompt = promptMsg,
-                        RetryPrompt = repromptMsg,
+                        Prompt = promptMessage,
+                        RetryPrompt = repromptMessage,
                     }, cancellationToken);
             }
 
@@ -56,7 +56,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 return await stepContext.PromptAsync(nameof(DateTimePrompt),
                     new PromptOptions
                     {
-                        Prompt = repromptMsg,
+                        Prompt = repromptMessage,
                     }, cancellationToken);
             }
 
