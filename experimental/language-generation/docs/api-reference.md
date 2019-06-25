@@ -20,60 +20,41 @@ public List<LGTemplate> Templates = new List<LGTemplate>();
 /// </summary>
 public TemplateEngine()
 ```
-```C#
-/// <summary>
-/// Create a template engine from files, a shorthand for 
-///    new TemplateEngine().AddFiles(filePath)
-/// </summary>
-/// <param name="filePaths">paths to LG files</param>
-/// <returns>Engine created</returns>
-public static TemplateEngine FromFiles(params string[] filePaths)
-```
-
-```C#
-/// <summary>
-/// Create a template engine from text, equivalent to 
-///    new TemplateEngine.AddText(text)
-/// </summary>
-/// <param name="text">Content of lg file</param>
-/// <returns>Engine created</returns>
-public static TemplateEngine FromText(string text)
-```
 
 #### Methods
 ```C#
-/// <summary>
+ /// <summary>
 /// Load .lg files into template engine
-/// 
 /// You can add one file, or mutlple file as once
-/// 
 /// If you have multiple files referencing each other, make sure you add them all at once,
-/// otherwise static checking won't allow you to add it one by one
+/// otherwise static checking won't allow you to add it one by one.
 /// </summary>
-/// <param name="filePaths">Paths to .lg files</param>
-/// <returns>Teamplate engine with parsed files</returns>
-public TemplateEngine AddFiles(params string[] filePaths)
+/// <param name="filePaths">Paths to .lg files.</param>
+/// <param name="importResolver">resolver to resolve LG import id to template text.</param>
+/// <returns>Teamplate engine with parsed files.</returns>
+public TemplateEngine AddFiles(IEnumerable<string> filePaths, ImportResolverDelegate importResolver = null)
 ```
 
 
 ```C#
-/// <summary>
-/// Add text as lg file content to template engine
+ /// <summary>
+/// Load single .lg file into template engine.
 /// </summary>
-/// <param name="text">Text content contains lg templates</param>
-/// <returns>Template engine with the parsed content</returns>
-public TemplateEngine AddText(string text)
+/// <param name="filePath">Path to .lg file.</param>
+/// <param name="importResolver">resolver to resolve LG import id to template text.</param>
+/// <returns>Teamplate engine with single parsed file.</returns>
+public TemplateEngine AddFile(string filePath, ImportResolverDelegate importResolver = null)
 ```
 
 ```C#
 /// <summary>
-/// Evaluate a template with given name and scope
+/// Add text as lg file content to template engine.
 /// </summary>
-/// <param name="templateName">Template name to be evaluated</param>
-/// <param name="scope">The state visible in the evaluation</param>
-/// <param name="methodBinder">Optional methodBinder to extend or override functions</param>
-/// <returns></returns>
-public string EvaluateTemplate(string templateName, object scope, IGetMethod methodBinder = null)
+/// <param name="content">Text content contains lg templates.</param>
+/// <param name="name">Text name.</param>
+/// <param name="importResolver">resolver to resolve LG import id to template text.</param>
+/// <returns>Template engine with the parsed content.</returns>
+public TemplateEngine AddText(string content, string name, ImportResolverDelegate importResolver)
 ```
 
 ```C#
