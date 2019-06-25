@@ -429,7 +429,7 @@ In this example, we use [Moq](https://github.com/moq/moq) to create mock objects
 As described above, MainDialog invokes BookingDialog to obtain the BookingDetails object. We implement and configure the dependent dialog as follows:
 
 ```csharp
-
+// Create the BookingDetails instance we want the mock object to return.
 var expectedBookingDialogResult = new BookingDetails()
 {
     Destination = "Seattle",
@@ -437,13 +437,17 @@ var expectedBookingDialogResult = new BookingDetails()
     TravelDate = $"{DateTime.UtcNow.AddDays(1):yyyy-MM-dd}"
 };
 
+// Create the mock object for BookingDialog.
 var mockDialog = new Mock<BookingDialog>();
 mockDialog
     .Setup(x => x.BeginDialogAsync(It.IsAny<DialogContext>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
     .Returns(async (DialogContext dialogContext, object options, CancellationToken cancellationToken) =>
     {
-        dialogContext.Dialogs.Add(new TextPrompt("MockDialog"));
-        return await dialogContext.PromptAsync("MockDialog", new PromptOptions() { Prompt = MessageFactory.Text($"{nameof(BookingDialog)} mock invoked") }, cancellationToken);
+        // Send a generic activity so we can assert that the dialog was invoked.
+        await dialogContext.Context.SendActivityAsync($"{mockDialogNameTypeName} mock invoked", cancellationToken: cancellationToken);
+
+        // Return the BookingDetails we need without executing the dialog logic.
+        return await dialogContext.EndDialogAsync(expectedBookingDialogResult, cancellationToken);
     });
 
 var sut = new MainDialog(mockRecognizer.Object, mockDialog.Object, _mockLogger.Object);
