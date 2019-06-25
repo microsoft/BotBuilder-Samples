@@ -182,9 +182,9 @@ For additional information on sending test output to the console when using XUni
 
 In most cases the dialog logic is static and the different execution paths in a conversation are based on the user utterances. Rather than writing a single unit test for each variant in the conversation it is easier to use data driven tests (also known as parametrized test).
 
-In this project, we use Theory tests from XUnit to parameterize tests.
-
 For example, the sample test in the overview section of this documents shows how to test one execution flow, but what happens if the user says no to the confirmation? what if they use a different date?, etc.
+
+In this project, we use Theory tests from XUnit to parameterize tests.
 
 Data driven tests allow us to test all these permutations without having to rewrite the tests.
 
@@ -211,7 +211,7 @@ public async Task ShouldBeAbleToCancel()
 
 Consider now that we need to be able to handle other utterances for cancel: "quit", "never mind" and "stop it"
 
-Rather than writing 3 more repetitive tests for each new utterance, we can refactor the test as a `Theory` test that uses `InlineData` to define the parameters for the test:
+Rather than writing 3 more repetitive tests for each new utterance, we can refactor the test as a `Theory` test that uses `InlineData` to define the parameters for each test case:
 
 ```csharp
 [Theory]
@@ -234,20 +234,151 @@ public async Task ShouldBeAbleToCancel(string utterance, string response, string
 }
 ```
 
-The new tests will be executed 4 times with the different parameters and each case will show as child item under the `ShouldBeAbleToCancel` test in Visual Studio Test Explorer. If any of them fail like shown below, the developer can right click and debug the scenario that failed rather than re-running the entire set of tests.
+The new test will be executed 4 times with the different parameters and each case will show as child item under the `ShouldBeAbleToCancel` test in Visual Studio Test Explorer. If any of them fail like shown below, the developer can right click and debug the scenario that failed rather than re-running the entire set of tests.
 
 ![Bot Framework Samples](../../../docs/media/CoreBot.Tests/InlineDataTestResults.png)
 
 ### Data Driven Tests that take complex objects
 
-Consider the following simple test for a `DateResolverDialog`:
+`InlineData' use useful for small data driven tests that receive simple value type parameters (string, int, etc.).
 
-![Bot Framework Samples](../../../docs/media/CoreBot.Tests/DataDrivenVSExplorer.png)
+The `BookingDialog` receives a `BookingDetails` object and returns a new `BookingDetails` object. A non parameterized version of a test for this dialog would look as follow:
 
-[WIP]
+```csharp
+[Fact]
+public async Task DialogFlow()
+{
+    // Arrange
+    var initialBookingDetails = new BookingDetails
+    {
+        Origin = "Seattle",
+        Destination = null,
+        TravelDate = null,
+    };
 
-BookingDialog receives and returns a BookingDetails object with the reservation info. The VS IDE can only expand data driven tests that use 
+    var expectedBookingDetails = new BookingDetails
+    {
+        Origin = "Seattle",
+        Destination = "New York",
+        TravelDate = "2019-06-25",
+    };
 
+    var sut = new BookingDialog();
+    var testClient = new DialogTestClient(Channels.Test, sut, initialBookingDetails);
+
+    // Act/Assert
+    var reply = await testClient.SendActivityAsync<IMessageActivity>("hi");
+    ...
+
+    var bookingResults = (BookingDetails)testClient.DialogTurnResult.Result;
+    Assert.Equal(expectedBookingDetails.Origin, bookingResults?.Origin);
+    Assert.Equal(expectedBookingDetails.Destination, bookingResults?.Destination);
+    Assert.Equal(expectedBookingDetails.TravelDate, bookingResults?.TravelDate);
+}
+```
+
+To parameterize this test, we created a `BookingDialogTestCase` class that contains our test case data: the initial `BookingDetails` object, the expected `BookingDialogTestCase` and an array of strings containing the utterances sent from the user and the expected replies from the dialog.
+
+```csharp
+public class BookingDialogTestCase
+{
+    public BookingDetails InitialBookingDetails { get; set; }
+
+    public string[,] UtterancesAndReplies { get; set; }
+
+    public BookingDetails ExpectedBookingDetails { get; set; }
+}
+```
+
+We also created a helper `BookingDialogTestsDataGenerator` class that exposes a `IEnumerable<object[]> BookingFlows()` method that returns a collection of the test cases to be used by the test.
+
+In order to display each test case as a separate test in VS Test Explorer, the test runner requires that complex types like `BookingDialogTestCase` implement `IXunitSerializable`, to simplify this, the `BotBuilder.Testing` framework provides a `TestDataObject` class that Implements this interface and can be used to wrap the test case data without having to implement `IXunitSerializable`. Here is a fragment of `IEnumerable<object[]> BookingFlows()` that shows how the two classes are used:
+
+```csharp
+public static class BookingDialogTestsDataGenerator
+{
+    public static IEnumerable<object[]> BookingFlows()
+    {
+        // Create the first test case object
+        var testCaseData = new BookingDialogTestCase
+        {
+            InitialBookingDetails = new BookingDetails(),
+            UtterancesAndReplies = new[,]
+            {
+                { "hi", "Where would you like to travel to?" },
+                { "Seattle", "Where are you traveling from?" },
+                { "New York", "When would you like to travel?" },
+                { "tomorrow", $"Please confirm, I have you traveling to: Seattle from: New York on: {DateTime.Now.AddDays(1):yyyy-MM-dd}. Is this correct? (1) Yes or (2) No" },
+                { "yes", null },
+            },
+            ExpectedBookingDetails = new BookingDetails
+            {
+                Destination = "Seattle",
+                Origin = "New York",
+                TravelDate = $"{DateTime.Now.AddDays(1):yyyy-MM-dd}",
+            }, 
+        };
+        // wrap the test case object into TestDataObject and return it.
+        yield return new object[] { new TestDataObject(testCaseData) };
+
+        // Create the second test case object
+        testCaseData = new BookingDialogTestCase
+        {
+            InitialBookingDetails = new BookingDetails
+            {
+                Destination = "Seattle",
+                Origin = "New York",
+                TravelDate = null,
+            },
+            UtterancesAndReplies = new[,]
+            {
+                { "hi", "When would you like to travel?" },
+                { "tomorrow", $"Please confirm, I have you traveling to: Seattle from: New York on: {DateTime.Now.AddDays(1):yyyy-MM-dd}. Is this correct? (1) Yes or (2) No" },
+                { "yes", null },
+            },
+            ExpectedBookingDetails = new BookingDetails
+            {
+                Destination = "Seattle",
+                Origin = "New York",
+                TravelDate = $"{DateTime.Now.AddDays(1):yyyy-MM-dd}",
+            }, 
+        };
+        // wrap the test case object into TestDataObject and return it.
+        yield return new object[] { new TestDataObject(testCaseData) };
+    }
+}
+```
+
+Once we created an object to store the test data and a class that exposes a collection test cases, we use the XUnit `MemberData` attribute instead of `InlineData` to feed the data into the test:
+
+```csharp
+[Theory]
+[MemberData(nameof(BookingDialogTestsDataGenerator.BookingFlows), MemberType = typeof(BookingDialogTestsDataGenerator))]
+public async Task DialogFlowUseCases(TestDataObject testData)
+{
+    // Get the test data instance from TestDataObject
+    var bookingTestData = testData.GetObject<BookingDialogTestCase>();
+    var sut = new BookingDialog();
+    var testClient = new DialogTestClient(Channels.Test, sut, bookingTestData.InitialBookingDetails);
+
+    // Iterate over the utterances and replies array.
+    for (var i = 0; i < bookingTestData.UtterancesAndReplies.GetLength(0); i++)
+    {
+        var reply = await testClient.SendActivityAsync<IMessageActivity>(bookingTestData.UtterancesAndReplies[i, 0]);
+        Assert.Equal(bookingTestData.UtterancesAndReplies[i, 1], reply?.Text);
+    }
+
+    // Assert the resulting BookingDetails object
+    var bookingResults = (BookingDetails)testClient.DialogTurnResult.Result;
+    Assert.Equal(bookingTestData.ExpectedBookingDetails?.Origin, bookingResults?.Origin);
+    Assert.Equal(bookingTestData.ExpectedBookingDetails?.Destination, bookingResults?.Destination);
+    Assert.Equal(bookingTestData.ExpectedBookingDetails?.TravelDate, bookingResults?.TravelDate);
+}
+```
+
+Here is an example of the results for `DialogFlowUseCases` in Visual Studio test explorer:
+
+![BookingDialogTests](../../../docs/media/CoreBot.Tests/BookingDialogTestsResults.png)
 
 ## Using Mocks
 
