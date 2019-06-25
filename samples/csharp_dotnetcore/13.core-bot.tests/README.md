@@ -397,7 +397,7 @@ public MainDialog()
 }
 ```
 
-We pass an instance of 'BookingDialog' as a constructor parameter
+We pass an instance of `BookingDialog` as a constructor parameter
 
 ```csharp
 public MainDialog(BookingDialog bookingDialog)
@@ -475,7 +475,7 @@ mockRecognizer
     });
 ```
 
-But LUIS results are sometimes complex, in these situations, it simpler to capture the desired result as a json file, add it as an embedded resource to your project and deserialize it into a LUIS result. Here is an example:
+But LUIS results are sometimes complex, in these situations, it is simpler to capture the desired result as a json file, add it as an embedded resource to your project and deserialize it into a LUIS result. Here is an example:
 
 ```csharp
 var mockRecognizer = new Mock<IRecognizer>();
