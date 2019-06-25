@@ -35,7 +35,7 @@ Dialogs are unit tested through the `DialogTestClient` class which provides a me
 
 This class is used to write unit tests for dialogs that test their responses on a turn-by-turn basis. Any dialog built using the botbuilder dialogs library should work.
 
-Here is a simple example on how a test that uses DialogTestClient looks like:
+Here is a simple example on how a test that uses `DialogTestClient` looks like:
 
 ```csharp
 var sut = new BookingDialog();
@@ -60,7 +60,7 @@ reply = testClient.GetNextReply<IMessageActivity>();
 Assert.Equal("All set, I have booked your flight to Seattle for tomorrow", reply.Text);
 ```
 
-The first parameter for `DialogTestClient` is the target channel. This allows you to test different rendering logic based on the target channel for your bot (Teams, Slack, Cortana, etc.). If you are uncertain about your target channel, you can use the Emulator or Test channel ids but keep in mind that some components may behave differently depending on the current channel, for example, ConfirmPrompt renders the Yes/No options differently for the Test and Emulator channels. Your custom dialog may also have conditional logic that you may want to test.
+The first parameter for `DialogTestClient` is the target channel. This allows you to test different rendering logic based on the target channel for your bot (Teams, Slack, Cortana, etc.). If you are uncertain about your target channel, you can use the Emulator or Test channel ids but keep in mind that some components may behave differently depending on the current channel, for example, ConfirmPrompt renders the Yes/No options differently for the Test and Emulator channels. You can also use this parameter to test conditional rendering logic in your dialog based on the channel ID.
 
 The second parameter is an instance of the dialog being tested (Note: **"sut"** stands for "System Under Test", we use this acronym across the tests in this sample).
 
