@@ -66,7 +66,7 @@ The second parameter is an instance of the dialog being tested (Note: **"sut"** 
 
 The `DialogTestClient` constructor provides additional parameters that allows you to further customize the client behavior or pass parameters to the dialog being tested if needed. You can pass initialization data, add custom middlewares or use your own TestAdapter and message processing callback. We use the first two parameters in several tests in this example.
 
-The `SendActivityAsync<IActivity>` method allows you send a text utterance or an IActivity to your dialog and returns the first message sent by it. The `<T>` parameter is used to return a strong typed instance of the reply so you can assert it without having to cast it.
+The `SendActivityAsync<IActivity>` method allows you send a text utterance or an IActivity to your dialog and returns the first message it receives. The `<T>` parameter is used to return a strong typed instance of the reply so you can assert it without having to cast it.
 
 `SendActivityAsync<IActivity>` returns the first reply from the dialog, but in some scenarios your bot may send several messages in response to a single utterance, in this cases `DialogTestClient` will queue the replies and you can use the `GetNextReply<IActivity>` method to pop the next message from the response queue.
 
