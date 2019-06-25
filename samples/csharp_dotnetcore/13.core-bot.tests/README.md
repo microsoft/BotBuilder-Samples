@@ -184,9 +184,9 @@ In most cases the dialog logic is static and the different execution paths in a 
 
 For example, the sample test in the overview section of this documents shows how to test one execution flow, but what happens if the user says no to the confirmation? what if they use a different date?, etc.
 
-In this project, we use Theory tests from XUnit to parameterize tests.
-
 Data driven tests allow us to test all these permutations without having to rewrite the tests.
+
+In this project, we use Theory tests from XUnit to parameterize tests.
 
 ### Theory tests with InlineData
 
@@ -209,9 +209,7 @@ public async Task ShouldBeAbleToCancel()
 }
 ```
 
-Consider now that we need to be able to handle other utterances for cancel: "quit", "never mind" and "stop it"
-
-Rather than writing 3 more repetitive tests for each new utterance, we can refactor the test as a `Theory` test that uses `InlineData` to define the parameters for each test case:
+Consider now that we need to be able to handle other utterances for cancel: "quit", "never mind" and "stop it". Rather than writing 3 more repetitive tests for each new utterance, we can refactor the test as a `Theory` test that uses `InlineData` to define the parameters for each test case:
 
 ```csharp
 [Theory]
@@ -234,21 +232,21 @@ public async Task ShouldBeAbleToCancel(string utterance, string response, string
 }
 ```
 
-The new test will be executed 4 times with the different parameters and each case will show as child item under the `ShouldBeAbleToCancel` test in Visual Studio Test Explorer. If any of them fail like shown below, the developer can right click and debug the scenario that failed rather than re-running the entire set of tests.
+The new test will be executed 4 times with the different parameters and each case will show as a child item under the `ShouldBeAbleToCancel` test in Visual Studio Test Explorer. If any of them fail like shown below, the developer can right click and debug the scenario that failed rather than re-running the entire set of tests.
 
 ![Bot Framework Samples](../../../docs/media/CoreBot.Tests/InlineDataTestResults.png)
 
 ### Data Driven Tests that take complex objects
 
-`InlineData' use useful for small data driven tests that receive simple value type parameters (string, int, etc.).
+`InlineData' is useful for small data driven tests that receive simple value type parameters (string, int, etc.).
 
-The `BookingDialog` receives a `BookingDetails` object and returns a new `BookingDetails` object. A non parameterized version of a test for this dialog would look as follow:
+The `BookingDialog` receives a `BookingDetails` object and returns a new `BookingDetails` object. A non parameterized version of a test for this dialog would look as follows:
 
 ```csharp
 [Fact]
 public async Task DialogFlow()
 {
-    // Arrange
+    // Initial parameters
     var initialBookingDetails = new BookingDetails
     {
         Origin = "Seattle",
@@ -256,6 +254,7 @@ public async Task DialogFlow()
         TravelDate = null,
     };
 
+    // Expected booking details
     var expectedBookingDetails = new BookingDetails
     {
         Origin = "Seattle",
@@ -349,7 +348,7 @@ public static class BookingDialogTestsDataGenerator
 }
 ```
 
-Once we created an object to store the test data and a class that exposes a collection test cases, we use the XUnit `MemberData` attribute instead of `InlineData` to feed the data into the test:
+Once we created an object to store the test data and a class that exposes a collection test cases, we use the XUnit `MemberData` attribute instead of `InlineData` to feed the data into the test, the first parameter for `MemeberData` is the name of the static function that returns the collection of test cases and the second attribute is the type of the class that exposes this method.
 
 ```csharp
 [Theory]
