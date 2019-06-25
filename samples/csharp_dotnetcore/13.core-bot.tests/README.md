@@ -180,19 +180,17 @@ For additional information on sending test output to the console when using XUni
 
 ## Data Driven Tests
 
-In most cases the dialog logic is static and the different execution paths in a conversation are based on the user utterances. Rather than writing a single unit test for each variant in the conversation it is easier to use data driven tests.
+In most cases the dialog logic is static and the different execution paths in a conversation are based on the user utterances. Rather than writing a single unit test for each variant in the conversation it is easier to use data driven tests (also known as parametrized test).
 
 In this project, we use Theory tests from XUnit to parameterize tests.
 
-For example, consider the test described in the overview section and imagine that we need to test multiple use cases, what happens if the user says no to the confirmation? what if they use a different date?, etc.
+For example, the sample test in the overview section of this documents shows how to test one execution flow, but what happens if the user says no to the confirmation? what if they use a different date?, etc.
 
-Data driven tests allow us to test all this permutations without having to rewrite the tests.
-
-This project uses XUnit Theory tests that allow us to create data driven tests (also known as parametrized test).
+Data driven tests allow us to test all these permutations without having to rewrite the tests.
 
 ### Theory tests with InlineData
 
-The following test checks that a dialog gets cancelled with the user says "cancel".
+The following test checks that a dialog gets cancelled when the user says "cancel".
 
 ```csharp
 [Fact]
