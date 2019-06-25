@@ -348,7 +348,7 @@ public static class BookingDialogTestsDataGenerator
 }
 ```
 
-Once we created an object to store the test data and a class that exposes a collection of test cases, we use the XUnit `MemberData` attribute instead of `InlineData` to feed the data into the test, the first parameter for `MemeberData` is the name of the static function that returns the collection of test cases and the second attribute is the type of the class that exposes this method.
+Once we created an object to store the test data and a class that exposes a collection of test cases, we use the XUnit `MemberData` attribute instead of `InlineData` to feed the data into the test, the first parameter for `MemberData` is the name of the static function that returns the collection of test cases and the second attribute is the type of the class that exposes this method.
 
 ```csharp
 [Theory]
