@@ -91,6 +91,11 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |year	|Returns year for the given timestamp	|
 |getTimeOfDay	|Returns time of day for a given timestamp (midnight = 12AM, morning = 12:01AM – 11:59PM, noon = 12PM, afternoon = 12:01PM -05:59PM, evening = 06:00PM – 10:00PM, night = 10:01PM – 11:59PM) 	|
 
+### Regex functions
+|Function	|Explanation|
+|-----------|-----------|
+|[isMatch](#isMatch)	|test a given string ia match a common regex pattern	|
+
 <a name="alphabetical-list"></a>
 
 <a name="add"></a>
@@ -1023,6 +1028,39 @@ int('10')
 ```
 
 And returns this result: `10`
+
+<a name="isMatch"></a>
+
+### isMatch
+
+return a given string is match a common regex pattern
+
+```
+isMatch('<target_string>', '<pattern>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*target_string*> | Yes | String | the string to be matched |
+| <*pattern*> | Yes | String | regex pattern |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*boolean-result*> | Boolean | Is the string matched the pattern |
+||||
+
+*Examples*
+
+
+```
+isMatch('ab', '^[a-z]{1,2}$')
+isMatch('FUTURE', '(?i)fortune|future')
+isMatch('12abc34', '([0-9]+)([a-z]+)([0-9]+)')
+isMatch('abacaxc', 'ab.*?c')
+```
+
+And returns the same result: `true`
 
 <a name="join"></a>
 
