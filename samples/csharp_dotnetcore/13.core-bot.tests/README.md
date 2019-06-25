@@ -383,7 +383,9 @@ Here is an example of the results for `DialogFlowUseCases` in Visual Studio Test
 
 Mocks allow us to configure the dependencies of a dialog and ensure they are in a known state during the execution of the test without having to rely on external resources like databases, LUIS models or other objects.
 
-In order to make your dialog easier to test and reduce its dependencies on external objects, you may need to inject the external dependencies that need like to replace by mock objects in the dialog constructor. For example, instead of instantiating `BookingDialog` in `MainDialog`:
+In order to make your dialog easier to test and reduce its dependencies on external objects, you may need to inject the external dependencies in the dialog constructor. 
+
+For example, instead of instantiating `BookingDialog` in `MainDialog`:
 
 ```csharp
 public MainDialog()
