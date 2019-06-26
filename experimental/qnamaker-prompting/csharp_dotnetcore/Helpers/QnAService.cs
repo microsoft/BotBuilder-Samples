@@ -72,7 +72,7 @@ namespace QnAPrompting.Helpers
             var endpoint = new QnAMakerEndpoint
             {
                 KnowledgeBaseId = configuration["QnAKnowledgebaseId"],
-                EndpointKey = configuration["QnAAuthKey"],
+                EndpointKey = configuration["QnAEndpointKey"],
                 Host = hostname
             };
 

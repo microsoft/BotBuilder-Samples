@@ -32,7 +32,7 @@ namespace Microsoft.BotBuilderSamples
             var qnaMaker = new QnAMaker(new QnAMakerEndpoint
             {
                 KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
-                EndpointKey = _configuration["QnAAuthKey"],
+                EndpointKey = _configuration["QnAEndpointKey"],
                 Host = _configuration["QnAEndpointHostName"]
             },
             null,
