@@ -11,12 +11,12 @@ namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, TranslationMiddleware translationMiddleware)
-            : base(credentialProvider)
+        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
+            : base(configuration, logger)
         {
-            if (credentialProvider == null)
+            if (configuration == null)
             {
-                throw new NullReferenceException(nameof(credentialProvider));
+                throw new NullReferenceException(nameof(configuration));
             }
 
             if (logger == null)
@@ -31,7 +31,7 @@ namespace Microsoft.BotBuilderSamples
 
             // Add translation middleware to the adapter's middleware pipeline
             Use(translationMiddleware);
-           
+
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.
@@ -39,7 +39,24 @@ namespace Microsoft.BotBuilderSamples
 
                 // Send a catch-all apology to the user.
                 await turnContext.SendActivityAsync("Sorry, it looks like something went wrong.");
+
+                if (conversationState != null)
+                {
+                    try
+                    {
+                        // Delete the conversationState for the current conversation to prevent the
+                        // bot from getting stuck in a error-loop caused by being in a bad state.
+                        // ConversationState should be thought of as similar to "cookie-state" in a Web pages.
+                        await conversationState.DeleteAsync(turnContext);
+                    }
+                    catch (Exception e)
+                    {
+                        logger.LogError($"Exception caught on attempting to Delete ConversationState : {e.Message}");
+                    }
+                }
             };
         }
+
+
     }
 }
