@@ -8,7 +8,7 @@ class QnAServiceHelper {
 
         const endpoint = process.env.QnAEndpointHostName;
         const kbId = process.env.QnAKnowledgebaseId;
-        const key = process.env.QnAAuthKey;
+        const key = process.env.QnAEndpointKey;
 
         const url =  `${ endpoint }/qnamaker/knowledgebases/${ kbId }/generateanswer`;
         const headers = {

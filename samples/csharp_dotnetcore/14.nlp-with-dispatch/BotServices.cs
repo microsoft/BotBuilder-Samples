@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples
             SampleQnA = new QnAMaker(new QnAMakerEndpoint
             {
                 KnowledgeBaseId = configuration["QnAKnowledgebaseId"],
-                EndpointKey = configuration["QnAAuthKey"],
+                EndpointKey = configuration["QnAEndpointKey"],
                 Host = configuration["QnAEndpointHostName"]
             });
         }

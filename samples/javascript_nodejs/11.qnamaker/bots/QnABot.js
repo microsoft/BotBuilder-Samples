@@ -18,7 +18,7 @@ class QnABot extends ActivityHandler {
         try {
             this.qnaMaker = new QnAMaker({
                 knowledgeBaseId: process.env.QnAKnowledgebaseId,
-                endpointKey: process.env.QnAAuthKey,
+                endpointKey: process.env.QnAEndpointKey,
                 host: process.env.QnAEndpointHostName
             });
         } catch (err) {

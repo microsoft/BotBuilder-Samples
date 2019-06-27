@@ -26,7 +26,7 @@ class DispatchBot extends ActivityHandler {
 
         const qnaMaker = new QnAMaker({
             knowledgeBaseId: process.env.QnAKnowledgebaseId,
-            endpointKey: process.env.QnAAuthKey,
+            endpointKey: process.env.QnAEndpointKey,
             host: process.env.QnAEndpointHostName
         });
 
