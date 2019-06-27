@@ -99,7 +99,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     // TODO: Handle other events that you're interested in...
                 }
             }
-            catch(JsonSerializationException e)
+            catch(JsonSerializationException)
             {
                 if (turnContext.Activity.ChannelId != Bot.Connector.Channels.Facebook)
                 {
@@ -110,7 +110,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     throw;
                 }
             }
-          
+
             return false;
         }
 
@@ -119,6 +119,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             Logger.LogInformation("Optin message received.");
 
             // TODO: Your optin event handling logic here...
+            await Task.CompletedTask;
         }
 
         protected virtual async Task OnFacebookEcho(ITurnContext turnContext, FacebookMessage facebookMessage, CancellationToken cancellationToken)
@@ -126,6 +127,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             Logger.LogInformation("Echo message received.");
 
             // TODO: Your echo event handling logic here...
+            await Task.CompletedTask;
         }
 
         protected virtual async Task OnFacebookPostBack(ITurnContext turnContext, FacebookPostback postBack, CancellationToken cancellationToken)
@@ -175,7 +177,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                                         new CardAction() { Title = "No", Type = ActionTypes.PostBack, Value = "No" },
                                     },
                         };
-                        
+
                         var reply = MessageFactory.Attachment(card.ToAttachment());
                         await turnContext.SendActivityAsync(reply, cancellationToken);
 
