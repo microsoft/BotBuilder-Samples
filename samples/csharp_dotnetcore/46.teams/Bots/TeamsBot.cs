@@ -13,9 +13,9 @@ namespace Microsoft.BotBuilderSamples
 {
     // This bot is derived (view DialogBot<T>) from the TeamsACtivityHandler class currently included as part of this sample.
 
-    public class AuthBot<T> : DialogBot<T> where T : Dialog
+    public class TeamsBot<T> : DialogBot<T> where T : Dialog
     {
-        public AuthBot(ConversationState conversationState, UserState userState, T dialog, ILogger<DialogBot<T>> logger)
+        public TeamsBot(ConversationState conversationState, UserState userState, T dialog, ILogger<DialogBot<T>> logger)
             : base(conversationState, userState, dialog, logger)
         {
         }
@@ -48,8 +48,9 @@ namespace Microsoft.BotBuilderSamples
         {
             // Teams supports Message Reactions. There arrive as strings in the type property e.g. like, angry, sad etc.
             // The Message Reaction refers to a Message Activity the bot had previously sent and it contains the id of
-            // that Activity in the replyToId property. This id is created by Teams and given to the bot in the
-            // response to the send call. The bot is expected to have saved that id in it conversation state.
+            // that Activity in the replyToId property. This id is created by Teams and given to the bot in the response to the
+            // send call. The bot is free to save that id in its conversation state though perhaps a more robust solution would
+            // be to use the Microsoft Teams activity feed. (https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/activity-feed)
 
             foreach (var messageReaction in messageReactions)
             {
