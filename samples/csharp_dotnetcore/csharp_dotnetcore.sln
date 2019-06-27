@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StateMangementBot", "45.sta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoBot", "02.echo-bot\EchoBot.csproj", "{586D7BC9-1A3B-4056-BD34-E83242524822}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Teams", "46.teams\Teams.csproj", "{07222D69-66F9-462E-9BBD-43770579697A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +143,10 @@ Global
 		{586D7BC9-1A3B-4056-BD34-E83242524822}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{586D7BC9-1A3B-4056-BD34-E83242524822}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{586D7BC9-1A3B-4056-BD34-E83242524822}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07222D69-66F9-462E-9BBD-43770579697A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07222D69-66F9-462E-9BBD-43770579697A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07222D69-66F9-462E-9BBD-43770579697A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07222D69-66F9-462E-9BBD-43770579697A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
