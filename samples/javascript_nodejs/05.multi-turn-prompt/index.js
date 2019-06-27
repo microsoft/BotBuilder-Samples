@@ -41,12 +41,9 @@ const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
-// Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
-const logger = console;
-
 // Create the main dialog.
-const dialog = new UserProfileDialog(userState, logger);
-const bot = new DialogBot(conversationState, userState, dialog, logger);
+const dialog = new UserProfileDialog(userState);
+const bot = new DialogBot(conversationState, userState, dialog);
 
 // Create HTTP server.
 let server = restify.createServer();

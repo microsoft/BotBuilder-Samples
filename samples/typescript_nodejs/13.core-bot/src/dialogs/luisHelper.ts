@@ -6,15 +6,13 @@ import { BookingDetails } from './bookingDetails';
 import { RecognizerResult, TurnContext } from 'botbuilder';
 
 import { LuisRecognizer } from 'botbuilder-ai';
-import { Logger } from '../logger';
 
 export class LuisHelper {
     /**
      * Returns an object with preformatted LUIS results for the bot's dialogs to consume.
-     * @param {Logger} logger
      * @param {TurnContext} context
      */
-    public static async executeLuisQuery(logger: Logger, context: TurnContext): Promise<BookingDetails> {
+    public static async executeLuisQuery(context: TurnContext): Promise<BookingDetails> {
         const bookingDetails = new BookingDetails();
 
         try {
@@ -41,7 +39,7 @@ export class LuisHelper {
                 bookingDetails.travelDate = LuisHelper.parseDatetimeEntity(recognizerResult);
             }
         } catch (err) {
-            logger.warn(`LUIS Exception: ${ err } Check your LUIS configuration`);
+            console.warn(`LUIS Exception: ${ err } Check your LUIS configuration`);
         }
         return bookingDetails;
     }

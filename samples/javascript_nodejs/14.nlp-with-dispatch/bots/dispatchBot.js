@@ -5,15 +5,8 @@ const { ActivityHandler } = require('botbuilder');
 const { LuisRecognizer, QnAMaker } = require('botbuilder-ai');
 
 class DispatchBot extends ActivityHandler {
-    /**
-     * @param {any} logger object for logging events, defaults to console if none is provided
-     */
-    constructor(logger) {
+    constructor() {
         super();
-        if (!logger) {
-            logger = console;
-            logger.log('[DispatchBot]: logger not passed in, defaulting to console');
-        }
 
         const dispatchRecognizer = new LuisRecognizer({
             applicationId: process.env.LuisAppId,
@@ -30,12 +23,11 @@ class DispatchBot extends ActivityHandler {
             host: process.env.QnAEndpointHostName
         });
 
-        this.logger = logger;
         this.dispatchRecognizer = dispatchRecognizer;
         this.qnaMaker = qnaMaker;
 
         this.onMessage(async (context, next) => {
-            this.logger.log('Processing Message Activity.');
+            console.log('Processing Message Activity.');
 
             // First, we use the dispatch model to determine which cognitive service (LUIS or QnA) to use.
             const recognizerResult = await dispatchRecognizer.recognize(context);
@@ -76,14 +68,14 @@ class DispatchBot extends ActivityHandler {
             await this.processSampleQnA(context);
             break;
         default:
-            this.logger.log(`Dispatch unrecognized intent: ${ intent }.`);
+            console.log(`Dispatch unrecognized intent: ${ intent }.`);
             await context.sendActivity(`Dispatch unrecognized intent: ${ intent }.`);
             break;
         }
     }
 
     async processHomeAutomation(context, luisResult) {
-        this.logger.log('processHomeAutomation');
+        console.log('processHomeAutomation');
 
         // Retrieve LUIS result for Process Automation.
         const result = luisResult.connectedServiceResult;
@@ -98,7 +90,7 @@ class DispatchBot extends ActivityHandler {
     }
 
     async processWeather(context, luisResult) {
-        this.logger.log('processWeather');
+        console.log('processWeather');
 
         // Retrieve LUIS results for Weather.
         const result = luisResult.connectedServiceResult;
@@ -113,7 +105,7 @@ class DispatchBot extends ActivityHandler {
     }
 
     async processSampleQnA(context) {
-        this.logger.log('processSampleQnA');
+        console.log('processSampleQnA');
 
         const results = await this.qnaMaker.getAnswers(context);
 
