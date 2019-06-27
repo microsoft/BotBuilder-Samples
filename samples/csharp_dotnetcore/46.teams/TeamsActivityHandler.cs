@@ -80,7 +80,8 @@ namespace Microsoft.BotBuilderSamples
             return Task.CompletedTask;
         }
 
-        //TODO: REMOVE THE FOLLOWING CODE. (In 4.5 this class will be protected in ActivityHandler and so available to use here in this class.)
+        // TODO: REMOVE THE FOLLOWING CODE. (This code is currently a private member of ActivityHandler in 4.4 but will be made public in 4.5. It is
+        // temporarily available to use here in this class.)
 
         /// <summary>
         /// A TurnContext with a strongly typed Activity property that wraps an untyped inner TurnContext.

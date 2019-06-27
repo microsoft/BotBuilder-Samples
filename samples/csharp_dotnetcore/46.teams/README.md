@@ -1,10 +1,20 @@
 ﻿# bot authentication
 
-Bot Framework v4 bot authentication sample
+Bot Framework v4 bot Teams sample
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use authentication in your bot using OAuth.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to get started with building a bot for Teams.
 
-The sample uses the bot authentication capabilities in [Azure Bot Service](https://docs.botframework.com), providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc.
+At this stage the primary focus of this sample is how to use the Bot Framework support for oauth in your bot. The reason for prioritizing this is that Teams behaves slightly differently
+than other channels in this regard. Specifically an Invoke Activity is sent to the bot rather than the Event Activity used by other channels. _This Invoke Activity must be forwarded
+to the dialog if the OAuthPrompt is being used._ This is done by subclassing the ActivityHandler and this sample includes a reusable TeamsActivityHandler. This class is a candidate
+for future inclusion in the Bot Teams SDK.
+
+The Teams channel is also capable of sending Message Reaction Activities and virtual methods for these are included in the TeamsActivityHandler. A Message Reaction Activity references
+the original Activity using the replyToId. This id would have actually been the value returned from a previous Message Activity the bot had sent. This activity should also be
+visible through the Activity Feed in Microsoft Teams, documentation for which can be found here https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/activity-feed
+
+The sample uses the bot authentication capabilities in [Azure Bot Service](https://docs.botframework.com), providing features to make it easier to develop a bot that authenticates
+users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc.
 
 ## Prerequisites
 
@@ -29,7 +39,7 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
 
 After Authentication has been configured via Azure Bot Service, you can test the bot.
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/18.bot-authentication`
+- In a terminal, navigate to `samples/csharp_dotnetcore/46.teams`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -43,8 +53,8 @@ After Authentication has been configured via Azure Bot Service, you can test the
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/18.bot-authentication` folder
-  - Select `AuthenticationBot.csproj` file
+  - Navigate to `samples/csharp_dotnetcore/46.teams` folder
+  - Select `Teams.csproj` file
   - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
@@ -81,3 +91,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Azure Portal](https://portal.azure.com)
 - [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
+- [Microsoft Teams Developer Platform](https://docs.microsoft.com/en-us/microsoftteams/platform/)
