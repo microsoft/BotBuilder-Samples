@@ -20,10 +20,31 @@ namespace Microsoft.BotBuilderSamples
                 Generator = new ResourceMultiLanguageGenerator("FindCalendarWho.lg"),
                 Steps = new List<IDialog>()
                 {
+                    new OAuthPrompt("OAuthPrompt",
+                        new OAuthPromptSettings()
+                        {
+                            Text = "Please log in to your calendar account",
+                            ConnectionName = "msgraph",
+                            Title = "Sign in",
+                        }
+                    ){
+                        Property = "dialog.token"
+                    },
+
+                    new HttpRequest(){
+                        Url = "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={utcNow()}&enddatetime={addDays(utcNow(), 1)}",
+                        Method = HttpRequest.HttpMethod.GET,
+                        Headers =  new Dictionary<string, string>()
+                        {
+                            ["Authorization"] = "Bearer {dialog.token.Token}",
+                        },
+                        Property = "dialog.FindCalendarWho_GraphAll"
+                    },
+
                     // Handle case where there are no items in todo list
                     new IfCondition()
                     {
-                        Condition = new ExpressionEngine().Parse("user.Entries == null || count(user.Entries) <= 0"),
+                        Condition = new ExpressionEngine().Parse("dialog.FindCalendarWho_GraphAll.value == null || count(dialog.FindCalendarWho_GraphAll.value) <= 0"),
                         Steps = new List<IDialog>()
                         {
                             new SendActivity("[ViewEmptyList]"),
@@ -57,19 +78,19 @@ namespace Microsoft.BotBuilderSamples
 
                     new Foreach()
                     {
-                        ListProperty = new ExpressionEngine().Parse("user.Entries"),
+                        ListProperty = new ExpressionEngine().Parse("dialog.FindCalendarWho_GraphAll.value"),
                         Steps = new List<IDialog>()
                         {
                             new IfCondition()
                             {
-                                Condition = new ExpressionEngine().Parse("user.Entries[dialog.index].personname == dialog.findCalendarWho_entryName"),
+                                Condition = new ExpressionEngine().Parse("dialog.FindCalendarWho_GraphAll.value[dialog.index].attendees[0].emailAddress.address == dialog.findCalendarWho_entryName"),
                                 Steps = new List<IDialog>(){
-                                    new EditArray()
-                                    {
-                                        Value = new ExpressionEngine().Parse("user.Entries[dialog.index]"),
+                                    new EditArray(){
                                         ArrayProperty = "dialog.findCalendarWho_found",
-                                        ChangeType = EditArray.ArrayChangeType.Push
+                                        ChangeType = EditArray.ArrayChangeType.Push,
+                                        Value = new ExpressionEngine().Parse("dialog.FindCalendarWho_GraphAll.value[dialog.index]")
                                     },
+                                    new SendActivity("[entryTemplate]")
                                 }
                             }
                         }
@@ -77,19 +98,16 @@ namespace Microsoft.BotBuilderSamples
 
                     new IfCondition()
                     {
-                        Condition = new ExpressionEngine().Parse("dialog.findCalendarWho_found != null && count(dialog.findCalendarWho_found) > 0"),
+                        Condition = new ExpressionEngine().Parse("dialog.findCalendarWho_found == null || count(dialog.findCalendarWho_found) <= 0"),
                         Steps = new List<IDialog>(){
-                            new SendActivity("[ViewEntries]"),
-                            new SendActivity("[Welcome-Actions]"),
-                            new EndDialog()
-                        },
-                        ElseSteps = new List<IDialog>(){
                             new SendActivity("We could not find any entries, sorry"),
                             new SendActivity("[Welcome-Actions]"),
                             new EndDialog()
                         }
 
-                    }
+                    },
+                    new SendActivity("[Welcome-Actions]"),
+                    new EndDialog()
                 }
             };
 

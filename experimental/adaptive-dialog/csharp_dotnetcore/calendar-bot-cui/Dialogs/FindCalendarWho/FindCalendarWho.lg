@@ -1,4 +1,13 @@
-﻿# ViewEntries
+﻿#entryTemplate
+- ```
+- Entry @{dialog.index}: 
+Subject: @{dialog.FindCalendarWho_GraphAll.value[dialog.index].subject}
+Start time: @{dialog.FindCalendarWho_GraphAll.value[dialog.index].start.dateTime}
+End time: @{dialog.FindCalendarWho_GraphAll.value[dialog.index].end.dateTime}
+Attendees: @{dialog.FindCalendarWho_GraphAll.value[dialog.index].attendees[0].emailAddress.address}
+```
+
+# ViewEntries
 - ```
 You have @{count(dialog.findCalendarWho_found)} @{lgTemplate("Items-Ordinality")} in your calendar.
 - @{join(dialog.findCalendarWho_found, '\r\n- ')}

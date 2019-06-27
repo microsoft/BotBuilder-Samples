@@ -1,7 +1,7 @@
 # ViewEntries
 - ```
-You have @{count(user.Entries)} @{lgTemplate("Items-Ordinality")} in your calendar.
-- @{join(user.Entries, '\r\n- ')}
+You have @{count(dialog.FindCalendarEntry_GraphAll)} @{lgTemplate("Items-Ordinality")} in your calendar.
+- @{join(dialog.FindCalendarEntry_GraphAll, '\r\n- ')}
 @{lgTemplate("Welcome-Actions")}
 ```
 
@@ -12,7 +12,7 @@ You do not have any entries in your calendar.
 ```
 
 # Items-Ordinality
-- IF: {user.Entries != null && count(user.Entries) == 1}
+- IF: {dialog.FindCalendarEntry_GraphAll != null && countdialog.FindCalendarEntry_GraphAll) == 1}
     - item
 - ELSE:
     - items
@@ -20,3 +20,13 @@ You do not have any entries in your calendar.
 > Escape suggestion actions without which [] will be treated as template reference.
 # Welcome-Actions
 - \[Suggestions=View Calendar Entry | Create Calendar Entry | Delete Calendar Entry | Find Calendar Who | Accept Calendar Entry | Help\]
+
+#entryTemplate
+- ```
+- Entry @{dialog.index}: 
+Subject: @{dialog.FindCalendarEntry_GraphAll.value[dialog.index].subject}
+Start time: @{dialog.FindCalendarEntry_GraphAll.value[dialog.index].start.dateTime}
+End time: @{dialog.FindCalendarEntry_GraphAll.value[dialog.index].end.dateTime}
+Attendees: @{dialog.FindCalendarEntry_GraphAll.value[dialog.index].attendees[0].emailAddress.address}
+```
+

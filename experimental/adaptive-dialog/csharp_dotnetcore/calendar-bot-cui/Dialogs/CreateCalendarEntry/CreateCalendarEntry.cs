@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
@@ -10,6 +11,8 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Expressions;
 using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Connector.Authentication;
+using Newtonsoft.Json.Linq;
 
 /// <summary>
 /// Known bug
@@ -77,11 +80,11 @@ namespace Microsoft.BotBuilderSamples
                     //    Prompt = new ActivityTemplate("[GetToDate]")
                     //},
                     // uncomment to prompt user to enter more information
-                    //new TextInput()
-                    //{
-                    //    Property = "dialog.createCalendarEntry.ToTime",
-                    //    Prompt = new ActivityTemplate("[GetToTime]")
-                    //},
+                    new TextInput()
+                    {
+                        Property = "dialog.createCalendarEntry.ToTime",
+                        Prompt = new ActivityTemplate("[GetToTime]")
+                    },
                     //new TextInput()
                     //{
                     //    Property = "dialog.createCalendarEntry.Location",
@@ -111,7 +114,42 @@ namespace Microsoft.BotBuilderSamples
                     //},
                     //new SendActivity("Focus Completed"),
                     //new SendActivity("{user.focusEntry}"),
-
+                    new OAuthPrompt("OAuthPrompt",
+                        new OAuthPromptSettings()
+                        {
+                            Text = "Please log in to your calendar account",
+                            ConnectionName = "msgraph",
+                            Title = "Sign in",
+                        }
+                    ){  
+                        Property = "dialog.token"// not sure it is here or not
+                    },
+                    new HttpRequest(){
+                        Property = "user.createResponse",
+                        Method = HttpRequest.HttpMethod.POST,
+                        Url = "https://graph.microsoft.com/v1.0/me/events",
+                        Headers =  new Dictionary<string, string>(){
+                            ["Authorization"] = "Bearer {dialog.token.Token}",
+                        },
+                        Body = JObject.Parse(@"{
+                            'subject': '{dialog.createCalendarEntry.Subject}',
+                            'attendees': [
+                              {
+                                'emailAddress': {
+                                  'address': '{dialog.createCalendarEntry.PersonName}'
+                                }
+                                }
+                            ],
+                            'start': {
+                              'dateTime': '{dialog.createCalendarEntry.FromTime}',
+                              'timeZone': 'UTC'
+                            },
+                            'end': {
+                              'dateTime': '{dialog.createCalendarEntry.ToTime}',
+                              'timeZone': 'UTC'
+                            }
+                        }")
+                    },                                 
                     new SetProperty()
                     {
                         Property = "dialog.createCalendarEntry.accept",

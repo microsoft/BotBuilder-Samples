@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Expressions;
 using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -21,10 +22,31 @@ namespace Microsoft.BotBuilderSamples
                 Generator = new ResourceMultiLanguageGenerator("AcceptCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
+                    new OAuthPrompt("OAuthPrompt",
+                        new OAuthPromptSettings()
+                        {
+                            Text = "Please log in to your calendar account",
+                            ConnectionName = "msgraph",
+                            Title = "Sign in",
+                        }
+                    ){
+                        Property = "dialog.token"
+                    },
+
+                    new HttpRequest(){
+                        Url = "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={utcNow()}&enddatetime={addDays(utcNow(), 1)}",
+                        Method = HttpRequest.HttpMethod.GET,
+                        Headers =  new Dictionary<string, string>()
+                        {
+                            ["Authorization"] = "Bearer {dialog.token.Token}",
+                        },
+                        Property = "dialog.acceptCalendarEntry_graphAll"
+                    },
+
                     // Handle case where there are no items in todo list
                     new IfCondition()
                     {
-                        Condition = new ExpressionEngine().Parse("user.Entries == null || count(user.Entries) <= 0"),
+                        Condition = new ExpressionEngine().Parse("dialog.acceptCalendarEntry_graphAll == null || count(dialog.acceptCalendarEntry_graphAll) <= 0"),
                         Steps = new List<IDialog>()
                         {
                             new SendActivity("[AccpetEmptyList]"),
@@ -36,64 +58,79 @@ namespace Microsoft.BotBuilderSamples
                     // new SaveEntity("@Subject[0]", "dialog.deleteCalendarEntry_entrySubject"),                    
                     // new CodeStep(GetToDoTitleToDelete),
                    
-                    //new IfCondition()
-                    //{
-                    //    Steps = new List<IDialog>()
-                    //    {
                     new BeginDialog(nameof(FindCalendarEntry)),
-                    new TextInput() //TODO BUGS exist here wil jump and without prompting users
+                    new TextInput()
                     {
                         Property = "dialog.acceptCalendarEntry_entrySubject",
-                        Prompt = new ActivityTemplate("[GetEntryTitleToDelete]"),
+                        Prompt = new ActivityTemplate("[GetEntryTitleToAccept]"),
                     },
-                    //    }
+
+                    //new InitProperty()
+                    //{
+                    //    Property = "dialog.afterAccepted",
+                    //    Type = "array"
                     //},
 
-                    new InitProperty()
-                    {
-                        Property = "dialog.afterAccepted",
-                        Type = "array"
-                    },
+                    //new SendActivity("{dialog.acceptCalendarEntry_graphAll.value}"),
 
                     new Foreach()
                     {
-                        ListProperty = new ExpressionEngine().Parse("user.Entries"),
+                        ListProperty = new ExpressionEngine().Parse("dialog.acceptCalendarEntry_graphAll.value"),
                         Steps = new List<IDialog>()
                         {
                             new IfCondition()
                             {
-                                Condition = new ExpressionEngine().Parse("user.Entries[dialog.index].subject == dialog.acceptCalendarEntry_entrySubject"),
+                                Condition = new ExpressionEngine().Parse("dialog.acceptCalendarEntry_graphAll.value[dialog.index].subject == dialog.acceptCalendarEntry_entrySubject"),
                                 Steps = new List<IDialog>(){
-                                    new SetProperty(){
-                                        Property = "dialog.temp",
-                                        Value = new ExpressionEngine().Parse("user.Entries[dialog.index]")                                        
-                                    },
-                                    new SetProperty(){
-                                        Property = "dialog.temp.accept",
-                                        Value = new ExpressionEngine().Parse("'accepted'") // TODO this would not set the property
-                                    },
-                                    new EditArray(){
-                                        Value = new ExpressionEngine().Parse("dialog.temp"),
-                                        ArrayProperty = "dialog.afterAccepted",
-                                        ChangeType = EditArray.ArrayChangeType.Push
-                                    },
-                                    new SendActivity("[AcceptReadBack]")
-                                },
-                                ElseSteps = new List<IDialog>(){
-                                    new EditArray(){
-                                        Value = new ExpressionEngine().Parse("user.Entries[dialog.index]"),
-                                        ArrayProperty = "dialog.afterAccepted",
-                                        ChangeType = EditArray.ArrayChangeType.Push
+                                    //new SetProperty(){
+                                    //    Property = "dialog.temp",
+                                    //    Value = new ExpressionEngine().Parse("user.Entries[dialog.index]")                                        
+                                    //},
+                                    //new SetProperty(){
+                                    //    Property = "dialog.temp.accept",
+                                    //    Value = new ExpressionEngine().Parse("'accepted'")
+                                    //},
+                                    //new EditArray(){
+                                    //    Value = new ExpressionEngine().Parse("dialog.temp"),
+                                    //    ArrayProperty = "dialog.afterAccepted",
+                                    //    ChangeType = EditArray.ArrayChangeType.Push
+                                    //},
+                                    new IfCondition()
+                                    {
+                                        Condition = new ExpressionEngine().Parse("dialog.acceptCalendarEntry_graphAll.value[dialog.index].isOrganizer != true"),
+                                        Steps = new List<IDialog>(){
+                                            new HttpRequest(){// TODO bug exsits below
+                                                Property = "user.acceptResponse",
+                                                Method = HttpRequest.HttpMethod.POST,
+                                                Url = "https://graph.microsoft.com/v1.0/me/events/{dialog.acceptCalendarEntry_graphAll.value[dialog.index].id}/accept",
+                                                Headers =  new Dictionary<string, string>()
+                                                {
+                                                    ["Authorization"] = "Bearer {dialog.token.Token}",
+                                                }
+                                            },
+                                            new SendActivity("[AcceptReadBack]")
+                                        },
+                                        ElseSteps = new List<IDialog>(){
+                                            new SendActivity("Your request can't be completed. You can't respond to this meeting because you're the meeting organizer.")
+                                        }
+
                                     }
                                 }
+                                //ElseSteps = new List<IDialog>(){
+                                //    new EditArray(){
+                                //        Value = new ExpressionEngine().Parse("user.Entries[dialog.index]"),
+                                //        ArrayProperty = "dialog.afterAccepted",
+                                //        ChangeType = EditArray.ArrayChangeType.Push
+                                //    }
+                                //}
                             }
                         }
                     },
 
-                    new SetProperty(){
-                        Property = "user.Entries",
-                        Value = new ExpressionEngine().Parse("dialog.afterAccepted")
-                    },
+                    //new SetProperty(){
+                    //    Property = "user.Entries",
+                    //    Value = new ExpressionEngine().Parse("dialog.afterAccepted")
+                    //},
 
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()

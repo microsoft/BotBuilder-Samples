@@ -18,17 +18,46 @@ namespace Microsoft.BotBuilderSamples
                 Generator = new ResourceMultiLanguageGenerator("FindCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
+                    new OAuthPrompt("OAuthPrompt",
+                        new OAuthPromptSettings()
+                        {
+                            Text = "Please log in to your calendar account",
+                            ConnectionName = "msgraph",
+                            Title = "Sign in",
+                        }
+                    ){
+                        Property = "dialog.token"
+                    },
+
+                    new HttpRequest(){
+                        Url = "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={utcNow()}&enddatetime={addDays(utcNow(), 1)}",
+                        Method = HttpRequest.HttpMethod.GET,
+                        Headers =  new Dictionary<string, string>()
+                        {
+                            ["Authorization"] = "Bearer {dialog.token.Token}",
+                        },
+                        Property = "dialog.FindCalendarEntry_GraphAll"
+                    },
+
                     new IfCondition()
                     {
-                        Condition = new ExpressionEngine().Parse("user.Entries != null && count(user.Entries) > 0"),
+                        Condition = new ExpressionEngine().Parse("dialog.FindCalendarEntry_GraphAll.value != null && count(dialog.FindCalendarEntry_GraphAll.value) > 0"),
                         Steps = new List<IDialog>()
                         {
-                            new SendActivity("[ViewEntries]"),
+                            //new SendActivity("[ViewEntries]"),
+                            new Foreach(){
+                                ListProperty = new ExpressionEngine().Parse("dialog.FindCalendarEntry_GraphAll.value"),
+                                Steps = new List<IDialog>(){
+                                    new SendActivity("[entryTemplate]")
+                                }
+                            },
+                            new SendActivity("[Welcome-Actions]"),
                             new EndDialog()
                         },
                         ElseSteps = new List<IDialog>
                         {
                             new SendActivity("[NoEntries]"),
+                            new SendActivity("[Welcome-Actions]"),
                             new EndDialog()
                         }
                     }
