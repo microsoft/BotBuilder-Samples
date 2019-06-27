@@ -20,9 +20,8 @@ class MultilingualBot extends ActivityHandler {
      * Creates a Multilingual bot.
      * @param {Object} userState User state object.
      * @param {Object} languagePreferenceProperty Accessor for language preference property in the user state.
-     * @param {any} logger object for logging events, defaults to console if none is provided
      */
-    constructor(userState, languagePreferenceProperty, logger) {
+    constructor(userState, languagePreferenceProperty) {
         super();
         if (!userState) {
             throw new Error('[MultilingualBot]: Missing parameter. userState is required');
@@ -30,14 +29,9 @@ class MultilingualBot extends ActivityHandler {
         if (!languagePreferenceProperty) {
             throw new Error('[MultilingualBot]: Missing parameter. languagePreferenceProperty is required');
         }
-        if (!logger) {
-            logger = console;
-            logger.log('[MultilingualBot]: logger not passed in, defaulting to console');
-        }
 
         this.userState = userState;
         this.languagePreferenceProperty = languagePreferenceProperty;
-        this.logger = logger;
 
         this.onMembersAdded(async (context, next) => {
             const membersAdded = context.activity.membersAdded;
@@ -54,7 +48,7 @@ class MultilingualBot extends ActivityHandler {
         });
 
         this.onMessage(async (context, next) => {
-            this.logger.log('Running dialog with Message Activity.');
+            console.log('Running dialog with Message Activity.');
 
             if (isLanguageChangeRequested(context.activity.text)) {
                 const currentLang = context.activity.text.toLowerCase();

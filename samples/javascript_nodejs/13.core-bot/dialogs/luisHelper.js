@@ -6,10 +6,9 @@ const { LuisRecognizer } = require('botbuilder-ai');
 class LuisHelper {
     /**
      * Returns an object with preformatted LUIS results for the bot's dialogs to consume.
-     * @param {*} logger
      * @param {TurnContext} context
      */
-    static async executeLuisQuery(logger, context) {
+    static async executeLuisQuery(context) {
         const bookingDetails = {};
 
         try {
@@ -36,7 +35,7 @@ class LuisHelper {
                 bookingDetails.travelDate = LuisHelper.parseDatetimeEntity(recognizerResult);
             }
         } catch (err) {
-            logger.warn(`LUIS Exception: ${ err } Check your LUIS configuration`);
+            console.warn(`LUIS Exception: ${ err } Check your LUIS configuration`);
         }
         return bookingDetails;
     }

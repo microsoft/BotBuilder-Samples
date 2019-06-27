@@ -11,14 +11,8 @@ const MAIN_WATERFALL_DIALOG = 'MainWaterfallDialog';
 const OAUTH_PROMPT = 'OAuthPrompt';
 
 class MainDialog extends LogoutDialog {
-    constructor(logger) {
+    constructor() {
         super(MAIN_DIALOG, process.env.connectionName);
-
-        if (!logger) {
-            logger = console;
-            logger.log('[MainDialog]: logger not passed in, defaulting to console');
-        }
-        this.logger = logger;
 
         this.addDialog(new OAuthPrompt(OAUTH_PROMPT, {
             connectionName: process.env.connectionName,
