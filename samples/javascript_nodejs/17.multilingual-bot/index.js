@@ -49,14 +49,11 @@ const userState = new UserState(memoryStorage);
 
 const languagePreferenceProperty = userState.createProperty(LANGUAGE_PREFERENCE);
 
-// Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
-const logger = console;
-
 const translator = new MicrosoftTranslator(process.env.translatorKey);
 adapter.use(new TranslatorMiddleware(translator, languagePreferenceProperty));
 
 // Create the MultilingualBot.
-const bot = new MultilingualBot(userState, languagePreferenceProperty, logger);
+const bot = new MultilingualBot(userState, languagePreferenceProperty);
 
 // Create HTTP server.
 let server = restify.createServer();

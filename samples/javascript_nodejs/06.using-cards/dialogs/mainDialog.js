@@ -8,15 +8,8 @@ const AdaptiveCard = require('../resources/adaptiveCard.json');
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 
 class MainDialog extends ComponentDialog {
-    constructor(logger) {
+    constructor() {
         super('MainDialog');
-
-        if (!logger) {
-            logger = console;
-            logger.log('[MainDialog]: logger not passed in, defaulting to console');
-        }
-
-        this.logger = logger;
 
         // Define the main dialog and its related components.
         this.addDialog(new ChoicePrompt('cardPrompt'));
@@ -53,7 +46,7 @@ class MainDialog extends ComponentDialog {
      * @param {WaterfallStepContext} stepContext
      */
     async choiceCardStep(stepContext) {
-        this.logger.log('MainDialog.choiceCardStep');
+        console.log('MainDialog.choiceCardStep');
 
         // Create the PromptOptions which contain the prompt and re-prompt messages.
         // PromptOptions also contains the list of choices available to the user.
@@ -73,7 +66,7 @@ class MainDialog extends ComponentDialog {
      * @param {WaterfallStepContext} stepContext
      */
     async showCardStep(stepContext) {
-        this.logger.log('MainDialog.showCardStep');
+        console.log('MainDialog.showCardStep');
 
         switch (stepContext.result.value) {
         case 'Adaptive Card':

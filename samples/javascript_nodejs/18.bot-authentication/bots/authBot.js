@@ -9,10 +9,9 @@ class AuthBot extends DialogBot {
      * @param {ConversationState} conversationState
      * @param {UserState} userState
      * @param {Dialog} dialog
-     * @param {any} logger object for logging events, defaults to console if none is provided
      */
-    constructor(conversationState, userState, dialog, logger) {
-        super(conversationState, userState, dialog, logger);
+    constructor(conversationState, userState, dialog) {
+        super(conversationState, userState, dialog);
 
         this.onMembersAdded(async (context, next) => {
             const membersAdded = context.activity.membersAdded;
@@ -26,7 +25,7 @@ class AuthBot extends DialogBot {
         });
 
         this.onTokenResponseEvent(async (context, next) => {
-            this.logger.log('Running dialog with Token Response Event Activity.');
+            console.log('Running dialog with Token Response Event Activity.');
             await this.dialog.run(context, this.dialogState);
 
             await next();
