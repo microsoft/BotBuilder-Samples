@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Microsoft.BotBuilderSamples.Bots;
 using Microsoft.BotBuilderSamples.Dialogs;
+using Microsoft.Bot.Builder.BotFramework;
 
 namespace Microsoft.BotBuilderSamples
 {
