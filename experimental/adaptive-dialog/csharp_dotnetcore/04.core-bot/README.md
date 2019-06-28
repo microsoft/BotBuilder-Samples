@@ -63,7 +63,7 @@ This bot has been created using [Bot Framework][1], it shows how to:
 
 ## LUIS Setup
 ### Using LUIS portal
-- Navigate and sign in to [Luis.ai][5]
+- Navigate and sign in to [Luis.ai][11]
 - Under "My apps", click on "Import new app"
 - Click on "Choose app file (JSON format) ..."
 - Select `botbuilder-samples/experimental/adaptive-dialog/csharp_dotnetcore/13.core-bot/CognitiveModels/CoreBot.luis.json
@@ -75,8 +75,8 @@ This bot has been created using [Bot Framework][1], it shows how to:
     - You can get your application id and endpoint region by following instructions [here][10]
 
 ### Using CLI
-- Install [nodejs][8] version 8.5 or higher
-- Install [botbuilder-tools][7] CLI
+- Install [nodejs][2] version 8.5 or higher
+- Install [botbuilder-tools][3] CLI
 ```bash
 > npm i -g ludown luis-apis
 ```
@@ -97,13 +97,10 @@ This bot has been created using [Bot Framework][1], it shows how to:
 ```
 
 [1]: https://dev.botframework.com
-[2]: https://azure.microsoft.com/free/
+[2]: https://nodejs.org/en/download/
 [3]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
 [4]: https://dotnet.microsoft.com/download
-[5]: https://github.com/microsoft/botframework-emulator
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
-[7]: https://docs.microsoft.com/cli/azure/?view=azure-cli-latest
-[8]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
 [9]: https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-account-settings
 [10]: https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions
 [11]: https://www.luis.ai
