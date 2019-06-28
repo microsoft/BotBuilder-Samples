@@ -9,19 +9,11 @@ const quickRepliesOption = 'Quick Replies';
 const postBackOption = 'PostBack';
 
 class FacebookBot extends ActivityHandler {
-    /**
-     * @param {any} logger object for logging events, defaults to console if none is provided
-     */
-    constructor(logger) {
+    constructor() {
         super();
-        if (!logger) {
-            logger = console;
-            logger.log('[FacebookEventsBot]: logger not passed in, defaulting to console');
-        }
-        this.logger = logger;
 
         this.onMessage(async (turnContext) => {
-            this.logger.log('Processing a Message Activity.');
+            console.log('Processing a Message Activity.');
 
             // Show choices if the Facebook Payload from ChannelData is not handled
             if (!await this.processFacebookPayload(turnContext, turnContext.activity.channelData)) {
@@ -33,7 +25,7 @@ class FacebookBot extends ActivityHandler {
         });
 
         this.onEvent(async (turnContext) => {
-            this.logger.log('Processing an Event Activity.');
+            console.log('Processing an Event Activity.');
 
             // Analyze Facebook payload from EventActivity.Value
             await this.processFacebookPayload(turnContext, turnContext.activity.value);
@@ -104,7 +96,7 @@ class FacebookBot extends ActivityHandler {
      * @param {Object} turnContext
      */
     async onFacebookPostback(turnContext, postback) {
-        this.logger.log('Postback message received.');
+        console.log('Postback message received.');
         // TODO: Your postBack handling logic here...
 
         // Answer the postback and show choices
@@ -120,7 +112,7 @@ class FacebookBot extends ActivityHandler {
      * @param {Object} turnContext
      */
     async onFacebookEcho(turnContext, facebookMessage) {
-        this.logger.log('Echo message received.');
+        console.log('Echo message received.');
     }
 
     /**
@@ -131,7 +123,7 @@ class FacebookBot extends ActivityHandler {
      * @param {Object} turnContext
      */
     async onFacebookOptin(turnContext, optin) {
-        this.logger.log('Optin message received.');
+        console.log('Optin message received.');
         // TODO: Your optin handling logic here...
     }
 
@@ -143,7 +135,7 @@ class FacebookBot extends ActivityHandler {
      * @param {Object} turnContext
      */
     async onFacebookQuickReply(turnContext, quickReply) {
-        this.logger.log('QuickReply message received.');
+        console.log('QuickReply message received.');
         // TODO: Your QuickReply handling logic here...
 
         // Process the message by checking the Activity.Text.  The FacebookQuickReply could also contain a json payload.
