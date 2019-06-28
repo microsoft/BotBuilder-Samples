@@ -86,11 +86,11 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[formatDateTime](#formatDateTime)	|Return a timestamp in the specified format.|
 |[subtractFromTime](#subtractFromTime)	|Subtract a number of time units from a timestamp.|
 |[utcNow](#utcNow)	|Returns current timestamp as string	|
-|[dateReadBack](#dateReadBack)	|Uses the date-time library to provide a date readback. dateReadBack(currentDate, targetDate). E.g. dateReadBack(‘2016/05/30’,’2016/05/23’)=>"Yesterday"	|
-|month	|Returns the month of given timestamp	|
-|date	|Returns date for a given timestamp	|
-|year	|Returns year for the given timestamp	|
-|getTimeOfDay	|Returns time of day for a given timestamp (midnight = 12AM, morning = 12:01AM – 11:59PM, noon = 12PM, afternoon = 12:01PM -05:59PM, evening = 06:00PM – 10:00PM, night = 10:01PM – 11:59PM) 	|
+|[dateReadBack](#dateReadBack)	|Uses the date-time library to provide a date readback. |
+|[month](#month)	|Returns the month of given timestamp	|
+|[date](#date)	|Returns date for a given timestamp	|
+|[year](#year)	|Returns year for the given timestamp	|
+|[getTimeOfDay](#getTimeOfDay)	|Returns time of day for a given timestamp (midnight = 12AM, morning = 12:01AM – 11:59PM, noon = 12PM, afternoon = 12:01PM -05:59PM, evening = 06:00PM – 10:00PM, night = 10:01PM – 11:59PM) 	|
 |[getFutureTime](#getFutureTime) | Return the current timestamp plus a specified time units.    |
 |[getPastTime](#getPastTime) | Return the current timestamp minus a specified time units.   |
 |[addToTime](#addToTime)    | Add a number of time units to a timestamp.    |
@@ -302,6 +302,9 @@ This example adds the accountNumber property to the customerProfile object, whic
 addProperty(json('customerProfile'), 'accountNumber', guid())
 ```
 
+
+
+
 <a name="addSeconds"></a>
 
 ### addSeconds
@@ -474,6 +477,41 @@ And returns these results:
 * First example: `true`
 * Second example: `false`
 
+<a name="coalesce"></a>
+
+### coalesce
+
+Return the first non-null value from one or more parameters. Empty strings, empty arrays, and empty objects are not null.
+
+```
+coalesce(<object_1>, <object_2>, ...)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*object_1*>, <*object_2*>, ... | Yes | Any, can mix types | One or more items to check for null|
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*first-non-null-item*> | any | The first item or value that is not null. If all parameters are null, this function returns null. |
+||||
+
+*Example*
+These examples return the first non-null value from the specified values, or null when all the values are null:
+```
+coalesce(null, true, false)
+coalesce(null, 'hello', 'world')
+coalesce(null, null, null)
+```
+And returns these results:
+
+- First example: true
+- Second example: "hello"
+- Third example: null
+
+
+
 <a name="contains"></a>
 
 ### contains
@@ -581,7 +619,34 @@ convertFromUTC('2018-02-02T02:00:00.000Z', 'Pacific Standard Time')
 
 And return these results:
 02-01-18
- 2018-02-01T18:00:00.000-08:00
+2018-02-01T18:00:00.000-08:00
+
+<a name="convertToUTC"></a>
+
+### convertToUTC
+Convert a timestamp to Universal Time Coordinated(UTC) from source time zone.
+
+```
+convertToUTC('<timestamp>', '<sourceTimeZone>', '<format>'?)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*timestamp*> | Yes | String | The string contains the timestamp |
+| <*sourceTimeZone*> | Yes | String | The name for the target time zone. Support Windows time zone and Iana time zone |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*converted-timestamp*> | String | The timestamp converted to the target time zone. |
+||||
+
+```
+convertToUTC('01/01/2018 00:00:00',', 'Pacific Standard Time')
+```
+
+And return these results:
+2018-01-01T08:00:00.000Z
 
 <a name="createArray"></a>
 
@@ -614,8 +679,62 @@ createArray('h', 'e', 'l', 'l', 'o')
 
 And returns this result: `["h", "e", "l", "l", "o"]`
 
-<a name="date
-<a name="dateReadBack
+<a name="date"></a>
+
+### date
+
+Return the date of a specified timestamp in "M/dd/yyyy" format.
+
+```
+date('<timestramp>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*timestamp*> | Yes | String | The string contains the timestamp |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*date*> | String | The date of the specified timestamp |
+||||
+
+```
+date('2018-03-15T13:00:00.000Z')
+```
+
+And it returns the result: ```3-15-2018```
+
+
+<a name="dateReadBack"></a>
+
+### dateReadBcak
+
+Uses the date-time library to provide a date readback.
+
+```
+dateReadBack('<currentDate>', '<targetDate>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*currentDate*> | Yes | String | The string contains the current date |
+| <*targetDate*> | Yes | String | The string contains the target date |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*date-readback*> | String | The readback between current date and the target date  |
+||||
+
+*Example 1*
+
+```
+dateReadBack('2018-03-15T13:00:00.000Z', '2018-03-16T13:00:00.000Z')
+```
+
+And it returns the result: ```tomorrow```
+
 <a name="dayOfMonth"></a>
 
 ### dayOfMonth
@@ -1047,7 +1166,7 @@ getFutureTime(5, 'Day', 'MM-DD-YY')
 
 And returns this result: '03-06-18'.
 
-<a name="getFutureTime"></a>
+<a name="getPastTime"></a>
 
 ### getPastTime
 
@@ -1089,7 +1208,7 @@ getPastTime(5, 'Day', 'MM-DD-YY')
 
 And returns this result: '02-26-18'.
 
-<a name="getProperty></a>
+<a name="getProperty"></a>
 
 ### getProperty
 
@@ -1114,6 +1233,33 @@ getProperty(<JSONObject>, '<Property>')
 item = {'name': 'myName', 'age': 18, 'state': ['single', 'junior', 'Grade A']}
 getProperty(item, 'state')
 And return with result, ['single', 'junior', 'Grade A'].
+
+<a name="getTimeOfDay"></a>
+
+### getTimeOfDay
+
+Returns time of day for a given timestamp (midnight = 12AM, morning = 12:01AM – 11:59PM, noon = 12PM, afternoon = 12:01PM -05:59PM, evening = 06:00PM – 10:00PM, night = 10:01PM – 11:59PM).
+
+```
+getTimeOfDay('<timestamp>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*timestamp*> | Yes | String | The string contains the specified timestamp |
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*time-of-day*> | String | the time of day for the specified timestamp (midnight = 12AM, morning = 12:01AM – 11:59PM, noon = 12PM, afternoon = 12:01PM -05:59PM, evening = 06:00PM – 10:00PM, night = 10:01PM – 11:59PM)|
+||||
+
+*Example*
+
+```
+getTimeOfDay('2018-03-15T08:00:00.000Z')
+```
+
+And it returns the result: "morning"
 
 <a name="greater"></a>
 
@@ -1286,6 +1432,67 @@ join(createArray('a', 'b', 'c'), '.')
 ```
 
 And returns this result: `"a.b.c"`
+
+<a name="json"></a>
+
+### json
+
+Return the JavaScript Object Notation (JSON) type value or object for a string or XML.
+
+```
+json('<value>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*> | Yes | String or XML | The string or XML to convert |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*JSON-result*> | String | The resulting string created from all the items in the specified array |
+||||
+
+*Example 1*
+
+This example converts this string to JSON:
+
+```
+json('{"fullName": "Sophia Owen"}')
+```
+
+And returns this result:
+
+```
+{
+  "fullName": "Sophia Owen"
+}
+```
+
+*Example 2*
+
+This example converts this XML to JSON:
+
+```
+json(xml('<?xml version="1.0"?> <root> <person id='1'> <name>Sophia Owen</name> <occupation>Engineer</occupation> </person> </root>'))
+```
+
+And returns this result:
+
+```
+{
+   "?xml": { "@version": "1.0" },
+   "root": {
+      "person": [ {
+         "@id": "1",
+         "name": "Sophia Owen",
+         "occupation": "Engineer"
+      } ]
+   }
+}
+```
+
+
 
 <a name="last"></a>
 
@@ -1529,7 +1736,34 @@ mod(3, 2)
 
 And return this result: `1`
 
-<a name="month
+<a name="month"></a>
+
+### month
+
+Return the month of the specified timestamp
+
+```
+month('<timestamp>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*timestamp*> | Yes | String | The string contains the timestamp |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*number-of-month*> | Integer | The number of the month in the specified timestamp |
+||||
+
+*Example*
+
+```
+month('2018-03-15T13:01:00.000Z')
+```
+
+And it returns the result: ```3```
+
 <a name="mul"></a>
 
 ### mul
@@ -1697,6 +1931,35 @@ rand(1, 5)
 
 And returns one of these numbers as the result: `1`, `2`, `3`, or `4`
 
+<a name="removeProperty"></a>
+
+### removeProperty
+
+Remove a property from an object and return the updated object.
+
+```
+removeProperty(<object>, '<property>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*object*> | Yes | Object | The JSON object from where you want to remove a property |
+| <*property*> | Yes | String | The name for the property to remove |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*updated-object*> | Object | The updated JSON object without the specified property |
+||||
+
+*Example*
+
+This example removes the ```"accountLocation"``` property from a ```"customerProfile"``` object, which is converted to JSON with the JSON() function, and returns the updated object:
+
+```
+removeProperty(json('customerProfile'), 'accountLocation')
+```
+
 <a name="replace"></a>
 
 ### replace
@@ -1732,7 +1995,7 @@ replace('the old string', 'old', 'new')
 
 And returns this result: `"the new string"`
 
-<a name="replace"></a>
+<a name="replaceIgnoreCase"></a>
 
 ### replaceIgnoreCase
 
@@ -1766,6 +2029,36 @@ replace('the old string', 'old', 'new')
 ```
 
 And returns this result: `"the new string"`
+
+<a name="setProperty">
+
+### setProperty
+
+Set the value for an object's property and return the updated object. To add a new property, you can use this function or the [addProperty()](#addProperty) function.
+
+```
+setProperty(<object>, '<property>', <value>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*object*> | Yes | Object | The JSON object from where you want to set a property |
+| <*property*> | Yes | String | The name for the property to set |
+| <*value*> | Yes | Any | The value to set for the specified property |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*updated-object*> | Object | The updated JSON object whose property you set |
+||||
+
+*Example*
+
+This example sets the ```"accountNumber"``` property on a ```"customerProfile"``` object, which is converted to JSON with the JSON() function. The function assigns a value generated by guid() function, and returns the updated JSON object:
+
+```
+setProperty(json('customerProfile'), 'accountNumber', guid())
+```
 
 <a name="split"></a>
 
@@ -1859,6 +2152,8 @@ startOfDay('2018-03-15T13:30:30.000Z')
 And returns this result: "2018-03-15T13:00:00.000Z"
 
 <a name="startOfMonth"></a>
+
+### startOfMonth
 
 Return the start of the month for a timestamp.
 
@@ -2192,6 +2487,186 @@ trim(' Hello World  ')
 
 And returns this result: `"Hello World"`
 
+<a name="uriHost"></a>
+
+### uriHost
+
+Return the host value for a unified resource identifier(URI).
+
+```
+uriHost('<uri>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*uri*> | Yes | String | The URI whose host value you want |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*host-value*> | String | the host value for the specified URI |
+||||
+
+*Example*
+
+This example finds the host value for this URI:
+
+```
+uriHost('https://www.localhost.com:8080')
+```
+
+And returns this result: "www.localhost.com"
+
+<a name="uriPath"></a>
+
+### uriPath
+
+Return the path value for a unified resource identifier(URI).
+
+```
+uriPath('<uri>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*uri*> | Yes | String | The URI whose path value you want |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*path-value*> | String | the path value for the specified URI |
+||||
+
+*Example*
+
+This example finds the path value for this URI:
+
+```
+uriPath('http://www.contoso.com/catalog/shownew.htm?date=today')
+```
+
+And returns this result: "/catalog/shownew.htm"
+
+<a name="uriPathAndQuery"></a>
+
+### uriPathAndQuery
+
+Return the path and query value for a unified resource identifier(URI).
+
+```
+uriPathAndQuery('<uri>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*uri*> | Yes | String | The URI whose path and query value you want |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*path-query-value*> | String | the path and query value for the specified URI |
+||||
+
+*Example*
+
+This example finds the path and query value for this URI:
+
+```
+uriPathAndQuery('http://www.contoso.com/catalog/shownew.htm?date=today')
+```
+
+And returns this result: "/catalog/shownew.htm?date=today"
+
+<a name="uriPort"></a>
+
+### uriPort
+
+Return the port value for a unified resource identifier(URI).
+
+```
+uriPort('<uri>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*uri*> | Yes | String | The URI whose path value you want |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*port-value*> | String | the port value for the specified URI |
+||||
+
+*Example*
+
+This example finds the portvalue for this URI:
+
+```
+uriPort('http://www.localhost:8080')
+```
+
+And returns this result: "8080"
+
+<a name="uriQuery"></a>
+
+### uriQuery
+
+Return the query value for a unified resource identifier(URI).
+
+```
+uriQuery('<uri>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*uri*> | Yes | String | The URI whose query value you want |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*query-value*> | String | the query value for the specified URI |
+||||
+
+*Example*
+
+This example finds the query value for this URI:
+
+```
+uriQuery('http://www.contoso.com/catalog/shownew.htm?date=today')
+```
+
+And returns this result: "?date=today"
+
+<a name="uriScheme"></a>
+
+### uriScheme
+
+Return the scheme value for a unified resource identifier(URI).
+
+```
+uriScheme('<uri>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*uri*> | Yes | String | The URI whose query value you want |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*scheme-value*> | String | the scheme value for the specified URI |
+||||
+
+*Example*
+
+This example finds the scheme value for this URI:
+
+```
+uriQuery('http://www.contoso.com/catalog/shownew.htm?date=today')
+```
+
+And returns this result: "http"
+
 <a name="utcNow"></a>
 
 ### utcNow
@@ -2236,3 +2711,86 @@ utcNow('D')
 ```
 
 And returns this result: `"Sunday, April 15, 2018"`
+
+<a name="xPath"></a>
+
+### xPath
+
+Check XML for nodes or values that match an XPath (XML Path Language) expression, and return the matching nodes or values. An XPath expression, or just "XPath", helps you navigate an XML document structure so that you can select nodes or compute values in the XML content.
+
+```
+xPath('<xml>', '<xpath>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*xml*> | Yes | Any | The XML string to search for nodes oor values that match an XPath expression value |
+| <*xPath*> | Yes | Any | The XPath expression used to find matching XML nodes or values |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*xml-node*> | XML | An XML node when only a single node matches the specified XPath expression |
+| <*value*> | Any | The value from an XML node when only a single value matches the specified XPath expression |
+<*[<xml-node1>, <xml-node2>, ...] -or- [<value1>, <value2>, ...]*> | Array | An array with XML nodes or values that match the specified XPath expression |
+||||
+
+*Example 1*
+
+This example finds nodes that match the <name></name> node in the specified arguments, and returns an array with those node values:
+
+```
+xpath(items, '/produce/item/name')
+```
+
+Here are the arguments:
+
+- The "items" string, which contains this XML: 
+
+```
+"<?xml version="1.0"?> <produce> <item> <name>Gala</name> <type>apple</type> <count>20</count> </item> <item> <name>Honeycrisp</name> <type>apple</type> <count>10</count> </item> </produce>"
+```
+
+Here is the result array with the nodes that match ```<name></name```:
+
+```
+[ <name>Gala</name>, <name>Honeycrisp</name> ]
+```
+
+*Example 2*
+
+Following on Example 1, this example finds nodes that match the <count></count> node and adds those node values with the sum() function:
+
+```
+xpath(xml(parameters('items')), 'sum(/produce/item/count)')
+```
+
+And returns this result: ```30```
+
+<a name="year"></a>
+
+### year
+
+Return the year of the specified timestamp
+
+```
+year('<timestamp>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*timestamp*> | Yes | String | The string contains the timestamp |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*year*> | Integer | The year in the specified timestamp |
+||||
+
+*Example*
+
+```
+year('2018-03-15T00:00:00.000Z')
+```
+
+And it returns the result: ```2018```
