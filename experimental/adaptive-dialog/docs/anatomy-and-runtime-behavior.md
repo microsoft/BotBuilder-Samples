@@ -62,7 +62,7 @@ Here's the flow when user says `I'd like to book a flight`
 </p>
 The active dialog (rootDialog) recognizer triggers an IntentRule that you can handle. In this case the BegingDialog step to call for the Book a flight dialog. The book a flight dialog execute its steps, one of them is asking which city do you want to fly to.
 
-The bot's end user can provdie any type of answer, and here's the flow when user says `How's the weather in Seattle?`
+The bot's end user can provide any type of answer, and here's the flow when user says `How's the weather in Seattle?`
 
 <p align="center">
     <img alt="Adaptive_dialog_scenario_setup" src="./Assets/adaptive-dialog-second-utterance.png" style="max-width:700px;" />
@@ -70,7 +70,7 @@ The bot's end user can provdie any type of answer, and here's the flow when user
 
 Using Adaptive dialog and Inputs, the bot propogate the handling of this up the conversation stack, up to through all the calling dialogs. In this case just one top dialog, the rootDialog. The rootDialog has a rule to handle the *weather* intent, which then call BeginDialog step to call to the weather dialog. Once the Weather dialog ends, the bot returns to the conversation, before the weather interuption, and prompt the user again for the destination city.
 
-To summaries: 
+To summarize: 
 1. Each dialog's _recognizer_ is run 
     - if there are no active dialog (remember each step is also a dialog) .or.
     - if the active dialog initiates a consultation
