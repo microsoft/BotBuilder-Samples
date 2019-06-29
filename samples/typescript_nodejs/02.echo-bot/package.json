@@ -21,11 +21,11 @@
         "botbuilder": "~4.4.0",
         "dotenv": "^7.0.0",
         "replace": "~1.1.0",
-        "restify": "~8.2.0"
+        "restify": "~8.3.3"
     },
     "devDependencies": {
         "@types/dotenv": "6.1.0",
-        "@types/restify": "7.2.9",
+        "@types/restify": "7.2.11",
         "nodemon": "~1.18.10",
         "tslint": "~5.14.0",
         "typescript": "~3.3.3"
