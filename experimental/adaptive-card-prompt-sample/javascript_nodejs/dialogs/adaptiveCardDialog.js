@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 const { AdaptiveCardPrompt } = require('../adaptiveCardPrompt');
-const { ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
+const { ComponentDialog, WaterfallDialog } = require('botbuilder-dialogs');
 const { CardFactory } = require('botbuilder');
 
 const ADAPTIVE_CARD_DIALOG = 'ADAPTIVE_CARD_DIALOG';
-const USER_PROFILE_PROPERTY = 'USER_PROFILE_PROPERTY';
 
 class AdaptiveCardDialog extends ComponentDialog {
     constructor() {
@@ -25,24 +24,24 @@ class AdaptiveCardDialog extends ComponentDialog {
         this.addDialog(adaptiveCardPrompt);
 
         this.addDialog(new WaterfallDialog(ADAPTIVE_CARD_DIALOG, [
-            this.initialStep.bind(this),
-            this.finalStep.bind(this)
+            this.showCard.bind(this),
+            this.displayResults.bind(this)
         ]));
 
         this.initialDialogId = ADAPTIVE_CARD_DIALOG;
     }
 
-    async initialStep(stepContext) {
+    async showCard(stepContext) {
         // Call the prompt
         return await stepContext.prompt('adaptiveCardPrompt');
     }
 
-    async finalStep(stepContext) {
+    async displayResults(stepContext) {
         // Use the result
         const result = stepContext.result;
         const resultString = Object.keys(result).map((key) => `Key: ${ key }   |   Value: ${ result[key] }`).join('\n');
         await stepContext.context.sendActivity(`Your input:\n\n${ resultString }`);
-        return await stepContext.endDialog('You have finished the Adaptive Card Dialog. Happy coding!');
+        return await stepContext.endDialog();
     }
 }
 

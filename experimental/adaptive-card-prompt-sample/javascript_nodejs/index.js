@@ -38,7 +38,7 @@ const userState = new UserState(memoryStorage);
 const conversationState = new ConversationState(memoryStorage);
 
 // Create the main dialog.
-const dialog = new MainDialog(userState);
+const dialog = new MainDialog();
 const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
 
 // Catch-all for errors.

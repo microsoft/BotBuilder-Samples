@@ -8,9 +8,8 @@ const MAIN_DIALOG = 'MAIN_DIALOG';
 const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
 
 class MainDialog extends ComponentDialog {
-    constructor(userState) {
+    constructor() {
         super(MAIN_DIALOG);
-        this.userState = userState;
 
         this.addDialog(new AdaptiveCardDialog());
         this.addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
