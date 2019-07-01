@@ -30,19 +30,11 @@ namespace Microsoft.BotBuilderSamples.Bots
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     var welcomeCard = CreateAdaptiveCardAttachment();
-                    var response = CreateResponse(turnContext.Activity, welcomeCard);
+                    var response = MessageFactory.Attachment(welcomeCard);
                     await turnContext.SendActivityAsync(response, cancellationToken);
                     await Dialog.Run(turnContext, ConversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
                 }
             }
-        }
-
-        // Create an attachment message response.
-        private Activity CreateResponse(IActivity activity, Attachment attachment)
-        {
-            var response = ((Activity)activity).CreateReply();
-            response.Attachments = new List<Attachment>() { attachment };
-            return response;
         }
 
         // Load attachment from embedded resource.
