@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
 namespace Microsoft.BotBuilderSamples.Dialogs
@@ -30,8 +31,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         {
             var timex = (string)stepContext.Options;
 
-            var promptMsg = "When would you like to travel?";
-            var repromptMsg = $"I'm sorry, to make your booking please enter a full travel date including Day Month and Year.";
+            var messageText = "When would you like to travel?";
+            var promptMessage = MessageFactory.Text(messageText, messageText, InputHints.ExpectingInput);
+
+            var repromptMessageText = "I'm sorry, to make your booking please enter a full travel date including Day Month and Year.";
+            var repromptMessage = MessageFactory.Text(repromptMessageText, repromptMessageText, InputHints.ExpectingInput);
 
             if (timex == null)
             {
@@ -39,28 +43,24 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 return await stepContext.PromptAsync(nameof(DateTimePrompt),
                     new PromptOptions
                     {
-                        Prompt = MessageFactory.Text(promptMsg),
-                        RetryPrompt = MessageFactory.Text(repromptMsg)
+                        Prompt = promptMessage,
+                        RetryPrompt = repromptMessage,
                     }, cancellationToken);
             }
-            else
+
+            // We have a Date we just need to check it is unambiguous.
+            var timexProperty = new TimexProperty(timex);
+            if (!timexProperty.Types.Contains(Constants.TimexTypes.Definite))
             {
-                // We have a Date we just need to check it is unambiguous.
-                var timexProperty = new TimexProperty(timex);
-                if (!timexProperty.Types.Contains(Constants.TimexTypes.Definite))
-                {
-                    // This is essentially a "reprompt" of the data we were given up front.
-                    return await stepContext.PromptAsync(nameof(DateTimePrompt),
-                        new PromptOptions
-                        {
-                            Prompt = MessageFactory.Text(repromptMsg)
-                        }, cancellationToken);
-                }
-                else
-                {
-                    return await stepContext.NextAsync(new DateTimeResolution { Timex = timex }, cancellationToken);
-                }
+                // This is essentially a "reprompt" of the data we were given up front.
+                return await stepContext.PromptAsync(nameof(DateTimePrompt),
+                    new PromptOptions
+                    {
+                        Prompt = repromptMessage,
+                    }, cancellationToken);
             }
+
+            return await stepContext.NextAsync(new List<DateTimeResolution> { new DateTimeResolution { Timex = timex } }, cancellationToken);
         }
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -83,10 +83,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
                 return Task.FromResult(isDefinite);
             }
-            else
-            {
-                return Task.FromResult(false);
-            }
+
+            return Task.FromResult(false);
         }
     }
 }

@@ -38,8 +38,6 @@ namespace Microsoft.BotBuilderSamples
   
         private static async Task DisplayOptionsAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var reply = turnContext.Activity.CreateReply();
-
             // Create a HeroCard with options for the user to interact with the bot.
             var card = new HeroCard
             {
@@ -55,9 +53,7 @@ namespace Microsoft.BotBuilderSamples
                 },
             };
 
-            // Add the card to our reply.
-            reply.Attachments = new List<Attachment>() { card.ToAttachment() };
-
+            var reply = MessageFactory.Attachment(card.ToAttachment());
             await turnContext.SendActivityAsync(reply, cancellationToken);
         }
 
@@ -79,53 +75,56 @@ namespace Microsoft.BotBuilderSamples
         }
 
         // Given the input from the message, create the response.
-        private static Activity ProcessInput(ITurnContext turnContext)
+        private static IMessageActivity ProcessInput(ITurnContext turnContext)
         {
             var activity = turnContext.Activity;
-            var reply = activity.CreateReply();
+            IMessageActivity reply = null;
 
             if (activity.Attachments != null && activity.Attachments.Any())
             {
                 // We know the user is sending an attachment as there is at least one item
                 // in the Attachments list.
-                HandleIncomingAttachment(activity, reply);
+                reply = HandleIncomingAttachment(activity);
             }
             else
             {
                 // Send at attachment to the user.
-                HandleOutgoingAttachment(activity, reply);
+                reply = HandleOutgoingAttachment(turnContext, activity);
             }
 
             return reply;
         }
 
-        // Adds an attachment to the 'reply' parameter that is passed in.
-        private static void HandleOutgoingAttachment(IMessageActivity activity, IMessageActivity reply)
+        // Returns a reply with the requested Attachment
+        private static IMessageActivity HandleOutgoingAttachment(ITurnContext turnContext, IMessageActivity activity)
         {
             // Look at the user input, and figure out what kind of attachment to send.
+            IMessageActivity reply = null;
             if (activity.Text.StartsWith("1"))
             {
-                reply.Text = "This is an inline attachment.";
+                reply = MessageFactory.Text("This is an inline attachment.");
                 reply.Attachments = new List<Attachment>() { GetInlineAttachment() };
             }
             else if (activity.Text.StartsWith("2"))
             {
-                reply.Text = "This is an attachment from a HTTP URL.";
+                reply = MessageFactory.Text("This is an attachment from a HTTP URL.");
                 reply.Attachments = new List<Attachment>() { GetInternetAttachment() };
             }
             else if (activity.Text.StartsWith("3"))
             {
-                reply.Text = "This is an uploaded attachment.";
+                reply = MessageFactory.Text("This is an uploaded attachment.");
 
                 // Get the uploaded attachment.
-                var uploadedAttachment = GetUploadedAttachmentAsync(reply.ServiceUrl, reply.Conversation.Id).Result;
+                var uploadedAttachment = GetUploadedAttachmentAsync(turnContext, activity.ServiceUrl, activity.Conversation.Id).Result;
                 reply.Attachments = new List<Attachment>() { uploadedAttachment };
             }
             else
             {
                 // The user did not enter input that this bot was built to handle.
-                reply.Text = "Your input was not recognized please try again.";
+                reply = MessageFactory.Text("Your input was not recognized please try again.");
             }
+
+            return reply;
         }
 
 
@@ -135,8 +134,9 @@ namespace Microsoft.BotBuilderSamples
         // on file type, size, and other attributes. Consult the documentation for the channel for
         // more information. For example Skype's limits are here
         // <see ref="https://support.skype.com/en/faq/FA34644/skype-file-sharing-file-types-size-and-time-limits"/>.
-        private static void HandleIncomingAttachment(IMessageActivity activity, IMessageActivity reply)
+        private static IMessageActivity HandleIncomingAttachment(IMessageActivity activity)
         {
+            string replyText = string.Empty;
             foreach (var file in activity.Attachments)
             {
                 // Determine where the file is hosted.
@@ -151,9 +151,11 @@ namespace Microsoft.BotBuilderSamples
                     webClient.DownloadFile(remoteFileUrl, localFileName);
                 }
 
-                reply.Text = $"Attachment \"{activity.Attachments[0].Name}\"" +
-                             $" has been received and saved to \"{localFileName}\"";
+                replyText += $"Attachment \"{file.Name}\"" +
+                             $" has been received and saved to \"{localFileName}\"\r\n";
             }
+
+            return MessageFactory.Text(replyText);
         }
 
 
@@ -176,7 +178,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         // Creates an "Attachment" to be sent from the bot to the user from an uploaded file.
-        private static async Task<Attachment> GetUploadedAttachmentAsync(string serviceUrl, string conversationId)
+        private static async Task<Attachment> GetUploadedAttachmentAsync(ITurnContext turnContext, string serviceUrl, string conversationId)
         {
             if (string.IsNullOrWhiteSpace(serviceUrl))
             {
@@ -190,28 +192,25 @@ namespace Microsoft.BotBuilderSamples
 
             var imagePath = Path.Combine(Environment.CurrentDirectory, @"Resources\architecture-resize.png");
 
-            // Create a connector client to use to upload the image.
-            using (var connector = new ConnectorClient(new Uri(serviceUrl)))
-            {
-                var attachments = new Attachments(connector);
-                var response = await attachments.Client.Conversations.UploadAttachmentAsync(
-                    conversationId,
-                    new AttachmentData
-                    {
-                        Name = @"Resources\architecture-resize.png",
-                        OriginalBase64 = File.ReadAllBytes(imagePath),
-                        Type = "image/png",
-                    });
-
-                var attachmentUri = attachments.GetAttachmentUri(response.Id);
-
-                return new Attachment
+            var connector = turnContext.TurnState.Get<IConnectorClient>() as ConnectorClient;
+            var attachments = new Attachments(connector);
+            var response = await attachments.Client.Conversations.UploadAttachmentAsync(
+                conversationId,
+                new AttachmentData
                 {
                     Name = @"Resources\architecture-resize.png",
-                    ContentType = "image/png",
-                    ContentUrl = attachmentUri,
-                };
-            }
+                    OriginalBase64 = File.ReadAllBytes(imagePath),
+                    Type = "image/png",
+                });
+
+            var attachmentUri = attachments.GetAttachmentUri(response.Id);
+
+            return new Attachment
+            {
+                Name = @"Resources\architecture-resize.png",
+                ContentType = "image/png",
+                ContentUrl = attachmentUri,
+            };
         }
 
         // Creates an <see cref="Attachment"/> to be sent from the bot to the user from a HTTP URL.

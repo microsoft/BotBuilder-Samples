@@ -13,7 +13,8 @@ using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
-    public class DialogAndWelcomeBot<T> : DialogBot<T> where T : Dialog
+    public class DialogAndWelcomeBot<T> : DialogBot<T>
+        where T : Dialog
     {
         public DialogAndWelcomeBot(ConversationState conversationState, UserState userState, T dialog, ILogger<DialogBot<T>> logger)
             : base(conversationState, userState, dialog, logger)
@@ -31,22 +32,28 @@ namespace Microsoft.BotBuilderSamples.Bots
                     var welcomeCard = CreateAdaptiveCardAttachment();
                     var response = MessageFactory.Attachment(welcomeCard);
                     await turnContext.SendActivityAsync(response, cancellationToken);
+                    await Dialog.Run(turnContext, ConversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
                 }
             }
         }
 
-        // Load attachment from file.
+        // Load attachment from embedded resource.
         private Attachment CreateAdaptiveCardAttachment()
         {
-            // combine path for cross platform support
-            string[] paths = { ".", "Cards", "welcomeCard.json" };
-            string fullPath = Path.Combine(paths);
-            var adaptiveCard = File.ReadAllText(fullPath);
-            return new Attachment()
+            var cardResourcePath = "CoreBot.Cards.welcomeCard.json";
+
+            using (var stream = GetType().Assembly.GetManifestResourceStream(cardResourcePath))
             {
-                ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(adaptiveCard),
-            };
+                using (var reader = new StreamReader(stream))
+                {
+                    var adaptiveCard = reader.ReadToEnd();
+                    return new Attachment()
+                    {
+                        ContentType = "application/vnd.microsoft.card.adaptive",
+                        Content = JsonConvert.DeserializeObject(adaptiveCard),
+                    };
+                }
+            }
         }
     }
 }
