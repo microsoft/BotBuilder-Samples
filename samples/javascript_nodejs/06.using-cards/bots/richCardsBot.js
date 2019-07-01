@@ -9,8 +9,8 @@ const { DialogBot } = require('./dialogBot');
  * that matches the user's selection.
  */
 class RichCardsBot extends DialogBot {
-    constructor(conversationState, userState, dialog, logger) {
-        super(conversationState, userState, dialog, logger);
+    constructor(conversationState, userState, dialog) {
+        super(conversationState, userState, dialog);
 
         this.onMembersAdded(async (context, next) => {
             const membersAdded = context.activity.membersAdded;
