@@ -58,6 +58,22 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[bool](#bool)	|Return Boolean representation of the specified string. Bool(‘true’), bool(1)	|
 |[createArray](#createArray)	|Create an array from multiple inputs	|
 |[json](#json)  | Return the JavaScript Object Notation (JSON) type value or object for a string or XML.    |
+|[array](#array)| Return an array from a single specified input. For multiple inputs, see [createArray](#createArray). |
+|[base64](#base64) | Return the base64-encoded version for a string. |
+|[base64ToBinary](#base64ToBinary) | Return the binary version for a base64-encoded string. |
+|[base64ToString](#base64ToString) | Return thr string version for a base64-encoded string. |
+|[binary](#binary) | Return the binary version for an input value. |
+|[dataUri](#dataUri) | Return the URI for an input value. |
+|[dataUriToBinary](#dataUriToBinary) | Return the binary version of a data URI. |
+|[dataUriToString](#dateUriToString) | Return the string version of a data URI. |
+|[decodeBase64](#decodeBase64) | Return the string version of a base64-encoded string. |
+|[decodeDataUri](#decodeDataUri) | Return the binary version for a data URI. |
+|[decodeUriComponent](#decodeUriComponent) | Return a string that replaces escape characters with decoded versions. |
+|[encodeUriComponent](#encodeUriComponent) | Return a string that replaces URI-unsafe characters with escape characters. |
+|[uriComponent](#uriComponent) | Return the URI-encoded version for an input value by replacing URL-unsafe characters with escape characters. |
+|[uriComponentToBinary](#uriComponentToBinary) | Return the binary version for a URI-encoded string. |
+|[uriComponentToString](#uriComponentToString) | Return the string version for a URI-encoded string. |
+|[xml](#xml) | Return the XML version for a string. |
 
 ### Math functions
 |Function	|Explanation|
@@ -71,6 +87,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[rand](#rand)	|Returns a random number between specified min and max value – rand(\<minValue\>, \<maxValue\>)	|
 |[sub](#sub)	|Mathematical subtraction	|
 |[sum](#sum)	|Returns sum of numbers in an array	|
+|[range](#range) | Return an integer array that starts from a specified integer. |
 |[exp](#exp)	|Exponentiation function. Exp(base, exponent)	|
 
 ### Date and time functions
@@ -442,7 +459,126 @@ And returns these results:
 * Second example: One expression is false, so returns `false`.
 * Third example: Both expressions are false, so returns `false`.
 
-<a name="average
+<a name="base64"></a>
+
+### base64
+
+Return the base64-encoded version for a string.
+
+```
+base64('<value>')
+```
+ 
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*> | Yes | String | The input string |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*base64-string*> | String | The base64-encoded version for the input string |
+||||
+
+*Example*
+
+This example converts the "hello" string to a base64-encoded string:
+
+```
+base64('hello')
+```
+
+And returns this result: ```"aGVsbG8="```
+
+<a name="base64ToBinary"></a>
+
+### base64ToBinary
+
+Return the binary version for a base64-encoded string.
+
+```
+base64ToBinary('<value>')
+```
+ 
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*> | Yes | String | The base64-encoded string to convert |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*binary-for-base64-string*> | String | The binary version for the base64-encoded string |
+||||
+
+*Example*
+
+This example converts the "aGVsbG8=" base64-encoded string to a binary string:
+
+```
+base64ToBinary('aGVsbG8=')
+```
+
+And returns this result: ```"0110000101000111010101100111001101100010010001110011100000111101"```
+
+<a name="base64ToString"></a>
+
+### base64ToString
+
+Return the string version for a base64-encoded string, effectively decoding the base64 string. Use this function rather than [decodeBase64](#decodeBase64). Although both functions work the same way, base64ToString() is preferred.
+
+```
+base64ToString('<value>')
+```
+ 
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*> | Yes | String | The base64-encoded string to decode |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*decoded-base64-string*> | String | The string version for a base64-encoded string |
+||||
+
+*Example*
+
+This example converts the "aGVsbG8=" base64-encoded string to just a string:
+
+```
+base64ToString('aGVsbG8=')
+```
+
+And returns this result: ```"hello"```
+
+<a name="binary"></a>
+
+### binary
+
+Return the binary version for a string.
+
+```
+bianry('<value>')
+```
+ 
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*> | Yes | String | The string to convert |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*binary-for-input-value*> | String | The binary version for the specified string |
+||||
+
+*Example*
+
+This example converts the "hello" string to a binary string:
+
+```
+binary('hello')
+```
+
+And returns this result: ```"0110100001100101011011000110110001101111"```
+
 <a name="bool"></a>
 
 ### bool
@@ -1930,6 +2066,37 @@ rand(1, 5)
 ```
 
 And returns one of these numbers as the result: `1`, `2`, `3`, or `4`
+
+<a name="range"></a>
+
+### range
+
+Return an integer array that starts from a specified integer.
+
+```
+range(<startIndex>, <count>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*startIndex*> | Yes | Integer | An integer value that starts the array as the first item |
+| <*count*> | Yes | Integer | The number of integers in the array |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*range-result*> | Integer | The array with integers starting from the specified index |
+||||
+
+*Example*
+
+This example creates an integer array that starts from the specified index and has the specified number of integers:
+
+```
+range(1, 4)
+```
+
+And returns this result: ```[1, 2, 3, 4]```
 
 <a name="removeProperty"></a>
 
