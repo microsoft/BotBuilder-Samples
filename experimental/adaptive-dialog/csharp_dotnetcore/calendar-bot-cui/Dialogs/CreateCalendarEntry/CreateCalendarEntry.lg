@@ -1,5 +1,6 @@
 > Language Generation definition file. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+> Here are more than enough LG template, which are for the future use.
 
 # HelpCreateMeeting
 - [HelpPrefix], you can simply say all the relavent information of the meeting to add it.
@@ -42,6 +43,11 @@ OK, please enter the email of the attendee of your event.
 OK, please enter the start time of your event.
 [Suggestions=Help | Cancel]
 ```
+# GetToTime
+- ```
+OK, please enter the end time of your event.
+[Suggestions=Help | Cancel]
+```
 
 # GetDestinationCalendar
 - ```
@@ -52,12 +58,6 @@ OK, please enter which calendar where you want to put this event
 # GetToDate
 - ```
 OK, please enter the end date of your event.
-[Suggestions=Help | Cancel]
-```
-
-# GetToTime
-- ```
-OK, please enter the end time of your event.
 [Suggestions=Help | Cancel]
 ```
 
@@ -81,7 +81,7 @@ OK, please enter the duration of your event.
 
 # CreateCalendarEntryReadBack
 - ```
-@{lgTemplate("HelpPrefix")}, I have added @{dialog.createCalendarEntry.Subject} to your calendar list. 
+@{lgTemplate("HelpPrefix")}, I have added @{dialog.CreateCalendarEntry_Subject} to your calendar list. 
 You have @{count(dialog.CreateCalendarEntry_GraphAll.value)} items in your event list.
 @{lgTemplate("Welcome-Actions")}
 ```

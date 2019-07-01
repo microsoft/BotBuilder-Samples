@@ -5,6 +5,9 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration;
 
+/// <summary>
+/// This dialog will show all the calendar entries.
+/// </summary>
 namespace Microsoft.BotBuilderSamples
 {
     public class FindCalendarEntry : ComponentDialog
@@ -28,7 +31,6 @@ namespace Microsoft.BotBuilderSamples
                     ){
                         Property = "dialog.token"
                     },
-
                     new HttpRequest(){
                         Url = "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={utcNow()}&enddatetime={addDays(utcNow(), 1)}",
                         Method = HttpRequest.HttpMethod.GET,
@@ -38,7 +40,7 @@ namespace Microsoft.BotBuilderSamples
                         },
                         Property = "dialog.FindCalendarEntry_GraphAll"
                     },
-
+                    // to avoid shoing an empty calendar
                     new IfCondition()
                     {
                         Condition = new ExpressionEngine().Parse("dialog.FindCalendarEntry_GraphAll.value != null && count(dialog.FindCalendarEntry_GraphAll.value) > 0"),

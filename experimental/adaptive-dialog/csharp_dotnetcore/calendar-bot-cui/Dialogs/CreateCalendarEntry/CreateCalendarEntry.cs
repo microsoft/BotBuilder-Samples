@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Collections.Generic;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
@@ -8,17 +6,14 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using Microsoft.Bot.Builder.Expressions;
 using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Connector.Authentication;
 using Newtonsoft.Json.Linq;
 
 /// <summary>
-/// Known bug
-/// 1. how to wrap up all the information into one unit (subject, time, location and other stuff into one entry),
-/// and put it into the user.entries // use user.meetingInfo saveproperty
-/// 2. what if user wants to pass some information // use other code
+/// This dialog will create a calendar entry by propting user to enter the relevant information,
+/// including subject, starting time, ending time, and the email address of the attendee
+/// The user can enter only one attendee
 /// </summary>
 namespace Microsoft.BotBuilderSamples
 {
@@ -33,66 +28,26 @@ namespace Microsoft.BotBuilderSamples
                 Generator = new ResourceMultiLanguageGenerator("CreateCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
-                    // every input will be detected through LUIS first from root dialog
-                    // once matched, the procedure will add another layer of dialog
-                    // not matched. will skip the root dialog, and taken as input
                     new TextInput()
                     {
-                        Property = "dialog.createCalendarEntry.Subject",
+                        Property = "dialog.CreateCalendarEntry_Subject",
                         Prompt = new ActivityTemplate("[GetSubject]")
                     },
                     new TextInput()
                     {
-                        Property = "dialog.createCalendarEntry.FromTime",
+                        Property = "dialog.CreateCalendarEntry_FromTime",
                         Prompt = new ActivityTemplate("[GetFromTime]")
                     },
                     new TextInput()
                     {
-                        Property = "dialog.createCalendarEntry.ToTime",
+                        Property = "dialog.CreateCalendarEntry_ToTime",
                         Prompt = new ActivityTemplate("[GetToTime]")
                     },
                     new TextInput()
                     {
-                        Property = "dialog.createCalendarEntry.PersonName",
+                        Property = "dialog.CreateCalendarEntry_PersonName",
                         Prompt = new ActivityTemplate("[GetPersonName]")
                     },
-                    //new TextInput()
-                    //{
-                    //    Property = "dialog.createCalendarEntry.FromDate",
-                    //    Prompt = new ActivityTemplate("[GetFromDate]")
-                    //},
-                    //new TextInput()
-                    //{
-                    //    Property = "dialog.createCalendarEntry.DestinationCalendar",
-                    //    Prompt = new ActivityTemplate("[GetDestinationCalendar]")
-                    //},
-                    //new TextInput()
-                    //{
-                    //    Property = "dialog.createCalendarEntry.ToDate",
-                    //    Prompt = new ActivityTemplate("[GetToDate]")
-                    //},
-                    // uncomment to prompt user to enter more information
-                    //new TextInput()
-                    //{
-                    //    Property = "dialog.createCalendarEntry.Location",
-                    //    Prompt = new ActivityTemplate("[GetLocation]")
-                    //},
-                    //new TextInput()
-                    //{
-                    //    Property = "dialog.createCalendarEntry.MeetingRoom",
-                    //    Prompt = new ActivityTemplate("[GetMeetingRoom]")
-                    //},
-                    //new IfCondition{
-                    //    Condition = new ExpressionEngine().Parse("dialog.createCalendarEntry.FromDate != null && dialog.createCalendarEntry.ToDate == null"),
-                    //    Steps = new List<IDialog>()
-                    //    {
-                    //        new TextInput()
-                    //        {
-                    //            Property = "dialog.createCalendarEntry.Duration",
-                    //            Prompt = new ActivityTemplate("[GetDuration]")
-                    //        }
-                    //  }
-                    //},
 
                     new OAuthPrompt("OAuthPrompt",
                         new OAuthPromptSettings()
@@ -102,8 +57,9 @@ namespace Microsoft.BotBuilderSamples
                             Title = "Sign in",
                         }
                     ){
-                        Property = "dialog.token"// not sure it is here or not
+                        Property = "dialog.token"
                     },
+                    // to post our latest update to our calendar
                     new HttpRequest(){
                         Property = "user.createResponse",
                         Method = HttpRequest.HttpMethod.POST,
@@ -112,24 +68,25 @@ namespace Microsoft.BotBuilderSamples
                             ["Authorization"] = "Bearer {dialog.token.Token}",
                         },
                         Body = JObject.Parse(@"{
-                            'subject': '{dialog.createCalendarEntry.Subject}',
+                            'subject': '{dialog.CreateCalendarEntry_Subject}',
                             'attendees': [
                               {
                                 'emailAddress': {
-                                  'address': '{dialog.createCalendarEntry.PersonName}'
+                                  'address': '{dialog.CreateCalendarEntry_PersonName}'
                                 }
                                 }
                             ],
                             'start': {
-                              'dateTime': '{dialog.createCalendarEntry.FromTime}',
+                              'dateTime': '{dialog.CreateCalendarEntry_FromTime}',
                               'timeZone': 'UTC'
                             },
                             'end': {
-                              'dateTime': '{dialog.createCalendarEntry.ToTime}',
+                              'dateTime': '{dialog.CreateCalendarEntry_ToTime}',
                               'timeZone': 'UTC'
                             }
                         }")
                     },
+                    // to calculate how many calendar entries in our calendar
                     new HttpRequest(){
                         Url = "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={utcNow()}&enddatetime={addDays(utcNow(), 1)}",
                         Method = HttpRequest.HttpMethod.GET,
@@ -139,10 +96,12 @@ namespace Microsoft.BotBuilderSamples
                         },
                         Property = "dialog.CreateCalendarEntry_GraphAll"
                     },
-
                     new SendActivity("[CreateCalendarEntryReadBack]"),
                     new EndDialog()
                 },
+                // note: every input will be detected through LUIS first from root dialog
+                // once matched, the procedure will add another layer of dialog
+                // not matched. will skip the root dialog, and taken as input
                 Rules = new List<IRule>()
                 {
                     new IntentRule("Help")
@@ -185,7 +144,8 @@ namespace Microsoft.BotBuilderSamples
             InitialDialogId = nameof(AdaptiveDialog);
         }
 
-        private static IRecognizer CreateRecognizer()//TODO this would not recognize the intends
+        private static IRecognizer CreateRecognizer()// BUG this would not recognize the intends
+            // i.e by typing "Cancel", we cannot exit the current dialog
         {
             return new RegexRecognizer()
             {

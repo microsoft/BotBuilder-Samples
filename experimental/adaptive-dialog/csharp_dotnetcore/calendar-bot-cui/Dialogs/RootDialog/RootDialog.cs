@@ -9,6 +9,9 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.LanguageGeneration;
 
+/// <summary>
+/// This dialog is the lowest level of all dialogs. 
+/// </summary>
 namespace Microsoft.BotBuilderSamples
 {
     public class RootDialog : ComponentDialog
@@ -119,21 +122,21 @@ namespace Microsoft.BotBuilderSamples
             /******************************************************************************/
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);
-}
+        }
 
 
-public static IRecognizer CreateRecognizer()
-{
-    if (string.IsNullOrEmpty(Configuration["LuisAppId"]) || string.IsNullOrEmpty(Configuration["LuisAPIKey"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostName"]))
-    {
-        throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
-    }
-    return new LuisRecognizer(new LuisApplication()
-    {
-        Endpoint = Configuration["LuisAPIHostName"],
-        EndpointKey = Configuration["LuisAPIKey"],
-        ApplicationId = Configuration["LuisAppId"]
-    });
-}
+        public static IRecognizer CreateRecognizer()
+        {
+            if (string.IsNullOrEmpty(Configuration["LuisAppId"]) || string.IsNullOrEmpty(Configuration["LuisAPIKey"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostName"]))
+            {
+                throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
+            }
+            return new LuisRecognizer(new LuisApplication()
+            {
+                Endpoint = Configuration["LuisAPIHostName"],
+                EndpointKey = Configuration["LuisAPIKey"],
+                ApplicationId = Configuration["LuisAppId"]
+            });
+        }
     }
 }

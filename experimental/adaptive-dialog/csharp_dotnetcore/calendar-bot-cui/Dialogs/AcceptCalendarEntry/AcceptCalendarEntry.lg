@@ -6,14 +6,14 @@ Ok, give me the exact subject of the entry you would like to accept.
 
 # AcceptReadBack
 - ```
-Ok, I've accepted your entry whose subject is "@{dialog.acceptCalendarEntry_entrySubject}".
+Ok, I've accepted your entry whose subject is "@{dialog.AcceptCalendarEntry_entrySubject}".
 ```
 
 # AccpetEmptyList
 - You do not have any entries in your calendar.
 
 # EntryNotFound
-- Sorry, I did not find a entry whose subject is {dialog.acceptCalendarEntry_entrySubject} in your calendar.
+- Sorry, I did not find a entry whose subject is {dialog.AcceptCalendarEntry_entrySubject} in your calendar.
 
 > Escape suggestion actions without which [] will be treated as template reference.
 # Welcome-Actions
