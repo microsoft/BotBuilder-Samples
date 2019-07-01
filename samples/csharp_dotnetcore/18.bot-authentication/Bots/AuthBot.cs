@@ -34,7 +34,7 @@ namespace Microsoft.BotBuilderSamples
             Logger.LogInformation("Running dialog with Token Response Event Activity.");
 
             // Run the Dialog with the new Token Response Event Activity.
-            await Dialog.Run(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+            await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
         }
     }
 }

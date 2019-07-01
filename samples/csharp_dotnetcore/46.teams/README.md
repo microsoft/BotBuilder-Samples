@@ -1,4 +1,4 @@
-﻿# bot authentication
+﻿# teams
 
 Bot Framework v4 bot Teams sample
 

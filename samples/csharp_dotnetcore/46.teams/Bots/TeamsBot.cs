@@ -38,7 +38,7 @@ namespace Microsoft.BotBuilderSamples
             // The OAuth Prompt needs to see the Invoke Activity in order to complete the login process.
 
             // Run the Dialog with the new Invoke Activity.
-            await Dialog.Run(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+            await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
         }
 
         // Teams allows a single Message Reaction to be attached to an Activity. The bot is called when this is an Activity that it had previously sent.

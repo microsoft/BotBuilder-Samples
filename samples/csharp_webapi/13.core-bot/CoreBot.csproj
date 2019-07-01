@@ -214,7 +214,6 @@
     <Compile Include="Bots\DialogAndWelcomeBot.cs" />
     <Compile Include="Bots\DialogBot.cs" />
     <Compile Include="Controllers\BotController.cs" />
-    <Compile Include="DialogExtensions.cs" />
     <Compile Include="Dialogs\BookingDialog.cs" />
     <Compile Include="Dialogs\CancelAndHelpDialog.cs" />
     <Compile Include="Dialogs\DateResolverDialog.cs" />

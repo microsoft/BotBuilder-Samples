@@ -64,7 +64,7 @@ namespace Microsoft.BotBuilderSamples
             var accessor = new RefAccessor<DialogState>(dialogState);
 
             // Run the dialog.
-            await dialog.Run(turnContext, accessor, cancellationToken);
+            await dialog.RunAsync(turnContext, accessor, cancellationToken);
 
             // Serialize the result (available as Value on the accessor), and put its value back into a new JObject.
             return new JObject { { nameof(DialogState), JObject.FromObject(accessor.Value, StateJsonSerializer) } };
