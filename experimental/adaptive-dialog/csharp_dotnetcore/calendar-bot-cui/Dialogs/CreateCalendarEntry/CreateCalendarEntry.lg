@@ -33,7 +33,7 @@ OK, please enter the start date of your event.
 
 # GetPersonName
 - ```
-OK, please enter the attendee of your event.
+OK, please enter the email of the attendee of your event.
 [Suggestions=Help | Cancel]
 ```
 
@@ -82,7 +82,7 @@ OK, please enter the duration of your event.
 # CreateCalendarEntryReadBack
 - ```
 @{lgTemplate("HelpPrefix")}, I have added @{dialog.createCalendarEntry.Subject} to your calendar list. 
-You have @{count(user.Entries)} items in your event list.
+You have @{count(dialog.CreateCalendarEntry_GraphAll.value)} items in your event list.
 @{lgTemplate("Welcome-Actions")}
 ```
 

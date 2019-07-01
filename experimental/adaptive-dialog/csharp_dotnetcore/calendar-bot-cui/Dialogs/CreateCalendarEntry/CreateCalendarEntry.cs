@@ -33,19 +33,6 @@ namespace Microsoft.BotBuilderSamples
                 Generator = new ResourceMultiLanguageGenerator("CreateCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
-                    /*new SaveEntity("@Subject[0]", "dialog.createCalendarEntry.Subject"),
-                    new SaveEntity("@FromDate[0]", "dialog.createCalendarEntry.FromDate"),
-                    new SaveEntity("@FromTime[0]", "dialog.createCalendarEntry.FromTime"),
-                    new SaveEntity("@DestinationCalendar[0]","dialog.createCalendarEntry.DestinationCalendar"),
-                    new SaveEntity("@ToDate[0]","dialog.createCalendarEntry.ToDate"),
-                    new SaveEntity("@ToTime[0]","dialog.createCalendarEntry.ToTime"),
-                    new SaveEntity("@Location[0]","dialog.createCalendarEntry.Location"),
-                    new SaveEntity("@Duration[0]","dialog.createCalendarEntry.Duration"),*/
-
-
-                    // TODO add personName for user to input
-                    // turn will disappear
-                    // save to the user state
                     // every input will be detected through LUIS first from root dialog
                     // once matched, the procedure will add another layer of dialog
                     // not matched. will skip the root dialog, and taken as input
@@ -58,6 +45,11 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Property = "dialog.createCalendarEntry.FromTime",
                         Prompt = new ActivityTemplate("[GetFromTime]")
+                    },
+                    new TextInput()
+                    {
+                        Property = "dialog.createCalendarEntry.ToTime",
+                        Prompt = new ActivityTemplate("[GetToTime]")
                     },
                     new TextInput()
                     {
@@ -80,11 +72,6 @@ namespace Microsoft.BotBuilderSamples
                     //    Prompt = new ActivityTemplate("[GetToDate]")
                     //},
                     // uncomment to prompt user to enter more information
-                    new TextInput()
-                    {
-                        Property = "dialog.createCalendarEntry.ToTime",
-                        Prompt = new ActivityTemplate("[GetToTime]")
-                    },
                     //new TextInput()
                     //{
                     //    Property = "dialog.createCalendarEntry.Location",
@@ -107,13 +94,6 @@ namespace Microsoft.BotBuilderSamples
                     //  }
                     //},
 
-                    //new SetProperty()
-                    //{
-                    //    Property = "user.focusEntry",
-                    //    Value = new ExpressionEngine().Parse("{dialog.createCalendarEntry.Subject}")
-                    //},
-                    //new SendActivity("Focus Completed"),
-                    //new SendActivity("{user.focusEntry}"),
                     new OAuthPrompt("OAuthPrompt",
                         new OAuthPromptSettings()
                         {
@@ -121,7 +101,7 @@ namespace Microsoft.BotBuilderSamples
                             ConnectionName = "msgraph",
                             Title = "Sign in",
                         }
-                    ){  
+                    ){
                         Property = "dialog.token"// not sure it is here or not
                     },
                     new HttpRequest(){
@@ -149,57 +129,50 @@ namespace Microsoft.BotBuilderSamples
                               'timeZone': 'UTC'
                             }
                         }")
-                    },                                 
-                    new SetProperty()
-                    {
-                        Property = "dialog.createCalendarEntry.accept",
-                        Value = new ExpressionEngine().Parse("'unaccepted'")
                     },
-
-                    new EditArray()
-                    {
-                        Value = new ExpressionEngine().Parse("dialog.createCalendarEntry"),
-                        ArrayProperty = "user.Entries",
-                        ChangeType = EditArray.ArrayChangeType.Push
+                    new HttpRequest(){
+                        Url = "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={utcNow()}&enddatetime={addDays(utcNow(), 1)}",
+                        Method = HttpRequest.HttpMethod.GET,
+                        Headers =  new Dictionary<string, string>()
+                        {
+                            ["Authorization"] = "Bearer {dialog.token.Token}",
+                        },
+                        Property = "dialog.CreateCalendarEntry_GraphAll"
                     },
 
                     new SendActivity("[CreateCalendarEntryReadBack]"),
                     new EndDialog()
-                }
-            };
-
-            // rules can be overrided
-            // if found, do steps here
-            // if not found, back to the top level
-            createCalendarEntry.Rules = new List<IRule>()
-            {
-                new IntentRule("Help")
-                {
-                Steps = new List<IDialog>()
-                    {
-                        new SendActivity("[HelpCreateMeeting]")
-                    }
                 },
-                new IntentRule("Cancel")
+                Rules = new List<IRule>()
                 {
-                Steps = new List<IDialog>()
+                    new IntentRule("Help")
                     {
-                        new ConfirmInput()
+                    Steps = new List<IDialog>()
                         {
-                            Property = "turn.cancelConfirmation",
-                            Prompt = new ActivityTemplate("[ConfirmCancellation]")
-                        },
-                        new IfCondition()
+                            new SendActivity("[HelpCreateMeeting]")
+                        }
+                    },
+                    new IntentRule("Cancel")
+                    {
+                    Steps = new List<IDialog>()
                         {
-                            Condition = new ExpressionEngine().Parse("turn.cancelConfirmation == true"),
-                            Steps = new List<IDialog>()
+                            new ConfirmInput()
                             {
-                                new SendActivity("[CancelCreateMeeting]"),
-                                new EndDialog()
+                                Property = "turn.cancelConfirmation",
+                                Prompt = new ActivityTemplate("[ConfirmCancellation]")
                             },
-                            ElseSteps = new List<IDialog>()
+                            new IfCondition()
                             {
-                                new SendActivity("[HelpPrefix], let's get right back to scheduling a meeting.")
+                                Condition = new ExpressionEngine().Parse("turn.cancelConfirmation == true"),
+                                Steps = new List<IDialog>()
+                                {
+                                    new SendActivity("[CancelCreateMeeting]"),
+                                    new EndDialog()
+                                },
+                                ElseSteps = new List<IDialog>()
+                                {
+                                    new SendActivity("[HelpPrefix], let's get right back to scheduling a meeting.")
+                                }
                             }
                         }
                     }
@@ -212,12 +185,7 @@ namespace Microsoft.BotBuilderSamples
             InitialDialogId = nameof(AdaptiveDialog);
         }
 
-        private Expression Expression(string v)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static IRecognizer CreateRecognizer()//TODO not sure whether it should be changed
+        private static IRecognizer CreateRecognizer()//TODO this would not recognize the intends
         {
             return new RegexRecognizer()
             {

@@ -99,7 +99,7 @@ namespace Microsoft.BotBuilderSamples
                                     {
                                         Condition = new ExpressionEngine().Parse("dialog.acceptCalendarEntry_graphAll.value[dialog.index].isOrganizer != true"),
                                         Steps = new List<IDialog>(){
-                                            new HttpRequest(){// TODO bug exsits below
+                                            new HttpRequest(){
                                                 Property = "user.acceptResponse",
                                                 Method = HttpRequest.HttpMethod.POST,
                                                 Url = "https://graph.microsoft.com/v1.0/me/events/{dialog.acceptCalendarEntry_graphAll.value[dialog.index].id}/accept",

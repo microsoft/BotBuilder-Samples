@@ -9,14 +9,6 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.LanguageGeneration;
 
-/// <summary>
-/// TODO
-/// 1. Accept meeting
-///     accepting meeting is possible for each meeting or creating the only one focused meeting is our task
-///     // each one has one option of accepting // if show me the first one, then give the user an option to accept it
-/// 2. decline meeting
-/// 3. update meeting
-/// </summary>
 namespace Microsoft.BotBuilderSamples
 {
     public class RootDialog : ComponentDialog
