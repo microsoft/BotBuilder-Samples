@@ -117,8 +117,9 @@ namespace Microsoft.BotBuilderSamples
                 new FindCalendarEntry(),
                 new DeleteCalendarEntry(),
                 new FindCalendarWho(),
-                new AcceptCalendarEntry()
-            });
+                new AcceptCalendarEntry(),
+                new OAuthPromptDialog()
+            }) ;
             /******************************************************************************/
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);

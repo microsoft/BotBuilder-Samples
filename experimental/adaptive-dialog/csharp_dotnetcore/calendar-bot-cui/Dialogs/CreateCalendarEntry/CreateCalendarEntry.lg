@@ -20,6 +20,9 @@
 [Suggestions=Yes | No]
 ```
 
+# CreateCalendarEntryFailed
+- Sorry, there could be something wrong about your input. Please check your input. 
+
 # GetSubject
 - ```
 OK, please enter the subject of your event.
@@ -82,7 +85,6 @@ OK, please enter the duration of your event.
 # CreateCalendarEntryReadBack
 - ```
 @{lgTemplate("HelpPrefix")}, I have added @{dialog.CreateCalendarEntry_Subject} to your calendar list. 
-You have @{count(dialog.CreateCalendarEntry_GraphAll.value)} items in your event list.
 @{lgTemplate("Welcome-Actions")}
 ```
 

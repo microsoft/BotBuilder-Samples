@@ -21,22 +21,14 @@ namespace Microsoft.BotBuilderSamples
                 Generator = new ResourceMultiLanguageGenerator("FindCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
-                    new OAuthPrompt("OAuthPrompt",
-                        new OAuthPromptSettings()
-                        {
-                            Text = "Please log in to your calendar account",
-                            ConnectionName = "msgraph",
-                            Title = "Sign in",
-                        }
-                    ){
-                        Property = "dialog.token"
-                    },
+
+                    new BeginDialog(nameof(OAuthPromptDialog)),
                     new HttpRequest(){
                         Url = "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={utcNow()}&enddatetime={addDays(utcNow(), 1)}",
                         Method = HttpRequest.HttpMethod.GET,
                         Headers =  new Dictionary<string, string>()
                         {
-                            ["Authorization"] = "Bearer {dialog.token.Token}",
+                            ["Authorization"] = "Bearer {user.token.Token}",
                         },
                         Property = "dialog.FindCalendarEntry_GraphAll"
                     },
@@ -50,7 +42,7 @@ namespace Microsoft.BotBuilderSamples
                             new Foreach(){
                                 ListProperty = new ExpressionEngine().Parse("dialog.FindCalendarEntry_GraphAll.value"),
                                 Steps = new List<IDialog>(){
-                                    new SendActivity("[entryTemplate]")
+                                    new SendActivity("[entryTemplate]"),// TODO only simple card right now, will use fancy card then
                                 }
                             },
                             new SendActivity("[Welcome-Actions]"),

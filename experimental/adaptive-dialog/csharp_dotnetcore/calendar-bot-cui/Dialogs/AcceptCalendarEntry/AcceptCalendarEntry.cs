@@ -23,23 +23,13 @@ namespace Microsoft.BotBuilderSamples
                 Generator = new ResourceMultiLanguageGenerator("AcceptCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
-                    new OAuthPrompt("OAuthPrompt",
-                        new OAuthPromptSettings()
-                        {
-                            Text = "Please log in to your calendar account",
-                            ConnectionName = "msgraph",
-                            Title = "Sign in",
-                        }
-                    ){
-                        Property = "dialog.token"
-                    },
-
+                    new BeginDialog(nameof(OAuthPromptDialog)),
                     new HttpRequest(){
                         Url = "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={utcNow()}&enddatetime={addDays(utcNow(), 1)}",
                         Method = HttpRequest.HttpMethod.GET,
                         Headers =  new Dictionary<string, string>()
                         {
-                            ["Authorization"] = "Bearer {dialog.token.Token}",
+                            ["Authorization"] = "Bearer {user.token.Token}",
                         },
                         Property = "dialog.AcceptCalendarEntry_graphAll"
                     },

@@ -54,7 +54,21 @@ You do not have any entries in your calendar.
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "@{dialog.FindCalendarEntry_GraphAll.value[dialog.index].attendees[0].emailAddress.address}",
+                    "text": "@{if(dialog.FindCalendarEntry_GraphAll.value[dialog.index].attendees[0].emailAddress.address != null &&
+                        empty(dialog.FindCalendarEntry_GraphAll.value[dialog.index].attendees[0].emailAddress.address) != true,
+                        dialog.FindCalendarEntry_GraphAll.value[dialog.index].attendees[0].emailAddress.address,'No Attendee Specified')}",
+                    "wrap": true,
+                    "maxLines": 5
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "@{if(empty(dialog.FindCalendarEntry_GraphAll.value[dialog.index].location.displayName) != true,
+                        dialog.FindCalendarEntry_GraphAll.value[dialog.index].location.displayName,'No Location Specified')}",
                     "wrap": true,
                     "maxLines": 5
                 }

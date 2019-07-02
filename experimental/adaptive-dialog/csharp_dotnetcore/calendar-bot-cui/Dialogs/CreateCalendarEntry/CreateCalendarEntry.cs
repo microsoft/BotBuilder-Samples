@@ -28,16 +28,19 @@ namespace Microsoft.BotBuilderSamples
                 Generator = new ResourceMultiLanguageGenerator("CreateCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
+                    // new saveproperty not usable TODO
                     new TextInput()
                     {
                         Property = "dialog.CreateCalendarEntry_Subject",
                         Prompt = new ActivityTemplate("[GetSubject]")
                     },
+                    // new DateTimeInput(){ not usable TODO
                     new TextInput()
                     {
                         Property = "dialog.CreateCalendarEntry_FromTime",
                         Prompt = new ActivityTemplate("[GetFromTime]")
                     },
+                    // new DateTimeInput()
                     new TextInput()
                     {
                         Property = "dialog.CreateCalendarEntry_ToTime",
@@ -48,25 +51,21 @@ namespace Microsoft.BotBuilderSamples
                         Property = "dialog.CreateCalendarEntry_PersonName",
                         Prompt = new ActivityTemplate("[GetPersonName]")
                     },
-
-                    new OAuthPrompt("OAuthPrompt",
-                        new OAuthPromptSettings()
-                        {
-                            Text = "Please log in to your calendar account",
-                            ConnectionName = "msgraph",
-                            Title = "Sign in",
-                        }
-                    ){
-                        Property = "dialog.token"
+                    new TextInput()
+                    {
+                        Property = "dialog.CreateCalendarEntry_Location",
+                        Prompt = new ActivityTemplate("[GetLocation]")
                     },
+                    new BeginDialog(nameof(OAuthPromptDialog)),
                     // to post our latest update to our calendar
                     new HttpRequest(){
-                        Property = "user.createResponse",
+                        Property = "dialog.createResponse",//TODO check
                         Method = HttpRequest.HttpMethod.POST,
                         Url = "https://graph.microsoft.com/v1.0/me/events",
                         Headers =  new Dictionary<string, string>(){
-                            ["Authorization"] = "Bearer {dialog.token.Token}",
+                            ["Authorization"] = "Bearer {user.token.Token}",
                         },
+                        // TODO find contact flow
                         Body = JObject.Parse(@"{
                             'subject': '{dialog.CreateCalendarEntry_Subject}',
                             'attendees': [
@@ -76,6 +75,9 @@ namespace Microsoft.BotBuilderSamples
                                 }
                                 }
                             ],
+                            'location': {
+                                'displayName': '{dialog.CreateCalendarEntry_Location}',
+                            },
                             'start': {
                               'dateTime': '{dialog.CreateCalendarEntry_FromTime}',
                               'timeZone': 'UTC'
@@ -86,17 +88,19 @@ namespace Microsoft.BotBuilderSamples
                             }
                         }")
                     },
-                    // to calculate how many calendar entries in our calendar
-                    new HttpRequest(){
-                        Url = "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={utcNow()}&enddatetime={addDays(utcNow(), 1)}",
-                        Method = HttpRequest.HttpMethod.GET,
-                        Headers =  new Dictionary<string, string>()
+                    new IfCondition
+                    {
+                        Condition = new ExpressionEngine().Parse("dialog.createResponse.error == null"),
+                        Steps = new List<IDialog>
                         {
-                            ["Authorization"] = "Bearer {dialog.token.Token}",
+                            new SendActivity("[CreateCalendarEntryReadBack]")
                         },
-                        Property = "dialog.CreateCalendarEntry_GraphAll"
+                        ElseSteps = new List<IDialog>
+                        {
+                            new SendActivity("[CreateCalendarEntryFailed]")
+                        },
                     },
-                    new SendActivity("[CreateCalendarEntryReadBack]"),
+                    new SendActivity("[Welcome-Actions]"),
                     new EndDialog()
                 },
                 // note: every input will be detected through LUIS first from root dialog
