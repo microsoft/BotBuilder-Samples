@@ -1,7 +1,7 @@
 {
-    "name": "bot-authentication",
+    "name": "teams-bot",
     "version": "1.0.0",
-    "description": "Bot Builder v4 Bot Authentication sample",
+    "description": "Bot Builder v4 Bot Teams sample",
     "author": "Microsoft",
     "license": "MIT",
     "main": "index.js",
