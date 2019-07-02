@@ -398,7 +398,7 @@ This example adds one day to specified timestamp.
 addToTime('2018-01-01T00:00:00.000Z', 1, 'Day')
 ```
 
-And returns this result '2018-01-02T00:00:00.000Z'.
+And returns this result `'2018-01-02T00:00:00.000Z'`.
 
 *Example 2*
 This example adds two weeks to the specified timestamp, with given 'MM-DD-YY' format
@@ -407,7 +407,7 @@ This example adds two weeks to the specified timestamp, with given 'MM-DD-YY' fo
 addToTime('2018-01-01T00:00:00.000Z', 2, 'Week', 'MM-DD-YY')
 ```
 
-And returns this result using the optional 'MM-DD-YY' format '01-15-18'.
+And returns this result using the optional 'MM-DD-YY' format `'01-15-18'`.
 
 
 <a name="and"></a>
@@ -492,7 +492,7 @@ This example converts the "hello" string to a base64-encoded string:
 base64('hello')
 ```
 
-And returns this result: ```"aGVsbG8="```
+And returns this result: `"aGVsbG8="`
 
 <a name="base64ToBinary"></a>
 
@@ -522,7 +522,7 @@ This example converts the "aGVsbG8=" base64-encoded string to a binary string:
 base64ToBinary('aGVsbG8=')
 ```
 
-And returns this result: ```"0110000101000111010101100111001101100010010001110011100000111101"```
+And returns this result: `"0110000101000111010101100111001101100010010001110011100000111101"`
 
 <a name="base64ToString"></a>
 
@@ -552,7 +552,7 @@ This example converts the "aGVsbG8=" base64-encoded string to just a string:
 base64ToString('aGVsbG8=')
 ```
 
-And returns this result: ```"hello"```
+And returns this result: `"hello"`
 
 <a name="binary"></a>
 
@@ -582,7 +582,7 @@ This example converts the "hello" string to a binary string:
 binary('hello')
 ```
 
-And returns this result: ```"0110100001100101011011000110110001101111"```
+And returns this result: `"0110100001100101011011000110110001101111"`
 
 <a name="bool"></a>
 
@@ -820,6 +820,96 @@ createArray('h', 'e', 'l', 'l', 'o')
 
 And returns this result: `["h", "e", "l", "l", "o"]`
 
+<a name="dataUri"></a>
+
+### dataUri
+
+Return a data uniform resource identifier (URI) for a string.
+
+```
+dataUri('<value>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*>| Yes | String | The string to convert |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| [<*date-uri*>] | String | The data URI for the input string |
+||||
+
+*Example*
+
+```
+dataUri('hello')
+```
+
+And returns this result: `"data:text/plain;charset=utf-8;base64,aGVsbG8="`
+
+<a name="dataUriToBinary"></a>
+
+### dataUriToBinary
+
+Return the binary version for a data uniform resource identifier (URI). Use this function rather than decodeDataUri(). Although both functions work the same way, dataUriBinary() is preferred.
+
+```
+dataUriToBinary('<value>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*>| Yes | String | The data URI to convert |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| [<*binary-for-data-uri*>] | String | The binary version for the data URI |
+||||
+
+*Example*
+
+This example creates a binary version for this data URI:
+
+```
+dataUriToBinary('data:text/plain;charset=utf-8;base64,aGVsbG8=')
+```
+
+And returns this result:
+
+`"01100100011000010111010001100001001110100111010001100101011110000111010000101111011100000 1101100011000010110100101101110001110110110001101101000011000010111001001110011011001010111 0100001111010111010101110100011001100010110100111000001110110110001001100001011100110110010 10011011000110100001011000110000101000111010101100111001101100010010001110011100000111101"`
+
+<a name="dataUriToString"></a>
+
+### dataUriToString
+
+Return the string version for a data uniform resource identifier (URI).
+
+```
+dataUriToString('<value>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*>| Yes | String | The data URI to convert |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| [<*string-for-data-uri*>] | String | The string version for the data URI |
+||||
+
+*Example*
+
+This example creates a string for this data URI:
+
+```
+dataUriToString('data:text/plain;charset=utf-8;base64,aGVsbG8=')
+```
+
+And returns this result: `"hello"`
+
 <a name="date"></a>
 
 ### date
@@ -967,6 +1057,98 @@ dayOfYear('2018-03-15T13:27:36Z')
 
 And returns this result: `74`
 
+<a name="decodeBase64"></a>
+
+### decodeBase64
+
+Return the string version for a base64-encoded string, effectively decoding the base64 string. Consider using base64ToString() rather than decodeBase64(). Although both functions work the same way, base64ToString() is preferred.
+
+```
+decodeBase64('<value>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*> | Yes | String | The base64-encoded string to decode |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*decoded-base64-string*> | String | The string version for a base64-encoded string |
+||||
+
+*Example*
+
+This example creates a string for a base64-encoded string:
+
+```
+decodeBase64('aGVsbG8=')
+```
+
+And returns this result: `"hello"`
+
+<a name="decodeDataUri"></a>
+
+### decodeDataUri
+
+Return the binary version for a data uniform resource identifier (URI). Consider using dataUriToBinary(), rather than decodeDataUri(). Although both functions work the same way, dataUriToBinary() is preferred.
+
+```
+decodeDataUri('<value>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*> | Yes | String | The data URI string to decode |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*binary-for-data-uri*> | String | The binary version for a data URI string |
+||||
+
+*Example*
+
+This example returns the binary version for this data URI:
+
+```
+decodeDataUri('data:text/plain;charset=utf-8;base64,aGVsbG8=')
+```
+
+And returns this result:
+
+`"01100100011000010111010001100001001110100111010001100101011110000111010000101111011100000 1101100011000010110100101101110001110110110001101101000011000010111001001110011011001010111 0100001111010111010101110100011001100010110100111000001110110110001001100001011100110110010 10011011000110100001011000110000101000111010101100111001101100010010001110011100000111101"`
+
+<a name="decodeUriComponent"></a>
+
+### decodeUriComponent
+
+Return a string that replaces escape characters with decoded versions.
+
+```
+decodeUriComponent('<value>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*> | Yes | String | The string with the escape characters to decode |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*decoded-uri*> | String | The updated string with the decoded escape characters|
+||||
+
+*Example*
+
+This example replaces the escape characters in this string with decoded versions:
+
+```
+decodeUriComponent('http%3A%2F%2Fcontoso.com')
+```
+
+And returns this result: `"https://contoso.com"`
+
 <a name="div"></a>
 
 ### div
@@ -999,6 +1181,36 @@ div(11, 5)
 ```
 
 And return this result: `2`
+
+<a name="encodeUriComponent"></a>
+
+### encodeUriComponent
+
+Return a uniform resource identifier (URI) encoded version for a string by replacing URL-unsafe characters with escape characters. Consider using uriComponent(), rather than encodeUriComponent(). Although both functions work the same way, uriComponent() is preferred.
+
+```
+encodeUriComponent('<value>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*> | Yes | String | The string to convert to URI-encoded format |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*encoded-uri*> | String | The URI-encoded string with escape characters |
+||||
+
+*Example*
+
+This example creates a URI-encoded version for this string:
+
+```
+encodeUriComponent('https://contoso.com')
+```
+
+And returns this result: `"http%3A%2F%2Fcontoso.com"`
 
 <a name="empty"></a>
 
@@ -1295,7 +1507,7 @@ Suppose the current timestamp is "2019-03-01T00:00:00.000Z". This example adds f
 getFutureTime(2, 'Week')
 ```
 
-And returns this result: "2019-03-15T00:00:00.000Z"
+And returns this result: `"2019-03-15T00:00:00.000Z"`
 
 *Example 2*
 
@@ -1305,7 +1517,7 @@ Suppose the current timestamp is "2018-03-01T00:00:00.000Z". This example adds f
 getFutureTime(5, 'Day', 'MM-DD-YY')
 ```
 
-And returns this result: '03-06-18'.
+And returns this result: `'03-06-18'`.
 
 <a name="getPastTime"></a>
 
@@ -1337,7 +1549,7 @@ Suppose the current timestamp is "2018-02-01T00:00:00.000Z". This example adds f
 getPastTime(5, 'Day')
 ```
 
-And returns this result: "2019-01-27T00:00:00.000Z"
+And returns this result: `"2019-01-27T00:00:00.000Z"`
 
 *Example 2*
 
@@ -1347,7 +1559,7 @@ Suppose the current timestamp is "2018-03-01T00:00:00.000Z". This example adds f
 getPastTime(5, 'Day', 'MM-DD-YY')
 ```
 
-And returns this result: '02-26-18'.
+And returns this result: `'02-26-18'`.
 
 <a name="getProperty"></a>
 
@@ -2134,7 +2346,7 @@ This example creates an integer array that starts from the specified index and h
 range(1, 4)
 ```
 
-And returns this result: ```[1, 2, 3, 4]```
+And returns this result: `[1, 2, 3, 4]`
 
 <a name="removeProperty"></a>
 
@@ -2325,7 +2537,7 @@ This example finds the start of the day for this timestamp:
 startOfDay('2018-03-15T13:30:30.000Z')
 ```
 
-And returns this result: "2018-03-15T00:00:00.000Z"
+And returns this result: `"2018-03-15T00:00:00.000Z"`
 
 <a name="startOfHour"></a>
 
@@ -2354,7 +2566,7 @@ This example finds the start of the hour for this timestamp:
 startOfDay('2018-03-15T13:30:30.000Z')
 ```
 
-And returns this result: "2018-03-15T13:00:00.000Z"
+And returns this result: `"2018-03-15T13:00:00.000Z"`
 
 <a name="startOfMonth"></a>
 
@@ -2385,7 +2597,7 @@ This example finds the start of the month for this timestamp:
 startOfDay('2018-03-15T13:30:30.000Z')
 ```
 
-And returns this result: "2018-03-01T00:00:00.000Z"
+And returns this result: `"2018-03-01T00:00:00.000Z"`
 
 <a name="string"></a>
 
@@ -2594,7 +2806,7 @@ The example convert a timestamp to its ticks property
 ticks('2018-01-01T08:00:00.000Z')
 ```
 
-And returns this result: 636503904000000000
+And returns this result: `636503904000000000`
 
 <a name="toLower"></a>
 
@@ -2692,6 +2904,98 @@ trim(' Hello World  ')
 
 And returns this result: `"Hello World"`
 
+<a name="uriComponent"></a>
+
+### uriComponent
+
+Return the binary version for a uniform resource identifier (URI) component.
+
+```
+uriComponent('<value>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*> | Yes | String | The string to convert to URI-encoded format |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*encoded-uri*> | String | The URI-encoded string with escape characters |
+||||
+
+*Example*
+
+This example creates a URI-encoded version for this string:
+
+```
+uriComponent('https://contoso.com')
+```
+
+And returns this result: `"http%3A%2F%2Fcontoso.com"`
+
+<a name="uriComponentToBinary"></a>
+
+### uriComponentToBinary
+
+Return the binary version for a uniform resource identifier (URI) component.
+
+```
+uriComponentToBinary('<value>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*> | Yes | String | The URI-encoded string to convert |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*binary-for-encoded-uri*> | String | The binary version for the URI-encoded string. The binary content is base64-encoded and represented by $content. |
+||||
+
+*Example*
+
+This example creates the binary version for this URI-encoded string:
+
+```
+uriComponentToBinary('http%3A%2F%2Fcontoso.com')
+```
+
+And returns this result: 
+
+`"001000100110100001110100011101000111000000100101001100 11010000010010010100110010010001100010010100110010010001 10011000110110111101101110011101000110111101110011011011 110010111001100011011011110110110100100010"`
+
+<a name="uriComponentToString"></a>
+
+### uriComponentToString
+
+Return the string version for a uniform resource identifier (URI) encoded string, effectively decoding the URI-encoded string.
+
+```
+uriComponentToString('<value>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*> | Yes | String | The URI-encoded string to decode |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*binary-for-encoded-uri*> | String | The decoded version for the URI-encoded string |
+||||
+
+*Example*
+
+This example creates the decoded string version for this URI-encoded string:
+
+```
+uriComponentToString('http%3A%2F%2Fcontoso.com')
+```
+
+And returns this result: `"https://contoso.com"`
+
 <a name="uriHost"></a>
 
 ### uriHost
@@ -2709,7 +3013,7 @@ uriHost('<uri>')
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*host-value*> | String | the host value for the specified URI |
+| <*host-value*> | String | The host value for the specified URI |
 ||||
 
 *Example*
@@ -2720,7 +3024,7 @@ This example finds the host value for this URI:
 uriHost('https://www.localhost.com:8080')
 ```
 
-And returns this result: "www.localhost.com"
+And returns this result: `"www.localhost.com"`
 
 <a name="uriPath"></a>
 
@@ -2750,7 +3054,7 @@ This example finds the path value for this URI:
 uriPath('http://www.contoso.com/catalog/shownew.htm?date=today')
 ```
 
-And returns this result: "/catalog/shownew.htm"
+And returns this result: `"/catalog/shownew.htm"`
 
 <a name="uriPathAndQuery"></a>
 
@@ -2780,7 +3084,7 @@ This example finds the path and query value for this URI:
 uriPathAndQuery('http://www.contoso.com/catalog/shownew.htm?date=today')
 ```
 
-And returns this result: "/catalog/shownew.htm?date=today"
+And returns this result: `"/catalog/shownew.htm?date=today"`
 
 <a name="uriPort"></a>
 
@@ -2810,7 +3114,7 @@ This example finds the portvalue for this URI:
 uriPort('http://www.localhost:8080')
 ```
 
-And returns this result: "8080"
+And returns this result: `8080`
 
 <a name="uriQuery"></a>
 
@@ -2840,7 +3144,7 @@ This example finds the query value for this URI:
 uriQuery('http://www.contoso.com/catalog/shownew.htm?date=today')
 ```
 
-And returns this result: "?date=today"
+And returns this result: `"?date=today"`
 
 <a name="uriScheme"></a>
 
@@ -2870,7 +3174,7 @@ This example finds the scheme value for this URI:
 uriQuery('http://www.contoso.com/catalog/shownew.htm?date=today')
 ```
 
-And returns this result: "http"
+And returns this result: `"http"`
 
 <a name="utcNow"></a>
 
