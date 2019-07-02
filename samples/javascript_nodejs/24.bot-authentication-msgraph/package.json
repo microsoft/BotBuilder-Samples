@@ -20,7 +20,7 @@
         "botbuilder": "~4.4.0",
         "botbuilder-dialogs": "~4.4.0",
         "dotenv": "^6.1.0",
-        "restify": "^7.2.3"
+        "restify": "~8.3.3"
     },
     "devDependencies": {
         "eslint": "^5.9.0",

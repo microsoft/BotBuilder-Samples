@@ -19,7 +19,7 @@
         "botbuilder": "~4.4.0",
         "dotenv": "^6.1.0",
         "node-fetch": "^2.2.1",
-        "restify": "^7.2.3"
+        "restify": "~8.3.3"
     },
     "devDependencies": {
         "eslint": "^5.9.0",
