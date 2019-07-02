@@ -1,11 +1,54 @@
 ﻿#entryTemplate
 - ```
-- Entry @{dialog.index}: 
-Subject: @{dialog.FindCalendarWho_GraphAll.value[dialog.index].subject}
-Start time: @{dialog.FindCalendarWho_GraphAll.value[dialog.index].start.dateTime}
-End time: @{dialog.FindCalendarWho_GraphAll.value[dialog.index].end.dateTime}
-Attendees: @{dialog.FindCalendarWho_GraphAll.value[dialog.index].attendees[0].emailAddress.address}
+[adaptivecard
+{
+    "type": "AdaptiveCard",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "size": "Medium",
+                    "weight": "Bolder",
+                    "text": "@{dialog.FindCalendarWho_GraphAll.value[dialog.index].subject}"
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "@{dialog.FindCalendarWho_GraphAll.value[dialog.index].start.dateTime} - @{dialog.FindCalendarWho_GraphAll.value[dialog.index].end.dateTime}",
+                    "wrap": true,
+                    "maxLines": 5
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "@{dialog.FindCalendarWho_GraphAll.value[dialog.index].attendees[0].emailAddress.address}",
+                    "wrap": true,
+                    "maxLines": 5
+                }
+            ]
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
+}
+]
 ```
+
+> - Entry @{dialog.index}: 
+> Subject: @{dialog.FindCalendarWho_GraphAll.value[dialog.index].subject}
+> Start time: @{dialog.FindCalendarWho_GraphAll.value[dialog.index].start.dateTime}
+> End time: @{dialog.FindCalendarWho_GraphAll.value[dialog.index].end.dateTime}
+> Attendees: @{dialog.FindCalendarWho_GraphAll.value[dialog.index].attendees[0].emailAddress.address}
 
 # ViewEntries
 - ```
