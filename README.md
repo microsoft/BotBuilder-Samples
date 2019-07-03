@@ -1,7 +1,7 @@
 
 # ![Bot Framework Samples](./docs/media/BotFrameworkSamples_header.png)
 
-### [Click here to find out what's new for //build2019!](https://github.com/Microsoft/botframework/blob/master/whats-new.md#whats-new)
+### [Click here to find out what's new with Bot Framework](https://github.com/Microsoft/botframework/blob/master/whats-new.md#whats-new)
 
 ## Overview
 
