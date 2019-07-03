@@ -3,7 +3,7 @@
 
 Bot Framework v4 core bot tests sample.
 
-This project uses the [Microsoft.Bot.Builder.Testing](https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/Microsoft.Bot.Builder.Testing) package, [XUnit](https://xunit.net/) and [Moq](https://github.com/moq/moq) to create unit tests for the [CoreBot](https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/csharp_dotnetcore/13.core-bot) bot.
+This project uses the [Microsoft.Bot.Builder.Testing](https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/Microsoft.Bot.Builder.Testing) package, [XUnit](https://xunit.net/) and [Moq](https://github.com/moq/moq) to create unit tests for the [CoreBot](https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_dotnetcore/13.core-bot) bot.
 
 This project shows how to:
 
@@ -70,7 +70,7 @@ The `SendActivityAsync<IActivity>` method allows you send a text utterance or an
 
 `SendActivityAsync<IActivity>` returns the first reply from the dialog, but in some scenarios your bot may send several messages in response to a single utterance, in this cases `DialogTestClient` will queue the replies and you can use the `GetNextReply<IActivity>` method to pop the next message from the response queue.
 
-```csharp
+```javascript
 reply = testClient.GetNextReply<IMessageActivity>();
 Assert.Equal("All set, I have booked your flight to Seattle for tomorrow", reply.Text);
 ```
@@ -81,7 +81,7 @@ Assert.Equal("All set, I have booked your flight to Seattle for tomorrow", reply
 
 The code in this project only asserts the Text property of the returned activities. In more complex bots your may want to assert other properties like Speak, InputHints, ChannelData etc.
 
-```csharp
+```javascript
 Assert.Equal("Sure thing, wait while I finalize your reservation...", reply.Text);
 Assert.Equal("One moment please...", reply.Speak);
 Assert.Equal(InputHints.IgnoringInput, reply.InputHint);
@@ -95,7 +95,7 @@ The `DialogTestClient` constructor has an `initialDialogOptions` that can be use
 
 You can implement this in a test as follows:
 
-```csharp
+```javascript
 var inputDialogParams = new BookingDetails()
 {
     Destination = "Seattle",
@@ -109,7 +109,7 @@ var testClient = new DialogTestClient(Channels.Msteams, sut, inputDialogParams);
 
 `BookingDialog` will receive this parameter and can access it in the test the same way as if it would have been invoked from `MainDialog`.
 
-```csharp
+```javascript
 private async Task<DialogTurnResult> DestinationStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
 {
     var bookingDetails = (BookingDetails)stepContext.Options;
@@ -123,7 +123,7 @@ Some dialogs like `BookingDialog` or `DateResolverDialog` return a value to the 
 
 For example:
 
-```csharp
+```javascript
 var sut = new BookingDialog();
 var testClient = new DialogTestClient(Channels.Msteams, sut);
 
@@ -147,7 +147,7 @@ The [Microsoft.Bot.Builder.Testing](https://botbuilder.myget.org/feed/botbuilder
 
 To use this middleware, your test needs to expose a constructor that receives an `ITestOutputHelper` object that is provided by the XUnit test runner and create a `XUnitOutputMiddleware` that will be passed to `DialogTestClient` trough the `middlewares` parameter.
 
-```csharp
+```javascript
 public class BookingDialogTests
 {
     private readonly XUnitOutputMiddleware[] _middlewares;
@@ -192,7 +192,7 @@ In this project, we use `Theory` tests from XUnit to parameterize tests.
 
 The following test checks that a dialog gets cancelled when the user says "cancel".
 
-```csharp
+```javascript
 [Fact]
 public async Task ShouldBeAbleToCancel()
 {
@@ -211,7 +211,7 @@ public async Task ShouldBeAbleToCancel()
 
 Consider that later on we need to be able to handle other utterances for cancel like "quit", "never mind" and "stop it". Rather than writing 3 more repetitive tests for each new utterance, we can refactor the test as a `Theory` test that uses `InlineData` to define the parameters for each test case:
 
-```csharp
+```javascript
 [Theory]
 [InlineData("hi", "Hi there", "cancel")]
 [InlineData("hi", "Hi there", "quit")]
@@ -242,7 +242,7 @@ The new test will be executed 4 times with the different parameters and each cas
 
 The `BookingDialog` receives a `BookingDetails` object and returns a new `BookingDetails` object. A non parameterized version of a test for this dialog would look as follows:
 
-```csharp
+```javascript
 [Fact]
 public async Task DialogFlow()
 {
@@ -278,7 +278,7 @@ public async Task DialogFlow()
 
 To parameterize this test, we created a `BookingDialogTestCase` class that contains our test case data: the initial `BookingDetails` object, the expected `BookingDialogTestCase` and an array of strings containing the utterances sent from the user and the expected replies from the dialog.
 
-```csharp
+```javascript
 public class BookingDialogTestCase
 {
     public BookingDetails InitialBookingDetails { get; set; }
@@ -293,7 +293,7 @@ We also created a helper `BookingDialogTestsDataGenerator` class that exposes a 
 
 In order to display each test case as a separate test in VS Test Explorer, the test runner requires that complex types like `BookingDialogTestCase` implement `IXunitSerializable`, to simplify this, the `BotBuilder.Testing` framework provides a `TestDataObject` class that Implements this interface and can be used to wrap the test case data without having to implement `IXunitSerializable`. Here is a fragment of `IEnumerable<object[]> BookingFlows()` that shows how the two classes are used:
 
-```csharp
+```javascript
 public static class BookingDialogTestsDataGenerator
 {
     public static IEnumerable<object[]> BookingFlows()
@@ -350,7 +350,7 @@ public static class BookingDialogTestsDataGenerator
 
 Once we created an object to store the test data and a class that exposes a collection of test cases, we use the XUnit `MemberData` attribute instead of `InlineData` to feed the data into the test, the first parameter for `MemberData` is the name of the static function that returns the collection of test cases and the second attribute is the type of the class that exposes this method.
 
-```csharp
+```javascript
 [Theory]
 [MemberData(nameof(BookingDialogTestsDataGenerator.BookingFlows), MemberType = typeof(BookingDialogTestsDataGenerator))]
 public async Task DialogFlowUseCases(TestDataObject testData)
@@ -387,7 +387,7 @@ In order to make your dialog easier to test and reduce its dependencies on exter
 
 For example, instead of instantiating `BookingDialog` in `MainDialog`:
 
-```csharp
+```javascript
 public MainDialog()
     : base(nameof(MainDialog))
 {
@@ -399,7 +399,7 @@ public MainDialog()
 
 We pass an instance of `BookingDialog` as a constructor parameter
 
-```csharp
+```javascript
 public MainDialog(BookingDialog bookingDialog)
     : base(nameof(MainDialog))
 {
@@ -411,7 +411,7 @@ public MainDialog(BookingDialog bookingDialog)
 
 This allow us to write tests for `MainDialog` that use a mock instance of `BookingDialog`:
 
-```csharp
+```javascript
 // Create the mock object
 var mockDialog = new Mock<BookingDialog>();
 
@@ -427,7 +427,7 @@ In this example, we use [Moq](https://github.com/moq/moq) to create mock objects
 
 As described above, `MainDialog` invokes `BookingDialog` to obtain the `BookingDetails` object. We implement and configure a mock instance of `BookingDialog` as follows:
 
-```csharp
+```javascript
 // Create the BookingDetails instance we want the mock object to return.
 var expectedBookingDialogResult = new BookingDetails()
 {
@@ -457,7 +457,7 @@ var sut = new MainDialog(mockDialog.Object);
 
 In simple scenarios, you can implement mock LUIS results through code as follows:
 
-```csharp
+```javascript
 var mockRecognizer = new Mock<IRecognizer>();
 mockRecognizer
     .Setup(x => x.RecognizeAsync<FlightBooking>(It.IsAny<ITurnContext>(), It.IsAny<CancellationToken>()))
@@ -477,7 +477,7 @@ mockRecognizer
 
 But LUIS results are sometimes complex, in these situations, it is simpler to capture the desired result as a json file, add it as an embedded resource to your project and deserialize it into a LUIS result. Here is an example:
 
-```csharp
+```javascript
 var mockRecognizer = new Mock<IRecognizer>();
 mockRecognizer
     .Setup(x => x.RecognizeAsync<FlightBooking>(It.IsAny<ITurnContext>(), It.IsAny<CancellationToken>()))
