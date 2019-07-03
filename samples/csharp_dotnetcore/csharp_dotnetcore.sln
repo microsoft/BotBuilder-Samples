@@ -49,6 +49,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoBot", "02.echo-bot\Echo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreBot.Tests", "13.core-bot.tests\CoreBot.Tests.csproj", "{C41395BA-3343-45A4-8C03-7AFF94B9F3B2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Teams", "46.teams\Teams.csproj", "{07222D69-66F9-462E-9BBD-43770579697A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +149,10 @@ Global
 		{C41395BA-3343-45A4-8C03-7AFF94B9F3B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C41395BA-3343-45A4-8C03-7AFF94B9F3B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C41395BA-3343-45A4-8C03-7AFF94B9F3B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07222D69-66F9-462E-9BBD-43770579697A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07222D69-66F9-462E-9BBD-43770579697A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07222D69-66F9-462E-9BBD-43770579697A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07222D69-66F9-462E-9BBD-43770579697A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

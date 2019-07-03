@@ -22,12 +22,10 @@ const USER_PROFILE = 'USER_PROFILE';
 const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
 
 class UserProfileDialog extends ComponentDialog {
-    constructor(userState, logger) {
+    constructor(userState) {
         super('userProfileDialog');
 
         this.userProfile = userState.createProperty(USER_PROFILE);
-
-        this.logger = logger;
 
         this.addDialog(new TextPrompt(NAME_PROMPT));
         this.addDialog(new ChoicePrompt(CHOICE_PROMPT));

@@ -36,6 +36,6 @@ Web Chat is a highly-customizable web-based client for Azure Bot Services. It ca
 ## Further Reading
 
 - [Bot Framework Documentation](https://docs.botframework.com/)
-- [Web Chat GitHub repository](https://github.com/Microsoft/BotFramework-WebChat/tree/v4)
+- [Web Chat GitHub repository](https://github.com/Microsoft/BotFramework-WebChat)
 - [Connect a bot to Web Chat](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-webchat?view=azure-bot-service-3.0#step-1)
-- [Customizing Web Chat](https://github.com/Microsoft/BotFramework-WebChat/blob/v4/SAMPLES.md)
+- [Customizing Web Chat](https://github.com/microsoft/BotFramework-WebChat/blob/master/SAMPLES.md)

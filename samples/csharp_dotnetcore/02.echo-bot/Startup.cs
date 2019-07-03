@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Microsoft.BotBuilderSamples.Bots;
+using Microsoft.Bot.Builder.BotFramework;
 
 namespace Microsoft.BotBuilderSamples
 {

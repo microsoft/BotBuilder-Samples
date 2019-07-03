@@ -36,14 +36,11 @@ const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
-// Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
-const logger = console;
-
 // Create the main dialog.
 const dialog = new RootDialog(userState);
 
 // Create the bot's main handler.
-const bot = new DialogBot(conversationState, userState, dialog, logger);
+const bot = new DialogBot(conversationState, userState, dialog);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {

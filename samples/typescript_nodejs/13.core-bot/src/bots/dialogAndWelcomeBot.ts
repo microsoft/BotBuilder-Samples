@@ -5,13 +5,11 @@ import { BotState, CardFactory } from 'botbuilder-core';
 import { Dialog } from 'botbuilder-dialogs';
 import { DialogBot } from './dialogBot';
 
-import { Logger } from '../logger';
-
 const WelcomeCard = require('../../resources/welcomeCard.json');
 
 export class DialogAndWelcomeBot extends DialogBot {
-    constructor(conversationState: BotState, userState: BotState, dialog: Dialog, logger: Logger) {
-        super(conversationState, userState, dialog, logger);
+    constructor(conversationState: BotState, userState: BotState, dialog: Dialog) {
+        super(conversationState, userState, dialog);
 
         this.onMembersAdded(async (context) => {
             const membersAdded = context.activity.membersAdded;
