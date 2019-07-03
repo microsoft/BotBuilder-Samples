@@ -172,7 +172,7 @@ public class BookingDialogTests
 
 Here is an example of what the `XUnitOutputMiddleware` logs to the output window when is configured:
 
-![XUnitMiddlewareOutput](../../../docs/media/CoreBot.Tests/XUnitMiddlewareOutput.png)
+![XUnitMiddlewareOutput](../../../docs/media/CoreBot.Tests/dotnet/XUnitMiddlewareOutput.png)
 
 This output will be also logged on the build server during the CI builds and helps analyze build failures.
 
@@ -234,7 +234,7 @@ public async Task ShouldBeAbleToCancel(string utterance, string response, string
 
 The new test will be executed 4 times with the different parameters and each case will show as a child item under the `ShouldBeAbleToCancel` test in Visual Studio Test Explorer. If any of them fail like shown below, the developer can right click and debug the scenario that failed rather than re-running the entire set of tests.
 
-![Bot Framework Samples](../../../docs/media/CoreBot.Tests/InlineDataTestResults.png)
+![Bot Framework Samples](../../../docs/media/CoreBot.Tests/dotnet/InlineDataTestResults.png)
 
 ### Theory tests using MemberData and complex types
 
@@ -377,7 +377,7 @@ public async Task DialogFlowUseCases(TestDataObject testData)
 
 Here is an example of the results for `DialogFlowUseCases` in Visual Studio Test Explorer when the test is executed:
 
-![BookingDialogTests](../../../docs/media/CoreBot.Tests/BookingDialogTestsResults.png)
+![BookingDialogTests](../../../docs/media/CoreBot.Tests/dotnet/BookingDialogTestsResults.png)
 
 ## Using Mocks
 

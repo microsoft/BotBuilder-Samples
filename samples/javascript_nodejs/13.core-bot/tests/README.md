@@ -1,9 +1,9 @@
 ﻿
-# CoreBot.Tests <!-- omit in toc -->
+# core-bot tests <!-- omit in toc -->
 
 Bot Framework v4 core bot tests sample.
 
-This project uses the [Microsoft.Bot.Builder.Testing](https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/Microsoft.Bot.Builder.Testing) package, [XUnit](https://xunit.net/) and [Moq](https://github.com/moq/moq) to create unit tests for the [CoreBot](https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_dotnetcore/13.core-bot) bot.
+This project uses the [botbuilder-testing](https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/botbuilder-testing) package, [mocha](https://github.com/mochajs/mocha) to create unit tests for the [core-bot](https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/13.core-bot) bot.
 
 This project shows how to:
 
@@ -38,104 +38,104 @@ This class is used to write unit tests for dialogs that test their responses on 
 Here is a simple example on how a test that uses `DialogTestClient` looks like:
 
 ```javascript
-var sut = new BookingDialog();
-var testClient = new DialogTestClient(Channels.Msteams, sut);
+const sut = new BookingDialog();
+const testClient = new DialogTestClient(sut);
 
-var reply = await testClient.SendActivityAsync<IMessageActivity>("hi");
-Assert.Equal("Where would you like to travel to?", reply.Text);
+let reply = await testClient.sendActivity('hi');
+assert.strictEqual(reply.text, 'Where would you like to travel to?');
 
-reply = await testClient.SendActivityAsync<IMessageActivity>("Seattle");
-Assert.Equal("Where are you traveling from?", reply.Text);
+reply = await testClient.sendActivity('Seattle');
+assert.strictEqual(reply.text, 'Where are you traveling from?');
 
-reply = await testClient.SendActivityAsync<IMessageActivity>("New York");
-Assert.Equal("When would you like to travel?", reply.Text);
+reply = await testClient.sendActivity('New York');
+assert.strictEqual(reply.text, 'When would you like to travel?');
 
-reply = await testClient.SendActivityAsync<IMessageActivity>("tomorrow");
-Assert.Equal("OK, I will book a flight from Seattle to New York for tomorrow, Is this Correct?", reply.Text);
+reply = await testClient.sendActivity('tomorrow');
+assert.strictEqual(reply.text, 'OK, I will book a flight from Seattle to New York for tomorrow, Is this Correct?');
 
-reply = await testClient.SendActivityAsync<IMessageActivity>("yes");
-Assert.Equal("Sure thing, wait while I finalize your reservation...", reply.Text);
+reply = await testClient.sendActivity('yes');
+assert.strictEqual(reply.text, 'Sure thing, wait while I finalize your reservation...');
 
-reply = testClient.GetNextReply<IMessageActivity>();
-Assert.Equal("All set, I have booked your flight to Seattle for tomorrow", reply.Text);
+reply = await testClient.getNextReply();
+assert.strictEqual(reply.text, 'All set, I have booked your flight to Seattle for tomorrow');
 ```
+
+**TODO: review if we can add a required channel parameter to DialogTestClient, if not, word this section appropriately.**
+**TODO: are there constants for ChannleIds in JS? **
 
 The first parameter for `DialogTestClient` is the target channel. This allows you to test different rendering logic based on the target channel for your bot (Teams, Slack, Cortana, etc.). If you are uncertain about your target channel, you can use the Emulator or Test channel ids but keep in mind that some components may behave differently depending on the current channel, for example, ConfirmPrompt renders the Yes/No options differently for the Test and Emulator channels. You can also use this parameter to test conditional rendering logic in your dialog based on the channel ID.
 
 The second parameter is an instance of the dialog being tested (Note: **"sut"** stands for "System Under Test", we use this acronym across the tests in this sample).
 
-The `DialogTestClient` constructor provides additional parameters that allows you to further customize the client behavior or pass parameters to the dialog being tested if needed. You can pass initialization data, add custom middlewares or use your own TestAdapter and message processing callback. We use the first two parameters in several tests in this example.
+The `DialogTestClient` constructor provides additional parameters that allow you to further customize the client behavior or pass parameters to the dialog being tested if needed. You can pass initialization data, add custom middlewares, use your own `TestAdapter` or pass a `ConversationState` instance. We use the first two parameters in several tests in this example.
 
-The `SendActivityAsync<IActivity>` method allows you send a text utterance or an IActivity to your dialog and returns the first message it receives. The `<T>` parameter is used to return a strong typed instance of the reply so you can assert it without having to cast it.
+The `sendActivity` method allows you send a text utterance or an `Activity` to your dialog and returns the first message it receives.
 
-`SendActivityAsync<IActivity>` returns the first reply from the dialog, but in some scenarios your bot may send several messages in response to a single utterance, in this cases `DialogTestClient` will queue the replies and you can use the `GetNextReply<IActivity>` method to pop the next message from the response queue.
+`sendActivity` returns the first reply from the dialog, but in some scenarios your bot may send several messages in response to a single utterance, in this cases `DialogTestClient` will queue the replies and you can use the `getNextReply` method to pop the next message from the response queue.
 
 ```javascript
-reply = testClient.GetNextReply<IMessageActivity>();
-Assert.Equal("All set, I have booked your flight to Seattle for tomorrow", reply.Text);
+reply = await testClient.getNextReply();
+assert.strictEqual(reply.text, 'All set, I have booked your flight to Seattle for tomorrow');
 ```
 
-`GetNextReply<IActivity>` returns null if there are no further messages.
+`getNextReply` returns null if there are no further messages.
 
 ### Asserting activities
 
-The code in this project only asserts the Text property of the returned activities. In more complex bots your may want to assert other properties like Speak, InputHints, ChannelData etc.
+The code in this project only asserts the `text` property of the returned activities. In more complex bots your may want to assert other properties like `speak`, `inputHint`, `channelData`, etc.
 
 ```javascript
-Assert.Equal("Sure thing, wait while I finalize your reservation...", reply.Text);
-Assert.Equal("One moment please...", reply.Speak);
-Assert.Equal(InputHints.IgnoringInput, reply.InputHint);
+assert.strictEqual(reply.text, 'Sure thing, wait while I finalize your reservation...');
+assert.strictEqual(reply.speak, 'One moment please...');
+assert.strictEqual(reply.inputHint, InputHints.IgnoringInput);
 ```
 
-You can do this by checking each property individually as shown above, you can write your own helper utilities for asserting activities or you can use other frameworks like [FluentAssertions](https://fluentassertions.com/) to write custom assertions and simplify your test code.
+You can do this by checking each property individually as shown above, you can write your own helper utilities for asserting activities or you can use other assertion libraries to write custom assertions and simplify your test code.
 
 ### Passing parameters to your dialogs
 
-The `DialogTestClient` constructor has an `initialDialogOptions` that can be used to pass parameters to your dialog. For example, the `MainDialog` in this sample, initializes a `BookingDetails` object from the LUIS results with the entities it could resolve from the user's utterance and passes this object in the `BeginDialogAsync` call to invoke `BookingDialog`.
+The `DialogTestClient` constructor has an `initialDialogOptions` parameter that can be used to pass parameters to your dialog. For example, the `MainDialog` in this sample, initializes a `BookingDetails` object from the LUIS results with the entities it could resolve from the user's utterance and passes this object in the `BeginDialogAsync` call to invoke `BookingDialog`.
 
 You can implement this in a test as follows:
 
 ```javascript
-var inputDialogParams = new BookingDetails()
-{
-    Destination = "Seattle",
-    TravelDate = $"{DateTime.UtcNow.AddDays(1):yyyy-MM-dd}"
+const inputDialogParams = {
+    destination: 'Seattle',
+    travelDate: formatDate(new Date().setDate(now.getDate() + 1))
 };
 
-var sut = new BookingDialog();
-var testClient = new DialogTestClient(Channels.Msteams, sut, inputDialogParams);
-
+const sut = new BookingDialog();
+const testClient = new DialogTestClient(Channels.Msteams, sut, inputDialogParams);
 ```
 
 `BookingDialog` will receive this parameter and can access it in the test the same way as if it would have been invoked from `MainDialog`.
 
 ```javascript
-private async Task<DialogTurnResult> DestinationStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-{
-    var bookingDetails = (BookingDetails)stepContext.Options;
+async destinationStep(stepContext) {
+    const bookingDetails = stepContext.options;
     ...
 }
 ```
 
 ### Asserting dialog turn results
 
-Some dialogs like `BookingDialog` or `DateResolverDialog` return a value to the calling dialog. The `DialogTextClient` object exposes a `DialogTurnResult` that can be used to analyze and assert the results return by the dialog.
+Some dialogs like `BookingDialog` or `DateResolverDialog` return a value to the calling dialog. The `DialogTextClient` object exposes a `DialogTurnResult` property that can be used to analyze and assert the results returned by the dialog.
 
 For example:
 
 ```javascript
-var sut = new BookingDialog();
-var testClient = new DialogTestClient(Channels.Msteams, sut);
+const sut = new BookingDialog();
+const testClient = new DialogTestClient(Channels.Msteams, sut);
 
-var reply = await testClient.SendActivityAsync<IMessageActivity>("hi");
-Assert.Equal("Where would you like to travel to?", reply.Text);
+let reply = await testClient.sendActivity('hi');
+assert.strictEqual(reply.text, 'Where would you like to travel to?');
 
 ...
 
-var bookingResults = (BookingDetails)testClient.DialogTurnResult.Result;
-Assert.Equal("New York", bookingResults?.Origin);
-Assert.Equal("Seattle", bookingResults?.Destination);
-Assert.Equal("2019-06-21", bookingResults?.TravelDate);
+const bookingResults = (BookingDetails)testClient.DialogTurnResult.Result;
+Assert.Equal('New York', bookingResults?.Origin);
+Assert.Equal('Seattle', bookingResults?.Destination);
+Assert.Equal('2019-06-21', bookingResults?.TravelDate);
 ```
 
 The `DialogTurnResult` can also be used to inspect and assert intermediate results returned by the steps in a waterfall.
@@ -143,7 +143,7 @@ The `DialogTurnResult` can also be used to inspect and assert intermediate resul
 ### Analyzing test output
 
 Sometimes it is necessary to read a unit test transcript so we can analyze the test execution without having to debug the test.
-The [Microsoft.Bot.Builder.Testing](https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/Microsoft.Bot.Builder.Testing) package includes an `XUnitOutputMiddleware` that logs the messages sent and received by the dialog to the console.
+The [botbuilder-testing](https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/botbuilder-testing) package includes an `XUnitOutputMiddleware` that logs the messages sent and received by the dialog to the console.
 
 To use this middleware, your test needs to expose a constructor that receives an `ITestOutputHelper` object that is provided by the XUnit test runner and create a `XUnitOutputMiddleware` that will be passed to `DialogTestClient` trough the `middlewares` parameter.
 
@@ -162,8 +162,8 @@ public class BookingDialogTests
     public async Task SomeBookingDialogTest()
     {
         // Arrange
-        var sut = new BookingDialog();
-        var testClient = new DialogTestClient(Channels.Msteams, sut, middlewares: _middlewares);
+        const sut = new BookingDialog();
+        const testClient = new DialogTestClient(Channels.Msteams, sut, middlewares: _middlewares);
 
         ...
     }
@@ -172,7 +172,7 @@ public class BookingDialogTests
 
 Here is an example of what the `XUnitOutputMiddleware` logs to the output window when is configured:
 
-![XUnitMiddlewareOutput](../../../docs/media/CoreBot.Tests/XUnitMiddlewareOutput.png)
+![XUnitMiddlewareOutput](../../../docs/media/CoreBot.Tests/javascript/XUnitMiddlewareOutput.png)
 
 This output will be also logged on the build server during the CI builds and helps analyze build failures.
 
@@ -190,51 +190,51 @@ In this project, we use `Theory` tests from XUnit to parameterize tests.
 
 ### Theory tests using InlineData
 
-The following test checks that a dialog gets cancelled when the user says "cancel".
+The following test checks that a dialog gets cancelled when the user says 'cancel'.
 
 ```javascript
 [Fact]
 public async Task ShouldBeAbleToCancel()
 {
-    var sut = new TestCancelAndHelpDialog();
-    var testClient = new DialogTestClient(Channels.Test, sut);
+    const sut = new TestCancelAndHelpDialog();
+    const testClient = new DialogTestClient(Channels.Test, sut);
 
-    var reply = await testClient.SendActivityAsync<IMessageActivity>("Hi");
-    Assert.Equal("Hi there", reply.Text);
+    var reply = await testClient.sendActivity('Hi');
+    Assert.Equal('Hi there', reply.text);
     Assert.Equal(DialogTurnStatus.Waiting, testClient.DialogTurnResult.Status);
 
-    reply = await testClient.SendActivityAsync<IMessageActivity>("cancel");
-    Assert.Equal("Cancelling...", reply.Text);
+    reply = await testClient.sendActivity('cancel');
+    Assert.Equal('Cancelling...', reply.text);
     Assert.Equal(DialogTurnStatus.Cancelled, testClient.DialogTurnResult.Status);
 }
 ```
 
-Consider that later on we need to be able to handle other utterances for cancel like "quit", "never mind" and "stop it". Rather than writing 3 more repetitive tests for each new utterance, we can refactor the test as a `Theory` test that uses `InlineData` to define the parameters for each test case:
+Consider that later on we need to be able to handle other utterances for cancel like 'quit', 'never mind' and 'stop it'. Rather than writing 3 more repetitive tests for each new utterance, we can refactor the test as a `Theory` test that uses `InlineData` to define the parameters for each test case:
 
 ```javascript
 [Theory]
-[InlineData("hi", "Hi there", "cancel")]
-[InlineData("hi", "Hi there", "quit")]
-[InlineData("hi", "Hi there", "never mind")]
-[InlineData("hi", "Hi there", "stop it")]
+[InlineData('hi', 'Hi there', 'cancel')]
+[InlineData('hi', 'Hi there', 'quit')]
+[InlineData('hi', 'Hi there', 'never mind')]
+[InlineData('hi', 'Hi there', 'stop it')]
 public async Task ShouldBeAbleToCancel(string utterance, string response, string cancelUtterance)
 {
-    var sut = new TestCancelAndHelpDialog();
-    var testClient = new DialogTestClient(Channels.Test, sut, middlewares: _middlewares);
+    const sut = new TestCancelAndHelpDialog();
+    const testClient = new DialogTestClient(Channels.Test, sut, middlewares: _middlewares);
 
-    var reply = await testClient.SendActivityAsync<IMessageActivity>(utterance);
-    Assert.Equal(response, reply.Text);
+    var reply = await testClient.sendActivity(utterance);
+    Assert.Equal(response, reply.text);
     Assert.Equal(DialogTurnStatus.Waiting, testClient.DialogTurnResult.Status);
 
-    reply = await testClient.SendActivityAsync<IMessageActivity>(cancelUtterance);
-    Assert.Equal("Cancelling...", reply.Text);
+    reply = await testClient.sendActivity(cancelUtterance);
+    Assert.Equal('Cancelling...', reply.text);
     Assert.Equal(DialogTurnStatus.Cancelled, testClient.DialogTurnResult.Status);
 }
 ```
 
-The new test will be executed 4 times with the different parameters and each case will show as a child item under the `ShouldBeAbleToCancel` test in Visual Studio Test Explorer. If any of them fail like shown below, the developer can right click and debug the scenario that failed rather than re-running the entire set of tests.
+The new test will be executed 4 times with the different parameters and each case will show as a child item under the `ShouldBeAbleToCancel` test in [Mocha Test Explorer](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-mocha-test-adapter&ssr=false#overview) plugin for VSCode. If any of them fail like shown below, the developer can right click and debug the scenario that failed rather than re-running the entire set of tests.
 
-![Bot Framework Samples](../../../docs/media/CoreBot.Tests/InlineDataTestResults.png)
+![Bot Framework Samples](../../../docs/media/CoreBot.Tests/javascript/InlineDataTestResults.png)
 
 ### Theory tests using MemberData and complex types
 
@@ -249,7 +249,7 @@ public async Task DialogFlow()
     // Initial parameters
     var initialBookingDetails = new BookingDetails
     {
-        Origin = "Seattle",
+        Origin = 'Seattle',
         Destination = null,
         TravelDate = null,
     };
@@ -257,16 +257,16 @@ public async Task DialogFlow()
     // Expected booking details
     var expectedBookingDetails = new BookingDetails
     {
-        Origin = "Seattle",
-        Destination = "New York",
-        TravelDate = "2019-06-25",
+        Origin = 'Seattle',
+        Destination = 'New York',
+        TravelDate = '2019-06-25',
     };
 
-    var sut = new BookingDialog();
-    var testClient = new DialogTestClient(Channels.Test, sut, initialBookingDetails);
+    const sut = new BookingDialog();
+    const testClient = new DialogTestClient(Channels.Test, sut, initialBookingDetails);
 
     // Act/Assert
-    var reply = await testClient.SendActivityAsync<IMessageActivity>("hi");
+    var reply = await testClient.sendActivity('hi');
     ...
 
     var bookingResults = (BookingDetails)testClient.DialogTurnResult.Result;
@@ -304,17 +304,17 @@ public static class BookingDialogTestsDataGenerator
             InitialBookingDetails = new BookingDetails(),
             UtterancesAndReplies = new[,]
             {
-                { "hi", "Where would you like to travel to?" },
-                { "Seattle", "Where are you traveling from?" },
-                { "New York", "When would you like to travel?" },
-                { "tomorrow", $"Please confirm, I have you traveling to: Seattle from: New York on: {DateTime.Now.AddDays(1):yyyy-MM-dd}. Is this correct? (1) Yes or (2) No" },
-                { "yes", null },
+                { 'hi', 'Where would you like to travel to?' },
+                { 'Seattle', 'Where are you traveling from?' },
+                { 'New York', 'When would you like to travel?' },
+                { 'tomorrow', $'Please confirm, I have you traveling to: Seattle from: New York on: {DateTime.Now.AddDays(1):yyyy-MM-dd}. Is this correct? (1) Yes or (2) No' },
+                { 'yes', null },
             },
             ExpectedBookingDetails = new BookingDetails
             {
-                Destination = "Seattle",
-                Origin = "New York",
-                TravelDate = $"{DateTime.Now.AddDays(1):yyyy-MM-dd}",
+                Destination = 'Seattle',
+                Origin = 'New York',
+                TravelDate = $'{DateTime.Now.AddDays(1):yyyy-MM-dd}',
             }, 
         };
         // wrap the test case object into TestDataObject and return it.
@@ -325,21 +325,21 @@ public static class BookingDialogTestsDataGenerator
         {
             InitialBookingDetails = new BookingDetails
             {
-                Destination = "Seattle",
-                Origin = "New York",
+                Destination = 'Seattle',
+                Origin = 'New York',
                 TravelDate = null,
             },
             UtterancesAndReplies = new[,]
             {
-                { "hi", "When would you like to travel?" },
-                { "tomorrow", $"Please confirm, I have you traveling to: Seattle from: New York on: {DateTime.Now.AddDays(1):yyyy-MM-dd}. Is this correct? (1) Yes or (2) No" },
-                { "yes", null },
+                { 'hi', 'When would you like to travel?' },
+                { 'tomorrow', $'Please confirm, I have you traveling to: Seattle from: New York on: {DateTime.Now.AddDays(1):yyyy-MM-dd}. Is this correct? (1) Yes or (2) No' },
+                { 'yes', null },
             },
             ExpectedBookingDetails = new BookingDetails
             {
-                Destination = "Seattle",
-                Origin = "New York",
-                TravelDate = $"{DateTime.Now.AddDays(1):yyyy-MM-dd}",
+                Destination = 'Seattle',
+                Origin = 'New York',
+                TravelDate = $'{DateTime.Now.AddDays(1):yyyy-MM-dd}',
             }, 
         };
         // wrap the test case object into TestDataObject and return it.
@@ -357,13 +357,13 @@ public async Task DialogFlowUseCases(TestDataObject testData)
 {
     // Get the test data instance from TestDataObject
     var bookingTestData = testData.GetObject<BookingDialogTestCase>();
-    var sut = new BookingDialog();
-    var testClient = new DialogTestClient(Channels.Test, sut, bookingTestData.InitialBookingDetails);
+    const sut = new BookingDialog();
+    const testClient = new DialogTestClient(Channels.Test, sut, bookingTestData.InitialBookingDetails);
 
     // Iterate over the utterances and replies array.
     for (var i = 0; i < bookingTestData.UtterancesAndReplies.GetLength(0); i++)
     {
-        var reply = await testClient.SendActivityAsync<IMessageActivity>(bookingTestData.UtterancesAndReplies[i, 0]);
+        var reply = await testClient.sendActivity(bookingTestData.UtterancesAndReplies[i, 0]);
         Assert.Equal(bookingTestData.UtterancesAndReplies[i, 1], reply?.Text);
     }
 
@@ -377,7 +377,7 @@ public async Task DialogFlowUseCases(TestDataObject testData)
 
 Here is an example of the results for `DialogFlowUseCases` in Visual Studio Test Explorer when the test is executed:
 
-![BookingDialogTests](../../../docs/media/CoreBot.Tests/BookingDialogTestsResults.png)
+![BookingDialogTests](../../../docs/media/CoreBot.Tests/javascript/BookingDialogTestsResults.png)
 
 ## Using Mocks
 
@@ -416,9 +416,9 @@ This allow us to write tests for `MainDialog` that use a mock instance of `Booki
 var mockDialog = new Mock<BookingDialog>();
 
 // Use the mock object to instantiate MainDialog
-var sut = new MainDialog(mockDialog.Object);
+const sut = new MainDialog(mockDialog.Object);
 
-var testClient = new DialogTestClient(Channels.Test, sut);
+const testClient = new DialogTestClient(Channels.Test, sut);
 ```
 
 In this example, we use [Moq](https://github.com/moq/moq) to create mock objects and the `Setup` and `Returns` methods to configure their behavior.
@@ -431,9 +431,9 @@ As described above, `MainDialog` invokes `BookingDialog` to obtain the `BookingD
 // Create the BookingDetails instance we want the mock object to return.
 var expectedBookingDialogResult = new BookingDetails()
 {
-    Destination = "Seattle",
-    Origin = "New York",
-    TravelDate = $"{DateTime.UtcNow.AddDays(1):yyyy-MM-dd}"
+    Destination = 'Seattle',
+    Origin = 'New York',
+    TravelDate = $'{DateTime.UtcNow.AddDays(1):yyyy-MM-dd}'
 };
 
 // Create the mock object for BookingDialog.
@@ -443,14 +443,14 @@ mockDialog
     .Returns(async (DialogContext dialogContext, object options, CancellationToken cancellationToken) =>
     {
         // Send a generic activity so we can assert that the dialog was invoked.
-        await dialogContext.Context.SendActivityAsync($"{mockDialogNameTypeName} mock invoked", cancellationToken: cancellationToken);
+        await dialogContext.Context.SendActivityAsync($'{mockDialogNameTypeName} mock invoked', cancellationToken: cancellationToken);
 
         // Return the BookingDetails we need without executing the dialog logic.
         return await dialogContext.EndDialogAsync(expectedBookingDialogResult, cancellationToken);
     });
 
 // Create the sut (System Under Test) using the mock booking dialog.
-var sut = new MainDialog(mockDialog.Object);
+const sut = new MainDialog(mockDialog.Object);
 ```
 
 ### Mocking LUIS results
@@ -484,7 +484,7 @@ mockRecognizer
     .Returns(() =>
     {
         // Deserialize the LUIS result from embedded json file in the TestData folder.
-        var bookingResult = GetEmbeddedTestData($"{GetType().Namespace}.TestData.FlightToMadrid.json");
+        var bookingResult = GetEmbeddedTestData($'{GetType().Namespace}.TestData.FlightToMadrid.json');
 
         // Return the deserialized LUIS result.
         return Task.FromResult(bookingResult);
@@ -499,6 +499,5 @@ However, you may still need to create and configure specific mock objects that b
 
 ## References
 
-- [XUnit](https://xunit.net/)
-- [Moq](https://github.com/moq/moq)
+- [Mocha](https://github.com/mochajs/mocha)
 - [Bot Testing](https://github.com/microsoft/botframework-sdk/blob/master/specs/testing/testing.md)
