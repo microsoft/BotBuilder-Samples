@@ -18,12 +18,12 @@ namespace CoreBot.Tests.Dialogs
 {
     public class BookingDialogTests : BotTestBase
     {
-        private readonly XUnitOutputMiddleware[] _middlewares;
+        private readonly XUnitDialogTestLogger[] _middlewares;
 
         public BookingDialogTests(ITestOutputHelper output)
             : base(output)
         {
-            _middlewares = new[] { new XUnitOutputMiddleware(output) };
+            _middlewares = new[] { new XUnitDialogTestLogger(output) };
         }
 
         [Fact]

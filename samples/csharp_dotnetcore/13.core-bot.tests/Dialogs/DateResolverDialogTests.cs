@@ -28,7 +28,7 @@ namespace CoreBot.Tests.Dialogs
             // Arrange
             var testCaseData = testData.GetObject<DateResolverDialogTestCase>();
             var sut = new DateResolverDialog();
-            var testClient = new DialogTestClient(Channels.Test, sut, testCaseData.InitialData, new[] { new XUnitOutputMiddleware(Output) });
+            var testClient = new DialogTestClient(Channels.Test, sut, testCaseData.InitialData, new[] { new XUnitDialogTestLogger(Output) });
 
             // Act/Assert
             Output.WriteLine($"Test Case: {testCaseData.Name}");

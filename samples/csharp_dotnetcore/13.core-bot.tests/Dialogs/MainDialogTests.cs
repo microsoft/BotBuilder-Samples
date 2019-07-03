@@ -73,7 +73,7 @@ namespace CoreBot.Tests.Dialogs
                 });
 
             var sut = new MainDialog(mockRecognizer.Object, mockDialog.Object, _mockLogger.Object);
-            var testClient = new DialogTestClient(Channels.Test, sut, middlewares: new[] { new XUnitOutputMiddleware(Output) });
+            var testClient = new DialogTestClient(Channels.Test, sut, middlewares: new[] { new XUnitDialogTestLogger(Output) });
 
             // Act/Assert
             var reply = await testClient.SendActivityAsync<IMessageActivity>("hi");
@@ -90,7 +90,7 @@ namespace CoreBot.Tests.Dialogs
             var mockRecognizer = SimpleMockFactory.CreateMockLuisRecognizer<FlightBookingRecognizer>(null, constructorParams: new Mock<IConfiguration>().Object);
             mockRecognizer.Setup(x => x.IsConfigured).Returns(true);
             var sut = new MainDialog(mockRecognizer.Object, _mockBookingDialog, _mockLogger.Object);
-            var testClient = new DialogTestClient(Channels.Test, sut, middlewares: new[] { new XUnitOutputMiddleware(Output) });
+            var testClient = new DialogTestClient(Channels.Test, sut, middlewares: new[] { new XUnitDialogTestLogger(Output) });
 
             // Act/Assert
             var reply = await testClient.SendActivityAsync<IMessageActivity>("hi");
@@ -116,7 +116,7 @@ namespace CoreBot.Tests.Dialogs
             mockLuisRecognizer.Setup(x => x.IsConfigured).Returns(true);
 
             var sut = new MainDialog(mockLuisRecognizer.Object, _mockBookingDialog, _mockLogger.Object);
-            var testClient = new DialogTestClient(Channels.Test, sut, middlewares: new[] { new XUnitOutputMiddleware(Output) });
+            var testClient = new DialogTestClient(Channels.Test, sut, middlewares: new[] { new XUnitDialogTestLogger(Output) });
 
             var reply = await testClient.SendActivityAsync<IMessageActivity>("hi");
             Assert.Equal("What can I help you with today?", reply.Text);
@@ -150,7 +150,7 @@ namespace CoreBot.Tests.Dialogs
             mockLuisRecognizer.Setup(x => x.IsConfigured).Returns(true);
 
             var sut = new MainDialog(mockLuisRecognizer.Object, _mockBookingDialog, _mockLogger.Object);
-            var testClient = new DialogTestClient(Channels.Test, sut, middlewares: new[] { new XUnitOutputMiddleware(Output) });
+            var testClient = new DialogTestClient(Channels.Test, sut, middlewares: new[] { new XUnitDialogTestLogger(Output) });
 
             var reply = await testClient.SendActivityAsync<IMessageActivity>("hi");
             Assert.Equal("What can I help you with today?", reply.Text);
