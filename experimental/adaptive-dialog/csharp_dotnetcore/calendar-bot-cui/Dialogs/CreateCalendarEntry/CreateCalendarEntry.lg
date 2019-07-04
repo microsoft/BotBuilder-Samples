@@ -17,7 +17,6 @@
 # ConfirmCancellation
 - ```
 @{lgTemplate("CancelPrefix")}
-[Suggestions=Yes | No]
 ```
 
 # CreateCalendarEntryFailed

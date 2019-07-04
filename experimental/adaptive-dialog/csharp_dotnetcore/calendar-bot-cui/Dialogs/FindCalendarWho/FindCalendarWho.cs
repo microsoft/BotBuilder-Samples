@@ -37,7 +37,7 @@ namespace Microsoft.BotBuilderSamples
                     // Handle case where there are no items in calendar
                     new IfCondition()
                     {
-                        Condition = new ExpressionEngine().Parse("dialog.FindCalendarWho_GraphAll.value == null || count(dialog.FindCalendarWho_GraphAll.value) <= 0"),
+                        Condition = "dialog.FindCalendarWho_GraphAll.value == null || count(dialog.FindCalendarWho_GraphAll.value) <= 0",
                         Steps = new List<IDialog>()
                         {
                             new SendActivity("[ViewEmptyList]"),
@@ -61,17 +61,17 @@ namespace Microsoft.BotBuilderSamples
                     // to iterate all the entries to find all matches
                     new Foreach()
                     {
-                        ListProperty = new ExpressionEngine().Parse("dialog.FindCalendarWho_GraphAll.value"),
+                        ListProperty = "dialog.FindCalendarWho_GraphAll.value",
                         Steps = new List<IDialog>()
                         {
                             new IfCondition()
                             {
-                                Condition = new ExpressionEngine().Parse("dialog.FindCalendarWho_GraphAll.value[dialog.index].attendees[0].emailAddress.address == dialog.findCalendarWho_entryName"),
+                                Condition = "dialog.FindCalendarWho_GraphAll.value[dialog.index].attendees[0].emailAddress.address == dialog.findCalendarWho_entryName",
                                 Steps = new List<IDialog>(){
                                     new EditArray(){
                                         ArrayProperty = "dialog.findCalendarWho_found",
                                         ChangeType = EditArray.ArrayChangeType.Push,
-                                        Value = new ExpressionEngine().Parse("dialog.FindCalendarWho_GraphAll.value[dialog.index]")
+                                        Value = "dialog.FindCalendarWho_GraphAll.value[dialog.index]"
                                     },
                                     new SendActivity("[entryTemplate]")
                                 }
@@ -81,7 +81,7 @@ namespace Microsoft.BotBuilderSamples
                     // no matches situation
                     new IfCondition()
                     {
-                        Condition = new ExpressionEngine().Parse("dialog.findCalendarWho_found == null || count(dialog.findCalendarWho_found) <= 0"),
+                        Condition = "dialog.findCalendarWho_found == null || count(dialog.findCalendarWho_found) <= 0",
                         Steps = new List<IDialog>(){
                             new SendActivity("We could not find any entries, sorry"),
                             new SendActivity("[Welcome-Actions]"),

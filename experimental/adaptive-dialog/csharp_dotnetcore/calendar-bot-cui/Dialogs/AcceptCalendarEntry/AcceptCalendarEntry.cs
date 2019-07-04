@@ -37,7 +37,7 @@ namespace Microsoft.BotBuilderSamples
                     // Handle case where there are no items in todo list
                     new IfCondition()
                     {
-                        Condition = new ExpressionEngine().Parse("dialog.AcceptCalendarEntry_graphAll == null || count(dialog.AcceptCalendarEntry_graphAll) <= 0"),
+                        Condition = "dialog.AcceptCalendarEntry_graphAll == null || count(dialog.AcceptCalendarEntry_graphAll) <= 0",
                         Steps = new List<IDialog>()
                         {
                             new SendActivity("[AccpetEmptyList]"),
@@ -57,18 +57,18 @@ namespace Microsoft.BotBuilderSamples
                     // check each entry to determine whether we have a match
                     new Foreach()
                     {
-                        ListProperty = new ExpressionEngine().Parse("dialog.AcceptCalendarEntry_graphAll.value"),
+                        ListProperty = "dialog.AcceptCalendarEntry_graphAll.value",
                         Steps = new List<IDialog>()
                         {
                             new IfCondition()
                             {
-                                Condition = new ExpressionEngine().Parse("dialog.AcceptCalendarEntry_graphAll.value[dialog.index].subject == dialog.AcceptCalendarEntry_entrySubject"),
+                                Condition = "dialog.AcceptCalendarEntry_graphAll.value[dialog.index].subject == dialog.AcceptCalendarEntry_entrySubject",
                                 Steps = new List<IDialog>()
                                 {
                                     // we cannot a entry if we are the origanizer
                                     new IfCondition()
                                     {
-                                        Condition = new ExpressionEngine().Parse("dialog.AcceptCalendarEntry_graphAll.value[dialog.index].isOrganizer != true"),
+                                        Condition = "dialog.AcceptCalendarEntry_graphAll.value[dialog.index].isOrganizer != true",
                                         Steps = new List<IDialog>()
                                         {
                                             new HttpRequest()
@@ -107,7 +107,7 @@ namespace Microsoft.BotBuilderSamples
                             },
                             new IfCondition()
                             {
-                                Condition = new ExpressionEngine().Parse("turn.cancelConfirmation == true"),
+                                Condition = "turn.cancelConfirmation == true",
                                 Steps = new List<IDialog>()
                                 {
                                     new SendActivity("[CancelCreateMeeting]"),

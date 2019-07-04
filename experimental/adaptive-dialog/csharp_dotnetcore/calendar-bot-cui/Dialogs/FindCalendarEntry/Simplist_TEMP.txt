@@ -1,0 +1,69 @@
+﻿#entryTemplate(x)
+- ```
+[adaptivecard
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "Container",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "style": "emphasis",
+              "verticalContentAlignment": "Center",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Center",
+                  "spacing": "Medium",
+                  "size": "Medium",
+                  "weight": "Bolder",
+                  "color": "dark",
+                  "text": "@{formatDateTime(x.start.dateTime)}",
+                  "isSubtle": "true"
+                },
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Center",
+                  "spacing": "Small",
+                  "text": "@{if(empty(x.location.displayName) != true,
+                        x.location.displayName,'No Location Specified')}",
+                }
+              ],
+              "width": 80
+            },
+            {
+              "type": "Column",
+              "style": "emphasis",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "spacing": "Medium",
+                  "separator": true,
+                  "size": "Medium",
+                  "weight": "Bolder",
+                  "color": "Default",
+                  "text": "@{x.subject}",
+                  "isSubtle": "false"
+                },
+                {
+                  "type": "TextBlock",
+                  "spacing": "None",
+                  "color": "Accent",
+                  "text": "@{(ticks(formatDateTime(x.end.dateTime)) - ticks(formatDateTime(x.start.dateTime)))/36000000000}h",
+                  "isSubtle": "true"
+                }
+              ],
+              "width": 20
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+]
+```

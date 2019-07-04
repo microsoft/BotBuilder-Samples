@@ -6,7 +6,6 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Newtonsoft.Json.Linq;
 
@@ -22,7 +21,7 @@ namespace Microsoft.BotBuilderSamples
         public CreateCalendarEntry()
             : base(nameof(CreateCalendarEntry))
         {
-            var createCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog))
+            var createCalendarEntry = new AdaptiveDialog("create")
             {
                 Recognizer = CreateRecognizer(),
                 Generator = new ResourceMultiLanguageGenerator("CreateCalendarEntry.lg"),
@@ -90,7 +89,7 @@ namespace Microsoft.BotBuilderSamples
                     },
                     new IfCondition
                     {
-                        Condition = new ExpressionEngine().Parse("dialog.createResponse.error == null"),
+                        Condition = "dialog.createResponse.error == null",
                         Steps = new List<IDialog>
                         {
                             new SendActivity("[CreateCalendarEntryReadBack]")
@@ -103,40 +102,24 @@ namespace Microsoft.BotBuilderSamples
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()
                 },
-                // note: every input will be detected through LUIS first from root dialog
-                // once matched, the procedure will add another layer of dialog
-                // not matched. will skip the root dialog, and taken as input
+
+                // note: every input will be detected through this layer first from root dialog
+                // once matched. Otherwise, the input will be thrown to the uppser layer.
                 Rules = new List<IRule>()
                 {
                     new IntentRule("Help")
                     {
-                    Steps = new List<IDialog>()
+                        Steps = new List<IDialog>()
                         {
                             new SendActivity("[HelpCreateMeeting]")
                         }
                     },
                     new IntentRule("Cancel")
                     {
-                    Steps = new List<IDialog>()
+                        Steps = new List<IDialog>()
                         {
-                            new ConfirmInput()
-                            {
-                                Property = "turn.cancelConfirmation",
-                                Prompt = new ActivityTemplate("[ConfirmCancellation]")
-                            },
-                            new IfCondition()
-                            {
-                                Condition = new ExpressionEngine().Parse("turn.cancelConfirmation == true"),
-                                Steps = new List<IDialog>()
-                                {
-                                    new SendActivity("[CancelCreateMeeting]"),
-                                    new EndDialog()
-                                },
-                                ElseSteps = new List<IDialog>()
-                                {
-                                    new SendActivity("[HelpPrefix], let's get right back to scheduling a meeting.")
-                                }
-                            }
+                                new SendActivity("[CancelCreateMeeting]"),
+                                new EndDialog()
                         }
                     }
                 }
@@ -145,19 +128,18 @@ namespace Microsoft.BotBuilderSamples
             AddDialog(createCalendarEntry);
 
             // The initial child Dialog to run.
-            InitialDialogId = nameof(AdaptiveDialog);
+            InitialDialogId = "create";
         }
 
-        private static IRecognizer CreateRecognizer()// BUG this would not recognize the intends
-            // i.e by typing "Cancel", we cannot exit the current dialog
+        private static IRecognizer CreateRecognizer()
         {
             return new RegexRecognizer()
             {
                 Intents = new Dictionary<string, string>()
-                    {
-                        { "Help", "(?i)help" },
-                        { "Cancel", "(?i)cancel|never mind" }
-                    }
+                {
+                    { "Help", "(?i)help" },
+                    {  "Cancel", "(?i)cancel|never mind"}
+                }
             };
         }
     }

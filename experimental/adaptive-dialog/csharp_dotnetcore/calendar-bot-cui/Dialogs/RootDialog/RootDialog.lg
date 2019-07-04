@@ -13,7 +13,7 @@
 
 > Escape suggestion actions without which [] will be treated as template reference.
 # Welcome-Actions
-- \[Suggestions=View Calendar Entry | Create Calendar Entry | Delete Calendar Entry | Find Calendar Who | Accept Calendar Entry | Help\]
+- \[Suggestions=Accept Entries | Create Entries | Delete Entries | View Entries | Find Contact | Next Event |Help\]
 
 # WelcomePrefix
 - Hi

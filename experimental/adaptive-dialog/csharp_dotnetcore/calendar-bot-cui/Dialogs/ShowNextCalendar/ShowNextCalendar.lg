@@ -1,0 +1,70 @@
+﻿#entryTemplate
+- ```
+Your next event is
+[adaptivecard
+{
+    "type": "AdaptiveCard",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "size": "Medium",
+                    "weight": "Bolder",
+                    "text": "@{dialog.nextFound.subject}"
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "@{dialog.nextFound.start.dateTime} - @{dialog.nextFound.end.dateTime}",
+                    "wrap": true,
+                    "maxLines": 5
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "@{if(dialog.nextFound.attendees[0].emailAddress.address != null &&
+                        empty(dialog.nextFound.attendees[0].emailAddress.address) != true,
+                        dialog.nextFound.attendees[0].emailAddress.address,'No Attendee Specified')}",
+                    "wrap": true,
+                    "maxLines": 5
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "@{if(empty(dialog.nextFound.location.displayName) != true,
+                        dialog.nextFound.location.displayName,'No Location Specified')}",
+                    "wrap": true,
+                    "maxLines": 5
+                }
+            ]
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
+}
+]
+```
+
+> Escape suggestion actions without which [] will be treated as template reference.
+# Welcome-Actions
+- \[Suggestions=View Calendar Entry | Create Calendar Entry | Delete Calendar Entry | Find Calendar Who | Accept Calendar Entry | Help\]
+
+# NoNext
+-```
+You do not have next event in your calendar.
+@{lgTemplate("Welcome-Actions")}
+```

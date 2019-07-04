@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 
 /// <summary>
 /// This dialog is the lowest level of all dialogs. 
@@ -23,12 +24,19 @@ namespace Microsoft.BotBuilderSamples
         {
             Configuration = configuration;
             // Create instance of adaptive dialog. 
-            var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+            var rootDialog = new AdaptiveDialog("root")
             {
                 // Create a LUIS recognizer.
                 // The recognizer is built using the intents, utterances, patterns and entities defined in ./RootDialog.lu file
                 Recognizer = CreateRecognizer(),
                 Generator = new ResourceMultiLanguageGenerator("RootDialog.lg"),
+                Steps = new List<IDialog>() {
+                    new TextInput()
+                    {
+                        Property =  "turn.dump",
+                        Prompt = new ActivityTemplate("[Help-Root-Dialog]")
+                    }
+                },
                 Rules = new List<IRule>()
                 {
                     // Intent rules for the LUIS model. Each intent here corresponds to an intent defined in ./Dialogs/Resources/ToDoBot.lu file
@@ -55,6 +63,11 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Steps = new List<IDialog>()
                         {
+                            new SetProperty()
+                            {
+                                Property = "user.FindCalendarEntry_pageIndex",// 0-based
+                                Value = "0"
+                            },
                             new BeginDialog(nameof(FindCalendarEntry))
                         },
                         Constraint = "turn.dialogevent.value.intents.FindCalendarEntry.score > 0.4"
@@ -82,6 +95,13 @@ namespace Microsoft.BotBuilderSamples
                             new BeginDialog(nameof(AcceptCalendarEntry))
                         },
                         Constraint = "turn.dialogevent.value.intents.AcceptCalendarEntry.score > 0.4"
+                    },
+                    new IntentRule("ShowNextCalendar"){
+                        Steps = new List<IDialog>()
+                        {
+                            new BeginDialog(nameof(ShowNextCalendar))
+                        },
+                        Constraint = "turn.dialogevent.value.intents.ShowNextCalendar.score > 0.4"
                     },
                     /******************************************************************************/
 
@@ -118,11 +138,12 @@ namespace Microsoft.BotBuilderSamples
                 new DeleteCalendarEntry(),
                 new FindCalendarWho(),
                 new AcceptCalendarEntry(),
-                new OAuthPromptDialog()
+                new OAuthPromptDialog(),
+                new ShowNextCalendar()
             }) ;
             /******************************************************************************/
             // The initial child Dialog to run.
-            InitialDialogId = nameof(AdaptiveDialog);
+            InitialDialogId = "root";
         }
 
 

@@ -1,3 +1,32 @@
+# HelpViewMeeting
+- [HelpPrefix], you can simply say all the relavent information of the meeting to add it.
+
+# HelpPrefix
+- Sure
+- You bet
+- Absolutely
+
+# CancelPrefix
+- Are you suare you want to cancel? 
+- Just want to double checking. You really want to cancel this right? 
+
+# ConfirmCancellation
+- ```
+@{lgTemplate("CancelPrefix")}
+```
+
+# CancelViewMeeting
+- ```
+@{lgTemplate("HelpPrefix")}, I've cancelled that.
+@{lgTemplate("Welcome-Actions")}
+```
+
+# EnterYourChoice
+-```
+Please select your choice
+[Suggestions=1 | 2 | 3 | Next Page | Previous Page | Cancel | Help]
+```
+
 # ViewEntries
 - ```
 You have @{count(dialog.FindCalendarEntry_GraphAll)} @{lgTemplate("Items-Ordinality")} in your calendar.
@@ -21,7 +50,7 @@ You do not have any entries in your calendar.
 # Welcome-Actions
 - \[Suggestions=View Calendar Entry | Create Calendar Entry | Delete Calendar Entry | Find Calendar Who | Accept Calendar Entry | Help\]
 
-#entryTemplate
+# entryTemplate(x)
 - ```
 [adaptivecard
 {
@@ -34,7 +63,7 @@ You do not have any entries in your calendar.
                     "type": "TextBlock",
                     "size": "Medium",
                     "weight": "Bolder",
-                    "text": "@{dialog.FindCalendarEntry_GraphAll.value[dialog.index].subject}"
+                    "text": "@{x.subject}"
                 }
             ]
         },
@@ -43,7 +72,7 @@ You do not have any entries in your calendar.
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "@{dialog.FindCalendarEntry_GraphAll.value[dialog.index].start.dateTime} - @{dialog.FindCalendarEntry_GraphAll.value[dialog.index].end.dateTime}",
+                    "text": "@{x.start.dateTime} - @{x.end.dateTime}",
                     "wrap": true,
                     "maxLines": 5
                 }
@@ -54,9 +83,9 @@ You do not have any entries in your calendar.
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "@{if(dialog.FindCalendarEntry_GraphAll.value[dialog.index].attendees[0].emailAddress.address != null &&
-                        empty(dialog.FindCalendarEntry_GraphAll.value[dialog.index].attendees[0].emailAddress.address) != true,
-                        dialog.FindCalendarEntry_GraphAll.value[dialog.index].attendees[0].emailAddress.address,'No Attendee Specified')}",
+                    "text": "@{if(x.attendees[0].emailAddress.address != null &&
+                        empty(x.attendees[0].emailAddress.address) != true,
+                        x.attendees[0].emailAddress.address,'No Attendee Specified')}",
                     "wrap": true,
                     "maxLines": 5
                 }
@@ -67,8 +96,8 @@ You do not have any entries in your calendar.
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "@{if(empty(dialog.FindCalendarEntry_GraphAll.value[dialog.index].location.displayName) != true,
-                        dialog.FindCalendarEntry_GraphAll.value[dialog.index].location.displayName,'No Location Specified')}",
+                    "text": "@{if(empty(x.location.displayName) != true,
+                        x.location.displayName,'No Location Specified')}",
                     "wrap": true,
                     "maxLines": 5
                 }
@@ -86,4 +115,3 @@ You do not have any entries in your calendar.
 > Start time: @{dialog.FindCalendarEntry_GraphAll.value[dialog.index].start.dateTime}
 > End time: @{dialog.FindCalendarEntry_GraphAll.value[dialog.index].end.dateTime}
 > Attendees: @{dialog.FindCalendarEntry_GraphAll.value[dialog.index].attendees[0].emailAddress.address}
-

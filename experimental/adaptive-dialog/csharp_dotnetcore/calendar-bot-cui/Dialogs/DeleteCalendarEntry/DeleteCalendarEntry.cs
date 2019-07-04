@@ -31,7 +31,7 @@ namespace Microsoft.BotBuilderSamples
                         Method = HttpRequest.HttpMethod.GET,
                         Headers = new Dictionary<string, string>()
                         {
-                            ["Authorization"] = "Bearer {dialog.token.Token}",
+                            ["Authorization"] = "Bearer {user.token.Token}",
                         },
                         Property = "dialog.DeleteCalendarEntry_graphAll"
                     },
@@ -39,7 +39,7 @@ namespace Microsoft.BotBuilderSamples
                     // Handle case where there are no items in todo list
                     new IfCondition()
                     {
-                        Condition = new ExpressionEngine().Parse("dialog.DeleteCalendarEntry_graphAll == null || count(dialog.DeleteCalendarEntry_graphAll) <= 0"),
+                        Condition = "dialog.DeleteCalendarEntry_graphAll == null || count(dialog.DeleteCalendarEntry_graphAll) <= 0",
                         Steps = new List<IDialog>()
                             {
                                 new SendActivity("[DeleteEmptyList]"),
@@ -57,12 +57,12 @@ namespace Microsoft.BotBuilderSamples
 
                     new Foreach()
                     {
-                        ListProperty = new ExpressionEngine().Parse("dialog.DeleteCalendarEntry_graphAll.value"),
+                        ListProperty = "dialog.DeleteCalendarEntry_graphAll.value",
                         Steps = new List<IDialog>()
                             {
                                 new IfCondition()
                                 {
-                                    Condition = new ExpressionEngine().Parse("dialog.DeleteCalendarEntry_graphAll.value[dialog.index].subject == dialog.DeleteCalendarEntry_entrySubject"),
+                                    Condition = "dialog.DeleteCalendarEntry_graphAll.value[dialog.index].subject == dialog.DeleteCalendarEntry_entrySubject",
                                     Steps = new List<IDialog>()
                                     {
                                         new HttpRequest(){
@@ -96,7 +96,7 @@ namespace Microsoft.BotBuilderSamples
                             },
                             new IfCondition()
                             {
-                                Condition = new ExpressionEngine().Parse("turn.cancelConfirmation == true"),
+                                Condition = "turn.cancelConfirmation == true",
                                 Steps = new List<IDialog>()
                                 {
                                     new SendActivity("[CancelCreateMeeting]"),

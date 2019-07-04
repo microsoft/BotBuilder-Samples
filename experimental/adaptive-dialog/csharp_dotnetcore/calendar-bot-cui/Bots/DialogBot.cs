@@ -1,12 +1,21 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Logging;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Dialogs.Debugging;
+using Microsoft.Bot.Builder.Dialogs.Declarative;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -15,36 +24,30 @@ namespace Microsoft.BotBuilderSamples
     // each with dependency on distinct IBot types, this way ASP Dependency Injection can glue everything together without ambiguity.
     // The ConversationState is used by the Dialog system. The UserState isn't, however, it might have been used in a Dialog implementation,
     // and the requirement is that all BotState objects are saved at the end of a turn.
-    public class DialogBot<T> : ActivityHandler where T : Dialog 
+    public class DialogBot<T> : ActivityHandler where T : Dialog
     {
-        protected readonly Dialog Dialog;
-        protected readonly BotState ConversationState;
-        protected readonly BotState UserState;
-        protected readonly ILogger Logger;
+        private IStatePropertyAccessor<DialogState> dialogStateAccessor;
+        private DialogManager dialogManager;
+        private readonly ResourceExplorer resourceExplorer;
+        private IConfiguration configuration;
 
-        public DialogBot(ConversationState conversationState, UserState userState, T dialog, ILogger<DialogBot<T>> logger)
+        public DialogBot(ConversationState conversationState, ResourceExplorer resourceExplorer, IConfiguration configuration)
         {
-            ConversationState = conversationState;
-            UserState = userState;
-            Dialog = dialog;
-            Logger = logger;
+            this.dialogStateAccessor = conversationState.CreateProperty<DialogState>("RootDialogState");
+            this.resourceExplorer = resourceExplorer;
+            this.configuration = configuration;
+            LoadDialogs();
         }
 
-        public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
+        private void LoadDialogs()
         {
-            await base.OnTurnAsync(turnContext, cancellationToken);
-
-            // Save any state changes that might have occured during the turn.
-            await ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
-            await UserState.SaveChangesAsync(turnContext, false, cancellationToken);
+            var rootDialog = new RootDialog(configuration);
+            this.dialogManager = new DialogManager(rootDialog);
         }
 
-        protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        public override Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Logger.LogInformation("Running dialog with Message Activity.");
-
-            // Run the Dialog with the new message Activity.
-            await Dialog.Run(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+            return this.dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);
         }
     }
 }
