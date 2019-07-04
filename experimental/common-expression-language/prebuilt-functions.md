@@ -14,14 +14,21 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |Function	|Explanation|
 |-----------|-----------|
 |[length](#length)| Returns the length of a string |
-|[replace](#replace)|	Replace a substring with the specified string, and return the updated string. case sensitive|
+|[replace](#replace)| Replace a substring with the specified string, and return the updated string. case sensitive|
 |[replaceIgnoreCase](#replaceIgnoreCase)|	Replace a substring with the specified string, and return the updated string. Case in-sensitive	|
 |[split](#split)	|Returns an array that contains substrings based on the delimiter specified.|
-|[substring](#substring)	|Returns characters from a string. Substring(sourceString, startPos, endPos). startPos cannot be less than 0. endPos greater than source strings length will be taken as the max length of the string	|
-|[toLower](#toLower)	|Convert a string to all upper case characters	|
-|[toUpper](#toUpper)	|Convert a string to all lower case characters	|
-|[trim](#trim)	|Remove leading and trailing white spaces from a string	|
-
+|[substring](#substring) |Returns characters from a string. Substring(sourceString, startPos, endPos). startPos cannot be less than 0. endPos greater than source strings length will be taken as the max length of the string	|
+|[toLower](#toLower) |Convert a string to all upper case characters |
+|[toUpper](#toUpper) |Convert a string to all lower case characters |
+|[trim](#trim) |Remove leading and trailing white spaces from a string |
+|[addOrdinal](#addOrdinal) | Return the ordinal number of the input number |
+|[endsWith](#endsWith) | Check whether a string ends with a specific substring. Return true when the substring is found, or return false when not found. This function is not case-sensitive. |
+|[startsWith](#startsWith) |Check whether a string starts with a specific substring. Return true when the substring is found, or return false when not found. This function is not case-sensitive. |
+|[countWord](#countWord)| Return the number of words in the given string |
+|[concat](#concat) | Combine two or more strings and return the resulting string |
+|[newGuid](#newGuid) | Return a new Guid string|
+|[indexOf](#indexOf)| Return the starting position or index value for a substring. This function is not case-sensitive, and indexes start with the number 0.|
+|[lastIndexOf](#lastIndexOf)| Return the starting position or index value for the last occurrence of a substring. This function is not case-sensitive, and indexes start with the number 0. |
 
 ### Collection functions
 |Function	|Explanation|
@@ -33,6 +40,11 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[last](#last) 	|Returns the last item from the collection	|
 |[count](#count)	|Returns the number of items in the collection	|
 |[foreach](#foreach)	|Operate on each element and return the new collection	|
+|[union](#union) | Return a collection that has all the items from the specified collections |
+|[skip](#skip) | Remove items from the front of a collection, and return *all the other* items |
+|[take](#take) | Return items from the front of a collection |
+|[intersection](#intersection) | Return a collection that has only the common items across the specified collections |
+|[subArray](#subArray) | Returns a sub-array from specified start and end position. Index values start with the number 0. |
 
 
 ### Logical comparison functions
@@ -66,10 +78,6 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[dataUri](#dataUri) | Return the URI for an input value. |
 |[dataUriToBinary](#dataUriToBinary) | Return the binary version of a data URI. |
 |[dataUriToString](#dateUriToString) | Return the string version of a data URI. |
-|[decodeBase64](#decodeBase64) | Return the string version of a base64-encoded string. |
-|[decodeDataUri](#decodeDataUri) | Return the binary version for a data URI. |
-|[decodeUriComponent](#decodeUriComponent) | Return a string that replaces escape characters with decoded versions. |
-|[encodeUriComponent](#encodeUriComponent) | Return a string that replaces URI-unsafe characters with escape characters. |
 |[uriComponent](#uriComponent) | Return the URI-encoded version for an input value by replacing URL-unsafe characters with escape characters. |
 |[uriComponentToBinary](#uriComponentToBinary) | Return the binary version for a URI-encoded string. |
 |[uriComponentToString](#uriComponentToString) | Return the string version for a URI-encoded string. |
@@ -301,6 +309,40 @@ addMinutes('2018-03-15T00:20:00.000Z', -5)
 
 And returns this result: `"2018-03-15T00:15:00.000Z"`
 
+<a name="addOrdinal">
+
+### addOrdinal
+
+Return the ordinal number of the input number.
+
+```
+addOrdinal(<number>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*number*>| Yes | Integer| The numbers to convert to an ordinal number |
+|||||
+
+| Return value | Type | Description |
+| ------------ | -----| ----------- |
+| <*result*> | String | The ordinal number converted from the input number |
+||||
+
+*Example*
+
+```
+addOrdinal(11)
+addOrdinal(12)
+addOrdinal(13)
+addOrdinal(21)
+addOrdinal(22)
+addOrdinal(23)
+```
+
+And these return the results:
+`"11th", "12th", "13th", "21st", "22nd", "23rd"`
+
 <a name="addProperty"></a>
 
 ### addProperty
@@ -317,15 +359,17 @@ addProperty('<object>', '<property>', value)
 |<*property*>| Yes | String | The name of the property to add |
 |<*value*>| Yes | any | The value of the property |
 
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*updated-object*> | Object | The updated JSON object after adding a new property |
+||||
+
 *Example*
 This example adds the accountNumber property to the customerProfile object, which is converted to JSON with the JSON() function. The function assigns a value that is generated by the guid() function, and returns the updated object:
 
 ```
 addProperty(json('customerProfile'), 'accountNumber', guid())
 ```
-
-
-
 
 <a name="addSeconds"></a>
 
@@ -463,6 +507,34 @@ And returns these results:
 * First example: Both expressions are true, so returns `true`.
 * Second example: One expression is false, so returns `false`.
 * Third example: Both expressions are false, so returns `false`.
+
+<a name="average"></a>
+
+### average
+
+Return the average number of an numeric array.
+
+```
+average(<numericArray>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*numericArray*> | Yes | Array of Number | The input array to calculate the average |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*average-of-array*> | Number | The average value of the given array |
+||||
+
+*Example*
+
+```
+average([1,2,3])
+```
+
+And it returns the result: `2`
 
 <a name="base64"></a>
 
@@ -651,7 +723,35 @@ And returns these results:
 - Second example: "hello"
 - Third example: null
 
+<a name="concat"></a>
 
+### concat
+
+Combine two or more strings, and return the combined string.
+
+```
+concat('<text1>', '<text2>', ...)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*text1*>, <*text2*>, ... | Yes | String | At least two strings to combine |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*text1text2...*> | String | The string created from the combined input strings |
+||||
+
+*Example*
+
+This example combines the strings "Hello" and "World":
+
+```
+concat('Hello', 'World')
+```
+
+And returns this result: `"HelloWorld"`
 
 <a name="contains"></a>
 
@@ -701,6 +801,7 @@ the substring "universe" and returns false:
 ```
 contains('hello world', 'universe')
 ```
+
 <a name="count"></a>
 
 ### count
@@ -733,9 +834,38 @@ count(createArray(0, 1, 2, 3))
 
 And return this result: `4`
 
+<a name="countWord"></a>
+
+### countWord
+
+Return the number of words in a string
+
+```
+countWord('<text>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*text*> | Yes | String | The string contains some words to count |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*count*> | Integer | The number of words in the string |
+||||
+
+*Example*
+
+```
+countWord("hello word")
+```
+
+And it returns the result: `2`
+
 <a name="convertFromUTC"></a>
 
 ### convertFromUTC
+
 Convert a timestamp from Universal Time Coordinated(UTC) to target time zone.
 
 ```
@@ -934,12 +1064,11 @@ date('<timestramp>')
 date('2018-03-15T13:00:00.000Z')
 ```
 
-And it returns the result: ```3-15-2018```
-
+And it returns the result: `"3-15-2018"`
 
 <a name="dateReadBack"></a>
 
-### dateReadBcak
+### dateReadBack
 
 Uses the date-time library to provide a date readback.
 
@@ -1057,98 +1186,6 @@ dayOfYear('2018-03-15T13:27:36Z')
 
 And returns this result: `74`
 
-<a name="decodeBase64"></a>
-
-### decodeBase64
-
-Return the string version for a base64-encoded string, effectively decoding the base64 string. Consider using base64ToString() rather than decodeBase64(). Although both functions work the same way, base64ToString() is preferred.
-
-```
-decodeBase64('<value>')
-```
-
-| Parameter | Required | Type | Description |
-| --------- | -------- | ---- | ----------- |
-| <*value*> | Yes | String | The base64-encoded string to decode |
-|||||
-
-| Return value | Type | Description |
-| ------------ | ---- | ----------- |
-| <*decoded-base64-string*> | String | The string version for a base64-encoded string |
-||||
-
-*Example*
-
-This example creates a string for a base64-encoded string:
-
-```
-decodeBase64('aGVsbG8=')
-```
-
-And returns this result: `"hello"`
-
-<a name="decodeDataUri"></a>
-
-### decodeDataUri
-
-Return the binary version for a data uniform resource identifier (URI). Consider using dataUriToBinary(), rather than decodeDataUri(). Although both functions work the same way, dataUriToBinary() is preferred.
-
-```
-decodeDataUri('<value>')
-```
-
-| Parameter | Required | Type | Description |
-| --------- | -------- | ---- | ----------- |
-| <*value*> | Yes | String | The data URI string to decode |
-|||||
-
-| Return value | Type | Description |
-| ------------ | ---- | ----------- |
-| <*binary-for-data-uri*> | String | The binary version for a data URI string |
-||||
-
-*Example*
-
-This example returns the binary version for this data URI:
-
-```
-decodeDataUri('data:text/plain;charset=utf-8;base64,aGVsbG8=')
-```
-
-And returns this result:
-
-`"01100100011000010111010001100001001110100111010001100101011110000111010000101111011100000 1101100011000010110100101101110001110110110001101101000011000010111001001110011011001010111 0100001111010111010101110100011001100010110100111000001110110110001001100001011100110110010 10011011000110100001011000110000101000111010101100111001101100010010001110011100000111101"`
-
-<a name="decodeUriComponent"></a>
-
-### decodeUriComponent
-
-Return a string that replaces escape characters with decoded versions.
-
-```
-decodeUriComponent('<value>')
-```
-
-| Parameter | Required | Type | Description |
-| --------- | -------- | ---- | ----------- |
-| <*value*> | Yes | String | The string with the escape characters to decode |
-|||||
-
-| Return value | Type | Description |
-| ------------ | ---- | ----------- |
-| <*decoded-uri*> | String | The updated string with the decoded escape characters|
-||||
-
-*Example*
-
-This example replaces the escape characters in this string with decoded versions:
-
-```
-decodeUriComponent('http%3A%2F%2Fcontoso.com')
-```
-
-And returns this result: `"https://contoso.com"`
-
 <a name="div"></a>
 
 ### div
@@ -1181,36 +1218,6 @@ div(11, 5)
 ```
 
 And return this result: `2`
-
-<a name="encodeUriComponent"></a>
-
-### encodeUriComponent
-
-Return a uniform resource identifier (URI) encoded version for a string by replacing URL-unsafe characters with escape characters. Consider using uriComponent(), rather than encodeUriComponent(). Although both functions work the same way, uriComponent() is preferred.
-
-```
-encodeUriComponent('<value>')
-```
-
-| Parameter | Required | Type | Description |
-| --------- | -------- | ---- | ----------- |
-| <*value*> | Yes | String | The string to convert to URI-encoded format |
-|||||
-
-| Return value | Type | Description |
-| ------------ | ---- | ----------- |
-| <*encoded-uri*> | String | The URI-encoded string with escape characters |
-||||
-
-*Example*
-
-This example creates a URI-encoded version for this string:
-
-```
-encodeUriComponent('https://contoso.com')
-```
-
-And returns this result: `"http%3A%2F%2Fcontoso.com"`
 
 <a name="empty"></a>
 
@@ -1248,6 +1255,47 @@ And returns these results:
 
 * First example: Passes an empty string, so the function returns `true`.
 * Second example: Passes the string "abc", so the function returns `false`.
+
+<a name="endsWith"></a>
+
+### endsWith
+
+Check whether a string ends with a specific substring. Return true when the substring is found, or return false when not found. This function is not case-sensitive.
+
+```
+endsWith('<text>', '<searchText>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*text*> | Yes | String | The string to check |
+| <*searchText*> | Yes | String | The ending substring to find |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| true or false | Boolean | Return true when the ending substring is found. Return false when not found |
+||||
+
+*Example 1*
+
+This example checks whether the "hello world" string ends with the "world" string:
+
+```
+endsWith('hello world', 'world')
+```
+
+And it returns the result: `true`
+
+*Example 2*
+
+This example checks whether the "hello world" string ends with the "world" string:
+
+```
+endsWith('hello world', 'universe')
+```
+
+And it returns the result: `false`
 
 <a name="equals"></a>
 
@@ -1723,6 +1771,38 @@ Otherwise, the example returns `"no"`:
 if(equals(1, 1), 'yes', 'no')
 ```
 
+<a name="indexOf"></a>
+
+### indexOf
+
+Return the starting position or index value for a substring. This function is not case-sensitive, and indexes start with the number 0.
+
+```
+indexOf('<text>', '<searchText>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*text*> | Yes | String | The string that has the substring to find |
+| <*searchText*> | Yes | String | The substring to find |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*index-value*> | Integer | The starting position or index value for the specified substring.
+If the string is not found, return the number -1. |
+||||
+
+*Example*
+
+This example finds the starting index value for the "world" substring in the "hello world" string:
+
+```
+indexOf('hello world', 'world')
+```
+
+And returns this result: `6`
+
 <a name="int"></a>
 
 ### int
@@ -1752,6 +1832,37 @@ int('10')
 ```
 
 And returns this result: `10`
+
+<a name="intersection"></a>
+
+### intersection
+
+Return a collection that has only the common items across the specified collections. To appear in the result, an item must appear in all the collections passed to this function. If one or more items have the same name, the last item with that name appears in the result.
+
+```
+intersection([<collection1>], [<collection2>], ...)
+intersection('<collection1>', '<collection2>', ...)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection1*>, <*collection2*>  | Yes | Array or Object, but not both | The collections from where you want only the common items |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*common-items*> | Array or Object, respectively | A collection that has only the common items across the specified collections |
+||||
+
+*Example*
+
+This example finds the common items across these arrays:
+
+```
+intersection(createArray(1, 2, 3), createArray(101, 2, 1, 10), createArray(6, 8, 1, 2))
+```
+
+And returns an array with only these items: `[1, 2]`
 
 <a name="isMatch"></a>
 
@@ -1914,6 +2025,38 @@ And returns these results:
 
 * First example: `"d"`
 * Second example: `3`
+
+<a name="lastIndexOf"></a>
+
+### lastIndexOf
+
+Return the starting position or index value for the last occurrence of a substring. This function is not case-sensitive, and indexes start with the number 0.
+
+```
+lastIndexOf('<text>', '<searchText>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*text*> | Yes | String | The string that has the substring to find |
+| <*searchText*> | Yes | String | The substring to find |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*ending-index-value*> | Integer | The starting position or index value for the last occurrence of the specified substring.
+If the string is not found, return the number -1. |
+||||
+
+*Example*
+
+This example finds the starting index value for the last occurrence of the "world" substring in the "hello world" string:
+
+```
+lastIndexOf('hello world', 'world')
+```
+
+And returns this result: `6`
 
 ### length
 
@@ -2184,6 +2327,33 @@ And return these results:
 
 * First example: `2`
 * Second example `3`
+
+<a name="newGuid"></a>
+
+### newGuid
+
+Return a new Guid string.
+
+```
+newGuid()
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*Guid-string*> | String | A new guid string, length is 36 and looks like *xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx*|
+||||
+
+*Example*
+
+```
+newGuid()
+```
+
+And it returns a result which follows the format: `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`
 
 <a name="not"></a>
 
@@ -2477,6 +2647,37 @@ This example sets the ```"accountNumber"``` property on a ```"customerProfile"``
 setProperty(json('customerProfile'), 'accountNumber', guid())
 ```
 
+<a name="skip"></a>
+
+### skip
+
+Remove items from the front of a collection, and return all the other items.
+
+```
+skip([<collection>], <count>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | Array | The collection whose items you want to remove |
+| <*count*> | Yes | Integer | A positive integer for the number of items to remove at the front |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*updatedCollection*> | Array | The updated collection after removing the specified items |
+||||
+
+*Example*
+
+This example removes one item, the number 0, from the front of the specified array:
+
+```
+skip(createArray(0, 1, 2, 3), 1)
+```
+
+And returns this array with the remaining items: `[1,2,3]`
+
 <a name="split"></a>
 
 ### split
@@ -2512,6 +2713,8 @@ And returns this array as the result: `["a","b","c"]`
 
 <a name="startOfDay"></a>
 
+### startOfDay
+
 Return the start of the day for a timestamp.
 
 ```
@@ -2541,10 +2744,12 @@ And returns this result: `"2018-03-15T00:00:00.000Z"`
 
 <a name="startOfHour"></a>
 
+### startOfHour
+
 Return the start of the hour for a timestamp.
 
 ```
-startOfDay('<timestamp>', '<format>'?)
+startOfHour('<timestamp>', '<format>'?)
 ```
 
 | Parameter | Required | Type | Description |
@@ -2563,7 +2768,7 @@ startOfDay('<timestamp>', '<format>'?)
 This example finds the start of the hour for this timestamp:
 
 ```
-startOfDay('2018-03-15T13:30:30.000Z')
+startOfHour('2018-03-15T13:30:30.000Z')
 ```
 
 And returns this result: `"2018-03-15T13:00:00.000Z"`
@@ -2598,6 +2803,47 @@ startOfDay('2018-03-15T13:30:30.000Z')
 ```
 
 And returns this result: `"2018-03-01T00:00:00.000Z"`
+
+<a name="startsWith"></a>
+
+### startsWith
+
+Check whether a string starts with a specific substring. Return true when the substring is found, or return false when not found. This function is not case-sensitive.
+
+```
+startsWith('<text>', '<searchText>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*text*> | Yes | String | The string to check |
+| <*searchText*> | Yes | String | The starting substring to find |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| true or false | Boolean | Return true when the starting substring is found. Return false when not found |
+||||
+
+*Example 1*
+
+This example checks whether the "hello world" string starts with the "world" string:
+
+```
+startsWith('hello world', 'hello')
+```
+
+And it returns the result: `true`
+
+*Example 2*
+
+This example checks whether the "hello world" string starts with the "world" string:
+
+```
+startsWith('hello world', 'greeting')
+```
+
+And it returns the result: `false`
 
 <a name="string"></a>
 
@@ -2671,6 +2917,39 @@ sub(10.3, .3)
 ```
 
 And returns this result: `10`
+
+<a name="subArray"></a>
+
+### subArray
+
+Returns a sub-array from specified start and end position. Index values start with the number 0.
+
+```
+subArray(<Array>, <startIndex>, <endIndex>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*array*> | Yes | Array | The array whose items you want |
+| <*startIndex*> | Yes | Integer | A positive number equal to or greater than 0 that you want to use as the starting position or index value |
+| <*endIndex*> | Yes | Integer |  A positive number equal to or greater than 0 that you want to use as the ending position or index value|
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*sub-array-result*> | Array | A sub-array with the specified number of items, starting at the specified index position in the source string |
+||||
+
+*Example*
+
+This example creates a sub-array from the specified array,
+starting from the index value 2 and ending at the index of 5:
+
+```
+subArray(createArray('H','e','l','l','o'), 2, 5)
+```
+
+And returns this result: `["l", "l", "o"]`
 
 <a name="substring"></a>
 
@@ -2781,7 +3060,45 @@ add([1, 1.5])
 
 And returns this result: `2.5`
 
+<a name="take"></a>
+
+### take
+
+Return items from the front of a collection.
+
+```
+take('<collection>', <count>)
+take([<collection>], <count>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | String or Array | The collection whose items you want |
+| <*count*> | Yes | Integer | A positive integer for the number of items that you want from the front |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*subset*> or [<*subset*>]| String or Array, respectively | A string or array that has the specified number of items taken from the front of the original collection |
+||||
+
+*Example*
+
+These examples get the specified number of items from the front of these collections:
+
+```
+take('abcde', 3)
+take(createArray(0, 1, 2, 3, 4), 3)
+```
+
+And return these results:
+
+- First example: `"abc"`
+- Second example: `[0, 1, 2]`
+
 <a name='ticks'></a>
+
+### ticks
 
 Return the ticks property value for a specified timestamp. A tick is 100-nanosecond interval.
 
@@ -2903,6 +3220,37 @@ trim(' Hello World  ')
 ```
 
 And returns this result: `"Hello World"`
+
+<a name="union"></a>
+
+### union
+
+Return a collection that has all the items from the specified collections. To appear in the result, an item can appear in any collection passed to this function. If one or more items have the same name, the last item with that name appears in the result.
+
+```
+union('<collection1>', '<collection2>', ...)
+union([<collection1>], [<collection2>], ...)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection1*>, <*collection2*>, ...| Yes | Array or Object, but not both | The collections from where you want all the items |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*updatedCollection*> | Array or Object, respectively | A collection with all the items from the specified collections - no duplicates |
+||||
+
+*Example*
+
+This example gets all the items from these collections:
+
+```
+union(createArray(1, 2, 3), createArray(1, 2, 10, 101))
+```
+
+And returns this result: `[1, 2, 3, 10, 101]`
 
 <a name="uriComponent"></a>
 
@@ -3220,6 +3568,66 @@ utcNow('D')
 ```
 
 And returns this result: `"Sunday, April 15, 2018"`
+
+<a name="xml"></a>
+
+### xml
+
+Return the XML version for a string that contains a JSON object.
+
+```
+xml('<value>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*value*> | Yes | String | The string with the JSON object to convert
+The JSON object must have only one root property, which can't be an array. 
+Use the backslash character (\) as an escape character for the double quotation mark ("). |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*xml-version*> | Object | The encoded XML for the specified string or JSON object |
+||||
+
+*Example 1*
+
+This example creates the XML version for this string, which contains a JSON object:
+
+`xml(json('{ \"name\": \"Sophia Owen\" }'))`
+
+And returns this result XML:
+
+```
+<name>Sophia Owen</name>
+```
+
+*Example 2*
+
+Suppose you have this JSON object:
+
+```
+{
+  "person": {
+    "name": "Sophia Owen",
+    "city": "Seattle"
+  }
+}
+```
+
+This example creates XML for a string that contains this JSON object:
+
+`xml(json('{\"person\": {\"name\": \"Sophia Owen\", \"city\": \"Seattle\"}}'))`
+
+And returns this result XML:
+
+```
+<person>
+  <name>Sophia Owen</name>
+  <city>Seattle</city>
+<person
+```
 
 <a name="xPath"></a>
 
