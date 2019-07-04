@@ -102,17 +102,6 @@ For C#
 For NodeJS
 ```
     let lgEngine = new TemplateEngine().addFiles(pathToLGFiles);
-=======
-
-```c#
-    TemplateEngine lgEngine = TemplateEngine.FromFiles(pathToLGFile);
-```
-
-For NodeJS
-
-```node
-    let lgEngine = templateEngine.fromFiles(pathToLGFile);
-```
 
 When you need template expansion, call the templateEngine and pass in the relevant template name
 
