@@ -55,9 +55,14 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Steps = new List<IDialog>()
                         {
+                            new SetProperty()
+                            {
+                                Property = "user.CreateCalendarEntry_pageIndex", // 0-based
+                                Value = "0"
+                            },
                             new BeginDialog(nameof(CreateCalendarEntry))
                         },
-                        Constraint = "turn.dialogevent.value.intents.CreateCalendarEntry.score > 0.6"
+                        Constraint = "turn.dialogevent.value.intents.CreateCalendarEntry.score > 0.5"
                     },
                     new IntentRule("FindCalendarEntry")
                     {
@@ -70,7 +75,7 @@ namespace Microsoft.BotBuilderSamples
                             },
                             new BeginDialog(nameof(FindCalendarEntry))
                         },
-                        Constraint = "turn.dialogevent.value.intents.FindCalendarEntry.score > 0.6"
+                        Constraint = "turn.dialogevent.value.intents.FindCalendarEntry.score > 0.5"
                     },
                     new IntentRule("DeleteCalendarEntry")
                     {
@@ -78,7 +83,7 @@ namespace Microsoft.BotBuilderSamples
                         {
                             new BeginDialog(nameof(DeleteCalendarEntry))
                         },
-                        Constraint = "turn.dialogevent.value.intents.DeleteCalendarEntry.score > 0.6"
+                        Constraint = "turn.dialogevent.value.intents.DeleteCalendarEntry.score > 0.5"
                     },
                     new IntentRule("FindCalendarWho")
                     {
@@ -86,7 +91,7 @@ namespace Microsoft.BotBuilderSamples
                         {
                             new BeginDialog(nameof(FindCalendarWho))
                         },
-                        Constraint = "turn.dialogevent.value.intents.FindCalendarWho.score > 0.6"
+                        Constraint = "turn.dialogevent.value.intents.FindCalendarWho.score > 0.5"
                     },
                     new IntentRule("AcceptCalendarEntry")
                     {
@@ -94,14 +99,14 @@ namespace Microsoft.BotBuilderSamples
                         {
                             new BeginDialog(nameof(AcceptCalendarEntry))
                         },
-                        Constraint = "turn.dialogevent.value.intents.AcceptCalendarEntry.score > 0.6"
+                        Constraint = "turn.dialogevent.value.intents.AcceptCalendarEntry.score > 0.5"
                     },
                     new IntentRule("ShowNextCalendar"){
                         Steps = new List<IDialog>()
                         {
                             new BeginDialog(nameof(ShowNextCalendar))
                         },
-                        Constraint = "turn.dialogevent.value.intents.ShowNextCalendar.score > 0.6"
+                        Constraint = "turn.dialogevent.value.intents.ShowNextCalendar.score > 0.5"
                     },
                     /******************************************************************************/
 
@@ -112,7 +117,7 @@ namespace Microsoft.BotBuilderSamples
                         {
                             new SendActivity("[Help-Root-Dialog]")
                         },
-                        Constraint = "turn.dialogevent.value.intents.Help.score > 0.6"
+                        Constraint = "turn.dialogevent.value.intents.Help.score > 0.5"
                     },
                     new IntentRule("Cancel")
                     {
@@ -123,7 +128,7 @@ namespace Microsoft.BotBuilderSamples
                             new SendActivity("[Welcome-Actions]"),
                             new CancelAllDialogs(),
                         },
-                        Constraint = "turn.dialogevent.value.intents.Cancel.score > 0.6"
+                        Constraint = "turn.dialogevent.value.intents.Cancel.score > 0.5"
                     }
                 }
             };

@@ -83,14 +83,14 @@ You do not have any entries in your calendar.
                                             "size": "Medium",
                                             "weight": "Bolder",
                                             "color": "Dark",
-                                            "text": "@{formatDateTime(x.start.dateTime,'HH:mm')}",
+                                            "text": "@{if(x != null, formatDateTime(x.start.dateTime,'HH:mm'), 'N/A')}",
                                             "isSubtle": false
                                         },
                                         {
                                             "type": "TextBlock",
                                             "horizontalAlignment": "Center",
                                             "color": "Dark",
-                                            "text": "@{formatDateTime(x.end.dateTime,'HH:mm')}"
+                                            "text": "@{if(x != null, formatDateTime(x.end.dateTime,'HH:mm'), 'N/A')}"
                                         }
                                     ],
                                     "width": 20
@@ -106,7 +106,7 @@ You do not have any entries in your calendar.
                                             "size": "Medium",
                                             "weight": "Bolder",
                                             "color": "Dark",
-                                            "text": "@{x.subject}",
+                                            "text": "@{if(x != null, x.subject, 'N/A')}",
                                             "isSubtle": false,
                                             "wrap": true,
                                             "maxLines": 2
@@ -115,7 +115,7 @@ You do not have any entries in your calendar.
                                             "type": "TextBlock",
                                             "spacing": "None",
                                             "color": "Accent",
-                                            "text": "@{if(empty(x.location.displayName) != true,
+                                            "text": "@{if(x.location.displayName!= null && empty(x.location.displayName) != true,
                                                 x.location.displayName,'No Location Specified')}",
                                             "isSubtle": false
                                         }

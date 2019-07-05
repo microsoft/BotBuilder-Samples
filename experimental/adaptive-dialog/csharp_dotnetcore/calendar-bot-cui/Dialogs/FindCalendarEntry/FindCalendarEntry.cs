@@ -170,10 +170,6 @@ namespace Microsoft.BotBuilderSamples
                                     new EndDialog()
                                 }
                             }
-                            // read one two three
-                            // show details
-                            // repeatdialog
-
                         },
                         ElseSteps = new List<IDialog>
                         {
