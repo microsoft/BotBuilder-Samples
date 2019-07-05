@@ -4,6 +4,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration;
 
@@ -23,93 +24,88 @@ namespace Microsoft.BotBuilderSamples
                 Generator = new ResourceMultiLanguageGenerator("DeleteCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
-
-                    new BeginDialog(nameof(OAuthPromptDialog)),
-                    new HttpRequest()
-                    {
-                        Url = "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={utcNow()}&enddatetime={addDays(utcNow(), 1)}",
-                        Method = HttpRequest.HttpMethod.GET,
-                        Headers = new Dictionary<string, string>()
-                        {
-                            ["Authorization"] = "Bearer {user.token.Token}",
-                        },
-                        Property = "dialog.DeleteCalendarEntry_graphAll"
-                    },
-
-                    // Handle case where there are no items in todo list
                     new IfCondition()
                     {
-                        Condition = "dialog.DeleteCalendarEntry_graphAll == null || count(dialog.DeleteCalendarEntry_graphAll) <= 0",
-                        Steps = new List<IDialog>()
-                            {
-                                new SendActivity("[DeleteEmptyList]"),
-                                new SendActivity("[Welcome-Actions]"),
-                                new EndDialog()
-                            }
-                    },
-
-                    new BeginDialog(nameof(FindCalendarEntry)),
-                    new TextInput()
-                    {
-                        Property = "dialog.DeleteCalendarEntry_entrySubject",
-                        Prompt = new ActivityTemplate("[GetEntryTitleToDelete]"),
-                    },
-
-                    new Foreach()
-                    {
-                        ListProperty = "dialog.DeleteCalendarEntry_graphAll.value",
-                        Steps = new List<IDialog>()
-                            {
-                                new IfCondition()
-                                {
-                                    Condition = "dialog.DeleteCalendarEntry_graphAll.value[dialog.index].subject == dialog.DeleteCalendarEntry_entrySubject",
-                                    Steps = new List<IDialog>()
-                                    {
-                                        new HttpRequest(){
-                                                Property = "user.deleteResponse",
-                                                Method = HttpRequest.HttpMethod.POST, // BUG HttpRequest does not support delete now
-                                                Url = "https://graph.microsoft.com/v1.0/me/events/{dialog.DeleteCalendarEntry_graphAll.value[dialog.index].id}/delete",
-                                                Headers =  new Dictionary<string, string>()
-                                                {
-                                                    ["Authorization"] = "Bearer {dialog.token.Token}",
-                                                }
-                                            },
-                                        new SendActivity("[DeleteReadBack]")
-                                    }
-                                }
-                            }
-                    },
-
-                new SendActivity("[Welcome-Actions]"),
-                new EndDialog()
-                },
-                Rules = new List<IRule>()
-                {
-                    new IntentRule("Cancel")
-                    {
+                        Condition = "user.focusedMeeting == null",
                         Steps = new List<IDialog>()
                         {
-                            new ConfirmInput()
+                            new SendActivity("[emptyFocusedMeeting]"),
+                            new SetProperty()
                             {
-                                Property = "turn.cancelConfirmation",
-                                Prompt = new ActivityTemplate("[ConfirmCancellation]")
+                                Property = "user.FindCalendarEntry_pageIndex",// index must be set to zero
+                                Value = "0" // in case we have not entered FindCalendarEntry from RootDialog
                             },
-                            new IfCondition()
+                            new BeginDialog("FindCalendarEntry")
+                        }
+                    },
+                    // we cannot decline a entry if we are the origanizer
+                    new IfCondition()
+                    {
+                        Condition = "user.focusedMeeting.isOrganizer != true",
+                        Steps = new List<IDialog>()
+                        {
+                            new HttpRequest()
                             {
-                                Condition = "turn.cancelConfirmation == true",
-                                Steps = new List<IDialog>()
+                                Property = "user.declineResponse",
+                                Method = HttpRequest.HttpMethod.POST,
+                                Url = "https://graph.microsoft.com/v1.0/me/events/{user.focusedMeeting.id}/decline",
+                                Headers =  new Dictionary<string, string>()
                                 {
-                                    new SendActivity("[CancelCreateMeeting]"),
-                                    new EndDialog()
+                                    ["Authorization"] = "Bearer {dialog.token.Token}",
+                                }
+                            },
+                            new SendActivity("[DeclineReadBack]")
+                        },
+                        ElseSteps = new List<IDialog>(){
+                            new SendActivity("Your request can't be completed. You can't respond to this meeting because you're the meeting organizer."),
+                            new DeleteProperty
+                            {
+                                Property = "turn.FindCalendarEntry_Choice"
+                            },
+                            new ChoiceInput(){
+                                Property = "turn.FindCalendarEntry_Choice",
+                                Prompt = new ActivityTemplate("[DeleteThisEntry]"),
+                                Choices = new List<Choice>()
+                                {
+                                    new Choice("Agree"),
+                                    new Choice("Disagree")
+                                }
+                            },
+                            new SwitchCondition()
+                            {
+                                Condition = "turn.FindCalendarEntry_Choice",
+                                Cases = new List<Case>()
+                                {
+                                    new Case("Agree", new List<IDialog>()
+                                    {
+                                        new HttpRequest()
+                                        {
+                                            Property = "user.declineResponse",
+                                            //Method = HttpRequest.HttpMethod.DELETE, // CANNOT DELETE NOT BECAUSE IT IS NOT USABLE NOW
+                                            Url = "https://graph.microsoft.com/v1.0/me/events/{user.focusedMeeting.id}/delete",
+                                            Headers =  new Dictionary<string, string>()
+                                            {
+                                                ["Authorization"] = "Bearer {dialog.token.Token}",
+                                            }
+                                        },
+                                        new SendActivity("Successfully delete your entry!"),
+                                    }),
+                                    new Case("Disagree", new List<IDialog>()
+                                    {
+                                        new SendActivity("Ok...")
+                                    }),
                                 },
-                                ElseSteps = new List<IDialog>()
+                                Default = new List<IDialog>()
                                 {
-                                    new SendActivity("[HelpPrefix], let's get right back to scheduling a meeting.")
+                                    new SendActivity("Sorry, I don't know what you mean!"),
+                                    new EndDialog()
                                 }
                             }
                         }
-                    }
-                }
+                    },
+                    new SendActivity("[Welcome-Actions]"),
+                    new EndDialog()
+                },
             };
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.

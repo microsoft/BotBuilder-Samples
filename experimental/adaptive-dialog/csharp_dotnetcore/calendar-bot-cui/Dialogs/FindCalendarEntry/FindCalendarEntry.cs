@@ -73,7 +73,12 @@ namespace Microsoft.BotBuilderSamples
                                                 Condition = "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3] != null",
                                                 Steps = new List<IDialog>(){
                                                     new SendActivity("[detailedEntryTemplate(dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3])]"),
-                                                    },
+                                                    new SetProperty()
+                                                    {
+                                                        Property = "user.focusedMeeting",
+                                                        Value = "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3]"
+                                                    }
+                                                },
                                                 ElseSteps = new List<IDialog>(){
                                                     new SendActivity("[viewEmptyEntry]")
                                                 }
@@ -86,6 +91,11 @@ namespace Microsoft.BotBuilderSamples
                                                 Condition = "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 1] != null",
                                                 Steps = new List<IDialog>(){
                                                     new SendActivity("[detailedEntryTemplate(dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 1])]"),
+                                                    new SetProperty()
+                                                    {
+                                                        Property = "user.focusedMeeting",
+                                                        Value = "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 1]"
+                                                    }
                                                 },
                                                 ElseSteps = new List<IDialog>(){
                                                     new SendActivity("[viewEmptyEntry]")
@@ -99,6 +109,11 @@ namespace Microsoft.BotBuilderSamples
                                                 Condition = "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 2] != null",
                                                 Steps = new List<IDialog>(){
                                                     new SendActivity("[detailedEntryTemplate(dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 2])]"),
+                                                    new SetProperty()
+                                                    {
+                                                        Property = "user.focusedMeeting",
+                                                        Value = "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 2]"
+                                                    }
                                                 },
                                                 ElseSteps = new List<IDialog>(){
                                                     new SendActivity("[viewEmptyEntry]")

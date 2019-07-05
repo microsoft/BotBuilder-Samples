@@ -6,14 +6,11 @@ Ok, give me the exact subject of the entry you would like to accept.
 
 # AcceptReadBack
 - ```
-Ok, I've accepted your entry whose subject is "@{dialog.AcceptCalendarEntry_entrySubject}".
+Ok, I've accepted your entry whose subject is "@{user.focusedMeeting.subject}".
 ```
 
-# AccpetEmptyList
-- You do not have any entries in your calendar.
-
-# EntryNotFound
-- Sorry, I did not find a entry whose subject is {dialog.AcceptCalendarEntry_entrySubject} in your calendar.
+# emptyFocusedMeeting
+- You do not have a focused meeting. Please check a meeting in detail to define a focused meeting before accepting any. 
 
 > Escape suggestion actions without which [] will be treated as template reference.
 # Welcome-Actions

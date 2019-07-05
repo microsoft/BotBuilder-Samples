@@ -4,13 +4,16 @@ Ok, give me the exact subject of the entry you would like to delete.
 [Suggestions=Help | Cancel]
 ```
 
-# DeleteReadBack
+# DeleteThisEntry
+- We are going to delete this meeting instead. Do you agree?
+
+# DeclineReadBack
 - ```
-Ok, I've removed your entry whose subject is "@{dialog.DeleteCalendarEntry_entrySubject}".
+Ok, I've declined your entry whose subject is "@{user.focusedMeeting.subject}".
 ```
 
-# DeleteEmptyList
-- You do not have any entries in your calendar.
+# emptyFocusedMeeting
+- You do not have a focused meeting. Please check a meeting in detail to define a focused meeting before accepting any. 
 
 # EntryNotFound
 - Sorry, I did not find a entry whose subject is {dialog.DeleteCalendarEntry_entrySubject} in your calendar.

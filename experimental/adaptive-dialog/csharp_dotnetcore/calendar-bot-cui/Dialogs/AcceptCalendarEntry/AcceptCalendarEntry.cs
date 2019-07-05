@@ -23,104 +23,45 @@ namespace Microsoft.BotBuilderSamples
                 Generator = new ResourceMultiLanguageGenerator("AcceptCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
-                    new BeginDialog(nameof(OAuthPromptDialog)),
-                    new HttpRequest(){
-                        Url = "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={utcNow()}&enddatetime={addDays(utcNow(), 1)}",
-                        Method = HttpRequest.HttpMethod.GET,
-                        Headers =  new Dictionary<string, string>()
-                        {
-                            ["Authorization"] = "Bearer {user.token.Token}",
-                        },
-                        Property = "dialog.AcceptCalendarEntry_graphAll"
-                    },
-
-                    // Handle case where there are no items in todo list
                     new IfCondition()
                     {
-                        Condition = "dialog.AcceptCalendarEntry_graphAll == null || count(dialog.AcceptCalendarEntry_graphAll) <= 0",
+                        Condition = "user.focusedMeeting == null",
                         Steps = new List<IDialog>()
                         {
-                            new SendActivity("[AccpetEmptyList]"),
-                            new SendActivity("[Welcome-Actions]"),
-                            new EndDialog()
+                            new SendActivity("[emptyFocusedMeeting]"),
+                            new SetProperty()
+                            {
+                                Property = "user.FindCalendarEntry_pageIndex",// index must be set to zero
+                                Value = "0" // in case we have not entered FindCalendarEntry from RootDialog
+                            },
+                            new BeginDialog("FindCalendarEntry")
                         }
                     },
-
-                    // show all the entries we have
-                    new BeginDialog(nameof(FindCalendarEntry)),
-                    new TextInput()
+                    // we cannot accept a entry if we are the origanizer
+                    new IfCondition()
                     {
-                        Property = "dialog.AcceptCalendarEntry_entrySubject",
-                        Prompt = new ActivityTemplate("[GetEntryTitleToAccept]"),
-                    },
-
-                    // check each entry to determine whether we have a match
-                    new Foreach()
-                    {
-                        ListProperty = "dialog.AcceptCalendarEntry_graphAll.value",
+                        Condition = "user.focusedMeeting.isOrganizer != true",
                         Steps = new List<IDialog>()
                         {
-                            new IfCondition()
+                            new HttpRequest()
                             {
-                                Condition = "dialog.AcceptCalendarEntry_graphAll.value[dialog.index].subject == dialog.AcceptCalendarEntry_entrySubject",
-                                Steps = new List<IDialog>()
+                                Property = "user.acceptResponse",
+                                Method = HttpRequest.HttpMethod.POST,
+                                Url = "https://graph.microsoft.com/v1.0/me/events/{user.focusedMeeting.id}/accept",
+                                Headers =  new Dictionary<string, string>()
                                 {
-                                    // we cannot a entry if we are the origanizer
-                                    new IfCondition()
-                                    {
-                                        Condition = "dialog.AcceptCalendarEntry_graphAll.value[dialog.index].isOrganizer != true",
-                                        Steps = new List<IDialog>()
-                                        {
-                                            new HttpRequest()
-                                            {
-                                                Property = "user.acceptResponse",
-                                                Method = HttpRequest.HttpMethod.POST,
-                                                Url = "https://graph.microsoft.com/v1.0/me/events/{dialog.AcceptCalendarEntry_graphAll.value[dialog.index].id}/accept",
-                                                Headers =  new Dictionary<string, string>()
-                                                {
-                                                    ["Authorization"] = "Bearer {dialog.token.Token}",
-                                                }
-                                            },
-                                            new SendActivity("[AcceptReadBack]")
-                                        },
-                                        ElseSteps = new List<IDialog>(){
-                                            new SendActivity("Your request can't be completed. You can't respond to this meeting because you're the meeting organizer.")
-                                        }
-                                    }
+                                    ["Authorization"] = "Bearer {dialog.token.Token}",
                                 }
-                            }
+                            },
+                            new SendActivity("[AcceptReadBack]")
+                        },
+                        ElseSteps = new List<IDialog>(){
+                            new SendActivity("Your request can't be completed. You can't respond to this meeting because you're the meeting organizer.")
                         }
                     },
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()
                 },
-                Rules = new List<IRule>()
-                {
-                    new IntentRule("Cancel")
-                    {
-                        Steps = new List<IDialog>()
-                        {
-                            new ConfirmInput()
-                            {
-                                Property = "turn.cancelConfirmation",
-                                Prompt = new ActivityTemplate("[ConfirmCancellation]")
-                            },
-                            new IfCondition()
-                            {
-                                Condition = "turn.cancelConfirmation == true",
-                                Steps = new List<IDialog>()
-                                {
-                                    new SendActivity("[CancelCreateMeeting]"),
-                                    new EndDialog()
-                                },
-                                ElseSteps = new List<IDialog>()
-                                {
-                                    new SendActivity("[HelpPrefix], let's get right back to scheduling a meeting.")
-                                }
-                            }
-                        }
-                    }
-                }
             };
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
@@ -129,6 +70,5 @@ namespace Microsoft.BotBuilderSamples
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);
         }
-
     }
 }
