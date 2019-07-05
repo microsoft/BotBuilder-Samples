@@ -33,6 +33,13 @@ class QnABot extends ActivityHandler {
 
         // When a user sends a message, perform a call to the QnA Maker service to retrieve matching Question and Answer pairs.
         this.onMessage(async (context, next) => {
+            if (!process.env.QnAKnowledgebaseId || !process.env.QnAEndpointKey || !process.env.QnAEndpointHostName) {
+                let configQnaMessage = 'NOTE: QnA Maker is not configured. To enable all capabilities, add `QnAKnowledgebaseId`, `QnAEndpointKey` and `QnAEndpointHostName` to the .env file. \n' +
+                    'You may visit www.qnamaker.ai to create a QnA Maker knowledge base.'
+                
+                await context.sendActivity(configQnaMessage)
+            }
+
             console.log('Calling QnA Maker');
 
             const qnaResults = await this.qnaMaker.getAnswers(context);
