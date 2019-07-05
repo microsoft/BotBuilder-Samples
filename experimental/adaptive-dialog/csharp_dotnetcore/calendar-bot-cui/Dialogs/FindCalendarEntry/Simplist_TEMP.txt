@@ -1,69 +1,59 @@
-﻿#entryTemplate(x)
+﻿# entryTemplate(x)
 - ```
 [adaptivecard
 {
-  "type": "AdaptiveCard",
-  "body": [
-    {
-      "Container",
-      "items": [
+    "type": "AdaptiveCard",
+    "body": [
         {
-          "type": "ColumnSet",
-          "columns": [
-            {
-              "type": "Column",
-              "style": "emphasis",
-              "verticalContentAlignment": "Center",
-              "items": [
+            "type": "Container",
+            "items": [
                 {
-                  "type": "TextBlock",
-                  "horizontalAlignment": "Center",
-                  "spacing": "Medium",
-                  "size": "Medium",
-                  "weight": "Bolder",
-                  "color": "dark",
-                  "text": "@{formatDateTime(x.start.dateTime)}",
-                  "isSubtle": "true"
-                },
+                    "type": "TextBlock",
+                    "size": "Medium",
+                    "weight": "Bolder",
+                    "text": "@{x.subject}"
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
                 {
-                  "type": "TextBlock",
-                  "horizontalAlignment": "Center",
-                  "spacing": "Small",
-                  "text": "@{if(empty(x.location.displayName) != true,
+                    "type": "TextBlock",
+                    "text": "@{x.start.dateTime} - @{x.end.dateTime}",
+                    "wrap": true,
+                    "maxLines": 5
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "@{if(x.attendees[0].emailAddress.address != null &&
+                        empty(x.attendees[0].emailAddress.address) != true,
+                        x.attendees[0].emailAddress.address,'No Attendee Specified')}",
+                    "wrap": true,
+                    "maxLines": 5
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "@{if(empty(x.location.displayName) != true,
                         x.location.displayName,'No Location Specified')}",
+                    "wrap": true,
+                    "maxLines": 5
                 }
-              ],
-              "width": 80
-            },
-            {
-              "type": "Column",
-              "style": "emphasis",
-              "items": [
-                {
-                  "type": "TextBlock",
-                  "spacing": "Medium",
-                  "separator": true,
-                  "size": "Medium",
-                  "weight": "Bolder",
-                  "color": "Default",
-                  "text": "@{x.subject}",
-                  "isSubtle": "false"
-                },
-                {
-                  "type": "TextBlock",
-                  "spacing": "None",
-                  "color": "Accent",
-                  "text": "@{(ticks(formatDateTime(x.end.dateTime)) - ticks(formatDateTime(x.start.dateTime)))/36000000000}h",
-                  "isSubtle": "true"
-                }
-              ],
-              "width": 20
-            }
-          ]
+            ]
         }
-      ]
-    }
-  ]
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
 }
 ]
 ```

@@ -22,10 +22,11 @@
 ```
 
 # EnterYourChoice
--```
-Please select your choice
-[Suggestions=1 | 2 | 3 | Next Page | Previous Page | Cancel | Help]
-```
+- Please select your choice
+
+> -```
+> [Suggestions=1 | 2 | 3 | Next Page | Previous Page | Cancel | Help]
+> ```
 
 # ViewEntries
 - ```
@@ -50,7 +51,205 @@ You do not have any entries in your calendar.
 # Welcome-Actions
 - \[Suggestions=View Calendar Entry | Create Calendar Entry | Delete Calendar Entry | Find Calendar Who | Accept Calendar Entry | Help\]
 
-# entryTemplate(x)
+# viewEmptyEntry
+- You cannot check on empty entry!
+
+# entryTemplate(x, y, z)
+- ```
+[adaptivecard
+{
+    "type": "AdaptiveCard",
+    "height": "stretch",
+    "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "Container",
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "verticalContentAlignment": "Center",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "spacing": "Medium",
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "@{formatDateTime(x.start.dateTime,'HH:mm')}",
+                                            "isSubtle": false
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "color": "Dark",
+                                            "text": "@{formatDateTime(x.end.dateTime,'HH:mm')}"
+                                        }
+                                    ],
+                                    "width": 20
+                                },
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "Medium",
+                                            "separator": true,
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "@{x.subject}",
+                                            "isSubtle": false,
+                                            "wrap": true,
+                                            "maxLines": 2
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "None",
+                                            "color": "Accent",
+                                            "text": "@{if(empty(x.location.displayName) != true,
+                                                x.location.displayName,'No Location Specified')}",
+                                            "isSubtle": false
+                                        }
+                                    ],
+                                    "width": 80
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Container",
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "verticalContentAlignment": "Center",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "@{if(y != null, formatDateTime(y.start.dateTime,'HH:mm'), 'N/A')}"
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "spacing": "Small",
+                                            "color": "Dark",
+                                            "text": "@{if(y != null, formatDateTime(y.end.dateTime,'HH:mm'), 'N/A')}"
+                                        }
+                                    ],
+                                    "width": 20
+                                },
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "Medium",
+                                            "separator": true,
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "@{if(y != null, y.subject, 'N/A')}"
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "None",
+                                            "color": "Accent",
+                                            "text": "@{if(y.location.displayName != null && empty(y.location.displayName) != true,
+                                                y.location.displayName,'No Location Specified')}",
+                                            "wrap": true,
+                                            "maxLines": 2
+                                        }
+                                    ],
+                                    "width": 80
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Container",
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "verticalContentAlignment": "Center",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "spacing": "Medium",
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Attention",
+                                            "text": "@{if(z != null, formatDateTime(z.start.dateTime,'HH:mm'), 'N/A')}"
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "spacing": "Small",
+                                            "text": "@{if(z != null, formatDateTime(z.end.dateTime,'HH:mm'), 'N/A')}"
+                                        }
+                                    ],
+                                    "width": 20
+                                },
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "Medium",
+                                            "separator": true,
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "@{if (z != null, z.subject, 'N/A')}"
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "None",
+                                            "color": "Accent",
+                                            "text": "@{if(z.location.displayName != null && empty(z.location.displayName) != true,
+                                                z.location.displayName,'No Location Specified')}"
+                                        }
+                                    ],
+                                    "width": 80
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
+}
+]
+```
+
+# detailedEntryTemplate(x)
 - ```
 [adaptivecard
 {

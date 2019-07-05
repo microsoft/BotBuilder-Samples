@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Formatters.Internal;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
@@ -6,6 +7,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.LanguageGeneration;
 
 /// <summary>
@@ -40,28 +42,123 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Condition = "dialog.FindCalendarEntry_GraphAll.value != null && count(dialog.FindCalendarEntry_GraphAll.value) > 0",
                         Steps = new List<IDialog>()
-                        {
-                            new Foreach()
+                        {   
+                            new SendActivity("[entryTemplate(dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3], " +
+                                "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 1]," +
+                                "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 2])]"),// TODO only simple card right now, will use fancy card then\
+                            new DeleteProperty
                             {
-                                ListProperty = "dialog.FindCalendarEntry_GraphAll.value",
-                                Steps = new List<IDialog>()
+                                Property = "turn.FindCalendarEntry_Choice"
+                            },
+                            new ChoiceInput(){
+                                Property = "turn.FindCalendarEntry_Choice",
+                                Prompt = new ActivityTemplate("[EnterYourChoice]"),
+                                Choices = new List<Choice>()
                                 {
-                                    new IfCondition()
-                                    {
-                                        Condition = "user.FindCalendarEntry_pageIndex * 3 - 1 < dialog.index &&" +
-                                            "dialog.index < user.FindCalendarEntry_pageIndex * 3 + 3",
-                                        Steps = new List<IDialog>()
-                                        {
-                                            new SendActivity("[entryTemplate(dialog.FindCalendarEntry_GraphAll.value[dialog.index])]"),// TODO only simple card right now, will use fancy card then\
-                                        }
-                                    }
+                                    new Choice("Check The First One"),
+                                    new Choice("Check The Second One"),
+                                    new Choice("Check The Third One"),
+                                    new Choice("Next Page"),
+                                    new Choice("Previous Page")
                                 }
                             },
-                            new TextInput()
+                            new SwitchCondition()
                             {
-                                Property = "dialog.FindCalendarEntry_Choice",
-                                Prompt = new ActivityTemplate("[EnterYourChoice]")
+                                Condition = "turn.FindCalendarEntry_Choice",
+                                Cases = new List<Case>()
+                                {
+                                    new Case("Check The First One", new List<IDialog>()
+                                        {
+                                            new IfCondition(){
+                                                Condition = "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3] != null",
+                                                Steps = new List<IDialog>(){
+                                                    new SendActivity("[detailedEntryTemplate(dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3])]"),
+                                                    },
+                                                ElseSteps = new List<IDialog>(){
+                                                    new SendActivity("[viewEmptyEntry]")
+                                                }
+                                            },
+                                            new RepeatDialog()
+                                        }),
+                                    new Case("Check The Second One", new List<IDialog>()
+                                        {
+                                            new IfCondition(){
+                                                Condition = "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 1] != null",
+                                                Steps = new List<IDialog>(){
+                                                    new SendActivity("[detailedEntryTemplate(dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 1])]"),
+                                                },
+                                                ElseSteps = new List<IDialog>(){
+                                                    new SendActivity("[viewEmptyEntry]")
+                                                }
+                                            },
+                                            new RepeatDialog()
+                                        }),
+                                    new Case("Check The Third One", new List<IDialog>()
+                                        {
+                                            new IfCondition(){
+                                                Condition = "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 2] != null",
+                                                Steps = new List<IDialog>(){
+                                                    new SendActivity("[detailedEntryTemplate(dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 2])]"),
+                                                },
+                                                ElseSteps = new List<IDialog>(){
+                                                    new SendActivity("[viewEmptyEntry]")
+                                                }
+                                            },
+                                            new RepeatDialog()
+                                        }),
+                                    new Case("Next Page", new List<IDialog>()
+                                        {
+                                            new IfCondition()
+                                            {
+                                                Condition = "user.FindCalendarEntry_pageIndex < count(dialog.FindCalendarEntry_GraphAll.value) - 1",
+                                                Steps = new List<IDialog>()
+                                                {
+                                                    new SetProperty()
+                                                    {
+                                                       Property = "user.FindCalendarEntry_pageIndex",
+                                                        Value = "user.FindCalendarEntry_pageIndex + 1"
+                                                    },
+                                                    new RepeatDialog()
+                                                },
+                                                ElseSteps = new List<IDialog>()
+                                                {
+                                                    new SendActivity("This is already the last page!"),
+                                                    new RepeatDialog()
+                                                }
+                                            }
+                                        }),
+                                    new Case("Previous Page", new List<IDialog>()
+                                        {
+                                            new IfCondition()
+                                            {
+                                                Condition = " 0 < user.FindCalendarEntry_pageIndex",
+                                                Steps = new List<IDialog>()
+                                                {
+                                                    new SetProperty()
+                                                    {
+                                                        Property = "user.FindCalendarEntry_pageIndex",
+                                                        Value = "user.FindCalendarEntry_pageIndex - 1"
+                                                    },
+                                                    new RepeatDialog()
+                                                },
+                                                ElseSteps = new List<IDialog>()
+                                                {
+                                                    new SendActivity("This is already the first page!"),
+                                                    new RepeatDialog()
+                                                }
+                                            }
+                                        }),
+                                },
+                                Default = new List<IDialog>()
+                                {
+                                    new SendActivity("Sorry, I don't know what you mean!"),
+                                    new EndDialog()
+                                }
                             }
+                            // read one two three
+                            // show details
+                            // repeatdialog
+
                         },
                         ElseSteps = new List<IDialog>
                         {
@@ -73,57 +170,6 @@ namespace Microsoft.BotBuilderSamples
                 },
                 Rules = new List<IRule>()
                 {
-                    new IntentRule("NextPage")
-                    {
-                        Steps = new List<IDialog>()
-                        {
-                            new IfCondition()
-                            {
-                                Condition = "user.FindCalendarEntry_pageIndex < count(dialog.FindCalendarEntry_GraphAll.value) - 1",
-                                Steps = new List<IDialog>()
-                                {
-                                    new SetProperty()
-                                    {
-                                       Property = "user.FindCalendarEntry_pageIndex",
-                                        Value = "user.FindCalendarEntry_pageIndex + 1"
-                                    },
-                                    new SendActivity("{user.FindCalendarEntry_pageIndex}"),//DEBUG
-                                    new BeginDialog("FindCalendarEntry")
-                                },
-                                ElseSteps = new List<IDialog>()
-                                {
-                                    new SendActivity("This is already the last page!"),
-                                    new BeginDialog("FindCalendarEntry")
-                                }                                
-                            }
-                        }
-                    },
-                    new IntentRule("PreviousPage")
-                    {
-                        Steps = new List<IDialog>()
-                        {
-
-                        new IfCondition()
-                        {
-                            Condition = "user.FindCalendarEntry_pageIndex >= 1",
-                            Steps = new List<IDialog>()
-                            {
-                                new SetProperty()
-                                {
-                                    Property = "user.FindCalendarEntry_pageIndex",
-                                    Value = "user.FindCalendarEntry_pageIndex - 1"
-                                },
-                                new SendActivity("{user.FindCalendarEntry_pageIndex}"),//DEBUG
-                                new BeginDialog("FindCalendarEntry")
-                            },
-                            ElseSteps = new List<IDialog>()
-                            {
-                                new SendActivity("This is already the first page!"),
-                                new BeginDialog("FindCalendarEntry")
-                            }
-                        }
-                        },
-                    },
                     new IntentRule("Help")
                     {
                         Steps = new List<IDialog>()
@@ -156,8 +202,6 @@ namespace Microsoft.BotBuilderSamples
                 {
                     { "Help", "(?i)help" },
                     { "Cancel", "(?i)cancel|never mind"},
-                    { "NextPage", "(?i)next page"},
-                    { "PreviousPage", "(?i)previous page"}
                 }
             };
         }

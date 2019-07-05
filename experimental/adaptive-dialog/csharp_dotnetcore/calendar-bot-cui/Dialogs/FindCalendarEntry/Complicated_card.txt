@@ -1,0 +1,385 @@
+{
+    "type": "AdaptiveCard",
+    "height": "stretch",
+    "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "ColumnSet",
+                    "columns": [
+                        {
+                            "type": "Column",
+                            "backgroundImage": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRw%0D%0AOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMzEyIDExMCI+PGRlZnM+PHN0%0D%0AeWxlPi5he2ZpbGw6IzY1YWZlMjt9LmJ7b3BhY2l0eTowLjI7ZmlsbDp1cmwoI2EpO30uY3tmaWxs%0D%0AOiMwMDU4YTg7b3BhY2l0eTowLjI1O308L3N0eWxlPjxsaW5lYXJHcmFkaWVudCBpZD0iYSIgeDE9%0D%0AIjIyOC44NyIgeTE9IjU1IiB4Mj0iNDQ5LjM0IiB5Mj0iNTUiIGdyYWRpZW50VW5pdHM9InVzZXJT%0D%0AcGFjZU9uVXNlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmYiIHN0b3Atb3BhY2l0%0D%0AeT0iMC41Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmZmIi8+PC9saW5lYXJHcmFk%0D%0AaWVudD48L2RlZnM+PHRpdGxlPnBsYXRmb3Jtc0Fzc2V0IDQ4cXVlc2l0b25zPC90aXRsZT48cGF0%0D%0AaCBjbGFzcz0iYSIgZD0iTTIzMC43NCw1NS4wNywyODUuODIsMEgwVjExMEgyNzYuNjFMMjMwLjc0%0D%0ALDY0LjEzQTYuNDMsNi40MywwLDAsMSwyMzAuNzQsNTUuMDdaIi8+PHBhdGggY2xhc3M9ImEiIGQ9%0D%0AIk0zMTIsMEgyODUuODJMMjMwLjc0LDU1LjA3YTYuNDMsNi40MywwLDAsMCwwLDkuMDZMMjc2LjYx%0D%0ALDExMEgzMTJaIi8+PHBhdGggY2xhc3M9ImIiIGQ9Ik0zMTIsMEgyODUuODJMMjMwLjc0LDU1LjA3%0D%0AYTYuNDMsNi40MywwLDAsMCwwLDkuMDZMMjc2LjYxLDExMEgzMTJaIi8+PHBhdGggY2xhc3M9ImMi%0D%0AIGQ9Ik0yNDIuNiwyMi4zMiwzMTIsOTEuNzJWMEgyNTUuODdMMjQyLjYsMTMuMjdBNi40Miw2LjQy%0D%0ALDAsMCwwLDI0Mi42LDIyLjMyWiIvPjwvc3ZnPg==",
+                            "items": [
+                                {
+                                    "type": "ColumnSet",
+                                    "height": "stretch",
+                                    "columns": [
+                                        {
+                                            "type": "Column",
+                                            "height": "stretch",
+                                            "items": [
+                                                {
+                                                    "type": "ColumnSet",
+                                                    "height": "stretch",
+                                                    "columns": [
+                                                        {
+                                                            "type": "Column",
+                                                            "height": "stretch",
+                                                            "items": [
+                                                                {
+                                                                    "type": "Image",
+                                                                    "horizontalAlignment": "Center",
+                                                                    "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFk%0D%0Ab2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246%0D%0AIDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5z%0D%0APSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMu%0D%0Ab3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyNSAyMy40IiBz%0D%0AdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyNSAyMy40OyIgeG1sOnNwYWNlPSJwcmVz%0D%0AZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5%0D%0AbGU+Cjx0aXRsZT5wbGF0Zm9ybXNBc3NldCAzNHF1ZXNpdG9uczwvdGl0bGU+CjxwYXRoIGNsYXNz%0D%0APSJzdDAiIGQ9Ik00LjcsMS42VjBoMS42djEuNmgxMi41VjBoMS42djEuNkgyNXYyMS45SDBWMS42%0D%0ASDQuN3ogTTIwLjMsMy4xdjEuNmgtMS42VjMuMUg2LjJ2MS42SDQuN1YzLjFIMS42djMuMWgyMS45%0D%0ACglWMy4xSDIwLjN6IE0yMy40LDIxLjlWNy44SDEuNnYxNC4xTDIzLjQsMjEuOXogTTYuMiwxMC45%0D%0ASDQuN1Y5LjRoMS42VjEwLjl6IE02LjIsMTQuMUg0Ljd2LTEuNmgxLjZWMTQuMXogTTYuMiwxNy4y%0D%0ASDQuN3YtMS42aDEuNgoJVjE3LjJ6IE0xMC45LDEwLjlIOS40VjkuNGgxLjZWMTAuOXogTTEwLjks%0D%0AMTQuMUg5LjR2LTEuNmgxLjZWMTQuMXogTTEwLjksMTcuMkg5LjR2LTEuNmgxLjZWMTcuMnogTTEw%0D%0ALjksMjAuM0g5LjR2LTEuNmgxLjZWMjAuM3oKCSBNMTUuNiwxMC45aC0xLjZWOS40aDEuNlYxMC45%0D%0AeiBNMTUuNiwxNC4xaC0xLjZ2LTEuNmgxLjZWMTQuMXogTTE1LjYsMTcuMmgtMS42di0xLjZoMS42%0D%0AVjE3LjJ6IE0xNS42LDIwLjNoLTEuNnYtMS42aDEuNlYyMC4zegoJIE0yMC4zLDE0LjFoLTEuNnYt%0D%0AMS42aDEuNkwyMC4zLDE0LjF6IE0yMC4zLDE3LjJoLTEuNnYtMS42aDEuNkwyMC4zLDE3LjJ6IE0y%0D%0AMC4zLDIwLjNoLTEuNnYtMS42aDEuNkwyMC4zLDIwLjN6Ii8+Cjwvc3ZnPgo=",
+                                                                    "width": "35px",
+                                                                    "height": "35px"
+                                                                }
+                                                            ],
+                                                            "width": "auto"
+                                                        },
+                                                        {
+                                                            "type": "Column",
+                                                            "verticalContentAlignment": "Center",
+                                                            "items": [
+                                                                {
+                                                                    "type": "TextBlock",
+                                                                    "size": "Large",
+                                                                    "weight": "Bolder",
+                                                                    "color": "Light",
+                                                                    "text": "Your schedule"
+                                                                }
+                                                            ],
+                                                            "width": "stretch"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "ColumnSet",
+                                                    "height": "stretch",
+                                                    "columns": [
+                                                        {
+                                                            "type": "Column",
+                                                            "height": "stretch",
+                                                            "items": [
+                                                                {
+                                                                    "type": "TextBlock",
+                                                                    "horizontalAlignment": "Right",
+                                                                    "size": "Medium",
+                                                                    "color": "Light",
+                                                                    "text": "10"
+                                                                },
+                                                                {
+                                                                    "type": "TextBlock",
+                                                                    "horizontalAlignment": "Right",
+                                                                    "size": "Medium",
+                                                                    "color": "Light",
+                                                                    "text": "4"
+                                                                }
+                                                            ],
+                                                            "width": "auto"
+                                                        },
+                                                        {
+                                                            "type": "Column",
+                                                            "items": [
+                                                                {
+                                                                    "type": "TextBlock",
+                                                                    "size": "Medium",
+                                                                    "weight": "Bolder",
+                                                                    "color": "Light",
+                                                                    "text": "events today"
+                                                                },
+                                                                {
+                                                                    "type": "TextBlock",
+                                                                    "size": "Medium",
+                                                                    "weight": "Bolder",
+                                                                    "color": "Light",
+                                                                    "text": "events overlap"
+                                                                }
+                                                            ],
+                                                            "width": "stretch"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "ColumnSet",
+                                                    "height": "stretch",
+                                                    "columns": [
+                                                        {
+                                                            "type": "Column",
+                                                            "height": "stretch",
+                                                            "verticalContentAlignment": "Center",
+                                                            "items": [
+                                                                {
+                                                                    "type": "Image",
+                                                                    "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFk%0D%0Ab2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246%0D%0AIDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5z%0D%0APSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMu%0D%0Ab3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxNiAxNiIgZW5h%0D%0AYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMTYgMTYiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8Zz4K%0D%0ACTxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik02LjksOGw2LjEsNi4xTDExLDE1LjlMMy4xLDhMMTEs%0D%0AMC4xbDEuOSwxLjlMNi45LDh6Ii8+CjwvZz4KPC9zdmc+Cg==",
+                                                                    "height": "20px"
+                                                                }
+                                                            ],
+                                                            "width": "auto"
+                                                        },
+                                                        {
+                                                            "type": "Column",
+                                                            "spacing": "Small",
+                                                            "verticalContentAlignment": "Center",
+                                                            "items": [
+                                                                {
+                                                                    "type": "TextBlock",
+                                                                    "horizontalAlignment": "Center",
+                                                                    "size": "Medium",
+                                                                    "color": "Light",
+                                                                    "text": "**1-3** of 4044"
+                                                                }
+                                                            ],
+                                                            "width": "auto"
+                                                        },
+                                                        {
+                                                            "type": "Column",
+                                                            "horizontalAlignment": "Center",
+                                                            "spacing": "Small",
+                                                            "verticalContentAlignment": "Center",
+                                                            "items": [
+                                                                {
+                                                                    "type": "Image",
+                                                                    "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFk%0D%0Ab2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246%0D%0AIDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5z%0D%0APSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMu%0D%0Ab3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxNiAxNiIgZW5h%0D%0AYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMTYgMTYiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8Zz4K%0D%0ACTxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik0xMi45LDhMNSwxNS45bC0xLjktMS45TDkuMSw4TDMu%0D%0AMSwxLjlMNSwwLjFMMTIuOSw4eiIvPgo8L2c+Cjwvc3ZnPgo=",
+                                                                    "height": "20px"
+                                                                }
+                                                            ],
+                                                            "width": "auto"
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "width": 60
+                                        },
+                                        {
+                                            "type": "Column",
+                                            "height": "stretch",
+                                            "verticalContentAlignment": "Center",
+                                            "items": [
+                                                {
+                                                    "type": "Image",
+                                                    "horizontalAlignment": "Center",
+                                                    "style": "Person",
+                                                    "url": "https://raw.githubusercontent.com/ryanlengel/adaptivecards/master/assets/heads/myrcella.jpg",
+                                                    "size": "Medium"
+                                                }
+                                            ],
+                                            "width": 40
+                                        }
+                                    ]
+                                }
+                            ],
+                            "width": "stretch"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "Container",
+                    "style": "emphasis",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "weight": "Bolder",
+                            "color": "Dark",
+                            "text": "MONDAY, MARCH 25"
+                        }
+                    ]
+                },
+                {
+                    "type": "Container",
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "verticalContentAlignment": "Center",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "spacing": "Medium",
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "8:15",
+                                            "isSubtle": true
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "color": "Dark",
+                                            "text": "1h30m"
+                                        }
+                                    ],
+                                    "width": 20
+                                },
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "Medium",
+                                            "separator": true,
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "Briefing for exec review regarding the ABC memo",
+                                            "isSubtle": true,
+                                            "wrap": true,
+                                            "maxLines": 2
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "None",
+                                            "color": "Accent",
+                                            "text": "Kitchenette",
+                                            "isSubtle": true
+                                        }
+                                    ],
+                                    "width": 80
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Container",
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "verticalContentAlignment": "Center",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "9:00"
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "spacing": "Small",
+                                            "color": "Dark",
+                                            "text": "30m"
+                                        }
+                                    ],
+                                    "width": 20
+                                },
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "Medium",
+                                            "separator": true,
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "Lili Staff Meeting"
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "None",
+                                            "color": "Accent",
+                                            "text": "CITY CENTER 2228, thats the one around the corner",
+                                            "wrap": true,
+                                            "maxLines": 2
+                                        }
+                                    ],
+                                    "width": 80
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Container",
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "verticalContentAlignment": "Center",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "spacing": "Medium",
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Attention",
+                                            "text": "10:00"
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "spacing": "Small",
+                                            "text": "1h"
+                                        }
+                                    ],
+                                    "width": 20
+                                },
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "Medium",
+                                            "separator": true,
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "Weekly Team Meeting"
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "None",
+                                            "color": "Accent",
+                                            "text": "Kitchenette"
+                                        }
+                                    ],
+                                    "width": 80
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "separator": true,
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "horizontalAlignment": "Right",
+                    "size": "Small",
+                    "color": "Dark",
+                    "text": "Powered by **Microsoft Graph**"
+                }
+            ]
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
+}
