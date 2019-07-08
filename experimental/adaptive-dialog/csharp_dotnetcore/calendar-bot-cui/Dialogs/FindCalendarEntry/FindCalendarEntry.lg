@@ -24,10 +24,6 @@
 # EnterYourChoice
 - Please select your choice
 
-> -```
-> [Suggestions=1 | 2 | 3 | Next Page | Previous Page | Cancel | Help]
-> ```
-
 # ViewEntries
 - ```
 You have @{count(dialog.FindCalendarEntry_GraphAll)} @{lgTemplate("Items-Ordinality")} in your calendar.

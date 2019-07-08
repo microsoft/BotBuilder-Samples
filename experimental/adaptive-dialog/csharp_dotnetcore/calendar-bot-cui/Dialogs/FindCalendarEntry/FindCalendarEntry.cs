@@ -60,7 +60,8 @@ namespace Microsoft.BotBuilderSamples
                                     new Choice("Check The Third One"),
                                     new Choice("Next Page"),
                                     new Choice("Previous Page")
-                                }
+                                },
+                                Style = ListStyle.SuggestedAction
                             },
                             new SwitchCondition()
                             {
@@ -125,7 +126,7 @@ namespace Microsoft.BotBuilderSamples
                                         {
                                             new IfCondition()
                                             {
-                                                Condition = "user.FindCalendarEntry_pageIndex < count(dialog.FindCalendarEntry_GraphAll.value) - 1",
+                                                Condition = "user.FindCalendarEntry_pageIndex * 3 < count(dialog.FindCalendarEntry_GraphAll.value)",
                                                 Steps = new List<IDialog>()
                                                 {
                                                     new SetProperty()

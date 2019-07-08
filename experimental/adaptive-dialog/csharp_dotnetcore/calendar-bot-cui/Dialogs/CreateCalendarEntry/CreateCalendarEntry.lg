@@ -120,11 +120,16 @@ OK, please enter the duration of your event.
                     "items": [
                         {
                             "type": "TextBlock",
+                            "horizontalAlignment": "Center",
+                            "spacing": "Medium",
+                            "size": "Medium",
                             "weight": "Bolder",
                             "color": "Dark",
-                            "text": "@{if(x != null, x, 'N/A')}"
+                            "text": "@{if(x != null, x, 'N/A')}",
+                            "isSubtle": false
                         }
-                    ]
+                    ],
+                    "width": 20
                 }
             ]
         },
@@ -137,11 +142,16 @@ OK, please enter the duration of your event.
                     "items": [
                         {
                             "type": "TextBlock",
+                            "horizontalAlignment": "Center",
+                            "spacing": "Medium",
+                            "size": "Medium",
                             "weight": "Bolder",
                             "color": "Dark",
-                            "text": "@{if(y != null, y, 'N/A')}"
+                            "text": "@{if(y != null, y, 'N/A')}",
+                            "isSubtle": false
                         }
-                    ]
+                    ],
+                    "width": 20
                 }
             ]
         },
@@ -154,11 +164,76 @@ OK, please enter the duration of your event.
                     "items": [
                         {
                             "type": "TextBlock",
+                            "horizontalAlignment": "Center",
+                            "spacing": "Medium",
+                            "size": "Medium",
                             "weight": "Bolder",
                             "color": "Dark",
-                            "text": "@{if(z != null, z, 'N/A')}"
+                            "text": "@{if(z != null, z, 'N/A')}",
+                            "isSubtle": false
                         }
-                    ]
+                    ],
+                    "width": 20
+                }
+            ]
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
+}
+]
+```
+
+# CreateCalendarDetailedEntryReadBack
+- ```
+[adaptivecard
+{
+    "type": "AdaptiveCard",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "size": "Medium",
+                    "weight": "Bolder",
+                    "text": "@{dialog.CreateCalendarEntry_Subject}"
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "@{dialog.CreateCalendarEntry_FromTime} - @{dialog.CreateCalendarEntry_ToTime}",
+                    "wrap": true,
+                    "maxLines": 5
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "@{if(dialog.finalContact != null &&
+                        empty(dialog.finalContact) != true,
+                        dialog.finalContact,'No Attendee Specified')}",
+                    "wrap": true,
+                    "maxLines": 5
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "@{if(empty(dialog.CreateCalendarEntry_Location) != true,
+                        dialog.CreateCalendarEntry_Location,'dialog.CreateCalendarEntry_Location')}",
+                    "wrap": true,
+                    "maxLines": 5
                 }
             ]
         }
