@@ -1,2 +1,2 @@
 ﻿# Note
-This folder contains a set of helper classes and extensions that could eventually be moved to the testing framework.
+This folder contains a set of helper classes and extensions used in the tests.

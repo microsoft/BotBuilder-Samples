@@ -1,0 +1,115 @@
+{
+  "text": "flight from paris to new york",
+  "intents": { "BookFlight": { "score": 0.9953049 } },
+  "entities": {
+    "$instance": {
+      "From": [
+        {
+          "startIndex": 12,
+          "endIndex": 17,
+          "score": 0.94712317,
+          "text": "paris",
+          "type": "From"
+        }
+      ],
+      "To": [
+        {
+          "startIndex": 21,
+          "endIndex": 29,
+          "score": 0.8602996,
+          "text": "new york",
+          "type": "To"
+        }
+      ]
+    },
+    "From": [
+      {
+        "$instance": {
+          "Airport": [
+            {
+              "startIndex": 12,
+              "endIndex": 17,
+              "text": "paris",
+              "type": "Airport"
+            }
+          ]
+        },
+        "Airport": [ [ "Paris" ] ]
+      }
+    ],
+    "To": [
+      {
+        "$instance": {
+          "Airport": [
+            {
+              "startIndex": 21,
+              "endIndex": 29,
+              "text": "new york",
+              "type": "Airport"
+            }
+          ]
+        },
+        "Airport": [ [ "New York" ] ]
+      }
+    ]
+  },
+  "luisResult": {
+    "query": "flight from paris to new york",
+    "topScoringIntent": {
+      "intent": "BookFlight",
+      "score": 0.9953049
+    },
+    "entities": [
+      {
+        "entity": "paris",
+        "type": "From",
+        "startIndex": 12,
+        "endIndex": 16,
+        "score": 0.94712317
+      },
+      {
+        "entity": "new york",
+        "type": "To",
+        "startIndex": 21,
+        "endIndex": 28,
+        "score": 0.8602996
+      },
+      {
+        "entity": "paris",
+        "type": "Airport",
+        "startIndex": 12,
+        "endIndex": 16,
+        "resolution": { "values": [ "Paris" ] }
+      },
+      {
+        "entity": "new york",
+        "type": "Airport",
+        "startIndex": 21,
+        "endIndex": 28,
+        "resolution": { "values": [ "New York" ] }
+      }
+    ],
+    "compositeEntities": [
+      {
+        "parentType": "From",
+        "value": "paris",
+        "children": [
+          {
+            "type": "Airport",
+            "value": "paris"
+          }
+        ]
+      },
+      {
+        "parentType": "To",
+        "value": "new york",
+        "children": [
+          {
+            "type": "Airport",
+            "value": "new york"
+          }
+        ]
+      }
+    ]
+  }
+}

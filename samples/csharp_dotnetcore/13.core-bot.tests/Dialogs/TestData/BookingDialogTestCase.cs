@@ -5,12 +5,11 @@ using Microsoft.BotBuilderSamples;
 
 namespace CoreBot.Tests.Dialogs.TestData
 {
+    /// <summary>
+    /// A class to store test case data for <see cref="BookingDialogTests"/>.
+    /// </summary>
     public class BookingDialogTestCase
     {
-        /// <summary>
-        /// Gets or sets the name for the test case.
-        /// </summary>
-        /// <value>The test case name.</value>
         public string Name { get; set; }
 
         public BookingDetails InitialBookingDetails { get; set; }

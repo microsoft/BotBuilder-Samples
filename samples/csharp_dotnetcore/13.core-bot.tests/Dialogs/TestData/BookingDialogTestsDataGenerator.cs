@@ -9,6 +9,9 @@ using Microsoft.BotBuilderSamples;
 
 namespace CoreBot.Tests.Dialogs.TestData
 {
+    /// <summary>
+    /// A class to generate test cases for <see cref="BookingDialogTests"/>.
+    /// </summary>
     [SuppressMessage("Microsoft.StyleCop.CSharp.OrderingRules", "SA1118:ParameterMustNotSpanMultipleLines", Justification = "Ignoring to make code more readable")]
     public class BookingDialogTestsDataGenerator
     {
@@ -158,6 +161,9 @@ namespace CoreBot.Tests.Dialogs.TestData
                 null);
         }
 
+        /// <summary>
+        /// Wraps the test case data into a <see cref="TestDataObject"/>.
+        /// </summary>
         private static object[] BuildTestCaseObject(string testCaseName, BookingDetails inputBookingInfo, string[,] utterancesAndReplies, BookingDetails expectedBookingInfo)
         {
             var testData = new BookingDialogTestCase()

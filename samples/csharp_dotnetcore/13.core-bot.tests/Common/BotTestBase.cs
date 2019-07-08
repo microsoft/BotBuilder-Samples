@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xunit.Abstractions;
 
-namespace Microsoft.BotBuilderSamples.Tests.Framework
+namespace CoreBot.Tests.Common
 {
     /// <summary>
     /// A base class with helper methods and properties to write bot tests.
