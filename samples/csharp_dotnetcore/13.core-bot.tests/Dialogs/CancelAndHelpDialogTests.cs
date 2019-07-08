@@ -4,6 +4,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CoreBot.Tests.Common;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Testing;
@@ -11,7 +12,6 @@ using Microsoft.Bot.Builder.Testing.XUnit;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.BotBuilderSamples.Dialogs;
-using Microsoft.BotBuilderSamples.Tests.Framework;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -28,15 +28,16 @@ namespace CoreBot.Tests.Dialogs
         }
 
         [Theory]
-        [InlineData("hi", "Hi there", "cancel")]
-        [InlineData("hi", "Hi there", "quit")]
-        public async Task ShouldBeAbleToCancel(string utterance, string response, string cancelUtterance)
+        [InlineData("cancel")]
+        [InlineData("quit")]
+        public async Task ShouldBeAbleToCancel(string cancelUtterance)
         {
             var sut = new TestCancelAndHelpDialog();
             var testClient = new DialogTestClient(Channels.Test, sut, middlewares: _middlewares);
 
-            var reply = await testClient.SendActivityAsync<IMessageActivity>(utterance);
-            Assert.Equal(response, reply.Text);
+            // Execute the test case
+            var reply = await testClient.SendActivityAsync<IMessageActivity>("Hi");
+            Assert.Equal("Hi there", reply.Text);
             Assert.Equal(DialogTurnStatus.Waiting, testClient.DialogTurnResult.Status);
 
             reply = await testClient.SendActivityAsync<IMessageActivity>(cancelUtterance);
@@ -45,15 +46,16 @@ namespace CoreBot.Tests.Dialogs
         }
 
         [Theory]
-        [InlineData("hi", "Hi there", "help")]
-        [InlineData("hi", "Hi there", "?")]
-        public async Task ShouldBeAbleToGetHelp(string utterance, string response, string cancelUtterance)
+        [InlineData("help")]
+        [InlineData("?")]
+        public async Task ShouldBeAbleToGetHelp(string cancelUtterance)
         {
             var sut = new TestCancelAndHelpDialog();
             var testClient = new DialogTestClient(Channels.Test, sut, middlewares: _middlewares);
 
-            var reply = await testClient.SendActivityAsync<IMessageActivity>(utterance);
-            Assert.Equal(response, reply.Text);
+            // Execute the test case
+            var reply = await testClient.SendActivityAsync<IMessageActivity>("Hi");
+            Assert.Equal("Hi there", reply.Text);
             Assert.Equal(DialogTurnStatus.Waiting, testClient.DialogTurnResult.Status);
 
             reply = await testClient.SendActivityAsync<IMessageActivity>(cancelUtterance);

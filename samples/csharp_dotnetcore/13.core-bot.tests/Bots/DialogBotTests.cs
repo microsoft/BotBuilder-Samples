@@ -1,11 +1,14 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CoreBot.Tests.Common;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.BotBuilderSamples.Bots;
-using Microsoft.BotBuilderSamples.Tests.Framework;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;

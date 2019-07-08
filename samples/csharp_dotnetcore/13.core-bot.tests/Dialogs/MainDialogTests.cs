@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using CoreBot.Tests.Common;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Testing;
@@ -14,7 +15,6 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.BotBuilderSamples;
 using Microsoft.BotBuilderSamples.Dialogs;
-using Microsoft.BotBuilderSamples.Tests.Framework;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -43,17 +43,6 @@ namespace CoreBot.Tests.Dialogs
         }
 
         [Fact]
-        public void DialogConstructor()
-        {
-            var sut = new MainDialog(null, _mockBookingDialog, _mockLogger.Object);
-
-            Assert.Equal("MainDialog", sut.Id);
-            Assert.IsType<TextPrompt>(sut.FindDialog("TextPrompt"));
-            Assert.NotNull(sut.FindDialog("BookingDialog"));
-            Assert.IsType<WaterfallDialog>(sut.FindDialog("WaterfallDialog"));
-        }
-
-        [Fact]
         public async Task ShowsMessageIfLuisNotConfiguredAndCallsBookDialogDirectly()
         {
             // Arrange
@@ -62,7 +51,7 @@ namespace CoreBot.Tests.Dialogs
 
             // Create a specialized mock for BookingDialog that displays a dummy TextPrompt.
             // The dummy prompt is used to prevent the MainDialog waterfall from moving to the next step
-            // and assert the dialog was called.
+            // and assert that the dialog was called.
             var mockDialog = new Mock<BookingDialog>();
             mockDialog
                 .Setup(x => x.BeginDialogAsync(It.IsAny<DialogContext>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
@@ -103,6 +92,7 @@ namespace CoreBot.Tests.Dialogs
         [InlineData("bananas", "None", "Sorry, I didn't get that. Please try asking in a different way (intent was None)", null)]
         public async Task TaskSelector(string utterance, string intent, string invokedDialogResponse, string taskConfirmationMessage)
         {
+            // Create a mock recognizer that returns the expected intent.
             var mockLuisRecognizer = SimpleMockFactory.CreateMockLuisRecognizer<FlightBookingRecognizer, FlightBooking>(
                 new FlightBooking
                 {
@@ -114,23 +104,25 @@ namespace CoreBot.Tests.Dialogs
                 },
                 new Mock<IConfiguration>().Object);
             mockLuisRecognizer.Setup(x => x.IsConfigured).Returns(true);
-
             var sut = new MainDialog(mockLuisRecognizer.Object, _mockBookingDialog, _mockLogger.Object);
             var testClient = new DialogTestClient(Channels.Test, sut, middlewares: new[] { new XUnitDialogTestLogger(Output) });
 
+            // Execute the test case
+            Output.WriteLine($"Test Case: {intent}");
             var reply = await testClient.SendActivityAsync<IMessageActivity>("hi");
             Assert.Equal("What can I help you with today?", reply.Text);
 
             reply = await testClient.SendActivityAsync<IMessageActivity>(utterance);
             Assert.Equal(invokedDialogResponse, reply.Text);
 
-            // The Booking dialog displays an additional confirmation message, assert that is what we expect
+            // The Booking dialog displays an additional confirmation message, assert that it is what we expect.
             if (!string.IsNullOrEmpty(taskConfirmationMessage))
             {
                 reply = testClient.GetNextReply<IMessageActivity>();
                 Assert.StartsWith(taskConfirmationMessage, reply.Text);
             }
 
+            // Validate that the MainDialog starts over once the task is completed.
             reply = testClient.GetNextReply<IMessageActivity>();
             Assert.Equal("What else can I do for you?", reply.Text);
         }
@@ -142,23 +134,29 @@ namespace CoreBot.Tests.Dialogs
         [InlineData("FlightFromParisToNewYork.json", "BookingDialog mock invoked")]
         public async Task ShowsUnsupportedCitiesWarning(string jsonFile, string expectedMessage)
         {
-            var bookingResult = GetEmbeddedTestData($"{GetType().Namespace}.TestData.{jsonFile}");
-            var flightBookingResults = JsonConvert.DeserializeObject<FlightBooking>(bookingResult);
+            // Load the LUIS result json and create a mock recognizer that returns the expected result.
+            var luisResultJson = GetEmbeddedTestData($"{GetType().Namespace}.TestData.{jsonFile}");
+            var mockLuisResult = JsonConvert.DeserializeObject<FlightBooking>(luisResultJson);
             var mockLuisRecognizer = SimpleMockFactory.CreateMockLuisRecognizer<FlightBookingRecognizer, FlightBooking>(
-                flightBookingResults,
+                mockLuisResult,
                 new Mock<IConfiguration>().Object);
             mockLuisRecognizer.Setup(x => x.IsConfigured).Returns(true);
 
             var sut = new MainDialog(mockLuisRecognizer.Object, _mockBookingDialog, _mockLogger.Object);
             var testClient = new DialogTestClient(Channels.Test, sut, middlewares: new[] { new XUnitDialogTestLogger(Output) });
 
+            // Execute the test case
+            Output.WriteLine($"Test Case: {mockLuisResult.Text}");
             var reply = await testClient.SendActivityAsync<IMessageActivity>("hi");
             Assert.Equal("What can I help you with today?", reply.Text);
 
-            reply = await testClient.SendActivityAsync<IMessageActivity>(flightBookingResults.Text);
+            reply = await testClient.SendActivityAsync<IMessageActivity>(mockLuisResult.Text);
             Assert.Equal(expectedMessage, reply.Text);
         }
 
+        /// <summary>
+        /// Loads the embedded json resource with the LUIS as a string.
+        /// </summary>
         private string GetEmbeddedTestData(string resourceName)
         {
             using (var stream = GetType().Assembly.GetManifestResourceStream(resourceName))

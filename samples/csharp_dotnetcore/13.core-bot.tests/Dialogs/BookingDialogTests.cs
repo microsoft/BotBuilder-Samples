@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Threading.Tasks;
+using CoreBot.Tests.Common;
 using CoreBot.Tests.Dialogs.TestData;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Testing;
@@ -10,7 +11,6 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.BotBuilderSamples;
 using Microsoft.BotBuilderSamples.Dialogs;
-using Microsoft.BotBuilderSamples.Tests.Framework;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -26,18 +26,6 @@ namespace CoreBot.Tests.Dialogs
             _middlewares = new[] { new XUnitDialogTestLogger(output) };
         }
 
-        [Fact]
-        public void DialogConstructor()
-        {
-            var sut = new BookingDialog();
-
-            Assert.Equal("BookingDialog", sut.Id);
-            Assert.IsType<TextPrompt>(sut.FindDialog("TextPrompt"));
-            Assert.IsType<ConfirmPrompt>(sut.FindDialog("ConfirmPrompt"));
-            Assert.IsType<DateResolverDialog>(sut.FindDialog("DateResolverDialog"));
-            Assert.IsType<WaterfallDialog>(sut.FindDialog("WaterfallDialog"));
-        }
-
         [Theory]
         [MemberData(nameof(BookingDialogTestsDataGenerator.BookingFlows), MemberType = typeof(BookingDialogTestsDataGenerator))]
         public async Task DialogFlowUseCases(TestDataObject testData)
@@ -47,7 +35,7 @@ namespace CoreBot.Tests.Dialogs
             var sut = new BookingDialog();
             var testClient = new DialogTestClient(Channels.Test, sut, bookingTestData.InitialBookingDetails, _middlewares);
 
-            // Act/Assert
+            // Execute the test case
             Output.WriteLine($"Test Case: {bookingTestData.Name}");
             for (var i = 0; i < bookingTestData.UtterancesAndReplies.GetLength(0); i++)
             {
@@ -70,7 +58,7 @@ namespace CoreBot.Tests.Dialogs
             var sut = new BookingDialog();
             var testClient = new DialogTestClient(Channels.Test, sut, bookingTestData.InitialBookingDetails, _middlewares);
 
-            // Act/Assert
+            // Execute the test case
             Output.WriteLine($"Test Case: {bookingTestData.Name}");
             for (var i = 0; i < bookingTestData.UtterancesAndReplies.GetLength(0); i++)
             {

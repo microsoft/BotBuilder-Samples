@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 using System.Threading.Tasks;
+using CoreBot.Tests.Common;
 using CoreBot.Tests.Dialogs.TestData;
 using Microsoft.Bot.Builder.Testing;
 using Microsoft.Bot.Builder.Testing.XUnit;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.BotBuilderSamples.Dialogs;
-using Microsoft.BotBuilderSamples.Tests.Framework;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -30,7 +30,7 @@ namespace CoreBot.Tests.Dialogs
             var sut = new DateResolverDialog();
             var testClient = new DialogTestClient(Channels.Test, sut, testCaseData.InitialData, new[] { new XUnitDialogTestLogger(Output) });
 
-            // Act/Assert
+            // Execute the test case
             Output.WriteLine($"Test Case: {testCaseData.Name}");
             Output.WriteLine($"\r\nDialog Input: {testCaseData.InitialData}");
             for (var i = 0; i < testCaseData.UtterancesAndReplies.GetLength(0); i++)

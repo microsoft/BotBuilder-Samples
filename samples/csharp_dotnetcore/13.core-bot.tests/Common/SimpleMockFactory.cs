@@ -1,14 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Moq;
 
-namespace Microsoft.BotBuilderSamples.Tests.Framework
+namespace CoreBot.Tests.Common
 {
     /// <summary>
     /// Contains utility methods for creating simple mock objects based on <see href="https://github.com/moq/moq">moq</see>/>.
