@@ -1,0 +1,71 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appId": {
+            "type": "string",
+            "metadata": {
+                "description": "Active Directory App ID, set as MicrosoftAppId in the Web App's Application Settings."
+            }
+        },
+        "appSecret": {
+            "type": "string",
+            "metadata": {
+                "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings. Defaults to \"\"."
+            }
+        },
+        "botId": {
+            "type": "string",
+            "metadata": {
+                "description": "The globally unique and immutable bot ID. Also used to configure the displayName of the bot, which is mutable."
+            }
+        },
+        "botSku": {
+            "defaultValue": "F0",
+            "type": "string",
+            "metadata": {
+                "description": "The pricing tier of the Bot Service Registration. Acceptable values are F0 and S1."
+            }
+        },
+        "newAppServicePlanName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The name of the new App Service Plan."
+            }
+        },
+        "newAppServicePlanSku": {
+            "type": "object",
+            "defaultValue": {
+                "name": "S1",
+                "tier": "Standard",
+                "size": "S1",
+                "family": "S",
+                "capacity": 1
+            },
+            "metadata": {
+                "description": "The SKU of the App Service Plan. Defaults to Standard values."
+            }
+        },
+        "appServicePlanLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "The location of the App Service Plan."
+            }
+        },
+        "existingAppServicePlan": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Name of the existing App Service Plan used to create the Web App for the bot."
+            }
+        },
+        "newWebAppName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The globally unique name of the Web App. Defaults to the value passed in for \"botId\"."
+            }
+        }
+    }
+}
