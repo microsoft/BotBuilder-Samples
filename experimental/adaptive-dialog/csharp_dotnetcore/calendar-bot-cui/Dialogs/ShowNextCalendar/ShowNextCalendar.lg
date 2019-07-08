@@ -61,7 +61,7 @@ Your next event is
 
 > Escape suggestion actions without which [] will be treated as template reference.
 # Welcome-Actions
-- \[Suggestions=View Calendar Entry | Create Calendar Entry | Delete Calendar Entry | Find Calendar Who | Accept Calendar Entry | Help\]
+- \[Suggestions=Accept | Cancel | Change | Create | Delete | Find | View | Next Event | Help\]
 
 # NoNext
 -```

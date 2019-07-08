@@ -84,7 +84,8 @@ namespace Microsoft.BotBuilderSamples
                                                     new SendActivity("[viewEmptyEntry]")
                                                 }
                                             },
-                                            new RepeatDialog()
+                                        //new RepeatDialog()
+                                        // otherwise, once we change to other intents, we will still come back
                                         }),
                                     new Case("Check The Second One", new List<IDialog>()
                                         {
@@ -102,7 +103,7 @@ namespace Microsoft.BotBuilderSamples
                                                     new SendActivity("[viewEmptyEntry]")
                                                 }
                                             },
-                                            new RepeatDialog()
+                                            //new RepeatDialog()
                                         }),
                                     new Case("Check The Third One", new List<IDialog>()
                                         {
@@ -120,7 +121,7 @@ namespace Microsoft.BotBuilderSamples
                                                     new SendActivity("[viewEmptyEntry]")
                                                 }
                                             },
-                                            new RepeatDialog()
+                                            //new RepeatDialog()
                                         }),
                                     new Case("Next Page", new List<IDialog>()
                                         {
