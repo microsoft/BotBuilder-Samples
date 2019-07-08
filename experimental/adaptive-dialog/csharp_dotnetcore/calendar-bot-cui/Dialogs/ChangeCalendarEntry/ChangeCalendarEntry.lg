@@ -1,0 +1,33 @@
+﻿# GetEntryTitleToAccept
+- ```
+Ok, give me the exact subject of the entry you would like to accept.
+[Suggestions=Help | Cancel]
+```
+
+# AcceptReadBack
+- ```
+Ok, I've accepted your entry whose subject is "@{user.focusedMeeting.subject}".
+```
+
+# emptyFocusedMeeting
+- You do not have a focused meeting. Please check a meeting in detail to define a focused meeting before accepting any. 
+
+# GetStartTime
+- What would be your new starting time?
+
+# HelpPrefix
+- Sure
+- You bet
+- Absolutely
+
+# Welcome-Actions
+- \[Suggestions=View Calendar Entry | Create Calendar Entry | Delete Calendar Entry | Find Calendar Who | Accept Calendar Entry | Help\]
+
+# UpdateCalendarEntryFailed
+- Sorry, there could be something wrong about your input. Please check your input.
+
+# UpdateCalendarEntryReadBack
+- ```
+@{lgTemplate("HelpPrefix")}, I have added @{user.focusedMeeting.subject} to your calendar list. 
+@{lgTemplate("Welcome-Actions")}
+```

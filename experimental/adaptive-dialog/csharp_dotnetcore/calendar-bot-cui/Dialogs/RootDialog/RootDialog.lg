@@ -13,7 +13,7 @@
 
 > Escape suggestion actions without which [] will be treated as template reference.
 # Welcome-Actions
-- \[Suggestions=Accept | Create | Delete | View | Find | Next Event |Help\]
+- \[Suggestions=Accept | Create | Delete | View | Find | Change | Next Event |Help\]
 
 # WelcomePrefix
 - Hi

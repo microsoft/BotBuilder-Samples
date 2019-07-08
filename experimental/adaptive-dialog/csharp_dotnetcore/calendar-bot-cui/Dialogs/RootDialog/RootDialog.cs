@@ -108,6 +108,13 @@ namespace Microsoft.BotBuilderSamples
                         },
                         Constraint = "turn.dialogevent.value.intents.ShowNextCalendar.score > 0.5"
                     },
+                    new IntentRule("ChangeCalendarEntry"){
+                        Steps = new List<IDialog>()
+                        {
+                            new BeginDialog(nameof(ChangeCalendarEntry))
+                        },
+                        Constraint = "turn.dialogevent.value.intents.ChangeCalendarEntry.score > 0.5"
+                    },
                     /******************************************************************************/
 
                     // Come back with LG template based readback for global help
@@ -144,7 +151,8 @@ namespace Microsoft.BotBuilderSamples
                 new FindCalendarWho(),
                 new AcceptCalendarEntry(),
                 new OAuthPromptDialog(),
-                new ShowNextCalendar()
+                new ShowNextCalendar(),
+                new ChangeCalendarEntry()
             }) ;
             /******************************************************************************/
             // The initial child Dialog to run.
