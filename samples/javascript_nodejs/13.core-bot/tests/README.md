@@ -23,7 +23,7 @@ Here is a simple example on how a test that uses `DialogTestClient` looks like:
 
 ```javascript
 const sut = new BookingDialog();
-const testClient = new DialogTestClient(sut);
+const testClient = new DialogTestClient('msteams', sut);
 
 let reply = await testClient.sendActivity('hi');
 assert.strictEqual(reply.text, 'Where would you like to travel to?');
