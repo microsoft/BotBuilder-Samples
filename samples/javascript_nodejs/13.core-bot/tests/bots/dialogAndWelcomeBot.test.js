@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-const { TestAdapter, ActivityTypes, TurnContext, ConversationState, InputHints, MemoryStorage, UserState } = require('botbuilder');
+const { TestAdapter, ActivityTypes, TurnContext, ConversationState, MemoryStorage, UserState } = require('botbuilder');
 const { DialogSet, DialogTurnStatus, Dialog } = require('botbuilder-dialogs');
 const { DialogAndWelcomeBot } = require('../../bots/dialogAndWelcomeBot');
 const assert = require('assert');
@@ -16,7 +16,7 @@ class MockRootDialog extends Dialog {
     }
 
     async beginDialog(dc, options) {
-        await dc.context.sendActivity(`${this.id} mock invoked`);
+        await dc.context.sendActivity(`${ this.id } mock invoked`);
         return await dc.endDialog();
     }
 
@@ -40,7 +40,7 @@ describe('DialogAndWelcomeBot', () => {
         await bot.run(context);
     }
 
-    it("Shows welcome card on member added and starts main dialog", async () => {
+    it('Shows welcome card on member added and starts main dialog', async () => {
         const mockRootDialog = new MockRootDialog();
         const memoryStorage = new MemoryStorage();
         const sut = new DialogAndWelcomeBot(new ConversationState(memoryStorage), new UserState(memoryStorage), mockRootDialog, console);
@@ -50,12 +50,12 @@ describe('DialogAndWelcomeBot', () => {
             type: ActivityTypes.ConversationUpdate,
             channelId: 'test',
             conversation: {
-                id: 'someId',
+                id: 'someId'
             },
             membersAdded: [
-                {id: 'theUser'}
+                { id: 'theUser' }
             ],
-            recipient: {id: 'theBot'}
+            recipient: { id: 'theBot' }
         };
 
         // Send the conversation update activity to the bot.
@@ -68,6 +68,6 @@ describe('DialogAndWelcomeBot', () => {
 
         // Assert that we started the main dialog.
         reply = testAdapter.activityBuffer.shift();
-        assert.strictEqual(reply.text,'mockRootDialog mock invoked');
+        assert.strictEqual(reply.text, 'mockRootDialog mock invoked');
     });
 });

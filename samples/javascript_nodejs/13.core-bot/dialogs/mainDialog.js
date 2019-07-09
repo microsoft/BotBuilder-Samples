@@ -127,7 +127,7 @@ class MainDialog extends ComponentDialog {
         }
 
         if (unsupportedCities.length) {
-            const messageText = `Sorry but the following airports are not supported: ${unsupportedCities.join(', ')}`;
+            const messageText = `Sorry but the following airports are not supported: ${ unsupportedCities.join(', ') }`;
             await context.sendActivity(messageText, messageText, InputHints.IgnoringInput);
         }
     }

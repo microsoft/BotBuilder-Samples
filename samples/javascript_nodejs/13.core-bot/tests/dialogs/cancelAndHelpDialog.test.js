@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-const { MessageFactory} = require('botbuilder');
+const { MessageFactory } = require('botbuilder');
 const { DialogTestClient, DialogTestLogger } = require('botbuilder-testing');
 const { TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 const { CancelAndHelpDialog } = require('../../dialogs/cancelAndHelpDialog');

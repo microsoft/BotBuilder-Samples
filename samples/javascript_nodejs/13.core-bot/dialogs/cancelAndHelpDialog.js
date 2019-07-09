@@ -9,7 +9,6 @@ const { ComponentDialog, DialogTurnStatus } = require('botbuilder-dialogs');
  * BEFORE they reach the normal bot logic.
  */
 class CancelAndHelpDialog extends ComponentDialog {
-
     async onContinueDialog(innerDc) {
         const result = await this.interrupt(innerDc);
         if (result) {

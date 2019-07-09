@@ -42,7 +42,7 @@ class MockBookingDialog extends BookingDialog {
             origin: 'New York',
             destination: 'Seattle',
             travelDate: '2025-07-08'
-        }
+        };
         await dc.context.sendActivity(`${ this.id } mock invoked`);
         return await dc.endDialog(bookingDetails);
     }
@@ -79,7 +79,7 @@ describe('MainDialog', () => {
         const mockRecognizer = new MockFlightBookingRecognizer(true);
         const mockBookingDialog = new MockBookingDialog();
         const sut = new MainDialog(mockRecognizer, mockBookingDialog, null);
-        client = new DialogTestClient('test', sut, null, [new DialogTestLogger()]);
+        const client = new DialogTestClient('test', sut, null, [new DialogTestLogger()]);
 
         const reply = await client.sendActivity('hi');
         assert.strictEqual(reply.text, 'What can I help you with today?', 'Did not show prompt');
@@ -88,9 +88,9 @@ describe('MainDialog', () => {
     describe('Invokes tasks based on LUIS intent', () => {
         // Create array with test case data.
         const testCases = [
-            { utterance: 'I want to book a flight', intent:'BookFlight', invokedDialogResponse: 'bookingDialog mock invoked', taskConfirmationMessage: 'I have you booked to Seattle from New York' },
-            { utterance: `What's the weather like?`, intent:'GetWeather', invokedDialogResponse: 'TODO: get weather flow here', taskConfirmationMessage: undefined },
-            { utterance: 'bananas', intent:'None', invokedDialogResponse: `Sorry, I didn't get that. Please try asking in a different way (intent was None)`, taskConfirmationMessage: undefined }
+            { utterance: 'I want to book a flight', intent: 'BookFlight', invokedDialogResponse: 'bookingDialog mock invoked', taskConfirmationMessage: 'I have you booked to Seattle from New York' },
+            { utterance: `What's the weather like?`, intent: 'GetWeather', invokedDialogResponse: 'TODO: get weather flow here', taskConfirmationMessage: undefined },
+            { utterance: 'bananas', intent: 'None', invokedDialogResponse: `Sorry, I didn't get that. Please try asking in a different way (intent was None)`, taskConfirmationMessage: undefined }
         ];
 
         testCases.map(testData => {
@@ -111,8 +111,7 @@ describe('MainDialog', () => {
                 assert.strictEqual(reply.text, testData.invokedDialogResponse);
 
                 // The Booking dialog displays an additional confirmation message, assert that it is what we expect.
-                if (testData.taskConfirmationMessage)
-                {
+                if (testData.taskConfirmationMessage) {
                     reply = client.getNextReply();
                     assert(reply.text.startsWith(testData.taskConfirmationMessage));
                 }
@@ -127,10 +126,10 @@ describe('MainDialog', () => {
     describe('Shows unsupported cities warning', () => {
         // Create array with test case data.
         const testCases = [
-            { jsonFile: 'FlightToMadrid.json', expectedMessage:'Sorry but the following airports are not supported: madrid' },
-            { jsonFile: 'FlightFromMadridToChicago.json', expectedMessage:'Sorry but the following airports are not supported: madrid, chicago' },
-            { jsonFile: 'FlightFromCdgToJfk.json', expectedMessage:'Sorry but the following airports are not supported: cdg' },
-            { jsonFile: 'FlightFromParisToNewYork.json', expectedMessage:'bookingDialog mock invoked' }
+            { jsonFile: 'FlightToMadrid.json', expectedMessage: 'Sorry but the following airports are not supported: madrid' },
+            { jsonFile: 'FlightFromMadridToChicago.json', expectedMessage: 'Sorry but the following airports are not supported: madrid, chicago' },
+            { jsonFile: 'FlightFromCdgToJfk.json', expectedMessage: 'Sorry but the following airports are not supported: cdg' },
+            { jsonFile: 'FlightFromParisToNewYork.json', expectedMessage: 'bookingDialog mock invoked' }
         ];
 
         testCases.map(testData => {

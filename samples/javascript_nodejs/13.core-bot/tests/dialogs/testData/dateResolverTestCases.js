@@ -7,10 +7,10 @@ let tomorrow = formatDate(new Date().setDate(now.getDate() + 1));
 let dayAfterTomorrow = formatDate(new Date().setDate(now.getDate() + 2));
 
 function formatDate(date) {
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
+    let d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    let year = d.getFullYear();
 
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
@@ -24,35 +24,35 @@ module.exports = [
         initialData: null,
         steps: [
             ['hi', 'On what date would you like to travel?'],
-            ['tomorrow', null],
+            ['tomorrow', null]
         ],
-        expectedResult: tomorrow,
+        expectedResult: tomorrow
     },
     {
         name: 'the day after tomorrow',
         initialData: null,
         steps: [
             ['hi', 'On what date would you like to travel?'],
-            ['the day after tomorrow', null],
+            ['the day after tomorrow', null]
         ],
-        expectedResult: dayAfterTomorrow,
+        expectedResult: dayAfterTomorrow
     },
     {
         name: 'two days from now',
         initialData: null,
         steps: [
             ['hi', 'On what date would you like to travel?'],
-            ['two days from now', null],
+            ['two days from now', null]
         ],
-        expectedResult: dayAfterTomorrow,
+        expectedResult: dayAfterTomorrow
     },
     {
         name: 'valid input given (tomorrow)',
-        initialData: {date: tomorrow},
+        initialData: { date: tomorrow },
         steps: [
-            ['hi', null],
+            ['hi', null]
         ],
-        expectedResult: tomorrow,
+        expectedResult: tomorrow
     },
     {
         name: 'retry prompt',
@@ -62,7 +62,7 @@ module.exports = [
             ['bananas', 'I\'m sorry, for best results, please enter your travel date including the month, day and year.'],
             ['tomorrow', null]
         ],
-        expectedResult: tomorrow,
+        expectedResult: tomorrow
     },
     {
         name: 'fuzzy time',
@@ -72,6 +72,6 @@ module.exports = [
             ['may 5th', 'I\'m sorry, for best results, please enter your travel date including the month, day and year.'],
             ['may 5th 2055', null]
         ],
-        expectedResult: '2055-05-05',
+        expectedResult: '2055-05-05'
     }
-]
+];
