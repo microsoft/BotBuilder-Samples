@@ -19,12 +19,12 @@ namespace CoreBot.Tests.Dialogs
 {
     public class CancelAndHelpDialogTests : BotTestBase
     {
-        private readonly XUnitDialogTestLogger[] _middlewares;
+        private readonly IMiddleware[] _middlewares;
 
         public CancelAndHelpDialogTests(ITestOutputHelper output)
             : base(output)
         {
-            _middlewares = new[] { new XUnitDialogTestLogger(output) };
+            _middlewares = new IMiddleware[] { new XUnitDialogTestLogger(output) };
         }
 
         [Theory]

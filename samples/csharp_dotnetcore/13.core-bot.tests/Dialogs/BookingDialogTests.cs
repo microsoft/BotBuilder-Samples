@@ -4,6 +4,7 @@
 using System.Threading.Tasks;
 using CoreBot.Tests.Common;
 using CoreBot.Tests.Dialogs.TestData;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Testing;
 using Microsoft.Bot.Builder.Testing.XUnit;
@@ -18,12 +19,12 @@ namespace CoreBot.Tests.Dialogs
 {
     public class BookingDialogTests : BotTestBase
     {
-        private readonly XUnitDialogTestLogger[] _middlewares;
+        private readonly IMiddleware[] _middlewares;
 
         public BookingDialogTests(ITestOutputHelper output)
             : base(output)
         {
-            _middlewares = new[] { new XUnitDialogTestLogger(output) };
+            _middlewares = new IMiddleware[] { new XUnitDialogTestLogger(output) };
         }
 
         [Theory]
