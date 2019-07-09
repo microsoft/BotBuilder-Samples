@@ -3,7 +3,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using Microsoft.Bot.Builder.Expressions.Parser;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.LanguageGeneration;
 
 /// <summary>
@@ -46,17 +46,18 @@ namespace Microsoft.BotBuilderSamples
                         }
                     },
                     // show our non-empty calendar
-                    new BeginDialog(nameof(FindCalendarEntry)),
-                    new TextInput()
-                    {
-                        Property = "dialog.findCalendarWho_entryName",
-                        Prompt = new ActivityTemplate("[GetPersonName]"),
-                    },
-                    // this array will flag whether we find a match at all
-                    new InitProperty()
-                    {
-                        Property = "dialog.findCalendarWho_found",
-                        Type = "Array"
+                    new IfCondition(){
+                        Condition = "user.WhoInput == true",
+                        Steps = new List<IDialog>(){
+                            new DeleteProperty(){
+                                Property = "user.findCalendarWho_entryName"
+                            },
+                            new TextInput()
+                            {
+                                Property = "user.findCalendarWho_entryName",
+                                Prompt = new ActivityTemplate("[GetPersonName]"),
+                            }
+                        }
                     },
                     // to iterate all the entries to find all matches
                     new Foreach()
@@ -66,15 +67,23 @@ namespace Microsoft.BotBuilderSamples
                         {
                             new IfCondition()
                             {
-                                Condition = "dialog.FindCalendarWho_GraphAll.value[dialog.index].attendees[0].emailAddress.address == dialog.findCalendarWho_entryName",
+                                Condition = "dialog.FindCalendarWho_GraphAll.value[dialog.index].attendees[0] != null",
                                 Steps = new List<IDialog>(){
-                                    new EditArray(){
-                                        ArrayProperty = "dialog.findCalendarWho_found",
-                                        ChangeType = EditArray.ArrayChangeType.Push,
-                                        Value = "dialog.FindCalendarWho_GraphAll.value[dialog.index]"
-                                    },
-                                    new SendActivity("[entryTemplate]")
-                                }
+                                    new IfCondition(){
+                                        Condition = "contains(dialog.FindCalendarWho_GraphAll.value[dialog.index].attendees[0].emailAddress.address, " +
+                                            "user.findCalendarWho_entryName) == true || " +
+                                            "contains(dialog.FindCalendarWho_GraphAll.value[dialog.index].attendees[0].emailAddress.name, " +
+                                            "user.findCalendarWho_entryName) == true",
+                                        Steps = new List<IDialog>(){
+                                            new EditArray(){
+                                                ArrayProperty = "dialog.findCalendarWho_found",
+                                                ChangeType = EditArray.ArrayChangeType.Push,
+                                                Value = "dialog.FindCalendarWho_GraphAll.value[dialog.index]"
+                                            },
+                                        }
+                                    }   
+                                },
+                                
                             }
                         }
                     },
@@ -87,7 +96,141 @@ namespace Microsoft.BotBuilderSamples
                             new SendActivity("[Welcome-Actions]"),
                             new EndDialog()
                         }
+                    },
+                    // matched found
+                    new SendActivity("[entryTemplate(dialog.findCalendarWho_found[user.FindCalendarWho_pageIndex * 3], " +
+                                "dialog.findCalendarWho_found[user.FindCalendarWho_pageIndex * 3 + 1]," +
+                                "dialog.findCalendarWho_found[user.FindCalendarWho_pageIndex * 3 + 2])]"),// TODO only simple card right now, will use fancy card then\
+                    new DeleteProperty
+                    {
+                        Property = "turn.FindCalendarWho_Choice"
+                    },
+                    new ChoiceInput(){
+                        Property = "turn.FindCalendarWho_Choice",
+                        Prompt = new ActivityTemplate("[EnterYourChoice]"),
+                        Choices = new List<Choice>()
+                        {
+                            new Choice("Check The First One"),
+                            new Choice("Check The Second One"),
+                            new Choice("Check The Third One"),
+                            new Choice("Next Page"),
+                            new Choice("Previous Page")
+                        },
+                        Style = ListStyle.SuggestedAction
+                    },
+                    new SetProperty(){
+                        Property = "user.WhoInput",
+                        Value = "false"
 
+                    },
+                    new SwitchCondition()
+                    {
+                        Condition = "turn.FindCalendarWho_Choice",
+                        Cases = new List<Case>()
+                        {
+                            new Case("Check The First One", new List<IDialog>()
+                                {
+                                new IfCondition(){
+                                    Condition = "dialog.findCalendarWho_found[user.FindCalendarWho_pageIndex * 3] != null",
+                                    Steps = new List<IDialog>(){
+                                        new SendActivity("[detailedEntryTemplate(dialog.findCalendarWho_found[user.FindCalendarWho_pageIndex * 3])]"),
+                                        new SetProperty()
+                                        {
+                                            Property = "user.focusedMeeting",
+                                            Value = "dialog.findCalendarWho_found[user.FindCalendarWho_pageIndex * 3]"
+                                        }
+                                    },
+                                    ElseSteps = new List<IDialog>(){
+                                        new SendActivity("[viewEmptyEntry]")
+                                    }
+                                },
+                                //new RepeatDialog()
+                                // otherwise, once we change to other intents, we will still come back
+                                }),
+                            new Case("Check The Second One", new List<IDialog>()
+                                {
+                                    new IfCondition(){
+                                        Condition = "dialog.findCalendarWho_found[user.FindCalendarWho_pageIndex * 3 + 1] != null",
+                                        Steps = new List<IDialog>(){
+                                            new SendActivity("[detailedEntryTemplate(dialog.findCalendarWho_found[user.FindCalendarWho_pageIndex * 3 + 1])]"),
+                                            new SetProperty()
+                                            {
+                                                Property = "user.focusedMeeting",
+                                                Value = "dialog.findCalendarWho_found[user.FindCalendarWho_pageIndex * 3 + 1]"
+                                            }
+                                        },
+                                        ElseSteps = new List<IDialog>(){
+                                            new SendActivity("[viewEmptyEntry]")
+                                        }
+                                    },
+                                    //new RepeatDialog()
+                                }),
+                            new Case("Check The Third One", new List<IDialog>()
+                                {
+                                    new IfCondition(){
+                                        Condition = "dialog.findCalendarWho_found[user.FindCalendarWho_pageIndex * 3 + 2] != null",
+                                        Steps = new List<IDialog>(){
+                                            new SendActivity("[detailedEntryTemplate(dialog.findCalendarWho_found[user.FindCalendarWho_pageIndex * 3 + 2])]"),
+                                            new SetProperty()
+                                            {
+                                                Property = "user.focusedMeeting",
+                                                Value = "dialog.findCalendarWho_found[user.FindCalendarWho_pageIndex * 3 + 2]"
+                                            }
+                                        },
+                                        ElseSteps = new List<IDialog>(){
+                                            new SendActivity("[viewEmptyEntry]")
+                                        }
+                                    },
+                                    //new RepeatDialog()
+                                }),
+                            new Case("Next Page", new List<IDialog>()
+                                {
+                                    new IfCondition()
+                                    {
+                                        Condition = "user.FindCalendarWho_pageIndex * 3 < count(dialog.findCalendarWho_found.value)",
+                                        Steps = new List<IDialog>()
+                                        {
+                                            new SetProperty()
+                                            {
+                                                Property = "user.FindCalendarWho_pageIndex",
+                                                Value = "user.FindCalendarWho_pageIndex + 1"
+                                            },
+                                            new RepeatDialog()
+                                        },
+                                        ElseSteps = new List<IDialog>()
+                                        {
+                                            new SendActivity("This is already the last page!"),
+                                            new RepeatDialog()
+                                        }
+                                    }
+                                }),
+                            new Case("Previous Page", new List<IDialog>()
+                                {
+                                    new IfCondition()
+                                    {
+                                        Condition = " 0 < user.FindCalendarWho_pageIndex",
+                                        Steps = new List<IDialog>()
+                                        {
+                                            new SetProperty()
+                                            {
+                                                Property = "user.FindCalendarWho_pageIndex",
+                                                Value = "user.FindCalendarWho_pageIndex - 1"
+                                            },
+                                            new RepeatDialog()
+                                        },
+                                        ElseSteps = new List<IDialog>()
+                                        {
+                                            new SendActivity("This is already the first page!"),
+                                            new RepeatDialog()
+                                        }
+                                    }
+                                }),
+                        },
+                        Default = new List<IDialog>()
+                        {
+                            new SendActivity("Sorry, I don't know what you mean!"),
+                            new EndDialog()
+                        }
                     },
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()

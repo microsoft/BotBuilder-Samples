@@ -20,4 +20,4 @@ Ok, I've declined your entry whose subject is "@{user.focusedMeeting.subject}".
 
 > Escape suggestion actions without which [] will be treated as template reference.
 # Welcome-Actions
-- \[Suggestions=Accept | Cancel | Change | Create | Delete | Find | View | Next Event | Help\]
+- \[Suggestions=Accept | Cancel | Change | Create | Find | View | Next Event | Help\]

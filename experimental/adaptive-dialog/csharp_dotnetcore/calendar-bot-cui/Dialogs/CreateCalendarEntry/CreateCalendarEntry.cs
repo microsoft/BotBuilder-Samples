@@ -32,12 +32,12 @@ namespace Microsoft.BotBuilderSamples
                     new BeginDialog(nameof(OAuthPromptDialog)),
                     new IfCondition()
                     {
-                        Condition = "user.CreateSuccess == ture",
+                        Condition = "user.CreateInput == true",
                         Steps = new List<IDialog>()
                         {
-                            new SetProperty(){
-                                Property = "user.CreateSuccess",
-                                Value = "false"
+                            new DeleteProperty()
+                            {
+                                Property = "user.CreateCalendarEntry_PersonName",
                             },
                             new TextInput()
                             {
@@ -104,6 +104,11 @@ namespace Microsoft.BotBuilderSamples
                                 },
                                 Style = ListStyle.SuggestedAction
                             },
+                            new SetProperty()
+                            {
+                                Property = "user.CreateInput",
+                                Value = "false"
+                            },
                             new SwitchCondition()
                             {
                                 Condition = "turn.CreateCalendarEntry_Choice",
@@ -168,8 +173,6 @@ namespace Microsoft.BotBuilderSamples
                                         }),
                                     new Case("Next Page", new List<IDialog>()
                                         {
-                                            new SendActivity("Next page"),
-                                            new SendActivity("{user.CreateCalendarEntry_pageIndex}"),
                                             new IfCondition()
                                             {
                                                 Condition = "user.CreateCalendarEntry_pageIndex * 3 + 3 < count(dialog.matchedEmails) ",
@@ -266,11 +269,6 @@ namespace Microsoft.BotBuilderSamples
                          },
                         Style = ListStyle.SuggestedAction
                     },
-                    new SetProperty()
-                    {
-                        Property = "user.CreateSuccess",
-                        Value = "true"
-                    },
                     // to post our latest update to our calendar
                     new SwitchCondition()
                     {
@@ -312,6 +310,11 @@ namespace Microsoft.BotBuilderSamples
                             new Case("No, Forget It!", new List<IDialog>()
                             {
                                 new SendActivity("Sure! let start over!"),
+                                new SetProperty()
+                                {
+                                    Property = "user.CreateInput",
+                                    Value = "true"
+                                },
                                 new RepeatDialog()
                             })
                         },

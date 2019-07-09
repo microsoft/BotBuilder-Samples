@@ -21,7 +21,7 @@ Ok, I've accepted your entry whose subject is "@{user.focusedMeeting.subject}".
 - Absolutely
 
 # Welcome-Actions
-- \[Suggestions=Accept | Cancel | Change | Create | Delete | Find | View | Next Event | Help\]
+- \[Suggestions=Accept | Cancel | Change | Create | Find | View | Next Event | Help\]
 
 # UpdateCalendarEntryFailed
 - Sorry, there could be something wrong about your input. Please check your input.

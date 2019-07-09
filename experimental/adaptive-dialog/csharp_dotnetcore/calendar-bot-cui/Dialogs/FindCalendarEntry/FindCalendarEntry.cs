@@ -127,7 +127,7 @@ namespace Microsoft.BotBuilderSamples
                                         {
                                             new IfCondition()
                                             {
-                                                Condition = "user.FindCalendarEntry_pageIndex * 3 < count(dialog.FindCalendarEntry_GraphAll.value)",
+                                                Condition = "user.FindCalendarEntry_pageIndex * 3 + 3 < count(dialog.FindCalendarEntry_GraphAll.value)",
                                                 Steps = new List<IDialog>()
                                                 {
                                                     new SetProperty()

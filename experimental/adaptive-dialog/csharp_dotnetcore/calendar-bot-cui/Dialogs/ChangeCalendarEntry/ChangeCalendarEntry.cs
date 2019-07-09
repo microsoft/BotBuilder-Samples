@@ -72,7 +72,6 @@ namespace Microsoft.BotBuilderSamples
                             new SendActivity("[UpdateCalendarEntryFailed]")
                         }
                     },
-                    new SendActivity("[AcceptReadBack]"),
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()
                 },
