@@ -49,6 +49,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoBot", "02.echo-bot\Echo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Teams", "46.teams\Teams.csproj", "{07222D69-66F9-462E-9BBD-43770579697A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inspection", "47.inspection\Inspection.csproj", "{CC1FD48D-8F0E-4B89-A7C6-E17429CF80FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +149,10 @@ Global
 		{07222D69-66F9-462E-9BBD-43770579697A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07222D69-66F9-462E-9BBD-43770579697A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07222D69-66F9-462E-9BBD-43770579697A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC1FD48D-8F0E-4B89-A7C6-E17429CF80FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC1FD48D-8F0E-4B89-A7C6-E17429CF80FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC1FD48D-8F0E-4B89-A7C6-E17429CF80FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC1FD48D-8F0E-4B89-A7C6-E17429CF80FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
