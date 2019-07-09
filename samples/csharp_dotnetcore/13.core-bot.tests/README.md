@@ -48,8 +48,8 @@ The project includes several examples on how to test different bot components:
 
 - [CancelAndHelpDialogTests](Dialogs/CancelAndHelpDialogTests.cs) shows how to write a simple data driven test for `CancelAndHelpDialog` using `InlineData`.
 - [BookingDialogTests](Dialogs/BookingDialogTests.cs) shows how to write `Theory` tests using the `MemberData` attribute that call a helper `BookingDialogTestsDataGenerator` class to generate the test cases.
-- [MainDialogTests](Dialogs/MainDialogTests.cs) showcases how to use mock objects to mock the dialog's LUIS and `BookingDialog` dependencies and `MainDialog` in isolation.
-- [DialogAndWelcomeBotTests](Bots/DialogAndWelcomeBotTests.cs) provides and example on how to write a test for the bot's `ActivityHandler` using `TestAdapter`.
+- [MainDialogTests](Dialogs/MainDialogTests.cs) showcases how to use mock objects to mock the dialog's LUIS and `BookingDialog` dependencies to test `MainDialog` in isolation.
+- [DialogAndWelcomeBotTests](Bots/DialogAndWelcomeBotTests.cs) provides an example on how to write a test for the bot's `ActivityHandler` using `TestAdapter`.
 
 ## Further reading
 
