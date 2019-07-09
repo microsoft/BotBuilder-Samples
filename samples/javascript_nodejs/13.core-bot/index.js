@@ -54,9 +54,6 @@ const memoryStorage = new MemoryStorage();
 conversationState = new ConversationState(memoryStorage);
 userState = new UserState(memoryStorage);
 
-// Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
-const logger = console;
-
 // If configured, pass in the FlightBookingRecognizer.  (Defining it externally allows it to be mocked for tests)
 let luisRecognizer;
 const luisConfig = (({ LuisAppId, LuisAPIKey, LuisAPIHostName }) => ({ LuisAppId, LuisAPIKey, LuisAPIHostName }))(process.env);
@@ -64,8 +61,8 @@ luisRecognizer = new FlightBookingRecognizer(luisConfig);
 
 // Create the main dialog.
 const bookingDialog = new BookingDialog(BOOKING_DIALOG);
-const dialog = new MainDialog(luisRecognizer, bookingDialog, logger);
-const bot = new DialogAndWelcomeBot(conversationState, userState, dialog, logger);
+const dialog = new MainDialog(luisRecognizer, bookingDialog);
+const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
 
 // Create HTTP server
 const server = restify.createServer();

@@ -1,63 +1,65 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+const { TurnContext } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
 
-
 class FlightBookingRecognizer {
-    /**
-     * Returns an object with preformatted LUIS results for the bot's dialogs to consume.
-     * @param {*} logger
-     * @param {TurnContext} context
-     */
     constructor(config) {
         const luisIsConfigured = config && config.LuisAppId && config.LuisAPIKey && config.LuisAPIHostName;
-        if (luisIsConfigured)
-        {
+        if (luisIsConfigured) {
             this.recognizer = new LuisRecognizer({
                 applicationId: config.LuisAppId,
                 endpointKey: config.LuisAPIKey,
-                endpoint: `https://${config.LuisAPIHostName}`
+                endpoint: `https://${ config.LuisAPIHostName }`
             }, {}, true);
         }
     }
 
     isConfigured() {
-        return (this.recognizer !== undefined)
+        return (this.recognizer !== undefined);
     }
 
-    async executeLuisQuery(context, logger) {
-        return await this.recognizer.recognize(context);
+    /**
+     * Returns an object with preformatted LUIS results for the bot's dialogs to consume.
+     * @param {TurnContext} context
+     */
+    async executeLuisQuery(context) {
+        // Before seing the user's utterance to LUIS, remove any at mentions the bot may
+        // have received when the user messaged the bot.
+        // After sending getting the results from LUIS, set the original activity's text
+        // back to its original value.
+        const originalText = context.activity.text;
+        TurnContext.removeRecipientMention(context.activity);
+
+        const recognizedResults = await this.recognizer.recognize(context);
+
+        context.activity.text = originalText;
+        return recognizedResults;
     }
 
     getFromEntities(result) {
-        let fromValue = undefined;
-        if (result.entities.$instance.From)
-        {
-            fromValue = result.entities.$instance.From[0].text
+        let fromValue, fromAirportValue;
+        if (result.entities.$instance.From) {
+            fromValue = result.entities.$instance.From[0].text;
         }
-
-        let fromAirportValue = undefined;
         if (fromValue && result.entities.From[0].Airport) {
             fromAirportValue = result.entities.From[0].Airport[0][0];
         }
 
-        return  {from: fromValue, airport: fromAirportValue};
+        return { from: fromValue, airport: fromAirportValue };
     }
 
     getToEntities(result) {
-        let toValue = undefined;
-        if (result.entities.$instance.To)
-        {
-            toValue = result.entities.$instance.To[0].text
+        let toValue, toAirportValue;
+        if (result.entities.$instance.To) {
+            toValue = result.entities.$instance.To[0].text;
         }
-
-        let toAirportValue = undefined;
         if (toValue && result.entities.To[0].Airport) {
             toAirportValue = result.entities.To[0].Airport[0][0];
         }
 
-        return  {to: toValue, airport: toAirportValue};
+        return { to: toValue, airport: toAirportValue };
     }
 
     /**

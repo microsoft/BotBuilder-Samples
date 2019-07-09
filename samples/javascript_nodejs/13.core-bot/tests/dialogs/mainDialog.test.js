@@ -20,12 +20,12 @@ class MockFlightBookingRecognizer extends FlightBookingRecognizer {
         this.mockResult = mockResult;
     }
 
-    async executeLuisQuery(logger, context) {
+    async executeLuisQuery(context) {
         return this.mockResult;
     }
 
     isConfigured() {
-        return (this.isLuisConfigured)
+        return (this.isLuisConfigured);
     }
 }
 
@@ -39,11 +39,11 @@ class MockBookingDialog extends BookingDialog {
 
     async beginDialog(dc, options) {
         const bookingDetails = {
-            origin: "New York",
-            destination: "Seattle",
-            travelDate: "2025-07-08"
+            origin: 'New York',
+            destination: 'Seattle',
+            travelDate: '2025-07-08'
         }
-        await dc.context.sendActivity(`${this.id} mock invoked`);
+        await dc.context.sendActivity(`${ this.id } mock invoked`);
         return await dc.endDialog(bookingDetails);
     }
 }
@@ -60,12 +60,12 @@ class MockBookingDialogWithPrompt extends BookingDialog {
 
     async beginDialog(dc, options) {
         dc.dialogs.add(new TextPrompt('MockDialog'));
-        return await dc.prompt('MockDialog', { prompt: `${this.id} mock invoked` });
+        return await dc.prompt('MockDialog', { prompt: `${ this.id } mock invoked` });
     }
 };
 
 describe('MainDialog', () => {
-    it("Shows message if LUIS is not configured and calls BookingDialogDirectly", async () => {
+    it('Shows message if LUIS is not configured and calls BookingDialogDirectly', async () => {
         const mockRecognizer = new MockFlightBookingRecognizer(false);
         const mockBookingDialog = new MockBookingDialogWithPrompt();
         const sut = new MainDialog(mockRecognizer, mockBookingDialog, null);
@@ -75,7 +75,7 @@ describe('MainDialog', () => {
         assert.strictEqual(reply.text, 'NOTE: LUIS is not configured. To enable all capabilities, add `LuisAppId`, `LuisAPIKey` and `LuisAPIHostName` to the .env file.', 'Did not warn about missing luis');
     });
 
-    it("Shows prompt if LUIS is configured", async () => {
+    it('Shows prompt if LUIS is configured', async () => {
         const mockRecognizer = new MockFlightBookingRecognizer(true);
         const mockBookingDialog = new MockBookingDialog();
         const sut = new MainDialog(mockRecognizer, mockBookingDialog, null);
@@ -88,15 +88,15 @@ describe('MainDialog', () => {
     describe('Invokes tasks based on LUIS intent', () => {
         // Create array with test case data.
         const testCases = [
-            {utterance: 'I want to book a flight', intent:'BookFlight', invokedDialogResponse: "bookingDialog mock invoked", taskConfirmationMessage: 'I have you booked to Seattle from New York'},
-            {utterance: `What's the weather like?`, intent:'GetWeather', invokedDialogResponse: "TODO: get weather flow here", taskConfirmationMessage: undefined},
-            {utterance: 'bananas', intent:'None', invokedDialogResponse: `Sorry, I didn't get that. Please try asking in a different way (intent was None)`, taskConfirmationMessage: undefined}
+            { utterance: 'I want to book a flight', intent:'BookFlight', invokedDialogResponse: 'bookingDialog mock invoked', taskConfirmationMessage: 'I have you booked to Seattle from New York' },
+            { utterance: `What's the weather like?`, intent:'GetWeather', invokedDialogResponse: 'TODO: get weather flow here', taskConfirmationMessage: undefined },
+            { utterance: 'bananas', intent:'None', invokedDialogResponse: `Sorry, I didn't get that. Please try asking in a different way (intent was None)`, taskConfirmationMessage: undefined }
         ];
 
         testCases.map(testData => {
             it(testData.intent, async () => {
                 // Create LuisResult for the mock recognizer.
-                const mockLuisResult = JSON.parse(`{"intents": {"${testData.intent}": {"score": 1}}, "entities": {"$instance": {}}}`);
+                const mockLuisResult = JSON.parse(`{"intents": {"${ testData.intent }": {"score": 1}}, "entities": {"$instance": {}}}`);
                 const mockRecognizer = new MockFlightBookingRecognizer(true, mockLuisResult);
                 const bookingDialog = new MockBookingDialog();
                 const sut = new MainDialog(mockRecognizer, bookingDialog, null);
@@ -127,16 +127,16 @@ describe('MainDialog', () => {
     describe('Shows unsupported cities warning', () => {
         // Create array with test case data.
         const testCases = [
-            {jsonFile: 'FlightToMadrid.json', expectedMessage:'Sorry but the following airports are not supported: madrid'},
-            {jsonFile: 'FlightFromMadridToChicago.json', expectedMessage:'Sorry but the following airports are not supported: madrid, chicago'},
-            {jsonFile: 'FlightFromCdgToJfk.json', expectedMessage:'Sorry but the following airports are not supported: cdg'},
-            {jsonFile: 'FlightFromParisToNewYork.json', expectedMessage:'bookingDialog mock invoked'}
+            { jsonFile: 'FlightToMadrid.json', expectedMessage:'Sorry but the following airports are not supported: madrid' },
+            { jsonFile: 'FlightFromMadridToChicago.json', expectedMessage:'Sorry but the following airports are not supported: madrid, chicago' },
+            { jsonFile: 'FlightFromCdgToJfk.json', expectedMessage:'Sorry but the following airports are not supported: cdg' },
+            { jsonFile: 'FlightFromParisToNewYork.json', expectedMessage:'bookingDialog mock invoked' }
         ];
 
         testCases.map(testData => {
             it(testData.jsonFile, async () => {
                 // Create LuisResult for the mock recognizer.
-                const mockLuisResult = require(`./testData/${testData.jsonFile}`);
+                const mockLuisResult = require(`./testData/${ testData.jsonFile }`);
                 const mockRecognizer = new MockFlightBookingRecognizer(true, mockLuisResult);
                 const bookingDialog = new MockBookingDialog();
                 const sut = new MainDialog(mockRecognizer, bookingDialog, null);
@@ -153,4 +153,3 @@ describe('MainDialog', () => {
         });
     });
 });
-

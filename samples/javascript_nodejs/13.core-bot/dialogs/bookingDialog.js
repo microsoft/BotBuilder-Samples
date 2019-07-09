@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
-const { InputHints, MessageFactory} = require('botbuilder');
+const { InputHints, MessageFactory } = require('botbuilder');
 const { ConfirmPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 const { CancelAndHelpDialog } = require('./cancelAndHelpDialog');
 const { DateResolverDialog } = require('./dateResolverDialog');
