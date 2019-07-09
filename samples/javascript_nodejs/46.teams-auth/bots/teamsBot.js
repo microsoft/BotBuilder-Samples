@@ -30,24 +30,6 @@ class TeamsBot extends DialogBot {
 
             await next();
         });
-
-        this.onReactionsAdded(async (context, next) => {
-            const reactionsAdded = context.activity.reactionsAdded;
-            for (let cnt = 0; cnt < reactionsAdded.length; cnt++) {
-                await context.sendActivity(`add: ${ reactionsAdded[cnt].type }`);
-            }
-
-            await next();
-        });
-
-        this.onReactionsRemoved(async (context, next) => {
-            const reactionsRemoved = context.activity.reactionsRemoved;
-            for (let cnt = 0; cnt < reactionsRemoved.length; cnt++) {
-                await context.sendActivity(`remove: ${ reactionsRemoved[cnt].type }`);
-            }
-
-            await next();
-        });
     }
 }
 
