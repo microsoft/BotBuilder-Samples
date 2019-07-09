@@ -40,7 +40,7 @@ assert.strictEqual(reply.text, 'OK, I will book a flight from Seattle to New Yor
 reply = await testClient.sendActivity('yes');
 assert.strictEqual(reply.text, 'Sure thing, wait while I finalize your reservation...');
 
-reply = await testClient.getNextReply();
+reply = testClient.getNextReply();
 assert.strictEqual(reply.text, 'All set, I have booked your flight to Seattle for tomorrow');
 ```
 
