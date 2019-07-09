@@ -46,10 +46,10 @@ assert.strictEqual(reply.text, 'All set, I have booked your flight to Seattle fo
 
 The project includes several examples on how to test different bot components:
 
-- [cancelAndHelpDialog.test](Dialogs/cancelAndHelpDialog.test.js) shows how to write a simple data driven test for `CancelAndHelpDialog` using a test case array.
-- [bookingDialog.test](Dialogs/bookingDialog.test.js) shows how to write a data driven test using `bookingDialogTestCases` module to generate the test cases.
-- [mainDialog.test](Dialogs/mainDialog.test.js) showcases how to use mock objects to mock the dialog's LUIS and `BookingDialog` dependencies to test `MainDialog` in isolation.
-- [dialogAndWelcomeBot.test](Bots/dialogAndWelcomeBot.test.js) provides an example on how to write a test for the bot's `ActivityHandler` using `TestAdapter`.
+- [cancelAndHelpDialog.test](dialogs/cancelAndHelpDialog.test.js) shows how to write a simple data driven test for `CancelAndHelpDialog` using a test case array.
+- [bookingDialog.test](dialogs/bookingDialog.test.js) shows how to write a data driven test using a `bookingDialogTestCases` module to generate the test cases.
+- [mainDialog.test](dialogs/mainDialog.test.js) showcases how to use mock objects to mock the dialog's LUIS and `BookingDialog` dependencies to test `MainDialog` in isolation.
+- [dialogAndWelcomeBot.test](bots/dialogAndWelcomeBot.test.js) provides an example on how to write a test for the bot's `ActivityHandler` using `TestAdapter`.
 
 ## Further reading
 
