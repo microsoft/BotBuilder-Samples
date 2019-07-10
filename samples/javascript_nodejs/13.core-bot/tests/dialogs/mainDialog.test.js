@@ -24,7 +24,7 @@ class MockFlightBookingRecognizer extends FlightBookingRecognizer {
         return this.mockResult;
     }
 
-    isConfigured() {
+    get isConfigured() {
         return (this.isLuisConfigured);
     }
 }

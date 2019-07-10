@@ -53,7 +53,7 @@ class MainDialog extends ComponentDialog {
      * Note that the sample LUIS model will only recognize Paris, Berlin, New York and London as airport cities.
      */
     async introStep(stepContext) {
-        if (!this.luisRecognizer.isConfigured()) {
+        if (!this.luisRecognizer.isConfigured) {
             const messageText = 'NOTE: LUIS is not configured. To enable all capabilities, add `LuisAppId`, `LuisAPIKey` and `LuisAPIHostName` to the .env file.';
             await stepContext.context.sendActivity(messageText, null, InputHints.IgnoringInput);
             return await stepContext.next();
@@ -71,7 +71,7 @@ class MainDialog extends ComponentDialog {
     async actStep(stepContext) {
         let bookingDetails = {};
 
-        if (!this.luisRecognizer.isConfigured()) {
+        if (!this.luisRecognizer.isConfigured) {
             // LUIS is not configured, we just run the BookingDialog path.
             return await stepContext.beginDialog('bookingDialog', bookingDetails);
         }

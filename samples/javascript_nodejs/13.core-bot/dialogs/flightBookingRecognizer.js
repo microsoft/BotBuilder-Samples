@@ -11,7 +11,7 @@ class FlightBookingRecognizer {
         }
     }
 
-    isConfigured() {
+    get isConfigured() {
         return (this.recognizer !== undefined);
     }
 
