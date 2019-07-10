@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -31,36 +30,12 @@ namespace Microsoft.BotBuilderSamples
 
             switch (turnContext.Activity.Type)
             {
-                case ActivityTypes.MessageReaction:
-                    return OnMessageReactionActivityAsync(new DelegatingTurnContext<IMessageReactionActivity>(turnContext), cancellationToken);
-
                 case ActivityTypes.Invoke:
                     return OnInvokeActivityAsync(new DelegatingTurnContext<IInvokeActivity>(turnContext), cancellationToken);
 
                 default:
                     return base.OnTurnAsync(turnContext, cancellationToken);
             }
-        }
-
-        protected virtual async Task OnMessageReactionActivityAsync(ITurnContext<IMessageReactionActivity> turnContext, CancellationToken cancellationToken)
-        {
-            if (turnContext.Activity.ReactionsAdded != null)
-            {
-                await OnReactionsAddedAsync(turnContext.Activity.ReactionsAdded, turnContext, cancellationToken);
-            }
-            if (turnContext.Activity.ReactionsRemoved != null)
-            {
-                await OnReactionsRemovedAsync(turnContext.Activity.ReactionsRemoved, turnContext, cancellationToken);
-            }
-        }
-
-        protected virtual Task OnReactionsAddedAsync(IList<MessageReaction> messageReactions, ITurnContext<IMessageReactionActivity> turnContext, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-        protected virtual Task OnReactionsRemovedAsync(IList<MessageReaction> messageReactions, ITurnContext<IMessageReactionActivity> turnContext, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
         }
 
         protected virtual Task OnInvokeActivityAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
