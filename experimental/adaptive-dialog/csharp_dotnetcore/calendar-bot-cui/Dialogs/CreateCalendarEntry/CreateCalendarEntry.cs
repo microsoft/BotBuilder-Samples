@@ -258,71 +258,56 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Property = "turn.CreateCalendarEntry_ConfirmChoice"
                     },
-                    new ChoiceInput()
-                    {
-                         Property = "turn.CreateCalendarEntry_ConfirmChoice",
-                         Prompt = new ActivityTemplate("Is Your Information Correct?"),
-                         Choices = new List<Choice>()
-                         {
-                            new Choice("Yes, Create It!"),
-                            new Choice("No, Forget It!")
-                         },
-                        Style = ListStyle.SuggestedAction
+                    new ConfirmInput(){
+                        Property = "turn.CreateCalendarEntry_ConfirmChoice",
+                        Prompt = new ActivityTemplate("Is Your Information Correct?"),
+                        InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
                     },
                     // to post our latest update to our calendar
-                    new SwitchCondition()
+                    new IfCondition()
                     {
                         Condition = "turn.CreateCalendarEntry_ConfirmChoice",
-                        Cases = new List<Case>(){
-                            new Case("Yes, Create It!", new List<IDialog>()
+                        Steps = new List<IDialog>(){
+                            new HttpRequest()
                             {
-                                new HttpRequest()
-                                {
-                                    Property = "dialog.createResponse",
-                                    Method = HttpRequest.HttpMethod.POST,
-                                    Url = "https://graph.microsoft.com/v1.0/me/events",
-                                    Headers =  new Dictionary<string, string>(){
-                                        ["Authorization"] = "Bearer {user.token.Token}",
-                                    },
-                                    Body = JObject.Parse(@"{
-                                        'subject': '{dialog.CreateCalendarEntry_Subject}',
-                                        'attendees': [
-                                            {
-                                            'emailAddress': {
-                                                'address': '{dialog.finalContact}'
-                                            }
-                                            }
-                                        ],
-                                        'location': {
-                                            'displayName': '{dialog.CreateCalendarEntry_Location}',
-                                        },
-                                        'start': {
-                                            'dateTime': '{dialog.CreateCalendarEntry_FromTime}',
-                                            'timeZone': 'UTC'
-                                        },
-                                        'end': {
-                                            'dateTime': '{dialog.CreateCalendarEntry_ToTime}',
-                                            'timeZone': 'UTC'
-                                        }
-                                    }")
-                                }
-                            }),
-                            new Case("No, Forget It!", new List<IDialog>()
-                            {
-                                new SendActivity("Sure! let start over!"),
-                                new SetProperty()
-                                {
-                                    Property = "user.CreateInput",
-                                    Value = "true"
+                                Property = "dialog.createResponse",
+                                Method = HttpRequest.HttpMethod.POST,
+                                Url = "https://graph.microsoft.com/v1.0/me/events",
+                                Headers =  new Dictionary<string, string>(){
+                                    ["Authorization"] = "Bearer {user.token.Token}",
                                 },
-                                new RepeatDialog()
-                            })
+                                Body = JObject.Parse(@"{
+                                    'subject': '{dialog.CreateCalendarEntry_Subject}',
+                                    'attendees': [
+                                        {
+                                        'emailAddress': {
+                                            'address': '{dialog.finalContact}'
+                                        }
+                                        }
+                                    ],
+                                    'location': {
+                                        'displayName': '{dialog.CreateCalendarEntry_Location}',
+                                    },
+                                    'start': {
+                                        'dateTime': '{dialog.CreateCalendarEntry_FromTime}',
+                                        'timeZone': 'UTC'
+                                    },
+                                    'end': {
+                                        'dateTime': '{dialog.CreateCalendarEntry_ToTime}',
+                                        'timeZone': 'UTC'
+                                    }
+                                }")
+                            }
                         },
-                        Default = new List<IDialog>()
-                        {
-                            new SendActivity("Sorry, I don't know what you mean!"),
-                            new EndDialog()
-                        }
+                        ElseSteps = new List<IDialog>(){
+                            new SendActivity("Sure! let start over!"),
+                            new SetProperty()
+                            {
+                                Property = "user.CreateInput",
+                                Value = "true"
+                            },
+                            new RepeatDialog()
+                        }                        
                     },
                     new IfCondition
                     {
