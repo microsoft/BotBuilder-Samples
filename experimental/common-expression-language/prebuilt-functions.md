@@ -145,6 +145,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[getProperty](#getProperty)    | Return the value of the given property in a JSON object.  |
 |[coalesce](#coalesce)  | Return the first non-null value from one or more parameters.  |
 |[xPath](#xPath)    | Check XML for nodes or values that match an XPath(XML Path Language) expression, and return the matching nodes or values. |
+|[setPathToValue](#setPathToValue) | Ensure a path in memory exists and set the leaf to a value. |
 
 ### Regex functions
 |Function	|Explanation|
@@ -2617,7 +2618,30 @@ replace('the old string', 'old', 'new')
 
 And returns this result: `"the new string"`
 
-<a name="setProperty">
+<a name="setPathToValue"></a>
+ 
+### setPathToValue
+
+Ensure a path in memory exists and set the leaf to the supplied value.  Paths can start with shortcuts and can include named property references or computed references using [].  If part of the path is missing for a named reference or index, an object or array is added. An existing object or array will be used if it matches the path, otherwise a new object or array of the minimum size will overwrite the existing value.  
+
+```
+setPathToValue(<path>, <value>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*path*> | Yes | PathExpression | The memory path expression to modify |
+| <*value*> | Yes | Any | The value to set for the specified path |
+|||||
+
+*Example*
+
+```
+setPathToValue($users[@name].preferences[2], 're' + 'd')
+```
+If @name was "bob", this would set the memory path ```dialog.users.bob.preferences[2]``` to the string "red" and return the value that was set.  The function would ensure that there was an object at .users and .bob and the the array at .preferences had at least 3 elements.
+
+<a name="setProperty"></a>
 
 ### setProperty
 
@@ -2630,7 +2654,6 @@ setProperty(<object>, '<property>', <value>)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*object*> | Yes | Object | The JSON object from where you want to set a property |
-| <*property*> | Yes | String | The name for the property to set |
 | <*value*> | Yes | Any | The value to set for the specified property |
 |||||
 
