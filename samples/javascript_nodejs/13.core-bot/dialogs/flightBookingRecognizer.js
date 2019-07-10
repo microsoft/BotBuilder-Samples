@@ -1,18 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { TurnContext } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
 
 class FlightBookingRecognizer {
     constructor(config) {
-        const luisIsConfigured = config && config.LuisAppId && config.LuisAPIKey && config.LuisAPIHostName;
+        const luisIsConfigured = config && config.applicationId && config.endpointKey && config.endpoint;
         if (luisIsConfigured) {
-            this.recognizer = new LuisRecognizer({
-                applicationId: config.LuisAppId,
-                endpointKey: config.LuisAPIKey,
-                endpoint: `https://${ config.LuisAPIHostName }`
-            }, {}, true);
+            this.recognizer = new LuisRecognizer(config, {}, true);
         }
     }
 
@@ -25,17 +20,7 @@ class FlightBookingRecognizer {
      * @param {TurnContext} context
      */
     async executeLuisQuery(context) {
-        // Before seing the user's utterance to LUIS, remove any at mentions the bot may
-        // have received when the user messaged the bot.
-        // After sending getting the results from LUIS, set the original activity's text
-        // back to its original value.
-        const originalText = context.activity.text;
-        TurnContext.removeRecipientMention(context.activity);
-
-        const recognizedResults = await this.recognizer.recognize(context);
-
-        context.activity.text = originalText;
-        return recognizedResults;
+        return await this.recognizer.recognize(context);
     }
 
     getFromEntities(result) {
