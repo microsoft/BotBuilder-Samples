@@ -23,7 +23,7 @@ adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
-    console.error(`\n [onTurnError]: ${ error }`);
+    console.error(error);
     // Send a message to the user.
     await context.sendActivity(`Oops. Something went wrong!`);
     // Clear out state
