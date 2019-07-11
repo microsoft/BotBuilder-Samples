@@ -10,7 +10,6 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.LanguageGeneration.Renderer;
 using System.IO;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 
@@ -37,12 +36,9 @@ namespace Microsoft.BotBuilderSamples
             string[] lgFiles = { mainDialogLGFile, cardsLGFile };
 
             // For simple LG resolution, we will call the TemplateEngine directly. 
-            _lgEngine = TemplateEngine.FromFiles(lgFiles);
+            _lgEngine = new TemplateEngine().AddFiles(lgFiles);
 
-            // Resource explorer helps load all .lg files for this project.
-            // TextMessageActivityGenerator is used to transform chatdown style cards into full blown activity.
-            var resourceExplorer = ResourceExplorer.LoadProject(Directory.GetCurrentDirectory(), ignoreFolders: new string[] { "models" });
-            _activityGenerator = new TextMessageActivityGenerator(new LGLanguageGenerator(resourceExplorer));
+            _activityGenerator = new TextMessageActivityGenerator();
 
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
@@ -99,42 +95,42 @@ namespace Microsoft.BotBuilderSamples
             {
                 // Display a HeroCard.
                 string lgTemplateEvalResult = _lgEngine.EvaluateTemplate("HeroCard", null);
-                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(lgTemplateEvalResult);
+                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(stepContext.Context, lgTemplateEvalResult);
                 await stepContext.Context.SendActivityAsync(cardActivity);
             }
             else if (text.StartsWith("thumb"))
             {
                 // Display a ThumbnailCard.
                 string lgTemplateEvalResult = _lgEngine.EvaluateTemplate("ThumbnailCard", null);
-                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(lgTemplateEvalResult);
+                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(stepContext.Context, lgTemplateEvalResult);
                 await stepContext.Context.SendActivityAsync(cardActivity);
             }
             else if (text.StartsWith("sign"))
             {
                 // Display a SignInCard.
                 string lgTemplateEvalResult = _lgEngine.EvaluateTemplate("SigninCard", null);
-                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(lgTemplateEvalResult);
+                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(stepContext.Context, lgTemplateEvalResult);
                 await stepContext.Context.SendActivityAsync(cardActivity);
             }
             else if (text.StartsWith("animation"))
             {
                 // Display an AnimationCard.
                 string lgTemplateEvalResult = _lgEngine.EvaluateTemplate("AnimationCard", null);
-                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(lgTemplateEvalResult);
+                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(stepContext.Context, lgTemplateEvalResult);
                 await stepContext.Context.SendActivityAsync(cardActivity);
             }
             else if (text.StartsWith("video"))
             {
                 // Display a VideoCard
                 string lgTemplateEvalResult = _lgEngine.EvaluateTemplate("VideoCard", null);
-                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(lgTemplateEvalResult);
+                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(stepContext.Context, lgTemplateEvalResult);
                 await stepContext.Context.SendActivityAsync(cardActivity);
             }
             else if (text.StartsWith("audio"))
             {
                 // Display an AudioCard
                 string lgTemplateEvalResult = _lgEngine.EvaluateTemplate("AudioCard", null);
-                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(lgTemplateEvalResult);
+                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(stepContext.Context, lgTemplateEvalResult);
                 await stepContext.Context.SendActivityAsync(cardActivity);
             }
             else if (text.StartsWith("receipt"))
@@ -147,14 +143,14 @@ namespace Microsoft.BotBuilderSamples
             else if (text.StartsWith("adaptive"))
             {
                 string lgTemplateEvalResult = _lgEngine.EvaluateTemplate("AdaptiveCard", null);
-                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(lgTemplateEvalResult);
+                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(stepContext.Context, lgTemplateEvalResult);
                 await stepContext.Context.SendActivityAsync(cardActivity);
             }
             else
             {
                 // Display a carousel of all the rich card types.
                 string lgTemplateEvalResult = _lgEngine.EvaluateTemplate("AllCards", null);
-                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(lgTemplateEvalResult);
+                IMessageActivity cardActivity = await _activityGenerator.CreateActivityFromText(stepContext.Context, lgTemplateEvalResult);
                 await stepContext.Context.SendActivityAsync(cardActivity);
             }
 
