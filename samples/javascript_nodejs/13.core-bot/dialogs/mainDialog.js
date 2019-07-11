@@ -59,7 +59,7 @@ class MainDialog extends ComponentDialog {
             return await stepContext.next();
         }
 
-        const messageText = typeof stepContext.options === 'string' ? stepContext.options : 'What can I help you with today?';
+        const messageText = stepContext.options.restartMsg ? stepContext.options.restartMsg : 'What can I help you with today?';
         const promptMessage = MessageFactory.text(messageText, messageText, InputHints.ExpectingInput);
         return await stepContext.prompt('TextPrompt', { prompt: promptMessage });
     }
@@ -152,7 +152,7 @@ class MainDialog extends ComponentDialog {
         }
 
         // Restart the main dialog with a different message the second time around
-        return await stepContext.replaceDialog('MainDialog', 'What else can I do for you?');
+        return await stepContext.replaceDialog('MainDialog', { restartMsg: 'What else can I do for you?' });
     }
 }
 
