@@ -11,6 +11,8 @@ Included in this echo are two counters maintained in User and Conversation state
 This runtime behavior is achieved by simply adding a middleware to the bot. In this sample you can find that being done in the
 AdapterWithInspection class.
 
+More details are available [here](https://github.com/microsoft/BotFramework-Emulator/blob/master/content/CHANNELS.md)
+
 ## Prerequisites
 
 - [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1

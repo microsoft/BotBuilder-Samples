@@ -10,6 +10,8 @@ Included in this echo are two counters maintained in User and Conversation state
 
 This runtime behavior is achieved by simply adding a middleware to the bot. In this sample you can find that being done in the index.js file.
 
+More details are available [here](https://github.com/microsoft/BotFramework-Emulator/blob/master/content/CHANNELS.md)
+
 ## Prerequisites
 
 - [Node.js](https://nodejs.org) version 10.14 or higher
