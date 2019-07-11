@@ -21,14 +21,14 @@ namespace Microsoft.BotBuilderSamples
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "AdapterWithErrorHandler.LG" };
             string fullPath = Path.Combine(paths);
-            _lgEngine = TemplateEngine.FromFiles(fullPath);
+            _lgEngine = new TemplateEngine().AddFile(fullPath);
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.
                 logger.LogError($"Exception caught : {exception.Message}");
 
                 // Send a catch-all apology to the user.
-                await turnContext.SendActivityAsync(_lgEngine.EvaluateTemplate("SomethingWentWrong", null));
+                await turnContext.SendActivityAsync(_lgEngine.EvaluateTemplate("SomethingWentWrong", exception));
 
                 if (conversationState != null)
                 {
