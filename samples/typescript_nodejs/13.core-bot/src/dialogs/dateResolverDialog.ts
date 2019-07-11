@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { TimexProperty } from '@microsoft/recognizers-text-data-types-timex-expression';
+import { InputHints, MessageFactory } from 'botbuilder';
 import { DateTimePrompt, DateTimeResolution, DialogTurnResult, PromptValidatorContext, WaterfallDialog, WaterfallStepContext } from 'botbuilder-dialogs';
 import { CancelAndHelpDialog } from './cancelAndHelpDialog';
 
@@ -19,9 +20,8 @@ export class DateResolverDialog extends CancelAndHelpDialog {
             // If this is a definite Date including year, month and day we are good otherwise reprompt.
             // A better solution might be to let the user know what part is actually missing.
             return new TimexProperty(timex).types.has('definite');
-        } else {
-            return false;
         }
+        return false;
     }
 
     constructor(id: string) {
@@ -38,26 +38,27 @@ export class DateResolverDialog extends CancelAndHelpDialog {
     private async initialStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         const timex = (stepContext.options as any).date;
 
-        const promptMsg = 'On what date would you like to travel?';
-        const repromptMsg = 'I\'m sorry, for best results, please enter your travel date including the month, day and year.';
+        const promptMessageText = 'On what date would you like to travel?';
+        const promptMessage = MessageFactory.text(promptMessageText, promptMessageText, InputHints.ExpectingInput);
+
+        const repromptMessageText = "I'm sorry, for best results, please enter your travel date including the month, day and year.";
+        const repromptMessage = MessageFactory.text(repromptMessageText, repromptMessageText, InputHints.ExpectingInput);
 
         if (!timex) {
             // We were not given any date at all so prompt the user.
             return await stepContext.prompt(DATETIME_PROMPT,
                 {
-                    prompt: promptMsg,
-                    retryPrompt: repromptMsg,
+                    prompt: promptMessage,
+                    retryPrompt: repromptMessage,
                 });
-        } else {
-            // We have a Date we just need to check it is unambiguous.
-            const timexProperty = new TimexProperty(timex);
-            if (!timexProperty.types.has('definite')) {
-                // This is essentially a "reprompt" of the data we were given up front.
-                return await stepContext.prompt(DATETIME_PROMPT, { prompt: repromptMsg });
-            } else {
-                return await stepContext.next({ timex });
-            }
         }
+        // We have a Date we just need to check it is unambiguous.
+        const timexProperty = new TimexProperty(timex);
+        if (!timexProperty.types.has('definite')) {
+            // This is essentially a "reprompt" of the data we were given up front.
+            return await stepContext.prompt(DATETIME_PROMPT, { prompt: repromptMessage });
+        }
+        return await stepContext.next([{ timex: timex }]);
     }
 
     private async finalStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {

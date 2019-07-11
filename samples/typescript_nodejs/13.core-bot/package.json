@@ -1,7 +1,7 @@
 {
-    "name": "basic-bot",
+    "name": "core-bot",
     "version": "0.1.0",
-    "description": "A basic bot that demonstrates core AI capabilities",
+    "description": "A bot that demonstrates core AI capabilities",
     "author": "Microsoft Bot Framework Team",
     "license": "MIT",
     "main": "index.js",
@@ -10,21 +10,25 @@
         "start": "tsc --build && node ./lib/index.js",
         "watch": "nodemon --watch ./src -e ts --exec \"npm run start\"",
         "lint": "tslint -c tslint.json 'src/**/*.ts'",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "tsc --build && nyc mocha lib/tests/**/*.test.js"
     },
     "dependencies": {
         "@microsoft/recognizers-text-data-types-timex-expression": "1.1.4",
-        "botbuilder": "~4.4.0",
-        "botbuilder-ai": "~4.4.0",
-        "botbuilder-dialogs": "~4.4.0",
+        "botbuilder": "^4.6.0-preview.69574",
+        "botbuilder-ai": "^4.6.0-preview.69574",
+        "botbuilder-dialogs": "^4.6.0-preview.69574",
+        "botbuilder-testing": "^4.6.0-preview.69574",
         "dotenv": "^7.0.0",
         "replace": "~1.1.0",
         "restify": "~8.3.3"
     },
     "devDependencies": {
         "@types/dotenv": "6.1.0",
+        "@types/mocha": "^5.2.7",
         "@types/restify": "7.2.11",
+        "mocha": "^5.2.0",
         "nodemon": "~1.18.10",
+        "nyc": "^11.4.1",
         "tslint": "~5.14.0",
         "typescript": "~3.3.3"
     }

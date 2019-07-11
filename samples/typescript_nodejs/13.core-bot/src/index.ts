@@ -5,16 +5,24 @@ import { config } from 'dotenv';
 import * as path from 'path';
 import * as restify from 'restify';
 
-// Import required bot services.
-// See https://aka.ms/bot-services to learn more about the different parts of a bot.
+// Import required bot services. // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 import { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } from 'botbuilder';
+import { LuisApplication } from 'botbuilder-ai';
 
+// The bot and its main dialog.
 import { DialogAndWelcomeBot } from './bots/dialogAndWelcomeBot';
 import { MainDialog } from './dialogs/mainDialog';
 
+// The bot's booking dialog
+import { BookingDialog } from './dialogs/bookingDialog';
+const BOOKING_DIALOG = 'bookingDialog';
+
+// The helper-class recognizer that calls LUIS
+import { FlightBookingRecognizer } from './dialogs/flightBookingRecognizer';
+
 // Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
 const ENV_FILE = path.join(__dirname, '..', '.env');
-const loadFromEnv = config({ path: ENV_FILE });
+config({ path: ENV_FILE });
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
@@ -47,8 +55,16 @@ const memoryStorage = new MemoryStorage();
 conversationState = new ConversationState(memoryStorage);
 userState = new UserState(memoryStorage);
 
+// If configured, pass in the FlightBookingRecognizer. (Defining it externally allows it to be mocked for tests)
+let luisRecognizer;
+const { LuisAppId, LuisAPIKey, LuisAPIHostName } = process.env;
+const luisConfig: LuisApplication = { applicationId: LuisAppId, endpointKey: LuisAPIKey, endpoint: `https://${ LuisAPIHostName }` };
+
+luisRecognizer = new FlightBookingRecognizer(luisConfig);
+
 // Create the main dialog.
-const dialog = new MainDialog();
+const bookingDialog = new BookingDialog(BOOKING_DIALOG);
+const dialog = new MainDialog(luisRecognizer, bookingDialog);
 const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
 
 // Create HTTP server
