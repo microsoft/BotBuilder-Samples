@@ -2,9 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-import { TestAdapter, ActivityTypes, TurnContext, ConversationState, MemoryStorage, UserState } from 'botbuilder';
-import { DialogSet, DialogTurnStatus, Dialog } from 'botbuilder-dialogs';
-import { DialogAndWelcomeBot }  from '../../bots/dialogAndWelcomeBot';
+import { ActivityTypes, ConversationState, MemoryStorage, TestAdapter, TurnContext, UserState } from 'botbuilder';
+import { Dialog, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
+import { DialogAndWelcomeBot } from '../../bots/dialogAndWelcomeBot';
 const assert = require('assert');
 
 /**
@@ -15,12 +15,12 @@ class MockRootDialog extends Dialog {
         super('mockRootDialog');
     }
 
-    async beginDialog(dc, options) {
+    public async beginDialog(dc, options) {
         await dc.context.sendActivity(`${ this.id } mock invoked`);
         return await dc.endDialog();
     }
 
-    async run(turnContext, accessor) {
+    public async run(turnContext, accessor) {
         const dialogSet = new DialogSet(accessor);
         dialogSet.add(this);
 
@@ -47,7 +47,6 @@ describe('DialogAndWelcomeBot', () => {
 
         // Create conversationUpdate activity
         const conversationUpdateActivity = {
-            type: ActivityTypes.ConversationUpdate,
             channelId: 'test',
             conversation: {
                 id: 'someId'
@@ -55,7 +54,8 @@ describe('DialogAndWelcomeBot', () => {
             membersAdded: [
                 { id: 'theUser' }
             ],
-            recipient: { id: 'theBot' }
+            recipient: { id: 'theBot' },
+            type: ActivityTypes.ConversationUpdate
         };
 
         // Send the conversation update activity to the bot.

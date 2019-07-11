@@ -29,7 +29,7 @@ export class DateResolverDialog extends CancelAndHelpDialog {
         this.addDialog(new DateTimePrompt(DATETIME_PROMPT, DateResolverDialog.dateTimePromptValidator.bind(this)))
             .addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
                 this.initialStep.bind(this),
-                this.finalStep.bind(this),
+                this.finalStep.bind(this)
             ]));
 
         this.initialDialogId = WATERFALL_DIALOG;
@@ -41,7 +41,7 @@ export class DateResolverDialog extends CancelAndHelpDialog {
         const promptMessageText = 'On what date would you like to travel?';
         const promptMessage = MessageFactory.text(promptMessageText, promptMessageText, InputHints.ExpectingInput);
 
-        const repromptMessageText = "I'm sorry, for best results, please enter your travel date including the month, day and year.";
+        const repromptMessageText = 'I\'m sorry, for best results, please enter your travel date including the month, day and year.';
         const repromptMessage = MessageFactory.text(repromptMessageText, repromptMessageText, InputHints.ExpectingInput);
 
         if (!timex) {
@@ -49,7 +49,7 @@ export class DateResolverDialog extends CancelAndHelpDialog {
             return await stepContext.prompt(DATETIME_PROMPT,
                 {
                     prompt: promptMessage,
-                    retryPrompt: repromptMessage,
+                    retryPrompt: repromptMessage
                 });
         }
         // We have a Date we just need to check it is unambiguous.
@@ -58,7 +58,7 @@ export class DateResolverDialog extends CancelAndHelpDialog {
             // This is essentially a "reprompt" of the data we were given up front.
             return await stepContext.prompt(DATETIME_PROMPT, { prompt: repromptMessage });
         }
-        return await stepContext.next([{ timex: timex }]);
+        return await stepContext.next([{ timex }]);
     }
 
     private async finalStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {

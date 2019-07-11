@@ -15,7 +15,7 @@ import {
     DialogTurnStatus,
     TextPrompt,
     WaterfallDialog,
-    WaterfallStepContext,
+    WaterfallStepContext
 } from 'botbuilder-dialogs';
 import { FlightBookingRecognizer } from './flightBookingRecognizer';
 
@@ -39,7 +39,7 @@ export class MainDialog extends ComponentDialog {
             .addDialog(new WaterfallDialog(MAIN_WATERFALL_DIALOG, [
                 this.introStep.bind(this),
                 this.actStep.bind(this),
-                this.finalStep.bind(this),
+                this.finalStep.bind(this)
             ]));
 
         this.initialDialogId = MAIN_WATERFALL_DIALOG;
@@ -68,8 +68,8 @@ export class MainDialog extends ComponentDialog {
      */
     private async introStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         if (!this.luisRecognizer.isConfigured) {
-            const messageText = 'NOTE: LUIS is not configured. To enable all capabilities, add `LuisAppId`, `LuisAPIKey` and `LuisAPIHostName` to the .env file.';
-            await stepContext.context.sendActivity(messageText, null, InputHints.IgnoringInput);
+            const luisConfigMsg = 'NOTE: LUIS is not configured. To enable all capabilities, add `LuisAppId`, `LuisAPIKey` and `LuisAPIHostName` to the .env file.';
+            await stepContext.context.sendActivity(luisConfigMsg, null, InputHints.IgnoringInput);
             return await stepContext.next();
         }
 
@@ -83,7 +83,7 @@ export class MainDialog extends ComponentDialog {
      * Then, it hands off to the bookingDialog child dialog to collect any remaining details.
      */
     private async actStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-        let bookingDetails = new BookingDetails();
+        const bookingDetails = new BookingDetails();
 
         if (!this.luisRecognizer.isConfigured) {
             // LUIS is not configured, we just run the BookingDialog path.
@@ -131,7 +131,7 @@ export class MainDialog extends ComponentDialog {
      * will be empty if those entity values can't be mapped to a canonical item in the Airport.
      */
     private async showWarningForUnsupportedCities(context, fromEntities, toEntities) {
-        let unsupportedCities = [];
+        const unsupportedCities = [];
         if (fromEntities.from && !fromEntities.airport) {
             unsupportedCities.push(fromEntities.from);
         }

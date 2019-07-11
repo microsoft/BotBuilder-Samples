@@ -3,8 +3,8 @@
  * Licensed under the MIT License.
  */
 import { MessageFactory } from 'botbuilder';
-import { DialogTestClient, DialogTestLogger } from 'botbuilder-testing';
 import { TextPrompt, WaterfallDialog } from 'botbuilder-dialogs';
+import { DialogTestClient, DialogTestLogger } from 'botbuilder-testing';
 import { CancelAndHelpDialog } from '../../dialogs/cancelAndHelpDialog';
 const assert = require('assert');
 
@@ -24,11 +24,11 @@ class TestCancelAndHelpDialog extends CancelAndHelpDialog {
         this.initialDialogId = 'WaterfallDialog';
     }
 
-    async promptStep(stepContext) {
+    public async promptStep(stepContext) {
         return await stepContext.prompt('TextPrompt', { prompt: MessageFactory.text('Hi there') });
     }
 
-    async finalStep(stepContext) {
+    public async finalStep(stepContext) {
         return await stepContext.endDialog();
     }
 }
@@ -37,7 +37,7 @@ describe('CancelAndHelpDialog', () => {
     describe('Should be able to cancel', () => {
         const testCases = ['cancel', 'quit'];
 
-        testCases.map(testData => {
+        testCases.map((testData) => {
             it(testData, async () => {
                 const sut = new TestCancelAndHelpDialog();
                 const client = new DialogTestClient('test', sut, null, [new DialogTestLogger()]);
@@ -57,7 +57,7 @@ describe('CancelAndHelpDialog', () => {
     describe('Should be able to get help', () => {
         const testCases = ['help', '?'];
 
-        testCases.map(testData => {
+        testCases.map((testData) => {
             it(testData, async () => {
                 const sut = new TestCancelAndHelpDialog();
                 const client = new DialogTestClient('test', sut, null, [new DialogTestLogger()]);

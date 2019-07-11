@@ -8,7 +8,7 @@ import {
     DialogTurnResult,
     TextPrompt,
     WaterfallDialog,
-    WaterfallStepContext,
+    WaterfallStepContext
 } from 'botbuilder-dialogs';
 import { BookingDetails } from './bookingDetails';
 import { CancelAndHelpDialog } from './cancelAndHelpDialog';
@@ -31,7 +31,7 @@ export class BookingDialog extends CancelAndHelpDialog {
                 this.originStep.bind(this),
                 this.travelDateStep.bind(this),
                 this.confirmStep.bind(this),
-                this.finalStep.bind(this),
+                this.finalStep.bind(this)
             ]));
 
         this.initialDialogId = WATERFALL_DIALOG;

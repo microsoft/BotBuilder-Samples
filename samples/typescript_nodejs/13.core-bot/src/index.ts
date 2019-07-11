@@ -28,7 +28,7 @@ config({ path: ENV_FILE });
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
 const adapter = new BotFrameworkAdapter({
     appId: process.env.MicrosoftAppID,
-    appPassword: process.env.MicrosoftAppPassword,
+    appPassword: process.env.MicrosoftAppPassword
 });
 
 // Catch-all for errors.

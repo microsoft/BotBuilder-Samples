@@ -7,10 +7,10 @@ let bookingDialogToday = formatBookingDialogDate(new Date());
 let bookingDialogTomorrow = formatBookingDialogDate(new Date().setDate(bookingDialogNow.getDate() + 1));
 
 function formatBookingDialogDate(date) {
-    let d = new Date(date);
+    const d = new Date(date);
     let month = '' + (d.getMonth() + 1);
     let day = '' + d.getDate();
-    let year = d.getFullYear();
+    const year = d.getFullYear();
 
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
@@ -20,133 +20,133 @@ function formatBookingDialogDate(date) {
 
 module.exports = [
     {
-        name: 'Full flow',
+        expectedResult: {
+            destination: 'Seattle',
+            origin: 'New York',
+            travelDate: bookingDialogTomorrow
+        },
+        expectedStatus: 'complete',
         initialData: {},
+        name: 'Full flow',
         steps: [
             ['hi', 'To what city would you like to travel?'],
             ['Seattle', 'From what city will you be travelling?'],
             ['New York', 'On what date would you like to travel?'],
             ['tomorrow', `Please confirm, I have you traveling to: Seattle from: New York on: ${ bookingDialogTomorrow }. Is this correct? (1) Yes or (2) No`],
             ['yes', null]
-        ],
-        expectedStatus: 'complete',
-        expectedResult: {
-            destination: 'Seattle',
-            origin: 'New York',
-            travelDate: bookingDialogTomorrow
-        }
+        ]
     },
     {
-        name: 'Full flow with \'no\' at confirmation',
+        expectedResult: undefined,
+        expectedStatus: 'complete',
         initialData: {},
+        name: 'Full flow with \'no\' at confirmation',
         steps: [
             ['hi', 'To what city would you like to travel?'],
             ['Seattle', 'From what city will you be travelling?'],
             ['New York', 'On what date would you like to travel?'],
             ['tomorrow', `Please confirm, I have you traveling to: Seattle from: New York on: ${ bookingDialogTomorrow }. Is this correct? (1) Yes or (2) No`],
             ['no', null]
-        ],
-        expectedStatus: 'complete',
-        expectedResult: undefined
+        ]
     },
     {
-        name: 'Destination given',
+        expectedResult: {
+            destination: 'Bahamas',
+            origin: 'New York',
+            travelDate: bookingDialogTomorrow
+        },
+        expectedStatus: 'complete',
         initialData: {
             destination: 'Bahamas'
         },
+        name: 'Destination given',
         steps: [
             ['hi', 'From what city will you be travelling?'],
             ['New York', 'On what date would you like to travel?'],
             ['tomorrow', `Please confirm, I have you traveling to: Bahamas from: New York on: ${ bookingDialogTomorrow }. Is this correct? (1) Yes or (2) No`],
             ['yes', null]
-        ],
-        expectedStatus: 'complete',
-        expectedResult: {
-            origin: 'New York',
-            destination: 'Bahamas',
-            travelDate: bookingDialogTomorrow
-        }
+        ]
     },
     {
-        name: 'Destination and origin given',
+        expectedResult: {
+            destination: 'Seattle',
+            origin: 'New York',
+            travelDate: bookingDialogTomorrow
+        },
+        expectedStatus: 'complete',
         initialData: {
             destination: 'Seattle',
             origin: 'New York'
         },
+        name: 'Destination and origin given',
         steps: [
             ['hi', 'On what date would you like to travel?'],
             ['tomorrow', `Please confirm, I have you traveling to: Seattle from: New York on: ${ bookingDialogTomorrow }. Is this correct? (1) Yes or (2) No`],
             ['yes', null]
-        ],
-        expectedStatus: 'complete',
-        expectedResult: {
-            destination: 'Seattle',
-            origin: 'New York',
-            travelDate: bookingDialogTomorrow
-        }
+        ]
     },
     {
-        name: 'All booking details given for today',
+        expectedResult: {
+            destination: 'Seattle',
+            origin: 'Bahamas',
+            travelDate:  bookingDialogToday
+        },
+        expectedStatus: 'complete',
         initialData: {
             destination: 'Seattle',
             origin: 'Bahamas',
             travelDate:  bookingDialogToday
         },
+        name: 'All booking details given for today',
         steps: [
             ['hi', `Please confirm, I have you traveling to: Seattle from: Bahamas on: ${  bookingDialogToday }. Is this correct? (1) Yes or (2) No`],
             ['yes', null]
-        ],
-        expectedStatus: 'complete',
-        expectedResult: {
-            destination: 'Seattle',
-            origin: 'Bahamas',
-            travelDate:  bookingDialogToday
-        }
+        ]
     },
     {
-        name: 'Cancel on origin prompt',
+        expectedResult: undefined,
+        expectedStatus: 'cancelled',
         initialData: {},
+        name: 'Cancel on origin prompt',
         steps: [
             ['hi', 'To what city would you like to travel?'],
             ['cancel', 'Cancelling...']
-        ],
-        expectedStatus: 'cancelled',
-        expectedResult: undefined
+        ]
     },
     {
-        name: 'Cancel on destination prompt',
+        expectedResult: undefined,
+        expectedStatus: 'cancelled',
         initialData: {},
+        name: 'Cancel on destination prompt',
         steps: [
             ['hi', 'To what city would you like to travel?'],
             ['Seattle', 'From what city will you be travelling?'],
             ['cancel', 'Cancelling...']
-        ],
-        expectedStatus: 'cancelled',
-        expectedResult: undefined
+        ]
     },
     {
-        name: 'Cancel on date prompt',
+        expectedResult: undefined,
+        expectedStatus: 'cancelled',
         initialData: {},
+        name: 'Cancel on date prompt',
         steps: [
             ['hi', 'To what city would you like to travel?'],
             ['Seattle', 'From what city will you be travelling?'],
             ['New York', 'On what date would you like to travel?'],
             ['cancel', 'Cancelling...']
-        ],
-        expectedStatus: 'cancelled',
-        expectedResult: undefined
+        ]
     },
     {
-        name: 'Cancel on confirm prompt',
+        expectedResult: undefined,
+        expectedStatus: 'cancelled',
         initialData: {},
+        name: 'Cancel on confirm prompt',
         steps: [
             ['hi', 'To what city would you like to travel?'],
             ['Seattle', 'From what city will you be travelling?'],
             ['New York', 'On what date would you like to travel?'],
             ['tomorrow', `Please confirm, I have you traveling to: Seattle from: New York on: ${ bookingDialogTomorrow }. Is this correct? (1) Yes or (2) No`],
             ['cancel', 'Cancelling...']
-        ],
-        expectedStatus: 'cancelled',
-        expectedResult: undefined
+        ]
     }
 ];
