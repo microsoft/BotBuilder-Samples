@@ -49,6 +49,9 @@ You do not have any entries in your calendar.
 # viewEmptyEntry
 - You cannot check on empty entry!
 
+# OverviewAgain
+- Do you want to see the overview again?
+
 # entryTemplate(x, y, z)
 - ```
 [adaptivecard

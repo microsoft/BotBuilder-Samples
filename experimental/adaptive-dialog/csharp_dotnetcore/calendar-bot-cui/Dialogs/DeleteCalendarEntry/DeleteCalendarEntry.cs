@@ -38,67 +38,56 @@ namespace Microsoft.BotBuilderSamples
                             new BeginDialog("FindCalendarEntry")
                         }
                     },
-                    // we cannot decline a entry if we are the origanizer
                     new IfCondition()
                     {
-                        Condition = "user.focusedMeeting.isOrganizer != true",
+                        Condition = "user.focusedMeeting == null",
+                        Steps = new List<IDialog>(){
+                            new SendActivity("You cannot accept any meetings because your calendar is empty"),
+                            new EndDialog()
+                        }
+                    },
+                    new SendActivity("[detailedEntryTemplate(user.focusedMeeting)]"),
+                    new ConfirmInput()
+                    {
+                        Property = "turn.DeleteCalendarEntry_ConfirmChoice",
+                        Prompt = new ActivityTemplate("Are you sure you want to decline this event?"),
+                        InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
+                    },
+                    new IfCondition()
+                    { 
+                        Condition = "turn.DeleteCalendarEntry_ConfirmChoice",
                         Steps = new List<IDialog>()
                         {
-                            new HttpRequest()
+                            new IfCondition()
                             {
-                                Property = "user.declineResponse",
-                                Method = HttpRequest.HttpMethod.POST,
-                                Url = "https://graph.microsoft.com/v1.0/me/events/{user.focusedMeeting.id}/decline",
-                                Headers =  new Dictionary<string, string>()
+                                Condition = "user.focusedMeeting.isOrganizer != true",// we cannot decline a entry if we are the origanizer
+                                Steps = new List<IDialog>()
                                 {
-                                    ["Authorization"] = "Bearer {user.token.Token}",
-                                }
-                            },
-                            new SendActivity("[DeclineReadBack]")
-                        },
-                        ElseSteps = new List<IDialog>(){
-                            new SendActivity("Your request can't be completed. You can't respond to this meeting because you're the meeting organizer."),
-                            new DeleteProperty
-                            {
-                                Property = "turn.FindCalendarEntry_Choice"
-                            },
-                            new ChoiceInput(){
-                                Property = "turn.FindCalendarEntry_Choice",
-                                Prompt = new ActivityTemplate("[DeleteThisEntry]"),
-                                Choices = new List<Choice>()
-                                {
-                                    new Choice("Agree"),
-                                    new Choice("Disagree")
-                                }
-                            },
-                            new SwitchCondition()
-                            {
-                                Condition = "turn.FindCalendarEntry_Choice",
-                                Cases = new List<Case>()
-                                {
-                                    new Case("Agree", new List<IDialog>()
+                                    new HttpRequest()
                                     {
-                                        new HttpRequest()
+                                        Property = "user.declineResponse",
+                                        Method = HttpRequest.HttpMethod.POST,
+                                        Url = "https://graph.microsoft.com/v1.0/me/events/{user.focusedMeeting.id}/decline",
+                                        Headers =  new Dictionary<string, string>()
                                         {
-                                            Property = "user.declineResponse",
-                                            //Method = HttpRequest.HttpMethod.DELETE, // CANNOT DELETE NOT BECAUSE IT IS NOT USABLE NOW
-                                            Url = "https://graph.microsoft.com/v1.0/me/events/{user.focusedMeeting.id}/delete",
-                                            Headers =  new Dictionary<string, string>()
-                                            {
-                                                ["Authorization"] = "Bearer {dialog.token.Token}",
-                                            }
-                                        },
-                                        new SendActivity("Successfully delete your entry!"),
-                                    }),
-                                    new Case("Disagree", new List<IDialog>()
-                                    {
-                                        new SendActivity("Ok...")
-                                    }),
+                                            ["Authorization"] = "Bearer {user.token.Token}",
+                                        }
+                                    },
+                                    new SendActivity("[DeclineReadBack]")
                                 },
-                                Default = new List<IDialog>()
-                                {
-                                    new SendActivity("Sorry, I don't know what you mean!"),
-                                    new EndDialog()
+                                ElseSteps = new List<IDialog>(){
+                                    new SendActivity("Your request can't be completed. You can't respond to this meeting because you're the meeting organizer."),
+                                    new HttpRequest()
+                                    {
+                                        Property = "user.declineResponse",
+                                        //Method = HttpRequest.HttpMethod.DELETE, // CANNOT DELETE NOT BECAUSE IT IS NOT USABLE NOW
+                                        Url = "https://graph.microsoft.com/v1.0/me/events/{user.focusedMeeting.id}/delete",
+                                        Headers =  new Dictionary<string, string>()
+                                        {
+                                            ["Authorization"] = "Bearer {dialog.token.Token}",
+                                        }
+                                    },
+                                    new SendActivity("Successfully delete your entry!"),
                                 }
                             }
                         }

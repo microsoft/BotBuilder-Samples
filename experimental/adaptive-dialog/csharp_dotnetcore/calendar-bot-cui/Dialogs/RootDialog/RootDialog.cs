@@ -160,8 +160,8 @@ namespace Microsoft.BotBuilderSamples
             AddDialog(rootDialog);
             rootDialog.AddDialog(new List<Dialog>()
             {
-                new CreateCalendarEntry(),
-                new FindCalendarEntry(),
+                new CreateCalendarEntry(Configuration),
+                new FindCalendarEntry(Configuration),
                 new DeleteCalendarEntry(),
                 new FindCalendarWho(),
                 new AcceptCalendarEntry(),

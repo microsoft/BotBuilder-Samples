@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc.Formatters.Internal;
-using Microsoft.Bot.Builder;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers;
+using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 
 /// <summary>
 /// This dialog will show all the calendar entries.
@@ -17,9 +18,13 @@ namespace Microsoft.BotBuilderSamples
 {
     public class FindCalendarEntry : ComponentDialog
     {
-        public FindCalendarEntry()
+
+
+        private static IConfiguration Configuration;
+        public FindCalendarEntry(IConfiguration configuration)
             : base(nameof(FindCalendarEntry))
         {
+            Configuration = configuration;
             // Create instance of adaptive dialog. 
             var findCalendarEntry = new AdaptiveDialog("view")
             {
@@ -37,7 +42,7 @@ namespace Microsoft.BotBuilderSamples
                         },
                         Property = "dialog.FindCalendarEntry_GraphAll"
                     },
-                    // to avoid shoing an empty calendar
+                    // to avoid shoing an empty calendar & access denied
                     new IfCondition()
                     {
                         Condition = "dialog.FindCalendarEntry_GraphAll.value != null && count(dialog.FindCalendarEntry_GraphAll.value) > 0",
@@ -58,8 +63,6 @@ namespace Microsoft.BotBuilderSamples
                                     new Choice("Check The First One"),
                                     new Choice("Check The Second One"),
                                     new Choice("Check The Third One"),
-                                    new Choice("Next Page"),
-                                    new Choice("Previous Page")
                                 },
                                 Style = ListStyle.SuggestedAction
                             },
@@ -81,9 +84,26 @@ namespace Microsoft.BotBuilderSamples
                                                     }
                                                 },
                                                 ElseSteps = new List<IDialog>(){
-                                                    new SendActivity("[viewEmptyEntry]")
+                                                    new SendActivity("[viewEmptyEntry]"),
                                                 }
                                             },
+                                            new ConfirmInput(){
+                                                Property = "turn.FindCalendarEntry_ConfirmChoice",
+                                                Prompt = new ActivityTemplate("[OverviewAgain]"),
+                                                InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
+                                            },
+                                            new IfCondition()
+                                            {
+                                                Condition = "turn.FindCalendarEntry_ConfirmChoice",
+                                                Steps = new List<IDialog>()
+                                                {
+                                                    new RepeatDialog()
+                                                },
+                                                ElseSteps = new List<IDialog>()
+                                                {
+                                                    new EndDialog()
+                                                }
+                                            }
                                         //new RepeatDialog()
                                         // otherwise, once we change to other intents, we will still come back
                                         }),
@@ -103,6 +123,23 @@ namespace Microsoft.BotBuilderSamples
                                                     new SendActivity("[viewEmptyEntry]")
                                                 }
                                             },
+                                            new ConfirmInput(){
+                                                Property = "turn.FindCalendarEntry_ConfirmChoice",
+                                                Prompt = new ActivityTemplate("[OverviewAgain]"),
+                                                InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
+                                            },
+                                            new IfCondition()
+                                            {
+                                                Condition = "turn.FindCalendarEntry_ConfirmChoice",
+                                                Steps = new List<IDialog>()
+                                                {
+                                                    new RepeatDialog()
+                                                },
+                                                ElseSteps = new List<IDialog>()
+                                                {
+                                                    new EndDialog()
+                                                }
+                                            }
                                             //new RepeatDialog()
                                         }),
                                     new Case("Check The Third One", new List<IDialog>()
@@ -121,50 +158,25 @@ namespace Microsoft.BotBuilderSamples
                                                     new SendActivity("[viewEmptyEntry]")
                                                 }
                                             },
+                                            new ConfirmInput(){
+                                                Property = "turn.FindCalendarEntry_ConfirmChoice",
+                                                Prompt = new ActivityTemplate("[OverviewAgain]"),
+                                                InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
+                                            },
+                                            new IfCondition()
+                                            {
+                                                Condition = "turn.FindCalendarEntry_ConfirmChoice",
+                                                Steps = new List<IDialog>()
+                                                {
+                                                    new RepeatDialog()
+                                                },
+                                                ElseSteps = new List<IDialog>()
+                                                {
+                                                    new EndDialog()
+                                                }
+                                            }
                                             //new RepeatDialog()
-                                        }),
-                                    new Case("Next Page", new List<IDialog>()
-                                        {
-                                            new IfCondition()
-                                            {
-                                                Condition = "user.FindCalendarEntry_pageIndex * 3 + 3 < count(dialog.FindCalendarEntry_GraphAll.value)",
-                                                Steps = new List<IDialog>()
-                                                {
-                                                    new SetProperty()
-                                                    {
-                                                       Property = "user.FindCalendarEntry_pageIndex",
-                                                        Value = "user.FindCalendarEntry_pageIndex + 1"
-                                                    },
-                                                    new RepeatDialog()
-                                                },
-                                                ElseSteps = new List<IDialog>()
-                                                {
-                                                    new SendActivity("This is already the last page!"),
-                                                    new RepeatDialog()
-                                                }
-                                            }
-                                        }),
-                                    new Case("Previous Page", new List<IDialog>()
-                                        {
-                                            new IfCondition()
-                                            {
-                                                Condition = " 0 < user.FindCalendarEntry_pageIndex",
-                                                Steps = new List<IDialog>()
-                                                {
-                                                    new SetProperty()
-                                                    {
-                                                        Property = "user.FindCalendarEntry_pageIndex",
-                                                        Value = "user.FindCalendarEntry_pageIndex - 1"
-                                                    },
-                                                    new RepeatDialog()
-                                                },
-                                                ElseSteps = new List<IDialog>()
-                                                {
-                                                    new SendActivity("This is already the first page!"),
-                                                    new RepeatDialog()
-                                                }
-                                            }
-                                        }),
+                                        })
                                 },
                                 Default = new List<IDialog>()
                                 {
@@ -197,7 +209,56 @@ namespace Microsoft.BotBuilderSamples
                                 new SendActivity("[CancelViewMeeting]"),
                                 new EndDialog()
                         }
+                    },
+                    new IntentRule("ShowPrevious")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new IfCondition()
+                            {
+                                Condition = " 0 < user.FindCalendarEntry_pageIndex",
+                                Steps = new List<IDialog>()
+                                {
+                                    new SetProperty()
+                                    {
+                                        Property = "user.FindCalendarEntry_pageIndex",
+                                        Value = "user.FindCalendarEntry_pageIndex - 1"
+                                    },
+                                    new RepeatDialog()
+                                },
+                                ElseSteps = new List<IDialog>()
+                                {
+                                    new SendActivity("This is already the first page!"),
+                                    new RepeatDialog()
+                                }
+                            }
+                        }
+                    },
+                    new IntentRule("ShowNext")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new IfCondition()
+                            {
+                                Condition = " user.FindCalendarEntry_pageIndex * 3 + 3 < count(dialog.FindCalendarEntry_GraphAll.value)",
+                                Steps = new List<IDialog>()
+                                {
+                                    new SetProperty()
+                                    {
+                                        Property = "user.FindCalendarEntry_pageIndex",
+                                        Value = "user.FindCalendarEntry_pageIndex + 1"
+                                    },
+                                    new RepeatDialog()
+                                },
+                                ElseSteps = new List<IDialog>()
+                                {
+                                    new SendActivity("This is already the last page!"),
+                                    new RepeatDialog()
+                                }
+                            }
+                        }
                     }
+
                 }
             };
             
@@ -207,16 +268,30 @@ namespace Microsoft.BotBuilderSamples
             // The initial child Dialog to run.
             InitialDialogId = "view";
         }
-        private static IRecognizer CreateRecognizer()
+        //private static IRecognizer CreateRecognizer()
+        //{
+        //    return new RegexRecognizer()
+        //    {
+        //        Intents = new Dictionary<string, string>()
+        //        {
+        //            { "Help", "(?i)help" },
+        //            { "Cancel", "(?i)cancel|never mind"},
+        //        }
+        //    };
+        //}
+
+        public static IRecognizer CreateRecognizer()
         {
-            return new RegexRecognizer()
+            if (string.IsNullOrEmpty(Configuration["LuisAppIdGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIKeyGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostNameGeneral"]))
             {
-                Intents = new Dictionary<string, string>()
-                {
-                    { "Help", "(?i)help" },
-                    { "Cancel", "(?i)cancel|never mind"},
-                }
-            };
+                throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
+            }
+            return new LuisRecognizer(new LuisApplication()
+            {
+                Endpoint = Configuration["LuisAPIHostNameGeneral"],
+                EndpointKey = Configuration["LuisAPIKeyGeneral"],
+                ApplicationId = Configuration["LuisAppIdGeneral"]
+            });
         }
     }
 }

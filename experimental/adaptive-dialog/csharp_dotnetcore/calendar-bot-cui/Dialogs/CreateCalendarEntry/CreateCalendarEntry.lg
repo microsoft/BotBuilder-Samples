@@ -205,7 +205,7 @@ OK, please enter the duration of your event.
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "@{dialog.CreateCalendarEntry_FromTime} - @{dialog.CreateCalendarEntry_ToTime}",
+                    "text": "@{dialog.CreateCalendarEntry_FromTime[0].value} - @{dialog.CreateCalendarEntry_ToTime[0].value}",
                     "wrap": true,
                     "maxLines": 5
                 }

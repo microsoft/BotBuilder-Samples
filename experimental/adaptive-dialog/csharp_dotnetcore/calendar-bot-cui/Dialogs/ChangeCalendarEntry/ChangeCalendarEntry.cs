@@ -37,41 +37,65 @@ namespace Microsoft.BotBuilderSamples
                             new BeginDialog("FindCalendarEntry")
                         }
                     },
-                    // we cannot accept a entry if we are the origanizer
-                    new TextInput(){
-                        Property = "dialog.ChangeCalendarEntry_startTime",
-                        Prompt = new ActivityTemplate("[GetStartTime]")
-                    },
-                    //new SendActivity("{formatDateTime(dialog.ChangeCalendarEntry_startTime, \"yyyy-MM-ddTHH:mm:ss\")}"),//DEBUG
-                    new HttpRequest()
+                    new IfCondition()
                     {
-                        Property = "user.updateResponse",
-                        Method = HttpRequest.HttpMethod.PATCH,
-                        Url = "https://graph.microsoft.com/v1.0/me/events/{user.focusedMeeting.id}",
-                        Headers =  new Dictionary<string, string>()
-                        {
-                            ["Authorization"] = "Bearer {user.token.Token}",
-                        },
-                        Body = JObject.Parse(@"{
-                            'start': {
-                                'dateTime': '{formatDateTime(dialog.ChangeCalendarEntry_startTime, \'yyyy-MM-ddTHH:mm:ss\')}', 
-                                'timeZone': 'UTC'
-                            }
-                        }")// have some bugs in formatDateTime
-                        // cannot delete calendar entry in outlook manually
+                        Condition = "user.focusedMeeting == null",
+                        Steps = new List<IDialog>(){
+                            new SendActivity("You cannot accept any meetings because your calendar is empty"),
+                            new EndDialog()
+                        }
+                    },
+                    new SendActivity("[detailedEntryTemplate(user.focusedMeeting)]"),
+                    new ConfirmInput()
+                    {
+                        Property = "turn.ChangeCalendarEntry_ConfirmChoice",
+                        Prompt = new ActivityTemplate("Are you sure you want to update this event?"),
+                        InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
                     },
                     new IfCondition()
                     {
-                        Condition = "user.updateResponse.error == null",
-                        Steps = new List<IDialog>
+                        Condition = "turn.ChangeCalendarEntry_ConfirmChoice",
+                        Steps = new List<IDialog>()
                         {
-                            new SendActivity("[UpdateCalendarEntryReadBack]")
-                        },
-                        ElseSteps = new List<IDialog>
-                        {
-                            new SendActivity("[UpdateCalendarEntryFailed]")
+                            new DateTimeInput()
+                            {
+                                Property = "dialog.ChangeCalendarEntry_startTime",
+                                Prompt = new ActivityTemplate("[GetStartTime]")
+                            },
+                    //new SendActivity("{formatDateTime(dialog.ChangeCalendarEntry_startTime, \"yyyy-MM-ddTHH:mm:ss\")}"),//DEBUG
+                            new HttpRequest()
+                            {
+                                Property = "user.updateResponse",
+                                Method = HttpRequest.HttpMethod.PATCH,
+                                Url = "https://graph.microsoft.com/v1.0/me/events/{user.focusedMeeting.id}",
+                                Headers =  new Dictionary<string, string>()
+                                {
+                                    ["Authorization"] = "Bearer {user.token.Token}",
+                                },
+                                Body = JObject.Parse(@"{
+                                    'start': {
+                                        'dateTime': '{formatDateTime(dialog.ChangeCalendarEntry_startTime.value, \'yyyy-MM-ddTHH:mm:ss\')}', 
+                                        'timeZone': 'UTC'
+                                    }
+                                }")// have some bugs in formatDateTime
+                                // cannot delete calendar entry in outlook manually
+                            },
+                            new IfCondition()
+                            {
+                                Condition = "user.updateResponse.error == null",
+                                Steps = new List<IDialog>
+                                {
+                                    new SendActivity("[UpdateCalendarEntryReadBack]")
+                                },
+                                ElseSteps = new List<IDialog>
+                                {
+                                    new SendActivity("[UpdateCalendarEntryFailed]")
+                                }
+                            },
                         }
                     },
+                    // we cannot accept a entry if we are the origanizer
+                    
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()
                 },

@@ -243,5 +243,6 @@ namespace Microsoft.BotBuilderSamples
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);
         }
+
     }
 }

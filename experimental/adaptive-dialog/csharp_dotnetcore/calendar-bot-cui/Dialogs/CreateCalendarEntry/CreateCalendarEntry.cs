@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
@@ -8,6 +10,8 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 
 /// <summary>
@@ -19,9 +23,11 @@ namespace Microsoft.BotBuilderSamples
 {
     public class CreateCalendarEntry : ComponentDialog
     {
-        public CreateCalendarEntry()
+        private static IConfiguration Configuration;
+        public CreateCalendarEntry(IConfiguration configuration)
             : base(nameof(CreateCalendarEntry))
         {
+            Configuration = configuration;
             var createCalendarEntry = new AdaptiveDialog("create")
             {
                 Recognizer = CreateRecognizer(),
@@ -98,9 +104,7 @@ namespace Microsoft.BotBuilderSamples
                                 {
                                     new Choice("Confirm The First One"),
                                     new Choice("Confirm The Second One"),
-                                    new Choice("Confirm The Third One"),
-                                    new Choice("Next Page"),
-                                    new Choice("Previous Page")
+                                    new Choice("Confirm The Third One")
                                 },
                                 Style = ListStyle.SuggestedAction
                             },
@@ -170,49 +174,7 @@ namespace Microsoft.BotBuilderSamples
                                                     new RepeatDialog()
                                                 }
                                             }
-                                        }),
-                                    new Case("Next Page", new List<IDialog>()
-                                        {
-                                            new IfCondition()
-                                            {
-                                                Condition = "user.CreateCalendarEntry_pageIndex * 3 + 3 < count(dialog.matchedEmails) ",
-                                                Steps = new List<IDialog>()
-                                                {
-                                                    new SetProperty()
-                                                    {
-                                                       Property = "user.CreateCalendarEntry_pageIndex",
-                                                        Value = "user.CreateCalendarEntry_pageIndex + 1"
-                                                    },
-                                                    new RepeatDialog()
-                                                },
-                                                ElseSteps = new List<IDialog>()
-                                                {
-                                                    new SendActivity("This is already the last page!"),
-                                                    new RepeatDialog()
-                                                }
-                                            }
-                                        }),
-                                    new Case("Previous Page", new List<IDialog>()
-                                        {
-                                            new IfCondition()
-                                            {
-                                                Condition = " 0 < user.CreateCalendarEntry_pageIndex",
-                                                Steps = new List<IDialog>()
-                                                {
-                                                    new SetProperty()
-                                                    {
-                                                        Property = "user.CreateCalendarEntry_pageIndex",
-                                                        Value = "user.CreateCalendarEntry_pageIndex - 1"
-                                                    },
-                                                    new RepeatDialog()
-                                                },
-                                                ElseSteps = new List<IDialog>()
-                                                {
-                                                    new SendActivity("This is already the first page!"),
-                                                    new RepeatDialog()
-                                                }
-                                            }
-                                        }),
+                                        })
                                 },
                                 Default = new List<IDialog>()
                                 {
@@ -230,20 +192,18 @@ namespace Microsoft.BotBuilderSamples
                             }
                         }
                     },
-                     // new saveproperty not usable TODO
+                    // new saveproperty not usable TODO
                     new TextInput()
                     {
                         Property = "dialog.CreateCalendarEntry_Subject",
                         Prompt = new ActivityTemplate("[GetSubject]")
                     },
-                    // new DateTimeInput(){ not usable TODO
-                    new TextInput()
+                    new DateTimeInput()
                     {
                         Property = "dialog.CreateCalendarEntry_FromTime",
                         Prompt = new ActivityTemplate("[GetFromTime]")
                     },
-                    // new DateTimeInput()
-                    new TextInput()
+                    new DateTimeInput()
                     {
                         Property = "dialog.CreateCalendarEntry_ToTime",
                         Prompt = new ActivityTemplate("[GetToTime]")
@@ -254,10 +214,10 @@ namespace Microsoft.BotBuilderSamples
                         Prompt = new ActivityTemplate("[GetLocation]")
                     },
                     new SendActivity("[CreateCalendarDetailedEntryReadBack]"),
-                    new DeleteProperty
-                    {
-                        Property = "turn.CreateCalendarEntry_ConfirmChoice"
-                    },
+                    //new DeleteProperty
+                    //{
+                    //    Property = "turn.CreateCalendarEntry_ConfirmChoice"
+                    //},
                     new ConfirmInput(){
                         Property = "turn.CreateCalendarEntry_ConfirmChoice",
                         Prompt = new ActivityTemplate("Is Your Information Correct?"),
@@ -289,11 +249,11 @@ namespace Microsoft.BotBuilderSamples
                                         'displayName': '{dialog.CreateCalendarEntry_Location}',
                                     },
                                     'start': {
-                                        'dateTime': '{dialog.CreateCalendarEntry_FromTime}',
+                                        'dateTime': '{formatDateTime(dialog.CreateCalendarEntry_FromTime[0].value, \'yyyy-MM-ddTHH:mm:ss\')}',
                                         'timeZone': 'UTC'
                                     },
                                     'end': {
-                                        'dateTime': '{dialog.CreateCalendarEntry_ToTime}',
+                                        'dateTime': '{formatDateTime(dialog.CreateCalendarEntry_ToTime[0].value, \'yyyy-MM-ddTHH:mm:ss\')}',
                                         'timeZone': 'UTC'
                                     }
                                 }")
@@ -318,6 +278,7 @@ namespace Microsoft.BotBuilderSamples
                         },
                         ElseSteps = new List<IDialog>
                         {
+                            new SendActivity("{dialog.createResponse}"),
                             new SendActivity("[CreateCalendarEntryFailed]")
                         },
                     },
@@ -343,6 +304,53 @@ namespace Microsoft.BotBuilderSamples
                                 new SendActivity("[CancelCreateMeeting]"),
                                 new EndDialog()
                         }
+                    },
+                    new IntentRule("ShowPrevious")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                        new IfCondition()
+                        {
+                            Condition = " 0 < user.CreateCalendarEntry_pageIndex",
+                            Steps = new List<IDialog>()
+                            {
+                                new SetProperty()
+                                {
+                                    Property = "user.CreateCalendarEntry_pageIndex",
+                                    Value = "user.CreateCalendarEntry_pageIndex - 1"
+                                },
+                                new RepeatDialog()
+                            },
+                            ElseSteps = new List<IDialog>()
+                            {
+                                new SendActivity("This is already the first page!"),
+                                new RepeatDialog()
+                            }
+                        }
+                        } 
+                    },
+                    new IntentRule("ShowNext")
+                    {
+                        Steps = new List<IDialog>(){
+                            new IfCondition()
+                            {
+                                Condition = "user.CreateCalendarEntry_pageIndex * 3 + 3 < count(dialog.matchedEmails) ",
+                                Steps = new List<IDialog>()
+                                {
+                                    new SetProperty()
+                                    {
+                                        Property = "user.CreateCalendarEntry_pageIndex",
+                                        Value = "user.CreateCalendarEntry_pageIndex + 1"
+                                    },
+                                    new RepeatDialog()
+                                },
+                                ElseSteps = new List<IDialog>()
+                                {
+                                    new SendActivity("This is already the last page!"),
+                                    new RepeatDialog()
+                                }
+                            }
+                        }
                     }
                 }
             };
@@ -353,16 +361,31 @@ namespace Microsoft.BotBuilderSamples
             InitialDialogId = "create";
         }
 
-        private static IRecognizer CreateRecognizer()
+
+        public static IRecognizer CreateRecognizer()
         {
-            return new RegexRecognizer()
+            if (string.IsNullOrEmpty(Configuration["LuisAppIdGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIKeyGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostNameGeneral"]))
             {
-                Intents = new Dictionary<string, string>()
-                {
-                    { "Help", "(?i)help" },
-                    {  "Cancel", "(?i)cancel|never mind"}
-                }
-            };
+                throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
+            }
+            return new LuisRecognizer(new LuisApplication()
+            {
+                Endpoint = Configuration["LuisAPIHostNameGeneral"],
+                EndpointKey = Configuration["LuisAPIKeyGeneral"],
+                ApplicationId = Configuration["LuisAppIdGeneral"]
+            });
         }
+
+        //private static IRecognizer CreateRecognizer()
+        //{
+        //    return new RegexRecognizer()
+        //    {
+        //        Intents = new Dictionary<string, string>()
+        //        {
+        //            { "Help", "(?i)help" },
+        //            {  "Cancel", "(?i)cancel|never mind"}
+        //        }
+        //    };
+        //}
     }
 }

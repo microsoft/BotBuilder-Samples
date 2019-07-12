@@ -12,7 +12,7 @@ namespace Microsoft.BotBuilderSamples
         public OAuthPromptDialog()
             : base(nameof(OAuthPromptDialog))
         {
-            var oAuthPromptDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+            var oAuthPromptDialog = new AdaptiveDialog("OAuth")
             {
                 Steps = new List<IDialog>()
                 {
@@ -20,7 +20,7 @@ namespace Microsoft.BotBuilderSamples
                         new OAuthPromptSettings()
                         {
                             Text = "Please log in to your calendar account",
-                            ConnectionName = "msgraph",
+                            ConnectionName = "Outlook",
                             Title = "Sign in",
                         }
                     ){
@@ -32,7 +32,7 @@ namespace Microsoft.BotBuilderSamples
             AddDialog(oAuthPromptDialog);
 
             // The initial child Dialog to run.
-            InitialDialogId = nameof(AdaptiveDialog);
+            InitialDialogId = "OAuth";
         }
     }
 }

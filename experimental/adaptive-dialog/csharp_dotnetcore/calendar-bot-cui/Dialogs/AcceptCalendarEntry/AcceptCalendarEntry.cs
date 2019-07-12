@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
@@ -37,31 +38,52 @@ namespace Microsoft.BotBuilderSamples
                             new BeginDialog("FindCalendarEntry")
                         }
                     },
-                    // we cannot accept a entry if we are the origanizer
                     new IfCondition()
                     {
-                        Condition = "user.focusedMeeting.isOrganizer != true",
+                        Condition = "user.focusedMeeting == null",
+                        Steps = new List<IDialog>(){
+                            new SendActivity("You cannot accept any meetings because your calendar is empty"),
+                            new EndDialog()
+                        }
+                    },
+                    new SendActivity("[detailedEntryTemplate(user.focusedMeeting)]"),
+                    new ConfirmInput()
+                    {
+                        Property = "turn.AcceptCalendarEntry_ConfirmChoice",
+                        Prompt = new ActivityTemplate("Are you sure you want to accept this event?"),
+                        InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
+                    },
+                    new IfCondition()
+                    {
+                        Condition = "turn.AcceptCalendarEntry_ConfirmChoice",
                         Steps = new List<IDialog>()
                         {
-                            new HttpRequest()
+                            new IfCondition() // we cannot accept a entry if we are the origanizer
                             {
-                                Property = "user.acceptResponse",
-                                Method = HttpRequest.HttpMethod.POST,
-                                Url = "https://graph.microsoft.com/v1.0/me/events/{user.focusedMeeting.id}/accept",
-                                Headers =  new Dictionary<string, string>()
+                                Condition = "user.focusedMeeting.isOrganizer != true",
+                                Steps = new List<IDialog>()
                                 {
-                                    ["Authorization"] = "Bearer {dialog.token.Token}",
+                                    new HttpRequest()
+                                    {
+                                        Property = "user.acceptResponse",
+                                        Method = HttpRequest.HttpMethod.POST,
+                                        Url = "https://graph.microsoft.com/v1.0/me/events/{user.focusedMeeting.id}/accept",
+                                        Headers =  new Dictionary<string, string>()
+                                        {
+                                            ["Authorization"] = "Bearer {dialog.token.Token}",
+                                        }
+                                    },
+                                    new SendActivity("[AcceptReadBack]")
+                                },
+                                ElseSteps = new List<IDialog>(){
+                                    new SendActivity("Your request can't be completed. You can't respond to this meeting because you're the meeting organizer.")
                                 }
-                            },
-                            new SendActivity("[AcceptReadBack]")
-                        },
-                        ElseSteps = new List<IDialog>(){
-                            new SendActivity("Your request can't be completed. You can't respond to this meeting because you're the meeting organizer.")
+                            }
                         }
                     },
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()
-                },
+                 },
             };
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
