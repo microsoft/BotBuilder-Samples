@@ -56,7 +56,9 @@ userState = new UserState(memoryStorage);
 
 // If configured, pass in the FlightBookingRecognizer.  (Defining it externally allows it to be mocked for tests)
 let luisRecognizer;
-const luisConfig = (({ LuisAppId, LuisAPIKey, LuisAPIHostName }) => ({ LuisAppId, LuisAPIKey, LuisAPIHostName }))(process.env);
+const { LuisAppId, LuisAPIKey, LuisAPIHostName } = process.env;
+const luisConfig = { applicationId: LuisAppId, endpointKey: LuisAPIKey, endpoint: `https://${ LuisAPIHostName }` };
+
 luisRecognizer = new FlightBookingRecognizer(luisConfig);
 
 // Create the main dialog.

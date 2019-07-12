@@ -17,17 +17,14 @@
     },
     "dependencies": {
         "@microsoft/recognizers-text-data-types-timex-expression": "^1.1.4",
-        "botbuilder": "^4.5.0-preview.69412",
-        "botbuilder-ai": "^4.5.0-preview.69412",
-        "botbuilder-core": "^4.5.0-preview.69412",
-        "botbuilder-dialogs": "^4.5.0-preview.69412",
-        "botbuilder-testing": "^4.5.0-preview.69412",
+        "botbuilder": "~4.5.0",
+        "botbuilder-ai": "~4.5.0",
+        "botbuilder-dialogs": "~4.5.0",
+        "botbuilder-testing": "~4.5.0",
         "dotenv": "^6.1.0",
         "restify": "~8.3.3"
     },
     "devDependencies": {
-        "@types/mocha": "^2.2.47",
-        "assert": "^1.4.1",
         "eslint": "^5.9.0",
         "eslint-config-standard": "^12.0.0",
         "eslint-plugin-import": "^2.14.0",
@@ -36,6 +33,6 @@
         "eslint-plugin-standard": "^4.0.0",
         "mocha": "^5.2.0",
         "nodemon": "^1.18.6",
-        "nyc": "^11.4.1"
+        "nyc": "^14.1.1"
     }
 }

@@ -24,7 +24,7 @@ class MockFlightBookingRecognizer extends FlightBookingRecognizer {
         return this.mockResult;
     }
 
-    isConfigured() {
+    get isConfigured() {
         return (this.isLuisConfigured);
     }
 }
@@ -68,7 +68,7 @@ describe('MainDialog', () => {
     it('Shows message if LUIS is not configured and calls BookingDialogDirectly', async () => {
         const mockRecognizer = new MockFlightBookingRecognizer(false);
         const mockBookingDialog = new MockBookingDialogWithPrompt();
-        const sut = new MainDialog(mockRecognizer, mockBookingDialog, null);
+        const sut = new MainDialog(mockRecognizer, mockBookingDialog);
         const client = new DialogTestClient('test', sut, null, [new DialogTestLogger()]);
 
         const reply = await client.sendActivity('hi');
@@ -78,7 +78,7 @@ describe('MainDialog', () => {
     it('Shows prompt if LUIS is configured', async () => {
         const mockRecognizer = new MockFlightBookingRecognizer(true);
         const mockBookingDialog = new MockBookingDialog();
-        const sut = new MainDialog(mockRecognizer, mockBookingDialog, null);
+        const sut = new MainDialog(mockRecognizer, mockBookingDialog);
         const client = new DialogTestClient('test', sut, null, [new DialogTestLogger()]);
 
         const reply = await client.sendActivity('hi');
@@ -99,7 +99,7 @@ describe('MainDialog', () => {
                 const mockLuisResult = JSON.parse(`{"intents": {"${ testData.intent }": {"score": 1}}, "entities": {"$instance": {}}}`);
                 const mockRecognizer = new MockFlightBookingRecognizer(true, mockLuisResult);
                 const bookingDialog = new MockBookingDialog();
-                const sut = new MainDialog(mockRecognizer, bookingDialog, null);
+                const sut = new MainDialog(mockRecognizer, bookingDialog);
                 const client = new DialogTestClient('test', sut, null, [new DialogTestLogger()]);
 
                 // Execute the test case
@@ -138,7 +138,7 @@ describe('MainDialog', () => {
                 const mockLuisResult = require(`./testData/${ testData.jsonFile }`);
                 const mockRecognizer = new MockFlightBookingRecognizer(true, mockLuisResult);
                 const bookingDialog = new MockBookingDialog();
-                const sut = new MainDialog(mockRecognizer, bookingDialog, null);
+                const sut = new MainDialog(mockRecognizer, bookingDialog);
                 const client = new DialogTestClient('test', sut, null, [new DialogTestLogger()]);
 
                 // Execute the test case
