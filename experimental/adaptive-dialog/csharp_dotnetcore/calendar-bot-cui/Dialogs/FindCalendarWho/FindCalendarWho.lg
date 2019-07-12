@@ -21,7 +21,7 @@ Ok, give me the attendee of the entry you would like to find.
 - You do not have any entries in your calendar.
 
 # EntryNotFound
-- Sorry, I did not find a entry whose subject is {user.findCalendarWho_entryName} in your calendar.
+- Sorry, I did not find a entry whose subject is {dialog.findCalendarWho_entryName} in your calendar.
 
 # Items-Ordinality
 - IF: {dialog.findCalendarWho_found != null && count(dialog.findCalendarWho_found) == 1}

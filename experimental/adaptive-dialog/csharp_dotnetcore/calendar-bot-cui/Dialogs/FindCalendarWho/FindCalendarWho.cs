@@ -46,18 +46,10 @@ namespace Microsoft.BotBuilderSamples
                         }
                     },
                     // show our non-empty calendar
-                    new IfCondition(){
-                        Condition = "user.WhoInput == true",
-                        Steps = new List<IDialog>(){
-                            new DeleteProperty(){
-                                Property = "user.findCalendarWho_entryName"
-                            },
-                            new TextInput()
-                            {
-                                Property = "user.findCalendarWho_entryName",
-                                Prompt = new ActivityTemplate("[GetPersonName]"),
-                            }
-                        }
+                    new TextInput()
+                    {
+                        Property = "dialog.findCalendarWho_entryName",
+                        Prompt = new ActivityTemplate("[GetPersonName]"),
                     },
                     // to iterate all the entries to find all matches
                     new Foreach()
@@ -71,9 +63,9 @@ namespace Microsoft.BotBuilderSamples
                                 Steps = new List<IDialog>(){
                                     new IfCondition(){
                                         Condition = "contains(dialog.FindCalendarWho_GraphAll.value[dialog.index].attendees[0].emailAddress.address, " +
-                                            "user.findCalendarWho_entryName) == true || " +
+                                            "dialog.findCalendarWho_entryName) == true || " +
                                             "contains(dialog.FindCalendarWho_GraphAll.value[dialog.index].attendees[0].emailAddress.name, " +
-                                            "user.findCalendarWho_entryName) == true",
+                                            "dialog.findCalendarWho_entryName) == true",
                                         Steps = new List<IDialog>(){
                                             new EditArray(){
                                                 ArrayProperty = "dialog.findCalendarWho_found",
@@ -117,11 +109,6 @@ namespace Microsoft.BotBuilderSamples
                             new Choice("Previous Page")
                         },
                         Style = ListStyle.SuggestedAction
-                    },
-                    new SetProperty(){
-                        Property = "user.WhoInput",
-                        Value = "false"
-
                     },
                     new SwitchCondition()
                     {

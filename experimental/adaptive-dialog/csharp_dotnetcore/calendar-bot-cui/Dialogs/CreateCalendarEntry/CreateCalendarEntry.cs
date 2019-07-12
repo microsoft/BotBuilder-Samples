@@ -36,21 +36,15 @@ namespace Microsoft.BotBuilderSamples
                 {
 
                     new BeginDialog(nameof(OAuthPromptDialog)),
-                    new IfCondition()
+                    //new SetProperty()
+                    //{
+                    //    Value = 
+                    //    p
+                    //},
+                    new TextInput()
                     {
-                        Condition = "user.CreateInput == true",
-                        Steps = new List<IDialog>()
-                        {
-                            new DeleteProperty()
-                            {
-                                Property = "user.CreateCalendarEntry_PersonName",
-                            },
-                            new TextInput()
-                            {
-                                Property = "user.CreateCalendarEntry_PersonName",
-                                Prompt = new ActivityTemplate("[GetPersonName]")
-                            }
-                        }
+                        Property = "dialog.CreateCalendarEntry_PersonName",
+                        Prompt = new ActivityTemplate("[GetPersonName]")
                     },
                     new HttpRequest(){
                         Property = "dialog.CreateCalendarEntry_UserAll",
@@ -70,8 +64,8 @@ namespace Microsoft.BotBuilderSamples
                                 {
                                     new IfCondition()
                                     {
-                                        Condition = "contains(dialog.CreateCalendarEntry_UserAll.value[dialog.index].displayName, user.CreateCalendarEntry_PersonName) == true ||" +
-                                            "contains(dialog.CreateCalendarEntry_UserAll.value[dialog.index].emailAddresses[0].address, user.CreateCalendarEntry_PersonName) == true",
+                                        Condition = "contains(dialog.CreateCalendarEntry_UserAll.value[dialog.index].displayName, dialog.CreateCalendarEntry_PersonName) == true ||" +
+                                            "contains(dialog.CreateCalendarEntry_UserAll.value[dialog.index].emailAddresses[0].address, dialog.CreateCalendarEntry_PersonName) == true",
                                         Steps = new List<IDialog>()
                                         {
                                             new EditArray(){
@@ -107,11 +101,6 @@ namespace Microsoft.BotBuilderSamples
                                     new Choice("Confirm The Third One")
                                 },
                                 Style = ListStyle.SuggestedAction
-                            },
-                            new SetProperty()
-                            {
-                                Property = "user.CreateInput",
-                                Value = "false"
                             },
                             new SwitchCondition()
                             {
@@ -188,7 +177,7 @@ namespace Microsoft.BotBuilderSamples
                             new SendActivity("Sorry, We could not find any matches in your contacts. We will use the email address you just entered."),
                             new SetProperty(){
                                 Property = "dialog.finalContact",
-                                Value = "user.CreateCalendarEntry_PersonName"
+                                Value = "dialog.CreateCalendarEntry_PersonName"
                             }
                         }
                     },
@@ -261,11 +250,6 @@ namespace Microsoft.BotBuilderSamples
                         },
                         ElseSteps = new List<IDialog>(){
                             new SendActivity("Sure! let start over!"),
-                            new SetProperty()
-                            {
-                                Property = "user.CreateInput",
-                                Value = "true"
-                            },
                             new RepeatDialog()
                         }                        
                     },

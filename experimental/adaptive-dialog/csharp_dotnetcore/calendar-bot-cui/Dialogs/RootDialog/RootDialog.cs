@@ -60,11 +60,6 @@ namespace Microsoft.BotBuilderSamples
                                 Property = "user.CreateCalendarEntry_pageIndex", // 0-based
                                 Value = "0"
                             },
-                            new SetProperty()
-                            {
-                                Property = "user.CreateInput",
-                                Value = "true"
-                            },
                             new BeginDialog(nameof(CreateCalendarEntry))
                         },
                         Constraint = "turn.dialogevent.value.intents.CreateCalendarEntry.score > 0.5"
@@ -95,15 +90,10 @@ namespace Microsoft.BotBuilderSamples
                         Steps = new List<IDialog>()
                         {
                              new SetProperty()
-                            {
+                             {
                                 Property = "user.FindCalendarWho_pageIndex",// 0-based
                                 Value = "0"
-                            },
-                             new SetProperty()
-                            {
-                                Property = "user.WhoInput",
-                                Value = "true"
-                            },
+                             },
                             new BeginDialog(nameof(FindCalendarWho))
                         },
                         Constraint = "turn.dialogevent.value.intents.FindCalendarWho.score > 0.5"
