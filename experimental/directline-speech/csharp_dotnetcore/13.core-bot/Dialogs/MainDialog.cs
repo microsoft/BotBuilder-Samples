@@ -4,6 +4,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CoreBot;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Extensions.Configuration;
@@ -81,11 +82,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 var timeProperty = new TimexProperty(result.TravelDate);
                 var travelDateMsg = timeProperty.ToNaturalLanguage(DateTime.Now);
                 var msg = $"I have you booked to {result.Destination} from {result.Origin} on {travelDateMsg}";
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text(msg), cancellationToken);
+                await stepContext.Context.SendActivityAsync(SpeakExtensions.Speak(msg), cancellationToken);
             }
             else
             {
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Thank you."), cancellationToken);
+                await stepContext.Context.SendActivityAsync(SpeakExtensions.Speak("Thank you."), cancellationToken);
             }
             return await stepContext.EndDialogAsync(cancellationToken: cancellationToken);
         }

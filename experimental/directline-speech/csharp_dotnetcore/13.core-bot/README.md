@@ -11,8 +11,9 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 To allow this bot to use Direct Line Speech, these changes were made to the original EchoBot sample:
 1. Use the WebSocketEnabledHttpAdapter in the startup.cs file.
-2. Enabled WebSockets in your application by calling app.UseWebSockets() in the startup.cs file. Note this call must be made BEFORE calling app.UseMVC()
-3. Adding HttpGet (in addition to HttpPost for other channels) to the Controller method in BotController.cs  
+2. Enabled WebSockets in your application by calling app.UseWebSockets() in the startup.cs file. Note this call must be made BEFORE calling app.UseMVC().
+3. Adding HttpGet (in addition to HttpPost for other channels) to the Controller method in BotController.cs.
+4. Use the "Speak" helper method to send an Activity with the correct Speak field set to have Direct Line Speech turn the message into speech.
 
 ## Prerequisites
 
