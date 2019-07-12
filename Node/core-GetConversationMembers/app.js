@@ -50,6 +50,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
         var serviceScheme = serviceUrl.protocol.split(':')[0];
         client.setSchemes([serviceScheme]);
         client.setHost(serviceUrl.host);
+        client.setBasePath(serviceUrl.path);
         // 3. GET /v3/conversations/{conversationId}/members
         return client.Conversations.Conversations_GetConversationMembers({ conversationId: conversationId })
             .then(function (res) {
@@ -106,10 +107,13 @@ function addTokenToClient(connector, clientPromise) {
 function printMembersInChannel(conversationAddress, members) {
     if (!members || members.length === 0) return;
 
-    var memberList = members.map(function (m) { return '* ' + m.name + ' (Id: ' + m.id + ')'; })
-        .join('\n ');
+    const memberList = members.map((member) => {
+        const memberName = member.name || '';
+        const memberId = member.id || '';
+        return `* ${memberName} Id: ${memberId}`;
+    }).join('\n ');
 
-    var reply = new builder.Message()
+    const reply = new builder.Message()
         .address(conversationAddress)
         .text('These are the members of this conversation: \n ' + memberList);
     bot.send(reply);
