@@ -1,8 +1,17 @@
-﻿# using adaptive cards
+﻿# EchoBot
 
-Bot Framework v4 using adaptive cards bot sample
+Bot Framework v4 Inspection Middleware sample.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), is shows how to send an Adaptive Card from the bot to the user.
+This bot demonstrates a feature called Inspection. This feature allows the bot emulator to debug traffic into and out of the bot in addition to
+looking at the current state of the bot. This is done by having this data sent to the emulator using trace messages.
+
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
+Included in this echo are two counters maintained in User and Conversation state to demonstrate the ability to look at state.
+
+This runtime behavior is achieved by simply adding a middleware to the bot. In this sample you can find that being done in the
+AdapterWithInspection class.
+
+More details are available [here](https://github.com/microsoft/BotFramework-Emulator/blob/master/content/CHANNELS.md)
 
 ## Prerequisites
 
@@ -21,7 +30,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/07.using-adaptive-cards`
+- In a terminal, navigate to `samples/csharp_dotnetcore/02.echo-bot`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -35,8 +44,8 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/07.using-adaptive-cards` folder
-  - Select `AdaptiveCardsBot.csproj` file
+  - Navigate to `samples/csharp_dotnetcore/47.inspection` folder
+  - Select `Inspection.csproj` file
   - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
@@ -51,18 +60,16 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-## Adaptive Cards
+### Special Instructions for Running Inspection
 
-Card authors describe their content as a simple JSON object. That content can then be rendered natively inside a host application, automatically adapting to the look and feel of the host. For example, Contoso Bot can author an Adaptive Card through the Bot Framework, and when delivered to Cortana, it will look and feel like a Cortana card. When that same payload is sent to Microsoft Teams, it will look and feel like Microsoft Teams. As more host apps start to support Adaptive Cards, that same payload will automatically light up inside these applications, yet still feel entirely native to the app. Users win because everything feels familiar. Host apps win because they control the user experience. Card authors win because their content gets broader reach without any additional work.
+(Note the follow applies if you are using two emulators. More recnt builds hide the need to type /INSPECT open.)
 
-The Bot Framework provides support for Adaptive Cards.  See the following to learn more about Adaptive Cards.
+- Lanuch a second Emulator - this will act as the debugger
+- In this second Emulator type /INSPECT open
+- The result is a trace activity which contains a statement that looks like /INSPECT attach < identifier >
+- In the chat session that you want to inspect type this command exact as it is (you can use cut and paste)
+- Now all the traffic will be replicated (as trace activities) to the Emulator that sent the /INSPECT open command
 
-- [Adaptive card](http://adaptivecards.io)
-- [Send an Adaptive card](https://docs.microsoft.com/en-us/azure/bot-service/nodejs/bot-builder-nodejs-send-rich-cards?view=azure-bot-service-3.0&viewFallbackFrom=azure-bot-service-4.0#send-an-adaptive-card)
-
-### Adding media to messages
-
-A message exchange between user and bot can contain media attachments, such as cards, images, video, audio, and files.
 
 ## Deploy the bot to Azure
 
@@ -72,8 +79,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [Adaptive Cards](https://adaptivecards.io/)
-- [Send an Adaptive card](https://docs.microsoft.com/en-us/azure/bot-service/nodejs/bot-builder-nodejs-send-rich-cards?view=azure-bot-service-3.0&viewFallbackFrom=azure-bot-service-4.0#send-an-adaptive-card)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
@@ -82,3 +87,5 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Azure Portal](https://portal.azure.com)
 - [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
+- [Restify](https://www.npmjs.com/package/restify)
+- [dotenv](https://www.npmjs.com/package/dotenv)
