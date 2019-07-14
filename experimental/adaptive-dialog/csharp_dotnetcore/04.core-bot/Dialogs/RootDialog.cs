@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
@@ -7,8 +8,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Expressions.Parser;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples.Dialogs
@@ -16,10 +16,14 @@ namespace Microsoft.BotBuilderSamples.Dialogs
     public class RootDialog : ComponentDialog
     {
         protected readonly IConfiguration Configuration;
+        private TemplateEngine _lgEngine;
 
         public RootDialog(IConfiguration configuration)
            : base(nameof(RootDialog))
         {
+            Configuration = configuration;
+            _lgEngine = new TemplateEngine().AddFile(Path.Combine(".", "Dialogs", "RootDialog.lg"));
+            
             // Create instance of adaptive dialog. 
             var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
@@ -31,7 +35,111 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 // found under CognitiveModels folder.
                 Recognizer = CreateRecognizer(configuration),
                 // Add rules to respond to different events of interest
-                Rules = CreateRules()
+                //Rules = CreateRules()
+                Generator = new TemplateEngineLanguageGenerator(_lgEngine),
+                Rules = new List<IRule>()
+                {
+                    // Add a rule to welcome user
+                    new ConversationUpdateActivityRule()
+                    {
+                        Steps = WelcomeUserSteps()
+                    },
+                    // Add additional rules to respond to other intents returned by the LUIS application.
+                    // The intents here are based on intents defined in MainAdaptiveDialog.LU file
+                    new IntentRule()
+                    {
+                        Intent = "Cancel",
+                        Constraint = "turn.recognized.intents.Cancel.score > 0.5",
+                        Steps = new List<IDialog>()
+                        {
+                            new SendActivity("Sure, cancelling that..."),
+                            new CancelAllDialogs(),
+                            new EndDialog()
+                        }
+                    },
+                    new IntentRule()
+                    {
+                        Intent = "Help",
+                        Steps = new List<IDialog> ()
+                        {
+                            new SendActivity("[BotOverview]")
+                        }
+                    },
+                    new IntentRule()
+                    {
+                        Intent = "Greeting",
+                        Steps = new List<IDialog> ()
+                        {
+                            new SendActivity("[BotOverview]")
+                        }
+                    },
+                    new IntentRule("Book_flight")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            // Save any entities returned by LUIS.
+                            // We will only save any geography city entities that explicitly have been classified as either fromCity or toCity.
+                            new SetProperty()
+                            {
+                                Property = "conversation.flightBooking.departureCity",
+                                Value = "turn.recognized.entities.fromCity[0].geographyV2_city[0]"
+                            },
+                            new SetProperty()
+                            {
+                                Property = "conversation.flightBooking.destinationCity",
+                                Value = "turn.recognized.entities.toCity[0].geographyV2_city[0]"
+                            },
+                            new SetProperty()
+                            {
+                                Property = "conversation.flightBooking.departureDate",
+                                Value = "turn.recognized.entities.datetimeV2[0]"
+                            },
+                            // Steps to book flight
+                            // Help and Cancel intents are always available since TextInput will always initiate
+                            // Consulatation up the parent dialog chain to see if anyone else wants to take the user input.
+                            new TextInput()
+                            {
+                                Property = "conversation.flightBooking.departureCity",
+                                // Prompt property supports full language generation resolution.
+                                // See here to learn more about language generation
+                                // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
+                                Prompt = new ActivityTemplate("[PromptForMissingInformation]")
+                            },
+                            new TextInput()
+                            {
+                                Property = "conversation.flightBooking.destinationCity",
+                                Prompt = new ActivityTemplate("[PromptForMissingInformation]")
+                            },
+                            new DateTimeInput()
+                            {
+                                Property = "conversation.flightBooking.departureDate",
+                                Prompt = new ActivityTemplate("[PromptForMissingInformation]"),
+                                // You can use this flag to control when a specific input participates in consultation bubbling and can be interrupted.
+                                AllowInterruptions = false
+                            },
+                            new ConfirmInput()
+                            {
+                                Property = "turn.bookingConfirmation",
+                                Prompt = new ActivityTemplate("[ConfirmBooking]")
+                            },
+                            new IfCondition()
+                            {
+                                // All conditions are expressed using the common expression language.
+                                // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
+                                Condition = "turn.bookingConfirmation == true",
+                                Steps = new List<IDialog>()
+                                {
+                                    // TODO: book flight.
+                                    new SendActivity("[BookingConfirmation]")
+                                },
+                                ElseSteps = new List<IDialog>()
+                                {
+                                    new SendActivity("Thank you.")
+                                }
+                            }
+                        }
+                    }
+                }
             };
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
@@ -41,95 +149,27 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             InitialDialogId = nameof(AdaptiveDialog);
         }
 
-        private static List<IRule> CreateRules()
+        private static List<IDialog> WelcomeUserSteps()
         {
-            return new List<IRule>()
+            return new List<IDialog>()
             {
-                // The intents here are based on intents defined in MainAdaptiveDialog.LU file
-                new IntentRule("Book_flight")
+                // Iterate through membersAdded list and greet user added to the conversation.
+                new Foreach()
                 {
+                    ListProperty = "turn.activity.membersAdded",
+                    ValueProperty = "turn.memberAdded",
                     Steps = new List<IDialog>()
                     {
-                        // Save any entities returned by the LUIS recognizer
-                        // @entityName is a short-hand to turn.entities.<entityName>
-                        // Other short hands include -
-                        //    - #intentName is a short-hand for turn.intents.<IntentName>
-                        //    - $propertyName is a short-hand for dialog.results.<propertyName>
-                        new SaveEntity("@toCity[0].geographyV2[0]", "conversation.flightBooking.destinationCity"),
-                        new SaveEntity("@fromCity[0].geographyV2[0]", "conversation.flightBooking.departureCity"),
-                        new SaveEntity("@datetimeV2[0]", "conversation.flightBooking.departureDate"),
-                        // Steps to book flight
-                        // Help and Cancel intents are always available since TextInput will always initiate
-                        // Consulatation up the parent dialog chain to see if anyone else wants to take the user input.
-                        new TextInput()
-                        {
-                            Property = "conversation.flightBooking.departureCity",
-                            // Prompt property supports full language generation resolution.
-                            // See here to learn more about language generation
-                            // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
-                            Prompt = new ActivityTemplate("[PromptForMissingInformation]")
-                        },
-                        new TextInput()
-                        {
-                            Property = "conversation.flightBooking.destinationCity",
-                            Prompt = new ActivityTemplate("[PromptForMissingInformation]")
-                        },
-                        new TextInput()
-                        {
-                            Property = "conversation.flightBooking.departureDate",
-                            Prompt = new ActivityTemplate("[PromptForMissingInformation]")
-                        },
-                        new ConfirmInput()
-                        {
-                            Property = "turn.bookingConfirmation",
-                            Prompt = new ActivityTemplate("[ConfirmBooking]")
-                        },
+                        // Note: Some channels send two conversation update events - one for the Bot added to the conversation and another for user.
+                        // Filter cases where the bot itself is the recipient of the message. 
                         new IfCondition()
                         {
-                            // All conditions are expressed using the common expression language.
-                            // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
-                            Condition = new ExpressionEngine().Parse("turn.bookingConfirmation == true"),
+                            Condition = "turn.memberAdded.name != turn.activity.recipient.name",
                             Steps = new List<IDialog>()
                             {
-                                // TODO: book flight.
-                                new SendActivity("[BookingConfirmation]")
-                            },
-                            ElseSteps = new List<IDialog>()
-                            {
-                                new SendActivity("Thank you.")
+                                new SendActivity("[WelcomeCard]")
                             }
                         }
-                    }
-                },
-                new IntentRule("Cancel")
-                {
-                    Steps = new List<IDialog>()
-                    {
-                        new SendActivity("Sure, cancelling that..."),
-                        new CancelAllDialogs(),
-                        new EndDialog()
-                    }
-                },
-                new IntentRule("Help")
-                {
-                    Steps = new List<IDialog>()
-                    {
-                        new SendActivity("[BotOverview]")
-                    }
-                },
-                new IntentRule("Greeting")
-                {
-                    Steps = new List<IDialog>()
-                    {
-                        new SendActivity("[BotOverview]")
-                    }
-                },
-                new IntentRule("None")
-                {
-                    Steps = new List<IDialog>()
-                    {
-                        new SendActivity("I'm sorry, I do not understand that. Can you please rephrase what you are saying?"),
-                        new SendActivity("[BotOverview]")
                     }
                 }
             };
@@ -150,5 +190,5 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
             return new LuisRecognizer(luisApplication);
         }
-    }       
+    }
 }
