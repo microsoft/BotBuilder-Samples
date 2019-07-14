@@ -1,6 +1,10 @@
 ﻿> Language Generation definition file. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
+
+> You can now add reference to other .lg files.
+[Root LG](..\RootDialog\RootDialog.lg)
+
 # Help-Add-ToDo
 - [Help-prefix], you can simply say the title of your todo to add it.
 
