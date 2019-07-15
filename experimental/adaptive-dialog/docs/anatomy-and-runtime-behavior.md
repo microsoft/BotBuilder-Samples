@@ -2,11 +2,12 @@
 
 ## Anatomy: Adaptive dialog
 
-***Adaptive dialogs*** at the core comprise of 4 main concepts - 
+***Adaptive dialogs*** at the core comprise of 5 main concepts - 
 - [Recognizers](#Recognizers)
 - [Rules](#Rules)
 - [Steps](#Steps)
 - [Inputs](#Inputs)
+- [Generator](#Generator)
 
 <p align="center">
     <img alt="Adaptive_dialog_anatomy" src="./Assets/adaptive-dialog-anatomy.png" style="max-width:700px;" />
@@ -31,6 +32,9 @@ _Inputs_ are wrappers around Bot Builder [prompts][2] that you can use in an ada
 - Accepts constraints - min, max, etc. 
 
 See [here][4] to learn more about supported Inputs and their usage.
+
+## Generator
+_Generator_ ties a specific language generation system to an Adaptive Dialog. This, along with Recognizer enables clean separation and encapsulation of a specific dialog's language understanding and language generation assets. With the [Language Generation][5] PREVIEW feature, you can set the generator to a _.lg_ file or set the generator to a [TemplateEngine][6] instance where you explicitly manage the one or more _.lg_ files that power this specific adaptive dialog. 
 
 ## Runtime behavior: Adaptive dialog
 
@@ -82,3 +86,5 @@ To summarize:
 [2]:./recognizers-rules-steps-reference.md#Rules
 [3]:./recognizers-rules-steps-reference.md#Steps
 [4]:./recognizers-rules-steps-reference.md#Inputs
+[5]:../../language-generation/README.md
+[6]:../../language-generation/docs/api-reference.md
