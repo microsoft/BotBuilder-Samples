@@ -29,6 +29,9 @@ Templates follow the markdown header definition. Variations are expressed as mar
 - Hi
 - Hello
 ```
+## Conditional response templates
+
+### If..Else
 
 Here are few examples of a conditional template. All conditions are expressed using the [Common expression language][3]. Condition expressions are enclosed in curly brackets - {}. Conditions are evaluated in the order specified via the IF ... ELSE or IF ... ELSEIF ... ELSE prefixes.
 
@@ -54,6 +57,35 @@ Here's another example that shows IF ... ELSEIF ... ELSE conditional response te
     - good afternoon
 - ELSE: 
     - good evening
+```
+
+### Switch..Case
+Apart from IF ... ELSEIF ... ELSE construct, you can also use the SWITCH ... CASE ... DEFAULT construct. All conditions are expressed using the [Common expression language][3]. Condition expressions are enclosed in curly brackets - {}
+
+Here's how you can specify SWITCH ... CASE block in LG. 
+
+```markdown
+# TestTemplate
+SWITCH: {condition}
+- CASE: {case-expression-1}
+    - output1
+- CASE: {case-expression-2}
+    - output2
+- DEFAULT:
+   - final output
+```
+
+Here's an example:
+
+```markdown
+# greetInAWeek
+SWITCH: {dayOfWeek(utcNow())}
+- CASE: {0}
+    - Happy Sunday!
+-CASE: {6}
+    - Happy Saturday!
+-DEFAULT:  
+    - Let's keep it up and work Hard!
 ```
 
 ### References to templates
@@ -209,6 +241,19 @@ Here is an example that illustrates that -
 ```
 
 The above example uses the [join][5] pre-built function to list all values in the `recentTasks` collection. 
+
+## Importing external references
+Often times for organization purposes and to help with re-usability, you might want to break the language generation templates into separate files and refer them from one another. In order to help with this scenario, you can use markdown-style links to import templates defined in another file. 
+
+```markdown
+[Link description](filePathOrUri)
+```
+
+Note: All templates defined in the target file will be pulled in. So please ensure that your template names are unique across files being pulled in. 
+
+```markdown
+[Shared](../shared/common.lg)
+```
 
 [1]:https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md
 [2]:./api-reference.md
