@@ -3,7 +3,6 @@
 //
 // Generated with Bot Builder V4 SDK Template for Visual Studio EchoBot v4.3.0
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,16 +17,14 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Dialogs.Debugging;
 using Microsoft.Bot.Builder.Dialogs.Declarative;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
-using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
-using Microsoft.Bot.Schema;
-using static Microsoft.Bot.Builder.Dialogs.Debugging.Source;
 
 namespace Microsoft.BotBuilderSamples
 {
     public class AdaptiveBot : ActivityHandler
     {
         private IStatePropertyAccessor<DialogState> dialogStateAccessor;
-        private AdaptiveDialog rootDialog;
+        //private AdaptiveDialog rootDialog;
+        private DialogManager dialogManager;
         private readonly ResourceExplorer resourceExplorer;
 
         public AdaptiveBot(ConversationState conversationState, ResourceExplorer resourceExplorer)
@@ -36,14 +33,13 @@ namespace Microsoft.BotBuilderSamples
             this.resourceExplorer = resourceExplorer;
 
             // auto reload dialogs when file changes
-            this.resourceExplorer.Changed += (paths) =>
+            this.resourceExplorer.Changed += (resources) =>
             {
-                if (paths.Any(p => Path.GetExtension(p) == ".dialog"))
+                if (resources.Any(resource => resource.Id.EndsWith(".dialog")))
                 {
                     Task.Run(() => this.LoadDialogs());
                 }
             };
-
             LoadDialogs();
         }
 
@@ -57,7 +53,7 @@ namespace Microsoft.BotBuilderSamples
             //this.rootDialog = DeclarativeTypeLoader.Load<AdaptiveDialog>(resource, this.resourceExplorer, DebugSupport.SourceRegistry);
 
             // but for this sample we enumerate all of the .main.dialog files and build a ChoiceInput as our rootidialog.
-            this.rootDialog = CreateChoiceInputForAllMainDialogs();
+            this.dialogManager = new DialogManager(CreateChoiceInputForAllMainDialogs());
 
             System.Diagnostics.Trace.TraceInformation("Done loading resources.");
         }
@@ -72,9 +68,9 @@ namespace Microsoft.BotBuilderSamples
             var choiceInput = new ChoiceInput()
             {
                 Prompt = new ActivityTemplate("What declarative sample do you want to run?"),
-                OutputBinding = "conversation.dialogChoice",
+                Property = "conversation.dialogChoice",
                 AlwaysPrompt = true,
-                Choices = new List<Choice>()
+                Choices = new List<Choice>(),
             };
 
             var handleChoice = new SwitchCondition()
@@ -88,9 +84,9 @@ namespace Microsoft.BotBuilderSamples
                 var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(resource.Id));
                 choiceInput.Choices.Add(new Choice(name));
                 var subDialog = DeclarativeTypeLoader.Load<IDialog>(resource, this.resourceExplorer, DebugSupport.SourceRegistry);
-                handleChoice.Cases.Add(new Case($"'{name}'", new List<IDialog>() { subDialog }));
+                handleChoice.Cases.Add(new Case($"{name}", new List<IDialog>() { subDialog }));
             }
-            choiceInput.Style = ListStyle.Auto;
+            choiceInput.Style = ListStyle.List;
             dialog.Steps.Add(choiceInput);
             dialog.Steps.Add(new SendActivity("# Running {conversation.dialogChoice}.main.dialog"));
             dialog.Steps.Add(handleChoice);
@@ -98,14 +94,9 @@ namespace Microsoft.BotBuilderSamples
             return dialog;
         }
 
-        protected override Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        public override Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return rootDialog.OnTurnAsync((ITurnContext)turnContext, null, cancellationToken);
-        }
-
-        protected async override Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
-        {
-            await rootDialog.OnTurnAsync(turnContext, null, cancellationToken).ConfigureAwait(false);
+            return this.dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);
         }
     }
 }

@@ -1,0 +1,94 @@
+# Card-choice
+- Select a card you would like to see.
+
+# Help-text
+- I'm the cards sample bot. Say anything to get started.
+
+# HeroCard
+- ```
+[Herocard   
+    title = BotFramework Hero Card
+    subtitle = Microsoft Bot Framework
+    text = Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.
+    image = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
+    buttons = Show more cards]
+```
+
+# ThumbnailCard
+- ```
+[ThumbnailCard
+    title = BotFramework Thumbnail Card
+    subtitle = Microsoft Bot Framework
+    text = Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.
+    image = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
+    buttons = Get Started
+```
+
+# SigninCard
+- ```
+[SigninCard
+    text = BotFramework Sign-in Card
+    buttons = Sign-in]
+```
+
+# AnimationCard
+- ```
+[AnimationCard
+    title = Microsoft Bot Framework
+    subtitle = Animation Card
+    image = https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png
+    media = http://i.giphy.com/Ki55RUbOV5njy.gif]
+```
+
+# VideoCard
+- ```
+[VideoCard
+    title = Big Buck Bunny
+    subtitle = by the Blender Institute
+    text = Big Buck Bunny (code-named Peach) is a short computer-animated comedy film by the Blender Institute
+    image = https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Big_buck_bunny_poster_big.jpg/220px-Big_buck_bunny_poster_big.jpg
+    media = http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4
+    buttons = Learn More]
+```
+
+# AudioCard
+- ```
+[AudioCard
+    title = I am your father
+    subtitle = Star Wars: Episode V - The Empire Strikes Back
+    text = The Empire Strikes Back (also known as Star Wars: Episode V – The Empire Strikes Back)
+    image = https://upload.wikimedia.org/wikipedia/en/3/3c/SW_-_Empire_Strikes_Back.jpg
+    media = http://www.wavlist.com/movies/004/father.wav
+    buttons = Read More]
+```
+
+> The external file reference here 'Resources\adaptiveCard.json' should be marked as 'copy to output directory'
+> Note: The external file will be read as text and any language generation templates/ expressions in the content will be evaluated. 
+> You can see this in Resources\adaptiveCard.json that pulls in a passenger name at random based on the call to 'PassengerName' template defined below.
+> Note: Chatdown already supports the ability to create any card type from its json definition. So you can apply this for not just Adaptive cards but to all card types.
+# AdaptiveCard
+- ```
+[Attachment=Resources\adaptiveCard.json adaptivecard]
+```
+
+# PassengerName
+- Vishwac
+- Tom
+- Chris
+- Yochay
+
+# AttachmentLayoutType
+- carousel
+- list
+
+# AllCards
+- ```
+[AttachmentLayout=@{lgTemplate("AttachmentLayoutType")}]
+@{lgTemplate("HeroCard")}
+@{lgTemplate("ThumbnailCard")}
+@{lgTemplate("SigninCard")}
+@{lgTemplate("AnimationCard")}
+@{lgTemplate("VideoCard")}
+@{lgTemplate("AudioCard")}
+@{lgTemplate("AdaptiveCard")}
+```
