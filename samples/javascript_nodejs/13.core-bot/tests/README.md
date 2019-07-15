@@ -3,7 +3,7 @@
 
 Bot Framework v4 core bot tests sample.
 
-This project uses the [botbuilder-testing](https://botbuilder.myget.org/feed/botbuilder-v4-js-daily/package/npm/botbuilder-testing) package, [mocha](https://github.com/mochajs/mocha) to create unit tests for the [core-bot](../../13.core-bot) bot.
+This project uses the [botbuilder-testing](https://www.npmjs.com/package/botbuilder-testing) package and [mocha](https://github.com/mochajs/mocha) to create unit tests for the [core-bot](../../13.core-bot) bot.
 
 This project shows how to:
 
@@ -53,6 +53,6 @@ The project includes several examples on how to test different bot components:
 
 ## Further reading
 
-- [Unit Testing Bots](https://review.docs.microsoft.com/en-us/azure/bot-service/unit-test-bots?view=azure-bot-service-4.0&branch=pr-en-us-1588&tabs=javascript)
+- [Unit Testing Bots](https://aka.ms/js-unit-test-docs)
 - [Mocha](https://github.com/mochajs/mocha)
 - [Bot Testing](https://github.com/microsoft/botframework-sdk/blob/master/specs/testing/testing.md)

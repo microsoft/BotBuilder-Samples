@@ -3,7 +3,7 @@
 
 Bot Framework v4 core bot tests sample.
 
-This project uses the [Microsoft.Bot.Builder.Testing](http://aka.ms/bot-test-package) package, [XUnit](https://xunit.net/) and [Moq](https://github.com/moq/moq) to create unit tests for the [CoreBot](../13.core-bot) bot.
+This project uses the [Microsoft.Bot.Builder.Testing](https://www.nuget.org/packages/Microsoft.Bot.Builder.Testing/) package, [XUnit](https://xunit.net/) and [Moq](https://github.com/moq/moq) to create unit tests for the [CoreBot](../13.core-bot) bot.
 
 This project shows how to:
 
@@ -53,7 +53,7 @@ The project includes several examples on how to test different bot components:
 
 ## Further reading
 
-- [Unit Testing Bots](https://review.docs.microsoft.com/en-us/azure/bot-service/unit-test-bots?view=azure-bot-service-4.0&branch=pr-en-us-1588&tabs=csharp)
+- [Unit Testing Bots](https://aka.ms/cs-unit-test-docs)
 - [XUnit](https://xunit.net/)
 - [Moq](https://github.com/moq/moq)
 - [Bot Testing](https://github.com/microsoft/botframework-sdk/blob/master/specs/testing/testing.md)
