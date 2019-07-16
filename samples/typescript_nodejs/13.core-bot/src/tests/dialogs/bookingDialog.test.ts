@@ -7,7 +7,7 @@ import { BookingDialog } from '../../dialogs/bookingDialog';
 const assert = require('assert');
 
 describe('BookingDialog', () => {
-    const testCases = require('./testData/bookingDialogTestCases.js');
+    const testCases = require('./testData/bookingDialogTestCases');
     const sut = new BookingDialog('bookingDialog');
 
     testCases.map((testData) => {

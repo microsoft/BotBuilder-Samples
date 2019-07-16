@@ -23,7 +23,7 @@ export class FlightBookingRecognizer {
      * @param {TurnContext} context
      */
     public async executeLuisQuery(context: TurnContext): Promise<RecognizerResult> {
-        return await this.recognizer.recognize(context);
+        return this.recognizer.recognize(context);
     }
 
     public getFromEntities(result) {

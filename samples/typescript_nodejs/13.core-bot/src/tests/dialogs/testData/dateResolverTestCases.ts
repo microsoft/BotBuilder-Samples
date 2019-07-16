@@ -2,9 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-let now = new Date();
-let tomorrow = formatDate(new Date().setDate(now.getDate() + 1));
-let dayAfterTomorrow = formatDate(new Date().setDate(now.getDate() + 2));
+const now = new Date();
+const tomorrow = formatDate(new Date().setDate(now.getDate() + 1));
+const dayAfterTomorrow = formatDate(new Date().setDate(now.getDate() + 2));
 
 function formatDate(date) {
     const d = new Date(date);

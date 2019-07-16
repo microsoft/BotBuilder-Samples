@@ -17,6 +17,7 @@ import {
     WaterfallDialog,
     WaterfallStepContext
 } from 'botbuilder-dialogs';
+import { BookingDialog } from './bookingDialog';
 import { FlightBookingRecognizer } from './flightBookingRecognizer';
 
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
@@ -24,7 +25,7 @@ const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 export class MainDialog extends ComponentDialog {
     private luisRecognizer: FlightBookingRecognizer;
 
-    constructor(luisRecognizer, bookingDialog) {
+    constructor(luisRecognizer: FlightBookingRecognizer, bookingDialog: BookingDialog) {
         super('MainDialog');
 
         if (!luisRecognizer) throw new Error('[MainDialog]: Missing parameter \'luisRecognizer\' is required');
@@ -166,6 +167,6 @@ export class MainDialog extends ComponentDialog {
         }
 
         // Restart the main dialog with a different message the second time around
-        return await stepContext.replaceDialog('MainDialog', { restartMsg: 'What else can I do for you?' });
+        return await stepContext.replaceDialog(this.id, { restartMsg: 'What else can I do for you?' });
     }
 }

@@ -12,7 +12,7 @@ export class DialogAndWelcomeBot extends DialogBot {
     constructor(conversationState: BotState, userState: BotState, dialog: Dialog) {
         super(conversationState, userState, dialog);
 
-        this.onMembersAdded(async (context) => {
+        this.onMembersAdded(async (context, next) => {
             const membersAdded = context.activity.membersAdded;
             for (const member of membersAdded) {
                 if (member.id !== context.activity.recipient.id) {
@@ -21,6 +21,8 @@ export class DialogAndWelcomeBot extends DialogBot {
                     await (dialog as MainDialog).run(context, conversationState.createProperty<DialogState>('DialogState'));
                 }
             }
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
         });
     }
 }
