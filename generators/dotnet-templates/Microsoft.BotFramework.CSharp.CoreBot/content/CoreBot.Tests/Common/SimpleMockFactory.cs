@@ -3,7 +3,6 @@
 //
 // Generated with CoreBot .NET Template version __vX.X.X__
 
-using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;

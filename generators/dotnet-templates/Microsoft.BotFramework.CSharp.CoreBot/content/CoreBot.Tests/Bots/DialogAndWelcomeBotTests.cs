@@ -26,10 +26,10 @@ namespace CoreBot.Tests.Bots
         {
             // Arrange
             var mockRootDialog = SimpleMockFactory.CreateMockDialog<Dialog>(null, "mockRootDialog");
-
-            // TODO: do we need state here?
             var memoryStorage = new MemoryStorage();
             var sut = new DialogAndWelcomeBot<Dialog>(new ConversationState(memoryStorage), new UserState(memoryStorage), mockRootDialog.Object, null);
+
+            // Create conversationUpdate activity
             var conversationUpdateActivity = new Activity
             {
                 Type = ActivityTypes.ConversationUpdate,
@@ -42,14 +42,17 @@ namespace CoreBot.Tests.Bots
             var testAdapter = new TestAdapter(Channels.Test);
 
             // Act
-            // Note: it is kind of obscure that we need to use OnTurnAsync to trigger OnMembersAdded so we get the card
+            // Send the conversation update activity to the bot.
             await testAdapter.ProcessActivityAsync(conversationUpdateActivity, sut.OnTurnAsync, CancellationToken.None);
-            var reply = testAdapter.GetNextReply();
 
-            // Assert
-            var m = (IMessageActivity)reply;
-            Assert.Equal(1, m.Attachments.Count);
-            Assert.Equal("application/vnd.microsoft.card.adaptive", m.Attachments.FirstOrDefault()?.ContentType);
+            // Assert we got the welcome card
+            var reply = (IMessageActivity)testAdapter.GetNextReply();
+            Assert.Equal(1, reply.Attachments.Count);
+            Assert.Equal("application/vnd.microsoft.card.adaptive", reply.Attachments.FirstOrDefault()?.ContentType);
+
+            // Assert that we started the main dialog.
+            reply = (IMessageActivity)testAdapter.GetNextReply();
+            Assert.Equal("Dialog mock invoked", reply.Text);
         }
     }
 }
