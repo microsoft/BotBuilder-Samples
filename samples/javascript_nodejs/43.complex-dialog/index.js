@@ -37,12 +37,9 @@ const memoryStorage = new MemoryStorage();
 const userState = new UserState(memoryStorage);
 const conversationState = new ConversationState(memoryStorage);
 
-// Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
-const logger = console;
-
 // Create the main dialog.
 const dialog = new MainDialog(userState);
-const bot = new DialogAndWelcomeBot(conversationState, userState, dialog, logger);
+const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {

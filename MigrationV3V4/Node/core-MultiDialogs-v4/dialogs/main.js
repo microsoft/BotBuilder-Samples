@@ -1,48 +1,37 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { DialogSet, DialogTurnStatus, ComponentDialog, WaterfallDialog, TextPrompt, DateTimePrompt, ChoicePrompt } = require('botbuilder-dialogs');
+const { DialogSet, DialogTurnStatus, ComponentDialog, WaterfallDialog,
+    ChoicePrompt } = require('botbuilder-dialogs');
 const { FlightDialog } = require('./flights');
 const { HotelsDialog } = require('./hotels');
-const { BASE_DIALOG,
-    MAIN_DIALOG,
+const { MAIN_DIALOG,
     INITIAL_PROMPT,
     HOTELS_DIALOG,
-    INITIAL_HOTEL_PROMPT,
-    CHECKIN_DATETIME_PROMPT,
-    HOW_MANY_NIGHTS_PROMPT,
-    FLIGHTS_DIALOG,
-    USER_PROFILE_PROPERTY,
-    CONVERSATION_STATE_ACCESSOR
+    FLIGHTS_DIALOG
 } = require('../const');
 
+const initialId = 'mainWaterfallDialog';
+
 class MainDialog extends ComponentDialog {
-    constructor(userState, conversationState) {
+    constructor() {
         super(MAIN_DIALOG);
-        this.userState = userState;
-        this.conversationState = conversationState;
-        this.userProfileAccessor = userState.createProperty(USER_PROFILE_PROPERTY);
-        this.conversationStateAccessor = userState.createProperty(CONVERSATION_STATE_ACCESSOR);
 
         // Create a dialog set for the bot. It requires a DialogState accessor, with which
         // to retrieve the dialog state from the turn context.
         this.addDialog(new ChoicePrompt(INITIAL_PROMPT, this.validateNumberOfAttempts.bind(this)));
-        this.addDialog(new TextPrompt(INITIAL_HOTEL_PROMPT));
-        this.addDialog(new DateTimePrompt(CHECKIN_DATETIME_PROMPT));
-        this.addDialog(new TextPrompt(HOW_MANY_NIGHTS_PROMPT));
         this.addDialog(new FlightDialog(FLIGHTS_DIALOG));
 
         // Define the steps of the base waterfall dialog and add it to the set.
-        this.addDialog(new WaterfallDialog(BASE_DIALOG, [
+        this.addDialog(new WaterfallDialog(initialId, [
             this.promptForBaseChoice.bind(this),
-            this.respondToBaseChoice.bind(this),
+            this.respondToBaseChoice.bind(this)
         ]));
 
         // Define the steps of the hotels waterfall dialog and add it to the set.
         this.addDialog(new HotelsDialog(HOTELS_DIALOG));
 
-        this.initialDialogId = BASE_DIALOG;
-
+        this.initialDialogId = initialId;
     }
 
     /**
@@ -54,9 +43,6 @@ class MainDialog extends ComponentDialog {
     async run(turnContext, accessor) {
         const dialogSet = new DialogSet(accessor);
         dialogSet.add(this);
-
-        const conversationData = await dialogSet.dialogState.get(turnContext, { attempts: 0 });
-        turnContext.turnState.set('conversationData', conversationData);
 
         const dialogContext = await dialogSet.createContext(turnContext);
         const results = await dialogContext.continueDialog();
@@ -79,38 +65,34 @@ class MainDialog extends ComponentDialog {
         // Retrieve the user input.
         const answer = stepContext.result.value;
         if (!answer) {
-            // exhausted attemps and no selection, start over
-            await stepContext.context.sendActivity('Not a valid option. We\'ll restart the dialog so you can try again!');
+            // exhausted attempts and no selection, start over
+            await stepContext.context.sendActivity('Not a valid option. We\'ll restart the dialog ' +
+                'so you can try again!');
             return await stepContext.endDialog();
         }
-        if(answer === 'Hotel') {
+        if (answer === 'Hotel') {
             return await stepContext.beginDialog(HOTELS_DIALOG);
         }
-        if(answer === 'Flight') {
+        if (answer === 'Flight') {
             return await stepContext.beginDialog(FLIGHTS_DIALOG);
         }
         return await stepContext.endDialog();
     }
 
     async validateNumberOfAttempts(promptContext) {
-        const localConversationData = promptContext.context.turnState.get('conversationData');
-        localConversationData.attempts++;
-        promptContext.context.turnState.set(localConversationData);
-        await this.conversationStateAccessor.set(promptContext.context, localConversationData);
-        //await this.conversationState.saveChanges(promptContext.context);
-        if (localConversationData.attempts > 3) {
+        if (promptContext.attemptCount > 3) {
             // cancel everything
-            await promptContext.context.sendActivity('Ooops! Too many attemps :( But don\'t worry, I\'m handling that exception and you can try again!');
+            await promptContext.context.sendActivity('Oops! Too many attempts :( But don\'t worry, I\'m ' +
+                'handling that exception and you can try again!');
             return await promptContext.context.endDialog();
         }
 
-        if(!promptContext.recognized.succeeded) {
-          await promptContext.context.sendActivity(promptContext.options.retryPrompt);
-          return false;
+        if (!promptContext.recognized.succeeded) {
+            await promptContext.context.sendActivity(promptContext.options.retryPrompt);
+            return false;
         }
         return true;
     }
 }
 
 module.exports.MainDialog = MainDialog;
-module.exports.MAIN_DIALOG = MAIN_DIALOG;

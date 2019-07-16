@@ -55,8 +55,7 @@ namespace Microsoft.BotBuilderSamples
                 // selected language.
                 // If Spanish was selected by the user, the reply below will actually be shown in spanish to the user.
                 await _languagePreference.SetAsync(turnContext, lang, cancellationToken);
-                var reply = ((Activity)turnContext.Activity).CreateReply($"Your current language code is: {lang}");
-
+                var reply = MessageFactory.Text($"Your current language code is: {lang}");
                 await turnContext.SendActivityAsync(reply, cancellationToken);
 
                 // Save the user profile updates into the user state.
@@ -67,7 +66,7 @@ namespace Microsoft.BotBuilderSamples
                 // Show the user the possible options for language. If the user chooses a different language
                 // than the default, then the translation middleware will pick it up from the user state and
                 // translate messages both ways, i.e. user to bot and bot to user.
-                var reply = ((Activity)turnContext.Activity).CreateReply("Choose your language:");
+                var reply = MessageFactory.Text("Choose your language:");
                 reply.SuggestedActions = new SuggestedActions()
                 {
                     Actions = new List<CardAction>()
@@ -90,19 +89,11 @@ namespace Microsoft.BotBuilderSamples
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     var welcomeCard = CreateAdaptiveCardAttachment();
-                    var response = CreateResponse(turnContext.Activity, welcomeCard);
+                    var response = MessageFactory.Attachment(welcomeCard);
                     await turnContext.SendActivityAsync(response, cancellationToken);
-                    await turnContext.SendActivityAsync(turnContext.Activity.CreateReply(WelcomeText), cancellationToken);
+                    await turnContext.SendActivityAsync(MessageFactory.Text(WelcomeText), cancellationToken);
                 }
             }
-        }
-
-        // Create an attachment message response.
-        private static Activity CreateResponse(IActivity activity, Attachment attachment)
-        {
-            var response = ((Activity)activity).CreateReply();
-            response.Attachments = new List<Attachment>() { attachment };
-            return response;
         }
 
         // Load attachment from file.

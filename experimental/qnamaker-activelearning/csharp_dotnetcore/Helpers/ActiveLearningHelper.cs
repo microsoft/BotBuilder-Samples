@@ -55,7 +55,7 @@ namespace QnAMakerActiveLearningBot.Helpers
             var topAnswerScore = qnaSearchResults[0].Score * 100;
             var prevScore = topAnswerScore;
 
-            if ((topAnswerScore > MinimumScoreForLowScoreVariation) && (topAnswerScore < MaximumScoreForLowScoreVariation))
+            if ((topAnswerScore > MinimumScoreForLowScoreVariation) && (topAnswerScore <= MaximumScoreForLowScoreVariation))
             {
                 filteredQnaSearchResult.Add(qnaSearchResults[0]);
 

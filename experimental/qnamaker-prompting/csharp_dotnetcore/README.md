@@ -11,7 +11,7 @@ In this sample, we demonstrate how to a create a multi-turn dialog to interact w
 
 #To try this sample
 - Clone the samples repository
-- Update [appsettings.json](appsettings.json) in the sample with your QnA Maker endpoint details (QnAEndpointHostName, QnAAuthKey and QnAKnowledgebaseId). You can find this
+- Update [appsettings.json](appsettings.json) in the sample with your QnA Maker endpoint details (QnAEndpointHostName, QnAEndpointKey and QnAKnowledgebaseId). You can find this
 information under "Settings" tab of your QnA Maker Knowledge Base at [QnAMaker.ai](https://www.qnamaker.ai)
 
 # Running Locally

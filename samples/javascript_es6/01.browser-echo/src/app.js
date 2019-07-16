@@ -8,7 +8,6 @@ import {
 } from 'botbuilder-core';
 import './css/app.css';
 import { WebChatAdapter } from './webChatAdapter';
-// import { renderWebChat } from 'botframework-webchat';
 import { renderWebChat } from 'botframework-webchat';
 
 // Create the custom WebChatAdapter.

@@ -5,26 +5,18 @@ const { ActivityHandler } = require('botbuilder');
 const { QnAMaker } = require('botbuilder-ai');
 
 class QnABot extends ActivityHandler {
-    /**
-     * @param {any} logger object for logging events, defaults to console if none is provided
-     */
-    constructor(logger) {
+    constructor() {
         super();
-        if (!logger) {
-            logger = console;
-            logger.log('[QnaMakerBot]: logger not passed in, defaulting to console');
-        }
 
         try {
             this.qnaMaker = new QnAMaker({
                 knowledgeBaseId: process.env.QnAKnowledgebaseId,
-                endpointKey: process.env.QnAAuthKey,
+                endpointKey: process.env.QnAEndpointKey,
                 host: process.env.QnAEndpointHostName
             });
         } catch (err) {
-            logger.warn(`QnAMaker Exception: ${ err } Check your QnAMaker configuration in .env`);
+            console.warn(`QnAMaker Exception: ${ err } Check your QnAMaker configuration in .env`);
         }
-        this.logger = logger;
 
         // If a new user is added to the conversation, send them a greeting message
         this.onMembersAdded(async (context, next) => {
@@ -41,7 +33,7 @@ class QnABot extends ActivityHandler {
 
         // When a user sends a message, perform a call to the QnA Maker service to retrieve matching Question and Answer pairs.
         this.onMessage(async (context, next) => {
-            this.logger.log('Calling QnA Maker');
+            console.log('Calling QnA Maker');
 
             const qnaResults = await this.qnaMaker.getAnswers(context);
 

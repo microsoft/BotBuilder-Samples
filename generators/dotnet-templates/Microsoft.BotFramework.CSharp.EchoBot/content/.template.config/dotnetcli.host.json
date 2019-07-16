@@ -3,7 +3,6 @@
     "symbolInfo": {
         "Framework": {
             "longName": "framework",
-            "shortName": ""
         },
         "SkipRestore": {
             "longName": "no-restore",

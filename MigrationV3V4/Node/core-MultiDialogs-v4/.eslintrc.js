@@ -9,6 +9,6 @@ module.exports = {
             "anonymous": "never",
             "asyncArrow": "always"
         }],
-        "template-curly-spacing": [2, "always"]
+        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
     }
 };

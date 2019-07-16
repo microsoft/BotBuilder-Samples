@@ -17,21 +17,14 @@ import {
     WaterfallDialog,
     WaterfallStepContext,
 } from 'botbuilder-dialogs';
-import { Logger } from '../logger';
 import { LuisHelper } from './luisHelper';
 
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 const BOOKING_DIALOG = 'bookingDialog';
 
 export class MainDialog extends ComponentDialog {
-    private logger: Logger;
-    constructor(logger: Logger) {
+    constructor() {
         super('MainDialog');
-        if (!logger) {
-            logger = console as Logger;
-            logger.log('[MainDialog]: logger not passed in, defaulting to console');
-        }
-        this.logger = logger;
 
         // Define the main dialog and its related components.
         // This is a sample "book a flight" dialog.
@@ -87,9 +80,9 @@ export class MainDialog extends ComponentDialog {
             // Call LUIS and gather any potential booking details.
             // This will attempt to extract the origin, destination and travel date from the user's message
             // and will then pass those values into the booking dialog
-            bookingDetails = await LuisHelper.executeLuisQuery(this.logger, stepContext.context);
+            bookingDetails = await LuisHelper.executeLuisQuery(stepContext.context);
 
-            this.logger.log('LUIS extracted these booking details:', bookingDetails);
+            console.log('LUIS extracted these booking details:', bookingDetails);
         }
 
         // In this sample we only have a single intent we are concerned with. However, typically a scenario

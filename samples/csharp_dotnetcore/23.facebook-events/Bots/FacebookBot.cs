@@ -99,7 +99,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     // TODO: Handle other events that you're interested in...
                 }
             }
-            catch(JsonSerializationException e)
+            catch(JsonSerializationException)
             {
                 if (turnContext.Activity.ChannelId != Bot.Connector.Channels.Facebook)
                 {
@@ -110,7 +110,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     throw;
                 }
             }
-          
+
             return false;
         }
 
@@ -119,6 +119,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             Logger.LogInformation("Optin message received.");
 
             // TODO: Your optin event handling logic here...
+            await Task.CompletedTask;
         }
 
         protected virtual async Task OnFacebookEcho(ITurnContext turnContext, FacebookMessage facebookMessage, CancellationToken cancellationToken)
@@ -126,6 +127,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             Logger.LogInformation("Echo message received.");
 
             // TODO: Your echo event handling logic here...
+            await Task.CompletedTask;
         }
 
         protected virtual async Task OnFacebookPostBack(ITurnContext turnContext, FacebookPostback postBack, CancellationToken cancellationToken)
@@ -135,7 +137,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             // TODO: Your PostBack handling logic here...
 
             // Answer the postback, and show choices
-            var reply = turnContext.Activity.CreateReply($"Are you sure?");
+            var reply = MessageFactory.Text("Are you sure?");
             await turnContext.SendActivityAsync(reply, cancellationToken);
             await ShowChoices(turnContext, cancellationToken);
         }
@@ -156,7 +158,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 // The Facebook page id from which the message comes from is in turnContext.Activity.Recipient.Id.
                 case FacebookPageIdOption:
                     {
-                        var reply = turnContext.Activity.CreateReply($"This message comes from the following Facebook Page: {turnContext.Activity.Recipient.Id}");
+                        var reply = MessageFactory.Text($"This message comes from the following Facebook Page: {turnContext.Activity.Recipient.Id}");
                         await turnContext.SendActivityAsync(reply, cancellationToken);
                         await ShowChoices(turnContext, cancellationToken);
 
@@ -176,8 +178,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                                     },
                         };
 
-                        var reply = turnContext.Activity.CreateReply();
-                        reply.Attachments = new List<Attachment> { card.ToAttachment() };
+                        var reply = MessageFactory.Attachment(card.ToAttachment());
                         await turnContext.SendActivityAsync(reply, cancellationToken);
 
                         break;

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bot.Builder.Azure.V3V4", "Bot.Builder.Azure.V3ToV4\Bot.Builder.Azure.V3V4.csproj", "{C9962F06-4ECC-4629-AD9F-D76FC7103A96}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "V4StateBot", "V4V3StateBot\V4StateBot.csproj", "{E32C200E-769E-445E-8575-B96DF4A7073B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9962F06-4ECC-4629-AD9F-D76FC7103A96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9962F06-4ECC-4629-AD9F-D76FC7103A96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9962F06-4ECC-4629-AD9F-D76FC7103A96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9962F06-4ECC-4629-AD9F-D76FC7103A96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E32C200E-769E-445E-8575-B96DF4A7073B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E32C200E-769E-445E-8575-B96DF4A7073B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E32C200E-769E-445E-8575-B96DF4A7073B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E32C200E-769E-445E-8575-B96DF4A7073B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DC665DC9-F554-4C93-B407-BCBF141E43F3}
+	EndGlobalSection
+EndGlobal

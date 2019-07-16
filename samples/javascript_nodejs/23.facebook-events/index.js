@@ -21,10 +21,7 @@ const adapter = new BotFrameworkAdapter({
     appPassword: process.env.MicrosoftAppPassword
 });
 
-// Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
-const logger = console;
-
-const bot = new FacebookBot(logger);
+const bot = new FacebookBot();
 
 // Create HTTP server
 let server = restify.createServer();
