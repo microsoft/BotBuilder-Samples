@@ -53,7 +53,7 @@ The project includes several examples on how to test different bot components:
 
 ## Further reading
 
-- [Unit Testing Bots](https://aka.ms/cs-unit-test-docs)
+- [How to unit test bots](https://aka.ms/cs-unit-test-docs)
 - [XUnit](https://xunit.net/)
 - [Moq](https://github.com/moq/moq)
 - [Bot Testing](https://github.com/microsoft/botframework-sdk/blob/master/specs/testing/testing.md)

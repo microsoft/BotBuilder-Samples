@@ -53,6 +53,6 @@ The project includes several examples on how to test different bot components:
 
 ## Further reading
 
-- [Unit Testing Bots](https://aka.ms/js-unit-test-docs)
+- [How to unit test bots](https://aka.ms/js-unit-test-docs)
 - [Mocha](https://github.com/mochajs/mocha)
 - [Bot Testing](https://github.com/microsoft/botframework-sdk/blob/master/specs/testing/testing.md)
