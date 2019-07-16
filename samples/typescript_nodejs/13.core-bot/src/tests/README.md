@@ -3,7 +3,7 @@
 
 Bot Framework v4 core bot tests sample.
 
-This project uses the [botbuilder-testing](https://botbuilder.myget.org/feed/botbuilder-v4-js-daily/package/npm/botbuilder-testing) package, [mocha](https://github.com/mochajs/mocha) to create unit tests for the [core-bot](../../13.core-bot) bot.
+This project uses the [botbuilder-testing](https://www.npmjs.com/package/botbuilder-testing) package, [mocha](https://github.com/mochajs/mocha) to create unit tests for the [core-bot](../../13.core-bot) bot.
 
 This project shows how to:
 
@@ -46,13 +46,13 @@ assert.strictEqual(reply.text, 'All set, I have booked your flight to Seattle fo
 
 The project includes several examples on how to test different bot components:
 
-- [cancelAndHelpDialog.test](dialogs/cancelAndHelpDialog.test.js) shows how to write a simple data driven test for `CancelAndHelpDialog` using a test case array.
-- [bookingDialog.test](dialogs/bookingDialog.test.js) shows how to write a data driven test using a `bookingDialogTestCases` module to generate the test cases.
-- [mainDialog.test](dialogs/mainDialog.test.js) showcases how to use mock objects to mock the dialog's LUIS and `BookingDialog` dependencies to test `MainDialog` in isolation.
-- [dialogAndWelcomeBot.test](bots/dialogAndWelcomeBot.test.js) provides an example on how to write a test for the bot's `ActivityHandler` using `TestAdapter`.
+- [cancelAndHelpDialog.test](dialogs/cancelAndHelpDialog.test.ts) shows how to write a simple data driven test for `CancelAndHelpDialog` using a test case array.
+- [bookingDialog.test](dialogs/bookingDialog.test.ts) shows how to write a data driven test using a `bookingDialogTestCases` module to generate the test cases.
+- [mainDialog.test](dialogs/mainDialog.test.ts) showcases how to use mock objects to mock the dialog's LUIS and `BookingDialog` dependencies to test `MainDialog` in isolation.
+- [dialogAndWelcomeBot.test](bots/dialogAndWelcomeBot.test.ts) provides an example on how to write a test for the bot's `ActivityHandler` using `TestAdapter`.
 
 ## Further reading
 
-- [Unit Testing Bots](https://review.docs.microsoft.com/en-us/azure/bot-service/test-bot-js?view=azure-bot-service-4.0&branch=pr-en-us-1588)
+- [Unit Testing Bots](https://aka.ms/js-unit-test-docs)
 - [Mocha](https://github.com/mochajs/mocha)
 - [Bot Testing](https://github.com/microsoft/botframework-sdk/blob/master/specs/testing/testing.md)
