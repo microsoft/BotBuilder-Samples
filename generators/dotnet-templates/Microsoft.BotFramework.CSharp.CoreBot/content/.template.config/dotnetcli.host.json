@@ -4,6 +4,10 @@
         "Framework": {
             "longName": "framework"
         },
+        "IncludeTests": {
+            "longName": "include-tests",
+            "shortname": ""
+        },
         "SkipRestore": {
             "longName": "no-restore",
             "shortName": ""
@@ -11,6 +15,7 @@
     },
     "usageExamples": [
         "--framework netcoreapp2.1",
+        "--include-tests true",
         "--no-restore true"
     ]
 }
