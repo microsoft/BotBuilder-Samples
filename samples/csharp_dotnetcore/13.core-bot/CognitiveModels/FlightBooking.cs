@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
+
 namespace Microsoft.BotBuilderSamples
 {
     public partial class FlightBooking: IRecognizerConvert
@@ -15,9 +16,9 @@ namespace Microsoft.BotBuilderSamples
         public string Text;
         public string AlteredText;
         public enum Intent {
-            BookFlight, 
-            Cancel, 
-            GetWeather, 
+            BookFlight,
+            Cancel,
+            GetWeather,
             None
         };
         public Dictionary<Intent, IntentScore> Intents;

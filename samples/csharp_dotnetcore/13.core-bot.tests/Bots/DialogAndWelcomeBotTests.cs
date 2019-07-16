@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CoreBot.Tests.Common;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
@@ -13,6 +12,8 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.BotBuilderSamples.Bots;
 using Xunit;
+
+using CoreBot.Tests.Common;
 
 namespace CoreBot.Tests.Bots
 {

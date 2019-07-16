@@ -15,6 +15,5 @@ namespace CoreBot.Tests.Dialogs.TestData
         public string[,] UtterancesAndReplies { get; set; }
 
         public string ExpectedResult { get; set; }
-
     }
 }
