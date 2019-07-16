@@ -166,7 +166,7 @@ export class MainDialog extends ComponentDialog {
             await stepContext.context.sendActivity(msg);
         }
 
-        // Restart the main dialog with a different message the second time around
-        return await stepContext.replaceDialog(this.id, { restartMsg: 'What else can I do for you?' });
+        // Restart the main dialog waterfall with a different message the second time around
+        return await stepContext.replaceDialog(this.initialDialogId, { restartMsg: 'What else can I do for you?' });
     }
 }
