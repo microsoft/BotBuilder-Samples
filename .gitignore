@@ -18,6 +18,9 @@
 # JS/ TS/ es6 env files
 /*/*.env
 
+# Ignore output from nyc
+/**/.nyc_output
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
