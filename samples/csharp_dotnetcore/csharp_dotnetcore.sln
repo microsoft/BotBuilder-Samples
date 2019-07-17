@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StateMangementBot", "45.sta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoBot", "02.echo-bot\EchoBot.csproj", "{586D7BC9-1A3B-4056-BD34-E83242524822}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreBot-App-Insights", "21.corebot-app-insights\CoreBot-App-Insights.csproj", "{84584BDB-F423-45EB-96DD-C539A248E33F}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsAuth", "46.teams-auth\TeamsAuth.csproj", "{46B069C2-5693-4345-9B36-4307C6CCA102}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inspection", "47.inspection\Inspection.csproj", "{CC1FD48D-8F0E-4B89-A7C6-E17429CF80FE}"
