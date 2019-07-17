@@ -1,11 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import 'core-js';
+import 'regenerator-runtime/runtime';
+
+// We are using the TypeScript version of the Bot Builder SDK because the module version is not targetting IE11
 import {
     ActivityTypes,
     ConversationState,
     MemoryStorage
-} from 'botbuilder-core';
+} from 'botbuilder-core/src';
+
 import './css/app.css';
 import { WebChatAdapter } from './webChatAdapter';
 import { renderWebChat } from 'botframework-webchat';

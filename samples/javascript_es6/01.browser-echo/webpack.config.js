@@ -1,10 +1,10 @@
-const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { join, resolve } = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const webpack = require('webpack');
+const { HotModuleReplacementPlugin, NamedModulesPlugin } = require('webpack');
 
 module.exports = {
-    entry: './src/app.js',
+    entry: './src/app.ts',
     devtool: 'source-map',
     devServer: {
         contentBase: './dist',
@@ -14,14 +14,12 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(jsx?)$/,
-                exclude: [/node_modules/],
-                use: {
-                    loader: 'babel-loader',
-                    'options': {
-                        'ignore': ['**/*.spec.ts']
-                    }
-                }
+                test: /\.[jt]s$/,
+                include: [
+                    join(__dirname, 'src'),
+                    join(__dirname, 'node_modules/botbuilder-core/src'),
+                ],
+                use: ['babel-loader']
             },
             {
                 test: /\.css$/,
@@ -30,16 +28,19 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(['dist']),
-        new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
+        new CleanWebpackPlugin(),
+        new NamedModulesPlugin(),
+        new HotModuleReplacementPlugin(),
         new CopyWebpackPlugin([
-            { from: path.resolve(__dirname, 'index.html'), to: '' }
+            { from: resolve(__dirname, 'index.html'), to: '' }
         ])
     ],
+    resolve: {
+        extensions: ['.css', '.js', '.ts']
+    },
     output: {
         filename: 'app.js',
-        path: path.resolve(__dirname, 'dist')
+        path: resolve(__dirname, 'dist')
     },
     node: {
         fs: 'empty',

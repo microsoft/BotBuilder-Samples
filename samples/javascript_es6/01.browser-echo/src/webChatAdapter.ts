@@ -2,9 +2,11 @@
 // Licensed under the MIT License.
 
 import { ConnectionStatus } from 'botframework-directlinejs';
-import { BotAdapter, TurnContext } from 'botbuilder-core';
+
+// We are using the TypeScript version of the Bot Builder SDK because the module version is not targetting IE11
+import { BotAdapter, TurnContext } from 'botbuilder-core/src';
 import { BOT_PROFILE, USER_PROFILE } from './app';
-import Observable from 'core-js/features/observable';
+import Observable from 'core-js/es7/observable';
 
 /**
  * Custom BotAdapter used for deploying a bot in a browser.
@@ -30,6 +32,7 @@ export class WebChatAdapter extends BotAdapter {
                 // is never called.
                 console.log('this.botConnection.componentWillUnmount() called.');
             },
+            getSessionId: () => new Observable(observer => observer.complete()),
             postActivity: activity => {
                 const id = Date.now().toString();
 
