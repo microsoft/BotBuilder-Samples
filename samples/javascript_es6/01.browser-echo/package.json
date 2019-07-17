@@ -6,7 +6,7 @@
     "license": "MIT",
     "main": "app.js",
     "scripts": {
-        "build": "webpack",
+        "build": "webpack --mode=production",
         "start": "webpack-dev-server",
         "lint": "eslint .",
         "test": "echo \"Error: no test specified\" && exit 1"
