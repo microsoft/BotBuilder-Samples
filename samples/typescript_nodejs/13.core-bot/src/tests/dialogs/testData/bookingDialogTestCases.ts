@@ -105,7 +105,7 @@ module.exports = [
     },
     {
         expectedResult: undefined,
-        expectedStatus: 'cancelled',
+        expectedStatus: 'complete',
         initialData: {},
         name: 'Cancel on origin prompt',
         steps: [
@@ -115,7 +115,7 @@ module.exports = [
     },
     {
         expectedResult: undefined,
-        expectedStatus: 'cancelled',
+        expectedStatus: 'complete',
         initialData: {},
         name: 'Cancel on destination prompt',
         steps: [
@@ -126,7 +126,7 @@ module.exports = [
     },
     {
         expectedResult: undefined,
-        expectedStatus: 'cancelled',
+        expectedStatus: 'complete',
         initialData: {},
         name: 'Cancel on date prompt',
         steps: [
@@ -138,7 +138,7 @@ module.exports = [
     },
     {
         expectedResult: undefined,
-        expectedStatus: 'cancelled',
+        expectedStatus: 'complete',
         initialData: {},
         name: 'Cancel on confirm prompt',
         steps: [
