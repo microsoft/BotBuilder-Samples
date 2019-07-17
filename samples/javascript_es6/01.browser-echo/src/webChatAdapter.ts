@@ -2,11 +2,9 @@
 // Licensed under the MIT License.
 
 import { ConnectionStatus } from 'botframework-directlinejs';
-
-// We are using the TypeScript version of the Bot Builder SDK because the module version is not targetting IE11
-import { BotAdapter, TurnContext } from 'botbuilder-core/src';
+import { BotAdapter, TurnContext } from 'botbuilder-core';
 import { BOT_PROFILE, USER_PROFILE } from './app';
-import Observable from 'core-js/es7/observable';
+import Observable from 'core-js/features/observable';
 
 /**
  * Custom BotAdapter used for deploying a bot in a browser.

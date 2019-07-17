@@ -17,7 +17,7 @@ module.exports = {
                 test: /\.[jt]s$/,
                 include: [
                     join(__dirname, 'src'),
-                    join(__dirname, 'node_modules/botbuilder-core/src'),
+                    join(__dirname, 'node_modules/botbuilder-core/lib'),
                 ],
                 use: ['babel-loader']
             },
