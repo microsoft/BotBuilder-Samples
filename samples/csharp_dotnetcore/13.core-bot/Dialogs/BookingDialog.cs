@@ -12,6 +12,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 {
     public class BookingDialog : CancelAndHelpDialog
     {
+        private const string DestinationStepMsgText = "Where would you like to travel to?";
+        private const string OriginStepMsgText = "Where are you traveling from?";
+
         public BookingDialog()
             : base(nameof(BookingDialog))
         {
@@ -37,8 +40,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
             if (bookingDetails.Destination == null)
             {
-                var messageText = "Where would you like to travel to?";
-                var promptMessage = MessageFactory.Text(messageText, messageText, InputHints.ExpectingInput);
+                var promptMessage = MessageFactory.Text(DestinationStepMsgText, DestinationStepMsgText, InputHints.ExpectingInput);
                 return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
             }
 
@@ -53,8 +55,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
             if (bookingDetails.Origin == null)
             {
-                var messageText = "Where are you traveling from?";
-                var promptMessage = MessageFactory.Text(messageText, messageText, InputHints.ExpectingInput);
+                var promptMessage = MessageFactory.Text(OriginStepMsgText, OriginStepMsgText, InputHints.ExpectingInput);
                 return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
             }
 
