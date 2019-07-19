@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import {
     ActivityTypes,
     ConversationState,

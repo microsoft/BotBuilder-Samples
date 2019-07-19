@@ -30,6 +30,7 @@ export class WebChatAdapter extends BotAdapter {
                 // is never called.
                 console.log('this.botConnection.componentWillUnmount() called.');
             },
+            getSessionId: () => new Observable(observer => observer.complete()),
             postActivity: activity => {
                 const id = Date.now().toString();
 
