@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 //
 // Generated with CoreBot .NET Template version __vX.X.X__
@@ -146,9 +146,9 @@ namespace CoreBot.Dialogs
                 await stepContext.Context.SendActivityAsync(message, cancellationToken);
             }
 
-            // Restart the dialog with a second time around message
+            // Restart the main dialog with a different message the second time around
             var promptMessage = "What else can I do for you?";
-            return await stepContext.ReplaceDialogAsync(Id, promptMessage, cancellationToken);
+            return await stepContext.ReplaceDialogAsync(InitialDialogId, promptMessage, cancellationToken);
         }
     }
 }

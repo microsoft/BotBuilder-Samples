@@ -110,7 +110,7 @@ module.exports = [
             ['hi', 'To what city would you like to travel?'],
             ['cancel', 'Cancelling...']
         ],
-        expectedStatus: 'cancelled',
+        expectedStatus: 'complete',
         expectedResult: undefined
     },
     {
@@ -121,7 +121,7 @@ module.exports = [
             ['Seattle', 'From what city will you be travelling?'],
             ['cancel', 'Cancelling...']
         ],
-        expectedStatus: 'cancelled',
+        expectedStatus: 'complete',
         expectedResult: undefined
     },
     {
@@ -133,7 +133,7 @@ module.exports = [
             ['New York', 'On what date would you like to travel?'],
             ['cancel', 'Cancelling...']
         ],
-        expectedStatus: 'cancelled',
+        expectedStatus: 'complete',
         expectedResult: undefined
     },
     {
@@ -146,7 +146,7 @@ module.exports = [
             ['tomorrow', `Please confirm, I have you traveling to: Seattle from: New York on: ${ tomorrow }. Is this correct? (1) Yes or (2) No`],
             ['cancel', 'Cancelling...']
         ],
-        expectedStatus: 'cancelled',
+        expectedStatus: 'complete',
         expectedResult: undefined
     }
 ];
