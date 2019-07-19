@@ -51,7 +51,7 @@ module.exports = class extends Generator {
         // if we're told to not prompt, then pick what we need and return
         if(this.options.noprompt) {
             // this function will throw if it encounters errors/invalid options
-            _verifyNoPromptOptions();
+            this._verifyNoPromptOptions();
         }
 
         // run all prompts in sequence.  Results can be ignored.
