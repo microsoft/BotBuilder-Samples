@@ -31,63 +31,47 @@ module.exports = class extends Generator {
     constructor(args, opts) {
         super(args, opts);
 
+        // allocate an object that we can use to store our user prompt values from our askFor* functions
+        this.templateConfig = Object.create(null);
+
         // configure the commandline options
         prompts.configureCommandlineOptions(this);
     }
 
-    prompting() {
+    initializing() {
         // give the user some data before we start asking them questions
         this.log(`\nWelcome to the Microsoft Bot Builder generator v${pkg.version}. `);
         this.log('\nDetailed documentation can be found at ' + chalk.underline('https://aka.ms/botbuilder-generator\n'));
+    }
+
+    prompting() {
+        const userPrompts = prompts.getPrompts(this);
+        let result = Promise.resolve();
 
         // if we're told to not prompt, then pick what we need and return
         if(this.options.noprompt) {
-            this.props = _.pick(this.options, ['botname', 'description', 'language', 'template'])
-
-            // validate we have what we need, or we'll need to throw
-            if(!this.props.botname) {
-              throw new Error('Must specify a name for your bot when using --noprompt argument.  Use --botname or -N');
-            }
-            if(!this.props.description) {
-                throw new Error('Must specify a description for your bot when using --noprompt argument.  Use --description or -D');
-            }
-
-            // make sure we have a supported language
-            const language = (this.props.language ? _.toLower(this.props.language) : undefined);
-            const langJS = _.toLower(BOT_LANG_NAME_JAVASCRIPT);
-            const langTS = _.toLower(BOT_LANG_NAME_TYPESCRIPT);
-            if(!language || (language !== langJS && language !== langTS)) {
-                throw new Error('Must specify a programming language when using --noprompt argument.  Use --language or -L');
-            }
-
-            // make sure we have a supported template
-            const template = (this.props.template ? _.toLower(this.props.template) : undefined);
-            const tmplEmpty = _.toLower(BOT_TEMPLATE_NOPROMPT_EMPTY);
-            const tmplSimple = _.toLower(BOT_TEMPLATE_NOPROMPT_SIMPLE);
-            const tmplCore = _.toLower(BOT_TEMPLATE_NOPROMPT_CORE);
-            if (!template || (template !== tmplEmpty && template !== tmplSimple && template !== tmplCore)) {
-                throw new Error('Must specify a template when using --noprompt argument.  Use --template or -T');
-            }
-            // when run using --noprompt and we have all the required props, then set final confirmation to true
-            // so we can go forward and create the new bot without prompting the user for confirmation
-            this.props.finalConfirmation = true;
-            return;
+            // this function will throw if it encounters errors/invalid options
+            this._verifyNoPromptOptions();
         }
 
-        // let's ask the user for data before we generate the bot
-        const promptAnswers = prompts.getPrompts(this.options);
-
-        return this.prompt(promptAnswers).then((props) => {
-            this.props = props;
-        });
+        // run all prompts in sequence.  Results can be ignored.
+        for(let taskName in userPrompts) {
+            let prompt = userPrompts[taskName];
+            result = result.then(_ => {
+                return new Promise((s, r) => {
+                    setTimeout(_ => prompt().then(s, r), 0);    // set timeout is required, otherwise node hangs
+                });
+            })
+        }
+        return result;
     }
 
     writing() {
         // if the user confirmed their settings, then lets go ahead
         // an install module dependencies
-        if(this.props.finalConfirmation === true) {
+        if(this.templateConfig.finalConfirmation === true) {
             // figure out which language we're going to use
-            const language = _.toLower(this.props.language);
+            const language = _.toLower(this.templateConfig.language);
             switch(language) {
             case _.toLower(BOT_LANG_NAME_JAVASCRIPT):
             case _.toLower(BOT_LANG_NAME_TYPESCRIPT):
@@ -110,13 +94,13 @@ module.exports = class extends Generator {
     install() {
         // if the user confirmed their settings, then lets go ahead
         // an install module dependencies
-        if (this.props.finalConfirmation === true) {
+        if(this.templateConfig.finalConfirmation === true) {
             this.installDependencies({ bower: false });
         }
     }
 
     end() {
-        if (this.props.finalConfirmation === true) {
+        if(this.templateConfig.finalConfirmation === true) {
             this.log(chalk.green('------------------------ '));
             this.log(chalk.green(' Your new bot is ready!  '));
             this.log(chalk.green('------------------------ '));
@@ -139,7 +123,7 @@ module.exports = class extends Generator {
         // figure out which scripting language template to write
         // the scripting template writers handle whether
         // they should write a JavaScript or TypeScript template
-        const template = _.toLower(this.props.template);
+        const template = _.toLower(this.templateConfig.template);
         switch(template) {
         case _.toLower(BOT_TEMPLATE_NAME_EMPTY):
         case _.toLower(BOT_TEMPLATE_NOPROMPT_EMPTY):
@@ -166,7 +150,7 @@ module.exports = class extends Generator {
 
     _writeUsingDotNet() {
         // figure out which dot net language template to write
-        const template = _.toLower(this.props.template);
+        const template = _.toLower(this.templateConfig.template);
         switch(template) {
             case _.toLower(BOT_TEMPLATE_NAME_EMPTY):
                 emptyTemplateWriterForDotNet(this);
@@ -188,4 +172,38 @@ module.exports = class extends Generator {
         }
     }
 
+    // if we're run with the --noprompt option, verify that
+    // we were all passed in all required options.
+    // return true for success, false for failure
+    _verifyNoPromptOptions() {
+        this.templateConfig = _.pick(this.options, ['botname', 'description', 'language', 'template'])
+
+        // validate we have what we need, or we'll need to throw
+        if(!this.templateConfig.botname) {
+          throw new Error('Must specify a name for your bot when using --noprompt argument.  Use --botname or -N');
+        }
+        if(!this.templateConfig.description) {
+            throw new Error('Must specify a description for your bot when using --noprompt argument.  Use --description or -D');
+        }
+
+        // make sure we have a supported language
+        const language = (this.templateConfig.language ? _.toLower(this.templateConfig.language) : undefined);
+        const langJS = _.toLower(BOT_LANG_NAME_JAVASCRIPT);
+        const langTS = _.toLower(BOT_LANG_NAME_TYPESCRIPT);
+        if(!language || (language !== langJS && language !== langTS)) {
+            throw new Error('Must specify a programming language when using --noprompt argument.  Use --language or -L');
+        }
+
+        // make sure we have a supported template
+        const template = (this.templateConfig.template ? _.toLower(this.templateConfig.template) : undefined);
+        const tmplEmpty = _.toLower(BOT_TEMPLATE_NOPROMPT_EMPTY);
+        const tmplSimple = _.toLower(BOT_TEMPLATE_NOPROMPT_SIMPLE);
+        const tmplCore = _.toLower(BOT_TEMPLATE_NOPROMPT_CORE);
+        if (!template || (template !== tmplEmpty && template !== tmplSimple && template !== tmplCore)) {
+            throw new Error('Must specify a template when using --noprompt argument.  Use --template or -T');
+        }
+        // when run using --noprompt and we have all the required templateConfig, then set final confirmation to true
+        // so we can go forward and create the new bot without prompting the user for confirmation
+        this.templateConfig.finalConfirmation = true;
+    }
 };
