@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Configuration;
 
 namespace ProactiveBot.Controllers
 {
@@ -22,11 +22,11 @@ namespace ProactiveBot.Controllers
         private readonly string _appId;
         private readonly ConcurrentDictionary<string, ConversationReference> _conversationReferences;
 
-        public NotifyController(IBotFrameworkHttpAdapter adapter, ICredentialProvider credentials, ConcurrentDictionary<string, ConversationReference> conversationReferences)
+        public NotifyController(IBotFrameworkHttpAdapter adapter, IConfiguration configuration, ConcurrentDictionary<string, ConversationReference> conversationReferences)
         {
             _adapter = adapter;
             _conversationReferences = conversationReferences;
-            _appId = ((SimpleCredentialProvider)credentials).AppId;
+            _appId = configuration["MicrosoftAppId"];
 
             // If the channel is the Emulator, and authentication is not in use,
             // the AppId will be null.  We generate a random AppId for this case only.
