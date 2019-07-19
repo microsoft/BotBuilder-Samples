@@ -18,6 +18,9 @@
 # JS/ TS/ es6 env files
 /*/*.env
 
+# Ignore output from nyc
+/**/.nyc_output
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -275,3 +278,4 @@ generators/generator-botbuilder/.npmrc
 /samples/javascript_es6/01.a.browser-echo/dist
 /generators/generator-botbuilder/package-lock.json
 package-lock.json
+tsconfig.tsbuildinfo

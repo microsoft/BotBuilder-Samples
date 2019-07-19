@@ -1,4 +1,4 @@
-# core bot
+# CoreBot
 
 Bot Framework v4 core bot sample.
 
@@ -21,9 +21,17 @@ This bot uses [LUIS](https://www.luis.ai), an AI based cognitive service, to imp
 
 LUIS language model setup, training, and application configuration steps can be found [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=cs).
 
+If you wish to create a LUIS application via the CLI, these steps can be found in the [README-LUIS.md](README-LUIS.md).
+
 ## To try this sample
 
-- In a terminal, navigate to `samples/csharp_webapi/13.core-bot`
+- Clone the repository
+
+    ```bash
+    git clone https://github.com/microsoft/botbuilder-samples.git
+    ```
+
+- In explorer, navigate to `samples/csharp_webapi/13.core-bot`
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution

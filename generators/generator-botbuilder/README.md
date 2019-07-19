@@ -43,6 +43,7 @@ The Core Bot template consists of set of core features most every bot is likely 
 | [Multi-turn conversation support using Dialogs](https://docs.microsoft.com/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0) | The ability to manage conversations is an important part of the bot/user interation.  Bot Framework introduces the  concept of a Dialog to handle this conversational pattern.  Dialog objects process inbound Activities and generate outbound responses. The business logic of the bot runs either directly or indirectly within Dialog classes.  |
 | [Managing conversation state](https://docs.microsoft.com/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.0) | A key to good bot design is to track the context of a conversation, so that your bot remembers things like the answers to previous questions. |
 | [How to handle user-initiated interruptions](https://docs.microsoft.com/azure/bot-service/bot-builder-howto-handle-user-interrupt?view=azure-bot-service-4.0) | While you may think that your users will follow your defined conversation flow step by step, chances are good that they will change their minds or ask a question in the middle of the process instead of answering the question. Handling interruptions means making sure your bot is prepared to handle situations like this. |
+| [How to unit test a bot](https://aka.ms/cs-unit-test-docs) | Optionally, the Core Bot template can generate a corresponding test project that shows how to use the testing framework introduced in Bot Framework version 4.5.  The testing project provides a complete set of units tests for Core Bot.  It shows how to write unit tests to test the various features of Core Bot. To generate a corresponding test project for Core Bot, run the generator and answer `yes` when prompted to create a unit test project.  See below for an example of how to do this.  |
 
 #### Empty Bot Template
 
@@ -61,7 +62,7 @@ The Empty Bot template is the minimal skeleton code for a bot.  It provides a st
 | Use Dialogs to manage more in-depth conversations |  |  | X |
 | Manage conversation state |  |  | X |
 | Handle user interruptions |  |  | X |
-
+| Unit test a bot using Bot Framework Testing framework (optional) |  |  | X |
 
 ## Installation
 

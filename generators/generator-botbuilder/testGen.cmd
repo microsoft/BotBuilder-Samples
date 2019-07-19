@@ -3,7 +3,7 @@
 #
 # CLI Argument processing
 
- if [ $1 == 'help' ]
+if [ $1 == "help" ]
 then
     echo ''
     echo USAGE:  nocleanup : Do not delete generated bots.
@@ -77,11 +77,11 @@ echo linting my-core-bot-js
 npm run lint
 cd ..
 
-if [ $1 == 'nocleanup' ]
+if [ $1 == "nocleanup" ]
 then
-    echo '*************************************************************************'
+    echo '***************************************************************************'
     echo '** nocleanup option used.  you must manually clean up all generated bots **'
-    echo '*************************************************************************'
+    echo '***************************************************************************'
 else
     ## Clean up all the generated projects ##
     echo Cleaning up...

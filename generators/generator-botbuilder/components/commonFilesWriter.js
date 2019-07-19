@@ -10,88 +10,88 @@ const pkg = require('../package.json');
 /**
  * Create the folder for the generated bot code, if it doesn't exist
  *
- * @param {Generator} gen Yeoman's generator object
+ * @param {Generator} generator Yeoman's generator object
  * @param {String} directoryName root folder for the generated code
  */
-const makeProjectDirectory = (gen, directoryName) => {
-  gen.log(path.basename(gen.destinationPath()));
-  gen.log(directoryName);
-  if (path.basename(gen.destinationPath()) !== directoryName) {
-    gen.log(`Your bot should be in a directory named ${directoryName}\nI'll automatically create this folder.`);
+const makeProjectDirectory = (generator, directoryName) => {
+  generator.log(path.basename(generator.destinationPath()));
+  generator.log(directoryName);
+  if (path.basename(generator.destinationPath()) !== directoryName) {
+    generator.log(`Your bot should be in a directory named ${directoryName}\nI'll automatically create this folder.`);
     mkdirp.sync(directoryName);
-    gen.destinationRoot(gen.destinationPath(directoryName));
+    generator.destinationRoot(generator.destinationPath(directoryName));
   }
 }
 
 /**
  * Based on the template, write the files common across the given template options
  *
- * @param {Generator} gen Yeoman's generator object
+ * @param {Generator} generator Yeoman's generator object
  * @param {String} templatePath file path to write the generated code
  */
-// const writeCommonFiles = (gen, templatePath) => {
-module.exports.commonFilesWriter = (gen, templatePath) => {
-  const botname = gen.props.botname;
-  const extension = _.toLower(gen.props.language) === 'javascript' ? 'js' : 'ts';
+// const writeCommonFiles = (generator, templatePath) => {
+module.exports.commonFilesWriter = (generator, templatePath) => {
+  const botname = generator.templateConfig.botname;
+  const extension = _.toLower(generator.templateConfig.language) === 'javascript' ? 'js' : 'ts';
   const npmMain = extension === 'js' ? `index.js` : `./lib/index.js`;
 
 
   // ensure our project directory exists before we start writing files into it
-  makeProjectDirectory(gen, _.kebabCase(gen.props.botname));
+  makeProjectDirectory(generator, _.kebabCase(generator.templateConfig.botname));
 
   // write the project files common to all templates
   // do any text token processing where required
-  gen.fs.copyTpl(
-    gen.templatePath(path.join(templatePath, 'package.json.' + extension)),
-    gen.destinationPath('package.json'),
+  generator.fs.copyTpl(
+    generator.templatePath(path.join(templatePath, 'package.json.' + extension)),
+    generator.destinationPath('package.json'),
     {
-      botname: gen.props.botname,
-      botDescription: gen.props.description,
+      botname: generator.templateConfig.botname,
+      botDescription: generator.templateConfig.description,
       version: pkg.version,
       npmMain: npmMain
     }
   );
-  gen.fs.copy(
-    gen.templatePath(path.join(templatePath, '_gitignore')),
-    gen.destinationPath('.gitignore')
+  generator.fs.copy(
+    generator.templatePath(path.join(templatePath, '_gitignore')),
+    generator.destinationPath('.gitignore')
   );
 
   // gen a .env file that points to the botfile
-  gen.fs.copyTpl(
-    gen.templatePath(path.join(templatePath, '_env')),
-    gen.destinationPath('.env'),
+  generator.fs.copyTpl(
+    generator.templatePath(path.join(templatePath, '_env')),
+    generator.destinationPath('.env'),
     {
-      botFileName: gen.props.botname
+      botFileName: generator.templateConfig.botname
     }
   );
 
   // determine what language we are working in, TypeScript or JavaScript
   // and write language specific files now
   if (extension === 'ts') {
-    gen.fs.copy(
-      gen.templatePath(path.join(templatePath, 'tsconfig.json')),
-      gen.destinationPath('tsconfig.json')
+    generator.fs.copy(
+      generator.templatePath(path.join(templatePath, 'tsconfig.json')),
+      generator.destinationPath('tsconfig.json')
     );
-    gen.fs.copy(
-      gen.templatePath(path.join(templatePath, 'tslint.json')),
-      gen.destinationPath('tslint.json')
+    generator.fs.copy(
+      generator.templatePath(path.join(templatePath, 'tslint.json')),
+      generator.destinationPath('tslint.json')
     );
     srcReadmePath = path.join(templatePath, 'README.md.ts')
   } else {
-    gen.fs.copy(
-      gen.templatePath(path.join(templatePath, '_eslintrc.js')),
-      gen.destinationPath('.eslintrc.js')
+    generator.fs.copy(
+      generator.templatePath(path.join(templatePath, '_eslintrc.js')),
+      generator.destinationPath('.eslintrc.js')
     );
     srcReadmePath = path.join(templatePath, 'README.md.js')
   }
 
   // gen a readme with specifics to what was generated
-  gen.fs.copyTpl(
-    gen.templatePath(srcReadmePath),
-    gen.destinationPath('README.md'),
+  generator.fs.copyTpl(
+    generator.templatePath(srcReadmePath),
+    generator.destinationPath('README.md'),
     {
-      botname: gen.props.botname,
-      description: gen.props.description
+      botname: generator.templateConfig.botname,
+      description: generator.templateConfig.description
     }
   );
 
@@ -103,9 +103,9 @@ module.exports.commonFilesWriter = (gen, templatePath) => {
   ];
   mkdirp.sync(deploymentFolder);
   const sourcePath = path.join(templatePath, deploymentFolder);
-  const destinationPath = path.join(gen.destinationPath(), deploymentFolder);
+  const destinationPath = path.join(generator.destinationPath(), deploymentFolder);
   for(let cnt = 0; cnt < deploymentFiles.length; ++cnt) {
-    gen.fs.copy(
+    generator.fs.copy(
       path.join(sourcePath, deploymentFiles[cnt]),
       path.join(destinationPath, deploymentFiles[cnt]),
     );

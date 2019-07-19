@@ -12,8 +12,11 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "botbuilder-core": "^4.5.0",
-        "botframework-webchat": "^4.5.0"
+        "@babel/runtime": "^7.1.5",
+        "botbuilder-core": "^4.5.1",
+        "botframework-directlinejs": "~0.11.2",
+        "botframework-webchat": "4.5.0",
+        "core-js": "^3.0.1"
     },
     "devDependencies": {
         "@babel/cli": "^7.5.0",

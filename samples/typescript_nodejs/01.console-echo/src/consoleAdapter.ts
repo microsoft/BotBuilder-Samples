@@ -41,7 +41,7 @@ export class ConsoleAdapter extends BotAdapter {
             conversation:  { id: 'convo1', name: '', isGroup: false },
             serviceUrl: '',
             user: { id: 'user', name: 'User1' },
-            ...reference,
+            ...reference
         } as ConversationReference;
     }
 
@@ -82,10 +82,10 @@ export class ConsoleAdapter extends BotAdapter {
                     id: (this.nextId++).toString(),
                     text: line,
                     timestamp: new Date(),
-                    type: ActivityTypes.Message,
+                    type: ActivityTypes.Message
                 },
                 this.reference,
-                true,
+                true
             );
 
             // Create context and run middleware pipe
