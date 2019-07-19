@@ -3,16 +3,21 @@
 
 // index.js is used to setup and configure your bot
 
-// Import required pckages
+// Import required packages
 const path = require('path');
 const restify = require('restify');
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = require('botbuilder');
+const { BotFrameworkAdapter, ConversationState, InputHints, MemoryStorage, UserState } = require('botbuilder');
+const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer');
 
 // This bot's main dialog.
 const { DialogAndWelcomeBot } = require('./bots/dialogAndWelcomeBot');
 const { MainDialog } = require('./dialogs/mainDialog');
+
+// the bot's booking dialog
+const { BookingDialog } = require('./dialogs/bookingDialog');
+const BOOKING_DIALOG = 'bookingDialog';
 
 // Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -32,7 +37,8 @@ adapter.onTurnError = async (context, error) => {
     //       application insights.
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
-    await context.sendActivity(`Oops. Something went wrong!`);
+    const onTurnErrorMessage = `Sorry, it looks like something went wrong!`;
+    await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
     // Clear out state
     await conversationState.delete(context);
 };
@@ -48,29 +54,20 @@ const memoryStorage = new MemoryStorage();
 conversationState = new ConversationState(memoryStorage);
 userState = new UserState(memoryStorage);
 
-// CAUTION: You must ensure your product environment has the NODE_ENV set
-//          to use the Azure Blob storage or Azure Cosmos DB providers.
+// If configured, pass in the FlightBookingRecognizer.  (Defining it externally allows it to be mocked for tests)
+let luisRecognizer;
+const { LuisAppId, LuisAPIKey, LuisAPIHostName } = process.env;
+const luisConfig = { applicationId: LuisAppId, endpointKey: LuisAPIKey, endpoint: `https://${ LuisAPIHostName }` };
 
-// Add botbuilder-azure when using any Azure services.
-// const { BlobStorage } = require('botbuilder-azure');
-// // Get service configuration
-// const blobStorageConfig = botConfig.findServiceByNameOrId(STORAGE_CONFIGURATION_ID);
-// const blobStorage = new BlobStorage({
-//     containerName: (blobStorageConfig.container || DEFAULT_BOT_CONTAINER),
-//     storageAccountOrConnectionString: blobStorageConfig.connectionString,
-// });
-// conversationState = new ConversationState(blobStorage);
-// userState = new UserState(blobStorage);
-
-// Pass in a logger to the bot. For this sample, the logger is the console, but alternatives such as Application Insights and Event Hub exist for storing the logs of the bot.
-const logger = console;
+luisRecognizer = new FlightBookingRecognizer(luisConfig);
 
 // Create the main dialog.
-const dialog = new MainDialog(logger);
-const bot = new DialogAndWelcomeBot(conversationState, userState, dialog, logger);
+const bookingDialog = new BookingDialog(BOOKING_DIALOG);
+const dialog = new MainDialog(luisRecognizer, bookingDialog);
+const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
 
 // Create HTTP server
-let server = restify.createServer();
+const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
