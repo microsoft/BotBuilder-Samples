@@ -2,15 +2,15 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-let now = new Date();
-let today = formatDate(new Date());
-let tomorrow = formatDate(new Date().setDate(now.getDate() + 1));
+const now = new Date();
+const today = formatDate(new Date());
+const tomorrow = formatDate(new Date().setDate(now.getDate() + 1));
 
 function formatDate(date) {
-    let d = new Date(date);
+    const d = new Date(date);
     let month = '' + (d.getMonth() + 1);
     let day = '' + d.getDate();
-    let year = d.getFullYear();
+    const year = d.getFullYear();
 
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;

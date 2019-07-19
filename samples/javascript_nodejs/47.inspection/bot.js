@@ -3,7 +3,7 @@
 
 const { ActivityHandler } = require('botbuilder');
 
-class EchoBot extends ActivityHandler {
+class IntersectionBot extends ActivityHandler {
     constructor(conversationState, userState) {
         super();
         this.conversationState = conversationState;
@@ -12,10 +12,9 @@ class EchoBot extends ActivityHandler {
         this.userStateAccessor = this.userState.createProperty('test-user-state');
 
         this.onMessage(async (context, next) => {
-
             // get the state objects
-            var testConversationState = await this.conversationStateAccessor.get(context, { count: 0 });
-            var testUserState = await this.userStateAccessor.get(context, { count: 0 });
+            const testConversationState = await this.conversationStateAccessor.get(context, { count: 0 });
+            const testUserState = await this.userStateAccessor.get(context, { count: 0 });
 
             // print the current state to the reply to show we are incrementing it
             await context.sendActivity(`You said '${ context.activity.text }' conversation-state: ${ testConversationState.count } user-state: ${ testUserState.count }`);
@@ -50,4 +49,4 @@ class EchoBot extends ActivityHandler {
     }
 }
 
-module.exports.EchoBot = EchoBot;
+module.exports.IntersectionBot = IntersectionBot;

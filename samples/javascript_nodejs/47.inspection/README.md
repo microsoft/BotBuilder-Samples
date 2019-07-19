@@ -1,4 +1,4 @@
-# echo-bot
+# inspection bot
 
 Bot Framework v4 Inspection Middleware sample.
 
@@ -29,10 +29,10 @@ More details are available [here](https://github.com/microsoft/BotFramework-Emul
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_nodejs/02.echo-bot`
+- In a terminal, navigate to `samples/javascript_nodejs/47.inspection`
 
     ```bash
-    cd samples/javascript_nodejs/02.echo-bot
+    cd samples/javascript_nodejs/47.inspection
     ```
 
 - Install modules
