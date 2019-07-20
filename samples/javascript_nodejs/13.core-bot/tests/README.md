@@ -1,9 +1,9 @@
 ﻿
 # core-bot tests <!-- omit in toc -->
 
-Bot Framework v4 core bot tests sample.
+Bot Framework v4 core bot sample tests.
 
-This project uses the [botbuilder-testing](https://www.npmjs.com/package/botbuilder-testing) package and [mocha](https://github.com/mochajs/mocha) to create unit tests for the [core-bot](../../13.core-bot) bot.
+This project uses the [botbuilder-testing](https://www.npmjs.com/package/botbuilder-testing) package and [mocha](https://github.com/mochajs/mocha) to create unit tests for the bot.
 
 This project shows how to:
 
