@@ -2,6 +2,8 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+
+/* eslint-env node, mocha */
 const { DialogTestClient, DialogTestLogger } = require('botbuilder-testing');
 const { DateResolverDialog } = require('../../dialogs/dateResolverDialog');
 const assert = require('assert');
