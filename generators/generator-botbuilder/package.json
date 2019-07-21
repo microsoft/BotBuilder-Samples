@@ -24,7 +24,7 @@
     "dependencies": {
         "botbuilder": "~4.5.1",
         "chalk": "~2.4.2",
-        "lodash": "~4.17.11",
+        "lodash": "~4.17.15",
         "mkdirp": "^0.5.1",
         "yeoman-generator": "~3.2.0"
     }
