@@ -22,7 +22,7 @@
         "Microsoft AI"
     ],
     "dependencies": {
-        "botbuilder": "~4.5.0",
+        "botbuilder": "~4.5.1",
         "chalk": "~2.4.2",
         "lodash": "~4.17.11",
         "mkdirp": "^0.5.1",
