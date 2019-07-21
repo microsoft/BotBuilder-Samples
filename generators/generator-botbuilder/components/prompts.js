@@ -45,13 +45,21 @@ module.exports.configureCommandlineOptions = gen => {
     alias: 'L'
   });
 
-  let templateDesc = `The initial bot capabilities. (${BOT_TEMPLATE_NAME_EMPTY} | ${BOT_TEMPLATE_NAME_SIMPLE} | ${BOT_TEMPLATE_NAME_CORE})`;
+  const templateDesc = `The initial bot capabilities. (${BOT_TEMPLATE_NAME_EMPTY} | ${BOT_TEMPLATE_NAME_SIMPLE} | ${BOT_TEMPLATE_NAME_CORE})`;
   gen.option('template', {
     desc: templateDesc,
     type: String,
     default: BOT_TEMPLATE_NOPROMPT_SIMPLE,
     alias: 'T'
   });
+
+  gen.argument('addtests', {
+    desc: `Generate unit tests (${BOT_TEMPLATE_NAME_CORE} only).`,
+    type: Boolean,
+    required: false,
+    default: false
+  });
+
   gen.argument('noprompt', {
     desc: 'Do not prompt for any information or confirmation',
     type: Boolean,
@@ -162,12 +170,12 @@ module.exports.getPrompts = (generator) => {
           if(_.toLower(answer.template) === _.toLower(BOT_TEMPLATE_NOPROMPT_CORE)) {
             return generator.prompt({
               type: 'confirm',
-              name: 'testproject',
+              name: 'addtests',
               message: 'Would you like to include a unit test project to test your new bot?',
               default: true
             }).then(answer => {
-              // store the testproject prompt answer
-              generator.templateConfig.testproject = answer.testproject;
+              // store the addtests prompt answer
+              generator.templateConfig.addtests = answer.addtests;
             });
           }
         });

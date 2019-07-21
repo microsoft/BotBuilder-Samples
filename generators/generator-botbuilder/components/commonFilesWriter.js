@@ -31,7 +31,6 @@ const makeProjectDirectory = (generator, directoryName) => {
  */
 // const writeCommonFiles = (generator, templatePath) => {
 module.exports.commonFilesWriter = (generator, templatePath) => {
-  const botname = generator.templateConfig.botname;
   const extension = _.toLower(generator.templateConfig.language) === 'javascript' ? 'js' : 'ts';
   const npmMain = extension === 'js' ? `index.js` : `./lib/index.js`;
 
@@ -41,6 +40,7 @@ module.exports.commonFilesWriter = (generator, templatePath) => {
 
   // write the project files common to all templates
   // do any text token processing where required
+  // NOTE:  core bot with tests overwrites this file to add a npm test script command
   generator.fs.copyTpl(
     generator.templatePath(path.join(templatePath, 'package.json.' + extension)),
     generator.destinationPath('package.json'),
@@ -100,6 +100,8 @@ module.exports.commonFilesWriter = (generator, templatePath) => {
   const deploymentFiles = [
     'template-with-new-rg.json',
     'template-with-preexisting-rg.json',
+    'new-rg-parameters.json',
+    'preexisting-rg-parameters.json',
   ];
   mkdirp.sync(deploymentFolder);
   const sourcePath = path.join(templatePath, deploymentFolder);

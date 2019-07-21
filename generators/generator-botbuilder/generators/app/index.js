@@ -12,7 +12,6 @@ const { coreTemplateWriter } = require('../../components/coreTemplateWriter');
 const { echoTemplateWriter } = require('../../components/echoTemplateWriter');
 const { emptyTemplateWriter } = require('../../components/emptyTemplateWriter');
 const {
-    BOT_LANG_NAME_CSHARP,
     BOT_LANG_NAME_JAVASCRIPT,
     BOT_LANG_NAME_TYPESCRIPT,
     BOT_TEMPLATE_NAME_EMPTY,
@@ -76,10 +75,6 @@ module.exports = class extends Generator {
             case _.toLower(BOT_LANG_NAME_JAVASCRIPT):
             case _.toLower(BOT_LANG_NAME_TYPESCRIPT):
                 this._writeUsingScripting();
-            break;
-
-            case _.toLower(BOT_LANG_NAME_CSHARP):
-                this._writeUsingDotNet();
             break;
 
             default:
@@ -148,35 +143,11 @@ module.exports = class extends Generator {
         }
     }
 
-    _writeUsingDotNet() {
-        // figure out which dot net language template to write
-        const template = _.toLower(this.templateConfig.template);
-        switch(template) {
-            case _.toLower(BOT_TEMPLATE_NAME_EMPTY):
-                emptyTemplateWriterForDotNet(this);
-            break;
-
-            case _.toLower(BOT_TEMPLATE_NAME_SIMPLE):
-                echoTemplateWriterForDotNet(this);
-            break;
-
-            case _.toLower(BOT_TEMPLATE_NAME_CORE):
-                coreTemplateWriterForDotNet(this);
-            break;
-
-            default:
-                const errorMsg = `ERROR:  Unable to generate a new bot.  Invalid template: [${template}]`;
-                this.log(chalk.red(errorMsg));
-                throw new Error(errorMsg);
-            break;
-        }
-    }
-
     // if we're run with the --noprompt option, verify that
     // we were all passed in all required options.
     // return true for success, false for failure
     _verifyNoPromptOptions() {
-        this.templateConfig = _.pick(this.options, ['botname', 'description', 'language', 'template'])
+        this.templateConfig = _.pick(this.options, ['botname', 'description', 'language', 'template', 'addtests'])
 
         // validate we have what we need, or we'll need to throw
         if(!this.templateConfig.botname) {
@@ -202,7 +173,19 @@ module.exports = class extends Generator {
         if (!template || (template !== tmplEmpty && template !== tmplSimple && template !== tmplCore)) {
             throw new Error('Must specify a template when using --noprompt argument.  Use --template or -T');
         }
-        // when run using --noprompt and we have all the required templateConfig, then set final confirmation to true
+
+        // let's see if unit tests are requested
+        if(this.templateConfig.addtests) {
+            // so they're asking for tests, let's make sure they've specified the corebot template
+            // or else we have an invalid set of command line arguments.  unit tests are only available
+            // with the corebot template
+            if(template !== tmplCore) {
+                throw new Error('Invalid use of --addtests.  Can only be specified when using --template "core" or  -T "core" ');
+            }
+        } else {
+            this.templateConfig.addtests = false;
+        }
+            // when run using --noprompt and we have all the required templateConfig, then set final confirmation to true
         // so we can go forward and create the new bot without prompting the user for confirmation
         this.templateConfig.finalConfirmation = true;
     }

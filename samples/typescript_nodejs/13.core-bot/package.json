@@ -13,6 +13,25 @@
         "test": "tsc --build && nyc mocha lib/tests/**/*.test.js",
         "watch": "nodemon --watch ./src -e ts --exec \"npm run start\""
     },
+    "nyc": {
+        "extension": [
+            ".ts",
+            ".tsx"
+        ],
+        "exclude": [
+            "**/.eslintrc.js",
+            "**/*.d.ts",
+            "**/*.test.*",
+            "**/tests",
+            "**/coverage",
+            "**/deploymentScripts",
+            "**/src/index.ts"
+        ],
+        "reporter": [
+            "text"
+        ],
+        "all": true
+    },
     "dependencies": {
         "@microsoft/recognizers-text-data-types-timex-expression": "1.1.4",
         "botbuilder": "~4.5.1",

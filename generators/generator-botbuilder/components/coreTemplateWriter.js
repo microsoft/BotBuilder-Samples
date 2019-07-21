@@ -7,6 +7,7 @@ const path = require('path');
 
 const { commonFilesWriter } = require('./commonFilesWriter');
 const { BOT_TEMPLATE_NAME_CORE, BOT_TEMPLATE_NOPROMPT_CORE } = require('./constants');
+const pkg = require('../package.json');
 
 // generators/app/templates folder name
 const GENERATOR_TEMPLATE_NAME = 'core';
@@ -18,9 +19,32 @@ const LANG_TS = 'typescript';
  *
  * @param {String} language either 'javascript' or 'typescript'
  */
-const getFolders = language => {
+const _getSourceFolders = language => {
   if(!language || (_.toLower(language) !== LANG_JS && _.toLower(language) !== LANG_TS)) {
-    throw new Error(`coreTemplateWriter.getFolders called for invalid language: ${ language }`);
+    throw new Error(`coreTemplateWriter._getTargetFolders called for invalid language: ${ language }`);
+  }
+
+  // get the folder strucure, based on language
+  let folders = [
+    'bots',
+    'cognitiveModels',
+    'dialogs',
+    'resources',
+  ];
+  // if we're generating TypeScript, then we need a deploymentScripts folder
+  if(_.toLower(language) === LANG_TS) {
+    folders = folders.concat(['deploymentScripts']);
+  }
+  return folders;
+}
+
+/**
+ *
+ * @param {String} language either 'javascript' or 'typescript'
+ */
+const _getTargetFolders = language => {
+  if(!language || (_.toLower(language) !== LANG_JS && _.toLower(language) !== LANG_TS)) {
+    throw new Error(`coreTemplateWriter._getTargetFolders called for invalid language: ${ language }`);
   }
 
   let folders;
@@ -44,9 +68,178 @@ const getFolders = language => {
 }
 
 /**
+ *
+ * @param {String} language either 'javascript' or 'typescript'
+ */
+const _getSourceTestFolders = language => {
+  const lang = _.toLower(language);
+  if(!lang || (lang !== LANG_JS && lang !== LANG_TS)) {
+    throw new Error(`coreTemplateWriter._getTargetFolders called for invalid language: ${ language }`);
+  }
+
+  // get the folder strucure, based on language
+  const folders = [
+    'tests',
+    path.join('tests', 'bots'),
+    path.join('tests', 'dialogs'),
+    path.join('tests', 'dialogs', 'testData'),
+    path.join('tests', 'dialogs', 'testData'),
+  ];
+  return folders;
+}
+
+/**
+ *
+ * @param {String} language either 'javascript' or 'typescript'
+ */
+const _getTargetTestFolders = language => {
+  const lang = _.toLower(language);
+  if(!lang || (lang !== LANG_JS && lang !== LANG_TS)) {
+    throw new Error(`coreTemplateWriter._getTargetTestFolders called for invalid language: ${ language }`);
+  }
+
+  let folders;
+  if(_.toLower(language) === LANG_TS) {
+    folders = [
+      path.join('src', 'tests'),
+      path.join('src', 'tests', 'bots'),
+      path.join('src', 'tests', 'dialogs'),
+      path.join('src', 'tests', 'dialogs', 'testData'),
+      'testResources',
+    ];
+  } else {
+    folders = [
+      'tests',
+      path.join('tests', 'bots'),
+      path.join('tests', 'dialogs'),
+      path.join('tests', 'dialogs', 'testData'),
+      path.join('tests', 'dialogs', 'testData'),
+    ];
+  }
+  return folders;
+}
+
+/**
  * Write the files that are specific to the core bot template
  *
- * @param {Generator} gen Yeoman's generator object
+ * @param {Generator} generator Yeoman's generator object
+ * @param {String} templatePath file path to write the generated code
+ */
+const writeCoreTemplateTestFiles = (generator, templatePath) => {
+  // lets validate that we should be called
+  if(generator.templateConfig.addtests !== true) {
+    throw new Error(`writeCoreTemplateTestFiles called when 'addtests' flag is false: ${ generator.templateConfig.addtests }`);
+  }
+  // declare some constants that map to srcFolder and destFolder array offsets
+  const TEST_FOLDER = 0;
+  const BOTS_TEST_FOLDER = 1;
+  const DIALOGS_TEST_FOLDER = 2;
+  const DIALOGS_TESTDATA_FOLDER = 3;
+  const DIALOGS_TESTDATA_JSON_FOLDER = 4;
+
+  // get the folder strucure, based on language
+  const srcFolders = _getSourceTestFolders(_.toLower(generator.templateConfig.language));
+  const destFolders = _getTargetTestFolders(_.toLower(generator.templateConfig.language));
+
+  const extension = _.toLower(generator.templateConfig.language) === 'javascript' ? 'js' : 'ts';
+
+  // create the core bot tests folder structure
+  for (let cnt = 0; cnt < destFolders.length; ++cnt) {
+    mkdirp.sync(destFolders[cnt]);
+  }
+
+  // overwrite the commonFilesWriter version as we want to version that has
+  // the npm test script command `npm test'
+  generator.fs.copyTpl(
+    generator.templatePath(path.join(templatePath, 'package-with-tests.json.' + extension)),
+    generator.destinationPath('package.json'),
+    {
+      botname: generator.templateConfig.botname,
+      botDescription: generator.templateConfig.description,
+      version: pkg.version,
+      npmMain: (extension === 'js' ? `index.js` : `./lib/index.js`)
+    }
+  );
+
+
+
+  // write out the test folder's README.md file
+  let sourcePath = path.join(templatePath, srcFolders[TEST_FOLDER]);
+  let destinationPath = path.join(generator.destinationPath(), destFolders[TEST_FOLDER]);
+  generator.fs.copyTpl(
+    path.join(sourcePath, 'README.md'),
+    path.join(destinationPath, 'README.md'),
+    {
+      botname: generator.templateConfig.botname
+    }
+  );
+
+  // write out the bots test folder
+  sourcePath = path.join(templatePath, srcFolders[BOTS_TEST_FOLDER]);
+  destinationPath = path.join(generator.destinationPath(), destFolders[BOTS_TEST_FOLDER]);
+  generator.fs.copy(
+    path.join(sourcePath, `dialogAndWelcomeBot.test.${extension}`),
+    path.join(destinationPath, `dialogAndWelcomeBot.test.${extension}`)
+  );
+
+  // write out the dialogs test folder
+  sourcePath = path.join(templatePath, srcFolders[DIALOGS_TEST_FOLDER]);
+  destinationPath = path.join(generator.destinationPath(), destFolders[DIALOGS_TEST_FOLDER]);
+  generator.fs.copy(
+    path.join(sourcePath, `bookingDialog.test.${extension}`),
+    path.join(destinationPath, `bookingDialog.test.${extension}`)
+  );
+  generator.fs.copy(
+    path.join(sourcePath, `cancelAndHelpDialog.test.${extension}`),
+    path.join(destinationPath, `cancelAndHelpDialog.test.${extension}`)
+  );
+  generator.fs.copy(
+    path.join(sourcePath, `dateResolverDialog.test.${extension}`),
+    path.join(destinationPath, `dateResolverDialog.test.${extension}`)
+  );
+  generator.fs.copy(
+    path.join(sourcePath, `mainDialog.test.${extension}`),
+    path.join(destinationPath, `mainDialog.test.${extension}`)
+  );
+
+  // write out the dialogs testData folder (treat .json files separately)
+  sourcePath = path.join(templatePath, srcFolders[DIALOGS_TESTDATA_FOLDER]);
+  destinationPath = path.join(generator.destinationPath(), destFolders[DIALOGS_TESTDATA_FOLDER]);
+  generator.fs.copy(
+      path.join(sourcePath, `bookingDialogTestCases.${extension}`),
+      path.join(destinationPath, `bookingDialogTestCases.${extension}`)
+  );
+  generator.fs.copy(
+    path.join(sourcePath, `dateResolverTestCases.${extension}`),
+    path.join(destinationPath, `dateResolverTestCases.${extension}`)
+  );
+
+  // write out the dialogs testData folder (treat .json files separately)
+  // tsc won't copy these where I want them, so we move them up to a root folder
+  sourcePath = path.join(templatePath, srcFolders[DIALOGS_TESTDATA_JSON_FOLDER]);
+  destinationPath = path.join(generator.destinationPath(), destFolders[DIALOGS_TESTDATA_JSON_FOLDER]);
+  generator.fs.copy(
+    path.join(sourcePath, 'FlightFromCdgToJfk.json'),
+    path.join(destinationPath, 'FlightFromCdgToJfk.json')
+  );
+  generator.fs.copy(
+    path.join(sourcePath, 'FlightFromMadridToChicago.json'),
+    path.join(destinationPath, 'FlightFromMadridToChicago.json')
+  );
+  generator.fs.copy(
+    path.join(sourcePath, 'FlightFromParisToNewYork.json'),
+    path.join(destinationPath, 'FlightFromParisToNewYork.json')
+  );
+  generator.fs.copy(
+    path.join(sourcePath, 'FlightToMadrid.json'),
+    path.join(destinationPath, 'FlightToMadrid.json')
+  );
+}
+
+/**
+ * Write the files that are specific to the core bot template
+ *
+ * @param {Generator} generator Yeoman's generator object
  * @param {String} templatePath file path to write the generated code
  */
 const writeCoreTemplateFiles = (generator, templatePath) => {
@@ -58,24 +251,11 @@ const writeCoreTemplateFiles = (generator, templatePath) => {
   const TS_SRC_FOLDER = 'src';
 
   // get the folder strucure, based on language
-  let srcFolders = [
-    'bots',
-    'cognitiveModels',
-    'dialogs',
-    'resources',
-  ];
-  // if we're generating TypeScript, then we need a deploymentScripts folder
-  if(_.toLower(generator.templateConfig.language) === LANG_TS) {
-    srcFolders = srcFolders.concat(['deploymentScripts']);
-  }
-
-  const destFolders = getFolders(_.toLower(generator.templateConfig.language));
+  const srcFolders = _getSourceFolders(_.toLower(generator.templateConfig.language), generator.options.addtests);
+  const destFolders = _getTargetFolders(_.toLower(generator.templateConfig.language), generator.options.addtests);
 
   const extension = _.toLower(generator.templateConfig.language) === 'javascript' ? 'js' : 'ts';
   const srcFolder = _.toLower(generator.templateConfig.language) === 'javascript' ? '' : TS_SRC_FOLDER;
-  // if we're generating JS, then keep the json extension
-  // if we're generating TS, then we need the extension to be js or tsc will complain (tsc v3.1.6)
-  const cardExtension = _.toLower(generator.templateConfig.language) === 'javascript' ? 'json' : 'js';
 
   // create the core bot folder structure
   for (let cnt = 0; cnt < destFolders.length; ++cnt) {
@@ -165,6 +345,11 @@ const writeCoreTemplateFiles = (generator, templatePath) => {
       botname: generator.templateConfig.botname
     }
   );
+
+  // if asked to write out unit tests, then let's have a go at it
+  if(generator.options.addtests) {
+    writeCoreTemplateTestFiles(generator, templatePath);
+  }
 }
 
 /**
@@ -186,4 +371,9 @@ module.exports.coreTemplateWriter = generator => {
 
   // write files specific to the core bot template
   writeCoreTemplateFiles(generator, templatePath);
+
+  // write out unit tests if asked to do so
+  if(generator.templateConfig.addtests === true) {
+    writeCoreTemplateTestFiles(generator, templatePath);
+  }
 }

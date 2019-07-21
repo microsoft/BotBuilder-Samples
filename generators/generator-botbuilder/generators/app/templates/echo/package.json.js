@@ -16,17 +16,17 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "~4.5.0",
-        "dotenv": "^7.0.0",
-        "restify": "~8.2.0"
+        "botbuilder": "~4.5.1",
+        "dotenv": "~8.0.0",
+        "restify": "~8.3.3"
     },
     "devDependencies": {
-        "eslint": "^5.13.0",
-        "eslint-config-standard": "^12.0.0",
-        "eslint-plugin-import": "^2.16.0",
-        "eslint-plugin-node": "^8.0.1",
-        "eslint-plugin-promise": "^4.0.1",
+        "eslint": "^6.0.1",
+        "eslint-config-standard": "^13.0.1",
+        "eslint-plugin-import": "^2.18.2",
+        "eslint-plugin-node": "^9.1.0",
+        "eslint-plugin-promise": "^4.2.1",
         "eslint-plugin-standard": "^4.0.0",
-        "nodemon": "^1.18.10"
+        "nodemon": "~1.19.1"
     }
 }
