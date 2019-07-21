@@ -171,7 +171,7 @@ module.exports.getPrompts = (generator) => {
             return generator.prompt({
               type: 'confirm',
               name: 'addtests',
-              message: 'Would you like to include a unit test project to test your new bot?',
+              message: 'Would you like to add unit tests to test your new bot?',
               default: true
             }).then(answer => {
               // store the addtests prompt answer
