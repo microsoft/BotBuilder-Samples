@@ -1,6 +1,6 @@
 ﻿# teams-auth bot
 
-Bot Framework v4 bot using Teams authentication sample
+Bot Framework v4 bot using Teams authentication
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to get started with building a bot for Teams.
 
