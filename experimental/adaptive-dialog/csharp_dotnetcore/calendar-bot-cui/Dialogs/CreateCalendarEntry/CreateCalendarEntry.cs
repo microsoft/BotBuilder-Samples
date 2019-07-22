@@ -11,6 +11,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 
@@ -36,11 +37,27 @@ namespace Microsoft.BotBuilderSamples
                 {
 
                     new BeginDialog(nameof(OAuthPromptDialog)),
-                    //new SetProperty()
-                    //{
-                    //    Value = 
-                    //    p
-                    //},
+                    new SetProperty()
+                    {
+                        Value = "@FromTime",
+                        Property = "dialog.CreateCalendarEntry_FromTime"
+                    },
+                    new SetProperty(){
+                        Value = "@ToTime",
+                        Property = "dialog.CreateCalendarEntry_ToTime"
+                    },
+                    new SetProperty(){
+                        Value = "@Location",
+                        Property = "dialog.CreateCalendarEntry_Location"
+                    },
+                    new SetProperty(){
+                        Value = "@Subject",
+                        Property = "dialog.CreateCalendarEntry_Subject"
+                    },
+                    new SetProperty(){ // if not null, then will not ask add another one until no
+                        Value = "@personName",
+                        Property = "dialog.CreateCalendarEntry_PersonName"
+                    },
                     new TextInput()
                     {
                         Property = "dialog.CreateCalendarEntry_PersonName",
@@ -91,7 +108,7 @@ namespace Microsoft.BotBuilderSamples
                             {
                                 Property = "turn.CreateCalendarEntry_Choice"
                             },
-                            new ChoiceInput(){//DEBUG why style different from FindCAlendarEntry
+                            new ChoiceInput(){
                                 Property = "turn.CreateCalendarEntry_Choice",
                                 Prompt = new ActivityTemplate("[EnterYourChoice]"),
                                 Choices = new List<Choice>()
@@ -203,10 +220,6 @@ namespace Microsoft.BotBuilderSamples
                         Prompt = new ActivityTemplate("[GetLocation]")
                     },
                     new SendActivity("[CreateCalendarDetailedEntryReadBack]"),
-                    //new DeleteProperty
-                    //{
-                    //    Property = "turn.CreateCalendarEntry_ConfirmChoice"
-                    //},
                     new ConfirmInput(){
                         Property = "turn.CreateCalendarEntry_ConfirmChoice",
                         Prompt = new ActivityTemplate("Is Your Information Correct?"),
@@ -224,14 +237,15 @@ namespace Microsoft.BotBuilderSamples
                                 Url = "https://graph.microsoft.com/v1.0/me/events",
                                 Headers =  new Dictionary<string, string>(){
                                     ["Authorization"] = "Bearer {user.token.Token}",
-                                },
+                                },// TODO get local time zone is not avaliable, therefore, time zone is hardcoded
                                 Body = JObject.Parse(@"{
                                     'subject': '{dialog.CreateCalendarEntry_Subject}',
                                     'attendees': [
                                         {
-                                        'emailAddress': {
-                                            'address': '{dialog.finalContact}'
-                                        }
+                                            'emailAddress':
+                                            {
+                                                'address': '{dialog.finalContact}'
+                                            }
                                         }
                                     ],
                                     'location': {
