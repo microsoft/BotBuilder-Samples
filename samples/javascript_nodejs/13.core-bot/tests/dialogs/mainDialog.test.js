@@ -84,7 +84,7 @@ describe('MainDialog', () => {
         const client = new DialogTestClient('test', sut, null, [new DialogTestLogger()]);
 
         const reply = await client.sendActivity('hi');
-        assert.strictEqual(reply.text, 'What can I help you with today?', 'Did not show prompt');
+        assert.strictEqual(reply.text, 'What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on March 22, 2020"', 'Did not show prompt');
     });
 
     describe('Invokes tasks based on LUIS intent', () => {
@@ -107,7 +107,7 @@ describe('MainDialog', () => {
                 // Execute the test case
                 console.log(`Test Case: ${ testData.intent }`);
                 let reply = await client.sendActivity('Hi');
-                assert.strictEqual(reply.text, 'What can I help you with today?');
+                assert.strictEqual(reply.text, 'What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on March 22, 2020"');
 
                 reply = await client.sendActivity(testData.utterance);
                 assert.strictEqual(reply.text, testData.invokedDialogResponse);
@@ -146,7 +146,7 @@ describe('MainDialog', () => {
                 // Execute the test case
                 console.log(`Test Case: ${ mockLuisResult.text }`);
                 let reply = await client.sendActivity('Hi');
-                assert.strictEqual(reply.text, 'What can I help you with today?');
+                assert.strictEqual(reply.text, 'What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on March 22, 2020"');
 
                 reply = await client.sendActivity(mockLuisResult.text);
                 assert.strictEqual(reply.text, testData.expectedMessage);
