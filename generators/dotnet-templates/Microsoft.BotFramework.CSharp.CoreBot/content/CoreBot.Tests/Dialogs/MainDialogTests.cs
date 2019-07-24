@@ -86,7 +86,7 @@ namespace CoreBot.Tests.Dialogs
 
             // Act/Assert
             var reply = await testClient.SendActivityAsync<IMessageActivity>("hi");
-            Assert.Equal("What can I help you with today?", reply.Text);
+            Assert.Equal("What can I help you with today?\nSay something like \"Book a flight from Paris to Berlin on March 22, 2020\"", reply.Text);
         }
 
         [Theory]
@@ -113,7 +113,7 @@ namespace CoreBot.Tests.Dialogs
             // Execute the test case
             Output.WriteLine($"Test Case: {intent}");
             var reply = await testClient.SendActivityAsync<IMessageActivity>("hi");
-            Assert.Equal("What can I help you with today?", reply.Text);
+            Assert.Equal("What can I help you with today?\nSay something like \"Book a flight from Paris to Berlin on March 22, 2020\"", reply.Text);
 
             reply = await testClient.SendActivityAsync<IMessageActivity>(utterance);
             Assert.Equal(invokedDialogResponse, reply.Text);
@@ -151,7 +151,7 @@ namespace CoreBot.Tests.Dialogs
             // Execute the test case
             Output.WriteLine($"Test Case: {mockLuisResult.Text}");
             var reply = await testClient.SendActivityAsync<IMessageActivity>("hi");
-            Assert.Equal("What can I help you with today?", reply.Text);
+            Assert.Equal("What can I help you with today?\nSay something like \"Book a flight from Paris to Berlin on March 22, 2020\"", reply.Text);
 
             reply = await testClient.SendActivityAsync<IMessageActivity>(mockLuisResult.Text);
             Assert.Equal(expectedMessage, reply.Text);
