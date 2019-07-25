@@ -5,7 +5,7 @@
     </Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>Bot Framework</ProjectSubType>
-    <SortOrder>1811</SortOrder>
+    <SortOrder>1820</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>CoreBot</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
@@ -19,7 +19,7 @@
     <PlatformTag>Windows</PlatformTag>
     <PlatformTag>macOS</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
-    <ProjectTypeTag>Service</ProjectTypeTag>
+    <ProjectTypeTag>AI Bots</ProjectTypeTag>
   </TemplateData>
   <TemplateContent>
     <CustomParameters>

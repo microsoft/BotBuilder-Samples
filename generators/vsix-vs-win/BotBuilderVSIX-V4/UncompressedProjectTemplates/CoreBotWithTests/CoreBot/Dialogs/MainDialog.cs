@@ -14,9 +14,10 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
-using $safeprojectname$.CognitiveModels;
+using CoreBot.CognitiveModels;
 
-namespace $safeprojectname$.Dialogs
+// namespace $safeprojectname$.Dialogs
+namespace CoreBot.Dialogs
 {
     public class MainDialog : ComponentDialog
     {

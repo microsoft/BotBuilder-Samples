@@ -19,7 +19,7 @@
     <PlatformTag>Windows</PlatformTag>
     <PlatformTag>macOS</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
-    <ProjectTypeTag>Service</ProjectTypeTag>
+    <ProjectTypeTag>AI Bots</ProjectTypeTag>
   </TemplateData>
   <TemplateContent>
     <CustomParameters>

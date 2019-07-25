@@ -23,6 +23,7 @@ There are three different template options.  The table below can help guide whic
 | -------- | -------- |
 | Echo&nbsp;Bot  | You are new to Bot Framework v4 and want a working bot with minimal features. |
 | Core&nbsp;Bot | You understand some of the core concepts of Bot Framework v4 and are beyond the concepts introduced in the Echo Bot template.  You're familiar with or are ready to learn concepts such as language understanding using LUIS, managing multi-turn conversations with Dialogs, handling user initiated Dialog interruptions, and using Adaptive Cards to welcome your users. |
+| Core&nbsp;Bot&nbsp;with&nbsp;Tests | The Core Bot template plus a unit test project using the Bot Framework test framework introduced in version 4.5 of Bot Framework. |
 | Empty&nbsp;Bot | You are a seasoned Bot Framework v4 developer.  You've built bots before, and want the minimum skeleton of a bot to help you get started. |
 
 ### Template Overview
@@ -43,6 +44,7 @@ The Core Bot template consists of set of core features most every bot is likely 
 | [Multi-turn conversation support using Dialogs](https://docs.microsoft.com/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0) | The ability to manage conversations is an important part of the bot/user interation.  Bot Framework introduces the  concept of a Dialog to handle this conversational pattern.  Dialog objects process inbound Activities and generate outbound responses. The business logic of the bot runs either directly or indirectly within Dialog classes.  |
 | [Managing conversation state](https://docs.microsoft.com/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.0) | A key to good bot design is to track the context of a conversation, so that your bot remembers things like the answers to previous questions. |
 | [How to handle user-initiated interruptions](https://docs.microsoft.com/azure/bot-service/bot-builder-howto-handle-user-interrupt?view=azure-bot-service-4.0) | While you may think that your users will follow your defined conversation flow step by step, chances are good that they will change their minds or ask a question in the middle of the process instead of answering the question. Handling interruptions means making sure your bot is prepared to handle situations like this. |
+| [How to unit test a bot](https://aka.ms/cs-unit-test-docs) | Optionally, the _Core Bot with Tests_ template can generate a corresponding test project that shows how to use the testing framework introduced in Bot Framework version 4.5.  The testing project provides a complete set of units tests for Core Bot.  It shows how to write unit tests to test the various features of Core Bot. |
 
 #### Empty Bot Template
 
@@ -50,17 +52,18 @@ The Empty Bot template is the minimal skeleton code for a bot.  It provides a st
 
 ## Features by Template
 
-|  Feature  |  Empty&nbsp;Bot  |  Echo&nbsp;Bot   |  Core&nbsp;Bot  |
-| --------- | :-----: | :-----: | :-----: |
-| Generate code in JavaScript or TypesScript | X | X | X |
-| Support local development and testing using the [Bot Framework Emulator v4](https://www.github.com/microsoft/botframework-emulator) | X | X | X |
-| Core bot message processing |  | X | X |
-| Deploy your bot to Microsoft Azure |  | X | X |
-| Welcome new users using Adaptive Card technology |  |  | X |
-| Support AI-based greetings using [LUIS](https://www.luis.ai) |  |  | X |
-| Use Dialogs to manage more in-depth conversations |  |  | X |
-| Manage conversation state |  |  | X |
-| Handle user interruptions |  |  | X |
+|  Feature  |  Empty&nbsp;Bot  |  Echo&nbsp;Bot   |  Core&nbsp;Bot  |  Core&nbsp;Bot&nbsp;with&nbsp;Tests  |
+| --------- | :-----: | :-----: | :-----: | :-----: |
+| Generate code in JavaScript or TypesScript | X | X | X | X |
+| Support local development and testing using the [Bot Framework Emulator v4](https://www.github.com/microsoft/botframework-emulator) | X | X | X | X |
+| Core bot message processing |  | X | X | X |
+| Deploy your bot to Microsoft Azure |  | X | X | X |
+| Welcome new users using Adaptive Card technology |  |  | X | X |
+| Support AI-based greetings using [LUIS](https://www.luis.ai) |  |  | X | X |
+| Use Dialogs to manage more in-depth conversations |  |  | X | X |
+| Manage conversation state |  |  | X | X |
+| Handle user interruptions |  |  | X | X |
+| Unit test a bot using Bot Framework Testing framework |  |  |  | X |
 
 ## Installation
 
