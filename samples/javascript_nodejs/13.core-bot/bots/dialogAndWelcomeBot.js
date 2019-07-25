@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { CardFactory } = require('botbuilder-core');
+const { CardFactory } = require('botbuilder');
 const { DialogBot } = require('./dialogBot');
 const WelcomeCard = require('./resources/welcomeCard.json');
 
@@ -15,6 +15,7 @@ class DialogAndWelcomeBot extends DialogBot {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
                     const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);
                     await context.sendActivity({ attachments: [welcomeCard] });
+                    await dialog.run(context, conversationState.createProperty('DialogState'));
                 }
             }
 

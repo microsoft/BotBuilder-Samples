@@ -10,7 +10,7 @@ Comments are prefixed with '>' character. All lines that have this prefix will b
 > this is a comment.
 ```
 ## Escape character
-- Use '\' as escape character. E.g. "You can say cheese and tomato \[toppings are optional\]"
+- Use '\\' as escape character. E.g. "You can say cheese and tomato \\[toppings are optional\\]"
 
 ## Template 
 At the core of rule based LG is the concept of a template. Each template has a 

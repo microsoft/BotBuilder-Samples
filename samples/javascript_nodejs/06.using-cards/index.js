@@ -37,21 +37,20 @@ adapter.onTurnError = async (context, error) => {
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
 // A bot requires a state store to persist the dialog and user state between messages.
-let conversationState, userState;
 
 // For local development, in-memory storage is used.
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone.
 const memoryStorage = new MemoryStorage();
-conversationState = new ConversationState(memoryStorage);
-userState = new UserState(memoryStorage);
+const conversationState = new ConversationState(memoryStorage);
+const userState = new UserState(memoryStorage);
 
 // Create the main dialog.
 const dialog = new MainDialog();
 const bot = new RichCardsBot(conversationState, userState, dialog);
 
 // Create HTTP server.
-let server = restify.createServer();
+const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }.`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);

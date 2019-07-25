@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { InputHints } from 'botbuilder';
 import { ComponentDialog, DialogContext, DialogTurnResult, DialogTurnStatus } from 'botbuilder-dialogs';
 
 /**
@@ -12,14 +13,6 @@ export class CancelAndHelpDialog extends ComponentDialog {
         super(id);
     }
 
-    public async onBeginDialog(innerDc: DialogContext, options: any): Promise<DialogTurnResult> {
-        const result = await this.interrupt(innerDc);
-        if (result) {
-            return result;
-        }
-        return await super.onBeginDialog(innerDc, options);
-    }
-
     public async onContinueDialog(innerDc: DialogContext): Promise<DialogTurnResult> {
         const result = await this.interrupt(innerDc);
         if (result) {
@@ -29,19 +22,21 @@ export class CancelAndHelpDialog extends ComponentDialog {
     }
 
     private async interrupt(innerDc: DialogContext): Promise<DialogTurnResult|undefined> {
-        const text = innerDc.context.activity.text.toLowerCase();
+        if (innerDc.context.activity.text) {
+            const text = innerDc.context.activity.text.toLowerCase();
 
-        switch (text) {
-            case 'help':
-            case '?':
-                await innerDc.context.sendActivity('[ This is where to send sample help to the user... ]');
-                return { status: DialogTurnStatus.waiting };
-            case 'cancel':
-            case 'quit':
-                await innerDc.context.sendActivity('Cancelling');
-                return await innerDc.cancelAllDialogs();
+            switch (text) {
+                case 'help':
+                case '?':
+                    const helpMessageText = 'Show help here';
+                    await innerDc.context.sendActivity(helpMessageText, helpMessageText, InputHints.ExpectingInput);
+                    return { status: DialogTurnStatus.waiting };
+                case 'cancel':
+                case 'quit':
+                    const cancelMessageText = 'Cancelling...';
+                    await innerDc.context.sendActivity(cancelMessageText, cancelMessageText, InputHints.IgnoringInput);
+                    return await innerDc.cancelAllDialogs();
+            }
         }
-
-        return;
     }
 }

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+const { InputHints, MessageFactory } = require('botbuilder');
 const { DateTimePrompt, WaterfallDialog } = require('botbuilder-dialogs');
 const { CancelAndHelpDialog } = require('./cancelAndHelpDialog');
 const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
@@ -23,26 +24,27 @@ class DateResolverDialog extends CancelAndHelpDialog {
     async initialStep(stepContext) {
         const timex = stepContext.options.date;
 
-        const promptMsg = 'On what date would you like to travel?';
-        const repromptMsg = "I'm sorry, for best results, please enter your travel date including the month, day and year.";
+        const promptMessageText = 'On what date would you like to travel?';
+        const promptMessage = MessageFactory.text(promptMessageText, promptMessageText, InputHints.ExpectingInput);
+
+        const repromptMessageText = "I'm sorry, for best results, please enter your travel date including the month, day and year.";
+        const repromptMessage = MessageFactory.text(repromptMessageText, repromptMessageText, InputHints.ExpectingInput);
 
         if (!timex) {
             // We were not given any date at all so prompt the user.
             return await stepContext.prompt(DATETIME_PROMPT,
                 {
-                    prompt: promptMsg,
-                    retryPrompt: repromptMsg
+                    prompt: promptMessage,
+                    retryPrompt: repromptMessage
                 });
-        } else {
-            // We have a Date we just need to check it is unambiguous.
-            const timexProperty = new TimexProperty(timex);
-            if (!timexProperty.types.has('definite')) {
-                // This is essentially a "reprompt" of the data we were given up front.
-                return await stepContext.prompt(DATETIME_PROMPT, { prompt: repromptMsg });
-            } else {
-                return await stepContext.next({ timex: timex });
-            }
         }
+        // We have a Date we just need to check it is unambiguous.
+        const timexProperty = new TimexProperty(timex);
+        if (!timexProperty.types.has('definite')) {
+            // This is essentially a "reprompt" of the data we were given up front.
+            return await stepContext.prompt(DATETIME_PROMPT, { prompt: repromptMessage });
+        }
+        return await stepContext.next([{ timex: timex }]);
     }
 
     async finalStep(stepContext) {
@@ -59,9 +61,8 @@ class DateResolverDialog extends CancelAndHelpDialog {
             // If this is a definite Date including year, month and day we are good otherwise reprompt.
             // A better solution might be to let the user know what part is actually missing.
             return new TimexProperty(timex).types.has('definite');
-        } else {
-            return false;
         }
+        return false;
     }
 }
 

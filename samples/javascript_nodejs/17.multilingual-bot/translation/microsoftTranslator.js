@@ -7,6 +7,7 @@ class MicrosoftTranslator {
     constructor(translatorKey) {
         this.key = translatorKey;
     }
+
     /**
    * Helper method to translate text to a specified language.
    * @param {string} text Text that will be translated
@@ -23,7 +24,7 @@ class MicrosoftTranslator {
 
         return fetch(url, {
             method: 'POST',
-            body: JSON.stringify([{ 'Text': text }]),
+            body: JSON.stringify([{ Text: text }]),
             headers: {
                 'Content-Type': 'application/json',
                 'Ocp-Apim-Subscription-Key': this.key
