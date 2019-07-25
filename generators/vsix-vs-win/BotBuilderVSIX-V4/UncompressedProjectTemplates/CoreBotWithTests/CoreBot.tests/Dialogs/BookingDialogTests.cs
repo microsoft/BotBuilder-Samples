@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 using System.Threading.Tasks;
-using CoreBot.Tests.Common;
-using CoreBot.Tests.Dialogs.TestData;
+using $ext_safeprojectname$.Tests.Common;
+using $ext_safeprojectname$.Tests.Dialogs.TestData;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Testing;
@@ -13,10 +13,10 @@ using Microsoft.Bot.Schema;
 using Xunit;
 using Xunit.Abstractions;
 
-using CoreBot;
-using CoreBot.Dialogs;
+using $ext_safeprojectname$;
+using $ext_safeprojectname$.Dialogs;
 
-namespace CoreBot.Tests.Dialogs
+namespace $ext_safeprojectname$.Tests.Dialogs
 {
     public class BookingDialogTests : BotTestBase
     {

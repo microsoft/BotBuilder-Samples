@@ -7,8 +7,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Extensions.Configuration;
 
-// namespace $safeprojectname$
-namespace CoreBot
+namespace $ext_safeprojectname$
 {
     public class FlightBookingRecognizer : IRecognizer
     {

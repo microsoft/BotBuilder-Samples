@@ -13,8 +13,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-// namespace $safeprojectname$.Bots
-namespace CoreBot.Bots
+namespace $ext_safeprojectname$.Bots
 {
     public class DialogAndWelcomeBot<T> : DialogBot<T>
         where T : Dialog

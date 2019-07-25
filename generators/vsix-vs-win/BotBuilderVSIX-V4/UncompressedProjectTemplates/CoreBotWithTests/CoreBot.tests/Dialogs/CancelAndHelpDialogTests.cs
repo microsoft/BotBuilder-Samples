@@ -4,7 +4,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CoreBot.Tests.Common;
+using $ext_safeprojectname$.Tests.Common;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Testing;
@@ -14,9 +14,9 @@ using Microsoft.Bot.Schema;
 using Xunit;
 using Xunit.Abstractions;
 
-using CoreBot.Dialogs;
+using $ext_safeprojectname$.Dialogs;
 
-namespace CoreBot.Tests.Dialogs
+namespace $ext_safeprojectname$.Tests.Dialogs
 {
     public class CancelAndHelpDialogTests : BotTestBase
     {

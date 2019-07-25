@@ -3,8 +3,7 @@
 
 using System.Linq;
 
-// namespace $safeprojectname$.CognitiveModels
-namespace CoreBot.CognitiveModels
+namespace $ext_safeprojectname$.CognitiveModels
 {
     // Extends the partial FlightBooking class with methods and properties that simplify accessing entities in the luis results
     public partial class FlightBooking

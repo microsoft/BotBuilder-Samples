@@ -10,8 +10,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-// namespace $safeprojectname$
-namespace CoreBot
+namespace $ext_safeprojectname$
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 using System.Threading.Tasks;
-using CoreBot.Tests.Common;
-using CoreBot.Tests.Dialogs.TestData;
+using $ext_safeprojectname$.Tests.Common;
+using $ext_safeprojectname$.Tests.Dialogs.TestData;
 using Microsoft.Bot.Builder.Testing;
 using Microsoft.Bot.Builder.Testing.XUnit;
 using Microsoft.Bot.Connector;
@@ -11,9 +11,9 @@ using Microsoft.Bot.Schema;
 using Xunit;
 using Xunit.Abstractions;
 
-using CoreBot.Dialogs;
+using $ext_safeprojectname$.Dialogs;
 
-namespace CoreBot.Tests.Dialogs
+namespace $ext_safeprojectname$.Tests.Dialogs
 {
     public class DateResolverDialogTests : BotTestBase
     {

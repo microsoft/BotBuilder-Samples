@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using CoreBot.Tests.Common;
+using $ext_safeprojectname$.Tests.Common;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Testing;
@@ -20,10 +20,10 @@ using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
 
-using CoreBot.CognitiveModels;
-using CoreBot.Dialogs;
+using $ext_safeprojectname$.CognitiveModels;
+using $ext_safeprojectname$.Dialogs;
 
-namespace CoreBot.Tests.Dialogs
+namespace $ext_safeprojectname$.Tests.Dialogs
 {
     public class MainDialogTests : BotTestBase
     {

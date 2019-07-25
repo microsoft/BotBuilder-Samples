@@ -10,20 +10,13 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.DependencyInjection;
 
-// using $safeprojectname$.Bots;
-// using $safeprojectname$.Dialogs;
-using CoreBot.Bots;
-using CoreBot.Dialogs;
+using $ext_safeprojectname$.Bots;
+using $ext_safeprojectname$.Dialogs;
 
-// namespace $safeprojectname$
-namespace CoreBot
+namespace $ext_safeprojectname$
 {
     public class Startup
     {
-        public Startup()
-        {
-        }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {

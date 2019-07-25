@@ -7,7 +7,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Moq;
 
-namespace CoreBot.Tests.Common
+namespace $ext_safeprojectname$.Tests.Common
 {
     /// <summary>
     /// Contains utility methods for creating simple mock objects based on <see href="https://github.com/moq/moq">moq</see>/>.

@@ -12,9 +12,9 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Moq;
 using Xunit;
 
-using CoreBot.Controllers;
+using $ext_safeprojectname$.Controllers;
 
-namespace CoreBot.Tests.Controllers
+namespace $ext_safeprojectname$.Tests.Controllers
 {
     public class BotControllerTests
     {

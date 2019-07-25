@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoreBot\CoreBot.csproj" />
+    <ProjectReference Include="..\$ext_safeprojectname$\$ext_safeprojectname$.csproj" />
   </ItemGroup>
 
 </Project>

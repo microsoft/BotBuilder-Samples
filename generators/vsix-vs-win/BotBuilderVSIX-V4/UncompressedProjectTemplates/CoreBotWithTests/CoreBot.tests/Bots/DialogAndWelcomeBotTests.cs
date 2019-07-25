@@ -12,10 +12,10 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Xunit;
 
-using CoreBot.Bots;
-using CoreBot.Tests.Common;
+using $ext_safeprojectname$.Bots;
+using $ext_safeprojectname$.Tests.Common;
 
-namespace CoreBot.Tests.Bots
+namespace $ext_safeprojectname$.Tests.Bots
 {
     public class DialogAndWelcomeBotTests
     {

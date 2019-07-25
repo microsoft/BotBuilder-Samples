@@ -12,6 +12,7 @@
     <LocationField>Enabled</LocationField>
     <CreateInPlace>true</CreateInPlace>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Hidden>true</Hidden>
     <Icon>CoreBot.png</Icon>
     <PreviewImage></PreviewImage>
     <Tags>C#; Windows; Azure; AI; Bots</Tags>
@@ -25,7 +26,7 @@
     <CustomParameters>
       <CustomParameter Name="$templateversion$" Value="4.5.0"/>
     </CustomParameters>
-    <Project File="CoreBot.csproj" ReplaceParameters="true">
+    <Project File="CoreBot.csproj" ReplaceParameters="true" TargetFileName="$projectname$.csproj">
       <Folder Name="Bots" TargetFolderName="Bots">
         <ProjectItem ReplaceParameters="true">DialogAndWelcomeBot.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true">DialogBot.cs</ProjectItem>

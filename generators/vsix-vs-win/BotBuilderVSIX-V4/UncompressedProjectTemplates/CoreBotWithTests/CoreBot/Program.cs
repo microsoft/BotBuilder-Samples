@@ -7,8 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 
-// namespace $safeprojectname$
-namespace CoreBot
+namespace $ext_safeprojectname$
 {
     public class Program
     {

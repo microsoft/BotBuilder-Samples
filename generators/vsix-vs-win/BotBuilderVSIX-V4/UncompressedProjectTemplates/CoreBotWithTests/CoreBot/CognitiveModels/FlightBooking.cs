@@ -9,8 +9,7 @@ using System.Collections.Generic;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 
-// namespace $safeprojectname$.CognitiveModels
-namespace CoreBot.CognitiveModels
+namespace $ext_safeprojectname$.CognitiveModels
 {
     public partial class FlightBooking: IRecognizerConvert
     {

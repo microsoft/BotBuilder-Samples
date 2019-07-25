@@ -26,11 +26,11 @@
       <CustomParameter Name="$templateversion$" Value="4.5.0"/>
     </CustomParameters>
     <ProjectCollection>
-      <ProjectTemplateLink ProjectName="CoreBot">
+      <ProjectTemplateLink CopyParameters="true" ProjectName="$safeprojectname$">
         CoreBot\CoreBot.vstemplate
       </ProjectTemplateLink>
-      <ProjectTemplateLink ProjectName="CoreBot.Tests">
-        CoreBot.tests\CoreBot.tests.vstemplate
+      <ProjectTemplateLink CopyParameters="true" ProjectName="$safeprojectname$.Tests">
+        CoreBot.Tests\CoreBot.tests.vstemplate
       </ProjectTemplateLink>
     </ProjectCollection>
   </TemplateContent>

@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Bot.Builder.Testing.XUnit;
 
-using CoreBot;
+using $ext_safeprojectname$;
 
-namespace CoreBot.Tests.Dialogs.TestData
+namespace $ext_safeprojectname$.Tests.Dialogs.TestData
 {
     /// <summary>
     /// A class to generate test cases for <see cref="BookingDialogTests"/>.

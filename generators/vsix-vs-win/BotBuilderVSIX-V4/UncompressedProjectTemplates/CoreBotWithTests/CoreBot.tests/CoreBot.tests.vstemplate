@@ -7,11 +7,12 @@
     <ProjectSubType>Bot Framework</ProjectSubType>
     <SortOrder>1835</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
-    <DefaultName>CoreBot.tests</DefaultName>
+    <DefaultName>CoreBot</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LocationField>Enabled</LocationField>
     <CreateInPlace>true</CreateInPlace>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Hidden>true</Hidden>
     <Icon>CoreBot.png</Icon>
     <PreviewImage></PreviewImage>
     <Tags>C#; Windows; Azure; AI; Bots</Tags>
@@ -25,7 +26,7 @@
     <CustomParameters>
       <CustomParameter Name="$templateversion$" Value="4.5.0"/>
     </CustomParameters>
-    <Project File="CoreBot.Tests.csproj" ReplaceParameters="false">
+    <Project File="CoreBot.Tests.csproj" ReplaceParameters="true" TargetFileName="$projectname$.Tests.csproj">
       <Folder Name="Bots" TargetFolderName="Bots">
         <ProjectItem ReplaceParameters="true">DialogAndWelcomeBotTests.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true">DialogBotTests.cs</ProjectItem>

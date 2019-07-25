@@ -11,10 +11,10 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-using CoreBot.Bots;
-using CoreBot.Tests.Common;
+using $ext_safeprojectname$.Bots;
+using $ext_safeprojectname$.Tests.Common;
 
-namespace CoreBot.Tests.Bots
+namespace $ext_safeprojectname$.Tests.Bots
 {
     public class DialogBotTests
     {

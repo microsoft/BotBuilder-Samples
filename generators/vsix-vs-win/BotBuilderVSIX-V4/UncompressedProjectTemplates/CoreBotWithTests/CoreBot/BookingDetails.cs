@@ -3,8 +3,7 @@
 //
 // Generated with Bot Builder V4 SDK Template for Visual Studio CoreBot v$templateversion$
 
-// namespace $safeprojectname$
-namespace CoreBot
+namespace $ext_safeprojectname$
 {
     public class BookingDetails
     {
