@@ -1,4 +1,4 @@
-> Language Generation definition file. 
+﻿> Language Generation definition file. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 > Here are more than enough LG template, which are for the future use.
 
@@ -22,75 +22,10 @@
 # CreateCalendarEntryFailed
 - Sorry, there could be something wrong about your input. Please check your input. 
 
-# GetSubject
-- ```
-OK, please enter the subject of your event.
-[Suggestions=Help | Cancel]
-```
-
-# GetFromDate
-- ```
-OK, please enter the start date of your event.
-[Suggestions=Help | Cancel]
-```
-
 # GetPersonName
 - ```
 OK, please enter the email of the attendee of your event.
 [Suggestions=Help | Cancel]
-```
-
-# GetFromTime
-- ```
-OK, please enter the start time of your event.
-[Suggestions=Help | Cancel]
-```
-# GetToTime
-- ```
-OK, please enter the end time of your event.
-[Suggestions=Help | Cancel]
-```
-
-# GetDestinationCalendar
-- ```
-OK, please enter which calendar where you want to put this event
-[Suggestions=Help | Cancel]
-```
-
-# GetToDate
-- ```
-OK, please enter the end date of your event.
-[Suggestions=Help | Cancel]
-```
-
-# GetLocation
-- ```
-OK, please enter the location of your event.
-[Suggestions=Help | Cancel]
-```
-
-# GetMeetingRoom
-- ```
-OK, please enter the meeting room of your event.
-[Suggestions=Help | Cancel]
-```
-
-# GetDuration
-- ```
-OK, please enter the duration of your event.
-[Suggestions=Help | Cancel]
-```
-
-# CreateCalendarEntryReadBack
-- ```
-@{lgTemplate("HelpPrefix")}, I have added @{dialog.CreateCalendarEntry_Subject} to your calendar list. 
-@{lgTemplate("Welcome-Actions")}
-```
-
-# CancelCreateMeeting
-- ```
-@{lgTemplate("HelpPrefix")}, I've cancelled that.
-@{lgTemplate("Welcome-Actions")}
 ```
 
 # Welcome-Actions
@@ -183,62 +118,15 @@ OK, please enter the duration of your event.
 ]
 ```
 
-# CreateCalendarDetailedEntryReadBack
+# addTemplate(x, y)
+- concat(x, @{lgTemplate('addressTemplate', y)})
+
+# addressTemplate (x)
 - ```
-[adaptivecard
 {
-    "type": "AdaptiveCard",
-    "body": [
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "size": "Medium",
-                    "weight": "Bolder",
-                    "text": "@{dialog.CreateCalendarEntry_Subject}"
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "text": "@{dialog.CreateCalendarEntry_FromTime[0].value} - @{dialog.CreateCalendarEntry_ToTime[0].value}",
-                    "wrap": true,
-                    "maxLines": 5
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "text": "@{if(user.finalContact != null &&
-                        empty(user.finalContact) != true,
-                        user.finalContact,'No Attendee Specified')}",
-                    "wrap": true,
-                    "maxLines": 5
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "text": "@{if(empty(dialog.CreateCalendarEntry_Location) != true,
-                        dialog.CreateCalendarEntry_Location,'dialog.CreateCalendarEntry_Location')}",
-                    "wrap": true,
-                    "maxLines": 5
-                }
-            ]
-        }
-    ],
-    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-    "version": "1.0"
-}
-]
+    'emailAddress':
+    {
+        'address':'@{x}'
+    }
+},
 ```

@@ -31,7 +31,7 @@ namespace Microsoft.BotBuilderSamples
             Configuration = configuration;
             var createCalendarEntry = new AdaptiveDialog("create")
             {
-                Recognizer = CreateRecognizer(),
+                //Recognizer = CreateRecognizer(),
                 Generator = new ResourceMultiLanguageGenerator("CreateCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
@@ -56,148 +56,52 @@ namespace Microsoft.BotBuilderSamples
                     },
                     new SetProperty(){ // if not null, then will not ask add another one until no
                         Value = "@personName",
-                        Property = "dialog.CreateCalendarEntry_PersonName"
+                        Property = "user.CreateCalendarEntry_PersonName"
                     },
-                    new TextInput()
+                    // add contact flow
+                    new SetProperty()
                     {
-                        Property = "dialog.CreateCalendarEntry_PersonName",
-                        Prompt = new ActivityTemplate("[GetPersonName]")
+                        Property = "user.AddContactDialog_pageIndex",// 0-based
+                        Value = "0"
                     },
-                    new HttpRequest(){
-                        Property = "dialog.CreateCalendarEntry_UserAll",
-                        Method = HttpRequest.HttpMethod.GET,
-                        Url = "https://graph.microsoft.com/v1.0/me/contacts",
-                        Headers =  new Dictionary<string, string>(){
-                            ["Authorization"] = "Bearer {user.token.Token}",
-                        }
-                    },
-                    new IfCondition(){
-                        Condition = "dialog.CreateCalendarEntry_UserAll.value != null && count(dialog.CreateCalendarEntry_UserAll.value) > 0",
-                        Steps = new List<IDialog>(){
-                            new Foreach()
-                            {
-                                ListProperty = "dialog.CreateCalendarEntry_UserAll.value",
-                                Steps = new List<IDialog>()
-                                {
-                                    new IfCondition()
-                                    {
-                                        Condition = "contains(dialog.CreateCalendarEntry_UserAll.value[dialog.index].displayName, dialog.CreateCalendarEntry_PersonName) == true ||" +
-                                            "contains(dialog.CreateCalendarEntry_UserAll.value[dialog.index].emailAddresses[0].address, dialog.CreateCalendarEntry_PersonName) == true",
-                                        Steps = new List<IDialog>()
-                                        {
-                                            new EditArray(){
-                                                ArrayProperty = "dialog.matchedEmails",
-                                                ChangeType = EditArray.ArrayChangeType.Push,
-                                                Value = "dialog.CreateCalendarEntry_UserAll.value[dialog.index].emailAddresses[0].address"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    new IfCondition()
+                    new SetProperty()
                     {
-                        Condition = "dialog.matchedEmails != null && count(dialog.matchedEmails) > 0",
-                        Steps = new List<IDialog>()
-                        {
-                            new SendActivity("[emailTemplate(dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3], " +
-                                "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 1]," +
-                                "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 2])]"),// TODO only simple card right now, will use fancy card then\
-                            new DeleteProperty
-                            {
-                                Property = "turn.CreateCalendarEntry_Choice"
-                            },
-                            new ChoiceInput(){
-                                Property = "turn.CreateCalendarEntry_Choice",
-                                Prompt = new ActivityTemplate("[EnterYourChoice]"),
-                                Choices = new List<Choice>()
-                                {
-                                    new Choice("Confirm The First One"),
-                                    new Choice("Confirm The Second One"),
-                                    new Choice("Confirm The Third One")
-                                },
-                                Style = ListStyle.SuggestedAction
-                            },
-                            new SwitchCondition()
-                            {
-                                Condition = "turn.CreateCalendarEntry_Choice",
-                                Cases = new List<Case>()
-                                {
-                                    new Case("Confirm The First One", new List<IDialog>()
-                                        {
-                                            new IfCondition()
-                                            {
-                                                Condition = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3] != null",
-                                                Steps = new List<IDialog>()
-                                                {
-                                                    new SetProperty()
-                                                    {
-                                                        Property = "dialog.finalContact",
-                                                        Value = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3]"
-                                                    }
-                                                },
-                                                ElseSteps = new List<IDialog>(){
-                                                    new SendActivity("[viewEmptyEntry]"),
-                                                    new RepeatDialog()
-                                                }
-                                            }
-                                        }),
-                                    new Case("Confirm The Second One", new List<IDialog>()
-                                        {
-                                            new IfCondition()
-                                            {
-                                                Condition = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 1] != null",
-                                                Steps = new List<IDialog>()
-                                                {
-                                                    new SetProperty()
-                                                    {
-                                                        Property = "dialog.finalContact",
-                                                        Value = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 1]"
-                                                    }
-                                                },
-                                                ElseSteps = new List<IDialog>(){
-                                                    new SendActivity("[viewEmptyEntry]"),
-                                                    new RepeatDialog()
-                                                }
-                                            }
-                                        }),
-                                    new Case("Confirm The Third One", new List<IDialog>()
-                                        {
-                                            new IfCondition()
-                                            {
-                                                Condition = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 2] != null",
-                                                Steps = new List<IDialog>()
-                                                {
-                                                    new SetProperty()
-                                                    {
-                                                        Property = "dialog.finalContact",
-                                                        Value = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3  + 2]"
-                                                    }
-                                                },
-                                                ElseSteps = new List<IDialog>(){
-                                                    new SendActivity("[viewEmptyEntry]"),
-                                                    new RepeatDialog()
-                                                }
-                                            }
-                                        })
-                                },
-                                Default = new List<IDialog>()
-                                {
-                                    new SendActivity("Sorry, I don't know what you mean!"),
-                                    new EndDialog()
-                                }
-                            }
-                        },
-                        ElseSteps = new List<IDialog>()
-                        {
-                            new SendActivity("Sorry, We could not find any matches in your contacts. We will use the email address you just entered."),
-                            new SetProperty(){
-                                Property = "dialog.finalContact",
-                                Value = "dialog.CreateCalendarEntry_PersonName"
-                            }
-                        }
+                        Property = "user.finalContact",
+                        Value = "''"
                     },
+                    // for multiple contacts use only
+                    //new IfCondition(){
+                    //    Condition = "user.CreateCalendarEntry_PersonName == null",
+                    //    Steps = new List<IDialog>()
+                    //    {
+                    //        // add contact flow
+                    //        new SetProperty()
+                    //        {
+                    //            Property = "user.repeatFlag",
+                    //            Value = "true"
+                    //        },
+                    //    },
+                    //    ElseSteps = new List<IDialog>()
+                    //    {
+                    //         new SetProperty()
+                    //        {
+                    //            Property = "user.repeatFlag",
+                    //            Value = "true"
+                    //        },
+                    //    }
+                    //},
+                    new BeginDialog("AddContactDialog"),
+                    // only for multiple contacts user
+                    //new SetProperty()
+                    //{
+                    //    Property = "user.finalContact",
+                    //    Value = "substring(user.finalContact, 0, length(user.finalContact) - 1)"
+                    //},
+                    //new SetProperty()
+                    //{
+                    //     Property = "user.finalContact",
+                    //     Value = "concat('[', user.finalContact, ']')"
+                    //},
                     // new saveproperty not usable TODO
                     new TextInput()
                     {
@@ -237,14 +141,14 @@ namespace Microsoft.BotBuilderSamples
                                 Url = "https://graph.microsoft.com/v1.0/me/events",
                                 Headers =  new Dictionary<string, string>(){
                                     ["Authorization"] = "Bearer {user.token.Token}",
-                                },// TODO get local time zone is not avaliable, therefore, time zone is hardcoded
+                                },//TODO bugs exists here, because user.finalContact cannot be correctly placed and replaced
                                 Body = JObject.Parse(@"{
                                     'subject': '{dialog.CreateCalendarEntry_Subject}',
                                     'attendees': [
                                         {
                                             'emailAddress':
                                             {
-                                                'address': '{dialog.finalContact}'
+                                                'address':'{user.finalContact}'
                                             }
                                         }
                                     ],
@@ -260,6 +164,21 @@ namespace Microsoft.BotBuilderSamples
                                         'timeZone': 'UTC'
                                     }
                                 }")
+                                //Body = JObject.Parse(@"{
+                                //    'subject': '{dialog.CreateCalendarEntry_Subject}',
+                                //    'attendees': '{user.finalContact}',
+                                //    'location': {
+                                //        'displayName': '{dialog.CreateCalendarEntry_Location}',
+                                //    },
+                                //    'start': {
+                                //        'dateTime': '{formatDateTime(dialog.CreateCalendarEntry_FromTime[0].value, \'yyyy-MM-ddTHH:mm:ss\')}',
+                                //        'timeZone': 'UTC'
+                                //    },
+                                //    'end': {
+                                //        'dateTime': '{formatDateTime(dialog.CreateCalendarEntry_ToTime[0].value, \'yyyy-MM-ddTHH:mm:ss\')}',
+                                //        'timeZone': 'UTC'
+                                //    }
+                                //}")
                             }
                         },
                         ElseSteps = new List<IDialog>(){
@@ -286,93 +205,97 @@ namespace Microsoft.BotBuilderSamples
 
                 // note: every input will be detected through this layer first from root dialog
                 // once matched. Otherwise, the input will be thrown to the uppser layer.
-                Rules = new List<IRule>()
-                {
-                    new IntentRule("Help")
-                    {
-                        Steps = new List<IDialog>()
-                        {
-                            new SendActivity("[HelpCreateMeeting]")
-                        }
-                    },
-                    new IntentRule("Cancel")
-                    {
-                        Steps = new List<IDialog>()
-                        {
-                                new SendActivity("[CancelCreateMeeting]"),
-                                new EndDialog()
-                        }
-                    },
-                    new IntentRule("ShowPrevious")
-                    {
-                        Steps = new List<IDialog>()
-                        {
-                        new IfCondition()
-                        {
-                            Condition = " 0 < user.CreateCalendarEntry_pageIndex",
-                            Steps = new List<IDialog>()
-                            {
-                                new SetProperty()
-                                {
-                                    Property = "user.CreateCalendarEntry_pageIndex",
-                                    Value = "user.CreateCalendarEntry_pageIndex - 1"
-                                },
-                                new RepeatDialog()
-                            },
-                            ElseSteps = new List<IDialog>()
-                            {
-                                new SendActivity("This is already the first page!"),
-                                new RepeatDialog()
-                            }
-                        }
-                        } 
-                    },
-                    new IntentRule("ShowNext")
-                    {
-                        Steps = new List<IDialog>(){
-                            new IfCondition()
-                            {
-                                Condition = "user.CreateCalendarEntry_pageIndex * 3 + 3 < count(dialog.matchedEmails) ",
-                                Steps = new List<IDialog>()
-                                {
-                                    new SetProperty()
-                                    {
-                                        Property = "user.CreateCalendarEntry_pageIndex",
-                                        Value = "user.CreateCalendarEntry_pageIndex + 1"
-                                    },
-                                    new RepeatDialog()
-                                },
-                                ElseSteps = new List<IDialog>()
-                                {
-                                    new SendActivity("This is already the last page!"),
-                                    new RepeatDialog()
-                                }
-                            }
-                        }
-                    }
-                }
+                //Rules = new List<IRule>()
+                //{
+                //    new IntentRule("Help")
+                //    {
+                //        Steps = new List<IDialog>()
+                //        {
+                //            new SendActivity("[HelpCreateMeeting]")
+                //        }
+                //    },
+                //    new IntentRule("Cancel")
+                //    {
+                //        Steps = new List<IDialog>()
+                //        {
+                //                new SendActivity("[CancelCreateMeeting]"),
+                //                new EndDialog()
+                //        }
+                //    },
+                //    new IntentRule("ShowPrevious")
+                //    {
+                //        Steps = new List<IDialog>()
+                //        {
+                //        new IfCondition()
+                //        {
+                //            Condition = " 0 < user.CreateCalendarEntry_pageIndex",
+                //            Steps = new List<IDialog>()
+                //            {
+                //                new SetProperty()
+                //                {
+                //                    Property = "user.CreateCalendarEntry_pageIndex",
+                //                    Value = "user.CreateCalendarEntry_pageIndex - 1"
+                //                },
+                //                new RepeatDialog()
+                //            },
+                //            ElseSteps = new List<IDialog>()
+                //            {
+                //                new SendActivity("This is already the first page!"),
+                //                new RepeatDialog()
+                //            }
+                //        }
+                //        } 
+                //    },
+                //    new IntentRule("ShowNext")
+                //    {
+                //        Steps = new List<IDialog>(){
+                //            new IfCondition()
+                //            {
+                //                Condition = "user.CreateCalendarEntry_pageIndex * 3 + 3 < count(dialog.matchedEmails) ",
+                //                Steps = new List<IDialog>()
+                //                {
+                //                    new SetProperty()
+                //                    {
+                //                        Property = "user.CreateCalendarEntry_pageIndex",
+                //                        Value = "user.CreateCalendarEntry_pageIndex + 1"
+                //                    },
+                //                    new RepeatDialog()
+                //                },
+                //                ElseSteps = new List<IDialog>()
+                //                {
+                //                    new SendActivity("This is already the last page!"),
+                //                    new RepeatDialog()
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
             };
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
             AddDialog(createCalendarEntry);
+            createCalendarEntry.AddDialog(
+                new List<Dialog>(){
+                new AddContactDialog(Configuration)
+            });
 
             // The initial child Dialog to run.
             InitialDialogId = "create";
         }
 
 
-        public static IRecognizer CreateRecognizer()
-        {
-            if (string.IsNullOrEmpty(Configuration["LuisAppIdGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIKeyGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostNameGeneral"]))
-            {
-                throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
-            }
-            return new LuisRecognizer(new LuisApplication()
-            {
-                Endpoint = Configuration["LuisAPIHostNameGeneral"],
-                EndpointKey = Configuration["LuisAPIKeyGeneral"],
-                ApplicationId = Configuration["LuisAppIdGeneral"]
-            });
-        }
+        //public static IRecognizer CreateRecognizer()
+        //{
+        //    if (string.IsNullOrEmpty(Configuration["LuisAppIdGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIKeyGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostNameGeneral"]))
+        //    {
+        //        throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
+        //    }
+        //    return new LuisRecognizer(new LuisApplication()
+        //    {
+        //        Endpoint = Configuration["LuisAPIHostNameGeneral"],
+        //        EndpointKey = Configuration["LuisAPIKeyGeneral"],
+        //        ApplicationId = Configuration["LuisAppIdGeneral"]
+        //    });
+        //}
 
         //private static IRecognizer CreateRecognizer()
         //{

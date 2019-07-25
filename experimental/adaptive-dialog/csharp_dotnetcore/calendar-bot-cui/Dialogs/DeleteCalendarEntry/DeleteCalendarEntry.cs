@@ -84,7 +84,7 @@ namespace Microsoft.BotBuilderSamples
                                         Url = "https://graph.microsoft.com/v1.0/me/events/{user.focusedMeeting.id}/delete",
                                         Headers =  new Dictionary<string, string>()
                                         {
-                                            ["Authorization"] = "Bearer {dialog.token.Token}",
+                                            ["Authorization"] = "Bearer {user.token.Token}",
                                         }
                                     },
                                     new SendActivity("Successfully delete your entry!"),

@@ -62,7 +62,7 @@ namespace Microsoft.BotBuilderSamples
                                 Property = "dialog.ChangeCalendarEntry_startTime",
                                 Prompt = new ActivityTemplate("[GetStartTime]")
                             },
-                    //new SendActivity("{formatDateTime(dialog.ChangeCalendarEntry_startTime, \"yyyy-MM-ddTHH:mm:ss\")}"),//DEBUG
+                            //new SendActivity("{dialog.ChangeCalendarEntry_startTime}"),//DEBUG
                             new HttpRequest()
                             {
                                 Property = "user.updateResponse",
@@ -74,11 +74,10 @@ namespace Microsoft.BotBuilderSamples
                                 },
                                 Body = JObject.Parse(@"{
                                     'start': {
-                                        'dateTime': '{formatDateTime(dialog.ChangeCalendarEntry_startTime.value, \'yyyy-MM-ddTHH:mm:ss\')}', 
+                                        'dateTime': '{formatDateTime(dialog.ChangeCalendarEntry_startTime[0].value, \'yyyy-MM-ddTHH:mm:ss\')}', 
                                         'timeZone': 'UTC'
                                     }
-                                }")// have some bugs in formatDateTime
-                                // cannot delete calendar entry in outlook manually
+                                }")
                             },
                             new IfCondition()
                             {

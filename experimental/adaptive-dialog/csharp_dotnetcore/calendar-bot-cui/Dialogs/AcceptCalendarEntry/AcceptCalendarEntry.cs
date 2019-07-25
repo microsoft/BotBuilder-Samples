@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Newtonsoft.Json.Linq;
 
 /// <summary>
 /// This dialog will accept all the calendar entris if they have the same subject
@@ -58,6 +59,7 @@ namespace Microsoft.BotBuilderSamples
                         Condition = "turn.AcceptCalendarEntry_ConfirmChoice",
                         Steps = new List<IDialog>()
                         {
+                            new SendActivity("{user.focusedMeeting.id}"),
                             new IfCondition() // we cannot accept a entry if we are the origanizer
                             {
                                 Condition = "user.focusedMeeting.isOrganizer != true",
@@ -68,12 +70,17 @@ namespace Microsoft.BotBuilderSamples
                                         Property = "user.acceptResponse",
                                         Method = HttpRequest.HttpMethod.POST,
                                         Url = "https://graph.microsoft.com/v1.0/me/events/{user.focusedMeeting.id}/accept",
+                                        //Url = "https://graph.microsoft.com/v1.0/me/events/AAMkADY2MzM5M2UzLWQ0NmItNDU2My1hN2NjLTliMjRiYWE5YWQ4ZABGAAAAAADRv-cRMwIfQKntE9IXL-ciBwDVXUsVK2tOTK5RjTff3j-IAAAAAAENAADVXUsVK2tOTK5RjTff3j-IAAAfRHvTAAA=/accept",
                                         Headers =  new Dictionary<string, string>()
                                         {
-                                            ["Authorization"] = "Bearer {dialog.token.Token}",
-                                        }
-                                    },
-                                    new SendActivity("[AcceptReadBack]")
+                                            ["Authorization"] = "Bearer {user.token.Token}",
+                                        },
+                                        Body = JObject.Parse(@"{
+                                          '1': '1'
+                                        }")
+                                      },
+                                    new SendActivity("Simple read back"),
+                                    //new SendActivity("[AcceptReadBack]")
                                 },
                                 ElseSteps = new List<IDialog>(){
                                     new SendActivity("Your request can't be completed. You can't respond to this meeting because you're the meeting organizer.")
@@ -81,6 +88,7 @@ namespace Microsoft.BotBuilderSamples
                             }
                         }
                     },
+                    // new SendActivity("finish http request"),
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()
                  },

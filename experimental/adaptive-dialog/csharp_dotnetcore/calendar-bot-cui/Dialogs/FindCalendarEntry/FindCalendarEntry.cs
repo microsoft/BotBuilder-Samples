@@ -18,8 +18,6 @@ namespace Microsoft.BotBuilderSamples
 {
     public class FindCalendarEntry : ComponentDialog
     {
-
-
         private static IConfiguration Configuration;
         public FindCalendarEntry(IConfiguration configuration)
             : base(nameof(FindCalendarEntry))
@@ -34,7 +32,7 @@ namespace Microsoft.BotBuilderSamples
                 {
                     new BeginDialog(nameof(OAuthPromptDialog)),
                     new HttpRequest() {
-                        Url = "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={utcNow()}&enddatetime={addDays(utcNow(), 1)}",
+                        Url = "https://graph.microsoft.com/v1.0/me/calendarView?startdatetime={utcNow()}&enddatetime={addDays(utcNow(), 1)}",
                         Method = HttpRequest.HttpMethod.GET,
                         Headers = new Dictionary<string, string>()
                         {
@@ -42,6 +40,7 @@ namespace Microsoft.BotBuilderSamples
                         },
                         Property = "dialog.FindCalendarEntry_GraphAll"
                     },
+                    // new SendActivity("{dialog.FindCalendarEntry_GraphAll.value}"),
                     // to avoid shoing an empty calendar & access denied
                     new IfCondition()
                     {

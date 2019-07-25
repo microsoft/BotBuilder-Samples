@@ -6,7 +6,7 @@ Ok, give me the exact subject of the entry you would like to accept.
 
 # AcceptReadBack
 - ```
-Ok, I've accepted your entry whose subject is "@{user.focusedMeeting.subject}".
+Ok, I've accepted your entry whose subject is @{user.focusedMeeting.subject}.
 ```
 
 # emptyFocusedMeeting
