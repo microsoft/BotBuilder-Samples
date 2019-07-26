@@ -15,6 +15,7 @@ There are three different template options.  The table below can help guide whic
 | ---------- |  ---------  |
 | Echo&nbsp;Bot | A good template if you want a little more than "Hello World!", but not much more.  This template handles the very basics of sending messages to a bot, and having the bot process the messages by repeating them back to the user.  This template produces a bot that simply "echoes" back to the user anything the user says to the bot. |
 | Core&nbsp;Bot | Our most advanced template, the Core Bot template provides 6 core features every bot is likely to have.  This template covers the core features of a Conversational-AI bot using [LUIS](https://www.luis.ai).  See the **Core Bot Features** table below for more details. |
+| Core&nbsp;Bot&nbsp;with&nbsp;Tests | Our Core Bot template plus a full unit test project.  This template contains all the Core Bot features plus a complete set of unit tests showing how to unit test Core Bot using the Bot Framework Testing framework introduced in version 4.5 of Bot Framework. |
 | Empty&nbsp;Bot | A good template if you are familiar with Bot Framework v4, and simple want a basic skeleton project.  Also a good option if you want to take sample code from the documentation and paste it into a minimal bot in order to learn. |
 
 ### How to Choose a Template
