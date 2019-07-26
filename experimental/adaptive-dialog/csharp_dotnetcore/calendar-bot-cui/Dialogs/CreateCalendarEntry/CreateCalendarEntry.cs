@@ -54,6 +54,9 @@ namespace Microsoft.BotBuilderSamples
                         Value = "@Subject",
                         Property = "dialog.CreateCalendarEntry_Subject"
                     },
+                    new DeleteProperty(){
+                        Property = "user.CreateCalendarEntry_PersonName" // otherwise, it will remember the personName from last time
+                    },
                     new SetProperty(){ // if not null, then will not ask add another one until no
                         Value = "@personName",
                         Property = "user.CreateCalendarEntry_PersonName"
