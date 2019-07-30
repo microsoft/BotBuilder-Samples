@@ -2,4 +2,4 @@ lib/
 node_modules/
 .nyc_output/
 .vscode/
-.env 
+.env
