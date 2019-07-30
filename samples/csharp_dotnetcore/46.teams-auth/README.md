@@ -71,6 +71,25 @@ This sample uses bot authentication capabilities in Azure Bot Service.  Azure Bo
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
+## Setting up in Teams
+
+To use the Bot in Microsoft Teams, you'll need to create an app manifest and install the application in your Teams environment. The easiest way to do this by far is to use [Teams App Studio](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-app-studio).
+
+In App Studio, create a new manifest and fill in the general application information as you wish. Then go to the Bots tab and add an existing Bot, selecting the Bot you created above (using [these instructions](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp)). Ensure your messaging endpoint is reachable from the Internet; if you're running the bot locally, use [ngrok](https://ngrok.com/download) with a command like:
+
+    ngrok http 3978 -host-header=localhost:3976
+
+Use the ngrok https forarding URL as the messaging URL in your app, such as 
+
+    https://yourdomainhere.ngrok.io/api/messages
+
+In the manifest editor, add valid domains for your bot and for the Azure bot token service, or Teams will refuse to call them.
+
+    token.botframework.com
+    *.ngrok.io
+
+Then, from the Test and distribute tab, you can install your app in Teams for testing. When testing,you can ignore the warning about 'validDomains' cannot contain a tunneling site.
+
 ## Further reading
 
 - [Bot Framework Documentation](https://docs.botframework.com)
