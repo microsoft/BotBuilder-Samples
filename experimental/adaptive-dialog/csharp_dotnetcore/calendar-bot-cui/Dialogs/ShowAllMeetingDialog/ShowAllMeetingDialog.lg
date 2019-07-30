@@ -38,7 +38,7 @@ You do not have any entries in your calendar.
 ```
 
 # Items-Ordinality
-- IF: {dialog.ShowAllMeetingDialog_GraphAll != null && countdialog.ShowAllMeetingDialog_GraphAll) == 1}
+- IF: {dialog.ShowAllMeetingDialog_GraphAll != null && count(dialog.ShowAllMeetingDialog_GraphAll) == 1}
     - item
 - ELSE:
     - items
@@ -52,7 +52,235 @@ You do not have any entries in your calendar.
 # OverviewAgain
 - Do you want to see the overview again?
 
-# entryTemplate(x, y, z)
+# entryTemplate(x, y, A)
+- IF: @{(int(y)-int(x)) == 2}
+    - @{lgTemplate("entryTemplateThree", A[x], A[x+1], A[x+2])}
+- ELSEIF: @{(int(y)-int(x)) == 1}
+    - @{lgTemplate("entryTemplateTwo", A[x], A[x+1])}
+- ELSEIF: @{(int(y)-int(x)) == 0}
+    - @{lgTemplate("entryTemplateOne", A[x])}
+
+# entryTemplateOne(x)
+- ```
+[adaptivecard
+{
+    "type": "AdaptiveCard",
+    "height": "stretch",
+    "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "Container",
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "verticalContentAlignment": "Center",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "spacing": "Medium",
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "@{if(x != null, formatDateTime(x.start.dateTime,'HH:mm'), 'N/A')}",
+                                            "isSubtle": false
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "color": "Dark",
+                                            "text": "@{if(x != null, formatDateTime(x.end.dateTime,'HH:mm'), 'N/A')}"
+                                        }
+                                    ],
+                                    "width": 20
+                                },
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "Medium",
+                                            "separator": true,
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "@{if(x != null, x.subject, 'N/A')}",
+                                            "isSubtle": false,
+                                            "wrap": true,
+                                            "maxLines": 2
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "None",
+                                            "color": "Accent",
+                                            "text": "@{if(x.location.displayName!= null && empty(x.location.displayName) != true,
+                                                x.location.displayName,'No Location Specified')}",
+                                            "isSubtle": false
+                                        }
+                                    ],
+                                    "width": 80
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
+}
+]
+```
+
+# entryTemplateTwo(x, y)
+- ```
+[adaptivecard
+{
+    "type": "AdaptiveCard",
+    "height": "stretch",
+    "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "Container",
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "verticalContentAlignment": "Center",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "spacing": "Medium",
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "@{if(x != null, formatDateTime(x.start.dateTime,'HH:mm'), 'N/A')}",
+                                            "isSubtle": false
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "color": "Dark",
+                                            "text": "@{if(x != null, formatDateTime(x.end.dateTime,'HH:mm'), 'N/A')}"
+                                        }
+                                    ],
+                                    "width": 20
+                                },
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "Medium",
+                                            "separator": true,
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "@{if(x != null, x.subject, 'N/A')}",
+                                            "isSubtle": false,
+                                            "wrap": true,
+                                            "maxLines": 2
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "None",
+                                            "color": "Accent",
+                                            "text": "@{if(x.location.displayName!= null && empty(x.location.displayName) != true,
+                                                x.location.displayName,'No Location Specified')}",
+                                            "isSubtle": false
+                                        }
+                                    ],
+                                    "width": 80
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Container",
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "verticalContentAlignment": "Center",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "@{if(y != null, formatDateTime(y.start.dateTime,'HH:mm'), 'N/A')}"
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "horizontalAlignment": "Center",
+                                            "spacing": "Small",
+                                            "color": "Dark",
+                                            "text": "@{if(y != null, formatDateTime(y.end.dateTime,'HH:mm'), 'N/A')}"
+                                        }
+                                    ],
+                                    "width": 20
+                                },
+                                {
+                                    "type": "Column",
+                                    "style": "emphasis",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "Medium",
+                                            "separator": true,
+                                            "size": "Medium",
+                                            "weight": "Bolder",
+                                            "color": "Dark",
+                                            "text": "@{if(y != null, y.subject, 'N/A')}"
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "None",
+                                            "color": "Accent",
+                                            "text": "@{if(y.location.displayName != null && empty(y.location.displayName) != true,
+                                                y.location.displayName,'No Location Specified')}",
+                                            "wrap": true,
+                                            "maxLines": 2
+                                        }
+                                    ],
+                                    "width": 80
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
+}
+]
+```
+
+# entryTemplateThree(x, y, z)
 - ```
 [adaptivecard
 {
@@ -199,7 +427,7 @@ You do not have any entries in your calendar.
                                             "spacing": "Medium",
                                             "size": "Medium",
                                             "weight": "Bolder",
-                                            "color": "Attention",
+                                            "color": "Dark",
                                             "text": "@{if(z != null, formatDateTime(z.start.dateTime,'HH:mm'), 'N/A')}"
                                         },
                                         {

@@ -46,10 +46,20 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Condition = "dialog.ShowAllMeetingDialog_GraphAll.value != null && count(dialog.ShowAllMeetingDialog_GraphAll.value) > 0",
                         Steps = new List<IDialog>()
-                        {   
-                            new SendActivity("[entryTemplate(dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3], " +
-                                "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 1]," +
-                                "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 2])]"),// TODO only simple card right now, will use fancy card then\
+                        {
+                            //new SendActivity("{count(dialog.ShowAllMeetingDialog_GraphAll.value)}"),
+                            new IfCondition()
+                            {
+                                Condition = "(user.ShowAllMeetingDialog_pageIndex*3+2)<=(count(dialog.ShowAllMeetingDialog_GraphAll.value)-1)",
+                                Steps = new List<IDialog>()
+                                {
+                                    new SendActivity("[entryTemplate(user.ShowAllMeetingDialog_pageIndex*3, user.ShowAllMeetingDialog_pageIndex*3+2, dialog.ShowAllMeetingDialog_GraphAll.value)]"),
+                                },
+                                ElseSteps = new List<IDialog>()
+                                {
+                                    new SendActivity("[entryTemplate(user.ShowAllMeetingDialog_pageIndex*3, (count(dialog.ShowAllMeetingDialog_GraphAll.value)-1), dialog.ShowAllMeetingDialog_GraphAll.value)]"),
+                                }
+                            },// TODO only simple card right now, will use fancy card then
                             new TextInput(){
                                 Property = "turn.ShowAllMeetingDialog_Choice",
                                 Prompt = new ActivityTemplate("Please enter your choice")
@@ -110,13 +120,13 @@ namespace Microsoft.BotBuilderSamples
                         {
                             new IfCondition()
                             {
-                                Condition = " user.ShowAllMeetingDialog_pageIndex * 3 + 3 < count(dialog.ShowAllMeetingDialog_GraphAll.value)",
+                                Condition = " user.ShowAllMeetingDialog_pageIndex*3+3<count(dialog.ShowAllMeetingDialog_GraphAll.value)",
                                 Steps = new List<IDialog>()
                                 {
                                     new SetProperty()
                                     {
                                         Property = "user.ShowAllMeetingDialog_pageIndex",
-                                        Value = "user.ShowAllMeetingDialog_pageIndex + 1"
+                                        Value = "user.ShowAllMeetingDialog_pageIndex+1"
                                     },
                                     new RepeatDialog()
                                 },
