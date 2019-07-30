@@ -13,7 +13,7 @@ Ok, I've declined your entry whose subject is "@{user.focusedMeeting.subject}".
 ```
 
 # emptyFocusedMeeting
-- You do not have a focused meeting. Please check a meeting in detail to define a focused meeting before accepting any. 
+- Please check a meeting in detail to define a focused meeting before accepting any. 
 
 # EntryNotFound
 - Sorry, I did not find a entry whose subject is {dialog.DeleteCalendarEntry_entrySubject} in your calendar.

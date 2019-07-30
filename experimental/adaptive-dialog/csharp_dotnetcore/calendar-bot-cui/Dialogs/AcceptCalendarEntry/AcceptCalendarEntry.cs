@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 
 /// <summary>
@@ -16,29 +17,24 @@ namespace Microsoft.BotBuilderSamples
 {
     public class AcceptCalendarEntry : ComponentDialog
     {
-        public AcceptCalendarEntry()
+        private static IConfiguration Configuration;
+        public AcceptCalendarEntry(IConfiguration configuration)
             : base(nameof(AcceptCalendarEntry))
         {
+            Configuration = configuration;
             // Create instance of adaptive dialog. 
             var acceptCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
                 Generator = new ResourceMultiLanguageGenerator("AcceptCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
-                    new IfCondition()
+                    new SendActivity("[emptyFocusedMeeting]"),
+                    new SetProperty()
                     {
-                        Condition = "user.focusedMeeting == null",
-                        Steps = new List<IDialog>()
-                        {
-                            new SendActivity("[emptyFocusedMeeting]"),
-                            new SetProperty()
-                            {
-                                Property = "user.FindCalendarEntry_pageIndex",// index must be set to zero
-                                Value = "0" // in case we have not entered FindCalendarEntry from RootDialog
-                            },
-                            new BeginDialog("FindCalendarEntry")
-                        }
+                        Property = "user.ShowAllMeetingDialog_pageIndex",// index must be set to zero
+                        Value = "0" // in case we have not entered FindCalendarEntry from RootDialog
                     },
+                    new BeginDialog("ShowAllMeetingDialog"),
                     new IfCondition()
                     {
                         Condition = "user.focusedMeeting == null",
@@ -47,7 +43,7 @@ namespace Microsoft.BotBuilderSamples
                             new EndDialog()
                         }
                     },
-                    new SendActivity("[detailedEntryTemplate(user.focusedMeeting)]"),
+                    // new SendActivity("[detailedEntryTemplate(user.focusedMeeting)]"), ShowAllMeetingDialog will show the details
                     new ConfirmInput()
                     {
                         Property = "turn.AcceptCalendarEntry_ConfirmChoice",
@@ -59,7 +55,7 @@ namespace Microsoft.BotBuilderSamples
                         Condition = "turn.AcceptCalendarEntry_ConfirmChoice",
                         Steps = new List<IDialog>()
                         {
-                            new SendActivity("{user.focusedMeeting.id}"),
+                            //new SendActivity("{user.focusedMeeting.id}"),
                             new IfCondition() // we cannot accept a entry if we are the origanizer
                             {
                                 Condition = "user.focusedMeeting.isOrganizer != true",
@@ -96,6 +92,11 @@ namespace Microsoft.BotBuilderSamples
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
             AddDialog(acceptCalendarEntry);
+            acceptCalendarEntry.AddDialog(
+                new List<Dialog> {
+                    new ShowAllMeetingDialog(Configuration)
+                });
+
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);

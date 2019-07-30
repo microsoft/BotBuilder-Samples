@@ -70,7 +70,7 @@ namespace Microsoft.BotBuilderSamples
                         {
                             new SetProperty()
                             {
-                                Property = "user.FindCalendarEntry_pageIndex",// 0-based
+                                Property = "user.ShowAllMeetingDialog_pageIndex",// 0-based
                                 Value = "0"
                             },
                             new BeginDialog(nameof(FindCalendarEntry))
@@ -152,12 +152,12 @@ namespace Microsoft.BotBuilderSamples
             {
                 new CreateCalendarEntry(Configuration),
                 new FindCalendarEntry(Configuration),
-                new DeleteCalendarEntry(),
+                new DeleteCalendarEntry(Configuration),
                 new FindCalendarWho(),
-                new AcceptCalendarEntry(),
+                new AcceptCalendarEntry(Configuration),
                 new OAuthPromptDialog(),
                 new ShowNextCalendar(),
-                new ChangeCalendarEntry()
+                new ChangeCalendarEntry(Configuration)
             }) ;
             /******************************************************************************/
             // The initial child Dialog to run.

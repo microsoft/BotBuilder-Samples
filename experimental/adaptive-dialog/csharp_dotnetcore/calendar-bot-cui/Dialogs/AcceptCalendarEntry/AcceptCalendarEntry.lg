@@ -10,7 +10,7 @@ Ok, I've accepted your entry whose subject is @{user.focusedMeeting.subject}.
 ```
 
 # emptyFocusedMeeting
-- You do not have a focused meeting. Please check a meeting in detail to define a focused meeting before accepting any. 
+- Please check a meeting in detail to define a focused meeting before accepting any. 
 
 > Escape suggestion actions without which [] will be treated as template reference.
 # Welcome-Actions

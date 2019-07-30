@@ -30,167 +30,24 @@ namespace Microsoft.BotBuilderSamples
                 Generator = new ResourceMultiLanguageGenerator("FindCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
-                    new BeginDialog(nameof(OAuthPromptDialog)),
-                    new HttpRequest() {
-                        Url = "https://graph.microsoft.com/v1.0/me/calendarView?startdatetime={utcNow()}&enddatetime={addDays(utcNow(), 1)}",
-                        Method = HttpRequest.HttpMethod.GET,
-                        Headers = new Dictionary<string, string>()
-                        {
-                            ["Authorization"] = "Bearer {user.token.Token}",
-                        },
-                        Property = "dialog.FindCalendarEntry_GraphAll"
+                    new BeginDialog(nameof(ShowAllMeetingDialog)),
+                    new ConfirmInput(){
+                        Property = "turn.FindCalendarEntry_ConfirmChoice",
+                        Prompt = new ActivityTemplate("[OverviewAgain]"),
+                        InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
                     },
-                    // new SendActivity("{dialog.FindCalendarEntry_GraphAll.value}"),
-                    // to avoid shoing an empty calendar & access denied
                     new IfCondition()
                     {
-                        Condition = "dialog.FindCalendarEntry_GraphAll.value != null && count(dialog.FindCalendarEntry_GraphAll.value) > 0",
+                        Condition = "turn.FindCalendarEntry_ConfirmChoice",
                         Steps = new List<IDialog>()
-                        {   
-                            new SendActivity("[entryTemplate(dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3], " +
-                                "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 1]," +
-                                "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 2])]"),// TODO only simple card right now, will use fancy card then\
-                            new DeleteProperty
-                            {
-                                Property = "turn.FindCalendarEntry_Choice"
-                            },
-                            new ChoiceInput(){
-                                Property = "turn.FindCalendarEntry_Choice",
-                                Prompt = new ActivityTemplate("[EnterYourChoice]"),
-                                Choices = new List<Choice>()
-                                {
-                                    new Choice("Check The First One"),
-                                    new Choice("Check The Second One"),
-                                    new Choice("Check The Third One"),
-                                },
-                                Style = ListStyle.SuggestedAction
-                            },
-                            new SwitchCondition()
-                            {
-                                Condition = "turn.FindCalendarEntry_Choice",
-                                Cases = new List<Case>()
-                                {
-                                    new Case("Check The First One", new List<IDialog>()
-                                        {
-                                            new IfCondition(){
-                                                Condition = "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3] != null",
-                                                Steps = new List<IDialog>(){
-                                                    new SendActivity("[detailedEntryTemplate(dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3])]"),
-                                                    new SetProperty()
-                                                    {
-                                                        Property = "user.focusedMeeting",
-                                                        Value = "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3]"
-                                                    }
-                                                },
-                                                ElseSteps = new List<IDialog>(){
-                                                    new SendActivity("[viewEmptyEntry]"),
-                                                }
-                                            },
-                                            new ConfirmInput(){
-                                                Property = "turn.FindCalendarEntry_ConfirmChoice",
-                                                Prompt = new ActivityTemplate("[OverviewAgain]"),
-                                                InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
-                                            },
-                                            new IfCondition()
-                                            {
-                                                Condition = "turn.FindCalendarEntry_ConfirmChoice",
-                                                Steps = new List<IDialog>()
-                                                {
-                                                    new RepeatDialog()
-                                                },
-                                                ElseSteps = new List<IDialog>()
-                                                {
-                                                    new EndDialog()
-                                                }
-                                            }
-                                        //new RepeatDialog()
-                                        // otherwise, once we change to other intents, we will still come back
-                                        }),
-                                    new Case("Check The Second One", new List<IDialog>()
-                                        {
-                                            new IfCondition(){
-                                                Condition = "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 1] != null",
-                                                Steps = new List<IDialog>(){
-                                                    new SendActivity("[detailedEntryTemplate(dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 1])]"),
-                                                    new SetProperty()
-                                                    {
-                                                        Property = "user.focusedMeeting",
-                                                        Value = "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 1]"
-                                                    }
-                                                },
-                                                ElseSteps = new List<IDialog>(){
-                                                    new SendActivity("[viewEmptyEntry]")
-                                                }
-                                            },
-                                            new ConfirmInput(){
-                                                Property = "turn.FindCalendarEntry_ConfirmChoice",
-                                                Prompt = new ActivityTemplate("[OverviewAgain]"),
-                                                InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
-                                            },
-                                            new IfCondition()
-                                            {
-                                                Condition = "turn.FindCalendarEntry_ConfirmChoice",
-                                                Steps = new List<IDialog>()
-                                                {
-                                                    new RepeatDialog()
-                                                },
-                                                ElseSteps = new List<IDialog>()
-                                                {
-                                                    new EndDialog()
-                                                }
-                                            }
-                                            //new RepeatDialog()
-                                        }),
-                                    new Case("Check The Third One", new List<IDialog>()
-                                        {
-                                            new IfCondition(){
-                                                Condition = "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 2] != null",
-                                                Steps = new List<IDialog>(){
-                                                    new SendActivity("[detailedEntryTemplate(dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 2])]"),
-                                                    new SetProperty()
-                                                    {
-                                                        Property = "user.focusedMeeting",
-                                                        Value = "dialog.FindCalendarEntry_GraphAll.value[user.FindCalendarEntry_pageIndex * 3 + 2]"
-                                                    }
-                                                },
-                                                ElseSteps = new List<IDialog>(){
-                                                    new SendActivity("[viewEmptyEntry]")
-                                                }
-                                            },
-                                            new ConfirmInput(){
-                                                Property = "turn.FindCalendarEntry_ConfirmChoice",
-                                                Prompt = new ActivityTemplate("[OverviewAgain]"),
-                                                InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
-                                            },
-                                            new IfCondition()
-                                            {
-                                                Condition = "turn.FindCalendarEntry_ConfirmChoice",
-                                                Steps = new List<IDialog>()
-                                                {
-                                                    new RepeatDialog()
-                                                },
-                                                ElseSteps = new List<IDialog>()
-                                                {
-                                                    new EndDialog()
-                                                }
-                                            }
-                                            //new RepeatDialog()
-                                        })
-                                },
-                                Default = new List<IDialog>()
-                                {
-                                    new SendActivity("Sorry, I don't know what you mean!"),
-                                    new EndDialog()
-                                }
-                            }
-                        },
-                        ElseSteps = new List<IDialog>
                         {
-                            new SendActivity("[NoEntries]"),
-                            new SendActivity("[Welcome-Actions]"),
+                            new RepeatDialog()
+                        },
+                        ElseSteps = new List<IDialog>()
+                        {
                             new EndDialog()
                         }
-                    }
+                    }                       
                 },
                 Rules = new List<IRule>()
                 {
@@ -206,79 +63,22 @@ namespace Microsoft.BotBuilderSamples
                         Steps = new List<IDialog>()
                         {
                                 new SendActivity("[CancelViewMeeting]"),
-                                new EndDialog()
-                        }
-                    },
-                    new IntentRule("ShowPrevious")
-                    {
-                        Steps = new List<IDialog>()
-                        {
-                            new IfCondition()
-                            {
-                                Condition = " 0 < user.FindCalendarEntry_pageIndex",
-                                Steps = new List<IDialog>()
-                                {
-                                    new SetProperty()
-                                    {
-                                        Property = "user.FindCalendarEntry_pageIndex",
-                                        Value = "user.FindCalendarEntry_pageIndex - 1"
-                                    },
-                                    new RepeatDialog()
-                                },
-                                ElseSteps = new List<IDialog>()
-                                {
-                                    new SendActivity("This is already the first page!"),
-                                    new RepeatDialog()
-                                }
-                            }
-                        }
-                    },
-                    new IntentRule("ShowNext")
-                    {
-                        Steps = new List<IDialog>()
-                        {
-                            new IfCondition()
-                            {
-                                Condition = " user.FindCalendarEntry_pageIndex * 3 + 3 < count(dialog.FindCalendarEntry_GraphAll.value)",
-                                Steps = new List<IDialog>()
-                                {
-                                    new SetProperty()
-                                    {
-                                        Property = "user.FindCalendarEntry_pageIndex",
-                                        Value = "user.FindCalendarEntry_pageIndex + 1"
-                                    },
-                                    new RepeatDialog()
-                                },
-                                ElseSteps = new List<IDialog>()
-                                {
-                                    new SendActivity("This is already the last page!"),
-                                    new RepeatDialog()
-                                }
-                            }
+                                new CancelAllDialogs()
                         }
                     }
-
                 }
             };
             
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
             AddDialog(findCalendarEntry);
+            findCalendarEntry.AddDialog(
+                new List<Dialog> {
+                    new ShowAllMeetingDialog(Configuration)
+                });
 
             // The initial child Dialog to run.
             InitialDialogId = "view";
         }
-        //private static IRecognizer CreateRecognizer()
-        //{
-        //    return new RegexRecognizer()
-        //    {
-        //        Intents = new Dictionary<string, string>()
-        //        {
-        //            { "Help", "(?i)help" },
-        //            { "Cancel", "(?i)cancel|never mind"},
-        //        }
-        //    };
-        //}
-
         public static IRecognizer CreateRecognizer()
         {
             if (string.IsNullOrEmpty(Configuration["LuisAppIdGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIKeyGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostNameGeneral"]))
