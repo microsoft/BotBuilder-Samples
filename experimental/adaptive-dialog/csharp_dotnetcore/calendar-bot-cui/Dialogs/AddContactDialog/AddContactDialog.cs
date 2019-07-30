@@ -80,96 +80,10 @@ namespace Microsoft.BotBuilderSamples
                             new SendActivity("[emailTemplate(dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3], " +
                                 "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 1]," +
                                 "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 2])]"),// TODO only simple card right now, will use fancy card then\
-                            new DeleteProperty
+                            new TextInput()
                             {
-                                Property = "turn.CreateCalendarEntry_Choice"
-                            },
-                            new ChoiceInput(){
-                                Property = "turn.CreateCalendarEntry_Choice",
-                                Prompt = new ActivityTemplate("[EnterYourChoice]"),
-                                Choices = new List<Choice>()
-                                {
-                                    new Choice("Confirm The First One"),
-                                    new Choice("Confirm The Second One"),
-                                    new Choice("Confirm The Third One")
-                                },
-                                Style = ListStyle.SuggestedAction
-                            },
-                            new SwitchCondition()
-                            {
-                                Condition = "turn.CreateCalendarEntry_Choice",
-                                Cases = new List<Case>()
-                                {
-                                    new Case("Confirm The First One", new List<IDialog>()
-                                        {
-                                            new IfCondition()
-                                            {
-                                                Condition = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3] != null",
-                                                Steps = new List<IDialog>()
-                                                {
-                                                    new SetProperty()
-                                                    {
-                                                        Property = "user.finalContact",
-                                                        Value = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3]",
-                                                        //Value = "concat(user.finalContact, '{\"emailAddress\":{ \"address\":\"', dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3], '\"}},')"
-                                                    },
-                                                },
-                                                ElseSteps = new List<IDialog>()
-                                                {
-                                                    new SendActivity("[viewEmptyEntry]"),
-                                                    new RepeatDialog()
-                                                }
-                                            }
-                                        }),
-                                    new Case("Confirm The Second One", new List<IDialog>()
-                                        {
-                                            new IfCondition()
-                                            {
-                                                Condition = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 1] != null",
-                                                Steps = new List<IDialog>()
-                                                {
-                                                    new SetProperty()
-                                                    {
-                                                        Property = "user.finalContact",
-                                                         Value = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 1]",
-                                                         //Value = "concat(user.finalContact, '{\"emailAddress\":{ \"address\":\"', dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 1], '\"}},')"
-                                                    }
-                                                },
-                                                ElseSteps = new List<IDialog>()
-                                                {
-                                                    new SendActivity("[viewEmptyEntry]"),
-                                                    new RepeatDialog()
-                                                }
-                                            }
-                                        }),
-                                    new Case("Confirm The Third One", new List<IDialog>()
-                                        {
-                                            new IfCondition()
-                                            {
-                                                Condition = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 2] != null",
-                                                Steps = new List<IDialog>()
-                                                {
-                                                    new SetProperty()
-                                                    {
-                                                        Property = "user.finalContact",
-                                                        Value = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 2]",
-                                                        //Value = "concat(user.finalContact, '{\"emailAddress\":{ \"address\":\"', dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 2], '\"}},')"
-
-                                                    }
-                                                },
-                                                ElseSteps = new List<IDialog>()
-                                                {
-                                                    new SendActivity("[viewEmptyEntry]"),
-                                                    new RepeatDialog()
-                                                }
-                                            }
-                                        })
-                                },
-                                Default = new List<IDialog>()
-                                {
-                                    new SendActivity("Sorry, I don't know what you mean!"),
-                                    new EndDialog()
-                                }
+                                Property = "turn.AddContactDialog_userChoice",
+                                Prompt = new ActivityTemplate("Please enter your choice")
                             }
                         },
                         ElseSteps = new List<IDialog>()
@@ -274,6 +188,191 @@ namespace Microsoft.BotBuilderSamples
                                 {
                                     new SendActivity("This is already the last page!"),
                                     new RepeatDialog()
+                                }
+                            }
+                        }
+                    },
+                    new IntentRule("SelectItem")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new SetProperty()
+                            {
+                                Value = "@ordinal",
+                                Property = "turn.AddContactDialog_ordinal"
+                            },
+                            new SetProperty()
+                            {
+                                Value = "@number",
+                                Property = "turn.AddContactDialog_number"
+                            },
+                            new IfCondition()
+                            {
+                                Condition = "turn.AddContactDialog_ordinal != null",
+                                Steps = new List<IDialog>()
+                                {
+                                    new SwitchCondition()
+                                    {
+                                        Condition = "turn.AddContactDialog_ordinal",
+                                        Cases = new List<Case>()
+                                        {
+                                            new Case("1", new List<IDialog>()
+                                                {
+                                                    new IfCondition()
+                                                    {
+                                                        Condition = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3] != null",
+                                                        Steps = new List<IDialog>()
+                                                        {
+                                                            new SetProperty()
+                                                            {
+                                                                Property = "user.finalContact",
+                                                                Value = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3]",
+                                                                //Value = "concat(user.finalContact, '{\"emailAddress\":{ \"address\":\"', dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3], '\"}},')"
+                                                            },
+                                                            new EndDialog()
+                                                        },
+                                                        ElseSteps = new List<IDialog>()
+                                                        {
+                                                            new SendActivity("[viewEmptyEntry]"),
+                                                            new RepeatDialog()
+                                                        }
+                                                    }
+                                                }),
+                                            new Case("2", new List<IDialog>()
+                                                {
+                                                    new IfCondition()
+                                                    {
+                                                        Condition = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 1] != null",
+                                                        Steps = new List<IDialog>()
+                                                        {
+                                                            new SetProperty()
+                                                            {
+                                                                Property = "user.finalContact",
+                                                                 Value = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 1]",
+                                                                 //Value = "concat(user.finalContact, '{\"emailAddress\":{ \"address\":\"', dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 1], '\"}},')"
+                                                            },
+                                                            new EndDialog()
+                                                        },
+                                                        ElseSteps = new List<IDialog>()
+                                                        {
+                                                            new SendActivity("[viewEmptyEntry]"),
+                                                            new RepeatDialog()
+                                                        }
+                                                    }
+                                                }),
+                                            new Case("3", new List<IDialog>()
+                                                {
+                                                    new IfCondition()
+                                                    {
+                                                        Condition = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 2] != null",
+                                                        Steps = new List<IDialog>()
+                                                        {
+                                                            new SetProperty()
+                                                            {
+                                                                Property = "user.finalContact",
+                                                                Value = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 2]",
+                                                                //Value = "concat(user.finalContact, '{\"emailAddress\":{ \"address\":\"', dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 2], '\"}},')"
+
+                                                            },
+                                                            new EndDialog()
+                                                        },
+                                                        ElseSteps = new List<IDialog>()
+                                                        {
+                                                            new SendActivity("[viewEmptyEntry]"),
+                                                            new RepeatDialog()
+                                                        }
+                                                    }
+                                                })
+                                        },
+                                        Default = new List<IDialog>()
+                                        {
+                                            new SendActivity("Sorry, I don't know what you mean!"),
+                                            new EndDialog()
+                                        }
+                                    }
+                                }
+                            },
+                            new IfCondition()
+                            {
+                                Condition = "turn.AddContactDialog_number != null && turn.AddContactDialog_ordinal == null",
+                                Steps = new List<IDialog>()
+                                {
+                                    new SwitchCondition()
+                                    {
+                                        Condition = "turn.AddContactDialog_number",
+                                        Cases = new List<Case>()
+                                        {
+                                            new Case("1", new List<IDialog>()
+                                                {
+                                                    new IfCondition()
+                                                    {
+                                                        Condition = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3] != null",
+                                                        Steps = new List<IDialog>()
+                                                        {
+                                                            new SetProperty()
+                                                            {
+                                                                Property = "user.finalContact",
+                                                                Value = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3]",
+                                                                //Value = "concat(user.finalContact, '{\"emailAddress\":{ \"address\":\"', dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3], '\"}},')"
+                                                            },
+                                                        },
+                                                        ElseSteps = new List<IDialog>()
+                                                        {
+                                                            new SendActivity("[viewEmptyEntry]"),
+                                                            new RepeatDialog()
+                                                        }
+                                                    }
+                                                }),
+                                            new Case("2", new List<IDialog>()
+                                                {
+                                                    new IfCondition()
+                                                    {
+                                                        Condition = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 1] != null",
+                                                        Steps = new List<IDialog>()
+                                                        {
+                                                            new SetProperty()
+                                                            {
+                                                                Property = "user.finalContact",
+                                                                 Value = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 1]",
+                                                                 //Value = "concat(user.finalContact, '{\"emailAddress\":{ \"address\":\"', dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 1], '\"}},')"
+                                                            }
+                                                        },
+                                                        ElseSteps = new List<IDialog>()
+                                                        {
+                                                            new SendActivity("[viewEmptyEntry]"),
+                                                            new RepeatDialog()
+                                                        }
+                                                    }
+                                                }),
+                                            new Case("3", new List<IDialog>()
+                                                {
+                                                    new IfCondition()
+                                                    {
+                                                        Condition = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 2] != null",
+                                                        Steps = new List<IDialog>()
+                                                        {
+                                                            new SetProperty()
+                                                            {
+                                                                Property = "user.finalContact",
+                                                                Value = "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 2]",
+                                                                //Value = "concat(user.finalContact, '{\"emailAddress\":{ \"address\":\"', dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 2], '\"}},')"
+
+                                                            }
+                                                        },
+                                                        ElseSteps = new List<IDialog>()
+                                                        {
+                                                            new SendActivity("[viewEmptyEntry]"),
+                                                            new RepeatDialog()
+                                                        }
+                                                    }
+                                                })
+                                        },
+                                        Default = new List<IDialog>()
+                                        {
+                                            new SendActivity("Sorry, I don't know what you mean!"),
+                                            new EndDialog()
+                                        }
+                                    }
                                 }
                             }
                         }

@@ -50,83 +50,9 @@ namespace Microsoft.BotBuilderSamples
                             new SendActivity("[entryTemplate(dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3], " +
                                 "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 1]," +
                                 "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 2])]"),// TODO only simple card right now, will use fancy card then\
-                            new DeleteProperty
-                            {
-                                Property = "turn.FindCalendarEntry_Choice"
-                            },
-                            new ChoiceInput(){
-                                Property = "turn.FindCalendarEntry_Choice",
-                                Prompt = new ActivityTemplate("[EnterYourChoice]"),
-                                Choices = new List<Choice>()
-                                {
-                                    new Choice("Check The First One"),
-                                    new Choice("Check The Second One"),
-                                    new Choice("Check The Third One"),
-                                },
-                                Style = ListStyle.SuggestedAction
-                            },
-                            new SwitchCondition()
-                            {
-                                Condition = "turn.FindCalendarEntry_Choice",
-                                Cases = new List<Case>()
-                                {
-                                    new Case("Check The First One", new List<IDialog>()
-                                        {
-                                            new IfCondition(){
-                                                Condition = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3] != null",
-                                                Steps = new List<IDialog>(){
-                                                    new SendActivity("[detailedEntryTemplate(dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3])]"),
-                                                    new SetProperty()
-                                                    {
-                                                        Property = "user.focusedMeeting",
-                                                        Value = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3]"
-                                                    }
-                                                },
-                                                ElseSteps = new List<IDialog>(){
-                                                    new SendActivity("[viewEmptyEntry]"),
-                                                }
-                                            }
-                                        }),
-                                    new Case("Check The Second One", new List<IDialog>()
-                                        {
-                                            new IfCondition(){
-                                                Condition = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 1] != null",
-                                                Steps = new List<IDialog>(){
-                                                    new SendActivity("[detailedEntryTemplate(dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 1])]"),
-                                                    new SetProperty()
-                                                    {
-                                                        Property = "user.focusedMeeting",
-                                                        Value = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 1]"
-                                                    }
-                                                },
-                                                ElseSteps = new List<IDialog>(){
-                                                    new SendActivity("[viewEmptyEntry]")
-                                                }
-                                            }
-                                        }),
-                                    new Case("Check The Third One", new List<IDialog>()
-                                        {
-                                            new IfCondition(){
-                                                Condition = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 2] != null",
-                                                Steps = new List<IDialog>(){
-                                                    new SendActivity("[detailedEntryTemplate(dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 2])]"),
-                                                    new SetProperty()
-                                                    {
-                                                        Property = "user.focusedMeeting",
-                                                        Value = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 2]"
-                                                    }
-                                                },
-                                                ElseSteps = new List<IDialog>(){
-                                                    new SendActivity("[viewEmptyEntry]")
-                                                }
-                                            }
-                                        })
-                                },
-                                Default = new List<IDialog>()
-                                {
-                                    new SendActivity("Sorry, I don't know what you mean!"),
-                                    new EndDialog()
-                                }
+                            new TextInput(){
+                                Property = "turn.ShowAllMeetingDialog_Choice",
+                                Prompt = new ActivityTemplate("Please enter your choice")
                             }
                         },
                         ElseSteps = new List<IDialog>
@@ -201,8 +127,169 @@ namespace Microsoft.BotBuilderSamples
                                 }
                             }
                         }
-                    }
+                    },
+                    new IntentRule("SelectItem")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new SetProperty()
+                            {
+                                Value = "@ordinal",
+                                Property = "turn.ShowAllMeetingDialog_ordinal"
+                            },
+                            new SetProperty()
+                            {
+                                Value = "@number",
+                                Property = "turn.ShowAllMeetingDialog_number"
+                            },
+                            new IfCondition()
+                            {
+                                Condition = "turn.ShowAllMeetingDialog_ordinal != null",
+                                Steps = new List<IDialog>()
+                                {
+                                    new SendActivity("{turn.ShowAllMeetingDialog_ordinal}"),
+                                    new SwitchCondition()
+                                    {
+                                        Condition = "turn.ShowAllMeetingDialog_ordinal",
+                                        Cases = new List<Case>()
+                                        {
+                                            new Case("1", new List<IDialog>()
+                                                {
+                                                    new IfCondition(){
+                                                        Condition = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3] != null",
+                                                        Steps = new List<IDialog>(){
+                                                            new SendActivity("[detailedEntryTemplate(dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3])]"),
+                                                            new SetProperty()
+                                                            {
+                                                                Property = "user.focusedMeeting",
+                                                                Value = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3]"
+                                                            }
+                                                        },
+                                                        ElseSteps = new List<IDialog>(){
+                                                            new SendActivity("[viewEmptyEntry]"),
+                                                        }
+                                                    }
+                                                }),
+                                            new Case("2", new List<IDialog>()
+                                                {
+                                                    new IfCondition(){
+                                                        Condition = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 1] != null",
+                                                        Steps = new List<IDialog>(){
+                                                            new SendActivity("[detailedEntryTemplate(dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 1])]"),
+                                                            new SetProperty()
+                                                            {
+                                                                Property = "user.focusedMeeting",
+                                                                Value = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 1]"
+                                                            }
+                                                        },
+                                                        ElseSteps = new List<IDialog>(){
+                                                            new SendActivity("[viewEmptyEntry]")
+                                                        }
+                                                    }
+                                                }),
+                                            new Case("3", new List<IDialog>()
+                                                {
+                                                    new IfCondition(){
+                                                        Condition = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 2] != null",
+                                                        Steps = new List<IDialog>(){
+                                                            new SendActivity("[detailedEntryTemplate(dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 2])]"),
+                                                            new SetProperty()
+                                                            {
+                                                                Property = "user.focusedMeeting",
+                                                                Value = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 2]"
+                                                            }
+                                                        },
+                                                        ElseSteps = new List<IDialog>(){
+                                                            new SendActivity("[viewEmptyEntry]")
+                                                        }
+                                                    }
+                                                })
+                                        },
+                                        Default = new List<IDialog>()
+                                        {
+                                            new SendActivity("Sorry, I don't know what you mean!"),
+                                            new EndDialog()
+                                        }
+                                    },
+                                    new EndDialog()
+                                }
+                            },
+                            new IfCondition()
+                            {
+                                // prevent "select the third one"
+                                Condition = "turn.ShowAllMeetingDialog_number != null && turn.ShowAllMeetingDialog_ordinal == null",
+                                Steps = new List<IDialog>()
+                                {
+                                    new SendActivity("{turn.ShowAllMeetingDialog_number}"),
+                                    new SwitchCondition()
+                                    {
+                                        Condition = "turn.ShowAllMeetingDialog_number",
+                                        Cases = new List<Case>()
+                                        {
+                                            new Case("1", new List<IDialog>()
+                                                {
+                                                    new IfCondition(){
+                                                        Condition = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3] != null",
+                                                        Steps = new List<IDialog>(){
+                                                            new SendActivity("[detailedEntryTemplate(dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3])]"),
+                                                            new SetProperty()
+                                                            {
+                                                                Property = "user.focusedMeeting",
+                                                                Value = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3]"
+                                                            }
+                                                        },
+                                                        ElseSteps = new List<IDialog>(){
+                                                            new SendActivity("[viewEmptyEntry]"),
+                                                        }
+                                                    }
+                                                }),
+                                            new Case("2", new List<IDialog>()
+                                                {
+                                                    new IfCondition(){
+                                                        Condition = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 1] != null",
+                                                        Steps = new List<IDialog>(){
+                                                            new SendActivity("[detailedEntryTemplate(dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 1])]"),
+                                                            new SetProperty()
+                                                            {
+                                                                Property = "user.focusedMeeting",
+                                                                Value = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 1]"
+                                                            }
+                                                        },
+                                                        ElseSteps = new List<IDialog>(){
+                                                            new SendActivity("[viewEmptyEntry]")
+                                                        }
+                                                    }
+                                                }),
+                                            new Case("3", new List<IDialog>()
+                                                {
+                                                    new IfCondition(){
+                                                        Condition = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 2] != null",
+                                                        Steps = new List<IDialog>(){
+                                                            new SendActivity("[detailedEntryTemplate(dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 2])]"),
+                                                            new SetProperty()
+                                                            {
+                                                                Property = "user.focusedMeeting",
+                                                                Value = "dialog.ShowAllMeetingDialog_GraphAll.value[user.ShowAllMeetingDialog_pageIndex * 3 + 2]"
+                                                            }
+                                                        },
+                                                        ElseSteps = new List<IDialog>(){
+                                                            new SendActivity("[viewEmptyEntry]")
+                                                        }
+                                                    }
+                                                })
+                                        },
+                                        Default = new List<IDialog>()
+                                        {
+                                            new SendActivity("Sorry, I don't know what you mean!"),
+                                            new EndDialog()
+                                        }
+                                    },
+                                    new EndDialog()
+                                }
+                            },
+                        }
 
+                    }
                 }
             };
             
