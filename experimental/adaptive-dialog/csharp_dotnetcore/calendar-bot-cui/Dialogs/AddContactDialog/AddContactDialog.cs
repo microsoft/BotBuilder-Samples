@@ -7,7 +7,6 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Extensions.Configuration;
 
@@ -77,9 +76,18 @@ namespace Microsoft.BotBuilderSamples
                         Condition = "dialog.matchedEmails != null && count(dialog.matchedEmails) > 0",
                         Steps = new List<IDialog>()
                         {
-                            new SendActivity("[emailTemplate(dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3], " +
-                                "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 1]," +
-                                "dialog.matchedEmails[user.CreateCalendarEntry_pageIndex * 3 + 2])]"),// TODO only simple card right now, will use fancy card then\
+                            new IfCondition()
+                            {
+                                Condition = "user.CreateCalendarEntry_pageIndex * 3 + 2 < count(dialog.matchedEmails)",
+                                Steps = new List<IDialog>
+                                {
+                                    new SendActivity("[stitchEmailTemplate(dialog.matchedEmails, user.CreateCalendarEntry_pageIndex * 3, user.CreateCalendarEntry_pageIndex * 3 + 2)]"),
+                                },
+                                ElseSteps = new List<IDialog>
+                                {
+                                    new SendActivity("[stitchEmailTemplate(dialog.matchedEmails, user.CreateCalendarEntry_pageIndex * 3, count(dialog.matchedEmails))]")
+                                } 
+                            }, // TODO only simple card right now, will use fancy card then
                             new TextInput()
                             {
                                 Property = "turn.AddContactDialog_userChoice",

@@ -37,85 +37,50 @@ OK, please enter the email of the attendee of your event.
 # viewEmptyEntry
 - You cannot check on empty entry!
 
-# emailTemplate(x, y, z)
+# stitchEmailTemplate(contactList, startIndex, endIndex)
 - ```
 [adaptivecard
 {
     "type": "AdaptiveCard",
     "height": "stretch",
     "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=",
-    "body": [
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "Container",
-                    "style": "emphasis",
-                    "items": [
-                        {
-                            "type": "TextBlock",
-                            "horizontalAlignment": "Center",
-                            "spacing": "Medium",
-                            "size": "Medium",
-                            "weight": "Bolder",
-                            "color": "Dark",
-                            "text": "@{if(x != null, x, 'N/A')}",
-                            "isSubtle": false
-                        }
-                    ],
-                    "width": 20
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "Container",
-                    "style": "emphasis",
-                    "items": [
-                        {
-                            "type": "TextBlock",
-                            "horizontalAlignment": "Center",
-                            "spacing": "Medium",
-                            "size": "Medium",
-                            "weight": "Bolder",
-                            "color": "Dark",
-                            "text": "@{if(y != null, y, 'N/A')}",
-                            "isSubtle": false
-                        }
-                    ],
-                    "width": 20
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "Container",
-                    "style": "emphasis",
-                    "items": [
-                        {
-                            "type": "TextBlock",
-                            "horizontalAlignment": "Center",
-                            "spacing": "Medium",
-                            "size": "Medium",
-                            "weight": "Bolder",
-                            "color": "Dark",
-                            "text": "@{if(z != null, z, 'N/A')}",
-                            "isSubtle": false
-                        }
-                    ],
-                    "width": 20
-                }
-            ]
-        }
+    "body": 
+    [
+         @{lgTemplate("stitchEmail", contactList, startIndex, endIndex)}
     ],
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "version": "1.0"
 }
 ]
+```
+
+# stitchEmail(contactList, startIndex, endIndex)
+- @{join(foreach(subArray(contactList, int(startIndex),int(endIndex)), x, lgTemplate("singleContact", x)), ', ')}
+
+# singleContact(x)
+- ```
+{
+    "type": "Container",
+    "items": [
+        {
+            "type": "Container",
+            "style": "emphasis",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "horizontalAlignment": "Center",
+                    "spacing": "Medium",
+                    "size": "Medium",
+                    "weight": "Bolder",
+                    "color": "Dark",
+                    "text": "@{if(x != null, x, 'N/A')}",
+                    "isSubtle": false
+                }
+            ],
+            "width": 20
+        }
+    ]
+}
 ```
 
 # addTemplate(x, y)
