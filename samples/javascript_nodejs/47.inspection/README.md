@@ -1,12 +1,10 @@
-# echo-bot
+# inspection bot
 
 Bot Framework v4 Inspection Middleware sample.
 
-This bot demonstrates a feature called Inspection. This feature allows the bot emulator to debug traffic into and out of the bot in addition to
-looking at the current state of the bot. This is done by having this data sent to the emulator using trace messages.
+This bot demonstrates a feature called Inspection. This feature allows the bot emulator to debug traffic into and out of the bot in addition to looking at the current state of the bot. This is done by having this data sent to the emulator using trace messages.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
-Included in this echo are two counters maintained in User and Conversation state to demonstrate the ability to look at state.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back. Included in this echo are two counters maintained in User and Conversation state to demonstrate the ability to look at state.
 
 This runtime behavior is achieved by simply adding a middleware to the bot. In this sample you can find that being done in the index.js file.
 
@@ -29,10 +27,10 @@ More details are available [here](https://github.com/microsoft/BotFramework-Emul
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_nodejs/02.echo-bot`
+- In a terminal, navigate to `samples/javascript_nodejs/47.inspection`
 
     ```bash
-    cd samples/javascript_nodejs/02.echo-bot
+    cd samples/javascript_nodejs/47.inspection
     ```
 
 - Install modules

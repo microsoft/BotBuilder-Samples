@@ -1,0 +1,37 @@
+{
+  "Text": "flight to madrid",
+  "AlteredText": null,
+  "Intents": {
+    "BookFlight": {
+      "score": 0.8476145
+    }
+  },
+  "Entities": {
+    "datetime": null,
+    "Airport": null,
+    "From": null,
+    "To": [
+      {
+        "Airport": null,
+        "$instance": {
+          "Airport": null
+        }
+      }
+    ],
+    "$instance": {
+      "datetime": null,
+      "Airport": null,
+      "From": null,
+      "To": [
+        {
+          "startIndex": 10,
+          "endIndex": 16,
+          "text": "madrid",
+          "score": 0.7892059,
+          "type": "To",
+          "subtype": null
+        }
+      ]
+    }
+  }
+}

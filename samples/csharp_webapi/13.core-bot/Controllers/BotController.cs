@@ -10,6 +10,8 @@ using System.Web.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.AspNet.WebApi;
+using Microsoft.BotBuilderSamples.Bots;
+using Microsoft.BotBuilderSamples.Dialogs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -35,7 +37,7 @@ namespace Microsoft.BotBuilderSamples
             var storage = new MemoryStorage();
             _conversationState = new ConversationState(storage);
             _userState = new UserState(storage);
-
+            
             // create the BotAdapter we will be using
             var credentialProvider = new ConfigurationCredentialProvider();
             _adapter = new AdapterWithErrorHandler(credentialProvider, _loggerFactory.CreateLogger<BotFrameworkHttpAdapter>(), _conversationState);
@@ -49,8 +51,11 @@ namespace Microsoft.BotBuilderSamples
                 .AddInMemoryCollection(appsettings)
                 .Build();
 
+            // LUIS recognizer and BookingDialog are used by the MainDialog
+            var bookingRecognizer = new FlightBookingRecognizer(configuration);
+            var bookingDialog = new BookingDialog();
             // create the Dialog this bot will run - we need configuration because this Dialog will call LUIS
-            _dialog = new MainDialog(configuration, _loggerFactory.CreateLogger<MainDialog>());
+            _dialog = new MainDialog(bookingRecognizer, bookingDialog, _loggerFactory.CreateLogger<MainDialog>());
         }
 
         public async Task<HttpResponseMessage> Post()

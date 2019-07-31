@@ -1,15 +1,12 @@
-﻿# EchoBot
+﻿# Inspection Bot
 
 Bot Framework v4 Inspection Middleware sample.
 
-This bot demonstrates a feature called Inspection. This feature allows the bot emulator to debug traffic into and out of the bot in addition to
-looking at the current state of the bot. This is done by having this data sent to the emulator using trace messages.
+This bot demonstrates a feature called Inspection. This feature allows the Bot Framework Emulator to debug traffic into and out of the bot in addition to looking at the current state of the bot. This is done by having this data sent to the emulator using trace messages.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
-Included in this echo are two counters maintained in User and Conversation state to demonstrate the ability to look at state.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back. Included in this sample are two counters maintained in User and Conversation state to demonstrate the ability to look at state.
 
-This runtime behavior is achieved by simply adding a middleware to the bot. In this sample you can find that being done in the
-AdapterWithInspection class.
+This runtime behavior is achieved by simply adding a middleware to the bot. In this sample you can find that being done in the `AdapterWithInspection` class.
 
 More details are available [here](https://github.com/microsoft/BotFramework-Emulator/blob/master/content/CHANNELS.md)
 
@@ -30,7 +27,7 @@ More details are available [here](https://github.com/microsoft/BotFramework-Emul
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/02.echo-bot`
+- In a terminal, navigate to `samples/csharp_dotnetcore/47.inspection`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -52,7 +49,7 @@ More details are available [here](https://github.com/microsoft/BotFramework-Emul
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the Bot Framework Emulator version 4.5.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -62,14 +59,13 @@ More details are available [here](https://github.com/microsoft/BotFramework-Emul
 
 ### Special Instructions for Running Inspection
 
-(Note the follow applies if you are using two emulators. More recnt builds hide the need to type /INSPECT open.)
+(Note the follow applies if you are using two emulators. More recent builds of the Bot Framework Emulator hide the need to type /INSPECT open.)
 
-- Lanuch a second Emulator - this will act as the debugger
+- Launch a second Emulator - this will act as the debugger
 - In this second Emulator type /INSPECT open
 - The result is a trace activity which contains a statement that looks like /INSPECT attach < identifier >
 - In the chat session that you want to inspect type this command exact as it is (you can use cut and paste)
 - Now all the traffic will be replicated (as trace activities) to the Emulator that sent the /INSPECT open command
-
 
 ## Deploy the bot to Azure
 

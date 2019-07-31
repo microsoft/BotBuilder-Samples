@@ -5,12 +5,13 @@
       "Bot",
       "Bot Framework",
       "AI",
-      "Core Bot"
+      "Core Bot",
+      "Core Bot Test"
     ],
     "defaultName": "CoreBot",
     "groupIdentity": "Microsoft.BotFramework.CSharp.CoreBot",
     "identity": "Microsoft.BotFramework.CSharp.CoreBot",
-    "name": "Bot Framework Core Bot (v0.4.6)",
+    "name": "Bot Framework Core Bot (v4.5.1)",
     "preferNameDirectory": true,
     "sourceName": "Microsoft.BotFramework.CoreBot",
     "shortName": "corebot",
@@ -24,7 +25,7 @@
         "type": "generated",
         "generator": "constant",
         "parameters": {
-          "value": "v0.4.6"
+          "value": "v4.5.1"
         },
         "replaces": "__vX.X.X__"
       },
@@ -54,6 +55,13 @@
         ],
         "replaces": "__NETCOREAPP_VERSION__",
         "defaultValue": "netcoreapp2.2"
+      },
+      "IncludeTests": {
+        "type": "parameter",
+        "dataType": "bool",
+        "defaultValue": "false",
+        "description": "If specified, will also create a test project for your bot.",
+        "isRequired": false
       },
       "AspCoreAssemblyVersion": {
         "type":"generated",
@@ -104,7 +112,21 @@
     "sources": [
       {
         "modifiers": [
-          {"exclude": [ "**/NuGet.Config", "**/.DS_Store" ]}
+          {
+            "condition": "(!IncludeTests)",
+            "exclude": [
+              "CoreBot.Tests/**/*",
+              "**/NuGet.Config",
+              "**/.DS_Store"
+            ]
+          },
+          {
+            "condition": "(IncludeTests)",
+            "exclude": [
+              "**/NuGet.Config",
+              "**/.DS_Store"
+            ]
+          }
         ]
       }
     ],

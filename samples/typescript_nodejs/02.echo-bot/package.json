@@ -18,16 +18,16 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "~4.4.0",
-        "dotenv": "^7.0.0",
+        "botbuilder": "~4.5.1",
+        "dotenv": "^8.0.0",
         "replace": "~1.1.0",
         "restify": "~8.3.3"
     },
     "devDependencies": {
-        "@types/dotenv": "6.1.0",
-        "@types/restify": "7.2.11",
-        "nodemon": "~1.18.10",
-        "tslint": "~5.14.0",
-        "typescript": "~3.3.3"
+        "@types/dotenv": "6.1.1",
+        "@types/restify": "7.2.12",
+        "nodemon": "~1.19.1",
+        "tslint": "~5.18.0",
+        "typescript": "~3.5.3"
     }
 }

@@ -6,8 +6,8 @@ const { DialogBot } = require('./dialogBot');
 const WelcomeCard = require('../resources/welcomeCard.json');
 
 class DialogAndWelcomeBot extends DialogBot {
-    constructor(conversationState, userState, dialog, logger) {
-        super(conversationState, userState, dialog, logger);
+    constructor(conversationState, userState, dialog) {
+        super(conversationState, userState, dialog);
 
         this.onMembersAdded(async (context, next) => {
             const membersAdded = context.activity.membersAdded;
@@ -15,6 +15,7 @@ class DialogAndWelcomeBot extends DialogBot {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
                     const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);
                     await context.sendActivity({ attachments: [welcomeCard] });
+                    await dialog.run(context, conversationState.createProperty('DialogState'));
                 }
             }
 

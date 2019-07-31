@@ -39,7 +39,7 @@ const conversationReferences = {};
 const bot = new ProactiveBot(conversationReferences);
 
 // Create HTTP server.
-let server = restify.createServer();
+const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
@@ -55,7 +55,7 @@ server.post('/api/messages', (req, res) => {
 
 // Listen for incoming notifications and send proactive messages to users.
 server.get('/api/notify', async (req, res) => {
-    for (let conversationReference of Object.values(conversationReferences)) {
+    for (const conversationReference of Object.values(conversationReferences)) {
         await adapter.continueConversation(conversationReference, async turnContext => {
             await turnContext.sendActivity('proactive hello');
         });

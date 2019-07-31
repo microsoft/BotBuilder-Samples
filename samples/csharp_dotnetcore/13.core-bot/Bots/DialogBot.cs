@@ -15,7 +15,8 @@ namespace Microsoft.BotBuilderSamples.Bots
     // each with dependency on distinct IBot types, this way ASP Dependency Injection can glue everything together without ambiguity.
     // The ConversationState is used by the Dialog system. The UserState isn't, however, it might have been used in a Dialog implementation,
     // and the requirement is that all BotState objects are saved at the end of a turn.
-    public class DialogBot<T> : ActivityHandler where T : Dialog
+    public class DialogBot<T> : ActivityHandler
+        where T : Dialog
     {
         protected readonly Dialog Dialog;
         protected readonly BotState ConversationState;
@@ -44,7 +45,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             Logger.LogInformation("Running dialog with Message Activity.");
 
             // Run the Dialog with the new message Activity.
-            await Dialog.Run(turnContext, ConversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
+            await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
         }
     }
 }

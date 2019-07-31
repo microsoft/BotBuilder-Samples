@@ -33,10 +33,10 @@ adapter.onTurnError = async (context, error) => {
 };
 
 // Create the main dialog.
-let bot = new DispatchBot();
+const bot = new DispatchBot();
 
 // Create HTTP server
-let server = restify.createServer();
+const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);

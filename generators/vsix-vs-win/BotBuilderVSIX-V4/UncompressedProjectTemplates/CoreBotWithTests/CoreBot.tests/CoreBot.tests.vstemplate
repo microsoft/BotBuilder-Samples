@@ -1,0 +1,66 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>Core Bot Unit Tests (Bot Framework v4)</Name>
+    <Description>Core Bot Unit Test Template for Bot Framework v4.  Our most feature rich template, it shows how to use LUIS and multi-turn conversational patterns.
+    </Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>Bot Framework</ProjectSubType>
+    <SortOrder>1835</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>CoreBot</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <CreateInPlace>true</CreateInPlace>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Hidden>true</Hidden>
+    <Icon>CoreBot.png</Icon>
+    <PreviewImage></PreviewImage>
+    <Tags>C#; Windows; Azure; AI; Bots</Tags>
+    <LanguageTag>csharp</LanguageTag>
+    <PlatformTag>Windows</PlatformTag>
+    <PlatformTag>macOS</PlatformTag>
+    <PlatformTag>Linux</PlatformTag>
+    <ProjectTypeTag>AI Bots</ProjectTypeTag>
+  </TemplateData>
+  <TemplateContent>
+    <CustomParameters>
+      <CustomParameter Name="$templateversion$" Value="4.5.0"/>
+    </CustomParameters>
+    <Project File="CoreBot.Tests.csproj" ReplaceParameters="true" TargetFileName="$projectname$.Tests.csproj">
+      <Folder Name="Bots" TargetFolderName="Bots">
+        <ProjectItem ReplaceParameters="true">DialogAndWelcomeBotTests.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true">DialogBotTests.cs</ProjectItem>
+      </Folder>
+      <Folder Name="Common" TargetFolderName="Common">
+        <ProjectItem ReplaceParameters="true">BotTestBase.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="false">README.md</ProjectItem>
+        <ProjectItem ReplaceParameters="true">SimpleMockFactory.cs</ProjectItem>
+      </Folder>
+      <Folder Name="controllers" TargetFolderName="Controllers">
+        <ProjectItem ReplaceParameters="true">BotControllerTests.cs</ProjectItem>
+      </Folder>
+
+      <Folder Name="Dialogs" TargetFolderName="Dialogs">
+        <Folder Name="TestData" TargetFolderName="TestData">
+        <ProjectItem ReplaceParameters="true">BookingDialogTestCase.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true">BookingDialogTestsDataGenerator.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true">DateResolverDialogTestCase.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true">DateResolverDialogTestsDataGenerator.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="false">FlightFromCdgToJfk.json.</ProjectItem>
+        <ProjectItem ReplaceParameters="false">FlightFromMadridToChicago.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false">FlightFromParisTonewYork.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false">FlightToMadrid.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false">README.md</ProjectItem>
+        </Folder>
+        <ProjectItem ReplaceParameters="true">BookingDialogTests.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true">CancelAndHelpDialogTests.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true">DateResolverDialogTests.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true">MainDialogTests.cs</ProjectItem>
+      </Folder>
+
+      <ProjectItem ReplaceParameters="true">README.md</ProjectItem>
+
+    </Project>
+  </TemplateContent>
+
+</VSTemplate>

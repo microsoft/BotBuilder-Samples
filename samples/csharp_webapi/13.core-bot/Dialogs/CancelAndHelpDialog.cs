@@ -3,10 +3,11 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.BotBuilderSamples.Dialogs
 {
     public class CancelAndHelpDialog : ComponentDialog
     {
@@ -15,18 +16,7 @@ namespace Microsoft.BotBuilderSamples
         {
         }
 
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken)
-        {
-            var result = await InterruptAsync(innerDc, cancellationToken);
-            if (result != null)
-            {
-                return result;
-            }
-
-            return await base.OnBeginDialogAsync(innerDc, options, cancellationToken);
-        }
-
-        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken)
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
             var result = await InterruptAsync(innerDc, cancellationToken);
             if (result != null)
@@ -47,13 +37,17 @@ namespace Microsoft.BotBuilderSamples
                 {
                     case "help":
                     case "?":
-                        await innerDc.Context.SendActivityAsync($"Show Help...");
+                        var helpMessageText = "Show help here";
+                        var helpMessage = MessageFactory.Text(helpMessageText, helpMessageText, InputHints.ExpectingInput);
+                        await innerDc.Context.SendActivityAsync(helpMessage, cancellationToken);
                         return new DialogTurnResult(DialogTurnStatus.Waiting);
 
                     case "cancel":
                     case "quit":
-                        await innerDc.Context.SendActivityAsync($"Cancelling");
-                        return await innerDc.CancelAllDialogsAsync();
+                        var cancelMessageText = "Cancelling...";
+                        var cancelMessage = MessageFactory.Text(cancelMessageText, cancelMessageText, InputHints.IgnoringInput);
+                        await innerDc.Context.SendActivityAsync(cancelMessage, cancellationToken);
+                        return await innerDc.CancelAllDialogsAsync(cancellationToken);
                 }
             }
 

@@ -30,7 +30,7 @@ class WelcomeBot extends ActivityHandler {
             // (and only the first time) a user initiates a personal chat with your bot.
             if (didBotWelcomedUser === false) {
                 // The channel should send the user name in the 'From' object
-                let userName = context.activity.from.name;
+                const userName = context.activity.from.name;
                 await context.sendActivity('You are seeing this message because this was your first message ever sent to this bot.');
                 await context.sendActivity(`It is a good practice to welcome the user and provide personal greeting. For example, welcome ${ userName }.`);
 
@@ -39,7 +39,7 @@ class WelcomeBot extends ActivityHandler {
             } else {
                 // This example uses an exact match on user's input utterance.
                 // Consider using LUIS or QnA for Natural Language Processing.
-                let text = context.activity.text.toLowerCase();
+                const text = context.activity.text.toLowerCase();
                 switch (text) {
                 case 'hello':
                 case 'hi':
@@ -66,7 +66,7 @@ class WelcomeBot extends ActivityHandler {
         // Messages are only sent to conversation members who aren't the bot.
         this.onMembersAdded(async (context, next) => {
             // Iterate over all new members added to the conversation
-            for (let idx in context.activity.membersAdded) {
+            for (const idx in context.activity.membersAdded) {
                 // Greet anyone that was not the target (recipient) of this message.
                 // Since the bot is the recipient for events from the channel,
                 // context.activity.membersAdded === context.activity.recipient.Id indicates the
