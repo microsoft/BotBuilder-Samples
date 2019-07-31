@@ -81,22 +81,22 @@ namespace Microsoft.CalendarSample
                                 Condition = "user.CreateCalendarEntry_pageIndex * 3 + 2 < count(dialog.matchedEmails)",
                                 Steps = new List<IDialog>
                                 {
-                                    new SendActivity("[stitchEmailTemplate(dialog.matchedEmails, user.CreateCalendarEntry_pageIndex * 3, user.CreateCalendarEntry_pageIndex * 3 + 2)]"),
+                                    new SendActivity("[StitchEmailTemplate(dialog.matchedEmails, user.CreateCalendarEntry_pageIndex * 3, user.CreateCalendarEntry_pageIndex * 3 + 2)]"),
                                 },
                                 ElseSteps = new List<IDialog>
                                 {
-                                    new SendActivity("[stitchEmailTemplate(dialog.matchedEmails, user.CreateCalendarEntry_pageIndex * 3, count(dialog.matchedEmails))]")
+                                    new SendActivity("[StitchEmailTemplate(dialog.matchedEmails, user.CreateCalendarEntry_pageIndex * 3, count(dialog.matchedEmails))]")
                                 } 
                             }, // TODO only simple card right now, will use fancy card then
                             new TextInput()
                             {
                                 Property = "turn.AddContactDialog_userChoice",
-                                Prompt = new ActivityTemplate("Please enter your choice")
+                                Prompt = new ActivityTemplate("[ChoicePrompt]")
                             }
                         },
                         ElseSteps = new List<IDialog>()
                         {
-                            new SendActivity("Sorry, We could not find any matches in your contacts. We will use the email address you just entered."),
+                            new SendActivity("[NoMatches]"),
                             new SetProperty()
                             {
                                 Property = "user.finalContact",
@@ -150,7 +150,7 @@ namespace Microsoft.CalendarSample
                         Steps = new List<IDialog>()
                         {
                                 new SendActivity("[CancelCreateMeeting]"),
-                                new EndDialog()
+                                new CancelAllDialogs()
                         }
                     },
                     new IntentRule("ShowPrevious")
@@ -171,7 +171,7 @@ namespace Microsoft.CalendarSample
                             },
                             ElseSteps = new List<IDialog>()
                             {
-                                new SendActivity("This is already the first page!"),
+                                new SendActivity("[FirstPage]"),
                                 new RepeatDialog()
                             }
                         }
@@ -194,7 +194,7 @@ namespace Microsoft.CalendarSample
                                 },
                                 ElseSteps = new List<IDialog>()
                                 {
-                                    new SendActivity("This is already the last page!"),
+                                    new SendActivity("[LastPage]"),
                                     new RepeatDialog()
                                 }
                             }
@@ -241,7 +241,7 @@ namespace Microsoft.CalendarSample
                                                         },
                                                         ElseSteps = new List<IDialog>()
                                                         {
-                                                            new SendActivity("[viewEmptyEntry]"),
+                                                            new SendActivity("[ViewEmptyEntry]"),
                                                             new RepeatDialog()
                                                         }
                                                     }
@@ -263,7 +263,7 @@ namespace Microsoft.CalendarSample
                                                         },
                                                         ElseSteps = new List<IDialog>()
                                                         {
-                                                            new SendActivity("[viewEmptyEntry]"),
+                                                            new SendActivity("[ViewEmptyEntry]"),
                                                             new RepeatDialog()
                                                         }
                                                     }
@@ -286,7 +286,7 @@ namespace Microsoft.CalendarSample
                                                         },
                                                         ElseSteps = new List<IDialog>()
                                                         {
-                                                            new SendActivity("[viewEmptyEntry]"),
+                                                            new SendActivity("[ViewEmptyEntry]"),
                                                             new RepeatDialog()
                                                         }
                                                     }
@@ -294,7 +294,7 @@ namespace Microsoft.CalendarSample
                                         },
                                         Default = new List<IDialog>()
                                         {
-                                            new SendActivity("Sorry, I don't know what you mean!"),
+                                            new SendActivity("[CannotUnderstand]"),
                                             new EndDialog()
                                         }
                                     }
@@ -326,7 +326,7 @@ namespace Microsoft.CalendarSample
                                                         },
                                                         ElseSteps = new List<IDialog>()
                                                         {
-                                                            new SendActivity("[viewEmptyEntry]"),
+                                                            new SendActivity("[ViewEmptyEntry]"),
                                                             new RepeatDialog()
                                                         }
                                                     }
@@ -347,7 +347,7 @@ namespace Microsoft.CalendarSample
                                                         },
                                                         ElseSteps = new List<IDialog>()
                                                         {
-                                                            new SendActivity("[viewEmptyEntry]"),
+                                                            new SendActivity("[ViewEmptyEntry]"),
                                                             new RepeatDialog()
                                                         }
                                                     }
@@ -369,7 +369,7 @@ namespace Microsoft.CalendarSample
                                                         },
                                                         ElseSteps = new List<IDialog>()
                                                         {
-                                                            new SendActivity("[viewEmptyEntry]"),
+                                                            new SendActivity("[ViewEmptyEntry]"),
                                                             new RepeatDialog()
                                                         }
                                                     }
@@ -377,7 +377,7 @@ namespace Microsoft.CalendarSample
                                         },
                                         Default = new List<IDialog>()
                                         {
-                                            new SendActivity("Sorry, I don't know what you mean!"),
+                                            new SendActivity("[CannotUnderstand]"),
                                             new EndDialog()
                                         }
                                     }

@@ -2,7 +2,6 @@
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration;
 
 /// <summary>
@@ -42,12 +41,12 @@ namespace Microsoft.CalendarSample
                         },
                         ElseSteps = new List<IDialog>()
                         {
-                            new  SendActivity("[NoNext]"),
+                            new SendActivity("[NoNext]"),
                             new SendActivity("[Welcome-Actions]"),
                             new EndDialog()
                         }
                     },
-                    new SendActivity("[entryTemplate]"),// simple template now
+                    new SendActivity("[detailedEntryTemplate(dialog.nextFound)]"),// simple template now
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()
                 }

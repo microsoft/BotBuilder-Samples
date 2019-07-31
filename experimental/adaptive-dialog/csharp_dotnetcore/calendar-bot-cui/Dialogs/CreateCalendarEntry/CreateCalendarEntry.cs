@@ -6,6 +6,10 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
+using Microsoft.Bot.Builder;
+using System;
+using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 
 /// <summary>
 /// This dialog will create a calendar entry by propting user to enter the relevant information,
@@ -20,10 +24,11 @@ namespace Microsoft.CalendarSample
         public CreateCalendarEntry(IConfiguration configuration)
             : base(nameof(CreateCalendarEntry))
         {
+            
             Configuration = configuration;
             var createCalendarEntry = new AdaptiveDialog("create")
             {
-                //Recognizer = CreateRecognizer(),
+                Recognizer = CreateRecognizer(),
                 Generator = new ResourceMultiLanguageGenerator("CreateCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
@@ -122,8 +127,8 @@ namespace Microsoft.CalendarSample
                     new SendActivity("[CreateCalendarDetailedEntryReadBack]"),
                     new ConfirmInput(){
                         Property = "turn.CreateCalendarEntry_ConfirmChoice",
-                        Prompt = new ActivityTemplate("Is Your Information Correct?"),
-                        InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
+                        Prompt = new ActivityTemplate("[InformationConfirm]"),
+                        InvalidPrompt = new ActivityTemplate("[YesOrNo]"),
                     },
                     // to post our latest update to our calendar
                     new IfCondition()
@@ -178,7 +183,7 @@ namespace Microsoft.CalendarSample
                             }
                         },
                         ElseSteps = new List<IDialog>(){
-                            new SendActivity("Sure! let start over!"),
+                            new SendActivity("[StartOver]"),
                             new RepeatDialog()
                         }                        
                     },
@@ -201,71 +206,24 @@ namespace Microsoft.CalendarSample
 
                 // note: every input will be detected through this layer first from root dialog
                 // once matched. Otherwise, the input will be thrown to the uppser layer.
-                //Rules = new List<IRule>()
-                //{
-                //    new IntentRule("Help")
-                //    {
-                //        Steps = new List<IDialog>()
-                //        {
-                //            new SendActivity("[HelpCreateMeeting]")
-                //        }
-                //    },
-                //    new IntentRule("Cancel")
-                //    {
-                //        Steps = new List<IDialog>()
-                //        {
-                //                new SendActivity("[CancelCreateMeeting]"),
-                //                new EndDialog()
-                //        }
-                //    },
-                //    new IntentRule("ShowPrevious")
-                //    {
-                //        Steps = new List<IDialog>()
-                //        {
-                //        new IfCondition()
-                //        {
-                //            Condition = " 0 < user.CreateCalendarEntry_pageIndex",
-                //            Steps = new List<IDialog>()
-                //            {
-                //                new SetProperty()
-                //                {
-                //                    Property = "user.CreateCalendarEntry_pageIndex",
-                //                    Value = "user.CreateCalendarEntry_pageIndex - 1"
-                //                },
-                //                new RepeatDialog()
-                //            },
-                //            ElseSteps = new List<IDialog>()
-                //            {
-                //                new SendActivity("This is already the first page!"),
-                //                new RepeatDialog()
-                //            }
-                //        }
-                //        } 
-                //    },
-                //    new IntentRule("ShowNext")
-                //    {
-                //        Steps = new List<IDialog>(){
-                //            new IfCondition()
-                //            {
-                //                Condition = "user.CreateCalendarEntry_pageIndex * 3 + 3 < count(dialog.matchedEmails) ",
-                //                Steps = new List<IDialog>()
-                //                {
-                //                    new SetProperty()
-                //                    {
-                //                        Property = "user.CreateCalendarEntry_pageIndex",
-                //                        Value = "user.CreateCalendarEntry_pageIndex + 1"
-                //                    },
-                //                    new RepeatDialog()
-                //                },
-                //                ElseSteps = new List<IDialog>()
-                //                {
-                //                    new SendActivity("This is already the last page!"),
-                //                    new RepeatDialog()
-                //                }
-                //            }
-                //        }
-                //    }
-                //}
+                Rules = new List<IRule>()
+                {
+                    new IntentRule("Help")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new SendActivity("[HelpCreateMeeting]")
+                        }
+                    },
+                    new IntentRule("Cancel")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new SendActivity("[CancelCreateMeeting]"),
+                            new CancelAllDialogs()
+                        }
+                    }
+                }
             };
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
             AddDialog(createCalendarEntry);
@@ -279,20 +237,21 @@ namespace Microsoft.CalendarSample
         }
 
 
-        //public static IRecognizer CreateRecognizer()
-        //{
-        //    if (string.IsNullOrEmpty(Configuration["LuisAppIdGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIKeyGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostNameGeneral"]))
-        //    {
-        //        throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
-        //    }
-        //    return new LuisRecognizer(new LuisApplication()
-        //    {
-        //        Endpoint = Configuration["LuisAPIHostNameGeneral"],
-        //        EndpointKey = Configuration["LuisAPIKeyGeneral"],
-        //        ApplicationId = Configuration["LuisAppIdGeneral"]
-        //    });
-        //}
+        public static IRecognizer CreateRecognizer()
+        {
+            if (string.IsNullOrEmpty(Configuration["LuisAppIdGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIKeyGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostNameGeneral"]))
+            {
+                throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
+            }
+            return new LuisRecognizer(new LuisApplication()
+            {
+                Endpoint = Configuration["LuisAPIHostNameGeneral"],
+                EndpointKey = Configuration["LuisAPIKeyGeneral"],
+                ApplicationId = Configuration["LuisAppIdGeneral"]
+            });
+        }
 
+        // This recognizer is not popular
         //private static IRecognizer CreateRecognizer()
         //{
         //    return new RegexRecognizer()

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
@@ -7,6 +6,10 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
+using System;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 
 /// <summary>
 /// This dialog will accept all the calendar entris if they have the same subject
@@ -23,6 +26,7 @@ namespace Microsoft.CalendarSample
             // Create instance of adaptive dialog. 
             var acceptCalendarEntry = new AdaptiveDialog("change")
             {
+                Recognizer = CreateRecognizer(),
                 Generator = new ResourceMultiLanguageGenerator("ChangeCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
@@ -38,16 +42,15 @@ namespace Microsoft.CalendarSample
                     {
                         Condition = "user.focusedMeeting == null",
                         Steps = new List<IDialog>(){
-                            new SendActivity("You cannot accept any meetings because your calendar is empty"),
+                            new SendActivity("[EmptyCalendar]"),
                             new EndDialog()
                         }
                     },
-                    new SendActivity("[detailedEntryTemplate(user.focusedMeeting)]"),
                     new ConfirmInput()
                     {
                         Property = "turn.ChangeCalendarEntry_ConfirmChoice",
-                        Prompt = new ActivityTemplate("Are you sure you want to update this event?"),
-                        InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
+                        Prompt = new ActivityTemplate("[UpdateConfirm]"),
+                        InvalidPrompt = new ActivityTemplate("[YesOrNo]"),
                     },
                     new IfCondition()
                     {
@@ -90,11 +93,30 @@ namespace Microsoft.CalendarSample
                             },
                         }
                     },
+
                     // we cannot accept a entry if we are the origanizer
                     
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()
                 },
+                Rules = new List<IRule>()
+                {
+                    new IntentRule("Help")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new SendActivity("[HelpCreateMeeting]")
+                        }
+                    },
+                    new IntentRule("Cancel")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                                new SendActivity("[CancelCreateMeeting]"),
+                                new CancelAllDialogs()
+                        }
+                    }
+                }
             };
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
@@ -106,6 +128,19 @@ namespace Microsoft.CalendarSample
 
             // The initial child Dialog to run.
             InitialDialogId = "change";
+        }
+        public static IRecognizer CreateRecognizer()
+        {
+            if (string.IsNullOrEmpty(Configuration["LuisAppIdGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIKeyGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostNameGeneral"]))
+            {
+                throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
+            }
+            return new LuisRecognizer(new LuisApplication()
+            {
+                Endpoint = Configuration["LuisAPIHostNameGeneral"],
+                EndpointKey = Configuration["LuisAPIKeyGeneral"],
+                ApplicationId = Configuration["LuisAppIdGeneral"]
+            });
         }
     }
 }

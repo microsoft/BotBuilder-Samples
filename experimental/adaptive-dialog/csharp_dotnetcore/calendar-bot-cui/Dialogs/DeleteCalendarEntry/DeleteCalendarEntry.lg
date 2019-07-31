@@ -1,83 +1,25 @@
-# GetEntryTitleToDelete
-- ```
-Ok, give me the exact subject of the entry you would like to delete.
-[Suggestions=Help | Cancel]
-```
+# emptyFocusedMeeting
+- Please select a meeting in detail to define a focused meeting before declining any. 
 
-# DeleteThisEntry
-- We are going to delete this meeting instead. Do you agree?
+# EmptyCalendar
+- You cannot accept any meetings because your calendar is empty
+
+# DeclineConfirm
+- Are you sure you want to decline this event?
+
+# YesOrNo
+- Please Say Yes/No.
+
+# CannotDeclineOrganizer
+- Your request can't be completed. You can't respond to this meeting because you're the meeting organizer.
 
 # DeclineReadBack
 - ```
 Ok, I've declined your entry whose subject is "@{user.focusedMeeting.subject}".
 ```
 
-# emptyFocusedMeeting
-- Please check a meeting in detail to define a focused meeting before accepting any. 
+# DeleteReadBack
+- Successfully delete your entry!
 
-# EntryNotFound
-- Sorry, I did not find a entry whose subject is {dialog.DeleteCalendarEntry_entrySubject} in your calendar.
-
-> Escape suggestion actions without which [] will be treated as template reference.
 # Welcome-Actions
-- \[Suggestions=Accept | Cancel | Change | Create | Find | View | Next Event | Help\]
-
-# detailedEntryTemplate(x)
-- ```
-[adaptivecard
-{
-    "type": "AdaptiveCard",
-    "body": [
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "size": "Medium",
-                    "weight": "Bolder",
-                    "text": "@{x.subject}"
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "text": "@{x.start.dateTime} - @{x.end.dateTime}",
-                    "wrap": true,
-                    "maxLines": 5
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "text": "@{if(x.attendees[0].emailAddress.address != null &&
-                        empty(x.attendees[0].emailAddress.address) != true,
-                        x.attendees[0].emailAddress.address,'No Attendee Specified')}",
-                    "wrap": true,
-                    "maxLines": 5
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "text": "@{if(empty(x.location.displayName) != true,
-                        x.location.displayName,'No Location Specified')}",
-                    "wrap": true,
-                    "maxLines": 5
-                }
-            ]
-        }
-    ],
-    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-    "version": "1.0"
-}
-]
-```
+- \[Suggestions=Accept | Cancel | Change | Create | View | Next Event | Help\]

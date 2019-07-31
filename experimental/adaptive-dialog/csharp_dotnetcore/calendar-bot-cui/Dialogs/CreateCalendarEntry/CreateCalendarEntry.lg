@@ -1,42 +1,6 @@
-> Language Generation definition file. 
-> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
-> Here are more than enough LG template, which are for the future use.
-
-# HelpCreateMeeting
-- [HelpPrefix], you can simply say all the relavent information of the meeting to add it.
-
-# HelpPrefix
-- Sure
-- You bet
-- Absolutely
-
-# CancelPrefix
-- Are you suare you want to cancel? 
-- Just want to double checking. You really want to cancel this right? 
-
-# ConfirmCancellation
-- ```
-@{lgTemplate("CancelPrefix")}
-```
-
-# CreateCalendarEntryFailed
-- Sorry, there could be something wrong about your input. Please check your input. 
-
 # GetSubject
 - ```
 OK, please enter the subject of your event.
-[Suggestions=Help | Cancel]
-```
-
-# GetFromDate
-- ```
-OK, please enter the start date of your event.
-[Suggestions=Help | Cancel]
-```
-
-# GetPersonName
-- ```
-OK, please enter the email of the attendee of your event.
 [Suggestions=Help | Cancel]
 ```
 
@@ -45,21 +9,10 @@ OK, please enter the email of the attendee of your event.
 OK, please enter the start time of your event.
 [Suggestions=Help | Cancel]
 ```
+
 # GetToTime
 - ```
 OK, please enter the end time of your event.
-[Suggestions=Help | Cancel]
-```
-
-# GetDestinationCalendar
-- ```
-OK, please enter which calendar where you want to put this event
-[Suggestions=Help | Cancel]
-```
-
-# GetToDate
-- ```
-OK, please enter the end date of your event.
 [Suggestions=Help | Cancel]
 ```
 
@@ -69,119 +22,6 @@ OK, please enter the location of your event.
 [Suggestions=Help | Cancel]
 ```
 
-# GetMeetingRoom
-- ```
-OK, please enter the meeting room of your event.
-[Suggestions=Help | Cancel]
-```
-
-# GetDuration
-- ```
-OK, please enter the duration of your event.
-[Suggestions=Help | Cancel]
-```
-
-# CreateCalendarEntryReadBack
-- ```
-@{lgTemplate("HelpPrefix")}, I have added @{dialog.CreateCalendarEntry_Subject} to your calendar list. 
-@{lgTemplate("Welcome-Actions")}
-```
-
-# CancelCreateMeeting
-- ```
-@{lgTemplate("HelpPrefix")}, I've cancelled that.
-@{lgTemplate("Welcome-Actions")}
-```
-
-# Welcome-Actions
-- \[Suggestions=Accept | Cancel | Change | Create | Find | View | Next Event | Help\]
-
-# EnterYourChoice
-- Please select your choice
-
-# viewEmptyEntry
-- You cannot check on empty entry!
-
-# emailTemplate(x, y, z)
-- ```
-[adaptivecard
-{
-    "type": "AdaptiveCard",
-    "height": "stretch",
-    "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=",
-    "body": [
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "Container",
-                    "style": "emphasis",
-                    "items": [
-                        {
-                            "type": "TextBlock",
-                            "horizontalAlignment": "Center",
-                            "spacing": "Medium",
-                            "size": "Medium",
-                            "weight": "Bolder",
-                            "color": "Dark",
-                            "text": "@{if(x != null, x, 'N/A')}",
-                            "isSubtle": false
-                        }
-                    ],
-                    "width": 20
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "Container",
-                    "style": "emphasis",
-                    "items": [
-                        {
-                            "type": "TextBlock",
-                            "horizontalAlignment": "Center",
-                            "spacing": "Medium",
-                            "size": "Medium",
-                            "weight": "Bolder",
-                            "color": "Dark",
-                            "text": "@{if(y != null, y, 'N/A')}",
-                            "isSubtle": false
-                        }
-                    ],
-                    "width": 20
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "Container",
-                    "style": "emphasis",
-                    "items": [
-                        {
-                            "type": "TextBlock",
-                            "horizontalAlignment": "Center",
-                            "spacing": "Medium",
-                            "size": "Medium",
-                            "weight": "Bolder",
-                            "color": "Dark",
-                            "text": "@{if(z != null, z, 'N/A')}",
-                            "isSubtle": false
-                        }
-                    ],
-                    "width": 20
-                }
-            ]
-        }
-    ],
-    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-    "version": "1.0"
-}
-]
-```
 
 # CreateCalendarDetailedEntryReadBack
 - ```
@@ -241,4 +81,40 @@ OK, please enter the duration of your event.
     "version": "1.0"
 }
 ]
+```
+
+# InformationConfirm
+- Is Your Information Correct?
+
+# YesOrNo
+- Please Say Yes/No.
+
+# StartOver
+- Sure! let start over!
+
+# CreateCalendarEntryReadBack
+- ```
+@{lgTemplate("HelpPrefix")}, I have added @{dialog.CreateCalendarEntry_Subject} to your calendar list. 
+@{lgTemplate("Welcome-Actions")}
+```
+
+# Welcome-Actions
+- \[Suggestions=Accept | Cancel | Change | Create | View | Next Event | Help\]
+
+# HelpPrefix
+- Sure
+- You bet
+- Absolutely
+
+# CreateCalendarEntryFailed
+- Sorry, there could be something wrong about your input. Please check your input. 
+
+# HelpCreateMeeting
+- [HelpPrefix], you can simply say all the relavent information of the meeting to add it.
+
+
+# CancelCreateMeeting
+- ```
+@{lgTemplate("HelpPrefix")}, I've cancelled that.
+@{lgTemplate("Welcome-Actions")}
 ```

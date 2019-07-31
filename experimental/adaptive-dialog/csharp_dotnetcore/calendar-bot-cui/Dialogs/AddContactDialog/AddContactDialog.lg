@@ -1,43 +1,10 @@
-﻿> Language Generation definition file. 
-> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
-> Here are more than enough LG template, which are for the future use.
-
-# HelpCreateMeeting
-- [HelpPrefix], you can simply say all the relavent information of the meeting to add it.
-
-# HelpPrefix
-- Sure
-- You bet
-- Absolutely
-
-# CancelPrefix
-- Are you suare you want to cancel? 
-- Just want to double checking. You really want to cancel this right? 
-
-# ConfirmCancellation
-- ```
-@{lgTemplate("CancelPrefix")}
-```
-
-# CreateCalendarEntryFailed
-- Sorry, there could be something wrong about your input. Please check your input. 
-
-# GetPersonName
+﻿# GetPersonName
 - ```
 OK, please enter the email of the attendee of your event.
 [Suggestions=Help | Cancel]
 ```
 
-# Welcome-Actions
-- \[Suggestions=Accept | Cancel | Change | Create | Find | View | Next Event | Help\]
-
-# EnterYourChoice
-- Please select your choice
-
-# viewEmptyEntry
-- You cannot check on empty entry!
-
-# stitchEmailTemplate(contactList, startIndex, endIndex)
+# StitchEmailTemplate(contactList, startIndex, endIndex)
 - ```
 [adaptivecard
 {
@@ -46,7 +13,7 @@ OK, please enter the email of the attendee of your event.
     "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=",
     "body": 
     [
-         @{lgTemplate("stitchEmail", contactList, startIndex, endIndex)}
+         @{lgTemplate("StitchEmail", contactList, startIndex, endIndex)}
     ],
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "version": "1.0"
@@ -54,10 +21,10 @@ OK, please enter the email of the attendee of your event.
 ]
 ```
 
-# stitchEmail(contactList, startIndex, endIndex)
-- @{join(foreach(subArray(contactList, int(startIndex),int(endIndex)), x, lgTemplate("singleContact", x)), ', ')}
+# StitchEmail(contactList, startIndex, endIndex)
+- @{join(foreach(subArray(contactList, int(startIndex),int(endIndex)), x, lgTemplate("SingleContact", x)), ', ')}
 
-# singleContact(x)
+# SingleContact(x)
 - ```
 {
     "type": "Container",
@@ -83,15 +50,34 @@ OK, please enter the email of the attendee of your event.
 }
 ```
 
-# addTemplate(x, y)
-- concat(x, @{lgTemplate('addressTemplate', y)})
-
-# addressTemplate (x)
+# ChoicePrompt
 - ```
-{
-    'emailAddress':
-    {
-        'address':'@{x}'
-    }
-},
+Please enter your choice
+[Suggestions=Next page | Previous page | select the first one | select the second one | select the third one]
 ```
+
+# NoMatches
+- Sorry, We could not find any matches in your contacts. We will use the email address you just entered.
+
+# HelpCreateMeeting
+- [HelpPrefix], you can simply say all the relavent information of the meeting to add it.
+
+# HelpPrefix
+- Sure
+- You bet
+- Absolutely
+
+# CancelCreateMeeting
+- You have cancelled all the dialogs
+
+# FirstPage
+- This is already the first page!
+
+# LastPage
+- This is already the last page!
+
+# ViewEmptyEntry
+- You cannot check on empty entry!
+
+# CannotUnderstand
+- Sorry, I don't know what you mean!

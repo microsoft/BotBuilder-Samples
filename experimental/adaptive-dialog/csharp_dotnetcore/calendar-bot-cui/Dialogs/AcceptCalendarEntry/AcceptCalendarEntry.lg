@@ -17,4 +17,15 @@
 - Your request can't be completed. You can't respond to this meeting because you're the meeting organizer.
 
 # Welcome-Actions
-- \[Suggestions=Accept | Cancel | Change | Create | Find | View | Next Event | Help\]
+- \[Suggestions=Accept | Cancel | Change | Create | View | Next Event | Help\]
+
+# HelpCreateMeeting
+- [HelpPrefix], you can simply say all the relavent information of the meeting to add it.
+
+# HelpPrefix
+- Sure
+- You bet
+- Absolutely
+
+# CancelCreateMeeting
+- You have cancelled all the dialogs

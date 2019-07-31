@@ -1,19 +1,23 @@
-﻿# GetEntryTitleToAccept
-- ```
-Ok, give me the exact subject of the entry you would like to accept.
-[Suggestions=Help | Cancel]
-```
+﻿# emptyFocusedMeeting
+- Please check a meeting in detail to define a focused meeting before updating any. 
 
-# AcceptReadBack
-- ```
-Ok, I've accepted your entry whose subject is @{user.focusedMeeting.subject}.
-```
+# EmptyCalendar
+- You cannot change any meetings because your calendar is empty
 
-# emptyFocusedMeeting
-- Please check a meeting in detail to define a focused meeting before accepting any. 
+# UpdateConfirm
+- Are you sure you want to update this event?
+
+# YesOrNo
+- Please Say Yes/No.
 
 # GetStartTime
 - What would be your new starting time?
+
+# UpdateCalendarEntryReadBack
+- ```
+@{lgTemplate("HelpPrefix")}, I have updated @{user.focusedMeeting.subject} to your calendar list. 
+@{lgTemplate("Welcome-Actions")}
+```
 
 # HelpPrefix
 - Sure
@@ -21,73 +25,13 @@ Ok, I've accepted your entry whose subject is @{user.focusedMeeting.subject}.
 - Absolutely
 
 # Welcome-Actions
-- \[Suggestions=Accept | Cancel | Change | Create | Find | View | Next Event | Help\]
+- \[Suggestions=Accept | Cancel | Change | Create | View | Next Event | Help\]
 
 # UpdateCalendarEntryFailed
 - Sorry, there could be something wrong about your input. Please check your input.
 
-# UpdateCalendarEntryReadBack
-- ```
-@{lgTemplate("HelpPrefix")}, I have added @{user.focusedMeeting.subject} to your calendar list. 
-@{lgTemplate("Welcome-Actions")}
-```
+# HelpCreateMeeting
+- [HelpPrefix], you can simply say all the relavent information of the meeting to add it.
 
-# detailedEntryTemplate(x)
-- ```
-[adaptivecard
-{
-    "type": "AdaptiveCard",
-    "body": [
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "size": "Medium",
-                    "weight": "Bolder",
-                    "text": "@{x.subject}"
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "text": "@{x.start.dateTime} - @{x.end.dateTime}",
-                    "wrap": true,
-                    "maxLines": 5
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "text": "@{if(x.attendees[0].emailAddress.address != null &&
-                        empty(x.attendees[0].emailAddress.address) != true,
-                        x.attendees[0].emailAddress.address,'No Attendee Specified')}",
-                    "wrap": true,
-                    "maxLines": 5
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "text": "@{if(empty(x.location.displayName) != true,
-                        x.location.displayName,'No Location Specified')}",
-                    "wrap": true,
-                    "maxLines": 5
-                }
-            ]
-        }
-    ],
-    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-    "version": "1.0"
-}
-]
-```
+# CancelCreateMeeting
+- You have cancelled all the dialogs

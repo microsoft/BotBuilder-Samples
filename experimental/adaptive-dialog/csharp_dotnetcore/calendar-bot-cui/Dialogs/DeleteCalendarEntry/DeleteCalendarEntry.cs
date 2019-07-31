@@ -38,16 +38,15 @@ namespace Microsoft.CalendarSample
                     {
                         Condition = "user.focusedMeeting == null",
                         Steps = new List<IDialog>(){
-                            new SendActivity("You cannot accept any meetings because your calendar is empty"),
+                            new SendActivity("[EmptyCalendar]"),
                             new EndDialog()
                         }
                     },
-                    new SendActivity("[detailedEntryTemplate(user.focusedMeeting)]"),
                     new ConfirmInput()
                     {
                         Property = "turn.DeleteCalendarEntry_ConfirmChoice",
-                        Prompt = new ActivityTemplate("Are you sure you want to decline this event?"),
-                        InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
+                        Prompt = new ActivityTemplate("[DeclineConfirm]"),
+                        InvalidPrompt = new ActivityTemplate("[YesOrNo]"),
                     },
                     new IfCondition()
                     { 
@@ -72,7 +71,7 @@ namespace Microsoft.CalendarSample
                                     new SendActivity("[DeclineReadBack]")
                                 },
                                 ElseSteps = new List<IDialog>(){
-                                    new SendActivity("Your request can't be completed. You can't respond to this meeting because you're the meeting organizer."),
+                                    new SendActivity("[CannotDeclineOrganizer]"),
                                     new HttpRequest()
                                     {
                                         Property = "user.declineResponse",
@@ -83,7 +82,7 @@ namespace Microsoft.CalendarSample
                                             ["Authorization"] = "Bearer {user.token.Token}",
                                         }
                                     },
-                                    new SendActivity("Successfully delete your entry!"),
+                                    new SendActivity("[DeleteReadBack]"),
                                 }
                             }
                         }

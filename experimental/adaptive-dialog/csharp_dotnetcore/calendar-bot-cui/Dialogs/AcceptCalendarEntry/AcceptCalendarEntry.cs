@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
+using System;
+using Microsoft.Bot.Builder.AI.Luis;
 
 /// <summary>
 /// This dialog will accept all the calendar entris if they have the same subject
@@ -20,8 +24,9 @@ namespace Microsoft.CalendarSample
         {
             Configuration = configuration;
             // Create instance of adaptive dialog. 
-            var acceptCalendarEntry = new AdaptiveDialog(nameof(AdaptiveDialog))
+            var acceptCalendarEntry = new AdaptiveDialog("accept")
             {
+                Recognizer = CreateRecognizer(),
                 Generator = new ResourceMultiLanguageGenerator("AcceptCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
@@ -35,7 +40,7 @@ namespace Microsoft.CalendarSample
                     new IfCondition()
                     {
                         Condition = "user.focusedMeeting == null",
-                        Steps = new List<IDialog>(){
+                        Steps = new List<IDialog>() {
                             new SendActivity("[EmptyCalendar]"),
                             new EndDialog()
                         }
@@ -62,7 +67,7 @@ namespace Microsoft.CalendarSample
                                         Method = HttpRequest.HttpMethod.POST,
                                         Url = "https://graph.microsoft.com/v1.0/me/events/{user.focusedMeeting.id}/accept",
                                         //Url = "https://graph.microsoft.com/v1.0/me/events/AAMkADY2MzM5M2UzLWQ0NmItNDU2My1hN2NjLTliMjRiYWE5YWQ4ZABGAAAAAADRv-cRMwIfQKntE9IXL-ciBwDVXUsVK2tOTK5RjTff3j-IAAAAAAENAADVXUsVK2tOTK5RjTff3j-IAAAfRHvTAAA=/accept",
-                                        Headers =  new Dictionary<string, string>()
+                                        Headers = new Dictionary<string, string>()
                                         {
                                             ["Authorization"] = "Bearer {user.token.Token}",
                                         },
@@ -72,7 +77,7 @@ namespace Microsoft.CalendarSample
                                     },
                                     new SendActivity("[AcceptReadBack]")
                                 },
-                                ElseSteps = new List<IDialog>(){
+                                ElseSteps = new List<IDialog>() {
                                     new SendActivity("[CannotAcceptOrganizer]")
                                 }
                             }
@@ -81,7 +86,25 @@ namespace Microsoft.CalendarSample
                     // new SendActivity("finish http request"),
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()
-                 },
+                },
+                Rules = new List<IRule>()
+                {
+                    new IntentRule("Help")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new SendActivity("[HelpCreateMeeting]")
+                        }
+                    },
+                    new IntentRule("Cancel")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new SendActivity("[CancelCreateMeeting]"),
+                            new CancelAllDialogs()
+                        }
+                    }
+                }
             };
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
@@ -93,7 +116,21 @@ namespace Microsoft.CalendarSample
 
 
             // The initial child Dialog to run.
-            InitialDialogId = nameof(AdaptiveDialog);
+            InitialDialogId = "accept";
+        }
+        public static IRecognizer CreateRecognizer()
+        {
+            if (string.IsNullOrEmpty(Configuration["LuisAppIdGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIKeyGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostNameGeneral"]))
+            {
+                throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
+            }
+            return new LuisRecognizer(new LuisApplication()
+            {
+                Endpoint = Configuration["LuisAPIHostNameGeneral"],
+                EndpointKey = Configuration["LuisAPIKeyGeneral"],
+                ApplicationId = Configuration["LuisAppIdGeneral"]
+            });
         }
     }
+    
 }

@@ -9,7 +9,6 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
-using Microsoft.Bot.Builder.Dialogs.Choices;
 
 /// <summary>
 /// This dialog will show all the calendar entries.
@@ -62,13 +61,12 @@ namespace Microsoft.CalendarSample
                             },// TODO only simple card right now, will use fancy card then
                             new TextInput(){
                                 Property = "turn.ShowAllMeetingDialog_Choice",
-                                Prompt = new ActivityTemplate("Please enter your choice")
+                                Prompt = new ActivityTemplate("[ChoicePrompt]")
                             }
                         },
                         ElseSteps = new List<IDialog>
                         {
                             new SendActivity("[NoEntries]"),
-                            new SendActivity("[Welcome-Actions]"),
                             new EndDialog()
                         }
                     }
@@ -87,7 +85,7 @@ namespace Microsoft.CalendarSample
                         Steps = new List<IDialog>()
                         {
                                 new SendActivity("[CancelViewMeeting]"),
-                                new EndDialog()
+                                new CancelAllDialogs()
                         }
                     },
                     new IntentRule("ShowPrevious")
@@ -108,7 +106,7 @@ namespace Microsoft.CalendarSample
                                 },
                                 ElseSteps = new List<IDialog>()
                                 {
-                                    new SendActivity("This is already the first page!"),
+                                    new SendActivity("[FirstPage]"),
                                     new RepeatDialog()
                                 }
                             }
@@ -132,7 +130,7 @@ namespace Microsoft.CalendarSample
                                 },
                                 ElseSteps = new List<IDialog>()
                                 {
-                                    new SendActivity("This is already the last page!"),
+                                    new SendActivity("[LastPage]"),
                                     new RepeatDialog()
                                 }
                             }
@@ -175,7 +173,7 @@ namespace Microsoft.CalendarSample
                                                             }
                                                         },
                                                         ElseSteps = new List<IDialog>(){
-                                                            new SendActivity("[viewEmptyEntry]"),
+                                                            new SendActivity("[ViewEmptyEntry]"),
                                                         }
                                                     }
                                                 }),
@@ -192,7 +190,7 @@ namespace Microsoft.CalendarSample
                                                             }
                                                         },
                                                         ElseSteps = new List<IDialog>(){
-                                                            new SendActivity("[viewEmptyEntry]")
+                                                            new SendActivity("[ViewEmptyEntry]")
                                                         }
                                                     }
                                                 }),
@@ -209,14 +207,14 @@ namespace Microsoft.CalendarSample
                                                             }
                                                         },
                                                         ElseSteps = new List<IDialog>(){
-                                                            new SendActivity("[viewEmptyEntry]")
+                                                            new SendActivity("[ViewEmptyEntry]")
                                                         }
                                                     }
                                                 })
                                         },
                                         Default = new List<IDialog>()
                                         {
-                                            new SendActivity("Sorry, I don't know what you mean!"),
+                                            new SendActivity("[CannotUnderstand]"),
                                             new EndDialog()
                                         }
                                     },
@@ -247,7 +245,7 @@ namespace Microsoft.CalendarSample
                                                             }
                                                         },
                                                         ElseSteps = new List<IDialog>(){
-                                                            new SendActivity("[viewEmptyEntry]"),
+                                                            new SendActivity("[ViewEmptyEntry]"),
                                                         }
                                                     }
                                                 }),
@@ -264,7 +262,7 @@ namespace Microsoft.CalendarSample
                                                             }
                                                         },
                                                         ElseSteps = new List<IDialog>(){
-                                                            new SendActivity("[viewEmptyEntry]")
+                                                            new SendActivity("[ViewEmptyEntry]")
                                                         }
                                                     }
                                                 }),
@@ -281,14 +279,14 @@ namespace Microsoft.CalendarSample
                                                             }
                                                         },
                                                         ElseSteps = new List<IDialog>(){
-                                                            new SendActivity("[viewEmptyEntry]")
+                                                            new SendActivity("[ViewEmptyEntry]")
                                                         }
                                                     }
                                                 })
                                         },
                                         Default = new List<IDialog>()
                                         {
-                                            new SendActivity("Sorry, I don't know what you mean!"),
+                                            new SendActivity("[CannotUnderstand]"),
                                             new EndDialog()
                                         }
                                     },
@@ -307,18 +305,7 @@ namespace Microsoft.CalendarSample
             // The initial child Dialog to run.
             InitialDialogId = "showAll";
         }
-        //private static IRecognizer CreateRecognizer()
-        //{
-        //    return new RegexRecognizer()
-        //    {
-        //        Intents = new Dictionary<string, string>()
-        //        {
-        //            { "Help", "(?i)help" },
-        //            { "Cancel", "(?i)cancel|never mind"},
-        //        }
-        //    };
-        //}
-
+    
         public static IRecognizer CreateRecognizer()
         {
             if (string.IsNullOrEmpty(Configuration["LuisAppIdGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIKeyGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostNameGeneral"]))

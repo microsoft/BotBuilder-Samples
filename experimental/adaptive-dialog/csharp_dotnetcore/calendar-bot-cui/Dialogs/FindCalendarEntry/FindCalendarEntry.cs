@@ -34,7 +34,7 @@ namespace Microsoft.CalendarSample
                     new ConfirmInput(){
                         Property = "turn.FindCalendarEntry_ConfirmChoice",
                         Prompt = new ActivityTemplate("[OverviewAgain]"),
-                        InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
+                        InvalidPrompt = new ActivityTemplate("[YesOrNo]"),
                     },
                     new IfCondition()
                     {

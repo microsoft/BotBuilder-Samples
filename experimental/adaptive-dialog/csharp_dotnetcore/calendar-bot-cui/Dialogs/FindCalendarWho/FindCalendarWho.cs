@@ -17,7 +17,7 @@ namespace Microsoft.CalendarSample
             : base(nameof(FindCalendarWho))
         {
             // Create instance of adaptive dialog. 
-            var findCalendarWho = new AdaptiveDialog(nameof(AdaptiveDialog))
+            var findCalendarWho = new AdaptiveDialog("FindWho")
             {
                 Generator = new ResourceMultiLanguageGenerator("FindCalendarWho.lg"),
                 Steps = new List<IDialog>()
@@ -84,7 +84,7 @@ namespace Microsoft.CalendarSample
                     {
                         Condition = "dialog.findCalendarWho_found == null || count(dialog.findCalendarWho_found) <= 0",
                         Steps = new List<IDialog>(){
-                            new SendActivity("We could not find any entries, sorry"),
+                            new SendActivity("[NoMatches]"),
                             new SendActivity("[Welcome-Actions]"),
                             new EndDialog()
                         }
@@ -215,7 +215,7 @@ namespace Microsoft.CalendarSample
                         },
                         Default = new List<IDialog>()
                         {
-                            new SendActivity("Sorry, I don't know what you mean!"),
+                            new SendActivity("[NoMeans]"),
                             new EndDialog()
                         }
                     },
