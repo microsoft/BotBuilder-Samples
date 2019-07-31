@@ -8,7 +8,7 @@ using Microsoft.Bot.Builder.LanguageGeneration;
 /// <summary>
 /// This dialog will prompt user to log into calendar account
 /// </summary>
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.CalendarSample
 {
     public class ShowNextCalendar : ComponentDialog
     {

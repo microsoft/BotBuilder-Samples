@@ -15,7 +15,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
 
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.CalendarSample
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {

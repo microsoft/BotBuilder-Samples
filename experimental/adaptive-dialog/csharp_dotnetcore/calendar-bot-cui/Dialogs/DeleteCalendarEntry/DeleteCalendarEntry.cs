@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 /// <summary>
 /// Delete calendar entry is not functioning now because we could not use http.delete
 /// </summary>
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.CalendarSample
 {
     public class DeleteCalendarEntry : ComponentDialog
     {

@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 /// including subject, starting time, ending time, and the email address of the attendee
 /// The user can enter only one attendee
 /// </summary>
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.CalendarSample
 {
     public class CreateCalendarEntry : ComponentDialog
     {
@@ -29,6 +29,7 @@ namespace Microsoft.BotBuilderSamples
                 {
 
                     new BeginDialog(nameof(OAuthPromptDialog)),
+
                     new SetProperty()
                     {
                         Value = "@FromTime",

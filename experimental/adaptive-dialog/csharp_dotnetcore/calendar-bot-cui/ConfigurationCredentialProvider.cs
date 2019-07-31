@@ -4,7 +4,7 @@
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.CalendarSample
 {
     public class ConfigurationCredentialProvider : SimpleCredentialProvider
     {

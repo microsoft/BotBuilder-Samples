@@ -14,7 +14,7 @@ using Microsoft.Extensions.Configuration;
 /// This dialog will find all matched email given the contact name. It may be repeatedly call itself to add more contact.
 /// Finally, this dialog will fulfill a desired contact list.
 /// </summary>
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.CalendarSample
 {
     public class AddContactDialog : ComponentDialog
     {

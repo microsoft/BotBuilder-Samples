@@ -17,7 +17,7 @@ using Microsoft.Bot.Builder.Dialogs.Declarative;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Extensions.Configuration;
 
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.CalendarSample
 {
     // This IBot implementation can run any type of Dialog. The use of type parameterization is to allows multiple different bots
     // to be run at different endpoints within the same project. This can be achieved by defining distinct Controller types

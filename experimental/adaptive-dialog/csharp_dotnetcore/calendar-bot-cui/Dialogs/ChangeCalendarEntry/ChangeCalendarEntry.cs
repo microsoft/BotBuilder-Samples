@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 /// <summary>
 /// This dialog will accept all the calendar entris if they have the same subject
 /// </summary>
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.CalendarSample
 {
     public class ChangeCalendarEntry : ComponentDialog
     {

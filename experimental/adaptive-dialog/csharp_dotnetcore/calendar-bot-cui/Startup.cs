@@ -11,7 +11,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.CalendarSample
 {
     public class Startup
     {

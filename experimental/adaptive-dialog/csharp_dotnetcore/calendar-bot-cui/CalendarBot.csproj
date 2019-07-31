@@ -18,10 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CognitiveModels\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\integration\Microsoft.Bot.Builder.Integration.AspNet.Core\Microsoft.Bot.Builder.Integration.AspNet.Core.csproj" />
     <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Dialogs.Adaptive\Microsoft.Bot.Builder.Dialogs.Adaptive.csproj" />
     <ProjectReference Include="..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Dialogs.Debugging\Microsoft.Bot.Builder.Dialogs.Debugging.csproj" />

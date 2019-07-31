@@ -9,7 +9,7 @@ using Microsoft.Bot.Builder.LanguageGeneration;
 /// <summary>
 /// This dialog will show all the calendar entries if they have the same email address
 /// </summary>
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.CalendarSample
 {
     public class FindCalendarWho : ComponentDialog
     {

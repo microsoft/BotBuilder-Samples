@@ -14,7 +14,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 /// <summary>
 /// This dialog will show all the calendar entries.
 /// </summary>
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.CalendarSample
 {
     public class ShowAllMeetingDialog : ComponentDialog
     {

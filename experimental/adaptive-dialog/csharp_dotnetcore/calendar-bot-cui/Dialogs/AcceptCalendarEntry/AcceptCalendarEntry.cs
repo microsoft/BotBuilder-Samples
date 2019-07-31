@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
@@ -13,7 +10,7 @@ using Newtonsoft.Json.Linq;
 /// <summary>
 /// This dialog will accept all the calendar entris if they have the same subject
 /// </summary>
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.CalendarSample
 {
     public class AcceptCalendarEntry : ComponentDialog
     {
@@ -28,7 +25,7 @@ namespace Microsoft.BotBuilderSamples
                 Generator = new ResourceMultiLanguageGenerator("AcceptCalendarEntry.lg"),
                 Steps = new List<IDialog>()
                 {
-                    new SendActivity("[emptyFocusedMeeting]"),
+                    new SendActivity("[EmptyFocusedMeeting]"),
                     new SetProperty()
                     {
                         Property = "user.ShowAllMeetingDialog_pageIndex",// index must be set to zero
@@ -39,23 +36,21 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Condition = "user.focusedMeeting == null",
                         Steps = new List<IDialog>(){
-                            new SendActivity("You cannot accept any meetings because your calendar is empty"),
+                            new SendActivity("[EmptyCalendar]"),
                             new EndDialog()
                         }
                     },
-                    // new SendActivity("[detailedEntryTemplate(user.focusedMeeting)]"), ShowAllMeetingDialog will show the details
                     new ConfirmInput()
                     {
                         Property = "turn.AcceptCalendarEntry_ConfirmChoice",
-                        Prompt = new ActivityTemplate("Are you sure you want to accept this event?"),
-                        InvalidPrompt = new ActivityTemplate("Please Say Yes/No."),
+                        Prompt = new ActivityTemplate("[ConfirmPrompt]"),
+                        InvalidPrompt = new ActivityTemplate("[YesOrNo]"),
                     },
                     new IfCondition()
                     {
                         Condition = "turn.AcceptCalendarEntry_ConfirmChoice",
                         Steps = new List<IDialog>()
                         {
-                            //new SendActivity("{user.focusedMeeting.id}"),
                             new IfCondition() // we cannot accept a entry if we are the origanizer
                             {
                                 Condition = "user.focusedMeeting.isOrganizer != true",
@@ -73,13 +68,12 @@ namespace Microsoft.BotBuilderSamples
                                         },
                                         Body = JObject.Parse(@"{
                                           '1': '1'
-                                        }")
-                                      },
-                                    new SendActivity("Simple read back"),
-                                    //new SendActivity("[AcceptReadBack]")
+                                        }") // this is a place holder issue
+                                    },
+                                    new SendActivity("[AcceptReadBack]")
                                 },
                                 ElseSteps = new List<IDialog>(){
-                                    new SendActivity("Your request can't be completed. You can't respond to this meeting because you're the meeting organizer.")
+                                    new SendActivity("[CannotAcceptOrganizer]")
                                 }
                             }
                         }

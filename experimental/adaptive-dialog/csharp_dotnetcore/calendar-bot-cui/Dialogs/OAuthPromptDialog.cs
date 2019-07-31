@@ -5,7 +5,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive;
 /// <summary>
 /// This dialog will prompt user to log into calendar account
 /// </summary>
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.CalendarSample
 {
     public class OAuthPromptDialog : ComponentDialog
     {

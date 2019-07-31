@@ -5,7 +5,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.CalendarSample
 {
     public class Program
     {

@@ -13,7 +13,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 /// <summary>
 /// This dialog is the lowest level of all dialogs. 
 /// </summary>
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.CalendarSample
 {
     public class RootDialog : ComponentDialog
     {

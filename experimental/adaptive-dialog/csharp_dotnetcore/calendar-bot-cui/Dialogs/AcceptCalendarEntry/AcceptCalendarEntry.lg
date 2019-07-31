@@ -1,77 +1,20 @@
-﻿# GetEntryTitleToAccept
-- ```
-Ok, give me the exact subject of the entry you would like to accept.
-[Suggestions=Help | Cancel]
-```
+﻿# EmptyFocusedMeeting
+- Please select a meeting in detail to define a focused meeting before accepting any. 
+
+# EmptyCalendar
+- You cannot accept any meetings because your calendar is empty
+
+# ConfirmPrompt
+- Are you sure you want to accept this event?
+
+# YesOrNo
+- Please Say Yes/No.
 
 # AcceptReadBack
-- ```
-Ok, I've accepted your entry whose subject is @{user.focusedMeeting.subject}.
-```
+- Ok, I've accepted your entry whose subject is @{user.focusedMeeting.subject}.
 
-# emptyFocusedMeeting
-- Please check a meeting in detail to define a focused meeting before accepting any. 
+# CannotAcceptOrganizer
+- Your request can't be completed. You can't respond to this meeting because you're the meeting organizer.
 
-> Escape suggestion actions without which [] will be treated as template reference.
 # Welcome-Actions
 - \[Suggestions=Accept | Cancel | Change | Create | Find | View | Next Event | Help\]
-
-# detailedEntryTemplate(x)
-- ```
-[adaptivecard
-{
-    "type": "AdaptiveCard",
-    "body": [
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "size": "Medium",
-                    "weight": "Bolder",
-                    "text": "@{x.subject}"
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "text": "@{x.start.dateTime} - @{x.end.dateTime}",
-                    "wrap": true,
-                    "maxLines": 5
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "text": "@{if(x.attendees[0].emailAddress.address != null &&
-                        empty(x.attendees[0].emailAddress.address) != true,
-                        x.attendees[0].emailAddress.address,'No Attendee Specified')}",
-                    "wrap": true,
-                    "maxLines": 5
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "text": "@{if(empty(x.location.displayName) != true,
-                        x.location.displayName,'No Location Specified')}",
-                    "wrap": true,
-                    "maxLines": 5
-                }
-            ]
-        }
-    ],
-    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-    "version": "1.0"
-}
-]
-```
