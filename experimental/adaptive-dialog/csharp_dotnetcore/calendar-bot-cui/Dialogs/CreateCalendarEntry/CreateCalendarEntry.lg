@@ -112,7 +112,6 @@ OK, please enter the location of your event.
 # HelpCreateMeeting
 - [HelpPrefix], you can simply say all the relavent information of the meeting to add it.
 
-
 # CancelCreateMeeting
 - ```
 @{lgTemplate("HelpPrefix")}, I've cancelled that.

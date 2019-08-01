@@ -34,4 +34,7 @@
 - [HelpPrefix], you can simply use this bot to update the starting time of your meeting.
 
 # CancelUpdateMeeting
-- You have cancelled all the dialogs
+- ```
+@{lgTemplate("HelpPrefix")}, I've cancelled that.
+@{lgTemplate("Welcome-Actions")}
+```

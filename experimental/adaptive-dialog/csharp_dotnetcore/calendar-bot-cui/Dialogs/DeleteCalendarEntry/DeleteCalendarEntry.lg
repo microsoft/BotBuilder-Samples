@@ -33,4 +33,7 @@ Ok, I've declined your entry whose subject is "@{user.focusedMeeting.subject}".
 - Absolutely
 
 # CancelDeleteMeeting
-- You have cancelled all the dialogs
+- ```
+@{lgTemplate("HelpPrefix")}, I've cancelled that.
+@{lgTemplate("Welcome-Actions")}
+```

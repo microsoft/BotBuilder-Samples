@@ -46,6 +46,7 @@ namespace Microsoft.CalendarSample
                             new EndDialog()
                         }
                     },
+                    new SendActivity("[NextEventPre]"),
                     new SendActivity("[detailedEntryTemplate(dialog.nextFound)]"),// simple template now
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()

@@ -1,4 +1,7 @@
-﻿# NoNext
+﻿# NextEventPre
+- Your next event it:
+
+# NoNext
 -```
 You do not have next event in your calendar.
 @{lgTemplate("Welcome-Actions")}

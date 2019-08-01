@@ -28,4 +28,7 @@
 - Absolutely
 
 # CancelAcceptMeeting
-- You have cancelled all the dialogs
+- ```
+@{lgTemplate("HelpPrefix")}, I've cancelled that.
+@{lgTemplate("Welcome-Actions")}
+```

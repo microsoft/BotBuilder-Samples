@@ -25,4 +25,7 @@ Ok, give me the attendee of the entry you would like to find.
 - Absolutely
 
 # CancelFindMeeting
-- You have cancelled all the dialogs
+- ```
+@{lgTemplate("HelpPrefix")}, I've cancelled that.
+@{lgTemplate("Welcome-Actions")}
+```
