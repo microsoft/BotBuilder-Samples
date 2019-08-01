@@ -81,7 +81,7 @@ namespace Microsoft.CalendarSample
                                 Condition = "user.CreateCalendarEntry_pageIndex * 3 + 2 < count(dialog.matchedEmails)",
                                 Steps = new List<IDialog>
                                 {
-                                    new SendActivity("[StitchEmailTemplate(dialog.matchedEmails, user.CreateCalendarEntry_pageIndex * 3, user.CreateCalendarEntry_pageIndex * 3 + 2)]"),
+                                    new SendActivity("[StitchEmailTemplate(dialog.matchedEmails, user.CreateCalendarEntry_pageIndex * 3, user.CreateCalendarEntry_pageIndex * 3 + 3)]"),
                                 },
                                 ElseSteps = new List<IDialog>
                                 {

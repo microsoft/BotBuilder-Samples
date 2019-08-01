@@ -19,13 +19,13 @@
 # Welcome-Actions
 - \[Suggestions=Accept | Cancel | Change | Create | View | Next Event | Help\]
 
-# HelpCreateMeeting
-- [HelpPrefix], you can simply say all the relavent information of the meeting to add it.
+# HelpAcceptMeeting
+- [HelpPrefix], you can use this bot to accept the meeting.
 
 # HelpPrefix
 - Sure
 - You bet
 - Absolutely
 
-# CancelCreateMeeting
+# CancelAcceptMeeting
 - You have cancelled all the dialogs

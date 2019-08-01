@@ -53,7 +53,7 @@ OK, please enter the email of the attendee of your event.
 # ChoicePrompt
 - ```
 Please enter your choice
-[Suggestions=Next page | Previous page | select the first one | select the second one | select the third one]
+[Suggestions=Next page | Previous page | Select the first one | Select the second one | Select the third one]
 ```
 
 # NoMatches

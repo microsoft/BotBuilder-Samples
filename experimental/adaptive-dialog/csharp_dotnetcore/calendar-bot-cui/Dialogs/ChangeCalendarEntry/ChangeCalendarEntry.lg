@@ -30,8 +30,8 @@
 # UpdateCalendarEntryFailed
 - Sorry, there could be something wrong about your input. Please check your input.
 
-# HelpCreateMeeting
-- [HelpPrefix], you can simply say all the relavent information of the meeting to add it.
+# HelpUpdateMeeting
+- [HelpPrefix], you can simply use this bot to update the starting time of your meeting.
 
-# CancelCreateMeeting
+# CancelUpdateMeeting
 - You have cancelled all the dialogs

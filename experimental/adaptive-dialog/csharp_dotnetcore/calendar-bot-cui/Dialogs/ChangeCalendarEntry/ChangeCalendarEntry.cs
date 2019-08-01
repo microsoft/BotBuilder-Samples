@@ -105,14 +105,14 @@ namespace Microsoft.CalendarSample
                     {
                         Steps = new List<IDialog>()
                         {
-                            new SendActivity("[HelpCreateMeeting]")
+                            new SendActivity("[HelpUpdateMeeting]")
                         }
                     },
                     new IntentRule("Cancel")
                     {
                         Steps = new List<IDialog>()
                         {
-                                new SendActivity("[CancelCreateMeeting]"),
+                                new SendActivity("[CancelUpdateMeeting]"),
                                 new CancelAllDialogs()
                         }
                     }

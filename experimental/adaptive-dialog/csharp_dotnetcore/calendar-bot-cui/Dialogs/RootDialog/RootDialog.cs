@@ -136,7 +136,6 @@ namespace Microsoft.CalendarSample
                         Steps = new List<IDialog>()
                         {
                             // This is the global cancel in case a child dialog did not explicit handle cancel.
-                            new SendActivity("Cancelling all dialogs.."),
                             new SendActivity("[Welcome-Actions]"),
                             new CancelAllDialogs(),
                         },
@@ -153,7 +152,7 @@ namespace Microsoft.CalendarSample
                 new CreateCalendarEntry(Configuration),
                 new FindCalendarEntry(Configuration),
                 new DeleteCalendarEntry(Configuration),
-                new FindCalendarWho(),
+                new FindCalendarWho(Configuration),
                 new AcceptCalendarEntry(Configuration),
                 new OAuthPromptDialog(),
                 new ShowNextCalendar(),

@@ -4,7 +4,12 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder;
+using System;
+using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Extensions.Configuration;
 
 /// <summary>
 /// This dialog will show all the calendar entries if they have the same email address
@@ -13,9 +18,11 @@ namespace Microsoft.CalendarSample
 {
     public class FindCalendarWho : ComponentDialog
     {
-        public FindCalendarWho()
+        private static IConfiguration Configuration;
+        public FindCalendarWho(IConfiguration configuration)
             : base(nameof(FindCalendarWho))
         {
+            Configuration = configuration;
             // Create instance of adaptive dialog. 
             var findCalendarWho = new AdaptiveDialog("FindWho")
             {
@@ -221,6 +228,24 @@ namespace Microsoft.CalendarSample
                     },
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()
+                },
+                Rules = new List<IRule>()
+                {
+                    new IntentRule("Help")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new SendActivity("[HelpFindMeeting]")
+                        }
+                    },
+                    new IntentRule("Cancel")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new SendActivity("[CancelFindMeeting]"),
+                            new CancelAllDialogs()
+                        }
+                    }
                 }
             };
 
@@ -229,6 +254,20 @@ namespace Microsoft.CalendarSample
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);
+        }
+
+        public static IRecognizer CreateRecognizer()
+        {
+            if (string.IsNullOrEmpty(Configuration["LuisAppIdGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIKeyGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostNameGeneral"]))
+            {
+                throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
+            }
+            return new LuisRecognizer(new LuisApplication()
+            {
+                Endpoint = Configuration["LuisAPIHostNameGeneral"],
+                EndpointKey = Configuration["LuisAPIKeyGeneral"],
+                ApplicationId = Configuration["LuisAppIdGeneral"]
+            });
         }
 
     }

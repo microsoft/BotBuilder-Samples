@@ -15,3 +15,14 @@ Ok, give me the attendee of the entry you would like to find.
 
 # NoMeans
 - Sorry, I don't know what you mean!
+
+# HelpFindMeeting
+- [HelpPrefix], you can simply use this bot to find the contact of your meeting.
+
+# HelpPrefix
+- Sure
+- You bet
+- Absolutely
+
+# CancelFindMeeting
+- You have cancelled all the dialogs

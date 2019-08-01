@@ -23,3 +23,14 @@ Ok, I've declined your entry whose subject is "@{user.focusedMeeting.subject}".
 
 # Welcome-Actions
 - \[Suggestions=Accept | Cancel | Change | Create | View | Next Event | Help\]
+
+# HelpDeleteMeeting
+- [HelpPrefix], you can simply use this bot to decline the meeting.
+
+# HelpPrefix
+- Sure
+- You bet
+- Absolutely
+
+# CancelDeleteMeeting
+- You have cancelled all the dialogs

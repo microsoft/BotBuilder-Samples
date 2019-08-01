@@ -250,18 +250,5 @@ namespace Microsoft.CalendarSample
                 ApplicationId = Configuration["LuisAppIdGeneral"]
             });
         }
-
-        // This recognizer is not popular
-        //private static IRecognizer CreateRecognizer()
-        //{
-        //    return new RegexRecognizer()
-        //    {
-        //        Intents = new Dictionary<string, string>()
-        //        {
-        //            { "Help", "(?i)help" },
-        //            {  "Cancel", "(?i)cancel|never mind"}
-        //        }
-        //    };
-        //}
     }
 }

@@ -4,10 +4,11 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Bot.Builder;
+using System;
+using Microsoft.Bot.Builder.AI.Luis;
 
 /// <summary>
 /// Delete calendar entry is not functioning now because we could not use http.delete
@@ -90,6 +91,24 @@ namespace Microsoft.CalendarSample
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()
                 },
+                Rules = new List<IRule>()
+                {
+                    new IntentRule("Help")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new SendActivity("[HelpDeleteMeeting]")
+                        }
+                    },
+                    new IntentRule("Cancel")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new SendActivity("[CancelDeleteMeeting]"),
+                            new CancelAllDialogs()
+                        }
+                    }
+                }
             };
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
@@ -102,6 +121,20 @@ namespace Microsoft.CalendarSample
 
             // The initial child Dialog to run.
             InitialDialogId = "delete";
+        }
+
+        public static IRecognizer CreateRecognizer()
+        {
+            if (string.IsNullOrEmpty(Configuration["LuisAppIdGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIKeyGeneral"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostNameGeneral"]))
+            {
+                throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
+            }
+            return new LuisRecognizer(new LuisApplication()
+            {
+                Endpoint = Configuration["LuisAPIHostNameGeneral"],
+                EndpointKey = Configuration["LuisAPIKeyGeneral"],
+                ApplicationId = Configuration["LuisAppIdGeneral"]
+            });
         }
     }
 }

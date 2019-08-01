@@ -52,7 +52,7 @@ namespace Microsoft.CalendarSample
                                 Condition = "(user.ShowAllMeetingDialog_pageIndex*3+2) < count(dialog.ShowAllMeetingDialog_GraphAll.value)",
                                 Steps = new List<IDialog>()
                                 {
-                                    new SendActivity("[stitchedEntryTemplate(dialog.ShowAllMeetingDialog_GraphAll.value, user.ShowAllMeetingDialog_pageIndex*3, user.ShowAllMeetingDialog_pageIndex*3+2)]"),
+                                    new SendActivity("[stitchedEntryTemplate(dialog.ShowAllMeetingDialog_GraphAll.value, user.ShowAllMeetingDialog_pageIndex*3, user.ShowAllMeetingDialog_pageIndex*3+3)]"),
                                 },
                                 ElseSteps = new List<IDialog>()
                                 {
