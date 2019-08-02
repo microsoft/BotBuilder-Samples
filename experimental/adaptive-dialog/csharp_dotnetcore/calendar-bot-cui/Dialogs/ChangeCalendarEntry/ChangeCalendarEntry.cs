@@ -62,7 +62,6 @@ namespace Microsoft.CalendarSample
                                 Property = "dialog.ChangeCalendarEntry_startTime",
                                 Prompt = new ActivityTemplate("[GetStartTime]")
                             },
-                            //new SendActivity("{dialog.ChangeCalendarEntry_startTime}"),//DEBUG
                             new HttpRequest()
                             {
                                 Property = "user.updateResponse",
@@ -112,8 +111,8 @@ namespace Microsoft.CalendarSample
                     {
                         Steps = new List<IDialog>()
                         {
-                                new SendActivity("[CancelUpdateMeeting]"),
-                                new CancelAllDialogs()
+                            new SendActivity("[CancelUpdateMeeting]"),
+                            new CancelAllDialogs()
                         }
                     }
                 }

@@ -39,14 +39,12 @@ namespace Microsoft.CalendarSample
                         },
                         Property = "dialog.ShowAllMeetingDialog_GraphAll"
                     },
-                    // new SendActivity("{dialog.ShowAllMeetingDialog_GraphAll.value}"),
                     // to avoid shoing an empty calendar & access denied
                     new IfCondition()
                     {
                         Condition = "dialog.ShowAllMeetingDialog_GraphAll.value != null && count(dialog.ShowAllMeetingDialog_GraphAll.value) > 0",
                         Steps = new List<IDialog>()
                         {
-                            //new SendActivity("{count(dialog.ShowAllMeetingDialog_GraphAll.value)}"),
                             new IfCondition()
                             {
                                 Condition = "(user.ShowAllMeetingDialog_pageIndex*3+2) < count(dialog.ShowAllMeetingDialog_GraphAll.value)",

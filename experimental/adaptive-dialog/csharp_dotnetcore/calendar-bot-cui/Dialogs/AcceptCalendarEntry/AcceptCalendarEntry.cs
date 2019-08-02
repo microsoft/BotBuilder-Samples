@@ -66,7 +66,6 @@ namespace Microsoft.CalendarSample
                                         Property = "user.acceptResponse",
                                         Method = HttpRequest.HttpMethod.POST,
                                         Url = "https://graph.microsoft.com/v1.0/me/events/{user.focusedMeeting.id}/accept",
-                                        //Url = "https://graph.microsoft.com/v1.0/me/events/AAMkADY2MzM5M2UzLWQ0NmItNDU2My1hN2NjLTliMjRiYWE5YWQ4ZABGAAAAAADRv-cRMwIfQKntE9IXL-ciBwDVXUsVK2tOTK5RjTff3j-IAAAAAAENAADVXUsVK2tOTK5RjTff3j-IAAAfRHvTAAA=/accept",
                                         Headers = new Dictionary<string, string>()
                                         {
                                             ["Authorization"] = "Bearer {user.token.Token}",
@@ -83,7 +82,6 @@ namespace Microsoft.CalendarSample
                             }
                         }
                     },
-                    // new SendActivity("finish http request"),
                     new SendActivity("[Welcome-Actions]"),
                     new EndDialog()
                 },

@@ -34,7 +34,6 @@ namespace Microsoft.CalendarSample
                 {
 
                     new BeginDialog(nameof(OAuthPromptDialog)),
-
                     new SetProperty()
                     {
                         Value = "@FromTime",
@@ -103,7 +102,6 @@ namespace Microsoft.CalendarSample
                     //     Property = "user.finalContact",
                     //     Value = "concat('[', user.finalContact, ']')"
                     //},
-                    // new saveproperty not usable TODO
                     new TextInput()
                     {
                         Property = "dialog.CreateCalendarEntry_Subject",
@@ -142,7 +140,7 @@ namespace Microsoft.CalendarSample
                                 Url = "https://graph.microsoft.com/v1.0/me/events",
                                 Headers =  new Dictionary<string, string>(){
                                     ["Authorization"] = "Bearer {user.token.Token}",
-                                },//TODO bugs exists here, because user.finalContact cannot be correctly placed and replaced
+                                },
                                 Body = JObject.Parse(@"{
                                     'subject': '{dialog.CreateCalendarEntry_Subject}',
                                     'attendees': [
@@ -167,7 +165,7 @@ namespace Microsoft.CalendarSample
                                 }")
                                 //Body = JObject.Parse(@"{
                                 //    'subject': '{dialog.CreateCalendarEntry_Subject}',
-                                //    'attendees': '{user.finalContact}',
+                                //    'attendees': '{user.finalContact}', //DEBUG exists here, because user.finalContact cannot be correctly placed and replaced
                                 //    'location': {
                                 //        'displayName': '{dialog.CreateCalendarEntry_Location}',
                                 //    },

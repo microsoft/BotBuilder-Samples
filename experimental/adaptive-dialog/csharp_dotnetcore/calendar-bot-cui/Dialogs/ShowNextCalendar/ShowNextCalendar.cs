@@ -26,7 +26,7 @@ namespace Microsoft.CalendarSample
                         {
                             ["Authorization"] = "Bearer {user.token.Token}",
                         },
-                        Property = "dialog.ShowNextCalendar_graphAll" // sorted by start time already. Sweat!
+                        Property = "dialog.ShowNextCalendar_graphAll" // not sorted by start time already. :(
                     },
                     new IfCondition()
                     {
