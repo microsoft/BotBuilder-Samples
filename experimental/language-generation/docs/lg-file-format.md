@@ -104,10 +104,10 @@ Here is an example of a template parametrization.
     - good evening
 
 # morningGreeting
-- timeOfDayGreetingTemplate('morning')
+- @{timeOfDayGreetingTemplate('morning')}
 
 # timeOfDayGreeting
-- timeOfDayGreetingTemplate(timeOfDay)
+- @{timeOfDayGreetingTemplate(timeOfDay)}
 ```
 
 ## Entities 
