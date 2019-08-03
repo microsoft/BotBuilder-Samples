@@ -1,19 +1,22 @@
 ﻿> Language Generation definition file. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
+> You can now add reference to other .lg files.
+[Root LG](..\RootDialog\RootDialog.lg)
+
 > This template uses inline expressions. Expressions are defined using the common expression language. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more.
 # View-ToDos
 - IF: {user.todos != null && count(user.todos) != 0}
     - ```
-You have @{count(user.todos)} @{lgTemplate("Items-Ordinality")} in your collection.
+You have @{count(user.todos)} @{Items-Ordinality()} in your collection.
 - @{join(user.todos, '\r\n- ')}
-@{lgTemplate("Welcome-Actions")}
+@{Welcome-Actions()}
 ```
 - ELSE: 
     - ```
 You do not have any Todos in your collection.
-@{lgTemplate("Welcome-Actions")}
+@{Welcome-Actions()}
 ```
 
 # Items-Ordinality

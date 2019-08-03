@@ -36,10 +36,6 @@ namespace Microsoft.BotBuilderSamples
             // Create the Conversation state. (Used by the Dialog system itself.)
             services.AddSingleton<ConversationState>();
 
-            // Resource explorer helps load all .lg files for this project.
-            var resourceExplorer = ResourceExplorer.LoadProject(Directory.GetCurrentDirectory(), ignoreFolders: new string[] { "models" });
-            services.AddSingleton(resourceExplorer);
-
             // The Dialog that will be run by the bot.
             services.AddSingleton<RootDialog>();
 

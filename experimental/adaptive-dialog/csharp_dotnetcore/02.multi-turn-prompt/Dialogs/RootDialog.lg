@@ -13,9 +13,12 @@
 # AskForAge
 - what is your age?
 
-# AskForAge.reprompt
-- The value entered must be greater than 0 and less than 150.
-- Sorry, that does not work. Your age must be greater than 0 and less than 150.
+# AskForAge.invalid
+- Sorry, {turn.value} does not work. I'm looking for a value between 1-150. [AskForAge]
+- Sorry, that does not work. Your age must be greater than 0 and less than 150. [AskForAge]
+
+# AskForAge.unRecognized
+- Sorry, I do not recognized '{turn.activity.text}'. [AskForAge]
 
 # NoName
 - No age given.

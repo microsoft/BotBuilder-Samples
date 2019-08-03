@@ -34,7 +34,7 @@ namespace Microsoft.BotBuilderSamples
                 Buttons = new List<CardAction>
                 {
                     new CardAction(
-                        ActionTypes.OpenUrl,
+                        ActionTypes.ImBack,
                         "More information",
                         "https://account.windowsazure.com/content/6.10.1.38-.8225.160809-1618/aux-pre/images/offer-icon-freetrial.png",
                         "https://azure.microsoft.com/en-us/pricing/"),

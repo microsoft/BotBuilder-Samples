@@ -1,5 +1,3 @@
-﻿# WelcomeCard
-- ```
 {
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
@@ -15,7 +13,7 @@
       "spacing": "medium",
       "size": "default",
       "weight": "bolder",
-      "text": "@{lgTemplate("HeaderText")}",
+      "text": "@{HeaderText()}",
       "wrap": true,
       "maxLines": 0
     },
@@ -46,8 +44,3 @@
     }
   ]
 }
-```
-
-# HeaderText
-- Welcome to Bot Framework!
-- Welcome to core bot with Language Generation!

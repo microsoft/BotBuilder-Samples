@@ -8,6 +8,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System.IO;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -18,17 +19,19 @@ namespace Microsoft.BotBuilderSamples
         public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
             : base(credentialProvider)
         {
+            //this.Use(new RegisterClassMiddleware<IMessageActivityGenerator>(new TextMessageActivityGenerator()));
+
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "AdapterWithErrorHandler.LG" };
             string fullPath = Path.Combine(paths);
-            _lgEngine = TemplateEngine.FromFiles(fullPath);
+            _lgEngine = new TemplateEngine().AddFile(fullPath);
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.
                 logger.LogError($"Exception caught : {exception.Message}");
 
                 // Send a catch-all apology to the user.
-                await turnContext.SendActivityAsync(_lgEngine.EvaluateTemplate("SomethingWentWrong", null));
+                await turnContext.SendActivityAsync(_lgEngine.EvaluateTemplate("SomethingWentWrong", exception));
 
                 if (conversationState != null)
                 {

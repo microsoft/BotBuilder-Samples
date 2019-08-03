@@ -25,7 +25,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "welcomeCard.LG" };
             string fullPath = Path.Combine(paths);
-            _lgEngine = TemplateEngine.FromFiles(fullPath);
+            _lgEngine = new TemplateEngine().AddFile(fullPath);
         }
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
