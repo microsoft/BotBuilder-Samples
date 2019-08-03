@@ -19,7 +19,7 @@ namespace Microsoft.BotBuilderSamples
         public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
             : base(credentialProvider)
         {
-            this.Use(new RegisterClassMiddleware<IMessageActivityGenerator>(new TextMessageActivityGenerator()));
+            //this.Use(new RegisterClassMiddleware<IMessageActivityGenerator>(new TextMessageActivityGenerator()));
 
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "AdapterWithErrorHandler.LG" };
