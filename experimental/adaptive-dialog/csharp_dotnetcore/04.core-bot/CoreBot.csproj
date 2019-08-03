@@ -6,11 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.6.0-Daily-2019-07-11-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Debugging" Version="4.6.0-Daily-2019-07-11-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-Daily-2019-07-11-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-Daily-2019-07-11-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Renderer" Version="4.6.0-Daily-2019-07-11-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.6.0-Daily-2019-08-02-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Debugging" Version="4.6.0-Daily-2019-08-02-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-Daily-2019-08-02-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-Daily-2019-08-02-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Renderer" Version="4.6.0-Daily-2019-08-02-01" />
   </ItemGroup>
 
   <ItemGroup>

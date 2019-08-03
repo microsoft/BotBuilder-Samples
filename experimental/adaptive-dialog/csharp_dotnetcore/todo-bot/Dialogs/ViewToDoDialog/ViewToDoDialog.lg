@@ -9,14 +9,14 @@
 # View-ToDos
 - IF: {user.todos != null && count(user.todos) != 0}
     - ```
-You have @{count(user.todos)} @{lgTemplate("Items-Ordinality")} in your collection.
+You have @{count(user.todos)} @{Items-Ordinality()} in your collection.
 - @{join(user.todos, '\r\n- ')}
-@{lgTemplate("Welcome-Actions")}
+@{Welcome-Actions()}
 ```
 - ELSE: 
     - ```
 You do not have any Todos in your collection.
-@{lgTemplate("Welcome-Actions")}
+@{Welcome-Actions()}
 ```
 
 # Items-Ordinality

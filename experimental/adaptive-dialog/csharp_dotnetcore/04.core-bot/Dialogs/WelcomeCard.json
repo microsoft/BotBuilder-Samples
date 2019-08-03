@@ -13,7 +13,7 @@
       "spacing": "medium",
       "size": "default",
       "weight": "bolder",
-      "text": "\"@{lgTemplate(\"HeaderText\")}\"",
+      "text": "@{HeaderText()}",
       "wrap": true,
       "maxLines": 0
     },

@@ -12,7 +12,7 @@ Ok, give me the exact title of the todo you would like to delete..
 # Delete-readBack
 - ```
 Ok, I've removed your todo titled "@{turn.todoTitle}".
-@{lgTemplate("View-ToDos")}
+@{View-ToDos()}
 ```
 
 # Delete-Empty-List

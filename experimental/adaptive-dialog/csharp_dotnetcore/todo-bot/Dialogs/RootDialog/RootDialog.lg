@@ -3,8 +3,8 @@
 
 # Help-Root-Dialog
 - ```
-@{lgTemplate("WelcomePrefix")}, I'm the Todo sample bot. @{lgTemplate("Welcome-Suffix")}
-@{lgTemplate("Welcome-Actions")}
+@{WelcomePrefix()}, I'm the Todo sample bot. @{Welcome-Suffix()}
+@{Welcome-Actions()}
 ```
 
 # Welcome-Suffix

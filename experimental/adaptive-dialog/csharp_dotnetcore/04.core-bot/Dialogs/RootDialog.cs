@@ -115,7 +115,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                                 Property = "conversation.flightBooking.departureDate",
                                 Prompt = new ActivityTemplate("[PromptForMissingInformation]"),
                                 // You can use this flag to control when a specific input participates in consultation bubbling and can be interrupted.
-                                AllowInterruptions = false
+                                // NotRecognized will only consult up to the parent dialog if the user input does not include a data time value in this case.
+                                AllowInterruptions = AllowInterruptions.NotRecognized
                             },
                             new ConfirmInput()
                             {
