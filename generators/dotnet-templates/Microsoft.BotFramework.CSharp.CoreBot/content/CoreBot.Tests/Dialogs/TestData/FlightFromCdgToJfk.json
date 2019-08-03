@@ -1,0 +1,66 @@
+{
+  "Text": "flight from cdg to jfk",
+  "AlteredText": null,
+  "Intents": {
+    "BookFlight": {
+      "score": 0.712058365
+    }
+  },
+  "Entities": {
+    "datetime": null,
+    "Airport": null,
+    "From": [
+      {
+        "Airport": null,
+        "$instance": {
+          "Airport": null
+        }
+      }
+    ],
+    "To": [
+      {
+        "Airport": [
+          [
+            "New York"
+          ]
+        ],
+        "$instance": {
+          "Airport": [
+            {
+              "startIndex": 19,
+              "endIndex": 22,
+              "text": "jfk",
+              "score": null,
+              "type": "Airport",
+              "subtype": null
+            }
+          ]
+        }
+      }
+    ],
+    "$instance": {
+      "datetime": null,
+      "Airport": null,
+      "From": [
+        {
+          "startIndex": 12,
+          "endIndex": 15,
+          "text": "cdg",
+          "score": 0.916838467,
+          "type": "From",
+          "subtype": null
+        }
+      ],
+      "To": [
+        {
+          "startIndex": 19,
+          "endIndex": 22,
+          "text": "jfk",
+          "score": 0.8497651,
+          "type": "To",
+          "subtype": null
+        }
+      ]
+    }
+  }
+}

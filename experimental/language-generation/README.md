@@ -14,9 +14,9 @@ Language generation is achieved through:
 
 ```markdown
 # greetingTemplate
-- Hello {user.name}, how are you?
-- Good morning {user.name}. It's nice to see you again.
-- Good day {user.name}. What can I do for you today?
+- Hello @{user.name}, how are you?
+- Good morning @{user.name}. It's nice to see you again.
+- Good day @{user.name}. What can I do for you today?
 ```
 
 You can use language generation to:
@@ -98,13 +98,23 @@ Load the template manager with your .lg file(s)
 
 For C#
 
-```
-    TemplateEngine lgEngine = new TemplateEngine().AddFiles(pathToLGFiles); 
+```c#
+    // multi lg files
+    TemplateEngine lgEngine = new TemplateEngine().AddFiles(filePaths, importResolver?);
+
+    // single lg file
+    TemplateEngine lgEngine = new TemplateEngine().AddFile(filePath, importResolver?);
 ```
 
 For NodeJS
+
+```typescript
+    // multi lg files
+    let lgEngine = new TemplateEngine.addFiles(filePaths, importResolver?);
+
+    // single lg file
+    let lgEngine = new TemplateEngine.addFile(filePath, importResolver?);
 ```
-    let lgEngine = new TemplateEngine().addFiles(pathToLGFiles);
 
 When you need template expansion, call the templateEngine and pass in the relevant template name
 
@@ -116,7 +126,7 @@ For C#
 
 For NodeJS
 
-```node
+```typescript
     await turnContext.sendActivity(lgEngine.evaluateTemplate("<TemplateName>", entitiesCollection));
 ```
 

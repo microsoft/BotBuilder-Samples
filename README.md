@@ -29,6 +29,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |8.suggested-actions    | Demonstrates how to enable your bot to present buttons that the user can tap to provide input.                                      |[View][cs#8] |[View][js#8] |              |             | |
 |11.qnamaker            | Demonstrates how to use QnA Maker to have simple single-turn conversations     |[View][cs#11]|[View][js#11]|              |             | |
 |13.core-bot            | Core bot shows how to use cards, dialog, and Langugage Understanding (LUIS).                         |[View][cs#13]|[View][js#13]|[View][wa#13] |             |[View][ts#13]|
+|13.core-bot.tests            | Unit test project Core bot shows how to use use Bot Framework testing framework.                         |[View][cs#13.b]|   |   |             |  |
 |14.nlp-with-dispatch   | Demonstrates how to dispatch across LUIS and QnA Maker.                            |[View][cs#14]|[View][js#14]|              |             | |
 |15.handling-attachments| Demonstrates how to listen for/handle user provided attachments.                |[View][cs#15]|[View][js#15]|              |             | |
 |16.proactive-messages  | Demonstrates how to send proactive messages to users.                           |[View][cs#16]|[View][js#16]|              |             | |
@@ -42,6 +43,8 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |43.complex-dialog      | Demonstrates different ways for composing dialogs. |[View][cs#43]|[View][js#43] |              |             | |
 |44.prompt-for-user-input | Demonstrates how to implement your own _basic_ prompts to ask the user for information. |[View][cs#44]|[View][js#44]|              |             | |
 |45.state-management    | Demonstrates how to use state management and storage objects to manage and persist state. | [View][cs#45] | [View][js#45]   |              |             |  |
+|46.teams-auth    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [View][cs#46] | [View][js#46]   |              |             |  |
+|47.inspection    | Demonstrates how to use middleware to allow the Bot Framework Emulator to debug traffic into and out of the bot in addition to looking at the current state of the bot. | [View][cs#47] | [View][js#47]   |              |             |  |
 |70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
 
 [cs#1]:samples/csharp_dotnetcore/01.console-echo
@@ -53,6 +56,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [cs#8]:samples/csharp_dotnetcore/08.suggested-actions
 [cs#11]:samples/csharp_dotnetcore/11.qnamaker
 [cs#13]:samples/csharp_dotnetcore/13.core-bot
+[cs#13.b]:samples/csharp_dotnetcore/13.core-bot.tests
 [cs#14]:samples/csharp_dotnetcore/14.nlp-with-dispatch
 [cs#15]:samples/csharp_dotnetcore/15.handling-attachments
 [cs#16]:samples/csharp_dotnetcore/16.proactive-messages
@@ -67,6 +71,8 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [cs#43]:samples/csharp_dotnetcore/43.complex-dialog
 [cs#44]:samples/csharp_dotnetcore/44.prompt-users-for-input
 [cs#45]:samples/csharp_dotnetcore/45.state-management
+[cs#46]:samples/csharp_dotnetcore/46.teams-auth
+[cs#47]:samples/csharp_dotnetcore/47.inspection
 [cs#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
 
 [wa#13]:samples/csharp_webapi/13.core-bot
@@ -103,6 +109,8 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [js#43]:samples/javascript_nodejs/43.complex-dialog
 [js#44]:samples/javascript_nodejs/44.prompt-for-user-input
 [js#45]:samples/javascript_nodejs/45.state-management
+[js#46]:samples/javascript_nodejs/46.teams-auth
+[js#47]:samples/javascript_nodejs/47.inspection
 
 
 ## Contributing

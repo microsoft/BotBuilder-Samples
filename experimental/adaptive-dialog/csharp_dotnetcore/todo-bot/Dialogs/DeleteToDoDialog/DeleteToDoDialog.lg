@@ -1,6 +1,8 @@
 ﻿> Language Generation definition file. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
+[View todo](..\ViewToDoDialog\ViewToDoDialog.lg)
+
 # Get-ToDo-Title-To-Delete
 - ```
 Ok, give me the exact title of the todo you would like to delete..
@@ -10,7 +12,7 @@ Ok, give me the exact title of the todo you would like to delete..
 # Delete-readBack
 - ```
 Ok, I've removed your todo titled "@{turn.todoTitle}".
-@{lgTemplate("View-ToDos")}
+@{View-ToDos()}
 ```
 
 # Delete-Empty-List

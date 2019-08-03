@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.BotBuilderSamples.Bots
 {
-    public class DialogAndWelcomeBot<T> : DialogBot<T> where T : Dialog
+    public class DialogAndWelcomeBot<T> : DialogBot<T>
+        where T : Dialog
     {
         public DialogAndWelcomeBot(ConversationState conversationState, UserState userState, T dialog, ILogger<DialogBot<T>> logger)
             : base(conversationState, userState, dialog, logger)
@@ -30,32 +30,30 @@ namespace Microsoft.BotBuilderSamples
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     var welcomeCard = CreateAdaptiveCardAttachment();
-                    var response = CreateResponse(turnContext.Activity, welcomeCard);
+                    var response = MessageFactory.Attachment(welcomeCard);
                     await turnContext.SendActivityAsync(response, cancellationToken);
+                    await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
                 }
             }
         }
 
-        // Create an attachment message response.
-        private Activity CreateResponse(IActivity activity, Attachment attachment)
-        {
-            var response = ((Activity)activity).CreateReply();
-            response.Attachments = new List<Attachment>() { attachment };
-            return response;
-        }
-
-        // Load attachment from file.
+        // Load attachment from embedded resource.
         private Attachment CreateAdaptiveCardAttachment()
         {
-            // This is WebApi specific code to get the absolute path.
-            string fullPath = HttpContext.Current.Server.MapPath("/Cards/welcomeCard.json");
+            var cardResourcePath = "CoreBot.Cards.welcomeCard.json";
 
-            var adaptiveCard = File.ReadAllText(fullPath);
-            return new Attachment()
+            using (var stream = GetType().Assembly.GetManifestResourceStream(cardResourcePath))
             {
-                ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(adaptiveCard),
-            };
+                using (var reader = new StreamReader(stream))
+                {
+                    var adaptiveCard = reader.ReadToEnd();
+                    return new Attachment()
+                    {
+                        ContentType = "application/vnd.microsoft.card.adaptive",
+                        Content = JsonConvert.DeserializeObject(adaptiveCard),
+                    };
+                }
+            }
         }
     }
 }

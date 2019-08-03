@@ -8,6 +8,8 @@
     "rootDir": "./src",
     "resolveJsonModule": true,
     "rootDirs": ["./src", "./resources"],
-    "sourceMap": true
+    "sourceMap": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./lib/.tsbuildinfo",
   }
 }

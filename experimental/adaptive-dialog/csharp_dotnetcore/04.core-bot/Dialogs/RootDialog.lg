@@ -15,14 +15,11 @@
 - Does this sound righ to you? 
 
 # ConfirmMessage
-- I have you traveling to: {conversation.flightBooking.destinationCity} from: {conversation.flightBooking.departureCity} on: {conversation.flightBooking.departureDate}
-- on {conversation.flightBooking.departureDate}, travelling from {conversation.flightBooking.departureCity} to {conversation.flightBooking.destinationCity}
+- I have you traveling to: {conversation.flightBooking.destinationCity} from: {conversation.flightBooking.departureCity} on: {conversation.flightBooking.departureDate[0].value}
+- on {conversation.flightBooking.departureDate[0].value}, travelling from {conversation.flightBooking.departureCity} to {conversation.flightBooking.destinationCity}
 
 # ConfirmBooking
-- ```
-@{lgTemplate("ConfirmPrefix")} @{lgTemplate("ConfirmMessage")}
-[Suggestions = Yes | No]
-```
+- [ConfirmPrefix] [ConfirmMessage]
 
 # PromptForTravelDate
 - When would you like to travel?
@@ -51,7 +48,7 @@
 
 
 # BookingConfirmation
-- I have you booked to {conversation.flightBooking.destinationCity} from {conversation.flightBooking.destinationCity} on {conversation.flightBooking.departureDate}.
+- I have you booked to {conversation.flightBooking.destinationCity} from {conversation.flightBooking.destinationCity} on {conversation.flightBooking.departureDate[0].value}.
 
 # IntroPrompt
 - What can I help you with today?
@@ -69,4 +66,13 @@ Hello, I'm the core bot. How can I be of help today?
 - ```
 Turn state: @{if("turn.entities != null", turn.entities, "") }
 Dialog state: @{if("conversation.flightBooking != null", conversation.flightBooking, "") }
+```
+
+# HeaderText
+- Welcome to Bot Framework!
+- Welcome to core bot with Language Generation!
+
+# WelcomeCard
+- ```
+[Attachment=Dialogs\WelcomeCard.json adaptivecard]
 ```

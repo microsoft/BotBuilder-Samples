@@ -7,3 +7,6 @@
 
 # CardStartOverResponse
 - Type anything to see another card.
+
+> Include a reference to cards.lg file. This is new feature in Language Generation.
+[Cards definition](./Cards.lg)
