@@ -55,10 +55,10 @@ Here is an example of a card definition.
     # HeroCardTemplate(buttonsCollection)
     - ```
     [Herocard
-        title=@{lgTemplate("TitleText")}
-        subtitle=@{lgTemplate("SubText")}
-        text=@{lgTemplate("DescriptionText")}
-        images=@{lgTemplate("CardImages")}
+        title=@{TitleText())}
+        subtitle=@{SubText())}
+        text=@{DescriptionText())}
+        images=@{CardImages())}
         buttons=@{join(buttonsCollection, '|')]
     ```
 

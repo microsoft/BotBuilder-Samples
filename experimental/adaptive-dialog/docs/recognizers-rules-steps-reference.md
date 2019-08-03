@@ -204,6 +204,9 @@ _Inputs_ are wrappers around [prompts][2] that you can use in an adaptive dialog
 - Performs existential check before prompting. 
 - Grounds input to the specified property if the input from user matches the type of entity expected. 
 - Accepts constraints - min, max, etc. 
+- Handle locally relevant intents within a dialog as well as use interruption as a technique to bubble up user response to an appropriate parent dialog that can handle it. 
+
+See [here](./all-about-interruptions.md) to learn more about interruption. 
 
 Adaptive dialogs support the following inputs - 
 - [TextInput](#TextInput)
