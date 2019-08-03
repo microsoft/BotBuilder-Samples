@@ -83,12 +83,12 @@
 
 # AllCards
 - ```
-[AttachmentLayout=@{lgTemplate("AttachmentLayoutType")}]
-@{lgTemplate("HeroCard")}
-@{lgTemplate("ThumbnailCard")}
-@{lgTemplate("SigninCard")}
-@{lgTemplate("AnimationCard")}
-@{lgTemplate("VideoCard")}
-@{lgTemplate("AudioCard")}
-@{lgTemplate("AdaptiveCard")}
+[AttachmentLayout=@{AttachmentLayoutType()}]
+@{HeroCard()}
+@{ThumbnailCard()}
+@{SigninCard()}
+@{AnimationCard()}
+@{VideoCard()}
+@{AudioCard()}
+@{AdaptiveCard()}
 ```
