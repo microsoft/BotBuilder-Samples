@@ -3,6 +3,7 @@
 This document describes the constituent parts of [Adaptive][7] dialog. 
 
 - [Recognizers](#Recognizers)
+- [Generator](#Generator)
 - [Rules](#Rules)
 - [Steps](#Steps)
 - [Inputs](#Inputs)
@@ -78,6 +79,16 @@ var rootDialog = new AdaptiveDialog("rootDialog")
 }
 ```
 
+## Generator
+_Generator_ ties a specific language generation system to an Adaptive Dialog. This, along with Recognizer enables clean separation and encapsulation of a specific dialog's language understanding and language generation assets. With the [Language Generation][10] PREVIEW feature, you can set the generator to a _.lg_ file or set the generator to a [TemplateEngine][11] instance where you explicitly manage the one or more _.lg_ files that power this specific adaptive dialog. 
+
+```C#
+var myDialog = new AdaptiveDialog(nameof(AdaptiveDialog)) 
+{
+    Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(Path.Combine(".", "myDialog.lg")))
+};
+```
+
 ## Rules
 _Rules_ enable you to catch and respond to events. The broadest rule is the EventRule that allows you to catch and attach a set of steps to execute when a specific event is emitted by any sub-system. Adaptive dialogs support a couple of other specialized rules to wrap common events that your bot would handle.
 
@@ -85,6 +96,7 @@ Adaptive dialogs support the following Rules -
 - [Intent rule](#Intent-rule)
 - [Unknown intent rule](#Unknown-intent-rule) 
 - [Event rule](#Event-rule)
+- [Activity rule](#Activity-rule)
 
 At the core, all rules are event handlers. Here are the set of events that can be handled via a rule.
 <a name="events"></a>
@@ -169,12 +181,32 @@ unhandledIntentRule.Steps = unhandledIntentSteps;
 rootDialog.AddRule(unhandledIntentRule);
 ```
 
+### Activity rule
+Activity rule enables you to associate steps to any incoming activity from the client. Please see [here][15] for Bot Framework Activity definition.
+
+```C#
+var myDialog = new AdaptiveDialog(nameof(AdaptiveDialog)) 
+{
+    Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(Path.Combine(".", "myDialog.lg"))),
+    Rules = new List<IRule>() {
+        new ConversationUpdateActivityRule() {
+            Steps = new List<IDialog>() {
+                new SendActivity("[Welcome-user]")
+            }
+        }
+    }
+};
+```
+
 ## Inputs 
 _Inputs_ are wrappers around [prompts][2] that you can use in an adaptive dialog step to ask and collect a piece of input from a user, validate and accept it into memory. Inputs include these pre-built features: 
 - Accepts a property to bind to the new [state management][6] scopes. 
 - Performs existential check before prompting. 
 - Grounds input to the specified property if the input from user matches the type of entity expected. 
 - Accepts constraints - min, max, etc. 
+- Handle locally relevant intents within a dialog as well as use interruption as a technique to bubble up user response to an appropriate parent dialog that can handle it. 
+
+See [here](./all-about-interruptions.md) to learn more about interruption. 
 
 Adaptive dialogs support the following inputs - 
 - [TextInput](#TextInput)
@@ -189,12 +221,19 @@ Use text input when you want to verbatim accept user input as a value for a spec
 
 | Property         | Description                                                                        |
 |------------------|------------------------------------------------------------------------------------|
-| property         | Property this input dialog is bound to                                             |
-| prompt           | Initial prompt response to ask for user input                                      |
-| retryPrompt      | Response on retry                                                                  |
-| invalidPrompt    | Response when input is not recognized or not valid for the expected input type     |
-| pattern          | Optional regex to validate input                                                   |
-| noMatchResponse  | If a pattern is specified, response to user when input does not match the pattern  |
+| TextOutputFormat | Indicates how the output from the text input should be post-processed. Options are None, Trim, LowerCase, UpperCase    |
+| Value            | Denotes the value (as an expression) to set to the Property. Value expression is evaluated on every turn               |
+| DefaultValue     | Default value the property is set to if max turn count is reached                                                      |
+| AlwaysPrompt     | Denotes if we should always execute this prompt even if the property has an existing value set                         |
+| AllowInterruptions | Denotes if this input is interruptable. This signifies that the input will particpate in consultation before accepting user input. This provides other dialog and or rules in the parent chain to take this input as an interruption |
+| Prompt           | Initial prompt response to ask for user input                                      |
+| UnrecognizedPrompt | Prompt string to use if the input was unrecognized   |
+| InvalidPrompt    | Response when input is not recognized or not valid for the expected input type     |
+| Validations       | List of expressions used to validate if user provided input meets required constraints. You can use turn.value to examine the user input in the validation expressions |
+| MaxTurnCount      | Denotes the maxinum number of attempts this specific input will execute to resolve a value |
+| Property         | Property this input dialog is bound to                                             |
+| Pattern          | Optional regex to validate input                                                   |
+
 
 ``` C#
 // Create an adaptive dialog.
@@ -220,12 +259,23 @@ Choice input asks for a choice from a set of options.
 
 | Property         | Description                                                                        |
 |------------------|------------------------------------------------------------------------------------|
-| property         | Property this input dialog is bound to                                             |
-| prompt           | Initial prompt response to ask for user input                                      |
-| retryPrompt      | Response on retry                                                                  |
-| invalidPrompt    | Response when input is not recognized or not valid for the expected input type     |
-| style            | Rendering style for available choices: Inline; List; SugestedActions; HeroCard     |
-| choices          | Array representing possible choices                                                |
+| Choices          | Array representing possible choices                                                |
+| ChoiceOutputFormat | Indicates how the output is formated. Options are Value or Index |
+| ChoicesProperty   | Expression collection of choices to present to user |
+| Style            | Rendering style for available choices: Inline; List; SugestedActions; HeroCard     |
+| DefaultLocale     | Sets the default locale for input processing. Supported locales are Spanish, Dutch, English, French, German, Japanese, Portuguese, Chinese    |
+| ChoiceOptions |   ChoiceOptions controls display options for customizing language |
+| RecognizerOptions | Customize how to use the choices to recognize the response from the user  |
+| Value            | Denotes the value (as an expression) to set to the Property. Value expression is evaluated on every turn               |
+| DefaultValue     | Default value the property is set to if max turn count is reached                                                      |
+| AlwaysPrompt     | Denotes if we should always execute this prompt even if the property has an existing value set                         |
+| AllowInterruptions | Denotes if this input is interruptable. This signifies that the input will particpate in consultation before accepting user input. This provides other dialog and or rules in the parent chain to take this input as an interruption |
+| Prompt           | Initial prompt response to ask for user input                                      |
+| UnrecognizedPrompt | Prompt string to use if the input was unrecognized   |
+| InvalidPrompt    | Response when input is not recognized or not valid for the expected input type     |
+| Validations       | List of expressions used to validate if user provided input meets required constraints. You can use turn.value to examine the user input in the validation expressions |
+| MaxTurnCount      | Denotes the maxinum number of attempts this specific input will execute to resolve a value |
+| Property         | Property this input dialog is bound to                                             |
 
 ``` C#
 // Create an adaptive dialog.
@@ -257,10 +307,16 @@ As the name implies, asks user for confirmation.
 
 | Property         | Description                                                                        |
 |------------------|------------------------------------------------------------------------------------|
-| property         | Property this input dialog is bound to                                             |
-| prompt           | Initial prompt response to ask for user input                                      |
-| retryPrompt      | Response on retry                                                                  |
-| invalidPrompt    | Response when input is not recognized or not valid for the expected input type     |
+| Value            | Denotes the value (as an expression) to set to the Property. Value expression is evaluated on every turn               |
+| DefaultValue     | Default value the property is set to if max turn count is reached                                                      |
+| AlwaysPrompt     | Denotes if we should always execute this prompt even if the property has an existing value set                         |
+| AllowInterruptions | Denotes if this input is interruptable. This signifies that the input will particpate in consultation before accepting user input. This provides other dialog and or rules in the parent chain to take this input as an interruption |
+| Prompt           | Initial prompt response to ask for user input                                      |
+| UnrecognizedPrompt | Prompt string to use if the input was unrecognized   |
+| InvalidPrompt    | Response when input is not recognized or not valid for the expected input type     |
+| Validations       | List of expressions used to validate if user provided input meets required constraints. You can use turn.value to examine the user input in the validation expressions |
+| MaxTurnCount      | Denotes the maxinum number of attempts this specific input will execute to resolve a value |
+| Property         | Property this input dialog is bound to                                             |
 
 ``` C#
 // Create adaptive dialog.
@@ -289,25 +345,51 @@ Asks for a number.
 
 | Property         | Description                                                                        |
 |------------------|------------------------------------------------------------------------------------|
-| property         | Property this input dialog is bound to                                             |
-| prompt           | Initial prompt response to ask for user input                                      |
-| retryPrompt      | Response on retry                                                                  |
-| invalidPrompt    | Response when input is not recognized or not valid for the expected input type     |
-| minValue         | The min value which is valid                                                       |
-| maxValue         | The max value which is valid                                                       |
-
+| NumberOutputFormat | Controls the output format of the value recognized by input. Possible options are Float, Integer |
+| DefaultLocale     | Sets the default locale for input processing. Supported locales are Spanish, Dutch, English, French, German, Japanese, Portuguese, Chinese    |
+| Value            | Denotes the value (as an expression) to set to the Property. Value expression is evaluated on every turn               |
+| DefaultValue     | Default value the property is set to if max turn count is reached                                                      |
+| AlwaysPrompt     | Denotes if we should always execute this prompt even if the property has an existing value set                         |
+| AllowInterruptions | Denotes if this input is interruptable. This signifies that the input will particpate in consultation before accepting user input. This provides other dialog and or rules in the parent chain to take this input as an interruption |
+| Prompt           | Initial prompt response to ask for user input                                      |
+| UnrecognizedPrompt | Prompt string to use if the input was unrecognized   |
+| InvalidPrompt    | Response when input is not recognized or not valid for the expected input type     |
+| Validations       | List of expressions used to validate if user provided input meets required constraints. You can use turn.value to examine the user input in the validation expressions |
+| MaxTurnCount      | Denotes the maxinum number of attempts this specific input will execute to resolve a value |
+| Property         | Property this input dialog is bound to                                             |
 
 ``` C#
-// Create adaptive dialog.
-var getNumberDialog = new AdaptiveDialog("ConfirmationDialog") {
-    Steps = new List<IDialog> {
-        new NumberInput()
+var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+{
+    Generator = new TemplateEngineLanguageGenerator(),
+    Rules = new List<IRule> ()
+    {
+        new UnknownIntentRule()
         {
-            Property = "turn.contoso.travelBot.numberPrompt",
-            Prompt = new ActivityTemplate("{turn.contoso.travelBot.numberMessage}")
+            Steps = new List<IDialog>()
+            {
+                new NumberInput() {
+                    Property = "user.favoriteNumber",
+                    Prompt = new ActivityTemplate("Give me your favorite number (1-10)"),
+                    // You can refer to incoming user message via turn.activity.text
+                    UnrecognizedPrompt = new ActivityTemplate("Sorry, '{turn.activity.text}' did not include a valid number"),
+                    // You can provide a list of validation expressions. Use turn.value to refer to any value extracted by the recognizer.
+                    Validations = new List<String> () {
+                        "int(turn.value) >= 1",
+                        "int(turn.value) <= 10"
+                    },
+                    InvalidPrompt = new ActivityTemplate("Sorry, {turn.value} does not work. Can you give me a different number that is between 1-10?"),
+                    MaxTurnCount = 2,
+                    DefaultValue = "9",
+                    AllowInterruptions = false,
+                    AlwaysPrompt = true,
+                    OutputFormat = NumberOutputFormat.Integer
+                },
+                new SendActivity("Your favorite number is {user.favoriteNumber}")
+            }
         }
     }
-}
+};
 ```
 
 ## Steps
@@ -319,7 +401,6 @@ Adaptive dialogs support the following steps -
 - Sending a response
     - [SendActivity](#SendActivity)
 - Memory manipulation
-    - [SaveEntity](#SaveEntity)
     - [EditArray](#EditArray)
     - [InitProperty](#InitProperty)
     - [SetProperty](#SetProperty)
@@ -333,6 +414,10 @@ Adaptive dialogs support the following steps -
     - [CancelAllDialog](#CancelAllDialog)
     - [ReplaceDialog](#ReplaceDialog)
     - [RepeatDialog](#RepeatDialog)
+    - [EditSteps](#EditSteps)
+    - [EmitEvent](#EmitEvent)
+    - [ForEach](#ForEach)
+    - [ForEachPage](#ForEachPage)
 - Roll your own code
     - [CodeStep](#CodeStep)
     - [HttpRequest](#HttpRequest)
@@ -360,25 +445,6 @@ greetUserDialog.AddRule(new IntentRule("greetUser",
 }));
 ```
 See [here][3] to learn more about using language generation instead of hard coding actual response text in SendActivity.
-
-### SaveEntity
-Use this step to save an entity (from a recognizer) into a different memory scope. By default, entities from recognizer are available under the [turn scope][4] and the lifetime of all information under that scope is the end of that turn of conversation. 
-
-``` C#
-var greetUserDialog = new AdaptiveDialog("greetUserDialog");
-greetUserDialog.AddRule(new IntentRule("greetUser", 
-    steps: new List<IDialog>() {
-        // Save the userName entitiy from a recognizer.
-        new SaveEntity("user.name", "turn.entities.userName[0]"),
-        // Ask user for their name. All inputs by default will only initiate a prompt if the property does not exist.
-        new TextInput()
-        {
-            Prompt = new ActivityTemplate("What is your name?"),
-            Property = "user.name"
-        },
-        new SendActivity("Hello, {user.name}")
-}));
-```
 
 ### EditArray
 Used to perform edit operations on an array property.
@@ -420,7 +486,7 @@ new SetProperty()
 {
     Property = "user.firstName",
     // If user name is Vishwac Kannan, this sets first name to 'Vishwac'
-    Value = new ExpressionEngine().Parse("split(user.name, ' ')[0]")
+    Value = "split(user.name, ' ')[0]"
 },
 ```
 
@@ -453,7 +519,7 @@ addToDoDialog.AddRule(new IntentRule("addToDo",
     new SendActivity("Ok, I have added {dialog.addTodo.title} to your todos."),
     new IfCondition()
     {
-        Condition = new ExpressionEngine().Parse("toLower(dialog.addTodo.title) == 'call santa'"),
+        Condition = "toLower(dialog.addTodo.title) == 'call santa'",
         Steps = new List<IDialog>()
         {
             new SendActivity("Yes master. On it right now [You have unlocked an easter egg] :)")
@@ -492,9 +558,9 @@ cardDialog.AddRule(new IntentRule("ShowCards",
             Condition = "turn.cardDialog.cardChoice",
             Cases = new List<Case>() 
             {
-                new Case("'Adaptive card'",  new List<IDialog>() { new SendActivity("[AdativeCardRef]") } ),
-                new Case("'Hero card'", new List<IDialog>() { new SendActivity("[HeroCard]") } ),
-                new Case("'Video card'",     new List<IDialog>() { new SendActivity("[VideoCard]") } ),
+                new Case("Adaptive card",  new List<IDialog>() { new SendActivity("[AdativeCardRef]") } ),
+                new Case("Hero card", new List<IDialog>() { new SendActivity("[HeroCard]") } ),
+                new Case("Video card",     new List<IDialog>() { new SendActivity("[VideoCard]") } ),
             },
             Default = new List<IDialog>()
             {
@@ -706,6 +772,183 @@ new LogStep()
 }
 ```
 
+### EditSteps
+Used to edit the current plan. Specifically helpful when handling interruption. Provides ability to end the current set of steps being executed or add to the begining or end of current plan. 
+
+``` C#
+var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+{
+    Generator = new TemplateEngineLanguageGenerator(),
+    Recognizer = new RegexRecognizer() { 
+        Intents = new Dictionary<string, string>() {
+            { "appendSteps", "(?i)append" },
+            { "insertSteps", "(?i)insert"},
+            { "endSteps", "(?i)end"}
+        }
+    },
+    Rules = new List<IRule> ()
+    {
+        new UnknownIntentRule()
+        {
+            Steps = new List<IDialog>()
+            {
+                new NumberInput() {
+                    Prompt = new ActivityTemplate("Give me your favorite number (1-10)\\n\\[Suggestions = Append | Insert | End | Replace | Insert before tag \\]"),
+                    UnrecognizedPrompt = new ActivityTemplate("Sorry, '{turn.activity.text}' did not include a valid number"),
+                    InvalidPrompt = new ActivityTemplate("Sorry, {turn.value} does not work. Can you give me a different number that is between 1-10?"),
+                    Validations = new List<String> () {
+                        "int(turn.value) >= 1",
+                        "int(turn.value) <= 10"
+                    },
+                    Property = "user.favoriteNumber",
+                    AlwaysPrompt = true,
+                    OutputFormat = NumberOutputFormat.Integer
+                },
+                new SendActivity("Your favorite number is {user.favoriteNumber}")
+            }
+        },
+        new IntentRule() {
+            Intent = "appendSteps",
+            Steps = new List<IDialog>() {
+                new SendActivity("In append steps .. Steps specified via EditSteps will be added to the current plan."),
+                new EditSteps() {
+                    Steps = new List<IDialog>() {
+                        // These steps will be appended to the current set of steps being executed. 
+                        new SendActivity("I was appended!")
+                    },
+                    ChangeType = StepChangeTypes.AppendSteps
+                }
+            }
+        },
+        new IntentRule() {
+            Intent = "insertSteps",
+            Steps = new List<IDialog>() {
+                new SendActivity("In insert steps .. "),
+                new EditSteps() {
+                    Steps = new List<IDialog>() {
+                        // These steps will be inserted before the current steps being executed. 
+                        new SendActivity("I was inserted")
+                    },
+                    ChangeType = StepChangeTypes.InsertSteps
+                }
+            }
+        },
+        new IntentRule() {
+            Intent = "endSteps",
+            Steps = new List<IDialog>() {
+                new SendActivity("In end steps .. "),
+                new EditSteps() {
+                    // The current sequence will be ended. This is especially useful if you are looking to end an active interruption.
+                    ChangeType = StepChangeTypes.EndSequence
+                }
+            }
+        }
+    }
+};
+```
+
+### EmitEvent
+Used to raise a custom event that your bot can respond to. You can control bubbling behavior on the event raised so it can be contained just to your own dialog or bubbled up the parent chain.
+
+```C#
+var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+{
+    Generator = new TemplateEngineLanguageGenerator(),
+    Rules = new List<IRule> ()
+    {
+        new UnknownIntentRule()
+        {
+            Steps = new List<IDialog>()
+            {
+                new TextInput() {
+                    Prompt = new ActivityTemplate("What's your name?"),
+                    Property = "user.name",
+                    AlwaysPrompt = true,
+                    OutputFormat = TextOutputFormat.Lowercase
+                },
+                new IfCondition() {
+                    Condition = "user.name == 'vip'",
+                    Steps = new List<IDialog> () {
+                        new EmitEvent() {
+                            EventName = "VIP",
+                            BubbleEvent = true,
+                        }
+                    }
+                },
+                new SendActivity("Your name is {user.name}")
+            }
+        },
+        new EventRule() {
+            Events = new List<String> () {
+                "VIP"
+            },
+            Steps = new List<IDialog>() { 
+                new SendActivity("Wow! you are a VIP")
+            }                        
+        }
+    }
+};
+```
+
+### ForEach
+Used to apply steps to each item in a collection. 
+```C#
+var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+{
+    Generator = new TemplateEngineLanguageGenerator(),
+    Rules = new List<IRule> ()
+    {
+        new UnknownIntentRule()
+        {
+            Steps = new List<IDialog>()
+            {
+                new SetProperty() {
+                    Property = "turn.colors",
+                    Value = "createArray('red', 'blue', 'green', 'yellow', 'orange', 'indigo')"
+                },
+                new Foreach() {
+                    ListProperty = "turn.colors",
+                    Steps = new List<IDialog>() {
+                        new SendActivity("{dialog.index}: Found '{dialog.value}' in the collection!")
+                    }
+                }
+            }
+        }
+    }
+};
+```
+
+### ForEachPage
+Used to apply steps to items in a collection. Page size denotes how many items from the collection are selected at a time.
+
+```C#
+var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+{
+    Generator = new TemplateEngineLanguageGenerator(),
+    Rules = new List<IRule> ()
+    {
+        new UnknownIntentRule()
+        {
+            Steps = new List<IDialog>()
+            {
+                new SetProperty() {
+                    Property = "turn.colors",
+                    Value = "createArray('red', 'blue', 'green', 'yellow', 'orange', 'indigo')"
+                },
+                new ForeachPage() {
+                    ListProperty = new ExpressionEngine().Parse("turn.colors"),
+                    PageSize = 2,
+                    Steps = new List<IDialog>() {
+                        new SendActivity("Paging through these items in the collection '{join(dialog.value, ',')}' in the collection!")
+                    }
+                }
+            }
+        }
+    }
+};
+
+```
+
 [1]:https://luis.ai
 [2]:https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md#locale
 [3]:./language-generation.md
@@ -713,3 +956,7 @@ new LogStep()
 [5]:../../common-expression-language/README.md
 [6]:./memory-model-overview.md
 [7]:./anatomy-and-runtime-behavior.md
+[10]:../../language-generation/README.md
+[11]:../../language-generation/docs/api-reference.md
+
+[15]:https://github.com/Microsoft/botframework-sdk/blob/master/specs/botframework-activity/botframework-activity.md
