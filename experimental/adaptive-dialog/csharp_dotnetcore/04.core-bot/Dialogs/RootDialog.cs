@@ -103,12 +103,14 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                                 // Prompt property supports full language generation resolution.
                                 // See here to learn more about language generation
                                 // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
-                                Prompt = new ActivityTemplate("[PromptForMissingInformation]")
+                                Prompt = new ActivityTemplate("[PromptForMissingInformation]"),
+                                AllowInterruptions = AllowInterruptions.Never
                             },
                             new TextInput()
                             {
                                 Property = "conversation.flightBooking.destinationCity",
-                                Prompt = new ActivityTemplate("[PromptForMissingInformation]")
+                                Prompt = new ActivityTemplate("[PromptForMissingInformation]"),
+                                AllowInterruptions = AllowInterruptions.Never
                             },
                             new DateTimeInput()
                             {

@@ -114,12 +114,16 @@ namespace Microsoft.BotBuilderSamples
                          {
                              Prompt = new ActivityTemplate("[AskForAge]"),
                              Property = "user.userProfile.Age",
-                             // Set min and max constraints for age.
-                             //MinValue = 1,
-                             //MaxValue = 150,
-                             // Specify a retry prompt if user input does not meet min or max constraint.
-                             //RetryPrompt = new ActivityTemplate("[AskForAge.reprompt]")
-
+                             // Add validations
+                             Validations = new List<String>()
+                             {
+                                 // Age must be greater than or equal 1
+                                 "int(turn.value) >= 1",
+                                 // Age must be less than 150
+                                 "int(turn.value) < 150"
+                             },
+                             InvalidPrompt = new ActivityTemplate("[AskForAge.invalid]"),
+                             UnrecognizedPrompt = new ActivityTemplate("[AskForAge.unRecognized]")
                          },
                          new SendActivity("[UserAgeReadBack]")
                     },
