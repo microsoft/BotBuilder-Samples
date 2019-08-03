@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using Microsoft.Bot.Builder.Expressions.Parser;
+using Microsoft.Bot.Builder.LanguageGeneration;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -15,9 +15,12 @@ namespace Microsoft.BotBuilderSamples
         public DeleteToDoDialog()
             : base(nameof(DeleteToDoDialog))
         {
+            string[] paths = { ".", "Dialogs", "DeleteToDoDialog", "DeleteToDoDialog.lg" };
+            string fullPath = Path.Combine(paths);
             // Create instance of adaptive dialog. 
             var DeleteToDoDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
+                Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(fullPath)),
                 Steps = new List<IDialog>()
                 {
                     // Handle case where there are no items in todo list
@@ -25,7 +28,7 @@ namespace Microsoft.BotBuilderSamples
                     {
                         // All conditions are expressed using the common expression language.
                         // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
-                        Condition = new ExpressionEngine().Parse("user.todos == null || count(user.todos) <= 0"),
+                        Condition = "user.todos == null || count(user.todos) <= 0",
                         Steps = new List<IDialog>()
                         {
                             new SendActivity("[Delete-Empty-List]"),
@@ -47,7 +50,7 @@ namespace Microsoft.BotBuilderSamples
                     new CodeStep(GetToDoTitleToDelete),
                     new IfCondition()
                     {
-                        Condition = new ExpressionEngine().Parse("turn.todoTitle == null"),
+                        Condition = "turn.todoTitle == null",
                         Steps = new List<IDialog>()
                         {
                             // First show the current list of Todos
@@ -61,7 +64,7 @@ namespace Microsoft.BotBuilderSamples
                     },
                     new IfCondition()
                     {
-                        Condition = new ExpressionEngine().Parse("contains(user.todos, turn.todoTitle) == false"),
+                        Condition = "contains(user.todos, turn.todoTitle) == false",
                         Steps = new List<IDialog>()
                         {
                             new SendActivity("[Todo-not-found]"),
@@ -75,31 +78,11 @@ namespace Microsoft.BotBuilderSamples
                     new EditArray()
                     {
                         ArrayProperty = "user.todos",
-                        ItemProperty = "turn.todoTitle",
+                        Value = "turn.todoTitle",
                         ChangeType = EditArray.ArrayChangeType.Clear
                     },
                     new SendActivity("[Delete-readBack]"),
                     new EndDialog()
-                },
-                Rules = new List<IRule>()
-                {
-                    // This event rule will catch outgoing bubbling up to the parent and will swallow anything that user says that is in the todo list. 
-                    new EventRule()
-                    {
-                        // Consultation happens on every turn when using TextInput. This gives all parents a chance to take the user input before text input takes it.
-                        Events = new List<string>() { AdaptiveEvents.ConsultDialog },
-                        // The expression language is quite powerful with a bunch of pre-built utility functions.
-                        // See https://github.com/Microsoft/BotBuilder-Samples/blob/master/experimental/common-expression-language/prebuilt-functions.md
-                        Constraint = "contains(user.todos, turn.activity.text)",
-                        Steps = new List<IDialog>()
-                        {
-                            // Take user input  as the title of the todo to delete if it exists
-                            new SetProperty() {
-                                Property = "turn.todoTitle",
-                                Value = new ExpressionEngine().Parse("turn.activity.text")
-                            }
-                        }
-                    }
                 }
             };
 

@@ -29,8 +29,11 @@ Templates follow the markdown header definition. Variations are expressed as mar
 - Hi
 - Hello
 ```
+## Conditional response templates
 
-Here are few examples of a conditional template. All conditions are expressed using the [Common expression language][3]. Condition expressions are enclosed in curly brackets - {}. Conditions are evaluated in the order specified via the IF ... ELSE or IF ... ELSEIF ... ELSE prefixes.
+### If..Else
+
+Here are few examples of a conditional template. All conditions are expressed using the [Common expression language][3]. Condition expressions are enclosed in curly brackets - @{}. ({} is still supported in normal case, but we suggest to use @{}) Conditions are evaluated in the order specified via the IF ... ELSE or IF ... ELSEIF ... ELSE prefixes.
 
 Here is an example that shows the simple IF ... ELSE conditional response template definition. 
 
@@ -38,7 +41,7 @@ Here is an example that shows the simple IF ... ELSE conditional response templa
 ```markdown
 > time of day greeting reply template with conditions. 
 # timeOfDayGreeting
-- IF: {timeOfDay == 'morning'}
+- IF: @{timeOfDay == 'morning'}
     - good morning
 - ELSE: 
     - good evening
@@ -48,12 +51,41 @@ Here's another example that shows IF ... ELSEIF ... ELSE conditional response te
 
 ```markdown
 # timeOfDayGreeting
-- IF: {timeOfDay == 'morning'}
+- IF: @{timeOfDay == 'morning'}
     - good morning
 - ELSEIF: {timeOfDay == 'afternoon'}
     - good afternoon
 - ELSE: 
     - good evening
+```
+
+### Switch..Case
+Apart from IF ... ELSEIF ... ELSE construct, you can also use the SWITCH ... CASE ... DEFAULT construct. All conditions are expressed using the [Common expression language][3]. Condition expressions are enclosed in curly brackets - {}
+
+Here's how you can specify SWITCH ... CASE block in LG. 
+
+```markdown
+# TestTemplate
+SWITCH: {condition}
+- CASE: {case-expression-1}
+    - output1
+- CASE: {case-expression-2}
+    - output2
+- DEFAULT:
+   - final output
+```
+
+Here's an example:
+
+```markdown
+# greetInAWeek
+SWITCH: {dayOfWeek(utcNow())}
+- CASE: {0}
+    - Happy Sunday!
+-CASE: {6}
+    - Happy Saturday!
+-DEFAULT:  
+    - Let's keep it up and work Hard!
 ```
 
 ### References to templates
@@ -70,9 +102,9 @@ Reference to another named template are denoted using markdown link notation by 
 - Hello
 
 # timeOfDayGreeting
-- IF: {timeOfDay == 'morning'}
+- IF: @{timeOfDay == 'morning'}
     - good morning
-- ELSEIF: {timeOfDay == 'afternoon'}
+- ELSEIF: @{timeOfDay == 'afternoon'}
     - good afternoon
 - ELSE: 
     - good evening
@@ -96,18 +128,18 @@ Here is an example of a template parametrization.
 
 ```markdown
 # timeOfDayGreetingTemplate (param1)
-- IF: {param1 == 'morning'}
+- IF: @{param1 == 'morning'}
     - good morning
-- ELSEIF: {param1 == 'afternoon'}
+- ELSEIF: @{param1 == 'afternoon'}
     - good afternoon
 - ELSE: 
     - good evening
 
 # morningGreeting
-- timeOfDayGreetingTemplate('morning')
+- @{timeOfDayGreetingTemplate('morning')}
 
 # timeOfDayGreeting
-- timeOfDayGreetingTemplate(timeOfDay)
+- @{timeOfDayGreetingTemplate(timeOfDay)}
 ```
 
 ## Entities 
@@ -149,6 +181,8 @@ Here is an example -
 
 With multi-line support, you can have the language generation sub-system fully resolve a complex JSON or XML (e.g. SSML wrapped text to control bot's spoken reply). 
 
+In multi-line mode, `[ ]` format template reference is not supported, but but a new convenient way is to use `{templateName(param1, param2)}`
+
 Here is an example of complex object that your bot's code will parse out and render appropriately. 
 
 ```markdown
@@ -173,16 +207,16 @@ Here is an example of complex object that your bot's code will parse out and ren
     # ImageGalleryTemplate
     - ```
     {
-        "titleText": "@{[TitleText]}",
-        "subTitle": "@{[SubText]}",
+        "titleText": "@{TitleText()}",
+        "subTitle": "@{SubText()}",
         "images": [
             {
             "type": "Image",
-            "url": "@{[CardImages]}"
+            "url": "@{CardImages()}"
             },
             {
             "type": "Image",
-            "url": "@{[CardImages]}"
+            "url": "@{CardImages()}"
             }
         ]
     }
@@ -198,17 +232,47 @@ Here is an example that illustrates that -
 
 ```markdown
 # RecentTasks
-- IF: {count(recentTasks) == 1}
-    - Your most recent task is {recentTasks[0]}. You can let me know if you want to add or complete a task.
-- ELSEIF: {count(recentTasks) == 2}
-    - Your most recent tasks are {join(recentTasks, ',', 'and')}. You can let me know if you want to add or complete a task.
-- ELSEIF: {count(recentTasks) > 2}
-    - Your most recent {count(recentTasks)} tasks are {join(recentTasks, ',', 'and')}. You can let me know if you want to add or complete a task.
+- IF: @{count(recentTasks) == 1}
+    - Your most recent task is @{recentTasks[0]}. You can let me know if you want to add or complete a task.
+- ELSEIF: @{count(recentTasks) == 2}
+    - Your most recent tasks are @{join(recentTasks, ', ', ' and ')}. You can let me know if you want to add or complete a task.
+- ELSEIF: @{count(recentTasks) > 2}
+    - Your most recent {count(recentTasks)} tasks are {join(recentTasks, ', ', ' and ')}. You can let me know if you want to add or complete a task.
 - ELSE:
     - You don't have any tasks.
 ```
 
+If template name is the same with builtin function's name, template will be executed first, without automatically executing one according to the parameter variable. But there are also remedies, user can always choose to use builtin.xxx to disambiguate with template xxx.
+
+Here is an example that illustrates that
+
+```markdown
+# length(a)
+- This is use's customized length function
+
+# myfunc1
+> will call template length, and return 'This is use's customized length function'
+- {length('hi')}
+
+# mufunc2
+> builtin function 'length' would be called, and output 2
+- {builtin.length('hi')}
+```
+
 The above example uses the [join][5] pre-built function to list all values in the `recentTasks` collection. 
+
+## Importing external references
+Often times for organization purposes and to help with re-usability, you might want to break the language generation templates into separate files and refer them from one another. In order to help with this scenario, you can use markdown-style links to import templates defined in another file. 
+
+```markdown
+[Link description](filePathOrUri)
+```
+
+Note: All templates defined in the target file will be pulled in. So please ensure that your template names are unique across files being pulled in. 
+
+```markdown
+[Shared](../shared/common.lg)
+```
 
 [1]:https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md
 [2]:./api-reference.md

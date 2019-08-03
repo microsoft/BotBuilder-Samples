@@ -46,6 +46,7 @@ class ConsoleAdapter extends botbuilderCore.BotAdapter {
         this.nextId = 0;
         this.reference = Object.assign({ channelId: 'console', user: { id: 'user', name: 'User1' }, bot: { id: 'bot', name: 'Bot' }, conversation: { id: 'convo1', name: '', isGroup: false }, serviceUrl: '' }, reference);
     }
+
     /**
      * Begins listening to console input. A function will be returned that can be used to stop the
      * bot listening and therefore end the process.
@@ -93,6 +94,7 @@ class ConsoleAdapter extends botbuilderCore.BotAdapter {
             rl.close();
         };
     }
+
     /**
      * Lets a bot proactively message the user.
      *
@@ -123,6 +125,7 @@ class ConsoleAdapter extends botbuilderCore.BotAdapter {
         return this.runMiddleware(context, logic)
             .catch((err) => { this.printError(err.toString()); });
     }
+
     /**
      * Logs a set of activities to the console.
      *
@@ -168,6 +171,7 @@ class ConsoleAdapter extends botbuilderCore.BotAdapter {
             next(0);
         });
     }
+
     /**
      * Not supported for the ConsoleAdapter.  Calling this method or `TurnContext.updateActivity()`
      * will result an error being returned.
@@ -175,6 +179,7 @@ class ConsoleAdapter extends botbuilderCore.BotAdapter {
     updateActivity(context, activity) {
         return Promise.reject(new Error(`ConsoleAdapter.updateActivity(): not supported.`));
     }
+
     /**
      * Not supported for the ConsoleAdapter.  Calling this method or `TurnContext.deleteActivity()`
      * will result an error being returned.
@@ -182,6 +187,7 @@ class ConsoleAdapter extends botbuilderCore.BotAdapter {
     deleteActivity(context, reference) {
         return Promise.reject(new Error(`ConsoleAdapter.deleteActivity(): not supported.`));
     }
+
     /**
      * Allows for mocking of the console interface in unit tests.
      * @param options Console interface options.
@@ -189,6 +195,7 @@ class ConsoleAdapter extends botbuilderCore.BotAdapter {
     createInterface(options) {
         return readline.createInterface(options);
     }
+
     /**
      * Logs text to the console.
      * @param line Text to print.
@@ -196,6 +203,7 @@ class ConsoleAdapter extends botbuilderCore.BotAdapter {
     print(line) {
         console.log(line);
     }
+
     /**
      * Logs an error to the console.
      * @param line Error text to print.

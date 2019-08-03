@@ -12,7 +12,7 @@ const { BotFrameworkAdapter, InspectionMiddleware, MemoryStorage, InspectionStat
 const { MicrosoftAppCredentials } = require('botframework-connector');
 
 // This bot's main dialog.
-const { EchoBot } = require('./bot');
+const { IntersectionBot } = require('./bot');
 
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -34,12 +34,12 @@ const adapter = new BotFrameworkAdapter({
 });
 
 // Create the Storage provider and the various types of BotState.
-var memoryStorage = new MemoryStorage();
-var inspectionState = new InspectionState(memoryStorage);
-var userState = new UserState(memoryStorage);
-var conversationState = new ConversationState(memoryStorage);
+const memoryStorage = new MemoryStorage();
+const inspectionState = new InspectionState(memoryStorage);
+const userState = new UserState(memoryStorage);
+const conversationState = new ConversationState(memoryStorage);
 
-// Create and add the InspectionMiddleware to the adapter. 
+// Create and add the InspectionMiddleware to the adapter.
 adapter.use(new InspectionMiddleware(inspectionState, userState, conversationState, new MicrosoftAppCredentials(process.env.MicrosoftAppId, process.env.MicrosoftAppPassword)));
 
 // Catch-all for errors.
@@ -51,7 +51,7 @@ adapter.onTurnError = async (context, error) => {
 };
 
 // Create the main dialog.
-const bot = new EchoBot(conversationState, userState);
+const bot = new IntersectionBot(conversationState, userState);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {

@@ -47,7 +47,7 @@ This bot has been created using [Bot Framework][1], it shows how to:
   - Press `F5` to run the project
 
 ## To debug adaptive dialogs
-- You can install and use [this visual studio code extension][extension] to debug Adaptive dialogs. 
+- You can install and use [this visual studio code extension][extension] to debug Adaptive dialogs.
 
 ## Testing the bot using Bot Framework Emulator
 
@@ -66,7 +66,7 @@ This bot has been created using [Bot Framework][1], it shows how to:
 - Navigate and sign in to [Luis.ai][11]
 - Under "My apps", click on "Import new app"
 - Click on "Choose app file (JSON format) ..."
-- Select `botbuilder-samples/experimental/adaptive-dialog/csharp_dotnetcore/13.core-bot/CognitiveModels/CoreBot.luis.json
+- Select `botbuilder-samples/experimental/adaptive-dialog/csharp_dotnetcore/04.core-bot/CognitiveModels/CoreBot.luis.json
 - Once the application is imported
     - Click on 'Train' to train the application
     - Click on 'Publish' to publish the application.
@@ -80,7 +80,7 @@ This bot has been created using [Bot Framework][1], it shows how to:
 ```bash
 > npm i -g ludown luis-apis
 ```
-- In a command prompt, navigate to `botbuilder-samples/experimental/adaptive-dialog/csharp_dotnetcore//13.core-bot`
+- In a command prompt, navigate to `botbuilder-samples/experimental/adaptive-dialog/csharp_dotnetcore/04.core-bot`
 - To parse RootDialog.lu to a LUIS json model
 ```bash
 > ludown parse toluis --in ./Dialogs/RootDialog.lu -o CognitiveModels -n CoreBot --out CoreBot.luis.json

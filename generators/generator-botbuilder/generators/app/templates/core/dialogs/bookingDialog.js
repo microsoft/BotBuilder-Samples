@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
+const { InputHints, MessageFactory } = require('botbuilder');
 const { ConfirmPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 const { CancelAndHelpDialog } = require('./cancelAndHelpDialog');
 const { DateResolverDialog } = require('./dateResolverDialog');
@@ -36,10 +37,11 @@ class BookingDialog extends CancelAndHelpDialog {
         const bookingDetails = stepContext.options;
 
         if (!bookingDetails.destination) {
-            return await stepContext.prompt(TEXT_PROMPT, { prompt: 'To what city would you like to travel?' });
-        } else {
-            return await stepContext.next(bookingDetails.destination);
+            const messageText = 'To what city would you like to travel?';
+            const msg = MessageFactory.text(messageText, messageText, InputHints.ExpectingInput);
+            return await stepContext.prompt(TEXT_PROMPT, { prompt: msg });
         }
+        return await stepContext.next(bookingDetails.destination);
     }
 
     /**
@@ -51,10 +53,11 @@ class BookingDialog extends CancelAndHelpDialog {
         // Capture the response to the previous step's prompt
         bookingDetails.destination = stepContext.result;
         if (!bookingDetails.origin) {
-            return await stepContext.prompt(TEXT_PROMPT, { prompt: 'From what city will you be travelling?' });
-        } else {
-            return await stepContext.next(bookingDetails.origin);
+            const messageText = 'From what city will you be travelling?';
+            const msg = MessageFactory.text(messageText, 'From what city will you be travelling?', InputHints.ExpectingInput);
+            return await stepContext.prompt(TEXT_PROMPT, { prompt: msg });
         }
+        return await stepContext.next(bookingDetails.origin);
     }
 
     /**
@@ -68,9 +71,8 @@ class BookingDialog extends CancelAndHelpDialog {
         bookingDetails.origin = stepContext.result;
         if (!bookingDetails.travelDate || this.isAmbiguous(bookingDetails.travelDate)) {
             return await stepContext.beginDialog(DATE_RESOLVER_DIALOG, { date: bookingDetails.travelDate });
-        } else {
-            return await stepContext.next(bookingDetails.travelDate);
         }
+        return await stepContext.next(bookingDetails.travelDate);
     }
 
     /**
@@ -81,7 +83,8 @@ class BookingDialog extends CancelAndHelpDialog {
 
         // Capture the results of the previous step
         bookingDetails.travelDate = stepContext.result;
-        const msg = `Please confirm, I have you traveling to: ${ bookingDetails.destination } from: ${ bookingDetails.origin } on: ${ bookingDetails.travelDate }.`;
+        const messageText = `Please confirm, I have you traveling to: ${ bookingDetails.destination } from: ${ bookingDetails.origin } on: ${ bookingDetails.travelDate }. Is this correct?`;
+        const msg = MessageFactory.text(messageText, messageText, InputHints.ExpectingInput);
 
         // Offer a YES/NO prompt.
         return await stepContext.prompt(CONFIRM_PROMPT, { prompt: msg });
@@ -93,11 +96,9 @@ class BookingDialog extends CancelAndHelpDialog {
     async finalStep(stepContext) {
         if (stepContext.result === true) {
             const bookingDetails = stepContext.options;
-
             return await stepContext.endDialog(bookingDetails);
-        } else {
-            return await stepContext.endDialog();
         }
+        return await stepContext.endDialog();
     }
 
     isAmbiguous(timex) {

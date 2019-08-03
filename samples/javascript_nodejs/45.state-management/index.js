@@ -16,7 +16,7 @@ const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
 // Create HTTP server
-let server = restify.createServer();
+const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
@@ -42,15 +42,16 @@ const bot = new StateManagementBot(conversationState, userState);
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
-    // This check writes out errors to console log .vs. app insights.
+    // This check writes out errors to console log
+    // NOTE: In production environment, you should consider logging this to Azure
+    //       application insights.
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
-    await context.sendActivity(`Oops. Something went wrong!`);
+    // Send a message to the user
+    const onTurnErrorMessage = `Sorry, it looks like something went wrong!`;
+    await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage);
     // Clear out state
-    await conversationState.load(context);
-    await conversationState.clear(context);
-    // Save state changes.
-    await conversationState.saveChanges(context);
+    await conversationState.delete(context);
 };
 
 // Listen for incoming requests.
