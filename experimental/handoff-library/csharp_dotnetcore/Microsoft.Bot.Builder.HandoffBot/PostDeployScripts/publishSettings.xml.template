@@ -1,0 +1,15 @@
+<publishData>
+  <publishProfile profileName="{WEB_SITE_NAME}-Web-Deploy" 
+    publishMethod="MSDeploy" 
+    publishUrl="{WEB_SITE_NAME}.scm.azurewebsites.net:443" 
+    msdeploySite="{WEB_SITE_NAME}" userName="${WEB_SITE_NAME}" 
+    userPWD="{PASSWORD}" 
+    destinationAppUrl="http://{WEB_SITE_NAME}.azurewebsites.net" 
+    SQLServerDBConnectionString="" 
+    mySQLDBConnectionString="" 
+    hostingProviderForumLink="" 
+    controlPanelLink="http://windows.azure.com" 
+    webSystem="WebSites">
+    <databases />
+  </publishProfile>
+</publishData>
