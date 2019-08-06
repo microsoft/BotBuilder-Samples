@@ -1,27 +1,29 @@
-﻿# QnAMakerActiveLearningBot
+﻿# Active learning in QnA Maker
+This sample shows how to integrate Active Learning in a QnA Maker bot with ASP.Net Core-2. Click [here][al#1] to know more about how to enable and use active learning .
 
-Bot Framework v4 echo bot sample.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
+## Concepts introduced in this sample
+The [QnA Maker Service][7] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
+In this sample, we demonstrate how to use the Active Learning to generate suggestions for knowledge base.
 
-## Prerequisites
-
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
-
-  ```bash
-  # determine dotnet version
-  dotnet --version
-  ```
+# Prerequisites
+- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure)
+to create a QnA Maker service.
+- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base) to
+import and publish the [ActiveLearningSampleFAQ.tsv](CognitiveModels/ActiveLearningSampleFAQ.tsv) to your newly created QnA Maker service.
+- Update [appsettings.json](appsettings.json) with your kbid (KnowledgeBase Id), endpointKey and endpointHost. QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
+- (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the
+QnA Maker CLI to deploy the model.
 
 ## To try this sample
 
-- In a terminal, navigate to `QnAMakerActiveLearningBot`
+- Clone the repository
 
     ```bash
-    # change into project folder
-    cd # QnAMakerActiveLearningBot
+    git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
+- In a terminal, navigate to `samples/csharp_dotnetcore/48.qnamaker-active-learning-bot`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -35,7 +37,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `QnAMakerActiveLearningBot` folder
+  - Navigate to `samples/csharp_dotnetcore/48.qnamaker-active-learning-bot` folder
   - Select `QnAMakerActiveLearningBot.csproj` file
   - Press `F5` to run the project
 
@@ -43,27 +45,51 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.5.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
 - Launch Bot Framework Emulator
 - File -> Open Bot
-- Enter a Bot URL of `http://localhost:3978/api/messages`
+- Enter a Bot URL of `http://localhost:3999/api/messages`
 
-## Deploy the bot to Azure
+# Try Active Learning
+- Once your QnA Maker service is up and you have published the sample KB, try the following queries to trigger the Train API on the bot.
+- Sample queries: "surface pro 4", "apps on your surface pro"
 
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+# Deploy the bot to Azure
+See [Deploy your C# bot to Azure][50] for instructions.
 
-## Further reading
+The deployment process assumes you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal][60].
 
-- [Bot Framework Documentation](https://docs.botframework.com)
-- [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
-- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
-- [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
-- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
-- [Azure Portal](https://portal.azure.com)
-- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
-- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
+If you are new to Microsoft Azure, please refer to [Getting started with Azure][70] for guidance on how to get started on Azure.
+
+# Further reading
+* [Active learning Documentation][al#1]
+* [Bot Framework Documentation][80]
+* [Bot Basics][90]
+* [Azure Bot Service Introduction][100]
+* [Azure Bot Service Documentation][110]
+* [msbot CLI][130]
+* [Azure Portal][140]
+
+[1]: https://dev.botframework.com
+[2]: https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-relnotes
+[3]: https://dotnet.microsoft.com/download/dotnet-core/2.1
+[4]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
+[5]: https://github.com/microsoft/botframework-emulator
+[6]: https://aka.ms/botframeworkemulator
+[7]: https://www.qnamaker.ai
+
+[50]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0
+[60]: https://portal.azure.com
+[70]: https://azure.microsoft.com/get-started/
+[80]: https://docs.botframework.com
+[90]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
+[100]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
+[110]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0
+[120]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
+[130]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
+[140]: https://portal.azure.com
+[150]: https://www.luis.ai
+[al#1]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/improve-knowledge-base

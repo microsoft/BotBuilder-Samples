@@ -15,44 +15,34 @@ This samples requires prerequisites in order to run.
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to `experimental/qnamaker-activelearning/javascript_nodejs`
+- In a terminal, navigate to `samples/javascript_nodejs/48.qnamaker-activelearning-bot`
     ```bash
-    cd experimental/qnamaker-activelearning/javascript_nodejs
+    cd samples/javascript_nodejs/48.qnamaker-activelearning-bot
     ```
 - Install modules
     ```bash
     npm install
     ```
-- Setup QnA Maker Knowledgebase
+- Setup QnAMaker
 
-    Assuming prerequisites have been installed:
-    ```bash
-    # log into Azure
-    az login
-    ```
-    ```bash
-    # set you Azure subscription
-    az account set --subscription "<azure-subscription>"
-    ```
-    ```bash
-    # Create QnA Maker service application
-    msbot clone services --name "<your_bot_name>" --code-dir "." --location westus --sdkLanguage "Node" --folder deploymentScripts/msbotClone --verbose
-    ```
+    The prerequisite outlined above contain the steps necessary to provision a QnA Knowledge Base on www.qnamaker.ai. QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
+
 - Start the bot
     ```bash
     npm start
     ```
 
-# Testing the bot using Bot Framework Emulator **v4**
-[Microsoft Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+## Testing the bot using Bot Framework Emulator
 
-- Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-## Connect to the bot using Bot Framework Emulator **v4**
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration
-- Navigate to `experimental/qnamaker-activelearning/javascript_nodejs` folder
-- Select `qnamaker.bot` file
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # QnA Maker service
 QnA Maker enables you to power a question and answer service from your semi-structured content.
