@@ -1,3 +1,3 @@
 # console-echo sample
 
-Simplified readme.
+Simplified readme number 2.
