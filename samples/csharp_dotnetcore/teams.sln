@@ -1,0 +1,88 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.757
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{EEB13711-5EC1-4908-B46C-63CDF57CC560}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK", "SDK", "{29190745-42BB-4779-B6A8-9B2BE5DEF64E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Teams", "..\..\experimental\teams\csharp-dotnetcore\Microsoft.Bot.Builder.Teams\Microsoft.Bot.Builder.Teams.csproj", "{7F9C968A-5D0A-42CD-9800-F7824A391B54}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Connector.Teams", "..\..\experimental\teams\csharp-dotnetcore\Microsoft.Bot.Connector.Teams\Microsoft.Bot.Connector.Teams.csproj", "{FCB98631-98AA-4F6F-8A9B-FA96763EE5A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Schema.Teams", "..\..\experimental\teams\csharp-dotnetcore\Microsoft.Bot.Schema.Teams\Microsoft.Bot.Schema.Teams.csproj", "{6E7A9374-B37B-46DF-A112-5AD82E6F3703}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsFileBot", "48.teams-file-bot\TeamsFileBot.csproj", "{E862E157-9803-4689-9CBE-3789290041A4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsAuditBot", "49.teams-audit-bot\TeamsAuditBot.csproj", "{5BE5FB30-AF15-47F3-906B-4AC9A73D9BB2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsMessagingExtensions", "50.teams-messaging-extensions\TeamsMessagingExtensions.csproj", "{24359F68-AD17-4CCB-A6D0-7EEA8BF03630}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsRemindMeBot", "51.teams-remind-me-bot\TeamsRemindMeBot.csproj", "{E4A186A5-319A-4775-99CC-1CB34F2497F6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsEchoBot", "52.teams-echo-bot\TeamsEchoBot.csproj", "{A56533B8-8C08-4854-B6C9-8792F9751036}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsWikipediaMessagingExtensions", "53.teams-wikipedia-messaging-extensions\TeamsWikipediaMessagingExtensions.csproj", "{AD7AB4D4-D9AB-4626-B018-AF1D7000FE29}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F9C968A-5D0A-42CD-9800-F7824A391B54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F9C968A-5D0A-42CD-9800-F7824A391B54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F9C968A-5D0A-42CD-9800-F7824A391B54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F9C968A-5D0A-42CD-9800-F7824A391B54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCB98631-98AA-4F6F-8A9B-FA96763EE5A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCB98631-98AA-4F6F-8A9B-FA96763EE5A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCB98631-98AA-4F6F-8A9B-FA96763EE5A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCB98631-98AA-4F6F-8A9B-FA96763EE5A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E7A9374-B37B-46DF-A112-5AD82E6F3703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E7A9374-B37B-46DF-A112-5AD82E6F3703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E7A9374-B37B-46DF-A112-5AD82E6F3703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E7A9374-B37B-46DF-A112-5AD82E6F3703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E862E157-9803-4689-9CBE-3789290041A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E862E157-9803-4689-9CBE-3789290041A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E862E157-9803-4689-9CBE-3789290041A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E862E157-9803-4689-9CBE-3789290041A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BE5FB30-AF15-47F3-906B-4AC9A73D9BB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BE5FB30-AF15-47F3-906B-4AC9A73D9BB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BE5FB30-AF15-47F3-906B-4AC9A73D9BB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BE5FB30-AF15-47F3-906B-4AC9A73D9BB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24359F68-AD17-4CCB-A6D0-7EEA8BF03630}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24359F68-AD17-4CCB-A6D0-7EEA8BF03630}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24359F68-AD17-4CCB-A6D0-7EEA8BF03630}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24359F68-AD17-4CCB-A6D0-7EEA8BF03630}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4A186A5-319A-4775-99CC-1CB34F2497F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4A186A5-319A-4775-99CC-1CB34F2497F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4A186A5-319A-4775-99CC-1CB34F2497F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4A186A5-319A-4775-99CC-1CB34F2497F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A56533B8-8C08-4854-B6C9-8792F9751036}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A56533B8-8C08-4854-B6C9-8792F9751036}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A56533B8-8C08-4854-B6C9-8792F9751036}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A56533B8-8C08-4854-B6C9-8792F9751036}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD7AB4D4-D9AB-4626-B018-AF1D7000FE29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD7AB4D4-D9AB-4626-B018-AF1D7000FE29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD7AB4D4-D9AB-4626-B018-AF1D7000FE29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD7AB4D4-D9AB-4626-B018-AF1D7000FE29}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7F9C968A-5D0A-42CD-9800-F7824A391B54} = {29190745-42BB-4779-B6A8-9B2BE5DEF64E}
+		{FCB98631-98AA-4F6F-8A9B-FA96763EE5A7} = {29190745-42BB-4779-B6A8-9B2BE5DEF64E}
+		{6E7A9374-B37B-46DF-A112-5AD82E6F3703} = {29190745-42BB-4779-B6A8-9B2BE5DEF64E}
+		{E862E157-9803-4689-9CBE-3789290041A4} = {EEB13711-5EC1-4908-B46C-63CDF57CC560}
+		{5BE5FB30-AF15-47F3-906B-4AC9A73D9BB2} = {EEB13711-5EC1-4908-B46C-63CDF57CC560}
+		{24359F68-AD17-4CCB-A6D0-7EEA8BF03630} = {EEB13711-5EC1-4908-B46C-63CDF57CC560}
+		{E4A186A5-319A-4775-99CC-1CB34F2497F6} = {EEB13711-5EC1-4908-B46C-63CDF57CC560}
+		{A56533B8-8C08-4854-B6C9-8792F9751036} = {EEB13711-5EC1-4908-B46C-63CDF57CC560}
+		{AD7AB4D4-D9AB-4626-B018-AF1D7000FE29} = {EEB13711-5EC1-4908-B46C-63CDF57CC560}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {687AF9FA-9013-49ED-A3DF-2ADCBA302025}
+	EndGlobalSection
+EndGlobal

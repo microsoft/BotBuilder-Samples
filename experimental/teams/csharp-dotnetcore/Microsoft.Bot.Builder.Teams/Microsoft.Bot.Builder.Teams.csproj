@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AdaptiveCards" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Bot.Connector.Teams\Microsoft.Bot.Connector.Teams.csproj" Exclude="Runtime" DevelopmentDependency="true" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <!-- 
+      Semantic Version. See http://semver.org for full details. 
+      Update for every public release. 
+    -->
+    <SemanticVersionMajor>4</SemanticVersionMajor>
+    <SemanticVersionMinor>3</SemanticVersionMinor>
+    <SemanticVersionPatch>0</SemanticVersionPatch>
+    <!--Valid values: beta1, beta2, EMPTY for stable -->
+    <PreReleaseMilestone>beta1</PreReleaseMilestone>
+    <!-- 
+      Date when Semantic Version was changed. 
+      Update for every public release.
+      NOTE!!!!!! Do not update when updating PreReleaseMilestone update 
+      as it will restart file versions so 2.4.0-beta1 may have higher 
+      file version (like 2.4.0.2222) than 2.4.0-beta2 (like 2.4.0.1111)
+    -->
+    <SemanticVersionDate>2019-03-17</SemanticVersionDate>
+
+    <PreReleaseVersion Condition="'$(PreReleaseVersion)'==''">$([MSBuild]::Divide($([System.DateTime]::Now.Subtract($([System.DateTime]::Parse($(SemanticVersionDate)))).TotalMinutes), 5).ToString('F0'))</PreReleaseVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(PackageVersion)'==''">
+    <PackageVersion>$(SemanticVersionMajor).$(SemanticVersionMinor).$(SemanticVersionPatch)</PackageVersion>
+    <PackageVersion Condition="'$(PreReleaseMilestone)' != ''">$(PackageVersion)-$(PreReleaseMilestone)</PackageVersion>
+    <PackageVersion Condition="'$(TF_BUILD)' != 'True'">$(PackageVersion)-build$(PreReleaseVersion)</PackageVersion>
+	<Version>$(PackageVersion)</Version>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <Company>Microsoft</Company>
+	<Authors>Microsoft</Authors>
+    <Product>Microsoft Bot Builder SDK - Extensions for Microsoft Teams</Product>
+    <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/OfficeDev/BotBuilder-MicrosoftTeams-dotnet</PackageProjectUrl>
+    <PackageIconUrl>http://docs.botframework.com/images/bot_icon.png</PackageIconUrl>
+    <PackageLicenseUrl>https://github.com/OfficeDev/BotBuilder-MicrosoftTeams-dotnet/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/OfficeDev/BotBuilder-MicrosoftTeams-dotnet</RepositoryUrl>
+    <PackageTags>bots;ai;botframework;botbuilder;msteams;teams;microsoft</PackageTags>
+    <NeutralLanguage />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Contains Bot Builder SDK extensions for developing bots for Microsoft Teams exposing functionality which is otherwise not present in Bot Builder SDK.</Description>
+</PropertyGroup>
+
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), Microsoft.Bot.Builder.Teams.sln))\Build\Analyzer.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\$(Configuration)\$(Platform)\$(AssemblyName).xml</DocumentationFile>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TF_BUILD)' == 'True'">
+    <!-- Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <!-- Embed source files that are not tracked by the source control manager in the PDB -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- Include the PDB in the built .nupkg -->
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>true</DelaySign>
+    <AssemblyOriginatorKeyFile>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), Microsoft.Bot.Builder.Teams.sln))\Build\272MSSharedLibSN2048.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), Microsoft.Bot.Builder.Teams.sln))\Build\stylecop.json"/>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-rc.114">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>
