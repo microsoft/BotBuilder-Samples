@@ -1,0 +1,4 @@
+{
+  "extBotBuilderTypes": ["ChannelAccount", "CardImage", "CardAction", "Attachment", "Activity"],
+  "extTeamsTypes": ["O365ConnectorCardActionBase", "O365ConnectorCardInputBase", "MessageActionsPayloadBody"]
+}
