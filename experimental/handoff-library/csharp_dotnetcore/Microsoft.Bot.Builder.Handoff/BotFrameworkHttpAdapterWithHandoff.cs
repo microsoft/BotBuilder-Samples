@@ -3,10 +3,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Handoff;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +23,16 @@ namespace Microsoft.Bot.Builder.Handoff
     /// </summary>
     public class BotFrameworkHttpAdapterWithHandoff : BotFrameworkHttpAdapter, IHandoffAdapter
     {
+        public BotFrameworkHttpAdapterWithHandoff(ICredentialProvider credentialProvider = null, IChannelProvider channelProvider = null, ILogger<BotFrameworkHttpAdapter> logger = null)
+            : base(credentialProvider, channelProvider, logger)
+        {
+        }
+
+        public BotFrameworkHttpAdapterWithHandoff(ICredentialProvider credentialProvider, IChannelProvider channelProvider, HttpClient httpClient, ILogger<BotFrameworkHttpAdapter> logger)
+            : base(credentialProvider, channelProvider, httpClient, logger)
+        {
+        }
+
         public BotFrameworkHttpAdapterWithHandoff(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger = null)
             : base(configuration, logger)
         {
