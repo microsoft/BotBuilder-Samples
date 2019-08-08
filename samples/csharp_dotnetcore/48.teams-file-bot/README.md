@@ -95,7 +95,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/02.echo-bot` folder
+  - Navigate to `samples/csharp_dotnetcore/48.teams-file-bot` folder
   - Select `EchoBot.csproj` file
   - Press `F5` to run the project
   
