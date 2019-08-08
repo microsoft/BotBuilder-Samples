@@ -13,15 +13,6 @@ using Microsoft.Bot.Schema.Handoff;
 using Microsoft.Rest;
 using Newtonsoft.Json;
 
-// This file mimics the generated code in Conversations.cs which disables the following SA warnings:
-#pragma warning disable SA1629
-#pragma warning disable SA1513
-#pragma warning disable SA1515
-#pragma warning disable SA1312
-#pragma warning disable SA1122
-#pragma warning disable SA1507
-#pragma warning disable SA1508
-
 namespace Microsoft.Bot.Builder.Handoff
 {
     /// <summary>
@@ -30,112 +21,90 @@ namespace Microsoft.Bot.Builder.Handoff
     /// </summary>
     public static class HandoffHttpSupport
     {
-        public static async Task<HttpOperationResponse<ResourceResponse>> HandoffWithHttpMessagesAsync(IServiceOperations<ConnectorClient> conversations, string conversationId, HandoffParameters handoffParameters, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<HttpOperationResponse<ResourceResponse>> HandoffWithHttpMessagesAsync(IServiceOperations<ConnectorClient> conversations, string conversationId, HandoffParameters handoffParameters, CancellationToken cancellationToken = default)
         {
             if (conversationId == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "conversationId");
             }
+
             if (handoffParameters == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "handoffParameters");
             }
 
             // Construct URL
-            var _baseUrl = conversations.Client.BaseUri.AbsoluteUri;
-            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/conversations/{conversationId}/handoff").ToString();
-            _url = _url.Replace("{conversationId}", System.Uri.EscapeDataString(conversationId));
-            // Create HTTP transport objects
-            var _httpRequest = new HttpRequestMessage();
-            HttpResponseMessage _httpResponse = null;
-            _httpRequest.Method = new HttpMethod("POST");
-            _httpRequest.RequestUri = new System.Uri(_url);
-            // Set Headers
-            if (customHeaders != null)
+            var baseUrl = conversations.Client.BaseUri.AbsoluteUri;
+            if (!baseUrl.EndsWith("/"))
             {
-                foreach (var _header in customHeaders)
-                {
-                    if (_httpRequest.Headers.Contains(_header.Key))
-                    {
-                        _httpRequest.Headers.Remove(_header.Key);
-                    }
-                    _httpRequest.Headers.TryAddWithoutValidation(_header.Key, _header.Value);
-                }
+                baseUrl += "/";
             }
 
-            // Serialize Request
-            string _requestContent = null;
-            if (handoffParameters != null)
+            var url = new Uri($"{baseUrl}v3/conversations/{Uri.EscapeDataString(conversationId)}/handoff");
+
+            using (var httpRequest = new HttpRequestMessage())
             {
-                _requestContent = Rest.Serialization.SafeJsonConvert.SerializeObject(handoffParameters, conversations.Client.SerializationSettings);
-                _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
-                _httpRequest.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
-            }
-            // Set Credentials
-            if (conversations.Client.Credentials != null)
-            {
+                httpRequest.Method = HttpMethod.Post;
+                httpRequest.RequestUri = url;
+
+                // Serialize Request
+                string requestContent = null;
+                requestContent = Rest.Serialization.SafeJsonConvert.SerializeObject(handoffParameters, conversations.Client.SerializationSettings);
+                httpRequest.Content = new StringContent(requestContent, System.Text.Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
+
                 cancellationToken.ThrowIfCancellationRequested();
-                await conversations.Client.Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
-            }
-            // Send Request
-            cancellationToken.ThrowIfCancellationRequested();
-            _httpResponse = await conversations.Client.HttpClient.SendAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
 
-            HttpStatusCode _statusCode = _httpResponse.StatusCode;
-            cancellationToken.ThrowIfCancellationRequested();
-            string _responseContent = null;
-            if ((int)_statusCode != 200 && (int)_statusCode != 201 && (int)_statusCode != 202)
-            {
-                var ex = new ErrorResponseException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
-                try
+                // Set Credentials
+                if (conversations.Client.Credentials != null)
                 {
-                    _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    ErrorResponse _errorBody = Rest.Serialization.SafeJsonConvert.DeserializeObject<ErrorResponse>(_responseContent, conversations.Client.DeserializationSettings);
-                    if (_errorBody != null)
-                    {
-                        ex.Body = _errorBody;
-                    }
+                    await conversations.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
                 }
-                catch (JsonException)
-                {
-                    // Ignore the exception
-                }
-                ex.Request = new HttpRequestMessageWrapper(_httpRequest, _requestContent);
-                ex.Response = new HttpResponseMessageWrapper(_httpResponse, _responseContent);
-                _httpRequest.Dispose();
-                if (_httpResponse != null)
-                {
-                    _httpResponse.Dispose();
-                }
-                throw ex;
-            }
-            // Create Result
-            var _result = new HttpOperationResponse<ResourceResponse>();
-            _result.Request = _httpRequest;
-            _result.Response = _httpResponse;
-            // Deserialize Response
-            if ((int)_statusCode == 200)
-            {
-                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                try
-                {
-                    _result.Body = Rest.Serialization.SafeJsonConvert.DeserializeObject<ResourceResponse>(_responseContent, conversations.Client.DeserializationSettings);
-                }
-                catch (JsonException ex)
-                {
-                    _httpRequest.Dispose();
-                    if (_httpResponse != null)
-                    {
-                        _httpResponse.Dispose();
-                    }
-                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
-                }
-            }
 
-            return _result;
+                using (var httpResponse = await conversations.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false))
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent;
+                    if (httpResponse.StatusCode != HttpStatusCode.OK)
+                    {
+                        var ex = new ErrorResponseException(string.Format("Operation returned an invalid status code '{0}'", httpResponse.StatusCode));
+
+                        responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        ErrorResponse errorBody = Rest.Serialization.SafeJsonConvert.DeserializeObject<ErrorResponse>(responseContent, conversations.Client.DeserializationSettings);
+                        if (errorBody != null)
+                        {
+                            ex.Body = errorBody;
+                        }
+
+                        ex.Request = new HttpRequestMessageWrapper(httpRequest, requestContent);
+                        ex.Response = new HttpResponseMessageWrapper(httpResponse, responseContent);
+                        throw ex;
+                    }
+
+                    // Create Result
+                    var result = new HttpOperationResponse<ResourceResponse>
+                    {
+                        Request = httpRequest,
+                        Response = httpResponse,
+                    };
+
+                    // Deserialize Response
+                    responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    try
+                    {
+                        result.Body = Rest.Serialization.SafeJsonConvert.DeserializeObject<ResourceResponse>(responseContent, conversations.Client.DeserializationSettings);
+                    }
+                    catch (JsonException ex)
+                    {
+                        throw new SerializationException("Unable to deserialize the response.", responseContent, ex);
+                    }
+
+                    return result;
+                }
+            }
         }
 
-        public static async Task<HttpOperationResponse<string>> GetHandoffStatusWithHttpMessagesAsync(IServiceOperations<ConnectorClient> conversations, string conversationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<HttpOperationResponse<string>> GetHandoffStatusWithHttpMessagesAsync(IServiceOperations<ConnectorClient> conversations, string conversationId, CancellationToken cancellationToken = default)
         {
             if (conversationId == null)
             {
@@ -143,93 +112,70 @@ namespace Microsoft.Bot.Builder.Handoff
             }
 
             // Construct URL
-            var _baseUrl = conversations.Client.BaseUri.AbsoluteUri;
-            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/conversations/{conversationId}/handoff").ToString();
-            _url = _url.Replace("{conversationId}", System.Uri.EscapeDataString(conversationId));
-            // Create HTTP transport objects
-            var _httpRequest = new HttpRequestMessage();
-            HttpResponseMessage _httpResponse = null;
-            _httpRequest.Method = new HttpMethod("GET");
-            _httpRequest.RequestUri = new System.Uri(_url);
-            // Set Headers
-            if (customHeaders != null)
+            var baseUrl = conversations.Client.BaseUri.AbsoluteUri;
+            if (!baseUrl.EndsWith("/"))
             {
-                foreach (var _header in customHeaders)
-                {
-                    if (_httpRequest.Headers.Contains(_header.Key))
-                    {
-                        _httpRequest.Headers.Remove(_header.Key);
-                    }
-                    _httpRequest.Headers.TryAddWithoutValidation(_header.Key, _header.Value);
-                }
+                baseUrl += "/";
             }
 
-            // Serialize Request
-            string _requestContent = null;
-            // Set Credentials
-            if (conversations.Client.Credentials != null)
+            var url = new Uri($"{baseUrl}v3/conversations/{Uri.EscapeDataString(conversationId)}/handoff");
+
+            using (var httpRequest = new HttpRequestMessage())
             {
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = url;
+
                 cancellationToken.ThrowIfCancellationRequested();
-                await conversations.Client.Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
-            }
-            // Send Request
-            cancellationToken.ThrowIfCancellationRequested();
-            _httpResponse = await conversations.Client.HttpClient.SendAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
 
-            HttpStatusCode _statusCode = _httpResponse.StatusCode;
-            cancellationToken.ThrowIfCancellationRequested();
-            string _responseContent = null;
-            if ((int)_statusCode != 200)
-            {
-                var ex = new ErrorResponseException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
-                try
+                // Set Credentials
+                if (conversations.Client.Credentials != null)
                 {
-                    _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    ErrorResponse _errorBody = Rest.Serialization.SafeJsonConvert.DeserializeObject<ErrorResponse>(_responseContent, conversations.Client.DeserializationSettings);
-                    if (_errorBody != null)
+                    await conversations.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                }
+
+                // Send Request
+                using (var httpResponse = await conversations.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false))
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent;
+                    if (httpResponse.StatusCode != HttpStatusCode.OK && httpResponse.StatusCode != HttpStatusCode.NotFound)
                     {
-                        ex.Body = _errorBody;
-                    }
-                }
-                catch (JsonException)
-                {
-                    // Ignore the exception
-                }
-                ex.Request = new HttpRequestMessageWrapper(_httpRequest, _requestContent);
-                ex.Response = new HttpResponseMessageWrapper(_httpResponse, _responseContent);
+                        var ex = new ErrorResponseException(string.Format("Operation returned an invalid status code '{0}'", httpResponse.StatusCode));
 
-                _httpRequest.Dispose();
-                if (_httpResponse != null)
-                {
-                    _httpResponse.Dispose();
-                }
-                throw ex;
-            }
-            // Create Result
-            var _result = new HttpOperationResponse<string>();
-            _result.Request = _httpRequest;
-            _result.Response = _httpResponse;
-            // Deserialize Response
-            if ((int)_statusCode == 200)
-            {
-                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                try
-                {
-                    _result.Body = Rest.Serialization.SafeJsonConvert.DeserializeObject<string>(_responseContent, conversations.Client.DeserializationSettings);
-                }
-                catch (JsonException ex)
-                {
-                    _httpRequest.Dispose();
-                    if (_httpResponse != null)
+                        responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        ErrorResponse errorBody = Rest.Serialization.SafeJsonConvert.DeserializeObject<ErrorResponse>(responseContent, conversations.Client.DeserializationSettings);
+
+                        if (errorBody != null)
+                        {
+                            ex.Body = errorBody;
+                        }
+
+                        ex.Request = new HttpRequestMessageWrapper(httpRequest, null);
+                        ex.Response = new HttpResponseMessageWrapper(httpResponse, responseContent);
+                        throw ex;
+                    }
+
+                    // Create Result
+                    var result = new HttpOperationResponse<string>
                     {
-                        _httpResponse.Dispose();
+                        Request = httpRequest,
+                        Response = httpResponse,
+                    };
+
+                    // Deserialize Response
+                    responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    try
+                    {
+                        result.Body = Rest.Serialization.SafeJsonConvert.DeserializeObject<string>(responseContent, conversations.Client.DeserializationSettings);
                     }
-                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
+                    catch (JsonException ex)
+                    {
+                        throw new SerializationException("Unable to deserialize the response.", responseContent, ex);
+                    }
+
+                    return result;
                 }
             }
-
-            return _result;
         }
-
     }
 }

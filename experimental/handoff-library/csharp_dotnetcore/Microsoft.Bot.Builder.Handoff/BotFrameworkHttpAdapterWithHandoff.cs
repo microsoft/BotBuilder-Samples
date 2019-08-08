@@ -30,13 +30,13 @@ namespace Microsoft.Bot.Builder.Handoff
         {
         }
 
-        async Task<IHandoffRequest> IHandoffAdapter.InitiateHandoffAsync(ITurnContext turnContext, Activity[] activities, object handoffContext, CancellationToken cancellationToken)
+        async Task<HandoffRequest> IHandoffAdapter.InitiateHandoffAsync(ITurnContext turnContext, Activity[] activities, object handoffContext, CancellationToken cancellationToken)
         {
             var connectorClient = turnContext.TurnState.Get<IConnectorClient>();
 
             string conversationId = turnContext.Activity.Conversation.Id;
             var handoffParameters = new HandoffParameters(new Transcript { Activities = activities }, handoffContext);
-            var response = await HandoffHttpSupport.HandoffWithHttpMessagesAsync((IServiceOperations<ConnectorClient>)connectorClient.Conversations, conversationId, handoffParameters, null, cancellationToken).ConfigureAwait(false);
+            var response = await HandoffHttpSupport.HandoffWithHttpMessagesAsync((IServiceOperations<ConnectorClient>)connectorClient.Conversations, conversationId, handoffParameters, cancellationToken).ConfigureAwait(false);
 
             return new HandoffRequest(conversationId, connectorClient.Conversations);
         }

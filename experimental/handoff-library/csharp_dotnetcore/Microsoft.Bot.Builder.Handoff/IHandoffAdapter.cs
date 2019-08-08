@@ -14,6 +14,6 @@ namespace Microsoft.Bot.Builder.Handoff
     /// </summary>
     public interface IHandoffAdapter
     {
-        Task<IHandoffRequest> InitiateHandoffAsync(ITurnContext turnContext, Activity[] activities, object handoffContext, CancellationToken cancellationToken = default);
+        Task<HandoffRequest> InitiateHandoffAsync(ITurnContext turnContext, Activity[] activities, object handoffContext, CancellationToken cancellationToken = default);
     }
 }

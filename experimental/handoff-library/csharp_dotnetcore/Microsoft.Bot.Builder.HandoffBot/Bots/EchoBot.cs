@@ -22,7 +22,7 @@ namespace Microsoft.Bot.Builder.EchoBot
                 var a2 = MessageFactory.Text($"second message");
                 var transcript = new Activity[] { a1, a2 };
                 var context = new { Skill = "credit cards", MSCallerId = "CCI" };
-                IHandoffRequest request = await turnContext.InitiateHandoffAsync(transcript, context, cancellationToken);
+                var request = await turnContext.InitiateHandoffAsync(transcript, context, cancellationToken);
 
                 if (await request.IsCompletedAsync())
                 {

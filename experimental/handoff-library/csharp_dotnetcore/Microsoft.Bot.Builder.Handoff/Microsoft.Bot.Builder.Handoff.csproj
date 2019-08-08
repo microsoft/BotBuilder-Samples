@@ -9,6 +9,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <CodeAnalysisRuleSet>..\BotBuilder-DotNet.ruleset</CodeAnalysisRuleSet>
     <PackageId>Microsoft.Bot.Builder.Handoff</PackageId>
   </PropertyGroup>
 
@@ -18,6 +19,10 @@
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.5.1" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.5.1" />    
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.5.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>    
   </ItemGroup>
 </Project>

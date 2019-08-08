@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Handoff;
 using Microsoft.Bot.Connector;
@@ -12,30 +14,21 @@ namespace Microsoft.Bot.Builder
     /// <summary>
     /// The interface allows callers to track the completion of the handoff request.
     /// </summary>
-    public class HandoffRequest : IHandoffRequest
+    public class HandoffRequest
     {
-        private readonly string conversationId;
-        private readonly IConversations conversations;
+        private readonly string _conversationId;
+        private readonly IConversations _conversations;
 
-        public HandoffRequest(string conversationId, IConversations conversations)
+        internal HandoffRequest(string conversationId, IConversations conversations)
         {
-            this.conversationId = conversationId;
-            this.conversations = conversations;
+            this._conversationId = conversationId ?? throw new ArgumentNullException(nameof(conversationId));
+            this._conversations = conversations ?? throw new ArgumentNullException(nameof(conversations));
         }
 
-        public async Task<bool> IsCompletedAsync()
+        public virtual async Task<bool> IsCompletedAsync()
         {
-            try
-            {
-                var result = await HandoffHttpSupport.GetHandoffStatusWithHttpMessagesAsync((IServiceOperations<ConnectorClient>)conversations, conversationId).ConfigureAwait(false);
-                return result.Body.ToLower() == "completed";
-            }
-            catch
-            {
-                // This included not found
-            }
-
-            return false;
+            var result = await HandoffHttpSupport.GetHandoffStatusWithHttpMessagesAsync((IServiceOperations<ConnectorClient>)_conversations, _conversationId).ConfigureAwait(false);
+            return result.Body.ToLower(CultureInfo.InvariantCulture) == "completed";
         }
     }
 }

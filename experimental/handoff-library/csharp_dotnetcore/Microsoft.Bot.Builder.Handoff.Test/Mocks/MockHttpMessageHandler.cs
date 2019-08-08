@@ -24,7 +24,9 @@ namespace Microsoft.Bot.Builder.Handoff.UnitTests
             StatusCode = HttpStatusCode.OK;
         }
 
-        public HttpRequestMessage LastRequest { get; set; }
+        public HttpMethod LastRequestMethod { get; set; }
+        public Uri LastRequestUri { get; set; }
+        public string LastRequestContent { get; set; }
 
         public string ResponseContent { get; set; }
 
@@ -32,7 +34,9 @@ namespace Microsoft.Bot.Builder.Handoff.UnitTests
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            LastRequest = request;
+            LastRequestMethod = request.Method;
+            LastRequestUri = request.RequestUri;
+            LastRequestContent = request.AsFormattedString();
             return Task.FromResult(new HttpResponseMessage() { StatusCode = StatusCode, Content = new StringContent(ResponseContent ?? string.Empty) });
         }
     }
