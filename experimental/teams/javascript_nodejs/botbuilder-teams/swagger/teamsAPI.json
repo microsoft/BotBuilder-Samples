@@ -1,0 +1,1382 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "v3",
+    "title": "Microsoft Bot Connector API - Microsoft Teams Extensions - v4.0",
+    "description": "﻿﻿The Bot Connector REST API extension for Microsoft Teams allows your bot to perform extended operations on to Microsoft Teams channel configured in the\r\n[Bot Framework Developer Portal](https://dev.botframework.com). The Connector service uses industry-standard REST and JSON over HTTPS.\r\n\r\nClient libraries for this REST API are available. See below for a list.\r\n\r\n\r\n\r\nAuthentication for both the Bot Connector and Bot State REST APIs is accomplished with JWT Bearer tokens, and is\r\ndescribed in detail in the [Connector Authentication](https://docs.botframework.com/en-us/restapi/authentication) document.\r\n\r\n# Client Libraries for the Bot Connector REST API\r\n\r\n* [Bot Builder for C#](https://docs.botframework.com/en-us/csharp/builder/sdkreference/)\r\n* [Bot Builder for Node.js](https://docs.botframework.com/en-us/node/builder/overview/)\r\n\r\n© 2016 Microsoft",
+    "termsOfService": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx",
+    "contact": {
+      "name": "Bot Framework",
+      "url": "https://botframework.com",
+      "email": "botframework@microsoft.com"
+    },
+    "license": {
+      "name": "The MIT License (MIT)",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+
+  "host": "api.botframework.com",
+  "schemes": ["https"],
+  "paths": {
+    "/v3/teams/{teamId}/conversations": {
+      "get": {
+        "tags": ["Teams"],
+        "summary": "Fetches channel list for a given team",
+        "description": "Fetch the channel list.",
+        "operationId": "Teams_FetchChannelList",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "description": "Team Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "﻿List of channels in the team.",
+            "schema": {
+              "$ref": "#/definitions/ConversationList"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+
+    "/v3/teams/{teamId}": {
+      "get": {
+        "tags": ["Teams"],
+        "summary": "Fetches details related to a team",
+        "description": "Fetch details for a team",
+        "operationId": "Teams_FetchTeamDetails",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "description": "Team Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "﻿Details for the team.",
+            "schema": {
+              "$ref": "#/definitions/TeamDetails"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+
+  "definitions": {
+    "ChannelInfo": {
+      "description": "A channel info object which decribes the channel.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier representing a channel"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the channel"
+        }
+      }
+    },
+
+    "ConversationList": {
+      "description": "List of channels under a team",
+      "type": "object",
+      "properties": {
+        "conversations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChannelInfo"
+          }
+        }
+      }
+    },
+
+    "TeamDetails": {
+      "description": "Details related to a team",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier representing a team"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of team."
+        },
+        "aadGroupId": {
+          "type": "string",
+          "description": "Azure Active Directory (AAD) Group Id for the team."
+        }
+      }
+    },
+
+    "TeamsChannelData": {
+      "description": "Channel data specific to messages received in Microsoft Teams",
+      "type": "object",
+      "properties": {
+        "channel": {
+          "description": "Information about the channel in which the message was sent",
+          "type": "object",
+          "$ref": "#/definitions/ChannelInfo"
+        },
+        "eventType": {
+          "type": "string",
+          "description": "Type of event."
+        },
+        "team": {
+          "description": "Information about the team in which the message was sent",
+          "type": "object",
+          "$ref": "#/definitions/TeamInfo"
+        },
+        "notification": {
+          "description": "Notification settings for the message",
+          "type": "object",
+          "$ref": "#/definitions/NotificationInfo"
+        },
+        "tenant": {
+          "description": "Information about the tenant in which the message was sent",
+          "type": "object",
+          "$ref": "#/definitions/TenantInfo"
+        }
+      }
+    },
+
+    "TeamInfo": {
+      "description": "Describes a team",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier representing a team"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of team."
+        }
+      }
+    },
+
+    "NotificationInfo": {
+      "description": "Specifies if a notification is to be sent for the mentions.",
+      "type": "object",
+      "properties": {
+        "alert": {
+          "type": "boolean",
+          "description": "true if notification is to be sent to the user, false otherwise."
+        }
+      }
+    },
+
+    "TenantInfo": {
+      "description": "Describes a tenant",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier representing a tenant"
+        }
+      }
+    },
+
+    "ChannelAccount": {
+      "description": "Channel account information needed to route a message",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Channel id for the user or bot on this channel (Example: joe@smith.com, or @joesmith or 123456)",
+          "type": "string"
+        },
+        "name": {
+          "description": "Display friendly name",
+          "type": "string"
+        }
+      }
+    },
+
+    "TeamsChannelAccount": {
+      "description": "Teams channel account detailing user Azure Active Directory details.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ChannelAccount"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "givenName": {
+              "description": "Given name part of the user name.",
+              "type": "string"
+            },
+            "surname": {
+              "description": "Surname part of the user name.",
+              "type": "string"
+            },
+            "email": {
+              "description": "Email Id of the user.",
+              "type": "string"
+            },
+            "userPrincipalName": {
+              "description": "Unique user principal name",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+
+    "Object": {
+      "type": "object",
+      "properties": {}
+    },
+
+    "CardAction": {
+      "description": "An action on a card",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Defines the type of action implemented by this button.",
+          "type": "string"
+        },
+        "title": {
+          "description": "Text description which appear on the button.",
+          "type": "string"
+        },
+        "image": {
+          "description": "URL Picture which will appear on the button, next to text label.",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/definitions/Object",
+          "description": "Supplementary parameter for action. Content of this property depends on the ActionType"
+        }
+      }
+    },
+
+    "CardImage": {
+      "description": "An image on a card",
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "URL Thumbnail image for major content property.",
+          "type": "string"
+        },
+        "alt": {
+          "description": "Image description intended for screen readers",
+          "type": "string"
+        },
+        "tap": {
+          "$ref": "#/definitions/CardAction",
+          "description": "Action assigned to specific Attachment.E.g.navigate to specific URL or play/open media content"
+        }
+      }
+    },
+
+    "O365ConnectorCard": {
+      "description": "O365 connector card",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of the item",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text for the card",
+          "type": "string"
+        },
+        "summary": {
+          "description": "Summary for the card",
+          "type": "string"
+        },
+        "themeColor": {
+          "description": "Theme color for the card",
+          "type": "string"
+        },
+        "sections": {
+          "description": "Set of sections for the current card",
+          "type": "array",
+          "items": { "$ref": "#/definitions/O365ConnectorCardSection" }
+        },
+        "potentialAction": {
+          "description": "Set of actions for the current card",
+          "type": "array",
+          "items": { "$ref": "#/definitions/O365ConnectorCardActionBase" }
+        }
+      }
+    },
+
+    "O365ConnectorCardSection": {
+      "description": "O365 connector card section",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of the section",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text for the section",
+          "type": "string"
+        },
+        "activityTitle": {
+          "description": "Activity title",
+          "type": "string"
+        },
+        "activitySubtitle": {
+          "description": "Activity subtitle",
+          "type": "string"
+        },
+        "activityText": {
+          "description": "Activity text",
+          "type": "string"
+        },
+        "activityImage": {
+          "description": "Activity image",
+          "type": "string"
+        },
+        "activityImageType": {
+          "description": "Describes how Activity image is rendered",
+          "type": "string",
+          "enum": [ "avatar", "article" ]
+        },
+        "markdown": {
+          "description": "Use markdown for all text contents. Default vaule is true.",
+          "type": "boolean"
+        },
+        "facts": {
+          "description": "Set of facts for the current section",
+          "type": "array",
+          "items": { "$ref": "#/definitions/O365ConnectorCardFact" }
+        },
+        "images": {
+          "description": "Set of images for the current section",
+          "type": "array",
+          "items": { "$ref": "#/definitions/O365ConnectorCardImage" }
+        },
+        "potentialAction": {
+          "description": "Set of actions for the current section",
+          "type": "array",
+          "items": { "$ref": "#/definitions/O365ConnectorCardActionBase" }
+        }
+      }
+    },
+
+    "O365ConnectorCardFact": {
+      "description": "O365 connector card fact",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Display name of the fact",
+          "type": "string"
+        },
+        "value": {
+          "description": "Display value for the fact",
+          "type": "string"
+        }
+      }
+    },
+
+    "O365ConnectorCardImage": {
+      "description": "O365 connector card image",
+      "type": "object",
+      "properties": {
+        "image": {
+          "description": "URL for the image",
+          "type": "string"
+        },
+        "title": {
+          "description": "Alternative text for the image",
+          "type": "string"
+        }
+      }
+    },
+
+    "O365ConnectorCardActionBase": {
+      "description": "O365 connector card action base",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "description": "Type of the action",
+          "type": "string",
+          "enum": [ "ViewAction", "OpenUri", "HttpPOST", "ActionCard" ]
+        },
+        "name": {
+          "description": "Name of the action that will be used as button title",
+          "type": "string"
+        },
+        "@id": {
+          "description": "Action Id",
+          "type": "string"
+        }
+      }
+    },
+
+    "O365ConnectorCardViewAction": {
+      "description": "O365 connector card ViewAction action",
+      "allOf": [
+        {
+          "$ref": "#/definitions/O365ConnectorCardActionBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "target": {
+              "description": "Target urls, only the first url effective for card button",
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      ]
+    },
+
+    "O365ConnectorCardOpenUriTarget": {
+      "description": "O365 connector card OpenUri target",
+      "type": "object",
+      "properties": {
+        "os": {
+          "description": "Target operating system.",
+          "type": "string",
+          "enum": [ "default", "iOS", "android", "windows" ]
+        },
+        "uri": {
+          "description": "Target url",
+          "type": "string"
+        }
+      }
+    },
+
+    "O365ConnectorCardOpenUri": {
+      "description": "O365 connector card OpenUri action",
+      "allOf": [
+        {
+          "$ref": "#/definitions/O365ConnectorCardActionBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "targets": {
+              "description": "Target os / urls",
+              "type": "array",
+              "items": { "$ref": "#/definitions/O365ConnectorCardOpenUriTarget" }
+            }
+          }
+        }
+      ]
+    },
+
+    "O365ConnectorCardHttpPOST": {
+      "description": "O365 connector card HttpPOST action",
+      "allOf": [
+        {
+          "$ref": "#/definitions/O365ConnectorCardActionBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "body": {
+              "description": "Content to be posted back to bots via invoke",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+
+    "O365ConnectorCardActionCard": {
+      "description": "O365 connector card ActionCard action",
+      "allOf": [
+        {
+          "$ref": "#/definitions/O365ConnectorCardActionBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "inputs": {
+              "description": "Set of inputs contained in this ActionCard whose each item can be in any subtype of O365ConnectorCardInputBase",
+              "type": "array",
+              "items": { "$ref": "#/definitions/O365ConnectorCardInputBase" }
+            },
+            "actions": {
+              "description": "Set of actions contained in this ActionCard whose each item can be in any subtype of O365ConnectorCardActionBase except O365ConnectorCardActionCard, as nested ActionCard is forbidden.",
+              "type": "array",
+              "items": { "$ref": "#/definitions/O365ConnectorCardActionBase" }
+            }
+          }
+        }
+      ]
+    },
+
+    "O365ConnectorCardInputBase": {
+      "description": "O365 connector card input for ActionCard action",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "description": "Input type name",
+          "type": "string",
+          "enum": [ "textInput", "dateInput", "multichoiceInput" ]
+        },
+        "id": {
+          "description": "Input Id. It must be unique per entire O365 connector card.",
+          "type": "string"
+        },
+        "isRequired": {
+          "description": "Define if this input is a required field. Default value is false.",
+          "type": "boolean"
+        },
+        "title": {
+          "description": "Input title that will be shown as the placeholder",
+          "type": "string"
+        },
+        "value": {
+          "description": "Default value for this input field",
+          "type": "string"
+        }
+      }
+    },
+
+    "O365ConnectorCardTextInput": {
+      "description": "O365 connector card text input",
+      "allOf": [
+        {
+          "$ref": "#/definitions/O365ConnectorCardInputBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "isMultiline": {
+              "description": "Define if text input is allowed for multiple lines. Default value is false.",
+              "type": "boolean"
+            },
+            "maxLength": {
+              "description": "Maximum length of text input. Default value is unlimited.",
+              "type": "number"
+            }
+          }
+        }
+      ]
+    },
+
+    "O365ConnectorCardDateInput": {
+      "description": "O365 connector card date input",
+      "allOf": [
+        {
+          "$ref": "#/definitions/O365ConnectorCardInputBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "includeTime": {
+              "description": "Include time input field. Default value  is false (date only).",
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    },
+
+    "O365ConnectorCardMultichoiceInput": {
+      "description": "O365 connector card multiple choice input",
+      "allOf": [
+        {
+          "$ref": "#/definitions/O365ConnectorCardInputBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "choices": {
+              "description": "Set of choices whose each item can be in any subtype of O365ConnectorCardMultichoiceInputChoice.",
+              "type": "array",
+              "items": { "$ref": "#/definitions/O365ConnectorCardMultichoiceInputChoice" }
+            },
+            "style": {
+              "description": "Choice item rendering style. Default valud is 'compact'.",
+              "type": "string",
+              "enum": [ "compact", "expanded" ]
+            },
+            "isMultiSelect": {
+              "description": "Define if this input field allows multiple selections. Default value is false.",
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    },
+
+    "O365ConnectorCardMultichoiceInputChoice": {
+      "description": "O365O365 connector card multiple choice input item",
+      "type": "object",
+      "properties": {
+        "display": {
+          "description": "The text rednered on ActionCard.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value received as results.",
+          "type": "string"
+        }
+      }
+    },
+
+    "O365ConnectorCardActionQuery": {
+      "description": "O365 connector card HttpPOST invoke query",
+      "type": "object",
+      "properties": {
+        "body": {
+          "description": "The results of body string defined in IO365ConnectorCardHttpPOST with substituted input values",
+          "type": "string"
+        },
+        "actionId": {
+          "description": "Action Id associated with the HttpPOST action button triggered, defined in O365ConnectorCardActionBase.",
+          "type": "string"
+        }
+      }
+    },
+
+    "SigninStateVerificationQuery": {
+      "description": "Signin state (part of signin action auth flow) verification invoke query",
+      "type": "object",
+      "properties": {
+        "state": {
+          "description": " The state string originally received when the signin web flow is finished with a state posted back to client via tab SDK microsoftTeams.authentication.notifySuccess(state)",
+          "type": "string"
+        }
+      }
+    },
+
+    "MessagingExtensionQueryOptions": {
+      "description": "Messaging extension query options",
+      "type": "object",
+      "properties": {
+        "skip": {
+          "format": "int32",
+          "description": "Number of entities to skip",
+          "type": "integer"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Number of entities to fetch",
+          "type": "integer"
+        }
+      }
+    },
+
+    "MessagingExtensionParameter": {
+      "description": "Messaging extension query parameters",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name of the parameter",
+          "type": "string"
+        },
+        "value": {
+          "description": "Value of the parameter",
+          "$ref": "#/definitions/Object"
+        }
+      }
+    },
+
+    "MessagingExtensionQuery": {
+      "description": "Messaging extension query",
+      "type": "object",
+      "properties": {
+        "commandId": {
+          "description": "Id of the command assigned by Bot",
+          "type": "string"
+        },
+        "parameters": {
+          "description": "Parameters for the query",
+          "type": "array",
+          "items": { "$ref": "#/definitions/MessagingExtensionParameter" }
+        },
+        "queryOptions": {
+          "$ref": "#/definitions/MessagingExtensionQueryOptions"
+        },
+        "state": {
+          "description": "State parameter passed back to the bot after authentication/configuration flow",
+          "type": "string"
+        }
+      }
+    },
+
+    "MessagingExtensionAction": {
+      "description": "Messaging extension action",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TaskModuleRequest"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "commandId": {
+              "description": "Id of the command assigned by Bot",
+              "type": "string"
+            },
+            "commandContext": {
+              "description": "The context from which the command originates.",
+              "type": "string",
+              "enum": [ "message", "compose", "commandbox" ]
+            },
+            "botMessagePreviewAction": {
+              "description": "Bot message preview action taken by user.",
+              "type": "string",
+              "enum": [ "edit", "send" ]
+            },
+            "botActivityPreview": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Activity",
+                "description": "Bot message preview action payload associate to the current action taken by user."
+              }
+            },
+            "messagePayload": {
+              "description": "Message content sent as part of the command request.",
+              "$ref": "#/definitions/MessageActionsPayload"
+            }
+          }    
+        }
+      ]
+    },
+
+    "MessagingExtensionActionResponse": {
+      "description": "Response of messaging extension action",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TaskModuleResponse"
+        },
+        {
+          "$ref": "#/definitions/MessagingExtensionResponse"
+        }
+      ]
+    },
+
+    "Attachment": {
+      "description": "An attachment within an activity",
+      "type": "object",
+      "properties": {
+        "contentType": {
+          "description": "mimetype/Contenttype for the file",
+          "type": "string"
+        },
+        "contentUrl": {
+          "description": "Content Url",
+          "type": "string"
+        },
+        "content": {
+          "$ref": "#/definitions/Object",
+          "description": "Embedded content"
+        },
+        "name": {
+          "description": "(OPTIONAL) The name of the attachment",
+          "type": "string"
+        },
+        "thumbnailUrl": {
+          "description": "(OPTIONAL) Thumbnail associated with attachment",
+          "type": "string"
+        }
+      }
+    },
+	
+  	"Activity": {
+      "description": "Dummy class to shadow Activity",
+      "type": "object",
+      "properties": {
+        "dummyProperty": {
+          "description": "Just a dummy property to make binding class being generated.",
+          "type": "string"
+        }
+      }
+    },
+
+    "MessagingExtensionResponse": {
+      "description": "Messaging extension response",
+      "type": "object",
+      "properties": {
+        "composeExtension": {
+          "$ref": "#/definitions/MessagingExtensionResult"
+        }
+      }
+    },
+
+    "MessagingExtensionSuggestedAction": {
+      "description": "Messaging extension Actions (Only when type is auth or config)",
+      "type": "object",
+      "properties": {
+        "actions": {
+          "description": "Actions",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction",
+            "description": "Action to start authentication or configuration flow"
+          }
+        }
+      }
+    },
+
+    "MessagingExtensionResult": {
+      "description": "Messaging extension result",
+      "type": "object",
+      "properties": {
+        "attachmentLayout": {
+          "description": "Hint for how to deal with multiple attachments.",
+          "type": "string",
+          "enum": [ "list", "grid" ]
+        },
+        "type": {
+          "description": "The type of the result",
+          "type": "string",
+          "enum": [ "result", "auth", "config", "message", "botMessagePreview" ]
+        },
+        "attachments": {
+          "description": "(Only when type is result) Attachments",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessagingExtensionAttachment"
+          }
+        },
+        "suggestedActions": {
+          "$ref": "#/definitions/MessagingExtensionSuggestedAction"
+        },
+        "text": {
+          "description": "(Only when type is message) Text",
+          "type": "string"
+        },
+        "activityPreview": {
+          "description": "(Only when type is botMessagePreview) Message activity to preview",
+          "$ref": "#/definitions/Activity"
+        }
+      }
+    },
+
+    "MessagingExtensionAttachment": {
+      "description": "Messaging extension attachment.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Attachment"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "preview": {
+              "$ref": "#/definitions/Attachment"
+            }
+          }
+        }
+      ]
+    },
+
+    "FileConsentCard": {
+      "description": "File consent card attachment.",
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "File description.",
+          "type": "string"
+        },
+        "sizeInBytes": {
+          "description": "Size of the file to be uploaded in Bytes.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "acceptContext": {
+          "description": "Context sent back to the Bot if user consented to upload. This is free flow schema and is sent back in Value field of Activity.",
+          "type": "object"
+        },
+        "declineContext": {
+          "description": "Context sent back to the Bot if user declined. This is free flow schema and is sent back in Value field of Activity.",
+          "type": "object"
+        }
+      }
+    },
+
+    "FileDownloadInfo": {
+      "description": "File download info attachment.",
+      "type": "object",
+      "properties": {
+        "downloadUrl": {
+          "description": "File download url.",
+          "type": "string"
+        },
+        "uniqueId": {
+          "description": "Unique Id for the file.",
+          "type": "string"
+        },
+        "fileType": {
+          "description": "Type of file.",
+          "type": "string"
+        },
+        "etag": {
+          "description": "ETag for the file.",
+          "type": "object"
+        }
+      }
+    },
+
+    "FileInfoCard": {
+      "description": "File info card.",
+      "type": "object",
+      "properties": {
+        "uniqueId": {
+          "description": "Unique Id for the file.",
+          "type": "string"
+        },
+        "fileType": {
+          "description": "Type of file.",
+          "type": "string"
+        },
+        "etag": {
+          "description": "ETag for the file.",
+          "type": "object"
+        }
+      }
+    },
+
+    "FileConsentCardResponse": {
+      "description": "Represents the value of the invoke activity sent when the user acts on a file consent card",
+      "type": "object",
+      "properties": {
+        "action": {
+          "description": "The action the user took.",
+          "type": "string",
+          "enum": [ "accept", "decline" ]
+        },
+        "context": {
+          "description": "The context associated with the action.",
+          "type": "object"
+        },
+        "uploadInfo": {
+          "description": "If the user accepted the file, contains information about the file to be uploaded.",
+          "$ref": "#/definitions/FileUploadInfo"
+        }
+      }
+    },
+
+    "FileUploadInfo": {
+      "description": "Information about the file to be uploaded.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name of the file.",
+          "type": "string"
+        },
+        "uploadUrl": {
+          "description": "URL to an upload session that the bot can use to set the file contents.",
+          "type": "string"
+        },
+        "contentUrl": {
+          "description": "URL to file.",
+          "type": "string"
+        },
+        "uniqueId": {
+          "description": "ID that uniquely identifies the file.",
+          "type": "string"
+        },
+        "fileType": {
+          "description": "Type of the file.",
+          "type": "string"
+        }
+      }
+    },
+
+    "TaskModuleTaskInfo": {
+      "description": "Metadata for a Task Module.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Appears below the app name and to the right of the app icon."
+        },
+        "height": {
+          "type": "object",
+          "description": "This can be a number, representing the task module's height in pixels, or a string, one of: small, medium, large."
+        },
+        "width": {
+          "type": "object",
+          "description": "This can be a number, representing the task module's width in pixels, or a string, one of: small, medium, large."
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL of what is loaded as an iframe inside the task module. One of url or card is required."
+        },
+        "card": {
+          "type": "object",
+          "description": "The JSON for the Adaptive card to appear in the task module.",
+          "$ref": "#/definitions/Attachment"
+        },
+        "fallbackUrl": {
+          "type": "string",
+          "description": "If a client does not support the task module feature, this URL is opened in a browser tab."
+        },
+        "completionBotId": {
+          "type": "string",
+          "description": "If a client does not support the task module feature, this URL is opened in a browser tab."
+        }
+      }
+    },
+
+    "TaskModuleResponseBase": {
+      "description": "Base class for Task Module responses",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Choice of action options when responding to the task/submit message.",
+          "type": "string",
+          "enum": [ "message", "continue" ]
+        }
+      }
+    },
+
+    "TaskModuleContinueResponse": {
+      "description": "Task Module Response with continue action.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TaskModuleResponseBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "object",
+              "description": "The JSON for the Adaptive card to appear in the task module.",
+              "$ref": "#/definitions/TaskModuleTaskInfo"
+            }
+          }
+        }
+      ]
+    },
+
+    "TaskModuleMessageResponse": {
+      "description": "Task Module response with message action.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TaskModuleResponseBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string",
+              "description": "Teams will display the value of value in a popup message box."
+            }
+          }
+        }
+      ]
+    },
+
+    "TaskModuleResponse": {
+      "description": "Envelope for Task Module Response.",
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "object",
+          "description": "The JSON for the Adaptive card to appear in the task module.",
+          "$ref": "#/definitions/TaskModuleResponseBase"
+        }
+      }
+    },
+
+    "TaskModuleRequest": {
+      "description": "Task module invoke request value payload",
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "User input data. Free payload with key-value pairs.",
+          "type": "object",
+          "$ref": "#/definitions/Object"
+        },
+        "context": {
+          "description": "Current user context, i.e., the current theme",
+          "type": "object",
+          "properties": {
+            "theme": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+
+    "AppBasedLinkQuery": {
+      "description": "Invoke request body type for app-based link query.",
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "Url queried by user",
+          "type": "string"
+        }
+      }
+    },
+
+    "MessageActionsPayload": {
+      "description": "Represents the individual message within a chat or channel where a message actions is taken.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique id of the message.",
+          "type": "string"
+        },
+        "replyToId": {
+          "description": "Id of the parent/root message of the thread.",
+          "type": "string"
+        },
+        "messageType": {
+          "description": "Type of message - automatically set to message.",
+          "type": "string",
+          "enum": ["message"]
+        },
+        "createdDateTime": {
+          "description": "Timestamp of when the message was created.",
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "description": "Timestamp of when the message was edited or updated.",
+          "type": "string"
+        },
+        "deleted": {
+          "description": "Indicates whether a message has been soft deleted.",
+          "type": "boolean"
+        },
+        "subject": {
+          "description": "Subject line of the message.",
+          "type": "string"
+        },
+        "summary": {
+          "description": "Summary text of the message that could be used for notifications.",
+          "type": "string"
+        },
+        "importance": {
+          "description": "The importance of the message.",
+          "type": "string",
+          "enum": ["normal", "high", "urgent"]
+        },
+        "locale": {
+          "description": "Locale of the message set by the client.",
+          "type": "string"
+        },
+        "from": {
+          "description": "Sender of the message.",
+          "type": "object",
+          "$ref": "#/definitions/MessageActionsPayloadFrom"
+        },
+        "body": {
+          "description": "Plaintext/HTML representation of the content of the message.",
+          "type": "object",
+          "properties": {
+            "contentType": {
+              "description": "Type of the content.",
+              "type": "string",
+              "enum": ["html", "text"]
+            },
+            "content": {
+              "description": "The content of the body.",
+              "type": "string"
+            }
+          }
+        },
+        "attachmentLayout": {
+          "description": "How the attachment(s) are displayed in the message.",
+          "type": "string"
+        },
+        "attachments": {
+          "description": "Attachments in the message - card, image, file, etc.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageActionsPayloadAttachment"
+          } 
+        },
+        "mentions": {
+          "description": "List of entities mentioned in the message.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageActionsPayloadMention"
+          }
+        },
+        "reactions": {
+          "description": "Reactions for the message.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageActionsPayloadReaction"
+          }
+        }
+      }
+    },
+
+    "MessageActionsPayloadFrom": {
+      "description": "Represents a user, application, or conversation type that either sent or was referenced in a message.",
+      "type": "object",
+      "properties": {
+        "user": {
+          "description": "Represents details of the user.",
+          "type": "object",
+          "$ref": "#/definitions/MessageActionsPayloadUser"
+        },
+        "application": {
+          "description": "Represents details of the app.",
+          "type": "object",
+          "$ref": "#/definitions/MessageActionsPayloadApp"
+        },
+        "conversation": {
+          "description": "Represents details of the converesation.",
+          "type": "object",
+          "$ref": "#/definitions/MessageActionsPayloadConversation"
+        }
+      }
+    },
+
+    "MessageActionsPayloadUser": {
+      "description": "Represents a user entity.",
+      "type": "object",
+      "properties": {
+        "userIdentityType": {
+          "description": "The identity type of the user.",
+          "type": "string",
+          "enum": ["aadUser", "onPremiseAadUser", "anonymousGuest", "federatedUser"]
+        },
+        "id": {
+          "description": "The id of the user.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "The plaintext display name of the user.",
+          "type": "string"
+        }
+      }
+    },
+
+    "MessageActionsPayloadApp": {
+      "description": "Represents an application entity.",
+      "type": "object",
+      "properties": {
+        "applicationIdentityType": {
+          "description": "The type of application.",
+          "type": "string",
+          "enum": ["aadApplication", "bot", "tenantBot", "office365Connector", "webhook"]
+        },
+        "id": {
+          "description": "The id of the application.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "The plaintext display name of the application.",
+          "type": "string"
+        }
+      }
+    },
+
+    "MessageActionsPayloadConversation": {
+      "description": "Represents a team or channel entity.",
+      "type": "object",
+      "properties": {
+        "conversationIdentityType": {
+          "description": "The type of conversation, whether a team or channel.",
+          "type": "string",
+          "enum": ["team", "channel"]
+        },
+        "id": {
+          "description": "The id of the team or channel.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "The plaintext display name of the team or channel entity.",
+          "type": "string"
+        }      
+      }
+    },
+
+    "MessageActionsPayloadAttachment": {
+      "description": "Represents the attachment in a message.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The id of the attachment.",
+          "type": "string"
+        },
+        "contentType": {
+          "description": "The type of the attachment.",
+          "type": "string"
+        },
+        "contentUrl": {
+          "description": "The url of the attachment, in case of a external link.",
+          "type": "string"
+        },
+        "content": {
+          "description": "The content of the attachment, in case of a code snippet, email, or file.",
+          "type": "object"
+        },
+        "name": {
+          "description": "The plaintext display name of the attachment.",
+          "type": "string"
+        },
+        "thumbnailUrl": {
+          "description": "The url of a thumbnail image that might be embedded in the attachment, in case of a card.",
+          "type": "string"
+        }
+      }
+    },
+
+    "MessageActionsPayloadMention": {
+      "description": "Represents the entity that was mentioned in the message.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The id of the mentioned entity.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "mentionText": {
+          "description": "The plaintext display name of the mentioned entity.",
+          "type": "string"
+        },
+        "mentioned": {
+          "description": "Provides more details on the mentioned entity.",
+          "type": "object",
+          "$ref": "#/definitions/MessageActionsPayloadFrom"
+        }
+      }
+    },
+
+    "MessageActionsPayloadReaction": {
+      "description": "Represents the reaction of a user to a message.",
+      "type": "object",
+      "properties": {
+        "reactionType": {
+          "description": "The type of reaction given to the message.",
+          "type": "string",
+          "enum": ["like", "heart", "laugh", "surprised", "sad", "angry"]
+        },
+        "createdDateTime": {
+          "description": "Timestamp of when the user reacted to the message.",
+          "type": "string"
+        },
+        "user": {
+          "description": "The user with which the reaction is associated.",
+          "type": "object",
+          "$ref": "#/definitions/MessageActionsPayloadFrom"
+        }
+      }
+    }
+  }
+}
