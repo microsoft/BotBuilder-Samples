@@ -13,7 +13,7 @@ namespace Microsoft.Bot.Builder.Handoff
     /// <summary>
     /// Extends ITurnContext to add InitiateHandoffAsync.
     /// </summary>
-    public static class TurnContextExtender
+    public static class HandoffExtensions
     {
         /// <summary>
         /// Initiate handoff to human agent.
