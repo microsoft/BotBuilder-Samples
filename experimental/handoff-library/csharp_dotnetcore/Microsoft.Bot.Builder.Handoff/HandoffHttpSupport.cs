@@ -25,12 +25,12 @@ namespace Microsoft.Bot.Builder.Handoff
         {
             if (conversationId == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "conversationId");
+                throw new ArgumentNullException(nameof(conversationId));
             }
 
             if (handoffParameters == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "handoffParameters");
+                throw new ArgumentNullException(nameof(handoffParameters));
             }
 
             // Construct URL
@@ -108,7 +108,7 @@ namespace Microsoft.Bot.Builder.Handoff
         {
             if (conversationId == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "conversationId");
+                throw new ArgumentNullException(nameof(conversationId));
             }
 
             // Construct URL
