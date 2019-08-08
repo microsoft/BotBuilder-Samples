@@ -123,7 +123,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 await turnContext.SendActivityAsync(reply).ConfigureAwait(false);
             }
 
-            return null;
+            return new InvokeResponse { Status = 200 };
         }
 
         private async Task FileUploadCompletedAsync(ITurnContext turnContext, FileConsentCardResponse query)
