@@ -9,18 +9,19 @@
     "build:live": "nodemon --ignore './data' --exec node --inspect=5566 -r ts-node/register ./src/app.ts"
   },
   "dependencies": {
-    "botbuilder-teams": "file:../../botbuilder-teams-js",
-    "botframework-config": "^4.2.0",
+    "botbuilder": "~4.5.3",
+    "botbuilder-teams": "file:../../../experimental/teams/javascript_nodejs/botbuilder-teams",
     "dotenv": "^6.2.0",
-    "nodemon": "^1.18.9",
     "request": "^2.88.0",
-    "restify": "^7.6.0",
-    "restify-plugins": "^1.6.0",
-    "ts-node": "^7.0.1"
+    "restify": "^7.7.0",
+    "restify-plugins": "^1.6.0"
   },
   "devDependencies": {
+    "@types/node": "^12.7.1",
     "@types/request": "^2.48.1",
     "@types/restify": "^7.2.7",
+    "nodemon": "^1.19.1",
+    "ts-node": "^7.0.1",
     "typescript": "^3.2.4"
   }
 }
