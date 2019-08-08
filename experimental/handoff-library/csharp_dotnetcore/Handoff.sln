@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Handoff", "Microsoft.Bot.Builder.Handoff\Microsoft.Bot.Builder.Handoff.csproj", "{6F1CA95B-E72E-4F4D-B930-0C1BC991F5DF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandoffBot", "Microsoft.Bot.Builder.HandoffBot\HandoffBot.csproj", "{810315D3-5038-496D-A506-9603C2EA8897}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandoffBot", "samples\Microsoft.Bot.Builder.HandoffBot\HandoffBot.csproj", "{810315D3-5038-496D-A506-9603C2EA8897}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Handoff.Test", "Microsoft.Bot.Builder.Handoff.Test\Microsoft.Bot.Builder.Handoff.Test.csproj", "{077B9946-AF51-4116-95EA-CFC7A3744468}"
 EndProject
