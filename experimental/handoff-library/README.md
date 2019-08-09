@@ -34,7 +34,7 @@ public interface IHandoffAdapter
 
 The payload of the call contains the transcript of the activities and the channel specific context.
 
-The BotFrameworkHttpAdapterWithHandoff supports handoff by implementing the IHandoffAdapter interface. The payload is packaged into an HTTP POST request and is sent to the channel. Other implementations are possible.
+The `BotFrameworkHttpAdapterWithHandoff` supports handoff by implementing the `IHandoffAdapter` interface. The payload is packaged into an HTTP POST request and is sent to the channel. Other implementations are possible.
 
 ### Handoff Initiation
 
@@ -42,7 +42,7 @@ The handoff is initiated by the bot. This can be triggered by NLP ("I need a hum
 
 The handoff is initiated via the `InitiateHandoffAsync` call on the `ITurnContext` interface:
 
-```
+```C#
 public class BotWithHandoff : ActivityHandler
 {
     public override async Task OnTurnAsync(ITurnContext turnContext, 
@@ -56,7 +56,7 @@ public class BotWithHandoff : ActivityHandler
 
 Because the operation can take a long time (several minutes), the returning task does not represent the completion of the handoff. Instead, the API returns the `HandoffRequest` class that can be used to track the completion of the request:
 
-```
+```C#
 public class HandoffRequest
 {
     public bool IsCompletedAsync();
@@ -68,7 +68,7 @@ Additionally, the handoff completion is signaled by the Handoff event, as shown 
 
 ### Example
 
-```
+```C#
 protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
 {
     if (turnContext.Activity.Text.Contains("human"))
@@ -78,7 +78,7 @@ protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivi
         var a1 = MessageFactory.Text($"first message");
         var a2 = MessageFactory.Text($"second message");
         var transcript = new Activity[] { a1, a2 };
-        var context = new { Skill = "credit cards", MSCallerId = "CCI" };
+        var context = new { Skill = "credit cards" };
         var request = await turnContext.InitiateHandoffAsync(transcript, context, cancellationToken);
 
         if (await request.IsCompletedAsync())
