@@ -10,7 +10,13 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <CodeAnalysisRuleSet>..\BotBuilder-DotNet.ruleset</CodeAnalysisRuleSet>
-    <PackageId>Microsoft.Bot.Builder.Handoff</PackageId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>true</DelaySign>
+    <AssemblyOriginatorKeyFile>..\..\..\..\build\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>    
   </PropertyGroup>
 
   <ItemGroup>
