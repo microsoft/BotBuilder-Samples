@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Microsoft.BotBuilderSamples.Bots;
+using Microsoft.Bot.Builder.Teams.StateStorage;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -28,10 +29,14 @@ namespace Microsoft.BotBuilderSamples
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Create the Bot Framework Adapter with error handling enabled.
-            services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
+            services.AddSingleton<IBotFrameworkHttpAdapter, TeamsAdapter>();
+
+            services.AddSingleton<IStorage, MemoryStorage>();
+
+            services.AddSingleton<TeamSpecificConversationState>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, EchoBot>();
+            services.AddTransient<IBot, AuditBot>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

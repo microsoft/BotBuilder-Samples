@@ -5,7 +5,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Abstractions.Teams.ConversationUpdate;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Schema.Teams;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -67,6 +69,115 @@ namespace Microsoft.BotBuilderSamples
         protected virtual Task<InvokeResponse> OnFileConsent(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
         {
             return Task.FromResult<InvokeResponse>(null);
+        }
+
+        protected override Task OnConversationUpdateActivityAsync(ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        {
+            if (turnContext.Activity.ChannelData != null)
+            {
+                var channelData = turnContext.Activity.GetChannelData<TeamsChannelData>();
+
+                if (!string.IsNullOrEmpty(channelData?.EventType))
+                {
+                    switch (channelData.EventType)
+                    {
+                        case "teamMemberAdded":
+                            {
+                                return OnTeamMembersAddedEventAsync(new TeamMembersAddedEvent
+                                {
+                                    MembersAdded = turnContext.Activity.MembersAdded,
+                                    TurnContext = turnContext,
+                                    Team = channelData.Team,
+                                    Tenant = channelData.Tenant,
+                                });
+                            }
+
+                        case "teamMemberRemoved":
+                            {
+                                return OnTeamMembersRemovedEventAsync(new TeamMembersRemovedEvent
+                                {
+                                    MembersRemoved = turnContext.Activity.MembersRemoved,
+                                    TurnContext = turnContext,
+                                    Team = channelData.Team,
+                                    Tenant = channelData.Tenant,
+                                });
+                            }
+
+                        case "channelCreated":
+                            {
+                                return OnChannelCreatedEventAsync(new ChannelCreatedEvent
+                                {
+                                    TurnContext = turnContext,
+                                    Team = channelData.Team,
+                                    Tenant = channelData.Tenant,
+                                    Channel = channelData.Channel,
+                                });
+                            }
+
+                        case "channelDeleted":
+                            {
+                                return OnChannelDeletedEventAsync(new ChannelDeletedEvent
+                                {
+                                    TurnContext = turnContext,
+                                    Team = channelData.Team,
+                                    Tenant = channelData.Tenant,
+                                    Channel = channelData.Channel,
+                                });
+                            }
+
+                        case "channelRenamed":
+                            {
+                                return OnChannelRenamedEventAsync(new ChannelRenamedEvent
+                                {
+                                    TurnContext = turnContext,
+                                    Team = channelData.Team,
+                                    Tenant = channelData.Tenant,
+                                    Channel = channelData.Channel,
+                                });
+                            }
+
+                        case "teamRenamed":
+                            {
+                                return OnTeamRenamedEventAsync(new TeamRenamedEvent
+                                {
+                                    TurnContext = turnContext,
+                                    Team = channelData.Team,
+                                    Tenant = channelData.Tenant,
+                                });
+                            }
+                    }
+                }
+            }
+
+            return base.OnConversationUpdateActivityAsync(turnContext, cancellationToken);
+        }
+
+        protected virtual Task OnTeamMembersAddedEventAsync(TeamMembersAddedEvent teamMembersAddedEvent)
+        {
+            return Task.CompletedTask;
+        }
+
+        protected virtual Task OnTeamMembersRemovedEventAsync(TeamMembersRemovedEvent teamMembersRemovedEvent)
+        {
+            return Task.CompletedTask;
+        }
+
+        protected virtual Task OnChannelCreatedEventAsync(ChannelCreatedEvent channelCreatedEvent)
+        {
+            return Task.CompletedTask;
+        }
+        protected virtual Task OnChannelDeletedEventAsync(ChannelDeletedEvent channelDeletedEvent)
+        {
+            return Task.CompletedTask;
+        }
+
+        protected virtual Task OnChannelRenamedEventAsync(ChannelRenamedEvent channelRenamedEvent)
+        {
+            return Task.CompletedTask;
+        }
+        protected virtual Task OnTeamRenamedEventAsync(TeamRenamedEvent teamRenamedEvent)
+        {
+            return Task.CompletedTask;
         }
     }
 }

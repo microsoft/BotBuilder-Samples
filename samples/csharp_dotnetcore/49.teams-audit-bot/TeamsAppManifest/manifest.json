@@ -1,0 +1,41 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.3",
+    "version": "1.0.0",
+    "id": "61be556c-3f62-489d-ae2b-e8408f020824",
+    "packageName": "com.teams.samples.auditbot",
+    "developer": {
+        "name": "TeamsAuditBot",
+        "websiteUrl": "https://www.microsoft.com",
+        "privacyUrl": "https://www.teams.com/privacy",
+        "termsOfUseUrl": "https://www.teams.com/termsofuse"
+    },
+    "icons": {
+        "color": "color.png",
+        "outline": "outline.png"
+    },
+    "name": {
+        "short": "AuditBot",
+        "full": "AuditBot"
+    },
+    "description": {
+        "short": "Audit bot for Team",
+        "full": "Audits events in Team"
+    },
+    "accentColor": "#FFFFFF",
+    "bots": [
+        {
+            "botId": "--YOURBOTIDHERE--",
+            "scopes": [
+                "team"
+            ],
+            "supportsFiles": false,
+            "isNotificationOnly": false
+        }
+    ],
+    "permissions": [
+        "identity",
+        "messageTeamMembers"
+    ],
+    "validDomains": []
+}
