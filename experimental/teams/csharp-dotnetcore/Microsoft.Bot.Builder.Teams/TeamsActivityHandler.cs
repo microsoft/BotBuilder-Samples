@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Abstractions.Teams.ConversationUpdate;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -56,6 +57,27 @@ namespace Microsoft.BotBuilderSamples
                 case "fileConsent/invoke":
                     return OnFileConsent(turnContext, cancellationToken);
 
+                case "composeExtension/query":
+                    return OnMessagingExtensionQueryAsync(turnContext, JObject.FromObject(turnContext.Activity.Value).ToObject<MessagingExtensionQuery>(), cancellationToken);
+
+                case "actionableMessage/executeAction":
+                    return OnO365ConnectorCardActionAsync(turnContext, cancellationToken);
+
+                case "composeExtension/queryLink":
+                    return OnAppBasedLinkQueryAsync(turnContext, cancellationToken);
+
+                case "composeExtension/fetchTask":
+                    return OnMessagingExtensionFetchTaskAsync(turnContext, cancellationToken);
+
+                case "composeExtension/submitAction":
+                    return OnMessagingExtensionSubmitActionAsync(turnContext, cancellationToken);
+
+                case "task/fetch":
+                    return OnTaskModuleFetchAsync(turnContext, cancellationToken);
+
+                case "task/submit":
+                    return OnTaskModuleSubmitAsync(turnContext, cancellationToken);
+
                 default:
                     return Task.FromResult<InvokeResponse>(null);
             }
@@ -66,7 +88,43 @@ namespace Microsoft.BotBuilderSamples
         {
             return Task.FromResult<InvokeResponse>(null);
         }
+
         protected virtual Task<InvokeResponse> OnFileConsent(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<InvokeResponse>(null);
+        }
+
+        protected virtual Task<InvokeResponse> OnMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<InvokeResponse>(null);
+        }
+
+        protected virtual Task<InvokeResponse> OnO365ConnectorCardActionAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<InvokeResponse>(null);
+        }
+
+        protected virtual Task<InvokeResponse> OnAppBasedLinkQueryAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<InvokeResponse>(null);
+        }
+
+        protected virtual Task<InvokeResponse> OnMessagingExtensionFetchTaskAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<InvokeResponse>(null);
+        }
+
+        protected virtual Task<InvokeResponse> OnMessagingExtensionSubmitActionAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<InvokeResponse>(null);
+        }
+
+        protected virtual Task<InvokeResponse> OnTaskModuleFetchAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<InvokeResponse>(null);
+        }
+
+        protected virtual Task<InvokeResponse> OnTaskModuleSubmitAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
         {
             return Task.FromResult<InvokeResponse>(null);
         }

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Microsoft.BotBuilderSamples.Bots;
+using Microsoft.Bot.Builder.Teams.WikipediaMessagingExtension.Engine;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -30,8 +31,10 @@ namespace Microsoft.BotBuilderSamples
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
+            services.AddSingleton<ISearchHandler, WikipediaSearchHandler>();
+
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, EchoBot>();
+            services.AddTransient<IBot, WikipediaMessagingExtensionBot>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

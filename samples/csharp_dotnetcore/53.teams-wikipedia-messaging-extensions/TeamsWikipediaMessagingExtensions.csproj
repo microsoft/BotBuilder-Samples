@@ -11,6 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\experimental\teams\csharp-dotnetcore\Microsoft.Bot.Builder.Teams\Microsoft.Bot.Builder.Teams.csproj" />
+    <ProjectReference Include="..\..\..\experimental\teams\csharp-dotnetcore\Microsoft.Bot.Connector.Teams\Microsoft.Bot.Connector.Teams.csproj" />
+    <ProjectReference Include="..\..\..\experimental\teams\csharp-dotnetcore\Microsoft.Bot.Schema.Teams\Microsoft.Bot.Schema.Teams.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
