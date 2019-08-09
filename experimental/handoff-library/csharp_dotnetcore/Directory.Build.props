@@ -1,0 +1,48 @@
+<Project>
+  <PropertyGroup>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)outputpackages\</PackageOutputPath>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Company>Microsoft</Company>
+
+    <!-- Rules found at: https://aka.ms/Microsoft-NuGet-Compliance -->
+
+    <!-- Per rules,this must be *EXACTLY* "Microsoft. Otherwise Nuget.org will reject the packages." -->
+    <Authors>Microsoft</Authors>
+    <Product>Microsoft Bot Builder SDK</Product>
+    <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Rules found at: https://aka.ms/Microsoft-NuGet-Compliance -->
+    <PackageProjectUrl>https://github.com/Microsoft/BotBuilder-Samples</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/microsoft/botframework-sdk/master/icon.png</PackageIconUrl>
+    <PackageLicenseUrl>https://github.com/Microsoft/BotBuilder/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryUrl> https://github.com/Microsoft/BotBuilder-Samples</RepositoryUrl>
+    <LicenseUrl>https://github.com/Microsoft/BotBuilder-dotnet/blob/master/LICENSE</LicenseUrl>
+    <PackageTags>bots;ai;botframework;botbuilder;handoff</PackageTags>
+    <RepositoryType />
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <!--
+      Suppress a warning about upcoming deprecation of PackageLicenseUrl. When embedding licenses are supported,
+      replace PackageLicenseUrl with PackageLicenseExpression.
+    -->
+    <NoWarn>$(NoWarn);NU5125</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration) == 'Debug'">
+    <!-- For debug builds, we don't generate documentation. Supress the StyleCop rule that warns about this. -->
+    <NoWarn>$(NoWarn);SA0001</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration) == 'Debug - NuGet Packages'">
+    <!-- For debug Nuget builds, we don't generate documentation. Supress the StyleCop rule that warns about this. -->
+    <NoWarn>$(NoWarn);SA0001</NoWarn>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+</Project>
