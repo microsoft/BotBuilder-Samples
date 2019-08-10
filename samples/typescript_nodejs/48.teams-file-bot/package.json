@@ -11,7 +11,7 @@
   "dependencies": {
     "botbuilder": "~4.5.3",
     "botbuilder-teams": "file:../../../experimental/teams/javascript_nodejs/botbuilder-teams",
-    "dotenv": "^6.2.0",
+    "dotenv": "^8.0.0",
     "request": "^2.88.0",
     "restify": "^7.7.0",
     "restify-plugins": "^1.6.0"

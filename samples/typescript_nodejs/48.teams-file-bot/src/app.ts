@@ -2,50 +2,52 @@
 // Licensed under the MIT License.
 
 import * as restify from 'restify';
-import * as teams from 'botbuilder-teams';
-import { BotFrameworkAdapterSettings } from 'botbuilder-teams/node_modules/botbuilder';
+import { TeamsAdapter, TeamsMiddleware } from 'botbuilder-teams';
+import { BotFrameworkAdapterSettings } from 'botbuilder';
 import { FileBot } from './bot';
 import * as path from 'path';
 import { config } from 'dotenv';
 
-// Read botFilePath and botFileSecret from .env file
-// Note: Ensure you have a .env file and include botFilePath and botFileSecret.
+// Note: Ensure you have a .env file and include MicrosoftAppId and MicrosoftAppPassword.
 const ENV_FILE = path.join(__dirname, '..', '.env');
-const loadFromEnv = config({path: ENV_FILE});
+config({path: ENV_FILE});
 
-// // Create adapter. 
-// See https://aka.ms/about-bot-adapter to learn more about to learn more about bot adapter.
 const botSetting: Partial<BotFrameworkAdapterSettings> = {
-  appId: process.env.microsoftAppID,
-  appPassword: process.env.microsoftAppPassword
+  appId: process.env.MicrosoftAppId,
+  appPassword: process.env.MicrosoftAppPassword
 };
 
-const adapter = new teams.TeamsAdapter(botSetting);
+// Create adapter.
+// See https://aka.ms/about-bot-adapter to learn more about adapters.
+const adapter = new TeamsAdapter(botSetting);
 
-adapter.use(new teams.TeamsMiddleware());
+adapter.use(new TeamsMiddleware());
 
-// Catch-all for any unhandled errors in your bot.
-adapter.onTurnError = async (turnContext, error) => {
-    // This check writes out errors to console log .vs. app insights.
-    console.error(`\n [onTurnError]: ${ error }`);
+// Catch-all for errors.
+adapter.onTurnError = async (context, error) => {
+    // This check writes out errors to console log
+    // NOTE: In production environment, you should consider logging this to Azure
+    //       application insights.
+    console.error('\n [onTurnError]:')
+    console.error(error);
+    // Send a message to the user
+    await context.sendActivity(`Oops. Something went wrong!`);
 };
 
-// Create the EchoBot.
 const bot = new FileBot();
 
 // Create HTTP server
 let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
-    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
-    console.log(`\nTo talk to your bot, open echobot-with-counter.bot file in the Emulator.`);
+    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
 });
 
 // Listen for incoming activities and route them to your bot for processing.
 server.use(require('restify-plugins').bodyParser());
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (turnContext) => {
-        // Call bot.onTurn() to handle all incoming messages.
-        await bot.onTurn(turnContext);
+        // Route to bot activity handler.
+        await bot.run(turnContext);
     });
 });
