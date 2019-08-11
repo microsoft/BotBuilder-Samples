@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "npm run build:live",
-    "build:live": "nodemon --ignore './data' --exec node --inspect=5566 -r ts-node/register ./src/app.ts"
+    "build:live": "nodemon --ignore './data' --exec node --inspect=5566 -r ts-node/register ./src/index.ts"
   },
   "dependencies": {
     "botbuilder": "~4.5.3",
