@@ -21,15 +21,29 @@ interface ConsentContext {
     filename: string;
 }
 
-export class FileBot extends TeamsActivityHandler {
-    private readonly fileFolder = './files';
+export class TeamsFileBot extends TeamsActivityHandler {
+    private readonly fileFolder: string;
 
     constructor () {
         super();
+
+        // Set the location of TeamsFileBot.fileFolder.
+        // When using deploying to Azure on a Windows App Service, IIS for Node.js uses a different working directory than when testing locally.
+        // For vanilla JavaScript projects this dynamic setting of the fileFolder location is not required, as the process.cwd() is set to by
+        // the entry point to the server in the web.config. (In our JavaScript project the index.js is at the root level of the project)
+        //
+        // Since this is a TypeScript bot, the entry point is in the /lib folder on IIS, not the root directory.
+        if (fs.existsSync('package.json')) {
+            // Since process.cwd() is the root of the project, use './files' instead of '../files'; the bot is not being run on IIS.
+            this.fileFolder = './files';
+        } else {
+            this.fileFolder = '../files';
+        }
+
         this.onMessage(this.routeMessageActivities.bind(this));
         this.onFileConsent(async (context, next): Promise<InvokeResponse> => {
             // InvokeActivityHandlers need to send a response to Teams.
-            // In this scenario, the helper method `FileBot.handleFileConsent` returns an InvokeResponse which will be sent
+            // In this scenario, the helper method `TeamsFileBot.handleFileConsent` returns an InvokeResponse which will be sent
             // to Teams. We store this response and return it after running any additional InvokeActivityHandlers
             const invokeResponse: InvokeResponse = await this.handleFileConsent.bind(this)(context, (context.activity as InvokeRequestActivity<FileConsentCardResponse>).value);
             

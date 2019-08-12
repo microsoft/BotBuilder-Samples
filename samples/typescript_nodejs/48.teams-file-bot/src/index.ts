@@ -4,7 +4,7 @@
 import * as restify from 'restify';
 import { TeamsAdapter, TeamsMiddleware } from 'botbuilder-teams';
 import { BotFrameworkAdapterSettings } from 'botbuilder';
-import { FileBot } from './bot';
+import { TeamsFileBot } from './bots/teamsFileBot';
 import * as path from 'path';
 import { config } from 'dotenv';
 
@@ -34,7 +34,7 @@ adapter.onTurnError = async (context, error) => {
     await context.sendActivity(`Oops. Something went wrong!`);
 };
 
-const bot = new FileBot();
+const bot = new TeamsFileBot();
 
 // Create HTTP server
 let server = restify.createServer();
