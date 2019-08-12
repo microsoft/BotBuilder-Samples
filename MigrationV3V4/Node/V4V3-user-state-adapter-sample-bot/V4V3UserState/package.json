@@ -1,0 +1,15 @@
+{
+  "name": "v4v3userstate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "botbuilder-core": "4.5.2"
+  },
+  "author": "",
+  "license": "ISC"
+}
