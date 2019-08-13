@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.3",
+  "version": "1.0.0",
+  "id": "%MICROSOFT-APP-ID-REGISTERED-WITH-BOT-FRAMEWORK%",
+  "packageName": "com.teams.samples.wikipedia",
+  "developer": {
+    "name": "TeamsSamples",
+    "websiteUrl": "https://github.com/OfficeDev/BotBuilder-MicrosoftTeams-dotnet",
+    "privacyUrl": "https://www.teams.com/privacy",
+    "termsOfUseUrl": "https://www.teams.com/teamsofuser"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "Wikipedia",
+    "full": "WikipediaMessagingExtensionSample"
+  },
+  "description": {
+    "short": "Wikipedia Messaging Extension",
+    "full": "Wikipedia Messaging Extension to search Wikipedia"
+  },
+  "accentColor": "#FFFFFF",
+  "composeExtensions": [
+    {
+      "botId": "%MICROSOFT-APP-ID-REGISTERED-WITH-BOT-FRAMEWORK%",
+      "canUpdateConfiguration": true,
+      "commands": []
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": []
+}

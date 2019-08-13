@@ -1,0 +1,109 @@
+{
+  "$schema": "https://raw.githubusercontent.com/OfficeDev/microsoft-teams-app-schema/preview/DevPreview/MicrosoftTeams.schema.json",
+  "manifestVersion": "devPreview",
+  "version": "1.0",
+  "id": "%MICROSOFT-APP-ID-REGISTERED-WITH-BOT-FRAMEWORK%",
+  "packageName": "com.microsoft.teams.samples.v4bot",
+  "developer": {
+    "name": "Microsoft Corp",
+    "websiteUrl": "https://example.azurewebsites.net",
+    "privacyUrl": "https://example.azurewebsites.net/privacy",
+    "termsOfUseUrl": "https://example.azurewebsites.net/termsofuse"
+  },
+  "name": {
+    "short": "V4 Sample",
+    "full": "Microsoft Teams V4 Sample Bot"
+  },
+  "description": {
+    "short": "Sample bot using V4 SDK to demo messaging extension features",
+    "full": "Sample bot using V4 Bot Builder SDK and V4 Microsoft Teams Extension SDK to demo messaging extension features"
+  },
+  "icons": {
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
+  },
+  "accentColor": "#abcdef",
+  "bots": [
+    {
+      "botId": "%MICROSOFT-APP-ID-REGISTERED-WITH-BOT-FRAMEWORK%",
+      "scopes": [ "personal", "team" ]
+    }
+  ],
+  "composeExtensions": [
+    {
+      "botId": "--YOURBOTIDHERE--",
+      "commands": [
+        {
+          "id": "queryCards",
+          "description": "Test command to run query",
+          "title": "Query cards",
+          "parameters": [
+            {
+              "name": "queryText",
+              "title": "Query parameter",
+              "description": "Query parameter"
+            }
+          ]
+        },
+        {
+          "id": "createCard",
+          "type": "action",
+          "description": "Test command to run action to create a card",
+          "title": "Create cards",
+          "fetchTask": true,
+          "parameters": [
+            {
+              "name": "dummy",
+              "title": "Dummy parameter",
+              "description": "Dummy parameter"
+            }
+          ]
+        },
+        {
+          "id": "createWithPreview",
+          "type": "action",
+          "description": "Test command to run action to create a card with preview before sending",
+          "title": "Create cards with preview",
+          "fetchTask": true,
+          "parameters": [
+            {
+              "name": "dummy",
+              "title": "Dummy parameter",
+              "description": "Dummy parameter"
+            }
+          ]
+        },
+        {
+          "id": "shareMessage",
+          "type": "action",
+          "context": [ "message" ],
+          "description": "Test command to run action on message context (message sharing)",
+          "title": "Create cards",
+          "fetchTask": true,
+          "parameters": [
+            {
+              "name": "dummy",
+              "title": "Dummy parameter",
+              "description": "Dummy parameter"
+            }
+          ]
+        }
+      ],
+      "messageHandlers": [
+        {
+          "type": "link",
+          "value": {
+            "domains": [
+              "*.azurewebsites.net",
+              "*.example.com"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "validDomains": [
+    "*.azurewebsites.net",
+    "*.example.com"
+  ]
+}

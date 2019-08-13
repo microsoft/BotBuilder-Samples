@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.3",
+  "version": "1.0.0",
+  "id": "%MICROSOFT-APP-ID-REGISTERED-WITH-BOT-FRAMEWORK%",
+  "packageName": "com.teams.samples.remindme",
+  "developer": {
+    "name": "RemindMeBotSample",
+    "websiteUrl": "https://www.microsoft.com",
+    "privacyUrl": "https://www.teams.com/privacy",
+    "termsOfUseUrl": "https://www.teams.com/termsofuse"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "RemindMeBot",
+    "full": "RemindMeBot"
+  },
+  "description": {
+    "short": "Sends reminders",
+    "full": "Sends reminders"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "%MICROSOFT-APP-ID-REGISTERED-WITH-BOT-FRAMEWORK%",
+      "scopes": [
+        "personal"
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": []
+}
