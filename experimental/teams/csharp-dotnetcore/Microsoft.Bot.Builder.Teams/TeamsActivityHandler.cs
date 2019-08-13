@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Abstractions.Teams.ConversationUpdate;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
 using Newtonsoft.Json.Linq;
@@ -131,109 +131,58 @@ namespace Microsoft.BotBuilderSamples
 
         protected override Task OnConversationUpdateActivityAsync(ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            if (turnContext.Activity.ChannelData != null)
+            var channelData = turnContext.Activity.GetChannelData<TeamsChannelData>();
+
+            if (!string.IsNullOrEmpty(channelData?.EventType))
             {
-                var channelData = turnContext.Activity.GetChannelData<TeamsChannelData>();
-
-                if (!string.IsNullOrEmpty(channelData?.EventType))
-                {
-                    switch (channelData.EventType)
-                    {
-                        case "teamMemberAdded":
-                            {
-                                return OnTeamMembersAddedEventAsync(new TeamMembersAddedEvent
-                                {
-                                    MembersAdded = turnContext.Activity.MembersAdded,
-                                    TurnContext = turnContext,
-                                    Team = channelData.Team,
-                                    Tenant = channelData.Tenant,
-                                });
-                            }
-
-                        case "teamMemberRemoved":
-                            {
-                                return OnTeamMembersRemovedEventAsync(new TeamMembersRemovedEvent
-                                {
-                                    MembersRemoved = turnContext.Activity.MembersRemoved,
-                                    TurnContext = turnContext,
-                                    Team = channelData.Team,
-                                    Tenant = channelData.Tenant,
-                                });
-                            }
-
-                        case "channelCreated":
-                            {
-                                return OnChannelCreatedEventAsync(new ChannelCreatedEvent
-                                {
-                                    TurnContext = turnContext,
-                                    Team = channelData.Team,
-                                    Tenant = channelData.Tenant,
-                                    Channel = channelData.Channel,
-                                });
-                            }
-
-                        case "channelDeleted":
-                            {
-                                return OnChannelDeletedEventAsync(new ChannelDeletedEvent
-                                {
-                                    TurnContext = turnContext,
-                                    Team = channelData.Team,
-                                    Tenant = channelData.Tenant,
-                                    Channel = channelData.Channel,
-                                });
-                            }
-
-                        case "channelRenamed":
-                            {
-                                return OnChannelRenamedEventAsync(new ChannelRenamedEvent
-                                {
-                                    TurnContext = turnContext,
-                                    Team = channelData.Team,
-                                    Tenant = channelData.Tenant,
-                                    Channel = channelData.Channel,
-                                });
-                            }
-
-                        case "teamRenamed":
-                            {
-                                return OnTeamRenamedEventAsync(new TeamRenamedEvent
-                                {
-                                    TurnContext = turnContext,
-                                    Team = channelData.Team,
-                                    Tenant = channelData.Tenant,
-                                });
-                            }
-                    }
-                }
+                return base.OnConversationUpdateActivityAsync(turnContext, cancellationToken);
             }
 
-            return base.OnConversationUpdateActivityAsync(turnContext, cancellationToken);
+            switch (channelData.EventType)
+            {
+                case "teamMemberAdded":
+                    return OnTeamMembersAddedEventAsync(turnContext.Activity.MembersAdded, channelData, turnContext, cancellationToken);
+                case "teamMemberRemoved":
+                    return OnTeamMembersRemovedEventAsync(turnContext.Activity.MembersRemoved, channelData, turnContext, cancellationToken);
+                case "channelCreated":
+                    return OnChannelCreatedEventAsync(channelData, turnContext, cancellationToken);
+                case "channelDeleted":
+                    return OnChannelDeletedEventAsync(channelData, turnContext, cancellationToken);
+                case "channelRenamed":
+                    return OnChannelRenamedEventAsync(channelData, turnContext, cancellationToken);
+                case "teamRenamed":
+                    return OnTeamRenamedEventAsync(channelData, turnContext, cancellationToken);
+                default:
+                    return base.OnConversationUpdateActivityAsync(turnContext, cancellationToken);
+            }
         }
 
-        protected virtual Task OnTeamMembersAddedEventAsync(TeamMembersAddedEvent teamMembersAddedEvent)
+        protected virtual Task OnTeamMembersAddedEventAsync(IList<ChannelAccount> membersAdded, TeamsChannelData channelData, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }
 
-        protected virtual Task OnTeamMembersRemovedEventAsync(TeamMembersRemovedEvent teamMembersRemovedEvent)
+        protected virtual Task OnTeamMembersRemovedEventAsync(IList<ChannelAccount> membersRemoved, TeamsChannelData channelData, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }
 
-        protected virtual Task OnChannelCreatedEventAsync(ChannelCreatedEvent channelCreatedEvent)
-        {
-            return Task.CompletedTask;
-        }
-        protected virtual Task OnChannelDeletedEventAsync(ChannelDeletedEvent channelDeletedEvent)
+        protected virtual Task OnChannelCreatedEventAsync(TeamsChannelData channelData, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }
 
-        protected virtual Task OnChannelRenamedEventAsync(ChannelRenamedEvent channelRenamedEvent)
+        protected virtual Task OnChannelDeletedEventAsync(TeamsChannelData channelData, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }
-        protected virtual Task OnTeamRenamedEventAsync(TeamRenamedEvent teamRenamedEvent)
+
+        protected virtual Task OnChannelRenamedEventAsync(TeamsChannelData channelData, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
+
+        protected virtual Task OnTeamRenamedEventAsync(TeamsChannelData channelData, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }

@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Abstractions.Teams.ConversationUpdate;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Builder.Teams.AuditBot;
 using Microsoft.Bot.Builder.Teams.StateStorage;
@@ -135,13 +134,13 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
         }
 
-        protected override async Task OnTeamMembersAddedEventAsync(TeamMembersAddedEvent teamMembersAddedEvent)
+        protected override async Task OnTeamMembersAddedEventAsync(IList<ChannelAccount> membersAdded, TeamsChannelData channelData, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            var conversationHistory = await _auditLog.GetAsync(teamMembersAddedEvent.TurnContext, () => new TeamOperationHistory());
+            var conversationHistory = await _auditLog.GetAsync(turnContext, () => new TeamOperationHistory());
 
-            foreach (var memberAdded in teamMembersAddedEvent.MembersAdded)
+            foreach (var memberAdded in membersAdded)
             {
-                var teamsContext = teamMembersAddedEvent.TurnContext.TurnState.Get<ITeamsContext>();
+                var teamsContext = turnContext.TurnState.Get<ITeamsContext>();
                 var teamsChannelAccount = teamsContext.AsTeamsChannelAccount(memberAdded);
 
                 if (conversationHistory.MemberOperations == null)
@@ -157,17 +156,17 @@ namespace Microsoft.BotBuilderSamples.Bots
                 });
             }
 
-            await _auditLog.SetAsync(teamMembersAddedEvent.TurnContext, conversationHistory);
-            await _teamSpecificConversationState.SaveChangesAsync(teamMembersAddedEvent.TurnContext);
+            await _auditLog.SetAsync(turnContext, conversationHistory);
+            await _teamSpecificConversationState.SaveChangesAsync(turnContext);
         }
 
-        protected override async Task OnTeamMembersRemovedEventAsync(TeamMembersRemovedEvent teamMembersRemovedEvent)
+        protected override async Task OnTeamMembersRemovedEventAsync(IList<ChannelAccount> membersRemoved, TeamsChannelData channelData, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            var conversationHistory = await _auditLog.GetAsync(teamMembersRemovedEvent.TurnContext, () => new TeamOperationHistory());
+            var conversationHistory = await _auditLog.GetAsync(turnContext, () => new TeamOperationHistory());
 
-            foreach (var memberRemoved in teamMembersRemovedEvent.MembersRemoved)
+            foreach (var memberRemoved in membersRemoved)
             {
-                var teamsContext = teamMembersRemovedEvent.TurnContext.TurnState.Get<ITeamsContext>();
+                var teamsContext = turnContext.TurnState.Get<ITeamsContext>();
                 var teamsChannelAccount = teamsContext.AsTeamsChannelAccount(memberRemoved);
 
                 if (conversationHistory.MemberOperations == null)
@@ -183,13 +182,13 @@ namespace Microsoft.BotBuilderSamples.Bots
                 });
             }
 
-            await _auditLog.SetAsync(teamMembersRemovedEvent.TurnContext, conversationHistory);
-            await _teamSpecificConversationState.SaveChangesAsync(teamMembersRemovedEvent.TurnContext);
+            await _auditLog.SetAsync(turnContext, conversationHistory);
+            await _teamSpecificConversationState.SaveChangesAsync(turnContext);
         }
 
-        protected override async Task OnChannelCreatedEventAsync(ChannelCreatedEvent channelCreatedEvent)
+        protected override async Task OnChannelCreatedEventAsync(TeamsChannelData channelData, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            var conversationHistory = await _auditLog.GetAsync(channelCreatedEvent.TurnContext, () => new TeamOperationHistory());
+            var conversationHistory = await _auditLog.GetAsync(turnContext, () => new TeamOperationHistory());
 
             if (conversationHistory.MemberOperations == null)
             {
@@ -198,18 +197,18 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             conversationHistory.MemberOperations.Add(new OperationDetails
             {
-                ObjectId = channelCreatedEvent.Channel.Id,
+                ObjectId = channelData.Channel.Id,
                 Operation = "ChannelCreated",
                 OperationTime = DateTimeOffset.Now,
             });
 
-            await _auditLog.SetAsync(channelCreatedEvent.TurnContext, conversationHistory);
-            await _teamSpecificConversationState.SaveChangesAsync(channelCreatedEvent.TurnContext);
+            await _auditLog.SetAsync(turnContext, conversationHistory);
+            await _teamSpecificConversationState.SaveChangesAsync(turnContext);
         }
 
-        protected override async Task OnChannelDeletedEventAsync(ChannelDeletedEvent channelDeletedEvent)
+        protected override async Task OnChannelDeletedEventAsync(TeamsChannelData channelData, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            var conversationHistory = await _auditLog.GetAsync(channelDeletedEvent.TurnContext, () => new TeamOperationHistory());
+            var conversationHistory = await _auditLog.GetAsync(turnContext, () => new TeamOperationHistory());
 
             if (conversationHistory.MemberOperations == null)
             {
@@ -218,18 +217,18 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             conversationHistory.MemberOperations.Add(new OperationDetails
             {
-                ObjectId = channelDeletedEvent.Channel.Id,
+                ObjectId = channelData.Channel.Id,
                 Operation = "ChannelDeleted",
                 OperationTime = DateTimeOffset.Now,
             });
 
-            await _auditLog.SetAsync(channelDeletedEvent.TurnContext, conversationHistory);
-            await _teamSpecificConversationState.SaveChangesAsync(channelDeletedEvent.TurnContext);
+            await _auditLog.SetAsync(turnContext, conversationHistory);
+            await _teamSpecificConversationState.SaveChangesAsync(turnContext);
         }
 
-        protected override async Task OnChannelRenamedEventAsync(ChannelRenamedEvent channelRenamedEvent)
+        protected override async Task OnChannelRenamedEventAsync(TeamsChannelData channelData, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            var conversationHistory = await _auditLog.GetAsync(channelRenamedEvent.TurnContext, () => new TeamOperationHistory());
+            var conversationHistory = await _auditLog.GetAsync(turnContext, () => new TeamOperationHistory());
 
             if (conversationHistory.MemberOperations == null)
             {
@@ -238,18 +237,18 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             conversationHistory.MemberOperations.Add(new OperationDetails
             {
-                ObjectId = channelRenamedEvent.Channel.Id,
+                ObjectId = channelData.Channel.Id,
                 Operation = "ChannelRenamed",
                 OperationTime = DateTimeOffset.Now,
             });
 
-            await _auditLog.SetAsync(channelRenamedEvent.TurnContext, conversationHistory);
-            await _teamSpecificConversationState.SaveChangesAsync(channelRenamedEvent.TurnContext);
+            await _auditLog.SetAsync(turnContext, conversationHistory);
+            await _teamSpecificConversationState.SaveChangesAsync(turnContext);
         }
 
-        protected override async Task OnTeamRenamedEventAsync(TeamRenamedEvent teamRenamedEvent)
+        protected override async Task OnTeamRenamedEventAsync(TeamsChannelData channelData, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            TeamOperationHistory conversationHistory = await _auditLog.GetAsync(teamRenamedEvent.TurnContext, () => new TeamOperationHistory()).ConfigureAwait(false);
+            TeamOperationHistory conversationHistory = await _auditLog.GetAsync(turnContext, () => new TeamOperationHistory()).ConfigureAwait(false);
 
             if (conversationHistory.MemberOperations == null)
             {
@@ -258,13 +257,13 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             conversationHistory.MemberOperations.Add(new OperationDetails
             {
-                ObjectId = teamRenamedEvent.Team.Id,
+                ObjectId = channelData.Team.Id,
                 Operation = "TeamRenamed",
                 OperationTime = DateTimeOffset.Now,
             });
 
-            await _auditLog.SetAsync(teamRenamedEvent.TurnContext, conversationHistory);
-            await _teamSpecificConversationState.SaveChangesAsync(teamRenamedEvent.TurnContext);
+            await _auditLog.SetAsync(turnContext, conversationHistory);
+            await _teamSpecificConversationState.SaveChangesAsync(turnContext);
         }
     }
 }
