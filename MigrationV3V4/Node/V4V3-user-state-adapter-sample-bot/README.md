@@ -1,4 +1,4 @@
-# Save user and conversation data
+# V4 to V3 user state adapter sample
 
 This sample demonstrates how to use v3 user state from a v4 bot (read, write & delete)
 The bot maintains conversation state to track and direct the conversation and ask the user questions.
@@ -13,7 +13,7 @@ The bot maintains user state to track the user's answers.
     node --version
     ```
 
-## To try this sample
+## Setup
 
 - Clone the repository
 
@@ -21,13 +21,13 @@ The bot maintains user state to track the user's answers.
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_nodejs/45.state-management`
+- In a terminal, navigate to `BotBuilder-Samples/MigrationV3V4/Node/V4V3-user-state-adapter-sample-bot`
 
     ```bash
-    cd MigrationV3V4/Node/V4V3-user-state-adapter-sample-bot/
+    cd BotBuilder-Samples/MigrationV3V4/Node/V4V3-user-state-adapter-sample-bot
     ```
 
-- Install modules (run 'npm install') in the following locations:
+- Run 'npm install' in the following locations:
 
     ```bash
     root
@@ -69,6 +69,12 @@ The bot maintains user state to track the user's answers.
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
+
+- Open bot in emulator and send a message. Provide your name when prompted.
+
+- After the turn is over, send another message to the bot and ensure that you aren't reprompted for your name (it should be reading it from storage and recognize that it's already prompted you). The bot should echo back your message.
+
+- Go to your storage provider in Azure and verify that your name is stored as user data in the database.
 
 ### Connect to the bot using Bot Framework Emulator
 
