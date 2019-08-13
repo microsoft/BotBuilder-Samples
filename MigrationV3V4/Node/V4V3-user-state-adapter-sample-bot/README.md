@@ -70,17 +70,22 @@ The bot maintains user state to track the user's answers.
 
 - Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
 
-- Open bot in emulator and send a message. Provide your name when prompted.
-
-- After the turn is over, send another message to the bot and ensure that you aren't reprompted for your name (it should be reading it from storage and recognize that it's already prompted you). The bot should echo back your message.
-
-- Go to your storage provider in Azure and verify that your name is stored as user data in the database.
 
 ### Connect to the bot using Bot Framework Emulator
 
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
+
+### Testing steps
+
+- Open bot in emulator and send a message. Provide your name when prompted.
+
+- After the turn is over, send another message to the bot and ensure that you aren't reprompted for your name (it should be reading it from storage and recognize that it's already prompted you). The bot should echo back your message.
+
+- Go to your storage provider in Azure and verify that your name is stored as user data in the database.
+
+
 
 ## Deploy the bot to Azure
 
