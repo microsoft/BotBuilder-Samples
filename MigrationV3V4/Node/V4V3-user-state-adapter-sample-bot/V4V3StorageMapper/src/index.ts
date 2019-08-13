@@ -71,7 +71,7 @@ export class StorageMapper implements Storage {
           });
         case 'AzureTableClient':
           return new Promise((resolve, reject) => {
-            this.v3StorageProvider.storageClient.retrieve(context.userId, 'userData', (err, data) => {
+            this.v3StorageProvider.retrieve(context.userId, 'userData', (err, data) => {
               if (err) return reject();
               if (!data) return resolve({});
               const responseData = this.formatDataResponse(data.partitionKey, data.data);
@@ -80,7 +80,7 @@ export class StorageMapper implements Storage {
           });
         case 'AzureSqlClient':
           return new Promise((resolve, reject) => {
-            this.v3StorageProvider.storageClient.retrieve(context.userId, 'userData', (err, data) => {
+            this.v3StorageProvider.retrieve(context.userId, 'userData', (err, data) => {
               if (err) console.log(err);
               if (err) return reject();
               if (!data) return resolve({});
@@ -131,7 +131,7 @@ export class StorageMapper implements Storage {
         case 'AzureTableClient':
           data = {...extractUserStateProps(changes, userStateKey)};
           return new Promise((resolve, reject) => {
-            this.v3StorageProvider.storageClient.insertOrReplace(context.userId, 'userData', data, false, (err, data) => {
+            this.v3StorageProvider.insertOrReplace(context.userId, 'userData', data, false, (err, data) => {
               if (err) return reject();
               return resolve(data);
             });
@@ -139,7 +139,7 @@ export class StorageMapper implements Storage {
         case 'AzureSqlClient':
           data = {...extractUserStateProps(changes, userStateKey)};
           return new Promise((resolve, reject) => {
-            this.v3StorageProvider.storageClient.insertOrReplace(context.userId, 'userData', data, false, (err, data) => {
+            this.v3StorageProvider.insertOrReplace(context.userId, 'userData', data, false, (err, data) => {
               if (err) return reject();
               return resolve(data);
             });

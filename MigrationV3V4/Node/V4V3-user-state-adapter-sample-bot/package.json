@@ -14,7 +14,7 @@
     "dependencies": {
         "botbuilder": "~4.5.1",
         "botbuilder-azure": "^4.5.2",
-        "botbuilder-azure-v3": "npm:botbuilder-azure@^3.0.4",
+        "botbuilder-azure-v3": "npm:botbuilder-azure@^3.1.0",
         "dotenv": "^8.0.0",
         "restify": "~8.3.3"
     },
