@@ -102,8 +102,8 @@ const sqlStorage = new V3StorageProvider.AzureBotStorage({ gzipData: false }, sq
   Connect storage to bot
 -----------------------------------------------------------------------------*/
 
-/*** Pass current storage provider to StorageMapper cosmosStorageClient ***/
-/*** possible values: cosmosStorageClient, tableStorage, sqlStorage     ***/
+/*** Pass current storage provider to StorageMapper ***/
+/*** possible values: cosmosStorageClient, tableStorage, sqlStorage ***/
 const storageMapper = new StorageMapper(cosmosStorageClient);
 const userState = new V3UserState(storageMapper);
 
