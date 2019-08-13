@@ -11,7 +11,6 @@ import * as validate from 'uuid-validate';
 
 export class StorageMapper implements Storage {
 
-  private storageType: string;
   private v3StorageProvider: any;
   private userId: string;
   
@@ -20,7 +19,6 @@ export class StorageMapper implements Storage {
       throw new Error('A storage provider must be provided.');
     }
 
-    this.storageType = v3StorageProvider.storageClient.constructor.name;
     this.v3StorageProvider = v3StorageProvider;
     this.userId = '';
   }
@@ -57,38 +55,15 @@ export class StorageMapper implements Storage {
         persistUserData: true,
         persistConversationData: false
       };
-    
-      switch (this.storageType) {
-        // CosmosDB
-        case 'DocumentDbClient':
-          return new Promise((resolve, reject) => {
-            this.v3StorageProvider.getData(context, (err, data) => {
-              if (err) return reject();
-              if (!data || !data.userData) return resolve({});
-              const responseData = this.formatDataResponse(context.userId, data.userData);
-              return resolve(responseData);
-            });
-          });
-        case 'AzureTableClient':
-          return new Promise((resolve, reject) => {
-            this.v3StorageProvider.retrieve(context.userId, 'userData', (err, data) => {
-              if (err) return reject();
-              if (!data) return resolve({});
-              const responseData = this.formatDataResponse(data.partitionKey, data.data);
-              return resolve(responseData);
-            });
-          });
-        case 'AzureSqlClient':
-          return new Promise((resolve, reject) => {
-            this.v3StorageProvider.retrieve(context.userId, 'userData', (err, data) => {
-              if (err) console.log(err);
-              if (err) return reject();
-              if (!data) return resolve({});
-              const responseData = this.formatDataResponse(context.userId, data.data);
-              return resolve(responseData);
-            });
-          });
-      }
+
+      return new Promise((resolve, reject) => {
+        this.v3StorageProvider.getData(context, (err, data) => {
+          if (err) return reject();
+          if (!data || !data.userData) return resolve({});
+          const responseData = this.formatDataResponse(context.userId, data.userData);
+          return resolve(responseData);
+        });
+      });
     }
     return Promise.resolve({});
   }
@@ -115,36 +90,17 @@ export class StorageMapper implements Storage {
       };
 
       let data = null;
-          
-      switch (this.storageType) {
-        // CosmosDB
-        case 'DocumentDbClient':
-          data = {
-            userData: {...extractUserStateProps(changes, userStateKey)}
-          };
-          return new Promise((resolve, reject) => {
-            this.v3StorageProvider.saveData(context, data, (err) => {
-              if (err) return reject();
-              return resolve();
-            });
-          });
-        case 'AzureTableClient':
-          data = {...extractUserStateProps(changes, userStateKey)};
-          return new Promise((resolve, reject) => {
-            this.v3StorageProvider.insertOrReplace(context.userId, 'userData', data, false, (err, data) => {
-              if (err) return reject();
-              return resolve(data);
-            });
-          });
-        case 'AzureSqlClient':
-          data = {...extractUserStateProps(changes, userStateKey)};
-          return new Promise((resolve, reject) => {
-            this.v3StorageProvider.insertOrReplace(context.userId, 'userData', data, false, (err, data) => {
-              if (err) return reject();
-              return resolve(data);
-            });
-          });
-      }
+
+      data = {
+        userData: {...extractUserStateProps(changes, userStateKey)}
+      };
+
+      return new Promise((resolve, reject) => {
+        this.v3StorageProvider.saveData(context, data, (err) => {
+          if (err) return reject();
+          return resolve();
+        });
+      });
     }
       
     return Promise.resolve();
