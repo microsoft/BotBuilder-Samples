@@ -107,7 +107,7 @@ const sqlStorage = new V3StorageProvider.AzureBotStorage({ gzipData: false }, sq
 const storageMapper = new StorageMapper(cosmosStorageClient);
 const userState = new V3UserState(storageMapper);
 
-// Create conversation and user state with in-memory storage provider. This uses V4 state.
+// Create conversation state with CosmosDB (or change to another provider). This uses V4 state.
 const conversationState = new ConversationState(cosmosStorage);
 
 // Create the bot.
