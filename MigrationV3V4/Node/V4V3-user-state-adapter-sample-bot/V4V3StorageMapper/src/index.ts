@@ -12,16 +12,16 @@ import * as validate from 'uuid-validate';
 export class StorageMapper implements Storage {
 
   private storageType: string;
-  private v3StorgaeProvider: any;
+  private v3StorageProvider: any;
   private userId: string;
   
-  public constructor(v3StorgaeProvider: any) {
-    if (!v3StorgaeProvider) {
+  public constructor(v3StorageProvider: any) {
+    if (!v3StorageProvider) {
       throw new Error('A storage provider must be provided.');
     }
 
-    this.storageType = v3StorgaeProvider.storageClient.constructor.name;
-    this.v3StorgaeProvider = v3StorgaeProvider;
+    this.storageType = v3StorageProvider.storageClient.constructor.name;
+    this.v3StorageProvider = v3StorageProvider;
     this.userId = '';
   }
 
@@ -62,7 +62,7 @@ export class StorageMapper implements Storage {
         // CosmosDB
         case 'DocumentDbClient':
           return new Promise((resolve, reject) => {
-            this.v3StorgaeProvider.getData(context, (err, data) => {
+            this.v3StorageProvider.getData(context, (err, data) => {
               if (err) return reject();
               if (!data || !data.userData) return resolve({});
               const responseData = this.formatDataResponse(context.userId, data.userData);
@@ -71,7 +71,7 @@ export class StorageMapper implements Storage {
           });
         case 'AzureTableClient':
           return new Promise((resolve, reject) => {
-            this.v3StorgaeProvider.storageClient.retrieve(context.userId, 'userData', (err, data) => {
+            this.v3StorageProvider.storageClient.retrieve(context.userId, 'userData', (err, data) => {
               if (err) return reject();
               if (!data) return resolve({});
               const responseData = this.formatDataResponse(data.partitionKey, data.data);
@@ -80,7 +80,7 @@ export class StorageMapper implements Storage {
           });
         case 'AzureSqlClient':
           return new Promise((resolve, reject) => {
-            this.v3StorgaeProvider.storageClient.retrieve(context.userId, 'userData', (err, data) => {
+            this.v3StorageProvider.storageClient.retrieve(context.userId, 'userData', (err, data) => {
               if (err) console.log(err);
               if (err) return reject();
               if (!data) return resolve({});
@@ -123,7 +123,7 @@ export class StorageMapper implements Storage {
             userData: {...extractUserStateProps(changes, userStateKey)}
           };
           return new Promise((resolve, reject) => {
-            this.v3StorgaeProvider.saveData(context, data, (err) => {
+            this.v3StorageProvider.saveData(context, data, (err) => {
               if (err) return reject();
               return resolve();
             });
@@ -131,7 +131,7 @@ export class StorageMapper implements Storage {
         case 'AzureTableClient':
           data = {...extractUserStateProps(changes, userStateKey)};
           return new Promise((resolve, reject) => {
-            this.v3StorgaeProvider.storageClient.insertOrReplace(context.userId, 'userData', data, false, (err, data) => {
+            this.v3StorageProvider.storageClient.insertOrReplace(context.userId, 'userData', data, false, (err, data) => {
               if (err) return reject();
               return resolve(data);
             });
@@ -139,7 +139,7 @@ export class StorageMapper implements Storage {
         case 'AzureSqlClient':
           data = {...extractUserStateProps(changes, userStateKey)};
           return new Promise((resolve, reject) => {
-            this.v3StorgaeProvider.storageClient.insertOrReplace(context.userId, 'userData', data, false, (err, data) => {
+            this.v3StorageProvider.storageClient.insertOrReplace(context.userId, 'userData', data, false, (err, data) => {
               if (err) return reject();
               return resolve(data);
             });

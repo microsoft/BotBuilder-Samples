@@ -64,6 +64,15 @@ The bot maintains user state to track the user's answers.
     npm run start
     ```
 
+## Adapter Classes
+
+### V4V3StorageMapper
+The 'StorageMapper' class contains the main adapter functionality. It implements the v4 Storage interface and maps the storage provider methods (read, write and delete) back to the v3 storage provider classes so that v3-formatted user state can be used from a v4 bot.
+
+### V4V3UserState
+This class extends the v4 'BotState' class ('botbuilder-core') so that it uses a v3-style key, allowing read, write & delete to v3 storage.
+
+
 ## Testing the bot using Bot Framework Emulator
 
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
