@@ -1,6 +1,6 @@
 {
   "name": "botbuilder-teams",
-  "version": "4.3.0-beta1",
+  "version": "4.5.3-beta1",
   "description": "Bot Builder V4 extension SDK for Microsoft Teams",
   "author": "Microsoft Corp",
   "license": "MIT",
@@ -13,8 +13,8 @@
   "typings": "./lib/index.d.ts",
   "dependencies": {
     "adaptivecards": "^1.0.0",
-    "botbuilder": "4.3.2",
-    "botframework-connector": "4.3.2",
+    "botbuilder": "~4.5.3",
+    "botframework-connector": "~4.5.3",
     "jsdom": "14.0.0"
   },
   "devDependencies": {
