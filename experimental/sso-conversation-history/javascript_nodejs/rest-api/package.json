@@ -1,0 +1,23 @@
+{
+  "name": "rest-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node-dev --no-notify --respawn .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "William Wong <compulim@hotmail.com> (http://compulim.info/)",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "http-proxy": "^1.17.0",
+    "math-random": "^1.0.4",
+    "node-fetch": "^2.5.0",
+    "restify": "^8.3.2",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "node-dev": "^4.0.0"
+  }
+}

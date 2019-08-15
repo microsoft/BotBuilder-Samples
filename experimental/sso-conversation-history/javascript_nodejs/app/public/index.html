@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/images/BotServices.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Web Chat History Demo</title>
+    <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/index.css">
+
+    <script src="https://unpkg.com/react@16.5.0/umd/react.development.js"></script>
+    <script src="https://cdn.botframework.com/botframework-webchat/4.5.1/webchat.js"></script>
+    <script src="https://unpkg.com/simple-update-in@2.0.2/dist/simple-update-in.production.min.js"></script>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="webchat"></div>
+    <script>
+      // This is a helper function for fetching JSON resources.
+      // This sample uses fetch to retrieve the directline token
+      // (see generateDirectLineToken)
+      async function fetchJSON(url, options = {}) {
+        const res = await fetch(
+          url,
+          {
+            ...options,
+            headers: {
+              ...options.headers,
+              accept: 'application/json'
+            }
+          }
+        );
+
+        if (!res.ok) {
+            throw new Error(`Failed to fetch JSON due to ${ res.status }`);
+        }
+
+        return await res.json();
+      }
+
+      let connected;
+      let oauthAccessToken;
+      let oauthProvider;
+      // Start with the assumption we have not retrieved all history
+      let historyComplete = false;
+
+      (async function main() {
+        const store = WebChat.createStore({
+          activities: [
+            {
+              from: { role: 'channel' },
+              timestamp: new Date(1980, 0, 1),
+              type: 'spinner'
+            },
+            {
+              from: { role: 'channel' },
+              timestamp: new Date(1980, 0, 1),
+              type: 'moreHistory'
+            }
+          ]
+        }, ({ dispatch }) => {
+          // We are using a Redux middleware to intercept actions in Web Chat and dispatch additional actions.
+
+          // If we receive "accesstokenchange" from the page, that means we have recently signed in or out.
+          // We should send the new token to the bot. If we send an empty string, the bot will know we are signed out.
+          window.addEventListener('accesstokenchange', ({ data: { accessToken, provider } }) => {
+            // Save the token/provider so we can piggyback it to every outgoing activity.
+            oauthAccessToken = accessToken;
+            oauthProvider = provider;
+
+            connected && dispatch({
+              type: 'WEB_CHAT/SEND_EVENT',
+              payload: { name: oauthAccessToken ? 'oauth/signin' : 'oauth/signout' }
+            });
+          });
+
+          return next => action => {
+            let shouldSendAccessToken;
+
+            if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
+              // Handle the case that we receive SEND_ACCESS_TOKEN but we are not connected at that moment.
+              // Now, we are connected to the bot and should send the token to the bot.
+              shouldSendAccessToken = !!oauthAccessToken;
+              connected = true;
+
+              // If we are signed in before Web Chat is connected, tell the bot we have signed in.
+              if (oauthAccessToken) {
+                dispatch({
+                  type: 'WEB_CHAT/SEND_EVENT',
+                  payload: { name: 'oauth/signin' }
+                });
+              }
+            } else if (action.type === 'DIRECT_LINE/DISCONNECT_PENDING') {
+              // We are disconnecting.
+              // Set connected to false so we don't send the access token automatically until CONNECT_FULFILLED.
+              connected = false;
+            } else if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY'
+              && action.payload.activity.type === 'event'
+              && action.payload.activity.name === 'historyPageComplete'
+            ) {
+              // Scroll down a little, so the user can scroll up to retrieve more history
+              if(scrollable.scrollTop === 0){
+                scrollable.scrollTop = 10;
+              }
+              document.getElementById('historySpinner').style.display = 'none';
+              if(!historyComplete){
+                document.getElementById('moreHistory').style.display = 'flex';
+              }
+            } else if (
+              action.type === 'DIRECT_LINE/INCOMING_ACTIVITY'
+              && action.payload.activity.type === 'event'
+              && action.payload.activity.name === 'historyComplete'
+              && (!action.payload.activity.channelData.clientActivityID)
+            ) {
+              // The bot sent and Event Activity to notify there
+              // are no more messages. So, quit listening to the scroll...
+              historyComplete = true;
+              scrollable.removeEventListener('scroll', scrollEventListener);
+              document.getElementById('moreHistory').style.display = 'none';
+              document.getElementById('historySpinner').style.display = 'none';
+            } else if (
+              action.type === 'DIRECT_LINE/INCOMING_ACTIVITY'
+              && action.payload.activity.type === 'event'
+              && action.payload.activity.name === 'oauth/signout'
+            ) {
+              // If the bot is sending an event activity named "oauth/signout", we should ask the page to sign out.
+              window.dispatchEvent(new Event('signout'));
+            } else if (
+              action.type === 'DIRECT_LINE/POST_ACTIVITY'
+              && oauthAccessToken
+            ) {
+              // Piggyback the access token on every outgoing activity.
+              action = {
+                ...action,
+                payload: {
+                  ...action.payload,
+                  activity: {
+                    ...action.payload.activity,
+                    channelData: {
+                      ...action.payload.channelData,
+                      oauthAccessToken,
+                      oauthProvider
+                    }
+                  }
+                }
+              };
+            }
+
+            return next(action);
+          };
+        });
+
+        // This is for obtaining Direct Line token from the bot.
+        // In production system, we should avoid using Direct Line secret to connect to the bot.
+        const { data }  = await fetchJSON('/api/directline/token');
+        const token = data.token;
+        const id = data.id;
+
+        const dl = WebChat.createDirectLine({ token });
+
+        WebChat.renderWebChat({
+          activityMiddleware: () => next => card => {
+            if (card.activity.type === 'spinner') {
+              return () => React.createElement(
+                'div',
+                {
+                  id: 'historySpinner',
+                  style: { 
+                    color: 'lightgrey',
+                    height: 40,
+                    display: 'none',
+                    marginRight: 25,
+                    marginLeft: 25,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }
+                },
+                'Retrieving history...'
+              );
+            } else if (card.activity.type === 'moreHistory') {
+              return () => React.createElement(
+                'div',
+                {
+                  id: 'moreHistory',
+                  style: { 
+                    color: 'Red',
+                    height: 40,
+                    display: 'none',
+                    marginRight: 25,
+                    marginLeft: 25
+                  }
+                },
+                'Scroll up to retrieve more history...'
+              );
+            }            
+            else {
+              return next(card);
+            }
+          },
+          cardActionMiddleware: () => next => async ({ cardAction, getSignInUrl }) => {
+            // To sign in, the bot will send a card action with a custom URL.
+            // We are using "about:blank" as the placeholder URL.
+            const { type, value } = cardAction;
+
+            if (type === 'openUrl' && value === 'about:blank#sign-into-aad') {
+              // Request the page to start sign-in flow for Azure Active Directory.
+              const signInEvent = new Event('signin');
+
+              signInEvent.data = { provider: 'aad' };
+              window.dispatchEvent(signInEvent);
+            } else if (type === 'openUrl' && value === 'about:blank#sign-into-github') {
+              // Request the page to start sign-in flow for GitHub OAuth app.
+              const signInEvent = new Event('signin');
+
+              signInEvent.data = { provider: 'github' };
+              window.dispatchEvent(signInEvent);
+            } else {
+              // Non-SSO related actions, fallback to default behavior.
+              return next({ cardAction, getSignInUrl });
+            }
+          },
+          directLine: dl,
+          store,
+          styleOptions: {
+            backgroundColor: 'rgba(255, 255, 255, .8)'
+          }
+        }, document.getElementById('webchat'));
+        
+        // Setup a listener on the Scrollable element, and retrieve
+        // the next page when scrolled to the top.
+        const scrollable = document.querySelector('[role="log"] > *');
+        scrollable.addEventListener('scroll', scrollEventListener);
+
+        function scrollEventListener(event) {
+            if (scrollable.scrollTop === 0 && !historyComplete) {
+                getHistory();
+            }
+        };
+
+      // Send an event to the bot requesting user's chat history.
+      // (If GetInitialHistory is false, the continuation token
+      //  stored in UserData will be used to retrieve the next
+      //  page of user conversation history.)
+      // This event is handled in WebChatHistoryMiddleware.cs
+      function getHistory() {
+        if(oauthAccessToken)
+         document.getElementById('historySpinner').style.display = 'flex';
+         document.getElementById('moreHistory').style.display = 'none';
+
+          dl.postActivity({
+                  type: "event",
+                  value: id,
+                  from: { id: id },
+                  name: "GetUserHistory",
+                  channelData: { initialHistory: false, oauthAccessToken, oauthProvider },
+              }).subscribe(function (id) {
+                  console.log('"GetUserHistory event" sent');
+              });
+        };
+
+      })()
+      .catch(err => 
+        console.error(err)
+      );
+
+    </script>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>

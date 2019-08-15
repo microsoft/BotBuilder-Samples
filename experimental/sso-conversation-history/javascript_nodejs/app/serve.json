@@ -1,0 +1,10 @@
+{
+  "cleanUrls": false,
+  "directoryListing": false,
+  "public": "app/build",
+  "rewrites": [
+    { "source": "api/messages/**", "destination": "http://localhost:3978" },
+    { "source": "api/**", "destination": "http://localhost:5000" }
+  ],
+  "trailingSlash": true
+}

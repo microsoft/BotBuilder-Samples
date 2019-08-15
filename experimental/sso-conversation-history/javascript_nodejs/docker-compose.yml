@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile-bot
+    env_file: ./bot/.env
+    image: webchat.azurecr.io/webchat-sso-bot
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile-web
+    env_file: ./rest-api/.env
+    image: webchat.azurecr.io/webchat-sso-web
+    ports:
+      - "3000:5000"

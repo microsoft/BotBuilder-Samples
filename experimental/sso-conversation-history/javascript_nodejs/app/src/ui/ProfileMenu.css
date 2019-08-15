@@ -1,0 +1,122 @@
+.sso__profile {
+  position: relative;
+}
+
+.sso__profileMenu {
+  background-color: White;
+  border: solid 1px #EEE;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .08);
+  color: #333;
+  cursor: pointer;
+  list-style-type: none;
+  overflow: hidden;
+  padding: 0;
+  width: 200px;
+  position: absolute;
+  top: 32px;
+  right: 0;
+}
+
+.sso__profileMenuItem {
+  align-items: center;
+  display: flex;
+  padding: 0;
+}
+
+.sso__profileMenuItem > * {
+  overflow: hidden;
+  padding: .6em .8em;
+  text-overflow: ellipsis;
+}
+
+.sso__profileMenuItem > a {
+  color: #333;
+  cursor: pointer;
+  outline: 0;
+  text-decoration: none;
+  text-align: left;
+  transition: background-color 300ms;
+  width: 100%;
+}
+
+.sso__profileMenuItem > button {
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  outline: 0;
+  text-align: left;
+  transition: background-color 300ms;
+  width: 100%;
+}
+
+.sso__profileMenuItem > a:focus,
+.sso__profileMenuItem > a:hover,
+.sso__profileMenuItem > button:focus,
+.sso__profileMenuItem > button:hover {
+  background-color: #EEE;
+}
+
+.sso__profileMenuItem > a:active,
+.sso__profileMenuItem > button:active {
+  background-color: #CCC;
+  color: White;
+  transition: background-color 0s;
+}
+
+.sso__profileMenuItem:not(:last-child) {
+  border-bottom: solid 1px #EEE;
+}
+
+.sso__profileAvatar {
+  background-color: #E6E6E6;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: solid 4px White;
+  border-radius: 20px;
+  cursor: pointer;
+  height: 40px;
+  outline: 0;
+  position: relative;
+  transition: border-color 300ms;
+  width: 40px;
+}
+
+.sso__profileAvatar:focus,
+.sso__profileAvatar:hover {
+  border-color: #EEE;
+}
+
+.sso__profileAvatar:active {
+  border-color: #CCC;
+  transition: border-color 0s;
+}
+
+.sso__profileAvatarBadge {
+  background-color: White;
+  border: solid 1px White;
+  bottom: -2px;
+  color: White;
+  height: 10px;
+  position: absolute;
+  right: -2px;
+  width: 10px;
+}
+
+.sso__profileAvatarBadge__gitHub {
+  background-image: url(/images/GitHub-Mark-32px.png);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 5px;
+}
+
+.sso__profileAvatarBadge__microsoft {
+  background-image: url(/images/Microsoft-32px.png);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+}

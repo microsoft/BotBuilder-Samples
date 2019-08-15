@@ -1,0 +1,6 @@
+/app/build
+/app/node_modules
+/bot/.env
+/bot/node_modules
+/rest-api/.env
+/rest-api/node_modules

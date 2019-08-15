@@ -1,0 +1,50 @@
+pool:
+  name: Hosted Ubuntu 1604
+
+trigger:
+  branches:
+    include:
+    - master
+    - sample-sso
+  paths:
+    include:
+    - samples/19.a.single-sign-on-for-enterprise-apps
+
+steps:
+- task: DockerInstaller@0
+  displayName: 'Install Docker 18.09.6'
+  inputs:
+    dockerVersion: 18.09.6
+
+- task: Docker@2
+  displayName: 'Build builder container'
+  inputs:
+    command: build
+    Dockerfile: 'samples/19.a.single-sign-on-for-enterprise-apps/Dockerfile'
+    arguments: '-t builder'
+
+- task: Docker@2
+  displayName: 'Create an image'
+  inputs:
+    command: create
+    arguments: '--name builder-image builder'
+
+- task: Docker@2
+  displayName: 'Copy build.tgz'
+  inputs:
+    command: cp
+    arguments: 'builder-image:/var/build/build.tgz $(Build.ArtifactStagingDirectory)'
+
+- task: Docker@2
+  displayName: 'Remove image'
+  inputs:
+    command: rm
+    arguments: 'builder-image'
+
+- bash: 'cp samples/19.a.single-sign-on-for-enterprise-apps/Dockerfile-run $BUILD_ARTIFACTSTAGINGDIRECTORY/Dockerfile'
+  displayName: 'Copy Dockerfile'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: build.tgz'
+  inputs:
+    ArtifactName: docker

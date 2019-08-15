@@ -27,6 +27,8 @@ Experimental samples are organized per platform.
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|
 |multilingual-luis-bot| The sample shows how to use the library through Middleware to support multilingual interaction with bots in general and LUIS bots in particular.                                                                                                 |[View][cs#1] |  |  | [View][ts#1] |
 |qnamaker-activelearning-bot| This sample shows how to integrate Active Learning in a QnA Maker bot.                                                                                                 |[View][cs#2] | [View][js#1]|  |  |
+|sso-conversation-history| This demonstrates how to add conversation history and signed in user state for a WebChat bot.                                                                                                 | | [View][js#2]   |  | |
+
 
 [cs#1]: ./csharp_dotnetcore/multilingual-luis-bot
 
@@ -37,3 +39,5 @@ Experimental samples are organized per platform.
 [ts#1]: ./javascript_typescript/multilingual-luis-bot
 
 [js#1]: ./qnamaker-activelearning/javascript_nodejs
+
+[js#2]: ./sso-conversation-history/javascript_nodejs
