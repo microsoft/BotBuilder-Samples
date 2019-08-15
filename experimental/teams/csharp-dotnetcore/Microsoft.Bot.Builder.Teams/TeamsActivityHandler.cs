@@ -55,7 +55,7 @@ namespace Microsoft.BotBuilderSamples
                     return OnSigninVerifyStateAsync(turnContext, cancellationToken);
 
                 case "fileConsent/invoke":
-                    return OnFileConsent(turnContext, cancellationToken);
+                    return OnFileConsent(turnContext, JObject.FromObject(turnContext.Activity.Value).ToObject<FileConsentCardResponse>(), cancellationToken);
 
                 case "composeExtension/query":
                     return OnMessagingExtensionQueryAsync(turnContext, JObject.FromObject(turnContext.Activity.Value).ToObject<MessagingExtensionQuery>(), cancellationToken);
@@ -81,7 +81,6 @@ namespace Microsoft.BotBuilderSamples
                 default:
                     return Task.FromResult<InvokeResponse>(null);
             }
-
         }
 
         protected virtual Task<InvokeResponse> OnSigninVerifyStateAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
@@ -89,7 +88,7 @@ namespace Microsoft.BotBuilderSamples
             return Task.FromResult<InvokeResponse>(null);
         }
 
-        protected virtual Task<InvokeResponse> OnFileConsent(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        protected virtual Task<InvokeResponse> OnFileConsent(ITurnContext<IInvokeActivity> turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
         {
             return Task.FromResult<InvokeResponse>(null);
         }
@@ -142,16 +141,22 @@ namespace Microsoft.BotBuilderSamples
             {
                 case "teamMemberAdded":
                     return OnTeamMembersAddedEventAsync(turnContext.Activity.MembersAdded, channelData, turnContext, cancellationToken);
+
                 case "teamMemberRemoved":
                     return OnTeamMembersRemovedEventAsync(turnContext.Activity.MembersRemoved, channelData, turnContext, cancellationToken);
+
                 case "channelCreated":
                     return OnChannelCreatedEventAsync(channelData, turnContext, cancellationToken);
+
                 case "channelDeleted":
                     return OnChannelDeletedEventAsync(channelData, turnContext, cancellationToken);
+
                 case "channelRenamed":
                     return OnChannelRenamedEventAsync(channelData, turnContext, cancellationToken);
+
                 case "teamRenamed":
                     return OnTeamRenamedEventAsync(channelData, turnContext, cancellationToken);
+
                 default:
                     return base.OnConversationUpdateActivityAsync(turnContext, cancellationToken);
             }
