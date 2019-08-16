@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -80,26 +79,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             await turnContext.SendActivityAsync(replyActivity, cancellationToken);
         }
 
-        protected async override Task<InvokeResponse> OnFileConsent(ITurnContext<IInvokeActivity> turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
-        {
-            var reply = ((Activity)turnContext.Activity).CreateReply();
-            reply.TextFormat = "xml";
-            reply.Text = $"<b>Received user's consent</b> <pre>{JObject.FromObject(fileConsentCardResponse).ToString()}</pre>";
-            await turnContext.SendActivityAsync(reply, cancellationToken);
-
-            if (fileConsentCardResponse.Action == "accept")
-            {
-                await AcceptAsync(turnContext, fileConsentCardResponse, cancellationToken);
-            }
-            else if (fileConsentCardResponse.Action == "decline")
-            {
-                await DeclineAsync(turnContext, fileConsentCardResponse, cancellationToken);
-            }
-
-            return new InvokeResponse { Status = 200 };
-        }
-
-        private async Task AcceptAsync(ITurnContext<IInvokeActivity> turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
+        protected override async Task<InvokeResponse> OnFileConsentAcceptAsync(ITurnContext<IInvokeActivity> turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
         {
             try
             {
@@ -122,9 +102,11 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 await FileUploadFailedAsync(turnContext, e.ToString(), cancellationToken);
             }
+
+            return new InvokeResponse { Status = 200 };
         }
 
-        private async Task DeclineAsync(ITurnContext<IInvokeActivity> turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
+        protected override async Task<InvokeResponse> OnFileConsentDeclineAsync(ITurnContext<IInvokeActivity> turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
         {
             JToken context = JObject.FromObject(fileConsentCardResponse.Context);
 
@@ -132,6 +114,8 @@ namespace Microsoft.BotBuilderSamples.Bots
             reply.TextFormat = "xml";
             reply.Text = $"Declined. We won't upload file <b>{context["filename"]}</b>.";
             await turnContext.SendActivityAsync(reply, cancellationToken);
+
+            return new InvokeResponse { Status = 200 };
         }
 
         private async Task FileUploadCompletedAsync(ITurnContext turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)

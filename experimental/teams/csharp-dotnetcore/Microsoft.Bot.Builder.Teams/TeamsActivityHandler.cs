@@ -90,6 +90,26 @@ namespace Microsoft.BotBuilderSamples
 
         protected virtual Task<InvokeResponse> OnFileConsent(ITurnContext<IInvokeActivity> turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
         {
+            switch (fileConsentCardResponse.Action)
+            {
+                case "accept":
+                    return OnFileConsentAcceptAsync(turnContext, fileConsentCardResponse, cancellationToken);
+
+                case "decline":
+                    return OnFileConsentDeclineAsync(turnContext, fileConsentCardResponse, cancellationToken);
+
+                default:
+                    return Task.FromResult<InvokeResponse>(null);
+            }
+        }
+
+        protected virtual Task<InvokeResponse> OnFileConsentAcceptAsync(ITurnContext<IInvokeActivity> turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<InvokeResponse>(null);
+        }
+
+        protected virtual Task<InvokeResponse> OnFileConsentDeclineAsync(ITurnContext<IInvokeActivity> turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
+        {
             return Task.FromResult<InvokeResponse>(null);
         }
 
