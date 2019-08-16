@@ -152,7 +152,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var channelData = turnContext.Activity.GetChannelData<TeamsChannelData>();
 
-            if (!string.IsNullOrEmpty(channelData?.EventType))
+            if (string.IsNullOrEmpty(channelData?.EventType))
             {
                 return base.OnConversationUpdateActivityAsync(turnContext, cancellationToken);
             }
