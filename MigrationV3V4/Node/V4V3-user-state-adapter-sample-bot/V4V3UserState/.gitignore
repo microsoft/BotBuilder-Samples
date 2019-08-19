@@ -1,0 +1,8 @@
+# node.js dependencies folder
+node_modules/
+
+# Generated folder by build process
+lib/
+
+# Environment variables
+.env
