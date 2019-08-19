@@ -1,0 +1,42 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.3",
+  "version": "1.0.0",
+  "id": "528d4825-cca3-420a-bb88-712fbf54e6ca",
+  "packageName": "com.teams.sample.echobot",
+  "developer": {
+    "name": "TeamsEchoBot",
+    "websiteUrl": "https://www.microsoft.com",
+    "privacyUrl": "https://www.teams.com/privacy",
+    "termsOfUseUrl": "https://www.teams.com/termsofuser"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "Teams Echo",
+    "full": "Teams Echo"
+  },
+  "description": {
+    "short": "Echoes what you say",
+    "full": "Echoes what you say"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "528d4825-cca3-420a-bb88-712fbf54e6ca",
+      "scopes": [
+        "personal",
+        "team"
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": []
+}
