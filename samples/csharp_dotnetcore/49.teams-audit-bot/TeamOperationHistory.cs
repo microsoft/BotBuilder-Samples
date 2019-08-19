@@ -1,6 +1,5 @@
-﻿// <copyright file="TeamOperationHistory.cs" company="Microsoft">
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-// </copyright>
 
 namespace Microsoft.Bot.Builder.Teams.AuditBot
 {

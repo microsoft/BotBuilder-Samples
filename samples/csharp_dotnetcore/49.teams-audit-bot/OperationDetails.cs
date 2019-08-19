@@ -1,6 +1,5 @@
-﻿// <copyright file="OperationDetails.cs" company="Microsoft">
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-// </copyright>
 
 namespace Microsoft.Bot.Builder.Teams.AuditBot
 {
@@ -11,6 +10,11 @@ namespace Microsoft.Bot.Builder.Teams.AuditBot
     /// </summary>
     public class OperationDetails
     {
+        public OperationDetails()
+        {
+            OperationTime = DateTimeOffset.Now;
+        }
+
         /// <summary>
         /// Gets or sets the object identifier.
         /// </summary>
