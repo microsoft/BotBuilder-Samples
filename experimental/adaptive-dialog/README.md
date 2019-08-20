@@ -71,8 +71,8 @@ You can use this [Visual studio code debugger extension][18] to debug both code 
 [12]:https://github.com/microsoft/botbuilder-dotnet/issues
 [13]:https://github.com/microsoft/botbuilder-js/issues
 [14]:https://botbuilder.myget.org/gallery
-[15]:https://github.com/Microsoft/botbuilder-dotnet/tree/4.next
-[16]:https://github.com/Microsoft/botbuilder-js/tree/4.next
+[15]:https://github.com/microsoft/botbuilder-dotnet/tree/4.Future
+[16]:https://github.com/microsoft/botbuilder-js/tree/4.future
 [17]:./docs/language-generation.md
 [18]:https://marketplace.visualstudio.com/items?itemName=tomlm.vscode-dialog-debugger
 [19]:./declarative/60.AdaptiveBot/
