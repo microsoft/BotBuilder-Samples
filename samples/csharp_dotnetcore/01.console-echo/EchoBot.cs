@@ -18,10 +18,17 @@ namespace Console_EchoBot
             // Handle Message activity type, which is the main activity type within a conversational interface
             // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
             // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
-            if (turnContext.Activity.Type == ActivityTypes.Message)
+            if (turnContext.Activity.Type == ActivityTypes.Message && turnContext.Activity.Text != null)
             {
-                // Echo back to the user whatever they typed.
-                await turnContext.SendActivityAsync($"You sent '{turnContext.Activity.Text}'");
+                // Check to see if the user sent a simple "quit" message.
+                if (turnContext.Activity.Text.ToLower() == "quit") {
+                    // Send a reply.
+                    await turnContext.SendActivityAsync($"Bye!");
+                    System.Environment.Exit(0);
+                } else {
+                    // Echo back to the user whatever they typed.
+                    await turnContext.SendActivityAsync($"You sent '{turnContext.Activity.Text}'");
+                }
             }
             else
             {
