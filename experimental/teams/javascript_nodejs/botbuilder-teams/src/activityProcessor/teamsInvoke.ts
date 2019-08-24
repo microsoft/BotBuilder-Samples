@@ -223,22 +223,22 @@ export class InvokeActivity {
   private static stripHtmlTag(content: string): string {
     let dom = new JSDOM(content);
     const textRestrictedHtmlTags = new Set(["AT", "ATTACHMENT"]);
-    return this.stripHtmlTagHelper(dom.window.document.body, textRestrictedHtmlTags);
+    return this.stripHtmlTagHelper(dom.window.document.body, textRestrictedHtmlTags, dom.window.Node.TEXT_NODE);
   }
 
-  private static stripHtmlTagHelper(node: HTMLElement, tags: Set<string>): string {
+  private static stripHtmlTagHelper(node: HTMLElement, tags: Set<string>, nodeType: number): string {
     let result = '';
     if (tags.has(node.tagName)) {
       result += node.outerHTML;
     } else {
       node.childNodes.forEach(childNode => {
-        if (childNode.nodeType === Node.TEXT_NODE) {
+        if (childNode.nodeType === nodeType) {
           result += childNode.nodeValue;
         } else {
-          result += this.stripHtmlTagHelper(<HTMLElement>childNode, tags);
+          result += this.stripHtmlTagHelper(<HTMLElement>childNode, tags, nodeType);
         }
       });
     }
-    return result;  
+    return result;
   }
 }
