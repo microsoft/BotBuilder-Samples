@@ -36,6 +36,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |17.multilingual-bot    | Using translate middleware to support a multi-lingual bot. Demonstrates custom middleware. |[View][cs#17]|[View][js#17]|              |             | |
 |18.bot-authentication  | Bot that demonstrates how to integrate OAuth providers.                  |[View][cs#18]|[View][js#18]|              |             | |
 |19.custom-dialogs      | Demonstrates complex conversation flow using the Dialogs library. |[View][cs#19]|[View][js#19]|              |             | |
+|21.corebot-app-insights | Demonstrates using Application Insights to monitor your bot. |[View][cs#21]|              |              |             | |
 |23.facebook-events     | Integrate and consume Facebook specific payloads, such as post-backs, quick replies and opt-in events.|[View][cs#23] |[View][js#23] |              |             | |
 |24.bot-auth-msgraph    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[View][cs#24] |[View][js#24] |              |             | |
 |40.timex-resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[View][cs#40] |[View][js#40]|              | | |
@@ -63,7 +64,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [cs#17]:samples/csharp_dotnetcore/17.multilingual-bot
 [cs#18]:samples/csharp_dotnetcore/18.bot-authentication
 [cs#19]:samples/csharp_dotnetcore/19.custom-dialogs
-[cs#21]:samples/csharp_dotnetcore/21.luis-with-appinsights
+[cs#21]:samples/csharp_dotnetcore/21.corebot-app-insights
 [cs#23]:samples/csharp_dotnetcore/23.facebook-events
 [cs#24]:samples/csharp_dotnetcore/24.bot-authentication-msgraph
 [cs#40]:samples/csharp_dotnetcore/40.timex-resolution
@@ -102,7 +103,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [js#17]:samples/javascript_nodejs/17.multilingual-bot
 [js#18]:samples/javascript_nodejs/18.bot-authentication
 [js#19]:samples/javascript_nodejs/19.custom-dialogs
-[js#21]:samples/javascript_nodejs/21.luis-with-appinsights
+[js#21]:samples/javascript_nodejs/21.corebot-app-insights
 [js#23]:samples/javascript_nodejs/23.facebook-events
 [js#24]:samples/javascript_nodejs/24.bot-authentication-msgraph
 [js#40]:samples/javascript_nodejs/40.timex-resolution
